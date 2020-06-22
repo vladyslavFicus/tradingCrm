@@ -30,6 +30,10 @@ class ClientsGrid extends PureComponent {
     }).isRequired,
   };
 
+  handleRowClick = ({ uuid }) => {
+    window.open(`/clients/${uuid}/profile`, '_blank');
+  };
+
   render() {
     const {
       clientsQuery,
@@ -43,6 +47,7 @@ class ClientsGrid extends PureComponent {
         <Grid
           data={profiles}
           isLoading={loading}
+          handleRowClick={this.handleRowClick}
           withLazyLoad={false}
           withRowsHover
         >

@@ -90,6 +90,10 @@ class ClientsGrid extends PureComponent {
     });
   };
 
+  handleRowClick = ({ uuid }) => {
+    window.open(`/clients/${uuid}/profile`, '_blank');
+  };
+
   render() {
     const {
       profiles,
@@ -114,11 +118,13 @@ class ClientsGrid extends PureComponent {
         allRowsSelected={allRowsSelected}
         touchedRowsIds={touchedRowsIds}
         handleSort={this.handleSort}
+        handleRowClick={this.handleRowClick}
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
+        withRowsHover
         withMultiSelect={isAvailableMultySelect}
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
         withNoResults={!loading && gridData.length === 0}

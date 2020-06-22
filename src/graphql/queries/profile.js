@@ -175,7 +175,7 @@ const newProfile = gql`query newProfile($playerUUID: String!){
   }
 }
 ${ContactsFragment}
-${AddressFragment}  
+${AddressFragment}
 `;
 
 const clientsQuery = gql`query ${queryNames.clientsQuery}(
