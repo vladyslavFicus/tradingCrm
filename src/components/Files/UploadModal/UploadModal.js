@@ -26,6 +26,27 @@ import {
   AddNote,
 } from './graphql';
 
+const validate = (values) => {
+  const rules = {};
+  const labels = {};
+
+  Object.keys(values).forEach((fieldKey) => {
+    const fileUuid = fieldKey.split('.')[0];
+
+    rules[fileUuid] = {
+      title: ['required', 'string'],
+      category: ['required', 'string'],
+      documentType: ['required', 'string'],
+    };
+
+    Object.keys(translatedLabels).forEach((key) => {
+      labels[`${fileUuid}.${key}`] = translatedLabels[key];
+    });
+  });
+
+  return createValidator(rules, translateLabels(labels), false)(values);
+};
+
 class UploadModal extends PureComponent {
   static propTypes = {
     notify: PropTypes.func.isRequired,
@@ -255,26 +276,7 @@ class UploadModal extends PureComponent {
         <Formik
           initialValues={{}}
           onSubmit={this.confirmUploadingFiles}
-          validate={(values) => {
-            const rules = {};
-            const labels = {};
-
-            Object.keys(values).forEach((fieldKey) => {
-              const fileUuid = fieldKey.split('.')[0];
-
-              rules[fileUuid] = {
-                title: ['required', 'string'],
-                category: ['required', 'string'],
-                documentType: ['required', 'string'],
-              };
-
-              Object.keys(translatedLabels).forEach((key) => {
-                labels[`${fileUuid}.${key}`] = translatedLabels[key];
-              });
-            });
-
-            return createValidator(rules, translateLabels(labels), false)(values);
-          }}
+          validate={validate}
           enableReinitialize
         >
           {({ dirty, isValid, isSubmitting, setValues, values }) => (
