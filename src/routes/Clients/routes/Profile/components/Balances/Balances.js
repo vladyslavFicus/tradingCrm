@@ -1,18 +1,20 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { get, groupBy, sumBy } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { withRequests } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import { selectItems, moneyObj } from './constants';
+import { PaymentStatisticWithdrawQuery, PaymentStatisticDepositQuery } from './graphql';
 import './Balances.scss';
 
-class Balances extends Component {
+class Balances extends PureComponent {
   static propTypes = {
     clientRegistrationDate: PropTypes.string.isRequired,
     depositPaymentStatistic: PropTypes.paymentsStatistic.isRequired,
@@ -124,11 +126,15 @@ class Balances extends Component {
 
     const {
       depositPaymentStatistic: {
-        statistics: depositStat,
+        data: {
+          statistics: depositStat,
+        },
         loading: depositLoading,
       },
       withdrawPaymentStatistic: {
-        statistics: withdrawStat,
+        data: {
+          statistics: withdrawStat,
+        },
         loading: widthdrawLoading,
       },
     } = this.props;
@@ -255,7 +261,7 @@ class Balances extends Component {
   };
 
   render() {
-    const { dropDownOpen } = this.state;
+    const { dropDownOpen, dateFrom } = this.state;
 
     const dropdownClassName = classNames(
       'dropdown-highlight cursor-pointer',
@@ -283,7 +289,7 @@ class Balances extends Component {
                   <form className="balance-select-field">
                     <Select
                       onChange={this.handleDateChange}
-                      value={this.state.dateFrom}
+                      value={dateFrom}
                     >
                       {selectItems.map(({ value, label }) => (
                         <option key={value} value={value}>
@@ -303,4 +309,7 @@ class Balances extends Component {
   }
 }
 
-export default Balances;
+export default withRequests({
+  withdrawPaymentStatistic: PaymentStatisticWithdrawQuery,
+  depositPaymentStatistic: PaymentStatisticDepositQuery,
+})(Balances);

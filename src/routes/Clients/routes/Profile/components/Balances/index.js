@@ -1,4 +1,3 @@
-// import BalancesContainer from './BalancesContainer';
-import BalancesContainer from './BalancesNew';
+import Balances from './Balances';
 
-export default BalancesContainer;
+export default Balances;
