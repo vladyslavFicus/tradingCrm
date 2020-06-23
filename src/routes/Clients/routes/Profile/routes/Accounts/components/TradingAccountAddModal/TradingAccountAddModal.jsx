@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { withRequests } from 'apollo';
 import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
+import { withRequests } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import { generate } from 'utils/password';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -13,21 +13,20 @@ import { getAvailablePlatformTypes, getAvailableAccountTypes } from 'utils/tradi
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
-import { attributeLabels } from './constants';
+import { attributeLabels, amounts } from './constants';
 import { UpdateTradingAccountModalMutation } from './graphql';
 import './TradingAccountAddModal.scss';
 
-const validator = ({ accountType }) => createValidator({
+const validator = values => createValidator({
   name: ['required', 'string', 'max:50', 'min:4'],
   currency: ['required', 'string'],
   password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
-  amount: accountType === 'DEMO' && 'required',
-}, translateLabels(attributeLabels), false);
+  amount: values.accountType === 'DEMO' && 'required',
+}, translateLabels(attributeLabels), false)(values);
 
 class TradingAccountAddModal extends PureComponent {
   static propTypes = {
     profileId: PropTypes.string.isRequired,
-    error: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     createTradingAccount: PropTypes.func.isRequired,
@@ -36,7 +35,6 @@ class TradingAccountAddModal extends PureComponent {
   };
 
   static defaultProps = {
-    error: null,
     onConfirm: () => { },
   };
 
@@ -64,11 +62,21 @@ class TradingAccountAddModal extends PureComponent {
     }
   };
 
+  handleChangePlatformType = (value, accountType, setFieldValue) => {
+    setFieldValue('platformType', value);
+
+    const availableAccountTypes = getAvailableAccountTypes(value);
+
+    // If previous accountType not found for new chosen platformType --> choose first from list
+    if (!availableAccountTypes.find(type => get(type, 'value') === accountType)) {
+      setFieldValue('accountType', get(availableAccountTypes, '0.value'));
+    }
+  }
+
   render() {
     const {
       onCloseModal,
       isOpen,
-      error,
     } = this.props;
 
     const platformTypes = getAvailablePlatformTypes();
@@ -82,7 +90,7 @@ class TradingAccountAddModal extends PureComponent {
       >
         <Formik
           initialValues={{
-            platformType: get(getAvailablePlatformTypes(), '0.value'),
+            platformType,
             accountType: accountTypes.find(type => get(type, 'value') === 'LIVE') ? 'LIVE' : 'DEMO',
             name: '',
             currency: '',
@@ -91,34 +99,19 @@ class TradingAccountAddModal extends PureComponent {
           validate={validator}
           onSubmit={this.onSubmit}
         >
-          {({ isSubmitting, isValid, setFieldValue, values: { accountType } }) => (
+          {({ isSubmitting, setFieldValue, values: { accountType } }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE')}
               </ModalHeader>
               <ModalBody>
-                <If condition={error}>
-                  <div className="mb-2 text-center color-danger">
-                    {error}
-                  </div>
-                </If>
                 <If condition={platformTypes.length > 1}>
-
                   <Field
                     name="platformType"
                     component={FormikSelectField}
                     label={I18n.t(attributeLabels.platformType)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    customOnChange={(value) => {
-                      setFieldValue('platformType', value);
-
-                      const availableAccountTypes = getAvailableAccountTypes(value);
-
-                      // If previous accountType not found for new chosen platformType --> choose first from list
-                      if (!availableAccountTypes.find(type => get(type, 'value') === accountType)) {
-                        setFieldValue('accountType', get(availableAccountTypes, '0.value'));
-                      }
-                    }}
+                    customOnChange={value => this.handleChangePlatformType(value, accountType, setFieldValue)}
                   >
                     {platformTypes.map(({ value, label }) => (
                       <option key={value} value={value}>{label}</option>
@@ -131,7 +124,6 @@ class TradingAccountAddModal extends PureComponent {
                     component={FormikSelectField}
                     label={attributeLabels.accountType}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-
                   >
                     {accountTypes.map(({ value, label }) => (
                       <option key={value} value={value}>{I18n.t(label)}</option>
@@ -145,7 +137,7 @@ class TradingAccountAddModal extends PureComponent {
                     label={attributeLabels.amount}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   >
-                    {[100, 500, 1000, 5000, 10000, 50000, 100000].map(value => (
+                    {amounts.map(value => (
                       <option key={value} value={value}>
                         {I18n.toNumber(value, { precision: 0 })}
                       </option>
@@ -190,7 +182,7 @@ class TradingAccountAddModal extends PureComponent {
                 <Button
                   type="submit"
                   primary
-                  disabled={isSubmitting || !isValid}
+                  disabled={isSubmitting}
                 >
                   {I18n.t('COMMON.CONFIRM')}
                 </Button>
