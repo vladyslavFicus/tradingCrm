@@ -118,21 +118,19 @@ class PaymentsListFilters extends PureComponent {
 
   isValueInForm = (formValues, field) => formValues && formValues[field];
 
-  handleBranchChange = (fieldName, value, setFieldValue, formValues) => {
+  mapTeamsByDesks = (desks) => {
     const {
       hierarchyQuery: { data: hierarchyData },
     } = this.props;
 
     const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
 
-    if (fieldName === 'desks') {
-      let filteredTeams = null;
+    return teams.filter(({ parentBranch: { uuid } }) => desks.includes(uuid));
+  }
 
-      if (value) {
-        filteredTeams = teams.filter(({ parentBranch: { uuid: teamUUID } }) => (
-          value.some(uuid => uuid === teamUUID)
-        ));
-      }
+  handleBranchChange = (fieldName, value, setFieldValue, formValues) => {
+    if (fieldName === 'desks') {
+      const filteredTeams = value ? this.mapTeamsByDesks(value) : null;
 
       this.setState(
         { filteredTeams },
@@ -161,7 +159,14 @@ class PaymentsListFilters extends PureComponent {
   };
 
   handleFormChange = (data = {}) => {
-    const { firstTimeDeposit, amountFrom, amountTo, ...filters } = data;
+    const {
+      firstTimeDeposit,
+      amountFrom,
+      amountTo,
+      desks,
+      teams,
+      ...filters
+    } = data;
     let statuses = null;
 
     if (Array.isArray(filters.statuses)) {
@@ -176,6 +181,8 @@ class PaymentsListFilters extends PureComponent {
           ...(statuses && { statuses }),
           ...(amountFrom && { amountFrom }),
           ...(amountTo && { amountTo }),
+          desks,
+          teams: desks && !teams ? this.mapTeamsByDesks(desks) : teams,
         }),
       },
     });
