@@ -49,7 +49,7 @@ class Click2Call extends PureComponent {
   handleDidLogicCall = async () => {
     const { notify, number } = this.props;
 
-    const { data: { profile: { clickToCall: { success } } } } = await this.props.clickToCall(
+    const { data: { clickToCall: { didlogic: { createCall: { success } } } } } = await this.props.clickToCall(
       {
         variables: {
           number,
@@ -69,7 +69,7 @@ class Click2Call extends PureComponent {
   handleAsteriskCall = prefix => async () => {
     const { notify, number } = this.props;
 
-    const { data: { asterisk: { createCall: { success } } } } = await this.props.asteriskCreateCall(
+    const { data: { clickToCall: { asterisk: { createCall: { success } } } } } = await this.props.asteriskCreateCall(
       {
         variables: {
           number,

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
+import { parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -136,37 +137,27 @@ class View extends Component {
     });
   };
 
-  updateEmail = data => async () => {
+  updateEmail = variables => async () => {
     this.props.modals.confirmationModal.hide();
 
-    const {
-      data: {
-        profile: {
-          updateEmail: {
-            error,
-          },
-        },
-      },
-    } = await this.props.updateEmail({
-      variables: {
-        ...data,
-      },
-    });
+    try {
+      await this.props.updateEmail({ variables });
 
-    if (!error) {
       this.context.addNotification({
-        level: error ? 'error' : 'success',
+        level: 'success',
         title: I18n.t('COMMON.EMAIL'),
-        message: error
-          ? I18n.t('COMMON.SOMETHING_WRONG')
-          : I18n.t('COMMON.SAVE_CHANGES'),
+        message: I18n.t('COMMON.SAVE_CHANGES'),
       });
-    } else if (error && error.error === 'error.entity.already.exist') {
-      this.context.addNotification({
-        level: 'error',
-        title: I18n.t('COMMON.EMAIL'),
-        message: I18n.t('error.validation.email.exists'),
-      });
+    } catch (e) {
+      const { error } = parseErrors(e);
+
+      if (error === 'error.entity.already.exist') {
+        this.context.addNotification({
+          level: 'error',
+          title: I18n.t('COMMON.EMAIL'),
+          message: I18n.t('error.validation.email.exists'),
+        });
+      }
     }
   };
 
