@@ -71,7 +71,7 @@ class RepresentativeUpdateModal extends PureComponent {
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     type: PropTypes.string.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
     isOpen: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
@@ -99,6 +99,7 @@ class RepresentativeUpdateModal extends PureComponent {
     leads: null,
     clients: null,
     userType: null,
+    onSuccess: () => {},
   };
 
   static getDerivedStateFromProps(
