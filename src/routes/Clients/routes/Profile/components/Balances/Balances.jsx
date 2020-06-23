@@ -59,8 +59,16 @@ class Balances extends Component {
 
     this.setState({ dateFrom });
 
-    await depositPaymentStatistic.refetch({ dateFrom: dateFrom || clientRegistrationDate });
-    await withdrawPaymentStatistic.refetch({ dateFrom: dateFrom || clientRegistrationDate });
+    const refetchData = {
+      dateFrom: dateFrom || clientRegistrationDate,
+      dateTo: moment()
+        .add(2, 'day')
+        .startOf('day')
+        .format(),
+    };
+
+    await depositPaymentStatistic.refetch(refetchData);
+    await withdrawPaymentStatistic.refetch(refetchData);
   };
 
   renderTradingAccounts = () => {

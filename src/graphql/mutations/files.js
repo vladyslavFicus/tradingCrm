@@ -1,45 +1,5 @@
 import gql from 'graphql-tag';
 
-const uploadFileMutation = gql`
-  mutation uploadFileMutation(
-    $file: Upload!
-    $profileUUID: String!
-  ) {
-    file {
-      upload(
-        file: $file
-        profileUUID: $profileUUID
-      ) {
-        data {
-          fileUuid
-        }
-        error {
-          error
-          fields_errors
-        }
-      }
-    }
-  }
-`;
-
-const confirmUploadedFilesMutation = gql`
-  mutation confirmUploadedFilesMutation(
-    $documents: [InputFileType]!
-    $profileUuid: String!
-  ) {
-    file {
-      confirmFiles(
-        documents: $documents
-        profileUuid: $profileUuid
-      ) {
-        data {
-          success
-        }
-      }
-    }
-  }
-`;
-
 const verifyMutation = gql`mutation fileVerifyMutation(
   $uuid: String!
 ) {
@@ -109,10 +69,6 @@ const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
 }`;
 
 export {
-  // New one
-  uploadFileMutation,
-  confirmUploadedFilesMutation,
-
   deleteMutation,
   verifyMutation,
   updateFileStatusMutation,

@@ -1,1 +1,1 @@
-export { default } from './UploadModalContainer';
+export { default } from './UploadModal';

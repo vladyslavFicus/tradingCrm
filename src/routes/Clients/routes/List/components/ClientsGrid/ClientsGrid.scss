@@ -1,6 +1,11 @@
 .ClientsGrid {
+  &__noteAuthor {
+    display: block;
+    font-weight: bolder;
+  }
+
   &__notes {
-    margin-top: 10px;
+    margin-top: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

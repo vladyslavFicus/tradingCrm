@@ -6,6 +6,7 @@ export const notificationCenterTypes = keyMirror({
   ACCOUNT: null,
   KYC: null,
   CALLBACK: null,
+  CLIENT: null,
 });
 
 export const notificationCenterSubTypes = keyMirror({
@@ -30,6 +31,7 @@ export const notificationCenterSubTypes = keyMirror({
   KYC_APPROVED: null,
   CALLBACK_NAME: null,
   CALLBACK_TIME: null,
+  CLIENT_ASSIGNED: null,
 });
 
 export const notificationCenterTypesLabels = {
@@ -38,6 +40,7 @@ export const notificationCenterTypesLabels = {
   ACCOUNT: 'NOTIFICATION_CENTER.TYPES.ACCOUNT',
   KYC: 'NOTIFICATION_CENTER.TYPES.KYC',
   CALLBACK: 'NOTIFICATION_CENTER.TYPES.CALLBACK',
+  CLIENT: 'NOTIFICATION_CENTER.TYPES.CLIENT',
 };
 
 export const notificationCenterSubTypesLabels = {
@@ -68,4 +71,5 @@ export const notificationCenterSubTypesLabels = {
   [notificationCenterSubTypes.KYC_APPROVED]: 'NOTIFICATION_CENTER.SUBTYPES.KYC_APPROVED',
   [notificationCenterSubTypes.CALLBACK_NAME]: 'NOTIFICATION_CENTER.SUBTYPES.CALLBACK_NAME',
   [notificationCenterSubTypes.CALLBACK_TIME]: 'NOTIFICATION_CENTER.SUBTYPES.CALLBACK_TIME',
+  [notificationCenterSubTypes.CLIENT_ASSIGNED]: 'NOTIFICATION_CENTER.SUBTYPES.CLIENT_ASSIGNED',
 };
