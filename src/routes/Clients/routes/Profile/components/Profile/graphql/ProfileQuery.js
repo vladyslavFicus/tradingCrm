@@ -153,7 +153,7 @@ const REQUEST = gql`
             date
           }
         }
-        tradingAccount {
+        tradingAccounts {
           accountUUID
           accountType
           archived

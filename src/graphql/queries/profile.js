@@ -148,7 +148,7 @@ const profile = gql`query profile($playerUUID: String!){
           date
         }
       }
-      tradingAccount {
+      tradingAccounts {
         accountUUID
         accountType
         archived
