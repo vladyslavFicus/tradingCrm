@@ -40,10 +40,6 @@ class TradingActivityGridFilter extends PureComponent {
     }).isRequired,
   };
 
-  componentWillUnmount() {
-    this.handleFilterReset();
-  }
-
   handleApplyFilters = (values) => {
     this.props.history.replace({
       query: {
@@ -94,7 +90,6 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER')}
                 className="filter-row__big"
                 component={FormikInputField}
-                disabled={tradingAccountsLoading}
               />
               <Field
                 name="loginIds"
@@ -102,7 +97,6 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ALL')}
                 className="filter-row__medium"
                 component={FormikSelectField}
-                disabled={tradingAccountsLoading}
                 multiple
               >
                 {accounts.map(({ login, platformType }) => (
@@ -119,7 +113,6 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="filter-row__medium"
                 component={FormikSelectField}
-                disabled={tradingAccountsLoading}
                 withAnyOption
                 searchable
               >
@@ -135,7 +128,6 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="filter-row__medium"
                 component={FormikSelectField}
-                disabled={tradingAccountsLoading}
                 withAnyOption
                 searchable
               >
@@ -151,7 +143,7 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="filter-row__medium"
                 component={FormikSelectField}
-                disabled={tradingAccountsLoading || disabledOriginalAgentField}
+                disabled={disabledOriginalAgentField}
                 searchable
                 multiple
               >
@@ -180,7 +172,6 @@ class TradingActivityGridFilter extends PureComponent {
                   min={0}
                   placeholder="0"
                   component={FormikInputField}
-                  disabled={tradingAccountsLoading}
                 />
                 <Field
                   name="volumeTo"
@@ -189,7 +180,6 @@ class TradingActivityGridFilter extends PureComponent {
                   min={0}
                   placeholder="0"
                   component={FormikInputField}
-                  disabled={tradingAccountsLoading}
                 />
               </RangeGroup>
               <Field
@@ -198,7 +188,6 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="filter-row__medium"
                 component={FormikSelectField}
-                disabled={tradingAccountsLoading}
                 withAnyOption
               >
                 {statuses.map(({ value, label }) => (
@@ -213,7 +202,6 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="filter-row__medium"
                 component={FormikSelectField}
-                disabled={tradingAccountsLoading}
                 withAnyOption
               >
                 {accountTypes.map(({ value, label }) => (
@@ -250,7 +238,7 @@ class TradingActivityGridFilter extends PureComponent {
               </Button>
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || tradingAccountsLoading}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}
