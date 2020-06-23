@@ -1,3 +1,1 @@
-import Balances from './Balances';
-
-export default Balances;
+export { default } from './Balances';
