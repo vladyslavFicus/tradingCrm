@@ -182,7 +182,9 @@ class PaymentsListFilters extends PureComponent {
           ...(amountFrom && { amountFrom }),
           ...(amountTo && { amountTo }),
           desks,
-          teams: desks && !teams ? this.mapTeamsByDesks(desks) : teams,
+          teams: desks && !teams
+            ? this.mapTeamsByDesks(desks).map(({ uuid }) => uuid)
+            : teams,
         }),
       },
     });
