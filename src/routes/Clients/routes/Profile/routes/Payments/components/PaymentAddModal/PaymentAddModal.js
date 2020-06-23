@@ -80,7 +80,11 @@ class PaymentAddModal extends PureComponent {
     return true;
   };
 
-  renderAccountSelectOption = (name, { paymentType, amount }) => ({ onClick, account = {} }) => {
+  renderAccountSelectOption = (
+    name, { paymentType, amount },
+  ) => (
+    { onClick, account = {}, forwardedRef },
+  ) => {
     const isInsufficientBalance = (
       parseFloat(account.balance) < amount
       && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
@@ -94,6 +98,7 @@ class PaymentAddModal extends PureComponent {
 
     return (
       <div
+        ref={forwardedRef}
         className="value-wrapper"
         onClick={isInsufficientBalance || isInsufficientCredit ? () => {} : onClick}
       >

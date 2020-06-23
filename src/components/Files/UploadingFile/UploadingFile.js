@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import fileSize from 'filesize';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { targetTypes } from 'constants/note';
 import PropTypes from 'constants/propTypes';
-import { InputField, NasSelectField } from 'components/ReduxForm';
+import { FormikInputField, FormikSelectField } from 'components/Formik';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import { shortifyInMiddle } from 'utils/stringFormat';
 
-class UploadingFile extends Component {
+class UploadingFile extends PureComponent {
   static propTypes = {
     number: PropTypes.number.isRequired,
     fileData: PropTypes.uploadingFile.isRequired,
@@ -22,7 +22,7 @@ class UploadingFile extends Component {
     addFileNote: PropTypes.func.isRequired,
     updateFileNote: PropTypes.func.isRequired,
     removeFileNote: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
+    customFieldChange: PropTypes.func.isRequired,
   };
 
   state = {
@@ -68,6 +68,7 @@ class UploadingFile extends Component {
       addFileNote,
       updateFileNote,
       removeFileNote,
+      customFieldChange,
     } = this.props;
 
     const { selectedCategory } = this.state;
@@ -80,7 +81,7 @@ class UploadingFile extends Component {
           <Field
             placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE_PLACEHOLDER')}
             name={`${fileUuid}.title`}
-            component={InputField}
+            component={FormikInputField}
             type="text"
           />
         </td>
@@ -97,15 +98,14 @@ class UploadingFile extends Component {
             <Field
               placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
               name={`${fileUuid}.category`}
-              component={NasSelectField}
-              onChange={(_, value) => {
+              component={FormikSelectField}
+              customOnChange={(value) => {
                 this.setState({ selectedCategory: value });
-                if (value === 'OTHER') {
-                  this.props.change(`${fileUuid}.documentType`, 'OTHER');
-                }
+                customFieldChange({
+                  category: value,
+                  documentType: value === 'OTHER' ? 'OTHER' : '',
+                });
               }}
-              searchable={false}
-              label=""
             >
               {Object.keys(categories).map(item => (
                 <option key={`${fileUuid}-${item}`} value={item}>
@@ -121,9 +121,7 @@ class UploadingFile extends Component {
               placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE_DEFAULT_OPTION')}
               name={`${fileUuid}.documentType`}
               disabled={!selectedCategory || selectedCategory === 'OTHER'}
-              component={NasSelectField}
-              searchable={false}
-              label=""
+              component={FormikSelectField}
             >
               {documentTypes.map(item => (
                 <option key={`${fileUuid}-${item}`} value={item}>

@@ -2,78 +2,90 @@ import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { getAvailableLanguages } from 'config';
-import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
-import { isSales } from 'constants/hierarchyTypes';
-import { RangeGroup } from 'components/Forms';
 import {
   FormikInputField,
   FormikSelectField,
   FormikMultiInputField,
 } from 'components/Formik';
+import { getAvailableLanguages } from 'config';
+import { withRequests } from 'apollo';
+import { isSales } from 'constants/hierarchyTypes';
+import PropTypes from 'constants/propTypes';
 import {
   ruleTypes,
   priorities,
-  clientDistribution,
-  depositCount,
-  deskTypes,
 } from 'constants/rules';
 import { attributeLabels, customErrors } from './constants';
-import './RuleModal.scss';
+import {
+  OperatorsQuery,
+  PartnersQuery,
+  GetRulesQuery,
+} from './graphql';
+import './EditRuleModal.scss';
 
-const validate = deskType => createValidator({
+const validate = createValidator({
   name: ['required', 'string'],
-  priority: ['required', `in:${priorities.join()}`],
-  countries: [`in:${Object.keys(countryList).join()}`],
+  priority: ['required', `in:,${priorities.join()}`],
+  countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
   'operatorSpreads.*.percentage': ['between:1,100'],
-  ...(deskType !== deskTypes.RETENTION) && {
-    type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
-  },
+  type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
 }, translateLabels(attributeLabels), false, customErrors);
 
-class RuleModal extends PureComponent {
+class EditRuleModal extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    formError: PropTypes.string,
-    deskType: PropTypes.string.isRequired,
     partners: PropTypes.object.isRequired,
     operators: PropTypes.object.isRequired,
-    type: PropTypes.string,
-    currentUuid: PropTypes.string,
     withOperatorSpreads: PropTypes.bool,
+    rule: PropTypes.query({
+      rules: PropTypes.shape({
+        data: PropTypes.object.isRequired,
+      }),
+    }).isRequired,
   };
 
   static defaultProps = {
-    currentUuid: null,
-    type: null,
-    formError: '',
     withOperatorSpreads: false,
   };
 
   state = {
-    ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
+    selectedOperators: [],
     percentageLimitError: false,
+    mounted: false, // eslint-disable-line
   };
 
+  static getDerivedStateFromProps({ rule: { data, loading } }, { mounted }) {
+    if (!loading && !mounted) {
+      const operatorSpreads = get(data, 'rules.data[0].actions[0].operatorSpreads') || [];
+      const currentOperators = operatorSpreads.map(({ parentUser }) => parentUser);
+
+      return {
+        selectedOperators: currentOperators,
+        mounted: true,
+      };
+    }
+
+    return null;
+  }
+
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
-    if (this.props.withOperatorSpreads
-      && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100
-      && this.state.selectedOperators.length !== 0
-    ) {
+    if (this.props.withOperatorSpreads && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
       this.setState({ percentageLimitError: true });
     } else {
       this.setState({ percentageLimitError: false });
 
       this.props.onSubmit(values, setErrors);
     }
+
     setSubmitting(false);
   };
 
@@ -85,27 +97,41 @@ class RuleModal extends PureComponent {
     arrayHelpers.insert(index, '');
 
     setFieldValue(name, value);
-  };
+  }
 
   render() {
     const {
       onCloseModal,
-      currentUuid,
-      type,
       isOpen,
-      deskType,
+      rule: {
+        data,
+      },
       partners,
       operators,
-      formError,
       withOperatorSpreads,
     } = this.props;
 
-    const partnersList = get(partners, 'partners.data.content', []);
-    const operatorsList = get(operators, 'operators.data.content', []);
+    const partnersList = get(partners, 'data.partners.data.content', []);
+    const operatorsList = get(operators, 'data.operators.data.content', []);
+
+    const {
+      name,
+      priority,
+      ruleType,
+      countries,
+      languages: initialLanguages,
+      type,
+      partners: currentPartners = [],
+      sources,
+    } = get(data, 'rules.data[0]') || {};
+
     const {
       selectedOperators,
       percentageLimitError,
     } = this.state;
+
+    const currentOperators = get(data, 'rules.data[0].actions[0].operatorSpreads', [])
+      .map(({ parentUser, percentage }) => ({ parentUser, percentage }));
 
     return (
       <Modal
@@ -114,32 +140,29 @@ class RuleModal extends PureComponent {
       >
         <Formik
           initialValues={{
-            name: '',
-            priority: '',
-            depositCount: '',
-            depositAmountFrom: '',
-            depositAmountTo: '',
-            ruleType: '',
-            countries: '',
-            languages: '',
-            type: '',
-            affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
-            ...(type === 'OPERATOR'
-              ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
-              : { operatorSpreads: [''] }),
+            name,
+            priority,
+            ruleType,
+            countries: countries || '',
+            languages: initialLanguages || '',
+            type,
+            affiliateUUIDs: currentPartners.map(({ uuid }) => uuid),
+            sources,
+            operatorSpreads: [...currentOperators, ''],
           }}
-          validate={validate(deskType)}
+          enableReinitialize
+          validate={validate}
           onSubmit={this.onHandleSubmit}
         >
           {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
-            <Form className="RuleModal">
+            <Form className="EditRuleModal">
               <ModalHeader toggle={onCloseModal}>
-                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
+                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>
               <ModalBody>
-                <If condition={formError || (errors && errors.submit)}>
+                <If condition={errors && errors.submit}>
                   <div className="mb-2 text-center color-danger RuleModal__message-error">
-                    {formError || errors.submit}
+                    {errors.submit}
                   </div>
                 </If>
                 <Field
@@ -164,73 +187,20 @@ class RuleModal extends PureComponent {
                       </option>
                     ))}
                   </Field>
-                  <Choose>
-                    <When condition={deskType === deskTypes.RETENTION}>
-                      <Field
-                        name="depositCount"
-                        label={I18n.t(attributeLabels.depositCount)}
-                        component={FormikSelectField}
-                        disabled={isSubmitting}
-                        className="col-6"
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      >
-                        {depositCount.map(item => (
-                          <option key={item} value={item}>
-                            {item.toString()}
-                          </option>
-                        ))}
-                      </Field>
-                      <RangeGroup
-                        className="col-6"
-                        label={I18n.t(attributeLabels.amount)}
-                      >
-                        <Field
-                          name="depositAmountFrom"
-                          type="number"
-                          placeholder="0.00"
-                          step="0.01"
-                          component={FormikInputField}
-                        />
-                        <Field
-                          name="depositAmountTo"
-                          type="number"
-                          placeholder="0.00"
-                          step="0.01"
-                          component={FormikInputField}
-                        />
-                      </RangeGroup>
-                      <Field
-                        name="ruleType"
-                        label={I18n.t(attributeLabels.distribution)}
-                        component={FormikSelectField}
-                        disabled={isSubmitting}
-                        className="col-6"
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      >
-                        {clientDistribution.map(({ label, value }) => (
-                          <option key={value} value={value}>
-                            {I18n.t(label)}
-                          </option>
-                        ))}
-                      </Field>
-                    </When>
-                    <Otherwise>
-                      <Field
-                        name="type"
-                        label={I18n.t(attributeLabels.type)}
-                        component={FormikSelectField}
-                        disabled={isSubmitting}
-                        className="col-6"
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      >
-                        {ruleTypes.map(({ label, value }) => (
-                          <option key={value} value={value}>
-                            {I18n.t(label)}
-                          </option>
-                        ))}
-                      </Field>
-                    </Otherwise>
-                  </Choose>
+                  <Field
+                    name="type"
+                    label={I18n.t(attributeLabels.type)}
+                    component={FormikSelectField}
+                    disabled={isSubmitting}
+                    className="col-6"
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  >
+                    {ruleTypes.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Field>
                 </div>
                 <Field
                   name="countries"
@@ -261,29 +231,27 @@ class RuleModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                <If condition={deskType === deskTypes.SALES}>
-                  <Field
-                    name="affiliateUUIDs"
-                    label={I18n.t(attributeLabels.partner)}
-                    component={FormikSelectField}
-                    disabled={isSubmitting || partnersList.length === 0}
-                    multiple
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-                    searchable
-                  >
-                    {partnersList.sort((a, b) => a.fullName.localeCompare(b.fullName)).map(partner => (
-                      <option key={partner.uuid} value={partner.uuid}>
-                        {partner.fullName}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="sources"
-                    label={I18n.t(attributeLabels.source)}
-                    placeholder={I18n.t(attributeLabels.source)}
-                    component={FormikMultiInputField}
-                  />
-                </If>
+                <Field
+                  name="affiliateUUIDs"
+                  label={I18n.t(attributeLabels.partner)}
+                  component={FormikSelectField}
+                  disabled={isSubmitting || partnersList.length === 0}
+                  multiple
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
+                  searchable
+                >
+                  {partnersList.sort((a, b) => a.fullName.localeCompare(b.fullName)).map(partner => (
+                    <option key={partner.uuid} value={partner.uuid}>
+                      {partner.fullName}
+                    </option>
+                  ))}
+                </Field>
+                <Field
+                  name="sources"
+                  label={I18n.t(attributeLabels.source)}
+                  placeholder={I18n.t(attributeLabels.source)}
+                  component={FormikMultiInputField}
+                />
                 <If condition={withOperatorSpreads}>
                   <div className="row">
                     <FieldArray
@@ -377,7 +345,7 @@ class RuleModal extends PureComponent {
                   type="submit"
                   disabled={!dirty || !isValid || isSubmitting}
                 >
-                  {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
+                  {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.SAVE_CHANGES')}
                 </Button>
               </ModalFooter>
             </Form>
@@ -388,4 +356,10 @@ class RuleModal extends PureComponent {
   }
 }
 
-export default RuleModal;
+export default compose(
+  withRequests({
+    operators: OperatorsQuery,
+    partners: PartnersQuery,
+    rule: GetRulesQuery,
+  }),
+)(EditRuleModal);

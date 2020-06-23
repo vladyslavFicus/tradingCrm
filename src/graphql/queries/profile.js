@@ -248,7 +248,9 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
           lastNote {
             changedAt
             content
-            uuid
+            operator {
+              fullName
+            }
           }
           paymentDetails {
             depositsCount

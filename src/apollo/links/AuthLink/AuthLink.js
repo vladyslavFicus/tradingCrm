@@ -16,6 +16,8 @@ class AuthLink extends ApolloLink {
   constructor(options = {}) {
     super();
 
+    this.skip = options.skip || [];
+
     this.injectTokenLink = new AuthInjectTokenLink({
       getToken: options.getToken,
       headers: options.headers,
@@ -33,6 +35,11 @@ class AuthLink extends ApolloLink {
 
   request(operation, forward) {
     this.injectTokenLink.request(operation, forward);
+
+    // Skip refresh link for list of operations
+    if (this.skip.includes(operation.operationName)) {
+      return forward(operation);
+    }
 
     return this.refreshTokenLink.request(operation, forward);
   }

@@ -22,20 +22,6 @@ const uploadFileMutation = gql`
   }
 `;
 
-const confirmFilesUploadingMutation = gql`
-  mutation confirmFilesUploadingMutation(
-    $documents: [FileToUpload]!
-    $profileUuid: String!
-  ) {
-    file {
-      confirmFilesUploading(
-        documents: $documents
-        profileUuid: $profileUuid
-      )
-    }
-  }
-`;
-
 const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
   $uuid: String!
   $verificationType: String
@@ -72,5 +58,4 @@ export {
   uploadFileMutation,
   updateFileMetaMutation,
   updateFileStatusMutation,
-  confirmFilesUploadingMutation,
 };

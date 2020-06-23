@@ -106,6 +106,7 @@ class PartnerHeader extends PureComponent {
         fullName,
         country,
         uuid,
+        status,
       },
       partnerLockStatus,
     } = this.props;
@@ -128,7 +129,7 @@ class PartnerHeader extends PureComponent {
         </div>
 
         <div className="PartnerHeader__actions">
-          <If condition={partnerLoginLocked}>
+          <If condition={partnerLoginLocked && status !== 'CLOSED'}>
             <Button
               className="PartnerHeader__action"
               onClick={this.handleUnlockPartnerLogin}

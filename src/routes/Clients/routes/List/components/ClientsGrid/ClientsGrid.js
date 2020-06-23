@@ -90,6 +90,10 @@ class ClientsGrid extends PureComponent {
     });
   };
 
+  handleRowClick = ({ uuid }) => {
+    window.open(`/clients/${uuid}/profile`, '_blank');
+  };
+
   render() {
     const {
       profiles,
@@ -114,11 +118,13 @@ class ClientsGrid extends PureComponent {
         allRowsSelected={allRowsSelected}
         touchedRowsIds={touchedRowsIds}
         handleSort={this.handleSort}
+        handleRowClick={this.handleRowClick}
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
+        withRowsHover
         withMultiSelect={isAvailableMultySelect}
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
         withNoResults={!loading && gridData.length === 0}
@@ -382,11 +388,11 @@ class ClientsGrid extends PureComponent {
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={(data) => {
-            const { uuid, changedAt, content } = get(data, 'lastNote') || {};
+            const { uuid, changedAt, content, operator } = get(data, 'lastNote') || {};
 
             return (
               <Choose>
-                <When condition={uuid}>
+                <When condition={data.lastNote}>
                   <div className="max-width-200">
                     <div className="font-weight-700">
                       {moment
@@ -400,6 +406,11 @@ class ClientsGrid extends PureComponent {
                         .local()
                         .format('HH:mm:ss')}
                     </div>
+                    <If condition={operator}>
+                      <span className="ClientsGrid__noteAuthor">
+                        {operator.fullName}
+                      </span>
+                    </If>
                     <div
                       className="max-height-35 font-size-11 ClientsGrid__notes"
                       id={`${uuid}-note`}

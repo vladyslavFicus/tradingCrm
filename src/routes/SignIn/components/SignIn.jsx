@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import I18n from 'i18n-js';
 import { withStorage } from 'providers/StorageProvider';
 import { getBackofficeBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -52,7 +53,7 @@ class SignIn extends Component {
     this.setState({ loading: false });
   };
 
-  handleSubmit = async (data) => {
+  handleSubmit = async (values) => {
     const { signInMutation, storage } = this.props;
 
     try {
@@ -60,14 +61,20 @@ class SignIn extends Component {
         data: {
           authorization: {
             signIn: {
-              data: {
-                brandToAuthorities,
-                token,
-              },
+              data,
+              error,
             },
           },
         },
-      } = await signInMutation({ variables: { ...data } });
+      } = await signInMutation({ variables: { ...values } });
+
+      if (error) {
+        this.setState({ signInFormError: I18n.t(error.error) });
+
+        return null;
+      }
+
+      const { brandToAuthorities, token } = data;
 
       const brands = mapBrands(Object.keys(brandToAuthorities));
 

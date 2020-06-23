@@ -1655,7 +1655,8 @@
         "FIRST_DEPOSIT": "First time deposit",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "WARNING": "Warning"
+        "WARNING": "Warning",
+        "ACTIVITY": "Activity"
       }
     }
   },
@@ -1700,17 +1701,6 @@
         }
       },
       "locked": "User is locked, please contact customer support"
-    },
-    "campaign": {
-      "command": {
-        "byPromoCode": {
-          "alreadyPresent": "Promo code already added to this player",
-          "notAllow": "Invalid promo code"
-        },
-        "activate": {
-          "notAllow": "Not allow"
-        }
-      }
     },
     "template": {
       "name": {
@@ -2904,7 +2894,8 @@
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
       "KYC": "KYC",
-      "CALLBACK": "Callback"
+      "CALLBACK": "Callback",
+      "CLIENT": "Client"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -2927,7 +2918,8 @@
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
       "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}"
+      "CALLBACK_TIME": "Time: %{time}",
+      "CLIENT_ASSIGNED": "Client assigned"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -2995,6 +2987,8 @@
           "TYPE": "Rule type",
           "DEPOSIT_COUNT": "Deposit count",
           "AMOUNT": "Deposit amount range",
+          "AMOUNT_FROM": "Deposit amount from",
+          "AMOUNT_TO": "Deposit amount to",
           "DISTRIBUTION": "Client distribution",
           "PARTNER": "Partner",
           "SOURCE": "Source",
@@ -3078,8 +3072,7 @@
       "default": "--Select--",
       "default_placeholder": "Search",
       "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found...",
-      "selected_options_not_found": "Selected options by query \"%{query}\" not found...",
+      "options_not_found": "Available options by query \"%{query}\" not found...",
       "selected_options": "selected options",
       "clear": "Clear",
       "options_selected": "options selected"

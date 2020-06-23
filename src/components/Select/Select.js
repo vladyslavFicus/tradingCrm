@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import { isObject } from 'lodash';
 import shallowEqual from '../../utils/shallowEqual';
-import SelectSearchBox, { filterOptionsByQuery } from './SelectSearchBox';
+import SelectSearchBox, { filterOptionsByQuery, filterOptionsByQueryWithMultiple } from './SelectSearchBox';
 import SelectSingleOptions from './SelectSingleOptions';
 import SelectMultipleOptions from './SelectMultipleOptions';
 import deleteFromArray from '../../utils/deleteFromArray';
@@ -268,13 +268,15 @@ class Select extends PureComponent {
         selectedOptions: originalSelectedOptions,
       });
     } else {
-      const { multiple, value: propsValue } = this.props;
+      const { multiple } = this.props;
       const { target: { value } } = event;
 
       this.updateState({
         query: value,
-        ...(!(multiple && propsValue.length) && { options: filterOptionsByQuery(value, originalOptions) }),
         selectedOptions: filterOptionsByQuery(value, originalSelectedOptions),
+        options: multiple
+          ? filterOptionsByQueryWithMultiple(value, originalOptions, originalSelectedOptions)
+          : filterOptionsByQuery(value, originalOptions),
       });
     }
   };
@@ -322,19 +324,24 @@ class Select extends PureComponent {
       : options
   );
 
-  renderSelectedOptions = (originalSelectedOptions, selectedOptions) => (
-    <SelectMultipleOptions
-      className="select-block__selected-options"
-      headerText={I18n.t('common.select.selected_options')}
-      headerButtonClassName="clear-selected-options"
-      headerButtonIconClassName="icon icon-times"
-      headerButtonText={I18n.t('common.select.clear')}
-      headerButtonOnClick={this.handleResetSelectedOptions}
-      options={selectedOptions}
-      selectedOptions={originalSelectedOptions}
-      onChange={this.handleDeleteSelectedOption}
-    />
-  );
+  renderSelectedOptions = (originalSelectedOptions) => {
+    const { query } = this.state;
+    const options = filterOptionsByQuery(query, originalSelectedOptions);
+
+    return (
+      <SelectMultipleOptions
+        className="select-block__selected-options"
+        headerText={I18n.t('common.select.selected_options')}
+        headerButtonClassName="clear-selected-options"
+        headerButtonIconClassName="icon icon-times"
+        headerButtonText={I18n.t('common.select.clear')}
+        headerButtonOnClick={this.handleResetSelectedOptions}
+        options={options}
+        selectedOptions={originalSelectedOptions}
+        onChange={this.handleDeleteSelectedOption}
+      />
+    );
+  }
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
@@ -458,7 +465,6 @@ class Select extends PureComponent {
       customClassName,
       id,
       name,
-      value,
     } = this.props;
 
     const OptionsHeaderComponent = optionsHeader;
@@ -492,19 +498,13 @@ class Select extends PureComponent {
           }
           <div className="select-block__container" ref={this.bindContainerRef}>
             {OptionsHeaderComponent && <OptionsHeaderComponent />}
-            {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
+            {multiple && this.renderSelectedOptions(originalSelectedOptions)}
             {
               !!query
-              // 'not found options' for multiple and with props to state    for multiple and without props to state
-              && ((multiple && ((value.length && !selectedOptions.length) || (!value.length && options.length === 0)))
-                // for single option select
-                || (!multiple && options.length === 0))
+              && options.length === 0
               && (
                 <div className="text-muted font-size-10 margin-10">
-                  {I18n.t(`${multiple && (value.length && !selectedOptions.length)
-                    ? 'common.select.selected_options_not_found'
-                    : 'common.select.options_not_found'
-                  }`, { query })}
+                  {I18n.t('common.select.options_not_found', { query })}
                 </div>
               )
             }

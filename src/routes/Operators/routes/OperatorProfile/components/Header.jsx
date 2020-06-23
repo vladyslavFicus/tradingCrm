@@ -76,7 +76,7 @@ class Header extends Component {
             </span>
           </div>
           <div className="col-auto panel-heading-row__actions">
-            <If condition={lock}>
+            <If condition={lock && operatorStatus !== 'CLOSED'}>
               <Button
                 onClick={unlockLogin}
                 primary

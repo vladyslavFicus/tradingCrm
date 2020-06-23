@@ -81,7 +81,7 @@ class ProfileHeader extends Component {
     this.setState({ isRunningReloadAnimation: true });
 
     EventEmitter.emit(PROFILE_RELOAD);
-  }
+  };
 
   handleResetPasswordClick = () => {
     const {
@@ -273,7 +273,7 @@ class ProfileHeader extends Component {
               </div>
             </HeaderPlayerPlaceholder>
             <div className="panel-heading-row__actions">
-              <If condition={lock}>
+              <If condition={lock && statusType !== 'BLOCKED'}>
                 <button
                   onClick={this.handleUnlockLogin}
                   type="button"
