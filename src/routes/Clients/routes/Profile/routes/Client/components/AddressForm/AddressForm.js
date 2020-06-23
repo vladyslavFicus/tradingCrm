@@ -51,12 +51,13 @@ class AddressForm extends PureComponent {
     },
   };
 
-  handleUpdateAddress = () => {
+  handleUpdateAddress = (values, { resetForm }) => {
     const { updateAddress, playerUUID, notify } = this.props;
 
     const { error } = updateAddress({
       variables: {
         playerUUID,
+        ...values,
       },
     });
 
@@ -66,6 +67,10 @@ class AddressForm extends PureComponent {
       message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
         ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
+
+    if (!error) {
+      resetForm();
+    }
   };
 
   render() {
@@ -77,73 +82,68 @@ class AddressForm extends PureComponent {
         onSubmit={this.handleUpdateAddress}
         validate={validator}
       >
-        {({ isValid, dirty, values, isSubmitting }) => {
-          console.log('isValid: ', isValid);
-          console.log('dirty: ', dirty);
-          console.log('values: ', values);
-          return (
-            <Form>
-              <div className="row margin-bottom-20">
-                <div className="col personal-form-heading">
-                  {I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}
-                </div>
-                <div className="col-auto">
-                  <If condition={dirty && !isSubmitting && !disabled}>
-                    <Button
-                      small
-                      primary
-                      type="submit"
-                    >
-                      {I18n.t('COMMON.SAVE_CHANGES')}
-                    </Button>
-                  </If>
-                </div>
+        {({ isValid, dirty, isSubmitting }) => (
+          <Form>
+            <div className="row margin-bottom-20">
+              <div className="col personal-form-heading">
+                {I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}
               </div>
-              <div className="row">
-                <Field
-                  name="countryCode"
-                  label={attributeLabels.country}
-                  className="col-lg-4"
-                  component={FormikSelectField}
-                  disabled={disabled}
-                >
-                  {Object
-                    .keys(countries)
-                    .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                  }
-                </Field>
-                <Field
-                  name="city"
-                  label={attributeLabels.city}
-                  component={FormikInputField}
-                  disabled={disabled}
-                  className="col-lg-3"
-                />
-                <Field
-                  name="PObox"
-                  label={attributeLabels.PObox}
-                  component={FormikInputField}
-                  disabled={disabled}
-                  className="col-lg-3"
-                />
-                <Field
-                  name="postCode"
-                  label={attributeLabels.postCode}
-                  component={FormikInputField}
-                  disabled={disabled}
-                  className="col-lg-2"
-                />
+              <div className="col-auto">
+                <If condition={dirty && !isSubmitting && !disabled && isValid}>
+                  <Button
+                    small
+                    primary
+                    type="submit"
+                  >
+                    {I18n.t('COMMON.SAVE_CHANGES')}
+                  </Button>
+                </If>
               </div>
+            </div>
+            <div className="row">
               <Field
-                name="address"
-                label={attributeLabels.address}
-                component={FormikTextAreaField}
+                name="countryCode"
+                label={attributeLabels.country}
+                className="col-lg-4"
+                component={FormikSelectField}
                 disabled={disabled}
-                maxLength={100}
+              >
+                {Object
+                  .keys(countries)
+                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                }
+              </Field>
+              <Field
+                name="city"
+                label={attributeLabels.city}
+                component={FormikInputField}
+                disabled={disabled}
+                className="col-lg-3"
               />
-            </Form>
-          );
-        }}
+              <Field
+                name="PObox"
+                label={attributeLabels.PObox}
+                component={FormikInputField}
+                disabled={disabled}
+                className="col-lg-3"
+              />
+              <Field
+                name="postCode"
+                label={attributeLabels.postCode}
+                component={FormikInputField}
+                disabled={disabled}
+                className="col-lg-2"
+              />
+            </div>
+            <Field
+              name="address"
+              label={attributeLabels.address}
+              component={FormikTextAreaField}
+              disabled={disabled}
+              maxLength={100}
+            />
+          </Form>
+        )}
       </Formik>
     );
   }

@@ -22,7 +22,6 @@ class View extends Component {
   static propTypes = {
     verifyEmail: PropTypes.func.isRequired,
     auth: PropTypes.auth.isRequired,
-    updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     updatePersonalInformation: PropTypes.func.isRequired,
@@ -97,27 +96,6 @@ class View extends Component {
         },
       },
     } = await this.props.verifyEmail();
-
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
-  };
-
-  handleUpdateAddress = async (data) => {
-    const {
-      data: {
-        profile: {
-          updateAddress: { error },
-        },
-      },
-    } = await this.props.updateAddress({
-      variables: {
-        ...data,
-      },
-    });
 
     this.context.addNotification({
       level: error ? 'error' : 'success',
@@ -235,7 +213,7 @@ class View extends Component {
                 <div className="card-body">
                   <AddressForm
                     initialValues={address}
-                    onSubmit={this.handleUpdateAddress}
+                    playerUUID={uuid}
                     disabled={!canUpdateAddress}
                   />
                 </div>
