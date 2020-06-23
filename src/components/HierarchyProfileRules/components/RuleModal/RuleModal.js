@@ -28,12 +28,15 @@ import { OperatorsQuery, PartnersQuery } from './graphql';
 import { attributeLabels, customErrors } from './constants';
 import './RuleModal.scss';
 
-const validate = deskType => createValidator({
+const validate = (deskType, withOperatorSpreads) => createValidator({
   name: ['required', 'string'],
   priority: ['required', `in:${priorities.join()}`],
   countries: [`in:${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
   'operatorSpreads.*.percentage': ['between:1,100'],
+  ...withOperatorSpreads && {
+    operatorSpreads: 'required',
+  },
   ...(deskType !== deskTypes.RETENTION) && {
     type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
   },
@@ -139,7 +142,7 @@ class RuleModal extends PureComponent {
               ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
               : { operatorSpreads: [''] }),
           }}
-          validate={validate(deskType)}
+          validate={validate(deskType, withOperatorSpreads)}
           onSubmit={this.onHandleSubmit}
         >
           {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
