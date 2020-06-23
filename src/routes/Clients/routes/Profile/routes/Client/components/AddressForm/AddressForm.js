@@ -51,7 +51,7 @@ class AddressForm extends PureComponent {
     },
   };
 
-  handleUpdateAddress = (values, { resetForm }) => {
+  handleUpdateAddress = (values, { setSubmitting }) => {
     const { updateAddress, playerUUID, notify } = this.props;
 
     const { error } = updateAddress({
@@ -68,9 +68,7 @@ class AddressForm extends PureComponent {
         ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
 
-    if (!error) {
-      resetForm();
-    }
+    setSubmitting(false);
   };
 
   render() {
@@ -81,15 +79,16 @@ class AddressForm extends PureComponent {
         initialValues={initialValues}
         onSubmit={this.handleUpdateAddress}
         validate={validator}
+        enableReinitialize
       >
-        {({ isValid, dirty, isSubmitting }) => (
+        {({ dirty, isSubmitting }) => (
           <Form>
             <div className="row margin-bottom-20">
               <div className="col personal-form-heading">
                 {I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}
               </div>
               <div className="col-auto">
-                <If condition={dirty && !isSubmitting && !disabled && isValid}>
+                <If condition={dirty && !isSubmitting && !disabled}>
                   <Button
                     small
                     primary
@@ -116,13 +115,6 @@ class AddressForm extends PureComponent {
               <Field
                 name="city"
                 label={attributeLabels.city}
-                component={FormikInputField}
-                disabled={disabled}
-                className="col-lg-3"
-              />
-              <Field
-                name="PObox"
-                label={attributeLabels.PObox}
                 component={FormikInputField}
                 disabled={disabled}
                 className="col-lg-3"
