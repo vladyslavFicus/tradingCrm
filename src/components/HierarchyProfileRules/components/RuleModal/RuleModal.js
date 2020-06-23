@@ -40,6 +40,11 @@ const validate = (deskType, withOperatorSpreads) => createValidator({
   ...(deskType !== deskTypes.RETENTION) && {
     type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
   },
+  ...(deskType === deskTypes.RETENTION) && {
+    ruleType: ['required', `in:${clientDistribution.map(({ value }) => value).join()}`],
+    depositAmountFrom: ['required', 'integer'],
+    depositAmountTo: ['required', 'integer'],
+  },
 }, translateLabels(attributeLabels), false, customErrors);
 
 class RuleModal extends PureComponent {
@@ -201,21 +206,21 @@ class RuleModal extends PureComponent {
                         <Field
                           name="depositAmountFrom"
                           type="number"
-                          placeholder="0.00"
-                          step="0.01"
+                          placeholder="0"
+                          step="1"
                           component={FormikInputField}
                         />
                         <Field
                           name="depositAmountTo"
                           type="number"
-                          placeholder="0.00"
-                          step="0.01"
+                          placeholder="0"
+                          step="1"
                           component={FormikInputField}
                         />
                       </RangeGroup>
                       <Field
                         name="ruleType"
-                        label={I18n.t(attributeLabels.distribution)}
+                        label={I18n.t(attributeLabels.ruleType)}
                         component={FormikSelectField}
                         disabled={isSubmitting}
                         className="col-6"

@@ -2985,6 +2985,8 @@
           "TYPE": "Rule type",
           "DEPOSIT_COUNT": "Deposit count",
           "AMOUNT": "Deposit amount range",
+          "AMOUNT_FROM": "Deposit amount from",
+          "AMOUNT_TO": "Deposit amount to",
           "DISTRIBUTION": "Client distribution",
           "PARTNER": "Partner",
           "SOURCE": "Source",
