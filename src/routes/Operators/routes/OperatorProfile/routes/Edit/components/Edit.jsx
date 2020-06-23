@@ -40,7 +40,6 @@ class View extends Component {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     deleteAuthority: PropTypes.func.isRequired,
-    addAuthority: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     auth: PropTypes.shape({
@@ -94,36 +93,6 @@ class View extends Component {
         ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE')
         : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
     });
-  };
-
-  handleAddAuthority = async ({
-    department,
-    role,
-  }) => {
-    const {
-      match: { params: { id: operatorUUID } }, addAuthority, notify,
-    } = this.props;
-
-    const addedAuthority = await addAuthority({
-      variables: {
-        uuid: operatorUUID,
-        department,
-        role,
-      },
-    });
-    const { data: { operator: { addDepartment: { error } } } } = addedAuthority;
-
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
-    });
-
-    return addedAuthority;
   };
 
   render() {
@@ -186,9 +155,9 @@ class View extends Component {
             }
             <If condition={allowEditPermissions && departmentsRoles}>
               <DepartmentsForm
-                onSubmit={this.handleAddAuthority}
-                authorities={authorities.data ? authorities.data : []}
+                authorities={authorities.data || []}
                 departmentsRoles={departmentsRoles}
+                operatorUuid={profile.uuid}
               />
             </If>
           </div>

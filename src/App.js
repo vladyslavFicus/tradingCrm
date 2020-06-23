@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import ApolloProvider from 'apollo/ApolloProvider';
 import StorageProvider from 'providers/StorageProvider';
 import LocalStorageListener from 'providers/LocalStorageListener';
-import TokenRenew from 'components/TokenRenew';
 
 class App extends PureComponent {
   static propTypes = {
@@ -21,9 +20,7 @@ class App extends PureComponent {
           <BrowserRouter>
             <StorageProvider>
               <ApolloProvider>
-                <TokenRenew>
-                  <LocalStorageListener />
-                </TokenRenew>
+                <LocalStorageListener />
               </ApolloProvider>
             </StorageProvider>
           </BrowserRouter>

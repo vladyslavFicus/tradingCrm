@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import { withNotifications } from 'hoc';
 import { filterSetByUserIdQuery } from 'graphql/queries/filterSet';
 import { updateFavourite } from 'graphql/mutations/filterSet';
-import { filterSetTypes } from 'constants/filterSet';
 import FilterSet from './FilterSet';
 
 export default compose(
@@ -11,11 +10,11 @@ export default compose(
   withApollo,
   graphql(filterSetByUserIdQuery, {
     name: 'filterSet',
-    options: ({ type }) => ({
-      variables: { type },
+    options: ({ filterSetType }) => ({
+      variables: { type: filterSetType },
       fetchPolicy: 'network-only',
     }),
-    props: ({ filterSet: { filterSets, loading, refetch, ...rest } }) => {
+    props: ({ filterSet: { filterSets, loading, refetch, ...rest }, ownProps: { filterSetType } }) => {
       const favourite = get(filterSets, 'data.favourite') || [];
       const common = get(filterSets, 'data.common') || [];
       const error = get(filterSets, 'error');
@@ -25,7 +24,7 @@ export default compose(
         common,
         errorLoading: error,
         filtersLoading: loading,
-        filtersRefetch: () => refetch({ type: filterSetTypes.CLIENT }),
+        filtersRefetch: () => refetch({ type: filterSetType }),
         filterSet: {
           ...rest,
         },
