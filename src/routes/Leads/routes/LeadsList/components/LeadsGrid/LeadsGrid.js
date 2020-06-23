@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
@@ -65,6 +65,10 @@ class LeadsGrid extends PureComponent {
     }
   };
 
+  handleRowClick = ({ uuid }) => {
+    window.open(`/leads/${uuid}`, '_blank');
+  };
+
   handleSelectRow = (allRowsSelected, touchedRowsIds) => {
     this.props.updateLeadsListState(allRowsSelected, touchedRowsIds);
   };
@@ -101,13 +105,9 @@ class LeadsGrid extends PureComponent {
 
   renderLead = ({ uuid, name, surname }) => (
     <>
-      <Link
-        className="LeadsGrid__primary"
-        to={`/leads/${uuid}`}
-        target="_blank"
-      >
+      <div className="LeadsGrid__primary">
         {name} {surname}
-      </Link>
+      </div>
 
       <div className="LeadsGrid__secondary">
         <MiniProfile id={uuid} type="lead">
@@ -247,10 +247,12 @@ class LeadsGrid extends PureComponent {
           touchedRowsIds={touchedRowsIds}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
+          handleRowClick={this.handleRowClick}
           handleAllRowsSelect={this.handleAllRowsSelect}
           handlePageChanged={this.handlePageChanged}
           isLoading={isLoading}
           isLastPage={last}
+          withRowsHover
           withMultiSelect
           withNoResults={content && content.length === 0}
         >
