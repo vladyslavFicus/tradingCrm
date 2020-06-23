@@ -13,13 +13,7 @@ const operatorsExcludeAuthorities = [{
 const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.DASHBOARD',
   icon: 'icon-dashboard',
-  items: [{
-    label: 'SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.DEFAULT',
-    url: '/dashboard',
-  }, {
-    label: 'SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.PERSONAL',
-    url: '/personal-dashboard',
-  }],
+  url: '/dashboard',
 }, {
   label: 'SIDEBAR.TOP_MENU.CLIENTS',
   icon: 'icon-users',

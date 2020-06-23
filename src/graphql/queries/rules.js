@@ -6,7 +6,7 @@ const getRules = gql`query getRules(
   $language: String,
   $createdByOrUuid: String,
   $name: String,
-  $type: RuleTypeEnum,
+  $type: Rule__Type__Enum,
   $parentId: String,
   $branchUuid: String,
 ) {
