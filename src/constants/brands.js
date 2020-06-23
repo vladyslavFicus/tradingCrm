@@ -96,6 +96,7 @@ const brands = keyMirror({
   stocklux: null,
   unitestock: null,
   finocapital: null,
+  '24fintime': null,
 });
 
 const departments = keyMirror({
@@ -502,6 +503,10 @@ const brandsConfig = {
   [brands.finocapital]: {
     name: 'finocapital',
     image: { src: '/img/brand/choose-brand/finocapital.svg' },
+  },
+  [brands['24fintime']]: {
+    name: '24fintime',
+    image: { src: '/img/brand/choose-brand/24fintime.svg' },
   },
 };
 const departmentsConfig = {
