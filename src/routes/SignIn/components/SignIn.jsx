@@ -59,7 +59,7 @@ class SignIn extends Component {
     try {
       const {
         data: {
-          authorization: {
+          auth: {
             signIn: {
               data,
               error,
@@ -120,7 +120,7 @@ class SignIn extends Component {
 
     const {
       data: {
-        authorization: {
+        auth: {
           chooseDepartment: {
             data: {
               token,

@@ -5,13 +5,15 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation HeaderDepartments_chooseDepartmentMutation(
-    $brandId: String!,
+    $brand: String!
     $department: String!
+    $role: String!
   ) {
-    authorization {
+    auth {
       chooseDepartment(
-        brandId: $brandId,
+        brand: $brand,
         department: $department
+        role: $role
       ) {
         data {
           uuid

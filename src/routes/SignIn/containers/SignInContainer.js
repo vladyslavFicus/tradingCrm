@@ -1,5 +1,5 @@
 import { graphql, compose } from 'react-apollo';
-import { signInMutation, chooseDepartmentMutation } from 'graphql/mutations/authorization';
+import { signInMutation, chooseDepartmentMutation } from 'graphql/mutations/auth';
 import SignIn from '../components/SignIn';
 
 export default compose(

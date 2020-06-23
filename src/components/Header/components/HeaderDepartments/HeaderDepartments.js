@@ -39,7 +39,7 @@ class HeaderDepartments extends Component {
 
     const {
       data: {
-        authorization: {
+        auth: {
           chooseDepartment: {
             data: {
               token,

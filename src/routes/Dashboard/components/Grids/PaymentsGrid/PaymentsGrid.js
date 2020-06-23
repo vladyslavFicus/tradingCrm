@@ -19,7 +19,7 @@ class PaymentsGrid extends PureComponent {
   render() {
     const { paymentsQuery } = this.props;
 
-    const payments = get(paymentsQuery, 'data.payments', []);
+    const payments = get(paymentsQuery, 'data.payments', {});
 
     return (
       <PaymentsListGrid

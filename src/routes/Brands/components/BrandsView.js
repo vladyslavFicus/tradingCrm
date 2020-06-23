@@ -78,7 +78,7 @@ class BrandsView extends Component {
     this.setState({ step: 3, loading: true }, async () => {
       const {
         data: {
-          authorization: {
+          auth: {
             chooseDepartment: {
               data: {
                 token,

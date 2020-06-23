@@ -1,5 +1,52 @@
 import gql from 'graphql-tag';
 
+const signInMutation = gql`
+  mutation SignInMutation(
+    $login: String!
+    $password: String!
+  ) {
+    auth {
+      signIn(
+        login: $login
+        password: $password
+      ) {
+        data {
+          uuid
+          brandToAuthorities
+          token
+        }
+        error {
+          error
+        }
+      }
+    }
+  }
+`;
+
+const chooseDepartmentMutation = gql`
+  mutation ChooseDepartmentMutation(
+    $brand: String!
+    $department: String!
+    $role: String!
+  ) {
+    auth {
+      chooseDepartment(
+        brand: $brand
+        department: $department
+        role: $role
+      ) {
+        data {
+          uuid
+          token
+        }
+        error {
+          error
+        }
+      }
+    }
+  }
+`;
+
 const unlockLoginMutation = gql`mutation unlockLogin($playerUUID: String!) {
   auth {
     unlockLogin(uuid: $playerUUID) {
@@ -37,6 +84,8 @@ const resetPasswordMutation = gql`mutation resetPassword(
 }`;
 
 export {
+  signInMutation,
+  chooseDepartmentMutation,
   resetPasswordMutation,
   unlockLoginMutation,
   logout,
