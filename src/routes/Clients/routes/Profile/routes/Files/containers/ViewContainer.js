@@ -1,19 +1,16 @@
 import { graphql, compose } from 'react-apollo';
 import { withNotifications, withModals } from 'hoc';
 import { getFilesCategoriesList, getFilesListByProfileUUID } from 'graphql/queries/files';
-import { updateFileStatusMutation, updateFileMetaMutation, deleteMutation } from 'graphql/mutations/files';
+import { updateFileStatusMutation, updateFileMetaMutation } from 'graphql/mutations/files';
 import { withStorage } from 'providers/StorageProvider';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import { UploadModal } from 'components/Files';
 import Files from '../components/Files';
 
 export default compose(
   withNotifications,
   withStorage(['token']),
   withModals({
-    deleteModal: ConfirmActionModal,
-  }),
-  graphql(deleteMutation, {
-    name: 'delete',
+    uploadModal: UploadModal,
   }),
   graphql(updateFileMetaMutation, {
     name: 'updateFileMeta',

@@ -58,10 +58,6 @@ class ClientsGrid extends PureComponent {
     searchLimit: null,
   };
 
-  handleRowClick = ({ uuid }) => {
-    window.open(`/clients/${uuid}/profile`, '_blank');
-  };
-
   handlePageChanged = () => {
     const {
       profiles: {
@@ -118,14 +114,12 @@ class ClientsGrid extends PureComponent {
         allRowsSelected={allRowsSelected}
         touchedRowsIds={touchedRowsIds}
         handleSort={this.handleSort}
-        handleRowClick={this.handleRowClick}
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
         withMultiSelect={isAvailableMultySelect}
-        withRowsHover
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
         withNoResults={!loading && gridData.length === 0}
       >
@@ -176,7 +170,7 @@ class ClientsGrid extends PureComponent {
                 />
               </When>
               <Otherwise>
-                <GridEmptyValue I18n={I18n} />
+                <GridEmptyValue />
               </Otherwise>
             </Choose>
           )}
@@ -215,7 +209,7 @@ class ClientsGrid extends PureComponent {
                   </div>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -284,7 +278,7 @@ class ClientsGrid extends PureComponent {
                   </If>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -320,7 +314,7 @@ class ClientsGrid extends PureComponent {
                   />
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -356,7 +350,7 @@ class ClientsGrid extends PureComponent {
                   />
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );
@@ -388,7 +382,7 @@ class ClientsGrid extends PureComponent {
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={(data) => {
-            const { uuid, changedAt, content } = get(data, 'lastNote') || {};
+            const { uuid, changedAt, content, authorFullName } = get(data, 'lastNote') || {};
 
             return (
               <Choose>
@@ -406,6 +400,9 @@ class ClientsGrid extends PureComponent {
                         .local()
                         .format('HH:mm:ss')}
                     </div>
+                    <span className="ClientsGrid__noteAuthor">
+                      {authorFullName}
+                    </span>
                     <div
                       className="max-height-35 font-size-11 ClientsGrid__notes"
                       id={`${uuid}-note`}
@@ -425,7 +422,7 @@ class ClientsGrid extends PureComponent {
                   </div>
                 </When>
                 <Otherwise>
-                  <GridEmptyValue I18n={I18n} />
+                  <GridEmptyValue />
                 </Otherwise>
               </Choose>
             );

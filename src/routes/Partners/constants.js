@@ -12,17 +12,7 @@ const statusLabels = {
   [statuses.INACTIVE]: 'PARTNERS.STATUSES.INACTIVE',
 };
 
-const affiliateTypes = keyMirror({
-  AFFILIATE: null,
-});
-
-const affiliateTypeLabels = {
-  [affiliateTypes.AFFILIATE]: 'PARTNERS.TYPES.AFFILIATE',
-};
-
 export {
   statuses,
   statusLabels,
-  affiliateTypes,
-  affiliateTypeLabels,
 };

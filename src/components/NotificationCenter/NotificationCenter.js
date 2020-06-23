@@ -1,6 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
 import { Popover } from 'reactstrap';
-import StorageProvider from 'providers/StorageProvider';
 import NotificationCenterContent from './components/NotificationCenterContent';
 import NotificationCenterTrigger from './components/NotificationCenterTrigger';
 import './NotificationCenter.scss';
@@ -43,10 +42,9 @@ class NotificationCenter extends PureComponent {
           placement="bottom"
           className="NotificationCenter__popover"
           innerClassName="NotificationCenter__popover-inner"
+          trigger="legacy"
         >
-          <StorageProvider>
-            <NotificationCenterContent onCloseModal={this.onCloseModal} />
-          </StorageProvider>
+          <NotificationCenterContent onCloseModal={this.onCloseModal} />
         </Popover>
       </Fragment>
     );

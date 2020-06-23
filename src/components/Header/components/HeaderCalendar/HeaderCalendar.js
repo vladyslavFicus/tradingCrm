@@ -33,6 +33,7 @@ class HeaderCalendar extends PureComponent {
           target="id-toggle-button"
           placement="bottom"
           isOpen={isOpen}
+          trigger="legacy"
         >
           <CallbacksCalendar
             calendarClassName="HeaderCalendar__view"

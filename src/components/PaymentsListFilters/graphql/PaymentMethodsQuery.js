@@ -13,7 +13,9 @@ const REQUEST = gql`query PaymentMethodsQuery {
 }`;
 
 const PaymentMethodsQuery = ({ children }) => (
-  <Query query={REQUEST}>{children}</Query>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
+    {children}
+  </Query>
 );
 
 PaymentMethodsQuery.propTypes = {

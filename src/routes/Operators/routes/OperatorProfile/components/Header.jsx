@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Button } from 'reactstrap';
 import I18n from 'i18n-js';
 import Uuid from 'components/Uuid';
+import { Button } from 'components/UI';
 import { statusColorNames, statuses, statusesLabels } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
 import PermissionContent from 'components/PermissionContent';
@@ -79,13 +79,14 @@ class Header extends Component {
           </div>
           <div className="col-auto panel-heading-row__actions">
             <If condition={lock}>
-              <button
+              <Button
                 onClick={unlockLogin}
-                type="button"
-                className="btn btn-sm mx-3 btn-primary"
+                primary
+                small
+                className="margin-right-10"
               >
                 {I18n.t('OPERATOR_PROFILE.PROFILE.HEADER.UNLOCK')}
-              </button>
+              </Button>
             </If>
             {
               operatorStatus === statuses.INACTIVE
@@ -93,8 +94,10 @@ class Header extends Component {
                 // Here is no API functional to SEND_INVITATION anymore
                 <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
                   <Button
-                    className="btn-sm btn-default-outline margin-right-10"
                     onClick={onSendInvitationClick}
+                    className="margin-right-10"
+                    primary
+                    small
                   >
                     {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
                   </Button>
@@ -106,8 +109,10 @@ class Header extends Component {
               && (
                 <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
                   <Button
-                    className="btn-sm btn-default-outline margin-right-10"
                     onClick={onResetPasswordClick}
+                    className="margin-right-10"
+                    primary
+                    small
                   >
                     {I18n.t('OPERATOR_PROFILE.RESET_PASSWORD')}
                   </Button>
@@ -116,8 +121,9 @@ class Header extends Component {
             }
             <PermissionContent permissions={permissions.OPERATORS.CHANGE_PASSWORD}>
               <Button
-                className="btn-sm btn-default-outline"
                 onClick={onChangePasswordClick}
+                primary
+                small
               >
                 {I18n.t('OPERATOR_PROFILE.CHANGE_PASSWORD')}
               </Button>
@@ -154,19 +160,19 @@ class Header extends Component {
                       <div>
                         {
                           statusChangeAuthor
-                        && (
-                          <div className="header-block-small">
-                            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
-                          </div>
-                        )
+                          && (
+                            <div className="header-block-small">
+                              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
+                            </div>
+                          )
                         }
                         {
                           statusChangeDate
-                        && (
-                          <div className="header-block-small">
-                            on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
-                          </div>
-                        )
+                          && (
+                            <div className="header-block-small">
+                              on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
+                            </div>
+                          )
                         }
                       </div>
                     )

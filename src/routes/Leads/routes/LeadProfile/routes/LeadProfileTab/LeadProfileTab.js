@@ -50,12 +50,26 @@ class LeadProfileTab extends PureComponent {
     return getBrand().privatePhoneByDepartment.includes(department);
   };
 
+  emailAccessDenied = () => {
+    const {
+      auth: {
+        department,
+      },
+    } = this.props;
+
+    return getBrand().privateEmailByDepartment.includes(department);
+  };
+
   handleUpdateLead = async (variables) => {
     const { notify, updateLead, leadProfile } = this.props;
-    const { phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
-    const requestData = this.phoneAccessDenied()
-      ? { ...variables, phone, mobile }
-      : variables;
+    const { email, phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
+
+    const requestData = {
+      ...variables,
+      email: this.emailAccessDenied() ? email : variables.email,
+      phone: this.phoneAccessDenied() ? phone : variables.phone,
+      mobile: this.phoneAccessDenied() ? mobile : variables.mobile,
+    };
 
     const { data: { leads: { update: { error } } } } = await updateLead({
       variables: requestData,
@@ -95,6 +109,7 @@ class LeadProfileTab extends PureComponent {
     }
 
     const isPhoneHidden = this.phoneAccessDenied();
+    const isEmailHidden = this.emailAccessDenied();
 
     const {
       uuid,
@@ -119,7 +134,7 @@ class LeadProfileTab extends PureComponent {
           surname,
           phone: isPhoneHidden ? hideText(phone) : phone,
           mobile: isPhoneHidden ? hideText(mobile) : mobile,
-          email,
+          email: isEmailHidden ? hideText(email) : email,
           country: getCountryCode(country),
           birthDate,
           gender,
@@ -137,7 +152,7 @@ class LeadProfileTab extends PureComponent {
           address: 'string',
           phone: 'string',
           mobile: 'string',
-          email: 'email',
+          email: isEmailHidden ? 'string' : 'email',
         }, translateLabels(attributeLabels), false)}
         enableReinitialize
       >
@@ -173,7 +188,10 @@ class LeadProfileTab extends PureComponent {
               <div className="card">
                 <div className="card-body row">
                   <div className="col">
-                    <ContactForm isPhoneDisabled={isPhoneHidden} />
+                    <ContactForm
+                      isPhoneDisabled={isPhoneHidden}
+                      isEmailDisabled={isEmailHidden}
+                    />
                   </div>
                 </div>
               </div>

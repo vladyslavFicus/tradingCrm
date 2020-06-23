@@ -6,6 +6,64 @@ import { getActiveBrandConfig, getBackofficeBrand } from '../../config';
 const ReleaseNotes = () => (
   <Fragment>
     <h1>{startCase(getBackofficeBrand().id)} CRM<br/>Release notes</h1>
+    <h2 id="28/May/20---Version-40">28/May/20 - Version 40</h2>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p data-renderer-start-pos="70">Callback reminder functionality</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="105">Trading account page in BO</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="Bugs-and-Fixes">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p data-renderer-start-pos="153">Fixed incorrect display for big notes on Clients and Leads Page</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="11/May/20---Version-39">11/May/20 - Version 39</h2>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="What-has-been-done.1">What has been done</h2>
+    <ul className="ak-ul">
+      <li>
+        <p data-renderer-start-pos="266">Extended the "Feed" tab functionality (implemented 2-nd part)</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="331">Show Client&rsquo;s timezone</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="357">Added Client 's timezone param in Affiliate and Public API</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="419">Implemented asterisk dialer</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="450">Added ability to set a branch manager</p>
+      </li>
+    </ul>
+    <div className="heading-anchor-wrapper">&nbsp;</div>
+    <h2 id="Bugs-and-Fixes.1">Bugs and Fixes</h2>
+    <ul className="ak-ul">
+      <li>
+        <p data-renderer-start-pos="509">Fixed bug with client sign up</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="542">Fixed bug with connected with sorting by multiple params</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="602">Fixed bug with occasional logout when change brands on BO</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="663">Fixed bug with payment statistics on the dashboard</p>
+      </li>
+      <li>
+        <p data-renderer-start-pos="717">Corrected leverage value in change leverage history</p>
+      </li>
+    </ul>
     <h2 id="14/Apr/20---Version-38">14/Apr/20 - Version 38</h2>
     <div className="heading-anchor-wrapper">&nbsp;</div>
     <h2 id="What-has-been-done">What has been done</h2>
@@ -84,9 +142,6 @@ const ReleaseNotes = () => (
     </li>
     <li>
       <p>Added &lsquo;KYC Note&rsquo; field to the "Files" tab on the "Client's details" page in BO</p>
-    </li>
-    <li>
-      <p>Implemented autosaving function for the Questionnaire and progress bar displaying</p>
     </li>
     <li>
       <p>Implemented search by partial parameters on &lsquo;Client&rsquo;s Search' and 'Lead&rsquo; pages</p>
@@ -284,11 +339,6 @@ const ReleaseNotes = () => (
   <li>
     <p>"Total deposit"/"Total withdrawal"/"Net deposit" parameters values</p>
   </li>
-  <If condition={getActiveBrandConfig().regulation.isActive}>
-    <li>
-      <p>Send automatically the email when Questionnaire score is low</p>
-    </li>
-  </If>
 </ul>
 <div className="heading-anchor-wrapper">&nbsp;</div>;
 <h2 id="Bugs-and-Fixes.2">Bugs and Fixes</h2>;
@@ -416,9 +466,6 @@ const ReleaseNotes = () => (
       request</p>
   </li>
   <If condition={getActiveBrandConfig().regulation.isActive}>
-    <li>
-      <p>Client has been allowed to create DEMO Trading Account if Questionnaire has not been filled</p>
-    </li>
     <li>
       <p>Automated Emails - Deposit/Withdrawal Completion/Failure notifications</p>
     </li>

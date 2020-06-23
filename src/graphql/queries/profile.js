@@ -72,16 +72,6 @@ const newProfile = gql`query newProfile($playerUUID: String!){
           fullName
         }
       }
-      bankDetails {
-        accountHolderName
-        accountNumber
-        branchName
-        city
-        name
-        province
-        swiftCode
-        withdrawalArea
-      }
       configuration {
         crs
         fatca
@@ -259,6 +249,7 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
             changedAt
             content
             uuid
+            authorFullName
           }
           paymentDetails {
             depositsCount

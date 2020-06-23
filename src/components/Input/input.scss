@@ -4,7 +4,7 @@ $input-height: 40px;
 
 .input {
   margin-bottom: 20px;
-  
+
   &__body {
     margin: 0 auto;
     width: 100%;
@@ -13,6 +13,7 @@ $input-height: 40px;
   &__label {
     font-size: 15px;
     font-weight: 600;
+    margin-bottom: 5px;
   }
 
   &__control {

@@ -5,14 +5,12 @@ import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { roles, departments } from 'constants/brands';
-import Regulated from 'components/Regulated';
 import { decodeNullValues } from 'components/Formik/utils';
 import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import KycStatusForm from './KYCStatusForm';
 import TransferAvailabilityForm from './TransferAvailabilityForm';
-import BankDetailsForm from './BankDetailsForm';
 import EmailForm from './EmailForm';
 import './View.scss';
 
@@ -201,7 +199,6 @@ class View extends Component {
             contacts: { additionalEmail, additionalPhone, email, phone },
             kyc: { status: kycStatus },
             configuration: { internalTransfer },
-            bankDetails,
             phoneVerified,
             emailVerified,
             identificationNumber,
@@ -243,13 +240,6 @@ class View extends Component {
                   />
                 </div>
               </div>
-              <Regulated>
-                <div className="card margin-right-20">
-                  <div className="card-body">
-                    <BankDetailsForm initialValues={bankDetails} disabled />
-                  </div>
-                </div>
-              </Regulated>
             </div>
             <div className="client-small-col">
               <div className="card">

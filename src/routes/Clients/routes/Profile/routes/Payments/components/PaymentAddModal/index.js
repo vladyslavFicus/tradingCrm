@@ -1,1 +1,1 @@
-export { default } from './PaymentAddModalContainer';
+export { default } from './PaymentAddModal';

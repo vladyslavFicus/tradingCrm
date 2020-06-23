@@ -223,7 +223,7 @@ class DatePicker extends Component {
     const groupClassName = classNames(
       'form-group',
       className,
-      { 'has-danger': error },
+      { 'has-danger': error && showErrorMessage },
       { 'is-disabled': disabled },
     );
 

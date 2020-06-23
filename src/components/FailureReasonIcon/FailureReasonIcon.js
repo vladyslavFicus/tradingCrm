@@ -46,6 +46,7 @@ class FailureReasonIcon extends Component {
         isOpen={popoverOpen}
         target={id}
         toggle={this.togglePopoverOpen}
+        trigger="legacy"
       >
         <PopoverHeader tag="div" className="failure-reason-popover__header">
           <div className="failure-reason-popover__title">

@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
+import { get } from 'lodash';
+import { withModals } from 'hoc';
+import PropTypes from 'constants/propTypes';
 import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
+import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import transformAcquisitionData from './utils';
@@ -12,6 +16,7 @@ const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE
 
 class AcquisitionStatus extends PureComponent {
   static propTypes = {
+    newProfile: PropTypes.object,
     acquisitionData: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     auth: PropTypes.shape({
@@ -20,11 +25,31 @@ class AcquisitionStatus extends PureComponent {
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-  }
+    modals: PropTypes.shape({
+      representativeUpdateModal: PropTypes.modalType,
+    }).isRequired,
+  };
 
-  static contextTypes = {
-    triggerRepresentativeUpdateModal: PropTypes.func.isRequired,
-  }
+  static defaultProps = {
+    newProfile: null,
+  };
+
+  handleChangeAcquisitionStatusClick = (type) => {
+    const {
+      modals: { representativeUpdateModal },
+      newProfile: { uuid, acquisition },
+    } = this.props;
+
+    const assignToOperator = get(acquisition, `${type.toLowerCase()}Representative`) || null;
+
+    representativeUpdateModal.show({
+      type,
+      clients: [{ uuid }],
+      currentInactiveOperator: assignToOperator,
+      header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
+      isAvailableToMove: true,
+    });
+  };
 
   render() {
     const {
@@ -33,8 +58,6 @@ class AcquisitionStatus extends PureComponent {
       auth: { department },
       permission: { permissions: currentPermissions },
     } = this.props;
-
-    const { triggerRepresentativeUpdateModal } = this.context;
 
     return (
       <div className="account-details__personal-info">
@@ -53,7 +76,7 @@ class AcquisitionStatus extends PureComponent {
                     className={`acquisition-item border-${borderColor || 'color-neutral'}`}
                     onClick={
                       changeAcquisitionStatus.check(currentPermissions) && allowAction
-                        ? triggerRepresentativeUpdateModal(modalType)
+                        ? () => this.handleChangeAcquisitionStatusClick(modalType)
                         : null
                     }
                   >
@@ -89,4 +112,10 @@ class AcquisitionStatus extends PureComponent {
   }
 }
 
-export default withStorage(['auth'])(withPermission(AcquisitionStatus));
+export default compose(
+  withPermission,
+  withStorage(['auth']),
+  withModals({
+    representativeUpdateModal: RepresentativeUpdateModal,
+  }),
+)(AcquisitionStatus);

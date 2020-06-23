@@ -88,12 +88,8 @@ class OperatorGridFilter extends Component {
               ))}
             </Field>
             <div className="form-group filter-row__medium">
-              <Field
-                withTime
+              <FormikDateRangePicker
                 label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
-                startDatePlaceholderText={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.DATE_FROM')}
-                endDatePlaceholderText={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.DATE_TO')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'registrationDateFrom',
                   end: 'registrationDateTo',

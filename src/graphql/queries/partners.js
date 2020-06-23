@@ -36,6 +36,7 @@ const partnersQuery = gql`query getPartners(
   }
 }`;
 
+// Remove after 'Edit' component (Partner -> ProfileTab) will be refactored
 const partnerQuery = gql`query getPartnerByUUID(
   $uuid: String!,
 ) {
@@ -56,7 +57,6 @@ const partnerQuery = gql`query getPartnerByUUID(
       createdBy
       createdAt
       externalAffiliateId
-      affiliateType
       public
       tradingAccountAutocreation
       tradingAccountType

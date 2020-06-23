@@ -44,16 +44,7 @@ const REQUEST = gql`
   }
 `;
 
-/**
- * The React.memo with second argument is used here to prevent
- * query refetching with initial arguments triggered by parent
- * query request. This behavior is exposed when there was already
- * done the refetch by child component with another params.
- *
- * In simple words this is the same as:
- * ShouldComponentUpdate = () => false;
- */
-const NotificationCenterQuery = React.memo(({ children }) => (
+const NotificationCenterQuery = ({ children }) => (
   <Query
     query={REQUEST}
     variables={{ args: { page: { from: 0, size: 10 } } }}
@@ -61,7 +52,7 @@ const NotificationCenterQuery = React.memo(({ children }) => (
   >
     {children}
   </Query>
-), () => true);
+);
 
 NotificationCenterQuery.propTypes = {
   children: PropTypes.func.isRequired,
