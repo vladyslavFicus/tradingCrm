@@ -29,6 +29,7 @@ const attributeLabels = {
   showNotes: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_NOTES',
   showFTDAmount: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_FTD_AMOUNT',
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
+  showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
@@ -263,6 +264,13 @@ class PartnerPersonalInfoForm extends PureComponent {
                   name="showNotes"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.showNotes)}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
+
+                <Field
+                  name="showSalesStatus"
+                  component={FormikCheckbox}
+                  label={I18n.t(attributeLabels.showSalesStatus)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
 
