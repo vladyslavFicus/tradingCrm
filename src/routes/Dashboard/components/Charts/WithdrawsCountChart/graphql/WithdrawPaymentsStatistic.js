@@ -9,41 +9,39 @@ export const REQUEST = gql`
   query WithdrawalCountChart_getPaymentsStatistic(
     $dateFrom: String
     $dateTo: String
-    $detalization: DetalizationEnum
+    $detalization: StatisticDetalization
     $paymentStatus: String
     $paymentType: String
-    $additionalStatistics: [AdditionalStatisticInput]
+    $additionalStatistics: [PaymentStatisticDatesInput]
   ) {
-    statistics {
-      payments(
-        dateFrom: $dateFrom
-        dateTo: $dateTo
-        detalization: $detalization
-        paymentStatus: $paymentStatus
-        paymentType: $paymentType
-        additionalStatistics: $additionalStatistics
-      ) {
-        error {
-          error
+    paymentsStatistic(
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+      detalization: $detalization
+      paymentStatus: $paymentStatus
+      paymentType: $paymentType
+      additionalStatistics: $additionalStatistics
+    ) {
+      error {
+        error
+      }
+      data {
+        items {
+          amount
+          count
+          entryDate
         }
-        data {
-          items {
-            amount
-            count
-            entryDate
-          }
-          itemsTotal {
-            totalAmount
-            totalCount
-          }
-          additionalTotal {
-            totalAmount
-            totalCount
-            todayAmount
-            todayCount
-            monthAmount
-            monthCount
-          }
+        itemsTotal {
+          totalAmount
+          totalCount
+        }
+        additionalTotal {
+          totalAmount
+          totalCount
+          todayAmount
+          todayCount
+          monthAmount
+          monthCount
         }
       }
     }

@@ -672,32 +672,30 @@ PropTypes.storage = PropTypes.shape({
   remove: PropTypes.func.isRequired,
 });
 PropTypes.paymentsStatistic = PropTypes.shape({
-  statistics: PropTypes.shape({
-    payments: PropTypes.shape({
-      data: PropTypes.shape({
-        items: PropTypes.arrayOf(
-          PropTypes.shape({
-            amount: PropTypes.number,
-            count: PropTypes.number,
-            entryDate: PropTypes.string,
-          }).isRequired,
-        ).isRequired,
-        itemsTotal: PropTypes.shape({
-          totalAmount: PropTypes.number,
-          totalCount: PropTypes.number,
-        }),
-        additionalTotal: PropTypes.shape({
-          totalCount: PropTypes.number,
-          totalAmount: PropTypes.number,
-          monthCount: PropTypes.number,
-          monthAmount: PropTypes.number,
-          todayCount: PropTypes.number,
-          todayAmount: PropTypes.number,
-        }),
+  paymentsStatistic: PropTypes.shape({
+    data: PropTypes.shape({
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          amount: PropTypes.number,
+          count: PropTypes.number,
+          entryDate: PropTypes.string,
+        }).isRequired,
+      ).isRequired,
+      itemsTotal: PropTypes.shape({
+        totalAmount: PropTypes.number,
+        totalCount: PropTypes.number,
       }),
-      error: PropTypes.object,
-    }).isRequired,
-  }),
+      additionalTotal: PropTypes.shape({
+        totalCount: PropTypes.number,
+        totalAmount: PropTypes.number,
+        monthCount: PropTypes.number,
+        monthAmount: PropTypes.number,
+        todayCount: PropTypes.number,
+        todayAmount: PropTypes.number,
+      }),
+    }),
+    error: PropTypes.object,
+  }).isRequired,
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 });

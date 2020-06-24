@@ -26,14 +26,14 @@ class DepositCountChart extends PureComponent {
       <Chart
         title={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.TOOLTIP_TITLE')}
-        data={get(depositPaymentsStatistic, 'data.statistics.payments.data.items', [])}
+        data={get(depositPaymentsStatistic, 'data.paymentsStatistic.data.items', [])}
         totals={
           mapTotalObject(
-            get(depositPaymentsStatistic, 'data.statistics.payments.data.additionalTotal', {}),
+            get(depositPaymentsStatistic, 'data.paymentsStatistic.data.additionalTotal', {}),
             'count',
           )
         }
-        hasResults={!get(depositPaymentsStatistic, 'data.statistics.payments.error', {})}
+        hasResults={!get(depositPaymentsStatistic, 'data.paymentsStatistic.error', {})}
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={depositPaymentsStatistic.loading}
