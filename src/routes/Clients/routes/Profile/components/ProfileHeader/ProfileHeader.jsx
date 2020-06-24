@@ -233,7 +233,7 @@ class ProfileHeader extends Component {
           lastSignInSessions,
           lastActivity,
         },
-        tradingAccount,
+        tradingAccounts,
       },
     } = this.props;
 
@@ -345,7 +345,7 @@ class ProfileHeader extends Component {
                   amount,
                   credit,
                 }}
-                tradingAccounts={tradingAccount && tradingAccount.filter(account => account.accountType !== 'DEMO')}
+                tradingAccounts={tradingAccounts && tradingAccounts.filter(account => account.accountType !== 'DEMO')}
                 uuid={uuid}
               />
             </If>

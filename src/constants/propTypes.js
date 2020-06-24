@@ -747,7 +747,7 @@ PropTypes.profileView = PropTypes.shape({
     reason: PropTypes.string,
     type: PropTypes.string,
   }),
-  tradingAccount: PropTypes.arrayOf(PropTypes.object),
+  tradingAccounts: PropTypes.arrayOf(PropTypes.object),
   uuid: PropTypes.string,
   lastActivity: PropTypes.shape({
     date: PropTypes.string,

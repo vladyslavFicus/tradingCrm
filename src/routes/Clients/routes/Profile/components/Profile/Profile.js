@@ -6,6 +6,7 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
+import parseErrors from 'apollo/utils/parseErrors';
 import EventEmitter, { PROFILE_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import {
   statusActions as userStatuses,
@@ -72,17 +73,18 @@ class Profile extends Component {
   }
 
   render() {
-    if (get(this.props, 'profile.data.profile.error')) {
-      return <NotFound />;
-    }
-
     const {
       profile: {
         data,
         loading,
+        error,
       },
       match: { path },
     } = this.props;
+
+    if (error && parseErrors(error).error === 'error.entity.not.found') {
+      return <NotFound />;
+    }
 
     const profileData = get(data, 'profile.data');
     const acquisitionData = get(profileData, 'acquisition') || {};

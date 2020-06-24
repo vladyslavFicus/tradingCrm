@@ -9,7 +9,7 @@ const REQUEST = gql`
       data {
         _id
         uuid
-        tradingAccount {
+        tradingAccounts {
           accountUUID
           accountType
           archived

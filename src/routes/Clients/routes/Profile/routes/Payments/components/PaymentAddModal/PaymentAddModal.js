@@ -44,9 +44,9 @@ class PaymentAddModal extends PureComponent {
   );
 
   getSourceAccount = ({ accountUUID, source }) => {
-    const { tradingAccount } = this.props.profile;
+    const { tradingAccounts } = this.props.profile;
 
-    return tradingAccount.find(account => [accountUUID, source].includes(account.accountUUID));
+    return tradingAccounts.find(account => [accountUUID, source].includes(account.accountUUID));
   };
 
   handlePaymentTypeChanged = (value, { setFieldValue, resetForm }) => {
@@ -61,18 +61,18 @@ class PaymentAddModal extends PureComponent {
   }) => {
     const {
       profile: {
-        tradingAccount,
+        tradingAccounts,
       },
     } = this.props;
 
-    if (paymentType === 'WITHDRAW' && accountUUID && amount && tradingAccount.length) {
-      const { balance } = tradingAccount.find(account => account.accountUUID === accountUUID);
+    if (paymentType === 'WITHDRAW' && accountUUID && amount && tradingAccounts.length) {
+      const { balance } = tradingAccounts.find(account => account.accountUUID === accountUUID);
 
       return balance >= amount;
     }
 
-    if (paymentType === 'CREDIT_OUT' && accountUUID && amount && tradingAccount.length) {
-      const { credit } = tradingAccount.find(account => account.accountUUID === accountUUID);
+    if (paymentType === 'CREDIT_OUT' && accountUUID && amount && tradingAccounts.length) {
+      const { credit } = tradingAccounts.find(account => account.accountUUID === accountUUID);
 
       return credit >= amount;
     }
@@ -138,7 +138,7 @@ class PaymentAddModal extends PureComponent {
   renderAccountSelectField = ({ label, name, className, values }) => {
     const {
       profile: {
-        tradingAccount,
+        tradingAccounts,
       },
     } = this.props;
 
@@ -151,16 +151,16 @@ class PaymentAddModal extends PureComponent {
         className={`${className || 'col'} select-field-wrapper`}
         name={name || 'accountUUID'}
         label={attributeLabels[label || 'fromAcc']}
-        placeholder={tradingAccount.length === 0
+        placeholder={tradingAccounts.length === 0
           ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
           : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
         }
-        disabled={tradingAccount.length === 0}
+        disabled={tradingAccounts.length === 0}
         showErrorMessage={false}
         singleOptionComponent={this.renderAccountSelectOption(name, values)}
         component={FormikSelectField}
       >
-        {tradingAccount
+        {tradingAccounts
           .filter(account => (
             !account.archived && !(
               account.accountType === 'DEMO'
@@ -186,7 +186,7 @@ class PaymentAddModal extends PureComponent {
       onCloseModal,
       profile: {
         uuid,
-        tradingAccount,
+        tradingAccounts,
       },
       permission: {
         permissions,
@@ -204,7 +204,7 @@ class PaymentAddModal extends PureComponent {
       <Modal contentClassName="payment-modal" toggle={onCloseModal} isOpen>
         <Formik
           initialValues={{}}
-          validate={values => validation(values, tradingAccount)}
+          validate={values => validation(values, tradingAccounts)}
           onSubmit={this.onSubmit}
         >
           {({
