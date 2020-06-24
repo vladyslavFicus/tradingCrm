@@ -51,15 +51,12 @@ const initialDateQueryParamsUTC = (fromName, toName) => ({
     .format(),
 });
 
-export const initialPaymentQueryParams = (from, to, args) => {
-  console.log('test', defaultAdditionalStatistics('dateFrom', 'dateTo') || []);
-  return ({
-    ...initialDateQueryParamsUTC(from, to),
-    detalization: detalization.PER_DAYS,
-    additionalStatistics: defaultAdditionalStatistics('dateFrom', 'dateTo'),
-    ...args,
-  });
-};
+export const initialPaymentQueryParams = (from, to, args) => ({
+  ...initialDateQueryParamsUTC(from, to),
+  detalization: detalization.PER_DAYS,
+  additionalStatistics: defaultAdditionalStatistics('dateFrom', 'dateTo'),
+  ...args,
+});
 
 export const initialRegistrationQueryParams = (from, to, args) => ({
   ...initialDateQueryParamsUTC(from, to),
