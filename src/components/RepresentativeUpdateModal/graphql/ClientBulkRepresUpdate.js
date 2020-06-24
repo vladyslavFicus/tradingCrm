@@ -5,7 +5,6 @@ import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
   mutation ClientBulkRepresUpdate(
-    $teamId: String
     $salesRepresentative: [String]
     $retentionRepresentative: [String]
     $salesStatus: String
@@ -13,13 +12,12 @@ const MUTATION = gql`
     $type: String!
     $isMoveAction: Boolean
     $allRowsSelected: Boolean
-    $clients: [ClientBulkUpdateType]
+    $clients: [ClientToUpdateInput]
     $totalElements: Int
     $searchParams: ClientSearchParams
   ) {
-    clients {
-      bulkRepresentativeUpdate(
-        teamId: $teamId
+    profile {
+      bulkClientUpdate(
         salesRepresentative: $salesRepresentative
         retentionRepresentative: $retentionRepresentative
         salesStatus: $salesStatus
@@ -30,12 +28,7 @@ const MUTATION = gql`
         clients: $clients
         totalElements: $totalElements
         searchParams: $searchParams
-      ) {
-        data
-        error {
-          error
-        }
-      }
+      )
     }
   }
 `;

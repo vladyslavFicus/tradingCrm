@@ -312,11 +312,11 @@ class RepresentativeUpdateModal extends PureComponent {
         variables.isMoveAction = true;
       }
 
-      const { error: responseError } = await bulkClientRepresentativeUpdate({
-        variables: { ...variables, clients },
-      });
-
-      error = responseError;
+      try {
+        await bulkClientRepresentativeUpdate({ variables: { ...variables, clients } });
+      } catch {
+        error = true;
+      }
     }
 
     if (error) {

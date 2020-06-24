@@ -2,38 +2,30 @@ import gql from 'graphql-tag';
 import { AddressFragment } from '../fragments/address';
 
 const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
-  $teamId: String,
-  $salesRepresentative: [String],
-  $retentionRepresentative: [String],
-  $salesStatus: String,
-  $retentionStatus: String,
-  $type: String!,
-  $isMoveAction: Boolean,
-  $allRowsSelected: Boolean,
-  $clients: [ClientBulkUpdateType],
-  $totalElements: Int,
-  $searchParams: ClientSearchParams,
+  $salesRepresentative: [String]
+  $retentionRepresentative: [String]
+  $salesStatus: String
+  $retentionStatus: String
+  $type: String!
+  $isMoveAction: Boolean
+  $allRowsSelected: Boolean
+  $clients: [ClientToUpdateInput]
+  $totalElements: Int
+  $searchParams: ClientSearchParams
 ) {
-  clients {
-    bulkRepresentativeUpdate (
-      teamId: $teamId,
+  profile {
+    bulkClientUpdate (
       salesRepresentative: $salesRepresentative
-      retentionRepresentative: $retentionRepresentative,
-      salesStatus: $salesStatus,
-      retentionStatus: $retentionStatus,
-      type: $type,
-      isMoveAction: $isMoveAction,
-      allRowsSelected: $allRowsSelected,
-      clients: $clients,
-      totalElements: $totalElements,
-      searchParams: $searchParams,
-    ) {
-      data
-      error {
-        error
-        fields_errors
-      }
-    }
+      retentionRepresentative: $retentionRepresentative
+      salesStatus: $salesStatus
+      retentionStatus: $retentionStatus
+      type: $type
+      isMoveAction: $isMoveAction
+      allRowsSelected: $allRowsSelected
+      clients: $clients
+      totalElements: $totalElements
+      searchParams: $searchParams
+    )
   }
 }`;
 
