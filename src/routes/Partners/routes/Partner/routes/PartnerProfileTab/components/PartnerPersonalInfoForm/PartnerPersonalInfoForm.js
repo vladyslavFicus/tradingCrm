@@ -129,6 +129,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             allowedIpAddresses: 'listedIP\'s',
             forbiddenCountries: ['array', `in:,${Object.keys(countryList).join()}`],
             showNotes: 'boolean',
+            showSalesStatus: 'boolean',
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
           }, translateLabels(attributeLabels), false)}
