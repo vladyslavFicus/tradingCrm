@@ -7,11 +7,11 @@ const createRule = gql`mutation createRule(
   $languages: [String],
   $affiliateUUIDs: [String],
   $sources: [String],
-  $type: RuleTypeEnum!,
-  $actions: [RuleActionsInputType]!,
+  $type: Rule__Type__Enum!,
+  $actions: [RuleActions__Input]!,
   $uuid: String,
 ) {
-  rules {
+  rule {
     createRule (
       name: $name,
       priority: $priority,
@@ -53,12 +53,12 @@ const createRuleRetention = gql`mutation createRuleRetention(
   $depositCount: Int,
   $countries: [String],
   $languages: [String],
-  $actions: [RuleActionsInputType]!,
+  $actions: [RuleActions__Input]!,
   $depositAmountFrom: Int!,
   $depositAmountTo: Int!,
   $uuid: String,
 ) {
-  rules {
+  rule {
     createRuleRetention (
       name: $name,
       priority: $priority,
@@ -97,35 +97,19 @@ const createRuleRetention = gql`mutation createRuleRetention(
 const deleteRule = gql`mutation deleteRule(
   $uuid: String!,
 ) {
-  rules {
-    deleteRule(
-      uuid: $uuid,
-    ) {
-      error {
-        error
-        fields_errors
-      }
-      data {
-        uuid
-      }
-    } 
+  rule {
+    deleteRule(uuid: $uuid) {
+      success
+    }
   }
 }`;
 
 const deleteRuleRetention = gql`mutation deleteRule(
   $uuid: String!,
 ) {
-  rules {
-    deleteRuleRetention(
-      uuid: $uuid,
-    ) {
-      error {
-        error
-        fields_errors
-      }
-      data {
-        uuid
-      }
+  rule {
+    deleteRuleRetention(uuid: $uuid) {
+      success
     } 
   }
 }`;

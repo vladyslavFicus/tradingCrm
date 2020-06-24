@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -152,38 +152,36 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery,
     } = this.props;
 
-    const {
-      data: {
-        rules: {
-          createRule: {
-            error,
+    try {
+      await createRule(
+        {
+          variables: {
+            actions: [{
+              parentBranch: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+            }],
+            uuid,
+            ...decodeNullValues(variables),
           },
         },
-      },
-    } = await createRule(
-      {
-        variables: {
-          actions: [{
-            parentBranch: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-          }],
-          uuid,
-          ...decodeNullValues(variables),
-        },
-      },
-    );
+      );
 
-    await rulesQuery.refetch();
+      await rulesQuery.refetch();
 
-    editRuleModal.hide();
+      editRuleModal.hide();
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-      message: error
-        ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
-        : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
+      });
+    }
   };
 
   handleAddRule = async (variables, setErrors) => {
@@ -197,13 +195,13 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    let response;
+    let request;
     let createRuleType = 'createRule';
 
     if (deskType === deskTypes.RETENTION) {
       const { ruleType, ...data } = variables;
       createRuleType = 'createRuleRetention';
-      response = await createRuleRetention(
+      request = createRuleRetention(
         {
           variables: {
             actions: [{
@@ -215,7 +213,7 @@ class HierarchyProfileRules extends PureComponent {
         },
       );
     } else {
-      response = await createRule(
+      request = createRule(
         {
           variables: {
             actions: [{
@@ -228,9 +226,21 @@ class HierarchyProfileRules extends PureComponent {
       );
     }
 
-    const { data: { rules: { [createRuleType]: { data, error } } } } = response;
+    try {
+      const { data: { rule: { [createRuleType]: { data } } } } = await request;
 
-    if (error) {
+      await rulesQuery.refetch();
+
+      ruleModal.hide();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
@@ -258,16 +268,6 @@ class HierarchyProfileRules extends PureComponent {
       }
 
       setErrors({ submit: _error });
-    } else {
-      await rulesQuery.refetch();
-
-      ruleModal.hide();
-
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
-      });
     }
   };
 
@@ -281,27 +281,13 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    let response;
-    let deleteRuleType = 'deleteRule';
+    try {
+      if (deskType === deskTypes.RETENTION) {
+        await deleteRuleRetention({ variables: { uuid } });
+      } else {
+        await deleteRule({ variables: { uuid } });
+      }
 
-    if (deskType === deskTypes.RETENTION) {
-      deleteRuleType = 'deleteRuleRetention';
-      response = await deleteRuleRetention({ variables: { uuid } });
-    } else {
-      response = await deleteRule({ variables: { uuid } });
-    }
-
-    const { data: { rules: { [deleteRuleType]: { data, error } } } } = response;
-
-    if (error) {
-      deleteModal.hide();
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
-      });
-    } else {
       await rulesQuery.refetch();
 
       deleteModal.hide();
@@ -309,7 +295,13 @@ class HierarchyProfileRules extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: data.uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });
     }
   };

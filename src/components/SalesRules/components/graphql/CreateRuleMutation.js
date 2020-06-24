@@ -10,10 +10,10 @@ const REQUEST = gql`mutation createRule(
   $languages: [String],
   $affiliateUUIDs: [String],
   $sources: [String],
-  $type: RuleTypeEnum!,
-  $actions: [RuleActionsInputType]!,
+  $type: Rule__Type__Enum!,
+  $actions: [RuleActions__Input]!,
 ) {
-  rules {
+  rule {
     createRule (
       name: $name,
       priority: $priority,

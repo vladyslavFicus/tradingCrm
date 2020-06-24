@@ -1,10 +1,11 @@
+/* eslint-disable */
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
@@ -125,61 +126,73 @@ class SalesRules extends PureComponent {
       rules: { refetch },
     } = this.props;
 
-    const { data: { rules: { createRule: { error } } } } = await updateRule(
-      {
-        variables: {
-          actions: [{
-            parentUser: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            operatorSpreads: [
-              // filter need for delete empty value in array
-              ...operatorSpreads.filter(item => item && item.percentage),
-            ],
-          }],
-          uuid,
-          ...decodeNullValues(rest),
+    try {
+      await updateRule(
+        {
+          variables: {
+            actions: [{
+              parentUser: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+              operatorSpreads: [
+                // filter need for delete empty value in array
+                ...operatorSpreads.filter(item => item && item.percentage),
+              ],
+            }],
+            uuid,
+            ...decodeNullValues(rest),
+          },
         },
-      },
-    );
+      );
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
-      });
-
-      let _error = error.error;
-
-      if (_error === 'error.entity.already.exist') {
-        _error = (
-          <>
-            <div>
-              <Link
-                to={{
-                  pathname: '/sales-rules',
-                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-                }}
-              >
-                {I18n.t(`rules.${error.error}`, error.errorParameters)}
-              </Link>
-            </div>
-            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-          </>
-        );
-      }
-      setErrors({ submit: _error });
-    } else {
       await refetch();
       editRuleModal.hide();
       notify({
-        level: error ? 'error' : 'success',
-        title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-        message: error
-          ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
-          : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
       });
+    } catch (e) {
+      console.log('>>>>', e);
     }
+
+    // if (error) {
+    //   notify({
+    //     level: 'error',
+    //     title: I18n.t('COMMON.FAIL'),
+    //     message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
+    //   });
+    //
+    //   let _error = error.error;
+    //
+    //   if (_error === 'error.entity.already.exist') {
+    //     _error = (
+    //       <>
+    //         <div>
+    //           <Link
+    //             to={{
+    //               pathname: '/sales-rules',
+    //               query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+    //             }}
+    //           >
+    //             {I18n.t(`rules.${error.error}`, error.errorParameters)}
+    //           </Link>
+    //         </div>
+    //         <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+    //       </>
+    //     );
+    //   }
+    //   setErrors({ submit: _error });
+    // } else {
+    //   await refetch();
+    //   editRuleModal.hide();
+    //   notify({
+    //     level: error ? 'error' : 'success',
+    //     title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
+    //     message: error
+    //       ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
+    //       : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+    //   });
+    // }
   };
 
   handleAddRule = async ({ operatorSpreads, ...rest }, setErrors) => {
@@ -191,23 +204,33 @@ class SalesRules extends PureComponent {
       rules: { refetch },
     } = this.props;
 
-    const { data: { rules: { createRule: { data, error } } } } = await createRule(
-      {
-        variables: {
-          actions: [{
-            parentUser: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            operatorSpreads: [
-              // filter need for delete empty value in array
-              ...operatorSpreads.filter(item => item && item.percentage),
-            ],
-          }],
-          ...decodeNullValues(rest),
+    try {
+      const { data: { rule: { createRule: { data: { uuid } } } } } = await createRule(
+        {
+          variables: {
+            actions: [{
+              parentUser: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+              operatorSpreads: [
+                // filter need for delete empty value in array
+                ...operatorSpreads.filter(item => item && item.percentage),
+              ],
+            }],
+            ...decodeNullValues(rest),
+          },
         },
-      },
-    );
+      );
 
-    if (error) {
+      await refetch();
+      ruleModal.hide();
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: uuid }),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
@@ -225,6 +248,7 @@ class SalesRules extends PureComponent {
                   pathname: '/sales-rules',
                   query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
                 }}
+                onClick={ruleModal.hide}
               >
                 {I18n.t(`rules.${error.error}`, error.errorParameters)}
               </Link>
@@ -235,14 +259,6 @@ class SalesRules extends PureComponent {
       }
 
       setErrors({ submit: _error });
-    } else {
-      await refetch();
-      ruleModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
-      });
     }
   };
 
@@ -254,22 +270,21 @@ class SalesRules extends PureComponent {
       modals: { deleteModal },
     } = this.props;
 
-    const { data: { rules: { deleteRule: { data, error } } } } = await deleteRule({ variables: { uuid } });
+    try {
+      await deleteRule({ variables: { uuid } });
 
-    if (error) {
-      deleteModal.hide();
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
-      });
-    } else {
       await refetch();
       deleteModal.hide();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: data.uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });
     }
   };
