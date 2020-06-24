@@ -3,12 +3,8 @@ import queryNames from 'constants/apolloQueryNames';
 import { NoteFragment } from '../fragments/notes';
 import { PaymentContentFragment } from '../fragments/payments';
 
-const getPayments = gql`query ${queryNames.paymentsQuery}(
-  $args: PaymentInputType
-) {
-  payments (
-    args: $args
-  ) {
+const getPayments = gql`query ${queryNames.paymentsQuery}($args: PaymentSearch__Input) {
+  payments (args: $args) {
     data {
       page
       number
@@ -27,12 +23,8 @@ const getPayments = gql`query ${queryNames.paymentsQuery}(
 ${NoteFragment}
 ${PaymentContentFragment}`;
 
-const getClientPayments = gql`query ${queryNames.paymentsQuery}(
-  $args: PaymentInputType
-) {
-  clientPayments (
-    args: $args
-  ) {
+const getClientPayments = gql`query ${queryNames.paymentsQuery}($args: PaymentSearch__Input) {
+  clientPayments (args: $args) {
     data {
       page
       number

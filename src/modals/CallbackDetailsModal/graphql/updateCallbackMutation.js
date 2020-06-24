@@ -8,7 +8,7 @@ const REQUEST = gql`
     $callbackId: String!,
     $callbackTime: String,
     $operatorId: String,
-    $status: Callback__StatusEnum,
+    $status: Callback__Status__Enum,
     $reminder: String,
   ) {
     callback {

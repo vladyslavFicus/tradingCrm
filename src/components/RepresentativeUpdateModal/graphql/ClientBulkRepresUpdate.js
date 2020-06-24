@@ -14,7 +14,7 @@ const MUTATION = gql`
     $allRowsSelected: Boolean
     $clients: [ClientToUpdateInput]
     $totalElements: Int
-    $searchParams: ClientSearchParams
+    $searchParams: ClientSearch__Input
   ) {
     profile {
       bulkClientUpdate(

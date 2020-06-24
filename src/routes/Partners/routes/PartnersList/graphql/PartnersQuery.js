@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query PartnersQuery(
-    $page: PageInputType
+    $page: Page__Input
     $searchBy: String
     $country: String
     $status: String

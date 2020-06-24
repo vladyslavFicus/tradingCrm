@@ -5,12 +5,8 @@ import { Query } from 'react-apollo';
 import { get } from 'lodash';
 import { NOTIFICATIONS_SIZE } from '../../../constants';
 
-const REQUEST = gql`query NotificationCenterQuery(
-  $args: NotificationCenterInputType
-) {
-  notificationCenter (
-    args: $args
-  ) {
+const REQUEST = gql`query NotificationCenterQuery($args: NotificationCenterSearch__Input) {
+  notificationCenter (args: $args) {
     data {
       content {
         read

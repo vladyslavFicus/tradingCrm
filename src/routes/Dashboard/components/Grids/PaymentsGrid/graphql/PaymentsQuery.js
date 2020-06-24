@@ -5,7 +5,7 @@ import PropTypes from 'constants/propTypes';
 import { statuses, statusMapper } from 'constants/payment';
 
 const REQUEST = gql`
-  query PaymentsQuery($args: PaymentInputType) {
+  query PaymentsQuery($args: PaymentSearch__Input) {
     payments(args: $args) {
       data {
         content {

@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation ConfirmFilesUploading(
-    $documents: [FileToUpload]!
+    $documents: [FileUpload__Input]!
     $profileUuid: String!
   ) {
     file {

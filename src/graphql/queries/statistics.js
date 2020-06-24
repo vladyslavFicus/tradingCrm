@@ -4,11 +4,11 @@ const paymentsStatisticQuery = gql`
   query getPaymentsStat(
     $dateFrom: String
     $dateTo: String
-    $detalization: StatisticDetalization
+    $detalization: StatisticDetalization__Enum
     $paymentStatus: String
     $paymentType: String
     $profileId: String
-    $additionalStatistics: [PaymentStatisticDatesInput]
+    $additionalStatistics: [PaymentStatisticDateRange__Input]
   ) {
     paymentsStatistic(
       dateFrom: $dateFrom,

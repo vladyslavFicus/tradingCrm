@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 const REQUEST = gql`
-  query ClientsQuery($args: ClientSearchParams) {
+  query ClientsQuery($args: ClientSearch__Input) {
     profiles(args: $args) {
       error {
         error

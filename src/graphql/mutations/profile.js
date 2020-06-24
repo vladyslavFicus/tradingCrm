@@ -9,9 +9,9 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   $type: String!
   $isMoveAction: Boolean
   $allRowsSelected: Boolean
-  $clients: [ClientToUpdateInput]
+  $clients: [ClientUpdate__Input]
   $totalElements: Int
-  $searchParams: ClientSearchParams
+  $searchParams: ClientSearch__Input
 ) {
   profile {
     bulkClientUpdate (
@@ -46,7 +46,7 @@ const updatePersonalInformationMutation = gql`mutation updatePersonalInformation
   $languageCode: String,
   $gender: String,
   $birthDate: String,
-  $passport: PassportInput,
+  $passport: Passport__Input,
   $identificationNumber: String,
   $timeZone: String,
 ) {

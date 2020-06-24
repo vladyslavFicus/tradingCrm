@@ -4,12 +4,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query NotificationCenterQuery(
-      $args: NotificationCenterInputType
-    ) {
-    notificationCenter(
-      args: $args
-    ) {
+  query NotificationCenterQuery($args: NotificationCenterSearch__Input) {
+    notificationCenter(args: $args) {
       data {
         content {
           read

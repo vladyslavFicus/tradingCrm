@@ -13,7 +13,7 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
   $countries: [String]
   $salesAgents: [String]
   $status: String
-  $salesStatuses: [SalesStatus__Types]
+  $salesStatuses: [SalesStatus__Enum]
   $migrationId: String
   $lastNoteDateFrom: String
   $lastNoteDateTo: String

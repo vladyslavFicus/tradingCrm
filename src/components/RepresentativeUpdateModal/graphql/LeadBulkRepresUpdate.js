@@ -8,9 +8,9 @@ const MUTATION = gql`
     $salesRepresentative: [String]
     $salesStatus: String
     $allRowsSelected: Boolean
-    $leads: [LeadToUpdateInputType]
+    $leads: [LeadUpdate__Input]
     $totalElements: Int
-    $searchParams: LeadsSearchParamsInputType
+    $searchParams: LeadSearch__Input
   ) {
     leads {
       bulkLeadUpdate(

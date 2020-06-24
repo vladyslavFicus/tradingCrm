@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`
-  query PaymentsQuery($args: PaymentInputType) {
+  query PaymentsQuery($args: PaymentSearch__Input) {
     clientPayments(args: $args) {
       data {
         page

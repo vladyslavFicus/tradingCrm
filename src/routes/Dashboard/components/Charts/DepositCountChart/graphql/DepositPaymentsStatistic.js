@@ -9,10 +9,10 @@ export const REQUEST = gql`
   query DepositCountChart_getPaymentsStatistic(
     $dateFrom: String
     $dateTo: String
-    $detalization: StatisticDetalization
+    $detalization: StatisticDetalization__Enum
     $paymentStatus: String
     $paymentType: String
-    $additionalStatistics: [PaymentStatisticDatesInput]
+    $additionalStatistics: [PaymentStatisticDateRange__Input]
   ) {
     paymentsStatistic(
       dateFrom: $dateFrom

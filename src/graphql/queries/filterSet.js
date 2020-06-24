@@ -1,11 +1,7 @@
 import gql from 'graphql-tag';
 
-const filterSetByUserIdQuery = gql`query getFilterSets(
-  $type: FilterSet__Types!
-) {
-  filterSets(
-    type: $type
-  ) {
+const filterSetByUserIdQuery = gql`query getFilterSets($type: FilterSet__Types__Enum!) {
+  filterSets(type: $type) {
     error {
       error
       fields_errors

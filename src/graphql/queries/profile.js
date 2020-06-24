@@ -179,7 +179,7 @@ ${AddressFragment}
 `;
 
 const clientsQuery = gql`query ${queryNames.clientsQuery}(
-  $args: ClientSearchParams
+  $args: ClientSearch__Input
 ) {
   profiles(
     args: $args
