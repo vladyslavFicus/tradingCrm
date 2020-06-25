@@ -20,6 +20,7 @@ class DateRangeGroup extends PureComponent {
     endField: PropTypes.shape({
       name: PropTypes.string.isRequired,
       value: PropTypes.string,
+      setValue: PropTypes.func,
     }).isRequired,
     utc: PropTypes.bool,
     withTime: PropTypes.bool,
@@ -37,6 +38,25 @@ class DateRangeGroup extends PureComponent {
     timePresets: true,
     closeOnSelect: false,
   };
+
+  componentDidUpdate() {
+    const {
+      utc,
+      startField: { value: startValue },
+      endField: { value: endValue, setValue },
+    } = this.props;
+
+    if (utc && startValue && endValue && moment(endValue).isSameOrBefore(startValue)) {
+      setValue(
+        moment
+          .utc(endValue)
+          .local()
+          .set({ hour: '23', minute: '59', second: '59' })
+          .utc()
+          .format(ISO_FORMAT_DATE),
+      );
+    }
+  }
 
   /**
    *
@@ -66,28 +86,6 @@ class DateRangeGroup extends PureComponent {
       : true;
   };
 
-  correctEndDate = () => {
-    const {
-      utc,
-      startField: { value: startValue },
-      endField,
-      endField: { value: endValue },
-    } = this.props;
-
-    if (utc && startValue && endValue && moment(endValue).isSameOrBefore(startValue)) {
-      return {
-        ...endField,
-        value: moment
-          .utc(endValue)
-          .local()
-          .set({ hour: '23', minute: '59', second: '59' })
-          .utc()
-          .format(ISO_FORMAT_DATE), // it's important to set initial format
-      };
-    }
-    return endField;
-  }
-
   render() {
     const {
       className,
@@ -95,6 +93,7 @@ class DateRangeGroup extends PureComponent {
       endPickerClassName,
       label,
       startField,
+      endField,
       utc,
       withTime,
       timePresets,
@@ -118,7 +117,7 @@ class DateRangeGroup extends PureComponent {
         />
         <DatePicker
           pickerClassName={endPickerClassName}
-          field={this.correctEndDate()}
+          field={endField}
           isValidDate={this.endDateValidator}
           placeholder={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
           utc={utc}
