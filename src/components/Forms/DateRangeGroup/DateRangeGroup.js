@@ -5,6 +5,9 @@ import I18n from 'i18n-js';
 import DatePicker from 'components/DatePicker';
 import { RangeGroup } from 'components/Forms';
 
+const ISO_FORMAT_DATE = 'YYYY-MM-DD';
+const ISO_FORMAT_TIME = 'HH:mm:ss';
+
 class DateRangeGroup extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -52,6 +55,28 @@ class DateRangeGroup extends PureComponent {
       : true;
   };
 
+  correctEndDate = () => {
+    const {
+      utc,
+      startField: { value: startValue },
+      endField,
+      endField: { value: endValue },
+    } = this.props;
+
+    if (utc && startValue && endValue && moment(endValue).isSame(startValue)) {
+      return {
+        ...endField,
+        value: moment
+          .utc(endValue)
+          .local()
+          .set({ hour: '23', minute: '59', second: '59' })
+          .utc()
+          .format(`${ISO_FORMAT_DATE}T${ISO_FORMAT_TIME}`), // it's important to set initial format
+      };
+    }
+    return endField;
+  }
+
   render() {
     const {
       className,
@@ -59,7 +84,6 @@ class DateRangeGroup extends PureComponent {
       endPickerClassName,
       label,
       startField,
-      endField,
       utc,
       withTime,
       timePresets,
@@ -83,7 +107,7 @@ class DateRangeGroup extends PureComponent {
         />
         <DatePicker
           pickerClassName={endPickerClassName}
-          field={endField}
+          field={this.correctEndDate()}
           isValidDate={this.endDateValidator}
           placeholder={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
           utc={utc}
