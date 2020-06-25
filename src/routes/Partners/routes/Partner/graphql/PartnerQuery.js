@@ -29,6 +29,7 @@ const REQUEST = gql`
         permission {
           allowedIpAddresses
           forbiddenCountries
+          showSalesStatus
           showFTDAmount
           showKycStatus
           showNotes

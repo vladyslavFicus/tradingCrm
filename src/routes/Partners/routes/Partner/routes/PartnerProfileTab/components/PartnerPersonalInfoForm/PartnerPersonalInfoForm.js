@@ -54,6 +54,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     allowedIpAddresses,
     forbiddenCountries,
     showNotes,
+    showSalesStatus,
     showFTDAmount,
     showKycStatus,
     ...rest
@@ -70,6 +71,7 @@ class PartnerPersonalInfoForm extends PureComponent {
           allowedIpAddresses,
           forbiddenCountries: forbiddenCountries || [],
           showNotes,
+          showSalesStatus,
           showFTDAmount,
           showKycStatus,
         },
