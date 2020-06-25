@@ -48,7 +48,7 @@ class DateRangeGroup extends PureComponent {
     const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrBefore(formatedValue)
+      ? current.isSameOrBefore(formatedValue, 'day')
       : current.isSameOrBefore(moment());
   };
 
@@ -62,7 +62,7 @@ class DateRangeGroup extends PureComponent {
     const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrAfter(formatedValue)
+      ? current.isSameOrAfter(formatedValue, 'day')
       : true;
   };
 
@@ -74,7 +74,7 @@ class DateRangeGroup extends PureComponent {
       endField: { value: endValue },
     } = this.props;
 
-    if (utc && startValue && endValue && moment(endValue).isSame(startValue)) {
+    if (utc && startValue && endValue && moment(endValue).isSameOrBefore(startValue)) {
       return {
         ...endField,
         value: moment
