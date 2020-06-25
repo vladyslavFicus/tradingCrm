@@ -486,7 +486,6 @@ class HierarchyProfileRules extends PureComponent {
           <Grid
             data={entities}
             isLoading={loading}
-            handleRowClick={this.handleOfficeClick}
           >
             <GridColumn
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}

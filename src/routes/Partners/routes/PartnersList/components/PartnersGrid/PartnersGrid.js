@@ -158,7 +158,6 @@ class PartnersGrid extends PureComponent {
         <Grid
           data={content}
           handleSort={this.handleSort}
-          handleRowClick={this.handleOfficeClick}
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
