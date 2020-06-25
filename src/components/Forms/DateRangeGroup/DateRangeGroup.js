@@ -5,8 +5,7 @@ import I18n from 'i18n-js';
 import DatePicker from 'components/DatePicker';
 import { RangeGroup } from 'components/Forms';
 
-const ISO_FORMAT_DATE = 'YYYY-MM-DD';
-const ISO_FORMAT_TIME = 'HH:mm:ss';
+const ISO_FORMAT_DATE = 'YYYY-MM-DDTHH:mm:ss';
 
 class DateRangeGroup extends PureComponent {
   static propTypes = {
@@ -39,19 +38,31 @@ class DateRangeGroup extends PureComponent {
     closeOnSelect: false,
   };
 
+  /**
+   *
+   * @param current : _isUTC: false
+   */
   startDateValidator = (current) => {
-    const { endField: { value } } = this.props;
+    const { utc, endField: { value } } = this.props;
+
+    const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrBefore(moment(value))
+      ? current.isSameOrBefore(formatedValue)
       : current.isSameOrBefore(moment());
   };
 
+  /**
+   *
+   * @param current : _isUTC: false
+   */
   endDateValidator = (current) => {
-    const { startField: { value } } = this.props;
+    const { utc, startField: { value } } = this.props;
+
+    const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrAfter(moment(value))
+      ? current.isSameOrAfter(formatedValue)
       : true;
   };
 
@@ -71,7 +82,7 @@ class DateRangeGroup extends PureComponent {
           .local()
           .set({ hour: '23', minute: '59', second: '59' })
           .utc()
-          .format(`${ISO_FORMAT_DATE}T${ISO_FORMAT_TIME}`), // it's important to set initial format
+          .format(ISO_FORMAT_DATE), // it's important to set initial format
       };
     }
     return endField;
