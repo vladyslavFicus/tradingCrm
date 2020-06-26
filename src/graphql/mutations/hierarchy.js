@@ -1,24 +1,5 @@
 import gql from 'graphql-tag';
 
-const createHierarchyUser = gql`mutation createUser(
-  $userId: String!,
-  $userType: String!,
-  $branchId: String,
-) {
-  hierarchy {
-    createUser (
-      userId: $userId
-      userType: $userType
-      branchId: $branchId
-    ) {
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
 const createTeam = gql`mutation createTeam(
   $name: String!,
   $deskId: String!,
@@ -107,7 +88,6 @@ const updateUser = gql`mutation updateUser(
 }`;
 
 export {
-  createHierarchyUser,
   createTeam,
   createDesk,
   addOperatorToBranch,
