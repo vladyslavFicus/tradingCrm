@@ -144,7 +144,7 @@ export default compose(
       teamName: ['required', 'string'],
       deskUuid: ['required', 'string'],
     }, translateLabels(attributeLabels))(values),
-    handleSubmit: async (values, { props, setSubmitting, validateForm }) => {
+    handleSubmit: async (values, { props, setSubmitting }) => {
       const {
         onCloseModal,
         createTeam,
@@ -154,37 +154,24 @@ export default compose(
 
       setSubmitting(false);
 
-      const validationResult = await validateForm(values);
-      const hasValidationErrors = Object.keys(validationResult).length > 0;
+      try {
+        await createTeam({ variables: values });
 
-      if (hasValidationErrors) return;
-
-      const {
-        data: {
-          hierarchy: {
-            createTeam: {
-              data,
-            },
-          },
-        },
-      } = await createTeam({ variables: values });
-
-      notify({
-        level: data ? 'success' : 'error',
-        title: data
-          ? I18n.t('TEAMS.NOTIFICATIONS.SUCCESS.TITLE')
-          : I18n.t('TEAMS.NOTIFICATIONS.ERROR.TITLE'),
-        message: data
-          ? I18n.t('TEAMS.NOTIFICATIONS.SUCCESS.MESSAGE')
-          : I18n.t('TEAMS.NOTIFICATIONS.ERROR.MESSAGE'),
-      });
-
-      if (data) {
         onSuccess();
         onCloseModal();
-      }
 
-      setSubmitting(false);
+        notify({
+          level: 'success',
+          title: I18n.t('TEAMS.NOTIFICATIONS.SUCCESS.TITLE'),
+          message: I18n.t('TEAMS.NOTIFICATIONS.SUCCESS.MESSAGE'),
+        });
+      } catch {
+        notify({
+          level: 'error',
+          title: I18n.t('TEAMS.NOTIFICATIONS.ERROR.TITLE'),
+          message: I18n.t('TEAMS.NOTIFICATIONS.ERROR.MESSAGE'),
+        });
+      }
     },
   }),
 )(CreateTeamModal);
