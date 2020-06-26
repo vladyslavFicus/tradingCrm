@@ -33,7 +33,7 @@ const validate = (deskType, withOperatorSpreads) => createValidator({
   priority: ['required', `in:${priorities.join()}`],
   countries: [`in:${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
-  'operatorSpreads.*.percentage': ['between:1,100'],
+  'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
   ...withOperatorSpreads && {
     operatorSpreads: 'required',
   },

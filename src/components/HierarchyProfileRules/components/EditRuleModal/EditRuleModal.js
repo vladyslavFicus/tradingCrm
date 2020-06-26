@@ -34,7 +34,7 @@ const validate = createValidator({
   priority: ['required', `in:,${priorities.join()}`],
   countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
-  'operatorSpreads.*.percentage': ['between:1,100'],
+  'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
   type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
 }, translateLabels(attributeLabels), false, customErrors);
 
