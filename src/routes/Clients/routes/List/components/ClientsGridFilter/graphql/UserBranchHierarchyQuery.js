@@ -6,66 +6,58 @@ import PropTypes from 'constants/propTypes';
 const REQUEST = gql`query UserBranchHierarchyQuery(
   $withoutBrandFilter: Boolean,
 ) {
-  hierarchy {
-    userBranchHierarchy (
-      withoutBrandFilter: $withoutBrandFilter,
-    ) {
-      error {
-        error
-        fields_errors
+  userBranches (
+    withoutBrandFilter: $withoutBrandFilter,
+  ) {
+    OFFICE {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      country
+      brandId
+      parentBranch {
+        uuid
       }
-      data {
-        OFFICE {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          country
-          brandId
-          parentBranch {
-            uuid
-          }
-        }
-        DESK {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          deskType
-          language
-          brandId
-          parentBranch {
-            uuid
-          }
-          isDefault
-        }
-        TEAM {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          brandId
-          parentBranch {
-            uuid
-          }
-        }
-        BRAND {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          country
-          parentBranch {
-            uuid
-          }
-          isDefault
-        }
+    }
+    DESK {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      deskType
+      language
+      brandId
+      parentBranch {
+        uuid
       }
-    } 
+      isDefault
+    }
+    TEAM {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      brandId
+      parentBranch {
+        uuid
+      }
+    }
+    BRAND {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      country
+      parentBranch {
+        uuid
+      }
+      isDefault
+    }
   }
 }`;
 

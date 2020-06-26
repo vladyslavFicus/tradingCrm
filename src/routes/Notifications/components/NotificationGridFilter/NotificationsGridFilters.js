@@ -85,8 +85,8 @@ class NotificationsFilters extends PureComponent {
     } = this.props;
 
     const operators = get(operatorsData, 'operators.data.content') || [];
-    const desks = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const desks = get(hierarchyData, 'userBranches.DESK') || [];
+    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
     const types = get(typesData, 'notificationCenterTypes.data') || [];
     const arrOfSubtypes = get(subtypesData, 'notificationCenterSubtypes.data') || [];
     const subtypes = prepareSubtypes(arrOfSubtypes);

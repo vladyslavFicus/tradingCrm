@@ -6,42 +6,34 @@ import PropTypes from 'constants/propTypes';
 const REQUEST = gql`query UserBranchHierarchyQuery(
   $withoutBrandFilter: Boolean,
 ) {
-  hierarchy {
-    userBranchHierarchy (
-      withoutBrandFilter: $withoutBrandFilter,
-    ) {
-      error {
-        error
-        fields_errors
+  userBranches (
+    withoutBrandFilter: $withoutBrandFilter,
+  ) {
+    DESK {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      deskType
+      language
+      brandId
+      parentBranch {
+        uuid
       }
-      data {
-        DESK {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          deskType
-          language
-          brandId
-          parentBranch {
-            uuid
-          }
-          isDefault
-        }
-        TEAM {
-          name
-          uuid
-          branchType
-          defaultUser
-          defaultBranch
-          brandId
-          parentBranch {
-            uuid
-          }
-        }
+      isDefault
+    }
+    TEAM {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      brandId
+      parentBranch {
+        uuid
       }
-    } 
+    }
   }
 }`;
 

@@ -34,7 +34,7 @@ class DesksGridFilter extends PureComponent {
   render() {
     const { officesData } = this.props;
 
-    const offices = get(officesData, 'data.hierarchy.userBranchHierarchy.data.OFFICE') || [];
+    const offices = get(officesData, 'data.userBranches.OFFICE') || [];
 
     return (
       <Formik

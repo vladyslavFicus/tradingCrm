@@ -119,8 +119,8 @@ class LeadsGridFilter extends PureComponent {
     } = this.props;
 
     const desksUuids = values.desks || [];
-    const desks = get(desksAndTeamsData, 'data.hierarchy.userBranchHierarchy.data.DESK') || [];
-    const teams = get(desksAndTeamsData, 'data.hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const desks = get(desksAndTeamsData, 'data.userBranches.DESK') || [];
+    const teams = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
     const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
     const teamsOptions = desksUuids.length ? teamsByDesks : teams;
     const operatorsOptions = this.filterOperators();

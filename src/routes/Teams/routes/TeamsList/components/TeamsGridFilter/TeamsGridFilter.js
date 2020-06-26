@@ -52,8 +52,8 @@ class TeamsGridFilter extends PureComponent {
     } = this.props;
 
     const isLoading = desksAndOffices.loading;
-    const offices = get(desksAndOffices, 'data.hierarchy.userBranchHierarchy.data.OFFICE') || [];
-    const desks = get(desksAndOffices, 'data.hierarchy.userBranchHierarchy.data.DESK') || [];
+    const offices = get(desksAndOffices, 'data.userBranches.OFFICE') || [];
+    const desks = get(desksAndOffices, 'data.userBranches.DESK') || [];
     const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === officeUuid);
     const desksOptions = officeUuid ? desksByOffice : desks;
 

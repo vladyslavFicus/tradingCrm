@@ -11,7 +11,7 @@ import getTeamsQuery from './graphql/getTeamsQuery';
 import getDesksAndOfficesQuery from './graphql/getDesksAndOfficesQuery';
 import CreateTeamModal from './components/CreateTeamModal';
 import TeamsGridFilter from './components/TeamsGridFilter';
-import TeamsGrid from './components/TeamsGrid';
+// import TeamsGrid from './components/TeamsGrid';
 import './TeamsList.scss';
 
 class TeamsList extends PureComponent {
@@ -41,7 +41,8 @@ class TeamsList extends PureComponent {
   };
 
   render() {
-    const { teamsData, desksAndOffices } = this.props;
+    // const { teamsData, desksAndOffices } = this.props;
+    const { desksAndOffices } = this.props;
 
     return (
       <div className="TeamsList">
@@ -58,7 +59,7 @@ class TeamsList extends PureComponent {
         </div>
 
         <TeamsGridFilter desksAndOffices={desksAndOffices} />
-        <TeamsGrid teamsData={teamsData} />
+        {/* <TeamsGrid teamsData={teamsData} /> */}
       </div>
     );
   }

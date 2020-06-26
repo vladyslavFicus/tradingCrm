@@ -46,12 +46,9 @@ class PaymentsListFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     hierarchyQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-          DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        }),
-        error: PropTypes.object,
+      userBranches: PropTypes.shape({
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
     operatorsQuery: PropTypes.query({
@@ -123,7 +120,7 @@ class PaymentsListFilters extends PureComponent {
       hierarchyQuery: { data: hierarchyData },
     } = this.props;
 
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
 
     return teams.filter(({ parentBranch: { uuid } }) => desks.includes(uuid));
   }
@@ -222,10 +219,8 @@ class PaymentsListFilters extends PureComponent {
       disabledFilteredOperators,
     } = this.state;
 
-    const teams = filteredTeams || get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
-    const desks = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
-    const hierarchyError = get(hierarchyData, 'hierarchy.userBranchHierarchy.error');
-    const disabledHierarchy = hierarchyLoading || hierarchyError;
+    const teams = filteredTeams || get(hierarchyData, 'userBranches.TEAM') || [];
+    const desks = get(hierarchyData, 'userBranches.DESK') || [];
 
     const operators = filteredOperators || get(operatorsData, 'operators.data.content') || [];
     const operatorsError = get(operatorsData, 'operators.error');
@@ -364,12 +359,12 @@ class PaymentsListFilters extends PureComponent {
               className="form-group filter-row__medium"
               label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
               placeholder={
-                disabledHierarchy || !desks.length
+                hierarchyLoading || !desks.length
                   ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
                   : I18n.t('COMMON.SELECT_OPTION.ANY')
               }
               component={FormikSelectField}
-              disabled={disabledHierarchy || !desks.length}
+              disabled={hierarchyLoading || !desks.length}
               customOnChange={value => this.handleBranchChange('desks', value, setFieldValue, values)}
               searchable
               multiple
@@ -385,12 +380,12 @@ class PaymentsListFilters extends PureComponent {
               className="form-group filter-row__medium"
               label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
               placeholder={
-                disabledHierarchy || !teams.length
+                hierarchyLoading || !teams.length
                   ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
                   : I18n.t('COMMON.SELECT_OPTION.ANY')
               }
               component={FormikSelectField}
-              disabled={disabledHierarchy || !teams.length}
+              disabled={hierarchyLoading || !teams.length}
               customOnChange={value => this.handleBranchChange('teams', value, setFieldValue, values)}
               searchable
               multiple

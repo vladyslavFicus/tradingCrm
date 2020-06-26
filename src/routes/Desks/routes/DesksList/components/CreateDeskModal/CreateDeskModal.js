@@ -82,7 +82,7 @@ class CreateDeskModal extends PureComponent {
       isOpen,
     } = this.props;
 
-    const offices = get(officesData, 'data.hierarchy.userBranchHierarchy.data.OFFICE') || [];
+    const offices = get(officesData, 'data.userBranches.OFFICE') || [];
 
     return (
       <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen={isOpen}>

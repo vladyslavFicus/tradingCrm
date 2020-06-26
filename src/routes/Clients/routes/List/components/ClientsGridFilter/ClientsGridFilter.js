@@ -25,11 +25,9 @@ class ClientsGridFilter extends PureComponent {
     initialValues: PropTypes.object,
     auth: PropTypes.auth.isRequired,
     userBranchHierarchy: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-          DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        }),
+      userBranches: PropTypes.shape({
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
     operators: PropTypes.query({
@@ -60,7 +58,7 @@ class ClientsGridFilter extends PureComponent {
     { userBranchHierarchy: { data: nextHierarchyData } },
     { teams, isDeskSelected },
   ) {
-    const nextTeams = get(nextHierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const nextTeams = get(nextHierarchyData, 'userBranches.TEAM') || [];
 
     if (!isDeskSelected && !isEqual(nextTeams, teams)) {
       return {
@@ -74,8 +72,8 @@ class ClientsGridFilter extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { userBranchHierarchy: { data: hierarchyData } } = this.props;
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const { userBranchHierarchy } = this.props;
+    const teams = get(userBranchHierarchy, 'data.userBranches.TEAM') || [];
 
     this.state = {
       teams,
@@ -131,15 +129,13 @@ class ClientsGridFilter extends PureComponent {
 
   handleFieldChange = (fieldName, value, formChange, formValues) => {
     const {
-      userBranchHierarchy: {
-        data: hierarchyData,
-      },
+      userBranchHierarchy,
       operators: {
         data: operatorsData,
       },
     } = this.props;
 
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const teams = get(userBranchHierarchy, 'data.userBranches.TEAM') || [];
     const operators = get(operatorsData, 'operators.data.content') || [];
 
     if (fieldName === fieldNames.desks) {
@@ -187,13 +183,11 @@ class ClientsGridFilter extends PureComponent {
 
   handleResetForm = () => {
     const {
-      userBranchHierarchy: {
-        data: hierarchyData,
-      },
+      userBranchHierarchy,
       onReset,
     } = this.props;
 
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const teams = get(userBranchHierarchy, 'data.userBranches.TEAM') || [];
 
     this.setState({
       teams,
@@ -221,7 +215,7 @@ class ClientsGridFilter extends PureComponent {
       },
     } = this.props;
 
-    const desks = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
+    const desks = get(hierarchyData, 'userBranches.DESK') || [];
     const operators = get(operatorsData, 'operators.data.content') || [];
     const partners = get(partnersData, 'partners.data.content') || [];
 

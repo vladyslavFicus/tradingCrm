@@ -902,16 +902,11 @@ PropTypes.branchHierarchyResponse = PropTypes.query({
   }),
 });
 PropTypes.userBranchHierarchyResponse = PropTypes.query({
-  hierarchy: PropTypes.shape({
-    userBranchHierarchy: PropTypes.shape({
-      data: PropTypes.shape({
-        OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        BRAND: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-      }),
-      error: PropTypes.object,
-    }),
+  userBranches: PropTypes.shape({
+    OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+    DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+    TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+    BRAND: PropTypes.arrayOf(PropTypes.hierarchyBranch),
   }),
 });
 PropTypes.notificationCenter = PropTypes.shape({

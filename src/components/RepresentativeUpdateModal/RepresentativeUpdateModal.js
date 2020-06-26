@@ -61,11 +61,8 @@ class RepresentativeUpdateModal extends PureComponent {
       }),
     }).isRequired,
     userBranchHierarchyQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        userBranchHierarchy: PropTypes.response({
-          DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-          TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-        }),
+      userBranches: PropTypes.shape({
+        DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
       }),
     }).isRequired,
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
@@ -361,7 +358,7 @@ class RepresentativeUpdateModal extends PureComponent {
 
     const { agentsLoading, teamsLoading, agents, teams } = this.state;
 
-    const desks = get(userBranchHierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
+    const desks = get(userBranchHierarchyData, 'userBranches.DESK') || [];
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const users = getAgents(hierarchyUsersByTypeQuery, type) || [];
