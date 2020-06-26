@@ -333,7 +333,6 @@ class ProfileHeader extends Component {
               profileStatusComment={comment}
               status={statusType}
               reason={reason}
-              onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
               refetchLoginLock={loginLock.refetch}
             />
