@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -259,26 +259,22 @@ class LeadsGridFilter extends PureComponent {
             ))}
           </Field>
 
-          <Field
+          <FormikDateRangeGroup
             className="LeadsGridFilter__field"
             label={I18n.t(attributeLabels.registrationDateRange)}
-            component={FormikDateRangePicker}
             periodKeys={{
               start: 'registrationDateStart',
               end: 'registrationDateEnd',
             }}
-            withTime
           />
 
-          <Field
+          <FormikDateRangeGroup
             className="LeadsGridFilter__field"
             label={I18n.t(attributeLabels.lastNoteDateRange)}
-            component={FormikDateRangePicker}
             periodKeys={{
               start: 'lastNoteDateFrom',
               end: 'lastNoteDateTo',
             }}
-            withTime
           />
 
           <Field
