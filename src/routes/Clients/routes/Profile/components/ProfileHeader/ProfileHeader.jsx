@@ -335,6 +335,7 @@ class ProfileHeader extends Component {
               reason={reason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
+              refetchLoginLock={loginLock.refetch}
             />
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
