@@ -38,17 +38,11 @@ const addOperatorToBranch = gql`mutation addOperatorToBranch(
   $branchId: String!
   $operatorId: String!
 ) {
-  hierarchy {
+  operator {
     addOperatorToBranch (
       branchId: $branchId
       operatorId: $operatorId
-    ) {
-      data
-      error {
-        error
-        fields_errors
-      }
-    }
+    )
   }
 }`;
 
@@ -56,17 +50,11 @@ const removeOperatorFromBranch = gql`mutation removeOperatorFromBranch(
 $branchId: String!
 $operatorId: String!
 ) {
-  hierarchy {
+  operator {
     removeOperatorFromBranch (
       branchId: $branchId
       operatorId: $operatorId
-    ) {
-      data
-      error {
-        error
-        fields_errors
-      }
-    }
+    )
   }
 }`;
 
