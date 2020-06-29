@@ -12,10 +12,7 @@ class TeamsGrid extends PureComponent {
     teamsData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderTeamCell = ({
-    team: { name, uuid },
-    desk: { deskType },
-  }) => (
+  renderTeamCell = ({ name, uuid, parentBranch: { deskType } }) => (
     <Fragment>
       <div className="TeamsGrid__cell-primary">
         <Link to={`/teams/${uuid}/rules/${deskType.toLowerCase()}-rules`}>{name}</Link>
@@ -26,26 +23,30 @@ class TeamsGrid extends PureComponent {
     </Fragment>
   );
 
-  renderOfficeCell = ({ office }) => (
-    <Choose>
-      <When condition={office}>
-        <div className="TeamsGrid__cell-primary">{office.name}</div>
-        <div className="TeamsGrid__cell-secondary">
-          <Uuid uuid={office.uuid} uuidPrefix="OF" />
-        </div>
-      </When>
-      <Otherwise>
-        <span>&mdash;</span>
-      </Otherwise>
-    </Choose>
-  );
+  renderOfficeCell = ({ parentBranch }) => {
+    const office = get(parentBranch, 'parentBranch') || null;
 
-  renderDeskCell = ({ desk }) => (
+    return (
+      <Choose>
+        <When condition={office}>
+          <div className="TeamsGrid__cell-primary">{office.name}</div>
+          <div className="TeamsGrid__cell-secondary">
+            <Uuid uuid={office.uuid} uuidPrefix="OF" />
+          </div>
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  };
+
+  renderDeskCell = ({ parentBranch }) => (
     <Choose>
-      <When condition={desk}>
-        <div className="TeamsGrid__cell-primary">{desk.name}</div>
+      <When condition={parentBranch}>
+        <div className="TeamsGrid__cell-primary">{parentBranch.name}</div>
         <div className="TeamsGrid__cell-secondary">
-          <Uuid uuid={desk.uuid} uuidPrefix="DE" />
+          <Uuid uuid={parentBranch.uuid} uuidPrefix="DE" />
         </div>
       </When>
       <Otherwise>

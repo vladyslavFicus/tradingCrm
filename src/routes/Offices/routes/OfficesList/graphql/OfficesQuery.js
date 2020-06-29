@@ -16,11 +16,9 @@ const REQUEST = gql`
         country: $country
       ) {
         data {
-          office {
-            uuid
-            name
-            country
-          }
+          uuid
+          name
+          country
         }
         error {
           error

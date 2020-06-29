@@ -12,7 +12,7 @@ class DesksGrid extends PureComponent {
     desksData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderDeskCell = ({ desk: { name, uuid, deskType } }) => (
+  renderDeskCell = ({ name, uuid, deskType }) => (
     <Fragment>
       <div className="DesksGrid__cell-primary">
         <Link to={`/desks/${uuid}/rules/${deskType.toLowerCase()}-rules`}>{name}</Link>
@@ -23,12 +23,12 @@ class DesksGrid extends PureComponent {
     </Fragment>
   );
 
-  renderOfficeCell = ({ office }) => (
+  renderOfficeCell = ({ parentBranch }) => (
     <Choose>
-      <When condition={office}>
-        <div className="DesksGrid__cell-primary">{office.name}</div>
+      <When condition={parentBranch}>
+        <div className="DesksGrid__cell-primary">{parentBranch.name}</div>
         <div className="DesksGrid__cell-secondary">
-          <Uuid uuid={office.uuid} uuidPrefix="OF" />
+          <Uuid uuid={parentBranch.uuid} uuidPrefix="OF" />
         </div>
       </When>
       <Otherwise>
@@ -37,15 +37,9 @@ class DesksGrid extends PureComponent {
     </Choose>
   );
 
-  renderDeskTypesCell = ({ desk: { deskType } }) => (
+  renderDeskTypesCell = ({ deskType }) => (
     <div className="DesksGrid__cell-primary">
       {I18n.t(`DESKS.MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
-    </div>
-  );
-
-  renderDefaultDeskCell = ({ desk: { isDefault } }) => (
-    <div className="DesksGrid__cell-primary">
-      {isDefault ? I18n.t('COMMON.YES') : I18n.t('COMMON.NO')}
     </div>
   );
 
@@ -72,10 +66,6 @@ class DesksGrid extends PureComponent {
           <GridColumn
             header={I18n.t('DESKS.GRID_HEADER.DESK_TYPE')}
             render={this.renderDeskTypesCell}
-          />
-          <GridColumn
-            header={I18n.t('DESKS.GRID_HEADER.DEFAULT_DESK')}
-            render={this.renderDefaultDeskCell}
           />
         </Grid>
       </div>

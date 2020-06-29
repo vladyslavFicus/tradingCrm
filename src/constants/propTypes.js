@@ -893,9 +893,13 @@ PropTypes.branchHierarchyResponse = PropTypes.query({
   hierarchy: PropTypes.shape({
     branchHierarchy: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
-        office: PropTypes.hierarchyBranch,
-        desk: PropTypes.hierarchyBranch,
-        team: PropTypes.hierarchyBranch,
+        ...PropTypes.hierarchyBranch,
+        parentBranch: {
+          ...PropTypes.hierarchyBranch,
+          parentBranch: {
+            ...PropTypes.hierarchyBranch,
+          },
+        },
       })),
       error: PropTypes.object,
     }),

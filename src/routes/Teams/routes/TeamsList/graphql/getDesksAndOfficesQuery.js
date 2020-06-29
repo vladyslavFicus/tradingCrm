@@ -30,7 +30,6 @@ const REQUEST = gql`
         parentBranch {
           uuid
         }
-        isDefault
       }
     }
   }

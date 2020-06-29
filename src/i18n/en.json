@@ -2771,15 +2771,13 @@
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type",
-      "DEFAULT_DESK": "Default desk"
+      "DESK_TYPE": "Desk type"
     },
     "GRID_FILTERS": {
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Desk name",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type",
-      "DEFAULT_DESK": "Default desk"
+      "DESK_TYPE": "Desk type"
     },
     "MODAL": {
       "HEADER": "New desk",
@@ -2801,7 +2799,6 @@
     },
     "FILTERS": {
       "DESK_TYPE": "Desk type",
-      "DEFAULT_DESK": "Default desk",
       "OFFICE": "Office",
       "DESK": "Desk"
     },

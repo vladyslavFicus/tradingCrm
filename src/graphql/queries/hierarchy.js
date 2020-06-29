@@ -81,7 +81,6 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
       parentBranch {
         uuid
       }
-      isDefault
     }
     TEAM {
       name
@@ -104,7 +103,6 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
       parentBranch {
         uuid
       }
-      isDefault
     }
   }
 }`;

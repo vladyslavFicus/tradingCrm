@@ -14,7 +14,7 @@ class OfficesGrid extends PureComponent {
     officesData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderOfficeColumn = ({ office: { name, uuid } }) => (
+  renderOfficeColumn = ({ name, uuid }) => (
     <Fragment>
       <Link
         className="OfficesGrid__cell-primary"
@@ -28,7 +28,7 @@ class OfficesGrid extends PureComponent {
     </Fragment>
   );
 
-  renderCountryColumn = ({ office: { country } }) => (
+  renderCountryColumn = ({ country }) => (
     <Choose>
       <When condition={country}>
         <CountryLabelWithFlag

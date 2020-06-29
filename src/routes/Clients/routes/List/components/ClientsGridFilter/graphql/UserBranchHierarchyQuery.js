@@ -33,7 +33,6 @@ const REQUEST = gql`query UserBranchHierarchyQuery(
       parentBranch {
         uuid
       }
-      isDefault
     }
     TEAM {
       name
@@ -56,7 +55,6 @@ const REQUEST = gql`query UserBranchHierarchyQuery(
       parentBranch {
         uuid
       }
-      isDefault
     }
   }
 }`;

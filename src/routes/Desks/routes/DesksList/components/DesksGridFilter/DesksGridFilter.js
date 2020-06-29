@@ -8,7 +8,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
-import { deskTypes, defaultDeskFlags } from '../../constants';
+import { deskTypes } from '../../constants';
 import './DesksGridFilter.scss';
 
 class DesksGridFilter extends PureComponent {
@@ -44,7 +44,6 @@ class DesksGridFilter extends PureComponent {
           keyword: 'string',
           officeUuid: 'string',
           deskType: 'string',
-          defaultDeskFlag: 'string',
         })}
         onReset={this.onHandleReset}
         onSubmit={this.onHandleSubmit}
@@ -89,21 +88,6 @@ class DesksGridFilter extends PureComponent {
                 {deskTypes.map((deskType, key) => (
                   <option key={key} value={deskType.value}>
                     {I18n.t(deskType.label)}
-                  </option>
-                ))}
-              </Field>
-
-              <Field
-                name="defaultDeskFlag"
-                className="DesksGridFilter__field DesksGridFilter__select"
-                label={I18n.t('DESKS.GRID_FILTERS.DEFAULT_DESK')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                withAnyOption
-              >
-                {defaultDeskFlags.map((defaultDeskFlag, key) => (
-                  <option key={key} value={defaultDeskFlag.value}>
-                    {I18n.t(defaultDeskFlag.label)}
                   </option>
                 ))}
               </Field>
