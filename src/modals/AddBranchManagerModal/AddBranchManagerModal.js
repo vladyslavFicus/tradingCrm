@@ -56,7 +56,7 @@ class AddBranchManagerModal extends PureComponent {
       await addBranchManager({ variables: { branchUuid, ...values } });
 
       const { operatorUuid } = values;
-      const operators = get(branchHierarchyTree, 'data.hierarchy.branchHierarchyTree.data.users') || [];
+      const operators = get(branchHierarchyTree, 'data.branchTree.users') || [];
 
       const selectedOperator = operators.filter(({ uuid }) => uuid === operatorUuid)[0];
       const operatorName = selectedOperator.operator.fullName;
@@ -94,7 +94,7 @@ class AddBranchManagerModal extends PureComponent {
       branchHierarchyTree,
     } = this.props;
 
-    const operators = get(branchHierarchyTree, 'data.hierarchy.branchHierarchyTree.data.users') || [];
+    const operators = get(branchHierarchyTree, 'data.branchTree.users') || [];
 
     return (
       <Modal

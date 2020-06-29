@@ -193,7 +193,7 @@ const getBranchInfo = gql`query getBranchInfo(
 ${HierarchyBranchFragment}`;
 
 const getBranchHierarchyTree = gql`
-  fragment BranchTreeItem on HierarchyBranchTreeType {
+  fragment BranchTreeItem on HierarchyBranchTree {
     uuid
     name
     branchType
@@ -207,28 +207,20 @@ const getBranchHierarchyTree = gql`
     }
   }
 
-  query getBranchHierarchyTree($branchUUID: String!) {
-    hierarchy {
-      # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
-      branchHierarchyTree(branchUUID: $branchUUID) {
-        data {
+  query getBranchHierarchyTree($branchUuid: String!) {
+    # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
+    branchTree(branchUuid: $branchUuid) {
+      ...BranchTreeItem
+      children {
+        ...BranchTreeItem
+        children {
           ...BranchTreeItem
           children {
             ...BranchTreeItem
             children {
               ...BranchTreeItem
-              children {
-                ...BranchTreeItem
-                children {
-                  ...BranchTreeItem
-                }
-              }
             }
           }
-        }
-        error {
-          error
-          fields_errors
         }
       }
     }
