@@ -522,7 +522,7 @@ class RepresentativeUpdateModal extends PureComponent {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={!dirty || !isValid || deskLoading || agentsDisabled}
+                  disabled={!dirty || !isValid || deskLoading || agentsDisabled || isSubmitting}
                   primary
                 >
                   {I18n.t('CLIENTS.MODALS.SUBMIT')}

@@ -21,7 +21,7 @@ class NotificationCenter extends PureComponent {
     return () => {
       setTimeout(() => {
         this.setState(({ enableToggle: true }));
-      }, 200);
+      }, 500);
     };
   };
 

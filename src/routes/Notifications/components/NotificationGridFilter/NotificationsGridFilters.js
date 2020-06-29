@@ -6,7 +6,7 @@ import { compose } from 'react-apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { Formik, Form, Field } from 'formik';
-import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikDateRangeGroup, FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import Button from 'components/UI/Button';
 import { filterLabels } from 'constants/user';
@@ -160,7 +160,7 @@ class NotificationsFilters extends PureComponent {
                     <option key={uuid} value={uuid}>{name}</option>
                   ))}
                 </Field>
-                <FormikDateRangePicker
+                <FormikDateRangeGroup
                   className="NotificationsGridFilter__input NotificationsGridFilter__dates"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
                   periodKeys={{
