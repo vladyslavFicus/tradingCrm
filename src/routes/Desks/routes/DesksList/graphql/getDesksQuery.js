@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  fragment Branch on HierarchyBranchType {
+  fragment Branch on HierarchyBranch {
     uuid
     name
   }
@@ -13,22 +13,18 @@ const REQUEST = gql`
     $branchType: String!
     $keyword: String
     $officeUuid: String
-    $deskType: DeskTypeEnum
+    $deskType: Desk__Types__Enum
   ) {
-    hierarchy {
-      branchHierarchy (
-        branchType: $branchType
-        keyword: $keyword
-        officeUuid: $officeUuid
-        deskType: $deskType
-      ) {
-        data {
-          ...Branch
-          deskType
-          parentBranch {
-            ...Branch
-          }
-        }
+    branch (
+      branchType: $branchType
+      keyword: $keyword
+      officeUuid: $officeUuid
+      deskType: $deskType
+    ) {
+      ...Branch
+      deskType
+      parentBranch {
+        ...Branch
       }
     }
   }

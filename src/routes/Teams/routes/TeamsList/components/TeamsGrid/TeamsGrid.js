@@ -59,7 +59,7 @@ class TeamsGrid extends PureComponent {
     const { teamsData } = this.props;
 
     const isLoading = teamsData.loading;
-    const teams = get(teamsData, 'data.hierarchy.branchHierarchy.data') || [];
+    const teams = get(teamsData, 'data.branch') || [];
 
     return (
       <div className="TeamsGrid">

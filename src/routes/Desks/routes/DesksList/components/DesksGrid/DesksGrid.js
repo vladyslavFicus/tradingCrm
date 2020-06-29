@@ -47,7 +47,7 @@ class DesksGrid extends PureComponent {
     const { desksData } = this.props;
 
     const isLoading = desksData.loading;
-    const desks = get(desksData, 'data.hierarchy.branchHierarchy.data') || [];
+    const desks = get(desksData, 'data.branch') || [];
 
     return (
       <div className="DesksGrid">

@@ -890,19 +890,14 @@ PropTypes.query = content => PropTypes.shape({
   refetch: PropTypes.func,
 });
 PropTypes.branchHierarchyResponse = PropTypes.query({
-  hierarchy: PropTypes.shape({
-    branchHierarchy: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({
+  branch: PropTypes.shape({
+    ...PropTypes.hierarchyBranch,
+    parentBranch: {
+      ...PropTypes.hierarchyBranch,
+      parentBranch: {
         ...PropTypes.hierarchyBranch,
-        parentBranch: {
-          ...PropTypes.hierarchyBranch,
-          parentBranch: {
-            ...PropTypes.hierarchyBranch,
-          },
-        },
-      })),
-      error: PropTypes.object,
-    }),
+      },
+    },
   }),
 });
 PropTypes.userBranchHierarchyResponse = PropTypes.query({

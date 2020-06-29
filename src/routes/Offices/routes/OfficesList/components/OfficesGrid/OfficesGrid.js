@@ -45,7 +45,7 @@ class OfficesGrid extends PureComponent {
   render() {
     const { officesData } = this.props;
 
-    const officesList = get(officesData, 'data.hierarchy.branchHierarchy.data') || [];
+    const officesList = get(officesData, 'data.branch') || [];
     const isLoading = officesData.loading;
 
     return (

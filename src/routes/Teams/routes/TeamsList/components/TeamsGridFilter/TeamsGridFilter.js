@@ -93,7 +93,7 @@ class TeamsGridFilter extends PureComponent {
                 : 'COMMON.SELECT_OPTION.ANY',
             )}
             component={FormikSelectField}
-            disabled={isLoading || (officeUuid && !desksByOffice.length)}
+            disabled={isLoading || (!!officeUuid && !desksByOffice.length)}
             searchable
             withAnyOption
           >

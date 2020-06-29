@@ -9,21 +9,14 @@ const REQUEST = gql`
     $keyword: String
     $country: String
   ) {
-    hierarchy {
-      branchHierarchy (
-        branchType: $branchType
-        keyword: $keyword
-        country: $country
-      ) {
-        data {
-          uuid
-          name
-          country
-        }
-        error {
-          error
-        }
-      }
+    branch (
+      branchType: $branchType
+      keyword: $keyword
+      country: $country
+    ) {
+      uuid
+      name
+      country
     }
   }
 `;
