@@ -28,9 +28,9 @@ export default compose(
   graphql(getUserHierarchyById, {
     name: 'userHierarchy',
     options: ({
-      match: { params: { id: userId } },
+      match: { params: { id } },
     }) => ({
-      variables: { userId },
+      variables: { uuid: id },
       fetchPolicy: 'network-only',
     }),
   }),

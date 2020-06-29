@@ -31,12 +31,7 @@ class View extends Component {
     }).isRequired,
     userHierarchy: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
-      hierarchy: PropTypes.shape({
-        userHierarchyById: PropTypes.shape({
-          data: PropTypes.object,
-          error: PropTypes.object,
-        }),
-      }),
+      userHierarchyById: PropTypes.object,
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     deleteAuthority: PropTypes.func.isRequired,
@@ -105,10 +100,8 @@ class View extends Component {
       authorities,
       auth: { uuid },
       departmentsRoles,
-      userHierarchy: {
-        loading,
-        hierarchy,
-      },
+      userHierarchy,
+      userHierarchy: { loading },
       permission: {
         permissions: currentPermissions,
       },
@@ -116,7 +109,7 @@ class View extends Component {
 
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
     const allowUpdateHierarchy = updateParentBranch.check(currentPermissions) && uuid !== profile.uuid;
-    const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
+    const initialValues = get(userHierarchy, 'userHierarchyById') || {};
 
     if (departmentsRoles) {
       delete departmentsRoles.AFFILIATE_PARTNER;
