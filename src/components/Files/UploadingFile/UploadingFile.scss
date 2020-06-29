@@ -13,8 +13,6 @@
 
   &__title {
     width: 220px;
-    min-width: 220px;
-    max-width: 220px;
   }
 
   &__info {
@@ -32,16 +30,15 @@
 
   &__uuid {
     font-size: 13px;
+    width: 80px;
   }
 
   &__category {
-    min-width: 225px;
-    max-width: 225px;
+    width: 225px;;
   }
 
   &__type {
-    min-width: 220px;
-    max-width: 220px;
+    width: 220px;
   }
 
   &__status {
@@ -59,5 +56,4 @@
     text-align: center;
     width: 60px;
   }
-
 }
