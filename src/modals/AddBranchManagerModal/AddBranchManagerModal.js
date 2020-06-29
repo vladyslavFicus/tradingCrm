@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { get } from 'lodash';
@@ -36,7 +36,7 @@ class AddBranchManagerModal extends PureComponent {
     }).isRequired,
   };
 
-  handleSubmit = async (values, { setSubmitting, validateForm }) => {
+  handleSubmit = async (values, { setSubmitting }) => {
     setSubmitting(false);
 
     const {
@@ -52,30 +52,9 @@ class AddBranchManagerModal extends PureComponent {
       },
     } = this.props;
 
-    const validationResult = await validateForm(values);
-    const hasValidationErrors = Object.keys(validationResult).length > 0;
+    try {
+      await addBranchManager({ variables: { branchUuid, ...values } });
 
-    if (hasValidationErrors) return;
-
-    const {
-      data: {
-        hierarchy: {
-          addBranchManager: {
-            error,
-          },
-        },
-      },
-    } = await addBranchManager({ variables: { branchUuid, ...values } });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.TITLE'),
-        message: error.error === 'error.branch.manager.addition'
-          ? I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.ADDITION_FAILED')
-          : I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-    } else {
       const { operatorUuid } = values;
       const operators = get(branchHierarchyTree, 'data.hierarchy.branchHierarchyTree.data.users') || [];
 
@@ -93,6 +72,16 @@ class AddBranchManagerModal extends PureComponent {
 
       onCloseModal();
       onSuccess();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.TITLE'),
+        message: error.error === 'error.branch.manager.addition'
+          ? I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.ADDITION_FAILED')
+          : I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 

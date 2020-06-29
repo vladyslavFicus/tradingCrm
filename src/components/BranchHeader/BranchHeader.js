@@ -68,29 +68,23 @@ class BranchHeader extends PureComponent {
       modals: { removeManagerConfirmModal },
     } = this.props;
 
-    const {
-      data: {
-        hierarchy: {
-          removeBranchManager: {
-            success,
-          },
-        },
-      },
-    } = await removeBranchManager({ variables: { branchUuid: branchId } });
+    try {
+      await removeBranchManager({ variables: { branchUuid: branchId } });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: success
-        ? I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.TITLE')
-        : I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.FAILED.TITLE'),
-      message: success
-        ? I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.DESC')
-        : I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.FAILED.DESC'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.TITLE'),
+        message: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.DESC'),
+      });
 
-    if (success) {
       removeManagerConfirmModal.hide();
       this.refetchBranchManagerInfo();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.FAILED.TITLE'),
+        message: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.FAILED.DESC'),
+      });
     }
   };
 
