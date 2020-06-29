@@ -52,6 +52,7 @@ class DesksGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="DesksGridFilter__form">
             <div className="DesksGridFilter__fields">
@@ -121,7 +122,7 @@ class DesksGridFilter extends PureComponent {
 
               <Button
                 className="DesksGridFilter__button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

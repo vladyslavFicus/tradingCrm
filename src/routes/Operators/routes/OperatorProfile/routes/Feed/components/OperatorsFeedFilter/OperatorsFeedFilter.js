@@ -46,7 +46,7 @@ class OperatorsFeedFilter extends PureComponent {
         onReset={this.props.onSubmit}
         validate={validate}
       >
-        {({ resetForm }) => (
+        {({ resetForm, isSubmitting, dirty }) => (
           <Form className="OperatorsFeedFilter__form">
             <Field
               name="searchBy"
@@ -92,6 +92,7 @@ class OperatorsFeedFilter extends PureComponent {
                 className="OperatorsFeedFilter__button"
                 type="submit"
                 primary
+                disabled={isSubmitting || !dirty}
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>

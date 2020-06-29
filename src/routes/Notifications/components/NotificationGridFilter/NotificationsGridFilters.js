@@ -209,7 +209,7 @@ class NotificationsFilters extends PureComponent {
                   {I18n.t('COMMON.RESET')}
                 </Button>
                 <Button
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !dirty}
                   type="submit"
                   primary
                 >

@@ -28,6 +28,7 @@ class TeamsGridFilter extends PureComponent {
       deskUuid: PropTypes.string,
     }).isRequired,
     isSubmitting: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
   };
 
   handleReset = () => {
@@ -49,6 +50,7 @@ class TeamsGridFilter extends PureComponent {
       values: { officeUuid },
       desksAndOffices,
       isSubmitting,
+      dirty,
     } = this.props;
 
     const isLoading = desksAndOffices.loading;
@@ -115,7 +117,7 @@ class TeamsGridFilter extends PureComponent {
 
           <Button
             className="TeamsGridFilter__button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !dirty}
             type="submit"
             primary
           >

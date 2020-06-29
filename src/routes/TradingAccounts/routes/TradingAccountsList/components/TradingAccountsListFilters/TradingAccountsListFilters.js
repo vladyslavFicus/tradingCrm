@@ -91,7 +91,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 type="submit"
-                disabled={loading}
+                disabled={loading || !dirty}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

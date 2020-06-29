@@ -55,6 +55,7 @@ class PartnersGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="PartnersGridFilter__form">
             <div className="PartnersGridFilter__inputs">
@@ -114,7 +115,7 @@ class PartnersGridFilter extends PureComponent {
 
               <Button
                 className="PartnersGridFilter__button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

@@ -11,6 +11,7 @@ import { attributeLabels } from '../constants';
 class FileListFilterForm extends Component {
   static propTypes = {
     submitting: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
@@ -59,6 +60,7 @@ class FileListFilterForm extends Component {
   render() {
     const {
       submitting,
+      dirty,
       handleSubmit,
       onSubmit,
       invalid,
@@ -145,7 +147,7 @@ class FileListFilterForm extends Component {
             {I18n.t('COMMON.RESET')}
           </button>
           <button
-            disabled={submitting || invalid}
+            disabled={submitting || invalid || !dirty}
             className="btn btn-primary"
             type="submit"
           >
