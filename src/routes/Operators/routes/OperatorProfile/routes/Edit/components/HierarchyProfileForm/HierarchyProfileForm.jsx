@@ -65,20 +65,14 @@ class HierarchyProfileForm extends Component {
       match: { params: { id } },
     } = this.props;
 
-    const { data: { hierarchy: { updateUser: { error } } } } = await updateOperatorHierarchy({
-      variables: {
-        operatorId: id,
-        userType,
-      },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_UPDATE_TYPE'),
+    try {
+      await updateOperatorHierarchy({
+        variables: {
+          operatorId: id,
+          userType,
+        },
       });
-    } else {
+
       const { refetchHierarchy } = this.context;
 
       notify({
@@ -86,7 +80,14 @@ class HierarchyProfileForm extends Component {
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_UPDATE_TYPE'),
       });
+
       refetchHierarchy();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_UPDATE_TYPE'),
+      });
     }
   };
 

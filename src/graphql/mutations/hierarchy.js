@@ -62,16 +62,11 @@ const updateUser = gql`mutation updateUser(
   $operatorId: String!
   $userType: String
 ) {
-  hierarchy {
-    updateUser (
+  operator {
+    updateOperatorUserType (
       operatorId: $operatorId
       userType: $userType
-    ) {
-      error {
-        error
-        fields_errors
-      }
-    }
+    )
   }
 }`;
 
