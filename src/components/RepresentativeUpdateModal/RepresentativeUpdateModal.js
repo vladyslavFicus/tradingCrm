@@ -5,7 +5,7 @@ import { withApollo, compose } from 'react-apollo';
 import { Formik, Field, Form } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from 'constants/salesStatuses';
@@ -239,7 +239,9 @@ class RepresentativeUpdateModal extends PureComponent {
         agents,
         agentsLoading: false,
       });
-    } catch {
+    } catch (e) {
+      const error = parseErrors(e);
+
       this.setState({ agentsLoading: false });
       setFieldError(fieldNames.REPRESENTATIVE, error.error);
     }
