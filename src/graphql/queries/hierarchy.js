@@ -173,20 +173,12 @@ const getHierarchyUsersByType = gql`query getHierarchyUsersByType(
 const getBranchInfo = gql`query getBranchInfo(
   $branchId: String!,
 ) {
-  hierarchy {
-    branchInfo (
-      branchId: $branchId,
-    ) {
-      error {
-        error
-        fields_errors
-      }
-      data {
-        ...HierarchyBranchFragment
-        parentBranch {
-          ...HierarchyBranchFragment
-        }
-      }
+  branchInfo (
+    branchId: $branchId,
+  ) {
+    ...HierarchyBranchFragment
+    parentBranch {
+      ...HierarchyBranchFragment
     }
   }
 }

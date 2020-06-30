@@ -35,14 +35,10 @@ class BranchHeader extends PureComponent {
     }).isRequired,
     branchManager: PropTypes.shape({
       data: PropTypes.shape({
-        hierarchy: PropTypes.shape({
-          branchInfo: PropTypes.shape({
-            data: PropTypes.shape({
-              manager: PropTypes.string,
-              operator: PropTypes.shape({
-                fullName: PropTypes.string,
-              }),
-            }),
+        branchInfo: PropTypes.shape({
+          manager: PropTypes.string,
+          operator: PropTypes.shape({
+            fullName: PropTypes.string,
           }),
         }),
       }),
@@ -126,7 +122,7 @@ class BranchHeader extends PureComponent {
       loading,
     } = this.props;
 
-    const managerData = get(branchManager, 'data.hierarchy.branchInfo.data') || {};
+    const managerData = get(branchManager, 'data.branchInfo') || {};
 
     return (
       <div className="BranchHeader">

@@ -51,11 +51,7 @@ class HierarchyProfileRules extends PureComponent {
       }),
     }).isRequired,
     branchInfoQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        branchInfo: PropTypes.shape({
-          data: PropTypes.hierarchyBranch,
-        }),
-      }),
+      branchInfo: PropTypes.hierarchyBranch,
     }).isRequired,
     createRule: PropTypes.func.isRequired,
     createRuleRetention: PropTypes.func.isRequired,
@@ -114,7 +110,8 @@ class HierarchyProfileRules extends PureComponent {
       }
       case branchTypes.TEAM: {
         const { branchInfoQuery } = this.props;
-        const branchInfo = get(branchInfoQuery, 'data.hierarchy.branchInfo.data');
+
+        const branchInfo = get(branchInfoQuery, 'data.branchInfo');
 
         if (!branchInfoQuery.loading) {
           data = {

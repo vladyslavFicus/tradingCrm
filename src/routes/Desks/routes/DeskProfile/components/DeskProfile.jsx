@@ -15,15 +15,13 @@ const RulesRetention = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes
 const RulesSales = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.DESK);
 
 const DeskProfile = ({
-  deskProfile: {
-    hierarchy,
-    loading,
-  },
+  deskProfile,
+  deskProfile: { loading },
   location,
   match: { params, path },
 }) => {
-  const data = get(hierarchy, 'branchInfo.data') || {};
-  const error = get(hierarchy, 'branchInfo.error');
+  const data = get(deskProfile, 'branchInfo') || {};
+  const error = get(deskProfile, 'error');
 
   if (error) {
     return <NotFound />;
@@ -56,12 +54,7 @@ const DeskProfile = ({
 DeskProfile.propTypes = {
   deskProfile: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
-    hierarchy: PropTypes.shape({
-      branchInfo: PropTypes.shape({
-        data: PropTypes.hierarchyBranch,
-        error: PropTypes.object,
-      }),
-    }),
+    branchInfo: PropTypes.hierarchyBranch,
     refetch: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.object.isRequired,

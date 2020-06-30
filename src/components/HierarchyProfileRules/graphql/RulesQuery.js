@@ -56,7 +56,7 @@ const RulesRequest = gql`query RulesQuery(
       updatedBy
       createdBy
     }
-  } 
+  }
 }`;
 
 const RetentionRulesRequest = gql`query RetentionRulesQuery(
@@ -94,7 +94,7 @@ const RetentionRulesRequest = gql`query RetentionRulesQuery(
       updatedBy
       createdBy
     }
-  } 
+  }
 }`;
 
 const RulesQuery = ({
