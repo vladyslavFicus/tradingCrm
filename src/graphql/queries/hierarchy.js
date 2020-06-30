@@ -227,34 +227,6 @@ const getBranchHierarchyTree = gql`
   }
 `;
 
-const getUsersByBranch = gql`query getUsersByBranch(
-  $uuids: [String]!,
-  $onlyActive: Boolean,
-) {
-  hierarchy {
-    usersByBranch (
-      uuids: $uuids,
-      onlyActive: $onlyActive,
-    ) {
-      error {
-        error
-        fields_errors
-      }
-      data {
-        uuid
-        userType
-        fullName
-        parentUsers {
-          uuid
-        }
-        parentBranches {
-          uuid
-        }
-      }
-    }
-  }
-}`;
-
 const getBranchChildren = gql`query getBranchChildren(
   $uuid: String!,
 ) {
@@ -290,6 +262,5 @@ export {
   getHierarchyUsersByType,
   getBranchInfo,
   getBranchHierarchyTree,
-  getUsersByBranch,
   getBranchChildren,
 };

@@ -98,31 +98,23 @@ class ClientsGridFilter extends PureComponent {
     formChange(fieldNames.operators, null);
     this.setState({ branchOperatorsLoading: true });
 
-    const {
-      data: {
-        hierarchy: {
-          usersByBranch: { data, error },
-        },
-      },
-    } = await client.query({
-      query: usersByBranchQuery,
-      variables: { uuids: value },
-    });
+    try {
+      const { data: { usersByBranch } } = await client.query({
+        query: usersByBranchQuery,
+        variables: { uuids: value },
+      });
 
-    if (error) {
+      desksTeamsOperators = usersByBranch && usersByBranch.map(({ uuid }) => uuid);
+
+      const filteredOperators = operators.filter(operator => desksTeamsOperators.indexOf(operator.uuid) !== -1);
+      this.setState({ filteredOperators, branchOperatorsLoading: false });
+    } catch {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      return;
     }
-
-    desksTeamsOperators = data && data.map(({ uuid }) => uuid);
-
-    const filteredOperators = operators.filter(operator => desksTeamsOperators.indexOf(operator.uuid) !== -1);
-    this.setState({ filteredOperators, branchOperatorsLoading: false });
   };
 
   isValueInForm = (formValues, field) => !!(formValues && formValues[field]);

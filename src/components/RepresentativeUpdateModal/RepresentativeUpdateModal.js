@@ -204,52 +204,45 @@ class RepresentativeUpdateModal extends PureComponent {
 
     setSubmitting(true);
 
-    const {
-      data: {
-        hierarchy: {
-          usersByBranch: { data, error },
+    try {
+      const { data: { usersByBranch } } = await client.query({
+        query: getUsersByBranch,
+        variables: {
+          onlyActive: true,
+          uuids: [selectedTeam],
         },
-      },
-    } = await client.query({
-      query: getUsersByBranch,
-      variables: {
-        onlyActive: true,
-        uuids: [selectedTeam],
-      },
-    });
+      });
 
-    setSubmitting(false);
+      setSubmitting(false);
 
-    if (error) {
-      this.setState({ agentsLoading: false });
-      setFieldError(fieldNames.REPRESENTATIVE, error.error);
-      return;
-    }
+      const agents = filterAgents(usersByBranch || [], type);
 
-    const agents = filterAgents(data || [], type);
+      setFieldValue(fieldNames.TEAM, selectedTeam);
 
-    setFieldValue(fieldNames.TEAM, selectedTeam);
-
-    if (agents && agents.length >= 1) {
-      if (values[fieldNames.REPRESENTATIVE]) {
-        let repIncludesAgents = false;
-        agents.forEach((agent) => {
-          if (values[fieldNames.REPRESENTATIVE].includes(agent.uuid)) {
-            repIncludesAgents = true;
+      if (agents && agents.length >= 1) {
+        if (values[fieldNames.REPRESENTATIVE]) {
+          let repIncludesAgents = false;
+          agents.forEach((agent) => {
+            if (values[fieldNames.REPRESENTATIVE].includes(agent.uuid)) {
+              repIncludesAgents = true;
+            }
+          });
+          if (!repIncludesAgents) {
+            setFieldValue(fieldNames.REPRESENTATIVE, agents[0].uuid);
           }
-        });
-        if (!repIncludesAgents) {
+        } else {
           setFieldValue(fieldNames.REPRESENTATIVE, agents[0].uuid);
         }
-      } else {
-        setFieldValue(fieldNames.REPRESENTATIVE, agents[0].uuid);
       }
-    }
 
-    this.setState({
-      agents,
-      agentsLoading: false,
-    });
+      this.setState({
+        agents,
+        agentsLoading: false,
+      });
+    } catch {
+      this.setState({ agentsLoading: false });
+      setFieldError(fieldNames.REPRESENTATIVE, error.error);
+    }
   };
 
   handleUpdateRepresentative = async ({

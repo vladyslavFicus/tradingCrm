@@ -96,21 +96,22 @@ class PaymentsListFilters extends PureComponent {
       disabledFilteredOperators: true,
     });
 
-    const {
-      data: {
-        hierarchy: {
-          usersByBranch: { data, error },
-        },
-      },
-    } = await this.props.client.query({
-      query: usersByBranchQuery,
-      variables: { uuids },
-    });
+    try {
+      const { data: { usersByBranch } } = await this.props.client.query({
+        query: usersByBranchQuery,
+        variables: { uuids },
+      });
 
-    this.setState({
-      filteredOperators: data || [],
-      disabledFilteredOperators: !!error,
-    });
+      this.setState({
+        filteredOperators: usersByBranch || [],
+        disabledFilteredOperators: false,
+      });
+    } catch {
+      this.setState({
+        filteredOperators: [],
+        disabledFilteredOperators: true,
+      });
+    }
   };
 
   isValueInForm = (formValues, field) => formValues && formValues[field];
