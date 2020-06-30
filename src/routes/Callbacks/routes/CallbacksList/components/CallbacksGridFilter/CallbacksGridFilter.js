@@ -21,14 +21,13 @@ class CallbacksGridFilter extends PureComponent {
     callbackTimeTo: '',
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = (resetForm) => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
-    resetForm(this.initialValues);
   };
 
   render() {
@@ -36,7 +35,8 @@ class CallbacksGridFilter extends PureComponent {
       <Formik
         className="CallbacksGridFilter"
         initialValues={this.initialValues}
-        onSubmit={this.onHandleSubmit}
+        onSubmit={this.handleSubmit}
+        onReset={this.handleReset}
       >
         {({
           isSubmitting,
@@ -80,7 +80,7 @@ class CallbacksGridFilter extends PureComponent {
             <div className="CallbacksGridFilter__buttons">
               <Button
                 className="CallbacksGridFilter__button"
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={resetForm}
                 disabled={isSubmitting}
                 common
               >
