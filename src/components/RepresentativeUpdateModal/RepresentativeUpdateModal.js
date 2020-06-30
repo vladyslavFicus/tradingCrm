@@ -178,7 +178,9 @@ class RepresentativeUpdateModal extends PureComponent {
         teams: teams || [],
         teamsLoading: false,
       });
-    } catch {
+    } catch (e) {
+      const error = parseErrors(e);
+
       this.setState({ teamsLoading: false });
       setFieldError(fieldNames.TEAM, error.error);
     }
