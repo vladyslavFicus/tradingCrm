@@ -144,49 +144,46 @@ class RepresentativeUpdateModal extends PureComponent {
 
     setSubmitting(true);
 
-    const {
-      data: {
-        hierarchy: {
-          branchChildren: { data: teams, error },
+    try {
+      const {
+        data: {
+          branchChildren: teams,
         },
-      },
-    } = await this.props.client.query({
-      query: getBranchChildren,
-      variables: { uuid: selectedDesk },
-    });
+      } = await this.props.client.query({
+        query: getBranchChildren,
+        variables: { uuid: selectedDesk },
+      });
 
-    setSubmitting(false);
+      setFieldValue(fieldNames.DESK, selectedDesk);
 
-    if (error) {
+      if (teams && teams.length === 1) {
+        await this.handleTeamChange(
+          teams[0].uuid,
+          {
+            setFieldValue,
+            setFieldError,
+            setSubmitting,
+            values,
+          },
+        );
+      } else if (values[fieldNames.TEAM]) {
+        setFieldValue(fieldNames.TEAM, null);
+      } else if (teams && teams.length >= 2
+        && values[fieldNames.REPRESENTATIVE]
+      ) {
+        setFieldValue(fieldNames.REPRESENTATIVE, null);
+      }
+
+      this.setState({
+        teams: teams || [],
+        teamsLoading: false,
+      });
+    } catch {
       this.setState({ teamsLoading: false });
       setFieldError(fieldNames.TEAM, error.error);
-      return;
     }
 
-    setFieldValue(fieldNames.DESK, selectedDesk);
-
-    if (teams && teams.length === 1) {
-      await this.handleTeamChange(
-        teams[0].uuid,
-        {
-          setFieldValue,
-          setFieldError,
-          setSubmitting,
-          values,
-        },
-      );
-    } else if (values[fieldNames.TEAM]) {
-      setFieldValue(fieldNames.TEAM, null);
-    } else if (teams && teams.length >= 2
-      && values[fieldNames.REPRESENTATIVE]
-    ) {
-      setFieldValue(fieldNames.REPRESENTATIVE, null);
-    }
-
-    this.setState({
-      teams: teams || [],
-      teamsLoading: false,
-    });
+    setSubmitting(false);
   };
 
   handleTeamChange = async (
