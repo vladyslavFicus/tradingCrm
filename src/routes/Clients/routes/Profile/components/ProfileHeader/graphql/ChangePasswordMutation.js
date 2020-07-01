@@ -5,16 +5,14 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation ChangePasswordMutation(
-    $playerUUID: String!
+    $clientUuid: String!
     $newPassword: String!
   ) {
     auth {
       changePassword(
-        clientUuid: $playerUUID
+        clientUuid: $clientUuid
         newPassword: $newPassword
-      ) {
-        success
-      }
+      )
     }
   }`;
 

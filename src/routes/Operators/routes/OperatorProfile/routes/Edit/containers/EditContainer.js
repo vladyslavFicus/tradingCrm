@@ -38,11 +38,12 @@ export default compose(
     options: ({ match: { params: { id } } }) => ({
       variables: { uuid: id },
     }),
-    props: ({ data: { operator } }) => {
+    props: ({ data: { operator, refetch } }) => {
       const { authorities, ...operatorProfile } = get(operator, 'data', {});
       return {
-        authorities: authorities || [],
+        authorities,
         profile: {
+          refetch,
           data: {
             ...operatorProfile,
           },

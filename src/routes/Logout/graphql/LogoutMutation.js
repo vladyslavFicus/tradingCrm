@@ -6,9 +6,7 @@ import { Mutation } from 'react-apollo';
 const MUTATION = gql`
   mutation LogoutMutation {
     auth {
-      logout {
-        success
-      }
+      logout
     }
   }
 `;

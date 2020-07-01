@@ -111,10 +111,9 @@ class ProfileHeader extends Component {
       profile: { uuid },
     } = this.props;
 
-    const response = await passwordResetRequest({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.auth.resetUserPassword.success');
+    try {
+      await passwordResetRequest({ variables: { playerUUID: uuid } });
 
-    if (success) {
       notify({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
@@ -122,7 +121,7 @@ class ProfileHeader extends Component {
       });
 
       confirmActionModal.hide();
-    } else {
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
@@ -156,21 +155,22 @@ class ProfileHeader extends Component {
       modals: { changePasswordModal },
     } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, playerUUID: uuid } });
-    const success = get(response, 'data.auth.changePassword.success');
+    try {
+      await changePassword({ variables: { newPassword, clientUuid: uuid } });
 
-    notify({
-      level: !success ? 'error' : 'success',
-      title: !success
-        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
-        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
-      message: !success
-        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
-        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+      });
 
-    if (success) {
       changePasswordModal.hide();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
     }
   };
 
@@ -181,10 +181,10 @@ class ProfileHeader extends Component {
       loginLock,
       profile: { uuid },
     } = this.props;
-    const response = await unlockLogin({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.auth.unlockLogin.success');
 
-    if (success) {
+    try {
+      await unlockLogin({ variables: { playerUUID: uuid } });
+
       notify({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
@@ -192,7 +192,7 @@ class ProfileHeader extends Component {
       });
 
       loginLock.refetch();
-    } else {
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),

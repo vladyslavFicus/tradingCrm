@@ -24,6 +24,7 @@ class DepartmentsForm extends PureComponent {
     addDepartment: PropTypes.func.isRequired,
     operatorUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   };
@@ -33,7 +34,7 @@ class DepartmentsForm extends PureComponent {
   };
 
   handleAddDepartment = async ({ department, role }) => {
-    const { operatorUuid: uuid, addDepartment, notify } = this.props;
+    const { operatorUuid: uuid, addDepartment, notify, onSuccess } = this.props;
 
     try {
       await addDepartment({
@@ -49,6 +50,8 @@ class DepartmentsForm extends PureComponent {
         title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
       });
+
+      onSuccess();
 
       this.toggleDepartmentForm();
     } catch (e) {

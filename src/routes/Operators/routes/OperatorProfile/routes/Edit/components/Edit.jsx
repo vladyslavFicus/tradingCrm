@@ -27,6 +27,7 @@ class View extends Component {
     }).isRequired,
     profile: PropTypes.shape({
       data: PropTypes.operatorProfile,
+      refetch: PropTypes.func.isRequired,
       error: PropTypes.any,
     }).isRequired,
     userHierarchy: PropTypes.shape({
@@ -35,7 +36,7 @@ class View extends Component {
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     deleteAuthority: PropTypes.func.isRequired,
-    authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
+    authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     auth: PropTypes.shape({
       uuid: PropTypes.string,
@@ -68,7 +69,10 @@ class View extends Component {
 
   handleDeleteAuthority = async (department, role) => {
     const {
-      match: { params: { id: operatorUUID } }, deleteAuthority, notify,
+      deleteAuthority,
+      notify,
+      profile,
+      match: { params: { id: operatorUUID } },
     } = this.props;
 
     try {
@@ -79,6 +83,8 @@ class View extends Component {
           role,
         },
       });
+
+      profile.refetch();
 
       notify({
         level: 'success',
@@ -96,7 +102,7 @@ class View extends Component {
 
   render() {
     const {
-      profile: { data: profile },
+      profile: { data: profile, refetch },
       authorities,
       auth: { uuid },
       departmentsRoles,
@@ -155,6 +161,7 @@ class View extends Component {
                 authorities={authorities}
                 departmentsRoles={departmentsRoles}
                 operatorUuid={profile.uuid}
+                onSuccess={refetch}
               />
             </If>
           </div>

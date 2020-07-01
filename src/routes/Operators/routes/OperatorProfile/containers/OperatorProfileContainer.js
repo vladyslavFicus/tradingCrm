@@ -20,15 +20,13 @@ export default compose(
     options: ({
       match: {
         params: {
-          id: playerUUID,
+          id: uuid,
         },
       },
     }) => ({
       refetchQueries: [{
         query: getLoginLock,
-        variables: {
-          playerUUID,
-        },
+        variables: { uuid },
       }],
     }),
     name: 'unlockLoginMutation',

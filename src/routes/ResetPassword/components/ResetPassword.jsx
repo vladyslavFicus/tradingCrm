@@ -36,31 +36,20 @@ class ResetPassword extends Component {
   };
 
   handleSubmit = async (data) => {
-    try {
-      const { location: { search }, resetPasswordMutation } = this.props;
-      const { token } = parse(search, {
-        ignoreQueryPrefix: true,
-      });
+    const { location: { search }, resetPasswordMutation } = this.props;
+    const { token } = parse(search, {
+      ignoreQueryPrefix: true,
+    });
 
-      const {
-        data: {
-          auth: {
-            resetPassword: {
-              success,
-            },
-          },
-        },
-      } = await resetPasswordMutation({ variables: { ...data, token } });
+    try {
+      await resetPasswordMutation({ variables: { ...data, token } });
 
       this.setState({
         resetPasswordFormError: '',
-        hasSubmittedForm: success,
+        hasSubmittedForm: true,
       });
-
-      return null;
     } catch (e) {
       this.setState({ resetPasswordFormError: parseErrors(e).message });
-      return null;
     }
   };
 

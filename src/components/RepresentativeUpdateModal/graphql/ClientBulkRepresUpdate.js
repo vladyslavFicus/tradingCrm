@@ -12,7 +12,7 @@ const MUTATION = gql`
     $type: String!
     $isMoveAction: Boolean
     $allRowsSelected: Boolean
-    $clients: [ClientToUpdateInput]
+    $clients: [ClientUpdate__Input]
     $totalElements: Int
     $searchParams: ClientSearch__Input
   ) {

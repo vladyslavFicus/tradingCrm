@@ -18,7 +18,7 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
   if (loading) {
     return (
       <div className="mini-profile-loader mini-profile-loader-lead">
-        <ShortLoader height={40} />
+        <ShortLoader />
       </div>
     );
   }

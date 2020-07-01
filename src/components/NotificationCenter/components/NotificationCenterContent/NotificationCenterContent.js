@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
@@ -103,28 +103,23 @@ class NotificationCenterContent extends PureComponent {
       .map(({ uuid }, index) => touchedRowsIds.includes(index) && uuid)
       .filter(Boolean);
 
-    const {
-      data: {
-        notificationCenter: {
-          update: { error },
+    try {
+      await bulkUpdate({
+        variables: {
+          totalElements: totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements,
+          ...(allRowsSelected ? { excUuids: uuids } : { incUuids: uuids }),
         },
-      },
-    } = await bulkUpdate({
-      variables: {
-        totalElements: totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements,
-        ...(allRowsSelected ? { excUuids: uuids } : { incUuids: uuids }),
-      },
-    });
+      });
 
-    if (error) {
+      notifications.refetch();
+    } catch (e) {
+      const { error } = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
-        message:
-          error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error,
       });
-    } else {
-      notifications.refetch();
     }
 
     this.resetSelection();

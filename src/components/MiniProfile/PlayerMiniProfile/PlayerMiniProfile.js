@@ -19,7 +19,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
   if (loading) {
     return (
       <div className="mini-profile-loader mini-profile-loader-player">
-        <ShortLoader height={40} />
+        <ShortLoader />
       </div>
     );
   }

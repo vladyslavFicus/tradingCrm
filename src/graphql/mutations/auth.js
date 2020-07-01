@@ -47,14 +47,9 @@ const chooseDepartmentMutation = gql`
   }
 `;
 
-const unlockLoginMutation = gql`mutation unlockLogin($playerUUID: String!) {
+const unlockLoginMutation = gql`mutation unlockLogin($uuid: String!) {
   auth {
-    unlockLogin(uuid: $playerUUID) {
-      success
-      error {
-        error
-      }
-    }
+    unlockLogin(uuid: $uuid)
   }
 }`;
 
@@ -74,12 +69,7 @@ const resetPasswordMutation = gql`mutation resetPassword(
     resetPassword(
       password: $password
       token: $token
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 

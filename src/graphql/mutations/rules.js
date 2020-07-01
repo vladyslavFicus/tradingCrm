@@ -95,22 +95,18 @@ const createRuleRetention = gql`mutation createRuleRetention(
 }`;
 
 const deleteRule = gql`mutation deleteRule(
-  $uuid: String!,
+  $uuid: String!
 ) {
   rule {
-    deleteRule(uuid: $uuid) {
-      success
-    }
+    deleteRule(uuid: $uuid)
   }
 }`;
 
 const deleteRuleRetention = gql`mutation deleteRule(
-  $uuid: String!,
+  $uuid: String!
 ) {
   rule {
-    deleteRuleRetention(uuid: $uuid) {
-      success
-    } 
+    deleteRuleRetention(uuid: $uuid)
   }
 }`;
 
