@@ -14,9 +14,7 @@ const REQUEST = gql`
         uuid: $uuid
         reason: $reason
         status: $status
-      ) {
-        success
-      }
+      )
     }
   }
 `;

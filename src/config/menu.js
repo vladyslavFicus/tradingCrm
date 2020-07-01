@@ -67,7 +67,7 @@ const sidebarTopMenu = [{
   }, {
     label: 'SIDEBAR.TOP_MENU.PARTNERS',
     url: '/partners/list',
-    permissions: new Permissions(permissions.HIERARCHY.GET_AFFILIATE_PARTNERS),
+    permissions: new Permissions(permissions.PARTNERS.PARTNERS_LIST_VIEW),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',

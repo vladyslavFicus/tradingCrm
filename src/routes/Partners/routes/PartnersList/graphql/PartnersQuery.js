@@ -20,24 +20,19 @@ const REQUEST = gql`
       registrationDateFrom: $registrationDateFrom
       registrationDateTo: $registrationDateTo
     ) {
-      data {
-        page
-        number
-        totalElements
-        size
-        last
-        content {
-          uuid
-          fullName
-          createdAt
-          externalAffiliateId
-          status
-          statusChangeDate
-          country
-        }
-      }
-      error {
-        error
+      page
+      number
+      totalElements
+      size
+      last
+      content {
+        uuid
+        fullName
+        createdAt
+        externalAffiliateId
+        status
+        statusChangeDate
+        country
       }
     }
   }

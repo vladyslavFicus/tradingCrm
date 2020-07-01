@@ -39,9 +39,7 @@ class ClientsGridFilter extends PureComponent {
     }).isRequired,
     partners: PropTypes.query({
       partners: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.partnersList,
-        }),
+        content: PropTypes.partnersList,
       }),
     }).isRequired,
     notify: PropTypes.func.isRequired,
@@ -209,7 +207,7 @@ class ClientsGridFilter extends PureComponent {
 
     const desks = get(hierarchyData, 'userBranches.DESK') || [];
     const operators = get(operatorsData, 'operators.data.content') || [];
-    const partners = get(partnersData, 'partners.data.content') || [];
+    const partners = get(partnersData, 'partners.content') || [];
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;
 

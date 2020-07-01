@@ -17,23 +17,18 @@ const REQUEST = gql`query PartnersQuery(
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
   ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-      content {
-        uuid
-        fullName
-        createdAt
-        status
-        statusChangeDate
-        country
-      }
-    }
-    error {
-      error
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      createdAt
+      status
+      statusChangeDate
+      country
     }
   }
 }`;

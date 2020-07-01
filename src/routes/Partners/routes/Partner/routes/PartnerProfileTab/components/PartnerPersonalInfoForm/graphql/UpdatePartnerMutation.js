@@ -25,11 +25,7 @@ const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
       permission: $permission
       externalAffiliateId: $externalAffiliateId
       public: $public
-    ) {
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 

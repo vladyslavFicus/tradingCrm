@@ -195,9 +195,7 @@ PropTypes.partnerProfile = PropTypes.shape({
 });
 PropTypes.partner = PropTypes.shape({
   affiliateType: PropTypes.string,
-  authorities: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.authorityEntity),
-  }),
+  authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
   country: PropTypes.string,
   createdAt: PropTypes.string,
   createdBy: PropTypes.string,

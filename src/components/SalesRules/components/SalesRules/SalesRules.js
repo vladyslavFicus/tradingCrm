@@ -61,9 +61,7 @@ class SalesRules extends PureComponent {
     }).isRequired,
     partners: PropTypes.query({
       partners: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.partnersList,
-        }),
+        content: PropTypes.partnersList,
       }),
     }).isRequired,
     permission: PropTypes.permission.isRequired,
@@ -497,7 +495,9 @@ class SalesRules extends PureComponent {
     const filters = get(query, 'filters', {});
 
     const operators = get(operatorsData, 'operators.data.content') || [];
-    const partners = get(partnersData, 'partners.data.content') || [];
+    const partners = get(partnersData, 'partners.content') || [];
+
+    console.log('partners', partners);
 
     const allowActions = Object
       .keys(filters)
