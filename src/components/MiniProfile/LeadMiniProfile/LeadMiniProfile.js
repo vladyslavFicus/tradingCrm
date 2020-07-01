@@ -25,18 +25,16 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
 
   const {
     lead: {
-      data: {
-        registrationDate,
-        salesStatus,
-        salesAgent,
-        language,
-        surname,
-        country,
-        mobile,
-        phone,
-        name,
-        uuid,
-      },
+      registrationDate,
+      salesStatus,
+      salesAgent,
+      language,
+      surname,
+      country,
+      mobile,
+      phone,
+      name,
+      uuid,
     },
   } = data;
 
@@ -97,9 +95,7 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
 LeadMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      lead: PropTypes.shape({
-        data: PropTypes.lead,
-      }),
+      lead: PropTypes.lead,
     }),
     loading: PropTypes.bool.isRequired,
   }).isRequired,

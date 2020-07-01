@@ -25,7 +25,7 @@ class LeadProfile extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     leadData: PropTypes.query({
-      lead: PropTypes.response(PropTypes.lead),
+      lead: PropTypes.lead,
     }).isRequired,
     location: PropTypes.object.isRequired,
     match: PropTypes.shape({
@@ -63,10 +63,9 @@ class LeadProfile extends PureComponent {
       auth: { department },
     } = this.props;
 
-    const lead = get(leadData, 'data.lead.data') || {};
-    const leadError = get(leadData, 'data.lead.error');
+    const lead = get(leadData, 'data.lead') || {};
 
-    if (leadError) {
+    if (leadData.error) {
       return <NotFound />;
     }
 

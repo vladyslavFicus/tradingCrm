@@ -33,9 +33,7 @@ class LeadsGrid extends PureComponent {
       confirmationModal: PropTypes.modalType,
     }).isRequired,
     leadsData: PropTypes.query({
-      leads: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.lead),
-      }),
+      leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
   };
 
@@ -51,7 +49,7 @@ class LeadsGrid extends PureComponent {
 
     const defaultSize = 20;
     const leads = get(leadsData, 'data.leads') || [];
-    const { currentPage } = limitItems(leads, location);
+    const { currentPage } = limitItems({ data: leads }, location);
 
     const searchLimit = get(location, 'query.filters.size');
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
@@ -85,7 +83,7 @@ class LeadsGrid extends PureComponent {
         modals: { confirmationModal },
       } = this.props;
 
-      const totalElements = get(leadsData, 'data.leads.data.totalElements') || 0;
+      const totalElements = get(leadsData, 'data.leads.totalElements') || 0;
       const searchLimit = get(location, 'query.filters.size') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
@@ -237,7 +235,7 @@ class LeadsGrid extends PureComponent {
     } = this.props;
 
     const leads = get(leadsData, 'data.leads') || [];
-    const { response } = limitItems(leads, location);
+    const { response } = limitItems({ data: leads }, location);
     const { content, last } = get(response, 'data') || {};
 
     const isLoading = leadsData.loading;
