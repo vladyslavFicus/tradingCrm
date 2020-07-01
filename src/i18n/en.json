@@ -588,6 +588,7 @@
     "BRANCH": "Branch",
     "SELECT_OPTION": {
       "ANY": "Any",
+      "ALL": "All",
       "LOADING": "Loading...",
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
@@ -2907,7 +2908,8 @@
       "ACCOUNT": "Account",
       "KYC": "KYC",
       "CALLBACK": "Callback",
-      "CLIENT": "Client"
+      "CLIENT": "Client",
+      "TRADING": "Trading"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -2931,7 +2933,8 @@
       "KYC_APPROVED": "Kyc approved",
       "CALLBACK_NAME": "Callback to %{name}",
       "CALLBACK_TIME": "Time: %{time}",
-      "CLIENT_ASSIGNED": "Client assigned"
+      "CLIENT_ASSIGNED": "Client assigned",
+      "MARGIN_CALL": "Margin level under 100%"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",

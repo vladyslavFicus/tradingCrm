@@ -20,6 +20,7 @@ const attributeLabels = {
 class PlayerStatusModal extends PureComponent {
   static propTypes = {
     changeProfileStatus: PropTypes.func.isRequired,
+    refetchLoginLock: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     reasons: PropTypes.object.isRequired,
@@ -59,6 +60,10 @@ class PlayerStatusModal extends PureComponent {
         ? I18n.t('COMMON.SOMETHING_WRONG')
         : I18n.t('COMMON.SUCCESS'),
     });
+
+    if (!error) {
+      this.props.refetchLoginLock();
+    }
 
     onCloseModal();
   };

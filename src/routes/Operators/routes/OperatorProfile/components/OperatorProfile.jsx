@@ -205,6 +205,7 @@ class OperatorProfile extends Component {
             onChangePasswordClick={this.handleChangePasswordClick}
             onStatusChange={changeStatus}
             refetchOperator={refetchOperator}
+            refetchLoginLock={getLoginLock.refetch}
             unlockLogin={this.unlockLogin}
             loginLock={loginLock}
           />

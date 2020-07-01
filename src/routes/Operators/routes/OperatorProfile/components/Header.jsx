@@ -26,10 +26,11 @@ class Header extends Component {
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
     }).isRequired,
+    refetchLoginLock: PropTypes.func.isRequired,
   };
 
   handleStatusChange = async ({ reason, status }) => {
-    const { data: profileData, onStatusChange, refetchOperator } = this.props;
+    const { data: profileData, onStatusChange, refetchOperator, refetchLoginLock } = this.props;
     await onStatusChange({
       variables: {
         reason,
@@ -38,6 +39,7 @@ class Header extends Component {
       },
     });
     refetchOperator();
+    refetchLoginLock();
   };
 
   render() {

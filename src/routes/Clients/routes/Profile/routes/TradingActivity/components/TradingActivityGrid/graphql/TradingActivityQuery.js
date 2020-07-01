@@ -1,6 +1,9 @@
+import React from 'react';
 import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import PropTypes from 'constants/propTypes';
 
-const tradingActivityQuery = gql`query tradingActivity(
+const REQUEST = gql`query TradingActivityQuery(
   $profileUUID: String,
   $tradeId: Int,
   $openTimeStart: String,
@@ -83,11 +86,38 @@ const tradingActivityQuery = gql`query tradingActivity(
     }
     error {
       error
-      fields_errors
     }
   }
 }`;
 
-export {
-  tradingActivityQuery,
+const TradingActivityQuery = ({
+  children,
+  location: { query },
+  match: { params: { id: profileUUID } },
+}) => (
+  <Query
+    query={REQUEST}
+    variables={{
+      profileUUID,
+      tradeType: 'LIVE',
+      ...(query && query.filters),
+      page: 0,
+      limit: 20,
+    }}
+    fetchPolicy="cache-and-network"
+  >
+    {children}
+  </Query>
+);
+
+TradingActivityQuery.propTypes = {
+  ...PropTypes.router,
+  children: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
+
+export default TradingActivityQuery;
