@@ -11,11 +11,8 @@ const REQUEST = gql`
     brandConfig(
       brandId: $brandId
     ) {
-      data
-      error {
-        error
-        fields_errors
-      }
+      brandId
+      config
     }
   }
 `;
