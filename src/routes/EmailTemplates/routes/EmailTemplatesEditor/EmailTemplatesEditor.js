@@ -11,9 +11,9 @@ import { Field, Form, Formik } from 'formik';
 import { withNotifications } from 'hoc';
 import { FormikInputField, FormikTextEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
-import EmailTemplateUpdateMutation from '../graphql/EmailTemplateUpdateMutation';
-import EmailTemplateQuery from '../graphql/EmailTemplateQuery';
-import { validator } from '../../../utils';
+import EmailTemplateUpdateMutation from './graphql/EmailTemplateUpdateMutation';
+import EmailTemplateQuery from './graphql/EmailTemplateQuery';
+import { validator } from '../../utils';
 import './EmailTemplatesEditor.scss';
 
 class EmailTemplatesEditor extends PureComponent {
@@ -32,26 +32,26 @@ class EmailTemplatesEditor extends PureComponent {
     const {
       emailTemplateUpdateMutation,
       match: { params: { id } },
-      history: { push },
+      history,
       notify,
     } = this.props;
 
-    const {
-      data: {
-        emailTemplates: {
-          updateEmailTemplate: { error },
-        },
-      },
-    } = await emailTemplateUpdateMutation({ variables: { ...values, id } });
+    try {
+      await emailTemplateUpdateMutation({ variables: { ...values, id } });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('COMMON.ACTIONS.UPDATED'),
-      message: error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
-    });
+      history.push('/email-templates/list');
 
-    if (!error) {
-      push('/email-templates/list');
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.UPDATED'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ACTIONS.UPDATED'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
     }
   };
 
@@ -61,7 +61,7 @@ class EmailTemplatesEditor extends PureComponent {
       loading,
     } = this.props;
 
-    const emailToEdit = get(emailTemplateQuery, 'data.emailTemplate.data') || null;
+    const emailToEdit = get(emailTemplateQuery, 'data.emailTemplate') || null;
 
     if (loading || !emailToEdit) {
       return null;

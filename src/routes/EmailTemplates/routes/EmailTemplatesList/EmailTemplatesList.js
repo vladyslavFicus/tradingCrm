@@ -9,8 +9,8 @@ import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
-import EmailTemplatesQuery from '../graphql/EmailTemplatesQuery';
-import EmailTemplateDeleteMutation from '../graphql/EmailTemplateDeleteMutation';
+import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
+import EmailTemplateDeleteMutation from './graphql/EmailTemplateDeleteMutation';
 import './EmailTemplatesList.scss';
 
 class EmailTemplatesList extends PureComponent {
@@ -51,31 +51,31 @@ class EmailTemplatesList extends PureComponent {
   );
 
   handleDeleteTemplateClick = async (id) => {
-    const { emailTemplateDeleteMutation, notify } = this.props;
+    const { emailTemplatesQuery, emailTemplateDeleteMutation, notify } = this.props;
 
-    const {
-      data: {
-        emailTemplates: {
-          deleteEmailTemplate: {
-            error,
-          },
-        },
-      },
-    } = await emailTemplateDeleteMutation({ variables: { id } });
+    try {
+      await emailTemplateDeleteMutation({ variables: { id } });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('COMMON.ACTIONS.DELETE'),
-      message: error
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
-    });
+      emailTemplatesQuery.refetch();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.DELETE'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ACTIONS.DELETE'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
+    }
   };
 
   render() {
     const { loading, error, emailTemplatesQuery } = this.props;
 
-    const entities = get(emailTemplatesQuery, 'data.emailTemplates.data') || [];
+    const entities = get(emailTemplatesQuery, 'data.emailTemplates') || [];
 
     return (
       <div className="EmailTemplatesList">

@@ -7,14 +7,9 @@ import { query } from './EmailTemplatesQuery';
 const MUTATION = gql`
   mutation EmailTemplateDelete($id: ID!) {
     emailTemplates {
-      deleteEmailTemplate(id: $id) {
-        data {
-          id
-        }
-        error {
-          error
-        }
-      }
+      deleteEmailTemplate(
+        id: $id
+      )
     }
   }
 `;
@@ -24,7 +19,7 @@ const EmailTemplateDeleteMutation = ({ children }) => (
     mutation={MUTATION}
     update={(
       store,
-      { data: { emailTemplates: { deleteEmailTemplate: { data, error } } } },
+      { error },
     ) => {
       if (!error) {
         const storedEmailTemplates = store.readQuery({ query });

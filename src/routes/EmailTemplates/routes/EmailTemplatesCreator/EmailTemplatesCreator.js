@@ -8,8 +8,8 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
-import EmailTemplateCreateMutation from '../graphql/EmailTemplateCreateMutation';
-import { validator } from '../../../utils';
+import EmailTemplateCreateMutation from './graphql/EmailTemplateCreateMutation';
+import { validator } from '../../utils';
 import './EmailTemplatesCreator.scss';
 
 class EmailTemplatesCreator extends PureComponent {
@@ -23,27 +23,25 @@ class EmailTemplatesCreator extends PureComponent {
     const {
       emailTemplateCreateMutation,
       notify,
-      history: {
-        push,
-      },
+      history,
     } = this.props;
 
-    const {
-      data: {
-        emailTemplates: {
-          createEmailTemplate: { error },
-        },
-      },
-    } = await emailTemplateCreateMutation({ variables: values });
+    try {
+      await emailTemplateCreateMutation({ variables: values });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('COMMON.ACTIONS.ADDED'),
-      message: error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
-    });
+      history.push('/email-templates/list');
 
-    if (!error) {
-      push('/email-templates/list');
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.ADDED'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ACTIONS.ADDED'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
     }
   };
 
