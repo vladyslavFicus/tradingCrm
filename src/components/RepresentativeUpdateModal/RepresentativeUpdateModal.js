@@ -47,17 +47,15 @@ const validate = (values, { desks, users, type }) => (
 class RepresentativeUpdateModal extends PureComponent {
   static propTypes = {
     hierarchyUsersByTypeQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        hierarchyUsersByType: PropTypes.response({
-          SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          SALES_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          SALES_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          SALES_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        }),
+      usersByType: PropTypes.response({
+        SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        SALES_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        SALES_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        SALES_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
       }),
     }).isRequired,
     userBranchHierarchyQuery: PropTypes.query({
