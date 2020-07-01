@@ -17,9 +17,7 @@ import './ClientCallbacksGrid.scss';
 class ClientCallbacksGrid extends PureComponent {
   static propTypes = {
     clientCallbacksData: PropTypes.query({
-      callbacks: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.callback),
-      }),
+      callbacks: PropTypes.pageable(PropTypes.callback),
     }).isRequired,
     modals: PropTypes.shape({
       callbackDetailsModal: PropTypes.modalType,
@@ -35,7 +33,7 @@ class ClientCallbacksGrid extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = get(clientCallbacksData, 'data.callbacks.data.page') || 0;
+    const currentPage = get(clientCallbacksData, 'data.callbacks.page') || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
@@ -147,7 +145,7 @@ class ClientCallbacksGrid extends PureComponent {
       clientCallbacksData: { loading },
     } = this.props;
 
-    const callbacks = get(clientCallbacksData, 'data.callbacks.data') || { content: [] };
+    const callbacks = get(clientCallbacksData, 'data.callbacks') || { content: [] };
 
     return (
       <div className="ClientCallbacksGrid">

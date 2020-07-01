@@ -132,7 +132,7 @@ class View extends Component {
               {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
             </div>
             {
-              authorities.data ? authorities.data.map(authority => (
+              authorities.map(authority => (
                 <div key={authority.id} className="margin-bottom-20">
                   <strong>
                     {I18n.t(renderLabel(authority.department, departmentsLabels))}
@@ -148,11 +148,11 @@ class View extends Component {
                     </strong>
                   </If>
                 </div>
-              )) : null
+              ))
             }
             <If condition={allowEditPermissions && departmentsRoles}>
               <DepartmentsForm
-                authorities={authorities.data || []}
+                authorities={authorities}
                 departmentsRoles={departmentsRoles}
                 operatorUuid={profile.uuid}
               />

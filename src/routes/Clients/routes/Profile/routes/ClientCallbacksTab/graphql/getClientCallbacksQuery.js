@@ -23,31 +23,29 @@ const REQUEST = gql`
       limit: $limit,
       page: $page,
     ) {
-      data {
-        page
-        number
-        totalElements
-        size
-        last
-        content {
-          _id
-          operatorId
-          userId
-          callbackId
-          callbackTime
-          status
-          creationTime
-          updateTime
-          reminder
-          operator {
-            fullName
-          }
-          client {
-            fullName
-          }
-          note {
-            ...NoteFragment,
-          }
+      page
+      number
+      totalElements
+      size
+      last
+      content {
+        _id
+        operatorId
+        userId
+        callbackId
+        callbackTime
+        status
+        creationTime
+        updateTime
+        reminder
+        operator {
+          fullName
+        }
+        client {
+          fullName
+        }
+        note {
+          ...NoteFragment,
         }
       }
     }

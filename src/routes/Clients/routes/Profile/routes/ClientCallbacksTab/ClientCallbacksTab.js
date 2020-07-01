@@ -15,11 +15,7 @@ import getClientCallbacksQuery from './graphql/getClientCallbacksQuery';
 class ClientCallbacksTab extends PureComponent {
   static propTypes = {
     clientCallbacksData: PropTypes.query({
-      callbacks: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.arrayOf(PropTypes.callback),
-        }),
-      }),
+      callbacks: PropTypes.pageable(PropTypes.callback),
     }).isRequired,
     modals: PropTypes.shape({
       createCallbackModal: PropTypes.modalType,
