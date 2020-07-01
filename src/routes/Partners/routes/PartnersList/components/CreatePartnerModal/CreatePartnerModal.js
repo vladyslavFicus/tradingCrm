@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
@@ -5,7 +6,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -77,19 +78,32 @@ class CreatePartnerModal extends PureComponent {
         ...restValues
       } = values;
 
-      const newPartnerData = await createPartner({
-        variables: {
-          externalAffiliateId,
-          public: isPublic,
-          ...restValues,
-        },
-      });
+      try {
+        const responseData = await createPartner({
+          variables: {
+            externalAffiliateId,
+            public: isPublic,
+            ...restValues,
+          },
+        });
 
-      const serverError = get(newPartnerData, 'data.partner.createPartner.error.error') || null;
-      const partnerUuid = get(newPartnerData, 'data.partner.createPartner.data.uuid') || null;
+        const partnerUuid = get(responseData, 'data.partner.createPartner.uuid') || '';
 
-      if (serverError) {
-        switch (serverError) {
+        notify({
+          level: 'success',
+          title: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.TITLE'),
+          message: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.MESSAGE'),
+        });
+
+        onCloseModal();
+
+        if (partnerUuid) {
+          history.push(`/partners/${partnerUuid}/profile`);
+        }
+      } catch (e) {
+        const error = parseErrors(e);
+
+        switch (error.error) {
           case 'error.entity.already.exists': {
             notify({
               level: 'error',
@@ -118,18 +132,6 @@ class CreatePartnerModal extends PureComponent {
             return;
           }
         }
-      }
-
-      notify({
-        level: 'success',
-        title: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.TITLE'),
-        message: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.MESSAGE'),
-      });
-
-      onCloseModal();
-
-      if (partnerUuid) {
-        history.push(`/partners/${partnerUuid}/profile`);
       }
     }
 
