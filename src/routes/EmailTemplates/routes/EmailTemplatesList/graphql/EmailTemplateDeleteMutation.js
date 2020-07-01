@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { query } from './EmailTemplatesQuery';
 
 const MUTATION = gql`
   mutation EmailTemplateDelete($id: ID!) {
@@ -15,22 +14,7 @@ const MUTATION = gql`
 `;
 
 const EmailTemplateDeleteMutation = ({ children }) => (
-  <Mutation
-    mutation={MUTATION}
-    update={(
-      store,
-      { error },
-    ) => {
-      if (!error) {
-        const storedEmailTemplates = store.readQuery({ query });
-        storedEmailTemplates.emailTemplates.data = storedEmailTemplates.emailTemplates.data.filter(
-          template => template.id !== data.id,
-        );
-
-        store.writeQuery({ query, data: storedEmailTemplates });
-      }
-    }}
-  >
+  <Mutation mutation={MUTATION}>
     {children}
   </Mutation>
 );
