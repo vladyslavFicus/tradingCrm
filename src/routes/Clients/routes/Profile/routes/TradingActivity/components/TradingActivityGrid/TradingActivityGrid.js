@@ -22,7 +22,7 @@ import ChangeOriginalAgentModal from '../ChangeOriginalAgentModal';
 class TradingActivityGrid extends PureComponent {
   static propTypes = {
     tradingActivityQuery: PropTypes.query({
-      clientTradingActivity: PropTypes.pageable(PropTypes.tradingActivity),
+      tradingActivity: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
     modals: PropTypes.shape({
       changeOriginalAgentModal: PropTypes.modalType,
@@ -49,7 +49,7 @@ class TradingActivityGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(data, 'clientTradingActivity.data.number') || 0;
+    const page = get(data, 'tradingActivity.number') || 0;
 
     loadMore(page + 1);
   };
@@ -73,8 +73,7 @@ class TradingActivityGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content, last } = get(data, 'tradingActivity.data') || { content: [] };
-    const error = get(data, 'tradingActivity.error');
+    const { content, last } = get(data, 'tradingActivity') || { content: [] };
 
     return (
       <div className="tab-wrapper">
@@ -83,7 +82,7 @@ class TradingActivityGrid extends PureComponent {
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
-          withNoResults={error}
+          withNoResults={!loading && !content.length}
         >
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE')}

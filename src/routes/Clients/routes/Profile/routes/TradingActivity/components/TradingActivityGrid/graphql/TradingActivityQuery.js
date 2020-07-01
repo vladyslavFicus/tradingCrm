@@ -43,50 +43,45 @@ const REQUEST = gql`query TradingActivityQuery(
     tradeType: $tradeType,
     agentIds: $agentIds,
   ) {
-    data {
-      content {
-        id
-        tradeId
-        tradeType
-        login
-        platformType
-        symbol
-        digits
-        operationType
-        volume
-        openTime
-        closeTime
-        openPrice
-        closePrice
-        openRate
-        closeRate
-        stopLoss
-        takeProfit
-        expiration
-        reason
-        commission
-        commissionAgent
-        swap
-        profit
-        taxes
-        magic
-        comment
-        timestamp
-        tradeStatus
-        originalAgent {
-          uuid
-          fullName
-        }
+    content {
+      id
+      tradeId
+      tradeType
+      login
+      platformType
+      symbol
+      digits
+      operationType
+      volume
+      openTime
+      closeTime
+      openPrice
+      closePrice
+      openRate
+      closeRate
+      stopLoss
+      takeProfit
+      expiration
+      reason
+      commission
+      commissionAgent
+      swap
+      profit
+      taxes
+      magic
+      comment
+      timestamp
+      tradeStatus
+      originalAgent {
+        uuid
+        fullName
       }
-      page
-      number
-      totalElements
-      size
-      last
     }
-    error {
-      error
-    }
+    page
+    number
+    totalElements
+    size
+    last
   }
 }`;
 
