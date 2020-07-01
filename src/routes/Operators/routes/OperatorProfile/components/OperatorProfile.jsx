@@ -235,6 +235,7 @@ class OperatorProfile extends Component {
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
             refetchOperator={refetchOperator}
+            refetchLoginLock={getLoginLock.refetch}
             unlockLogin={this.unlockLogin}
             loginLock={loginLock}
           />
