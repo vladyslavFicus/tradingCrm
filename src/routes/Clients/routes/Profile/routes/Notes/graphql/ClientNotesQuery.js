@@ -25,18 +25,14 @@ const REQUEST = gql`
       targetType: $targetType
       department: $department
     ) {
-      data {
-        size
-        page
-        totalElements
-        totalPages
-        number
-        last
-        content {
-          ...NoteFragment
-        }
-      } error {
-        error
+      size
+      page
+      totalElements
+      totalPages
+      number
+      last
+      content {
+        ...NoteFragment
       }
     }
   }
