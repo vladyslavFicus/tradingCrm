@@ -48,7 +48,7 @@ class FilesGridFilter extends PureComponent {
       values: { verificationType },
     } = this.props;
 
-    const categoriesData = get(filesCategories, 'data.filesCategories.data') || {};
+    const categoriesData = get(filesCategories, 'data.filesCategories') || {};
     const categories = omit(categoriesData, '__typename');
 
     const verificationTypes = Object.keys(categories);

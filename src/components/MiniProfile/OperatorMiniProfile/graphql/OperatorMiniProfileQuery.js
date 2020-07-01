@@ -14,11 +14,9 @@ const REQUEST = gql`
         registrationDate
         uuid
         authorities {
-          data {
-            department
-            id
-            role
-          }
+          department
+          id
+          role
         }
       }
       error {

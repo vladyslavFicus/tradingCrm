@@ -100,12 +100,10 @@ const operatorQuery = gql`query getOperatorByUUID(
       statusReason
       uuid
       authorities {
-        data {
-          brand
-          department
-          id
-          role
-        }
+        brand
+        department
+        id
+        role
       }
       hierarchy {
         uuid

@@ -181,7 +181,6 @@ class OperatorProfile extends Component {
       return null;
     }
 
-    const authoritiesData = get(authorities, 'data') || [];
     const loginLock = get(getLoginLock, 'loginLock') || {};
     const userType = get(data, 'hierarchy.userType');
     const tabs = [...menu.operatorProfileTabs];
@@ -212,7 +211,7 @@ class OperatorProfile extends Component {
           <HideDetails>
             <Information
               data={data}
-              authorities={authoritiesData}
+              authorities={authorities}
             />
           </HideDetails>
         </div>

@@ -134,9 +134,9 @@ class UploadModal extends PureComponent {
     );
 
     const filesDataWithUuids = Object.keys(files).map(fileIndex => ({
-      fileUuid: get(response[fileIndex], 'data.file.upload.data.fileUuid'),
+      fileUuid: get(response[fileIndex], 'data.file.upload.fileUuid'),
       file: files[fileIndex],
-      error: get(response[fileIndex], 'data.file.upload.error'),
+      error: get(response[fileIndex], 'error'),
     })).filter(({ error }) => {
       if (error) {
         notify({
@@ -227,7 +227,7 @@ class UploadModal extends PureComponent {
     } = this.props;
 
     const fileKey = file.fileUuid;
-    const { __typename, ...categories } = get(filesCategoriesData, 'filesCategories.data') || {};
+    const { __typename, ...categories } = get(filesCategoriesData, 'data.filesCategories') || {};
 
     return (
       <UploadingFile

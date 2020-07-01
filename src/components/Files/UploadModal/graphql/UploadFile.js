@@ -13,9 +13,7 @@ const REQUEST = gql`
         file: $file
         uuid: $uuid
       ) {
-        data {
-          fileUuid
-        }
+        fileUuid
       }
     }
   }

@@ -6,11 +6,9 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query FilesGridFilter__FilesCategoriesQuery {
     filesCategories {
-      data {
-        DOCUMENT_VERIFICATION
-        ADDRESS_VERIFICATION
-        OTHER
-      }
+      DOCUMENT_VERIFICATION
+      ADDRESS_VERIFICATION
+      OTHER
     }
   }
 `;
