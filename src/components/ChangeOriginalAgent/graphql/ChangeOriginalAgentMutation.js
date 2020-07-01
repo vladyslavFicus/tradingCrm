@@ -11,12 +11,10 @@ const REQUEST = gql`
   ) {
     payment {
       changeOriginalAgent (
-        paymentId: $paymentId,
-        agentId: $agentId,
-        agentName: $agentName,
-      ) {
-        success
-      }
+        paymentId: $paymentId
+        agentId: $agentId
+        agentName: $agentName
+      )
     }
   }`;
 

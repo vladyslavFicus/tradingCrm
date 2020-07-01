@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
-import { withStorage } from 'providers/StorageProvider';
+import { parseErrors } from 'apollo';
 import { getBackofficeBrand } from 'config';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import Preloader from 'components/Preloader';
 import Brands from 'components/Brands';
@@ -9,7 +10,6 @@ import Departments from 'components/Departments';
 import Copyrights from 'components/Copyrights';
 import { mapBrands, mapDepartments } from 'utils/brands';
 import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
-import parseErrors from 'utils/parseErrors';
 import SignInForm from './SignInForm';
 
 class SignIn extends Component {

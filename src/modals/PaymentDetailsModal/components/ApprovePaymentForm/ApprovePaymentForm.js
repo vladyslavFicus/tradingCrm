@@ -23,7 +23,6 @@ class ApprovePaymentForm extends PureComponent {
   static propTypes = {
     manualPaymentMethods: PropTypes.manualPaymentMethods.isRequired,
     approvePayment: PropTypes.func.isRequired,
-    onCloseModal: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -32,43 +31,33 @@ class ApprovePaymentForm extends PureComponent {
   handleApprovePayment = async ({ paymentMethod }) => {
     const {
       approvePayment,
-      onCloseModal,
       paymentId,
       onSuccess,
       notify,
     } = this.props;
 
-    const {
-      data: {
-        payment: {
-          acceptPayment: {
-            data: {
-              success,
-            },
-          },
+    try {
+      await approvePayment({
+        variables: {
+          paymentId,
+          paymentMethod,
+          typeAcc: 'approve',
         },
-      },
-    } = await approvePayment({
-      variables: {
-        paymentId,
-        paymentMethod,
-        typeAcc: 'approve',
-      },
-    });
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t(success ? 'COMMON.SUCCESS' : 'COMMON.FAIL'),
-      message: I18n.t(
-        success
-          ? 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'
-          : 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED',
-      ),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'),
+      });
 
-    if (success) {
       onSuccess();
-      onCloseModal();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
+      });
     }
   }
 

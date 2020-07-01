@@ -15,7 +15,7 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
   if (loading) {
     return (
       <div className="mini-profile-loader mini-profile-loader-operator">
-        <ShortLoader height={40} />
+        <ShortLoader />
       </div>
     );
   }
@@ -79,8 +79,8 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
 OperatorMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      operator: PropTypes.operatorProfile.isRequired,
-    }),
+      operator: PropTypes.operatorProfile,
+    }).isRequired,
     loading: PropTypes.bool.isRequired,
   }),
 };

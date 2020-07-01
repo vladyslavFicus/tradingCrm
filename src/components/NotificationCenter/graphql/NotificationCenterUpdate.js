@@ -14,11 +14,7 @@ const REQUEST = gql`
         incUuids: $incUuids
         excUuids: $excUuids
         totalElements: $totalElements
-      ) {
-        error {
-          error
-        }
-      }
+      )
     }
   }
 `;

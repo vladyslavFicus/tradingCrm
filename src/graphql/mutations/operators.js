@@ -98,9 +98,7 @@ const removeDepartment = gql`mutation removeDepartment(
       uuid: $uuid
       department: $department
       role: $role
-    ) {
-      success
-    }
+    )
   }
 }`;
 
@@ -136,9 +134,7 @@ const changePassword = gql`mutation changeOperatorPassword(
     changeOperatorPassword(
       operatorUuid: $operatorUuid
       newPassword: $newPassword
-    ) {
-      success
-    }
+    )
   }
 }`;
 
@@ -146,25 +142,21 @@ const passwordResetRequest = gql`mutation resetOperatorPassword(
   $uuid: String!
 ) {
   auth {
-    resetUserPassword(userUuid: $uuid) {
-      success
-    }
+    resetUserPassword(userUuid: $uuid)
   }
 }`;
 
 const changeStatus = gql`mutation changeStatus(
-  $uuid: String!,
-  $reason: String!,
+  $uuid: String!
+  $reason: String!
   $status: String!
 ) {
   operator {
     changeStatus(
-      uuid: $uuid,
-      reason: $reason,
+      uuid: $uuid
+      reason: $reason
       status: $status
-    ) {
-      success
-    }
+    )
   }
 }`;
 

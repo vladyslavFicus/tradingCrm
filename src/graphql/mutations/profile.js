@@ -32,9 +32,7 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
 const clickToCall = gql`mutation clickToCall($number: String!) {
   clickToCall {
     didlogic {
-      createCall(number: $number) {
-        success
-      }
+      createCall(number: $number)
     }
   }
 }`;
@@ -116,9 +114,7 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
       internalTransfer: $internalTransfer,
       crs: $crs,
       fatca: $fatca,
-    ) {
-      success
-    }
+    )
   }
 }`;
 
