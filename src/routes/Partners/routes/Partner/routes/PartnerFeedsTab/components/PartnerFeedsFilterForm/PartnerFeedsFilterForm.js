@@ -18,9 +18,7 @@ class PartnerFeedsFilterForm extends PureComponent {
     ...PropTypes.router,
     feedTypesData: PropTypes.shape({
       data: PropTypes.shape({
-        feedTypes: PropTypes.shape({
-          data: PropTypes.objectOf(PropTypes.string),
-        }),
+        feedTypes: PropTypes.objectOf(PropTypes.string),
       }),
     }).isRequired,
   };
@@ -37,7 +35,7 @@ class PartnerFeedsFilterForm extends PureComponent {
   render() {
     const { feedTypesData } = this.props;
 
-    const feedTypes = get(feedTypesData, 'data.feedTypes.data') || {};
+    const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
 
     return (

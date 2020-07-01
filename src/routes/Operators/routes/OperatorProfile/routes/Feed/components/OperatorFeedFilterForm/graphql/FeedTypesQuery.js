@@ -9,9 +9,7 @@ const REQUEST = gql`
   ) {
     feedTypes (
       uuid: $uuid
-    ) {
-      data
-    }
+    )
   }
 `;
 
