@@ -26,7 +26,7 @@ class NotificationCenterContent extends PureComponent {
     }).isRequired,
     notificationsTypes: PropTypes.query({
       notificationCenterTypes: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.string),
+        data: PropTypes.objectOf(PropTypes.string),
       }),
     }).isRequired,
     modals: PropTypes.shape({
@@ -159,9 +159,10 @@ class NotificationCenterContent extends PureComponent {
 
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const notificationsTypes = get(
+    const typesData = get(
       notificationsTypesData, 'notificationCenterTypes.data',
-    ) || [];
+    ) || {};
+    const notificationsTypes = Object.keys(typesData);
 
     const totalElements = get(notifications, 'data.notificationCenter.data.totalElements');
 
