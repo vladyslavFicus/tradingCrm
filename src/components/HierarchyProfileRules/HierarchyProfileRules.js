@@ -217,7 +217,7 @@ class HierarchyProfileRules extends PureComponent {
     }
 
     try {
-      const { data: { rule: { [createRuleType]: { data } } } } = await request;
+      const { data: { rule: { [createRuleType]: { uuid } } } } = await request;
 
       await rulesQuery.refetch();
 
@@ -226,7 +226,7 @@ class HierarchyProfileRules extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: uuid }),
       });
     } catch (e) {
       const error = parseErrors(e);

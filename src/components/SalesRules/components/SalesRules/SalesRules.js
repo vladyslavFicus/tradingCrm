@@ -190,7 +190,7 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     try {
-      const { data: { rule: { createRule: { data: { uuid } } } } } = await createRule(
+      const { data: { rule: { createRule: { uuid } } } } = await createRule(
         {
           variables: {
             actions: [{
