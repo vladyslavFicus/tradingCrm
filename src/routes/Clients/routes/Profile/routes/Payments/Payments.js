@@ -30,9 +30,7 @@ class Payments extends PureComponent {
       }).isRequired,
     }).isRequired,
     paymentsQuery: PropTypes.query({
-      clientPaymentsByUuid: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentEntity),
-      }),
+      clientPayments: PropTypes.pageable(PropTypes.paymentEntity),
     }).isRequired,
     profileQuery: PropTypes.query({
       profile: PropTypes.shape({
@@ -119,11 +117,17 @@ class Payments extends PureComponent {
     const {
       paymentsQuery,
       paymentsQuery: {
-        data, loading,
+        data,
+        loading,
       },
     } = this.props;
 
-    const payments = get(data, 'clientPayments') || {};
+    const clientPaymentsQuery = {
+      ...paymentsQuery,
+      data: {
+        payments: get(data, 'clientPayments') || { content: [] },
+      },
+    };
 
     return (
       <Fragment>
@@ -152,8 +156,7 @@ class Payments extends PureComponent {
           clientView
         />
         <PaymentsListGrid
-          payments={payments}
-          paymentsQuery={paymentsQuery}
+          paymentsQuery={clientPaymentsQuery}
           handleRefresh={this.handleRefresh}
           clientView
         />
