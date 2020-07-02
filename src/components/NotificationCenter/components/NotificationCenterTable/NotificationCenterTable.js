@@ -157,6 +157,11 @@ class NotificationCenterTable extends PureComponent {
                   <When condition={type === 'ACCOUNT'}>
                     {this.renderAccountDetails(subtype, details)}
                   </When>
+                  <When condition={type === 'TRADING' && subtype === 'MARGIN_CALL'}>
+                    <div className="font-weight-700">
+                      {I18n.t('NOTIFICATION_CENTER.SUBTYPES.MARGIN_CALL')}
+                    </div>
+                  </When>
                   <Otherwise>
                     <If condition={subtype}>
                       <div className="NotificationCenterTable__text-highlight">
