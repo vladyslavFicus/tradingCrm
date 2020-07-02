@@ -80,7 +80,11 @@ class PaymentAddModal extends PureComponent {
     return true;
   };
 
-  renderAccountSelectOption = (name, { paymentType, amount }) => ({ onClick, account = {} }) => {
+  renderAccountSelectOption = (
+    name, { paymentType, amount },
+  ) => (
+    { onClick, account = {}, forwardedRef },
+  ) => {
     const isInsufficientBalance = (
       parseFloat(account.balance) < amount
       && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
@@ -94,6 +98,7 @@ class PaymentAddModal extends PureComponent {
 
     return (
       <div
+        ref={forwardedRef}
         className="value-wrapper"
         onClick={isInsufficientBalance || isInsufficientCredit ? () => {} : onClick}
       >
@@ -298,7 +303,7 @@ class PaymentAddModal extends PureComponent {
                         step="0.01"
                         min={0}
                         max={999999}
-                        addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol={false} />}
+                        addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol />}
                         component={FormikInputField}
                         showErrorMessage={false}
                       />

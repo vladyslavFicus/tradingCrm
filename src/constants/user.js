@@ -172,6 +172,7 @@ const filterLabels = {
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   warning: 'PROFILE.LIST.FILTERS.WARNING',
+  activity: 'PROFILE.LIST.FILTERS.ACTIVITY',
 };
 
 const statuses = keyMirror({

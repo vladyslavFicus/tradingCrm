@@ -5,6 +5,8 @@ import I18n from 'i18n-js';
 import DatePicker from 'components/DatePicker';
 import { RangeGroup } from 'components/Forms';
 
+const ISO_FORMAT_DATE = 'YYYY-MM-DDTHH:mm:ss';
+
 class DateRangeGroup extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -18,6 +20,7 @@ class DateRangeGroup extends PureComponent {
     endField: PropTypes.shape({
       name: PropTypes.string.isRequired,
       value: PropTypes.string,
+      setValue: PropTypes.func,
     }).isRequired,
     utc: PropTypes.bool,
     withTime: PropTypes.bool,
@@ -36,19 +39,50 @@ class DateRangeGroup extends PureComponent {
     closeOnSelect: false,
   };
 
+  componentDidUpdate() {
+    const {
+      utc,
+      startField: { value: startValue },
+      endField: { value: endValue, setValue },
+    } = this.props;
+
+    if (utc && startValue && endValue && moment(endValue).isSameOrBefore(startValue)) {
+      setValue(
+        moment
+          .utc(endValue)
+          .local()
+          .set({ hour: '23', minute: '59', second: '59' })
+          .utc()
+          .format(ISO_FORMAT_DATE),
+      );
+    }
+  }
+
+  /**
+   *
+   * @param current : _isUTC: false
+   */
   startDateValidator = (current) => {
-    const { endField: { value } } = this.props;
+    const { utc, endField: { value } } = this.props;
+
+    const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrBefore(moment(value))
+      ? current.isSameOrBefore(formatedValue, 'day')
       : current.isSameOrBefore(moment());
   };
 
+  /**
+   *
+   * @param current : _isUTC: false
+   */
   endDateValidator = (current) => {
-    const { startField: { value } } = this.props;
+    const { utc, startField: { value } } = this.props;
+
+    const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrAfter(moment(value))
+      ? current.isSameOrAfter(formatedValue, 'day')
       : true;
   };
 

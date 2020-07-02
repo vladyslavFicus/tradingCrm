@@ -50,6 +50,7 @@ const createRule = gql`mutation createRule(
 const createRuleRetention = gql`mutation createRuleRetention(
   $name: String!,
   $priority: Int!,
+  $depositCount: Int,
   $countries: [String],
   $languages: [String],
   $actions: [RuleActionsInputType]!,
@@ -61,6 +62,7 @@ const createRuleRetention = gql`mutation createRuleRetention(
     createRuleRetention (
       name: $name,
       priority: $priority,
+      depositCount: $depositCount,
       countries: $countries,
       languages: $languages,
       actions: $actions,
@@ -79,6 +81,7 @@ const createRuleRetention = gql`mutation createRuleRetention(
         countries
         languages
         priority
+        depositCount
         name
         type
         updatedBy

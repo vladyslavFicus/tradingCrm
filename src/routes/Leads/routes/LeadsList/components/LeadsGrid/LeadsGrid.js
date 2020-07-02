@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
@@ -50,7 +50,8 @@ class LeadsGrid extends PureComponent {
     } = this.props;
 
     const defaultSize = 20;
-    const { currentPage } = limitItems(leadsData.data.leads, location);
+    const leads = get(leadsData, 'data.leads') || [];
+    const { currentPage } = limitItems(leads, location);
 
     const searchLimit = get(location, 'query.filters.size');
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
@@ -62,6 +63,10 @@ class LeadsGrid extends PureComponent {
         limit,
       });
     }
+  };
+
+  handleRowClick = ({ uuid }) => {
+    window.open(`/leads/${uuid}`, '_blank');
   };
 
   handleSelectRow = (allRowsSelected, touchedRowsIds) => {
@@ -100,13 +105,9 @@ class LeadsGrid extends PureComponent {
 
   renderLead = ({ uuid, name, surname }) => (
     <>
-      <Link
-        className="LeadsGrid__primary"
-        to={`/leads/${uuid}`}
-        target="_blank"
-      >
+      <div className="LeadsGrid__primary">
         {name} {surname}
-      </Link>
+      </div>
 
       <div className="LeadsGrid__secondary">
         <MiniProfile id={uuid} type="lead">
@@ -158,36 +159,45 @@ class LeadsGrid extends PureComponent {
     </>
   );
 
-  renderLastNote = ({ id, lastNote }) => (
-    <Choose>
-      <When condition={lastNote && lastNote.content && lastNote.changedAt}>
-        <div className="LeadsGrid__last-note">
-          <div className="LeadsGrid__primary">
-            {moment.utc(lastNote.changedAt).local().format('DD.MM.YYYY')}
-          </div>
+  renderLastNote = (lead) => {
+    const lastNote = get(lead, 'lastNote') || {};
+    const { content, changedAt, authorFullName, uuid } = lastNote;
 
-          <div className="LeadsGrid__secondary">
-            {moment.utc(lastNote.changedAt).local().format('HH:mm:ss')}
-          </div>
+    return (
+      <Choose>
+        <When condition={content && changedAt}>
+          <div className="LeadsGrid__last-note">
+            <div className="LeadsGrid__primary">
+              {moment.utc(changedAt).local().format('DD.MM.YYYY')}
+            </div>
 
-          <div className="LeadsGrid__last-note-content" id={`${id}-note`}>
-            {lastNote.content}
-          </div>
+            <div className="LeadsGrid__secondary">
+              {moment.utc(changedAt).local().format('HH:mm:ss')}
+            </div>
 
-          <UncontrolledTooltip
-            target={`${id}-note`}
-            placement="bottom-start"
-            delay={{ show: 350, hide: 250 }}
-          >
-            {lastNote.content}
-          </UncontrolledTooltip>
-        </div>
-      </When>
-      <Otherwise>
-        <GridEmptyValue />
-      </Otherwise>
-    </Choose>
-  );
+            <span className="LeadsGrid__last-note-author">
+              {authorFullName}
+            </span>
+
+            <div className="LeadsGrid__last-note-content" id={`${uuid}-note`}>
+              {content}
+            </div>
+
+            <UncontrolledTooltip
+              target={`${uuid}-note`}
+              placement="bottom-start"
+              delay={{ show: 350, hide: 250 }}
+            >
+              {content}
+            </UncontrolledTooltip>
+          </div>
+        </When>
+        <Otherwise>
+          <GridEmptyValue />
+        </Otherwise>
+      </Choose>
+    );
+  }
 
   renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
     <>
@@ -224,7 +234,8 @@ class LeadsGrid extends PureComponent {
       allRowsSelected,
     } = this.props;
 
-    const { response } = limitItems(leadsData.data.leads, location);
+    const leads = get(leadsData, 'data.leads') || [];
+    const { response } = limitItems(leads, location);
     const { content, last } = get(response, 'data') || {};
 
     const isLoading = leadsData.loading;
@@ -236,10 +247,12 @@ class LeadsGrid extends PureComponent {
           touchedRowsIds={touchedRowsIds}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
+          handleRowClick={this.handleRowClick}
           handleAllRowsSelect={this.handleAllRowsSelect}
           handlePageChanged={this.handlePageChanged}
           isLoading={isLoading}
           isLastPage={last}
+          withRowsHover
           withMultiSelect
           withNoResults={content && content.length === 0}
         >

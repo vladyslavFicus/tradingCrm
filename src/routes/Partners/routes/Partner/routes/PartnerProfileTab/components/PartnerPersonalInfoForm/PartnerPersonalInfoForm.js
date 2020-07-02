@@ -25,10 +25,11 @@ const attributeLabels = {
   country: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.COUNTRY',
   phone: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.PHONE',
   allowedIpAddresses: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.WHITE_LISTED_IP',
-  restrictedCountries: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES',
+  forbiddenCountries: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES',
   showNotes: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_NOTES',
   showFTDAmount: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_FTD_AMOUNT',
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
+  showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
@@ -51,8 +52,9 @@ class PartnerPersonalInfoForm extends PureComponent {
 
   handleSubmit = async ({
     allowedIpAddresses,
-    restrictedCountries,
+    forbiddenCountries,
     showNotes,
+    showSalesStatus,
     showFTDAmount,
     showKycStatus,
     ...rest
@@ -67,8 +69,9 @@ class PartnerPersonalInfoForm extends PureComponent {
         uuid,
         permission: {
           allowedIpAddresses,
-          restrictedCountries,
+          forbiddenCountries: forbiddenCountries || [],
           showNotes,
+          showSalesStatus,
           showFTDAmount,
           showKycStatus,
         },
@@ -126,8 +129,9 @@ class PartnerPersonalInfoForm extends PureComponent {
             externalAffiliateId: 'string',
             public: 'boolean',
             allowedIpAddresses: 'listedIP\'s',
-            restrictedCountries: ['array', `in:,${Object.keys(countryList).join()}`],
+            forbiddenCountries: ['array', `in:,${Object.keys(countryList).join()}`],
             showNotes: 'boolean',
+            showSalesStatus: 'boolean',
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
           }, translateLabels(attributeLabels), false)}
@@ -245,7 +249,7 @@ class PartnerPersonalInfoForm extends PureComponent {
                 <Field
                   name="forbiddenCountries"
                   className="PartnerPersonalInfoForm__field"
-                  label={I18n.t(attributeLabels.restrictedCountries)}
+                  label={I18n.t(attributeLabels.forbiddenCountries)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
                   component={FormikSelectField}
                   searchable
@@ -263,6 +267,13 @@ class PartnerPersonalInfoForm extends PureComponent {
                   name="showNotes"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.showNotes)}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
+
+                <Field
+                  name="showSalesStatus"
+                  component={FormikCheckbox}
+                  label={I18n.t(attributeLabels.showSalesStatus)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
 

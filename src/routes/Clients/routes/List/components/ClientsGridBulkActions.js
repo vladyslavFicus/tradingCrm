@@ -7,7 +7,7 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { deskTypes } from 'constants/hierarchyTypes';
-import { departments, roles } from 'constants/brands';
+import { departments } from 'constants/brands';
 import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
@@ -141,7 +141,7 @@ class ClientsGridBulkActions extends PureComponent {
             {I18n.t('COMMON.RETENTION')}
           </button>
         </If>
-        <If condition={(role === roles.ROLE4
+        <If condition={(['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
           && [departments.ADMINISTRATION, departments.SALES, departments.RETENTION].includes(department))
           || department === departments.CS}
         >

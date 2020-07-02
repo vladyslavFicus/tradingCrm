@@ -19,7 +19,9 @@ const REQUEST = gql`query OperatorsQuery {
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST}>{children}</Query>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
+    {children}
+  </Query>
 );
 
 OperatorsQuery.propTypes = {

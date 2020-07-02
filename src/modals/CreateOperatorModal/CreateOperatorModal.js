@@ -23,6 +23,7 @@ const validator = createValidator({
   department: 'required',
   userType: 'required',
   role: 'required',
+  branchType: 'required',
   branch: 'required',
 }, translateLabels(attributeLabels), false);
 
@@ -74,7 +75,7 @@ class CreateOperatorModal extends PureComponent {
 
       const newOperator = get(operatorData, 'operator.createOperator.data');
       const newOperatorError = get(operatorData, 'operator.createOperator.error');
-      const error = get(newOperatorError, 'error', null);
+      const error = get(newOperatorError, 'error') || false;
 
       if (error === 'error.validation.email.exists') {
         onExist({
@@ -85,9 +86,11 @@ class CreateOperatorModal extends PureComponent {
         });
       }
 
-      const { uuid } = newOperator;
+      if (!error) {
+        const { uuid } = newOperator;
 
-      this.props.history.push(`/operators/${uuid}/profile`);
+        this.props.history.push(`/operators/${uuid}/profile`);
+      }
     } catch (e) {
       notify({
         level: 'error',
@@ -134,7 +137,12 @@ class CreateOperatorModal extends PureComponent {
       branches,
     } = this.state;
 
-    const placeholder = (!Array.isArray(branches) || branches.length === 0)
+    const placeholderRole = (departmentsRoles[selectedDepartment]
+      && departmentsRoles[selectedDepartment].length)
+      ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+      : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS');
+
+    const placeholderBranchType = (!Array.isArray(branches) || branches.length === 0)
       ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
       : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
 
@@ -236,9 +244,10 @@ class CreateOperatorModal extends PureComponent {
                     name="role"
                     className="col-md-6"
                     label={I18n.t(attributeLabels.role)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    placeholder={selectedDepartment
+                      ? placeholderRole
+                      : I18n.t('COMMON.SELECT_OPTION.SELECT_DEPARTMENT')}
                     component={FormikSelectField}
-                    withAnyOption
                     disabled={!selectedDepartment}
                   >
                     {
@@ -273,7 +282,9 @@ class CreateOperatorModal extends PureComponent {
                     searchable
                     label={I18n.t(attributeLabels.branch)}
                     component={FormikSelectField}
-                    placeholder={selectedBranchType ? placeholder : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')}
+                    placeholder={selectedBranchType
+                      ? placeholderBranchType
+                      : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')}
                     disabled={!selectedBranchType || !branches}
                   >
                     {(branches || []).map(({ value, label }) => (

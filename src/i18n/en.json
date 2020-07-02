@@ -588,6 +588,7 @@
     "BRANCH": "Branch",
     "SELECT_OPTION": {
       "ANY": "Any",
+      "ALL": "All",
       "LOADING": "Loading...",
       "DEFAULT": "-- Select --",
       "REASON": "-- Select reason --",
@@ -599,6 +600,7 @@
       "UPLOAD_ACTION": "-- Select upload action --",
       "DEFAULT_MULTISELECT": "-- Select one or multiple options --",
       "SELECT_BRANCH_TYPE": "Select branch type first",
+      "SELECT_DEPARTMENT": "Select department first",
       "SELECT_PARTNER_TYPE": "Select partner type",
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
@@ -1050,9 +1052,9 @@
         "CHANGE_LEVERAGE_REQUEST_UPDATED": "Change leverage request updated",
         "WITHDRAW": "Withdraw",
         "TRANSFER_IN": "Transfer in",
-        "TRANSFER_OUT":  "Transfer out",
+        "TRANSFER_OUT": "Transfer out",
         "FEE": "Fee",
-        "INACTIVITY_FEE":  "Inactivity fee",
+        "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate"
@@ -1363,8 +1365,10 @@
       "FILTER_FORM": {
         "SEARCH_BY_LABEL": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPE_EMPTY_OPTION": "Any action",
-        "ACTION_DATE_RANGE": "Action date range"
+        "ACTION_TYPES": "Action types",
+        "ACTION_DATE_RANGE": "Action date range",
+        "CREATION_DATE_FROM": "Creation date from",
+        "CREATION_DATE_TO": "Creation date to"
       },
       "TITLE": "Feed"
     },
@@ -1611,9 +1615,7 @@
       "LOCATION": "Location",
       "STATUS": {
         "ONLINE": "Online",
-        "OFFLINE": "Offline",
-        "ON_STATUS": "on Status website",
-        "ON_WEBTRADER": "on WebTrader"
+        "OFFLINE": "Offline"
       }
     },
     "LIST": {
@@ -1653,7 +1655,8 @@
         "FIRST_DEPOSIT": "First time deposit",
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
-        "WARNING": "Warning"
+        "WARNING": "Warning",
+        "ACTIVITY": "Activity"
       }
     }
   },
@@ -1698,17 +1701,6 @@
         }
       },
       "locked": "User is locked, please contact customer support"
-    },
-    "campaign": {
-      "command": {
-        "byPromoCode": {
-          "alreadyPresent": "Promo code already added to this player",
-          "notAllow": "Invalid promo code"
-        },
-        "activate": {
-          "notAllow": "Not allow"
-        }
-      }
     },
     "template": {
       "name": {
@@ -2500,7 +2492,7 @@
           "MESSAGE": "Please note that leverage changes affect open positions. Lowering leverage may result in a margin closeout."
         }
       },
-      "LEVERAGE":{
+      "LEVERAGE": {
         "FROM": "from",
         "TO": "to",
         "SINCE": "since",
@@ -2902,7 +2894,9 @@
       "DEPOSIT": "Deposit",
       "ACCOUNT": "Account",
       "KYC": "KYC",
-      "CALLBACK": "Callback"
+      "CALLBACK": "Callback",
+      "CLIENT": "Client",
+      "TRADING": "Trading"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -2925,7 +2919,9 @@
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
       "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}"
+      "CALLBACK_TIME": "Time: %{time}",
+      "CLIENT_ASSIGNED": "Client assigned",
+      "MARGIN_CALL": "Margin level under 100%"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -2993,6 +2989,8 @@
           "TYPE": "Rule type",
           "DEPOSIT_COUNT": "Deposit count",
           "AMOUNT": "Deposit amount range",
+          "AMOUNT_FROM": "Deposit amount from",
+          "AMOUNT_TO": "Deposit amount to",
           "DISTRIBUTION": "Client distribution",
           "PARTNER": "Partner",
           "SOURCE": "Source",
@@ -3000,7 +2998,8 @@
           "RATIO": "Ratio"
         },
         "ERRORS": {
-          "BETWEEN_RATIO": "Ratio must be between :min% and :max%"
+          "BETWEEN_RATIO": "Ratio must be between :min% and :max%",
+          "INTEGER_RATIO": "The percentage must be an integer"
         },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
@@ -3076,7 +3075,10 @@
       "default": "--Select--",
       "default_placeholder": "Search",
       "available_options": "Available options",
-      "options_not_found": "Options by query \"%{query}\" not found..."
+      "options_not_found": "Available options by query \"%{query}\" not found...",
+      "selected_options": "selected options",
+      "clear": "Clear",
+      "options_selected": "options selected"
     },
     "any": "Any",
     "reset": "Reset",

@@ -131,10 +131,10 @@ class OperatorProfile extends Component {
     });
   };
 
-  handleSubmitNewPassword = async ({ password }) => {
+  handleSubmitNewPassword = async ({ newPassword }) => {
     const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
 
-    const response = await changePassword({ variables: { password, playerUUID } });
+    const response = await changePassword({ variables: { newPassword, playerUUID } });
     const success = get(response, 'data.operator.changeOperatorPassword.success');
 
     notify({
@@ -169,7 +169,7 @@ class OperatorProfile extends Component {
   unlockLogin = async () => {
     const { unlockLoginMutation, match: { params: { id: playerUUID } }, notify } = this.props;
     const response = await unlockLoginMutation({ variables: { playerUUID } });
-    const success = get(response, 'data.auth.unlockLogin.data.success');
+    const success = get(response, 'data.auth.unlockLogin.success');
 
     if (success) {
       notify({
@@ -235,6 +235,7 @@ class OperatorProfile extends Component {
             onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
             refetchOperator={refetchOperator}
+            refetchLoginLock={getLoginLock.refetch}
             unlockLogin={this.unlockLogin}
             loginLock={loginLock}
           />
@@ -267,7 +268,7 @@ class OperatorProfile extends Component {
           && (
             <ChangePasswordModal
               {...modal.params}
-              onClose={this.handleCloseModal}
+              onCloseModal={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />
           )

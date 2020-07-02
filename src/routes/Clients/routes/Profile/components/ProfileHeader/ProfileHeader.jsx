@@ -81,7 +81,7 @@ class ProfileHeader extends Component {
     this.setState({ isRunningReloadAnimation: true });
 
     EventEmitter.emit(PROFILE_RELOAD);
-  }
+  };
 
   handleResetPasswordClick = () => {
     const {
@@ -148,7 +148,7 @@ class ProfileHeader extends Component {
     });
   };
 
-  handleChangePassword = async ({ password }) => {
+  handleChangePassword = async ({ newPassword }) => {
     const {
       notify,
       changePassword,
@@ -156,7 +156,7 @@ class ProfileHeader extends Component {
       modals: { changePasswordModal },
     } = this.props;
 
-    const response = await changePassword({ variables: { password, playerUUID: uuid } });
+    const response = await changePassword({ variables: { newPassword, playerUUID: uuid } });
     const success = get(response, 'data.profile.changePassword.success');
 
     notify({
@@ -234,7 +234,6 @@ class ProfileHeader extends Component {
           lastActivity: {
             date: lastActivityDate,
             location,
-            application,
           },
         },
         tradingAccount,
@@ -276,7 +275,7 @@ class ProfileHeader extends Component {
               </div>
             </HeaderPlayerPlaceholder>
             <div className="panel-heading-row__actions">
-              <If condition={lock}>
+              <If condition={lock && statusType !== 'BLOCKED'}>
                 <button
                   onClick={this.handleUnlockLogin}
                   type="button"
@@ -336,8 +335,8 @@ class ProfileHeader extends Component {
               profileStatusComment={comment}
               status={statusType}
               reason={reason}
-              onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
+              refetchLoginLock={loginLock.refetch}
             />
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
@@ -367,25 +366,10 @@ class ProfileHeader extends Component {
                 {I18n.t('COMMON.ON')} {lastActivityDateLocal.format('DD.MM.YYYY')}
               </div>
             )}
-            <If condition={lastActivityType === 'ONLINE'
-              && location !== 'webtrader'
-              && application !== 'status-client'}
-            >
-              <div className="header-block-small">
-                <div className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.LOCATION')}: </div>
-                {location}
-              </div>
-            </If>
-            <If condition={application === 'status-client'}>
-              <div className="header-block-middle">
-                {I18n.t('PROFILE.LAST_ACTIVITY.STATUS.ON_STATUS')}
-              </div>
-            </If>
-            <If condition={location === 'webtrader'}>
-              <div className="header-block-middle">
-                {I18n.t('PROFILE.LAST_ACTIVITY.STATUS.ON_WEBTRADER')}
-              </div>
-            </If>
+            <div className="header-block-small">
+              <div className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.LOCATION')}: </div>
+              {location}
+            </div>
           </div>
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>

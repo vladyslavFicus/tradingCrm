@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import { isObject } from 'lodash';
 import shallowEqual from '../../utils/shallowEqual';
-import SelectSearchBox, { filterOptionsByQuery } from './SelectSearchBox';
+import SelectSearchBox, { filterOptionsByQuery, filterOptionsByQueryWithMultiple } from './SelectSearchBox';
 import SelectSingleOptions from './SelectSingleOptions';
 import SelectMultipleOptions from './SelectMultipleOptions';
 import deleteFromArray from '../../utils/deleteFromArray';
@@ -258,18 +258,25 @@ class Select extends PureComponent {
     });
   };
 
-  handleSearch = (e) => {
-    if (e === null) {
+  handleSearch = (event) => {
+    const { originalOptions, originalSelectedOptions } = this.state;
+
+    if (event === null) {
       this.updateState({
         query: '',
-        options: this.state.originalOptions,
-        selectedOptions: this.state.originalSelectedOptions,
+        options: originalOptions,
+        selectedOptions: originalSelectedOptions,
       });
     } else {
+      const { multiple } = this.props;
+      const { target: { value } } = event;
+
       this.updateState({
-        query: e.target.value,
-        options: filterOptionsByQuery(e.target.value, this.state.originalOptions),
-        selectedOptions: filterOptionsByQuery(e.target.value, this.state.originalSelectedOptions),
+        query: value,
+        selectedOptions: filterOptionsByQuery(value, originalSelectedOptions),
+        options: multiple
+          ? filterOptionsByQueryWithMultiple(value, originalOptions, originalSelectedOptions)
+          : filterOptionsByQuery(value, originalOptions),
       });
     }
   };
@@ -317,19 +324,24 @@ class Select extends PureComponent {
       : options
   );
 
-  renderSelectedOptions = (options, selectedOptions) => (
-    <SelectMultipleOptions
-      className="select-block__selected-options"
-      headerText="selected options"
-      headerButtonClassName="clear-selected-options"
-      headerButtonIconClassName="icon icon-times"
-      headerButtonText="Clear"
-      headerButtonOnClick={this.handleResetSelectedOptions}
-      options={options}
-      selectedOptions={selectedOptions}
-      onChange={this.handleDeleteSelectedOption}
-    />
-  );
+  renderSelectedOptions = (originalSelectedOptions) => {
+    const { query } = this.state;
+    const options = filterOptionsByQuery(query, originalSelectedOptions);
+
+    return (
+      <SelectMultipleOptions
+        className="select-block__selected-options"
+        headerText={I18n.t('common.select.selected_options')}
+        headerButtonClassName="clear-selected-options"
+        headerButtonIconClassName="icon icon-times"
+        headerButtonText={I18n.t('common.select.clear')}
+        headerButtonOnClick={this.handleResetSelectedOptions}
+        options={options}
+        selectedOptions={originalSelectedOptions}
+        onChange={this.handleDeleteSelectedOption}
+      />
+    );
+  }
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
@@ -349,7 +361,7 @@ class Select extends PureComponent {
       if (mergedOptions.length) {
         placeholder = mergedOptions.length === 1
           ? mergedOptions[0].label
-          : `${mergedOptions.length} options selected`;
+          : `${mergedOptions.length} ${I18n.t('common.select.options_selected')}`;
       }
     } else {
       const OptionCustomComponent = singleOptionComponent;
@@ -486,9 +498,10 @@ class Select extends PureComponent {
           }
           <div className="select-block__container" ref={this.bindContainerRef}>
             {OptionsHeaderComponent && <OptionsHeaderComponent />}
-            {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
+            {multiple && this.renderSelectedOptions(originalSelectedOptions)}
             {
-              !!query && options.length === 0
+              !!query
+              && options.length === 0
               && (
                 <div className="text-muted font-size-10 margin-10">
                   {I18n.t('common.select.options_not_found', { query })}

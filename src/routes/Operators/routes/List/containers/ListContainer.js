@@ -1,5 +1,4 @@
-import { compose } from 'redux';
-import { graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo, compose } from 'react-apollo';
 import { get } from 'lodash';
 import { withModals, withNotifications } from 'hoc';
 import { managementOperatorsQuery } from 'graphql/queries/operators';

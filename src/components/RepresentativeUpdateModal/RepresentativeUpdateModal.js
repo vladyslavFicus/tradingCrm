@@ -71,6 +71,7 @@ class RepresentativeUpdateModal extends PureComponent {
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     type: PropTypes.string.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
     isOpen: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
@@ -98,6 +99,7 @@ class RepresentativeUpdateModal extends PureComponent {
     leads: null,
     clients: null,
     userType: null,
+    onSuccess: () => {},
   };
 
   static getDerivedStateFromProps(
@@ -266,6 +268,7 @@ class RepresentativeUpdateModal extends PureComponent {
       notify,
       userType,
       onCloseModal,
+      onSuccess,
       bulkClientRepresentativeUpdate,
       bulkLeadRepresentativeUpdate,
     } = this.props;
@@ -333,6 +336,7 @@ class RepresentativeUpdateModal extends PureComponent {
       });
 
       onCloseModal();
+      onSuccess();
 
       EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
     }
@@ -413,6 +417,7 @@ class RepresentativeUpdateModal extends PureComponent {
                     })
                   )}
                   withAnyOption
+                  searchable
                 >
                   {filteredDesks.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -444,6 +449,7 @@ class RepresentativeUpdateModal extends PureComponent {
                       values,
                     })
                   )}
+                  searchable
                 >
                   {teams.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -464,6 +470,7 @@ class RepresentativeUpdateModal extends PureComponent {
                   multiple={multiAssign}
                   customOnChange={value => setFieldValue(fieldNames.REPRESENTATIVE, value)}
                   disabled={agentsDisabled || isSubmitting}
+                  searchable
                 >
                   {(agents || []).map(({ fullName, uuid }) => (
                     <option key={uuid} value={uuid}>
@@ -477,6 +484,7 @@ class RepresentativeUpdateModal extends PureComponent {
                   component={FormikSelectField}
                   disabled={isSubmitting}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  searchable
                 >
                   <Choose>
                     <When condition={type === deskTypes.SALES}>
@@ -517,7 +525,7 @@ class RepresentativeUpdateModal extends PureComponent {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={!dirty || !isValid || deskLoading || agentsDisabled}
+                  disabled={!dirty || !isValid || deskLoading || agentsDisabled || isSubmitting}
                   primary
                 >
                   {I18n.t('CLIENTS.MODALS.SUBMIT')}

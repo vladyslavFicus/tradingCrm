@@ -7,17 +7,18 @@ import { BatchHttpLink } from 'apollo-link-batch-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { onError } from 'apollo-link-error';
-import { setContext } from 'apollo-link-context';
 import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import { getGraphQLRoot, getApiVersion } from 'config';
 import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
+import onRefreshToken from 'apollo/utils/onRefreshToken';
+import AuthLink from 'apollo/links/AuthLink';
 import { withStorage } from 'providers/StorageProvider';
 import UpdateVersionModal from 'modals/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
 import queryNames from 'constants/apolloQueryNames';
-import { getGraphQLRoot, getApiVersion } from '../config';
 
 class ApolloProvider extends PureComponent {
   static propTypes = {
@@ -47,32 +48,18 @@ class ApolloProvider extends PureComponent {
     );
 
     // ========= Error link ========= //
-    const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          // Suppress next error handlers because sign in and logout can return 401 [UNAUTHENTICATED]
-          if (['SignInMutation', 'LogoutMutation'].includes(operation.operationName)) {
-            return;
+          // Logging all errors except 401 [UNAUTHENTICATED]
+          if (extensions?.code !== 'UNAUTHENTICATED') {
+            // eslint-disable-next-line
+            console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
           }
-
-          if (extensions && extensions.code === 'UNAUTHENTICATED') {
-            history.push('/logout');
-
-            return;
-          }
-
-          // eslint-disable-next-line
-          console.warn(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
         });
       }
 
       if (networkError) {
-        if (networkError.statusCode === 401) {
-          history.push('/logout');
-
-          return;
-        }
-
         if (networkError.statusCode === 426) {
           modals.updateVersionModal.show();
 
@@ -84,19 +71,6 @@ class ApolloProvider extends PureComponent {
       }
     });
 
-    // ========= Context link ========= //
-    const contextLink = setContext((_, { headers }) => {
-      const token = storage.get('token');
-
-      return {
-        headers: {
-          ...headers,
-          authorization: token ? `Bearer ${token}` : undefined,
-          'x-client-version': getApiVersion(),
-        },
-      };
-    });
-
     const createOmitTypenameLink = new ApolloLink((data, forward) => {
       const operation = data;
 
@@ -106,8 +80,23 @@ class ApolloProvider extends PureComponent {
       return forward(operation);
     });
 
+    // ========= Auth link ========= //
+    const authLink = new AuthLink({
+      uri: getGraphQLRoot(),
+      getToken: () => storage.get('token'),
+      onRefresh: onRefreshToken(storage),
+      onLogout: () => history.push('/logout'),
+      headers: {
+        'x-client-version': getApiVersion(),
+      },
+      skip: ['SignInMutation', 'LogoutMutation'],
+    });
+
+    // ========= Persisted query link ========= //
+    const persistedQueryLink = createPersistedQueryLink();
+
     return new ApolloClient({
-      link: from([createOmitTypenameLink, errorLink, contextLink, createPersistedQueryLink(), httpLink]),
+      link: from([createOmitTypenameLink, authLink, errorLink, persistedQueryLink, httpLink]),
       cache: new InMemoryCache(),
 
       // Query deduplication should be turned off because request cancellation not working with turned it on

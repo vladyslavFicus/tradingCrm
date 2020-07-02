@@ -6,7 +6,6 @@ import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { filterSetTypes } from 'constants/filterSet';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { createValidator } from 'utils/validator';
@@ -36,6 +35,7 @@ class ActionFilterModal extends PureComponent {
     filterId: PropTypes.string,
     fields: PropTypes.array.isRequired,
     client: PropTypes.object.isRequired,
+    filterSetType: PropTypes.string.isRequired,
     name: PropTypes.string,
   };
 
@@ -54,6 +54,7 @@ class ActionFilterModal extends PureComponent {
       updateFilterSet,
       onSuccess,
       onCloseModal,
+      filterSetType,
       filterId: uuid,
     } = this.props;
 
@@ -66,7 +67,7 @@ class ActionFilterModal extends PureComponent {
           name,
           favourite: !!favourite,
           fields: JSON.stringify(fields),
-          type: filterSetTypes.CLIENT,
+          type: filterSetType,
         },
       }));
     } else {
@@ -170,7 +171,7 @@ class ActionFilterModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!isValid || !dirty || isSubmitting}
+                  disabled={!isValid || (!name && !dirty) || isSubmitting}
                 >
                   {I18n.t('COMMON.SUBMIT')}
                 </Button>
