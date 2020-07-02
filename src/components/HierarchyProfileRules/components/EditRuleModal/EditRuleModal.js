@@ -112,7 +112,7 @@ class EditRuleModal extends PureComponent {
     } = this.props;
 
     const partnersList = get(partners, 'data.partners.content', []);
-    const operatorsList = get(operators, 'data.operators.data.content', []);
+    const operatorsList = get(operators, 'data.operators.content', []);
 
     const {
       name,

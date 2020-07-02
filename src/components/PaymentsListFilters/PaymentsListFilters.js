@@ -52,7 +52,7 @@ class PaymentsListFilters extends PureComponent {
       }),
     }).isRequired,
     operatorsQuery: PropTypes.query({
-      operators: PropTypes.response({
+      operators: PropTypes.shape({
         content: PropTypes.arrayOf(
           PropTypes.shape({
             uuid: PropTypes.string,
@@ -223,9 +223,8 @@ class PaymentsListFilters extends PureComponent {
     const teams = filteredTeams || get(hierarchyData, 'userBranches.TEAM') || [];
     const desks = get(hierarchyData, 'userBranches.DESK') || [];
 
-    const operators = filteredOperators || get(operatorsData, 'operators.data.content') || [];
-    const operatorsError = get(operatorsData, 'operators.error');
-    const disabledOperators = operatorsLoading || operatorsError || disabledFilteredOperators;
+    const operators = filteredOperators || get(operatorsData, 'operators.content') || [];
+    const disabledOperators = operatorsLoading || disabledFilteredOperators;
 
     const paymentMethods = get(paymentMethodsData, 'paymentMethods.data') || [];
     const paymentMethodsError = get(paymentMethodsData, 'paymentMethods.error');

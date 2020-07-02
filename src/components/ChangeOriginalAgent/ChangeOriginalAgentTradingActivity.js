@@ -59,7 +59,7 @@ class ChangeOriginalAgent extends PureComponent {
       operators: { loading },
       agentId,
     } = this.props;
-    const operatorsList = get(operators, 'data.operators.data.content') || [];
+    const operatorsList = get(operators, 'data.operators.content') || [];
 
     return (
       <div className="col">

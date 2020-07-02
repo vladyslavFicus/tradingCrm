@@ -119,8 +119,8 @@ class RuleModal extends PureComponent {
       withOperatorSpreads,
     } = this.props;
 
-    const partnersList = get(partnersQueryData, 'partners.data.content', []);
-    const operatorsList = get(operatorsQueryData, 'operators.data.content', []);
+    const partnersList = get(partnersQueryData, 'partners.content', []);
+    const operatorsList = get(operatorsQueryData, 'operators.content', []);
     const {
       selectedOperators,
       percentageLimitError,

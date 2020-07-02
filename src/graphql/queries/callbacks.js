@@ -19,35 +19,29 @@ const callbacksQuery = gql`query getCallbacks(
     limit: $limit,
     page: $page,
   ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-        content {
-          _id
-          operatorId
-          userId
-          callbackId
-          callbackTime
-          status
-          creationTime
-          updateTime
-          operator {
-            fullName
-          }
-          client {
-            fullName
-          }
-          note {
-            ...NoteFragment,
-          }
-        }
-    }
-    error {
-      error
-      fields_errors
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      _id
+      operatorId
+      userId
+      callbackId
+      callbackTime
+      status
+      creationTime
+      updateTime
+      operator {
+        fullName
+      }
+      client {
+        fullName
+      }
+      note {
+        ...NoteFragment,
+      }
     }
   }
 }

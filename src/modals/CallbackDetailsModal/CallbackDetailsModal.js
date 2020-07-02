@@ -102,7 +102,7 @@ class CallbackDetailsModal extends Component {
       note,
     } = get(callbackData, 'data.callback') || {};
 
-    const { content: operators } = get(operatorsData, 'data.operators.data') || {};
+    const { content: operators } = get(operatorsData, 'data.operators') || {};
 
     return (
       <Modal className="CallbackDetailsModal" toggle={onCloseModal} isOpen={isOpen}>

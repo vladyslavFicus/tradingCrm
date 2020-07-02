@@ -22,14 +22,12 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
 
   const {
     operator: {
-      data: {
-        authorities,
-        registrationDate,
-        operatorStatus,
-        fullName,
-        country,
-        uuid,
-      },
+      authorities,
+      registrationDate,
+      operatorStatus,
+      fullName,
+      country,
+      uuid,
     },
   } = data;
 

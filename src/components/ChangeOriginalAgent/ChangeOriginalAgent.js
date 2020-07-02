@@ -38,7 +38,7 @@ class ChangeOriginalAgent extends PureComponent {
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
     const { paymentId, notify, operators, changeOriginalAgent } = this.props;
-    const operatorsList = get(operators, 'data.operators.data.content') || [];
+    const operatorsList = get(operators, 'data.operators.content') || [];
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
 
@@ -77,7 +77,7 @@ class ChangeOriginalAgent extends PureComponent {
       },
     } = this.props;
 
-    const operatorsList = get(operators, 'data.operators.data.content', []);
+    const operatorsList = get(operators, 'data.operators.content', []);
     const canChangeOriginalAgent = new Permissions(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT).check(currentPermission);
 
     return (

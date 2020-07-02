@@ -89,7 +89,7 @@ class ClientsGridFilter extends PureComponent {
       },
     } = this.props;
 
-    const operators = get(operatorsData, 'operators.data.content') || [];
+    const operators = get(operatorsData, 'operators.content') || [];
 
     let desksTeamsOperators = [];
 
@@ -126,7 +126,7 @@ class ClientsGridFilter extends PureComponent {
     } = this.props;
 
     const teams = get(userBranchHierarchy, 'data.userBranches.TEAM') || [];
-    const operators = get(operatorsData, 'operators.data.content') || [];
+    const operators = get(operatorsData, 'operators.content') || [];
 
     if (fieldName === fieldNames.desks) {
       let deskTeams = null;
@@ -206,7 +206,7 @@ class ClientsGridFilter extends PureComponent {
     } = this.props;
 
     const desks = get(hierarchyData, 'userBranches.DESK') || [];
-    const operators = get(operatorsData, 'operators.data.content') || [];
+    const operators = get(operatorsData, 'operators.content') || [];
     const partners = get(partnersData, 'partners.content') || [];
 
     const { teams, filteredOperators, branchOperatorsLoading } = this.state;

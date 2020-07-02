@@ -54,9 +54,7 @@ class SalesRules extends PureComponent {
     }).isRequired,
     operators: PropTypes.query({
       operators: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.operatorsList,
-        }),
+        content: PropTypes.operatorsList,
       }),
     }).isRequired,
     partners: PropTypes.query({
@@ -494,10 +492,8 @@ class SalesRules extends PureComponent {
     const entities = get(data, 'rules.data') || [];
     const filters = get(query, 'filters', {});
 
-    const operators = get(operatorsData, 'operators.data.content') || [];
+    const operators = get(operatorsData, 'operators.content') || [];
     const partners = get(partnersData, 'partners.content') || [];
-
-    console.log('partners', partners);
 
     const allowActions = Object
       .keys(filters)

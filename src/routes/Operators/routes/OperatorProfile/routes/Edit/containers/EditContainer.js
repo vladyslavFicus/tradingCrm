@@ -39,7 +39,7 @@ export default compose(
       variables: { uuid: id },
     }),
     props: ({ data: { operator, refetch } }) => {
-      const { authorities, ...operatorProfile } = get(operator, 'data', {});
+      const { authorities, ...operatorProfile } = operator || {};
       return {
         authorities,
         profile: {

@@ -6,22 +6,16 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query getOperatorMiniProfile($uuid: String!) {
     operator(uuid: $uuid) {
-      data {
-        _id
-        country
-        fullName
-        operatorStatus
-        registrationDate
-        uuid
-        authorities {
-          department
-          id
-          role
-        }
-      }
-      error {
-        error
-        fields_errors
+      _id
+      country
+      fullName
+      operatorStatus
+      registrationDate
+      uuid
+      authorities {
+        department
+        id
+        role
       }
     }
   }

@@ -20,9 +20,7 @@ class List extends Component {
       }),
     }).isRequired,
     operators: PropTypes.shape({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.any),
-      }),
+      operators: PropTypes.pageable(PropTypes.any),
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
@@ -108,7 +106,7 @@ class List extends Component {
       operators: { loading },
     } = this.props;
 
-    const totalElements = get(operators, 'operators.data.totalElements');
+    const totalElements = get(operators, 'operators.totalElements');
 
     return (
       <div className="card">

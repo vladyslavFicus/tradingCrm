@@ -49,7 +49,7 @@ class LeadsGridFilter extends PureComponent {
       }),
     }).isRequired,
     operatorsData: PropTypes.query({
-      operators: PropTypes.response({
+      operators: PropTypes.shape({
         content: PropTypes.arrayOf(
           PropTypes.shape({
             uuid: PropTypes.string,
@@ -89,7 +89,7 @@ class LeadsGridFilter extends PureComponent {
       values: { desks, teams },
     } = this.props;
 
-    const operators = get(operatorsData, 'data.operators.data.content') || [];
+    const operators = get(operatorsData, 'data.operators.content') || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });

@@ -18,25 +18,19 @@ const operatorsQuery = gql`query getOperators(
     registrationDateTo: $registrationDateTo,
     page: $page,
   ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-      content {
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      operatorStatus
+      hierarchy {
         uuid
-        fullName
-        operatorStatus
-        hierarchy {
-          uuid
-          userType
-        }
+        userType
       }
-    }
-    error {
-      error
-      fields_errors
     }
   }
 }`;
@@ -57,24 +51,18 @@ const managementOperatorsQuery = gql`query getOperators(
     registrationDateTo: $registrationDateTo,
     page: $page,
   ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-      content {
-        uuid
-        fullName
-        country
-        registrationDate
-        operatorStatus
-        statusChangeDate
-      }
-    }
-    error {
-      error
-      fields_errors
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      country
+      registrationDate
+      operatorStatus
+      statusChangeDate
     }
   }
 }`;
@@ -83,36 +71,30 @@ const operatorQuery = gql`query getOperatorByUUID(
   $uuid: String!,
 ) {
   operator(uuid: $uuid) {
-    data {
-      _id
-      country
-      email
-      fullName
-      firstName
-      lastName
-      operatorStatus
-      phoneNumber
-      sip
-      registeredBy
-      registrationDate
-      statusChangeAuthor
-      statusChangeDate
-      statusReason
-      uuid
-      authorities {
-        brand
-        department
-        id
-        role
-      }
-      hierarchy {
-        uuid
-        userType
-      }
+    _id
+    country
+    email
+    fullName
+    firstName
+    lastName
+    operatorStatus
+    phoneNumber
+    sip
+    registeredBy
+    registrationDate
+    statusChangeAuthor
+    statusChangeDate
+    statusReason
+    uuid
+    authorities {
+      brand
+      department
+      id
+      role
     }
-    error {
-      error
-      fields_errors
+    hierarchy {
+      uuid
+      userType
     }
   }
 }`;
