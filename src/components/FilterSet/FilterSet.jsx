@@ -54,27 +54,25 @@ class FilterSet extends PureComponent {
       isOpenDropdown: false,
     });
 
-    const { data: { filterSet: { data, error } } } = await client.query({
-      query: filterSetByIdQuery,
-      variables: { uuid },
-    });
+    try {
+      const { data: { filterSet } } = await client.query({
+        query: filterSetByIdQuery,
+        variables: { uuid },
+      });
 
-    if (error) {
+      handleHistoryReplace(filterSet);
+      submitFilters(filterSet);
+
+      handleSelectFilterDropdownItem(uuid);
+    } catch {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.LOADING_FAILED'),
       });
-
-      return;
     }
 
-    handleHistoryReplace(data);
-    submitFilters(data);
-
     this.setState({ filterSetLoading: false });
-
-    handleSelectFilterDropdownItem(uuid);
   };
 
   handleUpdateFavorite = async (uuid, newValue) => {
