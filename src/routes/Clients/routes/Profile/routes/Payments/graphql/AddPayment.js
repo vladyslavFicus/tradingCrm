@@ -31,9 +31,7 @@ const REQUEST = gql`
         paymentMethod: $paymentMethod
         profileUUID: $profileUUID
       ) {
-        data {
-          paymentId
-        }
+        paymentId
       }
     }
   }

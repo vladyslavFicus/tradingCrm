@@ -71,15 +71,9 @@ class Payments extends PureComponent {
       profileUUID: uuid,
     };
 
-    const { data: { payment: { createPayment: { data: payment, error } } } } = await addPayment({ variables });
+    try {
+      const { data: { payment: { createPayment } } } = await addPayment({ variables });
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
-      });
-    } else {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -87,15 +81,19 @@ class Payments extends PureComponent {
       });
 
       if (note) {
-        await addNote({ variables: { ...note, targetUUID: payment.paymentId } });
+        await addNote({ variables: { ...note, targetUUID: createPayment.paymentId } });
       }
 
-      await Promise.all([
-        paymentsQuery.refetch(),
-        profileQuery.refetch(),
-      ]);
+      paymentsQuery.refetch();
+      profileQuery.refetch();
 
       addPaymentModal.hide();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
+      });
     }
   };
 
