@@ -64,7 +64,7 @@ class ApprovePaymentForm extends PureComponent {
   render() {
     const { manualPaymentMethods } = this.props;
 
-    const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods.data') || [];
+    const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods') || [];
 
     return (
       <Formik

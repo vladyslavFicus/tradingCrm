@@ -197,8 +197,7 @@ class PaymentAddModal extends PureComponent {
       },
     } = this.props;
 
-    const manualMethods = get(manualPaymentMethodsData, 'manualPaymentMethods.data') || [];
-    const manualMethodsError = get(manualPaymentMethodsData, 'manualPaymentMethods.error');
+    const manualMethods = get(manualPaymentMethodsData, 'manualPaymentMethods') || [];
 
     return (
       <Modal contentClassName="payment-modal" toggle={onCloseModal} isOpen>
@@ -255,7 +254,7 @@ class PaymentAddModal extends PureComponent {
                                 'PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL',
                               )}
                               showErrorMessage={false}
-                              disabled={manualMethodsLoading || manualMethodsError}
+                              disabled={manualMethodsLoading}
                               component={FormikSelectField}
                             >
                               {manualMethods.map(item => (

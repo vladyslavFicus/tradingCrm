@@ -19,27 +19,22 @@ const paymentsStatisticQuery = gql`
       profileId: $profileId
       additionalStatistics: $additionalStatistics
     ) {
-      error {
-        error
+      items {
+        amount
+        count
+        entryDate
       }
-      data {
-        items {
-          amount
-          count
-          entryDate
-        }
-        itemsTotal {
-          totalAmount
-          totalCount
-        }
-        additionalTotal {
-          totalAmount
-          totalCount
-          todayAmount
-          todayCount
-          monthAmount
-          monthCount
-        }
+      itemsTotal {
+        totalAmount
+        totalCount
+      }
+      additionalTotal {
+        totalAmount
+        totalCount
+        todayAmount
+        todayCount
+        monthAmount
+        monthCount
       }
     }
   }

@@ -90,7 +90,7 @@ class ChangePaymentStatusForm extends PureComponent {
   render() {
     const { manualPaymentMethods } = this.props;
 
-    const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods.data') || [];
+    const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods') || [];
     const isManualPaymentsLoading = manualPaymentMethods.loading;
 
     return (

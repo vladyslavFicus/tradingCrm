@@ -671,28 +671,25 @@ PropTypes.storage = PropTypes.shape({
 });
 PropTypes.paymentsStatistic = PropTypes.shape({
   paymentsStatistic: PropTypes.shape({
-    data: PropTypes.shape({
-      items: PropTypes.arrayOf(
-        PropTypes.shape({
-          amount: PropTypes.number,
-          count: PropTypes.number,
-          entryDate: PropTypes.string,
-        }).isRequired,
-      ).isRequired,
-      itemsTotal: PropTypes.shape({
-        totalAmount: PropTypes.number,
-        totalCount: PropTypes.number,
-      }),
-      additionalTotal: PropTypes.shape({
-        totalCount: PropTypes.number,
-        totalAmount: PropTypes.number,
-        monthCount: PropTypes.number,
-        monthAmount: PropTypes.number,
-        todayCount: PropTypes.number,
-        todayAmount: PropTypes.number,
-      }),
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        amount: PropTypes.number,
+        count: PropTypes.number,
+        entryDate: PropTypes.string,
+      }).isRequired,
+    ).isRequired,
+    itemsTotal: PropTypes.shape({
+      totalAmount: PropTypes.number,
+      totalCount: PropTypes.number,
     }),
-    error: PropTypes.object,
+    additionalTotal: PropTypes.shape({
+      totalCount: PropTypes.number,
+      totalAmount: PropTypes.number,
+      monthCount: PropTypes.number,
+      monthAmount: PropTypes.number,
+      todayCount: PropTypes.number,
+      todayAmount: PropTypes.number,
+    }),
   }).isRequired,
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -871,9 +868,7 @@ PropTypes.email = PropTypes.shape({
 });
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({
-    manualPaymentMethods: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
-    }),
+    manualPaymentMethods: PropTypes.arrayOf(PropTypes.string),
   }),
   loading: PropTypes.bool.isRequired,
 });

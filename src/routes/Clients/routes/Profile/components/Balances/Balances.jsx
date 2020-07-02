@@ -144,15 +144,15 @@ class Balances extends Component {
     const {
       totalAmount: depositAmount,
       totalCount: depositCount,
-    } = get(depositStat, 'data.itemsTotal') || moneyObj;
+    } = get(depositStat, 'itemsTotal') || moneyObj;
     const {
       totalAmount: withdrawAmount,
       totalCount: withdrawCount,
-    } = get(withdrawStat, 'data.itemsTotal') || moneyObj;
+    } = get(withdrawStat, 'itemsTotal') || moneyObj;
 
-    const depositItems = get(depositStat, 'data.items', [])
+    const depositItems = get(depositStat, 'items', [])
       .filter(i => i.amount > 0);
-    const withdrawItems = get(withdrawStat, 'data.items', [])
+    const withdrawItems = get(withdrawStat, 'items', [])
       .filter(i => i.amount > 0);
 
     const lastDepositItem = depositItems[depositItems.length - 1];
