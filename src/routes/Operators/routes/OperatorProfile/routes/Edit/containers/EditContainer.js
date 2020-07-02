@@ -12,9 +12,9 @@ export default compose(
   withStorage(['auth']),
   withNotifications,
   graphql(authoritiesOptionsQuery, {
-    name: 'authoritiesOptions',
-    props: ({ authoritiesOptions }) => {
-      const departmentsRoles = get(authoritiesOptions, 'authoritiesOptions.data.authoritiesOptions', {});
+    name: 'authoritiesOptionsData',
+    props: ({ authoritiesOptionsData }) => {
+      const departmentsRoles = get(authoritiesOptionsData, 'authoritiesOptions', []);
 
       return {
         departmentsRoles: omit(departmentsRoles, ['PLAYER', 'AFFILIATE']),

@@ -67,18 +67,13 @@ class List extends Component {
       client,
     } = this.props;
 
-    const {
-      data: {
-        authoritiesOptions: {
-          data: {
-            authoritiesOptions,
-          },
-          error,
+    try {
+      const {
+        data: {
+          authoritiesOptions,
         },
-      },
-    } = await client.query({ query: authoritiesOptionsQuery });
+      } = await client.query({ query: authoritiesOptionsQuery });
 
-    if (!error) {
       delete authoritiesOptions.PLAYER;
       delete authoritiesOptions.AFFILIATE;
 
@@ -91,14 +86,14 @@ class List extends Component {
 
       createOperator.show({
         initialValues,
-        departmentsRoles: authoritiesOptions || {},
+        departmentsRoles: authoritiesOptions || [],
         onExist: (value) => {
           existingOperator.show({
             ...value,
           });
         },
       });
-    } else {
+    } catch {
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.TITLE'),
