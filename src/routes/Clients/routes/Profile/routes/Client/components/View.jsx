@@ -110,24 +110,25 @@ class View extends Component {
   };
 
   handleUpdateAddress = async (data) => {
-    const {
-      data: {
-        profile: {
-          updateAddress: { error },
+    try {
+      await this.props.updateAddress({
+        variables: {
+          ...data,
         },
-      },
-    } = await this.props.updateAddress({
-      variables: {
-        ...data,
-      },
-    });
+      });
 
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleUpdateEmail = (data) => {
