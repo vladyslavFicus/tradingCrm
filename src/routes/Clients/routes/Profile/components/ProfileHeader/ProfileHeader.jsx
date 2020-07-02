@@ -334,7 +334,6 @@ class ProfileHeader extends Component {
               status={statusType}
               reason={reason}
               availableStatuses={availableStatuses}
-              refetchLoginLock={loginLock.refetch}
             />
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">

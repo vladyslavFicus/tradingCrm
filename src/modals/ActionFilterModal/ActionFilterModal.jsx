@@ -57,7 +57,7 @@ class ActionFilterModal extends PureComponent {
     } = this.props;
 
     try {
-      const { data: { filterSet: { create: { data } } } } = await createFilterSet({
+      const { data: { filterSet: { create: filter } } } = await createFilterSet({
         variables: {
           name,
           favourite: !!favourite,
@@ -72,7 +72,7 @@ class ActionFilterModal extends PureComponent {
         message: I18n.t('FILTER_SET.CREATE.SUCCESS', { name }),
       });
 
-      onSuccess(onCloseModal, data);
+      onSuccess(onCloseModal, filter);
     } catch (e) {
       const error = get(e, 'graphQLErrors.0.extensions.response.body');
 

@@ -68,43 +68,45 @@ class View extends Component {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        profile: {
-          updatePersonalInformation: { error },
+    try {
+      await updatePersonalInformation({
+        variables: {
+          playerUUID,
+          languageCode: data.language,
+          ...decodeNullValues(data),
         },
-      },
-    } = await updatePersonalInformation({
-      variables: {
-        playerUUID,
-        languageCode: data.language,
-        ...decodeNullValues(data),
-      },
-    });
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-      ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleVerifyEmail = async () => {
-    const {
-      data: {
-        profile: {
-          verifyEmail: { error },
-        },
-      },
-    } = await this.props.verifyEmail();
+    try {
+      await this.props.verifyEmail();
 
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleUpdateAddress = async (data) => {
