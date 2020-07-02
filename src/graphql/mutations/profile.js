@@ -130,11 +130,9 @@ const updateAddressMutation = gql`mutation updateAddress(
       postCode: $postCode,
       address: $address,
     ) {
-      data {
-        _id
-        address {
-          ...AddressFragment
-        }
+      _id
+      address {
+        ...AddressFragment
       }
     }
   }
