@@ -148,47 +148,36 @@ class SalesRules extends PureComponent {
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
       });
     } catch (e) {
-      console.log('>>>>', e);
-    }
+      const error = parseErrors(e);
 
-    // if (error) {
-    //   notify({
-    //     level: 'error',
-    //     title: I18n.t('COMMON.FAIL'),
-    //     message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
-    //   });
-    //
-    //   let _error = error.error;
-    //
-    //   if (_error === 'error.entity.already.exist') {
-    //     _error = (
-    //       <>
-    //         <div>
-    //           <Link
-    //             to={{
-    //               pathname: '/sales-rules',
-    //               query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-    //             }}
-    //           >
-    //             {I18n.t(`rules.${error.error}`, error.errorParameters)}
-    //           </Link>
-    //         </div>
-    //         <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-    //       </>
-    //     );
-    //   }
-    //   setErrors({ submit: _error });
-    // } else {
-    //   await refetch();
-    //   editRuleModal.hide();
-    //   notify({
-    //     level: error ? 'error' : 'success',
-    //     title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-    //     message: error
-    //       ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
-    //       : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-    //   });
-    // }
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+
+      let _error = error.error;
+
+      if (error.error === 'error.entity.already.exist') {
+        _error = (
+          <>
+            <div>
+              <Link
+                to={{
+                  pathname: '/sales-rules',
+                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+                }}
+              >
+                {I18n.t(`rules.${error.error}`, error.errorParameters)}
+              </Link>
+            </div>
+            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+          </>
+        );
+      }
+
+      setErrors({ submit: _error });
+    }
   };
 
   handleAddRule = async ({ operatorSpreads, ...rest }, setErrors) => {
@@ -296,7 +285,7 @@ class SalesRules extends PureComponent {
       },
     } = this.props;
 
-    const data = get(rules, 'data') || get(rulesRetention, 'data') || [];
+    const data = rules || rulesRetention || [];
     const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
@@ -489,7 +478,7 @@ class SalesRules extends PureComponent {
       isTab,
     } = this.props;
 
-    const entities = get(data, 'rules.data') || [];
+    const entities = get(data, 'rules') || [];
     const filters = get(query, 'filters', {});
 
     const operators = get(operatorsData, 'operators.content') || [];

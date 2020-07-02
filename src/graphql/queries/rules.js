@@ -20,40 +20,34 @@ const getRules = gql`query getRules(
     parentId: $parentId,
     branchUuid: $branchUuid,
   ) {
-    error {
-      error
-      fields_errors
-    }
-    data {
-      actions {
-        id
-        parentBranch
-        parentUser
-        ruleType
-        operatorSpreads {
-          id,
-          operator {
-            fullName,
-            uuid,
-          },
-          percentage,
+    actions {
+      id
+      parentBranch
+      parentUser
+      ruleType
+      operatorSpreads {
+        id,
+        operator {
+          fullName,
+          uuid,
         },
-      }
-      uuid
-      countries
-      languages
-      partners {
-        uuid,
-        fullName,
-      }
-      sources
-      priority
-      name
-      type
-      updatedBy
-      createdBy
+        percentage,
+      },
     }
-  } 
+    uuid
+    countries
+    languages
+    partners {
+      uuid,
+      fullName,
+    }
+    sources
+    priority
+    name
+    type
+    updatedBy
+    createdBy
+  }
 }`;
 
 const getRulesRetention = gql`query getRulesRetention(
@@ -92,7 +86,7 @@ const getRulesRetention = gql`query getRulesRetention(
       updatedBy
       createdBy
     }
-  } 
+  }
 }`;
 
 export {

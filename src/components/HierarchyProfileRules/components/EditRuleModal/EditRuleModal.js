@@ -123,14 +123,14 @@ class EditRuleModal extends PureComponent {
       type,
       partners: currentPartners = [],
       sources,
-    } = get(data, 'rules.data[0]') || {};
+    } = get(data, 'rules[0]') || {};
 
     const {
       selectedOperators,
       percentageLimitError,
     } = this.state;
 
-    const currentOperators = get(data, 'rules.data[0].actions[0].operatorSpreads', [])
+    const currentOperators = get(data, 'rules[0].actions[0].operatorSpreads', [])
       .map(({ parentUser, percentage }) => ({ parentUser, percentage }));
 
     return (

@@ -25,40 +25,35 @@ const REQUEST = gql`query getRules(
     parentId: $parentId,
     operatorUuids: $operatorUuids,
     affiliateId: $affiliateId,
-    
+
   ) {
-    error {
-      error
-    }
-    data {
-      actions {
-        id
-        parentBranch
-        parentUser
-        ruleType
-        operatorSpreads {
-          id,
-          operator {
-            fullName,
-            uuid,
-          },
-          percentage,
+    actions {
+      id
+      parentBranch
+      parentUser
+      ruleType
+      operatorSpreads {
+        id,
+        operator {
+          fullName,
+          uuid,
         },
-      }
-      uuid
-      countries
-      languages
-      partners {
-        uuid,
-        fullName,
-      }
-      sources
-      priority
-      name
-      type
-      updatedBy
-      createdBy
+        percentage,
+      },
     }
+    uuid
+    countries
+    languages
+    partners {
+      uuid,
+      fullName,
+    }
+    sources
+    priority
+    name
+    type
+    updatedBy
+    createdBy
   }
 }
 `;
