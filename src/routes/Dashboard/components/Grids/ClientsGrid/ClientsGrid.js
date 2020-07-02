@@ -24,9 +24,7 @@ import ClientsQuery from './graphql/ClientsQuery';
 class ClientsGrid extends PureComponent {
   static propTypes = {
     clientsQuery: PropTypes.query({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.profile),
-      }),
+      profiles: PropTypes.pageable(PropTypes.profile),
     }).isRequired,
   };
 
@@ -40,7 +38,7 @@ class ClientsGrid extends PureComponent {
       clientsQuery: { loading },
     } = this.props;
 
-    const profiles = get(clientsQuery, 'data.profiles.data.content', []);
+    const profiles = get(clientsQuery, 'data.profiles.content') || [];
 
     return (
       <div className="card card-body">

@@ -14,14 +14,12 @@ class ClientsGridHeader extends Component {
     selectedRowsLength: PropTypes.number.isRequired,
     resetClientsGridInitialState: PropTypes.func.isRequired,
     profiles: PropTypes.shape({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.shape({
-          totalElements: PropTypes.number,
-          page: PropTypes.number,
-          last: PropTypes.bool,
-          content: PropTypes.profileView,
-        })),
-      }),
+      profiles: PropTypes.pageable(PropTypes.shape({
+        totalElements: PropTypes.number,
+        page: PropTypes.number,
+        last: PropTypes.bool,
+        content: PropTypes.profileView,
+      })),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
   };
@@ -41,7 +39,7 @@ class ClientsGridHeader extends Component {
       resetClientsGridInitialState,
     } = this.props;
 
-    const { totalElements } = get(profiles, 'profiles.data') || {};
+    const { totalElements } = get(profiles, 'profiles') || {};
 
     const clientsListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit

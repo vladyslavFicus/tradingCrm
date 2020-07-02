@@ -13,15 +13,12 @@ class RegistrationsChart extends PureComponent {
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
       registrationStatistic: PropTypes.shape({
-        data: PropTypes.shape({
-          additionalStatistics: PropTypes.shape({
-            total: PropTypes.RegisteredUsersAdditionalStatField,
-            month: PropTypes.RegisteredUsersAdditionalStatField,
-            today: PropTypes.RegisteredUsersAdditionalStatField,
-          }),
-          registrations: PropTypes.arrayOf(PropTypes.chartEntity).isRequired,
+        additionalStatistics: PropTypes.shape({
+          total: PropTypes.RegisteredUsersAdditionalStatField,
+          month: PropTypes.RegisteredUsersAdditionalStatField,
+          today: PropTypes.RegisteredUsersAdditionalStatField,
         }),
-        error: PropTypes.bool,
+        registrations: PropTypes.arrayOf(PropTypes.chartEntity).isRequired,
       }),
     }).isRequired,
   };
@@ -40,9 +37,9 @@ class RegistrationsChart extends PureComponent {
       <Chart
         title={I18n.t('DASHBOARD.REGISTRATION_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.REGISTRATION_CHART.TOOLTIP_TITLE')}
-        data={get(registeredUsersStatistic, 'data.registrationStatistic.data.registrations', [])}
-        totals={get(registeredUsersStatistic, 'data.registrationStatistic.data.additionalStatistics', {})}
-        hasResults={!get(registeredUsersStatistic, 'data.registrationStatistic.error', {})}
+        data={get(registeredUsersStatistic, 'data.registrationStatistic.registrations', [])}
+        totals={get(registeredUsersStatistic, 'data.registrationStatistic.additionalStatistics', {})}
+        hasResults={!get(registeredUsersStatistic, 'error') || true}
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={registeredUsersStatistic.loading}

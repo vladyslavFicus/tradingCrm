@@ -6,20 +6,15 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query profile($playerUUID: String!){
     profile(playerUUID: $playerUUID) {
-      data {
-        uuid
-        firstName
-        lastName
-        birthDate
-        profileView {
-          balance {
-            amount
-            credit
-          }
+      uuid
+      firstName
+      lastName
+      birthDate
+      profileView {
+        balance {
+          amount
+          credit
         }
-      }
-      error {
-        error
       }
     }
   }

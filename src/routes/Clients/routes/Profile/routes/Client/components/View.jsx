@@ -85,7 +85,7 @@ class View extends Component {
     notify({
       level: error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
+      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
       ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
     });
   };
@@ -178,23 +178,21 @@ class View extends Component {
     const {
       profile: {
         profile: {
-          data: {
-            passport,
-            firstName,
-            lastName,
-            uuid,
-            birthDate,
-            gender,
-            address,
-            languageCode,
-            contacts: { additionalEmail, additionalPhone, email, phone },
-            kyc: { status: kycStatus },
-            configuration: { internalTransfer },
-            phoneVerified,
-            emailVerified,
-            identificationNumber,
-            timeZone,
-          },
+          passport,
+          firstName,
+          lastName,
+          uuid,
+          birthDate,
+          gender,
+          address,
+          languageCode,
+          contacts: { additionalEmail, additionalPhone, email, phone },
+          kyc: { status: kycStatus },
+          configuration: { internalTransfer },
+          phoneVerified,
+          emailVerified,
+          identificationNumber,
+          timeZone,
         },
       },
     } = this.props;

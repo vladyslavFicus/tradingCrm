@@ -37,9 +37,7 @@ class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     profiles: PropTypes.query({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.profileView),
-      }),
+      profiles: PropTypes.pageable(PropTypes.profileView),
     }).isRequired,
     searchLimit: PropTypes.oneOfType([
       PropTypes.string,
@@ -108,7 +106,7 @@ class ClientsGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content: gridData, last } = get(profiles, 'profiles.data') || { content: [] };
+    const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
 
     const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
 

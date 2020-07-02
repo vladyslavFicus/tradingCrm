@@ -37,7 +37,7 @@ class Profile extends Component {
     match: PropTypes.shape({
       path: PropTypes.string,
     }).isRequired,
-    profile: PropTypes.query(PropTypes.profile).isRequired,
+    profile: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -61,7 +61,7 @@ class Profile extends Component {
 
   get availableStatuses() {
     const { profile, permission: { permissions } } = this.props;
-    const profileStatus = get(profile, 'data.profile.data.status.type');
+    const profileStatus = get(profile, 'data.profile.status.type');
 
     if (!profileStatus) {
       return [];
@@ -86,7 +86,7 @@ class Profile extends Component {
       return <NotFound />;
     }
 
-    const profileData = get(data, 'profile.data');
+    const profileData = get(data, 'profile');
     const acquisitionData = get(profileData, 'acquisition') || {};
     const lastSignInSessions = get(profileData, 'profileView.lastSignInSessions') || [];
 

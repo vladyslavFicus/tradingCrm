@@ -33,9 +33,7 @@ class Payments extends PureComponent {
       clientPayments: PropTypes.pageable(PropTypes.paymentEntity),
     }).isRequired,
     profileQuery: PropTypes.query({
-      profile: PropTypes.shape({
-        data: PropTypes.profile,
-      }),
+      profile: PropTypes.profile,
     }).isRequired,
     addPayment: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
@@ -109,7 +107,7 @@ class Payments extends PureComponent {
 
     addPaymentModal.show({
       onSubmit: this.handleAddPayment,
-      profile: get(profileQuery, 'data.profile.data') || {},
+      profile: get(profileQuery, 'data.profile') || {},
     });
   };
 

@@ -35,9 +35,7 @@ class KYCNote extends PureComponent {
       KYCNoteQuery: {
         data: {
           profile: {
-            data: {
-              kyc: { uuid },
-            },
+            kyc: { uuid },
           },
         },
       },
@@ -73,10 +71,8 @@ class KYCNote extends PureComponent {
       KYCNoteQuery: {
         data: {
           profile: {
-            data: {
-              kycNote: {
-                noteId,
-              },
+            kycNote: {
+              noteId,
             },
           },
         },
@@ -117,7 +113,7 @@ class KYCNote extends PureComponent {
       return null;
     }
 
-    const KYCNoteContent = get(data, 'profile.data.kycNote.content') || '';
+    const KYCNoteContent = get(data, 'profile.kycNote.content') || '';
     const updateAllowed = updateNotePermissions.check(currentPermissions);
     const isFormDisabled = !!(KYCNoteContent && !updateAllowed);
 

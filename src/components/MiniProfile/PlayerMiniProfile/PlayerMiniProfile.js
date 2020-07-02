@@ -26,20 +26,18 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
 
   const {
     profile: {
-      data: {
-        registrationDetails: { registrationDate },
-        profileView: {
-          lastSignInSessions,
-          balance: { amount },
-        },
-        kyc: { status: KYCStatus },
-        status: { type: statusType, reason },
-        languageCode,
-        firstName,
-        lastName,
-        uuid,
-        age,
+      registrationDetails: { registrationDate },
+      profileView: {
+        lastSignInSessions,
+        balance: { amount },
       },
+      kyc: { status: KYCStatus },
+      status: { type: statusType, reason },
+      languageCode,
+      firstName,
+      lastName,
+      uuid,
+      age,
     },
   } = data;
 
@@ -47,7 +45,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
   const lastLogin = (lastSignInSessions && lastSignInSessions.length)
     ? lastSignInSessions[lastSignInSessions.length - 1].startedAt
     : null;
-  const lastDepositTime = get(data, 'profile.data.profileView.paymentDetails.lastDepositTime', null);
+  const lastDepositTime = get(data, 'profile.profileView.paymentDetails.lastDepositTime', null);
 
   return (
     <div className={classNames('mini-profile mini-profile', userStatusNames[statusType])}>
@@ -109,9 +107,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
 PlayerMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      profile: PropTypes.shape({
-        data: PropTypes.profile,
-      }),
+      profile: PropTypes.profile,
     }),
     loading: PropTypes.bool.isRequired,
   }).isRequired,
