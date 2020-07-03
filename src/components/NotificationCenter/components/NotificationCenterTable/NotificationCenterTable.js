@@ -131,6 +131,7 @@ class NotificationCenterTable extends PureComponent {
           threshold={0}
           withNoResults={error}
           withMultiSelect
+          useWindow={false}
         >
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}

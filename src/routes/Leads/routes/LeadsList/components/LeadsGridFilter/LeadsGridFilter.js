@@ -145,7 +145,6 @@ class LeadsGridFilter extends PureComponent {
             component={FormikSelectField}
             multiple
             searchable
-            withAnyOption
           >
             {Object.keys(countries).map(country => (
               <option key={country} value={country}>{countries[country]}</option>
@@ -234,7 +233,6 @@ class LeadsGridFilter extends PureComponent {
             component={FormikSelectField}
             searchable
             multiple
-            withAnyOption
           >
             {Object.entries(this.leadsSalesStatuses).map(([key, value]) => (
               <option key={key} value={key}>
