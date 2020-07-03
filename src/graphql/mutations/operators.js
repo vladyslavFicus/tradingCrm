@@ -13,35 +13,29 @@ const createOperator = gql`mutation createOperator(
 ) {
   operator {
     createOperator(
-      branchId: $branchId,
-      department: $department,
-      email: $email,
-      firstName: $firstName,
-      lastName: $lastName,
-      phone: $phone,
-      password: $password,
-      role: $role,
-      userType: $userType,
+      branchId: $branchId
+      department: $department
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      phone: $phone
+      password: $password
+      role: $role
+      userType: $userType
     ) {
-      data {
-        country
-        email
-        fullName
-        firstName
-        lastName
-        operatorStatus
-        phoneNumber
-        registeredBy
-        registrationDate
-        statusChangeAuthor
-        statusChangeDate
-        statusReason
-        uuid
-      }
-      error {
-        error
-        fields_errors
-      }
+      country
+      email
+      fullName
+      firstName
+      lastName
+      operatorStatus
+      phoneNumber
+      registeredBy
+      registrationDate
+      statusChangeAuthor
+      statusChangeDate
+      statusReason
+      uuid
     }
   }
 }`;
@@ -56,34 +50,28 @@ const updateOperator = gql`mutation updateOperator(
 ) {
   operator {
     updateOperator(
-      uuid: $uuid,
-      firstName: $firstName,
-      lastName: $lastName,
+      uuid: $uuid
+      firstName: $firstName
+      lastName: $lastName
       phoneNumber: $phoneNumber
       sip: $sip
       country: $country
     ) {
-      data {
-        _id
-        country
-        email
-        fullName
-        firstName
-        lastName
-        operatorStatus
-        phoneNumber
-        sip
-        registeredBy
-        registrationDate
-        statusChangeAuthor
-        statusChangeDate
-        statusReason
-        uuid
-      }
-      error {
-        error
-        fields_errors
-      }
+      _id
+      country
+      email
+      fullName
+      firstName
+      lastName
+      operatorStatus
+      phoneNumber
+      sip
+      registeredBy
+      registrationDate
+      statusChangeAuthor
+      statusChangeDate
+      statusReason
+      uuid
     }
   }
 }`;
@@ -110,18 +98,12 @@ const addExistingOperator = gql`mutation addExistingOperator(
 ) {
   operator {
     addExistingOperator(
-      email: $email,
-      department: $department,
-      role: $role,
-      branchId: $branchId,
+      email: $email
+      department: $department
+      role: $role
+      branchId: $branchId
     ) {
-      data {
-        uuid
-      }
-      error {
-        error,
-        fields_errors
-      }
+      uuid
     }
   }
 }`;

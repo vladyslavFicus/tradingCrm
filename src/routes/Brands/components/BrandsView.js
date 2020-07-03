@@ -76,31 +76,29 @@ class BrandsView extends Component {
 
     // Should be covered as callback because this method called from componentDidUpdate several times and make logout
     this.setState({ step: 3, loading: true }, async () => {
-      const {
-        data: {
-          auth: {
-            chooseDepartment: {
-              data: {
-                token,
-                uuid,
-              },
-              error,
-            },
+      try {
+        const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartmentMutation({
+          variables: {
+            brand,
+            department,
+            role,
           },
-        },
-      } = await chooseDepartmentMutation({
-        variables: { brand, department, role },
-      });
+        });
 
-      if (!error) {
         storage.set('token', token);
-        storage.set('auth', { department, role, uuid });
+        storage.set('auth', {
+          department,
+          role,
+          uuid,
+        });
 
         // This function need to refresh window.app object to get new data from token
         setBrandIdByUserToken();
-      }
 
-      history.push('/dashboard');
+        history.push('/dashboard');
+      } catch (e) {
+        // Do nothing...
+      }
     });
   };
 

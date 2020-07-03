@@ -10,14 +10,9 @@ const signInMutation = gql`
         login: $login
         password: $password
       ) {
-        data {
-          uuid
-          brandToAuthorities
-          token
-        }
-        error {
-          error
-        }
+        uuid
+        brandToAuthorities
+        token
       }
     }
   }
@@ -35,13 +30,8 @@ const chooseDepartmentMutation = gql`
         department: $department
         role: $role
       ) {
-        data {
-          uuid
-          token
-        }
-        error {
-          error
-        }
+        uuid
+        token
       }
     }
   }

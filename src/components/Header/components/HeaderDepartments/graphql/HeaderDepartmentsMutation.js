@@ -15,13 +15,8 @@ const REQUEST = gql`
         department: $department
         role: $role
       ) {
-        data {
-          uuid
-          token
-        }
-        error {
-          error
-        }
+        uuid
+        token
       }
     }
   }

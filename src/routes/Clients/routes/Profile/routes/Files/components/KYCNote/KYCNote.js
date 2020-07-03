@@ -44,25 +44,29 @@ class KYCNote extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { note: { add: { error } } } } = await createKYCNote({
-      variables: {
-        targetType: 'KYC',
-        targetUUID: uuid,
-        playerUUID,
-        content,
-      },
-    });
+    try {
+      await createKYCNote({
+        variables: {
+          targetType: 'KYC',
+          targetUUID: uuid,
+          playerUUID,
+          content,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
-      message: error
-        ? I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.ERROR')
-        : I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.SUCCESS'),
+      });
 
-    if (!error) {
       resetForm({ values: { content } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.ERROR'),
+      });
     }
   };
 
@@ -81,23 +85,27 @@ class KYCNote extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { note: { update: { error } } } } = await updateKYCNote({
-      variables: {
-        noteId,
-        content,
-      },
-    });
+    try {
+      await updateKYCNote({
+        variables: {
+          noteId,
+          content,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
-      message: error
-        ? I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.ERROR')
-        : I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.SUCCESS'),
+      });
 
-    if (!error) {
       resetForm({ values: { content } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.ERROR'),
+      });
     }
   };
 
