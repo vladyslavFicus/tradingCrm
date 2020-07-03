@@ -51,8 +51,8 @@ class NotesGridFilter extends PureComponent {
         validate={
           createValidator({
             department: ['string', `in:${Object.keys(departmentRoles).join()}`],
-            changedAtFrom: 'string',
-            changedAtTo: 'string',
+            changedAtFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+            changedAtTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
           }, translateLabels(attributeLabels), false)
         }
       >
