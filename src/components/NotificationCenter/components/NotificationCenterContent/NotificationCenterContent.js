@@ -19,15 +19,10 @@ const MAX_SELECTED_ROWS = 10000;
 class NotificationCenterContent extends PureComponent {
   static propTypes = {
     notifications: PropTypes.query({
-      notificationCenter: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.notificationCenter),
-        error: PropTypes.any,
-      }),
+      notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
     }).isRequired,
     notificationsTypes: PropTypes.query({
-      notificationCenterTypes: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.string),
-      }),
+      notificationCenterTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
@@ -52,10 +47,7 @@ class NotificationCenterContent extends PureComponent {
         modals: { confirmationModal },
       } = this.props;
 
-      const { totalElements } = get(
-        notifications,
-        'data.notificationCenter.data',
-      );
+      const { totalElements } = get(notifications, 'data.notificationCenter');
 
       if (totalElements > MAX_SELECTED_ROWS) {
         confirmationModal.show({
@@ -94,10 +86,7 @@ class NotificationCenterContent extends PureComponent {
 
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const { totalElements, content } = get(
-      notifications,
-      'data.notificationCenter.data',
-    );
+    const { totalElements, content } = get(notifications, 'data.notificationCenter');
 
     const uuids = content
       .map(({ uuid }, index) => touchedRowsIds.includes(index) && uuid)
@@ -133,7 +122,7 @@ class NotificationCenterContent extends PureComponent {
     const { notifications } = this.props;
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const totalElements = get(notifications, 'data.notificationCenter.data.totalElements');
+    const totalElements = get(notifications, 'data.notificationCenter.totalElements');
 
     let selectedRowsLength = touchedRowsIds.length;
 
@@ -154,11 +143,10 @@ class NotificationCenterContent extends PureComponent {
 
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const notificationsTypes = get(
-      notificationsTypesData, 'notificationCenterTypes.data',
-    ) || [];
+    const typesData = get(notificationsTypesData, 'notificationCenterTypes') || [];
+    const notificationsTypes = Object.keys(typesData);
 
-    const totalElements = get(notifications, 'data.notificationCenter.data.totalElements');
+    const totalElements = get(notifications, 'data.notificationCenter.totalElements');
 
     return (
       <div className="NotificationCenterContent">

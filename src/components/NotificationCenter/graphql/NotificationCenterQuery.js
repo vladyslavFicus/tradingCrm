@@ -6,36 +6,31 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query NotificationCenterQuery($args: NotificationCenterSearch__Input) {
     notificationCenter(args: $args) {
-      data {
-        content {
-          read
+      content {
+        read
+        uuid
+        priority
+        client {
           uuid
-          priority
-          client {
-            uuid
-            firstName
-            lastName
-            languageCode
-          }
-          createdAt
-          type
-          subtype
-          details {
-            amount
-            currency
-            login
-            platformType
-            callbackTime
-          }
+          firstName
+          lastName
+          languageCode
         }
-        last
-        size
-        number
-        totalElements
+        createdAt
+        type
+        subtype
+        details {
+          amount
+          currency
+          login
+          platformType
+          callbackTime
+        }
       }
-      error {
-        error
-      }
+      last
+      size
+      number
+      totalElements
     }
   }
 `;

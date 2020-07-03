@@ -39,7 +39,7 @@ class NotificationCenterTable extends PureComponent {
       },
     } = this.props;
 
-    const page = get(data, 'notificationCenter.data.number') || 0;
+    const page = get(data, 'notificationCenter.number') || 0;
 
     loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
@@ -106,7 +106,7 @@ class NotificationCenterTable extends PureComponent {
       touchedRowsIds,
     } = this.props;
 
-    const { content, last } = get(data, 'notificationCenter.data') || { content: [] };
+    const { content, last } = get(data, 'notificationCenter') || { content: [] };
     const error = get(data, 'notificationCenter.error');
 
     return (

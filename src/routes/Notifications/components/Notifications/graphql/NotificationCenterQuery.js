@@ -7,39 +7,34 @@ import { NOTIFICATIONS_SIZE } from '../../../constants';
 
 const REQUEST = gql`query NotificationCenterQuery($args: NotificationCenterSearch__Input) {
   notificationCenter (args: $args) {
-    data {
-      content {
-        read
+    content {
+      read
+      uuid
+      priority
+      agent {
+        fullName
         uuid
-        priority
-        agent {
-          fullName
-          uuid
-        }
-        client {
-          uuid
-          fullName
-          languageCode
-        }
-        createdAt
-        type
-        subtype
-        details {
-          amount
-          currency
-          login
-          platformType
-          callbackTime
-        }
       }
-      last
-      size
-      number
-      totalElements
+      client {
+        uuid
+        fullName
+        languageCode
+      }
+      createdAt
+      type
+      subtype
+      details {
+        amount
+        currency
+        login
+        platformType
+        callbackTime
+      }
     }
-    error {
-      error
-    }
+    last
+    size
+    number
+    totalElements
   }
 }`;
 
