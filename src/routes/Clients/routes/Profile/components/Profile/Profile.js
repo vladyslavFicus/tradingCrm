@@ -3,10 +3,9 @@ import { get } from 'lodash';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
-import parseErrors from 'apollo/utils/parseErrors';
 import EventEmitter, { PROFILE_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import {
   statusActions as userStatuses,

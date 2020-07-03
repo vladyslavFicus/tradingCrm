@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { getBackofficeBrand } from 'config';
 import { parse } from 'qs';
 import PropTypes from 'prop-types';
+import { parseErrors } from 'apollo';
 import Preloader from 'components/Preloader';
 import Copyrights from 'components/Copyrights';
-import parseErrors from 'utils/parseErrors';
 import ResetPasswordForm from './ResetPasswordForm';
 
 class ResetPassword extends Component {
