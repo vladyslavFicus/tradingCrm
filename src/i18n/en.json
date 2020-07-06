@@ -1614,6 +1614,7 @@
     },
     "LAST_ACTIVITY": {
       "TITLE": "Last activity",
+      "LOCATION": "Location",
       "STATUS": {
         "ONLINE": "Online",
         "OFFLINE": "Offline"
