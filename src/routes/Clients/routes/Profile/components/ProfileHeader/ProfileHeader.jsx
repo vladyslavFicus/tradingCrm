@@ -206,42 +206,45 @@ class ProfileHeader extends Component {
       availableStatuses,
       loaded,
       loginLock,
+      newProfile,
       permission: {
         permissions: currentPermissions,
       },
-      newProfile: {
-        age,
-        firstName,
-        lastName,
-        uuid,
-        registrationDetails: {
-          registrationDate,
-        },
-        profileVerified,
-        status: {
-          changedAt,
-          changedBy,
-          comment,
-          reason,
-          type: statusType,
-        },
-        profileView: {
-          balance: {
-            amount,
-            credit,
-          },
-          lastSignInSessions,
-          lastActivity: {
-            date: lastActivityDate,
-            location,
-          },
-        },
-        tradingAccount,
-      },
     } = this.props;
+
+    const {
+      age,
+      uuid,
+      status,
+      lastName,
+      firstName,
+      profileView,
+      tradingAccount,
+      profileVerified,
+      registrationDetails,
+    } = newProfile;
+
+    const registrationDate = registrationDetails?.registrationDate;
+
+    const {
+      changedAt,
+      changedBy,
+      comment,
+      reason,
+      type: statusType,
+    } = status || {};
+
+    const {
+      balance,
+      lastActivity,
+      lastSignInSessions,
+    } = profileView || {};
 
     const { isRunningReloadAnimation } = this.state;
     const lock = get(loginLock, 'data.loginLock.lock');
+
+    const lastActivityDate = lastActivity?.date;
+    const location = lastActivity?.location;
     const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
     const lastActivityType = lastActivityDateLocal
       && moment().diff(lastActivityDateLocal, 'minutes') < 5 ? 'ONLINE' : 'OFFLINE';
@@ -344,8 +347,8 @@ class ProfileHeader extends Component {
               <Balances
                 clientRegistrationDate={registrationDate}
                 balances={{
-                  amount,
-                  credit,
+                  amount: balance.amount,
+                  credit: balance.credit,
                 }}
                 tradingAccounts={tradingAccount && tradingAccount.filter(account => account.accountType !== 'DEMO')}
                 uuid={uuid}
