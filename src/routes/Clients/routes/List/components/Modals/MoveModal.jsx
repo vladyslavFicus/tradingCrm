@@ -74,7 +74,7 @@ class MoveModal extends PureComponent {
         ...configs,
       },
     });
-    const error = response?.error || null;
+    const error = response?.error;
 
     if (error) {
       // when we try to move clients, when they don't have assigned {{type}} representative
