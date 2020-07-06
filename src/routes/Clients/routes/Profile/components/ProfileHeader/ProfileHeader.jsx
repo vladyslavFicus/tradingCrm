@@ -224,7 +224,7 @@ class ProfileHeader extends Component {
       registrationDetails,
     } = newProfile;
 
-    const registrationDate = registrationDetails ? registrationDetails.registrationDate : null;
+    const registrationDate = registrationDetails?.registrationDate;
 
     const {
       changedAt,
@@ -243,8 +243,8 @@ class ProfileHeader extends Component {
     const { isRunningReloadAnimation } = this.state;
     const lock = get(loginLock, 'data.loginLock.lock');
 
-    const lastActivityDate = lastActivity ? lastActivity.date : null;
-    const location = lastActivity ? lastActivity.location : null;
+    const lastActivityDate = lastActivity?.date;
+    const location = lastActivity?.location;
     const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
     const lastActivityType = lastActivityDateLocal
       && moment().diff(lastActivityDateLocal, 'minutes') < 5 ? 'ONLINE' : 'OFFLINE';
@@ -343,7 +343,7 @@ class ProfileHeader extends Component {
             />
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
-            <If condition={uuid && balance}>
+            <If condition={uuid}>
               <Balances
                 clientRegistrationDate={registrationDate}
                 balances={{
