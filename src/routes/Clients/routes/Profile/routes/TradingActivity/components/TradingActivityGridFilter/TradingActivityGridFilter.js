@@ -40,7 +40,7 @@ class TradingActivityGridFilter extends PureComponent {
     }).isRequired,
   };
 
-  handleApplyFilters = (values) => {
+  handleApplyFilters = (values, { setSubmitting }) => {
     this.props.history.replace({
       query: {
         filters: {
@@ -51,6 +51,8 @@ class TradingActivityGridFilter extends PureComponent {
         },
       },
     });
+
+    setSubmitting(false);
   };
 
   handleFilterReset = () => {
