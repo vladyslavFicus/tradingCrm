@@ -1996,6 +1996,27 @@
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
+    "SCHEDULE": {
+      "GRID_HEADER": {
+        "ACTIVATE": "Activate",
+        "DAY": "DAY",
+        "WORKING_HOURS": "Working hours",
+        "TOTAL_LEADS_LIMIT": "Total leads limit",
+        "COUNTRY_LIMIT": "Country limit"
+      },
+      "FROM": "from",
+      "TO": "to",
+      "TITLE": "Api Sending Schedule",
+      "WEEK": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      }
+    },
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
@@ -2008,6 +2029,25 @@
         "TITLE": "Existing partner",
         "MESSAGE": "Partner exits in another brand. Would you like to add permissions for this partner to have access to",
         "BRAND": "%{brand}?"
+      },
+      "SCHEDULE": {
+        "TITLE": "API Settings",
+        "LABELS": {
+          "COUNTRY": "Country",
+          "LEADS_LIMIT": "Total leads limit",
+          "COUNTRY_LIMIT": "Country limit",
+          "WORKING_HOURS_FROM": "Working Hours From",
+          "WORKING_HOURS_TO": "Working Hours To"
+        },
+        "NOTIFICATIONS": {
+          "CREATE": {
+            "TITLE": "Schedule creation"
+          },
+          "UPDATE_STATUS": {
+            "TITLE": "Update status"
+          }
+        },
+        "LIMIT_ERROR": "Amount should be less than %{totalLimit}. Please, change amount correspondingly."
       }
     },
     "PROFILE": {
