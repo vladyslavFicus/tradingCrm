@@ -5,8 +5,6 @@ import I18n from 'i18n-js';
 import DatePicker from 'components/DatePicker';
 import { RangeGroup } from 'components/Forms';
 
-const ISO_FORMAT_DATE = 'YYYY-MM-DDTHH:mm:ss';
-
 class DateRangeGroup extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -38,25 +36,6 @@ class DateRangeGroup extends PureComponent {
     timePresets: true,
     closeOnSelect: false,
   };
-
-  componentDidUpdate() {
-    const {
-      utc,
-      startField: { value: startValue },
-      endField: { value: endValue, setValue },
-    } = this.props;
-
-    if (utc && startValue && endValue && moment(endValue).isSameOrBefore(startValue)) {
-      setValue(
-        moment
-          .utc(endValue)
-          .local()
-          .set({ hour: '23', minute: '59', second: '59' })
-          .utc()
-          .format(ISO_FORMAT_DATE),
-      );
-    }
-  }
 
   /**
    *

@@ -149,6 +149,7 @@ const REQUEST = gql`
           startedAt
         }
         lastActivity {
+          location
           date
         }
       }
