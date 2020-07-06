@@ -235,7 +235,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
   targetUuid: PropTypes.string.isRequired,
@@ -670,27 +670,29 @@ PropTypes.storage = PropTypes.shape({
   remove: PropTypes.func.isRequired,
 });
 PropTypes.paymentsStatistic = PropTypes.shape({
-  paymentsStatistic: PropTypes.shape({
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number,
-        count: PropTypes.number,
-        entryDate: PropTypes.string,
-      }).isRequired,
-    ).isRequired,
-    itemsTotal: PropTypes.shape({
-      totalAmount: PropTypes.number,
-      totalCount: PropTypes.number,
+  data: PropTypes.shape({
+    paymentsStatistic: PropTypes.shape({
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          amount: PropTypes.number,
+          count: PropTypes.number,
+          entryDate: PropTypes.string,
+        }).isRequired,
+      ).isRequired,
+      itemsTotal: PropTypes.shape({
+        totalAmount: PropTypes.number,
+        totalCount: PropTypes.number,
+      }),
+      additionalTotal: PropTypes.shape({
+        totalCount: PropTypes.number,
+        totalAmount: PropTypes.number,
+        monthCount: PropTypes.number,
+        monthAmount: PropTypes.number,
+        todayCount: PropTypes.number,
+        todayAmount: PropTypes.number,
+      }),
     }),
-    additionalTotal: PropTypes.shape({
-      totalCount: PropTypes.number,
-      totalAmount: PropTypes.number,
-      monthCount: PropTypes.number,
-      monthAmount: PropTypes.number,
-      todayCount: PropTypes.number,
-      todayAmount: PropTypes.number,
-    }),
-  }).isRequired,
+  }),
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 });
