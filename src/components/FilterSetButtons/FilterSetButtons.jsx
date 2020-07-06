@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { parseErrors } from 'apollo';
 import { actionTypes } from './attributes';
 import './FilterSetButtons.scss';
 
@@ -132,12 +133,14 @@ class FilterSetButtons extends Component {
       handleSelectFilterDropdownItem('');
       resetForm();
       handleHistoryReplace();
-    } catch {
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
         message:
-          error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+          error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };
