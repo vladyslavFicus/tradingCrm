@@ -65,7 +65,7 @@ class MoveModal extends PureComponent {
     const isMoveAction = true;
     const clients = getClientsData(configs, totalElements, { type, isMoveAction }, content);
 
-    const { error } = await bulkRepresentativeUpdate({
+    const { data: { clients: { bulkRepresentativeUpdate: response } } } = await bulkRepresentativeUpdate({
       variables: {
         type,
         clients,
@@ -74,6 +74,7 @@ class MoveModal extends PureComponent {
         ...configs,
       },
     });
+    const error = response?.error;
 
     if (error) {
       // when we try to move clients, when they don't have assigned {{type}} representative
