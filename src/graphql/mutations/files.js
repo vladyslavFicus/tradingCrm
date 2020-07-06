@@ -1,27 +1,5 @@
 import gql from 'graphql-tag';
 
-const uploadFileMutation = gql`
-  mutation uploadFileMutation(
-    $file: Upload!
-    $uuid: String!
-  ) {
-    file {
-      upload(
-        file: $file
-        uuid: $uuid
-      ) {
-        data {
-          fileUuid
-        }
-        error {
-          error
-          fields_errors
-        }
-      }
-    }
-  }
-`;
-
 const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
   $uuid: String!
   $verificationType: String
@@ -55,7 +33,6 @@ const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
 }`;
 
 export {
-  uploadFileMutation,
   updateFileMetaMutation,
   updateFileStatusMutation,
 };

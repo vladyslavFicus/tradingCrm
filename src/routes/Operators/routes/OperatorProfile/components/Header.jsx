@@ -31,15 +31,21 @@ class Header extends Component {
 
   handleStatusChange = async ({ reason, status }) => {
     const { data: profileData, onStatusChange, refetchOperator, refetchLoginLock } = this.props;
-    await onStatusChange({
-      variables: {
-        reason,
-        status,
-        uuid: profileData.uuid,
-      },
-    });
-    refetchOperator();
-    refetchLoginLock();
+
+    try {
+      await onStatusChange({
+        variables: {
+          reason,
+          status,
+          uuid: profileData.uuid,
+        },
+      });
+
+      refetchOperator();
+      refetchLoginLock();
+    } catch {
+      // Do nothing...
+    }
   };
 
   render() {

@@ -41,11 +41,8 @@ class LeadsGridFilter extends PureComponent {
     ).isRequired,
     desksAndTeamsData: PropTypes.query({
       hierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-          DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        }),
-        error: PropTypes.object,
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
     operatorsData: PropTypes.query({

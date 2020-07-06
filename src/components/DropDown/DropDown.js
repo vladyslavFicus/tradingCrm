@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import './DropDown.scss';
 
-class DropDown extends Component {
+class DropDown extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     rightPlacement: PropTypes.bool,

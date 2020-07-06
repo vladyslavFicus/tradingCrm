@@ -13,10 +13,7 @@ import './NotificationCenterTable.scss';
 class NotificationCenterTable extends PureComponent {
   static propTypes = {
     notifications: PropTypes.query({
-      notificationCenter: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.notificationCenter),
-        error: PropTypes.any,
-      }),
+      notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
     }).isRequired,
     className: PropTypes.string,
     selectItems: PropTypes.func.isRequired,
@@ -107,7 +104,6 @@ class NotificationCenterTable extends PureComponent {
     } = this.props;
 
     const { content, last } = get(data, 'notificationCenter') || { content: [] };
-    const error = get(data, 'notificationCenter.error');
 
     return (
       <div
@@ -129,7 +125,7 @@ class NotificationCenterTable extends PureComponent {
           isLoading={loading}
           isLastPage={last}
           threshold={0}
-          withNoResults={error}
+          withNoResults={!loading && !content.length}
           withMultiSelect
           useWindow={false}
         >

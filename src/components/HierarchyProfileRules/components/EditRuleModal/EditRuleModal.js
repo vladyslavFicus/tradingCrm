@@ -47,9 +47,7 @@ class EditRuleModal extends PureComponent {
     operators: PropTypes.object.isRequired,
     withOperatorSpreads: PropTypes.bool,
     rule: PropTypes.query({
-      rules: PropTypes.shape({
-        data: PropTypes.object.isRequired,
-      }),
+      rules: PropTypes.object.isRequired,
     }).isRequired,
   };
 
@@ -65,7 +63,7 @@ class EditRuleModal extends PureComponent {
 
   static getDerivedStateFromProps({ rule: { data, loading } }, { mounted }) {
     if (!loading && !mounted) {
-      const operatorSpreads = get(data, 'rules.data[0].actions[0].operatorSpreads') || [];
+      const operatorSpreads = get(data, 'rules[0].actions[0].operatorSpreads') || [];
       const currentOperators = operatorSpreads.map(({ parentUser }) => parentUser);
 
       return {

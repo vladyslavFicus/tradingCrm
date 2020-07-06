@@ -33,7 +33,7 @@ class PromoteLeadModal extends PureComponent {
   static propTypes = {
     lead: PropTypes.query({
       data: PropTypes.shape({
-        lead: PropTypes.response(PropTypes.lead),
+        lead: PropTypes.lead,
       }),
     }).isRequired,
     formError: PropTypes.string,
@@ -61,7 +61,7 @@ class PromoteLeadModal extends PureComponent {
 
     let variables = values;
     if (isEmailHidden) {
-      const { email } = get(lead, 'data.lead.data');
+      const { email } = get(lead, 'data.lead');
       variables = {
         ...values,
         contacts: {
@@ -76,7 +76,7 @@ class PromoteLeadModal extends PureComponent {
         variables: { args: variables },
       });
 
-      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead.data);
+      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead);
 
       onCloseModal();
       notify({

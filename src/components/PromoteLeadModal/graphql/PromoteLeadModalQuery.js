@@ -8,18 +8,16 @@ const REQUEST = gql`
     $uuid: String!
   ) {
     lead (uuid: $uuid) {
-      data {
-        _id
-        email
-        phone
-        gender
-        birthDate
-        name
-        surname
-        country
-        language
-        mobile
-      }
+      _id
+      email
+      phone
+      gender
+      birthDate
+      name
+      surname
+      country
+      language
+      mobile
     }
   }
 `;
