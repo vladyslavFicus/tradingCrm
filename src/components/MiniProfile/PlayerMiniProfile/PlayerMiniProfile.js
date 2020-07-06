@@ -24,7 +24,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
     );
   }
 
-  if (data.newProfile?.error?.error === 'error.profile.access.hierarchy.not-subordinate') {
+  if (data.newProfile.error?.error === 'error.profile.access.hierarchy.not-subordinate') {
     return (
       <div className="mini-profile-error">
         <div className="mini-profile-error-message">
@@ -121,6 +121,9 @@ PlayerMiniProfile.propTypes = {
     data: PropTypes.shape({
       newProfile: PropTypes.shape({
         data: PropTypes.newProfile,
+        error: PropTypes.shape({
+          error: PropTypes.string,
+        }),
       }),
     }),
     loading: PropTypes.bool.isRequired,
