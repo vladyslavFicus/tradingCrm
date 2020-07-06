@@ -1842,6 +1842,9 @@
       "COUNTRY": "Country",
       "LEAD": "Lead",
       "PHONE": "Phone"
+    },
+    "NO_ACCESS": {
+      "CLIENT": "You have no access to view client information"
     }
   },
   "OPERATORS": {
