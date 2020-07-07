@@ -144,6 +144,8 @@ class RuleModal extends PureComponent {
               : { operatorSpreads: [''] }),
           }}
           validate={validate(deskType, withOperatorSpreads)}
+          validateOnBlur={false}
+          validateOnChange={false}
           onSubmit={this.onHandleSubmit}
         >
           {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (

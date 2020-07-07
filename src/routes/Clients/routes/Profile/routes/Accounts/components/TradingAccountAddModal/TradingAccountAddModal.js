@@ -103,6 +103,8 @@ class TradingAccountAddModal extends PureComponent {
             password: generate(),
           }}
           validate={validator}
+          validateOnBlur={false}
+          validateOnChange={false}
           onSubmit={this.onSubmit}
         >
           {({ isSubmitting, setFieldValue, values: { accountType } }) => (

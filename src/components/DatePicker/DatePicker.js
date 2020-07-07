@@ -113,13 +113,13 @@ class DatePicker extends Component {
       utc,
       isDateRangeEndValue,
     } = this.props;
-    const isCurrentValueValid = moment(value, this.state.ISOFormat, true).isValid() || value === '';
+    const isCurrentValueValid = moment(value, this.state.ISOFormat, true).isValid() || !value;
     let formatValue = newValue;
     if (newValue._isAMomentObject) {
       if (isDateRangeEndValue && isCurrentValueValid) {
         // if it's an end field in date range
         const currentValue = utc ? moment.utc(value).local() : moment(value);
-        const diff = (value === '') ? 1 : Math.abs(currentValue.diff(newValue, 'days'));
+        const diff = !value ? 1 : Math.abs(currentValue.diff(newValue, 'days'));
         if (diff >= 1) {
           // if clicks on a day select, set time to 23.59
           newValue.set({ hour: 23, minute: 59 });
