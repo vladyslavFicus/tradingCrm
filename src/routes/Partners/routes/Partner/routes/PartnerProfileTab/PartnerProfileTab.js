@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import PartnerPersonalInfoForm from './components/PartnerPersonalInfoForm';
 import Schedule from './components/Schedule';
@@ -23,7 +24,7 @@ class PartnerProfileTab extends PureComponent {
           disabled={this.readOnly}
         />
 
-        <Schedule affiliateUuid={partnerData.data.partner.uuid} />
+        <Schedule affiliateUuid={get(partnerData, 'data.partner.uuid') || ''} />
       </div>
     );
   }

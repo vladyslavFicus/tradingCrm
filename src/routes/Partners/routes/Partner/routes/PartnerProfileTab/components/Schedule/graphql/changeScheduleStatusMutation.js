@@ -11,9 +11,7 @@ const REQUEST = gql`mutation changeScheduleStatus(
     changeScheduleStatus (
       affiliateUuid: $affiliateUuid,
       data: $data,
-    ) {
-      success
-    }
+    )
   }
 }
 `;

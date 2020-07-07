@@ -5,18 +5,21 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query Schedule_ScheduleQuery(
-    $affiliateUuid: String!
+    $uuid: String!
   ) {
-    schedule(affiliateUuid: $affiliateUuid) {
-      activated
-      countrySpreads {
-        country,
-        limit,
-      },
-      day,
-      totalLimit,
-      workingHoursFrom,
-      workingHoursTo,
+    partner(uuid: $uuid) {
+      _id
+      schedule {
+        activated
+        countrySpreads {
+          country,
+          limit,
+        },
+        day,
+        totalLimit,
+        workingHoursFrom,
+        workingHoursTo,
+      }  
     }
 }
 `;
@@ -24,7 +27,7 @@ const REQUEST = gql`
 const GetSchedule = ({ children, affiliateUuid }) => (
   <Query
     query={REQUEST}
-    variables={{ affiliateUuid }}
+    variables={{ uuid: affiliateUuid }}
     fetchPolicy="cache-and-network"
   >
     {children}

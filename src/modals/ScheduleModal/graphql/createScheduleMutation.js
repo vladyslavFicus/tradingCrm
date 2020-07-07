@@ -21,9 +21,7 @@ const REQUEST = gql`mutation CreateSchedule_createScheduleMutation(
       workingHoursFrom: $workingHoursFrom,
       workingHoursTo: $workingHoursTo,
       countrySpreads: $countrySpreads,
-    ) {
-      success
-    }
+    )
   }
 }
 `;

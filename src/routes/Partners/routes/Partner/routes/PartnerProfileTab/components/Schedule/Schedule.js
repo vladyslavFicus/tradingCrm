@@ -23,7 +23,7 @@ class Schedule extends PureComponent {
     }).isRequired,
     notify: PropTypes.func.isRequired,
     affiliateUuid: PropTypes.string.isRequired,
-    schedule: PropTypes.query({
+    partner: PropTypes.query({
       schedule: PropTypes.shape({
         data: PropTypes.object.isRequired,
       }),
@@ -35,8 +35,8 @@ class Schedule extends PureComponent {
     checkedCountries: {},
   }
 
-  static getDerivedStateFromProps({ schedule: { data } }, { checkedCountries }) {
-    const scheduleWeek = get(data, 'schedule') || [];
+  static getDerivedStateFromProps({ partner: { data } }, { checkedCountries }) {
+    const scheduleWeek = get(data, 'partner.schedule') || [];
 
     return {
       checkedCountries: {
@@ -51,37 +51,34 @@ class Schedule extends PureComponent {
       changeScheduleStatus,
       affiliateUuid,
       notify,
-      schedule: {
+      partner: {
         refetch,
       },
     } = this.props;
 
-    const {
-      data: {
-        schedule: {
-          changeScheduleStatus: {
-            success,
-          },
+    try {
+      await changeScheduleStatus({
+        variables: {
+          affiliateUuid,
+          data: Object.keys(value).map(day => ({ day, activated: value[day] })),
         },
-      },
-    } = await changeScheduleStatus({
-      variables: {
-        affiliateUuid,
-        data: Object.keys(value).map(day => ({ day, activated: value[day] })),
-      },
-    });
+      });
 
-    if (success) {
       refetch();
-    }
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
-      message: success
-        ? I18n.t('COMMON.SUCCESS')
-        : I18n.t('COMMON.ERROR'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
+        message: I18n.t('COMMON.SUCCESS'),
+
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
+        message: I18n.t('COMMON.ERROR'),
+      });
+    }
   }
 
   handleChange = setFieldValue => (e) => {
@@ -96,7 +93,7 @@ class Schedule extends PureComponent {
     const {
       modals: { scheduleModal },
       affiliateUuid,
-      schedule: {
+      partner: {
         refetch,
       },
     } = this.props;
@@ -186,14 +183,14 @@ class Schedule extends PureComponent {
 
   render() {
     const {
-      schedule: {
+      partner: {
         data,
         loading,
       },
     } = this.props;
     const { checkedCountries } = this.state;
 
-    const scheduleWeek = get(data, 'schedule') || [];
+    const scheduleWeek = get(data, 'partner.schedule') || [];
 
     return (
       <div className="Schedule card">
@@ -216,7 +213,7 @@ class Schedule extends PureComponent {
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>
                 </If>
-                <div className="Schedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</div>
+                <span className="Schedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</span>
                 <Grid
                   rowsClassNames={({ day }) => (
                     classNames({
@@ -273,7 +270,7 @@ export default compose(
   }),
   withNotifications,
   withRequests({
-    schedule: getSchedule,
+    partner: getSchedule,
     changeScheduleStatus: changeScheduleStatusMutation,
   }),
 )(Schedule);

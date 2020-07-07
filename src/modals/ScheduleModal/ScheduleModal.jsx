@@ -90,40 +90,36 @@ class ScheduleModal extends PureComponent {
     } else {
       this.setState({ limitError: false });
 
-      const {
-        data: {
-          schedule: {
-            createSchedule: {
-              success,
-            },
+      try {
+        await this.props.createSchedule({
+          variables: {
+            day,
+            activated,
+            totalLimit,
+            affiliateUuid,
+            countrySpreads: [
+              // filter need for delete empty value in array
+              ...countrySpreads.filter(item => item && item.limit),
+            ],
+            ...decodeNullValues(rest),
           },
-        },
-      } = await this.props.createSchedule({
-        variables: {
-          day,
-          activated,
-          totalLimit,
-          affiliateUuid,
-          countrySpreads: [
-            // filter need for delete empty value in array
-            ...countrySpreads.filter(item => item && item.limit),
-          ],
-          ...decodeNullValues(rest),
-        },
-      });
+        });
 
-      if (success) {
         refetch();
         onCloseModal();
-      }
 
-      notify({
-        level: success ? 'success' : 'error',
-        title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
-        message: success
-          ? I18n.t('COMMON.SUCCESS')
-          : I18n.t('COMMON.ERROR'),
-      });
+        notify({
+          level: 'success',
+          title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
+          message: I18n.t('COMMON.SUCCESS'),
+        });
+      } catch (e) {
+        notify({
+          level: 'error',
+          title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
+          message: I18n.t('COMMON.ERROR'),
+        });
+      }
     }
 
     setSubmitting(false);
