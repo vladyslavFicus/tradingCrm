@@ -11,15 +11,27 @@ import { statuses } from 'constants/user';
 import Amount from 'components/Amount';
 import Uuid from 'components/Uuid';
 import ShortLoader from 'components/ShortLoader';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { userStatusNames } from '../constants';
 import PlayerMiniProfileQuery from './graphql/PlayerMiniProfileQuery';
 
-const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
+const PlayerMiniProfile = ({ miniProfile }) => {
+  const { data, error, loading } = miniProfile;
+
   if (loading) {
     return (
       <div className="mini-profile-loader mini-profile-loader-player">
         <ShortLoader />
+      </div>
+    );
+  }
+
+  if (parseErrors(error).error === 'error.profile.access.hierarchy.not-subordinate') {
+    return (
+      <div className="mini-profile-error">
+        <div className="mini-profile-error-message">
+          {I18n.t('MINI_PROFILE.NO_ACCESS.CLIENT')}
+        </div>
       </div>
     );
   }
@@ -108,6 +120,9 @@ PlayerMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
       profile: PropTypes.profile,
+    }),
+    error: PropTypes.shape({
+      error: PropTypes.string,
     }),
     loading: PropTypes.bool.isRequired,
   }).isRequired,
