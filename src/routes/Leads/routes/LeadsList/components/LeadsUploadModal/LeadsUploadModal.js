@@ -11,7 +11,7 @@ import uploadLeadsMutation from './graphql/uploadLeadsMutation';
 import './LeadsUploadModal.scss';
 
 const fileConfig = {
-  maxSize: 20,
+  maxSize: 10,
   types: ['.csv'],
 };
 
