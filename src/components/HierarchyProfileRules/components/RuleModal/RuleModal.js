@@ -35,7 +35,7 @@ const validate = (deskType, withOperatorSpreads) => createValidator({
   languages: [`in:${getAvailableLanguages().join()}`],
   'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
   ...withOperatorSpreads && {
-    operatorSpreads: 'required',
+    'operatorSpreads.*.parentUser': 'required',
   },
   ...(deskType !== deskTypes.RETENTION) && {
     type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
@@ -152,7 +152,7 @@ class RuleModal extends PureComponent {
           validateOnChange={false}
           onSubmit={this.onHandleSubmit}
         >
-          {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
+          {({ errors, dirty, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
             <Form className="RuleModal">
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
@@ -396,7 +396,7 @@ class RuleModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!dirty || !isValid || isSubmitting}
+                  disabled={!dirty || isSubmitting}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
                 </Button>
