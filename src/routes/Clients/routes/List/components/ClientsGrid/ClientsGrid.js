@@ -145,10 +145,10 @@ class ClientsGrid extends PureComponent {
         <GridColumn
           name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
-          render={({ lastActivity }) => {
+          render={({ lastActivity, online }) => {
             const lastActivityDate = get(lastActivity, 'date');
             const localTime = lastActivityDate && moment.utc(lastActivityDate).local();
-            const type = localTime && (moment().diff(localTime, 'minutes') < 5) ? 'ONLINE' : 'OFFLINE';
+            const type = online ? 'ONLINE' : 'OFFLINE';
 
             return (
               <GridStatus
