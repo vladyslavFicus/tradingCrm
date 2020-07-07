@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { getApiRoot } from 'config';
-import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { shortifyInMiddle } from 'utils/stringFormat';
@@ -16,14 +17,13 @@ import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
 import { DeleteModal } from 'components/Files';
-import { withStorage } from 'providers/StorageProvider';
 import permissions from 'config/permissions';
-import getFileBlobUrl from 'utils/getFileBlobUrl';
 import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
 import ChangeFileStatusDropDown from './ChangeFileStatusDropDown';
+import TokenRefreshMutation from '../graphql/TokenRefreshMutation';
 
-class FileGrid extends Component {
+class FileGrid extends PureComponent {
   static propTypes = {
     ...withImages.propTypes,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -36,7 +36,6 @@ class FileGrid extends Component {
     onVerificationTypeActionClick: PropTypes.func.isRequired,
     onChangeFileStatusActionClick: PropTypes.func.isRequired,
     onDownloadFileClick: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired,
     modals: PropTypes.shape({
       deleteFileModal: PropTypes.modalType,
     }).isRequired,
@@ -60,21 +59,28 @@ class FileGrid extends Component {
     this.props.onChangeFileStatusActionClick(status, uuid);
   }
 
-  onPreviewClick = async ({ uuid, clientUuid, mediaType }) => {
-    const { token } = this.props;
+  onPreviewClick = async ({ uuid, clientUuid }) => {
+    const { tokenRenew } = this.props;
 
-    const url = `${getApiRoot()}/attachments/users/${clientUuid}/files/${uuid}`;
+    try {
+      const { data: { auth: { tokenRenew: { token } } } } = await tokenRenew();
 
-    const imageUrl = await getFileBlobUrl(url, {
-      method: 'GET',
-      headers: {
-        Accept: mediaType,
-        Authorization: token ? `Bearer ${token}` : undefined,
-        'Content-Type': 'application/json',
-      },
-    });
+      const requestUrl = `${getApiRoot()}/attachments/users/${clientUuid}/files/${uuid}`;
 
-    this.props.images.show([{ src: imageUrl }]);
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: token ? `Bearer ${token}` : undefined,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const imageUrl = URL.createObjectURL(await response.blob());
+
+      this.props.images.show([{ src: imageUrl }]);
+    } catch (e) {
+      // Do nothing...
+    }
   };
 
   onDeleteClick = (file) => {
@@ -282,7 +288,9 @@ class FileGrid extends Component {
 
 export default compose(
   withImages,
-  withStorage(['token']),
+  withRequests({
+    tokenRenew: TokenRefreshMutation,
+  }),
   withModals({
     deleteFileModal: DeleteModal,
   }),
