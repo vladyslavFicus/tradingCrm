@@ -35,7 +35,7 @@ const validate = (deskType, withOperatorSpreads) => createValidator({
   languages: [`in:${getAvailableLanguages().join()}`],
   'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
   ...withOperatorSpreads && {
-    operatorSpreads: 'required',
+    'operatorSpreads.0.parentUser': 'required',
   },
   ...(deskType !== deskTypes.RETENTION) && {
     type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
@@ -77,6 +77,7 @@ class RuleModal extends PureComponent {
   state = {
     ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
     percentageLimitError: false,
+    validationByChange: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
@@ -103,6 +104,8 @@ class RuleModal extends PureComponent {
     setFieldValue(name, value);
   };
 
+  enableValidationByChange = () => this.setState({ validationByChange: true });
+
   render() {
     const {
       onCloseModal,
@@ -124,6 +127,7 @@ class RuleModal extends PureComponent {
     const {
       selectedOperators,
       percentageLimitError,
+      validationByChange,
     } = this.state;
 
     return (
@@ -149,10 +153,10 @@ class RuleModal extends PureComponent {
           }}
           validate={validate(deskType, withOperatorSpreads)}
           validateOnBlur={false}
-          validateOnChange={false}
+          validateOnChange={validationByChange}
           onSubmit={this.onHandleSubmit}
         >
-          {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
+          {({ errors, dirty, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
             <Form className="RuleModal">
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
@@ -396,7 +400,8 @@ class RuleModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!dirty || !isValid || isSubmitting}
+                  disabled={!dirty || isSubmitting}
+                  onClick={this.enableValidationByChange}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
                 </Button>

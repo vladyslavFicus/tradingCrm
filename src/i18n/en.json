@@ -3003,7 +3003,8 @@
         },
         "ERRORS": {
           "BETWEEN_RATIO": "Ratio must be between :min% and :max%",
-          "INTEGER_RATIO": "The percentage must be an integer"
+          "INTEGER_RATIO": "The percentage must be an integer",
+          "OPERATOR": "The Operator field is required."
         },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },
