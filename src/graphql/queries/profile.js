@@ -60,7 +60,7 @@ const profile = gql`query profile(
           }
         }
       }
-    },
+    }
     address {
       ...AddressFragment
     }

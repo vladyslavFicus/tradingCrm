@@ -114,21 +114,23 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
 }`;
 
 const updateAddressMutation = gql`mutation updateAddress(
-  $playerUUID: String!,
-  $countryCode: String,
-  $city: String,
-  $state: String,
-  $postCode: String,
-  $address: String,
+  $playerUUID: String!
+  $countryCode: String
+  $city: String
+  $state: String
+  $postCode: String
+  $poBox: String
+  $address: String
 ) {
   profile {
     updateAddress(
-      playerUUID: $playerUUID,
-      countryCode: $countryCode,
-      city: $city,
-      state: $state,
-      postCode: $postCode,
-      address: $address,
+      playerUUID: $playerUUID
+      countryCode: $countryCode
+      city: $city
+      state: $state
+      postCode: $postCode
+      poBox: $poBox
+      address: $address
     ) {
       _id
       address {

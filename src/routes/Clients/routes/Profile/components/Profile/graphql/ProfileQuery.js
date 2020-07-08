@@ -61,7 +61,7 @@ const REQUEST = gql`
             }
           }
         }
-      },
+      }
       address {
         ...AddressFragment
       }
