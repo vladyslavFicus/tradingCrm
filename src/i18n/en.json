@@ -1613,6 +1613,7 @@
     "LAST_ACTIVITY": {
       "TITLE": "Last activity",
       "LOCATION": "Location",
+      "MODAL": "Modal",
       "STATUS": {
         "ONLINE": "Online",
         "OFFLINE": "Offline"

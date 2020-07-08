@@ -151,7 +151,9 @@ const REQUEST = gql`
           }
           lastActivity {
             date
-            location
+            location,
+            eventType,
+            eventValue,
           }
         }
         tradingAccount {
