@@ -151,6 +151,8 @@ const REQUEST = gql`
         lastActivity {
           location
           date
+          eventType
+          eventValue
         }
         online
       }
