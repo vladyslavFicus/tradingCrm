@@ -152,6 +152,7 @@ const REQUEST = gql`
           location
           date
         }
+        online
       }
       tradingAccounts {
         accountUUID
