@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import deepMerge from 'deepmerge';
 
 /**
@@ -55,23 +55,12 @@ export default requests => (Component) => {
   const memoizedRequests = Object.keys(requests).map(key => [key, React.memo(requests[key])]);
 
   const WrappedComponent = (props) => {
-    const [pollActive, setPollActive] = useState(true);
-
-    const pollControl = () => setPollActive(document.visibilityState === 'visible');
-
-    useEffect(() => {
-      document.addEventListener('visibilitychange', pollControl, false);
-      return () => {
-        document.removeEventListener('visibilitychange', pollControl);
-      };
-    }, []);
-
     const traverseRequests = (remainRequests, requestsProps = {}) => {
       if (remainRequests.length) {
         const [key, Request] = remainRequests[0];
 
         return (
-          <Request {...props} pollActive={pollActive}>
+          <Request {...props}>
             {(requestProp) => {
               // If request is query --> add loadMore function
               if (requestProp.data) {

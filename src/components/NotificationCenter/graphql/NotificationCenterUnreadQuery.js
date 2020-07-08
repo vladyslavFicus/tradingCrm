@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query } from 'apollo';
 
 const REQUEST = gql`
   query NotificationCenterUnreadQuery {
@@ -11,10 +11,10 @@ const REQUEST = gql`
   }
 `;
 
-const NotificationCenterUnreadQuery = ({ children, pollActive }) => (
+const NotificationCenterUnreadQuery = ({ children }) => (
   <Query
     query={REQUEST}
-    pollInterval={pollActive ? 10000 : 0}
+    pollInterval={10000}
     fetchPolicy="network-only"
   >
     {children}
@@ -23,7 +23,6 @@ const NotificationCenterUnreadQuery = ({ children, pollActive }) => (
 
 NotificationCenterUnreadQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  pollActive: PropTypes.bool.isRequired,
 };
 
 export default NotificationCenterUnreadQuery;
