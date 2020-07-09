@@ -34,10 +34,8 @@ class KYCNote extends PureComponent {
     const {
       KYCNoteQuery: {
         data: {
-          newProfile: {
-            data: {
-              kyc: { uuid },
-            },
+          profile: {
+            kyc: { uuid },
           },
         },
       },
@@ -46,25 +44,29 @@ class KYCNote extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { note: { add: { error } } } } = await createKYCNote({
-      variables: {
-        targetType: 'KYC',
-        targetUUID: uuid,
-        playerUUID,
-        content,
-      },
-    });
+    try {
+      await createKYCNote({
+        variables: {
+          targetType: 'KYC',
+          targetUUID: uuid,
+          playerUUID,
+          content,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
-      message: error
-        ? I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.ERROR')
-        : I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.SUCCESS'),
+      });
 
-    if (!error) {
       resetForm({ values: { content } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.ERROR'),
+      });
     }
   };
 
@@ -72,11 +74,9 @@ class KYCNote extends PureComponent {
     const {
       KYCNoteQuery: {
         data: {
-          newProfile: {
-            data: {
-              kycNote: {
-                noteId,
-              },
+          profile: {
+            kycNote: {
+              noteId,
             },
           },
         },
@@ -85,23 +85,27 @@ class KYCNote extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { note: { update: { error } } } } = await updateKYCNote({
-      variables: {
-        noteId,
-        content,
-      },
-    });
+    try {
+      await updateKYCNote({
+        variables: {
+          noteId,
+          content,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
-      message: error
-        ? I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.ERROR')
-        : I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.SUCCESS'),
+      });
 
-    if (!error) {
       resetForm({ values: { content } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
+        message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.ERROR'),
+      });
     }
   };
 
@@ -117,7 +121,7 @@ class KYCNote extends PureComponent {
       return null;
     }
 
-    const KYCNoteContent = get(data, 'newProfile.data.kycNote.content') || '';
+    const KYCNoteContent = get(data, 'profile.kycNote.content') || '';
     const updateAllowed = updateNotePermissions.check(currentPermissions);
     const isFormDisabled = !!(KYCNoteContent && !updateAllowed);
 

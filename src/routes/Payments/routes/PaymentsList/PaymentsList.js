@@ -15,14 +15,10 @@ class PaymentsList extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     paymentsQuery: PropTypes.query({
-      clientPayments: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentEntity),
-      }),
+      payments: PropTypes.pageable(PropTypes.paymentEntity),
     }).isRequired,
     partnersQuery: PropTypes.query({
-      partners: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.partner),
-      }),
+      partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
   };
 
@@ -50,9 +46,9 @@ class PaymentsList extends PureComponent {
       partnersQuery: { data: partnersData, loading: partnersLoading },
     } = this.props;
 
-    const partners = get(partnersData, 'partners.data.content') || [];
-    const payments = get(paymentsData, 'clientPayments') || {};
-    const totalPayments = get(payments, 'data.totalElements');
+    const partners = get(partnersData, 'partners.content') || [];
+    const payments = get(paymentsData, 'payments') || {};
+    const totalPayments = get(payments, 'totalElements');
 
     return (
       <div className="card">

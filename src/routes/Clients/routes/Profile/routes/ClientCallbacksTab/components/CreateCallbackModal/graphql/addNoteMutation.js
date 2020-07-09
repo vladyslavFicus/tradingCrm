@@ -22,9 +22,7 @@ const REQUEST = gql`
         playerUUID: $playerUUID
         targetType: $targetType
       ) {
-        data {
-          ...NoteFragment
-        }
+        ...NoteFragment
       }
     }
   }

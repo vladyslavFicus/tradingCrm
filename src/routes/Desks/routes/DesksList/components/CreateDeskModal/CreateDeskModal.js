@@ -11,8 +11,8 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
-import { deskTypes } from '../../constants';
 import CreateDeskMutation from './graphql/CreateDeskMutation';
+import { deskTypes } from '../../constants';
 import './CreateDeskModal.scss';
 
 const attributeLabels = {
@@ -47,32 +47,26 @@ class CreateDeskModal extends PureComponent {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        hierarchy: {
-          createDesk: {
-            data,
-          },
-        },
-      },
-    } = await createDesk({ variables: values });
+    setSubmitting(false);
 
-    notify({
-      level: data ? 'success' : 'error',
-      title: data
-        ? I18n.t('DESKS.MODAL.NOTIFICATIONS.ERROR')
-        : I18n.t('COMMON.FAIL'),
-      message: data
-        ? I18n.t('DESKS.MODAL.NOTIFICATIONS.SUCCESS')
-        : I18n.t('COMMON.SUCCESS'),
-    });
+    try {
+      await createDesk({ variables: values });
 
-    if (data) {
       onSuccess();
       onCloseModal();
-    }
 
-    setSubmitting(false);
+      notify({
+        level: 'success',
+        title: I18n.t('DESKS.MODAL.NOTIFICATIONS.SUCCESS'),
+        message: I18n.t('COMMON.SUCCESS'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('DESKS.MODAL.NOTIFICATIONS.ERROR'),
+        message: I18n.t('COMMON.FAIL'),
+      });
+    }
   };
 
   render() {
@@ -82,7 +76,7 @@ class CreateDeskModal extends PureComponent {
       isOpen,
     } = this.props;
 
-    const offices = get(officesData, 'data.hierarchy.userBranchHierarchy.data.OFFICE') || [];
+    const offices = get(officesData, 'data.userBranches.OFFICE') || [];
 
     return (
       <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen={isOpen}>

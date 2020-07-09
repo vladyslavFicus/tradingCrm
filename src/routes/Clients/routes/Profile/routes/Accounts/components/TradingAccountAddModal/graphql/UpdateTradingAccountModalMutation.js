@@ -21,12 +21,7 @@ const MUTATION = gql`mutation UpdateTradingAccountModalMutation_createTradingAcc
       accountType: $accountType,
       platformType: $platformType,
       amount: $amount,
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 

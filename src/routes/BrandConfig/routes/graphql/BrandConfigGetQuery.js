@@ -2,25 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { getBrandId } from 'config';
 
 const REQUEST = gql`
   query getBrandConfig(
-    $brandId: String
+    $brandId: String!
   ) {
     brandConfig(
       brandId: $brandId
     ) {
-      data
-      error {
-        error
-        fields_errors
-      }
+      brandId
+      config
     }
   }
 `;
 
 const BrandConfigGetQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="network-only">
+  <Query query={REQUEST} variables={{ brandId: getBrandId() }} fetchPolicy="network-only">
     {children}
   </Query>
 );

@@ -1,10 +1,11 @@
+/* eslint-disable */
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
@@ -53,16 +54,12 @@ class SalesRules extends PureComponent {
     }).isRequired,
     operators: PropTypes.query({
       operators: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.operatorsList,
-        }),
+        content: PropTypes.operatorsList,
       }),
     }).isRequired,
     partners: PropTypes.query({
       partners: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.partnersList,
-        }),
+        content: PropTypes.partnersList,
       }),
     }).isRequired,
     permission: PropTypes.permission.isRequired,
@@ -125,33 +122,43 @@ class SalesRules extends PureComponent {
       rules: { refetch },
     } = this.props;
 
-    const { data: { rules: { createRule: { error } } } } = await updateRule(
-      {
-        variables: {
-          actions: [{
-            parentUser: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            operatorSpreads: [
-              // filter need for delete empty value in array
-              ...operatorSpreads.filter(item => item && item.percentage),
-            ],
-          }],
-          uuid,
-          ...decodeNullValues(rest),
+    try {
+      await updateRule(
+        {
+          variables: {
+            actions: [{
+              parentUser: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+              operatorSpreads: [
+                // filter need for delete empty value in array
+                ...operatorSpreads.filter(item => item && item.percentage),
+              ],
+            }],
+            uuid,
+            ...decodeNullValues(rest),
+          },
         },
-      },
-    );
+      );
 
-    if (error) {
+      await refetch();
+      editRuleModal.hide();
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
       });
 
       let _error = error.error;
 
-      if (_error === 'error.entity.already.exist') {
+      if (error.error === 'error.entity.already.exist') {
         _error = (
           <>
             <div>
@@ -168,17 +175,8 @@ class SalesRules extends PureComponent {
           </>
         );
       }
+
       setErrors({ submit: _error });
-    } else {
-      await refetch();
-      editRuleModal.hide();
-      notify({
-        level: error ? 'error' : 'success',
-        title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-        message: error
-          ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
-          : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
     }
   };
 
@@ -191,23 +189,33 @@ class SalesRules extends PureComponent {
       rules: { refetch },
     } = this.props;
 
-    const { data: { rules: { createRule: { data, error } } } } = await createRule(
-      {
-        variables: {
-          actions: [{
-            parentUser: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            operatorSpreads: [
-              // filter need for delete empty value in array
-              ...operatorSpreads.filter(item => item && item.percentage),
-            ],
-          }],
-          ...decodeNullValues(rest),
+    try {
+      const { data: { rule: { createRule: { uuid } } } } = await createRule(
+        {
+          variables: {
+            actions: [{
+              parentUser: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+              operatorSpreads: [
+                // filter need for delete empty value in array
+                ...operatorSpreads.filter(item => item && item.percentage),
+              ],
+            }],
+            ...decodeNullValues(rest),
+          },
         },
-      },
-    );
+      );
 
-    if (error) {
+      await refetch();
+      ruleModal.hide();
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: uuid }),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
@@ -225,6 +233,7 @@ class SalesRules extends PureComponent {
                   pathname: '/sales-rules',
                   query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
                 }}
+                onClick={ruleModal.hide}
               >
                 {I18n.t(`rules.${error.error}`, error.errorParameters)}
               </Link>
@@ -235,14 +244,6 @@ class SalesRules extends PureComponent {
       }
 
       setErrors({ submit: _error });
-    } else {
-      await refetch();
-      ruleModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
-      });
     }
   };
 
@@ -254,22 +255,21 @@ class SalesRules extends PureComponent {
       modals: { deleteModal },
     } = this.props;
 
-    const { data: { rules: { deleteRule: { data, error } } } } = await deleteRule({ variables: { uuid } });
+    try {
+      await deleteRule({ variables: { uuid } });
 
-    if (error) {
-      deleteModal.hide();
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
-      });
-    } else {
       await refetch();
       deleteModal.hide();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: data.uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });
     }
   };
@@ -285,7 +285,7 @@ class SalesRules extends PureComponent {
       },
     } = this.props;
 
-    const data = get(rules, 'data') || get(rulesRetention, 'data') || [];
+    const data = rules || rulesRetention || [];
     const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
@@ -478,11 +478,11 @@ class SalesRules extends PureComponent {
       isTab,
     } = this.props;
 
-    const entities = get(data, 'rules.data') || [];
+    const entities = get(data, 'rules') || [];
     const filters = get(query, 'filters', {});
 
-    const operators = get(operatorsData, 'operators.data.content') || [];
-    const partners = get(partnersData, 'partners.data.content') || [];
+    const operators = get(operatorsData, 'operators.content') || [];
+    const partners = get(partnersData, 'partners.content') || [];
 
     const allowActions = Object
       .keys(filters)

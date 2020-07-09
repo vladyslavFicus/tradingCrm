@@ -9,177 +9,173 @@ const REQUEST = gql`
   query ProfileQuery(
     $playerUUID: String!
   ) {
-    newProfile(playerUUID: $playerUUID) {
-      data {
-        _id
-        age
-        birthDate
-        brandId
-        clientType
-        convertedFromLeadUuid
-        firstName
-        gender
-        identificationNumber
-        languageCode
-        lastUpdatedBy
-        lastUpdatedDate
-        lastName
-        migrationId
+    profile(playerUUID: $playerUUID) {
+      _id
+      age
+      birthDate
+      brandId
+      clientType
+      convertedFromLeadUuid
+      firstName
+      gender
+      identificationNumber
+      languageCode
+      lastUpdatedBy
+      lastUpdatedDate
+      lastName
+      migrationId
+      uuid
+      emailVerified
+      phoneVerified
+      profileVerified
+      timeZone
+      acquisition {
+        acquisitionStatus
+        retentionRepresentative
+        retentionStatus
+        retentionOperator {
+          fullName
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+        salesRepresentative
+        salesStatus
+        salesOperator {
+          fullName
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+      },
+      address {
+        ...AddressFragment
+      }
+      affiliate {
         uuid
-        emailVerified
-        phoneVerified
-        profileVerified
-        timeZone
-        acquisition {
-          acquisitionStatus
-          retentionRepresentative
-          retentionStatus
-          retentionOperator {
-            fullName
-            hierarchy {
-              parentBranches {
-                name
-                branchType
-                parentBranch {
-                  name
-                  branchType
-                }
-              }
-            }
-          }
-          salesRepresentative
-          salesStatus
-          salesOperator {
-            fullName
-            hierarchy {
-              parentBranches {
-                name
-                branchType
-                parentBranch {
-                  name
-                  branchType
-                }
-              }
-            }
-          }
-        },
-        address {
-          ...AddressFragment
+        externalId
+        referral
+        sms
+        source
+        campaignId
+        partner {
+          fullName
         }
-        affiliate {
-          uuid
-          externalId
-          referral
+      }
+      configuration {
+        crs
+        fatca
+        internalTransfer
+        gdpr {
           sms
-          source
-          campaignId
-          partner {
-            fullName
-          }
+          email
+          phone
+          socialMedia
         }
-        configuration {
-          crs
-          fatca
-          internalTransfer
-          gdpr {
-            sms
-            email
-            phone
-            socialMedia
-          }
-          subscription {
-            marketNews
-            information
-            educational
-            promosAndOffers
-            statisticsAndSummary
-          }
-          webCookies {
-            enabled
-          }
+        subscription {
+          marketNews
+          information
+          educational
+          promosAndOffers
+          statisticsAndSummary
         }
-        contacts {
-          ...ContactsFragment
+        webCookies {
+          enabled
         }
-        passport {
-          countryOfIssue
-          countrySpecificIdentifier
-          countrySpecificIdentifierType
-          expirationDate
-          issueDate
-          number
+      }
+      contacts {
+        ...ContactsFragment
+      }
+      passport {
+        countryOfIssue
+        countrySpecificIdentifier
+        countrySpecificIdentifierType
+        expirationDate
+        issueDate
+        number
+      }
+      kyc {
+        status
+        uuid
+      }
+      registrationDetails {
+        deviceDetails {
+          deviceType
+          operatingSystem
         }
-        kyc {
-          status
-          uuid
+        inetDetails {
+          host
+          ipAddress
+          referer
         }
-        registrationDetails {
-          deviceDetails {
-            deviceType
-            operatingSystem
-          }
-          inetDetails {
-            host
-            ipAddress
-            referer
-          }
-          locationDetails {
-            city
-            countryCode
-            region
-          }
-          registeredBy
-          registrationDate
-          userAgent
+        locationDetails {
+          city
+          countryCode
+          region
         }
-        status {
-          changedAt
-          changedBy
-          comment
-          reason
-          type
-        }
-        profileView {
-          balance {
-            amount
-            credit
-          }
-          lastSignInSessions {
-            ip
-            countryCode
-            startedAt
-          }
-          lastActivity {
-            date
-            location,
-            eventType,
-            eventValue,
-          }
-        }
-        tradingAccount {
-          accountUUID
-          accountType
-          archived
-          balance
+        registeredBy
+        registrationDate
+        userAgent
+      }
+      status {
+        changedAt
+        changedBy
+        comment
+        reason
+        type
+      }
+      profileView {
+        balance {
+          amount
           credit
-          currency
-          group
-          login
-          margin
-          name
-          platformType
         }
-        #      uncomment when email history will be rdy
-        #      sentEmails {
-        #        id
-        #        name
-        #        subject
-        #        text
-        #      }
+        lastSignInSessions {
+          ip
+          countryCode
+          startedAt
+        }
+        lastActivity {
+          location
+          date
+          eventType,
+          eventValue,
+        }
+        online
       }
-      error {
-        error
+      tradingAccounts {
+        accountUUID
+        accountType
+        archived
+        balance
+        credit
+        currency
+        group
+        login
+        margin
+        name
+        platformType
       }
+      #      uncomment when email history will be rdy
+      #      sentEmails {
+      #        id
+      #        name
+      #        subject
+      #        text
+      #      }
     }
   }
   ${ContactsFragment}

@@ -2,7 +2,7 @@ import I18n from 'i18n-js';
 import { createValidator } from 'utils/validator';
 import { paymentTypes, attributeLabels } from './constants';
 
-const validation = (values, tradingAccount) => {
+const validation = (values, tradingAccounts) => {
   const {
     login: currentLogin,
     amount,
@@ -23,7 +23,7 @@ const validation = (values, tradingAccount) => {
   ].includes(paymentType)
       && currentLogin
       && amount
-      && Number(tradingAccount.find(({ login }) => login === currentLogin).balance) < amount
+      && Number(tradingAccounts.find(({ login }) => login === currentLogin).balance) < amount
   ) {
     return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
   }
@@ -31,7 +31,7 @@ const validation = (values, tradingAccount) => {
   if ([paymentTypes.CREDIT_OUT.name].includes(paymentType)
     && currentLogin
     && amount
-    && Number(tradingAccount.find(({ login }) => login === currentLogin).credit) < amount
+    && Number(tradingAccounts.find(({ login }) => login === currentLogin).credit) < amount
   ) {
     return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
   }
@@ -58,7 +58,7 @@ const validation = (values, tradingAccount) => {
 
     if (source
         && amount
-        && Number(tradingAccount.find(
+        && Number(tradingAccounts.find(
           ({ accountUUID }) => accountUUID === source,
         ).balance) < amount
     ) {

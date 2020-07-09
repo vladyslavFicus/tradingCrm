@@ -17,11 +17,7 @@ class NotesGridFilter extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     authoritiesOptions: PropTypes.shape({
       data: PropTypes.shape({
-        authoritiesOptions: PropTypes.shape({
-          data: PropTypes.shape({
-            authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-          }),
-        }),
+        authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
@@ -36,7 +32,7 @@ class NotesGridFilter extends PureComponent {
       onSubmit,
     } = this.props;
 
-    const allDepartmentRoles = get(data, 'authoritiesOptions.data.authoritiesOptions') || {};
+    const allDepartmentRoles = get(data, 'authoritiesOptions') || {};
     const departmentRoles = omit(allDepartmentRoles, ['PLAYER', 'AFFILIATE']);
 
     return (

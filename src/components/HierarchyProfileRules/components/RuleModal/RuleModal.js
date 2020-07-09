@@ -54,14 +54,10 @@ class RuleModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     deskType: PropTypes.string.isRequired,
     partnersQuery: PropTypes.response({
-      partners: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.partnersListEntity),
-      }),
+      partners: PropTypes.pageable(PropTypes.partnersListEntity),
     }).isRequired,
     operatorsQuery: PropTypes.response({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.operatorsListEntity),
-      }),
+      operators: PropTypes.pageable(PropTypes.operatorsListEntity),
     }).isRequired,
     type: PropTypes.string,
     currentUuid: PropTypes.string,
@@ -122,8 +118,8 @@ class RuleModal extends PureComponent {
       withOperatorSpreads,
     } = this.props;
 
-    const partnersList = get(partnersQueryData, 'partners.data.content', []);
-    const operatorsList = get(operatorsQueryData, 'operators.data.content', []);
+    const partnersList = get(partnersQueryData, 'partners.content', []);
+    const operatorsList = get(operatorsQueryData, 'operators.content', []);
     const {
       selectedOperators,
       percentageLimitError,

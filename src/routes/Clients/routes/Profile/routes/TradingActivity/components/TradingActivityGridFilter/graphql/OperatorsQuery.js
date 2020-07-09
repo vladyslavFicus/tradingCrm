@@ -5,19 +5,14 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`query OperatorsQuery_TradingActivityGridFilter {
   operators {
-    data {
-      content {
+    content {
+      uuid
+      fullName
+      operatorStatus
+      hierarchy {
         uuid
-        fullName
-        operatorStatus
-        hierarchy {
-          uuid
-          userType
-        }
+        userType
       }
-    }
-    error {
-      error
     }
   }
 }`;

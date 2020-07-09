@@ -16,13 +16,8 @@ const REQUEST = gql`mutation createFilterSet(
       type: $type
       favourite: $favourite
     ) {
-      error {
-        fields_errors
-      }
-      data {
-        name
-        uuid
-      }
+      name
+      uuid
     }
   }
 }

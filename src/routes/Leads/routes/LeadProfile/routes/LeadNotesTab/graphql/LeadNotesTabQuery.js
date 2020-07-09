@@ -19,19 +19,14 @@ const REQUEST = gql`
       changedAtTo: $changedAtTo
       changedAtFrom: $changedAtFrom
     ) {
-      data {
-        size
-        page
-        totalElements
-        totalPages
-        number
-        last
-        content {
-          ...NoteFragment
-        }
-      }
-      error {
-        error
+      size
+      page
+      totalElements
+      totalPages
+      number
+      last
+      content {
+        ...NoteFragment
       }
     }
   }

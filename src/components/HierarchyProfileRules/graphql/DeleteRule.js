@@ -4,19 +4,10 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation DeleteRule(
-  $uuid: String!,
+  $uuid: String!
 ) {
-  rules {
-    deleteRule(
-      uuid: $uuid,
-    ) {
-      error {
-        error
-      }
-      data {
-        uuid
-      }
-    } 
+  rule {
+    deleteRule(uuid: $uuid)
   }
 }`;
 

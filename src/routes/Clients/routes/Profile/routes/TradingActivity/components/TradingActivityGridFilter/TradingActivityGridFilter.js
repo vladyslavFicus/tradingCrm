@@ -30,13 +30,10 @@ class TradingActivityGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     tradingAccountsQuery: PropTypes.query({
-      tradingAccount: PropTypes.arrayOf(PropTypes.tradingAccount),
+      clientTradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
     }).isRequired,
     operatorsQuery: PropTypes.query({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.tradingActivityOriginalAgent),
-        error: PropTypes.object,
-      }),
+      operators: PropTypes.pageable(PropTypes.tradingActivityOriginalAgent),
     }).isRequired,
   };
 
@@ -73,9 +70,9 @@ class TradingActivityGridFilter extends PureComponent {
       },
     } = this.props;
 
-    const accounts = get(tradingAccountsData, 'tradingAccount') || [];
-    const originalAgents = get(operatorsData, 'operators.data.content') || [];
-    const disabledOriginalAgentField = get(operatorsData, 'operators.error') || operatorsLoading;
+    const accounts = get(tradingAccountsData, 'clientTradingAccounts') || [];
+    const originalAgents = get(operatorsData, 'operators.content') || [];
+    const disabledOriginalAgentField = operatorsLoading;
 
     return (
       <Formik

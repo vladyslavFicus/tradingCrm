@@ -7,6 +7,6 @@ import MoveModal from './MoveModal';
 export default compose(
   withNotifications,
   graphql(clientsBulkRepresentativeUpdate, {
-    name: 'bulkRepresentativeUpdate',
+    name: 'bulkClientUpdate',
   }),
 )(MoveModal);

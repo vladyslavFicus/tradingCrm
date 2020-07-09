@@ -21,22 +21,17 @@ const REQUEST = gql`
         playerUUID: $playerUUID
         targetType: $targetType
       ) {
-        data {
-          _id
-          noteId
-          targetUUID
-          playerUUID
-          subject
-          content
-          pinned
-          changedAt
-          changedBy
-          operator {
-            fullName
-          }
-        }
-        error {
-          error
+        _id
+        noteId
+        targetUUID
+        playerUUID
+        subject
+        content
+        pinned
+        changedAt
+        changedBy
+        operator {
+          fullName
         }
       }
     }

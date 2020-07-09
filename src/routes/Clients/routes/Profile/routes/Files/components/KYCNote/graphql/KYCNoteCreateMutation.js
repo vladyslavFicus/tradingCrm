@@ -18,9 +18,7 @@ const REQUEST = gql`
         playerUUID: $playerUUID
         targetType: $targetType
       ) {
-        error {
-          error
-        }
+        _id
       }
     }
   }

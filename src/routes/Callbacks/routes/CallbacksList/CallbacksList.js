@@ -12,16 +12,14 @@ import './CallbacksList.scss';
 class CallbacksList extends PureComponent {
   static propTypes = {
     callbacksData: PropTypes.query({
-      callbacks: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.callback),
-      }),
+      callbacks: PropTypes.pageable(PropTypes.callback),
     }).isRequired,
   };
 
   render() {
     const { callbacksData } = this.props;
 
-    const { totalElements } = get(callbacksData, 'data.callbacks.data') || {};
+    const { totalElements } = get(callbacksData, 'data.callbacks') || {};
 
     return (
       <div className="CallbacksList">

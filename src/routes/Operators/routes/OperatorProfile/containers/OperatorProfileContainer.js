@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { withModals, withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import { unlockLoginMutation } from 'graphql/mutations/auth';
-import { changePassword, sendInvitation, passwordResetRequest, changeStatus } from 'graphql/mutations/operators';
+import { changePassword, passwordResetRequest, changeStatus } from 'graphql/mutations/operators';
 import { getLoginLock } from 'graphql/queries/profile';
 import { operatorQuery } from 'graphql/queries/operators';
 import { statusActions } from 'constants/operators';
@@ -20,15 +20,13 @@ export default compose(
     options: ({
       match: {
         params: {
-          id: playerUUID,
+          id: uuid,
         },
       },
     }) => ({
       refetchQueries: [{
         query: getLoginLock,
-        variables: {
-          playerUUID,
-        },
+        variables: { uuid },
       }],
     }),
     name: 'unlockLoginMutation',
@@ -37,12 +35,12 @@ export default compose(
     options: ({
       match: {
         params: {
-          id: playerUUID,
+          id: uuid,
         },
       },
     }) => ({
       variables: {
-        playerUUID,
+        uuid,
       },
     }),
     name: 'getLoginLock',
@@ -54,14 +52,14 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     props: ({ getOperator }) => {
-      const { authorities, ...operatorProfile } = get(getOperator, 'operator.data') || {};
+      const { authorities, ...operatorProfile } = get(getOperator, 'operator') || {};
       return {
         isLoading: get(getOperator, 'loading', true),
         authorities,
         data: {
           ...operatorProfile,
         },
-        error: get(getOperator, 'operator.error.error'),
+        error: get(getOperator, 'error'),
         refetchOperator: getOperator.refetch,
         availableStatuses: operatorProfile.operatorStatus && statusActions[operatorProfile.operatorStatus]
           ? statusActions[operatorProfile.operatorStatus]
@@ -77,8 +75,5 @@ export default compose(
   }),
   graphql(passwordResetRequest, {
     name: 'resetPassword',
-  }),
-  graphql(sendInvitation, {
-    name: 'sendInvitation',
   }),
 )(OperatorProfile);

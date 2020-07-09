@@ -23,13 +23,7 @@ const REQUEST = gql`
         externalAffiliateId: $externalAffiliateId
         public: $public
       ) {
-        data {
-          uuid
-        }
-        error {
-          error
-          fields_errors
-        }
+        uuid
       }
     }
   }

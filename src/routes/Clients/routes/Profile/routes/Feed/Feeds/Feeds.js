@@ -75,7 +75,7 @@ class Feed extends PureComponent {
       feeds: { data, loading },
     } = this.props;
 
-    const { content, last, number } = get(data, 'feeds.data') || { content: [] };
+    const { content, last, number } = get(data, 'feeds') || { content: [] };
     const parsedContent = this.mapAuditEntities(content);
 
     return (

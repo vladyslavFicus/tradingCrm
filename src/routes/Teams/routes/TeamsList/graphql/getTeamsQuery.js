@@ -4,36 +4,29 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
+  fragment Branch on HierarchyBranch {
+    uuid
+    name
+  }
+
   query TeamsList_getTeamsQuery (
     $branchType: String!,
     $keyword: String,
     $officeUuid: String,
     $deskUuid: String,
   ) {
-    hierarchy {
-      branchHierarchy (
-        branchType: $branchType,
-        keyword: $keyword,
-        officeUuid: $officeUuid,
-        deskUuid: $deskUuid,
-      ) {
-        data {
-          office {
-            uuid
-            name
-          }
-          desk {
-            uuid
-            name
-            deskType
-          }
-          team {
-            uuid
-            name
-          }
-        }
-        error {
-          error
+    branch (
+      branchType: $branchType,
+      keyword: $keyword,
+      officeUuid: $officeUuid,
+      deskUuid: $deskUuid,
+    ) {
+      ...Branch
+      parentBranch {
+        ...Branch
+        deskType
+        parentBranch {
+          ...Branch
         }
       }
     }

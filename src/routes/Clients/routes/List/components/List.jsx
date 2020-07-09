@@ -12,9 +12,7 @@ class List extends Component {
   static propTypes = {
     ...PropTypes.router,
     profiles: PropTypes.query({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.profileView),
-      }),
+      profiles: PropTypes.pageable(PropTypes.profileView),
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
@@ -81,7 +79,7 @@ class List extends Component {
         modals: { confirmationModal },
       } = this.props;
 
-      const totalElements = get(profiles, 'profiles.data.totalElements');
+      const totalElements = get(profiles, 'profiles.totalElements');
       const searchLimit = get(location, 'query.filters.searchLimit');
 
       let selectedLimit = totalElements > MAX_SELECTED_ROWS;
@@ -109,7 +107,7 @@ class List extends Component {
     if (allRowsSelected) {
       const { profiles, location } = this.props;
 
-      const totalElements = get(profiles, 'profiles.data.totalElements');
+      const totalElements = get(profiles, 'profiles.totalElements');
       const searchLimit = get(location, 'query.filters.searchLimit');
 
       const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;

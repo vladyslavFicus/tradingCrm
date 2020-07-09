@@ -7,20 +7,12 @@ const REQUEST = gql`
   query BranchHeader_getBranchInfo(
     $branchId: String!,
   ) {
-    hierarchy {
-      branchInfo (
-        branchId: $branchId,
-      ) {
-        error {
-          error
-          fields_errors
-        }
-        data {
-          manager
-          operator {
-            fullName
-          }
-        }
+    branchInfo (
+      branchId: $branchId,
+    ) {
+      manager
+      operator {
+        fullName
       }
     }
   }

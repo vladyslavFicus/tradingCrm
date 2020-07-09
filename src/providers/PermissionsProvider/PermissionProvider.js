@@ -10,12 +10,12 @@ const PermissionContext = React.createContext();
 class PermissionProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    permissions: PropTypes.object.isRequired,
+    permissionsData: PropTypes.object.isRequired,
   };
 
   render() {
     const {
-      permissions: {
+      permissionsData: {
         loading,
         data,
       },
@@ -27,7 +27,7 @@ class PermissionProvider extends PureComponent {
 
     const value = {
       permission: {
-        permissions: get(data, 'permission.data') || [],
+        permissions: get(data, 'permission') || [],
       },
     };
 
@@ -46,5 +46,5 @@ export const PermissionPropTypes = {
 };
 
 export default withRequests({
-  permissions: PermissionsQuery,
+  permissionsData: PermissionsQuery,
 })(PermissionProvider);

@@ -4,63 +4,57 @@ import gql from 'graphql-tag';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query LeadProfileQuery(
-  $leadId: String!,
+  $uuid: String!,
 ) {
-  leadProfile (
-    leadId: $leadId,
+  lead (
+    uuid: $uuid,
   ) {
-    error {
-      error
-      fields_errors
-    }
-    data {
-      _id
+    _id
+    uuid
+    brandId
+    name
+    surname
+    phone
+    mobile
+    status
+    email
+    country
+    source
+    salesAgent {
+      fullName
       uuid
-      brandId
-      name
-      surname
-      phone
-      mobile
-      status
-      email
-      country
-      source
-      salesAgent {
-        fullName
-        uuid
-        hierarchy {
-          parentBranches {
+      hierarchy {
+        parentBranches {
+          name
+          branchType
+          parentBranch {
             name
             branchType
-            parentBranch {
-              name
-              branchType
-            }
           }
         }
       }
-      salesStatus
-      birthDate
-      affiliate
-      gender
-      city
-      language
-      registrationDate
-      statusChangedDate
-      convertedByOperatorUuid
-      convertedToClientUuid
-      migrationId
     }
-  } 
+    salesStatus
+    birthDate
+    affiliate
+    gender
+    city
+    language
+    registrationDate
+    statusChangedDate
+    convertedByOperatorUuid
+    convertedToClientUuid
+    migrationId
+  }
 }`;
 
 const LeadProfileQuery = ({
   match: {
-    params: { id: leadId },
+    params: { id: uuid },
   },
   children,
 }) => (
-  <Query query={REQUEST} variables={{ leadId }} fetchPolicy="network-only">
+  <Query query={REQUEST} variables={{ uuid }} fetchPolicy="network-only">
     {children}
   </Query>
 );

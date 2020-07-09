@@ -1,184 +1,80 @@
 import gql from 'graphql-tag';
 import { AddressFragment } from '../fragments/address';
 
-const passwordResetRequest = gql`mutation passwordResetRequest($playerUUID: String!) {
-  profile {
-    passwordResetRequest(
-      userUuid: $playerUUID
-    ) {
-      success
-    }
-  }
-}`;
-
-const changePassword = gql`mutation changePassword($playerUUID: String!, $password: String!) {
-  profile {
-    changePassword(
-      clientUuid: $playerUUID
-      newPassword: $password
-    ) {
-      success
-    }
-  }
-}`;
-
 const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
-  $teamId: String,
-  $salesRepresentative: [String],
-  $retentionRepresentative: [String],
-  $salesStatus: String,
-  $retentionStatus: String,
-  $type: String!,
-  $isMoveAction: Boolean,
-  $allRowsSelected: Boolean,
-  $clients: [ClientBulkUpdateType],
-  $totalElements: Int,
-  $searchParams: ClientSearchParams,
+  $salesRepresentative: [String]
+  $retentionRepresentative: [String]
+  $salesStatus: String
+  $retentionStatus: String
+  $type: String!
+  $isMoveAction: Boolean
+  $allRowsSelected: Boolean
+  $clients: [ClientUpdate__Input]
+  $totalElements: Int
+  $searchParams: ClientSearch__Input
 ) {
-  clients {
-    bulkRepresentativeUpdate (
-      teamId: $teamId,
+  profile {
+    bulkClientUpdate (
       salesRepresentative: $salesRepresentative
-      retentionRepresentative: $retentionRepresentative,
-      salesStatus: $salesStatus,
-      retentionStatus: $retentionStatus,
-      type: $type,
-      isMoveAction: $isMoveAction,
-      allRowsSelected: $allRowsSelected,
-      clients: $clients,
-      totalElements: $totalElements,
-      searchParams: $searchParams,
-    ) {
-      data
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
-const updateMutation = gql`mutation update(
-  $playerUUID: String!,
-  $phone1: String,
-  $phone2: String,
-  $languageCode: String,
-  $passportNumber: String,
-  $expirationDate: String,
-  $countryOfIssue: String,
-  $passportIssueDate: String,
-  $kycStatus: String,
-  $countrySpecificIdentifier: String,
-  $countrySpecificIdentifierType: String,
-  $enableInternalTransfer: Boolean,
-){
-  profile {
-    update(
-      playerUUID: $playerUUID,
-      phone1: $phone1,
-      phone2: $phone2,
-      languageCode: $languageCode,
-      passportNumber: $passportNumber,
-      expirationDate: $expirationDate,
-      countryOfIssue: $countryOfIssue,
-      passportIssueDate: $passportIssueDate,
-      kycStatus: $kycStatus,
-      countrySpecificIdentifier: $countrySpecificIdentifier,
-      countrySpecificIdentifierType: $countrySpecificIdentifierType,
-      enableInternalTransfer: $enableInternalTransfer,
-    ) {
-      data {
-        playerUUID
-        tradingProfile {
-          phone1
-          phone2
-          languageCode
-          kycStatus
-          passport {
-            passportNumber
-            expirationDate
-            countryOfIssue
-            passportIssueDate
-          }
-          countrySpecificIdentifier
-          countrySpecificIdentifierType
-          enableInternalTransfer
-        }
-      }
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const updateLimitProfileMutation = gql`mutation update(
-  $profileId: String!,
-  $phone2: String,
-  $email2: String
-){
-  profile {
-    limitedUpdate(
-      profileId: $profileId,
-      phone2: $phone2,
-      email2: $email2
-    ) {
-      success,
-    }
+      retentionRepresentative: $retentionRepresentative
+      salesStatus: $salesStatus
+      retentionStatus: $retentionStatus
+      type: $type
+      isMoveAction: $isMoveAction
+      allRowsSelected: $allRowsSelected
+      clients: $clients
+      totalElements: $totalElements
+      searchParams: $searchParams
+    )
   }
 }`;
 
 const clickToCall = gql`mutation clickToCall($number: String!) {
-  profile {
-    clickToCall(number: $number) {
-      success
+  clickToCall {
+    didlogic {
+      createCall(number: $number)
     }
   }
 }`;
 
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
-  $playerUUID: String!,
-  $firstName: String,
-  $lastName: String,
-  $languageCode: String,
-  $gender: String,
-  $birthDate: String,
-  $passport: PassportInput,
-  $identificationNumber: String,
-  $timeZone: String,
+  $playerUUID: String!
+  $firstName: String
+  $lastName: String
+  $languageCode: String
+  $gender: String
+  $birthDate: String
+  $passport: Passport__Input
+  $identificationNumber: String
+  $timeZone: String
 ) {
   profile {
     updatePersonalInformation(
-      playerUUID: $playerUUID,
-      firstName: $firstName,
-      lastName: $lastName,
-      languageCode: $languageCode,
-      gender: $gender,
-      birthDate: $birthDate,
-      passport: $passport,
-      identificationNumber: $identificationNumber,
-      timeZone: $timeZone,
+      playerUUID: $playerUUID
+      firstName: $firstName
+      lastName: $lastName
+      languageCode: $languageCode
+      gender: $gender
+      birthDate: $birthDate
+      passport: $passport
+      identificationNumber: $identificationNumber
+      timeZone: $timeZone
     ) {
-      data {
-        _id
-        firstName
-        lastName
-        birthDate
-        languageCode
-        gender
-        identificationNumber
-        timeZone
-        passport {
-          countryOfIssue
-          countrySpecificIdentifier
-          countrySpecificIdentifierType
-          expirationDate
-          issueDate
-          number
-        }
-      }
-      error {
-        error
+      _id
+      firstName
+      lastName
+      birthDate
+      languageCode
+      gender
+      identificationNumber
+      timeZone
+      passport {
+        countryOfIssue
+        countrySpecificIdentifier
+        countrySpecificIdentifierType
+        expirationDate
+        issueDate
+        number
       }
     }
   }
@@ -193,8 +89,9 @@ const updateEmailMutation = gql`mutation updateEmail(
       playerUUID: $playerUUID,
       email: $email,
     ) {
-      error {
-        error,
+      _id
+      contacts {
+        email
       }
     }
   }
@@ -212,9 +109,7 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
       internalTransfer: $internalTransfer,
       crs: $crs,
       fatca: $fatca,
-    ) {
-      success
-    }
+    )
   }
 }`;
 
@@ -235,11 +130,9 @@ const updateAddressMutation = gql`mutation updateAddress(
       postCode: $postCode,
       address: $address,
     ) {
-      data {
-        _id
-        address {
-          ...AddressFragment
-        }
+      _id
+      address {
+        ...AddressFragment
       }
     }
   }
@@ -249,24 +142,15 @@ ${AddressFragment}`;
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
-      data {
-        _id
-        emailVerified
-      }
-      error {
-        error
-      }
+      _id
+      emailVerified
     }
   }
 }`;
 
 export {
-  passwordResetRequest,
-  changePassword,
   clientsBulkRepresentativeUpdate,
-  updateMutation,
   clickToCall,
-  updateLimitProfileMutation,
   updatePersonalInformationMutation,
   updateConfigurationMutation,
   verifyEmailMutation,
