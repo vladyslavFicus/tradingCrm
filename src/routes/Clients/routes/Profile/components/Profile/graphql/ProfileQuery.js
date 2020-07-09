@@ -154,6 +154,7 @@ const REQUEST = gql`
           eventType,
           eventValue,
         }
+        online
       }
       tradingAccounts {
         accountUUID

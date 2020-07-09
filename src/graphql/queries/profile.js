@@ -263,6 +263,7 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
         date
       }
       warnings
+      online
     }
   }
 }`;

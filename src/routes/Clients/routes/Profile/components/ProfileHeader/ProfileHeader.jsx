@@ -235,6 +235,7 @@ class ProfileHeader extends Component {
     } = status || {};
 
     const {
+      online,
       balance,
       lastActivity,
       lastSignInSessions,
@@ -246,8 +247,7 @@ class ProfileHeader extends Component {
     const { eventType, eventValue, location, date: lastActivityDate } = lastActivity || {};
 
     const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
-    const lastActivityType = lastActivityDateLocal
-      && moment().diff(lastActivityDateLocal, 'minutes') < 5 ? 'ONLINE' : 'OFFLINE';
+    const lastActivityType = online ? 'ONLINE' : 'OFFLINE';
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
