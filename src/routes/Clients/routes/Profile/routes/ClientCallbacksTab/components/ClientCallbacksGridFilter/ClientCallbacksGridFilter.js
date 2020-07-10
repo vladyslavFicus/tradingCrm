@@ -34,6 +34,7 @@ class ClientCallbacksGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="ClientCallbacksGridFilter__form">
             <div className="ClientCallbacksGridFilter__fields">
@@ -82,7 +83,7 @@ class ClientCallbacksGridFilter extends PureComponent {
 
               <Button
                 className="ClientCallbacksGridFilter__button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

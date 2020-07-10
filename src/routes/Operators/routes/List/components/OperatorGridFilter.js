@@ -51,7 +51,7 @@ class OperatorGridFilter extends Component {
         validate={validate}
         onSubmit={this.handleSubmit}
       >
-        {({ isSubmitting, resetForm }) => (
+        {({ isSubmitting, resetForm, dirty }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -107,7 +107,7 @@ class OperatorGridFilter extends Component {
               <Button
                 primary
                 className="margin-left-15"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
               >
                 {I18n.t('COMMON.APPLY')}

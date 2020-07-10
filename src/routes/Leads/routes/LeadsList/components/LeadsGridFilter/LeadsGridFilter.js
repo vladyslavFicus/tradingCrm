@@ -35,6 +35,7 @@ class LeadsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     isSubmitting: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,
     values: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
@@ -110,6 +111,7 @@ class LeadsGridFilter extends PureComponent {
     const {
       values,
       isSubmitting,
+      dirty,
       desksAndTeamsData,
       operatorsData: { loading: isOperatorsLoading },
       desksAndTeamsData: { loading: isDesksAndTeamsLoading },
@@ -295,7 +297,7 @@ class LeadsGridFilter extends PureComponent {
 
           <Button
             className="LeadsGridFilter__button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !dirty}
             type="submit"
             primary
           >

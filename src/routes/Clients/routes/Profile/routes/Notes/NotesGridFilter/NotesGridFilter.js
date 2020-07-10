@@ -52,7 +52,7 @@ class NotesGridFilter extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ resetForm, isValid }) => (
+        {({ resetForm, isValid, dirty }) => (
           <Form className="filter-row">
             <Field
               name="department"
@@ -87,7 +87,7 @@ class NotesGridFilter extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid}
+                disabled={!isValid || !dirty}
                 primary
                 type="submit"
               >

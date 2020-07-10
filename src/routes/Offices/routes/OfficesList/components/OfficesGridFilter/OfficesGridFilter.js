@@ -39,6 +39,7 @@ class OfficesGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="OfficesGridFilter__form">
             <div className="OfficesGridFilter__fields">
@@ -78,7 +79,7 @@ class OfficesGridFilter extends PureComponent {
               </Button>
               <Button
                 className="OfficesGridFilter__button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

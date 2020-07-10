@@ -62,7 +62,7 @@ class FeedFilterForm extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ isValid, resetForm, isSubmitting }) => (
+        {({ isValid, resetForm, isSubmitting, dirty }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -100,7 +100,7 @@ class FeedFilterForm extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid || isSubmitting}
+                disabled={!isValid || isSubmitting || !dirty}
                 primary
                 type="submit"
               >
