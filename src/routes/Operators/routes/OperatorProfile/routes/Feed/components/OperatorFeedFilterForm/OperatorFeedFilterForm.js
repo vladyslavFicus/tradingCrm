@@ -48,6 +48,7 @@ class OperatorFeedFilterForm extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="OperatorFeedFilterForm__form">
             <div className="OperatorFeedFilterForm__fields">
@@ -96,7 +97,7 @@ class OperatorFeedFilterForm extends PureComponent {
 
               <Button
                 className="OperatorFeedFilterForm__button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >
