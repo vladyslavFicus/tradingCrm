@@ -36,18 +36,12 @@ class NoteItem extends Component {
   handleRemoveNote = async () => {
     const { note, removeNote } = this.props;
 
-    const {
-      data: {
-        note: {
-          remove: {
-            error,
-          },
-        },
-      },
-    } = await removeNote({ variables: { noteId: note.noteId } });
+    try {
+      await removeNote({ variables: { noteId: note.noteId } });
 
-    if (!error) {
       EventEmitter.emit(NOTE_REMOVED, note);
+    } catch (e) {
+      // Do nothing...
     }
   };
 

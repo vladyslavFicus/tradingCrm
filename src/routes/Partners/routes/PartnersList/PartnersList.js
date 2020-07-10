@@ -17,9 +17,7 @@ import './PartnersList.scss';
 class PartnersList extends PureComponent {
   static propTypes = {
     partnersQuery: PropTypes.query({
-      partners: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.partner),
-      }),
+      partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
     modals: PropTypes.shape({
       createPartnerModal: PropTypes.modalType,
@@ -33,7 +31,7 @@ class PartnersList extends PureComponent {
   render() {
     const { partnersQuery } = this.props;
 
-    const totalElements = get(partnersQuery, 'data.partners.data.totalElements');
+    const totalElements = get(partnersQuery, 'data.partners.totalElements');
 
     return (
       <div className="PartnersList">

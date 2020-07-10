@@ -12,13 +12,7 @@ const REQUEST = gql`
       addBranchManager(
         branchUuid: $branchUuid,
         operatorUuid: $operatorUuid
-      ) {
-        success
-        error {
-          error
-          fields_errors
-        }
-      }
+      )
     }
   }
 `;

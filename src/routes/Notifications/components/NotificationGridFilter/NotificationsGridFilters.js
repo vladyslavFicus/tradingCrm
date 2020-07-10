@@ -11,8 +11,8 @@ import { decodeNullValues } from 'components/Formik/utils';
 import Button from 'components/UI/Button';
 import { filterLabels } from 'constants/user';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
-import { OperatorsQuery, UserBranchHierarchyQuery, TypesQuery, SubtypesQuery } from './graphql';
-import { prepareSubtypes, subtypesOfChosenTypes } from './utils';
+import { OperatorsQuery, UserBranchHierarchyQuery, TypesQuery } from './graphql';
+import { subtypesOfChosenTypes } from './utils';
 import './NotificationsGridFilters.scss';
 
 class NotificationsFilters extends PureComponent {
@@ -24,7 +24,6 @@ class NotificationsFilters extends PureComponent {
     }).isRequired,
     userBranchHierarchy: PropTypes.any.isRequired,
     typesQuery: PropTypes.any.isRequired,
-    subtypesQuery: PropTypes.any.isRequired,
   };
 
   initialValues = {
@@ -75,21 +74,16 @@ class NotificationsFilters extends PureComponent {
         loading: hierarchyLoading,
       },
       typesQuery: {
-        data: typesData,
+        data: notificationTypesData,
         loading: notificationCenterTypesLoading,
-      },
-      subtypesQuery: {
-        data: subtypesData,
-        loading: notificationCenterSubtypesLoading,
       },
     } = this.props;
 
-    const operators = get(operatorsData, 'operators.data.content') || [];
-    const desks = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
-    const types = get(typesData, 'notificationCenterTypes.data') || [];
-    const arrOfSubtypes = get(subtypesData, 'notificationCenterSubtypes.data') || [];
-    const subtypes = prepareSubtypes(arrOfSubtypes);
+    const operators = get(operatorsData, 'operators.content') || [];
+    const desks = get(hierarchyData, 'userBranches.DESK') || [];
+    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
+    const typesData = get(notificationTypesData, 'notificationCenterTypes') || [];
+    const types = Object.keys(typesData);
 
     return (
       <Formik
@@ -106,7 +100,7 @@ class NotificationsFilters extends PureComponent {
           },
           dirty,
         }) => {
-          const subtypesOptions = this.renderSubtypesOptions(notificationTypes, subtypes);
+          const subtypesOptions = this.renderSubtypesOptions(notificationTypes, typesData);
 
           return (
             <Form className="NotificationsGridFilter__form">
@@ -194,7 +188,7 @@ class NotificationsFilters extends PureComponent {
                   component={FormikSelectField}
                   searchable
                   multiple
-                  disabled={notificationCenterSubtypesLoading || !subtypesOptions.length}
+                  disabled={notificationCenterTypesLoading || !subtypesOptions.length}
                 >
                   {subtypesOptions}
                 </Field>
@@ -229,7 +223,6 @@ export default compose(
   withRequests({
     typesQuery: TypesQuery,
     operators: OperatorsQuery,
-    subtypesQuery: SubtypesQuery,
     userBranchHierarchy: UserBranchHierarchyQuery,
   }),
 )(NotificationsFilters);

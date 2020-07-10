@@ -20,8 +20,8 @@ import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import updateTradingAccountMutation from './graphql/updateTradingAccountMutation';
-import approveChangeLeverageRequestMutation from './graphql/approveChangeLeverageRequestMutation';
-import rejectChangeLeverageRequestMutation from './graphql/rejectChangeLeverageRequestMutation';
+import approveChangingLeverageMutation from './graphql/approveChangingLeverageMutation';
+import rejectChangingLeverageMutation from './graphql/rejectChangingLeverageMutation';
 import TradingAccountChangePasswordModal from './TradingAccountChangePasswordModal';
 import ChangeLeverageModal from './ChangeLeverageModal';
 
@@ -33,8 +33,8 @@ class TradingAccountsGrid extends PureComponent {
     }).isRequired,
     tradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount).isRequired,
     updateTradingAccount: PropTypes.func.isRequired,
-    approveChangeLeverage: PropTypes.func.isRequired,
-    rejectChangeLeverage: PropTypes.func.isRequired,
+    approveChangingLeverage: PropTypes.func.isRequired,
+    rejectChangingLeverage: PropTypes.func.isRequired,
     refetchTradingAccountsList: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
     profileUuid: PropTypes.string.isRequired,
@@ -42,68 +42,83 @@ class TradingAccountsGrid extends PureComponent {
     notify: PropTypes.func.isRequired,
   };
 
-  handleSetTradingAccountReadonly = (accountUUID, readOnly) => () => {
+  handleSetTradingAccountReadonly = (accountUUID, readOnly) => async () => {
     const {
+      notify,
       profileUuid,
       updateTradingAccount,
       refetchTradingAccountsList,
     } = this.props;
 
-    updateTradingAccount({
-      variables: {
-        accountUUID,
-        profileId: profileUuid,
-        readOnly,
-      },
-    }).then(refetchTradingAccountsList);
+    try {
+      await updateTradingAccount({
+        variables: {
+          accountUUID,
+          profileId: profileUuid,
+          readOnly,
+        },
+      });
+
+      refetchTradingAccountsList();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
   };
 
   handleRejectChangeLeverage = accountUUID => async () => {
-    const { notify, rejectChangeLeverage, refetchTradingAccountsList } = this.props;
-
     const {
-      data: {
-        tradingAccount: {
-          rejectChangeLeverageRequest: {
-            success,
-          },
-        },
-      },
-    } = await rejectChangeLeverage({ variables: { accountUUID } });
+      notify,
+      rejectChangingLeverage,
+      refetchTradingAccountsList,
+    } = this.props;
 
-    refetchTradingAccountsList();
+    try {
+      await rejectChangingLeverage({ variables: { accountUUID } });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
-      message: success
-        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CANCEL_NOTIFICATION')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      refetchTradingAccountsList();
+
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+        message: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CANCEL_NOTIFICATION'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
   };
 
   handleApproveChangeLeverage = accountUUID => async () => {
-    const { notify, approveChangeLeverage, refetchTradingAccountsList } = this.props;
-
     const {
-      data: {
-        tradingAccount: {
-          approveChangeLeverageRequest: {
-            success,
-          },
-        },
-      },
-    } = await approveChangeLeverage({ variables: { accountUUID } });
+      notify,
+      approveChangingLeverage,
+      refetchTradingAccountsList,
+    } = this.props;
 
-    refetchTradingAccountsList();
+    try {
+      await approveChangingLeverage({ variables: { accountUUID } });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
-      message: success
-        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.APPROVE_NOTIFICATION')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      refetchTradingAccountsList();
+
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+        message: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.APPROVE_NOTIFICATION'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
   };
 
   renderTradingAccountColumn = ({ accountUUID, name, accountType, platformType, archived }) => (
@@ -385,7 +400,7 @@ export default compose(
   }),
   withRequests({
     updateTradingAccount: updateTradingAccountMutation,
-    approveChangeLeverage: approveChangeLeverageRequestMutation,
-    rejectChangeLeverage: rejectChangeLeverageRequestMutation,
+    approveChangingLeverage: approveChangingLeverageMutation,
+    rejectChangingLeverage: rejectChangingLeverageMutation,
   }),
 )(TradingAccountsGrid);

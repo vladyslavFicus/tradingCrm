@@ -1,6 +1,6 @@
 import { graphql, compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { chooseDepartmentMutation } from 'graphql/mutations/authorization';
+import { chooseDepartmentMutation } from 'graphql/mutations/auth';
 import BrandsView from '../components/BrandsView';
 
 export default compose(

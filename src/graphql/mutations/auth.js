@@ -1,13 +1,45 @@
 import gql from 'graphql-tag';
 
-const unlockLoginMutation = gql`mutation unlockLogin($playerUUID: String!) {
-  auth {
-    unlockLogin(playerUUID: $playerUUID) {
-      success
-      error {
-        error
+const signInMutation = gql`
+  mutation SignInMutation(
+    $login: String!
+    $password: String!
+  ) {
+    auth {
+      signIn(
+        login: $login
+        password: $password
+      ) {
+        uuid
+        brandToAuthorities
+        token
       }
     }
+  }
+`;
+
+const chooseDepartmentMutation = gql`
+  mutation ChooseDepartmentMutation(
+    $brand: String!
+    $department: String!
+    $role: String!
+  ) {
+    auth {
+      chooseDepartment(
+        brand: $brand
+        department: $department
+        role: $role
+      ) {
+        uuid
+        token
+      }
+    }
+  }
+`;
+
+const unlockLoginMutation = gql`mutation unlockLogin($uuid: String!) {
+  auth {
+    unlockLogin(uuid: $uuid)
   }
 }`;
 
@@ -27,16 +59,13 @@ const resetPasswordMutation = gql`mutation resetPassword(
     resetPassword(
       password: $password
       token: $token
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 
 export {
+  signInMutation,
+  chooseDepartmentMutation,
   resetPasswordMutation,
   unlockLoginMutation,
   logout,

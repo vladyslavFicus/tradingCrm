@@ -17,11 +17,7 @@ class NotesGridFilter extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     authoritiesOptions: PropTypes.shape({
       data: PropTypes.shape({
-        authoritiesOptions: PropTypes.shape({
-          data: PropTypes.shape({
-            authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-          }),
-        }),
+        authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
@@ -36,7 +32,7 @@ class NotesGridFilter extends PureComponent {
       onSubmit,
     } = this.props;
 
-    const allDepartmentRoles = get(data, 'authoritiesOptions.data.authoritiesOptions') || {};
+    const allDepartmentRoles = get(data, 'authoritiesOptions') || {};
     const departmentRoles = omit(allDepartmentRoles, ['PLAYER', 'AFFILIATE']);
 
     return (
@@ -51,8 +47,8 @@ class NotesGridFilter extends PureComponent {
         validate={
           createValidator({
             department: ['string', `in:${Object.keys(departmentRoles).join()}`],
-            changedAtFrom: 'string',
-            changedAtTo: 'string',
+            changedAtFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+            changedAtTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
           }, translateLabels(attributeLabels), false)
         }
       >

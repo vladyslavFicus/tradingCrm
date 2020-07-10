@@ -9,9 +9,7 @@ const changeOriginalAgent = gql`
       changeOriginalAgent(
         tradeId: $tradeId
         agentId: $agentId
-      ) {
-        success
-      }
+      )
     }
   }
 `;

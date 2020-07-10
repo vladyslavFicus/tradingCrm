@@ -16,7 +16,7 @@ class HierarchyUserBranchList extends PureComponent {
       userHierarchy: { loading },
     } = this.props;
 
-    const branches = get(userHierarchy, 'hierarchy.userHierarchy.data.parentBranches', []);
+    const branches = get(userHierarchy, 'userHierarchy.parentBranches', []);
 
     return (
       <div className="card">

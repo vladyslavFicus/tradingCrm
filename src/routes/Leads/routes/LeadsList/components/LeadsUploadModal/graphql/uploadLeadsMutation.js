@@ -5,17 +5,12 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation LeadsUploadModal_uploadLeadsMutation(
-    $file: Upload!,
+    $file: Upload!
   ) {
-    upload {
-      leadCsvUpload (
-        file: $file,
-      ) {
-        success
-        error {
-          error
-        }
-      }
+    leads {
+      uploadLeads (
+        file: $file
+      )
     }
   }
 `;

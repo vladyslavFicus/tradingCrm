@@ -58,8 +58,8 @@ class Notifications extends PureComponent {
     } = this.props;
 
     if (!loading) {
-      const currentPage = get(data, 'notificationCenter.data.number', 0);
-      const searchLimit = get(data, 'notificationCenter.data.totalElements', 0);
+      const currentPage = get(data, 'notificationCenter.number', 0);
+      const searchLimit = get(data, 'notificationCenter.totalElements', 0);
 
       const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * NOTIFICATIONS_SIZE);
       const size = restLimitSize && (restLimitSize < NOTIFICATIONS_SIZE)
@@ -79,9 +79,9 @@ class Notifications extends PureComponent {
           }
 
           // eslint-disable-next-line no-param-reassign
-          fetchMoreResult.notificationCenter.data.content = [
-            ...previousResult.notificationCenter.data.content,
-            ...fetchMoreResult.notificationCenter.data.content,
+          fetchMoreResult.notificationCenter.content = [
+            ...previousResult.notificationCenter.content,
+            ...fetchMoreResult.notificationCenter.content,
           ];
 
           return fetchMoreResult;
@@ -99,9 +99,9 @@ class Notifications extends PureComponent {
     } = this.props;
 
     const filters = get(query, 'filters', {});
-    const entities = get(data, 'notificationCenter.data.content', []);
-    const totalEntities = get(data, 'notificationCenter.data.totalElements', 0);
-    const isLastPage = get(data, 'notificationCenter.data.last', false);
+    const entities = get(data, 'notificationCenter.content', []);
+    const totalEntities = get(data, 'notificationCenter.totalElements', 0);
+    const isLastPage = get(data, 'notificationCenter.last', false);
 
     return (
       <div className="Notifications">

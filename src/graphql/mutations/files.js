@@ -1,52 +1,18 @@
 import gql from 'graphql-tag';
 
-const verifyMutation = gql`mutation fileVerifyMutation(
-  $uuid: String!
-) {
-  file {
-    verify(uuid: $uuid) {
-      data {
-        _id
-        status {
-          author
-          comment
-          editDate
-          value
-        }
-      }
-    }
-  }
-}`;
-
-const deleteMutation = gql`mutation fileDeleteMutation($uuid: String!) {
-  file {
-    delete(uuid: $uuid) {
-      data {
-        _id
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
-  }
-}`;
-
 const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
-  $clientUuid: String!
+  $uuid: String!
   $verificationType: String
   $documentType: String
   $verificationStatus: String
 ) {
   file {
     updateFileStatus(
-      clientUuid: $clientUuid,
+      uuid: $uuid,
       verificationType: $verificationType,
       documentType: $documentType,
       verificationStatus: $verificationStatus
-    ) {
-      success
-    }
+    )
   }
 }`;
 
@@ -62,15 +28,11 @@ const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
       verificationType: $verificationType,
       documentType: $documentType,
       status: $status
-    ) {
-      success
-    }
+    )
   }
 }`;
 
 export {
-  deleteMutation,
-  verifyMutation,
-  updateFileStatusMutation,
   updateFileMetaMutation,
+  updateFileStatusMutation,
 };

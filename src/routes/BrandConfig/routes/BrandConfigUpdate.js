@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { Button } from 'reactstrap';
 import { get } from 'lodash';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import StickyWrapper from 'components/StickyWrapper';
 import ShortLoader from 'components/ShortLoader';
@@ -17,14 +17,12 @@ import './BrandConfig.scss';
 
 class BrandConfigUpdate extends PureComponent {
   static propTypes = {
-    brandConfig: PropTypes.shape({
+    brandConfigData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       data: PropTypes.shape({
         brandConfig: PropTypes.shape({
-          data: PropTypes.shape({
-            brandId: PropTypes.string,
-            config: PropTypes.string,
-          }),
+          brandId: PropTypes.string,
+          config: PropTypes.string,
         }),
       }),
     }).isRequired,
@@ -36,26 +34,23 @@ class BrandConfigUpdate extends PureComponent {
     if (!window.confirm(I18n.t('BRAND_CONFIG.NOTIFICATIONS.UPDATE_CONFIRM'))) return; // eslint-disable-line no-alert
 
     const { notify, updateBrandConfig } = this.props;
-    const {
-      data: {
-        brandConfig: {
-          update: { error },
-        },
-      },
-    } = await updateBrandConfig({
-      variables: this.editor.getValue(),
-    });
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('BRAND_CONFIG.NOTIFICATIONS.UPDATE_ERROR'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+    try {
+      await updateBrandConfig({
+        variables: this.editor.getValue(),
       });
-    } else {
+
       notify({
         level: 'success',
         title: I18n.t('BRAND_CONFIG.NOTIFICATIONS.UPDATE_SUCCESS'),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('BRAND_CONFIG.NOTIFICATIONS.UPDATE_ERROR'),
+        message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };
@@ -65,11 +60,11 @@ class BrandConfigUpdate extends PureComponent {
   };
 
   render() {
-    const { brandConfig } = this.props;
+    const { brandConfigData } = this.props;
 
-    const value = get(brandConfig, 'data.brandConfig.data') || {};
+    const value = get(brandConfigData, 'data.brandConfig') || '';
 
-    if (brandConfig.loading) {
+    if (brandConfigData.loading) {
       return <ShortLoader />;
     }
 
@@ -105,7 +100,7 @@ class BrandConfigUpdate extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    brandConfig: BrandConfigGetQuery,
+    brandConfigData: BrandConfigGetQuery,
     updateBrandConfig: BrandConfigUpdateMutation,
   }),
 )(BrandConfigUpdate);

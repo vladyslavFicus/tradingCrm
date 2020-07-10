@@ -7,12 +7,12 @@ const REQUEST = gql`
   query LoginLockQuery(
     $playerUUID: String!
   ) {
-    loginLock(playerUUID: $playerUUID) {
+    loginLock(uuid: $playerUUID) {
       lock
     }
   }`;
 
-const LoginLockQuery = ({ children, newProfile: { uuid } }) => (
+const LoginLockQuery = ({ children, profile: { uuid } }) => (
   <Query query={REQUEST} variables={{ playerUUID: uuid }}>
     {children}
   </Query>
@@ -20,7 +20,7 @@ const LoginLockQuery = ({ children, newProfile: { uuid } }) => (
 
 LoginLockQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  newProfile: PropTypes.newProfile.isRequired,
+  profile: PropTypes.profile.isRequired,
 };
 
 export default LoginLockQuery;

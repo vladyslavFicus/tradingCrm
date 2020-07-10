@@ -1,0 +1,15 @@
+.Files {
+  background-color: #fff;
+  border-radius: 5px;
+
+  &__header {
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+}

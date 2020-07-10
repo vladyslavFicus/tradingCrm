@@ -15,9 +15,7 @@ class PartnersGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     partnersQuery: PropTypes.query({
-      partners: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.partner),
-      }),
+      partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
   };
 
@@ -30,7 +28,7 @@ class PartnersGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(data, 'partners.data.number') || 0;
+    const page = get(data, 'partners.number') || 0;
 
     loadMore({
       page: {
@@ -151,7 +149,7 @@ class PartnersGrid extends PureComponent {
       },
     } = this.props;
 
-    const { last, content } = get(partnersData, 'partners.data') || { content: [] };
+    const { last, content } = get(partnersData, 'partners') || { content: [] };
 
     return (
       <div className="PartnersGrid">

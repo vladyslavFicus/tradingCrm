@@ -1,6 +1,6 @@
 import { graphql, compose } from 'react-apollo';
 import { withNotifications, withModals } from 'hoc';
-import { getFilesCategoriesList, getFilesListByProfileUUID } from 'graphql/queries/files';
+import { getFilesCategories, getFilesByProfileUUID } from 'graphql/queries/files';
 import { updateFileStatusMutation, updateFileMetaMutation } from 'graphql/mutations/files';
 import { withStorage } from 'providers/StorageProvider';
 import { UploadModal } from 'components/Files';
@@ -15,26 +15,26 @@ export default compose(
   graphql(updateFileMetaMutation, {
     name: 'updateFileMeta',
   }),
-  graphql(getFilesCategoriesList, {
-    name: 'getFilesCategoriesList',
+  graphql(getFilesCategories, {
+    name: 'filesCategoriesData',
   }),
   graphql(updateFileStatusMutation, {
     name: 'updateFileStatus',
     options: ({
-      match: { params: { id: clientUuid } },
+      match: { params: { id } },
     }) => ({
-      variables: { clientUuid },
+      variables: { uuid: id },
     }),
   }),
-  graphql(getFilesListByProfileUUID, {
-    name: 'filesList',
+  graphql(getFilesByProfileUUID, {
+    name: 'clientFilesData',
     options: ({
-      match: { params: { id: clientUUID } },
+      match: { params: { id: clientUuid } },
       location: { query },
     }) => ({
       variables: {
         ...query && query.filters,
-        clientUUID,
+        clientUuid,
         page: 0,
         size: 20,
       },

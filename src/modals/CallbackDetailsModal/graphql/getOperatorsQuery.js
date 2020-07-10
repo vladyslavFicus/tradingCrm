@@ -6,15 +6,10 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query CallbackDetailsModal_getOperators {
     operators {
-      data {
-        content {
-          uuid
-          fullName
-          operatorStatus
-        }
-      }
-      error {
-        error
+      content {
+        uuid
+        fullName
+        operatorStatus
       }
     }
   }

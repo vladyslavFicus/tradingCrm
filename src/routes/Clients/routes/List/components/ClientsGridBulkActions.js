@@ -29,14 +29,12 @@ class ClientsGridBulkActions extends PureComponent {
     profiles: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.shape({
-          last: PropTypes.bool,
-          page: PropTypes.number,
-          content: PropTypes.profileView,
-          totalElements: PropTypes.number,
-        })),
-      }),
+      profiles: PropTypes.pageable(PropTypes.shape({
+        last: PropTypes.bool,
+        page: PropTypes.number,
+        content: PropTypes.profileView,
+        totalElements: PropTypes.number,
+      })),
     }).isRequired,
   };
 
@@ -49,7 +47,8 @@ class ClientsGridBulkActions extends PureComponent {
       modals: { representativeModal },
       profiles: {
         profiles: {
-          data: { content, totalElements },
+          content,
+          totalElements,
         },
       },
     } = this.props;
@@ -91,7 +90,8 @@ class ClientsGridBulkActions extends PureComponent {
       modals: { moveModal },
       profiles: {
         profiles: {
-          data: { content, totalElements },
+          content,
+          totalElements,
         },
       },
     } = this.props;

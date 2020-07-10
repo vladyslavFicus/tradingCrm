@@ -10,11 +10,11 @@ const REQUEST = gql`mutation CreateRule(
   $languages: [String],
   $affiliateUUIDs: [String],
   $sources: [String],
-  $type: RuleTypeEnum!,
-  $actions: [RuleActionsInputType]!,
+  $type: Rule__Type__Enum!,
+  $actions: [RuleActions__Input]!,
   $uuid: String,
 ) {
-  rules {
+  rule {
     createRule (
       name: $name,
       priority: $priority,
@@ -26,25 +26,7 @@ const REQUEST = gql`mutation CreateRule(
       actions: $actions,
       uuid: $uuid,
     ) {
-      data {
-        actions {
-          id
-          parentBranch
-          parentUser
-          ruleType
-        }
-        uuid
-        countries
-        languages
-        priority
-        name
-        type
-        updatedBy
-      }
-      error {
-        error
-        errorParameters
-      }
+      uuid
     }
   }
 }`;

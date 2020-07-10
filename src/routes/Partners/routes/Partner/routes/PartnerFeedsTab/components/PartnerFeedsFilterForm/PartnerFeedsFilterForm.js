@@ -10,22 +10,15 @@ import { typesLabels } from 'constants/audit';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import getFeedsTypesQuery from './graphql/getFeedTypesQuery';
+import FeedsTypesQuery from './graphql/FeedTypesQuery';
 import './PartnerFeedsFilterForm.scss';
-
-const attributeLabels = {
-  searchBy: 'PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY',
-  actionType: 'PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE',
-};
 
 class PartnerFeedsFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     feedTypesData: PropTypes.shape({
       data: PropTypes.shape({
-        feedTypes: PropTypes.shape({
-          data: PropTypes.objectOf(PropTypes.string),
-        }),
+        feedTypes: PropTypes.objectOf(PropTypes.string),
       }),
     }).isRequired,
   };
@@ -42,7 +35,7 @@ class PartnerFeedsFilterForm extends PureComponent {
   render() {
     const { feedTypesData } = this.props;
 
-    const feedTypes = get(feedTypesData, 'data.feedTypes.data') || {};
+    const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
 
     return (
@@ -62,7 +55,7 @@ class PartnerFeedsFilterForm extends PureComponent {
               <Field
                 name="searchBy"
                 className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__search"
-                label={I18n.t(attributeLabels.searchBy)}
+                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
                 placeholder={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
@@ -71,7 +64,7 @@ class PartnerFeedsFilterForm extends PureComponent {
               <Field
                 name="auditLogType"
                 className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__types"
-                label={I18n.t(attributeLabels.actionType)}
+                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
                 placeholder={I18n.t('COMMON.ANY')}
                 component={FormikSelectField}
                 searchable
@@ -125,6 +118,6 @@ class PartnerFeedsFilterForm extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feedTypesData: getFeedsTypesQuery,
+    feedTypesData: FeedsTypesQuery,
   }),
 )(PartnerFeedsFilterForm);

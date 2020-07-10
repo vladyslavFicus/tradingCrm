@@ -18,9 +18,7 @@ class OperatorsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     operatorsQuery: PropTypes.shape({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.any),
-      }),
+      operators: PropTypes.pageable(PropTypes.any),
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }).isRequired,
@@ -141,7 +139,7 @@ class OperatorsGrid extends PureComponent {
       operatorsQuery: { loading },
     } = this.props;
 
-    const { last, content } = get(operatorsQuery, 'operators.data') || { content: [] };
+    const { last, content } = get(operatorsQuery, 'operators') || { content: [] };
 
     return (
       <div className="card-body">

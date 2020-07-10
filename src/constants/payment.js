@@ -117,20 +117,12 @@ const accountStatusActions = {
   ],
 };
 
-const hrznTypes = keyMirror({
-  CONFISCATE: null,
-});
-
 const tradingTypes = keyMirror({
   CREDIT_IN: null,
   CREDIT_OUT: null,
   DEPOSIT: null,
   INACTIVITY_FEE: null,
   INTEREST_RATE: null,
-  MIGRATION_IN: null,
-  MIGRATION_OUT: null,
-  MIGRATION_CREDIT_IN: null,
-  MIGRATION_CREDIT_OUT: null,
   TRANSFER_IN: null,
   TRANSFER_OUT: null,
   WITHDRAW: null,
@@ -177,26 +169,6 @@ const tradingTypesLabelsWithColor = {
   [tradingTypes.CREDIT_OUT]: {
     label: 'COMMON.PAYMENT_TYPE.CREDIT_OUT',
     color: 'color-warning',
-  },
-  [tradingTypes.MIGRATION_IN]: {
-    label: 'COMMON.PAYMENT_TYPE.MIGRATION_IN',
-    color: 'color-warning',
-  },
-  [tradingTypes.MIGRATION_OUT]: {
-    label: 'COMMON.PAYMENT_TYPE.MIGRATION_OUT',
-    color: 'color-warning',
-  },
-  [tradingTypes.MIGRATION_CREDIT_IN]: {
-    label: 'COMMON.PAYMENT_TYPE.MIGRATION_CREDIT_IN',
-    color: 'color-warning',
-  },
-  [tradingTypes.MIGRATION_CREDIT_OUT]: {
-    label: 'COMMON.PAYMENT_TYPE.MIGRATION_CREDIT_OUT',
-    color: 'color-warning',
-  },
-  [hrznTypes.CONFISCATE]: {
-    label: 'COMMON.PAYMENT_TYPE.CONFISCATE',
-    color: 'color-danger',
   },
 };
 

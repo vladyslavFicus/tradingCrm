@@ -40,36 +40,28 @@ class RejectPaymentForm extends PureComponent {
 
     if (hasValidationErrors) return;
 
-    const {
-      data: {
-        payment: {
-          acceptPayment: {
-            data: {
-              success,
-            },
-          },
+    try {
+      await rejectPayment({
+        variables: {
+          paymentId,
+          declineReason: values.declineReason,
+          typeAcc: 'reject',
         },
-      },
-    } = await rejectPayment({
-      variables: {
-        paymentId,
-        declineReason: values.declineReason,
-        typeAcc: 'reject',
-      },
-    });
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t(success ? 'COMMON.SUCCESS' : 'COMMON.FAIL'),
-      message: I18n.t(
-        success
-          ? 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_FAILED'
-          : 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_SUCCESS',
-      ),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_SUCCESS'),
+      });
 
-    if (success) {
       onSuccess();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_FAILED'),
+      });
     }
   };
 

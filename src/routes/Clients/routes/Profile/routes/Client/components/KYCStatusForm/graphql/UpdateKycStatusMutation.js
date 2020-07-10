@@ -12,9 +12,7 @@ const REQUEST = gql`
       updateKYCStatus(
         playerUUID: $playerUUID,
         kycStatus: $kycStatus,
-      ) {
-        success
-      }
+      )
     }
   }`;
 

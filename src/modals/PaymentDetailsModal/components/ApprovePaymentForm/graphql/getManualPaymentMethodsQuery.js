@@ -5,12 +5,7 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query ChangePaymentStatusForm_getManualPaymentMethods {
-    manualPaymentMethods {
-      data
-      error {
-        error
-      }
-    }
+    manualPaymentMethods
   }
 `;
 
