@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const AcquisitionOperatorFragment = gql`
-  fragment AcquisitionOperator on Refferals {
+  fragment AcquisitionOperatorFragment on Operator {
     fullName
     hierarchy {
       parentBranches {
@@ -19,26 +19,22 @@ const AcquisitionOperatorFragment = gql`
   }
 `;
 
-const REQUEST = gql`query ReferralsQuery {
-  referrals {
+const REQUEST = gql`query ReferralsQuery($uuid: String!) {
+  referrals(uuid: $uuid) {
     page
     number
     totalElements
     size
     last
     content {
-      uuid
-      firstName
-      lastName
-      languageCode
-      address {
-        countryCode
-      }
-      bonusType
-      registrationDetails {
+      referralInfo {
+        name
+        profileUuid
+        languageCode
         registrationDate
       }
-      ftd {
+      bonusType
+      ftdInfo {
         date
         amount
         currency
@@ -51,29 +47,39 @@ const REQUEST = gql`query ReferralsQuery {
         normalizedAmount
       }
       acquisition {
-        salesStatus
-        salesOperator {
-          ...AcquisitionOperatorFragment
-        }
-        retentionStatus
+        acquisitionStatus
         retentionOperator {
           ...AcquisitionOperatorFragment
         }
-        acquisitionStatus
+        retentionStatus
+        salesOperator {
+          ...AcquisitionOperatorFragment
+        }
+        salesStatus
       }
     }
   }
 }
 ${AcquisitionOperatorFragment}`;
 
-const ReferralsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+const ReferralsQuery = ({ children, match: { params: { id: uuid } } }) => (
+  <Query
+    query={REQUEST}
+    variables={{
+      uuid,
+      page: 0,
+      limit: 20,
+    }}
+  >
     {children}
   </Query>
 );
 
 ReferralsQuery.propTypes = {
   children: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
 export default ReferralsQuery;

@@ -932,5 +932,61 @@ PropTypes.treeData = PropTypes.shape({
   userType: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.object),
 });
+PropTypes.referral = PropTypes.shape({
+  referralInfo: PropTypes.shape({
+    name: PropTypes.string,
+    profileUuid: PropTypes.string,
+    languageCode: PropTypes.string,
+    registrationDate: PropTypes.string,
+  }),
+  bonusType: PropTypes.string,
+  ftdInfo: PropTypes.shape({
+    date: PropTypes.string,
+    amount: PropTypes.number,
+    currency: PropTypes.string,
+    normalizedAmount: PropTypes.string,
+  }),
+  remuneration: PropTypes.shape({
+    date: PropTypes.string,
+    amount: PropTypes.number,
+    currency: PropTypes.string,
+    normalizedAmount: PropTypes.string,
+  }),
+  acquisition: PropTypes.shape({
+    acquisitionStatus: PropTypes.string,
+    retentionStatus: PropTypes.string,
+    retentionOperator: PropTypes.shape({
+      fullName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+    salesStatus: PropTypes.string,
+    salesOperator: PropTypes.shape({
+      fullName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+  }),
+});
 
 export default PropTypes;

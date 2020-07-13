@@ -43,8 +43,8 @@ class ReferralsGrid extends PureComponent {
     });
   };
 
-  handleRowClick = ({ uuid }) => {
-    window.open(`/clients/${uuid}/profile`, '_blank');
+  handleRowClick = ({ referralInfo: { profileUuid } }) => {
+    window.open(`/clients/${profileUuid}/profile`, '_blank');
   };
 
   setActiveRowClass = ({ bonusType }) => bonusType === 'FTD' && 'ReferralsGrid__row--active';
@@ -129,13 +129,13 @@ class ReferralsGrid extends PureComponent {
         >
           <GridColumn
             header={I18n.t('REFERRALS.GRID.NAME')}
-            render={data => (
-              <GridPlayerInfo profile={data} />
+            render={({ referralInfo, referralInfo: { name: fullName } }) => (
+              <GridPlayerInfo profile={{ ...referralInfo, fullName }} />
             )}
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.COUNTRY')}
-            render={({ address: { countryCode }, languageCode }) => (
+            render={({ address: { countryCode }, referralInfo: { languageCode } }) => (
               <Choose>
                 <When condition={countryCode}>
                   <CountryLabelWithFlag
@@ -156,17 +156,17 @@ class ReferralsGrid extends PureComponent {
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REGISTRATION')}
-            render={({ registrationDetails: { registrationDate } }) => this.renderDate(registrationDate)}
+            render={({ referralInfo: { registrationDate } }) => this.renderDate(registrationDate)}
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.FTD_AMOUNT')}
-            render={({ ftd: { currency, amount, normalizedAmount } }) => (
+            render={({ ftdInfo: { currency, amount, normalizedAmount } }) => (
               this.renderAmount(currency, amount, normalizedAmount)
             )}
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.FTD_DATE')}
-            render={({ ftd: { date } }) => this.renderDate(date)}
+            render={({ ftdInfo: { date } }) => this.renderDate(date)}
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REMUNERATION')}
