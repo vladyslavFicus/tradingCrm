@@ -15,6 +15,7 @@ import GridStatus from 'components/GridStatus';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { bonusTypes, bonusTypesColors } from '../../constants';
+import './ReferralsGrid.scss';
 
 class ReferralsGrid extends PureComponent {
   static propTypes = {
@@ -41,6 +42,12 @@ class ReferralsGrid extends PureComponent {
       },
     });
   };
+
+  handleRowClick = ({ uuid }) => {
+    window.open(`/clients/${uuid}/profile`, '_blank');
+  };
+
+  setActiveRowClass = ({ bonusType }) => bonusType === 'FTD' && 'ReferralsGrid__row--active';
 
   renderDate = date => (
     <Fragment>
@@ -115,6 +122,8 @@ class ReferralsGrid extends PureComponent {
         <Grid
           data={content}
           handlePageChanged={this.handlePageChanged}
+          rowsClassNames={this.setActiveRowClass}
+          handleRowClick={this.handleRowClick}
           isLoading={isLoading}
           isLastPage={last}
         >
