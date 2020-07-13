@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { Query as OriginalQuery } from 'react-apollo';
 
-class CustomQuery extends PureComponent {
+/*
+  This is custom Query component which goal is
+  to make polling control in dependance of active browser tab state
+*/
+class Query extends PureComponent {
   static propTypes = {
     pollInterval: PropTypes.number,
   };
@@ -32,9 +36,9 @@ class CustomQuery extends PureComponent {
     const { pollActive } = this.state;
 
     return (
-      <Query {...props} pollInterval={pollActive ? pollInterval : 0} />
+      <OriginalQuery {...props} pollInterval={pollActive ? pollInterval : 0} />
     );
   }
 }
 
-export default CustomQuery;
+export default Query;
