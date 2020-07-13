@@ -609,7 +609,7 @@
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT ID",
       "LEAD": "Name, Email, Phone, ID, source",
-      "AFFILIATE": "Affiliate ID, source",
+      "AFFILIATE": "Affiliate ID, Referrer ID, source",
       "NAME": "Name",
       "MIGRATION_ID": "Migration ID"
     },
@@ -2615,6 +2615,7 @@
         "BALANCE": "Balance",
         "DEPOSITS": "Deposits",
         "AFFILIATE": "Affiliate",
+        "AFFILIATE_REFERRER": "Affiliate/Referrer",
         "SALES": "Sales",
         "RETENTION": "Retention",
         "REGISTRATION": "Registration",

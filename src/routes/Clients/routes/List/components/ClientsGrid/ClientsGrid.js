@@ -128,13 +128,11 @@ class ClientsGrid extends PureComponent {
         withNoResults={!loading && gridData.length === 0}
       >
         <GridColumn
-          name="client"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
           sortBy="firstName"
           render={data => <GridPlayerInfo profile={data} />}
         />
         <GridColumn
-          name="warning"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}
           render={({ warnings }) => (
             (warnings && warnings.length) ? warnings.map(warning => (
@@ -143,7 +141,6 @@ class ClientsGrid extends PureComponent {
           )}
         />
         <GridColumn
-          name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
           render={({ lastActivity, online }) => {
             const lastActivityDate = get(lastActivity, 'date');
@@ -161,7 +158,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="country"
           sortBy="address.countryCode"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
           render={({ address: { countryCode }, languageCode }) => (
@@ -180,7 +176,6 @@ class ClientsGrid extends PureComponent {
           )}
         />
         <GridColumn
-          name="balance"
           sortBy="balance.amount"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
           render={(data) => {
@@ -197,7 +192,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="deposits"
           sortBy="paymentDetails.depositsCount"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
           render={(data) => {
@@ -220,11 +214,10 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="affiliate"
-          header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE')}
+          header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
           render={(data) => {
             const { uuid, source, campaignId, partner } = get(data, 'affiliate') || {};
-
+            // or referrer: need to wait on BE
             return (
               <Choose>
                 <When condition={uuid}>
@@ -289,7 +282,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="sales"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
           render={(data) => {
             const { acquisitionStatus, salesStatus, salesOperator } = get(data, 'acquisition') || {};
@@ -325,7 +317,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="retention"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
           render={(data) => {
             const { acquisitionStatus, retentionStatus, retentionOperator } = get(data, 'acquisition') || {};
@@ -361,7 +352,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="registrationDate"
           sortBy="registrationDetails.registrationDate"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
           render={({ registrationDetails: { registrationDate } }) => (
@@ -382,7 +372,6 @@ class ClientsGrid extends PureComponent {
           )}
         />
         <GridColumn
-          name="lastNote"
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={(data) => {
@@ -435,7 +424,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="status"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
           render={(data) => {
             const { changedAt, type } = get(data, 'status') || {};
