@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import I18n from 'i18n-js';
-import { withStorage } from 'providers/StorageProvider';
+import { parseErrors } from 'apollo';
 import { getBackofficeBrand } from 'config';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import Preloader from 'components/Preloader';
 import Brands from 'components/Brands';
@@ -9,7 +9,6 @@ import Departments from 'components/Departments';
 import Copyrights from 'components/Copyrights';
 import { mapBrands, mapDepartments } from 'utils/brands';
 import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
-import parseErrors from 'utils/parseErrors';
 import SignInForm from './SignInForm';
 
 class SignIn extends Component {
@@ -57,22 +56,7 @@ class SignIn extends Component {
     const { signInMutation, storage } = this.props;
 
     try {
-      const {
-        data: {
-          auth: {
-            signIn: {
-              data,
-              error,
-            },
-          },
-        },
-      } = await signInMutation({ variables: { ...values } });
-
-      if (error) {
-        this.setState({ signInFormError: I18n.t(error.error) });
-
-        return null;
-      }
+      const { data: { auth: { signIn: data } } } = await signInMutation({ variables: { ...values } });
 
       const { brandToAuthorities, token } = data;
 
@@ -118,28 +102,26 @@ class SignIn extends Component {
   handleSelectDepartment = async (brand, { department, role }) => {
     const { chooseDepartmentMutation, storage } = this.props;
 
-    const {
-      data: {
-        auth: {
-          chooseDepartment: {
-            data: {
-              token,
-              uuid,
-            },
-            error,
-          },
+    try {
+      const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartmentMutation({
+        variables: {
+          brand,
+          department,
+          role,
         },
-      },
-    } = await chooseDepartmentMutation({
-      variables: { brand, department, role },
-    });
+      });
 
-    if (!error) {
       storage.set('token', token);
-      storage.set('auth', { department, role, uuid });
+      storage.set('auth', {
+        department,
+        role,
+        uuid,
+      });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
+    } catch (e) {
+      // Do nothing...
     }
   };
 

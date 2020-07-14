@@ -58,25 +58,22 @@ class CallbackDetailsModal extends Component {
 
     if (hasValidationErrors) return;
 
-    const response = await updateCallback({
-      variables: {
-        callbackId,
-        ...values,
-      },
-    });
+    try {
+      await updateCallback({ variables: { callbackId, ...values } });
 
-    const success = get(response, 'data.callback.update.success') || false;
+      notify({
+        level: 'success',
+        title: I18n.t('CALLBACKS.MODAL.TITLE'),
+        message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CALLBACKS.MODAL.TITLE'),
-      message: success
-        ? I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
-
-    if (success) {
       onCloseModal();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('CALLBACKS.MODAL.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   }
 
@@ -105,7 +102,7 @@ class CallbackDetailsModal extends Component {
       note,
     } = get(callbackData, 'data.callback') || {};
 
-    const { content: operators } = get(operatorsData, 'data.operators.data') || {};
+    const { content: operators } = get(operatorsData, 'data.operators') || {};
 
     return (
       <Modal className="CallbackDetailsModal" toggle={onCloseModal} isOpen={isOpen}>

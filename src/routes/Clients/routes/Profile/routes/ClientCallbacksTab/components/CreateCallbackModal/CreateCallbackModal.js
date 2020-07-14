@@ -130,7 +130,7 @@ class CreateCallbackModal extends PureComponent {
     } = this.props;
 
     const isOperatorsLoading = operatorsData.loading;
-    const operators = get(operatorsData, 'data.operators.data.content') || [];
+    const operators = get(operatorsData, 'data.operators.content') || [];
 
     return (
       <Modal className="CreateCallbackModal" toggle={onCloseModal} isOpen={isOpen}>

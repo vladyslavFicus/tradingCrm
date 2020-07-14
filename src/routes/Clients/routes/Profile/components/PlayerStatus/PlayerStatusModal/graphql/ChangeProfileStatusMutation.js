@@ -7,27 +7,21 @@ import { ProfileStatusFragment } from 'graphql/fragments/profileStatus';
 
 const REQUEST = gql`  
   mutation changeProfileStatus_PlayerStatusModal(
-    $playerUUID: String!,
-    $reason: String!,
-    $comment: String,
-    $status: String!,
+    $playerUUID: String!
+    $reason: String!
+    $comment: String
+    $status: String!
   ) {
     profile {
       changeProfileStatus(
-        playerUUID: $playerUUID,
-        reason: $reason,
-        comment: $comment,
-        status: $status,
+        playerUUID: $playerUUID
+        reason: $reason
+        comment: $comment
+        status: $status
       ) {
-        data {
-          _id
-          status {
-            ...ProfileStatusFragment
-          }
-        }
-        error {
-          error
-          fields_errors
+        _id
+        status {
+          ...ProfileStatusFragment
         }
       }
     }

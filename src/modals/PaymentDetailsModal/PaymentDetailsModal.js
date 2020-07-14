@@ -88,7 +88,7 @@ class PaymentDetailsModal extends PureComponent {
   renderProfileBalanceBlock = () => {
     const { profile } = this.props;
 
-    const { amount, credit } = get(profile, 'data.profile.data.profileView.balance') || {};
+    const { amount, credit } = get(profile, 'data.profile.profileView.balance') || {};
     const currency = getActiveBrandConfig().currencies.base;
 
     return (

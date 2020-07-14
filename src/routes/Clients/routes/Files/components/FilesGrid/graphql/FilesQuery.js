@@ -22,28 +22,26 @@ const REQUEST = gql`
       verificationType: $verificationType,
       documentType: $documentType,
     ) {
-      data {
-        last
-        number
-        page
-        totalElements
-        totalPages
-        content {
-          clientUuid
-          client {
-            fullName
-          }
-          fileName
-          title
-          documentType
-          status
-          uploadBy
-          uuid
-          verificationType
-          type
-          uploadDate
-          expirationDate
+      last
+      number
+      page
+      totalElements
+      totalPages
+      content {
+        clientUuid
+        client {
+          fullName
         }
+        fileName
+        title
+        documentType
+        status
+        uploadBy
+        uuid
+        verificationType
+        type
+        uploadDate
+        expirationDate
       }
     }
   }

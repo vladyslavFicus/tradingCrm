@@ -20,7 +20,6 @@ const attributeLabels = {
 class PlayerStatusModal extends PureComponent {
   static propTypes = {
     changeProfileStatus: PropTypes.func.isRequired,
-    refetchLoginLock: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     reasons: PropTypes.object.isRequired,
@@ -38,34 +37,27 @@ class PlayerStatusModal extends PureComponent {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        profile: {
-          changeProfileStatus: {
-            error,
-          },
+    try {
+      await changeProfileStatus({
+        variables: {
+          status: action,
+          playerUUID,
+          ...values,
         },
-      },
-    } = await changeProfileStatus({
-      variables: {
-        status: action,
-        playerUUID,
-        ...values,
-      },
-    });
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      message: error
-        ? I18n.t('COMMON.SOMETHING_WRONG')
-        : I18n.t('COMMON.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        message: I18n.t('COMMON.SUCCESS'),
+      });
 
-    if (!error) {
-      this.props.refetchLoginLock();
+      onCloseModal();
+    } catch (e) {
+      notify({
+        level: 'error',
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
-
-    onCloseModal();
   };
 
   render() {

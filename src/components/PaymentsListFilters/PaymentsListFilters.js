@@ -52,7 +52,7 @@ class PaymentsListFilters extends PureComponent {
       }),
     }).isRequired,
     operatorsQuery: PropTypes.query({
-      operators: PropTypes.response({
+      operators: PropTypes.shape({
         content: PropTypes.arrayOf(
           PropTypes.shape({
             uuid: PropTypes.string,
@@ -63,10 +63,7 @@ class PaymentsListFilters extends PureComponent {
       }),
     }).isRequired,
     paymentMethodsQuery: PropTypes.query({
-      paymentMethods: PropTypes.shape({
-        data: PropTypes.paymentMethods,
-        error: PropTypes.object,
-      }),
+      paymentMethods: PropTypes.paymentMethods,
     }).isRequired,
     accountType: PropTypes.string,
     partners: PropTypes.partnersList,
@@ -223,13 +220,10 @@ class PaymentsListFilters extends PureComponent {
     const teams = filteredTeams || get(hierarchyData, 'userBranches.TEAM') || [];
     const desks = get(hierarchyData, 'userBranches.DESK') || [];
 
-    const operators = filteredOperators || get(operatorsData, 'operators.data.content') || [];
-    const operatorsError = get(operatorsData, 'operators.error');
-    const disabledOperators = operatorsLoading || operatorsError || disabledFilteredOperators;
+    const operators = filteredOperators || get(operatorsData, 'operators.content') || [];
+    const disabledOperators = operatorsLoading || disabledFilteredOperators;
 
-    const paymentMethods = get(paymentMethodsData, 'paymentMethods.data') || [];
-    const paymentMethodsError = get(paymentMethodsData, 'paymentMethods.error');
-    const disabledPaymentMethods = paymentMethodsLoading || paymentMethodsError;
+    const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
 
     const currencies = getActiveBrandConfig().currencies.supported;
 
@@ -289,7 +283,7 @@ class PaymentsListFilters extends PureComponent {
               className="form-group filter-row__medium"
               label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              disabled={disabledPaymentMethods}
+              disabled={paymentMethodsLoading}
               component={FormikSelectField}
               searchable
               multiple

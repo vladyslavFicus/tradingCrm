@@ -5,6 +5,7 @@ const AddressFragment = gql`
     address
     city
     countryCode
+    poBox
     postCode
     state
   }

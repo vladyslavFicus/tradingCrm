@@ -19,34 +19,32 @@ const getFilesByProfileUUID = gql`query clientFiles(
     uploadDateFrom: $uploadDateFrom,
     uploadDateTo: $uploadDateTo,
   ) {
-    data {
-      verificationType
-      attemptsLeft
-      documents {
+    verificationType
+    attemptsLeft
+    documents {
+      documentType
+      verificationTime
+      verifiedBy
+      verificationStatus
+      files {
+        _id
+        clientUuid
+        client {
+          fullName
+        }
+        fileName
+        title
         documentType
-        verificationTime
-        verifiedBy
-        verificationStatus
-        files {
-          _id
-          clientUuid
-          client {
-            fullName
-          }
-          fileName
-          title
-          documentType
-          mediaType
-          status
-          uploadBy
-          uuid
-          verificationType
-          type
-          uploadDate
-          expirationDate
-          note {
-          ...NoteFragment,
-          }
+        mediaType
+        status
+        uploadBy
+        uuid
+        verificationType
+        type
+        uploadDate
+        expirationDate
+        note {
+        ...NoteFragment,
         }
       }
     }
@@ -56,11 +54,9 @@ ${NoteFragment}`;
 
 const getFilesCategories = gql`query FilesCategories {
   filesCategories {
-    data {
-      DOCUMENT_VERIFICATION
-      ADDRESS_VERIFICATION
-      OTHER
-    }
+    DOCUMENT_VERIFICATION
+    ADDRESS_VERIFICATION
+    OTHER
   }
 }`;
 

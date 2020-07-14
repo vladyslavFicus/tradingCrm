@@ -10,7 +10,7 @@ const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
   $phone: String
   $country: String
   $email: String
-  $permission: PartnerMutation__PermissionType
+  $permission: PartnerPermission__Input
   $externalAffiliateId: String
   $public: Boolean
 ) {

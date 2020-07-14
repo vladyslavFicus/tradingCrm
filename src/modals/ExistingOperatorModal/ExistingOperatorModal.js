@@ -36,9 +36,7 @@ class ExistingOperatorModal extends Component {
         data: {
           operator: {
             addExistingOperator: {
-              data: {
-                uuid,
-              },
+              uuid,
             },
           },
         },

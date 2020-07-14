@@ -12,9 +12,9 @@ export default compose(
   withStorage(['auth']),
   withNotifications,
   graphql(authoritiesOptionsQuery, {
-    name: 'authoritiesOptions',
-    props: ({ authoritiesOptions }) => {
-      const departmentsRoles = get(authoritiesOptions, 'authoritiesOptions.data.authoritiesOptions', {});
+    name: 'authoritiesOptionsData',
+    props: ({ authoritiesOptionsData }) => {
+      const departmentsRoles = get(authoritiesOptionsData, 'authoritiesOptions', []);
 
       return {
         departmentsRoles: omit(departmentsRoles, ['PLAYER', 'AFFILIATE']),
@@ -38,11 +38,12 @@ export default compose(
     options: ({ match: { params: { id } } }) => ({
       variables: { uuid: id },
     }),
-    props: ({ data: { operator } }) => {
-      const { authorities, ...operatorProfile } = get(operator, 'data', {});
+    props: ({ data: { operator, refetch } }) => {
+      const { authorities, ...operatorProfile } = operator || {};
       return {
-        authorities: authorities || [],
+        authorities,
         profile: {
+          refetch,
           data: {
             ...operatorProfile,
           },

@@ -35,21 +35,19 @@ class LeadsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     isSubmitting: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,
     values: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     ).isRequired,
     desksAndTeamsData: PropTypes.query({
       hierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-          DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        }),
-        error: PropTypes.object,
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
     operatorsData: PropTypes.query({
-      operators: PropTypes.response({
+      operators: PropTypes.shape({
         content: PropTypes.arrayOf(
           PropTypes.shape({
             uuid: PropTypes.string,
@@ -89,7 +87,7 @@ class LeadsGridFilter extends PureComponent {
       values: { desks, teams },
     } = this.props;
 
-    const operators = get(operatorsData, 'data.operators.data.content') || [];
+    const operators = get(operatorsData, 'data.operators.content') || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });
@@ -113,6 +111,7 @@ class LeadsGridFilter extends PureComponent {
     const {
       values,
       isSubmitting,
+      dirty,
       desksAndTeamsData,
       operatorsData: { loading: isOperatorsLoading },
       desksAndTeamsData: { loading: isDesksAndTeamsLoading },
@@ -145,7 +144,6 @@ class LeadsGridFilter extends PureComponent {
             component={FormikSelectField}
             multiple
             searchable
-            withAnyOption
           >
             {Object.keys(countries).map(country => (
               <option key={country} value={country}>{countries[country]}</option>
@@ -234,7 +232,6 @@ class LeadsGridFilter extends PureComponent {
             component={FormikSelectField}
             searchable
             multiple
-            withAnyOption
           >
             {Object.entries(this.leadsSalesStatuses).map(([key, value]) => (
               <option key={key} value={key}>
@@ -300,7 +297,7 @@ class LeadsGridFilter extends PureComponent {
 
           <Button
             className="LeadsGridFilter__button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !dirty}
             type="submit"
             primary
           >

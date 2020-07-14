@@ -12,17 +12,20 @@ import FeedsQuery from './graphql/FeedsQuery';
 class OperatorsFeed extends PureComponent {
   static propTypes = {
     feeds: PropTypes.query({
-      content: PropTypes.arrayOf(PropTypes.shape({
-        targetUUID: PropTypes.string,
-        authorUuid: PropTypes.string,
-        authorFullName: PropTypes.string,
-      })),
+      feeds: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          targetUUID: PropTypes.string,
+          authorUuid: PropTypes.string,
+          authorFullName: PropTypes.string,
+        })),
+        number: PropTypes.number,
+      }),
     }).isRequired,
   };
 
   handlePageChanged = () => {
     const { feeds: { data, loadMore } } = this.props;
-    const currentPage = get(data, 'feeds.data.number') || 0;
+    const currentPage = get(data, 'feeds.number') || 0;
 
     loadMore(currentPage + 1);
   };
@@ -62,7 +65,7 @@ class OperatorsFeed extends PureComponent {
   render() {
     const { feeds: { data, loading } } = this.props;
 
-    const { content, totalPages, last } = get(data, 'feeds.data') || { content: [] };
+    const { content, totalPages, last } = get(data, 'feeds') || { content: [] };
     const contentWitAuditEntities = this.mapAuditEntities(content);
 
     return (

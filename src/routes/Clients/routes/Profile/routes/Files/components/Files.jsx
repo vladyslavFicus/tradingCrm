@@ -195,8 +195,8 @@ class Files extends PureComponent {
       match: { params: { id } },
     } = this.props;
 
-    const verificationData = get(clientFilesData, 'clientFiles.data') || [];
-    const { __typename, ...categories } = get(filesCategoriesData, 'filesCategories.data') || {};
+    const verificationData = get(clientFilesData, 'clientFiles') || [];
+    const { __typename, ...categories } = get(filesCategoriesData, 'filesCategories') || {};
 
     if (loading) {
       return null;

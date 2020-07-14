@@ -235,7 +235,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
   targetUuid: PropTypes.string.isRequired,
@@ -670,8 +670,8 @@ PropTypes.storage = PropTypes.shape({
   remove: PropTypes.func.isRequired,
 });
 PropTypes.paymentsStatistic = PropTypes.shape({
-  paymentsStatistic: PropTypes.shape({
-    data: PropTypes.shape({
+  data: PropTypes.shape({
+    paymentsStatistic: PropTypes.shape({
       items: PropTypes.arrayOf(
         PropTypes.shape({
           amount: PropTypes.number,
@@ -692,8 +692,7 @@ PropTypes.paymentsStatistic = PropTypes.shape({
         todayAmount: PropTypes.number,
       }),
     }),
-    error: PropTypes.object,
-  }).isRequired,
+  }),
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 });
@@ -871,9 +870,7 @@ PropTypes.email = PropTypes.shape({
 });
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({
-    manualPaymentMethods: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
-    }),
+    manualPaymentMethods: PropTypes.arrayOf(PropTypes.string),
   }),
   loading: PropTypes.bool.isRequired,
 });

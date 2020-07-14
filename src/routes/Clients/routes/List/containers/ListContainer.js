@@ -78,7 +78,7 @@ export default compose(
                 return previousResult;
               }
 
-              const error = get(fetchMoreResult, 'profiles.error');
+              const error = get(fetchMoreResult, 'error');
 
               return {
                 ...previousResult,
@@ -87,15 +87,11 @@ export default compose(
                   ...previousResult.profiles,
                   ...fetchMoreResult.profiles,
                   ...!error && {
-                    data: {
-                      ...previousResult.profiles.data,
-                      ...fetchMoreResult.profiles.data,
-                      page: fetchMoreResult.profiles.data.page,
-                      content: [
-                        ...previousResult.profiles.data.content,
-                        ...fetchMoreResult.profiles.data.content,
-                      ],
-                    },
+                    page: fetchMoreResult.profiles.page,
+                    content: [
+                      ...previousResult.profiles.content,
+                      ...fetchMoreResult.profiles.content,
+                    ],
                   },
                 },
               };

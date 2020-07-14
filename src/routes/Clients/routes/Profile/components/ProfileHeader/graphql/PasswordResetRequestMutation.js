@@ -9,11 +9,7 @@ const REQUEST = gql`
     $playerUUID: String!
   ) {
     auth {
-      resetUserPassword(
-        userUuid: $playerUUID
-      ) {
-        success
-      }
+      resetUserPassword(userUuid: $playerUUID)
     }
   }`;
 

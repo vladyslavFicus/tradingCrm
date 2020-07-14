@@ -5,11 +5,9 @@ import { Query } from 'react-apollo';
 
 export const REQUEST = gql`query FilesCategoriesQuery {
   filesCategories {
-    data {
-      DOCUMENT_VERIFICATION
-      ADDRESS_VERIFICATION
-      OTHER
-    }
+    DOCUMENT_VERIFICATION
+    ADDRESS_VERIFICATION
+    OTHER
   }
 }`;
 

@@ -10,19 +10,14 @@ import './NotificationCenterTrigger.scss';
 class NotificationCenterTrigger extends PureComponent {
   static propTypes = {
     notificationCenterUnread: PropTypes.query({
-      notificationCenterUnread: PropTypes.shape({
-        data: PropTypes.number,
-      }),
+      notificationCenterUnread: PropTypes.number,
     }).isRequired,
   };
 
   render() {
     const { notificationCenterUnread, ...props } = this.props;
 
-    const unreadAmount = get(
-      notificationCenterUnread,
-      'data.notificationCenterUnread.data',
-    ) || 0;
+    const unreadAmount = get(notificationCenterUnread, 'data.notificationCenterUnread') || 0;
 
     return (
       <button

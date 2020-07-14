@@ -26,14 +26,14 @@ class WithdrawsAmountChart extends PureComponent {
       <Chart
         title={I18n.t('DASHBOARD.WITHDRAWS_AMOUNT_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.WITHDRAWS_AMOUNT_CHART.TOOLTIP_TITLE')}
-        data={get(withdrawPaymentsStatistic, 'data.paymentsStatistic.data.items', [])}
+        data={get(withdrawPaymentsStatistic, 'data.paymentsStatistic.items', [])}
         totals={
           mapTotalObject(
-            get(withdrawPaymentsStatistic, 'data.paymentsStatistic.data.additionalTotal', {}),
+            get(withdrawPaymentsStatistic, 'data.paymentsStatistic.additionalTotal', {}),
             'amount',
           )
         }
-        hasResults={!get(withdrawPaymentsStatistic, 'data.paymentsStatistic.error', {})}
+        hasResults={!get(withdrawPaymentsStatistic, 'error') || true}
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={withdrawPaymentsStatistic.loading}

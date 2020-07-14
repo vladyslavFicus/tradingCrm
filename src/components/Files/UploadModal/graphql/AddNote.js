@@ -21,12 +21,7 @@ const REQUEST = gql`mutation UploadModal_AddNote(
       playerUUID: $playerUUID
       targetType: $targetType
     ) {
-      data {
-        ...NoteFragment
-      }
-      error {
-        error
-      }
+      ...NoteFragment
     }
   }
 }

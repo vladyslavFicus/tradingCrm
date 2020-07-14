@@ -6,35 +6,29 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query getLeadMiniProfile($uuid: String!) {
     lead(uuid: $uuid) {
-      data {
-        _id
+      _id
+      uuid
+      name
+      phone
+      mobile
+      country
+      surname
+      language
+      salesStatus
+      registrationDate
+      salesAgent {
+        fullName
         uuid
-        name
-        phone
-        mobile
-        country
-        surname
-        language
-        salesStatus
-        registrationDate
-        salesAgent {
-          fullName
-          uuid
-          hierarchy {
-            parentBranches {
+        hierarchy {
+          parentBranches {
+            name
+            branchType
+            parentBranch {
               name
               branchType
-              parentBranch {
-                name
-                branchType
-              }
             }
           }
         }
-      }
-      error {
-        error
-        fields_errors
       }
     }
   }

@@ -13,12 +13,7 @@ const REQUEST = gql`mutation updateFilterSet(
       name: $name
       fields: $fields
       uuid: $uuid
-    ) {
-      error {
-        error
-      }
-      success
-    }
+    )
   }
 }
 `;

@@ -48,7 +48,7 @@ class Accounts extends PureComponent {
     } = this.props;
 
     tradingAccountAddModal.show({
-      profileId: get(profile, 'profile.data.uuid'),
+      profileId: get(profile, 'profile.uuid'),
       onConfirm: clientTradingAccountsData.refetch,
     });
   };
@@ -69,7 +69,7 @@ class Accounts extends PureComponent {
 
     const tradingAccounts = get(clientTradingAccountsData, 'clientTradingAccounts') || [];
     const accountType = get(clientTradingAccountsData, 'variables.accountType') || '';
-    const profileUuid = get(profile, 'profile.data.uuid') || '';
+    const profileUuid = get(profile, 'profile.uuid') || '';
 
     return (
       <Fragment>

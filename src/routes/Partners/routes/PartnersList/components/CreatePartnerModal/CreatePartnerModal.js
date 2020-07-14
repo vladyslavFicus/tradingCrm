@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -79,15 +77,13 @@ class CreatePartnerModal extends PureComponent {
       } = values;
 
       try {
-        const responseData = await createPartner({
+        const { data: { partner: { createPartner: { uuid } } } } = await createPartner({
           variables: {
             externalAffiliateId,
             public: isPublic,
             ...restValues,
           },
         });
-
-        const partnerUuid = get(responseData, 'data.partner.createPartner.uuid') || '';
 
         notify({
           level: 'success',
@@ -97,13 +93,11 @@ class CreatePartnerModal extends PureComponent {
 
         onCloseModal();
 
-        if (partnerUuid) {
-          history.push(`/partners/${partnerUuid}/profile`);
-        }
+        history.push(`/partners/${uuid}/profile`);
       } catch (e) {
-        const error = parseErrors(e);
+        const { error } = parseErrors(e);
 
-        switch (error.error) {
+        switch (error) {
           case 'error.entity.already.exists': {
             notify({
               level: 'error',

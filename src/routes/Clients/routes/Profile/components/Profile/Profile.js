@@ -3,10 +3,9 @@ import { get } from 'lodash';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
-import parseErrors from 'apollo/utils/parseErrors';
 import EventEmitter, { PROFILE_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import {
   statusActions as userStatuses,
@@ -37,7 +36,7 @@ class Profile extends Component {
     match: PropTypes.shape({
       path: PropTypes.string,
     }).isRequired,
-    profile: PropTypes.query(PropTypes.profile).isRequired,
+    profile: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -61,7 +60,7 @@ class Profile extends Component {
 
   get availableStatuses() {
     const { profile, permission: { permissions } } = this.props;
-    const profileStatus = get(profile, 'data.profile.data.status.type');
+    const profileStatus = get(profile, 'data.profile.status.type');
 
     if (!profileStatus) {
       return [];
@@ -86,7 +85,7 @@ class Profile extends Component {
       return <NotFound />;
     }
 
-    const profileData = get(data, 'profile.data');
+    const profileData = get(data, 'profile');
     const acquisitionData = get(profileData, 'acquisition') || {};
     const lastSignInSessions = get(profileData, 'profileView.lastSignInSessions') || [];
 

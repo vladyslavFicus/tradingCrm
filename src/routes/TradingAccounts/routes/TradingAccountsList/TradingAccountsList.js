@@ -11,9 +11,7 @@ import TradingAccountsListQuery from './graphql/TradingAccountsListQuery';
 class TradingAccountsList extends PureComponent {
   static propTypes = {
     tradingAccountsData: PropTypes.query({
-      tradingAccounts: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.tradingAccountsItem),
-      }),
+      tradingAccounts: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
   };
 
@@ -23,7 +21,7 @@ class TradingAccountsList extends PureComponent {
       tradingAccountsData: { loading },
     } = this.props;
 
-    const totalElements = get(tradingAccountsData, 'data.tradingAccounts.data.totalElements') || 0;
+    const totalElements = get(tradingAccountsData, 'data.tradingAccounts.totalElements') || 0;
 
     return (
       <div className="card">

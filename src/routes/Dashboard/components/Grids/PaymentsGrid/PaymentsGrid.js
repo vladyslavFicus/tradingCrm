@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import PaymentsListGrid from 'components/PaymentsListGrid';
@@ -19,11 +18,8 @@ class PaymentsGrid extends PureComponent {
   render() {
     const { paymentsQuery } = this.props;
 
-    const payments = get(paymentsQuery, 'data.payments', {});
-
     return (
       <PaymentsListGrid
-        payments={payments}
         paymentsQuery={paymentsQuery}
         handleRefresh={this.handleModalActionSuccess}
         withLazyLoad={false}

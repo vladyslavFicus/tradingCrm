@@ -9,24 +9,18 @@ const REQUEST = gql`query leadProfileQuery(
   lead (
     uuid: $uuid,
   ) {
-    error {
-      error
-      fields_errors
-    }
-    data {
-      _id
-      uuid
-      brandId
-      name
-      surname
-      phone
-      mobile
-      email
-      country
-      birthDate
-      gender
-      city
-    }
+    _id
+    uuid
+    brandId
+    name
+    surname
+    phone
+    mobile
+    email
+    country
+    birthDate
+    gender
+    city
   }
 }`;
 

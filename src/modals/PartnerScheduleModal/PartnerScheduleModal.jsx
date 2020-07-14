@@ -17,14 +17,14 @@ import {
 } from 'components/Formik';
 import { attributeLabels } from './constants';
 import createScheduleMutation from './graphql/createScheduleMutation';
-import './ScheduleModal.scss';
+import './PartnerScheduleModal.scss';
 
 const validate = createValidator({
   workingHoursFrom: ['required', 'string'],
   workingHoursTo: ['required', 'string'],
 }, translateLabels(attributeLabels), false);
 
-class ScheduleModal extends PureComponent {
+class PartnerScheduleModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     refetch: PropTypes.func.isRequired,
@@ -51,23 +51,13 @@ class ScheduleModal extends PureComponent {
     totalLimit: 0,
   };
 
-  state = {
-    selectedCountries: [],
-    limitError: false,
-    mounted: false, // eslint-disable-line
-  };
+  constructor(props) {
+    super(props);
 
-  static getDerivedStateFromProps({ countrySpreads }, { mounted }) {
-    if (!mounted) {
-      const selectedCountries = countrySpreads.map(({ country }) => country);
-
-      return {
-        selectedCountries,
-        mounted: true,
-      };
-    }
-
-    return null;
+    this.state = {
+      selectedCountries: this.props.countrySpreads.map(({ country }) => country),
+      limitError: false,
+    };
   }
 
   onHandleSubmit = async ({ totalLimit, countrySpreads, ...rest }, { setSubmitting }) => {
@@ -167,13 +157,13 @@ class ScheduleModal extends PureComponent {
           onSubmit={this.onHandleSubmit}
         >
           {({ errors, dirty, isValid, isSubmitting, values: { countrySpreads }, setFieldValue }) => (
-            <Form className="ScheduleModal">
+            <Form className="PartnerScheduleModal">
               <ModalHeader toggle={onCloseModal}>
                 {`${I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
                 <If condition={formError || (errors && errors.submit)}>
-                  <div className="mb-2 text-center color-danger ScheduleModal__message-error">
+                  <div className="mb-2 text-center color-danger PartnerScheduleModal__message-error">
                     {formError || errors.submit}
                   </div>
                 </If>
@@ -231,7 +221,7 @@ class ScheduleModal extends PureComponent {
                                   value={key}
                                   className={
                                     classNames('select-block__options-item', {
-                                      'ScheduleModal--is-disabled': selectedCountries.indexOf(key) !== -1,
+                                      'PartnerScheduleModal--is-disabled': selectedCountries.indexOf(key) !== -1,
                                     })
                                   }
                                 >
@@ -256,7 +246,7 @@ class ScheduleModal extends PureComponent {
                             <If condition={selectedCountries.length > 0 && selectedCountries.length !== index}>
                               <Button
                                 transparent
-                                className="ScheduleModal__button"
+                                className="PartnerScheduleModal__button"
                                 onClick={() => {
                                   arrayHelpers.remove(index);
                                   selectedCountries.splice(selectedCountries.indexOf(country), 1);
@@ -275,7 +265,7 @@ class ScheduleModal extends PureComponent {
                     )}
                   />
                   <If condition={limitError}>
-                    <div className="ScheduleModal__limit-error color-danger">
+                    <div className="PartnerScheduleModal__limit-error color-danger">
                       <div className="col-7">
                         {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { totalLimit })}
                       </div>
@@ -311,4 +301,4 @@ export default compose(
   withRequests({
     createSchedule: createScheduleMutation,
   }),
-)(ScheduleModal);
+)(PartnerScheduleModal);

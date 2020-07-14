@@ -38,10 +38,7 @@ class HierarchyProfileRules extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     rulesQuery: PropTypes.query({
-      rules: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.ruleType),
-        error: PropTypes.object,
-      }),
+      rules: PropTypes.arrayOf(PropTypes.ruleType),
     }).isRequired,
     branchChildrenQuery: PropTypes.query({
       branchChildren: PropTypes.arrayOf(PropTypes.hierarchyBranch),
@@ -220,7 +217,7 @@ class HierarchyProfileRules extends PureComponent {
     }
 
     try {
-      const { data: { rule: { [createRuleType]: { data } } } } = await request;
+      const { data: { rule: { [createRuleType]: { uuid } } } } = await request;
 
       await rulesQuery.refetch();
 
@@ -229,7 +226,7 @@ class HierarchyProfileRules extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: uuid }),
       });
     } catch (e) {
       const error = parseErrors(e);
@@ -305,7 +302,7 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery: { data: rulesQueryData },
     } = this.props;
 
-    const data = get(rulesQueryData, 'rules.data') || get(rulesQueryData, 'rulesRetention.data') || [];
+    const data = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
 
     const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
 
@@ -456,13 +453,13 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    const error = get(rulesQueryData, 'rules.error') || get(rulesQueryData, 'rulesRetention.error');
+    const error = get(rulesQueryData, 'error') || get(rulesQueryData, 'error');
 
     if (error) {
       return null;
     }
 
-    const entities = get(rulesQueryData, 'rules.data') || get(rulesQueryData, 'rulesRetention.data') || [];
+    const entities = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 

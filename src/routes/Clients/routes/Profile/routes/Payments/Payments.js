@@ -30,14 +30,10 @@ class Payments extends PureComponent {
       }).isRequired,
     }).isRequired,
     paymentsQuery: PropTypes.query({
-      clientPaymentsByUuid: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentEntity),
-      }),
+      clientPayments: PropTypes.pageable(PropTypes.paymentEntity),
     }).isRequired,
     profileQuery: PropTypes.query({
-      profile: PropTypes.shape({
-        data: PropTypes.profile,
-      }),
+      profile: PropTypes.profile,
     }).isRequired,
     addPayment: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
@@ -75,15 +71,9 @@ class Payments extends PureComponent {
       profileUUID: uuid,
     };
 
-    const { data: { payment: { createPayment: { data: payment, error } } } } = await addPayment({ variables });
+    try {
+      const { data: { payment: { createPayment } } } = await addPayment({ variables });
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
-      });
-    } else {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -91,15 +81,19 @@ class Payments extends PureComponent {
       });
 
       if (note) {
-        await addNote({ variables: { ...note, targetUUID: payment.paymentId } });
+        await addNote({ variables: { ...note, targetUUID: createPayment.paymentId } });
       }
 
-      await Promise.all([
-        paymentsQuery.refetch(),
-        profileQuery.refetch(),
-      ]);
+      paymentsQuery.refetch();
+      profileQuery.refetch();
 
       addPaymentModal.hide();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
+      });
     }
   };
 
@@ -111,7 +105,7 @@ class Payments extends PureComponent {
 
     addPaymentModal.show({
       onSubmit: this.handleAddPayment,
-      profile: get(profileQuery, 'data.profile.data') || {},
+      profile: get(profileQuery, 'data.profile') || {},
     });
   };
 
@@ -119,11 +113,17 @@ class Payments extends PureComponent {
     const {
       paymentsQuery,
       paymentsQuery: {
-        data, loading,
+        data,
+        loading,
       },
     } = this.props;
 
-    const payments = get(data, 'clientPayments') || {};
+    const clientPaymentsQuery = {
+      ...paymentsQuery,
+      data: {
+        payments: get(data, 'clientPayments') || { content: [] },
+      },
+    };
 
     return (
       <Fragment>
@@ -152,8 +152,7 @@ class Payments extends PureComponent {
           clientView
         />
         <PaymentsListGrid
-          payments={payments}
-          paymentsQuery={paymentsQuery}
+          paymentsQuery={clientPaymentsQuery}
           handleRefresh={this.handleRefresh}
           clientView
         />

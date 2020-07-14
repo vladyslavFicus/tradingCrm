@@ -74,7 +74,7 @@ class CreateOperatorModal extends PureComponent {
         variables: { ...data, department, role, email, branchId: branch },
       });
 
-      const { uuid } = get(operatorData, 'operator.createOperator.data');
+      const { uuid } = get(operatorData, 'operator.createOperator');
 
       this.props.history.push(`/operators/${uuid}/profile`);
     } catch (e) {

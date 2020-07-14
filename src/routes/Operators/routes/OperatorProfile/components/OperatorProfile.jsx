@@ -40,7 +40,7 @@ class OperatorProfile extends Component {
     changePassword: PropTypes.func.isRequired,
     refetchOperator: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
-    authorities: PropTypes.object,
+    authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
     modals: PropTypes.shape({
@@ -53,7 +53,7 @@ class OperatorProfile extends Component {
 
   static defaultProps = {
     error: null,
-    authorities: {},
+    authorities: [],
   };
 
   state = {
@@ -105,21 +105,22 @@ class OperatorProfile extends Component {
   handleSubmitNewPassword = async ({ newPassword }) => {
     const { changePassword, notify, match: { params: { id: operatorUuid } } } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, operatorUuid } });
-    const success = get(response, 'data.auth.changeOperatorPassword.success');
+    try {
+      await changePassword({ variables: { newPassword, operatorUuid } });
 
-    notify({
-      level: !success ? 'error' : 'success',
-      title: !success
-        ? I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
-        : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
-      message: !success
-        ? I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
-        : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+      });
 
-    if (success) {
       this.handleCloseModal();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
     }
   };
 
@@ -138,17 +139,21 @@ class OperatorProfile extends Component {
   };
 
   unlockLogin = async () => {
-    const { unlockLoginMutation, match: { params: { id: uuid } }, notify } = this.props;
-    const response = await unlockLoginMutation({ variables: { uuid } });
-    const success = get(response, 'data.auth.unlockLogin.success');
+    const {
+      unlockLoginMutation,
+      notify,
+      match: { params: { id: uuid } },
+    } = this.props;
 
-    if (success) {
+    try {
+      await unlockLoginMutation({ variables: { uuid } });
+
       notify({
         level: 'success',
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
       });
-    } else {
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
@@ -181,7 +186,6 @@ class OperatorProfile extends Component {
       return null;
     }
 
-    const authoritiesData = get(authorities, 'data') || [];
     const loginLock = get(getLoginLock, 'loginLock') || {};
     const userType = get(data, 'hierarchy.userType');
     const tabs = [...menu.operatorProfileTabs];
@@ -212,7 +216,7 @@ class OperatorProfile extends Component {
           <HideDetails>
             <Information
               data={data}
-              authorities={authoritiesData}
+              authorities={authorities}
             />
           </HideDetails>
         </div>

@@ -24,25 +24,7 @@ const REQUEST = gql`mutation createRule(
       type: $type,
       actions: $actions,
     ) {
-      data {
-        actions {
-          id
-          parentBranch
-          parentUser
-          ruleType
-        }
-        uuid
-        countries
-        languages
-        priority
-        name
-        type
-        updatedBy
-      }
-      error {
-        error
-        errorParameters
-      }
+      uuid
     }
   }
 }

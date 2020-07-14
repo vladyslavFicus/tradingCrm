@@ -11,7 +11,7 @@ import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import { FormikCheckbox } from 'components/Formik';
-import ScheduleModal from 'modals/ScheduleModal';
+import PartnerScheduleModal from 'modals/PartnerScheduleModal';
 import getSchedule from './graphql/getScheduleQuery';
 import changeScheduleStatusMutation from './graphql/changeScheduleStatusMutation';
 import './Schedule.scss';
@@ -19,7 +19,7 @@ import './Schedule.scss';
 class Schedule extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
-      scheduleModal: PropTypes.modalType,
+      partnerScheduleModal: PropTypes.modalType,
     }).isRequired,
     notify: PropTypes.func.isRequired,
     affiliateUuid: PropTypes.string.isRequired,
@@ -91,14 +91,14 @@ class Schedule extends PureComponent {
 
   triggerEditScheduleModal = (value) => {
     const {
-      modals: { scheduleModal },
+      modals: { partnerScheduleModal },
       affiliateUuid,
       partner: {
         refetch,
       },
     } = this.props;
 
-    scheduleModal.show({
+    partnerScheduleModal.show({
       ...value,
       activated: this.state.checkedCountries[value.day],
       affiliateUuid,
@@ -266,7 +266,7 @@ class Schedule extends PureComponent {
 
 export default compose(
   withModals({
-    scheduleModal: ScheduleModal,
+    partnerScheduleModal: PartnerScheduleModal,
   }),
   withNotifications,
   withRequests({

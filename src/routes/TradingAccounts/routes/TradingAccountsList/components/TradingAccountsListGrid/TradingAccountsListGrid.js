@@ -11,9 +11,7 @@ import { accountStatuses } from '../../constants';
 class TradingAccountsListGrid extends PureComponent {
   static propTypes = {
     tradingAccountsData: PropTypes.query({
-      tradingAccounts: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.tradingAccountsItem),
-      }),
+      tradingAccounts: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
   };
 
@@ -25,7 +23,7 @@ class TradingAccountsListGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(tradingAccountsData, 'data.tradingAccounts.data.number') || 0;
+    const page = get(tradingAccountsData, 'data.tradingAccounts.number') || 0;
 
     loadMore(page + 1);
   };
@@ -38,7 +36,7 @@ class TradingAccountsListGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content, last } = get(tradingAccountsData, 'data.tradingAccounts.data') || { content: [] };
+    const { content, last } = get(tradingAccountsData, 'data.tradingAccounts') || { content: [] };
 
     return (
       <div className="card-body">

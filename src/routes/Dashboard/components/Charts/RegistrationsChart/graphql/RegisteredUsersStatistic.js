@@ -17,25 +17,20 @@ export const REQUEST = gql`
       dateFrom: $dateFrom
       dateTo: $dateTo
     ) {
-      data {
-        additionalStatistics {
-          today {
-            value
-          }
-          month {
-            value
-          }
-          total {
-            value
-          }
+      additionalStatistics {
+        today {
+          value
         }
-        registrations {
-          entries
-          entryDate
+        month {
+          value
+        }
+        total {
+          value
         }
       }
-      error {
-        error
+      registrations {
+        entries
+        entryDate
       }
     }
   }

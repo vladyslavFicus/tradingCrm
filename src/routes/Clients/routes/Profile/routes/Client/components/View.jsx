@@ -68,64 +68,67 @@ class View extends Component {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        profile: {
-          updatePersonalInformation: { error },
+    try {
+      await updatePersonalInformation({
+        variables: {
+          playerUUID,
+          languageCode: data.language,
+          ...decodeNullValues(data),
         },
-      },
-    } = await updatePersonalInformation({
-      variables: {
-        playerUUID,
-        languageCode: data.language,
-        ...decodeNullValues(data),
-      },
-    });
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
-      ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleVerifyEmail = async () => {
-    const {
-      data: {
-        profile: {
-          verifyEmail: { error },
-        },
-      },
-    } = await this.props.verifyEmail();
+    try {
+      await this.props.verifyEmail();
 
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleUpdateAddress = async (data) => {
-    const {
-      data: {
-        profile: {
-          updateAddress: { error },
+    try {
+      await this.props.updateAddress({
+        variables: {
+          ...data,
         },
-      },
-    } = await this.props.updateAddress({
-      variables: {
-        ...data,
-      },
-    });
+      });
 
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleUpdateEmail = (data) => {
@@ -178,23 +181,21 @@ class View extends Component {
     const {
       profile: {
         profile: {
-          data: {
-            passport,
-            firstName,
-            lastName,
-            uuid,
-            birthDate,
-            gender,
-            address,
-            languageCode,
-            contacts: { additionalEmail, additionalPhone, email, phone },
-            kyc: { status: kycStatus },
-            configuration: { internalTransfer },
-            phoneVerified,
-            emailVerified,
-            identificationNumber,
-            timeZone,
-          },
+          passport,
+          firstName,
+          lastName,
+          uuid,
+          birthDate,
+          gender,
+          address,
+          languageCode,
+          contacts: { additionalEmail, additionalPhone, email, phone },
+          kyc: { status: kycStatus },
+          configuration: { internalTransfer },
+          phoneVerified,
+          emailVerified,
+          identificationNumber,
+          timeZone,
         },
       },
     } = this.props;

@@ -18,32 +18,27 @@ const REQUEST = gql`
       size: $size
       page: $page
     ) {
-      data {
-        content {
+      content {
+        uuid
+        platformType
+        profile {
           uuid
-          platformType
-          profile {
-            uuid
-            fullName
-          }
-          affiliate {
-            source
-          }
-          createdAt
-          leverage
-          balance
-          archived
-          accountType
-          currency
+          fullName
         }
-        totalElements
-        size
-        last
-        number
+        affiliate {
+          source
+        }
+        createdAt
+        leverage
+        balance
+        archived
+        accountType
+        currency
       }
-      error {
-        error
-      }
+      totalElements
+      size
+      last
+      number
     }
   }
 `;

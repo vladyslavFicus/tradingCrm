@@ -16,9 +16,7 @@ import './FilesGrid.scss';
 class FilesGrid extends PureComponent {
   static propTypes = {
     filesData: PropTypes.query({
-      files: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.fileEntity),
-      }),
+      files: PropTypes.pageable(PropTypes.fileEntity),
     }).isRequired,
   };
 
@@ -31,7 +29,7 @@ class FilesGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(filesData, 'data.files.data.number') || 0;
+    const page = get(filesData, 'data.files.number') || 0;
 
     if (!loading) {
       loadMore(page + 1);
@@ -122,8 +120,8 @@ class FilesGrid extends PureComponent {
     const { filesData } = this.props;
 
     const isLoading = filesData.loading;
-    const isLastPage = get(filesData, 'data.files.data.last');
-    const files = get(filesData, 'data.files.data.content') || [];
+    const isLastPage = get(filesData, 'data.files.last');
+    const files = get(filesData, 'data.files.content') || [];
 
     return (
       <div className="FilesGrid">

@@ -13,9 +13,7 @@ const REQUEST = gql`mutation UpdateOperatorDepartmentsFormMutation_addDepartment
       uuid: $uuid
       department: $department
       role: $role
-    ) {
-      success
-    }
+    )
   }
 }`;
 

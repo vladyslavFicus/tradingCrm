@@ -56,20 +56,26 @@ class Personal extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { profile: { updateConfiguration: { success } } } } = await updateConfiguration({
-      variables: {
-        playerUUID,
-        ...variables,
-      },
-    });
+    try {
+      await updateConfiguration({
+        variables: {
+          playerUUID,
+          ...variables,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('COMMON.ACTIONS.UPDATED'),
-      message: success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.UPDATED'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ACTIONS.UPDATED'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
+    }
   };
 
   triggerEmailSelectModal = () => {

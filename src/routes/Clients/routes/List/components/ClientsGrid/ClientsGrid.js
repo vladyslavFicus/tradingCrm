@@ -37,9 +37,7 @@ class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     profiles: PropTypes.query({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.profileView),
-      }),
+      profiles: PropTypes.pageable(PropTypes.profileView),
     }).isRequired,
     searchLimit: PropTypes.oneOfType([
       PropTypes.string,
@@ -108,7 +106,7 @@ class ClientsGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content: gridData, last } = get(profiles, 'profiles.data') || { content: [] };
+    const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
 
     const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
@@ -147,10 +145,10 @@ class ClientsGrid extends PureComponent {
         <GridColumn
           name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
-          render={({ lastActivity }) => {
+          render={({ lastActivity, online }) => {
             const lastActivityDate = get(lastActivity, 'date');
             const localTime = lastActivityDate && moment.utc(lastActivityDate).local();
-            const type = localTime && (moment().diff(localTime, 'minutes') < 5) ? 'ONLINE' : 'OFFLINE';
+            const type = online ? 'ONLINE' : 'OFFLINE';
 
             return (
               <GridStatus

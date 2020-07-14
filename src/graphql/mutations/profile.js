@@ -32,56 +32,49 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
 const clickToCall = gql`mutation clickToCall($number: String!) {
   clickToCall {
     didlogic {
-      createCall(number: $number) {
-        success
-      }
+      createCall(number: $number)
     }
   }
 }`;
 
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
-  $playerUUID: String!,
-  $firstName: String,
-  $lastName: String,
-  $languageCode: String,
-  $gender: String,
-  $birthDate: String,
-  $passport: Passport__Input,
-  $identificationNumber: String,
-  $timeZone: String,
+  $playerUUID: String!
+  $firstName: String
+  $lastName: String
+  $languageCode: String
+  $gender: String
+  $birthDate: String
+  $passport: Passport__Input
+  $identificationNumber: String
+  $timeZone: String
 ) {
   profile {
     updatePersonalInformation(
-      playerUUID: $playerUUID,
-      firstName: $firstName,
-      lastName: $lastName,
-      languageCode: $languageCode,
-      gender: $gender,
-      birthDate: $birthDate,
-      passport: $passport,
-      identificationNumber: $identificationNumber,
-      timeZone: $timeZone,
+      playerUUID: $playerUUID
+      firstName: $firstName
+      lastName: $lastName
+      languageCode: $languageCode
+      gender: $gender
+      birthDate: $birthDate
+      passport: $passport
+      identificationNumber: $identificationNumber
+      timeZone: $timeZone
     ) {
-      data {
-        _id
-        firstName
-        lastName
-        birthDate
-        languageCode
-        gender
-        identificationNumber
-        timeZone
-        passport {
-          countryOfIssue
-          countrySpecificIdentifier
-          countrySpecificIdentifierType
-          expirationDate
-          issueDate
-          number
-        }
-      }
-      error {
-        error
+      _id
+      firstName
+      lastName
+      birthDate
+      languageCode
+      gender
+      identificationNumber
+      timeZone
+      passport {
+        countryOfIssue
+        countrySpecificIdentifier
+        countrySpecificIdentifierType
+        expirationDate
+        issueDate
+        number
       }
     }
   }
@@ -116,34 +109,32 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
       internalTransfer: $internalTransfer,
       crs: $crs,
       fatca: $fatca,
-    ) {
-      success
-    }
+    )
   }
 }`;
 
 const updateAddressMutation = gql`mutation updateAddress(
-  $playerUUID: String!,
-  $countryCode: String,
-  $city: String,
-  $state: String,
-  $postCode: String,
-  $address: String,
+  $playerUUID: String!
+  $countryCode: String
+  $city: String
+  $state: String
+  $postCode: String
+  $poBox: String
+  $address: String
 ) {
   profile {
     updateAddress(
-      playerUUID: $playerUUID,
-      countryCode: $countryCode,
-      city: $city,
-      state: $state,
-      postCode: $postCode,
-      address: $address,
+      playerUUID: $playerUUID
+      countryCode: $countryCode
+      city: $city
+      state: $state
+      postCode: $postCode
+      poBox: $poBox
+      address: $address
     ) {
-      data {
-        _id
-        address {
-          ...AddressFragment
-        }
+      _id
+      address {
+        ...AddressFragment
       }
     }
   }
@@ -153,13 +144,8 @@ ${AddressFragment}`;
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
-      data {
-        _id
-        emailVerified
-      }
-      error {
-        error
-      }
+      _id
+      emailVerified
     }
   }
 }`;

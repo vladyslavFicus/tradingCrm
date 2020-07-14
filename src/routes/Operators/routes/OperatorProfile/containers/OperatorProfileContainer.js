@@ -20,15 +20,13 @@ export default compose(
     options: ({
       match: {
         params: {
-          id: playerUUID,
+          id: uuid,
         },
       },
     }) => ({
       refetchQueries: [{
         query: getLoginLock,
-        variables: {
-          playerUUID,
-        },
+        variables: { uuid },
       }],
     }),
     name: 'unlockLoginMutation',
@@ -54,7 +52,7 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     props: ({ getOperator }) => {
-      const { authorities, ...operatorProfile } = get(getOperator, 'operator.data') || {};
+      const { authorities, ...operatorProfile } = get(getOperator, 'operator') || {};
       return {
         isLoading: get(getOperator, 'loading', true),
         authorities,

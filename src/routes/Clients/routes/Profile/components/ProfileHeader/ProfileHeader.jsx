@@ -111,10 +111,9 @@ class ProfileHeader extends Component {
       profile: { uuid },
     } = this.props;
 
-    const response = await passwordResetRequest({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.auth.resetUserPassword.success');
+    try {
+      await passwordResetRequest({ variables: { playerUUID: uuid } });
 
-    if (success) {
       notify({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
@@ -122,7 +121,7 @@ class ProfileHeader extends Component {
       });
 
       confirmActionModal.hide();
-    } else {
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
@@ -156,21 +155,22 @@ class ProfileHeader extends Component {
       modals: { changePasswordModal },
     } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, playerUUID: uuid } });
-    const success = get(response, 'data.auth.changePassword.success');
+    try {
+      await changePassword({ variables: { newPassword, clientUuid: uuid } });
 
-    notify({
-      level: !success ? 'error' : 'success',
-      title: !success
-        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
-        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
-      message: !success
-        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
-        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+      });
 
-    if (success) {
       changePasswordModal.hide();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
     }
   };
 
@@ -181,10 +181,10 @@ class ProfileHeader extends Component {
       loginLock,
       profile: { uuid },
     } = this.props;
-    const response = await unlockLogin({ variables: { playerUUID: uuid } });
-    const success = get(response, 'data.auth.unlockLogin.success');
 
-    if (success) {
+    try {
+      await unlockLogin({ variables: { playerUUID: uuid } });
+
       notify({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
@@ -192,7 +192,7 @@ class ProfileHeader extends Component {
       });
 
       loginLock.refetch();
-    } else {
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
@@ -206,43 +206,48 @@ class ProfileHeader extends Component {
       availableStatuses,
       loaded,
       loginLock,
+      profile,
       permission: {
         permissions: currentPermissions,
       },
-      profile: {
-        age,
-        firstName,
-        lastName,
-        uuid,
-        registrationDetails: {
-          registrationDate,
-        },
-        profileVerified,
-        status: {
-          changedAt,
-          changedBy,
-          comment,
-          reason,
-          type: statusType,
-        },
-        profileView: {
-          balance: {
-            amount,
-            credit,
-          },
-          lastSignInSessions,
-          lastActivity,
-        },
-        tradingAccounts,
-      },
     } = this.props;
+
+    const {
+      age,
+      uuid,
+      status,
+      lastName,
+      firstName,
+      profileView,
+      tradingAccounts,
+      profileVerified,
+      registrationDetails,
+    } = profile;
+
+    const registrationDate = registrationDetails?.registrationDate;
+
+    const {
+      changedAt,
+      changedBy,
+      comment,
+      reason,
+      type: statusType,
+    } = status || {};
+
+    const {
+      online,
+      balance,
+      lastActivity,
+      lastSignInSessions,
+    } = profileView || {};
 
     const { isRunningReloadAnimation } = this.state;
     const lock = get(loginLock, 'data.loginLock.lock');
-    const lastActivityDate = get(lastActivity, 'date');
+
+    const { eventType, eventValue, location, date: lastActivityDate } = lastActivity || {};
+
     const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
-    const lastActivityType = lastActivityDateLocal
-      && moment().diff(lastActivityDateLocal, 'minutes') < 5 ? 'ONLINE' : 'OFFLINE';
+    const lastActivityType = online ? 'ONLINE' : 'OFFLINE';
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
@@ -334,7 +339,6 @@ class ProfileHeader extends Component {
               status={statusType}
               reason={reason}
               availableStatuses={availableStatuses}
-              refetchLoginLock={loginLock.refetch}
             />
           </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
@@ -342,8 +346,8 @@ class ProfileHeader extends Component {
               <Balances
                 clientRegistrationDate={registrationDate}
                 balances={{
-                  amount,
-                  credit,
+                  amount: balance.amount,
+                  credit: balance.credit,
                 }}
                 tradingAccounts={tradingAccounts && tradingAccounts.filter(account => account.accountType !== 'DEMO')}
                 uuid={uuid}
@@ -364,6 +368,18 @@ class ProfileHeader extends Component {
                 {I18n.t('COMMON.ON')} {lastActivityDateLocal.format('DD.MM.YYYY')}
               </div>
             )}
+            <If condition={location}>
+              <div className="header-block-small">
+                <div className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.LOCATION')}: </div>
+                {location}
+              </div>
+            </If>
+            <If condition={eventType === 'MODALVIEW'}>
+              <div className="header-block-small">
+                <span className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.MODAL')}: </span>
+                {eventValue}
+              </div>
+            </If>
           </div>
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>

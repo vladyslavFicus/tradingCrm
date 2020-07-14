@@ -8,9 +8,7 @@ import './PartnerProfileTab.scss';
 class PartnerProfileTab extends PureComponent {
   static propTypes = {
     partnerData: PropTypes.query({
-      partner: PropTypes.shape({
-        data: PropTypes.partner,
-      }),
+      partner: PropTypes.partner,
     }).isRequired,
   }
 
