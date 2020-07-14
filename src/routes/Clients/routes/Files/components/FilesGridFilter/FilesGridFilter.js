@@ -38,6 +38,8 @@ class FilesGridFilter extends PureComponent {
 
     if (value === 'OTHER') {
       setFieldValue('documentType', value);
+    } else {
+      setFieldValue('documentType', '');
     }
   }
 
