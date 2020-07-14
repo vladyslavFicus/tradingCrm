@@ -12,13 +12,13 @@ const REQUEST = gql`
       schedule {
         activated
         countrySpreads {
-          country,
-          limit,
+          country
+          limit
         },
-        day,
-        totalLimit,
-        workingHoursFrom,
-        workingHoursTo,
+        day
+        totalLimit
+        workingHoursFrom
+        workingHoursTo
       }  
     }
 }

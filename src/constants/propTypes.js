@@ -219,6 +219,19 @@ PropTypes.partner = PropTypes.shape({
   statusChangeDate: PropTypes.string,
   statusReason: PropTypes.string,
   uuid: PropTypes.uuid,
+  schedule: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.shape({
+      activated: PropTypes.bool,
+      day: PropTypes.string,
+      totalLimit: PropTypes.number,
+      countrySpreads: PropTypes.arrayOf(PropTypes.shape({
+        country: PropTypes.string,
+        limit: PropTypes.number,
+      })),
+      workingHoursFrom: PropTypes.string,
+      workingHoursTo: PropTypes.string,
+    })),
+  }),
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,

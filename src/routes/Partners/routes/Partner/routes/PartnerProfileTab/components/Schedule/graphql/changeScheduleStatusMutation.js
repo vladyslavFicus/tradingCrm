@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation changeScheduleStatus(
-  $affiliateUuid: String!,
-  $data: [ScheduleStatus__Input],
+  $affiliateUuid: String!
+  $data: [ScheduleStatus__Input]
 ) {
   schedule {
     changeScheduleStatus (
-      affiliateUuid: $affiliateUuid,
-      data: $data,
+      affiliateUuid: $affiliateUuid
+      data: $data
     )
   }
 }

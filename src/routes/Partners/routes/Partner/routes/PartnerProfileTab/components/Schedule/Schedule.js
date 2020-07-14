@@ -23,11 +23,7 @@ class Schedule extends PureComponent {
     }).isRequired,
     notify: PropTypes.func.isRequired,
     affiliateUuid: PropTypes.string.isRequired,
-    partner: PropTypes.query({
-      schedule: PropTypes.shape({
-        data: PropTypes.object.isRequired,
-      }),
-    }).isRequired,
+    partner: PropTypes.partner.isRequired,
     changeScheduleStatus: PropTypes.func.isRequired,
   };
 
@@ -226,32 +222,26 @@ class Schedule extends PureComponent {
                   withNoResults={!loading && scheduleWeek.length === 0}
                 >
                   <GridColumn
-                    name="activate"
                     header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.ACTIVATE')}
                     render={this.renderActivate(setFieldValue)}
                   />
                   <GridColumn
-                    name="day"
                     header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.DAY')}
                     render={this.renderDay}
                   />
                   <GridColumn
-                    name="hours"
                     header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.WORKING_HOURS')}
                     render={this.renderHours}
                   />
                   <GridColumn
-                    name="limit"
                     header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.TOTAL_LEADS_LIMIT')}
                     render={this.renderLimit}
                   />
                   <GridColumn
-                    name="country"
                     header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.COUNTRY_LIMIT')}
                     render={this.renderCountry}
                   />
                   <GridColumn
-                    name="action"
                     render={this.renderActions}
                   />
                 </Grid>
