@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
@@ -7,7 +7,7 @@ import Chart from '../Chart';
 import { getChartSelectOptions, mapTotalObject } from '../dashboardChartsUtils';
 import WithdrawPaymentsStatistic from './graphql/WithdrawPaymentsStatistic';
 
-class WithdrawsCountChart extends Component {
+class WithdrawsCountChart extends PureComponent {
   static propTypes = {
     withdrawPaymentsStatistic: PropTypes.paymentsStatistic.isRequired,
   };
@@ -26,14 +26,14 @@ class WithdrawsCountChart extends Component {
       <Chart
         title={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.WITHDRAWS_COUNT_CHART.TOOLTIP_TITLE')}
-        data={get(withdrawPaymentsStatistic, 'data.statistics.payments.data.items', [])}
+        data={get(withdrawPaymentsStatistic, 'data.paymentsStatistic.items', [])}
         totals={
           mapTotalObject(
-            get(withdrawPaymentsStatistic, 'data.statistics.payments.data.additionalTotal', {}),
+            get(withdrawPaymentsStatistic, 'data.paymentsStatistic.additionalTotal', {}),
             'count',
           )
         }
-        hasResults={!get(withdrawPaymentsStatistic, 'data.statistics.payments.error', {})}
+        hasResults={!get(withdrawPaymentsStatistic, 'error') || true}
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={withdrawPaymentsStatistic.loading}

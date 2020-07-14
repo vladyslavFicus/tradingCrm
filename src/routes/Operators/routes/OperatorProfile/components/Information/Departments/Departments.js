@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
+import renderLabel from 'utils/renderLabel';
+import PropTypes from 'constants/propTypes';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
 
 const Departments = ({ authorities }) => (
   <div className="account-details__additional-info">
@@ -39,11 +39,11 @@ const Departments = ({ authorities }) => (
 );
 
 Departments.propTypes = {
-  authorities: PropTypes.arrayOf(PropTypes.shape({
-    department: PropTypes.string,
-    id: PropTypes.number,
-    role: PropTypes.string,
-  })).isRequired,
+  authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
+};
+
+Departments.defaultProps = {
+  authorities: [],
 };
 
 export default Departments;

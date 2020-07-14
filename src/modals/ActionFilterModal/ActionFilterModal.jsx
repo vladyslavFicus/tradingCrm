@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
+import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { filterSetTypes } from 'constants/filterSet';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { createValidator } from 'utils/validator';
@@ -36,6 +36,7 @@ class ActionFilterModal extends PureComponent {
     filterId: PropTypes.string,
     fields: PropTypes.array.isRequired,
     client: PropTypes.object.isRequired,
+    filterSetType: PropTypes.string.isRequired,
     name: PropTypes.string,
   };
 
@@ -45,38 +46,68 @@ class ActionFilterModal extends PureComponent {
     filterId: null,
   };
 
-  handlePerformSubmitAction = async ({ name, favourite }, { setErrors }) => {
+  async handleCreate(name, favourite, setErrors) {
     const {
       notify,
-      action,
       fields,
       createFilterSet,
+      onSuccess,
+      onCloseModal,
+      filterSetType,
+    } = this.props;
+
+    try {
+      const { data: { filterSet: { create: filter } } } = await createFilterSet({
+        variables: {
+          name,
+          favourite: !!favourite,
+          fields: JSON.stringify(fields),
+          type: filterSetType,
+        },
+      });
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILTER_SET.CREATE.SUCCESS', { name }),
+      });
+
+      onSuccess(onCloseModal, filter);
+    } catch (e) {
+      const error = get(e, 'graphQLErrors.0.extensions.response.body');
+
+      setErrors({
+        submit: error === 'filter.set.not.unique'
+          ? I18n.t('FILTER_SET.CREATE.FAILED_EXIST')
+          : I18n.t('FILTER_SET.CREATE.FAILED_DESC', { desc: error }),
+      });
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILTER_SET.CREATE.FAILED'),
+      });
+    }
+  }
+
+  async handleUpdate(name) {
+    const {
+      notify,
+      fields,
       updateFilterSet,
       onSuccess,
       onCloseModal,
       filterId: uuid,
     } = this.props;
 
-    let error = null;
-    let data = null;
-
-    if (action === actionTypes.CREATE) {
-      ({ data: { filterSet: { create: { error, data } } } } = await createFilterSet({
-        variables: {
-          name,
-          favourite: !!favourite,
-          fields: JSON.stringify(fields),
-          type: filterSetTypes.CLIENT,
-        },
-      }));
-    } else {
-      ({ data: { filterSet: { update: { error, success: data } } } } = await updateFilterSet({
+    try {
+      await updateFilterSet({
         variables: {
           name,
           uuid,
           fields: JSON.stringify(fields),
         },
-      }));
+      });
 
       // Refetch concrete filter set by id to update it in apollo cache
       await this.props.client.query({
@@ -84,28 +115,32 @@ class ActionFilterModal extends PureComponent {
         variables: { uuid },
         fetchPolicy: 'network-only',
       });
-    }
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t(`FILTER_SET.${action}.FAILED`),
-      });
+      onSuccess(onCloseModal, { uuid });
 
-      setErrors({
-        submit: error.fields_errors === 'filter.set.not.unique'
-          ? I18n.t(`FILTER_SET.${action}.FAILED_EXIST`)
-          : I18n.t(`FILTER_SET.${action}.FAILED_DESC`, { desc: error.error }),
-      });
-    } else {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t(`FILTER_SET.${action}.SUCCESS`, { name }),
+        message: I18n.t('FILTER_SET.UPDATE.SUCCESS', { name }),
       });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILTER_SET.UPDATE.FAILED'),
+      });
+    }
+  }
 
-      onSuccess(onCloseModal, data);
+  handlePerformSubmitAction = async ({ name, favourite }, { setErrors }) => {
+    const { action } = this.props;
+
+    if (action === actionTypes.CREATE) {
+      await this.handleCreate(name, favourite, setErrors);
+    }
+
+    if (action === actionTypes.UPDATE) {
+      await this.handleUpdate(name);
     }
   }
 
@@ -170,7 +205,7 @@ class ActionFilterModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!isValid || !dirty || isSubmitting}
+                  disabled={!isValid || (!name && !dirty) || isSubmitting}
                 >
                   {I18n.t('COMMON.SUBMIT')}
                 </Button>

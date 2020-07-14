@@ -72,7 +72,7 @@ class NotificationsGrid extends PureComponent {
           </span>
           <div className="font-size-11">{details.platformType} - {details.login}</div>
         </When>
-        <When condition={type === 'KYC'}>
+        <When condition={type === 'KYC' || type === 'CLIENT'}>
           <span className="font-weight-700">
             {I18n.t(notificationCenterSubTypesLabels[subtype])}
           </span>
@@ -88,6 +88,11 @@ class NotificationsGrid extends PureComponent {
             {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
               time: moment.utc(details.callbackTime).local().format('HH:mm'),
             })}
+          </div>
+        </When>
+        <When condition={type === 'TRADING' && subtype === 'MARGIN_CALL'}>
+          <div className="font-weight-700">
+            {I18n.t('NOTIFICATION_CENTER.SUBTYPES.MARGIN_CALL')}
           </div>
         </When>
       </Choose>

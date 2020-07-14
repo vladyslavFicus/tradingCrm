@@ -1,1 +1,1 @@
-export { default } from './RuleModalContainer';
+export { default } from './RuleModal';

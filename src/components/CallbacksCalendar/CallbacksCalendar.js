@@ -55,7 +55,7 @@ class CallbacksCalendar extends PureComponent {
       renderTopContent,
     } = this.props;
 
-    const entities = get(callbacks, 'callbacks.data') || { content: [] };
+    const entities = get(callbacks, 'callbacks') || { content: [] };
 
     return (
       <div className="CallbacksCalendar">

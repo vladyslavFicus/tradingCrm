@@ -1,84 +1,33 @@
 import gql from 'graphql-tag';
 import { NoteFragment } from '../fragments/notes';
 
-const getFilesListByProfileUUID = gql`query files(
+const getFilesByProfileUUID = gql`query clientFiles(
   $size: Int,
   $page: Int,
-  $clientUUID: String!,
+  $clientUuid: String!,
   $searchBy: String,
   $fileCategory: String,
   $uploadDateFrom: String,
   $uploadDateTo: String,
 ){
-  filesByUuid(
+  clientFiles(
     size: $size,
     page: $page,
-    clientUUID: $clientUUID,
+    clientUuid: $clientUuid,
     searchBy: $searchBy,
     fileCategory: $fileCategory,
     uploadDateFrom: $uploadDateFrom,
     uploadDateTo: $uploadDateTo,
   ) {
-    data {
-      verificationType
-      attemptsLeft
-      documents {
-        documentType
-        verificationTime
-        verifiedBy
-        verificationStatus
-        files {
-          _id
-          clientUuid
-          client {
-            fullName
-          }
-          fileName
-          title
-          documentType
-          mediaType
-          status
-          uploadBy
-          uuid
-          verificationType
-          type
-          uploadDate
-          expirationDate
-          note {
-          ...NoteFragment,
-          }
-        }
-      }
-    }
-  }
-}
-${NoteFragment}`;
-
-const getFilesList = gql`query fileList(
-  $size: Int,
-  $page: Int,
-  $searchBy: String, 
-  $uploadedDateFrom: String,
-  $uploadedDateTo: String,
-  $verificationType: String,
-  $documentType: String,
-){
-  fileList(
-    size: $size,
-    page: $page,
-    searchBy: $searchBy,
-    uploadedDateFrom: $uploadedDateFrom,
-    uploadedDateTo: $uploadedDateTo,
-    verificationType: $verificationType,
-    documentType: $documentType,
-  ) {
-    data {
-      last
-      number
-      page
-      totalElements
-      totalPages
-      content {
+    verificationType
+    attemptsLeft
+    documents {
+      documentType
+      verificationTime
+      verifiedBy
+      verificationStatus
+      files {
+        _id
         clientUuid
         client {
           fullName
@@ -86,6 +35,7 @@ const getFilesList = gql`query fileList(
         fileName
         title
         documentType
+        mediaType
         status
         uploadBy
         uuid
@@ -93,23 +43,24 @@ const getFilesList = gql`query fileList(
         type
         uploadDate
         expirationDate
+        note {
+        ...NoteFragment,
+        }
       }
     }
   }
-}`;
+}
+${NoteFragment}`;
 
-const getFilesCategoriesList = gql`query filesCategoriesList {
-  filesCategoriesList {
-    data {
-      DOCUMENT_VERIFICATION
-      ADDRESS_VERIFICATION
-      OTHER
-    }
+const getFilesCategories = gql`query FilesCategories {
+  filesCategories {
+    DOCUMENT_VERIFICATION
+    ADDRESS_VERIFICATION
+    OTHER
   }
 }`;
 
 export {
-  getFilesListByProfileUUID,
-  getFilesCategoriesList,
-  getFilesList,
+  getFilesByProfileUUID,
+  getFilesCategories,
 };

@@ -163,7 +163,6 @@ const filterLabels = {
   accountStatus: 'PROFILE.LIST.FILTERS.ACCOUNT_STATUS',
   retentionStatus: 'PROFILE.LIST.FILTERS.RETENTION_STATUS',
   deskType: 'DESKS.GRID_FILTERS.DESK_TYPE_LABEL',
-  defaultDesk: 'DESKS.FILTERS.DEFAULT_DESK',
   office: 'DESKS.FILTERS.OFFICE',
   desk: 'DESKS.FILTERS.DESK',
   language: 'COMMON.LANGUAGE',
@@ -172,6 +171,7 @@ const filterLabels = {
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   warning: 'PROFILE.LIST.FILTERS.WARNING',
+  activity: 'PROFILE.LIST.FILTERS.ACTIVITY',
 };
 
 const statuses = keyMirror({

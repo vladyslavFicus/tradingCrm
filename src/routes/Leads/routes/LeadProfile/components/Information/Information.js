@@ -11,6 +11,8 @@ class Information extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     loading: PropTypes.bool.isRequired,
+    isPhoneHidden: PropTypes.bool.isRequired,
+    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -18,7 +20,12 @@ class Information extends PureComponent {
   };
 
   render() {
-    const { data, loading } = this.props;
+    const {
+      data,
+      loading,
+      isPhoneHidden,
+      isEmailHidden,
+    } = this.props;
 
     return (
       <div className="account-details">
@@ -27,6 +34,8 @@ class Information extends PureComponent {
             <Personal
               data={data}
               loading={loading}
+              isPhoneHidden={isPhoneHidden}
+              isEmailHidden={isEmailHidden}
             />
           </div>
           <div className="col-md-3">

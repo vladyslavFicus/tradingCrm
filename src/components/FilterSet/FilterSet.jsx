@@ -15,7 +15,7 @@ class FilterSet extends PureComponent {
     handleSelectFilterDropdownItem: PropTypes.func.isRequired,
     handleToggleFiltersVisibility: PropTypes.func.isRequired,
     common: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isFetchingProfileData: PropTypes.bool.isRequired,
+    isDataLoading: PropTypes.bool.isRequired,
     handleHistoryReplace: PropTypes.func.isRequired,
     filtersLoading: PropTypes.bool.isRequired,
     filtersRefetch: PropTypes.func.isRequired,
@@ -54,27 +54,25 @@ class FilterSet extends PureComponent {
       isOpenDropdown: false,
     });
 
-    const { data: { filterSet: { data, error } } } = await client.query({
-      query: filterSetByIdQuery,
-      variables: { uuid },
-    });
+    try {
+      const { data: { filterSet } } = await client.query({
+        query: filterSetByIdQuery,
+        variables: { uuid },
+      });
 
-    if (error) {
+      handleHistoryReplace(filterSet);
+      submitFilters(filterSet);
+
+      handleSelectFilterDropdownItem(uuid);
+    } catch {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.LOADING_FAILED'),
       });
-
-      return;
     }
 
-    handleHistoryReplace(data);
-    submitFilters(data);
-
     this.setState({ filterSetLoading: false });
-
-    handleSelectFilterDropdownItem(uuid);
   };
 
   handleUpdateFavorite = async (uuid, newValue) => {
@@ -82,30 +80,23 @@ class FilterSet extends PureComponent {
 
     this.setState({ filterSetLoading: true });
 
-    const { data: { filterSet: { updateFavourite: { error } } } } = await updateFavourite({
-      variables: {
-        uuid,
-        favourite: newValue,
-      },
-    });
+    try {
+      await updateFavourite({ variables: { uuid, favourite: newValue } });
 
-    if (error) {
+      filtersRefetch();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
+      });
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      return;
     }
-
-    await filtersRefetch();
-
-    notify({
-      level: 'success',
-      title: I18n.t('COMMON.SUCCESS'),
-      message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
-    });
 
     this.setState({ filterSetLoading: false });
   };
@@ -139,7 +130,7 @@ class FilterSet extends PureComponent {
       selectValue,
       errorLoading,
       filtersLoading,
-      isFetchingProfileData,
+      isDataLoading,
     } = this.props;
 
     const {
@@ -170,7 +161,7 @@ class FilterSet extends PureComponent {
         <div className="filter-favorites__dropdown-container">
           <Dropdown
             className={
-              classNames('filter-favorites__dropdown', { 'is-disabled': isDisabledDropdown || isFetchingProfileData })
+              classNames('filter-favorites__dropdown', { 'is-disabled': isDisabledDropdown || isDataLoading })
             }
             toggle={this.handleToggleDropdown}
             isOpen={isOpenDropdown}

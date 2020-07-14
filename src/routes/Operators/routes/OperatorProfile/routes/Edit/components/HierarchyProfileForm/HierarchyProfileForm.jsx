@@ -67,29 +67,30 @@ class HierarchyProfileForm extends Component {
       updateOperatorHierarchy,
       match: { params: { id } },
       reset,
+      userBranchesTreeUp,
     } = this.props;
 
-    const { data: { hierarchy: { updateUser: { error } } } } = await updateOperatorHierarchy({
-      variables: {
-        operatorId: id,
-        userType,
-      },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_UPDATE_TYPE'),
+    try {
+      await updateOperatorHierarchy({
+        variables: {
+          operatorId: id,
+          userType,
+        },
       });
-    } else {
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_UPDATE_TYPE'),
       });
-      this.props.userBranchesTreeUp.refetch();
+      userBranchesTreeUp.refetch();
       reset();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_UPDATE_TYPE'),
+      });
     }
   };
 
@@ -97,32 +98,33 @@ class HierarchyProfileForm extends Component {
     const {
       notify,
       removeOperatorFromBranch,
+      userBranchesTreeUp,
       match: { params: { id } },
       reset,
     } = this.props;
 
-    const { data: { hierarchy: { removeOperatorFromBranch: { error } } } } = await removeOperatorFromBranch({
-      variables: {
-        operatorId: id,
-        branchId,
-      },
-    });
-
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_REMOVE_BRANCH'),
+    try {
+      await removeOperatorFromBranch({
+        variables: {
+          operatorId: id,
+          branchId,
+        },
       });
-    } else {
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
       });
 
-      await this.props.userBranchesTreeUp.refetch();
+      await userBranchesTreeUp.refetch();
       reset();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_REMOVE_BRANCH'),
+      });
     }
   };
 

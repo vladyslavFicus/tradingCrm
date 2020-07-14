@@ -2,5 +2,5 @@
 export default {
   clientsQuery: 'getProfiles',
   leadsQuery: 'LeadsList_getLeadsQuery',
-  paymentsQuery: 'getClientPayments',
+  paymentsQuery: 'getPayments',
 };

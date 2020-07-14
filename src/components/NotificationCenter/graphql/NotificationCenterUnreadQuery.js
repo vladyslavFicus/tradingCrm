@@ -5,9 +5,7 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query NotificationCenterUnreadQuery {
-    notificationCenterUnread {
-      data
-    }
+    notificationCenterUnread
   }
 `;
 

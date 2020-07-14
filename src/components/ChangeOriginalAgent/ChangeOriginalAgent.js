@@ -38,28 +38,32 @@ class ChangeOriginalAgent extends PureComponent {
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
     const { paymentId, notify, operators, changeOriginalAgent } = this.props;
-    const operatorsList = get(operators, 'data.operators.data.content') || [];
+    const operatorsList = get(operators, 'data.operators.content') || [];
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
 
-    const { data: { payment: { changeOriginalAgent: { success } } } } = await changeOriginalAgent({
-      variables: {
-        paymentId,
-        agentName,
-        agentId,
-      },
-    });
+    try {
+      await changeOriginalAgent({
+        variables: {
+          paymentId,
+          agentName,
+          agentId,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
-      message: success
-        ? I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
+      });
 
-    if (success) {
       resetForm({ values: { agentId } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 
@@ -73,7 +77,7 @@ class ChangeOriginalAgent extends PureComponent {
       },
     } = this.props;
 
-    const operatorsList = get(operators, 'data.operators.data.content', []);
+    const operatorsList = get(operators, 'data.operators.content', []);
     const canChangeOriginalAgent = new Permissions(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT).check(currentPermission);
 
     return (

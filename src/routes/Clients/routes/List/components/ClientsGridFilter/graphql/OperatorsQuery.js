@@ -5,18 +5,16 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`query OperatorsQuery {
   operators {
-    data {
-      content {
-        uuid
-        fullName
-        operatorStatus
-      }
+    content {
+      uuid
+      fullName
+      operatorStatus
     }
   }
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );

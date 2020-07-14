@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
@@ -7,7 +7,7 @@ import Chart from '../Chart';
 import { getChartSelectOptions, mapTotalObject } from '../dashboardChartsUtils';
 import DepositPaymentsStatistic from './graphql/DepositPaymentsStatistic';
 
-class DepositCountChart extends Component {
+class DepositCountChart extends PureComponent {
   static propTypes = {
     depositPaymentsStatistic: PropTypes.paymentsStatistic.isRequired,
   };
@@ -26,14 +26,14 @@ class DepositCountChart extends Component {
       <Chart
         title={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.DEPOSITS_COUNT_CHART.TOOLTIP_TITLE')}
-        data={get(depositPaymentsStatistic, 'data.statistics.payments.data.items', [])}
+        data={get(depositPaymentsStatistic, 'data.paymentsStatistic.items', [])}
         totals={
           mapTotalObject(
-            get(depositPaymentsStatistic, 'data.statistics.payments.data.additionalTotal', {}),
+            get(depositPaymentsStatistic, 'data.paymentsStatistic.additionalTotal', {}),
             'count',
           )
         }
-        hasResults={!get(depositPaymentsStatistic, 'data.statistics.payments.error', {})}
+        hasResults={!get(depositPaymentsStatistic, 'error') || true}
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={depositPaymentsStatistic.loading}

@@ -18,27 +18,29 @@ class TradingAccountsListFilters extends PureComponent {
     loading: false,
   };
 
-  applyFilters = ({ archived, ...filters }) => {
+  handleSubmit = ({ archived, ...filters }) => {
     this.props.history.replace({
       query: {
         filters: {
           ...filters,
-          archived: archived ? !!+archived : undefined,
+          ...(archived && { archieved: !!+archived }),
         },
       },
     });
   };
 
+  handleReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
+  };
+
   render() {
-    const {
-      loading,
-    } = this.props;
+    const { loading } = this.props;
 
     return (
       <Formik
         initialValues={{}}
-        onSubmit={this.applyFilters}
-        onReset={this.applyFilters}
+        onSubmit={this.handleSubmit}
+        onReset={this.handleReset}
       >
         {({ resetForm, dirty }) => (
           <Form className="filter__form">
@@ -91,7 +93,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 type="submit"
-                disabled={loading}
+                disabled={loading || !dirty}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

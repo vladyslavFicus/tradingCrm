@@ -28,12 +28,10 @@ class EmailSelectModal extends PureComponent {
       lastName: PropTypes.string,
       email: PropTypes.string,
     }).isRequired,
-    emailTemplates: PropTypes.shape({
+    emailTemplatesData: PropTypes.shape({
       loading: PropTypes.bool,
       data: PropTypes.shape({
-        emailTemplates: PropTypes.shape({
-          data: PropTypes.arrayOf(PropTypes.email),
-        }),
+        emailTemplates: PropTypes.arrayOf(PropTypes.email),
       }),
     }).isRequired,
     emailSendMutation: PropTypes.func.isRequired,
@@ -48,31 +46,29 @@ class EmailSelectModal extends PureComponent {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        emailTemplates: {
-          sendEmail: {
-            error,
-          },
+    try {
+      await emailSendMutation({
+        variables: {
+          email,
+          text: injectName(firstName, lastName, text),
+          ...restValues,
         },
-      },
-    } = await emailSendMutation({
-      variables: {
-        email,
-        text: injectName(firstName, lastName, text),
-        ...restValues,
-      },
-    });
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('EMAILS.ACTIONS.SEND'),
-      message: error
-        ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
-    });
+      onCloseModal();
 
-    onCloseModal();
+      notify({
+        level: 'success',
+        title: I18n.t('EMAILS.ACTIONS.SEND'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('EMAILS.ACTIONS.SEND'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
+    }
   };
 
   onChangeNameField = (value, setValues, options) => {
@@ -91,7 +87,7 @@ class EmailSelectModal extends PureComponent {
   render() {
     const {
       clientInfo: { firstName, lastName },
-      emailTemplates: { data, loading },
+      emailTemplatesData: { data, loading },
       onCloseModal,
       isOpen,
     } = this.props;
@@ -100,7 +96,7 @@ class EmailSelectModal extends PureComponent {
       return null;
     }
 
-    const options = get(data, 'emailTemplates.data') || [];
+    const options = get(data, 'emailTemplates') || [];
     const optionsWithCustomEmail = [
       {
         id: -1,
@@ -185,6 +181,6 @@ class EmailSelectModal extends PureComponent {
 }
 
 export default withRequests({
-  emailTemplates: EmailTemplatesQuery,
+  emailTemplatesData: EmailTemplatesQuery,
   emailSendMutation: EmailSendMutation,
 })(withNotifications(EmailSelectModal));

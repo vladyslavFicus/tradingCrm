@@ -8,6 +8,7 @@ import FormikDateRangeGroup from './FormikDateRangeGroup';
 import FormikMultiInputField from './FormikMultiInputField';
 import FormikSwitchField from './FormikSwitchField';
 import FormikTextAreaField from './FormikTextAreaField';
+import FormikExtForm from './FormikExtForm';
 
 export {
   FormikCheckbox,
@@ -20,4 +21,5 @@ export {
   FormikMultiInputField,
   FormikSwitchField,
   FormikTextAreaField,
+  FormikExtForm,
 };

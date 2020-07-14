@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
 import EventEmitter, { PROFILE_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
@@ -36,7 +36,7 @@ class Profile extends Component {
     match: PropTypes.shape({
       path: PropTypes.string,
     }).isRequired,
-    newProfile: PropTypes.query(PropTypes.newProfile).isRequired,
+    profile: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -51,16 +51,16 @@ class Profile extends Component {
   }
 
   onProfileEvent = () => {
-    this.props.newProfile.refetch();
+    this.props.profile.refetch();
   };
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.newProfile.refetch();
+    this.props.profile.refetch();
   };
 
   get availableStatuses() {
-    const { newProfile, permission: { permissions } } = this.props;
-    const profileStatus = get(newProfile, 'data.newProfile.data.status.type');
+    const { profile, permission: { permissions } } = this.props;
+    const profileStatus = get(profile, 'data.profile.status.type');
 
     if (!profileStatus) {
       return [];
@@ -72,43 +72,44 @@ class Profile extends Component {
   }
 
   render() {
-    if (get(this.props, 'newProfile.data.newProfile.error')) {
-      return <NotFound />;
-    }
-
     const {
-      newProfile: {
+      profile: {
         data,
         loading,
+        error,
       },
       match: { path },
     } = this.props;
 
-    const newProfileData = get(data, 'newProfile.data');
-    const acquisitionData = get(newProfileData, 'acquisition') || {};
-    const lastSignInSessions = get(newProfileData, 'profileView.lastSignInSessions') || [];
+    if (error && parseErrors(error).error === 'error.entity.not.found') {
+      return <NotFound />;
+    }
 
-    if (loading && !newProfileData) {
+    const profileData = get(data, 'profile');
+    const acquisitionData = get(profileData, 'acquisition') || {};
+    const lastSignInSessions = get(profileData, 'profileView.lastSignInSessions') || [];
+
+    if (loading && !profileData) {
       return null;
     }
 
     return (
       <Fragment>
-        <If condition={newProfileData}>
-          <Helmet title={`${newProfileData.firstName} ${newProfileData.lastName}`} />
+        <If condition={profileData}>
+          <Helmet title={`${profileData.firstName} ${profileData.lastName}`} />
         </If>
         <div className="profile__info">
           <ProfileHeader
-            newProfile={newProfileData}
+            profile={profileData}
             availableStatuses={this.availableStatuses}
             loaded={!loading}
           />
           <HideDetails>
             <Information
-              newProfile={newProfileData}
+              profile={profileData}
               ips={lastSignInSessions}
               acquisitionData={acquisitionData}
-              loading={loading && !newProfileData}
+              loading={loading && !profileData}
             />
           </HideDetails>
         </div>
@@ -140,6 +141,6 @@ export default compose(
   withRouter,
   withPermission,
   withRequests({
-    newProfile: ProfileQuery,
+    profile: ProfileQuery,
   }),
 )(Profile);

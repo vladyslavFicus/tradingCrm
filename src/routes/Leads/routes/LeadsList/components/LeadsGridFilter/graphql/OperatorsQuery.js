@@ -5,27 +5,24 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`query LeadsGridFilter_OperatorsQuery {
   operators {
-    data {
-      content {
-        uuid
-        fullName
-        operatorStatus
-        hierarchy {
-          parentBranches {
-            branchType
-            uuid
-          }
+    content {
+      uuid
+      fullName
+      operatorStatus
+      hierarchy {
+        parentBranches {
+          branchType
+          uuid
         }
       }
-    }
-    error {
-      error
     }
   }
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST}>{children}</Query>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
+    {children}
+  </Query>
 );
 
 OperatorsQuery.propTypes = {

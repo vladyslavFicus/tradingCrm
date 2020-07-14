@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { getBackofficeBrand } from 'config';
 import { parse } from 'qs';
 import PropTypes from 'prop-types';
+import { parseErrors } from 'apollo';
 import Preloader from 'components/Preloader';
 import Copyrights from 'components/Copyrights';
-import parseErrors from 'utils/parseErrors';
 import ResetPasswordForm from './ResetPasswordForm';
 
 class ResetPassword extends Component {
@@ -36,31 +36,20 @@ class ResetPassword extends Component {
   };
 
   handleSubmit = async (data) => {
-    try {
-      const { location: { search }, resetPasswordMutation } = this.props;
-      const { token } = parse(search, {
-        ignoreQueryPrefix: true,
-      });
+    const { location: { search }, resetPasswordMutation } = this.props;
+    const { token } = parse(search, {
+      ignoreQueryPrefix: true,
+    });
 
-      const {
-        data: {
-          auth: {
-            resetPassword: {
-              success,
-            },
-          },
-        },
-      } = await resetPasswordMutation({ variables: { ...data, token } });
+    try {
+      await resetPasswordMutation({ variables: { ...data, token } });
 
       this.setState({
         resetPasswordFormError: '',
-        hasSubmittedForm: success,
+        hasSubmittedForm: true,
       });
-
-      return null;
     } catch (e) {
       this.setState({ resetPasswordFormError: parseErrors(e).message });
-      return null;
     }
   };
 

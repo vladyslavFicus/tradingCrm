@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit, get } from 'lodash';
 import { getActiveBrandConfig } from 'config';
+import { parseErrors } from 'apollo';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
 import { Button } from 'components/UI';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
@@ -73,9 +74,11 @@ class CreateOperatorModal extends PureComponent {
         variables: { ...data, department, role, email, branchId: branch },
       });
 
-      const newOperator = get(operatorData, 'operator.createOperator.data');
-      const newOperatorError = get(operatorData, 'operator.createOperator.error');
-      const error = get(newOperatorError, 'error', null);
+      const { uuid } = get(operatorData, 'operator.createOperator');
+
+      this.props.history.push(`/operators/${uuid}/profile`);
+    } catch (e) {
+      const { error } = parseErrors(e);
 
       if (error === 'error.validation.email.exists') {
         onExist({
@@ -84,17 +87,13 @@ class CreateOperatorModal extends PureComponent {
           branchId: branch,
           email,
         });
+      } else {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.ERROR'),
+          message: I18n.t('COMMON.SOMETHING_WRONG'),
+        });
       }
-
-      const { uuid } = newOperator;
-
-      this.props.history.push(`/operators/${uuid}/profile`);
-    } catch (e) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.ERROR'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
-      });
     }
 
     onCloseModal();

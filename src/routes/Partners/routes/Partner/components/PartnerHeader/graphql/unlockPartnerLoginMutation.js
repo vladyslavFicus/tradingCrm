@@ -8,16 +8,7 @@ const REQUEST = gql`
     $uuid: String!
   ) {
     auth {
-      unlockLogin(
-        playerUUID: $uuid
-      ) {
-        data {
-          success
-        }
-        error {
-          error
-        }
-      }
+      unlockLogin(uuid: $uuid)
     }
   }
 `;

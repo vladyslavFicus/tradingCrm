@@ -23,6 +23,30 @@ export default compose(
       variables: { operatorUUID },
       fetchPolicy: 'network-only',
     }),
+    props: ({ branchHierarchy, branchHierarchy: { loading } }) => {
+      const TEAM = get(branchHierarchy, 'userBranches.TEAM') || [];
+      const DESK = get(branchHierarchy, 'userBranches.DESK') || [];
+      const OFFICE = get(branchHierarchy, 'userBranches.OFFICE') || [];
+      const BRAND = get(branchHierarchy, 'userBranches.BRAND') || [];
+
+      const branchTypes = [
+        ...(TEAM.length ? getBranchOption(branchNames.TEAM) : []),
+        ...(DESK.length ? getBranchOption(branchNames.DESK) : []),
+        ...(OFFICE.length ? getBranchOption(branchNames.OFFICE) : []),
+        ...(BRAND.length ? getBranchOption(branchNames.BRAND) : []),
+      ];
+
+      return {
+        branchHierarchy: {
+          loading,
+          TEAM,
+          DESK,
+          OFFICE,
+          BRAND,
+          branchTypes,
+        },
+      };
+    },
   }),
   reduxForm({
     form: FORM_NAME,

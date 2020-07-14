@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { getActiveBrandConfig } from 'config';
@@ -49,26 +48,28 @@ class TradingAccountChangePasswordModal extends PureComponent {
       tradingAccountChangePassword,
     } = this.props;
 
-    const response = await tradingAccountChangePassword({
-      variables: {
-        accountUUID,
-        profileUUID,
-        password,
-      },
-    });
+    try {
+      await tradingAccountChangePassword({
+        variables: {
+          accountUUID,
+          profileUUID,
+          password,
+        },
+      });
 
-    const success = get(response, 'data.tradingAccount.changePassword.success') || false;
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
+        message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.SUCCESSFULLY_CHANGED'),
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
-      message: success
-        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.SUCCESSFULLY_CHANGED')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
-
-    if (success) {
       onCloseModal();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 

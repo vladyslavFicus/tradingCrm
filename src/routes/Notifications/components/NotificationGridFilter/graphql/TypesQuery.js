@@ -4,13 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query NotificationGridFilters_TypesQuery {
-  notificationCenterTypes {
-    data 
-    error {
-      error
-      fields_errors
-    }
-  }
+  notificationCenterTypes
 }`;
 
 const TypesQuery = ({ children }) => (

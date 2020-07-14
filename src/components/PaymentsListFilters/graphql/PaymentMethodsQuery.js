@@ -4,16 +4,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query PaymentMethodsQuery {
-  paymentMethods {
-    data
-    error {
-      error
-    }
-  }
+  paymentMethods
 }`;
 
 const PaymentMethodsQuery = ({ children }) => (
-  <Query query={REQUEST}>{children}</Query>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
+    {children}
+  </Query>
 );
 
 PaymentMethodsQuery.propTypes = {

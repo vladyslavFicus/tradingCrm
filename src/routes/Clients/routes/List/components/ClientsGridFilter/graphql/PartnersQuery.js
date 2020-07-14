@@ -17,30 +17,24 @@ const REQUEST = gql`query PartnersQuery(
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
   ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-      content {
-        uuid
-        fullName
-        createdAt
-        status
-        statusChangeDate
-        country
-      }
-    }
-    error {
-      error
-      fields_errors
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      createdAt
+      status
+      statusChangeDate
+      country
     }
   }
 }`;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );

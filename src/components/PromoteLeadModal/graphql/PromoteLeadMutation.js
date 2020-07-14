@@ -3,22 +3,14 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation promoteLead(
-  $args: CreateProfileInputType
-) {
-  leads {
-    promote (
-      args: $args
-    ) {
-      data {
+const REQUEST = gql`
+  mutation promoteLead($args: CreateProfile__Input) {
+    profile {
+      createProfile (args: $args) {
         uuid
-      }
-      error {
-        error
       }
     }
   }
-}
 `;
 
 const PromoteLeadMutation = ({ children }) => (

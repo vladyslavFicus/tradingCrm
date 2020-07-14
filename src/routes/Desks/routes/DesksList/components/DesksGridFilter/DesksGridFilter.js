@@ -8,7 +8,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
-import { deskTypes, defaultDeskFlags } from '../../constants';
+import { deskTypes } from '../../constants';
 import './DesksGridFilter.scss';
 
 class DesksGridFilter extends PureComponent {
@@ -34,7 +34,7 @@ class DesksGridFilter extends PureComponent {
   render() {
     const { officesData } = this.props;
 
-    const offices = get(officesData, 'data.hierarchy.userBranchHierarchy.data.OFFICE') || [];
+    const offices = get(officesData, 'data.userBranches.OFFICE') || [];
 
     return (
       <Formik
@@ -44,7 +44,6 @@ class DesksGridFilter extends PureComponent {
           keyword: 'string',
           officeUuid: 'string',
           deskType: 'string',
-          defaultDeskFlag: 'string',
         })}
         onReset={this.onHandleReset}
         onSubmit={this.onHandleSubmit}
@@ -52,6 +51,7 @@ class DesksGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="DesksGridFilter__form">
             <div className="DesksGridFilter__fields">
@@ -92,21 +92,6 @@ class DesksGridFilter extends PureComponent {
                   </option>
                 ))}
               </Field>
-
-              <Field
-                name="defaultDeskFlag"
-                className="DesksGridFilter__field DesksGridFilter__select"
-                label={I18n.t('DESKS.GRID_FILTERS.DEFAULT_DESK')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                withAnyOption
-              >
-                {defaultDeskFlags.map((defaultDeskFlag, key) => (
-                  <option key={key} value={defaultDeskFlag.value}>
-                    {I18n.t(defaultDeskFlag.label)}
-                  </option>
-                ))}
-              </Field>
             </div>
 
             <div className="DesksGridFilter__buttons">
@@ -121,7 +106,7 @@ class DesksGridFilter extends PureComponent {
 
               <Button
                 className="DesksGridFilter__button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

@@ -27,21 +27,16 @@ class View extends Component {
     }).isRequired,
     profile: PropTypes.shape({
       data: PropTypes.operatorProfile,
+      refetch: PropTypes.func.isRequired,
       error: PropTypes.any,
     }).isRequired,
     userHierarchy: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
-      hierarchy: PropTypes.shape({
-        userHierarchyById: PropTypes.shape({
-          data: PropTypes.object,
-          error: PropTypes.object,
-        }),
-      }),
+      userHierarchyById: PropTypes.object,
       loading: PropTypes.bool.isRequired,
     }).isRequired,
     deleteAuthority: PropTypes.func.isRequired,
-    addAuthority: PropTypes.func.isRequired,
-    authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
+    authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     auth: PropTypes.shape({
       uuid: PropTypes.string,
@@ -74,68 +69,45 @@ class View extends Component {
 
   handleDeleteAuthority = async (department, role) => {
     const {
-      match: { params: { id: operatorUUID } }, deleteAuthority, notify,
+      deleteAuthority,
+      notify,
+      profile,
+      match: { params: { id: operatorUUID } },
     } = this.props;
 
-    const { data: { operator: { removeDepartment: { error } } } } = await deleteAuthority({
-      variables: {
-        uuid: operatorUUID,
-        department,
-        role,
-      },
-    });
+    try {
+      await deleteAuthority({
+        variables: {
+          uuid: operatorUUID,
+          department,
+          role,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
-    });
-  };
+      profile.refetch();
 
-  handleAddAuthority = async ({
-    department,
-    role,
-  }) => {
-    const {
-      match: { params: { id: operatorUUID } }, addAuthority, notify,
-    } = this.props;
-
-    const addedAuthority = await addAuthority({
-      variables: {
-        uuid: operatorUUID,
-        department,
-        role,
-      },
-    });
-    const { data: { operator: { addDepartment: { error } } } } = addedAuthority;
-
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
-    });
-
-    return addedAuthority;
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
+      });
+    }
   };
 
   render() {
     const {
-      profile: { data: profile },
+      profile: { data: profile, refetch },
       authorities,
       auth: { uuid },
       departmentsRoles,
-      userHierarchy: {
-        loading,
-        hierarchy,
-      },
+      userHierarchy,
+      userHierarchy: { loading },
       permission: {
         permissions: currentPermissions,
       },
@@ -143,7 +115,7 @@ class View extends Component {
 
     const allowEditPermissions = manageDepartmentsPermission.check(currentPermissions) && uuid !== profile.uuid;
     const allowUpdateHierarchy = updateParentBranch.check(currentPermissions) && uuid !== profile.uuid;
-    const initialValues = get(hierarchy, 'userHierarchyById.data') || {};
+    const initialValues = get(userHierarchy, 'userHierarchyById') || {};
 
     if (departmentsRoles) {
       delete departmentsRoles.AFFILIATE_PARTNER;
@@ -166,7 +138,7 @@ class View extends Component {
               {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
             </div>
             {
-              authorities.data ? authorities.data.map(authority => (
+              authorities.map(authority => (
                 <div key={authority.id} className="margin-bottom-20">
                   <strong>
                     {I18n.t(renderLabel(authority.department, departmentsLabels))}
@@ -182,13 +154,14 @@ class View extends Component {
                     </strong>
                   </If>
                 </div>
-              )) : null
+              ))
             }
             <If condition={allowEditPermissions && departmentsRoles}>
               <DepartmentsForm
-                onSubmit={this.handleAddAuthority}
-                authorities={authorities.data ? authorities.data : []}
+                authorities={authorities}
                 departmentsRoles={departmentsRoles}
+                operatorUuid={profile.uuid}
+                onSuccess={refetch}
               />
             </If>
           </div>

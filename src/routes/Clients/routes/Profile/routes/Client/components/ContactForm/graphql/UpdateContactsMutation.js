@@ -18,15 +18,10 @@ const REQUEST = gql`
         playerUUID: $playerUUID,
         phone: $phone,
       ) {
-        data {
-          _id
-          phoneVerified
-          contacts {
-            ...ContactsFragment
-          }
-        }
-        error {
-          error
+        _id
+        phoneVerified
+        contacts {
+          ...ContactsFragment
         }
       }
     }

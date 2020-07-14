@@ -36,7 +36,7 @@ class PaymentDetailsModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     profile: PropTypes.shape({
       data: PropTypes.shape({
-        newProfile: PropTypes.newProfile,
+        profile: PropTypes.profile,
       }),
       loading: PropTypes.bool,
     }).isRequired,
@@ -51,7 +51,8 @@ class PaymentDetailsModal extends PureComponent {
     const {
       payment: {
         playerProfile: {
-          fullName,
+          firstName,
+          lastName,
           uuid,
         },
       },
@@ -60,7 +61,7 @@ class PaymentDetailsModal extends PureComponent {
     return (
       <div className="PaymentDetailsModal__block PaymentDetailsModal__one-third">
         <div className="PaymentDetailsModal__block-title">{I18n.t('COMMON.CLIENT')}</div>
-        <div className="PaymentDetailsModal__block-label">{fullName}</div>
+        <div className="PaymentDetailsModal__block-label">{`${firstName} ${lastName}`}</div>
         <div className="PaymentDetailsModal__block-secondary">
           <Uuid
             uuid={uuid}
@@ -87,7 +88,7 @@ class PaymentDetailsModal extends PureComponent {
   renderProfileBalanceBlock = () => {
     const { profile } = this.props;
 
-    const { amount, credit } = get(profile, 'data.newProfile.data.profileView.balance') || {};
+    const { amount, credit } = get(profile, 'data.profile.profileView.balance') || {};
     const currency = getActiveBrandConfig().currencies.base;
 
     return (
@@ -165,7 +166,7 @@ class PaymentDetailsModal extends PureComponent {
       },
     } = this.props;
 
-    const { isMobile, userAgent } = paymentMetadata || {};
+    const { mobile, userAgent } = paymentMetadata || {};
 
     /**
      * some payment types have uuid name without prefix like `PAYMENT`
@@ -183,7 +184,7 @@ class PaymentDetailsModal extends PureComponent {
         <div className="PaymentDetailsModal__block-device-info">
           <i
             id={tooltipId}
-            className={`fa ${isMobile ? 'fa-mobile' : 'fa-desktop'}`}
+            className={`fa ${mobile ? 'fa-mobile' : 'fa-desktop'}`}
           />
           <UncontrolledTooltip
             placement="bottom"

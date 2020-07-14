@@ -29,14 +29,13 @@ const attributeLabels = {
   showNotes: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_NOTES',
   showFTDAmount: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_FTD_AMOUNT',
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
+  showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
   static propTypes = {
     partnerData: PropTypes.query({
-      partner: PropTypes.shape({
-        data: PropTypes.partner,
-      }),
+      partner: PropTypes.partner,
     }).isRequired,
     updatePartner: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -53,42 +52,46 @@ class PartnerPersonalInfoForm extends PureComponent {
     allowedIpAddresses,
     forbiddenCountries,
     showNotes,
+    showSalesStatus,
     showFTDAmount,
     showKycStatus,
     ...rest
   }, { setSubmitting }) => {
     const { updatePartner, partnerData, notify } = this.props;
-    const { uuid } = get(partnerData, 'data.partner.data') || {};
+    const { uuid } = get(partnerData, 'data.partner') || {};
 
     setSubmitting(false);
 
-    const { data: { partner: { updatePartner: { error } } } } = await updatePartner({
-      variables: {
-        uuid,
-        permission: {
-          allowedIpAddresses,
-          forbiddenCountries: forbiddenCountries || [],
-          showNotes,
-          showFTDAmount,
-          showKycStatus,
+    try {
+      await updatePartner({
+        variables: {
+          uuid,
+          permission: {
+            allowedIpAddresses,
+            forbiddenCountries: forbiddenCountries || [],
+            showNotes,
+            showSalesStatus,
+            showFTDAmount,
+            showKycStatus,
+          },
+          ...rest,
         },
-        ...rest,
-      },
-    });
+      });
 
-    if (!error) {
       partnerData.refetch();
-    }
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE')
-        : I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE')
-        : I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
+        message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE'),
+        message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE'),
+      });
+    }
   };
 
   render() {
@@ -102,7 +105,7 @@ class PartnerPersonalInfoForm extends PureComponent {
       phone,
       country,
       permission: partnerPermissions,
-    } = get(partnerData, 'data.partner.data') || {};
+    } = get(partnerData, 'data.partner') || {};
 
     return (
       <div className="PartnerPersonalInfoForm">
@@ -128,6 +131,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             allowedIpAddresses: 'listedIP\'s',
             forbiddenCountries: ['array', `in:,${Object.keys(countryList).join()}`],
             showNotes: 'boolean',
+            showSalesStatus: 'boolean',
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
           }, translateLabels(attributeLabels), false)}
@@ -263,6 +267,13 @@ class PartnerPersonalInfoForm extends PureComponent {
                   name="showNotes"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.showNotes)}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
+
+                <Field
+                  name="showSalesStatus"
+                  component={FormikCheckbox}
+                  label={I18n.t(attributeLabels.showSalesStatus)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
 

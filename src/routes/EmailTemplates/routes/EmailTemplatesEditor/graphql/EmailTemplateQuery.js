@@ -4,14 +4,16 @@ import PropTypes from 'constants/propTypes';
 import { Query } from 'react-apollo';
 
 export const query = gql`
-  query EmailTemplatesEditor_getEmailTemplate($id: ID!){
-    emailTemplate(id: $id) {
-      data {
-        id
-        name
-        text
-        subject  
-      }
+  query EmailTemplatesEditor_getEmailTemplate(
+    $id: ID!
+  ) {
+    emailTemplate(
+      id: $id
+    ) {
+      id
+      name
+      text
+      subject
     }
   }
 `;

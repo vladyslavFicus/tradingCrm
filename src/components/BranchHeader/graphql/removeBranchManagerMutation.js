@@ -10,13 +10,7 @@ const REQUEST = gql`
     hierarchy {
       removeBranchManager(
         branchUuid: $branchUuid,
-      ) {
-        success
-        error {
-          error
-          fields_errors
-        }
-      }
+      )
     }
   }
 `;

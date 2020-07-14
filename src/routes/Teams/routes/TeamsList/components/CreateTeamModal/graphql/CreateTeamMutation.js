@@ -12,10 +12,7 @@ const REQUEST = gql`
       createTeam (
         name: $teamName,
         deskId: $deskUuid,
-      ) {
-        data
-        error
-      }
+      )
     }
   }
 `;

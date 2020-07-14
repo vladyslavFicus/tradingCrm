@@ -8,3 +8,5 @@ export const attributeLabels = {
   currency: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.CURRENCY_LABEL'),
   password: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.PASSWORD_LABEL'),
 };
+
+export const amounts = [100, 500, 1000, 5000, 10000, 50000, 100000];

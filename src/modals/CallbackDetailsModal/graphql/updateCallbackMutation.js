@@ -5,33 +5,27 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation CallbackDetailsModal_updateCallback(
-    $callbackId: String!,
-    $callbackTime: String,
-    $operatorId: String,
-    $status: CallbackStatusEnum,
-    $reminder: String,
+    $callbackId: String!
+    $callbackTime: String
+    $operatorId: String
+    $status: Callback__Status__Enum
+    $reminder: String
   ) {
     callback {
       update(
-        callbackId: $callbackId,
-        callbackTime: $callbackTime,
-        operatorId: $operatorId,
-        status: $status,
-        reminder: $reminder,
+        callbackId: $callbackId
+        callbackTime: $callbackTime
+        operatorId: $operatorId
+        status: $status
+        reminder: $reminder
       ) {
-        data {
-          _id
-          callbackTime
-          operatorId
-          status
-          reminder
-          operator {
-            fullName
-          }
-        }
-        error {
-          error
-          fields_errors
+        _id
+        callbackTime
+        status
+        reminder
+        operatorId
+        operator {
+          fullName
         }
       }
     }

@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { Button } from 'reactstrap';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import StickyWrapper from 'components/StickyWrapper';
 import BrandConfigEditor from './components/BrandConfigEditor';
-import {
-  BrandConfigCreateMutation,
-} from './graphql';
+import { BrandConfigCreateMutation } from './graphql';
 import './BrandConfig.scss';
 
 class BrandConfigCreate extends PureComponent {
@@ -20,26 +18,23 @@ class BrandConfigCreate extends PureComponent {
 
   handleCreate = async () => {
     const { notify, createBrandConfig } = this.props;
-    const {
-      data: {
-        brandConfig: {
-          create: { error },
-        },
-      },
-    } = await createBrandConfig({
-      variables: this.editor.getValue(),
-    });
 
-    if (error) {
-      notify({
-        level: 'error',
-        title: I18n.t('BRAND_CONFIG.NOTIFICATIONS.CREATE_ERROR'),
-        message: error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+    try {
+      await createBrandConfig({
+        variables: this.editor.getValue(),
       });
-    } else {
+
       notify({
         level: 'success',
         title: I18n.t('BRAND_CONFIG.NOTIFICATIONS.CREATE_SUCCESS'),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('BRAND_CONFIG.NOTIFICATIONS.CREATE_ERROR'),
+        message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };

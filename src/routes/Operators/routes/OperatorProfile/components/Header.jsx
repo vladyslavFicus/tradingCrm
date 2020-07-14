@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Button } from 'reactstrap';
 import I18n from 'i18n-js';
 import Uuid from 'components/Uuid';
+import { Button } from 'components/UI';
 import { statusColorNames, statuses, statusesLabels } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
 import PermissionContent from 'components/PermissionContent';
@@ -22,23 +22,30 @@ class Header extends Component {
     refetchOperator: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onChangePasswordClick: PropTypes.func.isRequired,
-    onSendInvitationClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
     }).isRequired,
+    refetchLoginLock: PropTypes.func.isRequired,
   };
 
   handleStatusChange = async ({ reason, status }) => {
-    const { data: profileData, onStatusChange, refetchOperator } = this.props;
-    await onStatusChange({
-      variables: {
-        reason,
-        status,
-        uuid: profileData.uuid,
-      },
-    });
-    refetchOperator();
+    const { data: profileData, onStatusChange, refetchOperator, refetchLoginLock } = this.props;
+
+    try {
+      await onStatusChange({
+        variables: {
+          reason,
+          status,
+          uuid: profileData.uuid,
+        },
+      });
+
+      refetchOperator();
+      refetchLoginLock();
+    } catch {
+      // Do nothing...
+    }
   };
 
   render() {
@@ -56,7 +63,6 @@ class Header extends Component {
       availableStatuses,
       onResetPasswordClick,
       onChangePasswordClick,
-      onSendInvitationClick,
       unlockLogin,
       loginLock: {
         lock,
@@ -78,36 +84,25 @@ class Header extends Component {
             </span>
           </div>
           <div className="col-auto panel-heading-row__actions">
-            <If condition={lock}>
-              <button
+            <If condition={lock && operatorStatus !== 'CLOSED'}>
+              <Button
                 onClick={unlockLogin}
-                type="button"
-                className="btn btn-sm mx-3 btn-primary"
+                primary
+                small
+                className="margin-right-10"
               >
                 {I18n.t('OPERATOR_PROFILE.PROFILE.HEADER.UNLOCK')}
-              </button>
+              </Button>
             </If>
-            {
-              operatorStatus === statuses.INACTIVE
-              && (
-                // Here is no API functional to SEND_INVITATION anymore
-                <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
-                  <Button
-                    className="btn-sm btn-default-outline margin-right-10"
-                    onClick={onSendInvitationClick}
-                  >
-                    {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
-                  </Button>
-                </PermissionContent>
-              )
-            }
             {
               operatorStatus === statuses.ACTIVE
               && (
                 <PermissionContent permissions={permissions.OPERATORS.RESET_PASSWORD}>
                   <Button
-                    className="btn-sm btn-default-outline margin-right-10"
                     onClick={onResetPasswordClick}
+                    className="margin-right-10"
+                    primary
+                    small
                   >
                     {I18n.t('OPERATOR_PROFILE.RESET_PASSWORD')}
                   </Button>
@@ -116,8 +111,9 @@ class Header extends Component {
             }
             <PermissionContent permissions={permissions.OPERATORS.CHANGE_PASSWORD}>
               <Button
-                className="btn-sm btn-default-outline"
                 onClick={onChangePasswordClick}
+                primary
+                small
               >
                 {I18n.t('OPERATOR_PROFILE.CHANGE_PASSWORD')}
               </Button>
@@ -154,19 +150,19 @@ class Header extends Component {
                       <div>
                         {
                           statusChangeAuthor
-                        && (
-                          <div className="header-block-small">
-                            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
-                          </div>
-                        )
+                          && (
+                            <div className="header-block-small">
+                              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
+                            </div>
+                          )
                         }
                         {
                           statusChangeDate
-                        && (
-                          <div className="header-block-small">
-                            on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
-                          </div>
-                        )
+                          && (
+                            <div className="header-block-small">
+                              on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
+                            </div>
+                          )
                         }
                       </div>
                     )

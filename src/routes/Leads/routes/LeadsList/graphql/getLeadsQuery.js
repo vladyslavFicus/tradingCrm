@@ -13,7 +13,7 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
   $countries: [String]
   $salesAgents: [String]
   $status: String
-  $salesStatuses: [tradingProfileSalesStatus]
+  $salesStatuses: [SalesStatus__Enum]
   $migrationId: String
   $lastNoteDateFrom: String
   $lastNoteDateTo: String
@@ -33,57 +33,55 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
     status: $status
     migrationId: $migrationId
   ) {
-    data {
-      page
-      size
-      last
-      totalElements
-      number
-      content {
-        _id
+    page
+    size
+    last
+    totalElements
+    number
+    content {
+      _id
+      uuid
+      brandId
+      name
+      surname
+      phone
+      mobile
+      status
+      email
+      country
+      convertedByOperatorUuid
+      convertedToClientUuid
+      source
+      salesAgent {
+        fullName
         uuid
-        brandId
-        name
-        surname
-        phone
-        mobile
-        status
-        email
-        country
-        convertedByOperatorUuid
-        convertedToClientUuid
-        source
-        salesAgent {
-          fullName
-          uuid
-          hierarchy {
-            parentBranches {
+        hierarchy {
+          parentBranches {
+            name
+            branchType
+            parentBranch {
               name
               branchType
-              parentBranch {
-                name
-                branchType
-              }
             }
           }
         }
-        salesStatus
-        birthDate
-        affiliate
-        gender
-        city
-        language
-        registrationDate
-        statusChangedDate
-        migrationId
-        lastNote {
-          changedAt
-          content
+      }
+      salesStatus
+      birthDate
+      affiliate
+      gender
+      city
+      language
+      registrationDate
+      statusChangedDate
+      migrationId
+      lastNote {
+        changedAt
+        content
+        operator {
+          fullName
         }
       }
-    }
-    error {
-      error
     }
   }
 }`;

@@ -15,6 +15,7 @@ class ListFilters extends PureComponent {
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    dirty: PropTypes.bool,
     handleSubmit: PropTypes.func,
     onFieldChange: PropTypes.func,
     filterSetType: PropTypes.string,
@@ -23,7 +24,7 @@ class ListFilters extends PureComponent {
     onReset: PropTypes.func.isRequired,
     fields: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    isFetchingProfileData: PropTypes.bool,
+    isDataLoading: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -31,11 +32,12 @@ class ListFilters extends PureComponent {
     invalid: true,
     pristine: false,
     submitting: false,
+    dirty: false,
     handleSubmit: null,
     currentValues: null,
     filterSetType: null,
     onFieldChange: () => {},
-    isFetchingProfileData: false,
+    isDataLoading: false,
   };
 
   state = {
@@ -71,9 +73,9 @@ class ListFilters extends PureComponent {
   };
 
   handleReset = () => {
-    const { reset, onReset, filterSetType, isFetchingProfileData } = this.props;
+    const { reset, onReset, filterSetType, isDataLoading } = this.props;
 
-    if (isFetchingProfileData) {
+    if (isDataLoading) {
       return;
     }
 
@@ -89,11 +91,11 @@ class ListFilters extends PureComponent {
 
   handleSubmit = (values) => {
     const { prevValues, resetDisabled } = this.state;
-    const { isFetchingProfileData } = this.props;
+    const { isDataLoading } = this.props;
 
     let requestId = null;
 
-    if (isFetchingProfileData) {
+    if (isDataLoading) {
       return;
     }
 
@@ -140,10 +142,11 @@ class ListFilters extends PureComponent {
       invalid,
       pristine,
       submitting,
+      dirty,
       handleSubmit,
       currentValues,
       filterSetType,
-      isFetchingProfileData,
+      isDataLoading,
     } = this.props;
 
     const {
@@ -159,10 +162,10 @@ class ListFilters extends PureComponent {
         <If condition={filterSetType}>
           <FilterSet
             resetForm={reset}
-            type={filterSetType}
+            filterSetType={filterSetType}
             submitFilters={this.handleSubmit}
             selectValue={selectedFilterDropdownItem}
-            isFetchingProfileData={isFetchingProfileData}
+            isDataLoading={isDataLoading}
             handleHistoryReplace={this.handleHistoryReplace}
             handleToggleFiltersVisibility={this.handleToggleFiltersVisibility}
             handleSelectFilterDropdownItem={this.handleSelectFilterDropdownItem}
@@ -183,7 +186,7 @@ class ListFilters extends PureComponent {
                 <FilterSetButtons
                   resetForm={reset}
                   formChange={change}
-                  type={filterSetType}
+                  filterSetType={filterSetType}
                   currentValues={currentValues}
                   selectValue={selectedFilterDropdownItem}
                   handleHistoryReplace={this.handleHistoryReplace}
@@ -202,7 +205,7 @@ class ListFilters extends PureComponent {
                 </button>
 
                 <button
-                  disabled={submitting || invalid}
+                  disabled={submitting || invalid || (selectedFilterDropdownItem ? false : !dirty)}
                   className="btn btn-primary"
                   type="submit"
                 >
