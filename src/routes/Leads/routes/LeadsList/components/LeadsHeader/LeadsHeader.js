@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
@@ -8,6 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import Placeholder from 'components/Placeholder';
 import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
@@ -120,7 +122,7 @@ class LeadsHeader extends PureComponent {
       },
     } = this.props;
 
-    const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
+    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
     const searchLimit = get(query, 'filters.size');
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
@@ -130,24 +132,44 @@ class LeadsHeader extends PureComponent {
     return (
       <div className="LeadsHeader">
         <div className="LeadsHeader__left">
-          <Choose>
-            <When condition={leadsListCount}>
+          <Placeholder
+            ready={!leadsData.loading}
+            className={null}
+            customPlaceholder={(
               <div>
-                <div className="LeadsHeader__title">
-                  <b>{leadsListCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
-                </div>
-
-                <div className="LeadsHeader__selected">
-                  <b>{this.selectedRowsLength}</b> {I18n.t('LEADS.LEADS_SELECTED')}
-                </div>
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '20px' }}
+                />
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '12px' }}
+                />
               </div>
-            </When>
-            <Otherwise>
-              <div className="LeadsHeader__title">
-                {I18n.t('LEADS.LEADS')}
-              </div>
-            </Otherwise>
-          </Choose>
+            )}
+          >
+            <Choose>
+              <When condition={!!totalElements}>
+                <span id="users-list-header" className="font-size-20 height-55 users-list-header">
+                  <div>
+                    <strong>{leadsListCount} </strong>
+                    {I18n.t('LEADS.LEADS_FOUND')}
+                  </div>
+                  <If condition={this.selectedRowsLength}>
+                    <div className="font-size-14">
+                      <strong>{this.selectedRowsLength} </strong>
+                      {I18n.t('LEADS.LEADS_SELECTED')}
+                    </div>
+                  </If>
+                </span>
+              </When>
+              <Otherwise>
+                <span className="font-size-20" id="users-list-header">
+                  {I18n.t('LEADS.LEADS')}
+                </span>
+              </Otherwise>
+            </Choose>
+          </Placeholder>
         </div>
 
         <div className="LeadsHeader__right">
