@@ -44,6 +44,7 @@ class FilesGridFilter extends PureComponent {
   render() {
     const {
       isSubmitting,
+      dirty,
       filesCategories,
       values: { verificationType },
     } = this.props;
@@ -119,7 +120,7 @@ class FilesGridFilter extends PureComponent {
 
           <Button
             className="FilesGridFilter__button"
-            disabled={isSubmitting}
+            disabled={!dirty || isSubmitting}
             type="submit"
             primary
           >
