@@ -22,7 +22,6 @@ class Header extends Component {
     refetchOperator: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onChangePasswordClick: PropTypes.func.isRequired,
-    onSendInvitationClick: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     loginLock: PropTypes.shape({
       lock: PropTypes.bool,
@@ -32,15 +31,21 @@ class Header extends Component {
 
   handleStatusChange = async ({ reason, status }) => {
     const { data: profileData, onStatusChange, refetchOperator, refetchLoginLock } = this.props;
-    await onStatusChange({
-      variables: {
-        reason,
-        status,
-        uuid: profileData.uuid,
-      },
-    });
-    refetchOperator();
-    refetchLoginLock();
+
+    try {
+      await onStatusChange({
+        variables: {
+          reason,
+          status,
+          uuid: profileData.uuid,
+        },
+      });
+
+      refetchOperator();
+      refetchLoginLock();
+    } catch {
+      // Do nothing...
+    }
   };
 
   render() {
@@ -58,7 +63,6 @@ class Header extends Component {
       availableStatuses,
       onResetPasswordClick,
       onChangePasswordClick,
-      onSendInvitationClick,
       unlockLogin,
       loginLock: {
         lock,
@@ -90,22 +94,6 @@ class Header extends Component {
                 {I18n.t('OPERATOR_PROFILE.PROFILE.HEADER.UNLOCK')}
               </Button>
             </If>
-            {
-              operatorStatus === statuses.INACTIVE
-              && (
-                // Here is no API functional to SEND_INVITATION anymore
-                <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
-                  <Button
-                    onClick={onSendInvitationClick}
-                    className="margin-right-10"
-                    primary
-                    small
-                  >
-                    {I18n.t('OPERATOR_PROFILE.DETAILS.SEND_INVITATION')}
-                  </Button>
-                </PermissionContent>
-              )
-            }
             {
               operatorStatus === statuses.ACTIVE
               && (

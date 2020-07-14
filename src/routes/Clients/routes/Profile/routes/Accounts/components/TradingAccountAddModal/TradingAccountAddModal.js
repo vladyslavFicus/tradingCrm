@@ -5,7 +5,7 @@ import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import { generate } from 'utils/password';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -41,24 +41,30 @@ class TradingAccountAddModal extends PureComponent {
   onSubmit = async (data) => {
     const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props;
 
-    const { data: { tradingAccount: { create: { success, error } } } } = await createTradingAccount({
-      variables: {
-        ...data,
-        profileId,
-      },
-    });
+    try {
+      await createTradingAccount({
+        variables: {
+          ...data,
+          profileId,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
-      message: success
-        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED')
-        : I18n.t(error.error) || I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
+        message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED'),
+      });
 
-    if (success) {
       onCloseModal();
       onConfirm();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
+        message: I18n.t(error.error) || I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 

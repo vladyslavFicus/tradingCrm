@@ -15,16 +15,14 @@ const REQUEST = gql`
       pinned: $pinned
       size: $size
     ) {
-      data {
-        size
-        page
-        totalElements
-        totalPages
-        number
-        last
-        content {
-         ...NoteFragment
-        }
+      size
+      page
+      totalElements
+      totalPages
+      number
+      last
+      content {
+        ...NoteFragment
       }
     }
   }

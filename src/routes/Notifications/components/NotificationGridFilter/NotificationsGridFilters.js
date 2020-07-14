@@ -79,10 +79,10 @@ class NotificationsFilters extends PureComponent {
       },
     } = this.props;
 
-    const operators = get(operatorsData, 'operators.data.content') || [];
-    const desks = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
-    const typesData = get(notificationTypesData, 'notificationCenterTypes.data') || [];
+    const operators = get(operatorsData, 'operators.content') || [];
+    const desks = get(hierarchyData, 'userBranches.DESK') || [];
+    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
+    const typesData = get(notificationTypesData, 'notificationCenterTypes') || [];
     const types = Object.keys(typesData);
 
     return (
@@ -203,7 +203,7 @@ class NotificationsFilters extends PureComponent {
                   {I18n.t('COMMON.RESET')}
                 </Button>
                 <Button
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !dirty}
                   type="submit"
                   primary
                 >

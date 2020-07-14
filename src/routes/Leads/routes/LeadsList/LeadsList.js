@@ -11,9 +11,7 @@ import './LeadsList.scss';
 class LeadsList extends PureComponent {
   static propTypes = {
     leadsData: PropTypes.query({
-      leads: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.lead),
-      }),
+      leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
   };
 

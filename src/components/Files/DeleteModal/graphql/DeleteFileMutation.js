@@ -8,11 +8,9 @@ const REQUEST = gql`
     $uuid: String!,
   ) {
     file {
-      delete(uuid: $uuid) {
-        error {
-          error
-        }
-      }
+      delete(
+        uuid: $uuid
+      )
     }
   }
 `;

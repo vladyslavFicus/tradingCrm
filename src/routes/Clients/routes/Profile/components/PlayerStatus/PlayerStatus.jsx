@@ -32,7 +32,6 @@ class PlayerStatus extends PureComponent {
     modals: PropTypes.shape({
       playerStatusModal: PropTypes.modalType,
     }).isRequired,
-    refetchLoginLock: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -55,7 +54,6 @@ class PlayerStatus extends PureComponent {
 
   handleStatusClick = (action) => {
     const {
-      refetchLoginLock,
       availableStatuses,
       playerUUID,
       modals: {
@@ -68,7 +66,6 @@ class PlayerStatus extends PureComponent {
         reasons: action.reasons,
         action: action.action,
         playerUUID,
-        refetchLoginLock,
       });
     }
   };

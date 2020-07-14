@@ -19,12 +19,7 @@ const MUTATION = gql`mutation updateNote(
       content: $content
       pinned: $pinned
     ) {
-      data {
-        ...NoteFragment
-      }
-      error {
-        error
-      }
+      ...NoteFragment
     }
   }
 }

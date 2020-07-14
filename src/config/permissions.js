@@ -31,7 +31,6 @@ export default {
     GET_TEAMS: 'hierarchy.branch.searchTeam',
     GET_OFFICES: 'hierarchy.branch.searchOffice',
     GET_OPERATORS: 'hierarchy.user.getSubordinateOperators',
-    GET_AFFILIATE_PARTNERS: 'hierarchy.user.getSubordinateAffiliates',
     GET_BRANCH_BY_ID: 'hierarchy.branch.getBranchByUuid',
     CREATE_BRANCH: 'hierarchy-updater.branch.createBranch',
     ADD_BRAND_MANAGER: 'hierarchy-updater.branch.addBranchManager',

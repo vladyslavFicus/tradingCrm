@@ -5,38 +5,30 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query TeamsGridFilter_getDesksAndOfficesQuery {
-    hierarchy {
-      userBranchHierarchy {
-        data {
-          OFFICE {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            country
-            brandId
-            parentBranch {
-              uuid
-            }
-          }
-          DESK {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            deskType
-            language
-            brandId
-            parentBranch {
-              uuid
-            }
-            isDefault
-          }
+    userBranches {
+      OFFICE {
+        name
+        uuid
+        branchType
+        defaultUser
+        defaultBranch
+        country
+        brandId
+        parentBranch {
+          uuid
         }
-        error {
-          error
+      }
+      DESK {
+        name
+        uuid
+        branchType
+        defaultUser
+        defaultBranch
+        deskType
+        language
+        brandId
+        parentBranch {
+          uuid
         }
       }
     }

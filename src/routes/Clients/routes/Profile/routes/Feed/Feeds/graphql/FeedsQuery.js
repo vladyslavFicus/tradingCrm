@@ -25,28 +25,23 @@ const REQUEST = gql`query FeedsQuery_Feeds(
     targetUUID: $targetUUID,
     auditLogType: $auditLogType,
   ) {
-    error {
-      error
-    }
-    data {
-      page
-      size
-      last
-      totalElements
-      number
-      content {
-        id
-        brandId
-        authorFullName
-        authorUuid
-        creationDate
-        details
-        ip
-        targetFullName
-        targetUuid
-        type
-        uuid
-      }
+    page
+    size
+    last
+    totalElements
+    number
+    content {
+      id
+      brandId
+      authorFullName
+      authorUuid
+      creationDate
+      details
+      ip
+      targetFullName
+      targetUuid
+      type
+      uuid
     }
   }
 }`;

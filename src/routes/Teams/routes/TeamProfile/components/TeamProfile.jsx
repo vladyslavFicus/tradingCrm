@@ -15,15 +15,13 @@ const RulesRetention = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes
 const RulesSales = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.TEAM);
 
 const TeamProfile = ({
-  teamProfile: {
-    hierarchy,
-    loading,
-  },
+  teamProfile,
+  teamProfile: { loading },
   location,
   match: { params, path },
 }) => {
-  const data = get(hierarchy, 'branchInfo.data') || {};
-  const error = get(hierarchy, 'branchInfo.error');
+  const data = get(teamProfile, 'branchInfo') || {};
+  const error = get(teamProfile, 'error');
 
   if (error) {
     return <NotFound />;
@@ -55,13 +53,8 @@ const TeamProfile = ({
 
 TeamProfile.propTypes = {
   teamProfile: PropTypes.shape({
+    branchInfo: PropTypes.hierarchyBranch,
     loading: PropTypes.bool.isRequired,
-    hierarchy: PropTypes.shape({
-      branchInfo: PropTypes.shape({
-        data: PropTypes.hierarchyBranch,
-        error: PropTypes.object,
-      }),
-    }),
     refetch: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.object.isRequired,

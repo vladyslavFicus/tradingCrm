@@ -47,6 +47,7 @@ class LeadNotesTabFilter extends PureComponent {
                 className="LeadNotesTabFilter__button"
                 type="submit"
                 primary
+                disabled={!dirty}
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>

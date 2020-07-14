@@ -26,28 +26,23 @@ const REQUEST = gql`
       targetUUID: $targetUuid
       auditLogType: $auditLogType
     ) {
-      data {
-        page
-        size
-        last
-        totalElements
-        number
-        content {
-          id
-          brandId
-          authorFullName
-          authorUuid
-          creationDate
-          details
-          ip
-          targetFullName
-          targetUuid
-          type
-          uuid
-        }
-      }
-      error {
-        error
+      page
+      size
+      last
+      totalElements
+      number
+      content {
+        id
+        brandId
+        authorFullName
+        authorUuid
+        creationDate
+        details
+        ip
+        targetFullName
+        targetUuid
+        type
+        uuid
       }
     }
   }

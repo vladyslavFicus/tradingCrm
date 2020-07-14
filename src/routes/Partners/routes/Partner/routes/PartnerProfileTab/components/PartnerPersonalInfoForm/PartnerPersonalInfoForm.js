@@ -35,9 +35,7 @@ const attributeLabels = {
 class PartnerPersonalInfoForm extends PureComponent {
   static propTypes = {
     partnerData: PropTypes.query({
-      partner: PropTypes.shape({
-        data: PropTypes.partner,
-      }),
+      partner: PropTypes.partner,
     }).isRequired,
     updatePartner: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -60,38 +58,40 @@ class PartnerPersonalInfoForm extends PureComponent {
     ...rest
   }, { setSubmitting }) => {
     const { updatePartner, partnerData, notify } = this.props;
-    const { uuid } = get(partnerData, 'data.partner.data') || {};
+    const { uuid } = get(partnerData, 'data.partner') || {};
 
     setSubmitting(false);
 
-    const { data: { partner: { updatePartner: { error } } } } = await updatePartner({
-      variables: {
-        uuid,
-        permission: {
-          allowedIpAddresses,
-          forbiddenCountries: forbiddenCountries || [],
-          showNotes,
-          showSalesStatus,
-          showFTDAmount,
-          showKycStatus,
+    try {
+      await updatePartner({
+        variables: {
+          uuid,
+          permission: {
+            allowedIpAddresses,
+            forbiddenCountries: forbiddenCountries || [],
+            showNotes,
+            showSalesStatus,
+            showFTDAmount,
+            showKycStatus,
+          },
+          ...rest,
         },
-        ...rest,
-      },
-    });
+      });
 
-    if (!error) {
       partnerData.refetch();
-    }
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE')
-        : I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE')
-        : I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
+        message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE'),
+        message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE'),
+      });
+    }
   };
 
   render() {
@@ -105,7 +105,7 @@ class PartnerPersonalInfoForm extends PureComponent {
       phone,
       country,
       permission: partnerPermissions,
-    } = get(partnerData, 'data.partner.data') || {};
+    } = get(partnerData, 'data.partner') || {};
 
     return (
       <div className="PartnerPersonalInfoForm">

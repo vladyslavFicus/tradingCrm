@@ -1,3 +1,1 @@
-import PromoteLeadModal from './PromoteLeadModal';
-
-export default PromoteLeadModal;
+export { default } from './PromoteLeadModal';

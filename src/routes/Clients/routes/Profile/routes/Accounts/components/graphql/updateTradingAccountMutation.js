@@ -20,13 +20,7 @@ const MUTATION = gql`
         mode: $mode,
         currency: $currency,
         readOnly: $readOnly,
-      ) {
-        success
-        error {
-          error
-          fields_errors
-        }
-      }
+      )
     }
   }
 `;

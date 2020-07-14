@@ -4,34 +4,28 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query leadProfileQuery(
-  $leadId: String!,
+  $uuid: String!,
 ) {
-  leadProfile (
-    leadId: $leadId,
+  lead (
+    uuid: $uuid,
   ) {
-    error {
-      error
-      fields_errors
-    }
-    data {
-      _id
-      uuid
-      brandId
-      name
-      surname
-      phone
-      mobile
-      email
-      country
-      birthDate
-      gender
-      city
-    }
-  } 
+    _id
+    uuid
+    brandId
+    name
+    surname
+    phone
+    mobile
+    email
+    country
+    birthDate
+    gender
+    city
+  }
 }`;
 
-const LeadProfileQuery = ({ match: { params: { id: leadId } }, children }) => (
-  <Query query={REQUEST} variables={{ leadId }}>
+const LeadProfileQuery = ({ match: { params: { id: uuid } }, children }) => (
+  <Query query={REQUEST} variables={{ uuid }}>
     {children}
   </Query>
 );

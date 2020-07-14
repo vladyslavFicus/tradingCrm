@@ -5,16 +5,10 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`query NotificationGridGilters_OperatorsQuery {
   operators  {
-    data {
-      content {
-        uuid
-        fullName
-        operatorStatus
-      }
-    }
-    error {
-      error
-      fields_errors
+    content {
+      uuid
+      fullName
+      operatorStatus
     }
   }
 }`;

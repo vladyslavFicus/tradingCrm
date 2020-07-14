@@ -5,15 +5,13 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`query PartnersQuery {
   partners {
-    data {
-      content {
-        uuid
-        fullName
-        createdAt
-        status
-        statusChangeDate
-        country
-      }
+    content {
+      uuid
+      fullName
+      createdAt
+      status
+      statusChangeDate
+      country
     }
   }
 }`;

@@ -8,36 +8,29 @@ export const REQUEST = gql`
   query RegistrationsChart_getRegisteredUsersStatistic(
     $dateFrom: String!
     $dateTo: String!
-    $detalization: DetalizationEnum
-    $additionalStatistics: [AdditionalStatisticRegistrationInput]
+    $detalization: StatisticDetalization__Enum
+    $additionalStatistics: [RegistrationStatisticDateRange__Input]
   ) {
-    statistics {
-      registrationStatistic(
-        additionalStatistics: $additionalStatistics
-        detalization: $detalization
-        dateFrom: $dateFrom
-        dateTo: $dateTo
-      ) {
-        data {
-          additionalStatistics {
-            today {
-              value
-            }
-            month {
-              value
-            }
-            total {
-              value
-            }
-          }
-          registrations {
-            entries
-            entryDate
-          }
+    registrationStatistic(
+      additionalStatistics: $additionalStatistics
+      detalization: $detalization
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+    ) {
+      additionalStatistics {
+        today {
+          value
         }
-        error {
-          error
+        month {
+          value
         }
+        total {
+          value
+        }
+      }
+      registrations {
+        entries
+        entryDate
       }
     }
   }

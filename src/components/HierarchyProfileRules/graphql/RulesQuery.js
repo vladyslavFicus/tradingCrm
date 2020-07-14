@@ -10,7 +10,7 @@ const RulesRequest = gql`query RulesQuery(
   $language: String,
   $createdByOrUuid: String,
   $name: String,
-  $type: RuleTypeEnum,
+  $type: Rule__Type__Enum,
   $parentId: String,
   $branchUuid: String,
 ) {
@@ -24,39 +24,34 @@ const RulesRequest = gql`query RulesQuery(
     parentId: $parentId,
     branchUuid: $branchUuid,
   ) {
-    error {
-      error
-    }
-    data {
-      actions {
-        id
-        parentBranch
-        parentUser
-        ruleType
-        operatorSpreads {
-          id,
-          operator {
-            fullName,
-            uuid,
-          },
-          percentage,
+    actions {
+      id
+      parentBranch
+      parentUser
+      ruleType
+      operatorSpreads {
+        id,
+        operator {
+          fullName,
+          uuid,
         },
-      }
-      uuid
-      countries
-      languages
-      partners {
-        uuid,
-        fullName,
-      }
-      sources
-      priority
-      name
-      type
-      updatedBy
-      createdBy
+        percentage,
+      },
     }
-  } 
+    uuid
+    countries
+    languages
+    partners {
+      uuid,
+      fullName,
+    }
+    sources
+    priority
+    name
+    type
+    updatedBy
+    createdBy
+  }
 }`;
 
 const RetentionRulesRequest = gql`query RetentionRulesQuery(
@@ -75,26 +70,21 @@ const RetentionRulesRequest = gql`query RetentionRulesQuery(
     name: $name,
     parentId: $parentId,
   ) {
-    error {
-      error
+    actions {
+      id
+      parentBranch
+      parentUser
+      ruleType
     }
-    data {
-      actions {
-        id
-        parentBranch
-        parentUser
-        ruleType
-      }
-      uuid
-      countries
-      languages
-      priority
-      name
-      type
-      updatedBy
-      createdBy
-    }
-  } 
+    uuid
+    countries
+    languages
+    priority
+    name
+    type
+    updatedBy
+    createdBy
+  }
 }`;
 
 const RulesQuery = ({

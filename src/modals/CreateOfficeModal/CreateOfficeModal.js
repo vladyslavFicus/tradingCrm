@@ -37,21 +37,24 @@ class CreateOfficeModal extends PureComponent {
 
     setSubmitting(false);
 
-    const { data: { hierarchy: { createOffice: { error } } } } = await createOffice({ variables: values });
-    const hasError = error.length;
+    try {
+      await createOffice({ variables: values });
 
-    if (!hasError) {
       onSuccess();
       onCloseModal();
-    }
 
-    notify({
-      level: hasError ? 'error' : 'success',
-      title: hasError ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-      message: hasError
-        ? I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.ERROR')
-        : I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.ERROR'),
+      });
+    }
   };
 
   render() {

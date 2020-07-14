@@ -27,7 +27,7 @@ export default compose(
       fetchPolicy: 'network-only',
     }),
     props: ({ operators: { operators, fetchMore, variables, ...rest } }) => {
-      const newPage = get(operators, 'data.number') || 0;
+      const newPage = get(operators, 'number') || 0;
 
       return {
         operators: {
@@ -62,15 +62,11 @@ export default compose(
                 operators: {
                   ...previousResult.operators,
                   ...fetchMoreResult.operators,
-                  data: {
-                    ...previousResult.operators.data,
-                    ...fetchMoreResult.operators.data,
-                    page: fetchMoreResult.operators.data.page,
-                    content: [
-                      ...previousResult.operators.data.content,
-                      ...fetchMoreResult.operators.data.content,
-                    ],
-                  },
+                  page: fetchMoreResult.operators.page,
+                  content: [
+                    ...previousResult.operators.content,
+                    ...fetchMoreResult.operators.content,
+                  ],
                 },
               };
             },

@@ -4,15 +4,16 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation UploadFile($file: Upload!, $profileUUID: String!) {
+  mutation UploadFile(
+    $file: Upload!
+    $uuid: String!
+  ) {
     file {
-      upload(file: $file, profileUUID: $profileUUID) {
-        data {
-          fileUuid
-        }
-        error {
-          error
-        }
+      upload(
+        file: $file
+        uuid: $uuid
+      ) {
+        fileUuid
       }
     }
   }

@@ -5,62 +5,61 @@ import { Query } from 'react-apollo';
 import { userTypes } from 'constants/hierarchyTypes';
 
 const REQUEST = gql`
-  query HierarchyUsersByTypeQuery($userTypes: [String]!, $onlyActive: Boolean) {
-    hierarchy {
-      hierarchyUsersByType(userTypes: $userTypes, onlyActive: $onlyActive) {
-        error {
-          error
-        }
-        data {
-          SALES_AGENT {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          SALES_HOD {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          SALES_MANAGER {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          SALES_LEAD {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          RETENTION_AGENT {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          RETENTION_HOD {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          RETENTION_MANAGER {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-          RETENTION_LEAD {
-            uuid
-            userType
-            fullName
-            operatorStatus
-          }
-        }
+  query HierarchyUsersByTypeQuery(
+    $userTypes: [String]!
+    $onlyActive: Boolean
+  ) {
+    usersByType(
+      userTypes: $userTypes
+      onlyActive: $onlyActive
+    ) {
+      SALES_AGENT {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      SALES_HOD {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      SALES_MANAGER {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      SALES_LEAD {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      RETENTION_AGENT {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      RETENTION_HOD {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      RETENTION_MANAGER {
+        uuid
+        userType
+        fullName
+        operatorStatus
+      }
+      RETENTION_LEAD {
+        uuid
+        userType
+        fullName
+        operatorStatus
       }
     }
   }

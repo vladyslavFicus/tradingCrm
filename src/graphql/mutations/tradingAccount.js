@@ -16,11 +16,6 @@ export const updateTradingAccountMutation = gql`mutation updateTradingAccount(
       mode: $mode,
       currency: $currency,
       readOnly: $readOnly,
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;

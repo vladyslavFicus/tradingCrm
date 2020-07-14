@@ -6,12 +6,10 @@ import { Query } from 'react-apollo';
 export const REQUEST = gql`
   query getEmailTemplates {
     emailTemplates {
-      data {
-        id
-        name
-        text
-        subject  
-      }
+      id
+      name
+      text
+      subject
     }
   }
 `;

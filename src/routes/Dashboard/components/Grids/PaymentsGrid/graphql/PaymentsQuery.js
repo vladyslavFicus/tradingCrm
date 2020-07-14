@@ -5,70 +5,65 @@ import PropTypes from 'constants/propTypes';
 import { statuses, statusMapper } from 'constants/payment';
 
 const REQUEST = gql`
-  query PaymentsQuery($args: PaymentsInputType) {
-    clientPayments(args: $args) {
-      data {
-        content {
-          _id
-          login
-          platformType
-          accountType
-          paymentId
-          paymentType
-          status
-          withdrawStatus
-          currency
-          createdBy
-          creationTime
-          paymentMethod
-          paymentAggregator
-          amount
+  query PaymentsQuery($args: PaymentSearch__Input) {
+    payments(args: $args) {
+      last
+      content {
+        _id
+        login
+        platformType
+        accountType
+        paymentId
+        paymentType
+        status
+        withdrawStatus
+        currency
+        createdBy
+        creationTime
+        paymentMethod
+        paymentAggregator
+        amount
+        country
+        language
+        brandId
+        externalReference
+        paymentMigrationId
+        userMigrationId
+        normalizedAmount
+        declineReason
+        playerProfile {
+          uuid
+          firstName
+          lastName
           country
-          language
-          brandId
-          externalReference
-          paymentMigrationId
-          userMigrationId
-          normalizedAmount
-          declineReason
-          playerProfile {
-            uuid
-            firstName
-            lastName
-            fullName
-            country
-          }
-          paymentMetadata {
-            clientIp
-            isMobile
-            userAgent
-            country
-          }
-          originalAgent {
-            uuid
-            fullName
-          }
-          note {
-            _id
-            noteId
-            targetUUID
-            playerUUID
-            subject
-            content
-            pinned
-            changedAt
-            changedBy
-            operator {
-              fullName
-            }
-          }
-          modifiedBy
-          statusChangedAt
-          warnings
         }
-      }
-      error {
-        error
+        paymentMetadata {
+          clientIp
+          mobile
+          userAgent
+          country
+        }
+        originalAgent {
+          uuid
+          fullName
+        }
+        note {
+          _id
+          noteId
+          targetUUID
+          playerUUID
+          subject
+          content
+          pinned
+          changedAt
+          changedBy
+          operator {
+            fullName
+          }
+        }
+        modifiedBy
+        statusChangedAt
+        warnings
       }
     }
   }

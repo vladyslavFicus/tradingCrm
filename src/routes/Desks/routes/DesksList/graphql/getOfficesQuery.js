@@ -5,21 +5,17 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query DesksGridFilter_getOfficesQuery {
-    hierarchy {
-      userBranchHierarchy {
-        data {
-          OFFICE {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            country
-            brandId
-            parentBranch {
-              uuid
-            }
-          }
+    userBranches {
+      OFFICE {
+        name
+        uuid
+        branchType
+        defaultUser
+        defaultBranch
+        country
+        brandId
+        parentBranch {
+          uuid
         }
       }
     }

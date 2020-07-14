@@ -67,6 +67,7 @@ class RulesFilters extends Component {
         {({
           isSubmitting,
           resetForm,
+          dirty,
         }) => (
           <Form className="filter__form filter__form--row">
             <div className="filter__form-inputs">
@@ -152,7 +153,7 @@ class RulesFilters extends Component {
               </button>
               <button
                 className="btn btn-primary filter__form-button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
               >
                 {I18n.t('COMMON.APPLY')}

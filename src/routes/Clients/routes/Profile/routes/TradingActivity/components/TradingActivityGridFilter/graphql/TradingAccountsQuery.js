@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingAccountsQuery_TradingActivityGridFilter($uuid: String!) {
-    tradingAccount(uuid: $uuid) {
+  query TradingAccountsQuery_TradingActivityGridFilter($profileUUID: String!) {
+    clientTradingAccounts(profileUUID: $profileUUID) {
       login
       platformType
     }
@@ -15,13 +15,13 @@ const REQUEST = gql`
 const TradingAccountsQuery = ({
   children,
   match: {
-    params: { id: uuid },
+    params: { id: profileUUID },
   },
 }) => (
   <Query
     query={REQUEST}
     variables={{
-      uuid,
+      profileUUID,
     }}
   >
     {children}

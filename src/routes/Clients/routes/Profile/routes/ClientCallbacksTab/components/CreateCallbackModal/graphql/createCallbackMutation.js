@@ -17,19 +17,7 @@ const REQUEST = gql`
         operatorId: $operatorId,
         callbackTime: $callbackTime,
       ) {
-        data {
-          _id
-          callbackId
-          callbackTime
-          operatorId
-          status
-          operator {
-            fullName
-          }
-        }
-        error {
-          error
-        }
+        callbackId
       }
     }
   }

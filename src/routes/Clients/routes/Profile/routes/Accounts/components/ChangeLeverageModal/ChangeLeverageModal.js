@@ -10,7 +10,7 @@ import Badge from 'components/Badge';
 import { FormikSelectField } from 'components/Formik';
 import { accountTypesLabels } from 'constants/accountTypes';
 import PropTypes from 'constants/propTypes';
-import changeLeverageMutation from './graphql/ChangeLeverageRequestMutation';
+import changeLeverageMutation from './graphql/ChangeLeverageMutation';
 import './ChangeLeverageModal.scss';
 
 class ChangeLeverageModal extends PureComponent {
@@ -40,27 +40,36 @@ class ChangeLeverageModal extends PureComponent {
   };
 
   onSubmit = async (data) => {
-    const { changeLeverage, notify, onCloseModal, accountUUID, refetchTradingAccountsList } = this.props;
+    const {
+      refetchTradingAccountsList,
+      changeLeverage,
+      onCloseModal,
+      accountUUID,
+      notify,
+    } = this.props;
 
-    const { data: { tradingAccount: { changeLeverageRequest: { success } } } } = await changeLeverage({
-      variables: {
-        accountUUID,
-        ...data,
-      },
-    });
+    try {
+      await changeLeverage({
+        variables: {
+          accountUUID,
+          ...data,
+        },
+      });
 
-    refetchTradingAccountsList();
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
+        message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.LEVERAGE_CHANGED'),
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
-      message: success
-        ? I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.LEVERAGE_CHANGED')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
-
-    if (success) {
+      refetchTradingAccountsList();
       onCloseModal();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 

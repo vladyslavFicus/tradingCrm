@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation PaymentRejectButton_rejectPaymentMutation(
-    $typeAcc: String
+    $typeAcc: String!
     $paymentId: String!
     $declineReason: String
   ) {
@@ -14,11 +14,7 @@ const REQUEST = gql`
         typeAcc: $typeAcc
         paymentId: $paymentId
         declineReason: $declineReason
-      ) {
-        data {
-          success
-        }
-      }
+      )
     }
   }
 `;
