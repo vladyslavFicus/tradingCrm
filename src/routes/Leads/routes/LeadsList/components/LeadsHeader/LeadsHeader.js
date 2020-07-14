@@ -42,7 +42,7 @@ class LeadsHeader extends PureComponent {
     let rowsLength = touchedRowsIds.length;
 
     if (allRowsSelected) {
-      const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
+      const totalElements = get(leadsData, 'data.leads.totalElements') || null;
       const searchLimit = get(location, 'query.filters.size');
 
       const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
@@ -65,7 +65,7 @@ class LeadsHeader extends PureComponent {
       modals: { representativeUpdateModal },
     } = this.props;
 
-    const leads = get(leadsData, 'data.leads.data.content') || [];
+    const leads = get(leadsData, 'data.leads.content') || [];
 
     const selectedLeads = leads
       .filter((_, i) => touchedRowsIds.includes(i))
@@ -149,24 +149,21 @@ class LeadsHeader extends PureComponent {
             )}
           >
             <Choose>
-              <When condition={!!totalElements}>
-                <span id="users-list-header" className="font-size-20 height-55 users-list-header">
-                  <div>
-                    <strong>{leadsListCount} </strong>
-                    {I18n.t('LEADS.LEADS_FOUND')}
+              <When condition={leadsListCount}>
+                <div>
+                  <div className="LeadsHeader__title">
+                    <b>{leadsListCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
                   </div>
-                  <If condition={this.selectedRowsLength}>
-                    <div className="font-size-14">
-                      <strong>{this.selectedRowsLength} </strong>
-                      {I18n.t('LEADS.LEADS_SELECTED')}
-                    </div>
-                  </If>
-                </span>
+
+                  <div className="LeadsHeader__selected">
+                    <b>{this.selectedRowsLength}</b> {I18n.t('LEADS.LEADS_SELECTED')}
+                  </div>
+                </div>
               </When>
               <Otherwise>
-                <span className="font-size-20" id="users-list-header">
+                <div className="LeadsHeader__title">
                   {I18n.t('LEADS.LEADS')}
-                </span>
+                </div>
               </Otherwise>
             </Choose>
           </Placeholder>
