@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import IpList from 'components/Information/IpList';
 import PermissionContent from 'components/PermissionContent';
-import PinnedNotesList from 'components/PinnedNotesList';
+import PinnedNotes from 'components/PinnedNotes';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
@@ -47,7 +47,7 @@ class Information extends PureComponent {
           </div>
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
-              <PinnedNotesList targetUUID={profile.uuid} targetType={targetTypes.PLAYER} />
+              <PinnedNotes targetUUID={profile.uuid} targetType={targetTypes.PLAYER} />
             </div>
           </PermissionContent>
         </div>

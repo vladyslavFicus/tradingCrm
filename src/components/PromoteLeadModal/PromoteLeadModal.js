@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { get } from 'lodash';
+import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import I18n from 'i18n-js';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { getActiveBrandConfig, getAvailableLanguages } from 'config';
@@ -17,7 +17,7 @@ import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
-import PromoteLeadModalQuery from './graphql/PromoteLeadModalQuery';
+import LeadQuery from './graphql/LeadQuery';
 import attributeLabels from './constants';
 
 const validate = createValidator({
@@ -31,10 +31,8 @@ const validate = createValidator({
 
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
-    lead: PropTypes.query({
-      data: PropTypes.shape({
-        lead: PropTypes.lead,
-      }),
+    leadData: PropTypes.query({
+      lead: PropTypes.lead,
     }).isRequired,
     formError: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
@@ -52,7 +50,7 @@ class PromoteLeadModal extends PureComponent {
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
     const {
-      lead,
+      leadData,
       notify,
       promoteLead,
       onCloseModal,
@@ -60,8 +58,10 @@ class PromoteLeadModal extends PureComponent {
     } = this.props;
 
     let variables = values;
+
     if (isEmailHidden) {
-      const { email } = get(lead, 'data.lead');
+      const { email } = get(leadData, 'data.lead');
+
       variables = {
         ...values,
         contacts: {
@@ -72,23 +72,25 @@ class PromoteLeadModal extends PureComponent {
     }
 
     try {
-      const { data: { profile: { createProfile: { uuid } } } } = await promoteLead({
+      await promoteLead({
         variables: { args: variables },
       });
 
-      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead);
+      EventEmitter.emit(LEAD_PROMOTED, leadData.data.lead);
 
       onCloseModal();
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: uuid }),
+        message: I18n.t('LEADS.SUCCESS_PROMOTED'),
       });
     } catch (e) {
       const { error } = parseErrors(e);
+      const { email } = values.contacts;
 
       if (error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error}`, { email: values.contacts.email }) });
+        setErrors({ submit: I18n.t(`lead.${error}`, { email: isEmailHidden ? hideText(email) : email }) });
       } else {
         setErrors({ submit: I18n.t(`lead.${error}`) });
       }
@@ -99,7 +101,7 @@ class PromoteLeadModal extends PureComponent {
 
   renderForm() {
     const {
-      lead,
+      leadData,
       onCloseModal,
       formError,
       isEmailHidden,
@@ -115,7 +117,7 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(lead, 'data.lead.data');
+    } = get(leadData, 'data.lead');
 
     return (
       <Formik
@@ -227,7 +229,7 @@ class PromoteLeadModal extends PureComponent {
 
   render() {
     const {
-      lead,
+      leadData,
       onCloseModal,
       isOpen,
       size,
@@ -245,7 +247,7 @@ class PromoteLeadModal extends PureComponent {
         </ModalHeader>
         <ModalBody>
           <Choose>
-            <When condition={lead.loading}>
+            <When condition={leadData.loading}>
               <ShortLoader />
             </When>
             <Otherwise>
@@ -261,7 +263,7 @@ class PromoteLeadModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    lead: PromoteLeadModalQuery,
+    leadData: LeadQuery,
     promoteLead: PromoteLeadMutation,
   }),
 )(PromoteLeadModal);
