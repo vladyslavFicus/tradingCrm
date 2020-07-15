@@ -3,16 +3,16 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation CreateSchedule_createScheduleMutation(
+const REQUEST = gql`mutation Partner_CreateScheduleMutation(
   $affiliateUuid: String!,
   $activated: Boolean,
   $totalLimit: Int,
   $day: String,
   $workingHoursFrom: String,
   $workingHoursTo: String,
-  $countrySpreads: [Schedule__Input],
+  $countrySpreads: [PartnerSchedule__Input],
 ) {
-  schedule {
+  partner {
     createSchedule (
       affiliateUuid: $affiliateUuid,
       activated: $activated,

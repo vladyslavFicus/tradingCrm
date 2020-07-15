@@ -3,11 +3,11 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation changeScheduleStatus(
+const REQUEST = gql`mutation Partner_ChangeScheduleStatus(
   $affiliateUuid: String!
-  $data: [ScheduleStatus__Input]
+  $data: [PartnerScheduleStatus__Input]
 ) {
-  schedule {
+  partner {
     changeScheduleStatus (
       affiliateUuid: $affiliateUuid
       data: $data
