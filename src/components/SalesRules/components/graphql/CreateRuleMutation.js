@@ -23,9 +23,7 @@ const REQUEST = gql`mutation createRule(
       sources: $sources,
       type: $type,
       actions: $actions,
-    ) {
-      uuid
-    }
+    )
   }
 }
 `;
