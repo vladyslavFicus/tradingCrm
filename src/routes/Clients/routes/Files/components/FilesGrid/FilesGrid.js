@@ -39,7 +39,7 @@ class FilesGrid extends PureComponent {
   renderFullName = ({ clientUuid, client }) => (
     <div>
       <Choose>
-        <When condition={client}>
+        <When condition={client && client.fullName}>
           <Link
             className="FilesGrid__client-name"
             to={`/clients/${clientUuid}/profile`}
