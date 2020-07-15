@@ -9,6 +9,7 @@ const REQUEST = gql`
     $targetUUID: String!
     $pinned: Boolean
     $size: Int
+    $page: Int
     $changedAtTo: String
     $changedAtFrom: String
   ) {
@@ -16,6 +17,7 @@ const REQUEST = gql`
       targetUUID: $targetUUID
       pinned: $pinned
       size: $size
+      page: $page
       changedAtTo: $changedAtTo
       changedAtFrom: $changedAtFrom
     ) {
