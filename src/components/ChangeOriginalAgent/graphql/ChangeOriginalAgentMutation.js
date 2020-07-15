@@ -5,18 +5,16 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation ChangeOriginalAgent_ChangeOriginalAgentMutation(
-    $paymentId: String!,
-    $agentId: String,
-    $agentName: String,
+    $paymentId: String!
+    $agentId: String
+    $agentName: String
   ) {
     payment {
       changeOriginalAgent (
-        paymentId: $paymentId,
-        agentId: $agentId,
-        agentName: $agentName,
-      ) {
-        success
-      }
+        paymentId: $paymentId
+        agentId: $agentId
+        agentName: $agentName
+      )
     }
   }`;
 

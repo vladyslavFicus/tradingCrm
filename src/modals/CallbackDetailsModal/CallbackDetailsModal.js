@@ -49,7 +49,7 @@ class CallbackDetailsModal extends Component {
       notify,
     } = this.props;
 
-    const { callbackId } = get(callbackData, 'data.callback.data') || {};
+    const { callbackId } = get(callbackData, 'data.callback') || {};
 
     setSubmitting(false);
 
@@ -58,25 +58,22 @@ class CallbackDetailsModal extends Component {
 
     if (hasValidationErrors) return;
 
-    const response = await updateCallback({
-      variables: {
-        callbackId,
-        ...values,
-      },
-    });
+    try {
+      await updateCallback({ variables: { callbackId, ...values } });
 
-    const error = get(response, 'data.callback.update.error') || false;
+      notify({
+        level: 'success',
+        title: I18n.t('CALLBACKS.MODAL.TITLE'),
+        message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('CALLBACKS.MODAL.TITLE'),
-      message: error
-        ? I18n.t('COMMON.SOMETHING_WRONG')
-        : I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
-    });
-
-    if (!error) {
       onCloseModal();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('CALLBACKS.MODAL.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   }
 
@@ -103,9 +100,9 @@ class CallbackDetailsModal extends Component {
       status,
       userId,
       note,
-    } = get(callbackData, 'data.callback.data') || {};
+    } = get(callbackData, 'data.callback') || {};
 
-    const { content: operators } = get(operatorsData, 'data.operators.data') || {};
+    const { content: operators } = get(operatorsData, 'data.operators') || {};
 
     return (
       <Modal className="CallbackDetailsModal" toggle={onCloseModal} isOpen={isOpen}>

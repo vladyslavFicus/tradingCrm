@@ -14,10 +14,9 @@ export default compose(
       variables: { type: filterSetType },
       fetchPolicy: 'network-only',
     }),
-    props: ({ filterSet: { filterSets, loading, refetch, ...rest }, ownProps: { filterSetType } }) => {
-      const favourite = get(filterSets, 'data.favourite') || [];
-      const common = get(filterSets, 'data.common') || [];
-      const error = get(filterSets, 'error');
+    props: ({ filterSet: { filterSets, error, loading, refetch, ...rest }, ownProps: { filterSetType } }) => {
+      const favourite = get(filterSets, 'favourite') || [];
+      const common = get(filterSets, 'common') || [];
 
       return {
         favourite,

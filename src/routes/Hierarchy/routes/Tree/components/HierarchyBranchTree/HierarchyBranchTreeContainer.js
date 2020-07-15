@@ -5,10 +5,10 @@ import HierarchyBranchTree from './HierarchyBranchTree';
 export default compose(
   graphql(getBranchHierarchyTree, {
     name: 'branchHierarchyTree',
-    options: ({ branchUUID }) => ({
+    options: ({ branchUuid }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        branchUUID,
+        branchUuid,
       },
     }),
   }),

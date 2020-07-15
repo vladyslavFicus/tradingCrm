@@ -4,11 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query AuthoritiesOptionsQuery_NotesGridFilter {
-  authoritiesOptions {
-    data {
-      authoritiesOptions
-    }
-  }
+  authoritiesOptions
 }`;
 
 const AuthoritiesOptionsQuery = ({ children }) => (

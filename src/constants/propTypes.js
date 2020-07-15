@@ -195,9 +195,7 @@ PropTypes.partnerProfile = PropTypes.shape({
 });
 PropTypes.partner = PropTypes.shape({
   affiliateType: PropTypes.string,
-  authorities: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.authorityEntity),
-  }),
+  authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
   country: PropTypes.string,
   createdAt: PropTypes.string,
   createdBy: PropTypes.string,
@@ -221,6 +219,19 @@ PropTypes.partner = PropTypes.shape({
   statusChangeDate: PropTypes.string,
   statusReason: PropTypes.string,
   uuid: PropTypes.uuid,
+  schedule: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.shape({
+      activated: PropTypes.bool,
+      day: PropTypes.string,
+      totalLimit: PropTypes.number,
+      countrySpreads: PropTypes.arrayOf(PropTypes.shape({
+        country: PropTypes.string,
+        limit: PropTypes.number,
+      })),
+      workingHoursFrom: PropTypes.string,
+      workingHoursTo: PropTypes.string,
+    })),
+  }),
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -237,7 +248,7 @@ PropTypes.auditEntity = PropTypes.shape({
   authorUuid: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
   targetUuid: PropTypes.string.isRequired,
@@ -290,7 +301,7 @@ PropTypes.paymentPlayer = PropTypes.shape({
 });
 PropTypes.paymentMetadata = PropTypes.shape({
   clientIp: PropTypes.string,
-  isMobile: PropTypes.bool,
+  mobile: PropTypes.bool,
   userAgent: PropTypes.string.isRequired,
   country: PropTypes.string,
 });
@@ -454,7 +465,7 @@ PropTypes.tradingAccount = PropTypes.shape({
   readOnlyUpdateTime: PropTypes.string,
   readOnlyUpdatedBy: PropTypes.string,
 });
-PropTypes.tradingAccountsList = PropTypes.shape({
+PropTypes.tradingAccountsItem = PropTypes.shape({
   uuid: PropTypes.string,
   platformType: PropTypes.string,
   profile: PropTypes.shape({
@@ -672,31 +683,28 @@ PropTypes.storage = PropTypes.shape({
   remove: PropTypes.func.isRequired,
 });
 PropTypes.paymentsStatistic = PropTypes.shape({
-  statistics: PropTypes.shape({
-    payments: PropTypes.shape({
-      data: PropTypes.shape({
-        items: PropTypes.arrayOf(
-          PropTypes.shape({
-            amount: PropTypes.number,
-            count: PropTypes.number,
-            entryDate: PropTypes.string,
-          }).isRequired,
-        ).isRequired,
-        itemsTotal: PropTypes.shape({
-          totalAmount: PropTypes.number,
-          totalCount: PropTypes.number,
-        }),
-        additionalTotal: PropTypes.shape({
-          totalCount: PropTypes.number,
-          totalAmount: PropTypes.number,
-          monthCount: PropTypes.number,
-          monthAmount: PropTypes.number,
-          todayCount: PropTypes.number,
-          todayAmount: PropTypes.number,
-        }),
+  data: PropTypes.shape({
+    paymentsStatistic: PropTypes.shape({
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          amount: PropTypes.number,
+          count: PropTypes.number,
+          entryDate: PropTypes.string,
+        }).isRequired,
+      ).isRequired,
+      itemsTotal: PropTypes.shape({
+        totalAmount: PropTypes.number,
+        totalCount: PropTypes.number,
       }),
-      error: PropTypes.object,
-    }).isRequired,
+      additionalTotal: PropTypes.shape({
+        totalCount: PropTypes.number,
+        totalAmount: PropTypes.number,
+        monthCount: PropTypes.number,
+        monthAmount: PropTypes.number,
+        todayCount: PropTypes.number,
+        todayAmount: PropTypes.number,
+      }),
+    }),
   }),
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -749,14 +757,14 @@ PropTypes.profileView = PropTypes.shape({
     reason: PropTypes.string,
     type: PropTypes.string,
   }),
-  tradingAccount: PropTypes.arrayOf(PropTypes.object),
+  tradingAccounts: PropTypes.arrayOf(PropTypes.object),
   uuid: PropTypes.string,
   lastActivity: PropTypes.shape({
     date: PropTypes.string,
   }),
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
-PropTypes.newProfile = PropTypes.shape({
+PropTypes.profile = PropTypes.shape({
   acquisition: PropTypes.shape({
     acquisitionStatus: PropTypes.string,
     retentionRepresentative: PropTypes.string,
@@ -875,9 +883,7 @@ PropTypes.email = PropTypes.shape({
 });
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({
-    manualPaymentMethods: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.string),
-    }),
+    manualPaymentMethods: PropTypes.arrayOf(PropTypes.string),
   }),
   loading: PropTypes.bool.isRequired,
 });
@@ -892,28 +898,22 @@ PropTypes.query = content => PropTypes.shape({
   refetch: PropTypes.func,
 });
 PropTypes.branchHierarchyResponse = PropTypes.query({
-  hierarchy: PropTypes.shape({
-    branchHierarchy: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({
-        office: PropTypes.hierarchyBranch,
-        desk: PropTypes.hierarchyBranch,
-        team: PropTypes.hierarchyBranch,
-      })),
-      error: PropTypes.object,
-    }),
+  branch: PropTypes.shape({
+    ...PropTypes.hierarchyBranch,
+    parentBranch: {
+      ...PropTypes.hierarchyBranch,
+      parentBranch: {
+        ...PropTypes.hierarchyBranch,
+      },
+    },
   }),
 });
 PropTypes.userBranchHierarchyResponse = PropTypes.query({
-  hierarchy: PropTypes.shape({
-    userBranchHierarchy: PropTypes.shape({
-      data: PropTypes.shape({
-        OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        BRAND: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-      }),
-      error: PropTypes.object,
-    }),
+  userBranches: PropTypes.shape({
+    OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+    DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+    TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+    BRAND: PropTypes.arrayOf(PropTypes.hierarchyBranch),
   }),
 });
 PropTypes.notificationCenter = PropTypes.shape({

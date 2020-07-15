@@ -42,6 +42,15 @@
      padding: 8px 9px;
      background-color: rgba(255, 255, 255, 0.9);
    }
+   &-error {
+    padding: 30px;
+    min-height: 90px;
+
+    &-message {
+      font-size: 14px;
+      text-align: center;
+    }
+   }
    .info-block {
      display: flex;
      align-items: baseline;

@@ -17,9 +17,7 @@ import './CallbacksGrid.scss';
 class CallbacksGrid extends PureComponent {
   static propTypes = {
     callbacksData: PropTypes.query({
-      callbacks: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.callback),
-      }),
+      callbacks: PropTypes.pageable(PropTypes.callback),
     }).isRequired,
     modals: PropTypes.shape({
       callbackDetailsModal: PropTypes.modalType,
@@ -35,7 +33,7 @@ class CallbacksGrid extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = get(callbacksData, 'data.callbacks.data.page') || 0;
+    const currentPage = get(callbacksData, 'data.callbacks.page') || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
@@ -154,7 +152,7 @@ class CallbacksGrid extends PureComponent {
       callbacksData: { loading },
     } = this.props;
 
-    const callbacks = get(callbacksData, 'data.callbacks.data') || { content: [] };
+    const callbacks = get(callbacksData, 'data.callbacks') || { content: [] };
 
     return (
       <div className="CallbacksGrid">
@@ -167,7 +165,7 @@ class CallbacksGrid extends PureComponent {
           withRowsHover
           withLazyLoad
           lazyLoad
-          withNoResults={callbacks.content.length === 0}
+          withNoResults={callbacks.content.length === 0 && !loading}
         >
           <GridColumn
             name="id"

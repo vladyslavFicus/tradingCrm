@@ -22,14 +22,10 @@ import {
 class Payments extends PureComponent {
   static propTypes = {
     paymentsQuery: PropTypes.query({
-      clientPaymentsByUuid: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.paymentEntity),
-      }),
+      clientPayments: PropTypes.pageable(PropTypes.paymentEntity),
     }).isRequired,
     profileQuery: PropTypes.query({
-      newProfile: PropTypes.shape({
-        data: PropTypes.newProfile,
-      }),
+      profile: PropTypes.profile,
     }).isRequired,
     modals: PropTypes.shape({
       addPaymentModal: PropTypes.modalType,
@@ -46,16 +42,14 @@ class Payments extends PureComponent {
 
   handleRefresh = () => this.props.paymentsQuery.refetch();
 
-  refetchQueries = async () => {
+  refetchQueries = () => {
     const {
       paymentsQuery,
       profileQuery,
     } = this.props;
 
-    await Promise.all([
-      paymentsQuery.refetch(),
-      profileQuery.refetch(),
-    ]);
+    paymentsQuery.refetch();
+    profileQuery.refetch();
   };
 
   handleOpenAddPaymentModal = () => {
@@ -65,8 +59,8 @@ class Payments extends PureComponent {
     } = this.props;
 
     addPaymentModal.show({
-      newProfile: get(profileQuery, 'data.newProfile.data') || {},
       onSuccess: this.refetchQueries,
+      profile: get(profileQuery, 'data.profile') || {},
     });
   };
 
@@ -74,11 +68,17 @@ class Payments extends PureComponent {
     const {
       paymentsQuery,
       paymentsQuery: {
-        data, loading,
+        data,
+        loading,
       },
     } = this.props;
 
-    const payments = get(data, 'clientPaymentsByUuid') || {};
+    const clientPaymentsQuery = {
+      ...paymentsQuery,
+      data: {
+        payments: get(data, 'clientPayments') || { content: [] },
+      },
+    };
 
     return (
       <Fragment>
@@ -107,8 +107,7 @@ class Payments extends PureComponent {
           clientView
         />
         <PaymentsListGrid
-          payments={payments}
-          paymentsQuery={paymentsQuery}
+          paymentsQuery={clientPaymentsQuery}
           handleRefresh={this.handleRefresh}
           clientView
         />

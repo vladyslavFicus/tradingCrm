@@ -31,22 +31,21 @@ class OperatorPersonalForm extends PureComponent {
 
   onSubmit = async (data) => {
     const { updateOperator, notify, operatorProfile: { uuid } } = this.props;
-    const { data: { operator: { updateOperator: { error } } } } = await updateOperator({
-      variables: {
-        uuid,
-        ...data,
-      },
-    });
+    try {
+      await updateOperator({ variables: { uuid, ...data } });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.MESSAGE'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.MESSAGE'),
+      });
+    }
   };
 
   render() {

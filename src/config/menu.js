@@ -13,13 +13,7 @@ const operatorsExcludeAuthorities = [{
 const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.DASHBOARD',
   icon: 'icon-dashboard',
-  items: [{
-    label: 'SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.DEFAULT',
-    url: '/dashboard',
-  }, {
-    label: 'SIDEBAR.TOP_MENU.DASHBOARD_ITEMS.PERSONAL',
-    url: '/personal-dashboard',
-  }],
+  url: '/dashboard',
 }, {
   label: 'SIDEBAR.TOP_MENU.CLIENTS',
   icon: 'icon-users',
@@ -73,7 +67,7 @@ const sidebarTopMenu = [{
   }, {
     label: 'SIDEBAR.TOP_MENU.PARTNERS',
     url: '/partners/list',
-    permissions: new Permissions(permissions.HIERARCHY.GET_AFFILIATE_PARTNERS),
+    permissions: new Permissions(permissions.PARTNERS.PARTNERS_LIST_VIEW),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',

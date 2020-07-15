@@ -10,9 +10,11 @@ const REQUEST = gql`
     $accountUUID: String!
   ) {
   tradingAccount {
-    changePassword(profileUUID: $profileUUID, password: $password, accountUUID: $accountUUID) {
-      success
-    }
+    changePassword(
+      profileUUID: $profileUUID,
+      password: $password,
+      accountUUID: $accountUUID
+    )
   }
 }`;
 

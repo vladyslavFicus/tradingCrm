@@ -21,10 +21,6 @@ export const paymentTypes = {
         tradingTypes.TRANSFER_IN,
         tradingTypes.TRANSFER_OUT,
         tradingTypes.INACTIVITY_FEE,
-        tradingTypes.MIGRATION_IN,
-        tradingTypes.MIGRATION_OUT,
-        tradingTypes.MIGRATION_CREDIT_IN,
-        tradingTypes.MIGRATION_CREDIT_OUT,
         tradingTypes.INTEREST_RATE,
       ].indexOf(name) === -1),
     )

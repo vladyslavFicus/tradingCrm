@@ -12,18 +12,13 @@ class RegistrationsChart extends PureComponent {
     registeredUsersStatistic: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       refetch: PropTypes.func.isRequired,
-      statistics: PropTypes.shape({
-        registrationStatistic: PropTypes.shape({
-          data: PropTypes.shape({
-            additionalStatistics: PropTypes.shape({
-              total: PropTypes.RegisteredUsersAdditionalStatField,
-              month: PropTypes.RegisteredUsersAdditionalStatField,
-              today: PropTypes.RegisteredUsersAdditionalStatField,
-            }),
-            registrations: PropTypes.arrayOf(PropTypes.chartEntity).isRequired,
-          }),
-          error: PropTypes.bool,
+      registrationStatistic: PropTypes.shape({
+        additionalStatistics: PropTypes.shape({
+          total: PropTypes.RegisteredUsersAdditionalStatField,
+          month: PropTypes.RegisteredUsersAdditionalStatField,
+          today: PropTypes.RegisteredUsersAdditionalStatField,
         }),
+        registrations: PropTypes.arrayOf(PropTypes.chartEntity).isRequired,
       }),
     }).isRequired,
   };
@@ -36,17 +31,15 @@ class RegistrationsChart extends PureComponent {
   };
 
   render() {
-    const {
-      registeredUsersStatistic,
-    } = this.props;
+    const { registeredUsersStatistic } = this.props;
 
     return (
       <Chart
         title={I18n.t('DASHBOARD.REGISTRATION_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.REGISTRATION_CHART.TOOLTIP_TITLE')}
-        data={get(registeredUsersStatistic, 'data.statistics.registrationStatistic.data.registrations', [])}
-        totals={get(registeredUsersStatistic, 'data.statistics.registrationStatistic.data.additionalStatistics', {})}
-        hasResults={!get(registeredUsersStatistic, 'data.statistics.registrationStatistic.error', {})}
+        data={get(registeredUsersStatistic, 'data.registrationStatistic.registrations', [])}
+        totals={get(registeredUsersStatistic, 'data.registrationStatistic.additionalStatistics', {})}
+        hasResults={!get(registeredUsersStatistic, 'error') || true}
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={registeredUsersStatistic.loading}

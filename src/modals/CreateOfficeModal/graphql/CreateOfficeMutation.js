@@ -12,10 +12,7 @@ const REQUEST = gql`
       createOffice (
         name: $name
         country: $country
-      ) {
-        data
-        error
-      }
+      )
     }
   }
 `;

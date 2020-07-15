@@ -24,31 +24,28 @@ class TransferAvailabilityForm extends PureComponent {
 
   handleChangeTransfer = async ({ internalTransfer }, { resetForm }) => {
     const { playerUUID, updateTransferAvailability, notify } = this.props;
-    const {
-      data: {
-        profile: {
-          updateConfiguration: {
-            success,
-          },
+
+    try {
+      await updateTransferAvailability({
+        variables: {
+          playerUUID,
+          internalTransfer: !!internalTransfer,
         },
-      },
-    } = await updateTransferAvailability({
-      variables: {
-        playerUUID,
-        internalTransfer: !!internalTransfer,
-      },
-    });
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
-      message: success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
 
-    if (success) {
       resetForm({ values: { internalTransfer } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
     }
   };
 

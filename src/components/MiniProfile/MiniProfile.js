@@ -52,7 +52,7 @@ class MiniProfile extends PureComponent {
       case 'operator':
         return <OperatorMiniProfile uuid={id} />;
       case 'lead':
-        return <LeadMiniProfile leadId={id} department={department} />;
+        return <LeadMiniProfile uuid={id} department={department} />;
       case 'player':
         return <PlayerMiniProfile playerUUID={id} />;
       default:

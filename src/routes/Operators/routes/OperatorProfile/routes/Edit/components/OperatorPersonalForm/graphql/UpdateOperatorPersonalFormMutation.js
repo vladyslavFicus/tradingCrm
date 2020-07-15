@@ -20,26 +20,21 @@ const REQUEST = gql`mutation UpdateOperatorPersonalFormMutation_updateOperator(
       sip: $sip
       country: $country
     ) {
-      data {
-        _id
-        country
-        email
-        fullName
-        firstName
-        lastName
-        operatorStatus
-        phoneNumber
-        sip
-        registeredBy
-        registrationDate
-        statusChangeAuthor
-        statusChangeDate
-        statusReason
-        uuid
-      }
-      error {
-        error
-      }
+      _id
+      country
+      email
+      fullName
+      firstName
+      lastName
+      operatorStatus
+      phoneNumber
+      sip
+      registeredBy
+      registrationDate
+      statusChangeAuthor
+      statusChangeDate
+      statusReason
+      uuid
     }
   }
 }`;

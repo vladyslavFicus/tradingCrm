@@ -667,7 +667,6 @@
         "CASH_BACK": "Cashback",
         "DEPOSIT": "Deposit",
         "WITHDRAW": "Withdraw",
-        "CONFISCATE": "Confiscate",
         "TRANSFER": "Transfer",
         "CREDIT_IN": "Credit In",
         "CREDIT_OUT": "Credit Out"
@@ -741,7 +740,6 @@
     "PAYMENT_TYPE": {
       "DEPOSIT": "Deposit",
       "WITHDRAW": "Withdraw",
-      "CONFISCATE": "Confiscate",
       "FEE": "Fee",
       "INACTIVITY_FEE": "Inactivity fee",
       "INTEREST_RATE": "Interest rate",
@@ -749,11 +747,7 @@
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
       "CREDIT_OUT": "Credit out",
-      "TRANSFER": "Transfer",
-      "MIGRATION_IN": "Migration Starting Balance",
-      "MIGRATION_OUT": "Migration Ending Balance",
-      "MIGRATION_CREDIT_IN": "Migration Credit In",
-      "MIGRATION_CREDIT_OUT": "Migration Credit Out"
+      "TRANSFER": "Transfer"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
@@ -863,6 +857,11 @@
       "BUTTONS": {
         "DELETE": "Delete File"
       },
+      "NOTIFICATIONS": {
+        "TITLE": "Delete file action",
+        "SUCCESS": "File successfully deleted",
+        "ERROR": "File did not delete for some reasons"
+      },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName}"
     },
@@ -892,8 +891,11 @@
       "DOCUMENT_STATUS": "Document Status",
       "UPLOAD_DATA_RANGE": "Upload data range",
       "SEARCH_BY": "Search by",
-      "DATE_FROM": "Start date",
-      "DATE_TO": "End date"
+      "SEARCH_BY_PLACEHOLDER": "Name, UUID",
+      "CATEGORY": "Category",
+      "CATEGORY_PLACEHOLDER": "Choose category",
+      "DOCUMENT_TYPE": "Document type",
+      "DOCUMENT_TYPE_PLACEHOLDER": "Select document type"
     },
     "ACTIONS": {
       "VERIFY": "Verify",
@@ -1616,6 +1618,8 @@
     },
     "LAST_ACTIVITY": {
       "TITLE": "Last activity",
+      "LOCATION": "Location",
+      "MODAL": "Modal",
       "STATUS": {
         "ONLINE": "Online",
         "OFFLINE": "Offline"
@@ -1845,6 +1849,9 @@
       "COUNTRY": "Country",
       "LEAD": "Lead",
       "PHONE": "Phone"
+    },
+    "NO_ACCESS": {
+      "CLIENT": "You have no access to view client information"
     }
   },
   "OPERATORS": {
@@ -1998,6 +2005,27 @@
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
+    "SCHEDULE": {
+      "GRID_HEADER": {
+        "ACTIVATE": "Activate",
+        "DAY": "DAY",
+        "WORKING_HOURS": "Working hours",
+        "TOTAL_LEADS_LIMIT": "Total leads limit",
+        "COUNTRY_LIMIT": "Country limit"
+      },
+      "FROM": "from",
+      "TO": "to",
+      "TITLE": "Api Sending Schedule",
+      "WEEK": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      }
+    },
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
@@ -2010,6 +2038,25 @@
         "TITLE": "Existing partner",
         "MESSAGE": "Partner exits in another brand. Would you like to add permissions for this partner to have access to",
         "BRAND": "%{brand}?"
+      },
+      "SCHEDULE": {
+        "TITLE": "API Settings",
+        "LABELS": {
+          "COUNTRY": "Country",
+          "LEADS_LIMIT": "Total leads limit",
+          "COUNTRY_LIMIT": "Country limit",
+          "WORKING_HOURS_FROM": "Working Hours From",
+          "WORKING_HOURS_TO": "Working Hours To"
+        },
+        "NOTIFICATIONS": {
+          "CREATE": {
+            "TITLE": "Schedule creation"
+          },
+          "UPDATE_STATUS": {
+            "TITLE": "Update status"
+          }
+        },
+        "LIMIT_ERROR": "Amount should be less than %{totalLimit}. Please, change amount correspondingly."
       }
     },
     "PROFILE": {
@@ -2225,6 +2272,21 @@
     "CHANGE_ACCOUNT_STATUS_MODAL": {
       "TITLE": "Change account status",
       "SUBMIT_BUTTON": "Change status"
+    },
+    "ADD_OPERATOR_TO_BRANCH": {
+      "TITLE": "Add operator",
+      "ADD_TO_TEAM": "You are about to add Manager to the Team «%{branch}»",
+      "ADD_TO_DESK": "You are about to add Manager to the Desk «%{branch}». He will be able to see and manage all teams and operators inside this desk",
+      "ADD_TO_OFFICE": "You are about to add Manager to the Office «%{branch}». He will be able to see and manage all desks, teams and operators inside this office",
+      "NOTIFICATION": {
+        "FAILED": {
+          "OPERATOR_ADDED": "Operation failed"
+        },
+        "SUCCEED": {
+          "OPERATOR_ADDED": "Operator added successfully",
+          "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
+        }
+      }
     }
   },
   "FILE_DROPZONE": {
@@ -2774,15 +2836,13 @@
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type",
-      "DEFAULT_DESK": "Default desk"
+      "DESK_TYPE": "Desk type"
     },
     "GRID_FILTERS": {
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Desk name",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type",
-      "DEFAULT_DESK": "Default desk"
+      "DESK_TYPE": "Desk type"
     },
     "MODAL": {
       "HEADER": "New desk",
@@ -2804,7 +2864,6 @@
     },
     "FILTERS": {
       "DESK_TYPE": "Desk type",
-      "DEFAULT_DESK": "Default desk",
       "OFFICE": "Office",
       "DESK": "Desk"
     },
@@ -3002,7 +3061,8 @@
         },
         "ERRORS": {
           "BETWEEN_RATIO": "Ratio must be between :min% and :max%",
-          "INTEGER_RATIO": "The percentage must be an integer"
+          "INTEGER_RATIO": "The percentage must be an integer",
+          "OPERATOR": "The Operator field is required."
         },
         "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
       },

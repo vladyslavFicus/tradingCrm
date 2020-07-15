@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./containers/FilesContainer'));
+export default lazy(() => import('./Files'));

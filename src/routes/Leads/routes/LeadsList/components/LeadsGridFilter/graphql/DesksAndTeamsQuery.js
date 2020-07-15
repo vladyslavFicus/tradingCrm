@@ -4,23 +4,16 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query LeadsGridFilter_DesksAndTeamsQuery {
-  hierarchy {
-    userBranchHierarchy {
-      data {
-        DESK {
-          name
-          uuid
-        }
-        TEAM {
-          name
-          uuid
-          parentBranch {
-            uuid
-          }
-        }
-      }
-      error {
-        error
+  userBranches {
+    DESK {
+      name
+      uuid
+    }
+    TEAM {
+      name
+      uuid
+      parentBranch {
+        uuid
       }
     }
   }

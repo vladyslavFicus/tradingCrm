@@ -14,12 +14,14 @@ class GridBody extends PureComponent {
     withLazyLoad: PropTypes.bool.isRequired,
     scrollParentRef: PropTypes.object,
     initialLoad: PropTypes.bool,
+    useWindow: PropTypes.bool,
     threshold: PropTypes.number,
   };
 
   static defaultProps = {
     scrollParentRef: null,
     initialLoad: false,
+    useWindow: true,
     threshold: 250,
   };
 
@@ -40,6 +42,7 @@ class GridBody extends PureComponent {
       scrollParentRef,
       initialLoad,
       threshold,
+      useWindow,
     } = this.props;
 
     const gridRows = gridData.map((gridRowData, index) => (
@@ -60,7 +63,7 @@ class GridBody extends PureComponent {
             loader={<GridLoader key="grid-loader" />}
             loadMore={this.handlePageChanged}
             initialLoad={initialLoad}
-            useWindow={!scrollParentRef}
+            useWindow={useWindow}
             getScrollParent={scrollParentRef && (() => scrollParentRef)}
             threshold={threshold}
           >

@@ -120,7 +120,7 @@ class LeadsHeader extends PureComponent {
       },
     } = this.props;
 
-    const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
+    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
     const searchLimit = get(query, 'filters.size');
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)

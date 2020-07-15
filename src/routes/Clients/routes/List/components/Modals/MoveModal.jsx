@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
@@ -28,7 +29,7 @@ class MoveModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
-    bulkRepresentativeUpdate: PropTypes.func.isRequired,
+    bulkClientUpdate: PropTypes.func.isRequired,
   };
 
   handleMoveSubmit = async ({ acquisitionStatus }, { setSubmitting, setErrors }) => {
@@ -41,7 +42,7 @@ class MoveModal extends PureComponent {
       content,
       onSuccess,
       onCloseModal,
-      bulkRepresentativeUpdate,
+      bulkClientUpdate,
     } = this.props;
 
     const actionForbidden = checkMovePermission({ ...configs, content, acquisitionStatus });
@@ -65,17 +66,28 @@ class MoveModal extends PureComponent {
     const isMoveAction = true;
     const clients = getClientsData(configs, totalElements, { type, isMoveAction }, content);
 
-    const { error } = await bulkRepresentativeUpdate({
-      variables: {
-        type,
-        clients,
-        isMoveAction,
-        totalElements,
-        ...configs,
-      },
-    });
+    try {
+      await bulkClientUpdate({
+        variables: {
+          type,
+          clients,
+          isMoveAction,
+          totalElements,
+          ...configs,
+        },
+      });
 
-    if (error) {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
+      });
+
+      onCloseModal();
+      onSuccess();
+    } catch (e) {
+      const error = parseErrors(e);
+
       // when we try to move clients, when they don't have assigned {{type}} representative
       // GQL will return exact this error and we catch it to show custom message
       const condition = error.error && error.error === 'clients.bulkUpdate.moveForbidden';
@@ -94,15 +106,6 @@ class MoveModal extends PureComponent {
         });
         setSubmitting(false);
       }
-    } else {
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
-      });
-
-      onCloseModal();
-      onSuccess();
     }
   }
 

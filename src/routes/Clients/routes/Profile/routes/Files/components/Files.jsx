@@ -16,11 +16,11 @@ import FileGrid from './FileGrid';
 class Files extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    filesList: PropTypes.shape({
+    clientFilesData: PropTypes.shape({
       data: PropTypes.pageable(PropTypes.fileEntity),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
-    getFilesCategoriesList: PropTypes.object.isRequired,
+    filesCategoriesData: PropTypes.object.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -46,16 +46,16 @@ class Files extends PureComponent {
   }
 
   onProfileEvent = () => {
-    this.props.filesList.refetch();
+    this.props.clientFilesData.refetch();
   };
 
   onFileEvent = () => {
-    this.props.filesList.refetch();
+    this.props.clientFilesData.refetch();
   };
 
   handlePageChanged = () => {
     const {
-      filesList: {
+      clientFilesData: {
         loadMore,
         loading,
       },
@@ -73,67 +73,86 @@ class Files extends PureComponent {
     documentType,
     verificationStatus,
   ) => {
-    const { filesList: { refetch }, notify } = this.props;
+    const { clientFilesData, notify, updateFileStatus } = this.props;
 
-    const { data: { file: { updateFileStatus: { success } } } } = await this.props.updateFileStatus({
-      variables: {
-        verificationType,
-        documentType,
-        verificationStatus,
-      },
-    });
+    try {
+      await updateFileStatus({
+        variables: {
+          verificationType,
+          documentType,
+          verificationStatus,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('FILES.TITLE'),
-      message: success
-        ? I18n.t('FILES.STATUS_CHANGED')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      clientFilesData.refetch();
 
-    if (success) {
-      refetch();
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.TITLE'),
+        message: I18n.t('FILES.STATUS_CHANGED'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 
   handleVerificationTypeClick = async (uuid, verificationType, documentType) => {
-    const { filesList: { refetch }, notify } = this.props;
+    const { clientFilesData, updateFileMeta, notify } = this.props;
 
-    const { data: { file: { updateFileMeta: { success } } } } = await this.props.updateFileMeta({
-      variables: {
-        uuid,
-        verificationType,
-        documentType,
-      },
-    });
+    try {
+      await updateFileMeta({
+        variables: {
+          uuid,
+          verificationType,
+          documentType,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('FILES.TITLE'),
-      message: success
-        ? I18n.t('FILES.DOCUMENT_TYPE_CHANGED')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      clientFilesData.refetch();
 
-    if (success) {
-      refetch();
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.TITLE'),
+        message: I18n.t('FILES.DOCUMENT_TYPE_CHANGED'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 
   handleChangeFileStatusClick = async (status, uuid) => {
-    const { notify } = this.props;
+    const { clientFilesData, updateFileMeta, notify } = this.props;
 
-    const { data: { file: { updateFileMeta: { success } } } } = await this.props.updateFileMeta({
-      variables: { status, uuid },
-    });
+    try {
+      await updateFileMeta({
+        variables: {
+          status,
+          uuid,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('FILES.TITLE'),
-      message: success
-        ? I18n.t('FILES.CHANGED_FILE_STATUS')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      clientFilesData.refetch();
+
+      notify({
+        level: 'success',
+        title: I18n.t('FILES.TITLE'),
+        message: I18n.t('FILES.CHANGED_FILE_STATUS'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('FILES.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
   };
 
   handleDownloadFileClick = async ({ uuid, fileName }) => {
@@ -170,14 +189,14 @@ class Files extends PureComponent {
 
   render() {
     const {
-      filesList,
-      getFilesCategoriesList,
-      getFilesCategoriesList: { loading },
+      clientFilesData,
+      filesCategoriesData,
+      filesCategoriesData: { loading },
       match: { params: { id } },
     } = this.props;
 
-    const verificationData = get(filesList, 'filesByUuid.data') || [];
-    const { __typename, ...categories } = get(getFilesCategoriesList, 'filesCategoriesList.data') || {};
+    const verificationData = get(clientFilesData, 'clientFiles') || [];
+    const { __typename, ...categories } = get(filesCategoriesData, 'filesCategories') || {};
 
     if (loading) {
       return null;

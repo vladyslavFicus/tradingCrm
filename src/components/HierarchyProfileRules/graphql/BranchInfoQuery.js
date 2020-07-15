@@ -7,14 +7,10 @@ import { branchTypes } from 'constants/hierarchyTypes';
 const REQUEST = gql`query BranchInfoQuery(
   $branchId: String!,
 ) {
-  hierarchy {
-    branchInfo (
-      branchId: $branchId,
-    ) {
-      data {
-        defaultUser
-      }
-    } 
+  branchInfo (
+    branchId: $branchId,
+  ) {
+    defaultUser
   }
 }`;
 

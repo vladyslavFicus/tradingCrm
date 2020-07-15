@@ -54,56 +54,34 @@ class ChangePaymentStatusForm extends PureComponent {
     if (hasValidationErrors) return;
 
     if (paymentStatus) {
-      const {
-        data: {
-          payment: {
-            changePaymentStatus: {
-              data: {
-                success,
-              },
-            },
-          },
-        },
-      } = await updatePaymentStatus({
-        variables: { paymentId, paymentStatus },
-      });
-
-      if (!success) {
+      try {
+        await updatePaymentStatus({ variables: { paymentId, paymentStatus } });
+      } catch (e) {
         errors.push('ERROR_STATUS');
       }
     }
 
     if (paymentMethod) {
-      const {
-        data: {
-          payment: {
-            changePaymentMethod: {
-              data: {
-                success,
-              },
-            },
-          },
-        },
-      } = await updatePaymentMethod({
-        variables: { paymentId, paymentMethod },
-      });
-
-      if (!success) {
+      try {
+        await updatePaymentMethod({ variables: { paymentId, paymentMethod } });
+      } catch (e) {
         errors.push('ERROR_METHOD');
       }
     }
 
-    notify({
-      level: errors.length ? 'error' : 'success',
-      title: I18n.t(errors.length ? 'COMMON.FAIL' : 'COMMON.SUCCESS'),
-      message: I18n.t(
-        errors.length
-          ? `PAYMENT_DETAILS_MODAL.NOTIFICATIONS.${errors.length === 2 ? 'ERROR' : errors[0]}`
-          : 'PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY',
-      ),
-    });
+    if (errors.length) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t(`PAYMENT_DETAILS_MODAL.NOTIFICATIONS.${errors.length === 2 ? 'ERROR' : errors[0]}`),
+      });
+    } else {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
+      });
 
-    if (!errors.length) {
       onCloseModal();
       onSuccess();
     }
@@ -112,7 +90,7 @@ class ChangePaymentStatusForm extends PureComponent {
   render() {
     const { manualPaymentMethods } = this.props;
 
-    const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods.data') || [];
+    const manualMethods = get(manualPaymentMethods, 'data.manualPaymentMethods') || [];
     const isManualPaymentsLoading = manualPaymentMethods.loading;
 
     return (
