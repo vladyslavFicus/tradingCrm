@@ -9,44 +9,37 @@ const REQUEST = gql`
   query PaymentStatisticWithdrawQuery_Balances(
     $dateFrom: String,
     $dateTo: String,
-    $detalization: DetalizationEnum,
+    $detalization: StatisticDetalization__Enum,
     $paymentStatus: String,
     $paymentType: String,
     $profileId: String,
-    $additionalStatistics: [AdditionalStatisticInput]
+    $additionalStatistics: [PaymentStatisticDateRange__Input]
   ) {
-    statistics {
-      payments(
-        dateFrom: $dateFrom,
-        dateTo: $dateTo,
-        detalization: $detalization,
-        paymentStatus: $paymentStatus,
-        paymentType: $paymentType,
-        profileId: $profileId
-        additionalStatistics: $additionalStatistics
-      ) {
-        error {
-          error
-        }
-        data {
-          items {
-            amount
-            count
-            entryDate
-          }
-          itemsTotal {
-            totalAmount
-            totalCount
-          }
-          additionalTotal {
-            totalAmount
-            totalCount
-            todayAmount
-            todayCount
-            monthAmount
-            monthCount
-          }
-        }
+    paymentsStatistic(
+      dateFrom: $dateFrom,
+      dateTo: $dateTo,
+      detalization: $detalization,
+      paymentStatus: $paymentStatus,
+      paymentType: $paymentType,
+      profileId: $profileId
+      additionalStatistics: $additionalStatistics
+    ) {
+      items {
+        amount
+        count
+        entryDate
+      }
+      itemsTotal {
+        totalAmount
+        totalCount
+      }
+      additionalTotal {
+        totalAmount
+        totalCount
+        todayAmount
+        todayCount
+        monthAmount
+        monthCount
       }
     }
   }

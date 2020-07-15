@@ -62,8 +62,9 @@ class Balances extends PureComponent {
     this.setState({ dateFrom });
 
     const refetchData = {
-      dateFrom: dateFrom || clientRegistrationDate,
+      dateFrom: moment(dateFrom || clientRegistrationDate).utc().format(),
       dateTo: moment()
+        .utc()
         .add(2, 'day')
         .startOf('day')
         .format(),
@@ -134,27 +135,26 @@ class Balances extends PureComponent {
 
     const {
       depositPaymentStatistic: {
-        paymentsStatistic: depositStat,
+        data: depositStat,
         loading: depositLoading,
       },
       withdrawPaymentStatistic: {
-        paymentsStatistic: withdrawStat,
+        data: withdrawStat,
         loading: widthdrawLoading,
       },
     } = this.props;
-
     const {
       totalAmount: depositAmount,
       totalCount: depositCount,
-    } = get(depositStat, 'itemsTotal') || moneyObj;
+    } = get(depositStat, 'paymentsStatistic.itemsTotal') || moneyObj;
     const {
       totalAmount: withdrawAmount,
       totalCount: withdrawCount,
-    } = get(withdrawStat, 'itemsTotal') || moneyObj;
+    } = get(withdrawStat, 'paymentsStatistic.itemsTotal') || moneyObj;
 
-    const depositItems = get(depositStat, 'items', [])
+    const depositItems = get(depositStat, 'paymentsStatistic.items', [])
       .filter(i => i.amount > 0);
-    const withdrawItems = get(withdrawStat, 'items', [])
+    const withdrawItems = get(withdrawStat, 'paymentsStatistic.items', [])
       .filter(i => i.amount > 0);
 
     const lastDepositItem = depositItems[depositItems.length - 1];
@@ -163,12 +163,9 @@ class Balances extends PureComponent {
     const firstDepositItem = depositItems[0];
     const firstWithdrawItem = withdrawItems[0];
 
-    const depositError = get(depositStat, 'error');
-    const withdrawError = get(withdrawStat, 'error');
-
     return (
       <Choose>
-        <When condition={!depositLoading || !widthdrawLoading || depositError || withdrawError}>
+        <When condition={!depositLoading || !widthdrawLoading}>
           <div className="row">
             <div className="col-6">
               <div className="header-block-title">
