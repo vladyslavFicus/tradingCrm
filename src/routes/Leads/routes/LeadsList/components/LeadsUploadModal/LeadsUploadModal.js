@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import Dropzone from 'react-dropzone';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
@@ -11,7 +11,7 @@ import uploadLeadsMutation from './graphql/uploadLeadsMutation';
 import './LeadsUploadModal.scss';
 
 const fileConfig = {
-  maxSize: 20,
+  maxSize: 10,
   types: ['.csv'],
 };
 
@@ -44,9 +44,20 @@ class LeadsUploadModal extends PureComponent {
       onCloseModal,
     } = this.props;
 
-    const { data: { upload: { leadCsvUpload: { error } } } } = await uploadLeads({ variables: { file } });
+    try {
+      await uploadLeads({ variables: { file } });
 
-    if (error) {
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
+      });
+
+      onCloseModal();
+      onSuccess();
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
@@ -54,18 +65,7 @@ class LeadsUploadModal extends PureComponent {
           ? I18n.t(error.error, { size: fileConfig.maxSize })
           : I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      return;
     }
-
-    notify({
-      level: 'success',
-      title: I18n.t('COMMON.SUCCESS'),
-      message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
-    });
-
-    onCloseModal();
-    onSuccess();
   };
 
   render() {

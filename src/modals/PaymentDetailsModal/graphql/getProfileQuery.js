@@ -4,22 +4,17 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query newProfile($playerUUID: String!){
-    newProfile(playerUUID: $playerUUID) {
-      data {
-        uuid
-        firstName
-        lastName
-        birthDate
-        profileView {
-          balance {
-            amount
-            credit
-          }
+  query profile($playerUUID: String!){
+    profile(playerUUID: $playerUUID) {
+      uuid
+      firstName
+      lastName
+      birthDate
+      profileView {
+        balance {
+          amount
+          credit
         }
-      }
-      error {
-        error
       }
     }
   }

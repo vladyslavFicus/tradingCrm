@@ -11,7 +11,7 @@ const attributeLabels = () => ({
   city: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.CITY'),
   postCode: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.POST_CODE'),
   address: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.FULL_ADDR'),
-  PObox: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.PO_BOX'),
+  poBox: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.PO_BOX'),
 });
 
 const AddressForm = ({
@@ -57,8 +57,8 @@ const AddressForm = ({
         className="col-lg-3"
       />
       <Field
-        name="PObox"
-        label={attributeLabels().PObox}
+        name="poBox"
+        label={attributeLabels().poBox}
         type="text"
         component={InputField}
         disabled={disabled}

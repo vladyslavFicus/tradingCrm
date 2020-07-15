@@ -15,6 +15,7 @@ class ListFilters extends PureComponent {
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    dirty: PropTypes.bool,
     handleSubmit: PropTypes.func,
     onFieldChange: PropTypes.func,
     filterSetType: PropTypes.string,
@@ -31,6 +32,7 @@ class ListFilters extends PureComponent {
     invalid: true,
     pristine: false,
     submitting: false,
+    dirty: false,
     handleSubmit: null,
     currentValues: null,
     filterSetType: null,
@@ -140,6 +142,7 @@ class ListFilters extends PureComponent {
       invalid,
       pristine,
       submitting,
+      dirty,
       handleSubmit,
       currentValues,
       filterSetType,
@@ -202,7 +205,7 @@ class ListFilters extends PureComponent {
                 </button>
 
                 <button
-                  disabled={submitting || invalid}
+                  disabled={submitting || invalid || (selectedFilterDropdownItem ? false : !dirty)}
                   className="btn btn-primary"
                   type="submit"
                 >

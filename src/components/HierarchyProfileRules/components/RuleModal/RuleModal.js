@@ -28,14 +28,22 @@ import { OperatorsQuery, PartnersQuery } from './graphql';
 import { attributeLabels, customErrors } from './constants';
 import './RuleModal.scss';
 
-const validate = deskType => createValidator({
+const validate = (deskType, withOperatorSpreads) => createValidator({
   name: ['required', 'string'],
   priority: ['required', `in:${priorities.join()}`],
   countries: [`in:${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
-  'operatorSpreads.*.percentage': ['between:1,100'],
+  'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
+  ...withOperatorSpreads && {
+    'operatorSpreads.0.parentUser': 'required',
+  },
   ...(deskType !== deskTypes.RETENTION) && {
     type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
+  },
+  ...(deskType === deskTypes.RETENTION) && {
+    ruleType: ['required', `in:${clientDistribution.map(({ value }) => value).join()}`],
+    depositAmountFrom: ['required', 'integer'],
+    depositAmountTo: ['required', 'integer'],
   },
 }, translateLabels(attributeLabels), false, customErrors);
 
@@ -46,14 +54,10 @@ class RuleModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     deskType: PropTypes.string.isRequired,
     partnersQuery: PropTypes.response({
-      partners: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.partnersListEntity),
-      }),
+      partners: PropTypes.pageable(PropTypes.partnersListEntity),
     }).isRequired,
     operatorsQuery: PropTypes.response({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.operatorsListEntity),
-      }),
+      operators: PropTypes.pageable(PropTypes.operatorsListEntity),
     }).isRequired,
     type: PropTypes.string,
     currentUuid: PropTypes.string,
@@ -69,6 +73,7 @@ class RuleModal extends PureComponent {
   state = {
     ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
     percentageLimitError: false,
+    validationByChange: false,
   };
 
   onHandleSubmit = (values, { setSubmitting, setErrors }) => {
@@ -95,6 +100,8 @@ class RuleModal extends PureComponent {
     setFieldValue(name, value);
   };
 
+  enableValidationByChange = () => this.setState({ validationByChange: true });
+
   render() {
     const {
       onCloseModal,
@@ -111,11 +118,12 @@ class RuleModal extends PureComponent {
       withOperatorSpreads,
     } = this.props;
 
-    const partnersList = get(partnersQueryData, 'data.partners.data.content', []);
-    const operatorsList = get(operatorsQueryData, 'data.operators.data.content', []);
+    const partnersList = get(partnersQueryData, 'partners.content', []);
+    const operatorsList = get(operatorsQueryData, 'operators.content', []);
     const {
       selectedOperators,
       percentageLimitError,
+      validationByChange,
     } = this.state;
 
     return (
@@ -139,10 +147,12 @@ class RuleModal extends PureComponent {
               ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
               : { operatorSpreads: [''] }),
           }}
-          validate={validate(deskType)}
+          validate={validate(deskType, withOperatorSpreads)}
+          validateOnBlur={false}
+          validateOnChange={validationByChange}
           onSubmit={this.onHandleSubmit}
         >
-          {({ errors, dirty, isValid, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
+          {({ errors, dirty, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
             <Form className="RuleModal">
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
@@ -198,21 +208,21 @@ class RuleModal extends PureComponent {
                         <Field
                           name="depositAmountFrom"
                           type="number"
-                          placeholder="0.00"
-                          step="0.01"
+                          placeholder="0"
+                          step="1"
                           component={FormikInputField}
                         />
                         <Field
                           name="depositAmountTo"
                           type="number"
-                          placeholder="0.00"
-                          step="0.01"
+                          placeholder="0"
+                          step="1"
                           component={FormikInputField}
                         />
                       </RangeGroup>
                       <Field
                         name="ruleType"
-                        label={I18n.t(attributeLabels.distribution)}
+                        label={I18n.t(attributeLabels.ruleType)}
                         component={FormikSelectField}
                         disabled={isSubmitting}
                         className="col-6"
@@ -386,7 +396,8 @@ class RuleModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!dirty || !isValid || isSubmitting}
+                  disabled={!dirty || isSubmitting}
+                  onClick={this.enableValidationByChange}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
                 </Button>

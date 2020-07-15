@@ -18,6 +18,7 @@ class DateRangeGroup extends PureComponent {
     endField: PropTypes.shape({
       name: PropTypes.string.isRequired,
       value: PropTypes.string,
+      setValue: PropTypes.func,
     }).isRequired,
     utc: PropTypes.bool,
     withTime: PropTypes.bool,
@@ -36,19 +37,31 @@ class DateRangeGroup extends PureComponent {
     closeOnSelect: false,
   };
 
+  /**
+   *
+   * @param current : _isUTC: false
+   */
   startDateValidator = (current) => {
-    const { endField: { value } } = this.props;
+    const { utc, endField: { value } } = this.props;
+
+    const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrBefore(moment(value))
+      ? current.isSameOrBefore(formatedValue, 'day')
       : current.isSameOrBefore(moment());
   };
 
+  /**
+   *
+   * @param current : _isUTC: false
+   */
   endDateValidator = (current) => {
-    const { startField: { value } } = this.props;
+    const { utc, startField: { value } } = this.props;
+
+    const formatedValue = utc ? moment.utc(value).local() : moment(value);
 
     return value
-      ? current.isSameOrAfter(moment(value))
+      ? current.isSameOrAfter(formatedValue, 'day')
       : true;
   };
 

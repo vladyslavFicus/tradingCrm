@@ -5,12 +5,7 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query NotificationCenterTypesQuery {
-    notificationCenterTypes {
-      data
-      error {
-        error
-      }
-    }
+    notificationCenterTypes
   }
 `;
 

@@ -37,28 +37,26 @@ class HeaderDepartments extends Component {
 
     const { brandId } = jwtDecode(originalToken);
 
-    const {
-      data: {
-        authorization: {
-          chooseDepartment: {
-            data: {
-              token,
-              uuid,
-            },
-            error,
-          },
+    try {
+      const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartmentMutation({
+        variables: {
+          brand: brandId,
+          department,
+          role,
         },
-      },
-    } = await chooseDepartmentMutation({
-      variables: { brand: brandId, department, role },
-    });
+      });
 
-    if (!error) {
       storage.set('token', token);
-      storage.set('auth', { department, role, uuid });
+      storage.set('auth', {
+        department,
+        role,
+        uuid,
+      });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
+    } catch (e) {
+      // Do nothing...
     }
   };
 

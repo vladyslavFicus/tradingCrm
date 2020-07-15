@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get } from 'lodash';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { withRequests } from 'apollo';
@@ -14,7 +13,7 @@ import PropTypes from 'constants/propTypes';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
 import Uuid from 'components/Uuid';
 import { statuses, statusesLabels, statusActions, statusColorNames } from '../../constants';
-import changeAccountStatusMutation from './graphql/changeAccountStatusMutation';
+import PartnerAccountStatusMutation from './graphql/PartnerAccountStatusMutation';
 import './PartnerAccountStatus.scss';
 
 const updateAccountStatusPermissions = new Permissions(permissions.PARTNERS.UPDATE_STATUS);
@@ -48,29 +47,29 @@ class PartnerAccountStatus extends PureComponent {
       notify,
     } = this.props;
 
-    const response = await changeAccountStatus({
-      variables: {
-        uuid,
-        status,
-        reason,
-      },
-    });
+    try {
+      await changeAccountStatus({
+        variables: {
+          uuid,
+          status,
+          reason,
+        },
+      });
 
-    const success = get(response, 'data.partner.changeStatus.success') || false;
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE'),
+        message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: success
-        ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE')
-        : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
-      message: success
-        ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE')
-        : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
-    });
-
-    if (success) {
       refetchPartner();
       changeAccountStatusModal.hide();
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
+        message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
+      });
     }
   };
 
@@ -185,7 +184,7 @@ export default compose(
   withPermission,
   withNotifications,
   withRequests({
-    changeAccountStatus: changeAccountStatusMutation,
+    changeAccountStatus: PartnerAccountStatusMutation,
   }),
   withModals({
     changeAccountStatusModal: ChangeAccountStatusModal,

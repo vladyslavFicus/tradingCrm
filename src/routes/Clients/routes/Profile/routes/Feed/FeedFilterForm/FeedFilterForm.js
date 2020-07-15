@@ -19,9 +19,7 @@ class FeedFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     feedTypes: PropTypes.query({
-      feedTypes: PropTypes.shape({
-        data: PropTypes.objectOf(PropTypes.string),
-      }),
+      feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
   };
 
@@ -36,7 +34,7 @@ class FeedFilterForm extends PureComponent {
       feedTypes,
     } = this.props;
 
-    const feedTypesList = get(feedTypes, 'data.feedTypes.data') || [];
+    const feedTypesList = get(feedTypes, 'data.feedTypes') || [];
     const availableTypes = Object.keys(feedTypesList)
       .filter(key => feedTypesList[key] && key !== '__typename')
       .map(type => ({
@@ -64,7 +62,7 @@ class FeedFilterForm extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ isValid, resetForm, isSubmitting }) => (
+        {({ isValid, resetForm, isSubmitting, dirty }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -102,7 +100,7 @@ class FeedFilterForm extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid || isSubmitting}
+                disabled={!isValid || isSubmitting || !dirty}
                 primary
                 type="submit"
               >

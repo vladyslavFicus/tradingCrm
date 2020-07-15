@@ -10,7 +10,7 @@ const REQUEST = gql`query OperatorsQuery(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
-  $page: PageInputType,
+  $page: Page__Input,
 ) {
   operators(
     searchBy: $searchBy,
@@ -21,20 +21,15 @@ const REQUEST = gql`query OperatorsQuery(
     registrationDateTo: $registrationDateTo,
     page: $page,
   ) {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-        content {
-          uuid
-          fullName
-          operatorStatus
-        }
-    }
-    error {
-      error
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      operatorStatus
     }
   }
 }`;

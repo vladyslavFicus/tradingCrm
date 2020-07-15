@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getIn } from 'formik';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -87,11 +88,13 @@ class FormikSelectField extends Component {
       withAnyOption,
     } = this.props;
 
+    const error = getIn(errors, name);
+
     return (
       <div className={classNames(
         className,
         'form-group',
-        { 'has-danger': showErrorMessage && errors[name] },
+        { 'has-danger': showErrorMessage && error },
         { 'is-disabled': disabled },
       )}
       >
@@ -117,12 +120,11 @@ class FormikSelectField extends Component {
               ]
             }
           </Select>
-
-          <If condition={showErrorMessage && customTouched && errors[name]}>
+          <If condition={showErrorMessage && customTouched && error}>
             <div className="form-row">
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />
-                {errors[name]}
+                {error}
               </div>
             </div>
           </If>

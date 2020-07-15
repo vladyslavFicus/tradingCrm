@@ -8,12 +8,8 @@ const REQUEST = gql`
   mutation PasswordResetRequestMutation(
     $playerUUID: String!
   ) {
-    profile {
-      passwordResetRequest(
-        userUuid: $playerUUID
-      ) {
-        success
-      }
+    auth {
+      resetUserPassword(userUuid: $playerUUID)
     }
   }`;
 

@@ -5,17 +5,15 @@ import { Query } from 'react-apollo';
 
 export const REQUEST = gql`query ChangeOriginalAgent_getOperators {
   operators {
-    data {
-      page
-      number
-      totalElements
-      size
-      last
-      content {
-        uuid
-        fullName
-        operatorStatus
-      }
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      operatorStatus
     }
   }
 }`;

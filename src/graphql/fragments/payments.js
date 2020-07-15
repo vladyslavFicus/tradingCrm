@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTrading {
+const PaymentContentFragment = gql`fragment PaymentContentFragment on Payment {
   _id
   login
   platformType
@@ -27,12 +27,11 @@ const PaymentContentFragment = gql`fragment PaymentContentFragment on PaymentTra
     uuid
     firstName
     lastName
-    fullName
     country
   }
   paymentMetadata {
     clientIp
-    isMobile
+    mobile
     userAgent
     country
   }

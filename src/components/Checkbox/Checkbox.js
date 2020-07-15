@@ -7,7 +7,7 @@ class Checkbox extends PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    value: PropTypes.bool.isRequired,
+    value: PropTypes.bool,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     error: PropTypes.string,
@@ -16,6 +16,7 @@ class Checkbox extends PureComponent {
 
   static defaultProps = {
     disabled: false,
+    value: false,
     className: '',
     error: null,
     onChange: () => {},

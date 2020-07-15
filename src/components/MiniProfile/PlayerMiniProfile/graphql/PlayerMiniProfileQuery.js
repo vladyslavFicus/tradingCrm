@@ -4,40 +4,38 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query getPlayerMiniProfile($playerUUID: String!) {
-    newProfile(playerUUID: $playerUUID) {
-      data {
-        _id
-        age
-        profileView {
-          balance {
-            amount
-          }
-          lastSignInSessions {
-            startedAt
-          }
-          paymentDetails {
-            lastDepositTime
-          }
+  query getPlayerMiniProfile(
+    $playerUUID: String!
+  ) {
+    profile(
+      playerUUID: $playerUUID
+    ) {
+      _id
+      age
+      profileView {
+        balance {
+          amount
         }
-        firstName
-        lastName
-        uuid
-        languageCode
-        status {
-          reason
-          type
+        lastSignInSessions {
+          startedAt
         }
-        registrationDetails {
-          registrationDate
-        }
-        kyc {
-          status
+        paymentDetails {
+          lastDepositTime
         }
       }
-      error {
-        error
-        fields_errors
+      firstName
+      lastName
+      uuid
+      languageCode
+      status {
+        reason
+        type
+      }
+      registrationDetails {
+        registrationDate
+      }
+      kyc {
+        status
       }
     }
   }

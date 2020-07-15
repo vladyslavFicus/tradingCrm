@@ -8,15 +8,8 @@ const REQUEST = gql`
     $noteId: String!
   ) {
     note {
-      remove(
-        noteId: $noteId,
-      ) {
-        data {
-          noteId
-        }
-        error {
-          error
-        }
+      remove(noteId: $noteId) {
+        noteId
       }
     }
   }

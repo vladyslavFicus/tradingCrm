@@ -4,51 +4,45 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query getLeadMiniProfile($leadId: String!) {
-    leadProfile(leadId: $leadId) {
-      data {
-        _id
+  query getLeadMiniProfile($uuid: String!) {
+    lead(uuid: $uuid) {
+      _id
+      uuid
+      name
+      phone
+      mobile
+      country
+      surname
+      language
+      salesStatus
+      registrationDate
+      salesAgent {
+        fullName
         uuid
-        name
-        phone
-        mobile
-        country
-        surname
-        language
-        salesStatus
-        registrationDate
-        salesAgent {
-          fullName
-          uuid
-          hierarchy {
-            parentBranches {
+        hierarchy {
+          parentBranches {
+            name
+            branchType
+            parentBranch {
               name
               branchType
-              parentBranch {
-                name
-                branchType
-              }
             }
           }
         }
-      }
-      error {
-        error
-        fields_errors
       }
     }
   }
 `;
 
-const LeadMiniProfileQuery = ({ leadId, children }) => (
-  <Query query={REQUEST} variables={{ leadId }} fetchPolicy="cache-and-network">
+const LeadMiniProfileQuery = ({ uuid, children }) => (
+  <Query query={REQUEST} variables={{ uuid }} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
 
 LeadMiniProfileQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  leadId: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
 };
 
 export default LeadMiniProfileQuery;

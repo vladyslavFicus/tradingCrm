@@ -92,7 +92,7 @@ class PinnedNotesList extends PureComponent {
       },
     } = this.props;
 
-    const notes = get(data, 'notes.data.content');
+    const notes = get(data, 'notes.content');
 
     return (
       <div className="account-details__pinned-notes">

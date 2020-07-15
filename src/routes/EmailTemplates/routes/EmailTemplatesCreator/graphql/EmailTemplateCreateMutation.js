@@ -4,19 +4,17 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation EmailTemplateCreate($name: String!, $subject: String!, $text: String!) {
+  mutation EmailTemplateCreate(
+    $name: String!
+    $subject: String!
+    $text: String!
+  ) {
     emailTemplates {
-      createEmailTemplate(name: $name, subject: $subject, text: $text) {
-        data {
-          id
-          name
-          subject
-          text
-        }
-        error {
-          error
-        }
-      }
+      createEmailTemplate(
+        name: $name
+        subject: $subject
+        text: $text
+      )
     }
   }
 `;

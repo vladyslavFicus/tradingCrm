@@ -16,7 +16,7 @@ const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE
 
 class AcquisitionStatus extends PureComponent {
   static propTypes = {
-    newProfile: PropTypes.object,
+    profile: PropTypes.object,
     acquisitionData: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     auth: PropTypes.shape({
@@ -31,13 +31,13 @@ class AcquisitionStatus extends PureComponent {
   };
 
   static defaultProps = {
-    newProfile: null,
+    profile: null,
   };
 
   handleChangeAcquisitionStatusClick = (type) => {
     const {
       modals: { representativeUpdateModal },
-      newProfile: { uuid, acquisition },
+      profile: { uuid, acquisition },
     } = this.props;
 
     const assignToOperator = get(acquisition, `${type.toLowerCase()}Representative`) || null;

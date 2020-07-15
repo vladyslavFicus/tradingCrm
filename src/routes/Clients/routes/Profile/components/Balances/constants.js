@@ -30,4 +30,13 @@ export const selectItems = [
   },
 ];
 
+export const initialQueryParams = (paymentType, paymentStatus, dateFrom, dateTo) => ({
+  dateFrom,
+  dateTo,
+  paymentType,
+  paymentStatus,
+  detalization: 'PER_DAYS',
+  additionalStatistics: [],
+});
+
 export const moneyObj = { totalAmount: 0, totalCount: 0 };

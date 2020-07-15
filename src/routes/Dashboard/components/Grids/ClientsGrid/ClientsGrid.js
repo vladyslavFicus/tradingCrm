@@ -24,10 +24,12 @@ import ClientsQuery from './graphql/ClientsQuery';
 class ClientsGrid extends PureComponent {
   static propTypes = {
     clientsQuery: PropTypes.query({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.newProfile),
-      }),
+      profiles: PropTypes.pageable(PropTypes.profile),
     }).isRequired,
+  };
+
+  handleRowClick = ({ uuid }) => {
+    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   render() {
@@ -36,13 +38,14 @@ class ClientsGrid extends PureComponent {
       clientsQuery: { loading },
     } = this.props;
 
-    const profiles = get(clientsQuery, 'data.profiles.data.content', []);
+    const profiles = get(clientsQuery, 'data.profiles.content') || [];
 
     return (
       <div className="card card-body">
         <Grid
           data={profiles}
           isLoading={loading}
+          handleRowClick={this.handleRowClick}
           withLazyLoad={false}
           withRowsHover
         >

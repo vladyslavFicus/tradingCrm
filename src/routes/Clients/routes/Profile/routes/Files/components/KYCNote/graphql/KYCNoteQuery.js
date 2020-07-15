@@ -5,21 +5,16 @@ import { Query } from 'react-apollo';
 
 export const REQUEST = gql`
   query KYCNote_KYCNoteQuery($playerUUID: String!) {
-    newProfile(playerUUID: $playerUUID) {
-      data {
-        _id
-        kycNote {
-          noteId
-          content
-          targetUUID
-          playerUUID
-        }
-        kyc {
-          uuid
-        }
+    profile(playerUUID: $playerUUID) {
+      _id
+      kycNote {
+        noteId
+        content
+        targetUUID
+        playerUUID
       }
-      error {
-        error
+      kyc {
+        uuid
       }
     }
   }

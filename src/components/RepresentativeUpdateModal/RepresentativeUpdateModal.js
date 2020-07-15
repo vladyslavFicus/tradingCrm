@@ -5,7 +5,7 @@ import { withApollo, compose } from 'react-apollo';
 import { Formik, Field, Form } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
 import { salesStatuses, salesStatusValues } from 'constants/salesStatuses';
@@ -47,25 +47,20 @@ const validate = (values, { desks, users, type }) => (
 class RepresentativeUpdateModal extends PureComponent {
   static propTypes = {
     hierarchyUsersByTypeQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        hierarchyUsersByType: PropTypes.response({
-          SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          SALES_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          SALES_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          SALES_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-          RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        }),
+      usersByType: PropTypes.response({
+        SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        SALES_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        SALES_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        SALES_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
+        RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
       }),
     }).isRequired,
     userBranchHierarchyQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        userBranchHierarchy: PropTypes.response({
-          DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-          TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
-        }),
+      userBranches: PropTypes.shape({
+        DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
       }),
     }).isRequired,
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
@@ -147,49 +142,48 @@ class RepresentativeUpdateModal extends PureComponent {
 
     setSubmitting(true);
 
-    const {
-      data: {
-        hierarchy: {
-          branchChildren: { data: teams, error },
+    try {
+      const {
+        data: {
+          branchChildren: teams,
         },
-      },
-    } = await this.props.client.query({
-      query: getBranchChildren,
-      variables: { uuid: selectedDesk },
-    });
+      } = await this.props.client.query({
+        query: getBranchChildren,
+        variables: { uuid: selectedDesk },
+      });
 
-    setSubmitting(false);
+      setFieldValue(fieldNames.DESK, selectedDesk);
 
-    if (error) {
+      if (teams && teams.length === 1) {
+        await this.handleTeamChange(
+          teams[0].uuid,
+          {
+            setFieldValue,
+            setFieldError,
+            setSubmitting,
+            values,
+          },
+        );
+      } else if (values[fieldNames.TEAM]) {
+        setFieldValue(fieldNames.TEAM, null);
+      } else if (teams && teams.length >= 2
+        && values[fieldNames.REPRESENTATIVE]
+      ) {
+        setFieldValue(fieldNames.REPRESENTATIVE, null);
+      }
+
+      this.setState({
+        teams: teams || [],
+        teamsLoading: false,
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
       this.setState({ teamsLoading: false });
       setFieldError(fieldNames.TEAM, error.error);
-      return;
     }
 
-    setFieldValue(fieldNames.DESK, selectedDesk);
-
-    if (teams && teams.length === 1) {
-      await this.handleTeamChange(
-        teams[0].uuid,
-        {
-          setFieldValue,
-          setFieldError,
-          setSubmitting,
-          values,
-        },
-      );
-    } else if (values[fieldNames.TEAM]) {
-      setFieldValue(fieldNames.TEAM, null);
-    } else if (teams && teams.length >= 2
-      && values[fieldNames.REPRESENTATIVE]
-    ) {
-      setFieldValue(fieldNames.REPRESENTATIVE, null);
-    }
-
-    this.setState({
-      teams: teams || [],
-      teamsLoading: false,
-    });
+    setSubmitting(false);
   };
 
   handleTeamChange = async (
@@ -207,52 +201,47 @@ class RepresentativeUpdateModal extends PureComponent {
 
     setSubmitting(true);
 
-    const {
-      data: {
-        hierarchy: {
-          usersByBranch: { data, error },
+    try {
+      const { data: { usersByBranch } } = await client.query({
+        query: getUsersByBranch,
+        variables: {
+          onlyActive: true,
+          uuids: [selectedTeam],
         },
-      },
-    } = await client.query({
-      query: getUsersByBranch,
-      variables: {
-        onlyActive: true,
-        uuids: [selectedTeam],
-      },
-    });
+      });
 
-    setSubmitting(false);
+      setSubmitting(false);
 
-    if (error) {
-      this.setState({ agentsLoading: false });
-      setFieldError(fieldNames.REPRESENTATIVE, error.error);
-      return;
-    }
+      const agents = filterAgents(usersByBranch || [], type);
 
-    const agents = filterAgents(data || [], type);
+      setFieldValue(fieldNames.TEAM, selectedTeam);
 
-    setFieldValue(fieldNames.TEAM, selectedTeam);
-
-    if (agents && agents.length >= 1) {
-      if (values[fieldNames.REPRESENTATIVE]) {
-        let repIncludesAgents = false;
-        agents.forEach((agent) => {
-          if (values[fieldNames.REPRESENTATIVE].includes(agent.uuid)) {
-            repIncludesAgents = true;
+      if (agents && agents.length >= 1) {
+        if (values[fieldNames.REPRESENTATIVE]) {
+          let repIncludesAgents = false;
+          agents.forEach((agent) => {
+            if (values[fieldNames.REPRESENTATIVE].includes(agent.uuid)) {
+              repIncludesAgents = true;
+            }
+          });
+          if (!repIncludesAgents) {
+            setFieldValue(fieldNames.REPRESENTATIVE, agents[0].uuid);
           }
-        });
-        if (!repIncludesAgents) {
+        } else {
           setFieldValue(fieldNames.REPRESENTATIVE, agents[0].uuid);
         }
-      } else {
-        setFieldValue(fieldNames.REPRESENTATIVE, agents[0].uuid);
       }
-    }
 
-    this.setState({
-      agents,
-      agentsLoading: false,
-    });
+      this.setState({
+        agents,
+        agentsLoading: false,
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      this.setState({ agentsLoading: false });
+      setFieldError(fieldNames.REPRESENTATIVE, error.error);
+    }
   };
 
   handleUpdateRepresentative = async ({
@@ -294,11 +283,11 @@ class RepresentativeUpdateModal extends PureComponent {
     let error = null;
 
     if (userType === userTypes.LEAD_CUSTOMER) {
-      const { error: responseError } = await bulkLeadRepresentativeUpdate({
-        variables: { ...variables, leads },
-      });
-
-      error = responseError;
+      try {
+        await bulkLeadRepresentativeUpdate({ variables: { ...variables, leads } });
+      } catch {
+        error = true;
+      }
     } else {
       const { clients, currentInactiveOperator } = this.props;
 
@@ -312,11 +301,11 @@ class RepresentativeUpdateModal extends PureComponent {
         variables.isMoveAction = true;
       }
 
-      const { error: responseError } = await bulkClientRepresentativeUpdate({
-        variables: { ...variables, clients },
-      });
-
-      error = responseError;
+      try {
+        await bulkClientRepresentativeUpdate({ variables: { ...variables, clients } });
+      } catch {
+        error = true;
+      }
     }
 
     if (error) {
@@ -361,7 +350,7 @@ class RepresentativeUpdateModal extends PureComponent {
 
     const { agentsLoading, teamsLoading, agents, teams } = this.state;
 
-    const desks = get(userBranchHierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
+    const desks = get(userBranchHierarchyData, 'userBranches.DESK') || [];
     const filteredDesks = desks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const users = getAgents(hierarchyUsersByTypeQuery, type) || [];
@@ -525,7 +514,7 @@ class RepresentativeUpdateModal extends PureComponent {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={!dirty || !isValid || deskLoading || agentsDisabled}
+                  disabled={!dirty || !isValid || deskLoading || agentsDisabled || isSubmitting}
                   primary
                 >
                   {I18n.t('CLIENTS.MODALS.SUBMIT')}
