@@ -84,28 +84,34 @@ class CreateCallbackModal extends PureComponent {
       notify,
     } = this.props;
 
-    const { data: { callback: { create: { data, error } } } } = await createCallback({
-      variables: {
-        userId: id,
-        ...values,
-      },
-    });
+    try {
+      const responseData = await createCallback({
+        variables: {
+          userId: id,
+          ...values,
+        },
+      });
 
-    if (data && data.callbackId) {
-      await this.createNote(data.callbackId);
-    }
+      const callbackId = get(responseData, 'data.callback.create.callbackId');
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('CALLBACKS.CREATE_MODAL.TITLE'),
-      message: error
-        ? I18n.t('COMMON.SOMETHING_WRONG')
-        : I18n.t('CALLBACKS.CREATE_MODAL.SUCCESSFULLY_CREATED'),
-    });
+      if (callbackId) {
+        await this.createNote(callbackId);
+      }
 
-    if (!error) {
       onCloseModal();
       onSuccess();
+
+      notify({
+        level: 'success',
+        title: I18n.t('CALLBACKS.CREATE_MODAL.TITLE'),
+        message: I18n.t('CALLBACKS.CREATE_MODAL.SUCCESSFULLY_CREATED'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('CALLBACKS.CREATE_MODAL.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
 
     setSubmitting(false);
@@ -124,7 +130,7 @@ class CreateCallbackModal extends PureComponent {
     } = this.props;
 
     const isOperatorsLoading = operatorsData.loading;
-    const operators = get(operatorsData, 'data.operators.data.content') || [];
+    const operators = get(operatorsData, 'data.operators.content') || [];
 
     return (
       <Modal className="CreateCallbackModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -149,6 +155,7 @@ class CreateCallbackModal extends PureComponent {
                       : 'CALLBACKS.CREATE_MODAL.SELECT_OPERATOR')
                   }
                   disabled={isSubmitting || isOperatorsLoading}
+                  searchable
                 >
                   {operators.map(({ uuid, fullName, operatorStatus }) => (
                     <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>

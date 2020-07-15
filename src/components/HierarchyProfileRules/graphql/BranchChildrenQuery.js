@@ -7,14 +7,10 @@ import { branchTypes } from 'constants/hierarchyTypes';
 const REQUEST = gql`query BranchChildrenQuery(
   $uuid: String!,
 ) {
-  hierarchy {
-    branchChildren (
-      uuid: $uuid,
-    ) {
-      data {
-        defaultUser
-      }
-    }
+  branchChildren (
+    uuid: $uuid,
+  ) {
+    defaultUser
   }
 }`;
 

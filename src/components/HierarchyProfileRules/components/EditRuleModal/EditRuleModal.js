@@ -34,7 +34,7 @@ const validate = createValidator({
   priority: ['required', `in:,${priorities.join()}`],
   countries: [`in:,${Object.keys(countryList).join()}`],
   languages: [`in:${getAvailableLanguages().join()}`],
-  'operatorSpreads.*.percentage': ['between:1,100'],
+  'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
   type: [`in:,${ruleTypes.map(({ value }) => value).join()}`],
 }, translateLabels(attributeLabels), false, customErrors);
 
@@ -47,9 +47,7 @@ class EditRuleModal extends PureComponent {
     operators: PropTypes.object.isRequired,
     withOperatorSpreads: PropTypes.bool,
     rule: PropTypes.query({
-      rules: PropTypes.shape({
-        data: PropTypes.object.isRequired,
-      }),
+      rules: PropTypes.object.isRequired,
     }).isRequired,
   };
 
@@ -65,7 +63,7 @@ class EditRuleModal extends PureComponent {
 
   static getDerivedStateFromProps({ rule: { data, loading } }, { mounted }) {
     if (!loading && !mounted) {
-      const operatorSpreads = get(data, 'rules.data[0].actions[0].operatorSpreads') || [];
+      const operatorSpreads = get(data, 'rules[0].actions[0].operatorSpreads') || [];
       const currentOperators = operatorSpreads.map(({ parentUser }) => parentUser);
 
       return {
@@ -111,8 +109,8 @@ class EditRuleModal extends PureComponent {
       withOperatorSpreads,
     } = this.props;
 
-    const partnersList = get(partners, 'data.partners.data.content', []);
-    const operatorsList = get(operators, 'data.operators.data.content', []);
+    const partnersList = get(partners, 'data.partners.content', []);
+    const operatorsList = get(operators, 'data.operators.content', []);
 
     const {
       name,
@@ -123,14 +121,14 @@ class EditRuleModal extends PureComponent {
       type,
       partners: currentPartners = [],
       sources,
-    } = get(data, 'rules.data[0]') || {};
+    } = get(data, 'rules[0]') || {};
 
     const {
       selectedOperators,
       percentageLimitError,
     } = this.state;
 
-    const currentOperators = get(data, 'rules.data[0].actions[0].operatorSpreads', [])
+    const currentOperators = get(data, 'rules[0].actions[0].operatorSpreads', [])
       .map(({ parentUser, percentage }) => ({ parentUser, percentage }));
 
     return (

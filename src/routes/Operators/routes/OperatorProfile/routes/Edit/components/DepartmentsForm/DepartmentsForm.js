@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import get from 'lodash/get';
 import PropTypes from 'constants/propTypes';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
 import { FormikSelectField } from 'components/Formik';
@@ -25,6 +24,7 @@ class DepartmentsForm extends PureComponent {
     addDepartment: PropTypes.func.isRequired,
     operatorUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   };
@@ -34,22 +34,32 @@ class DepartmentsForm extends PureComponent {
   };
 
   handleAddDepartment = async ({ department, role }) => {
-    const { operatorUuid: uuid, addDepartment, notify } = this.props;
-    const response = await addDepartment({ variables: { uuid, department, role } });
-    const error = get(response, 'data.operator.addDepartment.error');
+    const { operatorUuid: uuid, addDepartment, notify, onSuccess } = this.props;
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
-      message: error
-        ? I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE')
-        : I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
-    });
+    try {
+      await addDepartment({
+        variables: {
+          uuid,
+          department,
+          role,
+        },
+      });
 
-    if (!error) {
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
+      });
+
+      onSuccess();
+
       this.toggleDepartmentForm();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
+      });
     }
   };
 

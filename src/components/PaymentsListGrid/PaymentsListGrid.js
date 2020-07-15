@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
@@ -29,11 +31,8 @@ class PaymentsListGrid extends PureComponent {
       loading: PropTypes.bool,
       loadMore: PropTypes.func,
       variables: PropTypes.object,
-    }).isRequired,
-    payments: PropTypes.shape({
-      data: PropTypes.pageable(PropTypes.paymentEntity),
-      error: PropTypes.shape({
-        error: PropTypes.any,
+      data: PropTypes.shape({
+        payments: PropTypes.pageable(PropTypes.paymentEntity),
       }),
     }).isRequired,
     handleRefresh: PropTypes.func.isRequired,
@@ -48,14 +47,14 @@ class PaymentsListGrid extends PureComponent {
 
   handlePageChanged = () => {
     const {
+      paymentsQuery,
       paymentsQuery: {
         variables: { args },
         loadMore,
       },
-      payments,
     } = this.props;
 
-    const page = get(payments, 'data.number') || 0;
+    const page = get(paymentsQuery, 'data.payments.number') || 0;
 
     loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
@@ -83,25 +82,23 @@ class PaymentsListGrid extends PureComponent {
     const {
       clientView,
       handleRefresh,
-      paymentsQuery: {
-        loading,
-      },
-      payments,
+      paymentsQuery,
       withLazyLoad,
     } = this.props;
 
-    const { content, last } = get(payments, 'data') || { content: [] };
+    const { content, last } = get(paymentsQuery, 'data.payments') || { content: [] };
+    const isLoading = paymentsQuery.loading;
 
     return (
       <div className="card card-body">
         <Grid
-          data={content}
+          data={content || []}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
-          isLoading={loading}
+          isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={withLazyLoad}
-          withNoResults={payments.error}
+          withNoResults={!isLoading && !content.length}
         >
           <GridColumn
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS')}

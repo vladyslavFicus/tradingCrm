@@ -5,31 +5,22 @@ import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
   mutation LeadBulkRepresUpdate(
-    $teamId: String
     $salesRepresentative: [String]
     $salesStatus: String
-    $type: String!
     $allRowsSelected: Boolean
-    $leads: [LeadBulkUpdateType]
+    $leads: [LeadUpdate__Input]
     $totalElements: Int
-    $searchParams: LeadSearchParams
+    $searchParams: LeadSearch__Input
   ) {
     leads {
       bulkLeadUpdate(
-        teamId: $teamId
         salesRep: $salesRepresentative
         salesStatus: $salesStatus
-        type: $type
         allRowsSelected: $allRowsSelected
         leads: $leads
         totalElements: $totalElements
         searchParams: $searchParams
-      ) {
-        data
-        error {
-          error
-        }
-      }
+      )
     }
   }
 `;

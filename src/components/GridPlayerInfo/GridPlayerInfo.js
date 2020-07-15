@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import MiniProfile from 'components/MiniProfile';
 import Uuid from 'components/Uuid';
@@ -19,7 +18,16 @@ class GridPlayerInfo extends PureComponent {
 
   static defaultProps = {
     id: null,
-    mainInfoClassName: 'font-weight-700',
+    mainInfoClassName: 'font-weight-700 cursor-pointer',
+  };
+
+  handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const { profile: { uuid } } = this.props;
+
+    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   render() {
@@ -31,13 +39,9 @@ class GridPlayerInfo extends PureComponent {
     return (
       <If condition={profile}>
         <div className="max-width-200">
-          <Link
-            className={mainInfoClassName}
-            to={`/clients/${uuid}/profile`}
-            target="_blank"
-          >
+          <div className={mainInfoClassName} onClick={this.handleClick}>
             {fullName}
-          </Link>
+          </div>
 
           <div
             className="font-size-11"

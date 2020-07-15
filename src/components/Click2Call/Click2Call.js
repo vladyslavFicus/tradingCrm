@@ -49,15 +49,9 @@ class Click2Call extends PureComponent {
   handleDidLogicCall = async () => {
     const { notify, number } = this.props;
 
-    const { data: { profile: { clickToCall: { success } } } } = await this.props.clickToCall(
-      {
-        variables: {
-          number,
-        },
-      },
-    );
-
-    if (!success) {
+    try {
+      await this.props.clickToCall({ variables: { number } });
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
@@ -69,16 +63,9 @@ class Click2Call extends PureComponent {
   handleAsteriskCall = prefix => async () => {
     const { notify, number } = this.props;
 
-    const { data: { asterisk: { createCall: { success } } } } = await this.props.asteriskCreateCall(
-      {
-        variables: {
-          number,
-          prefix,
-        },
-      },
-    );
-
-    if (!success) {
+    try {
+      await this.props.asteriskCreateCall({ variables: { number, prefix } });
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),

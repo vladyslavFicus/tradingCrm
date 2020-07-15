@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -38,24 +38,13 @@ class HierarchyProfileRules extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     rulesQuery: PropTypes.query({
-      rules: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.ruleType),
-        error: PropTypes.object,
-      }),
+      rules: PropTypes.arrayOf(PropTypes.ruleType),
     }).isRequired,
     branchChildrenQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        branchChildren: PropTypes.shape({
-          data: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        }),
-      }),
+      branchChildren: PropTypes.arrayOf(PropTypes.hierarchyBranch),
     }).isRequired,
     branchInfoQuery: PropTypes.query({
-      hierarchy: PropTypes.shape({
-        branchInfo: PropTypes.shape({
-          data: PropTypes.hierarchyBranch,
-        }),
-      }),
+      branchInfo: PropTypes.hierarchyBranch,
     }).isRequired,
     createRule: PropTypes.func.isRequired,
     createRuleRetention: PropTypes.func.isRequired,
@@ -102,7 +91,7 @@ class HierarchyProfileRules extends PureComponent {
     switch (type) {
       case branchTypes.DESK: {
         const { branchChildrenQuery } = this.props;
-        const teams = get(branchChildrenQuery, 'data.hierarchy.branchChildren.data');
+        const teams = get(branchChildrenQuery, 'data.branchChildren');
 
         if (!branchChildrenQuery.loading) {
           data = {
@@ -114,7 +103,8 @@ class HierarchyProfileRules extends PureComponent {
       }
       case branchTypes.TEAM: {
         const { branchInfoQuery } = this.props;
-        const branchInfo = get(branchInfoQuery, 'data.hierarchy.branchInfo.data');
+
+        const branchInfo = get(branchInfoQuery, 'data.branchInfo');
 
         if (!branchInfoQuery.loading) {
           data = {
@@ -152,38 +142,36 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery,
     } = this.props;
 
-    const {
-      data: {
-        rules: {
-          createRule: {
-            error,
+    try {
+      await createRule(
+        {
+          variables: {
+            actions: [{
+              parentBranch: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+            }],
+            uuid,
+            ...decodeNullValues(variables),
           },
         },
-      },
-    } = await createRule(
-      {
-        variables: {
-          actions: [{
-            parentBranch: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-          }],
-          uuid,
-          ...decodeNullValues(variables),
-        },
-      },
-    );
+      );
 
-    await rulesQuery.refetch();
+      await rulesQuery.refetch();
 
-    editRuleModal.hide();
+      editRuleModal.hide();
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: error ? I18n.t('COMMON.FAIL') : I18n.t('COMMON.SUCCESS'),
-      message: error
-        ? I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED')
-        : I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
+      });
+    }
   };
 
   handleAddRule = async (variables, setErrors) => {
@@ -197,13 +185,13 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    let response;
+    let request;
     let createRuleType = 'createRule';
 
     if (deskType === deskTypes.RETENTION) {
       const { ruleType, ...data } = variables;
       createRuleType = 'createRuleRetention';
-      response = await createRuleRetention(
+      request = createRuleRetention(
         {
           variables: {
             actions: [{
@@ -215,7 +203,7 @@ class HierarchyProfileRules extends PureComponent {
         },
       );
     } else {
-      response = await createRule(
+      request = createRule(
         {
           variables: {
             actions: [{
@@ -228,9 +216,21 @@ class HierarchyProfileRules extends PureComponent {
       );
     }
 
-    const { data: { rules: { [createRuleType]: { data, error } } } } = response;
+    try {
+      const { data: { rule: { [createRuleType]: { uuid } } } } = await request;
 
-    if (error) {
+      await rulesQuery.refetch();
+
+      ruleModal.hide();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: uuid }),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
@@ -258,16 +258,6 @@ class HierarchyProfileRules extends PureComponent {
       }
 
       setErrors({ submit: _error });
-    } else {
-      await rulesQuery.refetch();
-
-      ruleModal.hide();
-
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: data.uuid }),
-      });
     }
   };
 
@@ -281,27 +271,13 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    let response;
-    let deleteRuleType = 'deleteRule';
+    try {
+      if (deskType === deskTypes.RETENTION) {
+        await deleteRuleRetention({ variables: { uuid } });
+      } else {
+        await deleteRule({ variables: { uuid } });
+      }
 
-    if (deskType === deskTypes.RETENTION) {
-      deleteRuleType = 'deleteRuleRetention';
-      response = await deleteRuleRetention({ variables: { uuid } });
-    } else {
-      response = await deleteRule({ variables: { uuid } });
-    }
-
-    const { data: { rules: { [deleteRuleType]: { data, error } } } } = response;
-
-    if (error) {
-      deleteModal.hide();
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
-      });
-    } else {
       await rulesQuery.refetch();
 
       deleteModal.hide();
@@ -309,7 +285,13 @@ class HierarchyProfileRules extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: data.uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });
     }
   };
@@ -320,7 +302,7 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery: { data: rulesQueryData },
     } = this.props;
 
-    const data = get(rulesQueryData, 'rules.data') || get(rulesQueryData, 'rulesRetention.data') || [];
+    const data = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
 
     const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
 
@@ -471,13 +453,13 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    const error = get(rulesQueryData, 'rules.error') || get(rulesQueryData, 'rulesRetention.error');
+    const error = get(rulesQueryData, 'error') || get(rulesQueryData, 'error');
 
     if (error) {
       return null;
     }
 
-    const entities = get(rulesQueryData, 'rules.data') || get(rulesQueryData, 'rulesRetention.data') || [];
+    const entities = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
@@ -494,7 +476,6 @@ class HierarchyProfileRules extends PureComponent {
           <Grid
             data={entities}
             isLoading={loading}
-            handleRowClick={this.handleOfficeClick}
           >
             <GridColumn
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}

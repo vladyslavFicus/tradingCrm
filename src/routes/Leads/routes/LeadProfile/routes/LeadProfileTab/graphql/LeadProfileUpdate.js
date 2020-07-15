@@ -27,25 +27,7 @@ const REQUEST = gql`mutation updateLeadProfile(
       birthDate: $birthDate,
       gender: $gender,
       city: $city,
-    ) {
-      data {
-        _id
-        uuid
-        name
-        surname
-        phone
-        mobile
-        email
-        country
-        birthDate
-        gender
-        city
-      }
-      error {
-        error
-        fields_errors
-      }
-    }
+    )
   }
 }`;
 

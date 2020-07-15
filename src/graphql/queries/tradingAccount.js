@@ -1,7 +1,14 @@
 import gql from 'graphql-tag';
 
-const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountType: String) {
-    tradingAccount(uuid: $uuid, accountType: $accountType) {
+const getClientTradingAccounts = gql`
+  query getClientTradingAccounts(
+    $profileUUID: String!,
+    $accountType: String
+  ) {
+    clientTradingAccounts(
+      profileUUID: $profileUUID,
+      accountType: $accountType
+    ) {
       accountUUID
       currency
       balance
@@ -28,8 +35,7 @@ const getTradingAccount = gql`query getTradingAccount($uuid: String!, $accountTy
         createDate
       }
     }
-  }`;
+  }
+`;
 
-export {
-  getTradingAccount,
-};
+export { getClientTradingAccounts };

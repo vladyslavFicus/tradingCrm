@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
-import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -16,7 +14,7 @@ const attributeLabels = {
   city: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.CITY'),
   postCode: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.POST_CODE'),
   address: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.FULL_ADDR'),
-  PObox: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.PO_BOX'),
+  poBox: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.LABEL.PO_BOX'),
 };
 
 const validator = createValidator(
@@ -39,7 +37,6 @@ class AddressForm extends PureComponent {
     }),
     updateAddress: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -51,22 +48,32 @@ class AddressForm extends PureComponent {
     },
   };
 
-  handleUpdateAddress = (values, { setSubmitting }) => {
-    const { updateAddress, playerUUID, notify } = this.props;
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+  };
 
-    const { error } = updateAddress({
-      variables: {
-        playerUUID,
-        ...values,
-      },
-    });
+  handleUpdateAddress = async (values, { setSubmitting }) => {
+    const { updateAddress, playerUUID } = this.props;
+    try {
+      await updateAddress({
+        variables: {
+          playerUUID,
+          ...values,
+        },
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
 
     setSubmitting(false);
   };
@@ -120,6 +127,13 @@ class AddressForm extends PureComponent {
                 className="col-lg-3"
               />
               <Field
+                name="poBox"
+                label={attributeLabels.poBox}
+                component={FormikInputField}
+                disabled={disabled}
+                className="col-lg-3"
+              />
+              <Field
                 name="postCode"
                 label={attributeLabels.postCode}
                 component={FormikInputField}
@@ -141,9 +155,6 @@ class AddressForm extends PureComponent {
   }
 }
 
-export default compose(
-  withNotifications,
-  withRequests({
-    updateAddress: UpdateAddressMutation,
-  }),
-)(AddressForm);
+export default withRequests({
+  updateAddress: UpdateAddressMutation,
+})(AddressForm);

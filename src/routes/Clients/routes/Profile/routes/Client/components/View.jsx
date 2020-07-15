@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import I18n from 'i18n-js';
+import { parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
@@ -25,7 +26,7 @@ class View extends Component {
     updateEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     updatePersonalInformation: PropTypes.func.isRequired,
-    newProfile: PropTypes.newProfile.isRequired,
+    profile: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
@@ -66,43 +67,45 @@ class View extends Component {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        profile: {
-          updatePersonalInformation: { error },
+    try {
+      await updatePersonalInformation({
+        variables: {
+          playerUUID,
+          languageCode: data.language,
+          ...decodeNullValues(data),
         },
-      },
-    } = await updatePersonalInformation({
-      variables: {
-        playerUUID,
-        languageCode: data.language,
-        ...decodeNullValues(data),
-      },
-    });
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')} 
-      ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleVerifyEmail = async () => {
-    const {
-      data: {
-        profile: {
-          verifyEmail: { error },
-        },
-      },
-    } = await this.props.verifyEmail();
+    try {
+      await this.props.verifyEmail();
 
-    this.context.addNotification({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   handleUpdateEmail = (data) => {
@@ -114,43 +117,33 @@ class View extends Component {
     });
   };
 
-  updateEmail = data => async () => {
+  updateEmail = variables => async () => {
     this.props.modals.confirmationModal.hide();
 
-    const {
-      data: {
-        profile: {
-          updateEmail: {
-            error,
-          },
-        },
-      },
-    } = await this.props.updateEmail({
-      variables: {
-        ...data,
-      },
-    });
+    try {
+      await this.props.updateEmail({ variables });
 
-    if (!error) {
       this.context.addNotification({
-        level: error ? 'error' : 'success',
+        level: 'success',
         title: I18n.t('COMMON.EMAIL'),
-        message: error
-          ? I18n.t('COMMON.SOMETHING_WRONG')
-          : I18n.t('COMMON.SAVE_CHANGES'),
+        message: I18n.t('COMMON.SAVE_CHANGES'),
       });
-    } else if (error && error.error === 'error.entity.already.exist') {
-      this.context.addNotification({
-        level: 'error',
-        title: I18n.t('COMMON.EMAIL'),
-        message: I18n.t('error.validation.email.exists'),
-      });
+    } catch (e) {
+      const { error } = parseErrors(e);
+
+      if (error === 'error.entity.already.exist') {
+        this.context.addNotification({
+          level: 'error',
+          title: I18n.t('COMMON.EMAIL'),
+          message: I18n.t('error.validation.email.exists'),
+        });
+      }
     }
   };
 
   render() {
     const {
-      newProfile: { loading },
+      profile: { loading },
       permission: { permissions: currentPermissions },
     } = this.props;
 
@@ -163,25 +156,23 @@ class View extends Component {
     }
 
     const {
-      newProfile: {
-        newProfile: {
-          data: {
-            passport,
-            firstName,
-            lastName,
-            uuid,
-            birthDate,
-            gender,
-            address,
-            languageCode,
-            contacts: { additionalEmail, additionalPhone, email, phone },
-            kyc: { status: kycStatus },
-            configuration: { internalTransfer },
-            phoneVerified,
-            emailVerified,
-            identificationNumber,
-            timeZone,
-          },
+      profile: {
+        profile: {
+          passport,
+          firstName,
+          lastName,
+          uuid,
+          birthDate,
+          gender,
+          address,
+          languageCode,
+          contacts: { additionalEmail, additionalPhone, email, phone },
+          kyc: { status: kycStatus },
+          configuration: { internalTransfer },
+          phoneVerified,
+          emailVerified,
+          identificationNumber,
+          timeZone,
         },
       },
     } = this.props;

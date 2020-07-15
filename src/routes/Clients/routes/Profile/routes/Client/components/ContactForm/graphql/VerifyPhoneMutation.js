@@ -5,21 +5,16 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation VerifyPhoneMutation_ContactForm(
-    $playerUUID: String!,
-    $phone: String,
+    $playerUUID: String!
+    $phone: String
   ) {
     profile {
       verifyPhone(
-        playerUUID: $playerUUID,
-        phone: $phone,
+        playerUUID: $playerUUID
+        phone: $phone
       ) {
-        data {
-          _id
-          phoneVerified
-        }
-        error {
-          error
-        }
+        _id
+        phoneVerified
       }
     }
   }`;

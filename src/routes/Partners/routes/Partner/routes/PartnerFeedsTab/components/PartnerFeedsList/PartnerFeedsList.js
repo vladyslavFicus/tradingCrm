@@ -12,7 +12,7 @@ import './PartnerFeedsList.scss';
 class PartnerFeedsList extends PureComponent {
   static propTypes = {
     feedsData: PropTypes.query({
-      feeds: PropTypes.response({
+      feeds: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.feed),
         last: PropTypes.bool,
         page: PropTypes.number,
@@ -30,7 +30,7 @@ class PartnerFeedsList extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = get(feedsData, 'data.feeds.data.page') || 0;
+    const currentPage = get(feedsData, 'data.feeds.page') || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
@@ -64,7 +64,7 @@ class PartnerFeedsList extends PureComponent {
   render() {
     const { feedsData } = this.props;
 
-    const { content, totalPages, last } = get(feedsData, 'data.feeds.data') || {};
+    const { content, totalPages, last } = get(feedsData, 'data.feeds') || {};
 
     return (
       <div className="PartnerFeedsList">

@@ -6,27 +6,27 @@ import { AddressFragment } from 'graphql/fragments/address';
 
 const REQUEST = gql`
   mutation updateAddressMutation_AddressForm(
-    $playerUUID: String!,
-    $countryCode: String,
-    $city: String,
-    $state: String,
-    $postCode: String,
-    $address: String,
+    $playerUUID: String!
+    $countryCode: String
+    $city: String
+    $state: String
+    $postCode: String
+    $poBox: String
+    $address: String
   ) {
     profile {
       updateAddress(
-        playerUUID: $playerUUID,
-        countryCode: $countryCode,
-        city: $city,
-        state: $state,
-        postCode: $postCode,
-        address: $address,
+        playerUUID: $playerUUID
+        countryCode: $countryCode
+        city: $city
+        state: $state
+        postCode: $postCode
+        poBox: $poBox
+        address: $address
       ) {
-        data {
-          _id
-          address {
-            ...AddressFragment
-          }
+        _id
+        address {
+          ...AddressFragment
         }
       }
     }

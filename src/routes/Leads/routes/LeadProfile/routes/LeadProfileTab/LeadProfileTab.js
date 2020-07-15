@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
@@ -26,10 +26,7 @@ const countryCodes = Object.keys(countryList);
 class LeadProfileTab extends PureComponent {
   static propTypes = {
     leadProfile: PropTypes.query({
-      leadProfile: PropTypes.shape({
-        data: PropTypes.lead,
-        error: PropTypes.any,
-      }),
+      lead: PropTypes.lead,
     }).isRequired,
     updateLead: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -60,9 +57,9 @@ class LeadProfileTab extends PureComponent {
     return getBrand().privateEmailByDepartment.includes(department);
   };
 
-  handleUpdateLead = async (variables) => {
+  handleUpdateLead = async (variables, { setSubmitting }) => {
     const { notify, updateLead, leadProfile } = this.props;
-    const { email, phone, mobile } = get(leadProfile, 'data.leadProfile.data') || {};
+    const { email, phone, mobile } = get(leadProfile, 'data.lead') || {};
 
     const requestData = {
       ...variables,
@@ -71,11 +68,21 @@ class LeadProfileTab extends PureComponent {
       mobile: this.phoneAccessDenied() ? mobile : variables.mobile,
     };
 
-    const { data: { leads: { update: { error } } } } = await updateLead({
-      variables: requestData,
-    });
+    setSubmitting(false);
 
-    if (error) {
+    try {
+      await updateLead({ variables: requestData });
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('LEAD_PROFILE.UPDATED'),
+      });
+
+      leadProfile.refetch();
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
@@ -86,13 +93,7 @@ class LeadProfileTab extends PureComponent {
       this.setState({
         submitError: error.error === 'error.entity.already.exist'
           ? I18n.t('lead.error.entity.already.exist', { email: variables.email })
-          : error.error,
-      });
-    } else {
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEAD_PROFILE.UPDATED'),
+          : error.message,
       });
     }
   };
@@ -102,7 +103,7 @@ class LeadProfileTab extends PureComponent {
       leadProfile,
     } = this.props;
 
-    const error = get(leadProfile, 'data.leadProfile.error');
+    const error = get(leadProfile, 'error');
 
     if (error) {
       return null;
@@ -123,7 +124,7 @@ class LeadProfileTab extends PureComponent {
       birthDate,
       gender,
       city,
-    } = get(leadProfile, 'data.leadProfile.data') || {};
+    } = get(leadProfile, 'data.lead') || {};
 
     return (
       <Formik

@@ -6,15 +6,6 @@ const deskTypes = [{
   value: 'SALES',
 }];
 
-const defaultDeskFlags = [{
-  label: 'COMMON.NO',
-  value: 'NO',
-}, {
-  label: 'COMMON.YES',
-  value: 'YES',
-}];
-
 export {
   deskTypes,
-  defaultDeskFlags,
 };

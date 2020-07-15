@@ -4,12 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query PaymentMethodsQuery {
-  paymentMethods {
-    data
-    error {
-      error
-    }
-  }
+  paymentMethods
 }`;
 
 const PaymentMethodsQuery = ({ children }) => (

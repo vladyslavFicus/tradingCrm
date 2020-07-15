@@ -5,26 +5,18 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query UserBranchHierarchyQuery {
-    hierarchy {
-      userBranchHierarchy {
-        error {
-          error
-        }
-        data {
-          DESK {
-            name
-            uuid
-            branchType
-            defaultUser
-            defaultBranch
-            deskType
-            language
-            brandId
-            parentBranch {
-              uuid
-            }
-            isDefault
-          }
+    userBranches {
+      DESK {
+        name
+        uuid
+        branchType
+        defaultUser
+        defaultBranch
+        deskType
+        language
+        brandId
+        parentBranch {
+          uuid
         }
       }
     }

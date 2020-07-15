@@ -25,30 +25,25 @@ const REQUEST = gql`query OperatorFeeds_getFeeds(
     targetUUID: $targetUUID,
     auditLogType: $auditLogType,
   ) {
-    error {
-      error
+    page
+    size
+    last
+    totalElements
+    number
+    content {
+      id
+      brandId
+      authorFullName
+      authorUuid
+      creationDate
+      details
+      ip
+      targetFullName
+      targetUuid
+      type
+      uuid
     }
-    data {
-      page
-      size
-      last
-      totalElements
-      number
-      content {
-        id
-        brandId
-        authorFullName
-        authorUuid
-        creationDate
-        details
-        ip
-        targetFullName
-        targetUuid
-        type
-        uuid
-      } 
-    }
-  } 
+  }
 }`;
 
 const FeedsQuery = ({ children, location: { query }, match: { params: { id } } }) => (

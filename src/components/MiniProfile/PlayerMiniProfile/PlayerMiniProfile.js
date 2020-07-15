@@ -11,35 +11,45 @@ import { statuses } from 'constants/user';
 import Amount from 'components/Amount';
 import Uuid from 'components/Uuid';
 import ShortLoader from 'components/ShortLoader';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { userStatusNames } from '../constants';
 import PlayerMiniProfileQuery from './graphql/PlayerMiniProfileQuery';
 
-const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
+const PlayerMiniProfile = ({ miniProfile }) => {
+  const { data, error, loading } = miniProfile;
+
   if (loading) {
     return (
       <div className="mini-profile-loader mini-profile-loader-player">
-        <ShortLoader height={40} />
+        <ShortLoader />
+      </div>
+    );
+  }
+
+  if (parseErrors(error).error === 'error.profile.access.hierarchy.not-subordinate') {
+    return (
+      <div className="mini-profile-error">
+        <div className="mini-profile-error-message">
+          {I18n.t('MINI_PROFILE.NO_ACCESS.CLIENT')}
+        </div>
       </div>
     );
   }
 
   const {
-    newProfile: {
-      data: {
-        registrationDetails: { registrationDate },
-        profileView: {
-          lastSignInSessions,
-          balance: { amount },
-        },
-        kyc: { status: KYCStatus },
-        status: { type: statusType, reason },
-        languageCode,
-        firstName,
-        lastName,
-        uuid,
-        age,
+    profile: {
+      registrationDetails: { registrationDate },
+      profileView: {
+        lastSignInSessions,
+        balance: { amount },
       },
+      kyc: { status: KYCStatus },
+      status: { type: statusType, reason },
+      languageCode,
+      firstName,
+      lastName,
+      uuid,
+      age,
     },
   } = data;
 
@@ -47,7 +57,7 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
   const lastLogin = (lastSignInSessions && lastSignInSessions.length)
     ? lastSignInSessions[lastSignInSessions.length - 1].startedAt
     : null;
-  const lastDepositTime = get(data, 'newProfile.data.profileView.paymentDetails.lastDepositTime', null);
+  const lastDepositTime = get(data, 'profile.profileView.paymentDetails.lastDepositTime', null);
 
   return (
     <div className={classNames('mini-profile mini-profile', userStatusNames[statusType])}>
@@ -109,9 +119,10 @@ const PlayerMiniProfile = ({ miniProfile: { data, loading } }) => {
 PlayerMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      newProfile: PropTypes.shape({
-        data: PropTypes.newProfile,
-      }),
+      profile: PropTypes.profile,
+    }),
+    error: PropTypes.shape({
+      error: PropTypes.string,
     }),
     loading: PropTypes.bool.isRequired,
   }).isRequired,

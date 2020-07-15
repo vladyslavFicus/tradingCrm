@@ -4,12 +4,7 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query ManualPaymentMethodsQuery {
-  manualPaymentMethods {
-    data
-    error {
-      error
-    }
-  }
+  manualPaymentMethods
 }`;
 
 const ManualPaymentMethodsQuery = ({ children }) => (

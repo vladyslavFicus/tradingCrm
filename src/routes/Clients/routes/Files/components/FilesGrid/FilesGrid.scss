@@ -1,0 +1,20 @@
+.FilesGrid {
+  padding: 5px 25px 10px;
+
+  &__client-name {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  &__time,
+  &__uuid {
+    font-size: 11px;
+  }
+
+  &__date,
+  &__category,
+  &__file-title,
+  &__document-type {
+    font-weight: 700;
+  }
+}

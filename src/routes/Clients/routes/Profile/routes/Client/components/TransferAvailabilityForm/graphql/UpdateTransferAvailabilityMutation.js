@@ -12,9 +12,7 @@ const REQUEST = gql`
       updateConfiguration(
         playerUUID: $playerUUID,
         internalTransfer: $internalTransfer,
-      ) {
-        success
-      }
+      )
     }
   }`;
 

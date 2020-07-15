@@ -17,7 +17,7 @@ class ChangeOriginalAgent extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    tradeId: PropTypes.string.isRequired,
+    tradeId: PropTypes.number.isRequired,
     platformType: PropTypes.string.isRequired,
     agentId: PropTypes.string,
   };
@@ -29,26 +29,27 @@ class ChangeOriginalAgent extends PureComponent {
   handleChangeOriginalAgent = async ({ agentId }) => {
     const { tradeId, notify, platformType } = this.props;
 
-    const {
-      data: { tradingActivity: { changeOriginalAgent: { success } } },
-    } = await this.props.changeOriginalAgent({
-      variables: {
-        tradeId,
-        agentId,
-        platformType,
-      },
-    });
+    try {
+      await this.props.changeOriginalAgent({
+        variables: {
+          tradeId,
+          agentId,
+          platformType,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      message: success
-        ? I18n.t('TRADING_ACTIVITY_MODAL.NOTIFICATIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      notify({
+        level: 'success',
+        message: I18n.t('TRADING_ACTIVITY_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
+      });
 
-    if (success) {
       this.props.onCloseModal();
       this.props.onSuccess();
+    } catch {
+      notify({
+        level: 'error',
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   }
 
@@ -58,7 +59,7 @@ class ChangeOriginalAgent extends PureComponent {
       operators: { loading },
       agentId,
     } = this.props;
-    const operatorsList = get(operators, 'data.operators.data.content') || [];
+    const operatorsList = get(operators, 'data.operators.content') || [];
 
     return (
       <div className="col">

@@ -65,22 +65,21 @@ class ContactForm extends PureComponent {
   handleVerifyPhone = async (phone) => {
     const { verifyPhone, notify } = this.props;
 
-    const {
-      data: {
-        profile: {
-          verifyPhone: {
-            error,
-          },
-        },
-      },
-    } = await verifyPhone({ variables: { phone } });
+    try {
+      await verifyPhone({ variables: { phone } });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   onSubmit = async ({
@@ -102,24 +101,23 @@ class ContactForm extends PureComponent {
       additionalEmail: this.emailAccess() ? currentAdditionalEmail : additionalEmail,
     };
 
-    const {
-      data: {
-        profile: {
-          updateContacts: {
-            error,
-          },
-        },
-      },
-    } = await updateContacts({
-      variables,
-    });
+    try {
+      await updateContacts({
+        variables,
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-      message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
-        ${error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+      });
+    }
   };
 
   render() {

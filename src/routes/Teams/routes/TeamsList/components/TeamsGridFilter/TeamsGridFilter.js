@@ -28,6 +28,7 @@ class TeamsGridFilter extends PureComponent {
       deskUuid: PropTypes.string,
     }).isRequired,
     isSubmitting: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
   };
 
   handleReset = () => {
@@ -49,11 +50,12 @@ class TeamsGridFilter extends PureComponent {
       values: { officeUuid },
       desksAndOffices,
       isSubmitting,
+      dirty,
     } = this.props;
 
     const isLoading = desksAndOffices.loading;
-    const offices = get(desksAndOffices, 'data.hierarchy.userBranchHierarchy.data.OFFICE') || [];
-    const desks = get(desksAndOffices, 'data.hierarchy.userBranchHierarchy.data.DESK') || [];
+    const offices = get(desksAndOffices, 'data.userBranches.OFFICE') || [];
+    const desks = get(desksAndOffices, 'data.userBranches.DESK') || [];
     const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === officeUuid);
     const desksOptions = officeUuid ? desksByOffice : desks;
 
@@ -93,7 +95,7 @@ class TeamsGridFilter extends PureComponent {
                 : 'COMMON.SELECT_OPTION.ANY',
             )}
             component={FormikSelectField}
-            disabled={isLoading || (officeUuid && !desksByOffice.length)}
+            disabled={isLoading || (!!officeUuid && !desksByOffice.length)}
             searchable
             withAnyOption
           >
@@ -115,7 +117,7 @@ class TeamsGridFilter extends PureComponent {
 
           <Button
             className="TeamsGridFilter__button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !dirty}
             type="submit"
             primary
           >

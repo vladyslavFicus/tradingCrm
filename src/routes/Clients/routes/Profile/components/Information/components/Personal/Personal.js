@@ -33,7 +33,7 @@ import './Personal.scss';
 
 class Personal extends PureComponent {
   static propTypes = {
-    newProfile: PropTypes.newProfile,
+    profile: PropTypes.profile,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -46,35 +46,41 @@ class Personal extends PureComponent {
   };
 
   static defaultProps = {
-    newProfile: {},
+    profile: {},
   };
 
   handleRegulatedChanged = async (variables) => {
     const {
-      newProfile: { uuid: playerUUID },
+      profile: { uuid: playerUUID },
       updateConfiguration,
       notify,
     } = this.props;
 
-    const { data: { profile: { updateConfiguration: { success } } } } = await updateConfiguration({
-      variables: {
-        playerUUID,
-        ...variables,
-      },
-    });
+    try {
+      await updateConfiguration({
+        variables: {
+          playerUUID,
+          ...variables,
+        },
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('COMMON.ACTIONS.UPDATED'),
-      message: success
-        ? I18n.t('COMMON.ACTIONS.SUCCESSFULLY')
-        : I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.UPDATED'),
+        message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ACTIONS.UPDATED'),
+        message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
+      });
+    }
   };
 
   triggerEmailSelectModal = () => {
     const {
-      newProfile: { contacts: { email }, firstName, lastName },
+      profile: { contacts: { email }, firstName, lastName },
       modals: { emailSelectModal } } = this.props;
 
     emailSelectModal.show({
@@ -97,7 +103,7 @@ class Personal extends PureComponent {
     }
 
     const {
-      newProfile: {
+      profile: {
         birthDate,
         gender,
         convertedFromLeadUuid,

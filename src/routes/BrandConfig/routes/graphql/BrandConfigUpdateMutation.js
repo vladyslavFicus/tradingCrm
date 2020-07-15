@@ -12,13 +12,7 @@ const REQUEST = gql`
       update (
         brandId: $brandId
         config: $config
-      ) {
-        data
-        error {
-          error
-          fields_errors
-        }
-      }
+      )
     }
   }
 `;
