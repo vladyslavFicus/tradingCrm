@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { omit, get } from 'lodash';
+import { omit, get, intersection } from 'lodash';
 import I18n from 'i18n-js';
 import { withFormik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
@@ -15,7 +15,6 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
-import UsersByBranchQuery from './graphql/UsersByBranchQuery';
 import { leadAccountStatuses } from '../../constants';
 import './LeadsGridFilter.scss';
 
@@ -38,7 +37,6 @@ class LeadsGridFilter extends PureComponent {
     isSubmitting: PropTypes.bool.isRequired,
     dirty: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,
-    setFieldValue: PropTypes.func.isRequired,
     values: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     ).isRequired,
@@ -48,7 +46,7 @@ class LeadsGridFilter extends PureComponent {
         DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
-    operators: PropTypes.query({
+    operatorsData: PropTypes.query({
       operators: PropTypes.shape({
         content: PropTypes.arrayOf(
           PropTypes.shape({
@@ -65,11 +63,6 @@ class LeadsGridFilter extends PureComponent {
     }).isRequired,
   };
 
-  state = {
-    filteredOperators: null,
-    branchOperatorsLoading: false,
-  };
-
   get leadsSalesStatuses() {
     return omit(salesStatuses, [
       'DIALER_NA',
@@ -80,61 +73,38 @@ class LeadsGridFilter extends PureComponent {
     ]);
   }
 
-  filterOperators = async (value) => {
+  filterOperatorsByBranch = ({ operators, uuids }) => (
+    operators.filter((operator) => {
+      const branches = get(operator, 'hierarchy.parentBranches').map(({ uuid }) => uuid) || [];
+
+      return intersection(branches, uuids).length;
+    })
+  )
+
+  filterOperators = () => {
     const {
-      client,
-      operators: {
-        data: operatorsData,
-      },
-      setFieldValue,
+      operatorsData,
+      desksAndTeamsData,
+      values: { desks, teams },
     } = this.props;
 
-    const operators = get(operatorsData, 'operators.content') || [];
+    const operators = get(operatorsData, 'data.operators.content') || [];
 
-    let desksTeamsOperators = [];
-
-    setFieldValue('salesAgents', null);
-    this.setState({ branchOperatorsLoading: true });
-
-    const { data: { usersByBranch } } = await client.query({
-      query: UsersByBranchQuery,
-      variables: { uuids: value },
-    });
-
-    desksTeamsOperators = usersByBranch && usersByBranch.map(({ uuid }) => uuid);
-
-    const filteredOperators = operators.filter(operator => desksTeamsOperators.indexOf(operator.uuid) !== -1);
-    this.setState({ filteredOperators, branchOperatorsLoading: false });
-  };
-
-  handleChangeBranch = fieldName => (value) => {
-    const {
-      values,
-      setFieldValue,
-    } = this.props;
-
-    let branches = value;
-
-    setFieldValue(fieldName, value);
-
-    // If we chosen desk -> clear teams and set this branches to load operators
-    if (fieldName === 'desks') {
-      setFieldValue('teams', null);
-
-      branches = value;
+    if (teams && teams.length) {
+      return this.filterOperatorsByBranch({ operators, uuids: teams });
     }
 
-    // If we chosen team -> set this branches to load operators or if it's empty --> set desks to branches
-    if (fieldName === 'teams') {
-      branches = value || values.desks;
+    if (desks && desks.length) {
+      // If desk chosen -> find all teams of these desks to filter operators
+      const teamsList = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
+      const teamsByDesks = teamsList.filter(team => desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
+      const uuids = [...desks, ...teamsByDesks];
+
+      return this.filterOperatorsByBranch({ operators, uuids });
     }
 
-    if (branches) {
-      this.filterOperators(branches);
-    } else {
-      this.setState({ filteredOperators: null });
-    }
-  };
+    return operators;
+  }
 
   handleReset = () => {
     const { history, resetForm } = this.props;
@@ -149,21 +119,16 @@ class LeadsGridFilter extends PureComponent {
       isSubmitting,
       dirty,
       desksAndTeamsData,
-      operators: {
-        data: operatorsData,
-        loading: operatorsLoading,
-      },
+      operatorsData: { loading: isOperatorsLoading },
       desksAndTeamsData: { loading: isDesksAndTeamsLoading },
     } = this.props;
 
-    const { filteredOperators, branchOperatorsLoading } = this.state;
-
     const desksUuids = values.desks || [];
-    const operators = filteredOperators || get(operatorsData, 'operators.content') || [];
     const desks = get(desksAndTeamsData, 'data.userBranches.DESK') || [];
     const teams = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
     const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
     const teamsOptions = desksUuids.length ? teamsByDesks : teams;
+    const operatorsOptions = this.filterOperators();
 
     return (
       <Form className="LeadsGridFilter__form">
@@ -204,7 +169,6 @@ class LeadsGridFilter extends PureComponent {
             }
             component={FormikSelectField}
             disabled={isDesksAndTeamsLoading || desks.length === 0}
-            customOnChange={this.handleChangeBranch('desks')}
             multiple
             searchable
           >
@@ -228,7 +192,6 @@ class LeadsGridFilter extends PureComponent {
             }
             component={FormikSelectField}
             disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
-            customOnChange={this.handleChangeBranch('teams')}
             multiple
             searchable
           >
@@ -245,22 +208,22 @@ class LeadsGridFilter extends PureComponent {
             label={I18n.t(attributeLabels.salesAgents)}
             placeholder={
               I18n.t(
-                (!operatorsLoading && !branchOperatorsLoading && operators.length === 0)
+                (!isOperatorsLoading && operatorsOptions.length === 0)
                   ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                   : 'COMMON.SELECT_OPTION.DEFAULT',
               )
             }
             component={FormikSelectField}
-            disabled={operatorsLoading || branchOperatorsLoading || operators.length === 0}
+            disabled={isOperatorsLoading || operatorsOptions.length === 0}
             multiple
             searchable
           >
-            {operators.map(({ uuid, fullName, operatorStatus }) => (
+            {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
               <option
                 key={uuid}
                 value={uuid}
                 disabled={operatorStatus === operatorsStasuses.INACTIVE
-                  || operatorStatus === operatorsStasuses.CLOSED}
+                || operatorStatus === operatorsStasuses.CLOSED}
               >
                 {fullName}
               </option>
@@ -357,7 +320,7 @@ export default compose(
   withRouter,
   withRequests({
     desksAndTeamsData: DesksAndTeamsQuery,
-    operators: OperatorsQuery,
+    operatorsData: OperatorsQuery,
   }),
   withFormik({
     mapPropsToValues: () => ({}),
