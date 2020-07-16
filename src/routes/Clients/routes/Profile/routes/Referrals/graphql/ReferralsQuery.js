@@ -31,6 +31,7 @@ const REQUEST = gql`query ReferralsQuery($uuid: String!) {
         name
         profileUuid
         languageCode
+        countryCode
         registrationDate
       }
       bonusType

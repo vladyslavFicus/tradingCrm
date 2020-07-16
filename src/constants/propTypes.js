@@ -937,6 +937,7 @@ PropTypes.referral = PropTypes.shape({
     name: PropTypes.string,
     profileUuid: PropTypes.string,
     languageCode: PropTypes.string,
+    countryCode: PropTypes.string,
     registrationDate: PropTypes.string,
   }),
   bonusType: PropTypes.string,

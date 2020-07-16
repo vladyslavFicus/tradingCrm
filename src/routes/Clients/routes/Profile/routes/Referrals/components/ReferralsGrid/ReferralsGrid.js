@@ -20,7 +20,7 @@ import './ReferralsGrid.scss';
 class ReferralsGrid extends PureComponent {
   static propTypes = {
     referralsQuery: PropTypes.query({
-      referrals: PropTypes.pageable(PropTypes.referral), // TODO
+      referrals: PropTypes.pageable(PropTypes.referral),
     }).isRequired,
   };
 
@@ -135,7 +135,7 @@ class ReferralsGrid extends PureComponent {
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.COUNTRY')}
-            render={({ address: { countryCode }, referralInfo: { languageCode } }) => (
+            render={({ referralInfo: { languageCode, countryCode } }) => (
               <Choose>
                 <When condition={countryCode}>
                   <CountryLabelWithFlag
