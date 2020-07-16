@@ -63,6 +63,25 @@ class LeadsGrid extends PureComponent {
     }
   };
 
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
+  };
+
   handleRowClick = ({ uuid }) => {
     window.open(`/leads/${uuid}`, '_blank');
   };
@@ -245,6 +264,7 @@ class LeadsGrid extends PureComponent {
         <Grid
           data={content || []}
           touchedRowsIds={touchedRowsIds}
+          handleSort={this.handleSort}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
           handleRowClick={this.handleRowClick}
@@ -274,6 +294,7 @@ class LeadsGrid extends PureComponent {
           />
           <GridColumn
             header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
+            sortBy="lastNote.changedAt"
             render={this.renderLastNote}
           />
           <GridColumn
