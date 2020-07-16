@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 
 export default (data, location) => {
   let response = data ? { ...data } : null;
-  const currentPage = get(response, 'data.number') || 0;
+  const currentPage = get(response, 'number') || 0;
 
   if (response && !isEmpty(response.data)) {
     const { totalElements, content, size: responseSize } = response.data;
