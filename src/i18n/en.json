@@ -657,6 +657,7 @@
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
     "PASSWORD": "Password",
+    "PASSWORD_INVALID": "The password format is invalid. It must be at least 8 symbols length and contain uppercase, lowercase letters, and digits.",
     "PAYMENT": {
       "TYPE": {
         "TIP": "Tip",
