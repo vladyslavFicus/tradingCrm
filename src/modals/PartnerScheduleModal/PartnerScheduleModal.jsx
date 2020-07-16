@@ -10,6 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import countryList from 'utils/countryList';
+import { convertTimeToUTC, convertTimeFromUTC } from 'utils/timeConverter';
 import { Button } from 'components/UI';
 import {
   FormikInputField,
@@ -60,7 +61,13 @@ class PartnerScheduleModal extends PureComponent {
     };
   }
 
-  onHandleSubmit = async ({ totalLimit, countrySpreads, ...rest }, { setSubmitting }) => {
+  onHandleSubmit = async ({
+    totalLimit,
+    countrySpreads,
+    workingHoursFrom,
+    workingHoursTo,
+    ...rest
+  }, { setSubmitting }) => {
     const {
       activated,
       day,
@@ -91,6 +98,8 @@ class PartnerScheduleModal extends PureComponent {
               // filter need for delete empty value in array
               ...countrySpreads.filter(item => item && item.limit),
             ],
+            workingHoursFrom: convertTimeToUTC(workingHoursFrom),
+            workingHoursTo: convertTimeToUTC(workingHoursTo),
             ...decodeNullValues(rest),
           },
         });
@@ -148,8 +157,8 @@ class PartnerScheduleModal extends PureComponent {
       >
         <Formik
           initialValues={{
-            workingHoursFrom: workingHoursFrom || '00:00',
-            workingHoursTo: workingHoursTo || '00:00',
+            workingHoursFrom: convertTimeFromUTC(workingHoursFrom) || '00:00',
+            workingHoursTo: convertTimeFromUTC(workingHoursTo) || '00:00',
             totalLimit,
             countrySpreads: [...this.props.countrySpreads, ''],
           }}
@@ -170,7 +179,6 @@ class PartnerScheduleModal extends PureComponent {
                 <div className="row">
                   <Field
                     name="workingHoursFrom"
-                    type="time"
                     label={I18n.t(attributeLabels.workingHoursFrom)}
                     dateFormat={null}
                     className="col-lg"
@@ -178,7 +186,6 @@ class PartnerScheduleModal extends PureComponent {
                   />
                   <Field
                     name="workingHoursTo"
-                    type="time"
                     label={I18n.t(attributeLabels.workingHoursTo)}
                     dateFormat={null}
                     className="col-lg"
