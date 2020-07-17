@@ -1,6 +1,6 @@
 export default {
   OPERATORS: {
-    OPERATORS_LIST_VIEW: 'operator.searchOperatorsPageable',
+    OPERATORS_LIST_VIEW: 'operator.searchOperators',
     CREATE: 'operator.createOperator',
     PROFILE_VIEW: 'operator.getOperatorProfileByUuid',
     ADD_AUTHORITY: 'auth2.addUserAuthority',
