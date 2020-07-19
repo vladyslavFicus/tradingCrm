@@ -91,37 +91,6 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   }
 }`;
 
-// const getUserBranchesTreeUp = gql`query getUserBranchesTreeUp(
-//   $operatorUUID: String,
-// ) {
-//   hierarchy {
-//     # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
-//     userBranchesTreeUp (
-//       operatorUUID: $operatorUUID,
-//     ) {
-//       error {
-//         error
-//       }
-//       data {
-//         ...HierarchyUserBranchFragment
-//         parent {
-//           ...HierarchyUserBranchFragment
-//           parent {
-//             ...HierarchyUserBranchFragment
-//             parent {
-//               ...HierarchyUserBranchFragment
-//               parent {
-//                 ...HierarchyUserBranchFragment
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-// ${HierarchyUserBranchFragment}`;
-
 const getUserBranchesTreeUp = gql`query getUserBranchesTreeUp(
   $userUUID: String!
 ) {
