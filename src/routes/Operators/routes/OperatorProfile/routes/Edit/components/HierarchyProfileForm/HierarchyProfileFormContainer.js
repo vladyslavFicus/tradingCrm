@@ -20,7 +20,7 @@ export default compose(
   graphql(getUserBranchesTreeUp, {
     name: 'userBranchesTreeUp',
     options: ({ operatorUUID }) => ({
-      variables: { operatorUUID },
+      variables: { userUUID: operatorUUID },
       fetchPolicy: 'network-only',
     }),
   }),

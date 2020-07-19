@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'redux-form';
-import { omit, get } from 'lodash';
+import { omit } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
@@ -29,15 +29,13 @@ class HierarchyProfileForm extends Component {
       refetch: PropTypes.func,
       loading: PropTypes.bool,
       error: PropTypes.string,
-      hierarchy: PropTypes.shape({
-        userBranchesTreeUp: PropTypes.shape({
-          data: PropTypes.arrayOf(PropTypes.shape({
-            uuid: PropTypes.string,
-            name: PropTypes.string,
-            branchType: PropTypes.string,
-            parent: PropTypes.object,
-          })),
-        }),
+      userBranchesTreeUp: PropTypes.arrayOf({
+        data: PropTypes.arrayOf(PropTypes.shape({
+          uuid: PropTypes.string,
+          name: PropTypes.string,
+          branchType: PropTypes.string,
+          parentBranch: PropTypes.object,
+        })),
       }),
     }).isRequired,
     match: PropTypes.shape({
@@ -128,11 +126,11 @@ class HierarchyProfileForm extends Component {
     }
   };
 
-  buildUserBranchChain = ({ name, parent }, branchChain) => {
+  buildUserBranchChain = ({ name, parentBranch }, branchChain) => {
     const _branchChain = `${name} → ${branchChain}`;
 
-    if (parent.branchType !== 'COMPANY') {
-      return this.buildUserBranchChain(parent, _branchChain);
+    if (parentBranch.branchType !== 'COMPANY') {
+      return this.buildUserBranchChain(parentBranch, _branchChain);
     }
 
     return _branchChain;
@@ -142,7 +140,7 @@ class HierarchyProfileForm extends Component {
     const {
       allowUpdateHierarchy,
       userBranchesTreeUp: {
-        hierarchy,
+        userBranchesTreeUp,
         loading,
         error,
       },
@@ -152,14 +150,12 @@ class HierarchyProfileForm extends Component {
       return null;
     }
 
-    const userBranchesTreeUp = get(hierarchy, 'userBranchesTreeUp.data') || [];
-
     if (userBranchesTreeUp.length) {
-      return userBranchesTreeUp.map(({ uuid, parent, branchType, name }) => {
-        const isParentBranchTypeCompany = parent.branchType === 'COMPANY';
+      return userBranchesTreeUp.map(({ uuid, parentBranch, branchType, name }) => {
+        const isParentBranchTypeCompany = parentBranch.branchType === 'COMPANY';
 
-        // There is no need to view Company of operator
-        const branchChain = !isParentBranchTypeCompany ? this.buildUserBranchChain(parent, '') : '';
+        // There is no need to view the Company of operator
+        const branchChain = !isParentBranchTypeCompany ? this.buildUserBranchChain(parentBranch, '') : '';
 
         return (
           <div className="margin-bottom-10" key={uuid}>
