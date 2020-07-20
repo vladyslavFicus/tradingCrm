@@ -10,7 +10,7 @@ import FeedsQuery from './graphql/FeedsQuery';
 
 class OperatorsFeed extends PureComponent {
   static propTypes = {
-    feedsData: PropTypes.query({
+    feedsQuery: PropTypes.query({
       feeds: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.feed),
         last: PropTypes.bool,
@@ -22,7 +22,7 @@ class OperatorsFeed extends PureComponent {
 
   handlePageChanged = () => {
     const {
-      feedsData: {
+      feedsQuery: {
         data,
         loadMore,
         loading,
@@ -36,34 +36,10 @@ class OperatorsFeed extends PureComponent {
     }
   };
 
-  renderFeedItem = (feed, key) => {
-    const { authorUuid, targetUuid, authorFullName } = feed;
-
-    let options = {
-      color: 'green',
-      letter: 'S',
-    };
-
-    if (authorUuid && authorFullName) {
-      options = {
-        color: (authorUuid === targetUuid) ? 'blue' : 'orange',
-        letter: authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
-      };
-    }
-
-    return (
-      <FeedItem
-        key={key}
-        data={feed}
-        {...options}
-      />
-    );
-  }
-
   render() {
-    const { feedsData: { data, loading } } = this.props;
+    const { feedsQuery: { data, loading } } = this.props;
 
-    const { content, totalPages, last } = get(data, 'feeds') || { content: [] };
+    const { content, totalPages, last } = get(data, 'feeds') || {};
 
     return (
       <Fragment>
@@ -71,8 +47,8 @@ class OperatorsFeed extends PureComponent {
 
         <div className="tab-wrapper">
           <ListView
-            dataSource={content}
-            render={this.renderFeedItem}
+            dataSource={content || []}
+            render={(feed, key) => <FeedItem key={key} data={feed} />}
             onPageChange={this.handlePageChanged}
             showNoResults={!loading && !content.length}
             totalPages={totalPages}
@@ -86,6 +62,6 @@ class OperatorsFeed extends PureComponent {
 
 export default compose(
   withRequests({
-    feedsData: FeedsQuery,
+    feedsQuery: FeedsQuery,
   }),
 )(OperatorsFeed);

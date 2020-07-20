@@ -13,7 +13,7 @@ import FeedsQuery from './graphql/FeedsQuery';
 class Feed extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feedsData: PropTypes.query({
+    feedsQuery: PropTypes.query({
       feeds: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.feed),
         last: PropTypes.bool,
@@ -37,7 +37,7 @@ class Feed extends PureComponent {
 
   handlePageChange = () => {
     const {
-      feedsData: {
+      feedsQuery: {
         data,
         loading,
         loadMore,
@@ -51,36 +51,12 @@ class Feed extends PureComponent {
     }
   };
 
-  renderItem = (feed, key) => {
-    const { authorUuid, targetUuid, authorFullName } = feed;
-
-    let options = {
-      color: 'green',
-      letter: 'S',
-    };
-
-    if (authorUuid && authorFullName) {
-      options = {
-        color: (authorUuid === targetUuid) ? 'blue' : 'orange',
-        letter: authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
-      };
-    }
-
-    return (
-      <FeedItem
-        key={key}
-        data={feed}
-        {...options}
-      />
-    );
-  }
-
   render() {
     const {
-      feedsData: { data, loading },
+      feedsQuery: { data, loading },
     } = this.props;
 
-    const { content, last, number, totalPages } = get(data, 'feeds') || { content: [] };
+    const { content, last, number, totalPages } = get(data, 'feeds') || {};
 
     return (
       <Fragment>
@@ -88,11 +64,11 @@ class Feed extends PureComponent {
 
         <div className="tab-wrapper">
           <ListView
-            dataSource={content}
+            dataSource={content || []}
             activePage={number + 1}
             last={last}
             totalPages={totalPages}
-            render={this.renderItem}
+            render={(feed, key) => <FeedItem key={key} data={feed} />}
             onPageChange={this.handlePageChange}
             showNoResults={!loading && !content.length}
           />
@@ -105,6 +81,6 @@ class Feed extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feedsData: FeedsQuery,
+    feedsQuery: FeedsQuery,
   }),
 )(Feed);
