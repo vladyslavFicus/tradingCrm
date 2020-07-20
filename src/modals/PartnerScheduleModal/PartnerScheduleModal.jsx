@@ -188,6 +188,7 @@ class PartnerScheduleModal extends PureComponent {
                 <Field
                   name="totalLimit"
                   type="number"
+                  min={0}
                   label={I18n.t(attributeLabels.leadsLimit)}
                   placeholder={I18n.t(attributeLabels.leadsLimit)}
                   component={FormikInputField}
@@ -233,6 +234,7 @@ class PartnerScheduleModal extends PureComponent {
                             <Field
                               name={`countrySpreads[${index}].limit`}
                               type="number"
+                              min={0}
                               placeholder={I18n.t(attributeLabels.countryLimit)}
                               label={index === 0 ? I18n.t(attributeLabels.countryLimit) : ''}
                               disabled={isSubmitting || !countrySpreads[index]}
