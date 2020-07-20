@@ -5,9 +5,7 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import parseJson from 'utils/parseJson';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
-import limitItems from 'utils/limitItems';
 import PropTypes from 'constants/propTypes';
 import FeedFilterForm from '../FeedFilterForm';
 import FeedsQuery from './graphql/FeedsQuery';
@@ -15,13 +13,12 @@ import FeedsQuery from './graphql/FeedsQuery';
 class Feed extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feeds: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-      loading: PropTypes.bool.isRequired,
+    feedsData: PropTypes.query({
       feeds: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.shape({
-          targetUUID: PropTypes.string,
-        })),
+        content: PropTypes.arrayOf(PropTypes.feed),
+        last: PropTypes.bool,
+        page: PropTypes.number,
+        totalPages: PropTypes.number,
       }),
     }).isRequired,
   };
@@ -38,80 +35,66 @@ class Feed extends PureComponent {
     this.props.feeds.refetch();
   };
 
-  handlePageChanged = () => {
+  handlePageChange = () => {
     const {
-      location,
-      feeds: {
+      feedsData: {
         data,
         loading,
         loadMore,
       },
     } = this.props;
 
-    const defaultSize = 20;
-
-    const { currentPage } = limitItems(data.feeds, location);
-
-    const searchLimit = get(location, 'query.filters.size');
-    const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
-    const limit = restLimitSize && (restLimitSize < defaultSize) ? Math.abs(restLimitSize) : defaultSize;
+    const currentPage = get(data, 'feeds.page') || 0;
 
     if (!loading) {
-      loadMore({
-        page: currentPage + 1,
-        limit,
-      });
+      loadMore(currentPage + 1);
     }
   };
 
-  mapAuditEntities = entities => entities.map(entity => (
-    typeof entity.details === 'string'
-      ? { ...entity, details: parseJson(entity.details) }
-      : entity
-  ));
+  renderItem = (feed, key) => {
+    const { authorUuid, targetUuid, authorFullName } = feed;
+
+    let options = {
+      color: 'green',
+      letter: 'S',
+    };
+
+    if (authorUuid && authorFullName) {
+      options = {
+        color: (authorUuid === targetUuid) ? 'blue' : 'orange',
+        letter: authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
+      };
+    }
+
+    return (
+      <FeedItem
+        key={key}
+        data={feed}
+        {...options}
+      />
+    );
+  }
 
   render() {
     const {
-      feeds: { data, loading },
+      feedsData: { data, loading },
     } = this.props;
 
-    const { content, last, number } = get(data, 'feeds') || { content: [] };
-    const parsedContent = this.mapAuditEntities(content);
+    const { content, last, number, totalPages } = get(data, 'feeds') || { content: [] };
 
     return (
       <Fragment>
         <FeedFilterForm />
+
         <div className="tab-wrapper">
           <ListView
-            dataSource={parsedContent}
-            onPageChange={this.handlePageChanged}
-            render={(item, key) => {
-              const options = {
-                color: 'blue',
-                letter: item.authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
-              };
-
-              if (item.authorUuid !== item.targetUuid) {
-                if (item.authorUuid) {
-                  options.color = 'orange';
-                }
-                if (item.authorFullName === 'System') {
-                  options.color = 'green';
-                  options.letter = 's';
-                }
-              }
-
-              return (
-                <FeedItem
-                  key={key}
-                  data={item}
-                  {...options}
-                />
-              );
-            }}
+            dataSource={content}
             activePage={number + 1}
             last={last}
-            showNoResults={!loading && !parsedContent.length}
+            totalPages={totalPages}
+            render={this.renderItem}
+            onPageChange={this.handlePageChange}
+            showNoResults={!loading && !content.length}
           />
         </div>
       </Fragment>
@@ -122,6 +105,6 @@ class Feed extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feeds: FeedsQuery,
+    feedsData: FeedsQuery,
   }),
 )(Feed);

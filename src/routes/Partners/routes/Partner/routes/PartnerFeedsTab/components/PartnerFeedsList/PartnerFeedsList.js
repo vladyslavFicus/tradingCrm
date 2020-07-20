@@ -16,7 +16,7 @@ class PartnerFeedsList extends PureComponent {
         content: PropTypes.arrayOf(PropTypes.feed),
         last: PropTypes.bool,
         page: PropTypes.number,
-        totalElements: PropTypes.number,
+        totalPages: PropTypes.number,
       }),
     }).isRequired,
   };
