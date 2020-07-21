@@ -5,6 +5,8 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`query LeadsList_getLeadsQuery(
   $uuids: [String]
+  $desks: [String]
+  $teams: [String]
   $searchKeyword: String
   $registrationDateStart: String
   $registrationDateEnd: String
@@ -20,6 +22,8 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
 ) {
   leads (
     uuids: $uuids
+    desks: $desks
+    teams: $teams
     searchKeyword: $searchKeyword
     registrationDateStart: $registrationDateStart
     registrationDateEnd: $registrationDateEnd

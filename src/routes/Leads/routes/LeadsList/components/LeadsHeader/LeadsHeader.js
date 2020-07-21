@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
@@ -8,6 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import Placeholder from 'components/Placeholder';
 import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
@@ -40,7 +42,7 @@ class LeadsHeader extends PureComponent {
     let rowsLength = touchedRowsIds.length;
 
     if (allRowsSelected) {
-      const totalElements = get(leadsData, 'data.leads.data.totalElements') || null;
+      const totalElements = get(leadsData, 'data.leads.totalElements') || null;
       const searchLimit = get(location, 'query.filters.size');
 
       const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
@@ -63,7 +65,7 @@ class LeadsHeader extends PureComponent {
       modals: { representativeUpdateModal },
     } = this.props;
 
-    const leads = get(leadsData, 'data.leads.data.content') || [];
+    const leads = get(leadsData, 'data.leads.content') || [];
 
     const selectedLeads = leads
       .filter((_, i) => touchedRowsIds.includes(i))
@@ -130,24 +132,41 @@ class LeadsHeader extends PureComponent {
     return (
       <div className="LeadsHeader">
         <div className="LeadsHeader__left">
-          <Choose>
-            <When condition={leadsListCount}>
+          <Placeholder
+            ready={!leadsData.loading}
+            className={null}
+            customPlaceholder={(
               <div>
-                <div className="LeadsHeader__title">
-                  <b>{leadsListCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
-                </div>
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '20px' }}
+                />
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '12px' }}
+                />
+              </div>
+            )}
+          >
+            <Choose>
+              <When condition={leadsListCount}>
+                <div>
+                  <div className="LeadsHeader__title">
+                    <b>{leadsListCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
+                  </div>
 
-                <div className="LeadsHeader__selected">
-                  <b>{this.selectedRowsLength}</b> {I18n.t('LEADS.LEADS_SELECTED')}
+                  <div className="LeadsHeader__selected">
+                    <b>{this.selectedRowsLength}</b> {I18n.t('LEADS.LEADS_SELECTED')}
+                  </div>
                 </div>
-              </div>
-            </When>
-            <Otherwise>
-              <div className="LeadsHeader__title">
-                {I18n.t('LEADS.LEADS')}
-              </div>
-            </Otherwise>
-          </Choose>
+              </When>
+              <Otherwise>
+                <div className="LeadsHeader__title">
+                  {I18n.t('LEADS.LEADS')}
+                </div>
+              </Otherwise>
+            </Choose>
+          </Placeholder>
         </div>
 
         <div className="LeadsHeader__right">
