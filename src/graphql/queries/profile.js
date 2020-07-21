@@ -75,10 +75,6 @@ const profile = gql`query profile(
         fullName
       }
     }
-    referrer {
-      fullName
-      uuid
-    }
     configuration {
       crs
       fatca
@@ -237,6 +233,10 @@ const clientsQuery = gql`query ${queryNames.clientsQuery}(
         partner {
           fullName
         }
+      }
+      referrer {
+        fullName
+        uuid
       }
       balance {
         amount
