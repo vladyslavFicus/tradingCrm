@@ -33,6 +33,7 @@ export default compose(
       }
 
       return {
+        context: { batch: false },
         fetchPolicy: 'cache-and-network',
         variables: {
           args: {
