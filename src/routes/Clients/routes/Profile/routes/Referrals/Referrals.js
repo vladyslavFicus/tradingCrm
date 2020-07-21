@@ -9,7 +9,7 @@ import ReferralsQuery from './graphql/ReferralsQuery';
 class Referrals extends PureComponent {
   static propTypes = {
     referralsQuery: PropTypes.query({
-      referrals: PropTypes.pageable(PropTypes.referral),
+      referrals: PropTypes.arrayOf(PropTypes.referral),
     }).isRequired,
   };
 

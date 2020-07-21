@@ -20,27 +20,8 @@ import './ReferralsGrid.scss';
 class ReferralsGrid extends PureComponent {
   static propTypes = {
     referralsQuery: PropTypes.query({
-      referrals: PropTypes.pageable(PropTypes.referral),
+      referrals: PropTypes.arrayOf(PropTypes.referral),
     }).isRequired,
-  };
-
-  handlePageChanged = () => {
-    const {
-      referralsQuery: {
-        variables,
-        loadMore,
-        data,
-      },
-    } = this.props;
-
-    const page = get(data, 'referrals.number') || 0;
-
-    loadMore({
-      page: {
-        ...variables.page,
-        from: page + 1,
-      },
-    });
   };
 
   handleRowClick = ({ referralInfo: { profileUuid } }) => {
@@ -114,18 +95,17 @@ class ReferralsGrid extends PureComponent {
       referralsQuery,
     } = this.props;
 
-    const { content, last } = get(referralsQuery, 'data.referrals') || { content: [] };
+    const content = get(referralsQuery, 'data.referrals') || [];
     const isLoading = referralsQuery.loading;
 
     return (
       <div className="card card-body">
         <Grid
           data={content}
-          handlePageChanged={this.handlePageChanged}
           rowsClassNames={this.setActiveRowClass}
           handleRowClick={this.handleRowClick}
           isLoading={isLoading}
-          isLastPage={last}
+          withLazyLoad={false}
         >
           <GridColumn
             header={I18n.t('REFERRALS.GRID.NAME')}

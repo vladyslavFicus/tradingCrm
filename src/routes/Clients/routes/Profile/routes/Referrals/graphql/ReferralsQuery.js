@@ -21,43 +21,36 @@ const AcquisitionOperatorFragment = gql`
 
 const REQUEST = gql`query ReferralsQuery($uuid: String!) {
   referrals(uuid: $uuid) {
-    page
-    number
-    totalElements
-    size
-    last
-    content {
-      referralInfo {
-        name
-        profileUuid
-        languageCode
-        countryCode
-        registrationDate
+    referralInfo {
+      name
+      profileUuid
+      languageCode
+      countryCode
+      registrationDate
+    }
+    bonusType
+    ftdInfo {
+      date
+      amount
+      currency
+      normalizedAmount
+    }
+    remuneration {
+      date
+      amount
+      currency
+      normalizedAmount
+    }
+    acquisition {
+      acquisitionStatus
+      retentionOperator {
+        ...AcquisitionOperatorFragment
       }
-      bonusType
-      ftdInfo {
-        date
-        amount
-        currency
-        normalizedAmount
+      retentionStatus
+      salesOperator {
+        ...AcquisitionOperatorFragment
       }
-      remuneration {
-        date
-        amount
-        currency
-        normalizedAmount
-      }
-      acquisition {
-        acquisitionStatus
-        retentionOperator {
-          ...AcquisitionOperatorFragment
-        }
-        retentionStatus
-        salesOperator {
-          ...AcquisitionOperatorFragment
-        }
-        salesStatus
-      }
+      salesStatus
     }
   }
 }
@@ -66,11 +59,7 @@ ${AcquisitionOperatorFragment}`;
 const ReferralsQuery = ({ children, match: { params: { id: uuid } } }) => (
   <Query
     query={REQUEST}
-    variables={{
-      uuid,
-      page: 0,
-      limit: 20,
-    }}
+    variables={{ uuid }}
   >
     {children}
   </Query>
