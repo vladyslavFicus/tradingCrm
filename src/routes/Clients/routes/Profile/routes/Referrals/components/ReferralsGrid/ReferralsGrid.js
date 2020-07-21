@@ -140,13 +140,23 @@ class ReferralsGrid extends PureComponent {
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.FTD_AMOUNT')}
-            render={({ ftdInfo: { currency, amount, normalizedAmount } }) => (
-              this.renderAmount(currency, amount, normalizedAmount)
-            )}
+            render={({ ftdInfo }) => {
+              const { currency, amount, normalizedAmount } = ftdInfo || {};
+
+              if (!ftdInfo) return null;
+
+              return this.renderAmount(currency, amount, normalizedAmount);
+            }}
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.FTD_DATE')}
-            render={({ ftdInfo: { date } }) => this.renderDate(date)}
+            render={({ ftdInfo }) => {
+              const { date } = ftdInfo || {};
+
+              if (!ftdInfo) return null;
+
+              return this.renderDate(date);
+            }}
           />
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REMUNERATION')}
