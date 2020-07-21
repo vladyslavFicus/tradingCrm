@@ -10,6 +10,7 @@ const REQUEST = gql`
     partner(uuid: $uuid) {
       _id
       schedule {
+        configId
         activated
         countrySpreads {
           country

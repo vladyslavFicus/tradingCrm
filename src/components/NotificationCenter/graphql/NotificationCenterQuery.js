@@ -40,6 +40,7 @@ const NotificationCenterQuery = ({ children }) => (
     query={REQUEST}
     variables={{ args: { page: { from: 0, size: 10 } } }}
     fetchPolicy="cache-and-network"
+    context={{ batch: false }}
   >
     {children}
   </Query>

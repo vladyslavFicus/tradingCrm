@@ -76,6 +76,7 @@ const getLeadsQuery = ({ children, location: { query } }) => (
       },
     }}
     fetchPolicy="network-only"
+    context={{ batch: false }}
   >
     {children}
   </Query>
