@@ -957,8 +957,7 @@
       },
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "收银台",
-        "MANUAL": "手动",
-        "NASPAY": "NasPay"
+        "MANUAL": "手动"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {

@@ -1176,7 +1176,7 @@
       "PAYMENT_AGGREGATORS": {
         "CASHIER": "Cashier",
         "MANUAL": "Manual",
-        "NASPAY": "NasPay"
+        "СASHIR": "Cashir"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
