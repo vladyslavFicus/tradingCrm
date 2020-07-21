@@ -38,7 +38,7 @@ const assignStatuses = [
   },
 ];
 
-const boolSelect = [
+const radioSelect = [
   {
     value: '0',
     label: 'COMMON.NO',
@@ -197,11 +197,11 @@ export default ({
   },
   {
     type: fieldTypes.SELECT,
-    name: 'referral',
+    name: 'isReferrered',
     label: filterLabels.firstDeposit,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     className: fieldClassNames.MEDIUM,
-    selectOptions: boolSelect,
+    selectOptions: radioSelect,
     searchable: false,
   },
   {
@@ -277,7 +277,7 @@ export default ({
     label: filterLabels.firstDeposit,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     className: fieldClassNames.MEDIUM,
-    selectOptions: boolSelect,
+    selectOptions: radioSelect,
     searchable: false,
   },
   {

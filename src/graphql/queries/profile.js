@@ -75,6 +75,10 @@ const profile = gql`query profile(
         fullName
       }
     }
+    referrer {
+      fullName
+      uuid
+    }
     configuration {
       crs
       fatca

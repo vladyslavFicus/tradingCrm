@@ -216,18 +216,22 @@ class ClientsGrid extends PureComponent {
         <GridColumn
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
           render={(data) => {
-            const { uuid, source, campaignId, partner } = get(data, 'affiliate') || {};
-            // or referrer: need to wait on BE
+            const { uuid: affiliateUuid, source, campaignId, partner } = get(data, 'affiliate') || {};
+            const {
+              uuid: referrerUuid,
+              fullName: referrerName,
+            } = get(data, 'referrer') || {};
+
             return (
               <Choose>
-                <When condition={uuid}>
+                <When condition={affiliateUuid}>
                   <If condition={partner}>
                     <div>
                       <a
                         className="header-block-middle"
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`/partners/${uuid}/profile`}
+                        href={`/partners/${affiliateUuid}/profile`}
                       >
                         {partner.fullName}
                       </a>
@@ -273,6 +277,14 @@ class ClientsGrid extends PureComponent {
                       {campaignId}
                     </UncontrolledTooltip>
                   </If>
+                </When>
+                <When condition={referrerUuid}>
+                  <div className="header-block-middle">{referrerName}</div>
+                  <Uuid
+                    className="header-block-small"
+                    length={12}
+                    uuid={referrerUuid}
+                  />
                 </When>
                 <Otherwise>
                   <GridEmptyValue />
