@@ -7,7 +7,7 @@ export default (data, location) => {
 
   if (response && !isEmpty(response.data)) {
     const { totalElements, content, size: responseSize } = response.data;
-    const size = get(location, 'query.filters.size');
+    const size = get(location, 'query.filters.searchLimit');
 
     if (size && totalElements >= size) {
       response = update(response, { data: { totalElements: { $set: size } } });

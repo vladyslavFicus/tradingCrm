@@ -18,9 +18,7 @@ class LeadsHeader extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     leadsData: PropTypes.query({
-      leads: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.lead),
-      }),
+      leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
     allRowsSelected: PropTypes.bool.isRequired,
     touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -43,7 +41,7 @@ class LeadsHeader extends PureComponent {
 
     if (allRowsSelected) {
       const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-      const searchLimit = get(location, 'query.filters.size');
+      const searchLimit = get(location, 'query.filters.searchLimit');
 
       const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
 
@@ -83,7 +81,7 @@ class LeadsHeader extends PureComponent {
         totalElements: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
-          searchParams: omit(query.filters, ['size', 'teams', 'desks']),
+          searchParams: omit(query.filters, ['teams', 'desks']),
         },
       },
       onSuccess: () => {
@@ -123,7 +121,7 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-    const searchLimit = get(query, 'filters.size');
+    const searchLimit = get(query, 'filters.searchLimit');
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit

@@ -51,14 +51,21 @@ class LeadsGrid extends PureComponent {
     const leads = get(leadsData, 'data.leads') || [];
     const { currentPage } = limitItems(leads, location);
 
-    const searchLimit = get(location, 'query.filters.size');
+    const searchLimit = get(location, 'query.filters.searchLimit');
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
-    const limit = restLimitSize && (restLimitSize < defaultSize) ? Math.abs(restLimitSize) : defaultSize;
+
+    const size = (restLimitSize && restLimitSize < defaultSize && restLimitSize > 0)
+      ? restLimitSize
+      : defaultSize;
 
     if (!loading) {
       loadMore({
-        page: currentPage + 1,
-        limit,
+        args: {
+          page: {
+            from: currentPage + 1,
+            size,
+          },
+        },
       });
     }
   };
@@ -103,7 +110,7 @@ class LeadsGrid extends PureComponent {
       } = this.props;
 
       const totalElements = get(leadsData, 'data.leads.totalElements') || 0;
-      const searchLimit = get(location, 'query.filters.size') || null;
+      const searchLimit = get(location, 'query.filters.searchLimit') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
         ? searchLimit > MAX_SELECTED_LEADS
@@ -254,8 +261,10 @@ class LeadsGrid extends PureComponent {
     } = this.props;
 
     const leads = get(leadsData, 'data.leads') || [];
-    const { response } = limitItems({ data: leads }, location);
-    const { content, last } = get(response, 'data') || {};
+    const searchLimit = get(location, 'query.filters.searchLimit') || null;
+
+    const { response } = limitItems(leads, location);
+    const { content, last } = response;
 
     const isLoading = leadsData.loading;
 
@@ -272,6 +281,7 @@ class LeadsGrid extends PureComponent {
           handlePageChanged={this.handlePageChanged}
           isLoading={isLoading}
           isLastPage={last}
+          withLazyLoad={!searchLimit || searchLimit !== content.length}
           withRowsHover
           withMultiSelect
           withNoResults={content && content.length === 0}
