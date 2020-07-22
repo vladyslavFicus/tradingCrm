@@ -2474,6 +2474,11 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
+      },
+      "REFERRALS": {
+        "TITLE": "REFERRALS",
+        "FTD": "FTD: %{value}",
+        "REMUNERATION": "Remuneration: %{currency} %{value}"
       }
     },
     "TRANSACTIONS": {
