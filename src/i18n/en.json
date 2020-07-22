@@ -1243,7 +1243,8 @@
           "PAYRETAILERS": "Payretailers",
           "RECALL": "Recall",
           "CHARGEBACK": "Chargeback",
-          "CASHIER": "CASHIER"
+          "CASHIER": "CASHIER",
+          "REFERRAL_BONUS": "Referral bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference",

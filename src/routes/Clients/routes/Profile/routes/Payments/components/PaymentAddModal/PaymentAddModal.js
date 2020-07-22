@@ -244,7 +244,10 @@ class PaymentAddModal extends PureComponent {
                   <div className={`payment-fields ${(values && values.paymentType) ? 'visible' : ''}`}>
                     <div className="form-row align-items-center">
                       <Choose>
-                        <When condition={values.paymentType === paymentTypes.DEPOSIT.name}>
+                        <When condition={
+                          values.paymentType === paymentTypes.DEPOSIT.name
+                          || values.paymentType === paymentTypes.CREDIT_IN.name}
+                        >
                           <Fragment>
                             <Field
                               className="col select-field-wrapper"
@@ -257,14 +260,28 @@ class PaymentAddModal extends PureComponent {
                               disabled={manualMethodsLoading}
                               component={FormikSelectField}
                             >
-                              {manualMethods.map(item => (
-                                <option key={item} value={item}>
-                                  {manualPaymentMethodsLabels[item]
-                                    ? I18n.t(manualPaymentMethodsLabels[item])
-                                    : item
-                                  }
-                                </option>
-                              ))}
+                              <Choose>
+                                <When condition={values.paymentType === paymentTypes.CREDIT_IN.name}>
+                                  {['REFERRAL_BONUS', 'INTERNAL_TRANSFER'].map(item => (
+                                    <option key={item} value={item}>
+                                      {manualPaymentMethodsLabels[item]
+                                        ? I18n.t(manualPaymentMethodsLabels[item])
+                                        : item
+                                      }
+                                    </option>
+                                  ))}
+                                </When>
+                                <Otherwise>
+                                  {manualMethods.map(item => (
+                                    <option key={item} value={item}>
+                                      {manualPaymentMethodsLabels[item]
+                                        ? I18n.t(manualPaymentMethodsLabels[item])
+                                        : item
+                                      }
+                                    </option>
+                                  ))}
+                                </Otherwise>
+                              </Choose>
                             </Field>
                             <div className="col-auto arrow-icon-wrapper">
                               <i className="icon-arrow-down" />
