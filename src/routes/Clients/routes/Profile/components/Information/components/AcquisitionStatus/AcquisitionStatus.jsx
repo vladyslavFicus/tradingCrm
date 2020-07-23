@@ -17,7 +17,7 @@ const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE
 class AcquisitionStatus extends PureComponent {
   static propTypes = {
     profile: PropTypes.object,
-    acquisitionData: PropTypes.object.isRequired,
+    acquisition: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     auth: PropTypes.shape({
       department: PropTypes.string.isRequired,
@@ -37,7 +37,8 @@ class AcquisitionStatus extends PureComponent {
   handleChangeAcquisitionStatusClick = (type) => {
     const {
       modals: { representativeUpdateModal },
-      profile: { uuid, acquisition },
+      profile: { uuid },
+      acquisition,
     } = this.props;
 
     const assignToOperator = get(acquisition, `${type.toLowerCase()}Representative`) || null;
@@ -54,7 +55,7 @@ class AcquisitionStatus extends PureComponent {
   render() {
     const {
       loading,
-      acquisitionData,
+      acquisition,
       auth: { department },
       permission: { permissions: currentPermissions },
     } = this.props;
@@ -67,7 +68,7 @@ class AcquisitionStatus extends PureComponent {
         <div className="card">
           <div className="card-body acquisition-status">
             <If condition={!loading}>
-              {transformAcquisitionData(acquisitionData, department)
+              {transformAcquisitionData(acquisition, department)
                 .map(({
                   label, statusLabel, statusColor, borderColor, repName, modalType, allowAction, desk, team,
                 }) => (

@@ -13,7 +13,7 @@ class Information extends PureComponent {
   static propTypes = {
     profile: PropTypes.object,
     ips: PropTypes.array.isRequired,
-    acquisitionData: PropTypes.object.isRequired,
+    acquisition: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
   };
 
@@ -24,7 +24,7 @@ class Information extends PureComponent {
   render() {
     const {
       ips,
-      acquisitionData,
+      acquisition,
       loading,
       profile,
     } = this.props;
@@ -37,7 +37,7 @@ class Information extends PureComponent {
           </div>
           <div className="col-md-3">
             <AcquisitionStatus
-              acquisitionData={acquisitionData}
+              acquisition={acquisition}
               profile={profile}
               loading={loading}
             />

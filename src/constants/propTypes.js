@@ -91,43 +91,7 @@ PropTypes.uploadingFile = PropTypes.shape({
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
-  acquisition: PropTypes.shape({
-    acquisitionStatus: PropTypes.string,
-    retentionRepresentative: PropTypes.string,
-    retentionStatus: PropTypes.string,
-    retentionOperator: PropTypes.shape({
-      firstName: PropTypes.string,
-      hierarchy: PropTypes.shape({
-        parentBranches: PropTypes.arrayOf(
-          PropTypes.shape({
-            name: PropTypes.string,
-            branchType: PropTypes.string,
-            parentBranch: PropTypes.shape({
-              name: PropTypes.string,
-              branchType: PropTypes.string,
-            }),
-          }),
-        ),
-      }),
-    }),
-    salesRepresentative: PropTypes.string,
-    salesStatus: PropTypes.string,
-    salesOperator: PropTypes.shape({
-      firstName: PropTypes.string,
-      hierarchy: PropTypes.shape({
-        parentBranches: PropTypes.arrayOf(
-          PropTypes.shape({
-            name: PropTypes.string,
-            branchType: PropTypes.string,
-            parentBranch: PropTypes.shape({
-              name: PropTypes.string,
-              branchType: PropTypes.string,
-            }),
-          }),
-        ),
-      }),
-    }),
-  }),
+  acquisition: PropTypes.userAcquisition,
   address: PropTypes.shape({
     countryCode: PropTypes.string,
   }),
@@ -765,15 +729,7 @@ PropTypes.profileView = PropTypes.shape({
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.profile = PropTypes.shape({
-  acquisition: PropTypes.shape({
-    acquisitionStatus: PropTypes.string,
-    retentionRepresentative: PropTypes.string,
-    retentionStatus: PropTypes.string,
-    retentionOperator: PropTypes.object, // operator shape
-    salesRepresentative: PropTypes.string,
-    salesStatus: PropTypes.string,
-    salesOperator: PropTypes.object, // operator shape
-  }),
+  acquisition: PropTypes.userAcquisition,
   address: PropTypes.shape({
     address: PropTypes.string,
     city: PropTypes.string,
@@ -944,6 +900,44 @@ PropTypes.treeData = PropTypes.shape({
   uuid: PropTypes.string,
   userType: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.object),
+});
+
+PropTypes.userAcquisition = PropTypes.shape({
+  acquisitionStatus: PropTypes.string,
+  retentionRepresentative: PropTypes.string,
+  retentionStatus: PropTypes.string,
+  retentionOperator: PropTypes.shape({
+    firstName: PropTypes.string,
+    hierarchy: PropTypes.shape({
+      parentBranches: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          branchType: PropTypes.string,
+          parentBranch: PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+          }),
+        }),
+      ),
+    }),
+  }),
+  salesRepresentative: PropTypes.string,
+  salesStatus: PropTypes.string,
+  salesOperator: PropTypes.shape({
+    firstName: PropTypes.string,
+    hierarchy: PropTypes.shape({
+      parentBranches: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          branchType: PropTypes.string,
+          parentBranch: PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+          }),
+        }),
+      ),
+    }),
+  }),
 });
 
 export default PropTypes;

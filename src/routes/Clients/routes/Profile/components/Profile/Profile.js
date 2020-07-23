@@ -29,6 +29,7 @@ import {
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
 import ProfileQuery from './graphql/ProfileQuery';
+import UserAcquisitionQuery from './graphql/UserAcquisitionQuery';
 import { userProfileTabs } from './constants';
 
 class Profile extends Component {
@@ -37,6 +38,9 @@ class Profile extends Component {
       path: PropTypes.string,
     }).isRequired,
     profile: PropTypes.profile.isRequired,
+    acquisitionQuery: PropTypes.query({
+      userHierarchyAcquisitionById: PropTypes.userAcquisition,
+    }).isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -55,7 +59,7 @@ class Profile extends Component {
   };
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.profile.refetch();
+    this.props.acquisitionQuery.refetch();
   };
 
   get availableStatuses() {
@@ -74,9 +78,12 @@ class Profile extends Component {
   render() {
     const {
       profile: {
-        data,
+        data: profileData,
         loading,
         error,
+      },
+      acquisitionQuery: {
+        data: acquisitionData,
       },
       match: { path },
     } = this.props;
@@ -84,32 +91,31 @@ class Profile extends Component {
     if (error && parseErrors(error).error === 'error.entity.not.found') {
       return <NotFound />;
     }
+    const profile = get(profileData, 'profile');
+    const acquisition = get(acquisitionData, 'userHierarchyAcquisitionById') || {};
+    const lastSignInSessions = get(profile, 'profileView.lastSignInSessions') || [];
 
-    const profileData = get(data, 'profile');
-    const acquisitionData = get(profileData, 'acquisition') || {};
-    const lastSignInSessions = get(profileData, 'profileView.lastSignInSessions') || [];
-
-    if (loading && !profileData) {
+    if (loading && !profile) {
       return null;
     }
 
     return (
       <Fragment>
-        <If condition={profileData}>
-          <Helmet title={`${profileData.firstName} ${profileData.lastName}`} />
+        <If condition={profile}>
+          <Helmet title={`${profile.firstName} ${profile.lastName}`} />
         </If>
         <div className="profile__info">
           <ProfileHeader
-            profile={profileData}
+            profile={profile}
             availableStatuses={this.availableStatuses}
             loaded={!loading}
           />
           <HideDetails>
             <Information
-              profile={profileData}
+              profile={profile}
               ips={lastSignInSessions}
-              acquisitionData={acquisitionData}
-              loading={loading && !profileData}
+              acquisition={acquisition}
+              loading={loading && !profile}
             />
           </HideDetails>
         </div>
@@ -142,5 +148,6 @@ export default compose(
   withPermission,
   withRequests({
     profile: ProfileQuery,
+    acquisitionQuery: UserAcquisitionQuery,
   }),
 )(Profile);
