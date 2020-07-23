@@ -100,7 +100,7 @@ class PartnerScheduleModal extends PureComponent {
             ],
             workingHoursFrom: convertTimeToUTC(workingHoursFrom),
             workingHoursTo: convertTimeToUTC(workingHoursTo),
-            ...decodeNullValues(rest),
+            ...decodeNullValues({ totalLimit, ...rest }),
           },
         });
 
