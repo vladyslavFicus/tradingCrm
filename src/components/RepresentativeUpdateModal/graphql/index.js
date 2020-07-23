@@ -4,6 +4,7 @@ import ClientBulkRepresUpdate from './ClientBulkRepresUpdate';
 import LeadBulkRepresUpdate from './LeadBulkRepresUpdate';
 import getBranchChildren from './getBranchChildren';
 import getUsersByBranch from './getUsersByBranch';
+import UpdateUserAcquisition from './UpdateUserAcquisition';
 
 export {
   HierarchyUsersByTypeQuery,
@@ -12,4 +13,5 @@ export {
   LeadBulkRepresUpdate,
   getBranchChildren,
   getUsersByBranch,
+  UpdateUserAcquisition,
 };
