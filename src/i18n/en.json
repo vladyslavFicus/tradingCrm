@@ -2619,7 +2619,8 @@
       },
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
-      }
+      },
+      "REFERRER": "Referrer"
     },
     "FATCA": {
       "TITLE": "FATCA"
