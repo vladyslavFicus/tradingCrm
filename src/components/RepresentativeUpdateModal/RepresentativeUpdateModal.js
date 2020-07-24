@@ -13,7 +13,6 @@ import {
   retentionStatuses,
   retentionStatusValues,
 } from 'constants/retentionStatuses';
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import renderLabel from 'utils/renderLabel';
@@ -70,7 +69,6 @@ class RepresentativeUpdateModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     client: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
-    isAvailableToMove: PropTypes.bool,
     configs: PropTypes.shape({
       multiAssign: PropTypes.bool,
       allRowsSelected: PropTypes.bool,
@@ -89,7 +87,6 @@ class RepresentativeUpdateModal extends PureComponent {
   static defaultProps = {
     initialValues: {},
     configs: {},
-    isAvailableToMove: false,
     currentInactiveOperator: null,
     leads: null,
     clients: null,
@@ -344,7 +341,6 @@ class RepresentativeUpdateModal extends PureComponent {
       isOpen,
       type,
       header,
-      isAvailableToMove,
       configs: { multiAssign },
     } = this.props;
 
@@ -492,21 +488,6 @@ class RepresentativeUpdateModal extends PureComponent {
                     </Otherwise>
                   </Choose>
                 </Field>
-                <If condition={isAvailableToMove}>
-                  <Field
-                    name="acquisitionStatus"
-                    label={I18n.t(attributeLabels(type).move)}
-                    component={FormikSelectField}
-                    disabled={isSubmitting}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  >
-                    {[aquisitionStatuses.find(({ value }) => type === value)].map(({ value, label }) => (
-                      <option key={value} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
-                </If>
               </ModalBody>
               <ModalFooter>
                 <Button onClick={onCloseModal} commonOutline>
