@@ -2045,6 +2045,7 @@
           "WORKING_HOURS_FROM": "Working Hours From",
           "WORKING_HOURS_TO": "Working Hours To"
         },
+        "MESSAGE": "Please use 00.00 - 24.00 time format to set the working time period.",
         "NOTIFICATIONS": {
           "CREATE": {
             "TITLE": "Schedule creation"

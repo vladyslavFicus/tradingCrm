@@ -171,6 +171,9 @@ class PartnerScheduleModal extends PureComponent {
                 {`${I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
+                <p className="margin-bottom-15 text-center">
+                  {I18n.t('PARTNERS.MODALS.SCHEDULE.MESSAGE')}
+                </p>
                 <If condition={formError || (errors && errors.submit)}>
                   <div className="mb-2 text-center color-danger PartnerScheduleModal__message-error">
                     {formError || errors.submit}
