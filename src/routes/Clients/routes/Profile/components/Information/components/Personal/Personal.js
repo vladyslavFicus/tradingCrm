@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
@@ -91,7 +90,7 @@ class Personal extends PureComponent {
 
   handleReferrerClick = () => {
     const { profile } = this.props;
-    const uuid = profile.referrer?.uuid;
+    const uuid = profile?.referrer?.uuid;
 
     if (!uuid) return;
 
