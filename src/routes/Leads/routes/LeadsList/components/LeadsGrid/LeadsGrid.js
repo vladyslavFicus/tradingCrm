@@ -177,9 +177,8 @@ class LeadsGrid extends PureComponent {
     </>
   );
 
-  renderLastNote = (lead) => {
-    const lastNote = get(lead, 'lastNote') || {};
-    const { content, changedAt, operator, uuid } = lastNote;
+  renderLastNote = ({ uuid, lastNote }) => {
+    const { content, changedAt, operator } = lastNote || {};
 
     return (
       <Choose>
@@ -199,12 +198,12 @@ class LeadsGrid extends PureComponent {
               </span>
             </If>
 
-            <div className="LeadsGrid__last-note-content" id={`${uuid}-note`}>
+            <div className="LeadsGrid__last-note-content" id={`note-${uuid}`}>
               {content}
             </div>
 
             <UncontrolledTooltip
-              target={`${uuid}-note`}
+              target={`note-${uuid}`}
               placement="bottom-start"
               delay={{ show: 350, hide: 250 }}
             >
