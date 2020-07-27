@@ -38,36 +38,30 @@ class LeadsGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
-    const {
-      location,
-      leadsData,
-      leadsData: {
-        loadMore,
-        loading,
-      },
-    } = this.props;
+    const { location, leadsData } = this.props;
 
     const defaultSize = 20;
     const leads = get(leadsData, 'data.leads') || [];
     const { currentPage } = limitItems(leads, location);
 
-    const searchLimit = get(location, 'query.filters.searchLimit');
+    const filters = get(location, 'query.filters') || {};
+
+    const { searchLimit } = filters;
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
 
     const size = (restLimitSize && restLimitSize < defaultSize && restLimitSize > 0)
       ? restLimitSize
       : defaultSize;
 
-    if (!loading) {
-      loadMore({
-        args: {
-          page: {
-            from: currentPage + 1,
-            size,
-          },
+    leadsData.loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: currentPage + 1,
+          size,
         },
-      });
-    }
+      },
+    });
   };
 
   handleSort = (sortData) => {
@@ -284,7 +278,7 @@ class LeadsGrid extends PureComponent {
           withLazyLoad={!searchLimit || searchLimit !== content.length}
           withRowsHover
           withMultiSelect
-          withNoResults={content && content.length === 0}
+          withNoResults={!isLoading && (!content || content.length === 0)}
         >
           <GridColumn
             header={I18n.t('LEADS.GRID_HEADER.LEAD')}
