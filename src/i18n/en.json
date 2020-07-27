@@ -2054,7 +2054,7 @@
             "TITLE": "Update status"
           }
         },
-        "LIMIT_ERROR": "Amount should be less than %{totalLimit}. Please, change amount correspondingly."
+        "LIMIT_ERROR": "Amount should be less than %{currentLimitError}. Please, change amount correspondingly."
       }
     },
     "PROFILE": {
