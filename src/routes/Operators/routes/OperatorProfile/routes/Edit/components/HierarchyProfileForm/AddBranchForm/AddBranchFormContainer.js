@@ -26,11 +26,11 @@ export default compose(
       variables: { withoutBrandFilter: true },
       fetchPolicy: 'network-only',
     }),
-    props: ({ branchHierarchy: { hierarchy, loading } }) => {
-      const TEAM = get(hierarchy, 'userBranchHierarchy.data.TEAM') || [];
-      const DESK = get(hierarchy, 'userBranchHierarchy.data.DESK') || [];
-      const OFFICE = get(hierarchy, 'userBranchHierarchy.data.OFFICE') || [];
-      const BRAND = get(hierarchy, 'userBranchHierarchy.data.BRAND') || [];
+    props: ({ branchHierarchy: { userBranches, loading } }) => {
+      const TEAM = get(userBranches, 'TEAM') || [];
+      const DESK = get(userBranches, 'DESK') || [];
+      const OFFICE = get(userBranches, 'OFFICE') || [];
+      const BRAND = get(userBranches, 'BRAND') || [];
 
       const branchTypes = [
         ...(TEAM.length ? getBranchOption(branchNames.TEAM) : []),
