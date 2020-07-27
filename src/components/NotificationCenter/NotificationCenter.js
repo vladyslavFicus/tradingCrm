@@ -1,10 +1,20 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Popover } from 'reactstrap';
+import PropTypes from 'constants/propTypes';
+import { withPermission } from 'providers/PermissionsProvider';
+import permissions from 'config/permissions';
+import Permissions from 'utils/permissions';
 import NotificationCenterContent from './components/NotificationCenterContent';
 import NotificationCenterTrigger from './components/NotificationCenterTrigger';
 import './NotificationCenter.scss';
 
+const unreadNotificationsPermission = new Permissions(permissions.NOTIFICATION_CENTER.GET_UNREAD_COUNT);
+
 class NotificationCenter extends PureComponent {
+  static propTypes = {
+    permission: PropTypes.permission.isRequired,
+  };
+
   state = {
     isOpen: false,
     enableToggle: true,
@@ -26,11 +36,12 @@ class NotificationCenter extends PureComponent {
   };
 
   render() {
+    const { permission: { permissions: currentPermissions } } = this.props;
     const { isOpen, enableToggle } = this.state;
     const id = 'NotificationCenterTrigger';
 
     return (
-      <Fragment>
+      <If condition={unreadNotificationsPermission.check(currentPermissions)}>
         <NotificationCenterTrigger
           id={id}
           onClick={this.toggle}
@@ -46,9 +57,9 @@ class NotificationCenter extends PureComponent {
         >
           <NotificationCenterContent onCloseModal={this.onCloseModal} />
         </Popover>
-      </Fragment>
+      </If>
     );
   }
 }
 
-export default NotificationCenter;
+export default withPermission(NotificationCenter);
