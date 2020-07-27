@@ -171,6 +171,7 @@ class View extends Component {
           loading={loading}
           initialValues={initialValues}
           allowUpdateHierarchy={allowUpdateHierarchy}
+          refetchUserHierarchy={userHierarchy.refetch}
         />
       </div>
     );
