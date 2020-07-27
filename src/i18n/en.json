@@ -753,7 +753,6 @@
       "FAILED": "Failed",
       "CANCELED": "Canceled"
     },
-    "WITHDRAWAL_STATUS": "Withdraw status",
     "WITHDRAWAL_STATUSES": {
       "CREATED": "Created",
       "DEALING_REVIEW": "Dealing review",
