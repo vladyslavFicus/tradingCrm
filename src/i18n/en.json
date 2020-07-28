@@ -1685,6 +1685,9 @@
       },
       "externalId": {
         "exists": "This External ID already exists"
+      },
+      "password": {
+        "repeated": "New password was used before. Please type in another one"
       }
     },
     "payment": {
@@ -2270,6 +2273,23 @@
       "SUBTITLE": "You are about to change password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password"
+    },
+    "CHANGE_UNAUTHORIZED_PASSWORD_MODAL": {
+      "TITLE": "Change password",
+      "SUBTITLE": "The password has expired. Please, update your password and login again",
+      "OLD_PASSWORD": "Old password",
+      "NEW_PASSWORD": "New password",
+      "REPEAT_PASSWORD": "Repeat password",
+      "NOTIFICATIONS": {
+        "SUCCESS": {
+          "TITLE": "Password was successfully changed",
+          "MESSAGE": "You can login again"
+        },
+        "ERROR": {
+          "TITLE": "Password didn't changed",
+          "MESSAGE": "Something went wrong"
+        }
+      }
     },
     "CHANGE_ACCOUNT_STATUS_MODAL": {
       "TITLE": "Change account status",

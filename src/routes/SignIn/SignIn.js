@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
@@ -6,11 +5,13 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { getBackofficeBrand } from 'config';
+import { withModals } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import Copyrights from 'components/Copyrights';
+import ChangeUnauthorizedPasswordModal from 'modals/ChangeUnauthorizedPasswordModal';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
@@ -23,6 +24,9 @@ class SignIn extends PureComponent {
   static propTypes = {
     signIn: PropTypes.func.isRequired,
     chooseDepartment: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      changeUnauthorizedPasswordModal: PropTypes.modalType,
+    }).isRequired,
     ...PropTypes.router,
     ...withStorage.propTypes,
   }
@@ -40,7 +44,12 @@ class SignIn extends PureComponent {
   }
 
   handleSubmit = async (values, { resetForm }) => {
-    const { signIn, storage, history } = this.props;
+    const {
+      signIn,
+      storage,
+      history,
+      modals: { changeUnauthorizedPasswordModal },
+    } = this.props;
 
     try {
       const signInData = await signIn({ variables: values });
@@ -73,12 +82,12 @@ class SignIn extends PureComponent {
     } catch (e) {
       const error = parseErrors(e);
 
-      // TODO: change password flow
-      // error.validation.password.repeated
       if (error.error === 'error.validation.password.expired') {
-        // open new changePasswordModal
+        changeUnauthorizedPasswordModal.show({
+          uuid: error?.errorParameters?.uuid,
+          onSuccess: resetForm,
+        });
 
-        // resetFormOnSuccess
         return;
       }
 
@@ -87,7 +96,7 @@ class SignIn extends PureComponent {
   }
 
   handleSelectDepartment = async (brand, { department, role }) => {
-    const { chooseDepartment, storage } = this.props;
+    const { chooseDepartment, storage, history } = this.props;
 
     try {
       const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartment({
@@ -181,5 +190,8 @@ export default compose(
   withRequests({
     signIn: SignInMutation,
     chooseDepartment: ChooseDepartmentMutation,
+  }),
+  withModals({
+    changeUnauthorizedPasswordModal: ChangeUnauthorizedPasswordModal,
   }),
 )(SignIn);
