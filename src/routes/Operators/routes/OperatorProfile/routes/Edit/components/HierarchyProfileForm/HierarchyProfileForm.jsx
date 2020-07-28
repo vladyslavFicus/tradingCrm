@@ -65,7 +65,6 @@ class HierarchyProfileForm extends Component {
       notify,
       updateOperatorHierarchy,
       match: { params: { id } },
-      reset,
       userBranchesTreeUp,
       refetchUserHierarchy,
     } = this.props;
@@ -85,7 +84,6 @@ class HierarchyProfileForm extends Component {
       });
       userBranchesTreeUp.refetch();
       refetchUserHierarchy();
-      reset();
     } catch {
       notify({
         level: 'error',
