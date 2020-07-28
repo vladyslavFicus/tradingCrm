@@ -6,7 +6,6 @@ import { departmentsLabels, rolesLabels } from 'constants/operators';
 import renderLabel from 'utils/renderLabel';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
-import { withPermission } from 'providers/PermissionsProvider';
 import HierarchyProfileForm from './HierarchyProfileForm';
 import OperatorPersonalForm from './OperatorPersonalForm';
 import DepartmentsForm from './DepartmentsForm';
@@ -37,7 +36,7 @@ class View extends Component {
     }).isRequired,
     deleteAuthority: PropTypes.func.isRequired,
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
-    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     auth: PropTypes.shape({
       uuid: PropTypes.string,
     }).isRequired,
@@ -51,6 +50,7 @@ class View extends Component {
 
   static defaultProps = {
     authorities: [],
+    departmentsRoles: {},
   };
 
   getChildContext() {
@@ -178,4 +178,4 @@ class View extends Component {
   }
 }
 
-export default withPermission(View);
+export default View;
