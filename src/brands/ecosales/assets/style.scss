@@ -25,6 +25,14 @@
     }
   }
 
+  .SignIn {
+    &__form {
+      background-color: rgba(255, 255, 255, 0.77);
+      border: solid 1px #154b98;
+      box-shadow: none;
+    }
+  }
+
   .Brands {
     &__title {
       color: #154b98;

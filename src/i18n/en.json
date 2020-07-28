@@ -770,6 +770,12 @@
       "END_DATE": "End date"
     }
   },
+  "BRANDS": {
+    "CHOOSE_BRAND": "Please, choose the brand"
+  },
+  "DEPARTMENTS": {
+    "ALL_BRANDS": "All brands"
+  },
   "FILES": {
     "TITLE": "Files",
     "SEARCH_PLACEHOLDER": "File name, File ID",
