@@ -160,7 +160,19 @@ class PartnerScheduleModal extends PureComponent {
           validate={validate}
           onSubmit={this.onHandleSubmit}
         >
-          {({ errors, dirty, isValid, isSubmitting, values: { countrySpreads }, setFieldValue }) => (
+          {(
+            {
+              errors,
+              dirty,
+              isValid,
+              isSubmitting,
+              values: {
+                countrySpreads,
+                totalLimit: currentLimitError,
+              },
+              setFieldValue,
+            },
+          ) => (
             <Form className="PartnerScheduleModal">
               <ModalHeader toggle={onCloseModal}>
                 {`${I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
@@ -274,7 +286,7 @@ class PartnerScheduleModal extends PureComponent {
                   <If condition={limitError}>
                     <div className="PartnerScheduleModal__limit-error color-danger">
                       <div className="col-7">
-                        {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { totalLimit })}
+                        {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { currentLimitError })}
                       </div>
                     </div>
                   </If>
