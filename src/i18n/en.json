@@ -2937,8 +2937,11 @@
         "AGENTS": "Agents",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
+        "READ_UNREAD": "Read/Unread",
         "NOTIFICATION_TYPE_DETAILS": "Notification type details"
-      }
+      },
+      "READ": "Read",
+      "UNREAD": "Unread"
     },
     "GRID_HEADER": {
       "NOTIFICATION_ID": "notification id",

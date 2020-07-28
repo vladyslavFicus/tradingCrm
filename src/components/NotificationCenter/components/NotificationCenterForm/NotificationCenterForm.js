@@ -21,12 +21,13 @@ class NotificationCenterForm extends PureComponent {
 
   state = {
     selectedTypes: [],
+    read: '',
   };
 
   onSubmit = (e) => {
-    const { selectedTypes } = this.state;
+    const { selectedTypes, read } = this.state;
 
-    this.props.onSubmit(selectedTypes);
+    this.props.onSubmit(selectedTypes, read);
     this.appliedTypes = selectedTypes;
 
     e.preventDefault();
@@ -39,7 +40,7 @@ class NotificationCenterForm extends PureComponent {
   };
 
   onReset = () => {
-    this.setState({ selectedTypes: [] }, () => {
+    this.setState({ selectedTypes: [], read: '' }, () => {
       if (this.appliedTypes && this.appliedTypes.length) {
         this.props.onSubmit([]);
       }
@@ -49,7 +50,7 @@ class NotificationCenterForm extends PureComponent {
 
   render() {
     const { className, notificationsTypes } = this.props;
-    const { selectedTypes } = this.state;
+    const { selectedTypes, read } = this.state;
 
     return (
       <form
@@ -73,11 +74,27 @@ class NotificationCenterForm extends PureComponent {
             ))}
           </Select>
         </div>
+        <div className="NotificationCenterForm__field">
+          <div className="NotificationCenterForm__label">
+            {I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.READ_UNREAD')}
+          </div>
+          <Select
+            value={read}
+            onChange={value => this.setState({ read: value })}
+          >
+            <option key={2} value={0}>
+              {I18n.t('NOTIFICATION_CENTER.FILTERS.UNREAD')}
+            </option>
+            <option key={1} value={1}>
+              {I18n.t('NOTIFICATION_CENTER.FILTERS.READ')}
+            </option>
+          </Select>
+        </div>
         <div className="NotificationCenterForm__button-group">
           <Button
             className="NotificationCenterForm__button"
             onClick={this.onReset}
-            disabled={!selectedTypes.length}
+            disabled={!selectedTypes.length && !Number.isInteger(read)}
             common
           >
             {I18n.t('COMMON.RESET')}
