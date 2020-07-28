@@ -1687,7 +1687,7 @@
         "exists": "This External ID already exists"
       },
       "password": {
-        "repeated": "New password was used before. Please type in another one"
+        "repeated": "You used this password recently. Please choose a different one"
       }
     },
     "payment": {
