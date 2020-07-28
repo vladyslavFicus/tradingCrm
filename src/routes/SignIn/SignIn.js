@@ -126,11 +126,11 @@ class SignIn extends PureComponent {
 
     return (
       <div className="SignIn">
-        <If condition={backofficeLogo}>
-          <div className="SignIn__logo">
+        <div className="SignIn__logo">
+          <If condition={backofficeLogo}>
             <img src={backofficeLogo} alt="logo" />
-          </div>
-        </If>
+          </If>
+        </div>
 
         <Formik
           initialValues={{}}

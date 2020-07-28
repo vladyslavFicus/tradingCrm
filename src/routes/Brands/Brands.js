@@ -69,11 +69,11 @@ class Brands extends PureComponent {
 
     return (
       <div className="Brands">
-        <If condition={backofficeLogo}>
-          <div className="Brands__logo">
+        <div className="Brands__logo">
+          <If condition={backofficeLogo}>
             <img src={backofficeLogo} alt="logo" />
-          </div>
-        </If>
+          </If>
+        </div>
 
         <div>
           <div className="Brands__greeting">
