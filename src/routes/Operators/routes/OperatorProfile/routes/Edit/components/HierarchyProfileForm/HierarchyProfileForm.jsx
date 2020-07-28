@@ -21,6 +21,7 @@ class HierarchyProfileForm extends Component {
     notify: PropTypes.func.isRequired,
     updateOperatorHierarchy: PropTypes.func.isRequired,
     removeOperatorFromBranch: PropTypes.func.isRequired,
+    refetchUserHierarchy: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
@@ -66,6 +67,7 @@ class HierarchyProfileForm extends Component {
       match: { params: { id } },
       reset,
       userBranchesTreeUp,
+      refetchUserHierarchy,
     } = this.props;
 
     try {
@@ -82,6 +84,7 @@ class HierarchyProfileForm extends Component {
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_UPDATE_TYPE'),
       });
       userBranchesTreeUp.refetch();
+      refetchUserHierarchy();
       reset();
     } catch {
       notify({
