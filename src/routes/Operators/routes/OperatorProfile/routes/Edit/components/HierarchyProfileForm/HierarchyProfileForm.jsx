@@ -153,9 +153,12 @@ class HierarchyProfileForm extends Component {
 
     if (userBranchesTreeUp.length) {
       return userBranchesTreeUp.map(({ uuid, parentBranch, branchType, name }) => {
+        // There is no need to view the Company of operator
+        if (!parentBranch) {
+          return null;
+        }
         const isParentBranchTypeCompany = parentBranch.branchType === 'COMPANY';
 
-        // There is no need to view the Company of operator
         const branchChain = !isParentBranchTypeCompany ? this.buildUserBranchChain(parentBranch, '') : '';
 
         return (
