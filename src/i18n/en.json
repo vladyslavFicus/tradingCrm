@@ -369,6 +369,10 @@
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
+      "ERRORS": {
+        "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
+        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+      },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
