@@ -1,4 +1,7 @@
 export default {
+  AUTH: {
+    GET_AUTHORITIES: 'auth2.getAuthorities',
+  },
   OPERATORS: {
     OPERATORS_LIST_VIEW: 'operator.searchOperators',
     CREATE: 'operator.createOperator',
