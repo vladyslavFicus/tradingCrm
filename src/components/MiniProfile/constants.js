@@ -9,8 +9,8 @@ const operatorStatusNames = {
 };
 
 const userStatusNames = {
-  [userStatuses.NOT_VERIFIED]: 'inactive',
-  [userStatuses.VERIFIED]: 'active',
+  [userStatuses.NOT_VERIFIED]: 'not verified',
+  [userStatuses.VERIFIED]: 'verified',
   [userStatuses.BLOCKED]: 'blocked',
   [userStatuses.DORMANT]: 'dormant',
   [userStatuses.SUSPENDED]: 'suspended',

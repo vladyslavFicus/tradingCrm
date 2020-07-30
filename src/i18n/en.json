@@ -369,6 +369,10 @@
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
+      "ERRORS": {
+        "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
+        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+      },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -657,6 +661,7 @@
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
     "PASSWORD": "Password",
+    "PASSWORD_INVALID": "The password format is invalid. It must be at least 8 symbols length and contain uppercase, lowercase letters, and digits.",
     "PAYMENT": {
       "TYPE": {
         "TIP": "Tip",
@@ -752,7 +757,6 @@
       "FAILED": "Failed",
       "CANCELED": "Canceled"
     },
-    "WITHDRAWAL_STATUS": "Withdraw status",
     "WITHDRAWAL_STATUSES": {
       "CREATED": "Created",
       "DEALING_REVIEW": "Dealing review",
@@ -2001,6 +2005,27 @@
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
       "REGISTRATION_DATE_RANGE": "Registration Date Range"
     },
+    "SCHEDULE": {
+      "GRID_HEADER": {
+        "ACTIVATE": "Activate",
+        "DAY": "DAY",
+        "WORKING_HOURS": "Working hours",
+        "TOTAL_LEADS_LIMIT": "Total leads limit",
+        "COUNTRY_LIMIT": "Country limit"
+      },
+      "FROM": "from",
+      "TO": "to",
+      "TITLE": "Api Sending Schedule",
+      "WEEK": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      }
+    },
     "MODALS": {
       "NEW_PARTNER": {
         "TITLE": "New partner",
@@ -2013,6 +2038,26 @@
         "TITLE": "Existing partner",
         "MESSAGE": "Partner exits in another brand. Would you like to add permissions for this partner to have access to",
         "BRAND": "%{brand}?"
+      },
+      "SCHEDULE": {
+        "TITLE": "API Settings",
+        "LABELS": {
+          "COUNTRY": "Country",
+          "LEADS_LIMIT": "Total leads limit",
+          "COUNTRY_LIMIT": "Country limit",
+          "WORKING_HOURS_FROM": "Working Hours From",
+          "WORKING_HOURS_TO": "Working Hours To"
+        },
+        "MESSAGE": "Please use 00.00 - 24.00 time format (UTC time zone) to set the working time period.",
+        "NOTIFICATIONS": {
+          "CREATE": {
+            "TITLE": "Schedule creation"
+          },
+          "UPDATE_STATUS": {
+            "TITLE": "Update status"
+          }
+        },
+        "LIMIT_ERROR": "Amount should be less than %{currentLimitError}. Please, change amount correspondingly."
       }
     },
     "PROFILE": {
@@ -2899,8 +2944,11 @@
         "AGENTS": "Agents",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
+        "READ_UNREAD": "Read/Unread",
         "NOTIFICATION_TYPE_DETAILS": "Notification type details"
-      }
+      },
+      "READ": "Read",
+      "UNREAD": "Unread"
     },
     "GRID_HEADER": {
       "NOTIFICATION_ID": "notification id",
@@ -2971,11 +3019,11 @@
       "NAME": "Rules",
       "ADD_RULE": "Add Rule",
       "RULE_NOT_CREATED": "Error while creating rule",
-      "RULE_CREATED": "Rule created with id %{id}",
+      "RULE_CREATED": "Rule created",
       "RULE_NOT_UPDATED": "Error while updating rule",
       "RULE_UPDATED": "The rule was successfully updated",
       "RULE_NOT_DELETED": "Error while deleting rule",
-      "RULE_DELETED": "Rule with id %{id} deleted successfully",
+      "RULE_DELETED": "Rule deleted successfully",
       "GRID": {
         "COUNTRIES": "Countries",
         "COUNTRY": "Country",

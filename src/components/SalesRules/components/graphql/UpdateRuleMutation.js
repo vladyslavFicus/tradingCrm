@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation createRule(
+const REQUEST = gql`mutation SalesRules_UpdateRuleMutation(
   $name: String!,
   $priority: Int!,
   $countries: [String],

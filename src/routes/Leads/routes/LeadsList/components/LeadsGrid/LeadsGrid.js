@@ -38,29 +38,49 @@ class LeadsGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
-    const {
-      location,
-      leadsData,
-      leadsData: {
-        loadMore,
-        loading,
-      },
-    } = this.props;
+    const { location, leadsData } = this.props;
 
     const defaultSize = 20;
     const leads = get(leadsData, 'data.leads') || [];
-    const { currentPage } = limitItems({ data: leads }, location);
+    const { currentPage } = limitItems(leads, location);
 
-    const searchLimit = get(location, 'query.filters.size');
+    const filters = get(location, 'query.filters') || {};
+
+    const { searchLimit } = filters;
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
-    const limit = restLimitSize && (restLimitSize < defaultSize) ? Math.abs(restLimitSize) : defaultSize;
 
-    if (!loading) {
-      loadMore({
-        page: currentPage + 1,
-        limit,
-      });
-    }
+    const size = (restLimitSize && restLimitSize < defaultSize && restLimitSize > 0)
+      ? restLimitSize
+      : defaultSize;
+
+    leadsData.loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: currentPage + 1,
+          size,
+        },
+      },
+    });
+  };
+
+  handleSort = (sortData) => {
+    const { history } = this.props;
+    const query = get(history, 'location.query') || {};
+
+    const sorts = Object.keys(sortData)
+      .filter(sortingKey => sortData[sortingKey])
+      .map(sortingKey => ({
+        column: sortingKey,
+        direction: sortData[sortingKey],
+      }));
+
+    history.replace({
+      query: {
+        ...query,
+        sorts,
+      },
+    });
   };
 
   handleRowClick = ({ uuid }) => {
@@ -84,7 +104,7 @@ class LeadsGrid extends PureComponent {
       } = this.props;
 
       const totalElements = get(leadsData, 'data.leads.totalElements') || 0;
-      const searchLimit = get(location, 'query.filters.size') || null;
+      const searchLimit = get(location, 'query.filters.searchLimit') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
         ? searchLimit > MAX_SELECTED_LEADS
@@ -157,9 +177,8 @@ class LeadsGrid extends PureComponent {
     </>
   );
 
-  renderLastNote = (lead) => {
-    const lastNote = get(lead, 'lastNote') || {};
-    const { content, changedAt, operator, uuid } = lastNote;
+  renderLastNote = ({ uuid, lastNote }) => {
+    const { content, changedAt, operator } = lastNote || {};
 
     return (
       <Choose>
@@ -179,12 +198,12 @@ class LeadsGrid extends PureComponent {
               </span>
             </If>
 
-            <div className="LeadsGrid__last-note-content" id={`${uuid}-note`}>
+            <div className="LeadsGrid__last-note-content" id={`note-${uuid}`}>
               {content}
             </div>
 
             <UncontrolledTooltip
-              target={`${uuid}-note`}
+              target={`note-${uuid}`}
               placement="bottom-start"
               delay={{ show: 350, hide: 250 }}
             >
@@ -235,8 +254,10 @@ class LeadsGrid extends PureComponent {
     } = this.props;
 
     const leads = get(leadsData, 'data.leads') || [];
-    const { response } = limitItems({ data: leads }, location);
-    const { content, last } = get(response, 'data') || {};
+    const searchLimit = get(location, 'query.filters.searchLimit') || null;
+
+    const { response } = limitItems(leads, location);
+    const { content, last } = response;
 
     const isLoading = leadsData.loading;
 
@@ -245,6 +266,7 @@ class LeadsGrid extends PureComponent {
         <Grid
           data={content || []}
           touchedRowsIds={touchedRowsIds}
+          handleSort={this.handleSort}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
           handleRowClick={this.handleRowClick}
@@ -252,9 +274,10 @@ class LeadsGrid extends PureComponent {
           handlePageChanged={this.handlePageChanged}
           isLoading={isLoading}
           isLastPage={last}
+          withLazyLoad={!searchLimit || searchLimit !== content.length}
           withRowsHover
           withMultiSelect
-          withNoResults={content && content.length === 0}
+          withNoResults={!isLoading && (!content || content.length === 0)}
         >
           <GridColumn
             header={I18n.t('LEADS.GRID_HEADER.LEAD')}
@@ -274,6 +297,7 @@ class LeadsGrid extends PureComponent {
           />
           <GridColumn
             header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
+            sortBy="lastNote.changedAt"
             render={this.renderLastNote}
           />
           <GridColumn

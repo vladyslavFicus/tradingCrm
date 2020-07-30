@@ -13,8 +13,6 @@ import './FeedItem.scss';
 
 class FeedItem extends Component {
   static propTypes = {
-    letter: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(['orange', 'blue', 'green']).isRequired,
     data: PropTypes.auditEntity.isRequired,
   };
 
@@ -29,14 +27,13 @@ class FeedItem extends Component {
   render() {
     const { opened } = this.state;
     const {
-      letter,
-      color,
       data: {
         details,
         type,
         uuid,
         authorFullName,
         authorUuid,
+        targetUuid,
         creationDate,
         ip,
       },
@@ -44,6 +41,14 @@ class FeedItem extends Component {
 
     const parsedDetails = typeof details === 'string' ? parseJson(details) : details;
     const hasInformation = size(parsedDetails) > 0;
+
+    let color = 'green';
+    let letter = 's';
+
+    if (authorUuid && authorFullName) {
+      color = authorUuid === targetUuid ? 'blue' : 'orange';
+      letter = authorFullName.split(' ').splice(0, 2).map(word => word[0]).join('');
+    }
 
     return (
       <div className="feed-item">

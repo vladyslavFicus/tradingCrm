@@ -7,8 +7,7 @@ import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'comp
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import countryList from 'utils/countryList';
-import { createValidator } from 'utils/validator';
-import { statusLabels, statuses } from '../../../../constants';
+import { statusLabels } from '../../../../constants';
 import './PartnersGridFilter.scss';
 
 class PartnersGridFilter extends PureComponent {
@@ -43,13 +42,6 @@ class PartnersGridFilter extends PureComponent {
       <Formik
         className="PartnersGridFilter"
         initialValues={this.initialValues}
-        validate={createValidator({
-          searchBy: 'string',
-          country: ['string', `in:${Object.keys(countryList).join()}`],
-          status: ['string', `in:${Object.keys(statuses).join()}`],
-          registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
-          registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
-        })}
         onSubmit={this.onHandleSubmit}
       >
         {({

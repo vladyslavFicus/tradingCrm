@@ -37,12 +37,30 @@ class NotificationsFilters extends PureComponent {
     notificationSubtypes: '',
   };
 
-  onHandleSubmit = ({ creationDateFrom, creationDateTo, ...restValues }, { setSubmitting }) => {
+  onHandleSubmit = (
+    {
+      creationDateFrom,
+      creationDateTo,
+      operatorTeams,
+      operatorDesks,
+      ...restValues
+    },
+    { setSubmitting },
+  ) => {
     const creationDateRange = {
       from: creationDateFrom,
       to: creationDateTo,
     };
-    this.props.onSubmit(decodeNullValues({ ...restValues, creationDateRange }));
+
+    this.props.onSubmit(decodeNullValues({
+      ...restValues,
+      operatorTeams,
+      operatorDesks,
+      creationDateRange,
+      ...(!operatorTeams) && {
+        operatorTeams: this.getFilteredTeams(operatorDesks).map(({ uuid }) => uuid),
+      },
+    }));
     setSubmitting(false);
   };
 
@@ -63,6 +81,19 @@ class NotificationsFilters extends PureComponent {
       ));
   };
 
+  getFilteredTeams = (desks = []) => {
+    const {
+      userBranchHierarchy: {
+        data: hierarchyData,
+      },
+    } = this.props;
+
+    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
+    const teamsByDesks = teams.filter(team => desks.includes(team.parentBranch.uuid));
+
+    return desks.length ? teamsByDesks : teams;
+  }
+
   render() {
     const {
       operators: {
@@ -81,7 +112,6 @@ class NotificationsFilters extends PureComponent {
 
     const operators = get(operatorsData, 'operators.content') || [];
     const desks = get(hierarchyData, 'userBranches.DESK') || [];
-    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
     const typesData = get(notificationTypesData, 'notificationCenterTypes') || [];
     const types = Object.keys(typesData);
 
@@ -97,10 +127,12 @@ class NotificationsFilters extends PureComponent {
           values: {
             notificationSubtypes,
             notificationTypes,
+            operatorDesks,
           },
           dirty,
         }) => {
           const subtypesOptions = this.renderSubtypesOptions(notificationTypes, typesData);
+          const teamsOptions = this.getFilteredTeams(operatorDesks);
 
           return (
             <Form className="NotificationsGridFilter__form">
@@ -127,30 +159,42 @@ class NotificationsFilters extends PureComponent {
                   ))}
                 </Field>
                 <Field
-                  name="operatorTeams"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  label={I18n.t(filterLabels.teams)}
-                  component={FormikSelectField}
-                  searchable
-                  multiple
-                  disabled={hierarchyLoading}
-                >
-                  {teams.map(({ uuid, name }) => (
-                    <option key={uuid} value={uuid}>{name}</option>
-                  ))}
-                </Field>
-                <Field
                   name="operatorDesks"
                   className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  placeholder={
+                    I18n.t(
+                      (!hierarchyLoading && desks.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
                   label={I18n.t(filterLabels.desks)}
                   component={FormikSelectField}
                   searchable
                   multiple
-                  disabled={hierarchyLoading}
+                  disabled={hierarchyLoading || desks.length === 0}
                 >
                   {desks.map(({ uuid, name }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+                <Field
+                  name="operatorTeams"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  placeholder={
+                    I18n.t(
+                      (!hierarchyLoading && teamsOptions.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
+                  label={I18n.t(filterLabels.teams)}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  disabled={hierarchyLoading || teamsOptions.length === 0}
+                >
+                  {teamsOptions.map(({ uuid, name }) => (
                     <option key={uuid} value={uuid}>{name}</option>
                   ))}
                 </Field>

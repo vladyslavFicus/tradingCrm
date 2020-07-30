@@ -310,7 +310,6 @@ export {
   accountStatusActions,
   tradingTypes,
   tradingTypesLabelsWithColor,
-  withdrawStatuses,
   withdrawStatusesLabels,
   withdrawStatusesColors,
 };

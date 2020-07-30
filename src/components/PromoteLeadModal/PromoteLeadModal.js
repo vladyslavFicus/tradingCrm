@@ -31,7 +31,7 @@ const validate = createValidator({
 
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
-    leadData: PropTypes.query({
+    leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
     formError: PropTypes.string,
@@ -50,7 +50,7 @@ class PromoteLeadModal extends PureComponent {
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
     const {
-      leadData,
+      leadQuery,
       notify,
       promoteLead,
       onCloseModal,
@@ -60,7 +60,7 @@ class PromoteLeadModal extends PureComponent {
     let variables = values;
 
     if (isEmailHidden) {
-      const { email } = get(leadData, 'data.lead');
+      const { email } = get(leadQuery, 'data.lead');
 
       variables = {
         ...values,
@@ -76,7 +76,7 @@ class PromoteLeadModal extends PureComponent {
         variables: { args: variables },
       });
 
-      EventEmitter.emit(LEAD_PROMOTED, leadData.data.lead);
+      EventEmitter.emit(LEAD_PROMOTED, leadQuery.data.lead);
 
       onCloseModal();
 
@@ -101,7 +101,7 @@ class PromoteLeadModal extends PureComponent {
 
   renderForm() {
     const {
-      leadData,
+      leadQuery,
       onCloseModal,
       formError,
       isEmailHidden,
@@ -117,7 +117,7 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(leadData, 'data.lead');
+    } = get(leadQuery, 'data.lead');
 
     return (
       <Formik
@@ -229,7 +229,7 @@ class PromoteLeadModal extends PureComponent {
 
   render() {
     const {
-      leadData,
+      leadQuery,
       onCloseModal,
       isOpen,
       size,
@@ -247,7 +247,7 @@ class PromoteLeadModal extends PureComponent {
         </ModalHeader>
         <ModalBody>
           <Choose>
-            <When condition={leadData.loading}>
+            <When condition={leadQuery.loading}>
               <ShortLoader />
             </When>
             <Otherwise>
@@ -263,7 +263,7 @@ class PromoteLeadModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    leadData: LeadQuery,
+    leadQuery: LeadQuery,
     promoteLead: PromoteLeadMutation,
   }),
 )(PromoteLeadModal);

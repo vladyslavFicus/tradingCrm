@@ -276,9 +276,11 @@ class UploadModal extends PureComponent {
           initialValues={{}}
           onSubmit={this.confirmUploadingFiles}
           validate={validate}
+          validateOnBlur={false}
+          validateOnChange={false}
           enableReinitialize
         >
-          {({ dirty, isValid, isSubmitting, setValues, values }) => (
+          {({ dirty, isSubmitting, setValues, values }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
@@ -367,7 +369,7 @@ class UploadModal extends PureComponent {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={isSubmitting || !dirty || !isValid || filesToUpload.length === 0}
+                  disabled={isSubmitting || !dirty || filesToUpload.length === 0}
                   primary
                 >
                   {I18n.t('COMMON.BUTTONS.CONFIRM')}

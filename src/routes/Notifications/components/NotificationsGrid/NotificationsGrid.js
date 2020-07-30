@@ -193,7 +193,7 @@ class NotificationsGrid extends PureComponent {
         }
       >
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
           render={this.renderNotificationUuid}
         />
         <GridColumn

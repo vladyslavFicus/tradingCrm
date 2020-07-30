@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query } from 'apollo';
 
 const REQUEST = gql`
   query NotificationCenterUnreadQuery {
