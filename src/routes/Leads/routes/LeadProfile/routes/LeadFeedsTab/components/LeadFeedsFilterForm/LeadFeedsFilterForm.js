@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
+import formatLabel from 'utils/formatLabel';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -70,7 +71,7 @@ class LeadFeedsFilterForm extends PureComponent {
               >
                 {availableFeedTypes.map(type => (
                   <option key={type} value={type}>
-                    {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
+                    {typesLabels[type] ? I18n.t(typesLabels[type]) : formatLabel(type)}
                   </option>
                 ))}
               </Field>
