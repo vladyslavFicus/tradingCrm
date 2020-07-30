@@ -14,6 +14,7 @@ import Route from 'components/Route';
 import HideDetails from 'components/HideDetails';
 import { leadProfileTabs } from '../../constants';
 import LeadProfileTab from './routes/LeadProfileTab';
+import LeadFeedsTab from './routes/LeadFeedsTab';
 import LeadNotesTab from './routes/LeadNotesTab';
 import Information from './components/Information';
 import Header from './components/Header';
@@ -99,6 +100,7 @@ class LeadProfile extends PureComponent {
             <Switch>
               <Route path={`${path}/profile`} component={LeadProfileTab} />
               <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
+              <Route disableScroll path={`${path}/feeds`} component={LeadFeedsTab} />
               <Redirect to={`${url}/profile`} />
             </Switch>
           </Suspense>
