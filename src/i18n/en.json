@@ -1195,6 +1195,7 @@
     },
     "TRANSACTIONS": {
       "GRID_COLUMNS": {
+        "AFFILIATE": "Affiliate",
         "TRANSACTION": "Transaction",
         "WARNING": "Warning",
         "CLIENT": "Client",
@@ -1250,7 +1251,7 @@
           "CASHIER": "CASHIER"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "Transaction ID, Player, External reference",
+          "KEYWORD": "Transaction ID, Affiliate ID, Player, External reference",
           "CLIENT_KEYWORD": "ID, Reference number"
         }
       },

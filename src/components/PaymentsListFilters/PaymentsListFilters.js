@@ -408,7 +408,7 @@ class PaymentsListFilters extends PureComponent {
                 searchable
                 multiple
               >
-                {partners.map(({ uuid, fullName }) => (
+                {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>
                     {fullName}
                   </option>
