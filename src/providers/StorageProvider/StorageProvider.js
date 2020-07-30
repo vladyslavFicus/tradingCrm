@@ -100,11 +100,7 @@ class StorageProvider extends PureComponent {
   /**
    * Clear localStorage
    */
-  clear = () => {
-    this.setState({}, () => {
-      window.localStorage.clear();
-    });
-  };
+  clear = () => window.localStorage.clear();
 
   render() {
     const value = {

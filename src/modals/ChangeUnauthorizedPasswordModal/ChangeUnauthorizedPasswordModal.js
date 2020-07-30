@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import PropTypes from 'prop-types';
