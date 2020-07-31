@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
-import { get, omit } from 'lodash';
+import { get } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
@@ -81,7 +81,7 @@ class LeadsHeader extends PureComponent {
         totalElements: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
-          searchParams: omit(query.filters, ['teams', 'desks']),
+          searchParams: query.filters,
         },
       },
       onSuccess: () => {

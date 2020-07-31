@@ -34,11 +34,13 @@
   }
 
   &__category {
-    width: 225px;;
+    width: 225px;
+    max-width: 225px;
   }
 
   &__type {
     width: 220px;
+    max-width: 220px;
   }
 
   &__status {

@@ -64,7 +64,7 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
 
 const getLeadsQuery = ({ children, location: { query } }) => {
   const searchLimit = query?.filters?.searchLimit;
-  const size = searchLimit < 20 ? searchLimit : 20;
+  const size = (searchLimit && searchLimit < 20) ? searchLimit : 20;
 
   return (
     <Query

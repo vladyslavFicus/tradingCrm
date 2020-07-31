@@ -3,10 +3,12 @@ import { get } from 'lodash';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
+import { withNotifications } from 'hoc';
 import Badge from 'components/Badge';
 import NoteButton from 'components/NoteButton';
 import PropTypes from 'constants/propTypes';
@@ -19,8 +21,8 @@ import Currency from 'components/Amount/Currency';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Permissions from 'utils/permissions';
 import { validation } from './utils';
-import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
-import { ManualPaymentMethodsQuery } from './graphql';
+import { paymentTypes, paymentTypesLabels, attributeLabels, paymentErrors } from './constants';
+import { ManualPaymentMethodsQuery, AddNote, AddPayment } from './graphql';
 import './PaymentAddModal.scss';
 
 class PaymentAddModal extends PureComponent {
@@ -32,16 +34,78 @@ class PaymentAddModal extends PureComponent {
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     profile: PropTypes.profile.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    addPayment: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
+    onSuccess: PropTypes.func.isRequired,
   };
 
-  onSubmit = data => (
-    this.props.onSubmit({
+  state = {
+    errorMessage: '',
+  };
+
+  resetErrorMessage = () => {
+    const { errorMessage } = this.state;
+
+    if (errorMessage) {
+      this.setState({
+        errorMessage: '',
+      });
+    }
+  };
+
+  onSubmit = async (data) => {
+    const {
+      addPayment,
+      addNote,
+      match: { params: { id: uuid } },
+      notify,
+      onSuccess,
+      onCloseModal,
+    } = this.props;
+
+    const variables = {
       ...data,
-      note: this.noteButton.getNote(),
-    })
-  );
+      profileUUID: uuid,
+    };
+
+    try {
+      const { data: { payment: { createPayment } } } = await addPayment({ variables });
+      const note = this.noteButton.getNote();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
+      });
+
+      if (note) {
+        await addNote({ variables: { ...note, targetUUID: createPayment.paymentId } });
+      }
+
+      onSuccess();
+      onCloseModal();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      const defaultErrorMessage = I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL');
+      const errorMessage = paymentErrors[error.error] || defaultErrorMessage;
+
+      this.setState({ errorMessage });
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: defaultErrorMessage,
+      });
+    }
+  };
 
   getSourceAccount = ({ accountUUID, source }) => {
     const { tradingAccounts } = this.props.profile;
@@ -50,6 +114,7 @@ class PaymentAddModal extends PureComponent {
   };
 
   handlePaymentTypeChanged = (value, { setFieldValue, resetForm }) => {
+    this.resetErrorMessage();
     resetForm();
     setFieldValue('paymentType', value);
   };
@@ -146,10 +211,12 @@ class PaymentAddModal extends PureComponent {
       paymentType,
     } = values;
 
+    const fieldName = name || 'accountUUID';
+
     return (
       <Field
         className={`${className || 'col'} select-field-wrapper`}
-        name={name || 'accountUUID'}
+        name={fieldName}
         label={attributeLabels[label || 'fromAcc']}
         placeholder={tradingAccounts.length === 0
           ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
@@ -196,6 +263,7 @@ class PaymentAddModal extends PureComponent {
         loading: manualMethodsLoading,
       },
     } = this.props;
+    const { errorMessage } = this.state;
 
     const manualMethods = get(manualPaymentMethodsData, 'manualPaymentMethods') || [];
 
@@ -222,6 +290,9 @@ class PaymentAddModal extends PureComponent {
                   {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
                 </ModalHeader>
                 <ModalBody className="container-fluid">
+                  <If condition={errorMessage}>
+                    <span className="transaction-error">{errorMessage}</span>
+                  </If>
                   <Field
                     name="paymentType"
                     label={attributeLabels.paymentType}
@@ -378,8 +449,12 @@ class PaymentAddModal extends PureComponent {
 }
 
 export default compose(
+  withNotifications,
   withPermission,
+  withRouter,
   withRequests({
     manualPaymentMethods: ManualPaymentMethodsQuery,
+    addPayment: AddPayment,
+    addNote: AddNote,
   }),
 )(PaymentAddModal);

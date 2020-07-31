@@ -8,7 +8,6 @@ import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
-import { convertTimeFromUTC } from 'utils/timeConverter';
 import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import { FormikCheckbox } from 'components/Formik';
@@ -119,8 +118,8 @@ class Schedule extends PureComponent {
       <When condition={workingHoursFrom && workingHoursTo}>
         <div className="font-weight-700">
           {`
-            ${I18n.t('PARTNERS.SCHEDULE.FROM')} ${convertTimeFromUTC(workingHoursFrom)}
-            ${I18n.t('PARTNERS.SCHEDULE.TO')} ${convertTimeFromUTC(workingHoursTo)}
+            ${I18n.t('PARTNERS.SCHEDULE.FROM')} ${workingHoursFrom}
+            ${I18n.t('PARTNERS.SCHEDULE.TO')} ${workingHoursTo}
           `}
         </div>
       </When>
