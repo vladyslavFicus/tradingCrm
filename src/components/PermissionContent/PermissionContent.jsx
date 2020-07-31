@@ -3,6 +3,7 @@ import PropTypes from 'constants/propTypes';
 import { withPermission } from 'providers/PermissionsProvider';
 import shallowEqual from 'utils/shallowEqual';
 import Permissions, { CONDITIONS } from 'utils/permissions';
+import PermissionElse from './PermissionElse';
 
 class PermissionContent extends Component {
   static propTypes = {
@@ -49,7 +50,14 @@ class PermissionContent extends Component {
     const { visible } = this.state;
     const { children } = this.props;
 
-    return visible ? children : null;
+    if (!Array.isArray(children)) {
+      return visible ? children : null;
+    }
+
+    const permissionContent = children.filter(item => item.type !== PermissionElse);
+    const permissionElse = children.filter(item => item.type === PermissionElse);
+
+    return visible ? permissionContent : permissionElse;
   }
 }
 
