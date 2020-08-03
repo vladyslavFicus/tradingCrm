@@ -354,9 +354,9 @@ class RepresentativeUpdateModal extends PureComponent {
       isOpen,
       type,
       header,
-      configs: { multiAssign, selectedRowsLength },
+      configs: { multiAssign },
     } = this.props;
-    console.log(selectedRowsLength);
+
     const { agentsLoading, teamsLoading, agents, teams } = this.state;
 
     const desks = get(userBranchHierarchyData, 'userBranches.DESK') || [];

@@ -60,14 +60,12 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     const leads = get(leadsData, 'data.leads.content') || [];
-    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
 
     representativeUpdateModal.show({
       uuids: touchedRowsIds.map(index => leads[index].uuid),
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       configs: {
-        totalElements,
         allRowsSelected,
         selectedRowsLength: this.selectedRowsLength,
         multiAssign: true,
