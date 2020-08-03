@@ -1064,7 +1064,8 @@
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate",
-        "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated"
+        "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
+        "ACQUISITION_UPDATED": "Acquisition updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
