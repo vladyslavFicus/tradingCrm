@@ -55,6 +55,7 @@ class ClientsGridBulkActions extends PureComponent {
       type,
       uuids: touchedRowsIds.map(index => content[index].uuid),
       configs: {
+        totalElements,
         allRowsSelected,
         selectedRowsLength,
         multiAssign: true,

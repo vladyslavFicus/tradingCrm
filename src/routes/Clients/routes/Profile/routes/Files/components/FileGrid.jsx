@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { getApiRoot } from 'config';
+import { getApiRoot, getApiVersion } from 'config';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -72,6 +72,7 @@ class FileGrid extends PureComponent {
         headers: {
           Authorization: token ? `Bearer ${token}` : undefined,
           'Content-Type': 'application/json',
+          'x-client-version': getApiVersion(),
         },
       });
 

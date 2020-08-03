@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { HierarchyBranchFragment } from '../fragments/hierarchy';
+import { HierarchyBranchFragment, HierarchyUserBranchFragment } from '../fragments/hierarchy';
 
 const getUserHierarchy = gql`query getUserHierarchy {
   userHierarchy {
@@ -91,6 +91,30 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   }
 }`;
 
+const getUserBranchesTreeUp = gql`query getUserBranchesTreeUp(
+  $userUUID: String!
+) {
+  # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
+  userBranchesTreeUp (
+    userUUID: $userUUID,
+  ) {
+    ...HierarchyUserBranchFragment
+    parentBranch {
+      ...HierarchyUserBranchFragment
+      parentBranch {
+        ...HierarchyUserBranchFragment
+        parentBranch {
+          ...HierarchyUserBranchFragment
+          parentBranch {
+            ...HierarchyUserBranchFragment
+          }
+        }
+      }
+    }
+  }
+}
+${HierarchyUserBranchFragment}`;
+
 const getBranchInfo = gql`query getBranchInfo(
   $branchId: String!,
 ) {
@@ -147,4 +171,5 @@ export {
   getUserBranchHierarchy,
   getBranchInfo,
   getBranchHierarchyTree,
+  getUserBranchesTreeUp,
 };

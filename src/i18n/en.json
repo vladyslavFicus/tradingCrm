@@ -369,6 +369,10 @@
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
+      "ERRORS": {
+        "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
+        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+      },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -657,6 +661,7 @@
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
     "PASSWORD": "Password",
+    "PASSWORD_INVALID": "The password format is invalid. It must be at least 8 symbols length and contain uppercase, lowercase letters, and digits.",
     "PAYMENT": {
       "TYPE": {
         "TIP": "Tip",
@@ -752,7 +757,6 @@
       "FAILED": "Failed",
       "CANCELED": "Canceled"
     },
-    "WITHDRAWAL_STATUS": "Withdraw status",
     "WITHDRAWAL_STATUSES": {
       "CREATED": "Created",
       "DEALING_REVIEW": "Dealing review",
@@ -2045,6 +2049,7 @@
           "WORKING_HOURS_FROM": "Working Hours From",
           "WORKING_HOURS_TO": "Working Hours To"
         },
+        "MESSAGE": "Please use 00.00 - 24.00 time format (UTC time zone) to set the working time period.",
         "NOTIFICATIONS": {
           "CREATE": {
             "TITLE": "Schedule creation"
@@ -2053,7 +2058,7 @@
             "TITLE": "Update status"
           }
         },
-        "LIMIT_ERROR": "Amount should be less than %{totalLimit}. Please, change amount correspondingly."
+        "LIMIT_ERROR": "Amount should be less than %{currentLimitError}. Please, change amount correspondingly."
       }
     },
     "PROFILE": {
@@ -2936,8 +2941,11 @@
         "AGENTS": "Agents",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
+        "READ_UNREAD": "Read/Unread",
         "NOTIFICATION_TYPE_DETAILS": "Notification type details"
-      }
+      },
+      "READ": "Read",
+      "UNREAD": "Unread"
     },
     "GRID_HEADER": {
       "NOTIFICATION_ID": "notification id",

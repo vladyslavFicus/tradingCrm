@@ -1,4 +1,7 @@
 export default {
+  AUTH: {
+    GET_AUTHORITIES: 'auth2.getAuthorities',
+  },
   OPERATORS: {
     OPERATORS_LIST_VIEW: 'operator.searchOperators',
     CREATE: 'operator.createOperator',
@@ -112,5 +115,8 @@ export default {
   },
   TRADING_ACCOUNTS: {
     GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+  },
+  NOTIFICATION_CENTER: {
+    GET_UNREAD_COUNT: 'notification.countAllUserUnreadNotifications',
   },
 };
