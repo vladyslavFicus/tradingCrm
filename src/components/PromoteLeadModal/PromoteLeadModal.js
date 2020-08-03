@@ -60,7 +60,7 @@ class PromoteLeadModal extends PureComponent {
     let variables = values;
 
     if (isEmailHidden) {
-      const { email } = get(leadQuery, 'data.lead');
+      const { email } = get(leadQuery, 'data.lead') || {};
 
       variables = {
         ...values,
@@ -117,7 +117,7 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(leadQuery, 'data.lead');
+    } = get(leadQuery, 'data.lead') || {};
 
     return (
       <Formik
