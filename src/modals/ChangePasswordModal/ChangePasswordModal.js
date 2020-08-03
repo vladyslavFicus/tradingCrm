@@ -7,12 +7,12 @@ import { getActiveBrandConfig } from 'config';
 import { FormikInputField } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import './ChangePasswordModal.scss';
 
-const fieldLabels = {
-  newPasswordLabel: 'MODALS.CHANGE_PASSWORD_MODAL.NEW_PASSWORD',
-  repeatPasswordLabel: 'MODALS.CHANGE_PASSWORD_MODAL.REPEAT_PASSWORD',
+const attributeLabels = {
+  newPassword: 'MODALS.CHANGE_PASSWORD_MODAL.NEW_PASSWORD',
+  repeatPassword: 'MODALS.CHANGE_PASSWORD_MODAL.REPEAT_PASSWORD',
 };
 
 const customErrors = {
@@ -47,7 +47,7 @@ class ChangePasswordModal extends PureComponent {
                 newPassword: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
                 repeatPassword: ['required', 'same:newPassword'],
               },
-              fieldLabels,
+              translateLabels(attributeLabels),
               false,
               customErrors,
             )
@@ -77,14 +77,14 @@ class ChangePasswordModal extends PureComponent {
                 <Field
                   name="newPassword"
                   type="password"
-                  label={I18n.t(fieldLabels.newPasswordLabel)}
+                  label={I18n.t(attributeLabels.newPassword)}
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />
                 <Field
                   name="repeatPassword"
                   type="password"
-                  label={I18n.t(fieldLabels.repeatPasswordLabel)}
+                  label={I18n.t(attributeLabels.repeatPassword)}
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />
