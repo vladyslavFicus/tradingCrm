@@ -262,8 +262,8 @@ class RepresentativeUpdateModal extends PureComponent {
       title: I18n.t('COMMON.SUCCESS'),
       message:
         userType === userTypes.LEAD_CUSTOMER
-          ? I18n.t('LEADS.UPDATED') // NEED to correct
-          : I18n.t(`CLIENTS.${type}_INFO_UPDATED`), // NEED to correct
+          ? I18n.t('LEADS.UPDATED')
+          : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
     });
   };
 
@@ -303,8 +303,8 @@ class RepresentativeUpdateModal extends PureComponent {
       title: I18n.t('COMMON.SUCCESS'),
       message:
         userType === userTypes.LEAD_CUSTOMER
-          ? I18n.t('LEADS.UPDATED')
-          : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
+          ? I18n.t('LEADS.BULK_UPDATED')
+          : I18n.t(`CLIENTS.BULK_${type}_INFO_UPDATED`),
     });
   };
 
@@ -328,7 +328,7 @@ class RepresentativeUpdateModal extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.BULK_UPDATE_FAILED'), // NEED to correct
+        title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
 

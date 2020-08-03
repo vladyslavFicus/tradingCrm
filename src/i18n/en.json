@@ -722,6 +722,7 @@
     "LANGUAGE": "Language",
     "UNTIL": "Until",
     "ON": "on",
+    "UPDATE_FAILED": "Update failed",
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
@@ -2650,8 +2651,10 @@
   },
   "CLIENTS": {
     "BULK_ACTIONS": "Bulk actions",
-    "RETENTION_INFO_UPDATED": "Clients retention info updated",
-    "SALES_INFO_UPDATED": "Clients sales info updated",
+    "BULK_RETENTION_INFO_UPDATED": "Clients retention info updated",
+    "BULK_SALES_INFO_UPDATED": "Clients sales info updated",
+    "RETENTION_INFO_UPDATED": "Client retention info updated",
+    "SALES_INFO_UPDATED": "Client sales info updated",
     "ACQUISITION_STATUS_UPDATED": "Acquisition status updated",
     "LIST": {
       "GRID_HEADER": {
@@ -2695,7 +2698,8 @@
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
     "BULK_ACTIONS": "Bulk actions",
-    "UPDATED": "Leads updated successfully",
+    "BULK_UPDATED": "Leads updated successfully",
+    "UPDATED": "Lead updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
