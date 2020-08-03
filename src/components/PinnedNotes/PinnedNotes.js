@@ -76,7 +76,15 @@ class PinnedNotes extends PureComponent {
       >
         <div className="PinnedNotes__item">
           <If condition={changedBy}>
-            <b className="PinnedNotes__item-operator">{operator.fullName}</b>
+            <Choose>
+              <When>
+                <b className="PinnedNotes__item-operator">{operator.fullName}</b>
+              </When>
+              <Otherwise>
+                <div>&mdash;</div>
+              </Otherwise>
+            </Choose>
+
             <div className="PinnedNotes__item-author">
               {I18n.t('COMMON.AUTHOR_BY')}
               <Uuid uuid={changedBy} uuidPrefix="OP" />

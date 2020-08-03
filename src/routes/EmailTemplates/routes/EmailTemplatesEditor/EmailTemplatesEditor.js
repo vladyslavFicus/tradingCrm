@@ -28,13 +28,24 @@ class EmailTemplatesEditor extends PureComponent {
     loading: false,
   };
 
-  editTemplate = async (values) => {
+  editTemplate = async (values, { validateForm }) => {
     const {
       emailTemplateUpdateMutation,
       match: { params: { id } },
       history,
       notify,
     } = this.props;
+
+    const textWithoutHtml = values.text.replace(/<\/?[^>]+(>|$)/g, '');
+
+    const validationErrors = await validateForm({
+      ...values,
+      text: textWithoutHtml,
+    });
+
+    const hasValidationErrors = Object.keys(validationErrors).length > 0;
+
+    if (hasValidationErrors) return;
 
     try {
       await emailTemplateUpdateMutation({ variables: { ...values, id } });
