@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { withStorage } from 'providers/StorageProvider';
@@ -38,15 +37,11 @@ class AcquisitionStatus extends PureComponent {
     const {
       modals: { representativeUpdateModal },
       profile: { uuid },
-      acquisition,
     } = this.props;
 
-    const assignToOperator = get(acquisition, `${type.toLowerCase()}Representative`) || null;
-
     representativeUpdateModal.show({
+      uuid,
       type,
-      clients: [{ uuid }],
-      currentInactiveOperator: assignToOperator,
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
     });
   };

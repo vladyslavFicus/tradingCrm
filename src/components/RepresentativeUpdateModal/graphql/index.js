@@ -1,17 +1,17 @@
 import HierarchyUsersByTypeQuery from './HierarchyUsersByTypeQuery';
 import UserBranchHierarchyQuery from './UserBranchHierarchyQuery';
-import ClientBulkRepresUpdate from './ClientBulkRepresUpdate';
-import LeadBulkRepresUpdate from './LeadBulkRepresUpdate';
+import UpdateAcquisition from './UpdateAcquisition';
+import BulkUpdateLeadsAcquisition from './BulkUpdateLeadsAcquisition';
+import BulkUpdateClientsAcquisition from './BulkUpdateClientsAcquisition';
 import getBranchChildren from './getBranchChildren';
 import getUsersByBranch from './getUsersByBranch';
-import UpdateUserAcquisition from './UpdateUserAcquisition';
 
 export {
   HierarchyUsersByTypeQuery,
   UserBranchHierarchyQuery,
-  ClientBulkRepresUpdate,
-  LeadBulkRepresUpdate,
+  UpdateAcquisition,
+  BulkUpdateLeadsAcquisition,
+  BulkUpdateClientsAcquisition,
   getBranchChildren,
   getUsersByBranch,
-  UpdateUserAcquisition,
 };

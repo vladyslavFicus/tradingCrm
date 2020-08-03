@@ -1,34 +1,6 @@
 import gql from 'graphql-tag';
 import { AddressFragment } from '../fragments/address';
 
-const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
-  $salesRepresentative: [String]
-  $retentionRepresentative: [String]
-  $salesStatus: String
-  $retentionStatus: String
-  $type: String!
-  $isMoveAction: Boolean
-  $allRowsSelected: Boolean
-  $clients: [ClientUpdate__Input]
-  $totalElements: Int
-  $searchParams: ClientSearch__Input
-) {
-  profile {
-    bulkClientUpdate (
-      salesRepresentative: $salesRepresentative
-      retentionRepresentative: $retentionRepresentative
-      salesStatus: $salesStatus
-      retentionStatus: $retentionStatus
-      type: $type
-      isMoveAction: $isMoveAction
-      allRowsSelected: $allRowsSelected
-      clients: $clients
-      totalElements: $totalElements
-      searchParams: $searchParams
-    )
-  }
-}`;
-
 const clickToCall = gql`mutation clickToCall($number: String!) {
   clickToCall {
     didlogic {
@@ -151,7 +123,6 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 }`;
 
 export {
-  clientsBulkRepresentativeUpdate,
   clickToCall,
   updatePersonalInformationMutation,
   updateConfigurationMutation,

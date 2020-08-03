@@ -48,10 +48,9 @@ class AcquisitionStatus extends PureComponent {
     } = this.props;
 
     representativeUpdateModal.show({
+      uuid,
       type: aquisitionStatusesNames.SALES,
       userType: userTypes.LEAD_CUSTOMER,
-      leads: [{ uuid }],
-      initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
       header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
         type: aquisitionStatusesNames.SALES.toLowerCase(),
       }),

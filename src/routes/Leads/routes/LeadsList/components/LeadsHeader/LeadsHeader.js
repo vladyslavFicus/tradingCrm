@@ -40,14 +40,10 @@ class LeadsHeader extends PureComponent {
     let rowsLength = touchedRowsIds.length;
 
     if (allRowsSelected) {
-      const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-      const searchLimit = get(location, 'query.filters.searchLimit');
+      const totalElements = get(leadsData, 'data.leads.totalElements');
+      const searchLimit = get(location, 'query.filters.searchLimit') || Infinity;
 
-      const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
-
-      rowsLength = selectedLimit > MAX_SELECTED_LEADS
-        ? MAX_SELECTED_LEADS - rowsLength
-        : selectedLimit - rowsLength;
+      rowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_LEADS) - rowsLength;
     }
 
     return rowsLength;
@@ -65,20 +61,13 @@ class LeadsHeader extends PureComponent {
 
     const leads = get(leadsData, 'data.leads.content') || [];
 
-    const selectedLeads = leads
-      .filter((_, i) => touchedRowsIds.includes(i))
-      .map(lead => ({
-        uuid: lead.uuid,
-        unassignFromOperator: get(lead, 'salesAgent.uuid') || null,
-      }));
-
     representativeUpdateModal.show({
-      leads: selectedLeads,
+      uuids: touchedRowsIds.map(index => leads[index].uuid),
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       configs: {
         allRowsSelected,
-        totalElements: this.selectedRowsLength,
+        selectedRowsLength: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
           searchParams: omit(query.filters, ['teams', 'desks']),
