@@ -2268,10 +2268,7 @@
       "TITLE": "Change password",
       "SUBTITLE": "You are about to change password",
       "NEW_PASSWORD": "New password",
-      "REPEAT_PASSWORD": "Repeat password",
-      "ERRORS": {
-        "PASSWORDS_MATCH": "The New password and Repeat password fields must match."
-      }
+      "REPEAT_PASSWORD": "Repeat password"
     },
     "CHANGE_ACCOUNT_STATUS_MODAL": {
       "TITLE": "Change account status",
