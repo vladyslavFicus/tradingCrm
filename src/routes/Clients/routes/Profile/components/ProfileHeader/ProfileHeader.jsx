@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
@@ -166,10 +166,14 @@ class ProfileHeader extends Component {
 
       changePasswordModal.hide();
     } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
-        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+        message: error.error === 'error.validation.password.repeated'
+          ? I18n.t(error.error)
+          : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
       });
     }
   };
