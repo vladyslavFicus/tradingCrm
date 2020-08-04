@@ -131,7 +131,7 @@ class Schedule extends PureComponent {
 
   renderLimit = ({ totalLimit }) => (
     <Choose>
-      <When condition={totalLimit}>
+      <When condition={totalLimit !== null}>
         <div className="font-weight-700">{totalLimit}</div>
       </When>
       <Otherwise>
@@ -158,9 +158,10 @@ class Schedule extends PureComponent {
     </Choose>
   )
 
-  renderActivate = setFieldValue => ({ day }) => (
+  renderActivate = setFieldValue => ({ day, configId }) => (
     <Field
       name={day}
+      disabled={!configId}
       onChange={this.handleChange(setFieldValue)}
       component={FormikCheckbox}
     />

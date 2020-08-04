@@ -9,9 +9,10 @@ import NotFound from 'routes/NotFound';
 import CoreLayout from 'layouts/CoreLayout';
 import BlackLayout from 'layouts/BlackLayout';
 import MainLayout from 'layouts/MainLayout';
-import SignIn from 'routes/SignIn';
 import Logout from 'routes/Logout';
+import SignIn from 'routes/SignIn';
 import Brands from 'routes/Brands';
+import Departments from 'routes/Departments';
 import Clients from 'routes/Clients';
 import Payments from 'routes/Payments';
 import ResetPassword from 'routes/ResetPassword';
@@ -77,7 +78,6 @@ class IndexRoute extends PureComponent {
             </Choose>
 
             {/* Private routes */}
-            <Route path="/brands" layout={BlackLayout} component={Brands} isPrivate />
             <Route path="/dashboard" layout={MainLayout} component={Dashboard} isPrivate />
             <Route path="/trading-accounts" layout={MainLayout} component={TradingAccounts} isPrivate />
             <Route path="/payments" layout={MainLayout} component={Payments} isPrivate />
@@ -107,6 +107,10 @@ class IndexRoute extends PureComponent {
             <Route path="/sign-in" layout={BlackLayout} component={SignIn} isPublic />
             <Route path="/reset-password" layout={BlackLayout} component={ResetPassword} isPublic />
 
+            {/* Common routes */}
+            <Route path="/brands" layout={BlackLayout} component={Brands} />
+            <Route path="/departments" layout={BlackLayout} component={Departments} />
+
             {/* Not found routes */}
             <Route component={NotFound} />
             <Redirect to="/not-found" />
@@ -117,4 +121,4 @@ class IndexRoute extends PureComponent {
   }
 }
 
-export default withRouter(withStorage(['token', 'auth'])(IndexRoute));
+export default withRouter(withStorage(['token', 'auth', 'brand', 'brands'])(IndexRoute));

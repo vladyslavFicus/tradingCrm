@@ -52,6 +52,7 @@ const NotificationCenterQuery = ({ children, location }) => {
           page: { from: 0, size: NOTIFICATIONS_SIZE },
         },
       }}
+      context={{ batch: false }}
     >
       {children}
     </Query>

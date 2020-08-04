@@ -12,7 +12,8 @@ class BrandItem extends PureComponent {
   };
 
   render() {
-    const { name, image, onClick, isActive } = this.props;
+    const { brand, onClick, isActive } = this.props;
+    const { name, image } = brand || {};
 
     return (
       <div
@@ -23,7 +24,7 @@ class BrandItem extends PureComponent {
         }
         onClick={onClick}
       >
-        <img className="BrandItem__image" alt={name} {...image} />
+        <img className="BrandItem__image" alt={name} src={image} />
         <div className="BrandItem__title">{name}</div>
       </div>
     );

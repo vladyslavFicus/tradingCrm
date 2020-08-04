@@ -420,31 +420,17 @@ PropTypes.meta = PropTypes.shape({
     currencyCode: PropTypes.string,
   }).isRequired,
 });
-PropTypes.brand = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    style: PropTypes.shape({
-      width: PropTypes.string,
-      height: PropTypes.string,
-    }),
-  }).isRequired,
-});
 PropTypes.department = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
   role: PropTypes.string,
   image: PropTypes.string,
 });
-PropTypes.wageringFulfillmentEntity = PropTypes.shape({
-  uuid: PropTypes.string.isRequired,
-  amounts: PropTypes.arrayOf(PropTypes.price),
-});
-PropTypes.subTabRouteEntity = PropTypes.shape({
-  url: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  permissions: PropTypes.object.isRequired,
+PropTypes.brand = PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  image: PropTypes.string,
+  departments: PropTypes.arrayOf(PropTypes.department),
 });
 PropTypes.modalType = PropTypes.shape({
   show: PropTypes.func.isRequired,
@@ -708,18 +694,6 @@ PropTypes.paymentsStatistic = PropTypes.shape({
   }),
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-});
-PropTypes.brand = PropTypes.shape({
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    style: PropTypes.shape({
-      width: PropTypes.string,
-      height: PropTypes.string,
-    }),
-  }).isRequired,
-  name: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
-  onClick: PropTypes.func,
 });
 PropTypes.profileView = PropTypes.shape({
   balance: PropTypes.shape({

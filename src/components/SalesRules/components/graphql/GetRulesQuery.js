@@ -67,6 +67,7 @@ const GetRulesQuery = ({ children, match: { params: { id } }, location: { query 
       ...(type === 'OPERATOR' && { operatorUuids: [...get(query, 'filters.operatorUuids') || '', id] }),
     }}
     fetchPolicy="cache-and-network"
+    context={{ batch: false }}
   >
     {children}
   </Query>

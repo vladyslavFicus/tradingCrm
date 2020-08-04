@@ -1,8 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
+import { v4 } from 'uuid';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { getApiRoot } from 'config';
+import { getApiRoot, getApiVersion } from 'config';
 import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
 import TabHeader from 'components/TabHeader';
@@ -174,6 +175,7 @@ class Files extends PureComponent {
         headers: {
           authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
+          'x-client-version': getApiVersion(),
         },
       });
 
@@ -229,7 +231,7 @@ class Files extends PureComponent {
               verificationData.map(({ documents, verificationType }) => (
                 documents.map(({ documentType, files, verificationStatus }) => (
                   <FileGrid
-                    key={`${verificationType}-${documentType}`}
+                    key={`${verificationType}-${documentType}-${v4()}`}
                     data={files}
                     categories={categories}
                     verificationType={verificationType}

@@ -60,10 +60,13 @@ class Balances extends Component {
     this.setState({ dateFrom });
 
     const refetchData = {
-      dateFrom: dateFrom || clientRegistrationDate,
+      dateFrom: moment()
+        .utc(dateFrom || clientRegistrationDate)
+        .format(),
       dateTo: moment()
         .add(2, 'day')
         .startOf('day')
+        .utc()
         .format(),
     };
 

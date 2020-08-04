@@ -13,7 +13,7 @@ import { generate } from 'utils/password';
 import renderLabel from 'utils/renderLabel';
 import { createValidator, translateLabels } from 'utils/validator';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
-import { attributeLabels } from './constants';
+import { attributeLabels, customErrors } from './constants';
 
 const validator = createValidator({
   firstName: ['required', 'string', 'min:2'],
@@ -26,7 +26,7 @@ const validator = createValidator({
   role: 'required',
   branchType: 'required',
   branch: 'required',
-}, translateLabels(attributeLabels), false);
+}, translateLabels(attributeLabels), false, customErrors);
 
 class CreateOperatorModal extends PureComponent {
   static propTypes = {

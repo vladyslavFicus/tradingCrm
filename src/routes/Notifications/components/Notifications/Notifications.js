@@ -119,7 +119,7 @@ class Notifications extends PureComponent {
             )}
           >
             <span className="font-size-20">
-              {totalEntities} {I18n.t('NOTIFICATION_CENTER.TITLE')}
+              <b>{totalEntities}</b> {I18n.t('NOTIFICATION_CENTER.TITLE')}
             </span>
           </Placeholder>
         </div>

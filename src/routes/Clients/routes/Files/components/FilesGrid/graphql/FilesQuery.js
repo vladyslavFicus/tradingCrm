@@ -53,7 +53,7 @@ const FilesQuery = ({ children, location: { query } }) => (
     variables={{
       ...query && query.filters,
       page: 0,
-      size: 10,
+      size: 20,
     }}
     fetchPolicy="cache-and-network"
   >
