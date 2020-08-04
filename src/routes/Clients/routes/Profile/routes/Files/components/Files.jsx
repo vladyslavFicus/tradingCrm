@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
+import { v4 } from 'uuid';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { getApiRoot, getApiVersion } from 'config';
@@ -230,7 +231,7 @@ class Files extends PureComponent {
               verificationData.map(({ documents, verificationType }) => (
                 documents.map(({ documentType, files, verificationStatus }) => (
                   <FileGrid
-                    key={`${verificationType}-${documentType}`}
+                    key={`${verificationType}-${documentType}-${v4()}`}
                     data={files}
                     categories={categories}
                     verificationType={verificationType}
