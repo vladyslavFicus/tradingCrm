@@ -25,6 +25,11 @@ class ChangePasswordModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     fullName: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    passwordPattern: PropTypes.string,
+  };
+
+  static defaultProps = {
+    passwordPattern: '',
   };
 
   onHandleSubmit = async (values, { setSubmitting }) => {
@@ -35,7 +40,12 @@ class ChangePasswordModal extends PureComponent {
   };
 
   render() {
-    const { onCloseModal, fullName, uuid } = this.props;
+    const {
+      onCloseModal,
+      fullName,
+      uuid,
+      passwordPattern,
+    } = this.props;
 
     return (
       <Modal className="ChangePasswordModal" toggle={onCloseModal} isOpen>
@@ -44,7 +54,7 @@ class ChangePasswordModal extends PureComponent {
           validate={
             createValidator(
               {
-                newPassword: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+                newPassword: ['required', `regex:${passwordPattern || getActiveBrandConfig().password.pattern}`],
                 repeatPassword: ['required', 'same:newPassword'],
               },
               translateLabels(attributeLabels),

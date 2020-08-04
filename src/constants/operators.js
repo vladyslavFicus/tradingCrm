@@ -118,6 +118,8 @@ const rolesLabels = {
   [roles.PLAYER]: 'CONSTANTS.OPERATORS.ROLES.PLAYER',
 };
 
+const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+
 export {
   actions,
   statuses,
@@ -128,4 +130,5 @@ export {
   departmentsLabels,
   roles,
   rolesLabels,
+  passwordPattern,
 };
