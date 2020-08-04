@@ -123,7 +123,7 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <GridColumn
-            header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT')}
+            header={I18n.t('TRADING_ACCOUNTS.GRID.CREDIT')}
             render={this.renderCreditColumn}
           />
           <GridColumn

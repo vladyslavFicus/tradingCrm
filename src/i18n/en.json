@@ -3412,7 +3412,8 @@
       "BALANCE": "Balance",
       "STATUS": "Status",
       "ACCOUNT_TYPE": "Account type",
-      "LOGIN": "MT4 login"
+      "LOGIN": "MT4 login",
+      "CREDIT": "Credit"
     }
   },
   "BRANCH_MANAGER_INFO": {
