@@ -86,8 +86,6 @@ class TradingAccountsListGrid extends PureComponent {
           withLazyLoad
         >
           <GridColumn
-            key="login"
-            name="login"
             header={I18n.t('TRADING_ACCOUNTS.GRID.LOGIN')}
             render={this.renderLoginColumn}
           />
@@ -125,8 +123,6 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <GridColumn
-            key="credit"
-            name="credit"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT')}
             render={this.renderCreditColumn}
           />
