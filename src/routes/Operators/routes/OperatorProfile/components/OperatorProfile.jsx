@@ -8,7 +8,10 @@ import * as menu from 'config/menu';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
-import { passwordPattern } from 'constants/operators';
+import {
+  passwordPattern,
+  passwordMaxSize,
+} from 'constants/operators';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
@@ -244,6 +247,7 @@ class OperatorProfile extends Component {
             <ChangePasswordModal
               {...modal.params}
               passwordPattern={passwordPattern}
+              passwordMaxSize={passwordMaxSize}
               onCloseModal={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />

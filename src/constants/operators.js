@@ -119,6 +119,7 @@ const rolesLabels = {
 };
 
 const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+const passwordMaxSize = 16;
 
 export {
   actions,
@@ -131,4 +132,5 @@ export {
   roles,
   rolesLabels,
   passwordPattern,
+  passwordMaxSize,
 };

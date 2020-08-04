@@ -9,6 +9,7 @@ import {
   departmentsLabels,
   rolesLabels,
   passwordPattern,
+  passwordMaxSize,
 } from 'constants/operators';
 import { Button } from 'components/UI';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
@@ -22,7 +23,7 @@ const validator = createValidator({
   firstName: ['required', 'string', 'min:2'],
   lastName: ['required', 'string', 'min:2'],
   email: ['required', 'email'],
-  password: ['required', `regex:${passwordPattern}`],
+  password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
   phone: 'min:3',
   department: 'required',
   userType: 'required',

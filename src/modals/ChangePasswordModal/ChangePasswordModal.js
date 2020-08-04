@@ -26,10 +26,12 @@ class ChangePasswordModal extends PureComponent {
     fullName: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     passwordPattern: PropTypes.string,
+    passwordMaxSize: PropTypes.number,
   };
 
   static defaultProps = {
     passwordPattern: '',
+    passwordMaxSize: null,
   };
 
   onHandleSubmit = async (values, { setSubmitting }) => {
@@ -45,6 +47,7 @@ class ChangePasswordModal extends PureComponent {
       fullName,
       uuid,
       passwordPattern,
+      passwordMaxSize,
     } = this.props;
 
     return (
@@ -54,7 +57,11 @@ class ChangePasswordModal extends PureComponent {
           validate={
             createValidator(
               {
-                newPassword: ['required', `regex:${passwordPattern || getActiveBrandConfig().password.pattern}`],
+                newPassword: [
+                  'required',
+                  `regex:${passwordPattern || getActiveBrandConfig().password.pattern}`,
+                  ...[passwordMaxSize && `max:${passwordMaxSize}`],
+                ],
                 repeatPassword: ['required', 'same:newPassword'],
               },
               translateLabels(attributeLabels),
