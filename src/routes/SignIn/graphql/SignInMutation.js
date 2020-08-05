@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation SignIn__SignInMutation(
+  mutation SignInMutation(
     $login: String!
     $password: String!
   ) {
