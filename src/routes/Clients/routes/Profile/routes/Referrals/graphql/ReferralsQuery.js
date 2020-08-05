@@ -60,6 +60,7 @@ const ReferralsQuery = ({ children, match: { params: { id: uuid } } }) => (
   <Query
     query={REQUEST}
     variables={{ uuid }}
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

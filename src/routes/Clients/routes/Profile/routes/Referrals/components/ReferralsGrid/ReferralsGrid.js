@@ -3,7 +3,10 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
+import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { getActiveBrandConfig } from 'config';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
@@ -15,6 +18,7 @@ import GridStatus from 'components/GridStatus';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { bonusTypes, bonusTypesColors } from '../../constants';
+import ReferralsQuery from '../../graphql/ReferralsQuery';
 import './ReferralsGrid.scss';
 
 class ReferralsGrid extends PureComponent {
@@ -220,4 +224,9 @@ class ReferralsGrid extends PureComponent {
   }
 }
 
-export default ReferralsGrid;
+export default compose(
+  withRouter,
+  withRequests({
+    referralsQuery: ReferralsQuery,
+  }),
+)(ReferralsGrid);
