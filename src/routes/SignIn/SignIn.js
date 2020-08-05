@@ -84,7 +84,7 @@ class SignIn extends PureComponent {
     } catch (e) {
       const error = parseErrors(e);
 
-      if (error.error === 'error.validation.password.expired') {
+      if (error.error === 'error.user.locked.password.expired') {
         changeUnauthorizedPasswordModal.show({
           uuid: error?.errorParameters?.uuid,
           onSuccess: resetForm,
