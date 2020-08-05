@@ -54,11 +54,15 @@ class HeaderDepartments extends Component {
   };
 
   render() {
-    const { brand: { departments }, auth } = this.props;
+    const { brand, auth } = this.props;
     const { isOpen } = this.state;
+
+    const departments = brand?.departments || [];
 
     const currentDepartment = departments.find(({ department }) => auth.department === department);
     const departmentsLeft = departments.filter(({ department }) => auth.department !== department);
+
+    if (!currentDepartment) return null;
 
     return (
       <Choose>

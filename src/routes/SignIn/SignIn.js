@@ -39,7 +39,9 @@ class SignIn extends PureComponent {
     const { auth, token, storage } = this.props;
 
     if (!auth || !token) {
-      storage.clear();
+      storage.remove('brand');
+      storage.remove('brands');
+      storage.remove('token');
     }
   }
 
