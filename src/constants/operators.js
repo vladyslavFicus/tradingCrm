@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from 'i18n-js';
 
 const statuses = keyMirror({
   ACTIVE: null,
@@ -120,6 +121,7 @@ const rolesLabels = {
 
 const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
 const passwordMaxSize = 16;
+const passwordCustomError = I18n.t('COMMON.OPERATOR_PASSWORD_INVALID');
 
 export {
   actions,
@@ -133,4 +135,5 @@ export {
   rolesLabels,
   passwordPattern,
   passwordMaxSize,
+  passwordCustomError,
 };

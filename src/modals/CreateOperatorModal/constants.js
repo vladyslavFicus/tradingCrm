@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import I18n from 'i18n-js';
+import { passwordCustomError } from 'constants/operators';
 
 const attributeLabels = {
   firstName: 'COMMON.FIRST_NAME',
@@ -15,7 +15,7 @@ const attributeLabels = {
 };
 
 const customErrors = {
-  'regex.password': I18n.t('COMMON.PASSWORD_INVALID'),
+  'regex.password': passwordCustomError,
 };
 
 const fieldNames = keyMirror({

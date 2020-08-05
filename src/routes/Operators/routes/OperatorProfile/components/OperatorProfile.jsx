@@ -12,6 +12,7 @@ import { isSales } from 'constants/hierarchyTypes';
 import {
   passwordPattern,
   passwordMaxSize,
+  passwordCustomError,
 } from 'constants/operators';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
@@ -253,6 +254,7 @@ class OperatorProfile extends Component {
               {...modal.params}
               passwordPattern={passwordPattern}
               passwordMaxSize={passwordMaxSize}
+              passwordCustomError={passwordCustomError}
               onCloseModal={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />

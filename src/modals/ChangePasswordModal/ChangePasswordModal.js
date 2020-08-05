@@ -15,10 +15,6 @@ const attributeLabels = {
   repeatPassword: 'MODALS.CHANGE_PASSWORD_MODAL.REPEAT_PASSWORD',
 };
 
-const customErrors = {
-  'regex.newPassword': I18n.t('COMMON.PASSWORD_INVALID'),
-};
-
 class ChangePasswordModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
@@ -27,11 +23,13 @@ class ChangePasswordModal extends PureComponent {
     uuid: PropTypes.string.isRequired,
     passwordPattern: PropTypes.string,
     passwordMaxSize: PropTypes.number,
+    passwordCustomError: PropTypes.string,
   };
 
   static defaultProps = {
-    passwordPattern: '',
+    passwordPattern: null,
     passwordMaxSize: null,
+    passwordCustomError: null,
   };
 
   onHandleSubmit = async (values, { setSubmitting }) => {
@@ -48,6 +46,7 @@ class ChangePasswordModal extends PureComponent {
       uuid,
       passwordPattern,
       passwordMaxSize,
+      passwordCustomError,
     } = this.props;
 
     return (
@@ -66,7 +65,9 @@ class ChangePasswordModal extends PureComponent {
               },
               translateLabels(attributeLabels),
               false,
-              customErrors,
+              {
+                ...passwordCustomError && { 'regex.newPassword': passwordCustomError },
+              },
             )
           }
           onSubmit={this.onHandleSubmit}
