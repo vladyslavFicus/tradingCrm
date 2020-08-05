@@ -26,15 +26,12 @@ class LeadFeedsList extends PureComponent {
       feedsQuery: {
         data,
         loadMore,
-        loading,
       },
     } = this.props;
 
     const currentPage = get(data, 'feeds.page') || 0;
 
-    if (!loading) {
-      loadMore(currentPage + 1);
-    }
+    loadMore(currentPage + 1);
   };
 
   render() {

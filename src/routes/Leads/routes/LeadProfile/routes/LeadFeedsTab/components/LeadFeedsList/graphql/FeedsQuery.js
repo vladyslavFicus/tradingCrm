@@ -61,7 +61,7 @@ const FeedsQuery = ({
       limit: 20,
       page: 0,
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>
