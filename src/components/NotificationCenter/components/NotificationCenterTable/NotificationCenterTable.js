@@ -60,10 +60,10 @@ class NotificationCenterTable extends PureComponent {
   renderCallbackDetails = ({ firstName, lastName }, { callbackTime }) => (
     <Fragment>
       <div className="NotificationCenterTable__text-highlight">
-        {I18n.t(notificationCenterSubTypesLabels.CALLBACK_NAME, { name: `${firstName} ${lastName}` })}
+        {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_NAME', { name: `${firstName} ${lastName}` })}
       </div>
       <div className="font-size-11">
-        {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
+        {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
           time: moment.utc(callbackTime).local().format('HH:mm'),
         })}
       </div>
