@@ -2293,7 +2293,7 @@
     "CHANGE_UNAUTHORIZED_PASSWORD_MODAL": {
       "TITLE": "Change password",
       "SUBTITLE": "The password has expired. Please, update your password and login again",
-      "OLD_PASSWORD": "Old password",
+      "CURRENT_PASSWORD": "Old password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password",
       "NOTIFICATIONS": {
