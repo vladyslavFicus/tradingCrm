@@ -2,22 +2,29 @@ import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { withRequests, parseErrors } from 'apollo';
+import { withNotifications } from 'hoc';
+import {
+  passwordPattern,
+  passwordMaxSize,
+  passwordCustomError,
+} from 'constants/operators';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import ChangeUnauthorizedPasswordMutation from './graphql/ChangeUnauthorizedPasswordMutation';
 import './ChangeUnauthorizedPasswordModal.scss';
 
-const PASSWORD_PATTERN = '^((?=.*\\d)(?=.*[a-zA-Z]).{6,16})$';
-
 const fieldLabels = {
   oldPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.OLD_PASSWORD',
   newPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NEW_PASSWORD',
   repeatPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.REPEAT_PASSWORD',
+};
+
+const customErrors = {
+  'regex.newPassword': passwordCustomError,
 };
 
 class ChangeUnauthorizedPasswordModal extends PureComponent {
@@ -83,9 +90,13 @@ class ChangeUnauthorizedPasswordModal extends PureComponent {
           validate={
             createValidator({
               oldPassword: ['required'],
-              newPassword: ['required', `regex:${PASSWORD_PATTERN}`],
+              newPassword: [
+                'required',
+                `regex:${passwordPattern}`,
+                `max:${passwordMaxSize}`,
+              ],
               repeatPassword: ['required', 'same:newPassword'],
-            }, translateLabels(fieldLabels), false)
+            }, translateLabels(fieldLabels), false, customErrors)
           }
           onSubmit={this.onHandleSubmit}
         >

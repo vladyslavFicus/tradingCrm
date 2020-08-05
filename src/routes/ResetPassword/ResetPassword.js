@@ -9,15 +9,29 @@ import PropTypes from 'prop-types';
 import { Button } from 'components/UI';
 import Preloader from 'components/Preloader';
 import Copyrights from 'components/Copyrights';
+import {
+  passwordPattern,
+  passwordMaxSize,
+  passwordCustomError,
+} from 'constants/operators';
 import { FormikInputField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import resetPasswordMutation from './graphql/ResetPasswordMutation';
 import './ResetPassword.scss';
 
+const attributeLabels = {
+  password: 'COMMON.PASSWORD',
+  repeatPassword: 'COMMON.REPEAT_PASSWORD',
+};
+
+const customErrors = {
+  'regex.password': passwordCustomError,
+};
+
 const validator = createValidator({
-  password: ['required', 'regex:^((?=.*\\d)(?=.*[a-zA-Z]).{6,16})$'],
+  password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
   repeatPassword: ['required', 'same:password'],
-});
+}, translateLabels(attributeLabels), false, customErrors);
 
 class ResetPassword extends PureComponent {
   static propTypes = {

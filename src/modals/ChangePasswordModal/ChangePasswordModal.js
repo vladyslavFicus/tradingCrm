@@ -15,16 +15,21 @@ const attributeLabels = {
   repeatPassword: 'MODALS.CHANGE_PASSWORD_MODAL.REPEAT_PASSWORD',
 };
 
-const customErrors = {
-  'regex.newPassword': I18n.t('COMMON.PASSWORD_INVALID'),
-};
-
 class ChangePasswordModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     fullName: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    passwordPattern: PropTypes.string,
+    passwordMaxSize: PropTypes.number,
+    passwordCustomError: PropTypes.string,
+  };
+
+  static defaultProps = {
+    passwordPattern: null,
+    passwordMaxSize: null,
+    passwordCustomError: null,
   };
 
   onHandleSubmit = async (values, { setSubmitting }) => {
@@ -35,7 +40,14 @@ class ChangePasswordModal extends PureComponent {
   };
 
   render() {
-    const { onCloseModal, fullName, uuid } = this.props;
+    const {
+      onCloseModal,
+      fullName,
+      uuid,
+      passwordPattern,
+      passwordMaxSize,
+      passwordCustomError,
+    } = this.props;
 
     return (
       <Modal className="ChangePasswordModal" toggle={onCloseModal} isOpen>
@@ -44,12 +56,18 @@ class ChangePasswordModal extends PureComponent {
           validate={
             createValidator(
               {
-                newPassword: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+                newPassword: [
+                  'required',
+                  `regex:${passwordPattern || getActiveBrandConfig().password.pattern}`,
+                  ...[passwordMaxSize && `max:${passwordMaxSize}`],
+                ],
                 repeatPassword: ['required', 'same:newPassword'],
               },
               translateLabels(attributeLabels),
               false,
-              customErrors,
+              {
+                ...passwordCustomError && { 'regex.newPassword': passwordCustomError },
+              },
             )
           }
           onSubmit={this.onHandleSubmit}
