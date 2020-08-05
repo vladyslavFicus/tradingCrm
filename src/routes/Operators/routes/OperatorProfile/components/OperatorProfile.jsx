@@ -1,7 +1,8 @@
 import React, { Component, Suspense } from 'react';
-import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { parseErrors } from 'apollo';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
 import * as menu from 'config/menu';
@@ -40,8 +41,7 @@ class OperatorProfile extends Component {
     changePassword: PropTypes.func.isRequired,
     refetchOperator: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
-    sendInvitation: PropTypes.func.isRequired,
-    authorities: PropTypes.object,
+    authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.any,
     modals: PropTypes.shape({
@@ -54,7 +54,7 @@ class OperatorProfile extends Component {
 
   static defaultProps = {
     error: null,
-    authorities: {},
+    authorities: [],
   };
 
   state = {
@@ -94,34 +94,6 @@ class OperatorProfile extends Component {
     confirmActionModal.hide();
   };
 
-  handleSendInvitationClick = async () => {
-    const {
-      data,
-      modals: { confirmActionModal },
-    } = this.props;
-
-    confirmActionModal.show({
-      onSubmit: this.handleSendInvitationSubmit,
-      modalTitle: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.TITLE'),
-      actionText: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.ACTION_TEXT'),
-      fullName: [data.firstName, data.lastName].join(' '),
-      uuid: data.uuid,
-      submitButtonLabel: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.CONFIRM_ACTION'),
-    });
-  };
-
-  handleSendInvitationSubmit = async () => {
-    const {
-      data: { uuid },
-      sendInvitation,
-      modals: { confirmActionModal },
-    } = this.props;
-
-    await sendInvitation({ variables: { uuid } });
-
-    confirmActionModal.hide();
-  };
-
   handleChangePasswordClick = () => {
     const { data: { firstName, lastName, uuid } } = this.props;
 
@@ -132,23 +104,28 @@ class OperatorProfile extends Component {
   };
 
   handleSubmitNewPassword = async ({ newPassword }) => {
-    const { changePassword, notify, match: { params: { id: playerUUID } } } = this.props;
+    const { changePassword, notify, match: { params: { id: operatorUuid } } } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, playerUUID } });
-    const success = get(response, 'data.operator.changeOperatorPassword.success');
+    try {
+      await changePassword({ variables: { newPassword, operatorUuid } });
 
-    notify({
-      level: !success ? 'error' : 'success',
-      title: !success
-        ? I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
-        : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
-      message: !success
-        ? I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
-        : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+      });
 
-    if (success) {
       this.handleCloseModal();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: error.error === 'error.validation.password.repeated'
+          ? I18n.t(error.error)
+          : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
     }
   };
 
@@ -167,17 +144,21 @@ class OperatorProfile extends Component {
   };
 
   unlockLogin = async () => {
-    const { unlockLoginMutation, match: { params: { id: playerUUID } }, notify } = this.props;
-    const response = await unlockLoginMutation({ variables: { playerUUID } });
-    const success = get(response, 'data.auth.unlockLogin.success');
+    const {
+      unlockLoginMutation,
+      notify,
+      match: { params: { id: uuid } },
+    } = this.props;
 
-    if (success) {
+    try {
+      await unlockLoginMutation({ variables: { uuid } });
+
       notify({
         level: 'success',
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
       });
-    } else {
+    } catch (e) {
       notify({
         level: 'error',
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
@@ -202,7 +183,14 @@ class OperatorProfile extends Component {
       getLoginLock,
     } = this.props;
 
-    const authoritiesData = get(authorities, 'data') || [];
+    if (error) {
+      return <NotFound />;
+    }
+
+    if (isLoading) {
+      return null;
+    }
+
     const loginLock = get(getLoginLock, 'loginLock') || {};
     const userType = get(data, 'hierarchy.userType');
     const tabs = [...menu.operatorProfileTabs];
@@ -216,14 +204,6 @@ class OperatorProfile extends Component {
       });
     }
 
-    if (error) {
-      return <NotFound />;
-    }
-
-    if (isLoading) {
-      return null;
-    }
-
     return (
       <div className="profile">
         <div className="profile__info">
@@ -232,16 +212,16 @@ class OperatorProfile extends Component {
             availableStatuses={availableStatuses}
             onResetPasswordClick={this.handleResetPasswordClick}
             onChangePasswordClick={this.handleChangePasswordClick}
-            onSendInvitationClick={this.handleSendInvitationClick}
             onStatusChange={changeStatus}
             refetchOperator={refetchOperator}
+            refetchLoginLock={getLoginLock.refetch}
             unlockLogin={this.unlockLogin}
             loginLock={loginLock}
           />
           <HideDetails>
             <Information
               data={data}
-              authorities={authoritiesData}
+              authorities={authorities}
             />
           </HideDetails>
         </div>

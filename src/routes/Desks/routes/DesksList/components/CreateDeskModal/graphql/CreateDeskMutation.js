@@ -6,7 +6,7 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`
   mutation CreateDeskModal_CreateDesk(
     $name: String!
-    $deskType: DeskTypeEnum!
+    $deskType: Desk__Types__Enum!
     $officeUuid: String!
     $language: String!
   ) {
@@ -16,10 +16,7 @@ const REQUEST = gql`
         deskType: $deskType
         officeId: $officeUuid
         language: $language
-      ) {
-        data
-        error
-      }
+      )
     }
   }
 `;

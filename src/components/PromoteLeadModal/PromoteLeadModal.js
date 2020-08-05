@@ -4,8 +4,10 @@ import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import PropTypes from 'constants/propTypes';
+import { withNotifications } from 'hoc';
+import { withRequests, parseErrors } from 'apollo';
 import { getActiveBrandConfig, getAvailableLanguages } from 'config';
+import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
@@ -13,8 +15,6 @@ import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
 import { hideText } from 'utils/hideText';
 import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
-import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
 import PromoteLeadModalQuery from './graphql/PromoteLeadModalQuery';
@@ -32,7 +32,7 @@ const validate = createValidator({
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
     lead: PropTypes.query({
-      leadProfile: PropTypes.response(PropTypes.lead),
+      lead: PropTypes.lead,
     }).isRequired,
     formError: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
@@ -58,8 +58,9 @@ class PromoteLeadModal extends PureComponent {
     } = this.props;
 
     let variables = values;
+
     if (isEmailHidden) {
-      const { email } = get(lead, 'data.leadProfile.data');
+      const { email } = get(lead, 'data.lead');
       variables = {
         ...values,
         contacts: {
@@ -69,25 +70,27 @@ class PromoteLeadModal extends PureComponent {
       };
     }
 
-    const { data: { leads: { promote: { data, error } } } } = await promoteLead({
-      variables: { args: variables },
-    });
+    try {
+      const { data: { profile: { createProfile: { uuid } } } } = await promoteLead({
+        variables: { args: variables },
+      });
 
-    if (error) {
-      if (error.error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error.error}`, { email: values.contacts.email }) });
-      } else {
-        setErrors({ submit: I18n.t(`lead.${error.error}`) });
-      }
-    } else {
-      EventEmitter.emit(LEAD_PROMOTED, lead.data.leadProfile.data);
+      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead);
 
       onCloseModal();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: data.uuid }),
+        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: uuid }),
       });
+    } catch (e) {
+      const { error } = parseErrors(e);
+
+      if (error === 'error.entity.already.exist') {
+        setErrors({ submit: I18n.t(`lead.${error}`, { email: values.contacts.email }) });
+      } else {
+        setErrors({ submit: I18n.t(`lead.${error}`) });
+      }
     }
 
     setSubmitting(false);
@@ -111,7 +114,7 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(lead, 'data.leadProfile.data');
+    } = get(lead, 'data.lead');
 
     return (
       <Formik

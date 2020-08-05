@@ -8,6 +8,7 @@ import {
   FormikDatePicker,
   FormikInputField,
 } from 'components/Formik';
+import { encodeNullValues } from 'components/Formik/utils';
 import Button from 'components/UI/Button';
 import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
@@ -84,7 +85,7 @@ class PersonalInformationForm extends PureComponent {
     return (
       <Formik
         enableReinitialize
-        initialValues={initialValues}
+        initialValues={encodeNullValues(initialValues)}
         validate={validator}
         onSubmit={onSubmit}
       >

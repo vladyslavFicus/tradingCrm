@@ -123,24 +123,21 @@ class NotePopover extends PureComponent {
       onAddSuccess(variables);
       this.handleClose(true);
     } else {
-      const {
-        data: {
-          note: {
-            add: {
-              data,
-              error,
+      try {
+        const {
+          data: {
+            note: {
+              add: data,
             },
           },
-        },
-      } = await addNote({ variables });
+        } = await addNote({ variables });
 
-      if (error) {
-        onAddFailure(error);
-      } else {
         onAddSuccess(data);
         EventEmitter.emit(NOTE_ADDED, data);
 
         this.handleClose(true);
+      } catch (e) {
+        onAddFailure(e);
       }
     }
   };
@@ -158,24 +155,21 @@ class NotePopover extends PureComponent {
       onUpdateSuccess(variables);
       this.handleClose(true);
     } else {
-      const {
-        data: {
-          note: {
-            update: {
-              error,
-              data,
+      try {
+        const {
+          data: {
+            note: {
+              update: data,
             },
           },
-        },
-      } = await updateNote({ variables });
+        } = await updateNote({ variables });
 
-      if (error) {
-        onUpdateFailure(error);
-      } else {
         onUpdateSuccess(data);
         EventEmitter.emit(NOTE_UPDATED, data);
 
         this.handleClose(true);
+      } catch (e) {
+        onUpdateFailure(e);
       }
     }
   };
@@ -194,15 +188,15 @@ class NotePopover extends PureComponent {
       onDeleteSuccess(noteId);
       this.handleClose(true);
     } else {
-      const { data: { note: { remove: { error } } } } = await removeNote({ variables: { noteId } });
+      try {
+        await removeNote({ variables: { noteId } });
 
-      if (error) {
-        onDeleteFailure(error);
-      } else {
         onDeleteSuccess(noteId);
         EventEmitter.emit(NOTE_REMOVED, note);
 
         this.handleClose(true);
+      } catch (e) {
+        onDeleteFailure(e);
       }
     }
   };

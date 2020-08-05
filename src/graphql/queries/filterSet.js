@@ -1,26 +1,16 @@
 import gql from 'graphql-tag';
 
-const filterSetByUserIdQuery = gql`query getFilterSets(
-  $type: FilterSetTypeEnum!
-) {
-  filterSets(
-    type: $type
-  ) {
-    error {
-      error
-      fields_errors
+const filterSetByUserIdQuery = gql`query getFilterSets($type: FilterSet__Types__Enum!) {
+  filterSets(type: $type) {
+    favourite {
+      name
+      uuid
+      favourite
     }
-    data {
-      favourite {
-        name
-        uuid
-        favourite
-      }
-      common {
-        name
-        uuid
-        favourite
-      }
+    common {
+      name
+      uuid
+      favourite
     }
   }
 }`;
@@ -30,13 +20,7 @@ const filterSetByIdQuery = gql`query getFilterSetById(
 ) {
   filterSet(
     uuid: $uuid
-  ) {
-    data
-    error {
-      error
-      fields_errors
-    }
-  }
+  )
 }`;
 
 export {

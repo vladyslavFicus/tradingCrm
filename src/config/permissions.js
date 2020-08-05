@@ -1,6 +1,9 @@
 export default {
+  AUTH: {
+    GET_AUTHORITIES: 'auth2.getAuthorities',
+  },
   OPERATORS: {
-    OPERATORS_LIST_VIEW: 'operator.searchOperatorsPageable',
+    OPERATORS_LIST_VIEW: 'operator.searchOperators',
     CREATE: 'operator.createOperator',
     PROFILE_VIEW: 'operator.getOperatorProfileByUuid',
     ADD_AUTHORITY: 'auth2.addUserAuthority',
@@ -31,7 +34,6 @@ export default {
     GET_TEAMS: 'hierarchy.branch.searchTeam',
     GET_OFFICES: 'hierarchy.branch.searchOffice',
     GET_OPERATORS: 'hierarchy.user.getSubordinateOperators',
-    GET_AFFILIATE_PARTNERS: 'hierarchy.user.getSubordinateAffiliates',
     GET_BRANCH_BY_ID: 'hierarchy.branch.getBranchByUuid',
     CREATE_BRANCH: 'hierarchy-updater.branch.createBranch',
     ADD_BRAND_MANAGER: 'hierarchy-updater.branch.addBranchManager',
@@ -113,5 +115,8 @@ export default {
   },
   TRADING_ACCOUNTS: {
     GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+  },
+  NOTIFICATION_CENTER: {
+    GET_UNREAD_COUNT: 'notification.countAllUserUnreadNotifications',
   },
 };

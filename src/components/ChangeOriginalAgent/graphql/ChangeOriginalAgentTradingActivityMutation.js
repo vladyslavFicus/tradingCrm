@@ -6,16 +6,14 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`mutation changeOriginalAgent(
   $tradeId: Int!
   $agentId: String!
-  $platformType: String,
+  $platformType: String
   ) {
     tradingActivity {
       changeOriginalAgent(
         tradeId: $tradeId
         agentId: $agentId
         platformType: $platformType
-      ) {
-        success
-      }
+      )
     }
   }
 `;

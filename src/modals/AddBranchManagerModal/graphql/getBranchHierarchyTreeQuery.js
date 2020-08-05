@@ -5,25 +5,17 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query AddBranchManagerModal_getOperatorsByBranch(
-    $branchUUID: String!
+    $branchUuid: String!
   ) {
-    hierarchy {
-      branchHierarchyTree(
-        branchUUID: $branchUUID
-      ) {
-        data {
-          users {
-            uuid
-            userType
-            operator {
-              fullName
-              operatorStatus
-            }
-          }
-        }
-        error {
-          error
-          fields_errors
+    branchTree(
+      branchUuid: $branchUuid
+    ) {
+      users {
+        uuid
+        userType
+        operator {
+          fullName
+          operatorStatus
         }
       }
     }
@@ -33,7 +25,7 @@ const REQUEST = gql`
 const getBranchHierarchyTreeQuery = ({ children, branch: { uuid } }) => (
   <Query
     query={REQUEST}
-    variables={{ branchUUID: uuid }}
+    variables={{ branchUuid: uuid }}
     fetchPolicy="network-only"
   >
     {children}

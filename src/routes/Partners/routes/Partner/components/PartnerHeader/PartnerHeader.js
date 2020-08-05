@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
@@ -43,21 +43,22 @@ class PartnerHeader extends PureComponent {
       notify,
     } = this.props;
 
-    const response = await unlockPartnerLogin({ variables: { uuid } });
-    const success = get(response, 'data.auth.unlockLogin.success') || false;
+    try {
+      await unlockPartnerLogin({ variables: { uuid } });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: success
-        ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE')
-        : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
-      message: success
-        ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE')
-        : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
+        message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
+      });
 
-    if (success) {
       partnerLockStatus.refetch();
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
+        message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
+      });
     }
   };
 
@@ -69,21 +70,26 @@ class PartnerHeader extends PureComponent {
       notify,
     } = this.props;
 
-    const response = await changePassword({ variables: { newPassword, uuid } });
-    const success = get(response, 'data.operator.changeOperatorPassword.success') || false;
+    try {
+      await changePassword({ variables: { uuid, newPassword } });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: success
-        ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.SUCCESS.TITLE')
-        : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.ERROR.TITLE'),
-      message: success
-        ? I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.SUCCESS.MESSAGE')
-        : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.ERROR.MESSAGE'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.SUCCESS.TITLE'),
+        message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.SUCCESS.MESSAGE'),
+      });
 
-    if (success) {
       changePasswordModal.hide();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.ERROR.TITLE'),
+        message: error.error === 'error.validation.password.repeated'
+          ? I18n.t(error.error)
+          : I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.ERROR.MESSAGE'),
+      });
     }
   };
 

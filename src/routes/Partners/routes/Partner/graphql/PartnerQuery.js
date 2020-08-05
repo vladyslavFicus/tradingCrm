@@ -10,40 +10,33 @@ const REQUEST = gql`
     partner(
       uuid: $uuid
     ) {
-      data {
-        _id
-        uuid
-        firstName
-        lastName
-        fullName
-        email
-        externalAffiliateId
-        public
-        phone
-        country
-        status
-        statusChangeDate
-        statusChangeAuthor
-        createdBy
-        createdAt
-        permission {
-          allowedIpAddresses
-          forbiddenCountries
-          showSalesStatus
-          showFTDAmount
-          showKycStatus
-          showNotes
-        }
-        authorities {
-          data {
-            department
-            id
-            role
-          }
-        }
+      _id
+      uuid
+      firstName
+      lastName
+      fullName
+      email
+      externalAffiliateId
+      public
+      phone
+      country
+      status
+      statusChangeDate
+      statusChangeAuthor
+      createdBy
+      createdAt
+      permission {
+        allowedIpAddresses
+        forbiddenCountries
+        showSalesStatus
+        showFTDAmount
+        showKycStatus
+        showNotes
       }
-      error {
-        error
+      authorities {
+        department
+        id
+        role
       }
     }
   }

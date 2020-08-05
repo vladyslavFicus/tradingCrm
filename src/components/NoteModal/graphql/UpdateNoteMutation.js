@@ -18,12 +18,7 @@ const REQUEST = gql`
         content: $content
         pinned: $pinned
       ) {
-        data {
-          ...NoteFragment
-        }
-        error {
-          error
-        }
+        ...NoteFragment
       }
     }
   }

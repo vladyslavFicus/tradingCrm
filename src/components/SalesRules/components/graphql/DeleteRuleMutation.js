@@ -4,19 +4,10 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation deleteRule(
-  $uuid: String!,
+  $uuid: String!
 ) {
-  rules {
-    deleteRule(
-      uuid: $uuid,
-    ) {
-      error {
-        error
-      }
-      data {
-        uuid
-      }
-    }
+  rule {
+    deleteRule(uuid: $uuid)
   }
 }
 `;

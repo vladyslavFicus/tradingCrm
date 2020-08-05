@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { ENTITIES } from './constants';
 
-const removeFromApolloCache = targetUUID => (cache, { data: { note: { remove: { data } } } }) => {
+const removeFromApolloCache = targetUUID => (cache, { data: { note: { remove: data } } }) => {
   if (data) {
     ENTITIES.forEach((entity) => {
       const item = cache.data.get(`${entity}:${targetUUID}`);
@@ -25,15 +25,8 @@ const MUTATION = gql`mutation removeNote(
   $noteId: String!,
 ) {
   note {
-    remove(
-      noteId: $noteId,
-    ) {
-      data {
-        noteId
-      }
-      error {
-        error
-      }
+    remove(noteId: $noteId) {
+      noteId
     }
   }
 }`;

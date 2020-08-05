@@ -137,7 +137,7 @@ class ExtendedForm extends PureComponent {
                     </Button>
 
                     <Button
-                      disabled={isDataLoading}
+                      disabled={isDataLoading || !dirty}
                       className="margin-left-15"
                       type="submit"
                       primary

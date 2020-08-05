@@ -6,16 +6,16 @@ import { NoteFragment } from 'graphql/fragments/notes';
 
 const REQUEST = gql`
   query CallbacksList_getCallbacks(
-    $id: String,
+    $searchKeyword: String,
     $userId: String,
-    $statuses: [CallbackStatusEnum],
+    $statuses: [Callback__Status__Enum],
     $callbackTimeFrom: String,
     $callbackTimeTo: String,
     $limit: Int,
     $page: Int,
   ) {
     callbacks(
-      id: $id,
+      searchKeyword: $searchKeyword,
       userId: $userId,
       statuses: $statuses,
       callbackTimeFrom: $callbackTimeFrom,
@@ -23,35 +23,30 @@ const REQUEST = gql`
       limit: $limit,
       page: $page,
     ) {
-      data {
-        page
-        number
-        totalElements
-        size
-        last
-          content {
-            _id
-            operatorId
-            userId
-            callbackId
-            callbackTime
-            status
-            creationTime
-            updateTime
-            reminder
-            operator {
-              fullName
-            }
-            client {
-              fullName
-            }
-            note {
-              ...NoteFragment,
-            }
-          }
-      }
-      error {
-        error
+      page
+      number
+      totalElements
+      size
+      last
+      content {
+        _id
+        operatorId
+        userId
+        callbackId
+        callbackTime
+        status
+        creationTime
+        updateTime
+        reminder
+        operator {
+          fullName
+        }
+        client {
+          fullName
+        }
+        note {
+          ...NoteFragment,
+        }
       }
     }
   }

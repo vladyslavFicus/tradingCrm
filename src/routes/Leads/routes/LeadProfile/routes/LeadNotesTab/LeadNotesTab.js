@@ -14,9 +14,7 @@ class LeadNotesTab extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     notes: PropTypes.query({
-      notes: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.noteEntity),
-      }),
+      notes: PropTypes.pageable(PropTypes.noteEntity),
     }).isRequired,
   };
 
@@ -41,7 +39,7 @@ class LeadNotesTab extends PureComponent {
   loadMore = () => {
     const { notes } = this.props;
 
-    const page = notes.data.notes.data.number + 1;
+    const page = notes.data.notes.number + 1;
 
     notes.loadMore(page);
   };
@@ -53,7 +51,7 @@ class LeadNotesTab extends PureComponent {
       notes: { data, loading },
     } = this.props;
 
-    const { content, number, totalPages, last } = get(data, 'notes.data') || {
+    const { content, number, totalPages, last } = get(data, 'notes') || {
       content: [],
     };
 

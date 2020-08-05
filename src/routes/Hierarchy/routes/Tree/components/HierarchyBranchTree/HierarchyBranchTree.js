@@ -12,7 +12,7 @@ class HierarchyBranchTree extends PureComponent {
   static propTypes = {
     branchHierarchyTree: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      hierarchy: PropTypes.object,
+      branchTree: PropTypes.object,
     }).isRequired,
   };
 
@@ -30,14 +30,13 @@ class HierarchyBranchTree extends PureComponent {
   };
 
   render() {
-    const { branchHierarchyTree: { loading, hierarchy } } = this.props;
+    const { branchHierarchyTree } = this.props;
 
-    const branchTree = get(hierarchy, 'branchHierarchyTree.data') || {};
-    const error = get(hierarchy, 'branchHierarchyTree.error');
+    const branchTree = get(branchHierarchyTree, 'branchTree') || {};
 
     return (
       <Choose>
-        <When condition={loading || error}>
+        <When condition={branchHierarchyTree.loading}>
           <ShortLoader />
         </When>
         <Otherwise>

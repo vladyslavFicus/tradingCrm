@@ -10,7 +10,7 @@ const REQUEST = gql`query getRules(
   $language: String,
   $createdByOrUuid: String,
   $name: String,
-  $type: RuleTypeEnum,
+  $type: Rule__Type__Enum,
   $parentId: String,
   $operatorUuids: [String],
   $affiliateId: String,
@@ -25,40 +25,35 @@ const REQUEST = gql`query getRules(
     parentId: $parentId,
     operatorUuids: $operatorUuids,
     affiliateId: $affiliateId,
-    
+
   ) {
-    error {
-      error
-    }
-    data {
-      actions {
-        id
-        parentBranch
-        parentUser
-        ruleType
-        operatorSpreads {
-          id,
-          operator {
-            fullName,
-            uuid,
-          },
-          percentage,
+    actions {
+      id
+      parentBranch
+      parentUser
+      ruleType
+      operatorSpreads {
+        id,
+        operator {
+          fullName,
+          uuid,
         },
-      }
-      uuid
-      countries
-      languages
-      partners {
-        uuid,
-        fullName,
-      }
-      sources
-      priority
-      name
-      type
-      updatedBy
-      createdBy
+        percentage,
+      },
     }
+    uuid
+    countries
+    languages
+    partners {
+      uuid,
+      fullName,
+    }
+    sources
+    priority
+    name
+    type
+    updatedBy
+    createdBy
   }
 }
 `;
@@ -72,6 +67,7 @@ const GetRulesQuery = ({ children, match: { params: { id } }, location: { query 
       ...(type === 'OPERATOR' && { operatorUuids: [...get(query, 'filters.operatorUuids') || '', id] }),
     }}
     fetchPolicy="cache-and-network"
+    context={{ batch: false }}
   >
     {children}
   </Query>

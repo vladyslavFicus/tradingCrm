@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const HierarchyBranchFragment = gql`fragment HierarchyBranchFragment on HierarchyBranchType {
+const HierarchyBranchFragment = gql`fragment HierarchyBranchFragment on HierarchyBranch {
   uuid
   name
   branchType
@@ -11,6 +11,14 @@ const HierarchyBranchFragment = gql`fragment HierarchyBranchFragment on Hierarch
   defaultBranch
 }`;
 
+const HierarchyUserBranchFragment = gql`fragment HierarchyUserBranchFragment on HierarchyUserBranchesTreeUp {
+  uuid
+  name
+  brandId
+  branchType
+}`;
+
 export {
   HierarchyBranchFragment,
+  HierarchyUserBranchFragment,
 };

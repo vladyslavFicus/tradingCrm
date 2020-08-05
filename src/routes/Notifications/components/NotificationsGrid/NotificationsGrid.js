@@ -90,6 +90,11 @@ class NotificationsGrid extends PureComponent {
             })}
           </div>
         </When>
+        <When condition={type === 'TRADING' && subtype === 'MARGIN_CALL'}>
+          <div className="font-weight-700">
+            {I18n.t('NOTIFICATION_CENTER.SUBTYPES.MARGIN_CALL')}
+          </div>
+        </When>
       </Choose>
     </Fragment>
   );
@@ -188,7 +193,7 @@ class NotificationsGrid extends PureComponent {
         }
       >
         <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
           render={this.renderNotificationUuid}
         />
         <GridColumn

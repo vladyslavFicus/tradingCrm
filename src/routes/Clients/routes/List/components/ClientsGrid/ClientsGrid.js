@@ -37,9 +37,7 @@ class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     profiles: PropTypes.query({
-      profiles: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.profileView),
-      }),
+      profiles: PropTypes.pageable(PropTypes.profileView),
     }).isRequired,
     searchLimit: PropTypes.oneOfType([
       PropTypes.string,
@@ -108,7 +106,7 @@ class ClientsGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content: gridData, last } = get(profiles, 'profiles.data') || { content: [] };
+    const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
 
     const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
@@ -147,10 +145,10 @@ class ClientsGrid extends PureComponent {
         <GridColumn
           name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
-          render={({ lastActivity }) => {
+          render={({ lastActivity, online }) => {
             const lastActivityDate = get(lastActivity, 'date');
             const localTime = lastActivityDate && moment.utc(lastActivityDate).local();
-            const type = localTime && (moment().diff(localTime, 'minutes') < 5) ? 'ONLINE' : 'OFFLINE';
+            const type = online ? 'ONLINE' : 'OFFLINE';
 
             return (
               <GridStatus
@@ -387,12 +385,12 @@ class ClientsGrid extends PureComponent {
           name="lastNote"
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
-          render={(data) => {
-            const { uuid, changedAt, content, authorFullName } = get(data, 'lastNote') || {};
+          render={({ uuid, lastNote }) => {
+            const { changedAt, content, operator } = lastNote || {};
 
             return (
               <Choose>
-                <When condition={uuid}>
+                <When condition={lastNote}>
                   <div className="max-width-200">
                     <div className="font-weight-700">
                       {moment
@@ -406,18 +404,20 @@ class ClientsGrid extends PureComponent {
                         .local()
                         .format('HH:mm:ss')}
                     </div>
-                    <span className="ClientsGrid__noteAuthor">
-                      {authorFullName}
-                    </span>
+                    <If condition={operator}>
+                      <span className="ClientsGrid__noteAuthor">
+                        {operator.fullName}
+                      </span>
+                    </If>
                     <div
                       className="max-height-35 font-size-11 ClientsGrid__notes"
-                      id={`${uuid}-note`}
+                      id={`note-${uuid}`}
                     >
                       {content}
                     </div>
                     <UncontrolledTooltip
                       placement="bottom-start"
-                      target={`${uuid}-note`}
+                      target={`note-${uuid}`}
                       delay={{
                         show: 350,
                         hide: 250,

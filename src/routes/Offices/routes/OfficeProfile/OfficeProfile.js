@@ -15,15 +15,16 @@ const officeProfileTabs = [{
   url: '/offices/:id/rules',
 }];
 
-const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE');
+const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE', '', '');
 
 const OfficeProfile = ({
-  officeProfile: { hierarchy, loading },
+  officeProfile,
+  officeProfile: { loading },
   match: { params, path, url },
   location,
 }) => {
-  const data = get(hierarchy, 'branchInfo.data') || {};
-  const error = get(hierarchy, 'branchInfo.error');
+  const data = get(officeProfile, 'branchInfo') || {};
+  const error = get(officeProfile, 'error');
 
   if (error) {
     return <NotFound />;
@@ -55,14 +56,9 @@ const OfficeProfile = ({
 
 OfficeProfile.propTypes = {
   officeProfile: PropTypes.shape({
+    branchInfo: PropTypes.hierarchyBranch,
     loading: PropTypes.bool.isRequired,
     refetch: PropTypes.func.isRequired,
-    hierarchy: PropTypes.shape({
-      branchInfo: PropTypes.shape({
-        data: PropTypes.hierarchyBranch,
-        error: PropTypes.object,
-      }),
-    }),
   }).isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.shape({

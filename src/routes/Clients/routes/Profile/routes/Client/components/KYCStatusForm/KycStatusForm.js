@@ -32,31 +32,28 @@ class KycStatusForm extends PureComponent {
 
   handleChangeKycStatus = async ({ kycStatus }, { resetForm }) => {
     const { playerUUID, updateKycStatus, notify } = this.props;
-    const {
-      data: {
-        profile: {
-          updateKYCStatus: {
-            success,
-          },
+
+    try {
+      await updateKycStatus({
+        variables: {
+          playerUUID,
+          kycStatus,
         },
-      },
-    } = await updateKycStatus({
-      variables: {
-        playerUUID,
-        kycStatus,
-      },
-    });
+      });
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.TITLE'),
-      message: success
-        ? I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.SUCCESS_RESPONSE')
-        : I18n.t('COMMON.SOMETHING_WRONG'),
-    });
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.SUCCESS_RESPONSE'),
+      });
 
-    if (success) {
       resetForm({ values: { kycStatus } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.TITLE'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
     }
   };
 

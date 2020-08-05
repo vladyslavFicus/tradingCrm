@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { omit, get } from 'lodash';
+import { omit, get, intersection } from 'lodash';
 import I18n from 'i18n-js';
 import { withFormik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
@@ -28,28 +28,26 @@ const attributeLabels = {
   status: 'LEADS.FILTER.ACCOUNT_STATUS',
   registrationDateRange: 'LEADS.FILTER.REGISTRATION_DATE_RANGE',
   lastNoteDateRange: 'LEADS.FILTER.LAST_NOTE_DATE_RANGE',
-  size: 'COMMON.FILTERS.SEARCH_LIMIT',
+  searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
 };
 
 class LeadsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     isSubmitting: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,
     values: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     ).isRequired,
     desksAndTeamsData: PropTypes.query({
       hierarchy: PropTypes.shape({
-        data: PropTypes.shape({
-          TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-          DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
-        }),
-        error: PropTypes.object,
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
     operatorsData: PropTypes.query({
-      operators: PropTypes.response({
+      operators: PropTypes.shape({
         content: PropTypes.arrayOf(
           PropTypes.shape({
             uuid: PropTypes.string,
@@ -77,26 +75,32 @@ class LeadsGridFilter extends PureComponent {
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
-      const branches = get(operator, 'hierarchy.parentBranches') || [];
+      const branches = get(operator, 'hierarchy.parentBranches').map(({ uuid }) => uuid) || [];
 
-      return branches.reduce((_, currentBranch) => uuids.includes(currentBranch.uuid), false);
+      return intersection(branches, uuids).length;
     })
   )
 
   filterOperators = () => {
     const {
       operatorsData,
+      desksAndTeamsData,
       values: { desks, teams },
     } = this.props;
 
-    const operators = get(operatorsData, 'data.operators.data.content') || [];
+    const operators = get(operatorsData, 'data.operators.content') || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });
     }
 
     if (desks && desks.length) {
-      return this.filterOperatorsByBranch({ operators, uuids: desks });
+      // If desk chosen -> find all teams of these desks to filter operators
+      const teamsList = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
+      const teamsByDesks = teamsList.filter(team => desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
+      const uuids = [...desks, ...teamsByDesks];
+
+      return this.filterOperatorsByBranch({ operators, uuids });
     }
 
     return operators;
@@ -113,14 +117,15 @@ class LeadsGridFilter extends PureComponent {
     const {
       values,
       isSubmitting,
+      dirty,
       desksAndTeamsData,
       operatorsData: { loading: isOperatorsLoading },
       desksAndTeamsData: { loading: isDesksAndTeamsLoading },
     } = this.props;
 
     const desksUuids = values.desks || [];
-    const desks = get(desksAndTeamsData, 'data.hierarchy.userBranchHierarchy.data.DESK') || [];
-    const teams = get(desksAndTeamsData, 'data.hierarchy.userBranchHierarchy.data.TEAM') || [];
+    const desks = get(desksAndTeamsData, 'data.userBranches.DESK') || [];
+    const teams = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
     const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
     const teamsOptions = desksUuids.length ? teamsByDesks : teams;
     const operatorsOptions = this.filterOperators();
@@ -145,7 +150,6 @@ class LeadsGridFilter extends PureComponent {
             component={FormikSelectField}
             multiple
             searchable
-            withAnyOption
           >
             {Object.keys(countries).map(country => (
               <option key={country} value={country}>{countries[country]}</option>
@@ -219,7 +223,7 @@ class LeadsGridFilter extends PureComponent {
                 key={uuid}
                 value={uuid}
                 disabled={operatorStatus === operatorsStasuses.INACTIVE
-                  || operatorStatus === operatorsStasuses.CLOSED}
+                || operatorStatus === operatorsStasuses.CLOSED}
               >
                 {fullName}
               </option>
@@ -234,7 +238,6 @@ class LeadsGridFilter extends PureComponent {
             component={FormikSelectField}
             searchable
             multiple
-            withAnyOption
           >
             {Object.entries(this.leadsSalesStatuses).map(([key, value]) => (
               <option key={key} value={key}>
@@ -278,10 +281,10 @@ class LeadsGridFilter extends PureComponent {
           />
 
           <Field
-            name="size"
+            name="searchLimit"
             type="number"
             className="LeadsGridFilter__field LeadsGridFilter__search-limit"
-            label={I18n.t(attributeLabels.size)}
+            label={I18n.t(attributeLabels.searchLimit)}
             placeholder={I18n.t('COMMON.UNLIMITED')}
             component={FormikInputField}
             min={0}
@@ -300,7 +303,7 @@ class LeadsGridFilter extends PureComponent {
 
           <Button
             className="LeadsGridFilter__button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !dirty}
             type="submit"
             primary
           >
@@ -322,7 +325,7 @@ export default compose(
   withFormik({
     mapPropsToValues: () => ({}),
     validate: values => createValidator({
-      size: ['numeric', 'greater:0', 'max:10000'],
+      searchLimit: ['numeric', 'greater:0', 'max:2000'],
     }, translateLabels(attributeLabels))(values),
     handleSubmit: (values, { props, setSubmitting }) => {
       props.history.replace({
@@ -330,6 +333,7 @@ export default compose(
           filters: decodeNullValues(values),
         },
       });
+
       setSubmitting(false);
     },
   }),

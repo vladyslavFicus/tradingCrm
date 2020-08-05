@@ -53,7 +53,7 @@ class Input extends PureComponent {
     } = this.props;
 
     const inputProps = {
-      value: value || '',
+      value,
       ...input,
       ...field,
       disabled,

@@ -11,29 +11,23 @@ const REQUEST = gql`
     callback(
       id: $id,
     ) {
-      data {
-        _id
-        operatorId
-        userId
-        callbackId
-        callbackTime
-        status
-        creationTime
-        updateTime
-        reminder
-        operator {
-          fullName
-        }
-        client {
-          fullName
-        }
-        note {
-          ...NoteFragment,
-        }
+      _id
+      operatorId
+      userId
+      callbackId
+      callbackTime
+      status
+      creationTime
+      updateTime
+      reminder
+      operator {
+        fullName
       }
-      error {
-        error
-        fields_errors
+      client {
+        fullName
+      }
+      note {
+        ...NoteFragment,
       }
     }
   }

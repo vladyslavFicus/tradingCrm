@@ -37,30 +37,27 @@ class PlayerStatusModal extends PureComponent {
       notify,
     } = this.props;
 
-    const {
-      data: {
-        profile: {
-          changeProfileStatus: {
-            error,
-          },
+    try {
+      await changeProfileStatus({
+        variables: {
+          status: action,
+          playerUUID,
+          ...values,
         },
-      },
-    } = await changeProfileStatus({
-      variables: {
-        status: action,
-        playerUUID,
-        ...values,
-      },
-    });
+      });
 
-    notify({
-      level: error ? 'error' : 'success',
-      message: error
-        ? I18n.t('COMMON.SOMETHING_WRONG')
-        : I18n.t('COMMON.SUCCESS'),
-    });
+      notify({
+        level: 'success',
+        message: I18n.t('COMMON.SUCCESS'),
+      });
 
-    onCloseModal();
+      onCloseModal();
+    } catch (e) {
+      notify({
+        level: 'error',
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
   };
 
   render() {

@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from 'i18n-js';
 
 const attributeLabels = {
   firstName: 'COMMON.FIRST_NAME',
@@ -13,6 +14,10 @@ const attributeLabels = {
   password: 'COMMON.PASSWORD',
 };
 
+const customErrors = {
+  'regex.password': I18n.t('COMMON.PASSWORD_INVALID'),
+};
+
 const fieldNames = keyMirror({
   department: null,
   role: null,
@@ -24,4 +29,5 @@ export {
   attributeLabels,
   fieldNames,
   getBranchOption,
+  customErrors,
 };

@@ -32,11 +32,15 @@ class NoteModal extends PureComponent {
   handleSubmit = async (variables) => {
     const { updateNote, onCloseModal } = this.props;
 
-    await updateNote({ variables });
+    try {
+      await updateNote({ variables });
 
-    EventEmitter.emit(NOTE_UPDATED, variables);
+      EventEmitter.emit(NOTE_UPDATED, variables);
 
-    onCloseModal();
+      onCloseModal();
+    } catch (e) {
+      // Do nothing...
+    }
   };
 
   render() {

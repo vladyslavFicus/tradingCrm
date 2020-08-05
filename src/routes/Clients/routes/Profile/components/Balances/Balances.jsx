@@ -60,10 +60,13 @@ class Balances extends Component {
     this.setState({ dateFrom });
 
     const refetchData = {
-      dateFrom: dateFrom || clientRegistrationDate,
+      dateFrom: moment()
+        .utc(dateFrom || clientRegistrationDate)
+        .format(),
       dateTo: moment()
         .add(2, 'day')
         .startOf('day')
+        .utc()
         .format(),
     };
 
@@ -132,11 +135,11 @@ class Balances extends Component {
 
     const {
       depositPaymentStatistic: {
-        statistics: depositStat,
+        paymentsStatistic: depositStat,
         loading: depositLoading,
       },
       withdrawPaymentStatistic: {
-        statistics: withdrawStat,
+        paymentsStatistic: withdrawStat,
         loading: widthdrawLoading,
       },
     } = this.props;
@@ -144,15 +147,15 @@ class Balances extends Component {
     const {
       totalAmount: depositAmount,
       totalCount: depositCount,
-    } = get(depositStat, 'payments.data.itemsTotal') || moneyObj;
+    } = get(depositStat, 'itemsTotal') || moneyObj;
     const {
       totalAmount: withdrawAmount,
       totalCount: withdrawCount,
-    } = get(withdrawStat, 'payments.data.itemsTotal') || moneyObj;
+    } = get(withdrawStat, 'itemsTotal') || moneyObj;
 
-    const depositItems = get(depositStat, 'payments.data.items', [])
+    const depositItems = get(depositStat, 'items', [])
       .filter(i => i.amount > 0);
-    const withdrawItems = get(withdrawStat, 'payments.data.items', [])
+    const withdrawItems = get(withdrawStat, 'items', [])
       .filter(i => i.amount > 0);
 
     const lastDepositItem = depositItems[depositItems.length - 1];
@@ -161,8 +164,8 @@ class Balances extends Component {
     const firstDepositItem = depositItems[0];
     const firstWithdrawItem = withdrawItems[0];
 
-    const depositError = get(depositStat, 'payments.error');
-    const withdrawError = get(withdrawStat, 'payments.error');
+    const depositError = get(depositStat, 'error');
+    const withdrawError = get(withdrawStat, 'error');
 
     return (
       <Choose>

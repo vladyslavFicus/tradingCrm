@@ -1,11 +1,11 @@
 import FilesCategoriesQuery from './FilesCategoriesQuery';
-import ConfirmUploadedFiles from './ConfirmUploadedFiles';
+import ConfirmFilesUploading from './ConfirmFilesUploading';
 import UploadFile from './UploadFile';
 import AddNote from './AddNote';
 
 export {
   FilesCategoriesQuery,
-  ConfirmUploadedFiles,
+  ConfirmFilesUploading,
   UploadFile,
   AddNote,
 };

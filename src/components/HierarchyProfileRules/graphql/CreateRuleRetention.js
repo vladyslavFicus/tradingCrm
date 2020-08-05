@@ -8,12 +8,12 @@ const REQUEST = gql`mutation CreateRuleRetention(
   $priority: Int!,
   $countries: [String],
   $languages: [String],
-  $actions: [RuleActionsInputType]!,
+  $actions: [RuleActions__Input]!,
   $depositAmountFrom: Int!,
   $depositAmountTo: Int!,
   $uuid: String,
 ) {
-  rules {
+  rule {
     createRuleRetention (
       name: $name,
       priority: $priority,
@@ -23,26 +23,7 @@ const REQUEST = gql`mutation CreateRuleRetention(
       depositAmountFrom: $depositAmountFrom,
       depositAmountTo: $depositAmountTo,
       uuid: $uuid,
-    ) {
-      data {
-        actions {
-          id
-          parentBranch
-          parentUser
-          ruleType
-        }
-        uuid
-        countries
-        languages
-        priority
-        name
-        type
-        updatedBy
-      }
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
 

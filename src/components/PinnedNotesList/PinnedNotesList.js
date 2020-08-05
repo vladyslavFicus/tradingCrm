@@ -59,7 +59,12 @@ class PinnedNotesList extends PureComponent {
     >
       <div className="d-block mb-2 note-content">
         <If condition={item.changedBy}>
-          <b>{item.operator.fullName}</b>
+          <If condition={item.operator}>
+            <b>{item.operator.fullName}</b>
+          </If>
+          <If condition={!item.operator}>
+            <div>&mdash;</div>
+          </If>
           <div className="note-content__author">
             {I18n.t('COMMON.AUTHOR_BY')}
             <Uuid uuid={item.changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
@@ -92,7 +97,7 @@ class PinnedNotesList extends PureComponent {
       },
     } = this.props;
 
-    const notes = get(data, 'notes.data.content');
+    const notes = get(data, 'notes.content');
 
     return (
       <div className="account-details__pinned-notes">

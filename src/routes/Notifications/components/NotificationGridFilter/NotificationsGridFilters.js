@@ -11,8 +11,8 @@ import { decodeNullValues } from 'components/Formik/utils';
 import Button from 'components/UI/Button';
 import { filterLabels } from 'constants/user';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
-import { OperatorsQuery, UserBranchHierarchyQuery, TypesQuery, SubtypesQuery } from './graphql';
-import { prepareSubtypes, subtypesOfChosenTypes } from './utils';
+import { OperatorsQuery, UserBranchHierarchyQuery, TypesQuery } from './graphql';
+import { subtypesOfChosenTypes } from './utils';
 import './NotificationsGridFilters.scss';
 
 class NotificationsFilters extends PureComponent {
@@ -24,7 +24,6 @@ class NotificationsFilters extends PureComponent {
     }).isRequired,
     userBranchHierarchy: PropTypes.any.isRequired,
     typesQuery: PropTypes.any.isRequired,
-    subtypesQuery: PropTypes.any.isRequired,
   };
 
   initialValues = {
@@ -38,12 +37,30 @@ class NotificationsFilters extends PureComponent {
     notificationSubtypes: '',
   };
 
-  onHandleSubmit = ({ creationDateFrom, creationDateTo, ...restValues }, { setSubmitting }) => {
+  onHandleSubmit = (
+    {
+      creationDateFrom,
+      creationDateTo,
+      operatorTeams,
+      operatorDesks,
+      ...restValues
+    },
+    { setSubmitting },
+  ) => {
     const creationDateRange = {
       from: creationDateFrom,
       to: creationDateTo,
     };
-    this.props.onSubmit(decodeNullValues({ ...restValues, creationDateRange }));
+
+    this.props.onSubmit(decodeNullValues({
+      ...restValues,
+      operatorTeams,
+      operatorDesks,
+      creationDateRange,
+      ...(!operatorTeams) && {
+        operatorTeams: this.getFilteredTeams(operatorDesks).map(({ uuid }) => uuid),
+      },
+    }));
     setSubmitting(false);
   };
 
@@ -64,6 +81,19 @@ class NotificationsFilters extends PureComponent {
       ));
   };
 
+  getFilteredTeams = (desks = []) => {
+    const {
+      userBranchHierarchy: {
+        data: hierarchyData,
+      },
+    } = this.props;
+
+    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
+    const teamsByDesks = teams.filter(team => desks.includes(team.parentBranch.uuid));
+
+    return desks.length ? teamsByDesks : teams;
+  }
+
   render() {
     const {
       operators: {
@@ -75,21 +105,15 @@ class NotificationsFilters extends PureComponent {
         loading: hierarchyLoading,
       },
       typesQuery: {
-        data: typesData,
+        data: notificationTypesData,
         loading: notificationCenterTypesLoading,
-      },
-      subtypesQuery: {
-        data: subtypesData,
-        loading: notificationCenterSubtypesLoading,
       },
     } = this.props;
 
-    const operators = get(operatorsData, 'operators.data.content') || [];
-    const desks = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.DESK') || [];
-    const teams = get(hierarchyData, 'hierarchy.userBranchHierarchy.data.TEAM') || [];
-    const types = get(typesData, 'notificationCenterTypes.data') || [];
-    const arrOfSubtypes = get(subtypesData, 'notificationCenterSubtypes.data') || [];
-    const subtypes = prepareSubtypes(arrOfSubtypes);
+    const operators = get(operatorsData, 'operators.content') || [];
+    const desks = get(hierarchyData, 'userBranches.DESK') || [];
+    const typesData = get(notificationTypesData, 'notificationCenterTypes') || [];
+    const types = Object.keys(typesData);
 
     return (
       <Formik
@@ -103,10 +127,12 @@ class NotificationsFilters extends PureComponent {
           values: {
             notificationSubtypes,
             notificationTypes,
+            operatorDesks,
           },
           dirty,
         }) => {
-          const subtypesOptions = this.renderSubtypesOptions(notificationTypes, subtypes);
+          const subtypesOptions = this.renderSubtypesOptions(notificationTypes, typesData);
+          const teamsOptions = this.getFilteredTeams(operatorDesks);
 
           return (
             <Form className="NotificationsGridFilter__form">
@@ -133,30 +159,42 @@ class NotificationsFilters extends PureComponent {
                   ))}
                 </Field>
                 <Field
-                  name="operatorTeams"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  label={I18n.t(filterLabels.teams)}
-                  component={FormikSelectField}
-                  searchable
-                  multiple
-                  disabled={hierarchyLoading}
-                >
-                  {teams.map(({ uuid, name }) => (
-                    <option key={uuid} value={uuid}>{name}</option>
-                  ))}
-                </Field>
-                <Field
                   name="operatorDesks"
                   className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  placeholder={
+                    I18n.t(
+                      (!hierarchyLoading && desks.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
                   label={I18n.t(filterLabels.desks)}
                   component={FormikSelectField}
                   searchable
                   multiple
-                  disabled={hierarchyLoading}
+                  disabled={hierarchyLoading || desks.length === 0}
                 >
                   {desks.map(({ uuid, name }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+                <Field
+                  name="operatorTeams"
+                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  placeholder={
+                    I18n.t(
+                      (!hierarchyLoading && teamsOptions.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
+                  label={I18n.t(filterLabels.teams)}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                  disabled={hierarchyLoading || teamsOptions.length === 0}
+                >
+                  {teamsOptions.map(({ uuid, name }) => (
                     <option key={uuid} value={uuid}>{name}</option>
                   ))}
                 </Field>
@@ -194,7 +232,7 @@ class NotificationsFilters extends PureComponent {
                   component={FormikSelectField}
                   searchable
                   multiple
-                  disabled={notificationCenterSubtypesLoading || !subtypesOptions.length}
+                  disabled={notificationCenterTypesLoading || !subtypesOptions.length}
                 >
                   {subtypesOptions}
                 </Field>
@@ -209,7 +247,7 @@ class NotificationsFilters extends PureComponent {
                   {I18n.t('COMMON.RESET')}
                 </Button>
                 <Button
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !dirty}
                   type="submit"
                   primary
                 >
@@ -229,7 +267,6 @@ export default compose(
   withRequests({
     typesQuery: TypesQuery,
     operators: OperatorsQuery,
-    subtypesQuery: SubtypesQuery,
     userBranchHierarchy: UserBranchHierarchyQuery,
   }),
 )(NotificationsFilters);

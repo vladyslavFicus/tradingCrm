@@ -4,42 +4,33 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query NotificationCenterQuery(
-      $args: NotificationCenterInputType
-    ) {
-    notificationCenter(
-      args: $args
-    ) {
-      data {
-        content {
-          read
+  query NotificationCenterQuery($args: NotificationCenterSearch__Input) {
+    notificationCenter(args: $args) {
+      content {
+        read
+        uuid
+        priority
+        client {
           uuid
-          priority
-          client {
-            uuid
-            firstName
-            lastName
-            languageCode
-          }
-          createdAt
-          type
-          subtype
-          details {
-            amount
-            currency
-            login
-            platformType
-            callbackTime
-          }
+          firstName
+          lastName
+          languageCode
         }
-        last
-        size
-        number
-        totalElements
+        createdAt
+        type
+        subtype
+        details {
+          amount
+          currency
+          login
+          platformType
+          callbackTime
+        }
       }
-      error {
-        error
-      }
+      last
+      size
+      number
+      totalElements
     }
   }
 `;
@@ -49,6 +40,7 @@ const NotificationCenterQuery = ({ children }) => (
     query={REQUEST}
     variables={{ args: { page: { from: 0, size: 10 } } }}
     fetchPolicy="cache-and-network"
+    context={{ batch: false }}
   >
     {children}
   </Query>

@@ -21,7 +21,7 @@ import {
 } from './constants';
 import {
   FilesCategoriesQuery,
-  ConfirmUploadedFiles,
+  ConfirmFilesUploading,
   UploadFile,
   AddNote,
 } from './graphql';
@@ -51,12 +51,10 @@ class UploadModal extends PureComponent {
   static propTypes = {
     notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    filesCategoriesQuery: PropTypes.query({
-      filesCategoriesList: PropTypes.object,
-    }).isRequired,
-    confirmUploadedFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
+    confirmFilesUploading: PropTypes.func.isRequired,
+    filesCategoriesData: PropTypes.object.isRequired,
     profileUUID: PropTypes.string.isRequired,
   };
 
@@ -130,15 +128,15 @@ class UploadModal extends PureComponent {
       Object.keys(files).map(fileIndex => uploadFile({
         variables: {
           file: files[fileIndex],
-          profileUUID,
+          uuid: profileUUID,
         },
       })),
     );
 
     const filesDataWithUuids = Object.keys(files).map(fileIndex => ({
-      fileUuid: get(response[fileIndex], 'data.file.upload.data.fileUuid'),
+      fileUuid: get(response[fileIndex], 'data.file.upload.fileUuid'),
       file: files[fileIndex],
-      error: get(response[fileIndex], 'data.file.upload.error'),
+      error: get(response[fileIndex], 'error'),
     })).filter(({ error }) => {
       if (error) {
         notify({
@@ -172,7 +170,7 @@ class UploadModal extends PureComponent {
       onCloseModal,
       addNote,
       notify,
-      confirmUploadedFiles,
+      confirmFilesUploading,
       profileUUID,
     } = this.props;
 
@@ -185,34 +183,35 @@ class UploadModal extends PureComponent {
       verificationType: data[fileUuid].category,
     }));
 
-    const confirmationResponse = await confirmUploadedFiles({
-      variables: {
-        documents,
-        profileUuid: profileUUID,
-      },
-    });
 
-    const success = get(confirmationResponse, 'data.file.confirmFiles.data.success') || false;
+    try {
+      await confirmFilesUploading({
+        variables: {
+          documents,
+          profileUuid: profileUUID,
+        },
+      });
 
-    if (success) {
       await Promise.all(filesToUpload.map(({ fileNote }) => (
         (fileNote)
           ? addNote({ variables: fileNote })
           : false
       )));
-    }
 
-    notify({
-      level: success ? 'success' : 'error',
-      title: success ? I18n.t('COMMON.SUCCESS') : I18n.t('COMMON.FAIL'),
-      message: success
-        ? I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS')
-        : I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
-    });
-
-    if (success) {
       EventEmitter.emit(FILE_UPLOADED, documents);
       onCloseModal();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS'),
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
+      });
     }
   };
 
@@ -224,11 +223,11 @@ class UploadModal extends PureComponent {
   ) => {
     const {
       profileUUID,
-      filesCategoriesQuery,
+      filesCategoriesData,
     } = this.props;
 
     const fileKey = file.fileUuid;
-    const { __typename, ...categories } = get(filesCategoriesQuery, 'data.filesCategoriesList.data') || {};
+    const { __typename, ...categories } = get(filesCategoriesData, 'data.filesCategories') || {};
 
     return (
       <UploadingFile
@@ -277,9 +276,11 @@ class UploadModal extends PureComponent {
           initialValues={{}}
           onSubmit={this.confirmUploadingFiles}
           validate={validate}
+          validateOnBlur={false}
+          validateOnChange={false}
           enableReinitialize
         >
-          {({ dirty, isValid, isSubmitting, setValues, values }) => (
+          {({ dirty, isSubmitting, setValues, values }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
@@ -368,7 +369,7 @@ class UploadModal extends PureComponent {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={isSubmitting || !dirty || !isValid || filesToUpload.length === 0}
+                  disabled={isSubmitting || !dirty || filesToUpload.length === 0}
                   primary
                 >
                   {I18n.t('COMMON.BUTTONS.CONFIRM')}
@@ -385,8 +386,8 @@ class UploadModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    filesCategoriesQuery: FilesCategoriesQuery,
-    confirmUploadedFiles: ConfirmUploadedFiles,
+    filesCategoriesData: FilesCategoriesQuery,
+    confirmFilesUploading: ConfirmFilesUploading,
     uploadFile: UploadFile,
     addNote: AddNote,
   }),

@@ -5,45 +5,36 @@ import { Query } from 'react-apollo';
 import { get } from 'lodash';
 import { NOTIFICATIONS_SIZE } from '../../../constants';
 
-const REQUEST = gql`query NotificationCenterQuery(
-  $args: NotificationCenterInputType
-) {
-  notificationCenter (
-    args: $args
-  ) {
-    data {
-      content {
-        read
+const REQUEST = gql`query NotificationCenterQuery($args: NotificationCenterSearch__Input) {
+  notificationCenter (args: $args) {
+    content {
+      read
+      uuid
+      priority
+      agent {
+        fullName
         uuid
-        priority
-        agent {
-          fullName
-          uuid
-        }
-        client {
-          uuid
-          fullName
-          languageCode
-        }
-        createdAt
-        type
-        subtype
-        details {
-          amount
-          currency
-          login
-          platformType
-          callbackTime
-        }
       }
-      last
-      size
-      number
-      totalElements
+      client {
+        uuid
+        fullName
+        languageCode
+      }
+      createdAt
+      type
+      subtype
+      details {
+        amount
+        currency
+        login
+        platformType
+        callbackTime
+      }
     }
-    error {
-      error
-    }
+    last
+    size
+    number
+    totalElements
   }
 }`;
 
@@ -61,6 +52,7 @@ const NotificationCenterQuery = ({ children, location }) => {
           page: { from: 0, size: NOTIFICATIONS_SIZE },
         },
       }}
+      context={{ batch: false }}
     >
       {children}
     </Query>

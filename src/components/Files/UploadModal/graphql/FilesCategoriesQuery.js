@@ -4,12 +4,10 @@ import PropTypes from 'constants/propTypes';
 import { Query } from 'react-apollo';
 
 export const REQUEST = gql`query FilesCategoriesQuery {
-  filesCategoriesList {
-    data {
-      DOCUMENT_VERIFICATION
-      ADDRESS_VERIFICATION
-      OTHER
-    }
+  filesCategories {
+    DOCUMENT_VERIFICATION
+    ADDRESS_VERIFICATION
+    OTHER
   }
 }`;
 

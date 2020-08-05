@@ -13,9 +13,7 @@ const REQUEST = gql`
         noteId: $noteId
         content: $content
       ) {
-        error {
-          error
-        }
+        _id
       }
     }
   }

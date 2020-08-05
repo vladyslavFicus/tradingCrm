@@ -3,18 +3,18 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation createRule(
+const REQUEST = gql`mutation SalesRules_UpdateRuleMutation(
   $name: String!,
   $priority: Int!,
   $countries: [String],
   $languages: [String],
   $affiliateUUIDs: [String],
   $sources: [String],
-  $type: RuleTypeEnum!,
-  $actions: [RuleActionsInputType]!,
+  $type: Rule__Type__Enum!,
+  $actions: [RuleActions__Input]!,
   $uuid: String,
 ) {
-  rules {
+  rule {
     createRule (
       name: $name,
       priority: $priority,
@@ -25,27 +25,7 @@ const REQUEST = gql`mutation createRule(
       type: $type,
       actions: $actions,
       uuid: $uuid,
-    ) {
-      data {
-        actions {
-          id
-          parentBranch
-          parentUser
-          ruleType
-        }
-        uuid
-        countries
-        languages
-        priority
-        name
-        type
-        updatedBy
-      }
-      error {
-        error
-        errorParameters
-      }
-    }
+    )
   }
 }
 `;

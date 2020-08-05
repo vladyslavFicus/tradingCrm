@@ -21,10 +21,6 @@ export const paymentTypes = {
         tradingTypes.TRANSFER_IN,
         tradingTypes.TRANSFER_OUT,
         tradingTypes.INACTIVITY_FEE,
-        tradingTypes.MIGRATION_IN,
-        tradingTypes.MIGRATION_OUT,
-        tradingTypes.MIGRATION_CREDIT_IN,
-        tradingTypes.MIGRATION_CREDIT_OUT,
         tradingTypes.INTEREST_RATE,
       ].indexOf(name) === -1),
     )
@@ -38,4 +34,11 @@ export const paymentTypes = {
 export const paymentTypesLabels = {
   ...tradingTypesLabelsWithColor,
   [TRANSFER]: { label: 'COMMON.PAYMENT_TYPE.TRANSFER' },
+};
+
+export const paymentErrors = {
+  'error.validation.withdraw.free.margin.limit.exceed':
+    I18n.t('PLAYER_PROFILE.TRANSACTIONS.ERRORS.FREE_MARGIN_LIMIT_EXCEED'),
+  'error.validation.withdraw.limit.exceed':
+    I18n.t('PLAYER_PROFILE.TRANSACTIONS.ERRORS.LIMIT_EXCEED'),
 };

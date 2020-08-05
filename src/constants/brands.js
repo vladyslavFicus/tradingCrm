@@ -98,6 +98,7 @@ const brands = keyMirror({
   finocapital: null,
   '24fintime': null,
   thecapstocksit: null,
+  fcautomatic: null,
 });
 
 const departments = keyMirror({
@@ -512,6 +513,10 @@ const brandsConfig = {
   [brands.thecapstocksit]: {
     name: 'thecapstocksit',
     image: { src: '/img/brand/choose-brand/thecapstocksit.svg' },
+  },
+  [brands.fcautomatic]: {
+    name: 'fcautomatic',
+    image: { src: '/img/brand/choose-brand/fcautomatic.svg' },
   },
 };
 const departmentsConfig = {

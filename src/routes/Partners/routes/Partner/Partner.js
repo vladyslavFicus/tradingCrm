@@ -39,9 +39,9 @@ class Partner extends PureComponent {
       match: { path, url },
     } = this.props;
 
-    const partner = get(partnerData, 'data.partner.data') || {};
-    const partnerError = get(partnerData, 'data.partner.error') || false;
-    const authorities = get(partner, 'authorities.data') || [];
+    const partner = get(partnerData, 'data.partner') || {};
+    const partnerError = get(partnerData, 'error') || false;
+    const authorities = get(partner, 'authorities') || [];
     const isLoading = partnerData.loading;
 
     if (partnerError) {

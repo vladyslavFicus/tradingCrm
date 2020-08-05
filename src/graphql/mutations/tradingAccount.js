@@ -1,33 +1,6 @@
 import gql from 'graphql-tag';
 
-const createTradingAccountMutation = gql`mutation createTradingAccount(
-  $name: String!
-  $currency: String!
-  $password: String!
-  $profileId: String!
-  $accountType: String!
-  $platformType: String!
-  $amount: Float
-) {
-  tradingAccount {
-    create(
-      profileId: $profileId,
-      name: $name,
-      currency: $currency,
-      password: $password,
-      accountType: $accountType,
-      platformType: $platformType,
-      amount: $amount,
-    ) {
-      success
-      error {
-        error
-      }
-    }
-  }
-}`;
-
-const updateTradingAccountMutation = gql`mutation updateTradingAccount(
+export const updateTradingAccountMutation = gql`mutation updateTradingAccount(
   $name: String
   $mode: String
   $currency: String
@@ -43,16 +16,6 @@ const updateTradingAccountMutation = gql`mutation updateTradingAccount(
       mode: $mode,
       currency: $currency,
       readOnly: $readOnly,
-    ) {
-      success
-      error {
-        error
-      }
-    }
+    )
   }
 }`;
-
-export {
-  createTradingAccountMutation,
-  updateTradingAccountMutation,
-};

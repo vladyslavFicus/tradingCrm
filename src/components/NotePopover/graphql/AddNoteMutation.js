@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 import { NoteFragment } from 'graphql/fragments/notes';
 import { ENTITIES } from './constants';
 
-const addToApolloCache = targetUUID => (cache, { data: { note: { add: { data } } } }) => {
+const addToApolloCache = targetUUID => (cache, { data: { note: { add: data } } }) => {
   if (data) {
     cache.writeFragment({
       fragment: NoteFragment,
@@ -47,12 +47,7 @@ const MUTATION = gql`mutation AddNoteMutation(
       playerUUID: $playerUUID
       targetType: $targetType
     ) {
-      data {
-        ...NoteFragment
-      }
-      error {
-        error
-      }
+      ...NoteFragment
     }
   }
 }

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
@@ -19,15 +19,10 @@ const MAX_SELECTED_ROWS = 10000;
 class NotificationCenterContent extends PureComponent {
   static propTypes = {
     notifications: PropTypes.query({
-      notificationCenter: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.notificationCenter),
-        error: PropTypes.any,
-      }),
+      notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
     }).isRequired,
     notificationsTypes: PropTypes.query({
-      notificationCenterTypes: PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.string),
-      }),
+      notificationCenterTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
@@ -52,10 +47,7 @@ class NotificationCenterContent extends PureComponent {
         modals: { confirmationModal },
       } = this.props;
 
-      const { totalElements } = get(
-        notifications,
-        'data.notificationCenter.data',
-      );
+      const { totalElements } = get(notifications, 'data.notificationCenter');
 
       if (totalElements > MAX_SELECTED_ROWS) {
         confirmationModal.show({
@@ -69,7 +61,7 @@ class NotificationCenterContent extends PureComponent {
     }
   };
 
-  selectType = (notificationTypes) => {
+  onSubmit = (notificationTypes, read) => {
     const {
       notifications,
       notifications: {
@@ -83,6 +75,9 @@ class NotificationCenterContent extends PureComponent {
         notificationTypes: notificationTypes.length
           ? notificationTypes
           : undefined,
+        read: Number.isInteger(read)
+          ? !!read
+          : undefined,
       },
     });
 
@@ -94,37 +89,29 @@ class NotificationCenterContent extends PureComponent {
 
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const { totalElements, content } = get(
-      notifications,
-      'data.notificationCenter.data',
-    );
+    const { totalElements, content } = get(notifications, 'data.notificationCenter');
 
     const uuids = content
       .map(({ uuid }, index) => touchedRowsIds.includes(index) && uuid)
       .filter(Boolean);
 
-    const {
-      data: {
-        notificationCenter: {
-          update: { error },
+    try {
+      await bulkUpdate({
+        variables: {
+          totalElements: totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements,
+          ...(allRowsSelected ? { excUuids: uuids } : { incUuids: uuids }),
         },
-      },
-    } = await bulkUpdate({
-      variables: {
-        totalElements: totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements,
-        ...(allRowsSelected ? { excUuids: uuids } : { incUuids: uuids }),
-      },
-    });
+      });
 
-    if (error) {
+      notifications.refetch();
+    } catch (e) {
+      const { error } = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
-        message:
-          error.error || error.fields_errors || I18n.t('COMMON.SOMETHING_WRONG'),
+        message: error,
       });
-    } else {
-      notifications.refetch();
     }
 
     this.resetSelection();
@@ -138,7 +125,7 @@ class NotificationCenterContent extends PureComponent {
     const { notifications } = this.props;
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const totalElements = get(notifications, 'data.notificationCenter.data.totalElements');
+    const totalElements = get(notifications, 'data.notificationCenter.totalElements');
 
     let selectedRowsLength = touchedRowsIds.length;
 
@@ -159,11 +146,10 @@ class NotificationCenterContent extends PureComponent {
 
     const { allRowsSelected, touchedRowsIds } = this.state;
 
-    const notificationsTypes = get(
-      notificationsTypesData, 'notificationCenterTypes.data',
-    ) || [];
+    const typesData = get(notificationsTypesData, 'notificationCenterTypes') || [];
+    const notificationsTypes = Object.keys(typesData);
 
-    const totalElements = get(notifications, 'data.notificationCenter.data.totalElements');
+    const totalElements = get(notifications, 'data.notificationCenter.totalElements');
 
     return (
       <div className="NotificationCenterContent">
@@ -190,7 +176,7 @@ class NotificationCenterContent extends PureComponent {
         <NotificationCenterForm
           className="NotificationCenterContent__form"
           notificationsTypes={notificationsTypes}
-          onSubmit={this.selectType}
+          onSubmit={this.onSubmit}
         />
         <NotificationCenterTable
           className="NotificationCenterContent__table"

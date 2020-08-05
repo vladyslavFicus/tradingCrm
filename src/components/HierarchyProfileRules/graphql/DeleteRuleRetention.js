@@ -6,17 +6,10 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`mutation DeleteRuleRetention(
   $uuid: String!,
 ) {
-  rules {
+  rule {
     deleteRuleRetention(
-      uuid: $uuid,
-    ) {
-      error {
-        error
-      }
-      data {
-        uuid
-      }
-    } 
+      uuid: $uuid
+    )
   }
 }`;
 

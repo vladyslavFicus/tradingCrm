@@ -1,0 +1,61 @@
+.UploadingFile {
+  width: 100%;
+
+  &__col {
+    vertical-align: top;
+    padding: 5px 10px;
+  }
+
+  &__number{
+    padding-top: 14px;
+    max-width: 50px;
+  }
+
+  &__title {
+    width: 220px;
+  }
+
+  &__info {
+    max-width: 140px;
+  }
+
+  &__name {
+    font-size: 13px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 1.5em;
+  }
+
+  &__uuid {
+    font-size: 13px;
+    width: 80px;
+  }
+
+  &__category {
+    width: 225px;
+    max-width: 225px;
+  }
+
+  &__type {
+    width: 220px;
+    max-width: 220px;
+  }
+
+  &__status {
+    width: 120px;
+  }
+
+  &__removeButton {
+    font-size: 16px;
+    padding: 5px 0 8px 0;
+    font-size: 16px;
+  }
+
+  &__note {
+    padding-top: 9px;
+    text-align: center;
+    width: 60px;
+  }
+}

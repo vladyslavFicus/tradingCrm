@@ -20,9 +20,7 @@ class List extends Component {
       }),
     }).isRequired,
     operators: PropTypes.shape({
-      operators: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.any),
-      }),
+      operators: PropTypes.pageable(PropTypes.any),
       loadMore: PropTypes.func,
       loading: PropTypes.bool.isRequired,
     }),
@@ -67,18 +65,13 @@ class List extends Component {
       client,
     } = this.props;
 
-    const {
-      data: {
-        authoritiesOptions: {
-          data: {
-            authoritiesOptions,
-          },
-          error,
+    try {
+      const {
+        data: {
+          authoritiesOptions,
         },
-      },
-    } = await client.query({ query: authoritiesOptionsQuery });
+      } = await client.query({ query: authoritiesOptionsQuery });
 
-    if (!error) {
       delete authoritiesOptions.PLAYER;
       delete authoritiesOptions.AFFILIATE;
 
@@ -91,14 +84,14 @@ class List extends Component {
 
       createOperator.show({
         initialValues,
-        departmentsRoles: authoritiesOptions || {},
+        departmentsRoles: authoritiesOptions || [],
         onExist: (value) => {
           existingOperator.show({
             ...value,
           });
         },
       });
-    } else {
+    } catch {
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.TITLE'),
@@ -113,7 +106,7 @@ class List extends Component {
       operators: { loading },
     } = this.props;
 
-    const totalElements = get(operators, 'operators.data.totalElements');
+    const totalElements = get(operators, 'operators.totalElements');
 
     return (
       <div className="card">

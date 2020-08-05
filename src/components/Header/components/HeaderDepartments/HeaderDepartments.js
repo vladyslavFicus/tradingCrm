@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import jwtDecode from 'jwt-decode';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
+import formatLabel from 'utils/formatLabel';
 import HeaderDepartmentsMutation from './graphql/HeaderDepartmentsMutation';
 import './HeaderDepartments.scss';
 
 class HeaderDepartments extends Component {
   static propTypes = {
-    departments: PropTypes.arrayOf(PropTypes.department).isRequired,
     chooseDepartmentMutation: PropTypes.func.isRequired,
     storage: PropTypes.storage.isRequired,
-    token: PropTypes.string.isRequired,
+    brand: PropTypes.brand.isRequired,
     auth: PropTypes.auth.isRequired,
   };
 
@@ -31,43 +30,39 @@ class HeaderDepartments extends Component {
   changeDepartment = ({ department, role }) => async () => {
     const {
       storage,
-      token: originalToken,
+      brand: { id: brandId },
       chooseDepartmentMutation,
     } = this.props;
 
-    const { brandId } = jwtDecode(originalToken);
-
-    const {
-      data: {
-        authorization: {
-          chooseDepartment: {
-            data: {
-              token,
-              uuid,
-            },
-            error,
-          },
+    try {
+      const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartmentMutation({
+        variables: {
+          brand: brandId,
+          department,
+          role,
         },
-      },
-    } = await chooseDepartmentMutation({
-      variables: { brand: brandId, department, role },
-    });
+      });
 
-    if (!error) {
       storage.set('token', token);
       storage.set('auth', { department, role, uuid });
 
       // This function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
+    } catch (e) {
+      // Do nothing...
     }
   };
 
   render() {
-    const { departments, auth } = this.props;
+    const { brand, auth } = this.props;
     const { isOpen } = this.state;
+
+    const departments = brand?.departments || [];
 
     const currentDepartment = departments.find(({ department }) => auth.department === department);
     const departmentsLeft = departments.filter(({ department }) => auth.department !== department);
+
+    if (!currentDepartment) return null;
 
     return (
       <Choose>
@@ -78,7 +73,7 @@ class HeaderDepartments extends Component {
                 {I18n.t(currentDepartment.name || `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`)}
               </div>
               <div className="HeaderDepartments-item__role">
-                {I18n.t(currentDepartment.role)}
+                {formatLabel(currentDepartment.role)}
               </div>
             </div>
           </div>
@@ -97,7 +92,7 @@ class HeaderDepartments extends Component {
                 {I18n.t(currentDepartment.name)}
               </div>
               <div className="HeaderDepartments-item__role">
-                {I18n.t(currentDepartment.role)}
+                {formatLabel(currentDepartment.role)}
               </div>
               <i className="HeaderDepartments-item__caret fa fa-angle-down" />
             </DropdownToggle>
@@ -112,7 +107,7 @@ class HeaderDepartments extends Component {
                     {I18n.t(department.name)}
                   </div>
                   <div className="HeaderDepartments-item__role">
-                    {I18n.t(department.role)}
+                    {formatLabel(department.role)}
                   </div>
                 </DropdownItem>
               ))}
@@ -125,7 +120,7 @@ class HeaderDepartments extends Component {
 }
 
 export default compose(
-  withStorage(['auth', 'departments', 'token']),
+  withStorage(['auth', 'brand']),
   withRequests({
     chooseDepartmentMutation: HeaderDepartmentsMutation,
   }),
