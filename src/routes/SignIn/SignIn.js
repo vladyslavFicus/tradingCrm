@@ -14,16 +14,13 @@ import Copyrights from 'components/Copyrights';
 import ChangeUnauthorizedPasswordModal from 'modals/ChangeUnauthorizedPasswordModal';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
-import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 import { getMappedBrands } from './utils';
 import SignInMutation from './graphql/SignInMutation';
-import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
 import './SignIn.scss';
 
 class SignIn extends PureComponent {
   static propTypes = {
     signIn: PropTypes.func.isRequired,
-    chooseDepartment: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       changeUnauthorizedPasswordModal: PropTypes.modalType,
     }).isRequired,
@@ -62,24 +59,6 @@ class SignIn extends PureComponent {
       storage.set('token', token);
       storage.set('brands', brands);
 
-      // If just one brand available we can skip 'select brand' step
-      // If we have just one department we can skip 'select department' step
-      // and make request automaticaly and push user to dashboard page
-      if (brands.length === 1) {
-        const { id: brandId, departments } = brands[0];
-
-        storage.set('brand', brands[0]);
-
-        if (departments.length === 1) {
-          this.handleSelectDepartment(brandId, departments[0]);
-          history.push('/dashboard');
-        } else {
-          history.push('/departments');
-        }
-
-        return;
-      }
-
       history.push('/brands');
     } catch (e) {
       const error = parseErrors(e);
@@ -96,30 +75,6 @@ class SignIn extends PureComponent {
       this.setState({ formError: error.message });
     }
   }
-
-  handleSelectDepartment = async (brand, { department, role }) => {
-    const { chooseDepartment, storage, history } = this.props;
-
-    try {
-      const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartment({
-        variables: {
-          brand,
-          department,
-          role,
-        },
-      });
-
-      storage.set('token', token);
-      storage.set('auth', { department, role, uuid });
-
-      // The function need to refresh window.app object to get new data from token
-      setBrandIdByUserToken();
-
-      history.push('/dashboard');
-    } catch (e) {
-      // Do nothing...
-    }
-  };
 
   render() {
     const { formError } = this.state;
@@ -191,7 +146,6 @@ export default compose(
   withRouter,
   withRequests({
     signIn: SignInMutation,
-    chooseDepartment: ChooseDepartmentMutation,
   }),
   withModals({
     changeUnauthorizedPasswordModal: ChangeUnauthorizedPasswordModal,

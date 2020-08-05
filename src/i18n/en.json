@@ -2302,7 +2302,7 @@
           "MESSAGE": "You can login again"
         },
         "ERROR": {
-          "TITLE": "Password didn't changed",
+          "TITLE": "Password didn't change",
           "MESSAGE": "Something went wrong"
         }
       }
