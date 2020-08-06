@@ -63,7 +63,10 @@ class ChangeUnauthorizedPasswordModal extends PureComponent {
     } catch (e) {
       const error = parseErrors(e);
 
-      if (error.error === 'error.validation.password.repeated') {
+      if (
+        error.error === 'error.validation.password.repeated'
+        || error.error === 'error.validation.password.nonEquals'
+      ) {
         this.setState({ formError: I18n.t(error.error) });
       } else {
         this.setState({ formError: null });

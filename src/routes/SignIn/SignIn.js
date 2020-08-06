@@ -42,7 +42,7 @@ class SignIn extends PureComponent {
     }
   }
 
-  handleSubmit = async (values, { resetForm }) => {
+  handleSubmit = async (values, { setFieldValue }) => {
     const {
       signIn,
       storage,
@@ -66,7 +66,7 @@ class SignIn extends PureComponent {
       if (error.error === 'error.user.locked.password.expired') {
         changeUnauthorizedPasswordModal.show({
           uuid: error?.errorParameters?.uuid,
-          onSuccess: resetForm,
+          onSuccess: () => setFieldValue('password', ''),
         });
 
         return;
@@ -96,6 +96,8 @@ class SignIn extends PureComponent {
             login: 'required|email',
             password: 'required|min:6',
           })}
+          validateOnBlur={false}
+          validateOnChange={false}
         >
           {({ isSubmitting }) => (
             <Form className="SignIn__form">

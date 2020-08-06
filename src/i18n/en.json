@@ -1692,7 +1692,8 @@
         "exists": "This External ID already exists"
       },
       "password": {
-        "repeated": "You used this password recently. Please choose a different one"
+        "repeated": "You used this password recently. Please choose a different one",
+        "nonEquals": "Old password value is wrong"
       }
     },
     "payment": {
@@ -2302,7 +2303,7 @@
           "MESSAGE": "You can login again"
         },
         "ERROR": {
-          "TITLE": "Password didn't change",
+          "TITLE": "Password was not changed",
           "MESSAGE": "Something went wrong"
         }
       }
