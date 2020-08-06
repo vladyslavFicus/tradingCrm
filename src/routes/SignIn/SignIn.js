@@ -14,13 +14,16 @@ import Copyrights from 'components/Copyrights';
 import ChangeUnauthorizedPasswordModal from 'modals/ChangeUnauthorizedPasswordModal';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
+import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 import { getMappedBrands } from './utils';
 import SignInMutation from './graphql/SignInMutation';
+import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
 import './SignIn.scss';
 
 class SignIn extends PureComponent {
   static propTypes = {
     signIn: PropTypes.func.isRequired,
+    chooseDepartment: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       changeUnauthorizedPasswordModal: PropTypes.modalType,
     }).isRequired,
@@ -28,18 +31,22 @@ class SignIn extends PureComponent {
     ...withStorage.propTypes,
   }
 
-  state = {
-    formError: '',
-  };
+  componentDidUpdate(_, prevState) {
+    const { isSubmitting } = prevState;
+    const { auth, token, brands, storage } = this.props;
 
-  componentDidMount() {
-    const { auth, token, storage } = this.props;
+    if (auth && token) return;
 
-    if (!auth || !token) {
+    if (token && brands && !isSubmitting) {
+      storage.remove('token');
       storage.remove('brand');
       storage.remove('brands');
-      storage.remove('token');
     }
+  }
+
+  state = {
+    formError: '',
+    isSubmitting: false,
   }
 
   handleSubmit = async (values, { setFieldValue }) => {
@@ -50,6 +57,8 @@ class SignIn extends PureComponent {
       modals: { changeUnauthorizedPasswordModal },
     } = this.props;
 
+    this.setState({ isSubmitting: true });
+
     try {
       const signInData = await signIn({ variables: values });
 
@@ -59,7 +68,22 @@ class SignIn extends PureComponent {
       storage.set('token', token);
       storage.set('brands', brands);
 
-      history.push('/brands');
+      // If just one brand available we can skip 'select brand' step
+      // If we have just one department we can skip 'select department' step
+      // and make request automaticaly and push user to dashboard page
+      if (brands.length === 1) {
+        const { id: brandId, departments } = brands[0];
+
+        storage.set('brand', brands[0]);
+
+        if (departments.length === 1) {
+          this.handleSelectDepartment(brandId, departments[0]);
+        } else {
+          history.push('/departments');
+        }
+      } else {
+        history.push('/brands');
+      }
     } catch (e) {
       const error = parseErrors(e);
 
@@ -72,9 +96,32 @@ class SignIn extends PureComponent {
         return;
       }
 
-      this.setState({ formError: error.message });
+      this.setState({ formError: error.message, isSubmitting: false });
     }
   }
+
+  handleSelectDepartment = async (brand, { department, role }) => {
+    const { chooseDepartment, storage, history } = this.props;
+
+    try {
+      const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartment({
+        variables: {
+          brand,
+          department,
+          role,
+        },
+      });
+
+      storage.set('token', token);
+      storage.set('auth', { department, role, uuid });
+
+      setBrandIdByUserToken();
+
+      history.push('/dashboard');
+    } catch (e) {
+      // Do nothing...
+    }
+  };
 
   render() {
     const { formError } = this.state;
@@ -144,10 +191,11 @@ class SignIn extends PureComponent {
 }
 
 export default compose(
-  withStorage(['auth', 'token']),
+  withStorage(['auth', 'token', 'brands']),
   withRouter,
   withRequests({
     signIn: SignInMutation,
+    chooseDepartment: ChooseDepartmentMutation,
   }),
   withModals({
     changeUnauthorizedPasswordModal: ChangeUnauthorizedPasswordModal,
