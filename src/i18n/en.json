@@ -2519,6 +2519,11 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
+      },
+      "REFERRALS": {
+        "TITLE": "REFERRALS",
+        "FTD": "FTD: %{value}",
+        "REMUNERATION": "Remuneration: %{currency} %{value}"
       }
     },
     "TRANSACTIONS": {
@@ -2659,7 +2664,8 @@
       },
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
-      }
+      },
+      "REFERRER": "Referrer"
     },
     "FATCA": {
       "TITLE": "FATCA"
