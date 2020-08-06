@@ -2409,7 +2409,8 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed"
+      "FEED": "Feed",
+      "REFERRALS": "Referrals"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -3464,5 +3465,24 @@
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",
     "NO_MANAGER": "Current branch does not have a manager"
+  },
+  "REFERRALS": {
+    "GRID": {
+      "NAME": "Referral name",
+      "COUNTRY": "Country",
+      "BONUS_TYPE": "Bonus type",
+      "REGISTRATION": "Registration",
+      "FTD_AMOUNT": "FTD amount",
+      "FTD_DATE": "FTD date",
+      "REMUNERATION": "Remuneration",
+      "REMUNERATION_DATE": "Remuneration date",
+      "SALES": "Sales",
+      "RETENTION": "Retention"
+    },
+    "BONUS_TYPE_STATUS": {
+      "FTD": "FTD",
+      "REGISTRATION": "Registration"
+    },
+    "TITLE": "Referrals"
   }
 }
