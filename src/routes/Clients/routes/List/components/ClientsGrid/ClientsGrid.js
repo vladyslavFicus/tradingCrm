@@ -385,12 +385,12 @@ class ClientsGrid extends PureComponent {
           name="lastNote"
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
-          render={(data) => {
-            const { uuid, changedAt, content, operator } = get(data, 'lastNote') || {};
+          render={({ uuid, lastNote }) => {
+            const { changedAt, content, operator } = lastNote || {};
 
             return (
               <Choose>
-                <When condition={data.lastNote}>
+                <When condition={lastNote}>
                   <div className="max-width-200">
                     <div className="font-weight-700">
                       {moment
@@ -411,13 +411,13 @@ class ClientsGrid extends PureComponent {
                     </If>
                     <div
                       className="max-height-35 font-size-11 ClientsGrid__notes"
-                      id={`${uuid}-note`}
+                      id={`note-${uuid}`}
                     >
                       {content}
                     </div>
                     <UncontrolledTooltip
                       placement="bottom-start"
-                      target={`${uuid}-note`}
+                      target={`note-${uuid}`}
                       delay={{
                         show: 350,
                         hide: 250,

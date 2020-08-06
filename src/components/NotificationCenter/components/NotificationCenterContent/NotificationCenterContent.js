@@ -61,7 +61,7 @@ class NotificationCenterContent extends PureComponent {
     }
   };
 
-  selectType = (notificationTypes) => {
+  onSubmit = (notificationTypes, read) => {
     const {
       notifications,
       notifications: {
@@ -74,6 +74,9 @@ class NotificationCenterContent extends PureComponent {
         ...args,
         notificationTypes: notificationTypes.length
           ? notificationTypes
+          : undefined,
+        read: Number.isInteger(read)
+          ? !!read
           : undefined,
       },
     });
@@ -173,7 +176,7 @@ class NotificationCenterContent extends PureComponent {
         <NotificationCenterForm
           className="NotificationCenterContent__form"
           notificationsTypes={notificationsTypes}
-          onSubmit={this.selectType}
+          onSubmit={this.onSubmit}
         />
         <NotificationCenterTable
           className="NotificationCenterContent__table"

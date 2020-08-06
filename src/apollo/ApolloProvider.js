@@ -18,7 +18,6 @@ import AuthLink from 'apollo/links/AuthLink';
 import { withStorage } from 'providers/StorageProvider';
 import UpdateVersionModal from 'modals/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
-import queryNames from 'constants/apolloQueryNames';
 
 class ApolloProvider extends PureComponent {
   static propTypes = {
@@ -36,7 +35,7 @@ class ApolloProvider extends PureComponent {
 
     const batchHttpLink = split(
       // Custom link to exclude some queries from batching
-      ({ operationName }) => Object.values(queryNames).includes(operationName),
+      operation => operation.getContext().batch === false,
       createHttpLink(httpLinkOptions),
       new BatchHttpLink(httpLinkOptions),
     );

@@ -1,22 +1,28 @@
 .Departments {
-  text-align: center;
-  transition: opacity 0.6s ease;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 100vh;
 
-  &__title,
-  &__subtitle {
-    color: #fff;
+  &__logo {
+    padding: 50px 0;
     text-align: center;
+
+    & img {
+      display: inline-block;
+      height: auto;
+      width: auto;
+    }
   }
 
-  &__title {
+  &__greeting {
+    color: #fff;
     font-size: 20px;
     font-weight: 300;
     margin-bottom: 60px;
-  }
-
-  &__subtitle {
-    font-size: 25px;
-    margin: 80px 0 35px;
+    text-align: center;
   }
 
   &__brand {
@@ -29,13 +35,12 @@
     margin-bottom: 90px;
     text-align: center;
 
-    & span {
+    & a {
       color: #9b9b9b;
       cursor: pointer;
       font-size: 20px;
       font-weight: 600;
       padding: 0 20px;
-      text-align: center;
       transition: color 0.2s ease;
 
       &:before,
@@ -83,16 +88,5 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-  }
-}
-
-// # CSSTransition
-.Departments {
-  &-enter {
-    opacity: 0;
-  }
-
-  &-enter-active {
-    opacity: 1;
   }
 }

@@ -4,13 +4,27 @@ import { CSSTransition } from 'react-transition-group';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
+import {
+  passwordPattern,
+  passwordMaxSize,
+  passwordCustomError,
+} from 'constants/operators';
 import { FormikInputField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
+
+const attributeLabels = {
+  password: 'COMMON.PASSWORD',
+  repeatPassword: 'COMMON.REPEAT_PASSWORD',
+};
+
+const customErrors = {
+  'regex.password': passwordCustomError,
+};
 
 const validator = createValidator({
-  password: ['required', 'regex:^((?=.*\\d)(?=.*[a-zA-Z]).{6,16})$'],
+  password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
   repeatPassword: ['required', 'same:password'],
-});
+}, translateLabels(attributeLabels), false, customErrors);
 
 class ResetPasswordForm extends Component {
   static propTypes = {

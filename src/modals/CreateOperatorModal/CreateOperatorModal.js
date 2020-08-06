@@ -4,29 +4,33 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit, get } from 'lodash';
-import { getActiveBrandConfig } from 'config';
 import { parseErrors } from 'apollo';
-import { departmentsLabels, rolesLabels } from 'constants/operators';
+import {
+  departmentsLabels,
+  rolesLabels,
+  passwordPattern,
+  passwordMaxSize,
+} from 'constants/operators';
 import { Button } from 'components/UI';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { generate } from 'utils/password';
 import renderLabel from 'utils/renderLabel';
 import { createValidator, translateLabels } from 'utils/validator';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
-import { attributeLabels } from './constants';
+import { attributeLabels, customErrors } from './constants';
 
 const validator = createValidator({
   firstName: ['required', 'string', 'min:2'],
   lastName: ['required', 'string', 'min:2'],
   email: ['required', 'email'],
-  password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+  password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
   phone: 'min:3',
   department: 'required',
   userType: 'required',
   role: 'required',
   branchType: 'required',
   branch: 'required',
-}, translateLabels(attributeLabels), false);
+}, translateLabels(attributeLabels), false, customErrors);
 
 class CreateOperatorModal extends PureComponent {
   static propTypes = {

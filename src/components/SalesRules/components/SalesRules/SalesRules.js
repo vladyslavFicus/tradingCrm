@@ -190,7 +190,7 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     try {
-      const { data: { rule: { createRule: { uuid } } } } = await createRule(
+      await createRule(
         {
           variables: {
             actions: [{
@@ -211,7 +211,7 @@ class SalesRules extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED', { id: uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED'),
       });
     } catch (e) {
       const error = parseErrors(e);
@@ -263,7 +263,7 @@ class SalesRules extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED'),
       });
     } catch (e) {
       notify({

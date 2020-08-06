@@ -23,9 +23,7 @@ const REQUEST = gql`mutation CreateRuleRetention(
       depositAmountFrom: $depositAmountFrom,
       depositAmountTo: $depositAmountTo,
       uuid: $uuid,
-    ) {
-      uuid
-    }
+    )
   }
 }`;
 

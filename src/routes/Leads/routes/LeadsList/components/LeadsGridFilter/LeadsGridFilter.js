@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { omit, get } from 'lodash';
+import { omit, get, intersection } from 'lodash';
 import I18n from 'i18n-js';
 import { withFormik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
@@ -28,7 +28,7 @@ const attributeLabels = {
   status: 'LEADS.FILTER.ACCOUNT_STATUS',
   registrationDateRange: 'LEADS.FILTER.REGISTRATION_DATE_RANGE',
   lastNoteDateRange: 'LEADS.FILTER.LAST_NOTE_DATE_RANGE',
-  size: 'COMMON.FILTERS.SEARCH_LIMIT',
+  searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
 };
 
 class LeadsGridFilter extends PureComponent {
@@ -75,15 +75,16 @@ class LeadsGridFilter extends PureComponent {
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
-      const branches = get(operator, 'hierarchy.parentBranches') || [];
+      const branches = get(operator, 'hierarchy.parentBranches').map(({ uuid }) => uuid) || [];
 
-      return branches.reduce((_, currentBranch) => uuids.includes(currentBranch.uuid), false);
+      return intersection(branches, uuids).length;
     })
   )
 
   filterOperators = () => {
     const {
       operatorsData,
+      desksAndTeamsData,
       values: { desks, teams },
     } = this.props;
 
@@ -94,7 +95,12 @@ class LeadsGridFilter extends PureComponent {
     }
 
     if (desks && desks.length) {
-      return this.filterOperatorsByBranch({ operators, uuids: desks });
+      // If desk chosen -> find all teams of these desks to filter operators
+      const teamsList = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
+      const teamsByDesks = teamsList.filter(team => desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
+      const uuids = [...desks, ...teamsByDesks];
+
+      return this.filterOperatorsByBranch({ operators, uuids });
     }
 
     return operators;
@@ -217,7 +223,7 @@ class LeadsGridFilter extends PureComponent {
                 key={uuid}
                 value={uuid}
                 disabled={operatorStatus === operatorsStasuses.INACTIVE
-                  || operatorStatus === operatorsStasuses.CLOSED}
+                || operatorStatus === operatorsStasuses.CLOSED}
               >
                 {fullName}
               </option>
@@ -275,10 +281,10 @@ class LeadsGridFilter extends PureComponent {
           />
 
           <Field
-            name="size"
+            name="searchLimit"
             type="number"
             className="LeadsGridFilter__field LeadsGridFilter__search-limit"
-            label={I18n.t(attributeLabels.size)}
+            label={I18n.t(attributeLabels.searchLimit)}
             placeholder={I18n.t('COMMON.UNLIMITED')}
             component={FormikInputField}
             min={0}
@@ -319,7 +325,7 @@ export default compose(
   withFormik({
     mapPropsToValues: () => ({}),
     validate: values => createValidator({
-      size: ['numeric', 'greater:0', 'max:10000'],
+      searchLimit: ['numeric', 'greater:0', 'max:2000'],
     }, translateLabels(attributeLabels))(values),
     handleSubmit: (values, { props, setSubmitting }) => {
       props.history.replace({
@@ -327,6 +333,7 @@ export default compose(
           filters: decodeNullValues(values),
         },
       });
+
       setSubmitting(false);
     },
   }),

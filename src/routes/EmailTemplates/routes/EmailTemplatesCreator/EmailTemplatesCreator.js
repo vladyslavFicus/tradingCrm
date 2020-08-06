@@ -19,12 +19,23 @@ class EmailTemplatesCreator extends PureComponent {
     ...PropTypes.router,
   };
 
-  createEmailTemplate = async (values) => {
+  createEmailTemplate = async (values, { validateForm }) => {
     const {
       emailTemplateCreateMutation,
       notify,
       history,
     } = this.props;
+
+    const textWithoutHtml = values.text.replace(/<\/?[^>]+(>|$)/g, '');
+
+    const validationErrors = await validateForm({
+      ...values,
+      text: textWithoutHtml,
+    });
+
+    const hasValidationErrors = Object.keys(validationErrors).length > 0;
+
+    if (hasValidationErrors) return;
 
     try {
       await emailTemplateCreateMutation({ variables: values });

@@ -62,11 +62,13 @@ class Balances extends PureComponent {
     this.setState({ dateFrom });
 
     const refetchData = {
-      dateFrom: moment(dateFrom || clientRegistrationDate).utc().format(),
+      dateFrom: moment()
+        .utc(dateFrom || clientRegistrationDate)
+        .format(),
       dateTo: moment()
-        .utc()
         .add(2, 'day')
         .startOf('day')
+        .utc()
         .format(),
     };
 

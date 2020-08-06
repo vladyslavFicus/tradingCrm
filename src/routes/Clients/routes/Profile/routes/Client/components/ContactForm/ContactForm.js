@@ -10,6 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { withNotifications } from 'hoc';
 import PermissionContent from 'components/PermissionContent/PermissionContent';
 import { FormikInputField } from 'components/Formik';
+import { encodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import { hideText } from 'utils/hideText';
@@ -130,14 +131,18 @@ class ContactForm extends PureComponent {
     } = this.props;
     const { tradingOperatorAccessDisabled } = this.context;
 
+    const initialValues = encodeNullValues(
+      {
+        phone: this.phoneAccess() ? phone : hideText(phone),
+        additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),
+        additionalEmail: this.emailAccess() ? additionalEmail : hideText(additionalEmail),
+      },
+    );
+
     return (
       <Formik
         enableReinitialize
-        initialValues={{
-          phone: this.phoneAccess() ? phone : hideText(phone),
-          additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),
-          additionalEmail: this.emailAccess() ? additionalEmail : hideText(additionalEmail),
-        }}
+        initialValues={initialValues}
         onSubmit={this.onSubmit}
         validate={validator}
       >

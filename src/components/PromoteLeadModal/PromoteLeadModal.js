@@ -32,9 +32,7 @@ const validate = createValidator({
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
     lead: PropTypes.query({
-      data: PropTypes.shape({
-        lead: PropTypes.lead,
-      }),
+      lead: PropTypes.lead,
     }).isRequired,
     formError: PropTypes.string,
     onCloseModal: PropTypes.func.isRequired,
@@ -60,6 +58,7 @@ class PromoteLeadModal extends PureComponent {
     } = this.props;
 
     let variables = values;
+
     if (isEmailHidden) {
       const { email } = get(lead, 'data.lead');
       variables = {
@@ -115,7 +114,7 @@ class PromoteLeadModal extends PureComponent {
       country: countryCode,
       language: languageCode,
       mobile: additionalPhone,
-    } = get(lead, 'data.lead.data');
+    } = get(lead, 'data.lead');
 
     return (
       <Formik
