@@ -661,7 +661,8 @@
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
     "PASSWORD": "Password",
-    "PASSWORD_INVALID": "The password format is invalid. It must be at least 8 symbols length and contain uppercase, lowercase letters, and digits.",
+    "REPEAT_PASSWORD": "repeat password",
+    "OPERATOR_PASSWORD_INVALID": "The password format is invalid. It must be at least 8 symbols length and contain uppercase, lowercase letters, and digits.",
     "PAYMENT": {
       "TYPE": {
         "TIP": "Tip",
@@ -1253,7 +1254,8 @@
           "PAYRETAILERS": "Payretailers",
           "RECALL": "Recall",
           "CHARGEBACK": "Chargeback",
-          "CASHIER": "CASHIER"
+          "CASHIER": "CASHIER",
+          "REFERRAL_BONUS": "Referral bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference",
@@ -1691,7 +1693,8 @@
         "exists": "This External ID already exists"
       },
       "password": {
-        "repeated": "You used this password recently. Please choose a different one"
+        "repeated": "You used this password recently. Please choose a different one",
+        "nonEquals": "Old password value is wrong"
       }
     },
     "payment": {
@@ -1716,7 +1719,17 @@
           "restriction": "You can't create more accounts for this currency"
         }
       },
-      "locked": "User is locked, please contact customer support"
+      "locked": {
+        "failed": {
+          "sign": {
+            "in": {
+              "attempts": {
+                "exceeded": "User is locked (5 failed login attempts), please contact customer support"
+              }
+            }
+          }
+        }
+      }
     },
     "template": {
       "name": {
@@ -2282,7 +2295,7 @@
     "CHANGE_UNAUTHORIZED_PASSWORD_MODAL": {
       "TITLE": "Change password",
       "SUBTITLE": "The password has expired. Please, update your password and login again",
-      "OLD_PASSWORD": "Old password",
+      "CURRENT_PASSWORD": "Old password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password",
       "NOTIFICATIONS": {
@@ -2291,7 +2304,7 @@
           "MESSAGE": "You can login again"
         },
         "ERROR": {
-          "TITLE": "Password didn't changed",
+          "TITLE": "Password was not changed",
           "MESSAGE": "Something went wrong"
         }
       }
@@ -2396,7 +2409,8 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed"
+      "FEED": "Feed",
+      "REFERRALS": "Referrals"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -3457,5 +3471,24 @@
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",
     "NO_MANAGER": "Current branch does not have a manager"
+  },
+  "REFERRALS": {
+    "GRID": {
+      "NAME": "Referral name",
+      "COUNTRY": "Country",
+      "BONUS_TYPE": "Bonus type",
+      "REGISTRATION": "Registration",
+      "FTD_AMOUNT": "FTD amount",
+      "FTD_DATE": "FTD date",
+      "REMUNERATION": "Remuneration",
+      "REMUNERATION_DATE": "Remuneration date",
+      "SALES": "Sales",
+      "RETENTION": "Retention"
+    },
+    "BONUS_TYPE_STATUS": {
+      "FTD": "FTD",
+      "REGISTRATION": "Registration"
+    },
+    "TITLE": "Referrals"
   }
 }

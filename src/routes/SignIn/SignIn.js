@@ -31,25 +31,33 @@ class SignIn extends PureComponent {
     ...withStorage.propTypes,
   }
 
-  state = {
-    formError: '',
-  };
+  componentDidUpdate(_, prevState) {
+    const { isSubmitting } = prevState;
+    const { auth, token, brands, storage } = this.props;
 
-  componentDidMount() {
-    const { auth, token, storage } = this.props;
+    if (auth && token) return;
 
-    if (!auth || !token) {
-      storage.clear();
+    if (token && brands && !isSubmitting) {
+      storage.remove('token');
+      storage.remove('brand');
+      storage.remove('brands');
     }
   }
 
-  handleSubmit = async (values, { resetForm }) => {
+  state = {
+    formError: '',
+    isSubmitting: false,
+  }
+
+  handleSubmit = async (values, { setFieldValue }) => {
     const {
       signIn,
       storage,
       history,
       modals: { changeUnauthorizedPasswordModal },
     } = this.props;
+
+    this.setState({ isSubmitting: true });
 
     try {
       const signInData = await signIn({ variables: values });
@@ -70,28 +78,25 @@ class SignIn extends PureComponent {
 
         if (departments.length === 1) {
           this.handleSelectDepartment(brandId, departments[0]);
-          history.push('/dashboard');
         } else {
           history.push('/departments');
         }
-
-        return;
+      } else {
+        history.push('/brands');
       }
-
-      history.push('/brands');
     } catch (e) {
       const error = parseErrors(e);
 
-      if (error.error === 'error.validation.password.expired') {
+      if (error.error === 'error.user.locked.password.expired') {
         changeUnauthorizedPasswordModal.show({
           uuid: error?.errorParameters?.uuid,
-          onSuccess: resetForm,
+          onSuccess: () => setFieldValue('password', ''),
         });
 
         return;
       }
 
-      this.setState({ formError: error.message });
+      this.setState({ formError: error.message, isSubmitting: false });
     }
   }
 
@@ -110,7 +115,6 @@ class SignIn extends PureComponent {
       storage.set('token', token);
       storage.set('auth', { department, role, uuid });
 
-      // The function need to refresh window.app object to get new data from token
       setBrandIdByUserToken();
 
       history.push('/dashboard');
@@ -139,6 +143,8 @@ class SignIn extends PureComponent {
             login: 'required|email',
             password: 'required|min:6',
           })}
+          validateOnBlur={false}
+          validateOnChange={false}
         >
           {({ isSubmitting }) => (
             <Form className="SignIn__form">
@@ -185,7 +191,7 @@ class SignIn extends PureComponent {
 }
 
 export default compose(
-  withStorage(['auth', 'token']),
+  withStorage(['auth', 'token', 'brands']),
   withRouter,
   withRequests({
     signIn: SignInMutation,

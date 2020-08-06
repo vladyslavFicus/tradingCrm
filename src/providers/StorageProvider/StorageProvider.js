@@ -25,7 +25,6 @@ class StorageProvider extends PureComponent {
     this.storage = {
       get: this.get,
       set: this.set,
-      clear: this.clear,
       remove: this.remove,
     };
   }
@@ -90,17 +89,10 @@ class StorageProvider extends PureComponent {
    * Remove item from storage
    */
   remove = (key) => {
-    const newState = { ...this.state, [key]: undefined };
-
-    this.setState(newState, () => {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
+    this.setState({ [key]: undefined }, () => {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
     });
   };
-
-  /**
-   * Clear localStorage
-   */
-  clear = () => window.localStorage.clear();
 
   render() {
     const value = {
@@ -121,7 +113,6 @@ export const StorageConsumer = StorageContext.Consumer;
 export const StoragePropTypes = {
   get: PropTypes.func.isRequired,
   set: PropTypes.func.isRequired,
-  clear: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 };
 
