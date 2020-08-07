@@ -1714,13 +1714,15 @@
       "duplicated": "Profile is duplicated"
     },
     "user": {
-      "logon-attempts-limit-reached": "by 5 failed login attempts",
       "account": {
         "create": {
           "restriction": "You can't create more accounts for this currency"
         }
       },
       "locked": {
+        "by": {
+          "operator": "User is locked, please contact customer support"
+        },
         "failed": {
           "sign": {
             "in": {
