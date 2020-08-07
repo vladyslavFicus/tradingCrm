@@ -11,70 +11,46 @@ import './PartnerFeedsList.scss';
 
 class PartnerFeedsList extends PureComponent {
   static propTypes = {
-    feedsData: PropTypes.query({
+    feedsQuery: PropTypes.query({
       feeds: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.feed),
         last: PropTypes.bool,
         page: PropTypes.number,
-        totalElements: PropTypes.number,
+        totalPages: PropTypes.number,
       }),
     }).isRequired,
   };
 
   handlePageChanged = () => {
     const {
-      feedsData,
-      feedsData: {
+      feedsQuery: {
+        data,
         loadMore,
         loading,
       },
     } = this.props;
 
-    const currentPage = get(feedsData, 'data.feeds.page') || 0;
+    const currentPage = get(data, 'feeds.page') || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
     }
   };
 
-  renderFeedItem = (feed, key) => {
-    const { authorUuid, targetUuid, authorFullName } = feed;
-
-    let options = {
-      color: 'green',
-      letter: 'S',
-    };
-
-    if (authorUuid && authorFullName) {
-      options = {
-        color: (authorUuid === targetUuid) ? 'blue' : 'orange',
-        letter: authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
-      };
-    }
-
-    return (
-      <FeedItem
-        key={key}
-        data={feed}
-        {...options}
-      />
-    );
-  }
-
   render() {
-    const { feedsData } = this.props;
+    const { feedsQuery } = this.props;
 
-    const { content, totalPages, last } = get(feedsData, 'data.feeds') || {};
+    const { content, totalPages, last } = get(feedsQuery, 'data.feeds') || {};
 
     return (
       <div className="PartnerFeedsList">
         <ListView
           dataSource={content || []}
           onPageChange={this.handlePageChanged}
-          render={this.renderFeedItem}
+          render={(feed, key) => <FeedItem key={key} data={feed} />}
           totalPages={totalPages}
           last={last}
-          showNoResults={!feedsData.loading && !content.length}
+          showNoResults={!feedsQuery.loading && !content.length}
         />
       </div>
     );
@@ -84,6 +60,6 @@ class PartnerFeedsList extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feedsData: getFeedsQuery,
+    feedsQuery: getFeedsQuery,
   }),
 )(PartnerFeedsList);

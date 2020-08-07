@@ -7,9 +7,9 @@ const REQUEST = gql`mutation DeleteRuleRetention(
   $uuid: String!,
 ) {
   rule {
-    deleteRuleRetention(uuid: $uuid) {
-      success
-    } 
+    deleteRuleRetention(
+      uuid: $uuid
+    )
   }
 }`;
 

@@ -10,7 +10,6 @@ import { withModals } from 'hoc';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
-import { Button } from 'components/UI';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
@@ -93,14 +92,14 @@ class TradingActivityGrid extends PureComponent {
                   info={tradeType === 'DEMO'}
                   success={tradeType === 'LIVE'}
                 >
-                  <Button
-                    className="btn-transparent-text font-weight-700"
+                  <div
+                    className="btn-transparent-text font-weight-700 cursor-pointer"
                     onClick={() => (
                       this.showChangeOriginalAgentModal(tradeId, originalAgent && originalAgent.uuid, platformType)
                     )}
                   >
                     TR-{tradeId}
-                  </Button>
+                  </div>
                 </Badge>
                 <div className="font-size-11">
                   <Uuid

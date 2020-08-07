@@ -60,7 +60,7 @@ const PlayerMiniProfile = ({ miniProfile }) => {
   const lastDepositTime = get(data, 'profile.profileView.paymentDetails.lastDepositTime', null);
 
   return (
-    <div className={classNames('mini-profile mini-profile', userStatusNames[statusType])}>
+    <div className={classNames('mini-profile mini-profile', statusType.toLowerCase())}>
       <div className="mini-profile-header">
         <label className="mini-profile-label">{renderLabel(statusType, userStatusNames)}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.PLAYER')}</div>

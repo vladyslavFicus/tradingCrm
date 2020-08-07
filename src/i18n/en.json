@@ -369,6 +369,10 @@
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
+      "ERRORS": {
+        "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
+        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+      },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -657,6 +661,8 @@
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
     "PASSWORD": "Password",
+    "REPEAT_PASSWORD": "repeat password",
+    "OPERATOR_PASSWORD_INVALID": "The password format is invalid. It must be at least 8 symbols length and contain uppercase, lowercase letters, and digits.",
     "PAYMENT": {
       "TYPE": {
         "TIP": "Tip",
@@ -752,7 +758,6 @@
       "FAILED": "Failed",
       "CANCELED": "Canceled"
     },
-    "WITHDRAWAL_STATUS": "Withdraw status",
     "WITHDRAWAL_STATUSES": {
       "CREATED": "Created",
       "DEALING_REVIEW": "Dealing review",
@@ -769,6 +774,12 @@
       "START_DATE": "Start date",
       "END_DATE": "End date"
     }
+  },
+  "BRANDS": {
+    "CHOOSE_BRAND": "Please, choose the brand"
+  },
+  "DEPARTMENTS": {
+    "ALL_BRANDS": "All brands"
   },
   "FILES": {
     "TITLE": "Files",
@@ -1679,6 +1690,10 @@
       },
       "externalId": {
         "exists": "This External ID already exists"
+      },
+      "password": {
+        "repeated": "You used this password recently. Please choose a different one",
+        "nonEquals": "Old password value is wrong"
       }
     },
     "payment": {
@@ -1703,7 +1718,17 @@
           "restriction": "You can't create more accounts for this currency"
         }
       },
-      "locked": "User is locked, please contact customer support"
+      "locked": {
+        "failed": {
+          "sign": {
+            "in": {
+              "attempts": {
+                "exceeded": "User is locked (5 failed login attempts), please contact customer support"
+              }
+            }
+          }
+        }
+      }
     },
     "template": {
       "name": {
@@ -2044,6 +2069,7 @@
           "WORKING_HOURS_FROM": "Working Hours From",
           "WORKING_HOURS_TO": "Working Hours To"
         },
+        "MESSAGE": "Please use 00.00 - 24.00 time format (UTC time zone) to set the working time period.",
         "NOTIFICATIONS": {
           "CREATE": {
             "TITLE": "Schedule creation"
@@ -2052,7 +2078,7 @@
             "TITLE": "Update status"
           }
         },
-        "LIMIT_ERROR": "Amount should be less than %{totalLimit}. Please, change amount correspondingly."
+        "LIMIT_ERROR": "Amount should be less than %{currentLimitError}. Please, change amount correspondingly."
       }
     },
     "PROFILE": {
@@ -2264,6 +2290,23 @@
       "SUBTITLE": "You are about to change password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password"
+    },
+    "CHANGE_UNAUTHORIZED_PASSWORD_MODAL": {
+      "TITLE": "Change password",
+      "SUBTITLE": "The password has expired. Please, update your password and login again",
+      "CURRENT_PASSWORD": "Old password",
+      "NEW_PASSWORD": "New password",
+      "REPEAT_PASSWORD": "Repeat password",
+      "NOTIFICATIONS": {
+        "SUCCESS": {
+          "TITLE": "Password was successfully changed",
+          "MESSAGE": "You can login again"
+        },
+        "ERROR": {
+          "TITLE": "Password was not changed",
+          "MESSAGE": "Something went wrong"
+        }
+      }
     },
     "CHANGE_ACCOUNT_STATUS_MODAL": {
       "TITLE": "Change account status",
@@ -2935,8 +2978,11 @@
         "AGENTS": "Agents",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
+        "READ_UNREAD": "Read/Unread",
         "NOTIFICATION_TYPE_DETAILS": "Notification type details"
-      }
+      },
+      "READ": "Read",
+      "UNREAD": "Unread"
     },
     "GRID_HEADER": {
       "NOTIFICATION_ID": "notification id",
@@ -3007,11 +3053,11 @@
       "NAME": "Rules",
       "ADD_RULE": "Add Rule",
       "RULE_NOT_CREATED": "Error while creating rule",
-      "RULE_CREATED": "Rule created with id %{id}",
+      "RULE_CREATED": "Rule created",
       "RULE_NOT_UPDATED": "Error while updating rule",
       "RULE_UPDATED": "The rule was successfully updated",
       "RULE_NOT_DELETED": "Error while deleting rule",
-      "RULE_DELETED": "Rule with id %{id} deleted successfully",
+      "RULE_DELETED": "Rule deleted successfully",
       "GRID": {
         "COUNTRIES": "Countries",
         "COUNTRY": "Country",

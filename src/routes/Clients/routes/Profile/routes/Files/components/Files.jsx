@@ -1,8 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
+import { compose } from 'react-apollo';
+import { v4 } from 'uuid';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { getApiRoot, getApiVersion } from 'config';
 import { withNotifications } from 'hoc';
+import { withRequests } from 'apollo';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
@@ -12,6 +15,7 @@ import EventEmitter, { PROFILE_RELOAD, FILE_REMOVED, FILE_UPLOADED } from 'utils
 import NotFoundContent from 'components/NotFoundContent';
 import KYCNote from './KYCNote';
 import FileGrid from './FileGrid';
+import TokenRefreshMutation from '../graphql/TokenRefreshMutation';
 
 class Files extends PureComponent {
   static propTypes = {
@@ -158,24 +162,29 @@ class Files extends PureComponent {
   handleDownloadFileClick = async ({ uuid, fileName }) => {
     const {
       match: { params: { id } },
-      token,
+      tokenRenew,
     } = this.props;
 
-    const requestUrl = `${getApiRoot()}/attachments/users/${id}/files/${uuid}`;
+    try {
+      const { data: { auth: { tokenRenew: { token } } } } = await tokenRenew();
 
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: 'image/*',
-        authorization: `Bearer ${token}`,
-        'X-CLIENT-Version': getApiVersion(),
-        'Content-Type': 'application/json',
-      },
-    });
+      const requestUrl = `${getApiRoot()}/attachments/users/${id}/files/${uuid}`;
 
-    const blobData = await response.blob();
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'x-client-version': getApiVersion(),
+        },
+      });
 
-    downloadBlob(fileName, blobData);
+      const blobData = await response.blob();
+
+      downloadBlob(fileName, blobData);
+    } catch (e) {
+      // Do nothing...
+    }
   };
 
   handleUploadFileClick = () => {
@@ -222,7 +231,7 @@ class Files extends PureComponent {
               verificationData.map(({ documents, verificationType }) => (
                 documents.map(({ documentType, files, verificationStatus }) => (
                   <FileGrid
-                    key={`${verificationType}-${documentType}`}
+                    key={`${verificationType}-${documentType}-${v4()}`}
                     data={files}
                     categories={categories}
                     verificationType={verificationType}
@@ -247,4 +256,9 @@ class Files extends PureComponent {
   }
 }
 
-export default withNotifications(Files);
+export default compose(
+  withRequests({
+    tokenRenew: TokenRefreshMutation,
+  }),
+  withNotifications,
+)(Files);

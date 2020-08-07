@@ -23,7 +23,7 @@ class TradingAccountsListFilters extends PureComponent {
       query: {
         filters: {
           ...filters,
-          ...(archived && { archieved: !!+archived }),
+          ...(archived && { archived: !!+archived }),
         },
       },
     });

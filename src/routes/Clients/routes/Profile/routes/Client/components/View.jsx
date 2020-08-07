@@ -204,7 +204,7 @@ class View extends Component {
                 <div className="card-body">
                   <AddressForm
                     initialValues={address}
-                    playerUUID={uuid}
+                    clientUuid={uuid}
                     disabled={!canUpdateAddress}
                   />
                 </div>

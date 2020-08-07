@@ -1,5 +1,7 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Popover } from 'reactstrap';
+import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
 import NotificationCenterContent from './components/NotificationCenterContent';
 import NotificationCenterTrigger from './components/NotificationCenterTrigger';
 import './NotificationCenter.scss';
@@ -30,7 +32,7 @@ class NotificationCenter extends PureComponent {
     const id = 'NotificationCenterTrigger';
 
     return (
-      <Fragment>
+      <PermissionContent permissions={permissions.NOTIFICATION_CENTER.GET_UNREAD_COUNT}>
         <NotificationCenterTrigger
           id={id}
           onClick={this.toggle}
@@ -46,7 +48,7 @@ class NotificationCenter extends PureComponent {
         >
           <NotificationCenterContent onCloseModal={this.onCloseModal} />
         </Popover>
-      </Fragment>
+      </PermissionContent>
     );
   }
 }

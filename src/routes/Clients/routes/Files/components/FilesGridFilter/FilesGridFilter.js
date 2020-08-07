@@ -6,7 +6,7 @@ import { get, omit } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import FilesCategoriesQuery from './graphql/FilesCategoriesQuery';
@@ -100,7 +100,7 @@ class FilesGridFilter extends PureComponent {
               </option>
             ))}
           </Field>
-          <FormikDateRangePicker
+          <FormikDateRangeGroup
             className="FilesGridFilter__input FilesGridFilter__dates"
             label={I18n.t('FILES.FILTER.UPLOAD_DATA_RANGE')}
             periodKeys={{

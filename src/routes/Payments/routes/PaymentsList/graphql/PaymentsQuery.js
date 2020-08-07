@@ -88,6 +88,7 @@ const PaymentsQuery = ({ children, location: { query } }) => (
       },
     }}
     fetchPolicy="network-only"
+    context={{ batch: false }}
   >
     {children}
   </Query>

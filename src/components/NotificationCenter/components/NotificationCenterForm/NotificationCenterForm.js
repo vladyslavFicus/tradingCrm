@@ -21,13 +21,14 @@ class NotificationCenterForm extends PureComponent {
 
   state = {
     selectedTypes: [],
+    read: '',
   };
 
   onSubmit = (e) => {
-    const { selectedTypes } = this.state;
+    const { selectedTypes, read } = this.state;
 
-    this.props.onSubmit(selectedTypes);
-    this.appliedTypes = selectedTypes;
+    this.props.onSubmit(selectedTypes, read);
+    this.appliedValue = true;
 
     e.preventDefault();
   };
@@ -39,17 +40,17 @@ class NotificationCenterForm extends PureComponent {
   };
 
   onReset = () => {
-    this.setState({ selectedTypes: [] }, () => {
-      if (this.appliedTypes && this.appliedTypes.length) {
+    this.setState({ selectedTypes: [], read: '' }, () => {
+      if (this.appliedValue) {
         this.props.onSubmit([]);
       }
-      this.appliedTypes = [];
+      this.appliedValue = false;
     });
   };
 
   render() {
     const { className, notificationsTypes } = this.props;
-    const { selectedTypes } = this.state;
+    const { selectedTypes, read } = this.state;
 
     return (
       <form
@@ -73,11 +74,30 @@ class NotificationCenterForm extends PureComponent {
             ))}
           </Select>
         </div>
+        <div className="NotificationCenterForm__field">
+          <div className="NotificationCenterForm__label">
+            {I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.READ_UNREAD')}
+          </div>
+          <Select
+            value={read}
+            onChange={value => this.setState({ read: value })}
+          >
+            <option key={3} value={null}>
+              {I18n.t('COMMON.ANY')}
+            </option>
+            <option key={2} value={0}>
+              {I18n.t('NOTIFICATION_CENTER.FILTERS.UNREAD')}
+            </option>
+            <option key={1} value={1}>
+              {I18n.t('NOTIFICATION_CENTER.FILTERS.READ')}
+            </option>
+          </Select>
+        </div>
         <div className="NotificationCenterForm__button-group">
           <Button
             className="NotificationCenterForm__button"
             onClick={this.onReset}
-            disabled={!selectedTypes.length}
+            disabled={!selectedTypes.length && !Number.isInteger(read)}
             common
           >
             {I18n.t('COMMON.RESET')}

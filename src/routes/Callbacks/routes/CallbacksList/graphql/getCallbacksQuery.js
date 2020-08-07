@@ -6,7 +6,7 @@ import { NoteFragment } from 'graphql/fragments/notes';
 
 const REQUEST = gql`
   query CallbacksList_getCallbacks(
-    $id: String,
+    $searchKeyword: String,
     $userId: String,
     $statuses: [Callback__Status__Enum],
     $callbackTimeFrom: String,
@@ -15,7 +15,7 @@ const REQUEST = gql`
     $page: Int,
   ) {
     callbacks(
-      id: $id,
+      searchKeyword: $searchKeyword,
       userId: $userId,
       statuses: $statuses,
       callbackTimeFrom: $callbackTimeFrom,

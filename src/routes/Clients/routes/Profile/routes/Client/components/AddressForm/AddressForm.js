@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Field, Form, Formik } from 'formik';
+import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import { FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
@@ -36,7 +38,8 @@ class AddressForm extends PureComponent {
       countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
     }),
     updateAddress: PropTypes.func.isRequired,
-    playerUUID: PropTypes.string.isRequired,
+    clientUuid: PropTypes.string.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -48,27 +51,23 @@ class AddressForm extends PureComponent {
     },
   };
 
-  static contextTypes = {
-    addNotification: PropTypes.func.isRequired,
-  };
-
   handleUpdateAddress = async (values, { setSubmitting }) => {
-    const { updateAddress, playerUUID } = this.props;
+    const { updateAddress, clientUuid, notify } = this.props;
     try {
       await updateAddress({
         variables: {
-          playerUUID,
+          clientUuid,
           ...values,
         },
       });
 
-      this.context.addNotification({
+      notify({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     } catch {
-      this.context.addNotification({
+      notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
@@ -155,6 +154,9 @@ class AddressForm extends PureComponent {
   }
 }
 
-export default withRequests({
-  updateAddress: UpdateAddressMutation,
-})(AddressForm);
+export default compose(
+  withNotifications,
+  withRequests({
+    updateAddress: UpdateAddressMutation,
+  }),
+)(AddressForm);

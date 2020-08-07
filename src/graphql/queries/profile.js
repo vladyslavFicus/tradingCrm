@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import queryNames from 'constants/apolloQueryNames';
 import { ContactsFragment } from '../fragments/contacts';
 import { AddressFragment } from '../fragments/address';
 
@@ -177,7 +176,7 @@ ${ContactsFragment}
 ${AddressFragment}
 `;
 
-const clientsQuery = gql`query ${queryNames.clientsQuery}(
+const clientsQuery = gql`query ClientListQuery (
   $args: ClientSearch__Input
 ) {
   profiles(
