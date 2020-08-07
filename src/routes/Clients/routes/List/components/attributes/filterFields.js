@@ -198,7 +198,7 @@ export default ({
   {
     type: fieldTypes.SELECT,
     name: 'isReferrered',
-    label: filterLabels.firstDeposit,
+    label: filterLabels.referral,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     className: fieldClassNames.MEDIUM,
     selectOptions: radioSelect,

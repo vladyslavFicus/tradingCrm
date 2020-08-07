@@ -1671,7 +1671,8 @@
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
         "WARNING": "Warning",
-        "ACTIVITY": "Activity"
+        "ACTIVITY": "Activity",
+        "REFERRAL": "Referral"
       }
     }
   },
