@@ -100,6 +100,7 @@ const brands = keyMirror({
   thecapstocksit: null,
   fcautomatic: null,
   cptest: null,
+  trsmarkets: null,
 });
 
 const departments = keyMirror({
@@ -522,6 +523,10 @@ const brandsConfig = {
   [brands.cptest]: {
     name: 'cptest',
     image: { src: '/img/brand/choose-brand/cptest.svg' },
+  },
+  [brands.trsmarkets]: {
+    name: 'trsmarkets',
+    image: { src: '/img/brand/choose-brand/trsmarkets.svg' },
   },
 };
 const departmentsConfig = {
