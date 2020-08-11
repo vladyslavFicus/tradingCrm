@@ -25,6 +25,7 @@ import {
   Files,
   Feed,
   ClientCallbacksTab,
+  Referrals,
 } from '../../routes';
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
@@ -133,6 +134,7 @@ class Profile extends Component {
               <Route disableScroll path={`${path}/notes`} component={Notes} />
               <Route disableScroll path={`${path}/files`} component={Files} />
               <Route disableScroll path={`${path}/feed`} component={Feed} />
+              <Route disableScroll path={`${path}/referrals`} component={Referrals} />
               <Redirect to={`${path}/profile`} />
             </Switch>
           </Suspense>

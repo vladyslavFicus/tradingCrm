@@ -9,7 +9,7 @@ export const userProfileTabs = [
   }, {
     url: '/clients/:id/payments',
     label: 'CONSTANTS.TRANSACTIONS.ROUTES.PAYMENTS',
-    permissions: new Permissions(permissions.PAYMENTS.PLAYER_PAYMENTS_LIST),
+    permissions: new Permissions(permissions.PAYMENTS.PAYMENTS_LIST),
   }, {
     url: '/clients/:id/trading-activity',
     label: 'CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY',
@@ -30,7 +30,10 @@ export const userProfileTabs = [
   }, {
     label: 'CLIENT_PROFILE.TABS.FEED',
     url: '/clients/:id/feed',
-    permissions: new Permissions(permissions.AUDIT.PROFILE_AUDIT_LOGS),
+    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+  }, {
+    label: 'CLIENT_PROFILE.TABS.REFERRALS',
+    url: '/clients/:id/referrals',
   },
 ];
 

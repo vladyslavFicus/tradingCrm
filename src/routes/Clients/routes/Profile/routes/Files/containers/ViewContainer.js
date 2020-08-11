@@ -38,7 +38,7 @@ export default compose(
         page: 0,
         size: 20,
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
     }),
   }),
 )(Files);

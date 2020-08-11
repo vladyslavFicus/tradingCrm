@@ -23,7 +23,11 @@ const TabHeaderNav = ({ links }) => (
 );
 
 TabHeaderNav.propTypes = {
-  links: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
+  links: PropTypes.arrayOf(PropTypes.shape({
+    url: PropTypes.string,
+    label: PropTypes.string,
+    permissions: PropTypes.object,
+  })).isRequired,
 };
 
 export default TabHeaderNav;

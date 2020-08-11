@@ -136,6 +136,10 @@ const REQUEST = gql`
         name
         platformType
       }
+      referrer {
+        fullName
+        uuid
+      }
       #      uncomment when email history will be rdy
       #      sentEmails {
       #        id

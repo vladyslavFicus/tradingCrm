@@ -200,6 +200,10 @@ const clientsQuery = gql`query ClientListQuery (
           fullName
         }
       }
+      referrer {
+        fullName
+        uuid
+      }
       balance {
         amount
       }

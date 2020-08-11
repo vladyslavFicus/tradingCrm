@@ -11,6 +11,7 @@ class PersonalInformationItem extends PureComponent {
     className: PropTypes.string,
     withSendEmail: PropTypes.bool,
     onClickSelectEmail: PropTypes.func,
+    onClickValue: PropTypes.func,
   };
 
   static defaultProps = {
@@ -20,6 +21,7 @@ class PersonalInformationItem extends PureComponent {
     className: '',
     withSendEmail: false,
     onClickSelectEmail: () => {},
+    onClickValue: () => {},
   };
 
   render() {
@@ -31,12 +33,13 @@ class PersonalInformationItem extends PureComponent {
       className,
       withSendEmail,
       onClickSelectEmail,
+      onClickValue,
     } = this.props;
 
     return (
       <If condition={value}>
         <div className={className}>
-          <strong>{label}</strong>: {value}
+          <strong>{label}</strong>: <span onClick={onClickValue}>{value}</span>
           {' '}
           <If condition={verified}>
             <i className="fa fa-check text-success" />
