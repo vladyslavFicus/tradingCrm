@@ -46,7 +46,7 @@ class ReferralsGrid extends PureComponent {
   renderAmount = (amount, currency, normalizedAmount) => (
     <Fragment>
       <div className="header-block-middle">
-        {currency} {Number(amount).toFixed(2)}
+        {Number(currency).toFixed(2)} {amount}
       </div>
       <div className="font-size-11">
         {`(${getActiveBrandConfig().currencies.base} ${Number(
