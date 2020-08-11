@@ -1,3 +1,1 @@
-import BalancesContainer from './BalancesContainer';
-
-export default BalancesContainer;
+export { default } from './Balances';
