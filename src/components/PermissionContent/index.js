@@ -1,3 +1,2 @@
-import PermissionContent from './PermissionContent';
-
-export default PermissionContent;
+export { default as PermissionElse } from './PermissionElse';
+export { default } from './PermissionContent';
