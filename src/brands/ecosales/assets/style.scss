@@ -25,6 +25,23 @@
     }
   }
 
+  .SignIn {
+    &__form {
+      background-color: rgba(255, 255, 255, 0.77);
+      border: solid 1px #154b98;
+      box-shadow: none;
+    }
+
+    &__form-button {
+      color: #154b98;
+      border-color: #154b98;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
   .Brands {
     &__title {
       color: #154b98;
@@ -33,19 +50,19 @@
     &__subtitle {
       color: #177212;
     }
+  }
 
-    &__item {
-      background-color: rgba(21, 75, 152, 0.9);
-      border: solid 1px #ffffff;
-      box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
+  .BrandItem {
+    background-color: rgba(21, 75, 152, 0.9);
+    border: solid 1px #ffffff;
+    box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
 
-      &:hover {
-        box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
-      }
+    &:hover {
+      box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
+    }
 
-      &-title {
-        color: #ffffff;
-      }
+    &-title {
+      color: #ffffff;
     }
   }
 
@@ -61,20 +78,20 @@
     &__title {
       color: #154b98;
     }
+  }
 
-    &__item {
-      background-color: rgba(21, 75, 152, 0.9);
-      border: solid 1px #ffffff;
-      box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
+  .DepartmentItem {
+    background-color: rgba(21, 75, 152, 0.9);
+    border: solid 1px #ffffff;
+    box-shadow: 0 2px 12px 0 rgba(0, 140, 254, 0.5);
 
-      &:hover {
-        box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
-      }
+    &:hover {
+      box-shadow: 0 2px 12px 0 rgb(0, 101, 202);
+    }
 
-      &-title,
-      &-role {
-        color: #ffffff;
-      }
+    &-title,
+    &-role {
+      color: #ffffff;
     }
   }
 
@@ -88,6 +105,10 @@
 .Header,
 .sidebar {
   background-color: #154b98;
+
+  &:hover {
+    box-shadow: none;
+  }
 }
 
 .sub-nav {

@@ -64,8 +64,8 @@ class ClientsGridBulkActions extends PureComponent {
       type,
       clients,
       configs: {
+        totalElements,
         allRowsSelected,
-        totalElements: selectedRowsLength,
         multiAssign: true,
         ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },

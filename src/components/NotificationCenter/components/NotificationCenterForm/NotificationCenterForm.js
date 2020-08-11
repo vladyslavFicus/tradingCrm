@@ -82,6 +82,9 @@ class NotificationCenterForm extends PureComponent {
             value={read}
             onChange={value => this.setState({ read: value })}
           >
+            <option key={3} value={null}>
+              {I18n.t('COMMON.ANY')}
+            </option>
             <option key={2} value={0}>
               {I18n.t('NOTIFICATION_CENTER.FILTERS.UNREAD')}
             </option>

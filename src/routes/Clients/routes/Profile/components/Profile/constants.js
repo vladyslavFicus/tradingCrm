@@ -31,6 +31,9 @@ export const userProfileTabs = [
     label: 'CLIENT_PROFILE.TABS.FEED',
     url: '/clients/:id/feed',
     permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+  }, {
+    label: 'CLIENT_PROFILE.TABS.REFERRALS',
+    url: '/clients/:id/referrals',
   },
 ];
 

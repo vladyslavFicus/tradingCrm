@@ -88,6 +88,15 @@ class Personal extends PureComponent {
     });
   };
 
+  handleReferrerClick = () => {
+    const { profile } = this.props;
+    const uuid = profile?.referrer?.uuid;
+
+    if (!uuid) return;
+
+    window.open(`/clients/${uuid}/profile`, '_blank');
+  }
+
   // uncomment when email history will be rdy
   // triggerEmailPreviewModal = (email) => {
   //   const { modals: { emailPreviewModal } } = this.props;
@@ -133,6 +142,7 @@ class Personal extends PureComponent {
         },
         affiliate,
         clientType,
+        referrer,
         // uncomment when email history will be rdy
         // sentEmails,
       },
@@ -275,6 +285,13 @@ class Personal extends PureComponent {
                 label="SMS"
                 value={affiliate && affiliate.sms}
               />
+              <If condition={referrer?.fullName}>
+                <PersonalInformationItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRER')}
+                  value={referrer.fullName}
+                  onClickValue={this.handleReferrerClick}
+                />
+              </If>
               <Regulated>
                 <div className="account-details__label margin-top-15">
                   {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
