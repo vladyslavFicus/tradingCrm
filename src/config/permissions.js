@@ -127,6 +127,6 @@ export default {
     PROFILES_LIST: 'profileview.admin.pageableSearch',
   },
   CALLBACKS: {
-    LIST: 'searchCallbacks',
+    LIST: 'callback.searchCallbacks',
   },
 };
