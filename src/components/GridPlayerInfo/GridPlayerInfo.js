@@ -7,7 +7,7 @@ class GridPlayerInfo extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     profile: PropTypes.shape({
-      profileUuid: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
       fullName: PropTypes.string,
       firstName: PropTypes.string,
       lastName: PropTypes.string,
@@ -25,14 +25,14 @@ class GridPlayerInfo extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
-    const { profile: { profileUuid } } = this.props;
+    const { profile: { uuid } } = this.props;
 
-    window.open(`/clients/${profileUuid}/profile`, '_blank');
+    window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
   render() {
     const { profile, mainInfoClassName, id } = this.props;
-    const { profileUuid, firstName, lastName, languageCode } = profile;
+    const { uuid, firstName, lastName, languageCode } = profile;
 
     const fullName = profile.fullName || `${firstName} ${lastName}`;
 
@@ -45,10 +45,10 @@ class GridPlayerInfo extends PureComponent {
 
           <div
             className="font-size-11"
-            id={`${id ? `${id}-` : ''}players-list-${profileUuid}-additional`}
+            id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
           >
-            <MiniProfile id={profileUuid} type="player">
-              <Uuid uuid={profileUuid} />
+            <MiniProfile id={uuid} type="player">
+              <Uuid uuid={uuid} />
             </MiniProfile>
             {!!languageCode && <span> - {languageCode}</span>}
           </div>

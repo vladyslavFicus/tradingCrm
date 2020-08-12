@@ -113,8 +113,8 @@ class ReferralsGrid extends PureComponent {
         >
           <GridColumn
             header={I18n.t('REFERRALS.GRID.NAME')}
-            render={({ referralInfo, referralInfo: { name: fullName } }) => (
-              <GridPlayerInfo profile={{ ...referralInfo, fullName }} />
+            render={({ referralInfo, referralInfo: { name: fullName, profileUuid: uuid } }) => (
+              <GridPlayerInfo profile={{ ...referralInfo, fullName, uuid }} />
             )}
           />
           <GridColumn
