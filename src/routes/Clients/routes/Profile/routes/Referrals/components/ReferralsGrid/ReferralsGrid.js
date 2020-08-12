@@ -165,7 +165,7 @@ class ReferralsGrid extends PureComponent {
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REMUNERATION')}
             render={({ remuneration }) => {
-              const { currency, amount, normalizedAmount } = remuneration;
+              const { currency, amount, normalizedAmount } = remuneration || {};
 
               if (!remuneration) return <Fragment>&mdash;</Fragment>;
 
@@ -175,7 +175,7 @@ class ReferralsGrid extends PureComponent {
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REMUNERATION_DATE')}
             render={({ remuneration }) => {
-              const { date } = remuneration;
+              const { date } = remuneration || {};
 
               if (!remuneration) return <Fragment>&mdash;</Fragment>;
 
