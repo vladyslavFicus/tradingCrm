@@ -5,12 +5,11 @@ import { get } from 'lodash';
 import { Formik, Form } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
-import { withStorage } from 'providers/StorageProvider';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import { withPermission } from 'providers/PermissionsProvider';
 import TabHeader from 'components/TabHeader';
 import Button from 'components/UI/Button';
-import { getBrand } from 'config';
-import { hideText } from 'utils/hideText';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList, { getCountryCode } from 'utils/countryList';
 import PersonalForm from './components/PersonalForm';
@@ -30,48 +29,20 @@ class LeadProfileTab extends PureComponent {
     }).isRequired,
     updateLead: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    auth: PropTypes.auth.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   state = {
     submitError: null,
   };
 
-  phoneAccessDenied = () => {
-    const {
-      auth: {
-        department,
-      },
-    } = this.props;
-
-    return getBrand().privatePhoneByDepartment.includes(department);
-  };
-
-  emailAccessDenied = () => {
-    const {
-      auth: {
-        department,
-      },
-    } = this.props;
-
-    return getBrand().privateEmailByDepartment.includes(department);
-  };
-
   handleUpdateLead = async (variables, { setSubmitting }) => {
     const { notify, updateLead, leadProfile } = this.props;
-    const { email, phone, mobile } = get(leadProfile, 'data.lead') || {};
-
-    const requestData = {
-      ...variables,
-      email: this.emailAccessDenied() ? email : variables.email,
-      phone: this.phoneAccessDenied() ? phone : variables.phone,
-      mobile: this.phoneAccessDenied() ? mobile : variables.mobile,
-    };
 
     setSubmitting(false);
 
     try {
-      await updateLead({ variables: requestData });
+      await updateLead({ variables });
 
       notify({
         level: 'success',
@@ -101,6 +72,7 @@ class LeadProfileTab extends PureComponent {
   render() {
     const {
       leadProfile,
+      permission,
     } = this.props;
 
     const error = get(leadProfile, 'error');
@@ -108,9 +80,6 @@ class LeadProfileTab extends PureComponent {
     if (error) {
       return null;
     }
-
-    const isPhoneHidden = this.phoneAccessDenied();
-    const isEmailHidden = this.emailAccessDenied();
 
     const {
       uuid,
@@ -133,9 +102,9 @@ class LeadProfileTab extends PureComponent {
           brandId,
           name,
           surname,
-          phone: isPhoneHidden ? hideText(phone) : phone,
-          mobile: isPhoneHidden ? hideText(mobile) : mobile,
-          email: isEmailHidden ? hideText(email) : email,
+          phone,
+          mobile,
+          email,
           country: getCountryCode(country),
           birthDate,
           gender,
@@ -153,7 +122,7 @@ class LeadProfileTab extends PureComponent {
           address: 'string',
           phone: 'string',
           mobile: 'string',
-          email: isEmailHidden ? 'string' : 'email',
+          email: permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) ? 'email' : 'string',
         }, translateLabels(attributeLabels), false)}
         enableReinitialize
       >
@@ -189,10 +158,7 @@ class LeadProfileTab extends PureComponent {
               <div className="card">
                 <div className="card-body row">
                   <div className="col">
-                    <ContactForm
-                      isPhoneDisabled={isPhoneHidden}
-                      isEmailDisabled={isEmailHidden}
-                    />
+                    <ContactForm />
                   </div>
                 </div>
               </div>
@@ -205,7 +171,7 @@ class LeadProfileTab extends PureComponent {
 }
 
 export default compose(
-  withStorage(['auth']),
+  withPermission,
   withNotifications,
   withRequests({
     leadProfile: LeadProfileQuery,

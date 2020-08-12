@@ -7,11 +7,9 @@ import { withNotifications, withModals } from 'hoc';
 import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
-import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
-import { hideText } from 'utils/hideText';
 import {
   updateConfigurationMutation,
 } from 'graphql/mutations/profile';
@@ -41,7 +39,6 @@ class Personal extends PureComponent {
       emailSelectModal: PropTypes.modalType,
       emailPreviewModal: PropTypes.modalType,
     }).isRequired,
-    auth: PropTypes.auth.isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -80,11 +77,14 @@ class Personal extends PureComponent {
 
   triggerEmailSelectModal = () => {
     const {
-      profile: { contacts: { email }, firstName, lastName },
+      profile: { uuid, firstName, lastName },
       modals: { emailSelectModal } } = this.props;
 
     emailSelectModal.show({
-      clientInfo: { firstName, lastName, email },
+      uuid,
+      field: 'contacts.email',
+      type: 'PROFILE',
+      clientInfo: { firstName, lastName },
     });
   };
 
@@ -113,6 +113,7 @@ class Personal extends PureComponent {
 
     const {
       profile: {
+        uuid,
         birthDate,
         gender,
         convertedFromLeadUuid,
@@ -147,14 +148,9 @@ class Personal extends PureComponent {
         // sentEmails,
       },
       loading,
-      auth: {
-        department,
-      },
       permission,
     } = this.props;
 
-    const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
-    const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
     const isSendEmailAvailable = (new Permissions(permissions, permissions.EMAIL_TEMPLATES.SEND_EMAIL))
       .check(permission.permissions)
       && getBrand().email.templatedEmails;
@@ -184,20 +180,20 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-              value={isPhoneHidden ? hideText(phone) : phone}
+              value={phone}
               verified={phoneVerified}
-              additional={<Click2Call number={phone} />}
+              additional={<Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />}
               className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-              value={isPhoneHidden ? hideText(additionalPhone) : additionalPhone}
-              additional={<Click2Call number={additionalPhone} />}
+              value={additionalPhone}
+              additional={<Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />}
               className="Personal__contacts"
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
-              value={isEmailHidden ? hideText(email) : email}
+              value={email}
               verified={profileStatus === userStatuses.VERIFIED}
               onClickSelectEmail={this.triggerEmailSelectModal}
               withSendEmail={isSendEmailAvailable}
@@ -205,7 +201,7 @@ class Personal extends PureComponent {
             />
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
-              value={isEmailHidden ? hideText(additionalEmail) : additionalEmail}
+              value={additionalEmail}
               verified={profileStatus === userStatuses.VERIFIED}
               className="Personal__contacts"
             />
@@ -350,15 +346,14 @@ class Personal extends PureComponent {
 }
 
 export default compose(
+  withPermission,
+  withNotifications,
   withModals({
     emailSelectModal: EmailSelectModal,
     // uncomment when email history will be rdy
     // emailPreviewModal: EmailPreviewModal,
   }),
-  withNotifications,
   graphql(updateConfigurationMutation, {
     name: 'updateConfiguration',
   }),
-  withStorage(['auth']),
-  withPermission,
 )(Personal);

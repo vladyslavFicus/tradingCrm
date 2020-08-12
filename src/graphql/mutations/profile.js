@@ -29,14 +29,6 @@ const clientsBulkRepresentativeUpdate = gql`mutation bulkRepresentativeUpdate(
   }
 }`;
 
-const clickToCall = gql`mutation clickToCall($number: String!) {
-  clickToCall {
-    didlogic {
-      createCall(number: $number)
-    }
-  }
-}`;
-
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
   $playerUUID: String!
   $firstName: String
@@ -152,7 +144,6 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 
 export {
   clientsBulkRepresentativeUpdate,
-  clickToCall,
   updatePersonalInformationMutation,
   updateConfigurationMutation,
   verifyEmailMutation,

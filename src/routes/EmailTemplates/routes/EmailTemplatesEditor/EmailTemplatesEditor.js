@@ -108,7 +108,7 @@ class EmailTemplatesEditor extends PureComponent {
             }}
             enableReinitialize
             validate={validator}
-            onSubmit={values => this.editTemplate(values)}
+            onSubmit={this.editTemplate}
             validateOnChange={false}
             validateOnBlur={false}
           >

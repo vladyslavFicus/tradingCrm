@@ -4,17 +4,15 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
-import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import Uuid from 'components/Uuid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import ShortLoader from 'components/ShortLoader';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import renderLabel from 'utils/renderLabel';
-import { hideText } from 'utils/hideText';
 import LeadMiniProfileQuery from './graphql/LeadMiniProfileQuery';
 
-const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
+const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
   if (loading) {
     return (
       <div className="mini-profile-loader mini-profile-loader-lead">
@@ -39,7 +37,6 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
   } = data;
 
   const salesAgentFullName = salesAgent ? salesAgent.fullName : '';
-  const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
 
   return (
     <div className="mini-profile mini-profile dormant">
@@ -83,7 +80,7 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
           <div className="info-block">
             <div className="info-block-label-footer">{I18n.t('MINI_PROFILE.LEADS.PHONE')}</div>
             <div className="info-block-content-footer">
-              {(isPhoneHidden ? hideText(phone) : phone) || (isPhoneHidden ? hideText(mobile) : mobile)}
+              {phone || mobile}
             </div>
           </div>
         </div>
@@ -99,7 +96,6 @@ LeadMiniProfile.propTypes = {
     }),
     loading: PropTypes.bool.isRequired,
   }).isRequired,
-  department: PropTypes.string.isRequired,
 };
 
 export default compose(

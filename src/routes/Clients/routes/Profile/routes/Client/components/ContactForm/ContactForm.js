@@ -3,17 +3,14 @@ import I18n from 'i18n-js';
 import { Formik, Field, Form } from 'formik';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
-import { withStorage } from 'providers/StorageProvider';
-import { getBrand } from 'config';
+import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { withNotifications } from 'hoc';
+import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent/PermissionContent';
 import { FormikInputField } from 'components/Formik';
-import { encodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
-import { hideText } from 'utils/hideText';
 import { UpdateContactsMutation, VerifyPhoneMutation } from './graphql';
 
 const attributeLabels = {
@@ -35,10 +32,10 @@ class ContactForm extends PureComponent {
     additionalPhone: PropTypes.string,
     additionalEmail: PropTypes.string,
     isPhoneVerified: PropTypes.bool.isRequired,
-    auth: PropTypes.auth.isRequired,
     updateContacts: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   static defaultProps = {
@@ -47,27 +44,11 @@ class ContactForm extends PureComponent {
     additionalEmail: '',
   };
 
-  phoneAccess = () => {
-    const {
-      auth: { department },
-    } = this.props;
-
-    return !getBrand().privatePhoneByDepartment.includes(department);
-  };
-
-  emailAccess = () => {
-    const {
-      auth: { department },
-    } = this.props;
-
-    return !getBrand().privateEmailByDepartment.includes(department);
-  };
-
-  handleVerifyPhone = async (phone) => {
+  handleVerifyPhone = async () => {
     const { verifyPhone, notify } = this.props;
 
     try {
-      await verifyPhone({ variables: { phone } });
+      await verifyPhone();
 
       notify({
         level: 'success',
@@ -83,29 +64,14 @@ class ContactForm extends PureComponent {
     }
   };
 
-  onSubmit = async ({
-    additionalPhone: currentAdditionalPhone,
-    additionalEmail: currentAdditionalEmail,
-    phone: currentPhone,
-  }) => {
+  onSubmit = async (variables) => {
     const {
-      additionalPhone,
-      additionalEmail,
-      updateContacts,
       notify,
-      phone,
+      updateContacts,
     } = this.props;
 
-    const variables = {
-      phone: this.phoneAccess() ? currentPhone : phone,
-      additionalPhone: this.phoneAccess() ? currentAdditionalPhone : additionalPhone,
-      additionalEmail: this.emailAccess() ? currentAdditionalEmail : additionalEmail,
-    };
-
     try {
-      await updateContacts({
-        variables,
-      });
+      await updateContacts({ variables });
 
       notify({
         level: 'success',
@@ -123,26 +89,22 @@ class ContactForm extends PureComponent {
 
   render() {
     const {
+      permission,
       isPhoneVerified,
       additionalPhone,
       additionalEmail,
       disabled,
       phone,
     } = this.props;
-    const { tradingOperatorAccessDisabled } = this.context;
-
-    const initialValues = encodeNullValues(
-      {
-        phone: this.phoneAccess() ? phone : hideText(phone),
-        additionalPhone: this.phoneAccess() ? additionalPhone : hideText(additionalPhone),
-        additionalEmail: this.emailAccess() ? additionalEmail : hideText(additionalEmail),
-      },
-    );
 
     return (
       <Formik
         enableReinitialize
-        initialValues={initialValues}
+        initialValues={{
+          phone,
+          additionalPhone,
+          additionalEmail,
+        }}
         onSubmit={this.onSubmit}
         validate={validator}
       >
@@ -173,7 +135,7 @@ class ContactForm extends PureComponent {
                 name="phone"
                 component={FormikInputField}
                 label={attributeLabels.phone}
-                disabled={disabled || tradingOperatorAccessDisabled || !this.phoneAccess()}
+                disabled={disabled || permission.denies(permissions.USER_PROFILE.FIELD_PHONE)}
                 className="col-5"
               />
               <If condition={!errors.phone && !isPhoneVerified}>
@@ -181,7 +143,7 @@ class ContactForm extends PureComponent {
                   <div className="col-4 mt-4-profile">
                     <Button
                       primary
-                      onClick={() => this.handleVerifyPhone(phone)}
+                      onClick={this.handleVerifyPhone}
                     >
                       {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
                     </Button>
@@ -201,7 +163,7 @@ class ContactForm extends PureComponent {
               <Field
                 name="additionalPhone"
                 label={attributeLabels.altPhone}
-                disabled={!this.phoneAccess()}
+                disabled={permission.denies(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE)}
                 placeholder={attributeLabels.altPhone}
                 className="col-5"
                 component={FormikInputField}
@@ -210,7 +172,7 @@ class ContactForm extends PureComponent {
                 name="additionalEmail"
                 label={attributeLabels.additionalEmail}
                 placeholder={attributeLabels.additionalEmail}
-                disabled={!this.emailAccess()}
+                disabled={permission.denies(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL)}
                 className="col-8"
                 component={FormikInputField}
               />
@@ -223,7 +185,7 @@ class ContactForm extends PureComponent {
 }
 
 export default compose(
-  withStorage(['auth']),
+  withPermission,
   withNotifications,
   withRequests({
     updateContacts: UpdateContactsMutation,
