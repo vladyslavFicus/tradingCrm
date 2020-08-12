@@ -114,7 +114,7 @@ export default {
     DELETE_EMAIL_TEMPLATE: 'email.deleteTemplate',
   },
   TRADING_ACCOUNTS: {
-    GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+    GET_TRADING_ACCOUNTS: 'accountview.search',
   },
   NOTIFICATION_CENTER: {
     LIST: 'notification.search',
