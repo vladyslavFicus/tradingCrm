@@ -60,7 +60,11 @@ class PartnerScheduleModal extends PureComponent {
     };
   }
 
-  onHandleSubmit = async ({ totalLimit, countrySpreads, ...rest }, { setSubmitting }) => {
+  onHandleSubmit = async ({
+    totalLimit,
+    countrySpreads,
+    ...rest
+  }, { setSubmitting }) => {
     const {
       activated,
       day,
@@ -91,7 +95,7 @@ class PartnerScheduleModal extends PureComponent {
               // filter need for delete empty value in array
               ...countrySpreads.filter(item => item && item.limit),
             ],
-            ...decodeNullValues(rest),
+            ...decodeNullValues({ totalLimit, ...rest }),
           },
         });
 
@@ -156,12 +160,27 @@ class PartnerScheduleModal extends PureComponent {
           validate={validate}
           onSubmit={this.onHandleSubmit}
         >
-          {({ errors, dirty, isValid, isSubmitting, values: { countrySpreads }, setFieldValue }) => (
+          {(
+            {
+              errors,
+              dirty,
+              isValid,
+              isSubmitting,
+              values: {
+                countrySpreads,
+                totalLimit: currentLimitError,
+              },
+              setFieldValue,
+            },
+          ) => (
             <Form className="PartnerScheduleModal">
               <ModalHeader toggle={onCloseModal}>
                 {`${I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
+                <p className="margin-bottom-15 text-center">
+                  {I18n.t('PARTNERS.MODALS.SCHEDULE.MESSAGE')}
+                </p>
                 <If condition={formError || (errors && errors.submit)}>
                   <div className="mb-2 text-center color-danger PartnerScheduleModal__message-error">
                     {formError || errors.submit}
@@ -170,17 +189,15 @@ class PartnerScheduleModal extends PureComponent {
                 <div className="row">
                   <Field
                     name="workingHoursFrom"
-                    type="time"
                     label={I18n.t(attributeLabels.workingHoursFrom)}
-                    dateFormat={null}
+                    placeholder="00:00"
                     className="col-lg"
                     component={FormikInputField}
                   />
                   <Field
                     name="workingHoursTo"
-                    type="time"
                     label={I18n.t(attributeLabels.workingHoursTo)}
-                    dateFormat={null}
+                    placeholder="00:00"
                     className="col-lg"
                     component={FormikInputField}
                   />
@@ -269,7 +286,7 @@ class PartnerScheduleModal extends PureComponent {
                   <If condition={limitError}>
                     <div className="PartnerScheduleModal__limit-error color-danger">
                       <div className="col-7">
-                        {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { totalLimit })}
+                        {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { currentLimitError })}
                       </div>
                     </div>
                   </If>

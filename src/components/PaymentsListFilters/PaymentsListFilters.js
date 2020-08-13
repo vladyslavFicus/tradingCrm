@@ -16,8 +16,6 @@ import {
   statusMapper,
   tradingTypes,
   tradingTypesLabelsWithColor,
-  withdrawStatuses,
-  withdrawStatusesLabels,
 } from 'constants/payment';
 import { accountTypes } from 'constants/accountTypes';
 import { warningValues, warningLabels } from 'constants/warnings';
@@ -310,21 +308,6 @@ class PaymentsListFilters extends PureComponent {
                     {I18n.t(tradingTypesLabelsWithColor[value].label)}
                   </option>
                 ))}
-            </Field>
-            <Field
-              name="withdrawStatuses"
-              className="form-group filter-row__medium"
-              label={I18n.t('COMMON.WITHDRAWAL_STATUS')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              searchable
-              multiple
-            >
-              {Object.keys(withdrawStatuses).map(value => (
-                <option key={value} value={value}>
-                  {I18n.t(withdrawStatusesLabels[value] || value)}
-                </option>
-              ))}
             </Field>
             <Field
               name="statuses"

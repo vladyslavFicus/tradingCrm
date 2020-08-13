@@ -3,10 +3,12 @@ import { get } from 'lodash';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
+import { withNotifications } from 'hoc';
 import Badge from 'components/Badge';
 import NoteButton from 'components/NoteButton';
 import PropTypes from 'constants/propTypes';
@@ -19,8 +21,8 @@ import Currency from 'components/Amount/Currency';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Permissions from 'utils/permissions';
 import { validation } from './utils';
-import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
-import { ManualPaymentMethodsQuery } from './graphql';
+import { paymentTypes, paymentTypesLabels, attributeLabels, paymentErrors } from './constants';
+import { ManualPaymentMethodsQuery, AddNote, AddPayment } from './graphql';
 import './PaymentAddModal.scss';
 
 class PaymentAddModal extends PureComponent {
@@ -32,16 +34,78 @@ class PaymentAddModal extends PureComponent {
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     profile: PropTypes.profile.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    addPayment: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
+    onSuccess: PropTypes.func.isRequired,
   };
 
-  onSubmit = data => (
-    this.props.onSubmit({
+  state = {
+    errorMessage: '',
+  };
+
+  resetErrorMessage = () => {
+    const { errorMessage } = this.state;
+
+    if (errorMessage) {
+      this.setState({
+        errorMessage: '',
+      });
+    }
+  };
+
+  onSubmit = async (data) => {
+    const {
+      addPayment,
+      addNote,
+      match: { params: { id: uuid } },
+      notify,
+      onSuccess,
+      onCloseModal,
+    } = this.props;
+
+    const variables = {
       ...data,
-      note: this.noteButton.getNote(),
-    })
-  );
+      profileUUID: uuid,
+    };
+
+    try {
+      const { data: { payment: { createPayment } } } = await addPayment({ variables });
+      const note = this.noteButton.getNote();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
+      });
+
+      if (note) {
+        await addNote({ variables: { ...note, targetUUID: createPayment.paymentId } });
+      }
+
+      onSuccess();
+      onCloseModal();
+    } catch (e) {
+      const error = parseErrors(e);
+
+      const defaultErrorMessage = I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL');
+      const errorMessage = paymentErrors[error.error] || defaultErrorMessage;
+
+      this.setState({ errorMessage });
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: defaultErrorMessage,
+      });
+    }
+  };
 
   getSourceAccount = ({ accountUUID, source }) => {
     const { tradingAccounts } = this.props.profile;
@@ -50,6 +114,7 @@ class PaymentAddModal extends PureComponent {
   };
 
   handlePaymentTypeChanged = (value, { setFieldValue, resetForm }) => {
+    this.resetErrorMessage();
     resetForm();
     setFieldValue('paymentType', value);
   };
@@ -146,10 +211,12 @@ class PaymentAddModal extends PureComponent {
       paymentType,
     } = values;
 
+    const fieldName = name || 'accountUUID';
+
     return (
       <Field
         className={`${className || 'col'} select-field-wrapper`}
-        name={name || 'accountUUID'}
+        name={fieldName}
         label={attributeLabels[label || 'fromAcc']}
         placeholder={tradingAccounts.length === 0
           ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
@@ -196,6 +263,7 @@ class PaymentAddModal extends PureComponent {
         loading: manualMethodsLoading,
       },
     } = this.props;
+    const { errorMessage } = this.state;
 
     const manualMethods = get(manualPaymentMethodsData, 'manualPaymentMethods') || [];
 
@@ -211,10 +279,14 @@ class PaymentAddModal extends PureComponent {
             dirty,
             isValid,
             values,
+            values: { paymentType },
             setFieldValue,
             resetForm,
           }) => {
             const sourceAccount = this.getSourceAccount(values);
+            const paymentMethods = paymentType === paymentTypes.CREDIT_IN.name
+              ? ['REFERRAL_BONUS', 'INTERNAL_TRANSFER']
+              : manualMethods;
 
             return (
               <Form>
@@ -222,6 +294,9 @@ class PaymentAddModal extends PureComponent {
                   {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
                 </ModalHeader>
                 <ModalBody className="container-fluid">
+                  <If condition={errorMessage}>
+                    <span className="transaction-error">{errorMessage}</span>
+                  </If>
                   <Field
                     name="paymentType"
                     label={attributeLabels.paymentType}
@@ -241,10 +316,13 @@ class PaymentAddModal extends PureComponent {
                         </option>
                       ))}
                   </Field>
-                  <div className={`payment-fields ${(values && values.paymentType) ? 'visible' : ''}`}>
+                  <div className={`payment-fields ${paymentType ? 'visible' : ''}`}>
                     <div className="form-row align-items-center">
                       <Choose>
-                        <When condition={values.paymentType === paymentTypes.DEPOSIT.name}>
+                        <When condition={
+                          paymentType === paymentTypes.DEPOSIT.name
+                          || paymentType === paymentTypes.CREDIT_IN.name}
+                        >
                           <Fragment>
                             <Field
                               className="col select-field-wrapper"
@@ -257,7 +335,7 @@ class PaymentAddModal extends PureComponent {
                               disabled={manualMethodsLoading}
                               component={FormikSelectField}
                             >
-                              {manualMethods.map(item => (
+                              {paymentMethods.map(item => (
                                 <option key={item} value={item}>
                                   {manualPaymentMethodsLabels[item]
                                     ? I18n.t(manualPaymentMethodsLabels[item])
@@ -272,10 +350,10 @@ class PaymentAddModal extends PureComponent {
                             {this.renderAccountSelectField({ label: 'toAcc', values })}
                           </Fragment>
                         </When>
-                        <When condition={values.paymentType === paymentTypes.WITHDRAW.name}>
+                        <When condition={paymentType === paymentTypes.WITHDRAW.name}>
                           {this.renderAccountSelectField({ values })}
                         </When>
-                        <When condition={values.paymentType === paymentTypes.TRANSFER.name}>
+                        <When condition={paymentType === paymentTypes.TRANSFER.name}>
                           <Fragment>
                             {this.renderAccountSelectField({ name: 'source', values })}
                             <div className="col-auto arrow-icon-wrapper">
@@ -284,10 +362,10 @@ class PaymentAddModal extends PureComponent {
                             {this.renderAccountSelectField({ label: 'toAcc', name: 'target', values })}
                           </Fragment>
                         </When>
-                        <When condition={values.paymentType === paymentTypes.CREDIT_IN.name}>
+                        <When condition={paymentType === paymentTypes.CREDIT_IN.name}>
                           {this.renderAccountSelectField({ label: 'toAcc', values })}
                         </When>
-                        <When condition={values.paymentType === paymentTypes.CREDIT_OUT.name}>
+                        <When condition={paymentType === paymentTypes.CREDIT_OUT.name}>
                           {this.renderAccountSelectField({ label: 'fromAcc', values })}
                         </When>
                       </Choose>
@@ -306,7 +384,7 @@ class PaymentAddModal extends PureComponent {
                         component={FormikInputField}
                         showErrorMessage={false}
                       />
-                      <If condition={values && values.paymentType === paymentTypes.DEPOSIT.name}>
+                      <If condition={paymentType === paymentTypes.DEPOSIT.name}>
                         <Field
                           className="col-8"
                           name="externalReference"
@@ -316,7 +394,7 @@ class PaymentAddModal extends PureComponent {
                           showErrorMessage={false}
                         />
                       </If>
-                      <If condition={values && values.paymentType === paymentTypes.CREDIT_IN.name}>
+                      <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
                         <FormikDatePicker
                           className="col-5"
                           name="expirationDate"
@@ -378,8 +456,12 @@ class PaymentAddModal extends PureComponent {
 }
 
 export default compose(
+  withNotifications,
   withPermission,
+  withRouter,
   withRequests({
     manualPaymentMethods: ManualPaymentMethodsQuery,
+    addPayment: AddPayment,
+    addNote: AddNote,
   }),
 )(PaymentAddModal);

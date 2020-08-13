@@ -51,6 +51,7 @@ const methods = keyMirror({
 const aggregators = keyMirror({
   MANUAL: null,
   СASHIR: null,
+  INTERNAL: null,
 });
 
 const manualPaymentMethods = keyMirror({
@@ -65,6 +66,7 @@ const manualPaymentMethods = keyMirror({
   RECALL: null,
   SYSTEM: null,
   WIRE: null,
+  REFERRAL_BONUS: null,
 });
 
 const methodStatuses = keyMirror({
@@ -218,6 +220,7 @@ const methodsLabels = {
 const aggregatorsLabels = {
   [aggregators.MANUAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.MANUAL',
   [aggregators.СASHIR]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.СASHIR',
+  [aggregators.INTERNAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.INTERNAL',
 };
 
 const manualPaymentMethodsLabels = {
@@ -232,6 +235,7 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.PAYRETAILERS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.PAYRETAILERS',
   [manualPaymentMethods.RECALL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.RECALL',
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
+  [manualPaymentMethods.REFERRAL_BONUS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.REFERRAL_BONUS',
 };
 
 const methodsStatusesLabels = {
@@ -310,7 +314,6 @@ export {
   accountStatusActions,
   tradingTypes,
   tradingTypesLabelsWithColor,
-  withdrawStatuses,
   withdrawStatusesLabels,
   withdrawStatusesColors,
 };

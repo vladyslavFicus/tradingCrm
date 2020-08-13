@@ -2,7 +2,9 @@
   margin-top: 25px;
 
   &--is-disabled {
-    opacity: 0.5;
+    td:not(:last-child) {
+      opacity: 0.5;
+    }
   }
 
   &__countrySpreads {

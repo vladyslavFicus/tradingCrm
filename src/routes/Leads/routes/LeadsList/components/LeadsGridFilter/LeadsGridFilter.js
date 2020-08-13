@@ -28,7 +28,7 @@ const attributeLabels = {
   status: 'LEADS.FILTER.ACCOUNT_STATUS',
   registrationDateRange: 'LEADS.FILTER.REGISTRATION_DATE_RANGE',
   lastNoteDateRange: 'LEADS.FILTER.LAST_NOTE_DATE_RANGE',
-  size: 'COMMON.FILTERS.SEARCH_LIMIT',
+  searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
 };
 
 class LeadsGridFilter extends PureComponent {
@@ -281,10 +281,10 @@ class LeadsGridFilter extends PureComponent {
           />
 
           <Field
-            name="size"
+            name="searchLimit"
             type="number"
             className="LeadsGridFilter__field LeadsGridFilter__search-limit"
-            label={I18n.t(attributeLabels.size)}
+            label={I18n.t(attributeLabels.searchLimit)}
             placeholder={I18n.t('COMMON.UNLIMITED')}
             component={FormikInputField}
             min={0}
@@ -325,7 +325,7 @@ export default compose(
   withFormik({
     mapPropsToValues: () => ({}),
     validate: values => createValidator({
-      size: ['numeric', 'greater:0', 'max:10000'],
+      searchLimit: ['numeric', 'greater:0', 'max:2000'],
     }, translateLabels(attributeLabels))(values),
     handleSubmit: (values, { props, setSubmitting }) => {
       props.history.replace({
@@ -333,6 +333,7 @@ export default compose(
           filters: decodeNullValues(values),
         },
       });
+
       setSubmitting(false);
     },
   }),

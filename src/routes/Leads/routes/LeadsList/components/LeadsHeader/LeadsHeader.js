@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
-import { get, omit } from 'lodash';
+import { get } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
@@ -18,9 +18,7 @@ class LeadsHeader extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     leadsData: PropTypes.query({
-      leads: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.lead),
-      }),
+      leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
     allRowsSelected: PropTypes.bool.isRequired,
     touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -43,7 +41,7 @@ class LeadsHeader extends PureComponent {
 
     if (allRowsSelected) {
       const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-      const searchLimit = get(location, 'query.filters.size');
+      const searchLimit = get(location, 'query.filters.searchLimit');
 
       const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
 
@@ -66,6 +64,7 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     const leads = get(leadsData, 'data.leads.content') || [];
+    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
 
     const selectedLeads = leads
       .filter((_, i) => touchedRowsIds.includes(i))
@@ -79,11 +78,11 @@ class LeadsHeader extends PureComponent {
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       configs: {
+        totalElements,
         allRowsSelected,
-        totalElements: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
-          searchParams: omit(query.filters, ['size', 'teams', 'desks']),
+          searchParams: query.filters,
         },
       },
       onSuccess: () => {
@@ -123,7 +122,7 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-    const searchLimit = get(query, 'filters.size');
+    const searchLimit = get(query, 'filters.searchLimit');
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit

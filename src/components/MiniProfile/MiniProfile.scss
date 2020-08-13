@@ -109,14 +109,14 @@
        flex-wrap: wrap;
      }
    }
-   &.inactive {
+   &.not_verified {
      border-color: #bcbcbc;
      background-color: #eee;
      .mini-profile-label {
        background-image: linear-gradient(to left, #bdbdbd, #979797);
      }
    }
-   &.active {
+   &.verified {
      border-color: #1cbb1c;
      background-color: #e9f7e6;
      .mini-profile-label {

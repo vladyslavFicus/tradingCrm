@@ -1,13 +1,19 @@
 import React, { Component, Suspense } from 'react';
-import I18n from 'i18n-js';
 import { Switch, Redirect } from 'react-router-dom';
+import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { parseErrors } from 'apollo';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
 import * as menu from 'config/menu';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
+import {
+  passwordPattern,
+  passwordMaxSize,
+  passwordCustomError,
+} from 'constants/operators';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
@@ -116,10 +122,14 @@ class OperatorProfile extends Component {
 
       this.handleCloseModal();
     } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
-        message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+        message: error.error === 'error.validation.password.repeated'
+          ? I18n.t(error.error)
+          : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
       });
     }
   };
@@ -242,6 +252,9 @@ class OperatorProfile extends Component {
           && (
             <ChangePasswordModal
               {...modal.params}
+              passwordPattern={passwordPattern}
+              passwordMaxSize={passwordMaxSize}
+              passwordCustomError={passwordCustomError}
               onCloseModal={this.handleCloseModal}
               onSubmit={this.handleSubmitNewPassword}
             />
