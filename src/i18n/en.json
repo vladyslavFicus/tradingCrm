@@ -1185,9 +1185,10 @@
         "BONUS": "Bonus"
       },
       "PAYMENT_AGGREGATORS": {
-        "CASHIER": "Cashier",
         "MANUAL": "Manual",
-        "NASPAY": "NasPay"
+        "NASPAY": "NasPay",
+        "CASHIER": "Cashier",
+        "INTERNAL": "Internal"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
