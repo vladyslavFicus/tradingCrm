@@ -158,6 +158,7 @@ class InputField extends Component {
       id,
       onIconClick,
       step,
+      maxLength,
     } = props;
 
     let inputField = (
@@ -169,6 +170,7 @@ class InputField extends Component {
         className="form-control"
         placeholder={placeholder !== null ? placeholder : label}
         step={step}
+        maxLength={maxLength}
       />
     );
 
