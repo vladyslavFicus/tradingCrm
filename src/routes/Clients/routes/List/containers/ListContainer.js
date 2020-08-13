@@ -30,6 +30,10 @@ export default compose(
         if (filters.firstTimeDeposit) {
           filters.firstTimeDeposit = Boolean(+filters.firstTimeDeposit);
         }
+
+        if (filters.isReferrered) {
+          filters.isReferrered = Boolean(+filters.isReferrered);
+        }
       }
 
       return {

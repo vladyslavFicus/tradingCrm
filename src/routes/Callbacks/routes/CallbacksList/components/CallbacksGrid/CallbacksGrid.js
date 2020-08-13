@@ -11,7 +11,6 @@ import CallbackDetailsModal from 'modals/CallbackDetailsModal';
 import Grid, { GridColumn } from 'components/Grid';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
-import { shortify } from 'utils/uuid';
 import './CallbacksGrid.scss';
 
 class CallbacksGrid extends PureComponent {
@@ -54,7 +53,7 @@ class CallbacksGrid extends PureComponent {
   renderId = ({ callbackId, operatorId }) => (
     <Fragment>
       <div className="CallbacksGrid__info-main">
-        {shortify(callbackId, 'CB')}
+        <Uuid uuid={callbackId} uuidPrefix="CB" />
       </div>
       <div className="CallbacksGrid__info-secondary">
         {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />

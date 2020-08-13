@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./containers/SignInContainer'));
+export default lazy(() => import('./SignIn'));

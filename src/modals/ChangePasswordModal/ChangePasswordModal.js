@@ -7,16 +7,12 @@ import { getActiveBrandConfig } from 'config';
 import { FormikInputField } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import './ChangePasswordModal.scss';
 
-const fieldLabels = {
-  newPasswordLabel: 'MODALS.CHANGE_PASSWORD_MODAL.NEW_PASSWORD',
-  repeatPasswordLabel: 'MODALS.CHANGE_PASSWORD_MODAL.REPEAT_PASSWORD',
-};
-
-const customErrors = {
-  'regex.newPassword': I18n.t('COMMON.PASSWORD_INVALID'),
+const attributeLabels = {
+  newPassword: 'MODALS.CHANGE_PASSWORD_MODAL.NEW_PASSWORD',
+  repeatPassword: 'MODALS.CHANGE_PASSWORD_MODAL.REPEAT_PASSWORD',
 };
 
 class ChangePasswordModal extends PureComponent {
@@ -25,6 +21,15 @@ class ChangePasswordModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     fullName: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    passwordPattern: PropTypes.string,
+    passwordMaxSize: PropTypes.number,
+    passwordCustomError: PropTypes.string,
+  };
+
+  static defaultProps = {
+    passwordPattern: null,
+    passwordMaxSize: null,
+    passwordCustomError: null,
   };
 
   onHandleSubmit = async (values, { setSubmitting }) => {
@@ -35,7 +40,14 @@ class ChangePasswordModal extends PureComponent {
   };
 
   render() {
-    const { onCloseModal, fullName, uuid } = this.props;
+    const {
+      onCloseModal,
+      fullName,
+      uuid,
+      passwordPattern,
+      passwordMaxSize,
+      passwordCustomError,
+    } = this.props;
 
     return (
       <Modal className="ChangePasswordModal" toggle={onCloseModal} isOpen>
@@ -44,12 +56,18 @@ class ChangePasswordModal extends PureComponent {
           validate={
             createValidator(
               {
-                newPassword: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+                newPassword: [
+                  'required',
+                  `regex:${passwordPattern || getActiveBrandConfig().password.pattern}`,
+                  ...[passwordMaxSize && `max:${passwordMaxSize}`],
+                ],
                 repeatPassword: ['required', 'same:newPassword'],
               },
-              fieldLabels,
+              translateLabels(attributeLabels),
               false,
-              customErrors,
+              {
+                ...passwordCustomError && { 'regex.newPassword': passwordCustomError },
+              },
             )
           }
           onSubmit={this.onHandleSubmit}
@@ -77,14 +95,14 @@ class ChangePasswordModal extends PureComponent {
                 <Field
                   name="newPassword"
                   type="password"
-                  label={I18n.t(fieldLabels.newPasswordLabel)}
+                  label={I18n.t(attributeLabels.newPassword)}
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />
                 <Field
                   name="repeatPassword"
                   type="password"
-                  label={I18n.t(fieldLabels.repeatPasswordLabel)}
+                  label={I18n.t(attributeLabels.repeatPassword)}
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />

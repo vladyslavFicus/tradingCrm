@@ -64,6 +64,7 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     const leads = get(leadsData, 'data.leads.content') || [];
+    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
 
     const selectedLeads = leads
       .filter((_, i) => touchedRowsIds.includes(i))
@@ -77,8 +78,8 @@ class LeadsHeader extends PureComponent {
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       configs: {
+        totalElements,
         allRowsSelected,
-        totalElements: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
           searchParams: query.filters,

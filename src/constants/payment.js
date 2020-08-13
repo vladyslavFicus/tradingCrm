@@ -51,6 +51,8 @@ const methods = keyMirror({
 const aggregators = keyMirror({
   MANUAL: null,
   NASPAY: null,
+  CASHIER: null,
+  INTERNAL: null,
 });
 
 const manualPaymentMethods = keyMirror({
@@ -65,6 +67,7 @@ const manualPaymentMethods = keyMirror({
   RECALL: null,
   SYSTEM: null,
   WIRE: null,
+  REFERRAL_BONUS: null,
 });
 
 const methodStatuses = keyMirror({
@@ -218,6 +221,8 @@ const methodsLabels = {
 const aggregatorsLabels = {
   [aggregators.MANUAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.MANUAL',
   [aggregators.NASPAY]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.NASPAY',
+  [aggregators.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.CASHIER',
+  [aggregators.INTERNAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.INTERNAL',
 };
 
 const manualPaymentMethodsLabels = {
@@ -232,6 +237,7 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.PAYRETAILERS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.PAYRETAILERS',
   [manualPaymentMethods.RECALL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.RECALL',
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
+  [manualPaymentMethods.REFERRAL_BONUS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.REFERRAL_BONUS',
 };
 
 const methodsStatusesLabels = {
