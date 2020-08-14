@@ -105,7 +105,7 @@ const sidebarTopMenu = [{
   }, {
     label: 'SIDEBAR.TOP_MENU.ROLES_AND_PERMISSIONS',
     url: '/roles-and-permissions',
-    permissions: new Permissions(permissions.AUTH.GET_AUTHORITIES),
+    permissions: new Permissions(permissions.AUTH.UPDATE_ACTIONS),
   }],
 }];
 
