@@ -64,7 +64,7 @@ class ContactForm extends PureComponent {
     }
   };
 
-  onSubmit = async (variables) => {
+  onSubmit = async (variables, { resetForm }) => {
     const {
       notify,
       updateContacts,
@@ -72,6 +72,7 @@ class ContactForm extends PureComponent {
 
     try {
       await updateContacts({ variables });
+      resetForm();
 
       notify({
         level: 'success',

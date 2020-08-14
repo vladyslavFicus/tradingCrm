@@ -36,13 +36,15 @@ class LeadProfileTab extends PureComponent {
     submitError: null,
   };
 
-  handleUpdateLead = async (variables, { setSubmitting }) => {
+  handleUpdateLead = async (variables, { setSubmitting, resetForm }) => {
     const { notify, updateLead, leadProfile } = this.props;
 
     setSubmitting(false);
 
     try {
       await updateLead({ variables });
+
+      resetForm();
 
       notify({
         level: 'success',
