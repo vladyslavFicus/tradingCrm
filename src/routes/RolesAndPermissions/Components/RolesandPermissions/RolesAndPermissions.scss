@@ -1,0 +1,76 @@
+.RolesAndPermissions {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 5px;
+
+  &__header {
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 25px;
+    background-color: #f8f7f7;
+  }
+
+  &__authorities {
+    width: 20%;
+    margin-right: 40px;
+  }
+
+  &__authority-wrapper {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__authority-title {
+    margin-bottom: 3px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #555;
+  }
+
+  &__authority {
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #ffffff;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f3f3f3;
+    }
+
+    &:not(:first-child), &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    &--active {
+      color: #ffffff;
+      background-color: #f27731;
+
+      &:hover {
+        background-color: #f27731;
+      }
+    }
+  }
+
+  &__permissions {
+    width: 80%;
+  }
+}

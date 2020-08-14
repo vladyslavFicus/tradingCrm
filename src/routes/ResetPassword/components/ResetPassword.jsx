@@ -60,10 +60,12 @@ class ResetPassword extends Component {
       resetPasswordFormError,
     } = this.state;
 
+    if (loading) {
+      return <Preloader />;
+    }
+
     return (
       <div className="auth">
-        <Preloader isVisible={loading} />
-
         <div className="auth__logo">
           <If condition={getBackofficeBrand().themeConfig.logo}>
             <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />

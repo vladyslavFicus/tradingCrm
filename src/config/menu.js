@@ -102,6 +102,10 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.EMAIL_TEMPLATES',
     url: '/email-templates',
     permissions: new Permissions(permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.ROLES_AND_PERMISSIONS',
+    url: '/roles-and-permissions',
+    permissions: new Permissions(permissions.AUTH.GET_AUTHORITIES),
   }],
 }];
 
