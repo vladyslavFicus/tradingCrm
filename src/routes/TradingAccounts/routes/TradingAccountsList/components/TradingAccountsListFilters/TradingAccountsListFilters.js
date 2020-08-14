@@ -18,6 +18,12 @@ class TradingAccountsListFilters extends PureComponent {
     loading: false,
   };
 
+  initialValues = {
+    searchKeyword: '',
+    archived: '',
+    accountType: '',
+  };
+
   handleSubmit = ({ archived, ...filters }) => {
     this.props.history.replace({
       query: {
@@ -38,7 +44,7 @@ class TradingAccountsListFilters extends PureComponent {
 
     return (
       <Formik
-        initialValues={{}}
+        initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
         onReset={this.handleReset}
       >
