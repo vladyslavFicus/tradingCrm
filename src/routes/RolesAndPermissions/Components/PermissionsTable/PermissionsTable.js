@@ -88,32 +88,29 @@ class PermissionsTable extends PureComponent {
     } = this.props;
 
     // Set actual list of actions to state
-    this.setState((state) => {
-      const shadowActions = { ...state.shadowActions };
+    this.setState(
+      ({ shadowActions }) => ({ shadowActions: { ...shadowActions, [action]: enabled } }),
+      async () => {
+        const { shadowActions } = this.state;
 
-      shadowActions[action] = enabled;
+        // Get only enabled actions
+        const actions = Object.keys(shadowActions).filter(_action => shadowActions[_action] === true);
 
-      return { shadowActions };
-    }, async () => {
-      const { shadowActions } = this.state;
-
-      // Get only enabled actions
-      const actions = Object.keys(shadowActions).filter(_action => shadowActions[_action] === true);
-
-      try {
-        // Update actions for authority remotely when state was saved
-        await updateAuthorityActions({
-          variables: {
-            department,
-            role,
-            actions,
-          },
-        });
-      } catch (e) {
-        // Revert changes if something went wrong...
-        this.handleSwitchPermission(action, !enabled);
-      }
-    });
+        try {
+          // Update actions for authority remotely when state was saved
+          await updateAuthorityActions({
+            variables: {
+              department,
+              role,
+              actions,
+            },
+          });
+        } catch (e) {
+          // Revert changes if something went wrong...
+          this.setState(state => ({ shadowActions: { ...state.shadowActions, [action]: !enabled } }));
+        }
+      },
+    );
   }
 
   /**
@@ -158,7 +155,7 @@ class PermissionsTable extends PureComponent {
       actionsQuery,
     } = this.props;
 
-    const { filter } = this.state;
+    const { filter, shadowActions } = this.state;
 
     const actions = this.getAllActionsList();
 
@@ -201,12 +198,12 @@ class PermissionsTable extends PureComponent {
                 </tr>
               </When>
               <Otherwise>
-                {Object.entries(actions).map(([action, enabled]) => (
+                {Object.keys(actions).map(action => (
                   <tr key={action}>
                     <td>{action}</td>
                     <td className="PermissionsTable__align-center">
                       <ReactSwitch
-                        on={enabled}
+                        on={shadowActions[action]}
                         className="PermissionsTable__switcher"
                         onClick={_enabled => this.handleSwitchPermission(action, _enabled)}
                       />
