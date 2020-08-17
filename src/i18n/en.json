@@ -1186,9 +1186,8 @@
       },
       "PAYMENT_AGGREGATORS": {
         "MANUAL": "Manual",
-        "NASPAY": "NasPay",
-        "CASHIER": "Cashier",
-        "INTERNAL": "Internal"
+        "INTERNAL": "Internal",
+        "СASHIR": "Cashir"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {

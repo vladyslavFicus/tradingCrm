@@ -50,8 +50,7 @@ const methods = keyMirror({
 
 const aggregators = keyMirror({
   MANUAL: null,
-  NASPAY: null,
-  CASHIER: null,
+  СASHIR: null,
   INTERNAL: null,
 });
 
@@ -220,8 +219,7 @@ const methodsLabels = {
 
 const aggregatorsLabels = {
   [aggregators.MANUAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.MANUAL',
-  [aggregators.NASPAY]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.NASPAY',
-  [aggregators.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.CASHIER',
+  [aggregators.СASHIR]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.СASHIR',
   [aggregators.INTERNAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.INTERNAL',
 };
 
