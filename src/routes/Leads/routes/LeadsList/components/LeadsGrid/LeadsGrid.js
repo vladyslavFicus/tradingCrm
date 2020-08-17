@@ -45,6 +45,7 @@ class LeadsGrid extends PureComponent {
     const { currentPage } = limitItems(leads, location);
 
     const filters = get(location, 'query.filters') || {};
+    const sorts = get(location, 'query.sorts') || [];
 
     const { searchLimit } = filters;
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
@@ -59,6 +60,7 @@ class LeadsGrid extends PureComponent {
         page: {
           from: currentPage + 1,
           size,
+          sorts,
         },
       },
     });
