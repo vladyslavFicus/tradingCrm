@@ -1188,9 +1188,9 @@
         "BONUS": "Bonus"
       },
       "PAYMENT_AGGREGATORS": {
-        "CASHIER": "Cashier",
         "MANUAL": "Manual",
-        "NASPAY": "NasPay"
+        "INTERNAL": "Internal",
+        "СASHIR": "Cashir"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
@@ -3453,7 +3453,7 @@
     "FORM": {
       "FIELDS": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
+        "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
         "STATUS": "Status"
       },
@@ -3467,7 +3467,7 @@
       }
     },
     "GRID": {
-      "ACCOUNT_ID": "Account ID",
+      "ACCOUNT_ID": "Trading acc",
       "PLATFORM_TYPE": "Platform type",
       "PROFILE": "Client",
       "SOURCE_NAME": "Source name",
@@ -3475,7 +3475,9 @@
       "LEVERAGE": "Leverage",
       "BALANCE": "Balance",
       "STATUS": "Status",
-      "ACCOUNT_TYPE": "Account type"
+      "ACCOUNT_TYPE": "Account type",
+      "LOGIN": "MT4 login",
+      "CREDIT": "Credit"
     }
   },
   "BRANCH_MANAGER_INFO": {

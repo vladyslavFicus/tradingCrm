@@ -140,7 +140,9 @@ export default compose(
     filesCategories: FilesCategoriesQuery,
   }),
   withFormik({
-    mapPropsToValues: () => ({}),
+    mapPropsToValues: () => ({
+      searchBy: '',
+    }),
     handleSubmit: (values, { props, setSubmitting }) => {
       props.history.replace({
         query: {

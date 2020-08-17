@@ -102,6 +102,7 @@ const brands = keyMirror({
   cptest: null,
   trsmarkets: null,
   cryptodeutsch: null,
+  'consulting-alfa': null,
 });
 
 const departments = keyMirror({
@@ -532,6 +533,10 @@ const brandsConfig = {
   [brands.cryptodeutsch]: {
     name: 'cryptodeutsch',
     image: { src: '/img/brand/choose-brand/cryptodeutsch.svg' },
+  },
+  [brands['consulting-alfa']]: {
+    name: 'consulting-alfa',
+    image: { src: '/img/brand/choose-brand/consulting-alfa.svg' },
   },
 };
 const departmentsConfig = {

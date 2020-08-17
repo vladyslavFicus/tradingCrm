@@ -87,6 +87,7 @@ export default ({
     inputAddon: <i className="icon icon-search" />,
     id: 'users-list-search-field',
     className: fieldClassNames.BIG,
+    maxLength: 200,
   },
   {
     type: fieldTypes.INPUT,
@@ -95,6 +96,7 @@ export default ({
     placeholder: 'COMMON.SEARCH_BY.AFFILIATE',
     inputAddon: <i className="icon icon-search" />,
     className: fieldClassNames.BIG,
+    maxLength: 200,
   },
   {
     type: fieldTypes.INPUT,
@@ -103,6 +105,7 @@ export default ({
     placeholder: 'COMMON.SEARCH_BY.MIGRATION_ID',
     inputAddon: <i className="icon icon-search" />,
     className: fieldClassNames.MEDIUM,
+    maxLength: 200,
   },
   {
     type: fieldTypes.SELECT,

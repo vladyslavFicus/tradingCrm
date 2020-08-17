@@ -20,7 +20,12 @@ const REQUEST = gql`
     ) {
       content {
         uuid
+        name
+        login
+        group
+        accountUUID
         platformType
+        credit
         profile {
           uuid
           fullName
