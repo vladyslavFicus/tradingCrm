@@ -475,11 +475,6 @@ PropTypes.lead = PropTypes.shape({
   email: PropTypes.string,
   country: PropTypes.string,
   source: PropTypes.string,
-  salesAgent: PropTypes.shape({
-    fullName: PropTypes.string,
-    uuid: PropTypes.string,
-  }),
-  salesStatus: PropTypes.string,
   birthDate: PropTypes.string,
   affiliate: PropTypes.string,
   gender: PropTypes.string,
@@ -487,6 +482,10 @@ PropTypes.lead = PropTypes.shape({
   language: PropTypes.string,
   registrationDate: PropTypes.string,
   statusChangeDate: PropTypes.string,
+  acquisition: PropTypes.shape({
+    salesStatus: PropTypes.string,
+    salesOperator: PropTypes.operator,
+  }),
 });
 PropTypes.branchHierarchyType = PropTypes.shape({
   name: PropTypes.string,

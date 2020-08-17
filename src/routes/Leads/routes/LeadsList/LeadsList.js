@@ -10,7 +10,7 @@ import './LeadsList.scss';
 
 class LeadsList extends PureComponent {
   static propTypes = {
-    leadsData: PropTypes.query({
+    leadsQuery: PropTypes.query({
       leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
   };
@@ -28,13 +28,13 @@ class LeadsList extends PureComponent {
   };
 
   render() {
-    const { leadsData } = this.props;
+    const { leadsQuery } = this.props;
     const { allRowsSelected, touchedRowsIds } = this.state;
 
     return (
       <div className="LeadsList">
         <LeadsHeader
-          leadsData={leadsData}
+          leadsQuery={leadsQuery}
           touchedRowsIds={touchedRowsIds}
           allRowsSelected={allRowsSelected}
           updateLeadsListState={this.updateLeadsListState}
@@ -43,7 +43,7 @@ class LeadsList extends PureComponent {
         <LeadsGridFilter />
 
         <LeadsGrid
-          leadsData={leadsData}
+          leadsQuery={leadsQuery}
           touchedRowsIds={touchedRowsIds}
           allRowsSelected={allRowsSelected}
           updateLeadsListState={this.updateLeadsListState}
@@ -55,6 +55,6 @@ class LeadsList extends PureComponent {
 
 export default compose(
   withRequests({
-    leadsData: getLeadsQuery,
+    leadsQuery: getLeadsQuery,
   }),
 )(LeadsList);

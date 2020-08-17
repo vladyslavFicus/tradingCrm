@@ -26,8 +26,6 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
   const {
     lead: {
       registrationDate,
-      salesStatus,
-      salesAgent,
       language,
       surname,
       country,
@@ -35,10 +33,12 @@ const LeadMiniProfile = ({ miniProfile: { data, loading }, department }) => {
       phone,
       name,
       uuid,
+      acquisition,
     },
   } = data;
+  const { salesStatus, salesOperator } = acquisition || {};
 
-  const salesAgentFullName = salesAgent ? salesAgent.fullName : '';
+  const salesAgentFullName = salesOperator ? salesOperator.fullName : '';
   const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
 
   return (
