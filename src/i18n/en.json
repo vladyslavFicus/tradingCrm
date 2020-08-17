@@ -1187,7 +1187,7 @@
       "PAYMENT_AGGREGATORS": {
         "MANUAL": "Manual",
         "INTERNAL": "Internal",
-        "СASHIR": "Cashir"
+        "CASHIER": "Cashier"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
