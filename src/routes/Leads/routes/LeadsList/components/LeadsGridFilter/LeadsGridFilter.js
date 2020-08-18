@@ -108,7 +108,7 @@ class LeadsGridFilter extends PureComponent {
 
   handleReset = () => {
     const { history, resetForm } = this.props;
-    const query = history.location.query || {};
+    const query = history.location?.query || {};
 
     history.replace({ query: { ...query, filters: {} } });
     resetForm({});

@@ -420,31 +420,17 @@ PropTypes.meta = PropTypes.shape({
     currencyCode: PropTypes.string,
   }).isRequired,
 });
-PropTypes.brand = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    style: PropTypes.shape({
-      width: PropTypes.string,
-      height: PropTypes.string,
-    }),
-  }).isRequired,
-});
 PropTypes.department = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
   role: PropTypes.string,
   image: PropTypes.string,
 });
-PropTypes.wageringFulfillmentEntity = PropTypes.shape({
-  uuid: PropTypes.string.isRequired,
-  amounts: PropTypes.arrayOf(PropTypes.price),
-});
-PropTypes.subTabRouteEntity = PropTypes.shape({
-  url: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  permissions: PropTypes.object.isRequired,
+PropTypes.brand = PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  image: PropTypes.string,
+  departments: PropTypes.arrayOf(PropTypes.department),
 });
 PropTypes.modalType = PropTypes.shape({
   show: PropTypes.func.isRequired,
@@ -709,18 +695,6 @@ PropTypes.paymentsStatistic = PropTypes.shape({
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 });
-PropTypes.brand = PropTypes.shape({
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    style: PropTypes.shape({
-      width: PropTypes.string,
-      height: PropTypes.string,
-    }),
-  }).isRequired,
-  name: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
-  onClick: PropTypes.func,
-});
 PropTypes.profileView = PropTypes.shape({
   balance: PropTypes.shape({
     amount: PropTypes.string,
@@ -944,6 +918,63 @@ PropTypes.treeData = PropTypes.shape({
   uuid: PropTypes.string,
   userType: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.object),
+});
+PropTypes.referral = PropTypes.shape({
+  referralInfo: PropTypes.shape({
+    name: PropTypes.string,
+    profileUuid: PropTypes.string,
+    languageCode: PropTypes.string,
+    countryCode: PropTypes.string,
+    registrationDate: PropTypes.string,
+  }),
+  bonusType: PropTypes.string,
+  ftdInfo: PropTypes.shape({
+    date: PropTypes.string,
+    amount: PropTypes.number,
+    currency: PropTypes.string,
+    normalizedAmount: PropTypes.string,
+  }),
+  remuneration: PropTypes.shape({
+    date: PropTypes.string,
+    amount: PropTypes.number,
+    currency: PropTypes.string,
+    normalizedAmount: PropTypes.string,
+  }),
+  acquisition: PropTypes.shape({
+    acquisitionStatus: PropTypes.string,
+    retentionStatus: PropTypes.string,
+    retentionOperator: PropTypes.shape({
+      fullName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+    salesStatus: PropTypes.string,
+    salesOperator: PropTypes.shape({
+      fullName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+  }),
 });
 
 export default PropTypes;

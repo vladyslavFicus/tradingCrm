@@ -172,6 +172,7 @@ const filterLabels = {
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   warning: 'PROFILE.LIST.FILTERS.WARNING',
   activity: 'PROFILE.LIST.FILTERS.ACTIVITY',
+  referral: 'PROFILE.LIST.FILTERS.REFERRAL',
 };
 
 const statuses = keyMirror({

@@ -28,7 +28,7 @@ class NotificationCenterForm extends PureComponent {
     const { selectedTypes, read } = this.state;
 
     this.props.onSubmit(selectedTypes, read);
-    this.appliedTypes = selectedTypes;
+    this.appliedValue = true;
 
     e.preventDefault();
   };
@@ -41,10 +41,10 @@ class NotificationCenterForm extends PureComponent {
 
   onReset = () => {
     this.setState({ selectedTypes: [], read: '' }, () => {
-      if (this.appliedTypes && this.appliedTypes.length) {
+      if (this.appliedValue) {
         this.props.onSubmit([]);
       }
-      this.appliedTypes = [];
+      this.appliedValue = false;
     });
   };
 
@@ -82,6 +82,9 @@ class NotificationCenterForm extends PureComponent {
             value={read}
             onChange={value => this.setState({ read: value })}
           >
+            <option key={3} value={null}>
+              {I18n.t('COMMON.ANY')}
+            </option>
             <option key={2} value={0}>
               {I18n.t('NOTIFICATION_CENTER.FILTERS.UNREAD')}
             </option>

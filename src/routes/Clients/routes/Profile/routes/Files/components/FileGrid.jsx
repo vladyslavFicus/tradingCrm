@@ -29,7 +29,7 @@ class FileGrid extends PureComponent {
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
     categories: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     verificationType: PropTypes.string.isRequired,
-    verificationStatus: PropTypes.string.isRequired,
+    verificationStatus: PropTypes.string,
     documentType: PropTypes.string.isRequired,
     handlePageChanged: PropTypes.func.isRequired,
     onStatusActionClick: PropTypes.func.isRequired,
@@ -39,6 +39,10 @@ class FileGrid extends PureComponent {
     modals: PropTypes.shape({
       deleteFileModal: PropTypes.modalType,
     }).isRequired,
+  }
+
+  static defaultProps = {
+    verificationStatus: null,
   }
 
   state = {
