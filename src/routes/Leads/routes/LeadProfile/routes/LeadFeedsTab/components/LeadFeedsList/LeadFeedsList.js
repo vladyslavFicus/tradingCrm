@@ -12,12 +12,7 @@ import './LeadFeedsList.scss';
 class LeadFeedsList extends PureComponent {
   static propTypes = {
     feedsQuery: PropTypes.query({
-      feeds: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.feed),
-        last: PropTypes.bool,
-        page: PropTypes.number,
-        totalPages: PropTypes.number,
-      }),
+      feeds: PropTypes.pageable(PropTypes.feed),
     }).isRequired,
   };
 
