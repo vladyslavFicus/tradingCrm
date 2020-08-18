@@ -158,9 +158,6 @@ const REQUEST = gql`
           eventValue,
         }
         online
-        acquisition {
-          ...AcquisitionFragment
-        }
       }
       tradingAccounts {
         accountUUID
@@ -178,6 +175,9 @@ const REQUEST = gql`
       referrer {
         fullName
         uuid
+      }
+      acquisition {
+        ...AcquisitionFragment
       }
       #      uncomment when email history will be rdy
       #      sentEmails {

@@ -482,10 +482,7 @@ PropTypes.lead = PropTypes.shape({
   language: PropTypes.string,
   registrationDate: PropTypes.string,
   statusChangeDate: PropTypes.string,
-  acquisition: PropTypes.shape({
-    salesStatus: PropTypes.string,
-    salesOperator: PropTypes.operator,
-  }),
+  acquisition: PropTypes.acquisition,
 });
 PropTypes.branchHierarchyType = PropTypes.shape({
   name: PropTypes.string,
@@ -702,6 +699,7 @@ PropTypes.profileView = PropTypes.shape({
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.profile = PropTypes.shape({
+  acquisition: PropTypes.acquisition,
   address: PropTypes.shape({
     address: PropTypes.string,
     city: PropTypes.string,

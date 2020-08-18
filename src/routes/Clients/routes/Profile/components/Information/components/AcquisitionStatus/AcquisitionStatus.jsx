@@ -49,7 +49,7 @@ class AcquisitionStatus extends PureComponent {
       permission: { permissions: currentPermissions },
     } = this.props;
 
-    const acquisition = profile.profileView?.acquisition || {};
+    const acquisition = profile.acquisition || {};
 
     return (
       <div className="account-details__personal-info">
