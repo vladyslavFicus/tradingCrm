@@ -91,7 +91,7 @@ PropTypes.uploadingFile = PropTypes.shape({
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
-  acquisition: PropTypes.userAcquisition,
+  acquisition: PropTypes.acquisition,
   address: PropTypes.shape({
     countryCode: PropTypes.string,
   }),
@@ -702,7 +702,6 @@ PropTypes.profileView = PropTypes.shape({
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.profile = PropTypes.shape({
-  acquisition: PropTypes.userAcquisition,
   address: PropTypes.shape({
     address: PropTypes.string,
     city: PropTypes.string,
@@ -932,7 +931,7 @@ PropTypes.referral = PropTypes.shape({
   }),
 });
 
-PropTypes.userAcquisition = PropTypes.shape({
+PropTypes.acquisition = PropTypes.shape({
   acquisitionStatus: PropTypes.string,
   retentionRepresentative: PropTypes.string,
   retentionStatus: PropTypes.string,

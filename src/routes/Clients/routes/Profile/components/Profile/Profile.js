@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense } from 'react';
+import React, { PureComponent, Fragment, Suspense } from 'react';
 import { get } from 'lodash';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
@@ -30,19 +30,17 @@ import {
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
 import ProfileQuery from './graphql/ProfileQuery';
-import UserAcquisitionQuery from './graphql/UserAcquisitionQuery';
 import { userProfileTabs } from './constants';
 
-class Profile extends Component {
+class Profile extends PureComponent {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string,
     }).isRequired,
-    profile: PropTypes.profile.isRequired,
-    acquisitionQuery: PropTypes.query({
-      userHierarchyAcquisitionById: PropTypes.userAcquisition,
-    }).isRequired,
     permission: PropTypes.permission.isRequired,
+    profileQuery: PropTypes.query({
+      profile: PropTypes.profile,
+    }).isRequired,
   };
 
   componentDidMount() {
@@ -56,16 +54,16 @@ class Profile extends Component {
   }
 
   onProfileEvent = () => {
-    this.props.profile.refetch();
+    this.props.profileQuery.refetch();
   };
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.acquisitionQuery.refetch();
+    this.props.profileQuery.refetch();
   };
 
   get availableStatuses() {
-    const { profile, permission: { permissions } } = this.props;
-    const profileStatus = get(profile, 'data.profile.status.type');
+    const { profileQuery, permission: { permissions } } = this.props;
+    const profileStatus = get(profileQuery, 'data.profile.status.type');
 
     if (!profileStatus) {
       return [];
@@ -78,13 +76,10 @@ class Profile extends Component {
 
   render() {
     const {
-      profile: {
-        data: profileData,
+      profileQuery: {
+        data,
         loading,
         error,
-      },
-      acquisitionQuery: {
-        data: acquisitionData,
       },
       match: { path },
     } = this.props;
@@ -92,32 +87,25 @@ class Profile extends Component {
     if (error && parseErrors(error).error === 'error.entity.not.found') {
       return <NotFound />;
     }
-    const profile = get(profileData, 'profile');
-    const acquisition = get(acquisitionData, 'userHierarchyAcquisitionById') || {};
-    const lastSignInSessions = get(profile, 'profileView.lastSignInSessions') || [];
+    const profileData = get(data, 'profile');
 
-    if (loading && !profile) {
+    if (loading && !profileData) {
       return null;
     }
 
     return (
       <Fragment>
-        <If condition={profile}>
-          <Helmet title={`${profile.firstName} ${profile.lastName}`} />
+        <If condition={profileData}>
+          <Helmet title={`${profileData.firstName} ${profileData.lastName}`} />
         </If>
         <div className="profile__info">
           <ProfileHeader
-            profile={profile}
+            profile={profileData}
             availableStatuses={this.availableStatuses}
             loaded={!loading}
           />
           <HideDetails>
-            <Information
-              profile={profile}
-              ips={lastSignInSessions}
-              acquisition={acquisition}
-              loading={loading && !profile}
-            />
+            <Information profile={profileData} profileLoading={loading} />
           </HideDetails>
         </div>
 
@@ -149,7 +137,6 @@ export default compose(
   withRouter,
   withPermission,
   withRequests({
-    profile: ProfileQuery,
-    acquisitionQuery: UserAcquisitionQuery,
+    profileQuery: ProfileQuery,
   }),
 )(Profile);

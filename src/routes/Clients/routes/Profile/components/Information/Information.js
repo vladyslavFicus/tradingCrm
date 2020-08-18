@@ -11,10 +11,8 @@ import Personal from './components/Personal';
 
 class Information extends PureComponent {
   static propTypes = {
-    profile: PropTypes.object,
-    ips: PropTypes.array.isRequired,
-    acquisition: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
+    profile: PropTypes.profile,
+    profileLoading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -23,27 +21,26 @@ class Information extends PureComponent {
 
   render() {
     const {
-      ips,
-      acquisition,
-      loading,
       profile,
+      profileLoading,
     } = this.props;
+
+    const lastSignInSessions = profile.profileView?.lastSignInSessions || [];
 
     return (
       <div className="account-details">
         <div className="row">
           <div className="col-md-3">
-            <Personal profile={profile} loading={loading} />
+            <Personal profile={profile} profileLoading={profileLoading} />
           </div>
           <div className="col-md-3">
             <AcquisitionStatus
-              acquisition={acquisition}
               profile={profile}
-              loading={loading}
+              profileLoading={profileLoading}
             />
           </div>
           <div className="col-md-2">
-            <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
+            <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={lastSignInSessions} />
           </div>
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
