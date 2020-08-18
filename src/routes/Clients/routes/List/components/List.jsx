@@ -6,7 +6,7 @@ import ClientsGridFilter from './ClientsGridFilter';
 import ClientsGrid from './ClientsGrid';
 import ClientsGridHeader from './ClientsGridHeader';
 
-const MAX_SELECTED_ROWS = 2000;
+const MAX_SELECTED_ROWS = 5000;
 
 class List extends Component {
   static propTypes = {

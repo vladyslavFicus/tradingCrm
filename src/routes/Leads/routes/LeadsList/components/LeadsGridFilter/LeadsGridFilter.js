@@ -326,7 +326,7 @@ export default compose(
   withFormik({
     mapPropsToValues: () => ({}),
     validate: values => createValidator({
-      searchLimit: ['numeric', 'greater:0', 'max:2000'],
+      searchLimit: ['numeric', 'greater:0', 'max:5000'],
     }, translateLabels(attributeLabels))(values),
     handleSubmit: (values, { props, setSubmitting }) => {
       const query = props.history?.location?.query || {};
