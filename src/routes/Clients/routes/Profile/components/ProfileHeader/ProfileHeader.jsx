@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
+import { getActiveBrandConfig } from 'config';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -31,6 +32,7 @@ import LoginLockQuery from './graphql/LoginLockQuery';
 import PasswordResetRequestMutation from './graphql/PasswordResetRequestMutation';
 import ChangePasswordMutation from './graphql/ChangePasswordMutation';
 import UnlockLoginMutation from './graphql/UnlockLoginMutation';
+import ReferrerStatisticsQuery from './graphql/ReferrerStatisticsQuery';
 import './ProfileHeader.scss';
 
 const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
@@ -55,6 +57,13 @@ class ProfileHeader extends Component {
     passwordResetRequest: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
+    referrerStatisticsQuery: PropTypes.query({
+      referrerStatistics: PropTypes.shape({
+        referralsCount: PropTypes.number,
+        ftdCount: PropTypes.number,
+        remunerationTotalAmount: PropTypes.number,
+      }),
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -214,6 +223,9 @@ class ProfileHeader extends Component {
       permission: {
         permissions: currentPermissions,
       },
+      referrerStatisticsQuery: {
+        data: referrerStatisticsData,
+      },
     } = this.props;
 
     const {
@@ -227,6 +239,12 @@ class ProfileHeader extends Component {
       profileVerified,
       registrationDetails,
     } = profile;
+
+    const {
+      referralsCount,
+      ftdCount,
+      remunerationTotalAmount,
+    } = get(referrerStatisticsData, 'referrerStatistics') || {};
 
     const registrationDate = registrationDetails?.registrationDate;
 
@@ -254,6 +272,8 @@ class ProfileHeader extends Component {
     const lastActivityType = online ? 'ONLINE' : 'OFFLINE';
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
+
+    const baseCurrency = getActiveBrandConfig().currencies.base;
 
     return (
       <div className="ProfileHeader">
@@ -394,6 +414,21 @@ class ProfileHeader extends Component {
               {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
+          <div className="header-block header-block-inner">
+            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.TITLE')}</div>
+            <div className="header-block-middle">
+              {referralsCount}
+            </div>
+            <div className="header-block-small">
+              {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.FTD', { value: ftdCount })}
+            </div>
+            <div className="header-block-small">
+              {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.REMUNERATION', {
+                value: remunerationTotalAmount,
+                currency: baseCurrency,
+              })}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -412,5 +447,6 @@ export default compose(
     passwordResetRequest: PasswordResetRequestMutation,
     changePassword: ChangePasswordMutation,
     unlockLogin: UnlockLoginMutation,
+    referrerStatisticsQuery: ReferrerStatisticsQuery,
   }),
 )(ProfileHeader);

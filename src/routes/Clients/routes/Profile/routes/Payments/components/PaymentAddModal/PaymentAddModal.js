@@ -279,10 +279,14 @@ class PaymentAddModal extends PureComponent {
             dirty,
             isValid,
             values,
+            values: { paymentType },
             setFieldValue,
             resetForm,
           }) => {
             const sourceAccount = this.getSourceAccount(values);
+            const paymentMethods = paymentType === paymentTypes.CREDIT_IN.name
+              ? ['REFERRAL_BONUS', 'INTERNAL_TRANSFER']
+              : manualMethods;
 
             return (
               <Form>
@@ -312,10 +316,13 @@ class PaymentAddModal extends PureComponent {
                         </option>
                       ))}
                   </Field>
-                  <div className={`payment-fields ${(values && values.paymentType) ? 'visible' : ''}`}>
+                  <div className={`payment-fields ${paymentType ? 'visible' : ''}`}>
                     <div className="form-row align-items-center">
                       <Choose>
-                        <When condition={values.paymentType === paymentTypes.DEPOSIT.name}>
+                        <When condition={
+                          paymentType === paymentTypes.DEPOSIT.name
+                          || paymentType === paymentTypes.CREDIT_IN.name}
+                        >
                           <Fragment>
                             <Field
                               className="col select-field-wrapper"
@@ -328,7 +335,7 @@ class PaymentAddModal extends PureComponent {
                               disabled={manualMethodsLoading}
                               component={FormikSelectField}
                             >
-                              {manualMethods.map(item => (
+                              {paymentMethods.map(item => (
                                 <option key={item} value={item}>
                                   {manualPaymentMethodsLabels[item]
                                     ? I18n.t(manualPaymentMethodsLabels[item])
@@ -343,10 +350,10 @@ class PaymentAddModal extends PureComponent {
                             {this.renderAccountSelectField({ label: 'toAcc', values })}
                           </Fragment>
                         </When>
-                        <When condition={values.paymentType === paymentTypes.WITHDRAW.name}>
+                        <When condition={paymentType === paymentTypes.WITHDRAW.name}>
                           {this.renderAccountSelectField({ values })}
                         </When>
-                        <When condition={values.paymentType === paymentTypes.TRANSFER.name}>
+                        <When condition={paymentType === paymentTypes.TRANSFER.name}>
                           <Fragment>
                             {this.renderAccountSelectField({ name: 'source', values })}
                             <div className="col-auto arrow-icon-wrapper">
@@ -355,10 +362,10 @@ class PaymentAddModal extends PureComponent {
                             {this.renderAccountSelectField({ label: 'toAcc', name: 'target', values })}
                           </Fragment>
                         </When>
-                        <When condition={values.paymentType === paymentTypes.CREDIT_IN.name}>
+                        <When condition={paymentType === paymentTypes.CREDIT_IN.name}>
                           {this.renderAccountSelectField({ label: 'toAcc', values })}
                         </When>
-                        <When condition={values.paymentType === paymentTypes.CREDIT_OUT.name}>
+                        <When condition={paymentType === paymentTypes.CREDIT_OUT.name}>
                           {this.renderAccountSelectField({ label: 'fromAcc', values })}
                         </When>
                       </Choose>
@@ -377,7 +384,7 @@ class PaymentAddModal extends PureComponent {
                         component={FormikInputField}
                         showErrorMessage={false}
                       />
-                      <If condition={values && values.paymentType === paymentTypes.DEPOSIT.name}>
+                      <If condition={paymentType === paymentTypes.DEPOSIT.name}>
                         <Field
                           className="col-8"
                           name="externalReference"
@@ -387,7 +394,7 @@ class PaymentAddModal extends PureComponent {
                           showErrorMessage={false}
                         />
                       </If>
-                      <If condition={values && values.paymentType === paymentTypes.CREDIT_IN.name}>
+                      <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
                         <FormikDatePicker
                           className="col-5"
                           name="expirationDate"

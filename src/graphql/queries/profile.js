@@ -27,39 +27,6 @@ const profile = gql`query profile(
     phoneVerified
     profileVerified
     timeZone
-    acquisition {
-      acquisitionStatus
-      retentionRepresentative
-      retentionStatus
-      retentionOperator {
-        fullName
-        hierarchy {
-          parentBranches {
-            name
-            branchType
-            parentBranch {
-              name
-              branchType
-            }
-          }
-        }
-      }
-      salesRepresentative
-      salesStatus
-      salesOperator {
-        fullName
-        hierarchy {
-          parentBranches {
-            name
-            branchType
-            parentBranch {
-              name
-              branchType
-            }
-          }
-        }
-      }
-    }
     address {
       ...AddressFragment
     }
@@ -232,6 +199,10 @@ const clientsQuery = gql`query ClientListQuery (
         partner {
           fullName
         }
+      }
+      referrer {
+        fullName
+        uuid
       }
       balance {
         amount

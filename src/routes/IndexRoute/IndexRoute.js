@@ -121,4 +121,4 @@ class IndexRoute extends PureComponent {
   }
 }
 
-export default withRouter(withStorage(['token', 'auth', 'brand', 'brands'])(IndexRoute));
+export default withRouter(withStorage(['token', 'auth'])(IndexRoute));

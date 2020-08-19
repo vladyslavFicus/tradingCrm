@@ -33,20 +33,16 @@ import './Personal.scss';
 
 class Personal extends PureComponent {
   static propTypes = {
-    profile: PropTypes.profile,
+    profile: PropTypes.profile.isRequired,
+    profileLoading: PropTypes.bool.isRequired,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
       emailSelectModal: PropTypes.modalType,
       emailPreviewModal: PropTypes.modalType,
     }).isRequired,
     auth: PropTypes.auth.isRequired,
     permission: PropTypes.permission.isRequired,
-  };
-
-  static defaultProps = {
-    profile: {},
   };
 
   handleRegulatedChanged = async (variables) => {
@@ -88,6 +84,15 @@ class Personal extends PureComponent {
     });
   };
 
+  handleReferrerClick = () => {
+    const { profile } = this.props;
+    const uuid = profile?.referrer?.uuid;
+
+    if (!uuid) return;
+
+    window.open(`/clients/${uuid}/profile`, '_blank');
+  }
+
   // uncomment when email history will be rdy
   // triggerEmailPreviewModal = (email) => {
   //   const { modals: { emailPreviewModal } } = this.props;
@@ -98,7 +103,7 @@ class Personal extends PureComponent {
   // };
 
   render() {
-    if (this.props.loading) {
+    if (this.props.profileLoading) {
       return null;
     }
 
@@ -133,10 +138,11 @@ class Personal extends PureComponent {
         },
         affiliate,
         clientType,
+        referrer,
         // uncomment when email history will be rdy
         // sentEmails,
       },
-      loading,
+      profileLoading,
       auth: {
         department,
       },
@@ -261,7 +267,7 @@ class Personal extends PureComponent {
                 <Uuid uuid={migrationId} />
               </div>
             </If>
-            <If condition={!loading}>
+            <If condition={!profileLoading}>
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_CONFIGURATION}>
                 <RegulatedForm
                   handleChange={this.handleRegulatedChanged}
@@ -275,6 +281,13 @@ class Personal extends PureComponent {
                 label="SMS"
                 value={affiliate && affiliate.sms}
               />
+              <If condition={referrer?.fullName}>
+                <PersonalInformationItem
+                  label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRER')}
+                  value={referrer.fullName}
+                  onClickValue={this.handleReferrerClick}
+                />
+              </If>
               <Regulated>
                 <div className="account-details__label margin-top-15">
                   {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}

@@ -5,7 +5,7 @@ import './Checkbox.scss';
 
 class Checkbox extends PureComponent {
   static propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     name: PropTypes.string.isRequired,
     value: PropTypes.bool,
     className: PropTypes.string,
@@ -18,6 +18,7 @@ class Checkbox extends PureComponent {
     disabled: false,
     value: false,
     className: '',
+    label: null,
     error: null,
     onChange: () => {},
   };
@@ -56,7 +57,9 @@ class Checkbox extends PureComponent {
             checked={value}
           />
           <span className="Checkbox__icon" />
-          <span className="Checkbox__label">{label}</span>
+          <If condition={label}>
+            <span className="Checkbox__label">{label}</span>
+          </If>
         </label>
         <If condition={error}>
           <div className="Checkbox__error">

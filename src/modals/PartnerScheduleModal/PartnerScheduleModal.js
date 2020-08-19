@@ -7,14 +7,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { createValidator, translateLabels } from 'utils/validator';
-import { decodeNullValues } from 'components/Formik/utils';
 import countryList from 'utils/countryList';
+import { createValidator, translateLabels } from 'utils/validator';
 import { Button } from 'components/UI';
-import {
-  FormikInputField,
-  FormikSelectField,
-} from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
+import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { attributeLabels } from './constants';
 import createScheduleMutation from './graphql/createScheduleMutation';
 import './PartnerScheduleModal.scss';

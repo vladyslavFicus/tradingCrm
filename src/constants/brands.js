@@ -99,6 +99,10 @@ const brands = keyMirror({
   '24fintime': null,
   thecapstocksit: null,
   fcautomatic: null,
+  cptest: null,
+  trsmarkets: null,
+  cryptodeutsch: null,
+  'consulting-alfa': null,
 });
 
 const departments = keyMirror({
@@ -517,6 +521,22 @@ const brandsConfig = {
   [brands.fcautomatic]: {
     name: 'fcautomatic',
     image: { src: '/img/brand/choose-brand/fcautomatic.svg' },
+  },
+  [brands.cptest]: {
+    name: 'cptest',
+    image: { src: '/img/brand/choose-brand/cptest.svg' },
+  },
+  [brands.trsmarkets]: {
+    name: 'trsmarkets',
+    image: { src: '/img/brand/choose-brand/trsmarkets.svg' },
+  },
+  [brands.cryptodeutsch]: {
+    name: 'cryptodeutsch',
+    image: { src: '/img/brand/choose-brand/cryptodeutsch.svg' },
+  },
+  [brands['consulting-alfa']]: {
+    name: 'consulting-alfa',
+    image: { src: '/img/brand/choose-brand/consulting-alfa.svg' },
   },
 };
 const departmentsConfig = {

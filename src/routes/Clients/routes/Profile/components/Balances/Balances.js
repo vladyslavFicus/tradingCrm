@@ -1,18 +1,20 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { get, groupBy, sumBy } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { withRequests } from 'apollo';
 import { getActiveBrandConfig } from 'config';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import { selectItems, moneyObj } from './constants';
+import { PaymentStatisticWithdrawQuery, PaymentStatisticDepositQuery } from './graphql';
 import './Balances.scss';
 
-class Balances extends Component {
+class Balances extends PureComponent {
   static propTypes = {
     clientRegistrationDate: PropTypes.string.isRequired,
     depositPaymentStatistic: PropTypes.paymentsStatistic.isRequired,
@@ -135,27 +137,26 @@ class Balances extends Component {
 
     const {
       depositPaymentStatistic: {
-        paymentsStatistic: depositStat,
+        data: depositStat,
         loading: depositLoading,
       },
       withdrawPaymentStatistic: {
-        paymentsStatistic: withdrawStat,
+        data: withdrawStat,
         loading: widthdrawLoading,
       },
     } = this.props;
-
     const {
       totalAmount: depositAmount,
       totalCount: depositCount,
-    } = get(depositStat, 'itemsTotal') || moneyObj;
+    } = get(depositStat, 'paymentsStatistic.itemsTotal') || moneyObj;
     const {
       totalAmount: withdrawAmount,
       totalCount: withdrawCount,
-    } = get(withdrawStat, 'itemsTotal') || moneyObj;
+    } = get(withdrawStat, 'paymentsStatistic.itemsTotal') || moneyObj;
 
-    const depositItems = get(depositStat, 'items', [])
+    const depositItems = get(depositStat, 'paymentsStatistic.items', [])
       .filter(i => i.amount > 0);
-    const withdrawItems = get(withdrawStat, 'items', [])
+    const withdrawItems = get(withdrawStat, 'paymentsStatistic.items', [])
       .filter(i => i.amount > 0);
 
     const lastDepositItem = depositItems[depositItems.length - 1];
@@ -164,12 +165,9 @@ class Balances extends Component {
     const firstDepositItem = depositItems[0];
     const firstWithdrawItem = withdrawItems[0];
 
-    const depositError = get(depositStat, 'error');
-    const withdrawError = get(withdrawStat, 'error');
-
     return (
       <Choose>
-        <When condition={!depositLoading || !widthdrawLoading || depositError || withdrawError}>
+        <When condition={!depositLoading || !widthdrawLoading}>
           <div className="row">
             <div className="col-6">
               <div className="header-block-title">
@@ -266,7 +264,7 @@ class Balances extends Component {
   };
 
   render() {
-    const { dropDownOpen } = this.state;
+    const { dropDownOpen, dateFrom } = this.state;
 
     const dropdownClassName = classNames(
       'dropdown-highlight cursor-pointer',
@@ -294,7 +292,7 @@ class Balances extends Component {
                   <form className="balance-select-field">
                     <Select
                       onChange={this.handleDateChange}
-                      value={this.state.dateFrom}
+                      value={dateFrom}
                     >
                       {selectItems.map(({ value, label }) => (
                         <option key={value} value={value}>
@@ -314,4 +312,7 @@ class Balances extends Component {
   }
 }
 
-export default Balances;
+export default withRequests({
+  withdrawPaymentStatistic: PaymentStatisticWithdrawQuery,
+  depositPaymentStatistic: PaymentStatisticDepositQuery,
+})(Balances);

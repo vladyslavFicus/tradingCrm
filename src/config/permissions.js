@@ -57,7 +57,8 @@ export default {
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
     RESET_PASSWORD: 'auth2.user.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
-    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
+    CHANGE_ACQUISITION: 'hierarchy-updater.user.bulkUpdateAcquisition',
+    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateAcquisitionStatus',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
     VIEW_FILES: 'attachments.getUserAttachments',
     VIEW_FILE: 'attachments.downloadFile',
@@ -82,10 +83,10 @@ export default {
     CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
   },
   PAYMENTS: {
-    PLAYER_PAYMENTS_LIST: 'payment.searchPayments',
+    PAYMENTS_LIST: 'payment.searchPayments',
   },
   AUDIT: {
-    PROFILE_AUDIT_LOGS: 'audit.searchAudit',
+    AUDIT_LOGS: 'audit.searchAudit',
   },
   TRADING_ACTIVITY: {
     CLIENT_TRADING_ACTIVITY: 'trading-activity.searchGet',
@@ -114,9 +115,19 @@ export default {
     DELETE_EMAIL_TEMPLATE: 'email.deleteTemplate',
   },
   TRADING_ACCOUNTS: {
-    GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+    GET_TRADING_ACCOUNTS: 'accountview.search',
   },
   NOTIFICATION_CENTER: {
+    LIST: 'notification.search',
     GET_UNREAD_COUNT: 'notification.countAllUserUnreadNotifications',
+  },
+  DASHBOARD: {
+    REGISTRATION_STATISTICS: 'profileview.admin.getRegistrationStatistics',
+    PAYMENT_STATISTICS: 'payment.getStatistics',
+    PAYMENTS_LIST: 'payment.searchPayments',
+    PROFILES_LIST: 'profileview.admin.pageableSearch',
+  },
+  CALLBACKS: {
+    LIST: 'callback.searchCallbacks',
   },
 };

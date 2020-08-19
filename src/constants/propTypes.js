@@ -91,43 +91,7 @@ PropTypes.uploadingFile = PropTypes.shape({
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
-  acquisition: PropTypes.shape({
-    acquisitionStatus: PropTypes.string,
-    retentionRepresentative: PropTypes.string,
-    retentionStatus: PropTypes.string,
-    retentionOperator: PropTypes.shape({
-      firstName: PropTypes.string,
-      hierarchy: PropTypes.shape({
-        parentBranches: PropTypes.arrayOf(
-          PropTypes.shape({
-            name: PropTypes.string,
-            branchType: PropTypes.string,
-            parentBranch: PropTypes.shape({
-              name: PropTypes.string,
-              branchType: PropTypes.string,
-            }),
-          }),
-        ),
-      }),
-    }),
-    salesRepresentative: PropTypes.string,
-    salesStatus: PropTypes.string,
-    salesOperator: PropTypes.shape({
-      firstName: PropTypes.string,
-      hierarchy: PropTypes.shape({
-        parentBranches: PropTypes.arrayOf(
-          PropTypes.shape({
-            name: PropTypes.string,
-            branchType: PropTypes.string,
-            parentBranch: PropTypes.shape({
-              name: PropTypes.string,
-              branchType: PropTypes.string,
-            }),
-          }),
-        ),
-      }),
-    }),
-  }),
+  acquisition: PropTypes.acquisition,
   address: PropTypes.shape({
     countryCode: PropTypes.string,
   }),
@@ -219,19 +183,17 @@ PropTypes.partner = PropTypes.shape({
   statusChangeDate: PropTypes.string,
   statusReason: PropTypes.string,
   uuid: PropTypes.uuid,
-  schedule: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.shape({
-      activated: PropTypes.bool,
-      day: PropTypes.string,
-      totalLimit: PropTypes.number,
-      countrySpreads: PropTypes.arrayOf(PropTypes.shape({
-        country: PropTypes.string,
-        limit: PropTypes.number,
-      })),
-      workingHoursFrom: PropTypes.string,
-      workingHoursTo: PropTypes.string,
+  schedule: PropTypes.arrayOf(PropTypes.shape({
+    activated: PropTypes.bool,
+    day: PropTypes.string,
+    totalLimit: PropTypes.number,
+    countrySpreads: PropTypes.arrayOf(PropTypes.shape({
+      country: PropTypes.string,
+      limit: PropTypes.number,
     })),
-  }),
+    workingHoursFrom: PropTypes.string,
+    workingHoursTo: PropTypes.string,
+  })),
 });
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,
@@ -511,11 +473,6 @@ PropTypes.lead = PropTypes.shape({
   email: PropTypes.string,
   country: PropTypes.string,
   source: PropTypes.string,
-  salesAgent: PropTypes.shape({
-    fullName: PropTypes.string,
-    uuid: PropTypes.string,
-  }),
-  salesStatus: PropTypes.string,
   birthDate: PropTypes.string,
   affiliate: PropTypes.string,
   gender: PropTypes.string,
@@ -523,6 +480,7 @@ PropTypes.lead = PropTypes.shape({
   language: PropTypes.string,
   registrationDate: PropTypes.string,
   statusChangeDate: PropTypes.string,
+  acquisition: PropTypes.acquisition,
 });
 PropTypes.branchHierarchyType = PropTypes.shape({
   name: PropTypes.string,
@@ -739,15 +697,7 @@ PropTypes.profileView = PropTypes.shape({
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.profile = PropTypes.shape({
-  acquisition: PropTypes.shape({
-    acquisitionStatus: PropTypes.string,
-    retentionRepresentative: PropTypes.string,
-    retentionStatus: PropTypes.string,
-    retentionOperator: PropTypes.object, // operator shape
-    salesRepresentative: PropTypes.string,
-    salesStatus: PropTypes.string,
-    salesOperator: PropTypes.object, // operator shape
-  }),
+  acquisition: PropTypes.acquisition,
   address: PropTypes.shape({
     address: PropTypes.string,
     city: PropTypes.string,
@@ -918,6 +868,101 @@ PropTypes.treeData = PropTypes.shape({
   uuid: PropTypes.string,
   userType: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.object),
+});
+PropTypes.referral = PropTypes.shape({
+  referralInfo: PropTypes.shape({
+    name: PropTypes.string,
+    profileUuid: PropTypes.string,
+    languageCode: PropTypes.string,
+    countryCode: PropTypes.string,
+    registrationDate: PropTypes.string,
+  }),
+  bonusType: PropTypes.string,
+  ftdInfo: PropTypes.shape({
+    date: PropTypes.string,
+    amount: PropTypes.number,
+    currency: PropTypes.string,
+    normalizedAmount: PropTypes.string,
+  }),
+  remuneration: PropTypes.shape({
+    date: PropTypes.string,
+    amount: PropTypes.number,
+    currency: PropTypes.string,
+    normalizedAmount: PropTypes.string,
+  }),
+  acquisition: PropTypes.shape({
+    acquisitionStatus: PropTypes.string,
+    retentionStatus: PropTypes.string,
+    retentionOperator: PropTypes.shape({
+      fullName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+    salesStatus: PropTypes.string,
+    salesOperator: PropTypes.shape({
+      fullName: PropTypes.string,
+      hierarchy: PropTypes.shape({
+        parentBranches: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+            parentBranch: PropTypes.shape({
+              name: PropTypes.string,
+              branchType: PropTypes.string,
+            }),
+          }),
+        ),
+      }),
+    }),
+  }),
+});
+
+PropTypes.acquisition = PropTypes.shape({
+  acquisitionStatus: PropTypes.string,
+  retentionRepresentative: PropTypes.string,
+  retentionStatus: PropTypes.string,
+  retentionOperator: PropTypes.shape({
+    firstName: PropTypes.string,
+    hierarchy: PropTypes.shape({
+      parentBranches: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          branchType: PropTypes.string,
+          parentBranch: PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+          }),
+        }),
+      ),
+    }),
+  }),
+  salesRepresentative: PropTypes.string,
+  salesStatus: PropTypes.string,
+  salesOperator: PropTypes.shape({
+    firstName: PropTypes.string,
+    hierarchy: PropTypes.shape({
+      parentBranches: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          branchType: PropTypes.string,
+          parentBranch: PropTypes.shape({
+            name: PropTypes.string,
+            branchType: PropTypes.string,
+          }),
+        }),
+      ),
+    }),
+  }),
 });
 
 export default PropTypes;

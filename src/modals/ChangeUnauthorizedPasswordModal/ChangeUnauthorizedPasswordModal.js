@@ -18,7 +18,7 @@ import ChangeUnauthorizedPasswordMutation from './graphql/ChangeUnauthorizedPass
 import './ChangeUnauthorizedPasswordModal.scss';
 
 const fieldLabels = {
-  oldPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.OLD_PASSWORD',
+  currentPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.CURRENT_PASSWORD',
   newPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NEW_PASSWORD',
   repeatPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.REPEAT_PASSWORD',
 };
@@ -57,13 +57,16 @@ class ChangeUnauthorizedPasswordModal extends PureComponent {
 
       notify({
         level: 'success',
-        title: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCEED.TITLE'),
-        message: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCEED.MESSAGE'),
+        title: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCESS.TITLE'),
+        message: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
     } catch (e) {
       const error = parseErrors(e);
 
-      if (error.error === 'error.validation.password.repeated') {
+      if (
+        error.error === 'error.validation.password.repeated'
+        || error.error === 'error.validation.password.nonEquals'
+      ) {
         this.setState({ formError: I18n.t(error.error) });
       } else {
         this.setState({ formError: null });
@@ -89,7 +92,7 @@ class ChangeUnauthorizedPasswordModal extends PureComponent {
           initialValues={{}}
           validate={
             createValidator({
-              oldPassword: ['required'],
+              currentPassword: ['required'],
               newPassword: [
                 'required',
                 `regex:${passwordPattern}`,
@@ -120,9 +123,9 @@ class ChangeUnauthorizedPasswordModal extends PureComponent {
                   {I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.SUBTITLE')}
                 </div>
                 <Field
-                  name="oldPassword"
+                  name="currentPassword"
                   type="password"
-                  label={I18n.t(fieldLabels.oldPassword)}
+                  label={I18n.t(fieldLabels.currentPassword)}
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />

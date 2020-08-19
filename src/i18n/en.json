@@ -613,7 +613,7 @@
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT ID",
       "LEAD": "Name, Email, Phone, ID, source",
-      "AFFILIATE": "Affiliate ID, source",
+      "AFFILIATE": "Affiliate ID, Referrer ID, source",
       "NAME": "Name",
       "MIGRATION_ID": "Migration ID"
     },
@@ -723,6 +723,7 @@
     "LANGUAGE": "Language",
     "UNTIL": "Until",
     "ON": "on",
+    "UPDATE_FAILED": "Update failed",
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
@@ -1070,7 +1071,9 @@
         "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
-        "INTEREST_RATE": "Interest rate"
+        "INTEREST_RATE": "Interest rate",
+        "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
+        "ACQUISITION_UPDATED": "Acquisition updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1185,9 +1188,9 @@
         "BONUS": "Bonus"
       },
       "PAYMENT_AGGREGATORS": {
-        "CASHIER": "Cashier",
         "MANUAL": "Manual",
-        "NASPAY": "NasPay"
+        "INTERNAL": "Internal",
+        "CASHIER": "Cashier"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
@@ -1254,7 +1257,8 @@
           "PAYRETAILERS": "Payretailers",
           "RECALL": "Recall",
           "CHARGEBACK": "Chargeback",
-          "CASHIER": "CASHIER"
+          "CASHIER": "CASHIER",
+          "REFERRAL_BONUS": "Referral bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference",
@@ -1670,7 +1674,8 @@
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
         "WARNING": "Warning",
-        "ACTIVITY": "Activity"
+        "ACTIVITY": "Activity",
+        "REFERRAL": "Referral"
       }
     }
   },
@@ -1692,7 +1697,8 @@
         "exists": "This External ID already exists"
       },
       "password": {
-        "repeated": "You used this password recently. Please choose a different one"
+        "repeated": "You used this password recently. Please choose a different one",
+        "nonEquals": "Old password value is wrong"
       }
     },
     "payment": {
@@ -1711,13 +1717,25 @@
       "duplicated": "Profile is duplicated"
     },
     "user": {
-      "logon-attempts-limit-reached": "by 5 failed login attempts",
       "account": {
         "create": {
           "restriction": "You can't create more accounts for this currency"
         }
       },
-      "locked": "User is locked, please contact customer support"
+      "locked": {
+        "by": {
+          "operator": "User is locked, please contact customer support"
+        },
+        "failed": {
+          "sign": {
+            "in": {
+              "attempts": {
+                "exceeded": "User is locked (5 failed login attempts), please contact customer support"
+              }
+            }
+          }
+        }
+      }
     },
     "template": {
       "name": {
@@ -2283,7 +2301,7 @@
     "CHANGE_UNAUTHORIZED_PASSWORD_MODAL": {
       "TITLE": "Change password",
       "SUBTITLE": "The password has expired. Please, update your password and login again",
-      "OLD_PASSWORD": "Old password",
+      "CURRENT_PASSWORD": "Old password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password",
       "NOTIFICATIONS": {
@@ -2292,7 +2310,7 @@
           "MESSAGE": "You can login again"
         },
         "ERROR": {
-          "TITLE": "Password didn't changed",
+          "TITLE": "Password was not changed",
           "MESSAGE": "Something went wrong"
         }
       }
@@ -2397,7 +2415,8 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed"
+      "FEED": "Feed",
+      "REFERRALS": "Referrals"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -2506,6 +2525,11 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
+      },
+      "REFERRALS": {
+        "TITLE": "REFERRALS",
+        "FTD": "FTD: %{value}",
+        "REMUNERATION": "Remuneration: %{currency} %{value}"
       }
     },
     "TRANSACTIONS": {
@@ -2646,7 +2670,8 @@
       },
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
-      }
+      },
+      "REFERRER": "Referrer"
     },
     "FATCA": {
       "TITLE": "FATCA"
@@ -2675,8 +2700,10 @@
   },
   "CLIENTS": {
     "BULK_ACTIONS": "Bulk actions",
-    "RETENTION_INFO_UPDATED": "Clients retention info updated",
-    "SALES_INFO_UPDATED": "Clients sales info updated",
+    "BULK_RETENTION_INFO_UPDATED": "Clients retention info updated",
+    "BULK_SALES_INFO_UPDATED": "Clients sales info updated",
+    "RETENTION_INFO_UPDATED": "Client retention info updated",
+    "SALES_INFO_UPDATED": "Client sales info updated",
     "ACQUISITION_STATUS_UPDATED": "Acquisition status updated",
     "LIST": {
       "GRID_HEADER": {
@@ -2687,6 +2714,7 @@
         "BALANCE": "Balance",
         "DEPOSITS": "Deposits",
         "AFFILIATE": "Affiliate",
+        "AFFILIATE_REFERRER": "Affiliate/Referrer",
         "SALES": "Sales",
         "RETENTION": "Retention",
         "REGISTRATION": "Registration",
@@ -2720,7 +2748,8 @@
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
     "BULK_ACTIONS": "Bulk actions",
-    "UPDATED": "Leads updated successfully",
+    "BULK_UPDATED": "Leads updated successfully",
+    "UPDATED": "Lead updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -3428,7 +3457,7 @@
     "FORM": {
       "FIELDS": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
+        "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
         "STATUS": "Status"
       },
@@ -3442,7 +3471,7 @@
       }
     },
     "GRID": {
-      "ACCOUNT_ID": "Account ID",
+      "ACCOUNT_ID": "Trading acc",
       "PLATFORM_TYPE": "Platform type",
       "PROFILE": "Client",
       "SOURCE_NAME": "Source name",
@@ -3450,11 +3479,32 @@
       "LEVERAGE": "Leverage",
       "BALANCE": "Balance",
       "STATUS": "Status",
-      "ACCOUNT_TYPE": "Account type"
+      "ACCOUNT_TYPE": "Account type",
+      "LOGIN": "MT4 login",
+      "CREDIT": "Credit"
     }
   },
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",
     "NO_MANAGER": "Current branch does not have a manager"
+  },
+  "REFERRALS": {
+    "GRID": {
+      "NAME": "Referral name",
+      "COUNTRY": "Country",
+      "BONUS_TYPE": "Bonus type",
+      "REGISTRATION": "Registration",
+      "FTD_AMOUNT": "FTD amount",
+      "FTD_DATE": "FTD date",
+      "REMUNERATION": "Remuneration",
+      "REMUNERATION_DATE": "Remuneration date",
+      "SALES": "Sales",
+      "RETENTION": "Retention"
+    },
+    "BONUS_TYPE_STATUS": {
+      "FTD": "FTD",
+      "REGISTRATION": "Registration"
+    },
+    "TITLE": "Referrals"
   }
 }

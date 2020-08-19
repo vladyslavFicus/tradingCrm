@@ -12,18 +12,18 @@ import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import { FormikCheckbox } from 'components/Formik';
 import PartnerScheduleModal from 'modals/PartnerScheduleModal';
-import getSchedule from './graphql/getScheduleQuery';
-import changeScheduleStatusMutation from './graphql/changeScheduleStatusMutation';
-import './Schedule.scss';
+import ChangeScheduleStatusMutation from './graphql/ChangeScheduleStatusMutation';
+import './PartnerSchedule.scss';
 
-class Schedule extends PureComponent {
+class PartnerSchedule extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
       partnerScheduleModal: PropTypes.modalType,
     }).isRequired,
     notify: PropTypes.func.isRequired,
-    affiliateUuid: PropTypes.string.isRequired,
-    partner: PropTypes.partner.isRequired,
+    partnerData: PropTypes.query({
+      partner: PropTypes.partner,
+    }).isRequired,
     changeScheduleStatus: PropTypes.func.isRequired,
   };
 
@@ -31,7 +31,7 @@ class Schedule extends PureComponent {
     checkedCountries: {},
   }
 
-  static getDerivedStateFromProps({ partner: { data } }, { checkedCountries }) {
+  static getDerivedStateFromProps({ partnerData: { data } }, { checkedCountries }) {
     const scheduleWeek = get(data, 'partner.schedule') || [];
 
     return {
@@ -45,9 +45,9 @@ class Schedule extends PureComponent {
   handleSubmit = async (value) => {
     const {
       changeScheduleStatus,
-      affiliateUuid,
       notify,
-      partner: {
+      partnerData: {
+        data,
         refetch,
       },
     } = this.props;
@@ -55,7 +55,7 @@ class Schedule extends PureComponent {
     try {
       await changeScheduleStatus({
         variables: {
-          affiliateUuid,
+          affiliateUuid: data?.partner?.uuid,
           data: Object.keys(value).map(day => ({ day, activated: value[day] })),
         },
       });
@@ -88,16 +88,16 @@ class Schedule extends PureComponent {
   triggerEditScheduleModal = (value) => {
     const {
       modals: { partnerScheduleModal },
-      affiliateUuid,
-      partner: {
+      partnerData: {
         refetch,
+        data,
       },
     } = this.props;
 
     partnerScheduleModal.show({
       ...value,
       activated: this.state.checkedCountries[value.day],
-      affiliateUuid,
+      affiliateUuid: data?.partner?.uuid,
       refetch,
     });
   };
@@ -145,7 +145,7 @@ class Schedule extends PureComponent {
       <When condition={countrySpreads}>
         <div className="font-weight-700">
           {countrySpreads.map(({ country, limit }) => (
-            <div className="Schedule__countrySpreads">
+            <div className="PartnerSchedule__countrySpreads" key={country}>
               <span>{countryList[country.toUpperCase()]}</span>
               <span className="margin-right-50">{limit}</span>
             </div>
@@ -180,7 +180,7 @@ class Schedule extends PureComponent {
 
   render() {
     const {
-      partner: {
+      partnerData: {
         data,
         loading,
       },
@@ -190,7 +190,7 @@ class Schedule extends PureComponent {
     const scheduleWeek = get(data, 'partner.schedule') || [];
 
     return (
-      <div className="Schedule card">
+      <div className="PartnerSchedule card">
         <div className="card-body">
           <Formik
             initialValues={{
@@ -210,11 +210,11 @@ class Schedule extends PureComponent {
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>
                 </If>
-                <span className="Schedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</span>
+                <span className="PartnerSchedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</span>
                 <Grid
                   rowsClassNames={({ day }) => (
                     classNames({
-                      'Schedule--is-disabled': !checkedCountries[day],
+                      'PartnerSchedule--is-disabled': !checkedCountries[day],
                     }))
                   }
                   data={scheduleWeek}
@@ -261,7 +261,6 @@ export default compose(
   }),
   withNotifications,
   withRequests({
-    partner: getSchedule,
-    changeScheduleStatus: changeScheduleStatusMutation,
+    changeScheduleStatus: ChangeScheduleStatusMutation,
   }),
-)(Schedule);
+)(PartnerSchedule);

@@ -45,7 +45,11 @@ const validation = (values, tradingAccounts) => {
   }
 
   if (paymentType === paymentTypes.CREDIT_IN.name) {
-    rules = { ...rules, expirationDate: 'required|string' };
+    rules = {
+      ...rules,
+      paymentMethod: 'required|string',
+      expirationDate: 'required|string',
+    };
   }
 
   if (paymentType === paymentTypes.TRANSFER.name) {
