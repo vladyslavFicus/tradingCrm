@@ -250,11 +250,13 @@ class RepresentativeUpdateModal extends PureComponent {
     } = this.props;
 
     await updateAcquisition({
-      uuid,
-      ...(type === deskTypes.SALES
-        ? { salesStatus: status }
-        : { retentionStatus: status }),
-      ...(repId && { parentOperator: repId }),
+      variables: {
+        uuid,
+        ...(type === deskTypes.SALES
+          ? { salesStatus: status }
+          : { retentionStatus: status }),
+        ...(repId && { parentOperator: repId }),
+      },
     });
 
     notify({
@@ -282,7 +284,7 @@ class RepresentativeUpdateModal extends PureComponent {
 
     const variables = {
       uuids,
-      ...(repId && { parentOperators: [repId] }),
+      ...(repId && { parentOperators: repId }),
       ...(type === deskTypes.SALES
         ? { salesStatus: status }
         : { retentionStatus: status }),

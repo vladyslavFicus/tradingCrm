@@ -6,14 +6,14 @@ import { Mutation } from 'react-apollo';
 const MUTATION = gql`
   mutation BulkUpdateAcquisitionStatus(
     $uuids: [String]!
-    $acquisitionStatus: String!
+    $acquisitionStatus: Desk__Types__Enum!
     $searchParams: ClientSearch__Input
     $bulkSize: Int
   ) {
     hierarchy {
       bulkUpdateAcquisitionStatus(
         uuids: $uuids
-        acquisitionStatus: $salesStatus
+        acquisitionStatus: $acquisitionStatus
         searchParams: $searchParams
         bulkSize: $bulkSize
       )
