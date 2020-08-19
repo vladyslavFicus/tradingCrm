@@ -20,21 +20,6 @@ const REQUEST = gql`query LeadProfileQuery(
     email
     country
     source
-    salesAgent {
-      fullName
-      uuid
-      hierarchy {
-        parentBranches {
-          name
-          branchType
-          parentBranch {
-            name
-            branchType
-          }
-        }
-      }
-    }
-    salesStatus
     birthDate
     affiliate
     gender
@@ -45,6 +30,23 @@ const REQUEST = gql`query LeadProfileQuery(
     convertedByOperatorUuid
     convertedToClientUuid
     migrationId
+    acquisition {
+      salesOperator {
+        fullName
+        uuid
+        hierarchy {
+          parentBranches {
+            name
+            branchType
+            parentBranch {
+              name
+              branchType
+            }
+          }
+        }
+      }
+      salesStatus
+    }
   }
 }`;
 

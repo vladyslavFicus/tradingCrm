@@ -2,14 +2,16 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { parseErrors } from 'apollo';
+import { compose } from 'react-apollo';
+import { withRequests, parseErrors } from 'apollo';
+import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
+import BulkUpdateAcquisitionStatus from './graphql/BulkUpdateAcquisitionStatus';
 import { checkMovePermission } from './utils';
-import { getClientsData } from '../utils';
 
 const validate = createValidator({
   acquisitionStatus: ['required', 'string'],
@@ -29,7 +31,7 @@ class MoveModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
-    bulkClientUpdate: PropTypes.func.isRequired,
+    bulkUpdateAcquisitionStatus: PropTypes.func.isRequired,
   };
 
   handleMoveSubmit = async ({ acquisitionStatus }, { setSubmitting, setErrors }) => {
@@ -37,17 +39,18 @@ class MoveModal extends PureComponent {
       notify,
       configs,
       configs: {
-        totalElements,
+        allRowsSelected,
+        touchedRowsIds,
+        searchParams,
+        selectedRowsLength,
       },
       content,
       onSuccess,
       onCloseModal,
-      bulkClientUpdate,
+      bulkUpdateAcquisitionStatus,
     } = this.props;
 
     const actionForbidden = checkMovePermission({ ...configs, content, acquisitionStatus });
-
-    const type = acquisitionStatus;
 
     if (actionForbidden) {
       const typeLowercased = acquisitionStatus.toLowerCase();
@@ -63,17 +66,23 @@ class MoveModal extends PureComponent {
       return;
     }
 
-    const isMoveAction = true;
-    const clients = getClientsData(configs, totalElements, { type, isMoveAction }, content);
+    let selectedClients = touchedRowsIds.map(index => content[index]);
+
+    if (!allRowsSelected) {
+      selectedClients = selectedClients.filter(({ acquisition }) => (
+        acquisition.acquisitionStatus !== acquisitionStatus
+      ));
+    }
 
     try {
-      await bulkClientUpdate({
+      await bulkUpdateAcquisitionStatus({
         variables: {
-          type,
-          clients,
-          isMoveAction,
-          totalElements,
-          ...configs,
+          uuids: selectedClients.map(({ uuid }) => uuid),
+          acquisitionStatus,
+          ...allRowsSelected && {
+            searchParams,
+            bulkSize: selectedRowsLength,
+          },
         },
       });
 
@@ -96,13 +105,13 @@ class MoveModal extends PureComponent {
         level: 'error',
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: condition
-          ? I18n.t(error.error, { type })
+          ? I18n.t(error.error, { type: acquisitionStatus })
           : I18n.t('COMMON.SOMETHING_WRONG'),
       });
 
       if (condition) {
         setErrors({
-          submit: I18n.t('clients.bulkUpdate.detailedTypeError', { type }),
+          submit: I18n.t('clients.bulkUpdate.detailedTypeError', { type: acquisitionStatus }),
         });
         setSubmitting(false);
       }
@@ -178,4 +187,9 @@ class MoveModal extends PureComponent {
   }
 }
 
-export default MoveModal;
+export default compose(
+  withNotifications,
+  withRequests({
+    bulkUpdateAcquisitionStatus: BulkUpdateAcquisitionStatus,
+  }),
+)(MoveModal);

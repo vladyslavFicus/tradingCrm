@@ -19,12 +19,14 @@ class AcquisitionStatus extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({
       uuid: PropTypes.string,
-      salesStatus: PropTypes.string,
-      salesAgent: PropTypes.shape({
-        fullName: PropTypes.string,
-        uuid: PropTypes.string,
-        hierarchy: PropTypes.shape({
-          parentBranches: PropTypes.array,
+      acquisition: PropTypes.shape({
+        salesStatus: PropTypes.string,
+        salesOperator: PropTypes.shape({
+          fullName: PropTypes.string,
+          uuid: PropTypes.string,
+          hierarchy: PropTypes.shape({
+            parentBranches: PropTypes.array,
+          }),
         }),
       }),
     }),
@@ -48,10 +50,9 @@ class AcquisitionStatus extends PureComponent {
     } = this.props;
 
     representativeUpdateModal.show({
+      uuid,
       type: aquisitionStatusesNames.SALES,
       userType: userTypes.LEAD_CUSTOMER,
-      leads: [{ uuid }],
-      initialValues: { aquisitionStatus: aquisitionStatusesNames.SALES },
       header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
         type: aquisitionStatusesNames.SALES.toLowerCase(),
       }),
@@ -60,16 +61,18 @@ class AcquisitionStatus extends PureComponent {
 
   render() {
     const {
-      data: { salesStatus, salesAgent },
+      data: { acquisition },
       loading,
       permission: { permissions: currentPermissions },
     } = this.props;
 
+    const { salesStatus, salesOperator } = acquisition || {};
+
     let team = null;
     let desk = null;
 
-    if (salesAgent) {
-      const branches = salesAgent.hierarchy ? salesAgent.hierarchy.parentBranches : null;
+    if (salesOperator) {
+      const branches = salesOperator.hierarchy ? salesOperator.hierarchy.parentBranches : null;
       // Find operator team and desk. If team is absent -> find desk in branches
 
       if (branches) {
@@ -117,8 +120,8 @@ class AcquisitionStatus extends PureComponent {
                 <div className="operator-col">
                   <div>
                     <Choose>
-                      <When condition={salesAgent}>
-                        {salesAgent.fullName}
+                      <When condition={salesOperator}>
+                        {salesOperator.fullName}
                       </When>
                       <Otherwise>
                         <span>&mdash;</span>

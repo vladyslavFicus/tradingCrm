@@ -5,6 +5,42 @@ import { Query } from 'react-apollo';
 import { ContactsFragment } from 'graphql/fragments/contacts';
 import { AddressFragment } from 'graphql/fragments/address';
 
+const AcquisitionFragment = gql`
+  fragment AcquisitionFragment on HierarchyUserAcquisition {
+    acquisitionStatus
+    retentionRepresentative
+    retentionStatus
+    retentionOperator {
+      fullName
+      hierarchy {
+        parentBranches {
+          name
+          branchType
+          parentBranch {
+            name
+            branchType
+          }
+        }
+      }
+    }
+    salesRepresentative
+    salesStatus
+    salesOperator {
+      fullName
+      hierarchy {
+        parentBranches {
+          name
+          branchType
+          parentBranch {
+            name
+            branchType
+          }
+        }
+      }
+    }
+  }
+`;
+
 const REQUEST = gql`
   query ProfileQuery(
     $playerUUID: String!
@@ -29,39 +65,6 @@ const REQUEST = gql`
       phoneVerified
       profileVerified
       timeZone
-      acquisition {
-        acquisitionStatus
-        retentionRepresentative
-        retentionStatus
-        retentionOperator {
-          fullName
-          hierarchy {
-            parentBranches {
-              name
-              branchType
-              parentBranch {
-                name
-                branchType
-              }
-            }
-          }
-        }
-        salesRepresentative
-        salesStatus
-        salesOperator {
-          fullName
-          hierarchy {
-            parentBranches {
-              name
-              branchType
-              parentBranch {
-                name
-                branchType
-              }
-            }
-          }
-        }
-      }
       address {
         ...AddressFragment
       }
@@ -173,6 +176,9 @@ const REQUEST = gql`
         fullName
         uuid
       }
+      acquisition {
+        ...AcquisitionFragment
+      }
       #      uncomment when email history will be rdy
       #      sentEmails {
       #        id
@@ -184,6 +190,7 @@ const REQUEST = gql`
   }
   ${ContactsFragment}
   ${AddressFragment}
+  ${AcquisitionFragment}
 `;
 
 const ProfileQuery = ({ children, match: { params: { id } } }) => (

@@ -1,6 +1,6 @@
 import { statuses } from '../../constants';
 
-const MAX_SELECTED_LEADS = 2000;
+const MAX_SELECTED_LEADS = 5000;
 
 const leadAccountStatuses = {
   [statuses.CONVERTED]: {

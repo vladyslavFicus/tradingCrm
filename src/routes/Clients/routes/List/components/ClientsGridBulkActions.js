@@ -12,7 +12,6 @@ import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import MoveModal from './Modals';
-import { getClientsData } from './utils';
 
 class ClientsGridBulkActions extends PureComponent {
   static propTypes = {
@@ -23,7 +22,7 @@ class ClientsGridBulkActions extends PureComponent {
     selectedRowsLength: PropTypes.number.isRequired,
     auth: PropTypes.auth.isRequired,
     modals: PropTypes.shape({
-      representativeModal: PropTypes.modalType,
+      representativeUpdateModal: PropTypes.modalType,
       confirmationModal: PropTypes.modalType,
     }).isRequired,
     profiles: PropTypes.shape({
@@ -44,28 +43,20 @@ class ClientsGridBulkActions extends PureComponent {
       allRowsSelected,
       selectedRowsLength,
       location: { query },
-      modals: { representativeModal },
+      modals: { representativeUpdateModal },
       profiles: {
         profiles: {
           content,
-          totalElements,
         },
       },
     } = this.props;
 
-    const clients = getClientsData(
-      { touchedRowsIds, allRowsSelected },
-      totalElements,
-      { type },
-      content,
-    );
-
-    representativeModal.show({
+    representativeUpdateModal.show({
       type,
-      clients,
+      uuids: touchedRowsIds.map(index => content[index].uuid),
       configs: {
-        totalElements,
         allRowsSelected,
+        selectedRowsLength,
         multiAssign: true,
         ...(query && { searchParams: omit(query.filters, ['page.size']) }),
       },
@@ -171,7 +162,7 @@ export default compose(
   withRouter,
   withStorage(['auth']),
   withModals({
-    representativeModal: RepresentativeUpdateModal,
+    representativeUpdateModal: RepresentativeUpdateModal,
     moveModal: MoveModal,
   }),
 )(ClientsGridBulkActions);
