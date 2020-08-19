@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import transformAcquisitionData from './utils';
 import './AcquisitionStatus.scss';
 
-const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
+const changeAcquisition = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION]);
 
 class AcquisitionStatus extends PureComponent {
   static propTypes = {
@@ -28,7 +28,7 @@ class AcquisitionStatus extends PureComponent {
     }).isRequired,
   };
 
-  handleChangeAcquisitionStatusClick = (type) => {
+  handleChangeAcquisitionClick = (type) => {
     const {
       modals: { representativeUpdateModal },
       profile: { uuid },
@@ -67,8 +67,8 @@ class AcquisitionStatus extends PureComponent {
                     key={label}
                     className={`acquisition-item border-${borderColor || 'color-neutral'}`}
                     onClick={
-                      changeAcquisitionStatus.check(currentPermissions) && allowAction
-                        ? () => this.handleChangeAcquisitionStatusClick(modalType)
+                      changeAcquisition.check(currentPermissions) && allowAction
+                        ? () => this.handleChangeAcquisitionClick(modalType)
                         : null
                     }
                   >

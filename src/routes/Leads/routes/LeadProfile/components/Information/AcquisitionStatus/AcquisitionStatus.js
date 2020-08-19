@@ -13,7 +13,7 @@ import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { branchTypes, userTypes } from 'constants/hierarchyTypes';
 import './AcquisitionStatus.scss';
 
-const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
+const changeAcquisition = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION]);
 
 class AcquisitionStatus extends PureComponent {
   static propTypes = {
@@ -99,7 +99,7 @@ class AcquisitionStatus extends PureComponent {
                   )
                 }
                 onClick={
-                  changeAcquisitionStatus.check(currentPermissions)
+                  changeAcquisition.check(currentPermissions)
                     ? this.handleChangeAcquisitionStatusClick
                     : null
                 }

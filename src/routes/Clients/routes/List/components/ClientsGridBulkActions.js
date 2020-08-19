@@ -113,7 +113,7 @@ class ClientsGridBulkActions extends PureComponent {
     const { auth: { department, role } } = this.props;
 
     return (
-      <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
+      <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
         <If condition={department !== departments.RETENTION}>
           <button
             type="button"
