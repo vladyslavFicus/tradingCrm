@@ -33,6 +33,18 @@ const REQUEST = gql`
         showKycStatus
         showNotes
       }
+      schedule {
+        configId
+        activated
+        countrySpreads {
+          country
+          limit
+        },
+        day
+        totalLimit
+        workingHoursFrom
+        workingHoursTo
+      }
       authorities {
         department
         id
