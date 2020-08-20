@@ -113,77 +113,8 @@ class RepresentativeUpdateModal extends PureComponent {
     teams: [],
   };
 
-  handleDeskChange = async (
-    selectedDesk,
-    {
-      setFieldValue,
-      setFieldError,
-      setSubmitting,
-      values,
-    },
-  ) => {
-    this.setState({ teamsLoading: true });
-
-    if (!selectedDesk) {
-      this.setState({
-        teams: [],
-      });
-
-      setFieldValue(fieldNames.REPRESENTATIVE, null);
-      setFieldValue(fieldNames.DESK, null);
-      setFieldValue(fieldNames.TEAM, null);
-
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const {
-        data: {
-          branchChildren: teams,
-        },
-      } = await this.props.client.query({
-        query: getBranchChildren,
-        variables: { uuid: selectedDesk },
-      });
-
-      setFieldValue(fieldNames.DESK, selectedDesk);
-
-      if (teams && teams.length === 1) {
-        await this.handleTeamChange(
-          teams[0].uuid,
-          {
-            setFieldValue,
-            setFieldError,
-            setSubmitting,
-            values,
-          },
-        );
-      } else if (values[fieldNames.TEAM]) {
-        setFieldValue(fieldNames.TEAM, null);
-      } else if (teams && teams.length >= 2
-        && values[fieldNames.REPRESENTATIVE]
-      ) {
-        setFieldValue(fieldNames.REPRESENTATIVE, null);
-      }
-
-      this.setState({
-        teams: teams || [],
-        teamsLoading: false,
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      this.setState({ teamsLoading: false });
-      setFieldError(fieldNames.TEAM, error.error);
-    }
-
-    setSubmitting(false);
-  };
-
-  handleTeamChange = async (
-    selectedTeam,
+  loadAgents = async (
+    branchUuid,
     {
       setFieldValue,
       setFieldError,
@@ -202,15 +133,13 @@ class RepresentativeUpdateModal extends PureComponent {
         query: getUsersByBranch,
         variables: {
           onlyActive: true,
-          uuids: [selectedTeam],
+          uuids: [branchUuid],
         },
       });
 
       setSubmitting(false);
 
       const agents = filterAgents(usersByBranch || [], type);
-
-      setFieldValue(fieldNames.TEAM, selectedTeam);
 
       if (agents && agents.length >= 1) {
         if (values[fieldNames.REPRESENTATIVE]) {
@@ -238,6 +167,104 @@ class RepresentativeUpdateModal extends PureComponent {
       this.setState({ agentsLoading: false });
       setFieldError(fieldNames.REPRESENTATIVE, error.error);
     }
+  }
+
+  handleDeskChange = async (
+    selectedDesk,
+    {
+      setFieldValue,
+      setFieldError,
+      setSubmitting,
+      values,
+    },
+  ) => {
+    this.setState({ teamsLoading: true });
+
+    if (!selectedDesk) {
+      this.setState({
+        teams: [],
+        agents: null,
+      });
+
+      setFieldValue(fieldNames.REPRESENTATIVE, null);
+      setFieldValue(fieldNames.DESK, null);
+      setFieldValue(fieldNames.TEAM, null);
+
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const {
+        data: {
+          branchChildren: teams,
+        },
+      } = await this.props.client.query({
+        query: getBranchChildren,
+        variables: { uuid: selectedDesk },
+      });
+
+      setFieldValue(fieldNames.DESK, selectedDesk);
+
+      if (teams?.length === 1) {
+        await this.handleTeamChange(
+          teams[0].uuid,
+          {
+            setFieldValue,
+            setFieldError,
+            setSubmitting,
+            values,
+          },
+        );
+      } else {
+        setFieldValue(fieldNames.TEAM, null);
+        setFieldValue(fieldNames.REPRESENTATIVE, null);
+        this.loadAgents(
+          selectedDesk,
+          {
+            setFieldValue,
+            setFieldError,
+            setSubmitting,
+            values,
+          },
+        );
+      }
+
+      this.setState({
+        teams: teams || [],
+        teamsLoading: false,
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      this.setState({ teamsLoading: false });
+      setFieldError(fieldNames.TEAM, error.error);
+    }
+
+    setSubmitting(false);
+  };
+
+  handleTeamChange = (
+    selectedTeam,
+    {
+      setFieldValue,
+      setFieldError,
+      setSubmitting,
+      values,
+    },
+  ) => {
+    setFieldValue(fieldNames.TEAM, selectedTeam);
+
+    this.loadAgents(
+      selectedTeam,
+      {
+        setFieldValue,
+        setFieldError,
+        setSubmitting,
+        values,
+      },
+    );
   };
 
   handleUpdate = async (repId, status) => {
