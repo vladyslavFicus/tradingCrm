@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 export const REQUEST = gql`
-  query Hierarchy__TreeBranchQuery($uuid: String!) {
+  query Hierarchy__TreeBranchQuery($uuid: String!, $brand: String) {
     treeBranch(uuid: $uuid) {
       children {
         uuid
@@ -22,7 +22,7 @@ export const REQUEST = gql`
         uuid
         operator {
           fullName
-          authorities {
+          authorities(brand: $brand) {
             brand
             department
             role

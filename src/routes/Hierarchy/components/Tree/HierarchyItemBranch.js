@@ -52,13 +52,13 @@ class HierarchyItemBranch extends PureComponent {
   };
 
   handleExpandChildren = async () => {
-    const { client, uuid } = this.props;
+    const { client, uuid, brandId } = this.props;
 
     this.setState({ loading: true });
 
     const response = await client.query({
       query: TreeBranchQuery,
-      variables: { uuid },
+      variables: { uuid, brand: brandId },
     });
 
     const children = response.data?.treeBranch?.children || [];
