@@ -3055,7 +3055,11 @@
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
-      "HEADING": "Hierarchy"
+      "HEADING": "Hierarchy",
+      "ITEM_DESCRIPTION":  "{{childrenCount}} branches / {{usersCount}} users",
+      "MANAGER": "Manager",
+      "MANAGER_NOT_SELECTED": "Not selected",
+      "OPERATOR": "OPERATOR"
     },
     "INFO_MODAL": {
       "HEADER": "Status",

@@ -858,17 +858,20 @@ PropTypes.notificationCenter = PropTypes.shape({
     currency: PropTypes.string,
   }),
 });
-PropTypes.treeData = PropTypes.shape({
-  branchType: PropTypes.string,
-  deskType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  expanded: PropTypes.bool,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
-  type: PropTypes.string,
+PropTypes.treeBranch = PropTypes.shape({
   uuid: PropTypes.string,
-  userType: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string,
+  branchType: PropTypes.string,
+  managerUuid: PropTypes.string,
+  manager: PropTypes.operatorProfile,
+  usersCount: PropTypes.number,
+  childrenCount: PropTypes.number,
 });
+PropTypes.treeUser = PropTypes.shape({
+  uuid: PropTypes.string,
+  operator: PropTypes.operatorProfile,
+});
+
 PropTypes.referral = PropTypes.shape({
   referralInfo: PropTypes.shape({
     name: PropTypes.string,
