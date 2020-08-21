@@ -5,7 +5,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import ShortLoader from 'components/ShortLoader';
 import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
-import PermissionsTable from '../PermissionsTable';
+import PermissionsTable from '../components/PermissionsTable';
 import './RolesAndPermissions.scss';
 
 class RolesAndPermissions extends PureComponent {
