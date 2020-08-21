@@ -28,21 +28,6 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
       convertedByOperatorUuid
       convertedToClientUuid
       source
-      salesAgent {
-        fullName
-        uuid
-        hierarchy {
-          parentBranches {
-            name
-            branchType
-            parentBranch {
-              name
-              branchType
-            }
-          }
-        }
-      }
-      salesStatus
       birthDate
       affiliate
       gender
@@ -56,6 +41,23 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
         content
         operator {
           fullName
+        }
+      }
+      acquisition {
+        salesStatus
+        salesOperator {
+          fullName
+          uuid
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
         }
       }
     }

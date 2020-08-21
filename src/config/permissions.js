@@ -57,7 +57,8 @@ export default {
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
     RESET_PASSWORD: 'auth2.user.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
-    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
+    CHANGE_ACQUISITION: 'hierarchy-updater.user.bulkUpdateAcquisition',
+    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateAcquisitionStatus',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
     VIEW_FILES: 'attachments.getUserAttachments',
     VIEW_FILE: 'attachments.downloadFile',
@@ -123,7 +124,7 @@ export default {
     DELETE_EMAIL_TEMPLATE: 'email.deleteTemplate',
   },
   TRADING_ACCOUNTS: {
-    GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+    GET_TRADING_ACCOUNTS: 'accountview.search',
   },
   NOTIFICATION_CENTER: {
     LIST: 'notification.search',
@@ -136,6 +137,6 @@ export default {
     PROFILES_LIST: 'profileview.admin.pageableSearch',
   },
   CALLBACKS: {
-    LIST: 'searchCallbacks',
+    LIST: 'callback.searchCallbacks',
   },
 };

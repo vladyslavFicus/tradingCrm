@@ -54,8 +54,8 @@ class PermissionContent extends Component {
       return visible ? children : null;
     }
 
-    const permissionContent = children.filter(item => item.type !== PermissionElse);
-    const permissionElse = children.filter(item => item.type === PermissionElse);
+    const permissionContent = children.filter(item => item?.type !== PermissionElse);
+    const permissionElse = children.filter(item => item?.type === PermissionElse);
 
     return visible ? permissionContent : permissionElse;
   }

@@ -46,7 +46,7 @@ class ReferralsGrid extends PureComponent {
   renderAmount = (amount, currency, normalizedAmount) => (
     <Fragment>
       <div className="header-block-middle">
-        {currency} {Number(amount).toFixed(2)}
+        {Number(currency).toFixed(2)} {amount}
       </div>
       <div className="font-size-11">
         {`(${getActiveBrandConfig().currencies.base} ${Number(
@@ -113,8 +113,8 @@ class ReferralsGrid extends PureComponent {
         >
           <GridColumn
             header={I18n.t('REFERRALS.GRID.NAME')}
-            render={({ referralInfo, referralInfo: { name: fullName } }) => (
-              <GridPlayerInfo profile={{ ...referralInfo, fullName }} />
+            render={({ referralInfo, referralInfo: { name: fullName, profileUuid: uuid } }) => (
+              <GridPlayerInfo profile={{ ...referralInfo, fullName, uuid }} />
             )}
           />
           <GridColumn
@@ -165,7 +165,7 @@ class ReferralsGrid extends PureComponent {
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REMUNERATION')}
             render={({ remuneration }) => {
-              const { currency, amount, normalizedAmount } = remuneration;
+              const { currency, amount, normalizedAmount } = remuneration || {};
 
               if (!remuneration) return <Fragment>&mdash;</Fragment>;
 
@@ -175,7 +175,7 @@ class ReferralsGrid extends PureComponent {
           <GridColumn
             header={I18n.t('REFERRALS.GRID.REMUNERATION_DATE')}
             render={({ remuneration }) => {
-              const { date } = remuneration;
+              const { date } = remuneration || {};
 
               if (!remuneration) return <Fragment>&mdash;</Fragment>;
 

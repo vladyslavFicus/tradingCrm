@@ -31,19 +31,15 @@ import './Personal.scss';
 
 class Personal extends PureComponent {
   static propTypes = {
-    profile: PropTypes.profile,
+    profile: PropTypes.profile.isRequired,
+    profileLoading: PropTypes.bool.isRequired,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
       emailSelectModal: PropTypes.modalType,
       emailPreviewModal: PropTypes.modalType,
     }).isRequired,
     permission: PropTypes.permission.isRequired,
-  };
-
-  static defaultProps = {
-    profile: {},
   };
 
   handleRegulatedChanged = async (variables) => {
@@ -107,7 +103,7 @@ class Personal extends PureComponent {
   // };
 
   render() {
-    if (this.props.loading) {
+    if (this.props.profileLoading) {
       return null;
     }
 
@@ -147,7 +143,7 @@ class Personal extends PureComponent {
         // uncomment when email history will be rdy
         // sentEmails,
       },
-      loading,
+      profileLoading,
       permission,
     } = this.props;
 
@@ -267,7 +263,7 @@ class Personal extends PureComponent {
                 <Uuid uuid={migrationId} />
               </div>
             </If>
-            <If condition={!loading}>
+            <If condition={!profileLoading}>
               <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_CONFIGURATION}>
                 <RegulatedForm
                   handleChange={this.handleRegulatedChanged}

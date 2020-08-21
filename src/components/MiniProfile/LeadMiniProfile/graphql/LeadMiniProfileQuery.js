@@ -14,18 +14,20 @@ const REQUEST = gql`
       country
       surname
       language
-      salesStatus
       registrationDate
-      salesAgent {
-        fullName
-        uuid
-        hierarchy {
-          parentBranches {
-            name
-            branchType
-            parentBranch {
+      acquisition {
+        salesStatus
+        salesOperator {
+          fullName
+          uuid
+          hierarchy {
+            parentBranches {
               name
               branchType
+              parentBranch {
+                name
+                branchType
+              }
             }
           }
         }

@@ -17,7 +17,7 @@ import './LeadsHeader.scss';
 class LeadsHeader extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    leadsData: PropTypes.query({
+    leadsQuery: PropTypes.query({
       leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
     allRowsSelected: PropTypes.bool.isRequired,
@@ -32,7 +32,7 @@ class LeadsHeader extends PureComponent {
   get selectedRowsLength() {
     const {
       location,
-      leadsData,
+      leadsQuery,
       touchedRowsIds,
       allRowsSelected,
     } = this.props;
@@ -40,14 +40,10 @@ class LeadsHeader extends PureComponent {
     let rowsLength = touchedRowsIds.length;
 
     if (allRowsSelected) {
-      const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-      const searchLimit = get(location, 'query.filters.searchLimit');
+      const totalElements = get(leadsQuery, 'data.leads.totalElements');
+      const searchLimit = get(location, 'query.filters.searchLimit') || Infinity;
 
-      const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
-
-      rowsLength = selectedLimit > MAX_SELECTED_LEADS
-        ? MAX_SELECTED_LEADS - rowsLength
-        : selectedLimit - rowsLength;
+      rowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_LEADS) - rowsLength;
     }
 
     return rowsLength;
@@ -55,7 +51,7 @@ class LeadsHeader extends PureComponent {
 
   handleOpenRepresentativeModal = () => {
     const {
-      leadsData,
+      leadsQuery,
       touchedRowsIds,
       allRowsSelected,
       location: { query },
@@ -63,30 +59,22 @@ class LeadsHeader extends PureComponent {
       modals: { representativeUpdateModal },
     } = this.props;
 
-    const leads = get(leadsData, 'data.leads.content') || [];
-    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
-
-    const selectedLeads = leads
-      .filter((_, i) => touchedRowsIds.includes(i))
-      .map(lead => ({
-        uuid: lead.uuid,
-        unassignFromOperator: get(lead, 'salesAgent.uuid') || null,
-      }));
+    const leads = get(leadsQuery, 'data.leads.content') || [];
 
     representativeUpdateModal.show({
-      leads: selectedLeads,
+      uuids: touchedRowsIds.map(index => leads[index].uuid),
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       configs: {
-        totalElements,
         allRowsSelected,
+        selectedRowsLength: this.selectedRowsLength,
         multiAssign: true,
         ...query && {
           searchParams: query.filters,
         },
       },
       onSuccess: () => {
-        leadsData.refetch();
+        leadsQuery.refetch();
         updateLeadsListState();
       },
       header: (
@@ -102,26 +90,26 @@ class LeadsHeader extends PureComponent {
 
   handleOpenLeadsUploadModal = () => {
     const {
-      leadsData,
+      leadsQuery,
       modals: {
         leadsUploadModal,
       },
     } = this.props;
 
     leadsUploadModal.show({
-      onSuccess: leadsData.refetch,
+      onSuccess: leadsQuery.refetch,
     });
   };
 
   render() {
     const {
-      leadsData,
+      leadsQuery,
       location: {
         query,
       },
     } = this.props;
 
-    const totalElements = get(leadsData, 'data.leads.totalElements') || null;
+    const totalElements = get(leadsQuery, 'data.leads.totalElements') || null;
     const searchLimit = get(query, 'filters.searchLimit');
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
@@ -132,7 +120,7 @@ class LeadsHeader extends PureComponent {
       <div className="LeadsHeader">
         <div className="LeadsHeader__left">
           <Placeholder
-            ready={!leadsData.loading}
+            ready={!leadsQuery.loading}
             className={null}
             customPlaceholder={(
               <div>

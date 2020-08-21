@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation Partner_ChangeScheduleStatus(
+const REQUEST = gql`mutation Partner_ChangeScheduleStatusMutation(
   $affiliateUuid: String!
   $data: [PartnerScheduleStatus__Input]
 ) {
@@ -16,14 +16,14 @@ const REQUEST = gql`mutation Partner_ChangeScheduleStatus(
 }
 `;
 
-const changeScheduleStatusMutation = ({ children }) => (
+const ChangeScheduleStatusMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-changeScheduleStatusMutation.propTypes = {
+ChangeScheduleStatusMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default changeScheduleStatusMutation;
+export default ChangeScheduleStatusMutation;

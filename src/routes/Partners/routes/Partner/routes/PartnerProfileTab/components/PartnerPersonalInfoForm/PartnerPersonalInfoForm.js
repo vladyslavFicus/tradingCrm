@@ -85,7 +85,19 @@ class PartnerPersonalInfoForm extends PureComponent {
         title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
         message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
       });
-    } catch {
+    } catch (e) {
+      const error = get(e, 'graphQLErrors.0.extensions.response.body.error');
+
+      if (error === 'error.affiliate.externalId.already.exists') {
+        notify({
+          level: 'error',
+          title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
+          message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.MESSAGE'),
+        });
+
+        return;
+      }
+
       notify({
         level: 'error',
         title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE'),

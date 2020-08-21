@@ -24,8 +24,6 @@ const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
   const {
     lead: {
       registrationDate,
-      salesStatus,
-      salesAgent,
       language,
       surname,
       country,
@@ -33,10 +31,12 @@ const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
       phone,
       name,
       uuid,
+      acquisition,
     },
   } = data;
+  const { salesStatus, salesOperator } = acquisition || {};
 
-  const salesAgentFullName = salesAgent ? salesAgent.fullName : '';
+  const salesAgentFullName = salesOperator ? salesOperator.fullName : '';
 
   return (
     <div className="mini-profile mini-profile dormant">

@@ -13,7 +13,6 @@ import {
   retentionStatuses,
   retentionStatusValues,
 } from 'constants/retentionStatuses';
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import renderLabel from 'utils/renderLabel';
@@ -28,8 +27,9 @@ import {
 import {
   HierarchyUsersByTypeQuery,
   UserBranchHierarchyQuery,
-  ClientBulkRepresUpdate,
-  LeadBulkRepresUpdate,
+  UpdateAcquisition,
+  BulkUpdateLeadsAcquisition,
+  BulkUpdateClientsAcquisition,
   getBranchChildren,
   getUsersByBranch,
 } from './graphql';
@@ -39,13 +39,16 @@ const validate = (values, { desks, users, type }) => (
     deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
     repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
     teamId: ['string'],
-    acquisitionStatus: ['string'],
     status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],
   }, translateLabels(attributeLabels(type)), false)(values)
 );
 
 class RepresentativeUpdateModal extends PureComponent {
   static propTypes = {
+    client: PropTypes.object.isRequired,
+    notify: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
     hierarchyUsersByTypeQuery: PropTypes.query({
       usersByType: PropTypes.response({
         SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
@@ -63,36 +66,29 @@ class RepresentativeUpdateModal extends PureComponent {
         DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
       }),
     }).isRequired,
+    updateAcquisition: PropTypes.func.isRequired,
+    bulkUpdateLeadsAcquisition: PropTypes.func.isRequired,
+    bulkUpdateClientsAcquisition: PropTypes.func.isRequired,
     header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     type: PropTypes.string.isRequired,
-    onCloseModal: PropTypes.func.isRequired,
+    userType: PropTypes.string,
     onSuccess: PropTypes.func,
-    isOpen: PropTypes.bool.isRequired,
-    client: PropTypes.object.isRequired,
     initialValues: PropTypes.object,
-    isAvailableToMove: PropTypes.bool,
     configs: PropTypes.shape({
       multiAssign: PropTypes.bool,
       allRowsSelected: PropTypes.bool,
-      totalElements: PropTypes.number,
+      selectedRowsLength: PropTypes.number,
       searchParams: PropTypes.object,
     }),
-    currentInactiveOperator: PropTypes.string,
-    leads: PropTypes.array,
-    clients: PropTypes.array,
-    notify: PropTypes.func.isRequired,
-    bulkClientRepresentativeUpdate: PropTypes.func.isRequired,
-    bulkLeadRepresentativeUpdate: PropTypes.func.isRequired,
-    userType: PropTypes.string,
+    uuids: PropTypes.arrayOf(PropTypes.string),
+    uuid: PropTypes.string,
   };
 
   static defaultProps = {
     initialValues: {},
     configs: {},
-    isAvailableToMove: false,
-    currentInactiveOperator: null,
-    leads: null,
-    clients: null,
+    uuids: [],
+    uuid: null,
     userType: null,
     onSuccess: () => {},
   };
@@ -117,77 +113,8 @@ class RepresentativeUpdateModal extends PureComponent {
     teams: [],
   };
 
-  handleDeskChange = async (
-    selectedDesk,
-    {
-      setFieldValue,
-      setFieldError,
-      setSubmitting,
-      values,
-    },
-  ) => {
-    this.setState({ teamsLoading: true });
-
-    if (!selectedDesk) {
-      this.setState({
-        teams: [],
-      });
-
-      setFieldValue(fieldNames.REPRESENTATIVE, null);
-      setFieldValue(fieldNames.DESK, null);
-      setFieldValue(fieldNames.TEAM, null);
-
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const {
-        data: {
-          branchChildren: teams,
-        },
-      } = await this.props.client.query({
-        query: getBranchChildren,
-        variables: { uuid: selectedDesk },
-      });
-
-      setFieldValue(fieldNames.DESK, selectedDesk);
-
-      if (teams && teams.length === 1) {
-        await this.handleTeamChange(
-          teams[0].uuid,
-          {
-            setFieldValue,
-            setFieldError,
-            setSubmitting,
-            values,
-          },
-        );
-      } else if (values[fieldNames.TEAM]) {
-        setFieldValue(fieldNames.TEAM, null);
-      } else if (teams && teams.length >= 2
-        && values[fieldNames.REPRESENTATIVE]
-      ) {
-        setFieldValue(fieldNames.REPRESENTATIVE, null);
-      }
-
-      this.setState({
-        teams: teams || [],
-        teamsLoading: false,
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      this.setState({ teamsLoading: false });
-      setFieldError(fieldNames.TEAM, error.error);
-    }
-
-    setSubmitting(false);
-  };
-
-  handleTeamChange = async (
-    selectedTeam,
+  loadAgents = async (
+    branchUuid,
     {
       setFieldValue,
       setFieldError,
@@ -206,15 +133,13 @@ class RepresentativeUpdateModal extends PureComponent {
         query: getUsersByBranch,
         variables: {
           onlyActive: true,
-          uuids: [selectedTeam],
+          uuids: [branchUuid],
         },
       });
 
       setSubmitting(false);
 
       const agents = filterAgents(usersByBranch || [], type);
-
-      setFieldValue(fieldNames.TEAM, selectedTeam);
 
       if (agents && agents.length >= 1) {
         if (values[fieldNames.REPRESENTATIVE]) {
@@ -242,93 +167,207 @@ class RepresentativeUpdateModal extends PureComponent {
       this.setState({ agentsLoading: false });
       setFieldError(fieldNames.REPRESENTATIVE, error.error);
     }
+  }
+
+  handleDeskChange = async (
+    selectedDesk,
+    {
+      setFieldValue,
+      setFieldError,
+      setSubmitting,
+      values,
+    },
+  ) => {
+    this.setState({ teamsLoading: true });
+
+    if (!selectedDesk) {
+      this.setState({
+        teams: [],
+        agents: null,
+      });
+
+      setFieldValue(fieldNames.REPRESENTATIVE, null);
+      setFieldValue(fieldNames.DESK, null);
+      setFieldValue(fieldNames.TEAM, null);
+
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const {
+        data: {
+          branchChildren: teams,
+        },
+      } = await this.props.client.query({
+        query: getBranchChildren,
+        variables: { uuid: selectedDesk },
+      });
+
+      setFieldValue(fieldNames.DESK, selectedDesk);
+
+      if (teams?.length === 1) {
+        await this.handleTeamChange(
+          teams[0].uuid,
+          {
+            setFieldValue,
+            setFieldError,
+            setSubmitting,
+            values,
+          },
+        );
+      } else {
+        setFieldValue(fieldNames.TEAM, null);
+        setFieldValue(fieldNames.REPRESENTATIVE, null);
+        this.loadAgents(
+          selectedDesk,
+          {
+            setFieldValue,
+            setFieldError,
+            setSubmitting,
+            values,
+          },
+        );
+      }
+
+      this.setState({
+        teams: teams || [],
+        teamsLoading: false,
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      this.setState({ teamsLoading: false });
+      setFieldError(fieldNames.TEAM, error.error);
+    }
+
+    setSubmitting(false);
   };
 
-  handleUpdateRepresentative = async ({
-    teamId,
-    repId,
-    status,
-    acquisitionStatus,
-  }) => {
+  handleTeamChange = (
+    selectedTeam,
+    {
+      setFieldValue,
+      setFieldError,
+      setSubmitting,
+      values,
+    },
+  ) => {
+    setFieldValue(fieldNames.TEAM, selectedTeam);
+
+    this.loadAgents(
+      selectedTeam,
+      {
+        setFieldValue,
+        setFieldError,
+        setSubmitting,
+        values,
+      },
+    );
+  };
+
+  handleUpdate = async (repId, status) => {
     const {
-      leads,
+      uuid,
       type,
-      configs,
-      notify,
       userType,
-      onCloseModal,
-      onSuccess,
-      bulkClientRepresentativeUpdate,
-      bulkLeadRepresentativeUpdate,
+      notify,
+      updateAcquisition,
     } = this.props;
 
-    let representative = null;
-    const { allRowsSelected, totalElements, searchParams } = configs || {};
+    await updateAcquisition({
+      variables: {
+        uuid,
+        ...(type === deskTypes.SALES
+          ? { salesStatus: status }
+          : { retentionStatus: status }),
+        ...(repId && { parentOperator: repId }),
+      },
+    });
 
-    if (repId) {
-      representative = Array.isArray(repId) ? repId : [repId];
-    }
+    notify({
+      level: 'success',
+      title: I18n.t('COMMON.SUCCESS'),
+      message:
+        userType === userTypes.LEAD_CUSTOMER
+          ? I18n.t('LEADS.UPDATED')
+          : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
+    });
+  };
+
+  handleBulkUpdate = async (repId, status) => {
+    const {
+      uuids,
+      type,
+      userType,
+      configs,
+      bulkUpdateLeadsAcquisition,
+      bulkUpdateClientsAcquisition,
+      notify,
+    } = this.props;
+
+    const { allRowsSelected, selectedRowsLength, searchParams } = configs || {};
 
     const variables = {
-      teamId,
-      type,
-      allRowsSelected,
-      totalElements,
-      searchParams,
+      uuids,
+      ...(repId && { parentOperators: repId }),
       ...(type === deskTypes.SALES
-        ? { salesStatus: status, salesRepresentative: representative }
-        : { retentionStatus: status, retentionRepresentative: representative }),
+        ? { salesStatus: status }
+        : { retentionStatus: status }),
+      ...allRowsSelected && {
+        searchParams,
+        bulkSize: selectedRowsLength,
+      },
     };
 
-    let error = null;
-
     if (userType === userTypes.LEAD_CUSTOMER) {
-      try {
-        await bulkLeadRepresentativeUpdate({ variables: { ...variables, leads } });
-      } catch {
-        error = true;
-      }
+      await bulkUpdateLeadsAcquisition({ variables });
     } else {
-      const { clients, currentInactiveOperator } = this.props;
-
-      /* INFO
-       * when move performed on client profile and rep selected
-       * manually pass salesRepresentative or retentionRepresentative
-       * and add move flag
-       */
-      if (acquisitionStatus) {
-        clients[0][`${acquisitionStatus.toLowerCase()}Representative`] = currentInactiveOperator;
-        variables.isMoveAction = true;
-      }
-
-      try {
-        await bulkClientRepresentativeUpdate({ variables: { ...variables, clients } });
-      } catch {
-        error = true;
-      }
+      await bulkUpdateClientsAcquisition({ variables });
     }
 
-    if (error) {
+    notify({
+      level: 'success',
+      title: I18n.t('COMMON.SUCCESS'),
+      message:
+        userType === userTypes.LEAD_CUSTOMER
+          ? I18n.t('LEADS.BULK_UPDATED')
+          : I18n.t(`CLIENTS.BULK_${type}_INFO_UPDATED`),
+    });
+  };
+
+  handleUpdateRepresentative = ({
+    repId,
+    status,
+  }) => {
+    const {
+      uuid,
+      onSuccess,
+      onCloseModal,
+      notify,
+    } = this.props;
+
+    try {
+      if (uuid) {
+        this.handleUpdate(repId, status);
+      } else {
+        this.handleBulkUpdate(repId, status);
+      }
+    } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
+        title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-    } else {
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message:
-          userType === userTypes.LEAD_CUSTOMER
-            ? I18n.t('LEADS.UPDATED')
-            : I18n.t(`CLIENTS.${type}_INFO_UPDATED`),
-      });
 
-      onCloseModal();
-      onSuccess();
-
-      EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
+      return;
     }
+
+    onCloseModal();
+    onSuccess();
+
+    EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
   };
 
   render() {
@@ -344,7 +383,6 @@ class RepresentativeUpdateModal extends PureComponent {
       isOpen,
       type,
       header,
-      isAvailableToMove,
       configs: { multiAssign },
     } = this.props;
 
@@ -492,21 +530,6 @@ class RepresentativeUpdateModal extends PureComponent {
                     </Otherwise>
                   </Choose>
                 </Field>
-                <If condition={isAvailableToMove}>
-                  <Field
-                    name="acquisitionStatus"
-                    label={I18n.t(attributeLabels(type).move)}
-                    component={FormikSelectField}
-                    disabled={isSubmitting}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  >
-                    {[aquisitionStatuses.find(({ value }) => type === value)].map(({ value, label }) => (
-                      <option key={value} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
-                </If>
               </ModalBody>
               <ModalFooter>
                 <Button onClick={onCloseModal} commonOutline>
@@ -534,7 +557,8 @@ export default compose(
   withRequests({
     hierarchyUsersByTypeQuery: HierarchyUsersByTypeQuery,
     userBranchHierarchyQuery: UserBranchHierarchyQuery,
-    bulkClientRepresentativeUpdate: ClientBulkRepresUpdate,
-    bulkLeadRepresentativeUpdate: LeadBulkRepresUpdate,
+    updateAcquisition: UpdateAcquisition,
+    bulkUpdateLeadsAcquisition: BulkUpdateLeadsAcquisition,
+    bulkUpdateClientsAcquisition: BulkUpdateClientsAcquisition,
   }),
 )(RepresentativeUpdateModal);
