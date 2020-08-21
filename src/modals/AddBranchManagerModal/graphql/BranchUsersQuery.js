@@ -4,25 +4,18 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query AddBranchManagerModal_getOperatorsByBranch(
-    $branchUuid: String!
-  ) {
-    branchTree(
-      branchUuid: $branchUuid
-    ) {
-      users {
-        uuid
-        userType
-        operator {
-          fullName
-          operatorStatus
-        }
+  query AddBranchManagerModal_BranchUsersQuery($branchUuid: String!) {
+    branchUsers(branchUuid: $branchUuid) {
+      uuid
+      operator {
+        fullName
+        operatorStatus
       }
     }
   }
 `;
 
-const getBranchHierarchyTreeQuery = ({ children, branch: { uuid } }) => (
+const BranchUsersQuery = ({ children, branch: { uuid } }) => (
   <Query
     query={REQUEST}
     variables={{ branchUuid: uuid }}
@@ -32,11 +25,11 @@ const getBranchHierarchyTreeQuery = ({ children, branch: { uuid } }) => (
   </Query>
 );
 
-getBranchHierarchyTreeQuery.propTypes = {
+BranchUsersQuery.propTypes = {
   children: PropTypes.func.isRequired,
   branch: PropTypes.shape({
     uuid: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default getBranchHierarchyTreeQuery;
+export default BranchUsersQuery;
