@@ -20,7 +20,6 @@ import './HierarchyItemBranch.scss';
 class HierarchyItemBranch extends PureComponent {
   static propTypes = {
     client: PropTypes.object.isRequired, // Apollo Client
-
     uuid: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     brandId: PropTypes.string.isRequired,
