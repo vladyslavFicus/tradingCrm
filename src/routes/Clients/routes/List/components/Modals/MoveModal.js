@@ -81,7 +81,6 @@ class MoveModal extends PureComponent {
         });
 
         onCloseModal();
-        onSuccess();
 
         return;
       }
