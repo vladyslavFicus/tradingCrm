@@ -72,6 +72,19 @@ class MoveModal extends PureComponent {
       selectedClients = selectedClients.filter(({ acquisition }) => (
         acquisition.acquisitionStatus !== acquisitionStatus
       ));
+
+      if (!selectedClients.length) {
+        notify({
+          level: 'success',
+          title: I18n.t('COMMON.SUCCESS'),
+          message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
+        });
+
+        onCloseModal();
+        onSuccess();
+
+        return;
+      }
     }
 
     try {
