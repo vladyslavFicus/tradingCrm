@@ -29,11 +29,16 @@ class ErrorBoundary extends PureComponent {
   };
 
   render() {
-    if (this.state.hasError) {
-      return <h1 dangerouslySetInnerHTML={{ __html: I18n.t('COMMON.ERROR_CONTENT') }} />;
-    }
-
-    return this.props.children;
+    return (
+      <Choose>
+        <When condition={this.state.hasError}>
+          <h1 dangerouslySetInnerHTML={{ __html: I18n.t('COMMON.ERROR_CONTENT') }} />;
+        </When>
+        <Otherwise>
+          {this.props.children}
+        </Otherwise>
+      </Choose>
+    );
   }
 }
 
