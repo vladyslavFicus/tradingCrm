@@ -1610,7 +1610,9 @@
       "PAYMENT_APPROVED": "Payment approved"
     },
     "LAST_UPDATED_DATE": "Last updated date",
-    "LEVERAGE": "Leverage"
+    "LEVERAGE": "Leverage",
+    "INITIATOR_NAME": "Initiator name",
+    "INITIATOR_UUID": "Initiator uuid"
   },
   "ERRORS": {
     "FILE": {
