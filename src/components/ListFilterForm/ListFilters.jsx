@@ -155,7 +155,7 @@ class ListFilters extends PureComponent {
       selectedFilterDropdownItem,
     } = this.state;
 
-    const disabled = pristine ? resetDisabled : false;
+    const disabled = pristine && !currentValues ? resetDisabled : false;
 
     return (
       <Fragment>

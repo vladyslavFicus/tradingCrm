@@ -43,20 +43,30 @@ class List extends Component {
   handleFiltersChanged = async (filters = {}) => {
     const {
       history,
-      location: { filterSetValues },
+      location: { state, filterSetValues },
     } = this.props;
 
     this.resetClientsGridInitialState(() => {
       history.replace({
         ...(filterSetValues && { filterSetValues }),
-        query: { filters },
+        state: {
+          ...state,
+          filters,
+        },
       });
     });
   };
 
   handleFilterReset = () => {
+    const { location: { state } } = this.props;
+
     this.resetClientsGridInitialState(() => {
-      this.props.history.replace({ query: null });
+      this.props.history.replace({
+        state: {
+          ...state,
+          filters: null,
+        },
+      });
     });
   };
 
@@ -118,7 +128,7 @@ class List extends Component {
     const {
       profiles,
       profiles: { loading },
-      location: { filterSetValues, query },
+      location: { state, filterSetValues },
     } = this.props;
 
     const {
@@ -126,7 +136,7 @@ class List extends Component {
       touchedRowsIds,
     } = this.state;
 
-    const searchLimit = get(query, 'filters.searchLimit');
+    const searchLimit = state?.filters?.searchLimit || 0;
 
     const selectedRowsLength = this.getSelectedRowLength();
 
@@ -143,7 +153,7 @@ class List extends Component {
 
         <ClientsGridFilter
           isFetchingProfileData={loading}
-          initialValues={filterSetValues}
+          initialValues={state?.filters || filterSetValues}
           onReset={this.handleFilterReset}
           onSubmit={this.handleFiltersChanged}
         />

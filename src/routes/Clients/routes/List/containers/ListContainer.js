@@ -13,10 +13,10 @@ export default compose(
   withModals({ confirmationModal: ConfirmActionModal }),
   graphql(clientsQuery, {
     name: 'profiles',
-    options: ({ location: { query } }) => {
-      const filters = (query) ? query.filters : [];
-      const sorts = (query) ? query.sorts : [];
-      const searchLimit = get(filters, 'searchLimit') || 0;
+    options: ({ location: { state } }) => {
+      const filters = { ...state?.filters };
+      const sorts = state?.sorts || [];
+      const searchLimit = filters?.searchLimit || 0;
 
       if (filters) {
         if (filters.desks && !Array.isArray(filters.desks)) {
@@ -53,9 +53,9 @@ export default compose(
     },
     props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
-      const filters = get(location, 'query.filters') || [];
-      const sorts = get(location, 'query.sorts') || [];
-      const searchLimit = get(filters, 'searchLimit') || 0;
+      const filters = location?.state?.filters || {};
+      const sorts = location?.state?.sorts || [];
+      const searchLimit = filters?.searchLimit || 0;
 
       const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * PROFILES_SIZE);
 

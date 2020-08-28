@@ -70,8 +70,9 @@ class ClientsGrid extends PureComponent {
   };
 
   handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const { history, location } = this.props;
+
+    const state = location?.state || {};
 
     const sorts = Object.keys(sortData)
       .filter(sortingKey => sortData[sortingKey])
@@ -81,9 +82,10 @@ class ClientsGrid extends PureComponent {
       }));
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
@@ -104,6 +106,7 @@ class ClientsGrid extends PureComponent {
       permission: {
         permissions: currentPermissions,
       },
+      location,
     } = this.props;
 
     const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
@@ -122,6 +125,7 @@ class ClientsGrid extends PureComponent {
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
+        sorts={location?.state?.sortData}
         withRowsHover
         withMultiSelect={isAvailableMultySelect}
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
