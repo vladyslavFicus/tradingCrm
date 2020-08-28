@@ -337,7 +337,7 @@ class RepresentativeUpdateModal extends PureComponent {
     });
   };
 
-  handleUpdateRepresentative = ({
+  handleUpdateRepresentative = async ({
     repId,
     status,
   }) => {
@@ -350,9 +350,9 @@ class RepresentativeUpdateModal extends PureComponent {
 
     try {
       if (uuid) {
-        this.handleUpdate(repId, status);
+        await this.handleUpdate(repId, status);
       } else {
-        this.handleBulkUpdate(repId, status);
+        await this.handleBulkUpdate(repId, status);
       }
     } catch {
       notify({
