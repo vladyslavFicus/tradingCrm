@@ -11,8 +11,8 @@ class CopyToClipboard extends PureComponent {
     text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
-    notificationTitle: PropTypes.string.isRequired,
-    notificationMessage: PropTypes.string.isRequired,
+    notificationTitle: PropTypes.string,
+    notificationMessage: PropTypes.string,
     notify: PropTypes.bool,
   };
 
@@ -20,6 +20,8 @@ class CopyToClipboard extends PureComponent {
     className: null,
     notify: false,
     notificationLevel: 'info',
+    notificationTitle: '',
+    notificationMessage: '',
   };
 
   static contextTypes = {
