@@ -32,6 +32,7 @@ export const salesStatuses = {
   DIALER_ASSIGNED: 'CONSTANTS.SALES_STATUSES.DIALER_ASSIGNED',
   DIALER_FAILED: 'CONSTANTS.SALES_STATUSES.DIALER_FAILED',
   DIALER_DROP: 'CONSTANTS.SALES_STATUSES.DIALER_DROP',
+  WIRE_SENT: 'CONSTANTS.SALES_STATUSES.WIRE_SENT',
 };
 
 export const salesStatusesColor = {
@@ -65,6 +66,7 @@ export const salesStatusesColor = {
   DIALER_ASSIGNED: 'color-success',
   DIALER_FAILED: 'color-danger',
   DIALER_DROP: 'color-danger',
+  WIRE_SENT: 'color-info',
 };
 
 export const salesStatusValues = keyMirror({
