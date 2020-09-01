@@ -17,7 +17,7 @@ class NotificationCenterForm extends PureComponent {
   };
 
   onSubmit = ({ notificationTypes, read }) => {
-    this.props.onSubmit(notificationTypes, !!read);
+    this.props.onSubmit(notificationTypes, read);
   };
 
   onReset = () => {

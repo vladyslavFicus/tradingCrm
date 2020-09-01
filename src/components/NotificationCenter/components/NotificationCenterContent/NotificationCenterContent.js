@@ -75,7 +75,9 @@ class NotificationCenterContent extends PureComponent {
         notificationTypes: notificationTypes.length
           ? notificationTypes
           : undefined,
-        read,
+        read: typeof read === 'number'
+          ? !!read
+          : undefined,
       },
     });
 
