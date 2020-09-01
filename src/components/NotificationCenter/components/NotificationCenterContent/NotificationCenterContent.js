@@ -75,9 +75,7 @@ class NotificationCenterContent extends PureComponent {
         notificationTypes: notificationTypes.length
           ? notificationTypes
           : undefined,
-        read: Number.isInteger(read)
-          ? !!read
-          : undefined,
+        read,
       },
     });
 
@@ -85,11 +83,18 @@ class NotificationCenterContent extends PureComponent {
   };
 
   bulkUpdate = async () => {
-    const { bulkUpdate, notifications, notify } = this.props;
+    const {
+      bulkUpdate,
+      notifications,
+      notifications: {
+        data: notificationsData,
+        variables: { args: searchParams },
+      },
+      notify,
+    } = this.props;
 
     const { allRowsSelected, touchedRowsIds } = this.state;
-
-    const { totalElements, content } = get(notifications, 'data.notificationCenter');
+    const { totalElements, content } = notificationsData?.notificationCenter || {};
 
     const uuids = content
       .map(({ uuid }, index) => touchedRowsIds.includes(index) && uuid)
@@ -98,6 +103,7 @@ class NotificationCenterContent extends PureComponent {
     try {
       await bulkUpdate({
         variables: {
+          searchParams,
           totalElements: totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements,
           ...(allRowsSelected ? { excUuids: uuids } : { incUuids: uuids }),
         },
