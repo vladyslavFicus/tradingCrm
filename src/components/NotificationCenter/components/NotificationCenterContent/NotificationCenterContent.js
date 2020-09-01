@@ -85,8 +85,8 @@ class NotificationCenterContent extends PureComponent {
   bulkUpdate = async () => {
     const {
       bulkUpdate,
-      notifications,
       notifications: {
+        refetch,
         data: notificationsData,
         variables: { args: searchParams },
       },
@@ -109,7 +109,7 @@ class NotificationCenterContent extends PureComponent {
         },
       });
 
-      notifications.refetch();
+      refetch();
     } catch (e) {
       const { error } = parseErrors(e);
 
