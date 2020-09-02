@@ -157,30 +157,28 @@ class PaymentsListGrid extends PureComponent {
           </If>
           <GridColumn
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AFFILIATE')}
-            render={({ partner, playerProfile: { affiliateUuid } }) => {
-              return (
-                <Choose>
-                  <When condition={partner}>
-                    <div>
-                      <a
-                        className="header-block-middle"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`/partners/${affiliateUuid}/profile`}
-                      >
-                        {partner.fullName}
-                      </a>
-                    </div>
-                    <div className="font-size-11">
-                      <Uuid uuid={affiliateUuid} />
-                    </div>
-                  </When>
-                  <Otherwise>
-                    <div>&mdash;</div>
-                  </Otherwise>
-                </Choose>
-              );
-            }}
+            render={({ partner, playerProfile: { affiliateUuid } }) => (
+              <Choose>
+                <When condition={partner}>
+                  <div>
+                    <a
+                      className="header-block-middle"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`/partners/${affiliateUuid}/profile`}
+                    >
+                      {partner.fullName}
+                    </a>
+                  </div>
+                  <div className="font-size-11">
+                    <Uuid uuid={affiliateUuid} />
+                  </div>
+                </When>
+                <Otherwise>
+                  <div>&mdash;</div>
+                </Otherwise>
+              </Choose>
+            )}
           />
           <GridColumn
             sortBy="agentName"
