@@ -103,6 +103,9 @@ const brands = keyMirror({
   trsmarkets: null,
   cryptodeutsch: null,
   'consulting-alfa': null,
+  investflow: null,
+  profitassist: null,
+  winmarket: null,
 });
 
 const departments = keyMirror({
@@ -537,6 +540,18 @@ const brandsConfig = {
   [brands['consulting-alfa']]: {
     name: 'consulting-alfa',
     image: { src: '/img/brand/choose-brand/consulting-alfa.svg' },
+  },
+  [brands.investflow]: {
+    name: 'investflow',
+    image: { src: '/img/brand/choose-brand/investflow.svg' },
+  },
+  [brands.profitassist]: {
+    name: 'profitassist',
+    image: { src: '/img/brand/choose-brand/profitassist.svg' },
+  },
+  [brands.winmarket]: {
+    name: 'winmarket',
+    image: { src: '/img/brand/choose-brand/winmarket.svg' },
   },
 };
 const departmentsConfig = {
