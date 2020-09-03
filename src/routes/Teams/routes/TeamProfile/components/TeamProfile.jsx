@@ -1,6 +1,6 @@
 import React from 'react';
 import { get } from 'lodash';
-import { Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
@@ -45,6 +45,9 @@ const TeamProfile = ({
         <Switch>
           <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
           <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />
+          <If condition={data?.parentBranch?.deskType}>
+            <Redirect to={`${path}/rules/${data?.parentBranch?.deskType.toLowerCase()}-rules`} />
+          </If>
         </Switch>
       </div>
     </div>

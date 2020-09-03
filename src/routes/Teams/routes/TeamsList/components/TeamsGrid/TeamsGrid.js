@@ -12,10 +12,10 @@ class TeamsGrid extends PureComponent {
     teamsData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderTeamCell = ({ name, uuid, parentBranch: { deskType } }) => (
+  renderTeamCell = ({ name, uuid }) => (
     <Fragment>
       <div className="TeamsGrid__cell-primary">
-        <Link to={`/teams/${uuid}/rules/${deskType.toLowerCase()}-rules`}>{name}</Link>
+        <Link to={`/teams/${uuid}`}>{name}</Link>
       </div>
       <div className="TeamsGrid__cell-secondary">
         <Uuid uuid={uuid} uuidPrefix="TE" />
