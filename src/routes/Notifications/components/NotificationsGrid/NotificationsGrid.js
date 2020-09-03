@@ -80,12 +80,12 @@ class NotificationsGrid extends PureComponent {
         <When condition={type === 'CALLBACK'}>
           <div className="font-weight-700">
             {I18n.t(
-              notificationCenterSubTypesLabels.CALLBACK_NAME,
+              'NOTIFICATION_CENTER.DETAILS.CALLBACK_NAME',
               { name: client.fullName },
             )}
           </div>
           <div className="font-weight-700">
-            {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
+            {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
               time: moment.utc(details.callbackTime).local().format('HH:mm'),
             })}
           </div>

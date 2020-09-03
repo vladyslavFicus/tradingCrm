@@ -3042,10 +3042,14 @@
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
-      "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
       "MARGIN_CALL": "Margin level under 100%"
+    },
+    "DETAILS": {
+      "CALLBACK_NAME": "Callback to %{name}",
+      "CALLBACK_TIME": "Time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
