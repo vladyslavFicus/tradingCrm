@@ -7,7 +7,7 @@ class FormikInputField extends PureComponent {
   static propTypes = {
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      onChange: PropTypes.string.isRequired,
+      onChange: PropTypes.func.isRequired,
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     type: PropTypes.string,
