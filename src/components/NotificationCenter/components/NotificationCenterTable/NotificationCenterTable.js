@@ -57,10 +57,12 @@ class NotificationCenterTable extends PureComponent {
     },
   );
 
-  renderCallbackDetails = ({ firstName, lastName }, { callbackTime }) => (
+  renderCallbackDetails = ({ firstName, lastName }, { callbackTime }, subtype) => (
     <Fragment>
       <div className="NotificationCenterTable__text-highlight">
-        {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_NAME', { name: `${firstName} ${lastName}` })}
+        {I18n.t(`NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}_NAME`, {
+          name: `${firstName} ${lastName}`,
+        })}
       </div>
       <div className="font-size-11">
         {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
@@ -146,7 +148,7 @@ class NotificationCenterTable extends PureComponent {
               <If condition={subtype || details}>
                 <Choose>
                   <When condition={type === 'CALLBACK'}>
-                    {this.renderCallbackDetails(client, details)}
+                    {this.renderCallbackDetails(client, details, subtype)}
                   </When>
                   <When condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
                     {this.renderPaymentDetails(subtype, details)}
