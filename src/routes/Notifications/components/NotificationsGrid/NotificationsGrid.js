@@ -55,7 +55,7 @@ class NotificationsGrid extends PureComponent {
     <span className="font-weight-700">{type}</span>
   );
 
-  renderNotificationTypeDetails = ({ type, details, subtype, client }) => (
+  renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
       <Choose>
         <When
@@ -79,10 +79,7 @@ class NotificationsGrid extends PureComponent {
         </When>
         <When condition={type === 'CALLBACK'}>
           <div className="font-weight-700">
-            {I18n.t(
-              `NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}_NAME`,
-              { name: client.fullName },
-            )}
+            {I18n.t(`NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}`)}
           </div>
           <div className="font-weight-700">
             {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {

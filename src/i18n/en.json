@@ -3049,9 +3049,9 @@
       "MARGIN_CALL": "Margin level under 100%"
     },
     "DETAILS": {
-      "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_REMINDER_NAME": "Callback reminder to %{name}",
-      "CALLBACK_REQUESTED_NAME": "Callback requested to %{name}",
+      "CALLBACK": "Callback",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Callback requested",
       "CALLBACK_TIME": "Callback time: %{time}"
     },
     "TOOLTIP": {
