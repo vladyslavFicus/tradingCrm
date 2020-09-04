@@ -3050,7 +3050,9 @@
     },
     "DETAILS": {
       "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}"
+      "CALLBACK_REMINDER_NAME": "Callback reminder to %{name}",
+      "CALLBACK_REQUESTED_NAME": "Callback requested to %{name}",
+      "CALLBACK_TIME": "Callback time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",

@@ -80,7 +80,7 @@ class NotificationsGrid extends PureComponent {
         <When condition={type === 'CALLBACK'}>
           <div className="font-weight-700">
             {I18n.t(
-              'NOTIFICATION_CENTER.DETAILS.CALLBACK_NAME',
+              `NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}_NAME`,
               { name: client.fullName },
             )}
           </div>
