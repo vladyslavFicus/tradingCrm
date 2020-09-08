@@ -10,24 +10,44 @@ const PermissionContext = React.createContext();
 class PermissionProvider extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    permissionsData: PropTypes.object.isRequired,
+    permissionsQuery: PropTypes.object.isRequired,
   };
 
-  render() {
-    const {
-      permissionsData: {
-        loading,
-        data,
-      },
-    } = this.props;
+  /**
+   * Determine if the given action should be granted for the current user.
+   *
+   * @param action
+   *
+   * @return {*}
+   */
+  allows = action => this.getPermissions().includes(action);
 
-    if (loading) {
+  /**
+   * Determine if the given action should be denied for the current user.
+   *
+   * @param action
+   *
+   * @return {*}
+   */
+  denies = action => !this.allows(action);
+
+  /**
+   * Get current permissions list
+   *
+   * @return {*[]}
+   */
+  getPermissions = () => get(this.props.permissionsQuery.data, 'permission') || [];
+
+  render() {
+    if (this.props.permissionsQuery.loading) {
       return <Preloader isVisible />;
     }
 
     const value = {
       permission: {
-        permissions: get(data, 'permission') || [],
+        permissions: this.getPermissions(),
+        allows: this.allows,
+        denies: this.denies,
       },
     };
 
@@ -46,5 +66,5 @@ export const PermissionPropTypes = {
 };
 
 export default withRequests({
-  permissionsData: PermissionsQuery,
+  permissionsQuery: PermissionsQuery,
 })(PermissionProvider);

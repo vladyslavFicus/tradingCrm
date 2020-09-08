@@ -2,10 +2,8 @@ import React, { PureComponent, Suspense } from 'react';
 import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { withStorage } from 'providers/StorageProvider';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { LEAD_PROMOTED, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
@@ -33,7 +31,6 @@ class LeadProfile extends PureComponent {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
-    auth: PropTypes.auth.isRequired,
   };
 
   componentDidMount() {
@@ -60,7 +57,6 @@ class LeadProfile extends PureComponent {
       leadData,
       leadData: { loading: isLoading },
       match: { params, path, url },
-      auth: { department },
     } = this.props;
 
     const lead = get(leadData, 'data.lead') || {};
@@ -73,23 +69,17 @@ class LeadProfile extends PureComponent {
       return null;
     }
 
-    const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
-    const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
-
     return (
       <div className="profile">
         <div className="profile__info">
           <Header
             data={lead}
             loading={isLoading}
-            isEmailHidden={isEmailHidden}
           />
           <HideDetails>
             <Information
               data={lead}
               loading={isLoading}
-              isPhoneHidden={isPhoneHidden}
-              isEmailHidden={isEmailHidden}
             />
           </HideDetails>
         </div>
@@ -110,7 +100,6 @@ class LeadProfile extends PureComponent {
 
 export default compose(
   withNotifications,
-  withStorage(['auth']),
   withRequests({
     leadData: LeadProfileQuery,
   }),

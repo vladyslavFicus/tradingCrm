@@ -65,6 +65,15 @@ export default {
     GET_FILES: 'attachments.getUserVerificationStatus',
     UPLOAD_FILE: 'attachments.updateAttachment',
     DELETE_FILE: 'attachments.deleteAttachment',
+    FIELD_PHONE: 'backoffice-graphql.profile.field.phone',
+    FIELD_ADDITIONAL_PHONE: 'backoffice-graphql.profile.field.additionalPhone',
+    FIELD_EMAIL: 'backoffice-graphql.profile.field.email',
+    FIELD_ADDITIONAL_EMAIL: 'backoffice-graphql.profile.field.additionalEmail',
+  },
+  LEAD_PROFILE: {
+    FIELD_PHONE: 'backoffice-graphql.lead.field.phone',
+    FIELD_MOBILE: 'backoffice-graphql.lead.field.mobile',
+    FIELD_EMAIL: 'backoffice-graphql.lead.field.email',
   },
   FILES: {
     SEARCH_FILES: 'attachments.searchAttachments',

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Popover, PopoverBody } from 'reactstrap';
-import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import OperatorMiniProfile from './OperatorMiniProfile';
 import LeadMiniProfile from './LeadMiniProfile';
@@ -13,7 +12,6 @@ class MiniProfile extends PureComponent {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     placement: PropTypes.string,
-    auth: PropTypes.auth.isRequired,
   };
 
   static defaultProps = {
@@ -46,13 +44,13 @@ class MiniProfile extends PureComponent {
   };
 
   popoverView = () => {
-    const { type, id, auth: { department } } = this.props;
+    const { type, id } = this.props;
 
     switch (type) {
       case 'operator':
         return <OperatorMiniProfile uuid={id} />;
       case 'lead':
-        return <LeadMiniProfile uuid={id} department={department} />;
+        return <LeadMiniProfile uuid={id} />;
       case 'player':
         return <PlayerMiniProfile playerUUID={id} />;
       default:
@@ -103,4 +101,4 @@ class MiniProfile extends PureComponent {
   }
 }
 
-export default withStorage(['auth'])(MiniProfile);
+export default MiniProfile;

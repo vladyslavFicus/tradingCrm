@@ -620,6 +620,8 @@ PropTypes.auth = PropTypes.shape({
 });
 PropTypes.permission = PropTypes.shape({
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allows: PropTypes.func.isRequired,
+  denies: PropTypes.func.isRequired,
 });
 PropTypes.storage = PropTypes.shape({
   get: PropTypes.func.isRequired,

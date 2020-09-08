@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { getBrand } from 'config';
 import { Button } from 'components/UI';
-import { hideText } from 'utils/hideText';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
-import { withStorage } from 'providers/StorageProvider';
+import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent/PermissionContent';
 
 const validator = createValidator({
@@ -19,12 +17,12 @@ class EmailForm extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     formError: PropTypes.string,
-    auth: PropTypes.auth.isRequired,
     verification: PropTypes.shape({
       emailVerified: PropTypes.bool,
     }),
     email: PropTypes.string,
     onVerifyEmailClick: PropTypes.func.isRequired,
+    permission: PropTypes.permission.isRequired,
   }
 
   static defaultProps = {
@@ -52,17 +50,13 @@ class EmailForm extends PureComponent {
         emailVerified,
       },
       email,
-      auth: {
-        department,
-      },
+      permission,
     } = this.props;
-
-    const emailAccess = getBrand().privateEmailByDepartment.includes(department);
 
     return (
       <Formik
         enableReinitialize
-        initialValues={{ email: emailAccess ? hideText(email) : email }}
+        initialValues={{ email }}
         onSubmit={this.onHandleSubmit}
         validate={validator}
       >
@@ -75,7 +69,7 @@ class EmailForm extends PureComponent {
             </If>
             <div className="form-row">
               <Field
-                disabled={emailAccess}
+                disabled={permission.denies(permissions.USER_PROFILE.FIELD_EMAIL)}
                 name="email"
                 label={I18n.t('COMMON.EMAIL')}
                 type="text"
@@ -126,4 +120,4 @@ class EmailForm extends PureComponent {
   }
 }
 
-export default withStorage(['auth'])(EmailForm);
+export default withPermission(EmailForm);

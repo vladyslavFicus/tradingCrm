@@ -1,22 +1,19 @@
 import React, { Fragment, PureComponent } from 'react';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import { withPermission } from 'providers/PermissionsProvider';
 import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from '../constants';
 
 class ContactForm extends PureComponent {
   static propTypes = {
-    isPhoneDisabled: PropTypes.bool.isRequired,
-    isEmailDisabled: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    isEmailDisabled: false,
+    permission: PropTypes.permission.isRequired,
   };
 
   render() {
-    const { isEmailDisabled, isPhoneDisabled } = this.props;
+    const { permission } = this.props;
 
     return (
       <Fragment>
@@ -30,7 +27,7 @@ class ContactForm extends PureComponent {
             name="phone"
             component={FormikInputField}
             label={I18n.t(attributeLabels.phone)}
-            disabled={isPhoneDisabled}
+            disabled={permission.denies(permissions.LEAD_PROFILE.FIELD_PHONE)}
             className="col-4"
           />
         </div>
@@ -39,7 +36,7 @@ class ContactForm extends PureComponent {
             name="mobile"
             component={FormikInputField}
             label={I18n.t(attributeLabels.mobile)}
-            disabled={isPhoneDisabled}
+            disabled={permission.denies(permissions.LEAD_PROFILE.FIELD_MOBILE)}
             className="col-4"
           />
         </div>
@@ -49,7 +46,7 @@ class ContactForm extends PureComponent {
             type="email"
             label={I18n.t(attributeLabels.email)}
             component={FormikInputField}
-            disabled={isEmailDisabled}
+            disabled={permission.denies(permissions.LEAD_PROFILE.FIELD_EMAIL)}
             className="col-4"
           />
         </div>
@@ -58,4 +55,4 @@ class ContactForm extends PureComponent {
   }
 }
 
-export default ContactForm;
+export default withPermission(ContactForm);

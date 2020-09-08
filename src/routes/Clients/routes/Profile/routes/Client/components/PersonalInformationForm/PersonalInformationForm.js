@@ -59,10 +59,6 @@ class PersonalInformationForm extends PureComponent {
     }).isRequired,
   };
 
-  static contextTypes = {
-    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
-  };
-
   static defaultProps = {
     disabled: false,
   };
@@ -79,8 +75,6 @@ class PersonalInformationForm extends PureComponent {
       onSubmit,
       disabled,
     } = this.props;
-
-    const { tradingOperatorAccessDisabled } = this.context;
 
     return (
       <Formik
@@ -114,14 +108,14 @@ class PersonalInformationForm extends PureComponent {
                 name="firstName"
                 label={attributeLabels.firstName}
                 component={FormikInputField}
-                disabled={disabled || tradingOperatorAccessDisabled}
+                disabled={disabled}
                 className="col-lg-6"
               />
               <Field
                 name="lastName"
                 label={attributeLabels.lastName}
                 component={FormikInputField}
-                disabled={disabled || tradingOperatorAccessDisabled}
+                disabled={disabled}
                 className="col-lg-6"
               />
             </div>

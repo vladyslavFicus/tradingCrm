@@ -6,7 +6,7 @@ import './Button.scss';
 
 class Button extends PureComponent {
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.string, PropTypes.number]).isRequired,
+    children: PropTypes.any.isRequired,
     className: PropTypes.string,
     type: PropTypes.string,
     submitting: PropTypes.bool,
