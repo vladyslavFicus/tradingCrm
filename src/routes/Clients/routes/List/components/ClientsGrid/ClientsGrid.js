@@ -227,14 +227,12 @@ class ClientsGrid extends PureComponent {
                 <When condition={affiliateUuid}>
                   <If condition={partner}>
                     <div>
-                      <a
+                      <div
                         className="header-block-middle"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`/partners/${affiliateUuid}/profile`}
+                        onClick={() => window.open(`/partners/${affiliateUuid}/profile`, '_blank')}
                       >
                         {partner.fullName}
-                      </a>
+                      </div>
                     </div>
                   </If>
                   <If condition={source}>

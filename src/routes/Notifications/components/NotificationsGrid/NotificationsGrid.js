@@ -2,7 +2,6 @@ import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
@@ -120,13 +119,12 @@ class NotificationsGrid extends PureComponent {
     return (
       <Choose>
         <When condition={uuid}>
-          <Link
-            className="font-weight-700"
-            to={`/clients/${uuid}/profile`}
-            target="_blank"
+          <div
+            className="font-weight-700 cursor-pointer"
+            onClick={() => window.open(`/clients/${uuid}/profile`, '_blank')}
           >
             {fullName}
-          </Link>
+          </div>
           <div className="font-size-11">
             <MiniProfile id={uuid} type="player">
               <Uuid uuid={uuid} />
