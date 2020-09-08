@@ -40,7 +40,7 @@ class PermissionProvider extends PureComponent {
 
   render() {
     if (this.props.permissionsQuery.loading) {
-      return <Preloader isVisible />;
+      return <Preloader />;
     }
 
     const value = {
