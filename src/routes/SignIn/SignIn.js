@@ -31,18 +31,6 @@ class SignIn extends PureComponent {
     ...withStorage.propTypes,
   }
 
-  componentDidMount() {
-    const { auth, token, brands, storage } = this.props;
-
-    if (auth && token) return;
-
-    if (token && brands) {
-      storage.remove('token');
-      storage.remove('brand');
-      storage.remove('brands');
-    }
-  }
-
   state = {
     formError: '',
   }
