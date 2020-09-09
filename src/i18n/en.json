@@ -1467,7 +1467,7 @@
     "FEED": {
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "Action ID, Partner ID, IP",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
         "ACTION_TYPE": "Action type",
         "ACTION_DATE_RANGE": "Action date range"
       },
@@ -2824,9 +2824,19 @@
         }
       }
     },
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Feed"
+    },
     "TABS": {
       "PROFILE": "Profile",
-      "NOTES": "Notes"
+      "NOTES": "Notes",
+      "FEEDS": "Feeds"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",
