@@ -1,5 +1,3 @@
-import keyMirror from 'keymirror';
-
 export const retentionStatuses = {
   ACTIVE: 'CONSTANTS.RETENTION_STATUSES.ACTIVE',
   ACTIVE_VIP: 'CONSTANTS.RETENTION_STATUSES.ACTIVE_VIP',
@@ -47,27 +45,3 @@ export const retentionStatusesColor = {
   INVALID_LANGUAGE: 'color-warning',
   REASSIGN: 'color-info',
 };
-
-export const retentionStatusValues = keyMirror({
-  ACTIVE: null,
-  ACTIVE_VIP: null,
-  CALLBACK: null,
-  DEPOSITOR: null,
-  DO_NOT_CALL: null,
-  DEPOSIT_WITH_ME: null,
-  INVALID_LANGUAGE: null,
-  NEED_DOCS: null,
-  NEVER_ANSWER: null,
-  NEW: null,
-  NO_ANSWER: null,
-  NO_INTEREST: null,
-  NO_POTENTIAL: null,
-  NO_TRADES: null,
-  PAMM: null,
-  POTENTIAL_HIGH: null,
-  POTENTIAL_LOW: null,
-  REASSIGN: null,
-  RECEIVED_WITHDRAWAL: null,
-  RECOVERY_DEPOSITOR: null,
-  UNDER_18: null,
-});
