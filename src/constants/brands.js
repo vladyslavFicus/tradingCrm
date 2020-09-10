@@ -107,6 +107,7 @@ const brands = keyMirror({
   profitassist: null,
   winmarket: null,
   eurofx: null,
+  primecap: null,
 });
 
 const departments = keyMirror({
@@ -557,6 +558,10 @@ const brandsConfig = {
   [brands.eurofx]: {
     name: 'eurofx',
     image: { src: '/img/brand/choose-brand/eurofx.svg' },
+  },
+  [brands.primecap]: {
+    name: 'primecap',
+    image: { src: '/img/brand/choose-brand/primecap.svg' },
   },
 };
 const departmentsConfig = {
