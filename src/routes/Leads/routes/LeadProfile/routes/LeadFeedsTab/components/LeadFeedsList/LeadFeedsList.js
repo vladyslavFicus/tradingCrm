@@ -32,17 +32,17 @@ class LeadFeedsList extends PureComponent {
   render() {
     const { feedsQuery } = this.props;
 
-    const { content, totalPages, last } = get(feedsQuery, 'data.feeds') || { content: [] };
+    const { content, totalPages, last } = get(feedsQuery, 'data.feeds') || {};
 
     return (
       <div className="LeadFeedsList">
         <ListView
-          dataSource={content}
+          dataSource={content || []}
           onPageChange={this.handlePageChanged}
           render={(feed, key) => <FeedItem key={key} data={feed} />}
           totalPages={totalPages}
           last={last}
-          showNoResults={!feedsQuery.loading && !content.length}
+          showNoResults={!feedsQuery.loading && (!content || !content.length)}
         />
       </div>
     );
