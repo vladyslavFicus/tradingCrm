@@ -1,5 +1,3 @@
-import keyMirror from 'keymirror';
-
 export const salesStatuses = {
   CALLBACK: 'CONSTANTS.SALES_STATUSES.CALLBACK',
   CONVERTED: 'CONSTANTS.SALES_STATUSES.CONVERTED',
@@ -68,32 +66,3 @@ export const salesStatusesColor = {
   DIALER_DROP: 'color-danger',
   WIRE_SENT: 'color-info',
 };
-
-export const salesStatusValues = keyMirror({
-  CALLBACK: null,
-  CONVERTED: null,
-  DEPOSITOR: null,
-  DO_NOT_CALL: null,
-  DUPLICATE: null,
-  FAILED_DEPOSIT: null,
-  INITIAL_CALL: null,
-  INVALID_COUNTRY: null,
-  INVALID_LANGUAGE: null,
-  NEVER_ANSWER: null,
-  NEW: null,
-  NO_ANSWER: null,
-  NO_ANSWER_2: null,
-  NO_ANSWER_3: null,
-  NO_ANSWER_4: null,
-  NO_ANSWER_5: null,
-  NO_INTEREST: null,
-  NO_MONEY: null,
-  POTENTIAL_HIGH: null,
-  POTENTIAL_LOW: null,
-  REASSIGN: null,
-  TEST: null,
-  UNDER_18: null,
-  VOICEMAIL: null,
-  WRONG_INFO: null,
-  WRONG_NUMBER: null,
-});

@@ -8,11 +8,8 @@ import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { deskTypes, userTypes } from 'constants/hierarchyTypes';
-import { salesStatuses, salesStatusValues } from 'constants/salesStatuses';
-import {
-  retentionStatuses,
-  retentionStatusValues,
-} from 'constants/retentionStatuses';
+import { salesStatuses } from 'constants/salesStatuses';
+import { retentionStatuses } from 'constants/retentionStatuses';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import renderLabel from 'utils/renderLabel';
@@ -39,7 +36,7 @@ const validate = (values, { desks, users, type }) => (
     deskId: [`in:,${desks.map(({ uuid }) => uuid).join()}`],
     repId: [`in:,${users.map(({ uuid }) => uuid).join()}`],
     teamId: ['string'],
-    status: [`in:,${[...Object.values(salesStatusValues), ...Object.values(retentionStatusValues)].join()}`],
+    status: [`in:,${[...Object.keys(salesStatuses), ...Object.keys(retentionStatuses)].join()}`],
   }, translateLabels(attributeLabels(type)), false)(values)
 );
 
@@ -515,14 +512,14 @@ class RepresentativeUpdateModal extends PureComponent {
                 >
                   <Choose>
                     <When condition={type === deskTypes.SALES}>
-                      {Object.values(salesStatusValues).map(value => (
+                      {Object.keys(salesStatuses).map(value => (
                         <option key={value} value={value}>
                           {I18n.t(renderLabel(value, salesStatuses))}
                         </option>
                       ))}
                     </When>
                     <Otherwise>
-                      {Object.values(retentionStatusValues).map(value => (
+                      {Object.keys(retentionStatuses).map(value => (
                         <option key={value} value={value}>
                           {I18n.t(renderLabel(value, retentionStatuses))}
                         </option>
