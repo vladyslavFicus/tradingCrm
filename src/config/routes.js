@@ -19,4 +19,5 @@ export const routePermissions = {
   '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
   '/sales-rules': permissions.SALES_RULES.GET_RULES,
   '/email-templates/list': permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES,
+  '/roles-and-permissions': permissions.AUTH.UPDATE_ACTIONS,
 };

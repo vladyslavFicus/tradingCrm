@@ -5,17 +5,21 @@ import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
   mutation EmailSend(
+    $uuid: String!
+    $field: String!
+    $type: String!
     $name: String
     $subject: String!
     $text: String!
-    $email: String!
   ) {
     emailTemplates {
       sendEmail(
+        uuid: $uuid
+        field: $field
+        type: $type
         templateName: $name
         subject: $subject
         text: $text
-        toEmail: $email
       )
     }
   }

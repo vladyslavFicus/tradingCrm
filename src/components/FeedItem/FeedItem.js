@@ -6,6 +6,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { types, typesLabels, typesClassNames } from 'constants/audit';
 import LetterIcon from 'components/LetterIcon';
+import formatLabel from 'utils/formatLabel';
 import parseJson from 'utils/parseJson';
 import FeedContent from './FeedContent';
 import Uuid from '../Uuid';
@@ -62,7 +63,7 @@ class FeedItem extends Component {
                     {I18n.t(typesLabels[type])}
                   </When>
                   <Otherwise>
-                    {type}
+                    {formatLabel(type)}
                   </Otherwise>
                 </Choose>
               </div>

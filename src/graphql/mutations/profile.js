@@ -1,14 +1,6 @@
 import gql from 'graphql-tag';
 import { AddressFragment } from '../fragments/address';
 
-const clickToCall = gql`mutation clickToCall($number: String!) {
-  clickToCall {
-    didlogic {
-      createCall(number: $number)
-    }
-  }
-}`;
-
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
   $playerUUID: String!
   $firstName: String
@@ -123,7 +115,6 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 }`;
 
 export {
-  clickToCall,
   updatePersonalInformationMutation,
   updateConfigurationMutation,
   verifyEmailMutation,

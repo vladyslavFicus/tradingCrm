@@ -7,6 +7,10 @@
     flex-grow: 1;
     max-width: 300px;
     margin-right: 30px;
+
+    & .form-group {
+      margin-bottom: 0;
+    }
   }
 
   &__label {

@@ -4,7 +4,6 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import Flag from 'react-world-flags';
 import Uuid from 'components/Uuid';
-import { hideText } from 'utils/hideText';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { PersonalInformationItem } from 'components/Information';
@@ -16,8 +15,6 @@ class Personal extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     loading: PropTypes.bool.isRequired,
-    isPhoneHidden: PropTypes.bool.isRequired,
-    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -28,6 +25,7 @@ class Personal extends PureComponent {
     const {
       loading,
       data: {
+        uuid,
         birthDate,
         gender,
         phone,
@@ -41,8 +39,6 @@ class Personal extends PureComponent {
         convertedToClientUuid,
         statusChangedDate,
       },
-      isPhoneHidden,
-      isEmailHidden,
     } = this.props;
 
     return (
@@ -72,19 +68,19 @@ class Personal extends PureComponent {
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
-                value={isPhoneHidden ? hideText(phone) : phone}
-                additional={<Click2Call number={phone} />}
+                value={phone}
+                additional={<Click2Call uuid={uuid} field="phone" type="LEAD" />}
                 className="Personal__contacts"
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.MOBILE')}
-                value={isPhoneHidden ? hideText(mobile) : mobile}
-                additional={<Click2Call number={mobile} />}
+                value={mobile}
+                additional={<Click2Call uuid={uuid} field="mobile" type="LEAD" />}
                 className="Personal__contacts"
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
-                value={isEmailHidden ? hideText(email) : email}
+                value={email}
               />
               <PersonalInformationItem
                 label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}

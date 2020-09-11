@@ -33,7 +33,8 @@
       "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
-      "NOTIFICATIONS": "Notifications"
+      "NOTIFICATIONS": "Notifications",
+      "ROLES_AND_PERMISSIONS": "Roles & Permissions"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -706,7 +707,8 @@
       "DE": "German",
       "IT": "Italian",
       "FR": "French",
-      "TR": "Turkish"
+      "TR": "Turkish",
+      "EL": "Greek"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
@@ -1121,6 +1123,7 @@
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
+        "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing"
       },
@@ -1306,7 +1309,8 @@
       "DIALER_NEW": "Dialer New",
       "DIALER_ASSIGNED": "Dialer Assigned",
       "DIALER_FAILED": "Dialer Failed",
-      "DIALER_DROP": "Dialer Drop"
+      "DIALER_DROP": "Dialer Drop",
+      "WIRE_SENT": "Wire Sent"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -1464,7 +1468,7 @@
     "FEED": {
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "Action ID, Partner ID, IP",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
         "ACTION_TYPE": "Action type",
         "ACTION_DATE_RANGE": "Action date range"
       },
@@ -2821,9 +2825,19 @@
         }
       }
     },
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Feed"
+    },
     "TABS": {
       "PROFILE": "Profile",
-      "NOTES": "Notes"
+      "NOTES": "Notes",
+      "FEEDS": "Feeds"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",
@@ -3042,10 +3056,16 @@
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
-      "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
       "MARGIN_CALL": "Margin level under 100%"
+    },
+    "DETAILS": {
+      "CALLBACK": "Callback",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Callback requested",
+      "CALLBACK_TIME": "Callback time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3057,7 +3077,11 @@
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
-      "HEADING": "Hierarchy"
+      "HEADING": "Hierarchy",
+      "ITEM_DESCRIPTION":  "{{childrenCount}} branches / {{usersCount}} users",
+      "MANAGER": "Manager",
+      "MANAGER_NOT_SELECTED": "Not selected",
+      "OPERATOR": "OPERATOR"
     },
     "INFO_MODAL": {
       "HEADER": "Status",
@@ -3504,5 +3528,18 @@
       "REGISTRATION": "Registration"
     },
     "TITLE": "Referrals"
+  },
+  "ROLES_AND_PERMISSIONS": {
+    "TITLE": "Roles and Permissions",
+    "SELECT_FILTER":  {
+      "ALL": "All",
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled"
+    },
+    "TABLE":  {
+      "ACTION": "Action",
+      "PERMISSION":  "Permission"
+    },
+    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions..."
   }
 }

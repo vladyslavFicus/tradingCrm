@@ -31,22 +31,8 @@ class SignIn extends PureComponent {
     ...withStorage.propTypes,
   }
 
-  componentDidUpdate(_, prevState) {
-    const { isSubmitting } = prevState;
-    const { auth, token, brands, storage } = this.props;
-
-    if (auth && token) return;
-
-    if (token && brands && !isSubmitting) {
-      storage.remove('token');
-      storage.remove('brand');
-      storage.remove('brands');
-    }
-  }
-
   state = {
     formError: '',
-    isSubmitting: false,
   }
 
   handleSubmit = async (values, { setFieldValue }) => {
@@ -56,8 +42,6 @@ class SignIn extends PureComponent {
       history,
       modals: { changeUnauthorizedPasswordModal },
     } = this.props;
-
-    this.setState({ isSubmitting: true });
 
     try {
       const signInData = await signIn({ variables: values });
@@ -96,7 +80,7 @@ class SignIn extends PureComponent {
         return;
       }
 
-      this.setState({ formError: error.message, isSubmitting: false });
+      this.setState({ formError: error.message });
     }
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { get } from 'lodash';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import { branchTypes } from 'constants/hierarchyTypes';
 import { deskTypes } from 'constants/rules';
@@ -45,6 +45,9 @@ const DeskProfile = ({
         <Switch>
           <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
           <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />
+          <If condition={data?.deskType}>
+            <Redirect to={`${path}/rules/${data.deskType.toLowerCase()}-rules`} />
+          </If>
         </Switch>
       </div>
     </div>

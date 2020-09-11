@@ -33,7 +33,7 @@ class Logout extends PureComponent {
 
   render() {
     // Redirect implemented inside Route component. If user unauthenticated and asked for private route --> redirect it.
-    return <Preloader isVisible />;
+    return <Preloader />;
   }
 }
 

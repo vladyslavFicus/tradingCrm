@@ -5,11 +5,11 @@ import { compose, graphql } from 'react-apollo';
 import ToolTip from 'react-portal-tooltip';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
-import { clickToCall } from 'graphql/mutations/profile';
-import { createCall } from 'graphql/mutations/asterisk';
+import { createCall as DidLogicCreateCallMutation } from 'graphql/mutations/didlogic';
+import { createCall as AsteriskCreateCallMutation } from 'graphql/mutations/asterisk';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
-import didlogic from './icons/didlogic.png';
-import asterisk from './icons/asterisk.png';
+import didlogicIcon from './icons/didlogic.png';
+import asteriskIcon from './icons/asterisk.png';
 import './Click2Call.scss';
 
 const TOOLTIP_STYLE = {
@@ -26,7 +26,9 @@ class Click2Call extends PureComponent {
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     asteriskCreateCall: PropTypes.func.isRequired,
-    number: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
+    field: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['PROFILE', 'LEAD']).isRequired,
   };
 
   state = {
@@ -47,10 +49,10 @@ class Click2Call extends PureComponent {
   };
 
   handleDidLogicCall = async () => {
-    const { notify, number } = this.props;
+    const { notify, uuid, field, type } = this.props;
 
     try {
-      await this.props.clickToCall({ variables: { number } });
+      await this.props.clickToCall({ variables: { uuid, field, type } });
     } catch (e) {
       notify({
         level: 'error',
@@ -61,10 +63,10 @@ class Click2Call extends PureComponent {
   };
 
   handleAsteriskCall = prefix => async () => {
-    const { notify, number } = this.props;
+    const { notify, uuid, field, type } = this.props;
 
     try {
-      await this.props.asteriskCreateCall({ variables: { number, prefix } });
+      await this.props.asteriskCreateCall({ variables: { uuid, field, type, prefix } });
     } catch (e) {
       notify({
         level: 'error',
@@ -122,13 +124,13 @@ class Click2Call extends PureComponent {
                 className="Click2Call__submenu-item Click2Call__didlogic"
                 onClick={this.handleDidLogicCall}
               >
-                <img src={didlogic} alt="" />
+                <img src={didlogicIcon} alt="" />
               </div>
             </If>
 
             <If condition={_clickToCall.asterisk.isActive}>
               <div className="Click2Call__asterisk">
-                <img className="Click2Call__asterisk-image" src={asterisk} alt="" />
+                <img className="Click2Call__asterisk-image" src={asteriskIcon} alt="" />
                 <div className="Click2Call__asterisk-prefixes">
                   {Object.keys(_clickToCall.asterisk.prefixes).map(prefix => (
                     <span
@@ -151,6 +153,6 @@ class Click2Call extends PureComponent {
 
 export default compose(
   withNotifications,
-  graphql(clickToCall, { name: 'clickToCall' }),
-  graphql(createCall, { name: 'asteriskCreateCall' }),
+  graphql(DidLogicCreateCallMutation, { name: 'clickToCall' }),
+  graphql(AsteriskCreateCallMutation, { name: 'asteriskCreateCall' }),
 )(Click2Call);

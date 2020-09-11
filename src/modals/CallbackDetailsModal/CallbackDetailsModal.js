@@ -122,7 +122,7 @@ class CallbackDetailsModal extends Component {
           <Otherwise>
             <Formik
               initialValues={{
-                callbackTime,
+                callbackTime: moment.utc(callbackTime).local().format('YYYY-MM-DD HH:mm'),
                 operatorId,
                 status,
                 reminder,
