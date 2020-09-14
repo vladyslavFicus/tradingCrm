@@ -59,7 +59,13 @@ class CallbackDetailsModal extends Component {
     if (hasValidationErrors) return;
 
     try {
-      await updateCallback({ variables: { callbackId, ...values } });
+      await updateCallback({
+        variables: {
+          ...values,
+          callbackId,
+          callbackTime: moment(values.callbackTime).utc().format(),
+        },
+      });
 
       notify({
         level: 'success',
@@ -181,7 +187,6 @@ class CallbackDetailsModal extends Component {
                       isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
                       closeOnSelect={false}
                       withTime
-                      utc
                     />
 
                     <Field
