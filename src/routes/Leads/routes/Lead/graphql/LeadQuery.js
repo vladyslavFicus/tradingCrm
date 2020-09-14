@@ -3,50 +3,52 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'constants/propTypes';
 
-const REQUEST = gql`
-  query LeadProfileQuery(
-    $uuid: String!
+const REQUEST = gql`query LeadProfileQuery(
+  $uuid: String!,
+) {
+  lead (
+    uuid: $uuid,
   ) {
-    lead (
-      uuid: $uuid
-    ) {
-      _id
-      affiliate
-      brandId
-      birthDate
-      city
-      country
-      email
-      gender
-      language
-      migrationId
-      mobile
-      name
-      phone
-      registrationDate
-      salesAgent {
+    _id
+    uuid
+    brandId
+    name
+    surname
+    phone
+    mobile
+    status
+    email
+    country
+    source
+    birthDate
+    affiliate
+    gender
+    city
+    language
+    registrationDate
+    statusChangedDate
+    convertedByOperatorUuid
+    convertedToClientUuid
+    migrationId
+    acquisition {
+      salesOperator {
         fullName
+        uuid
         hierarchy {
           parentBranches {
-            branchType
             name
+            branchType
             parentBranch {
-              branchType
               name
+              branchType
             }
           }
         }
-        uuid
       }
       salesStatus
-      source
-      status
-      statusChangedDate
-      surname
-      uuid
     }
   }
-`;
+}`;
 
 const LeadProfileQuery = ({
   match: { params: { id } },

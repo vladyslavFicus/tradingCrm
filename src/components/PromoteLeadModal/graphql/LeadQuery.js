@@ -9,6 +9,7 @@ const REQUEST = gql`
   ) {
     lead (uuid: $uuid) {
       _id
+      uuid
       email
       phone
       gender

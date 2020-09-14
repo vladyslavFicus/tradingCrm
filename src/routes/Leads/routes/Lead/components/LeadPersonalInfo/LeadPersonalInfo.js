@@ -3,7 +3,6 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import Flag from 'react-world-flags';
 import Uuid from 'components/Uuid';
-import { hideText } from 'utils/hideText';
 import PropTypes from 'constants/propTypes';
 import Click2Call from 'components/Click2Call';
 import { PersonalInformationItem } from 'components/Information';
@@ -13,13 +12,12 @@ import './LeadPersonalInfo.scss';
 class LeadPersonalInfo extends PureComponent {
   static propTypes = {
     lead: PropTypes.lead.isRequired,
-    isPhoneHidden: PropTypes.bool.isRequired,
-    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   render() {
     const {
       lead: {
+        uuid,
         birthDate,
         gender,
         phone,
@@ -33,8 +31,6 @@ class LeadPersonalInfo extends PureComponent {
         convertedToClientUuid,
         statusChangedDate,
       },
-      isPhoneHidden,
-      isEmailHidden,
     } = this.props;
 
     return (
@@ -63,19 +59,19 @@ class LeadPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
-            value={isPhoneHidden ? hideText(phone) : phone}
-            additional={<Click2Call number={phone} />}
+            value={phone}
+            additional={<Click2Call uuid={uuid} field="phone" type="LEAD" />}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.MOBILE')}
-            value={isPhoneHidden ? hideText(mobile) : mobile}
-            additional={<Click2Call number={mobile} />}
+            value={mobile}
+            additional={<Click2Call uuid={uuid} field="mobile" type="LEAD" />}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
-            value={isEmailHidden ? hideText(email) : email}
+            value={email}
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}

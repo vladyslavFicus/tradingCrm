@@ -3,7 +3,7 @@ import permissions from './permissions';
 export const routePermissions = {
   '/clients/list': permissions.USER_PROFILE.PROFILES_LIST,
   '/clients/:id/files': permissions.USER_PROFILE.GET_FILES,
-  '/clients/:id/feed': permissions.AUDIT.PROFILE_AUDIT_LOGS,
+  '/clients/:id/feed': permissions.AUDIT.AUDIT_LOGS,
   '/kyc-documents': permissions.FILES.SEARCH_FILES,
   '/operators/list': permissions.OPERATORS.OPERATORS_LIST_VIEW,
   '/operators/:id': permissions.OPERATORS.PROFILE_VIEW,
@@ -19,4 +19,5 @@ export const routePermissions = {
   '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
   '/sales-rules': permissions.SALES_RULES.GET_RULES,
   '/email-templates/list': permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES,
+  '/roles-and-permissions': permissions.AUTH.UPDATE_ACTIONS,
 };

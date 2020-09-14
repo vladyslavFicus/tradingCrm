@@ -23,6 +23,8 @@ class Logout extends PureComponent {
     } catch (e) {
       // Do nothing if token was invalid or something else...
     } finally {
+      storage.remove('brands');
+      storage.remove('brand');
       storage.remove('token');
       storage.remove('auth');
       client.resetStore();
@@ -31,7 +33,7 @@ class Logout extends PureComponent {
 
   render() {
     // Redirect implemented inside Route component. If user unauthenticated and asked for private route --> redirect it.
-    return <Preloader isVisible />;
+    return <Preloader />;
   }
 }
 

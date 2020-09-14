@@ -7,6 +7,8 @@ class FormikInputField extends PureComponent {
   static propTypes = {
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      onChange: PropTypes.func.isRequired,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     type: PropTypes.string,
     form: PropTypes.shape({
@@ -15,19 +17,31 @@ class FormikInputField extends PureComponent {
   };
 
   static defaultProps = {
-    type: undefined,
+    type: 'text',
   };
 
   render() {
     const {
-      field,
+      field: {
+        name,
+        value,
+        onChange,
+      },
       form: {
         errors,
       },
       ...input
     } = this.props;
 
-    return <Input field={field} error={get(errors, field.name)} {...input} />;
+    return (
+      <Input
+        name={name}
+        value={value}
+        onChange={onChange}
+        error={get(errors, name)}
+        {...input}
+      />
+    );
   }
 }
 

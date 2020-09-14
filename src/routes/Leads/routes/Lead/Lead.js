@@ -1,10 +1,8 @@
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
 import { withRequests } from 'apollo';
-import { withStorage } from 'providers/StorageProvider';
-import { getBrand } from 'config';
+import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import NotFound from 'routes/NotFound';
 import Route from 'components/Route';
@@ -18,15 +16,16 @@ import LeadRegistrationInfo from './components/LeadRegistrationInfo';
 import LeadPersonalInfo from './components/LeadPersonalInfo';
 import LeadPinnedNotes from './components/LeadPinnedNotes';
 import LeadProfileTab from './routes/LeadProfileTab';
+import LeadFeedsTab from './routes/LeadFeedsTab';
 import LeadNotesTab from './routes/LeadNotesTab';
-import LeadQuery from './graphql/LeadQuery';
 import { leadTabs } from './constants';
+import LeadQuery from './graphql/LeadQuery';
 import './Lead.scss';
 
 class Lead extends PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
-    leadData: PropTypes.query({
+    leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
     match: PropTypes.shape({
@@ -34,8 +33,7 @@ class Lead extends PureComponent {
       path: PropTypes.string,
       url: PropTypes.string,
     }).isRequired,
-    auth: PropTypes.auth.isRequired,
-  }
+  };
 
   componentDidMount() {
     EventEmitter.on(LEAD_PROMOTED, this.onLeadEvent);
@@ -48,27 +46,23 @@ class Lead extends PureComponent {
   }
 
   onLeadEvent = () => {
-    this.props.leadData.refetch();
+    this.props.leadQuery.refetch();
   }
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.leadData.refetch();
+    this.props.leadQuery.refetch();
   }
 
   render() {
     const {
-      leadData,
+      leadQuery,
       location,
       match: { params, path, url },
-      auth: { department },
     } = this.props;
 
-    const lead = get(leadData, 'data.lead') || {};
-    const leadError = leadData.error;
-    const isLoading = leadData.loading;
-
-    const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
-    const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
+    const lead = leadQuery.data?.lead || {};
+    const leadError = leadQuery.error;
+    const isLoading = leadQuery.loading;
 
     if (leadError) {
       return <NotFound />;
@@ -81,7 +75,7 @@ class Lead extends PureComponent {
     return (
       <div className="Lead">
         <div className="Lead__content">
-          <LeadHeader lead={lead} isEmailHidden={isEmailHidden} />
+          <LeadHeader lead={lead} />
 
           <div className="Lead__info">
             <LeadAccountStatus lead={lead} />
@@ -90,11 +84,7 @@ class Lead extends PureComponent {
 
           <HideDetails>
             <div className="Lead__details">
-              <LeadPersonalInfo
-                lead={lead}
-                isPhoneHidden={isPhoneHidden}
-                isEmailHidden={isEmailHidden}
-              />
+              <LeadPersonalInfo lead={lead} />
 
               <LeadAcquisitionStatus lead={lead} />
               <LeadPinnedNotes uuid={lead.uuid} />
@@ -109,6 +99,7 @@ class Lead extends PureComponent {
             <Switch>
               <Route path={`${path}/profile`} component={LeadProfileTab} />
               <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
+              <Route disableScroll path={`${path}/feeds`} component={LeadFeedsTab} />
               <Redirect to={`${url}/profile`} />
             </Switch>
           </Suspense>
@@ -119,8 +110,8 @@ class Lead extends PureComponent {
 }
 
 export default compose(
-  withStorage(['auth']),
+  withNotifications,
   withRequests({
-    leadData: LeadQuery,
+    leadQuery: LeadQuery,
   }),
 )(Lead);

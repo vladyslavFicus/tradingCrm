@@ -11,7 +11,7 @@ import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
 import './LeadAcquisitionStatus.scss';
 
-const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
+const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION]);
 
 class LeadAcquisitionStatus extends PureComponent {
   static propTypes = {
@@ -33,7 +33,7 @@ class LeadAcquisitionStatus extends PureComponent {
       representativeUpdateModal.show({
         type: 'SALES',
         userType: 'LEAD_CUSTOMER',
-        leads: [{ uuid }],
+        uuids: [uuid],
         initialValues: { aquisitionStatus: 'SALES' },
         header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
           type: 'Sales',
@@ -45,16 +45,18 @@ class LeadAcquisitionStatus extends PureComponent {
   render() {
     const {
       lead: {
-        salesStatus,
-        salesAgent,
+        acquisition,
       },
     } = this.props;
 
     let team = null;
     let desk = null;
 
-    if (salesAgent) {
-      const branches = salesAgent?.hierarchy?.parentBranches;
+    const salesStatus = acquisition?.salesStatus;
+    const salesOperator = acquisition?.salesOperator;
+
+    if (salesOperator) {
+      const branches = salesOperator?.hierarchy?.parentBranches;
 
       team = branches?.find(branch => branch.branchType === 'TEAM');
       desk = team ? team.parentBranch : branches?.find(branch => branch.branchType === 'DESK');
@@ -91,8 +93,8 @@ class LeadAcquisitionStatus extends PureComponent {
 
             <div className="LeadAcquisitionStatus__right">
               <Choose>
-                <When condition={salesAgent}>
-                  <div className="LeadAcquisitionStatus__operator">{salesAgent.fullName}</div>
+                <When condition={salesOperator}>
+                  <div className="LeadAcquisitionStatus__operator">{salesOperator.fullName}</div>
                 </When>
                 <Otherwise>
                   <div>&mdash;</div>

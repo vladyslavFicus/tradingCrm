@@ -32,19 +32,20 @@ class LeadsGrid extends PureComponent {
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
-    leadsData: PropTypes.query({
+    leadsQuery: PropTypes.query({
       leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
   };
 
   handlePageChanged = () => {
-    const { location, leadsData } = this.props;
+    const { location, leadsQuery } = this.props;
 
     const defaultSize = 20;
-    const leads = get(leadsData, 'data.leads') || [];
+    const leads = get(leadsQuery, 'data.leads') || [];
     const { currentPage } = limitItems(leads, location);
 
     const filters = get(location, 'query.filters') || {};
+    const sorts = get(location, 'query.sorts') || [];
 
     const { searchLimit } = filters;
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
@@ -53,12 +54,13 @@ class LeadsGrid extends PureComponent {
       ? restLimitSize
       : defaultSize;
 
-    leadsData.loadMore({
+    leadsQuery.loadMore({
       args: {
         ...filters,
         page: {
           from: currentPage + 1,
           size,
+          sorts,
         },
       },
     });
@@ -99,11 +101,11 @@ class LeadsGrid extends PureComponent {
     if (allRowsSelected) {
       const {
         location,
-        leadsData,
+        leadsQuery,
         modals: { confirmationModal },
       } = this.props;
 
-      const totalElements = get(leadsData, 'data.leads.totalElements') || 0;
+      const totalElements = get(leadsQuery, 'data.leads.totalElements') || 0;
       const searchLimit = get(location, 'query.filters.searchLimit') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
@@ -150,20 +152,24 @@ class LeadsGrid extends PureComponent {
     </Choose>
   );
 
-  renderSales = ({ salesStatus, salesAgent }) => (
-    <GridStatus
-      colorClassName={salesStatusesColor[salesStatus]}
-      statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
-      info={(
-        <If condition={salesAgent}>
-          <GridStatusDeskTeam
-            fullName={salesAgent.fullName}
-            hierarchy={salesAgent.hierarchy}
-          />
-        </If>
-      )}
-    />
-  );
+  renderSales = ({ acquisition }) => {
+    const { salesStatus, salesOperator } = acquisition || {};
+
+    return (
+      <GridStatus
+        colorClassName={salesStatusesColor[salesStatus]}
+        statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
+        info={(
+          <If condition={salesOperator}>
+            <GridStatusDeskTeam
+              fullName={salesOperator.fullName}
+              hierarchy={salesOperator.hierarchy}
+            />
+          </If>
+        )}
+      />
+    );
+  };
 
   renderRegistrationDate = ({ registrationDate }) => (
     <>
@@ -248,18 +254,18 @@ class LeadsGrid extends PureComponent {
   render() {
     const {
       location,
-      leadsData,
+      leadsQuery,
       touchedRowsIds,
       allRowsSelected,
     } = this.props;
 
-    const leads = get(leadsData, 'data.leads') || [];
+    const leads = get(leadsQuery, 'data.leads') || [];
     const searchLimit = get(location, 'query.filters.searchLimit') || null;
 
     const { response } = limitItems(leads, location);
     const { content, last } = response;
 
-    const isLoading = leadsData.loading;
+    const isLoading = leadsQuery.loading;
 
     return (
       <div className="LeadsGrid">

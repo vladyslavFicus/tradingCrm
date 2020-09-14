@@ -38,7 +38,7 @@ const assignStatuses = [
   },
 ];
 
-const firstDepositStatuses = [
+const radioSelect = [
   {
     value: '0',
     label: 'COMMON.NO',
@@ -87,6 +87,7 @@ export default ({
     inputAddon: <i className="icon icon-search" />,
     id: 'users-list-search-field',
     className: fieldClassNames.BIG,
+    maxLength: 200,
   },
   {
     type: fieldTypes.INPUT,
@@ -94,7 +95,8 @@ export default ({
     label: filterLabels.searchValue,
     placeholder: 'COMMON.SEARCH_BY.AFFILIATE',
     inputAddon: <i className="icon icon-search" />,
-    className: fieldClassNames.MEDIUM,
+    className: fieldClassNames.BIG,
+    maxLength: 200,
   },
   {
     type: fieldTypes.INPUT,
@@ -103,6 +105,7 @@ export default ({
     placeholder: 'COMMON.SEARCH_BY.MIGRATION_ID',
     inputAddon: <i className="icon icon-search" />,
     className: fieldClassNames.MEDIUM,
+    maxLength: 200,
   },
   {
     type: fieldTypes.SELECT,
@@ -197,6 +200,15 @@ export default ({
   },
   {
     type: fieldTypes.SELECT,
+    name: 'isReferrered',
+    label: filterLabels.referral,
+    placeholder: 'COMMON.SELECT_OPTION.ANY',
+    className: fieldClassNames.MEDIUM,
+    selectOptions: radioSelect,
+    searchable: false,
+  },
+  {
+    type: fieldTypes.SELECT,
     name: 'statuses',
     label: filterLabels.status,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
@@ -268,7 +280,7 @@ export default ({
     label: filterLabels.firstDeposit,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     className: fieldClassNames.MEDIUM,
-    selectOptions: firstDepositStatuses,
+    selectOptions: radioSelect,
     searchable: false,
   },
   {

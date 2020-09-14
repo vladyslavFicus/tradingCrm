@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -12,7 +12,6 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
 import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
-import { hideText } from 'utils/hideText';
 import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
@@ -23,7 +22,6 @@ import attributeLabels from './constants';
 const validate = createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
-  'contacts.email': ['required', 'string'],
   password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
   languageCode: ['required', 'string'],
   'address.countryCode': ['required', 'string'],
@@ -40,7 +38,6 @@ class PromoteLeadModal extends PureComponent {
     size: PropTypes.string,
     notify: PropTypes.func.isRequired,
     promoteLead: PropTypes.func.isRequired,
-    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -54,26 +51,16 @@ class PromoteLeadModal extends PureComponent {
       notify,
       promoteLead,
       onCloseModal,
-      isEmailHidden,
     } = this.props;
 
-    let variables = values;
-
-    if (isEmailHidden) {
-      const { email } = get(leadQuery, 'data.lead') || {};
-
-      variables = {
-        ...values,
-        contacts: {
-          ...values.contacts,
-          email,
-        },
-      };
-    }
+    const args = {
+      uuid: leadQuery.data.lead.uuid,
+      ...omit(values, ['contacts']),
+    };
 
     try {
       await promoteLead({
-        variables: { args: variables },
+        variables: { args },
       });
 
       EventEmitter.emit(LEAD_PROMOTED, leadQuery.data.lead);
@@ -87,10 +74,9 @@ class PromoteLeadModal extends PureComponent {
       });
     } catch (e) {
       const { error } = parseErrors(e);
-      const { email } = values.contacts;
 
       if (error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error}`, { email: isEmailHidden ? hideText(email) : email }) });
+        setErrors({ submit: I18n.t(`lead.${error}`, { email: leadQuery.data.lead.email }) });
       } else {
         setErrors({ submit: I18n.t(`lead.${error}`) });
       }
@@ -104,20 +90,17 @@ class PromoteLeadModal extends PureComponent {
       leadQuery,
       onCloseModal,
       formError,
-      isEmailHidden,
     } = this.props;
 
     const {
       email,
-      phone,
       gender,
       birthDate,
       name: firstName,
       surname: lastName,
       country: countryCode,
       language: languageCode,
-      mobile: additionalPhone,
-    } = get(leadQuery, 'data.lead') || {};
+    } = get(leadQuery, 'data.lead');
 
     return (
       <Formik
@@ -126,9 +109,7 @@ class PromoteLeadModal extends PureComponent {
             countryCode,
           },
           contacts: {
-            email: isEmailHidden ? hideText(email) : email,
-            phone,
-            additionalPhone,
+            email,
           },
           gender,
           lastName,

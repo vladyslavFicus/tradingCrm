@@ -14,7 +14,6 @@ import './LeadHeader.scss';
 class LeadHeader extends PureComponent {
   static propTypes = {
     lead: PropTypes.lead.isRequired,
-    isEmailHidden: PropTypes.bool.isRequired,
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
     }).isRequired,
@@ -22,15 +21,11 @@ class LeadHeader extends PureComponent {
 
   handlePromoteLead = async () => {
     const {
-      isEmailHidden,
       lead: { uuid },
       modals: { promoteLeadModal },
     } = this.props;
 
-    promoteLeadModal.show({
-      isEmailHidden,
-      uuid,
-    });
+    promoteLeadModal.show({ uuid });
   };
 
   render() {
@@ -43,6 +38,8 @@ class LeadHeader extends PureComponent {
       country,
       surname,
     } = lead || {};
+
+    console.log('status', status);
 
     return (
       <div className="LeadHeader">

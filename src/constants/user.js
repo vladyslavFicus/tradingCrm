@@ -128,6 +128,8 @@ const attributeLabels = {
   content: 'NOTES.CONTENT',
   lastUpdatedDate: 'FEED_ITEM.LAST_UPDATED_DATE',
   leverage: 'FEED_ITEM.LEVERAGE',
+  initiatorName: 'FEED_ITEM.INITIATOR_NAME',
+  initiatorUuid: 'FEED_ITEM.INITIATOR_UUID',
 };
 
 const filterLabels = {
@@ -172,6 +174,7 @@ const filterLabels = {
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   warning: 'PROFILE.LIST.FILTERS.WARNING',
   activity: 'PROFILE.LIST.FILTERS.ACTIVITY',
+  referral: 'PROFILE.LIST.FILTERS.REFERRAL',
 };
 
 const statuses = keyMirror({

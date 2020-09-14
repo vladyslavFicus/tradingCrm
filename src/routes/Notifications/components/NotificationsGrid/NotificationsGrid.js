@@ -2,7 +2,6 @@ import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
@@ -55,7 +54,7 @@ class NotificationsGrid extends PureComponent {
     <span className="font-weight-700">{type}</span>
   );
 
-  renderNotificationTypeDetails = ({ type, details, subtype, client }) => (
+  renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
       <Choose>
         <When
@@ -79,13 +78,10 @@ class NotificationsGrid extends PureComponent {
         </When>
         <When condition={type === 'CALLBACK'}>
           <div className="font-weight-700">
-            {I18n.t(
-              notificationCenterSubTypesLabels.CALLBACK_NAME,
-              { name: client.fullName },
-            )}
+            {I18n.t(`NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}`)}
           </div>
           <div className="font-weight-700">
-            {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
+            {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
               time: moment.utc(details.callbackTime).local().format('HH:mm'),
             })}
           </div>
@@ -123,13 +119,12 @@ class NotificationsGrid extends PureComponent {
     return (
       <Choose>
         <When condition={uuid}>
-          <Link
-            className="font-weight-700"
-            to={`/clients/${uuid}/profile`}
-            target="_blank"
+          <div
+            className="font-weight-700 cursor-pointer"
+            onClick={() => window.open(`/clients/${uuid}/profile`, '_blank')}
           >
             {fullName}
-          </Link>
+          </div>
           <div className="font-size-11">
             <MiniProfile id={uuid} type="player">
               <Uuid uuid={uuid} />

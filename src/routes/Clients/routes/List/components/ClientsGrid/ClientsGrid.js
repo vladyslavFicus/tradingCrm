@@ -31,7 +31,7 @@ import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
 import './ClientsGrid.scss';
 
-const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
+const changeAsquisitionPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION);
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
@@ -108,7 +108,7 @@ class ClientsGrid extends PureComponent {
 
     const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
 
-    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
+    const isAvailableMultySelect = changeAsquisitionPermission.check(currentPermissions);
 
     return (
       <Grid
@@ -128,13 +128,11 @@ class ClientsGrid extends PureComponent {
         withNoResults={!loading && gridData.length === 0}
       >
         <GridColumn
-          name="client"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
           sortBy="firstName"
           render={data => <GridPlayerInfo profile={data} />}
         />
         <GridColumn
-          name="warning"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}
           render={({ warnings }) => (
             (warnings && warnings.length) ? warnings.map(warning => (
@@ -143,7 +141,6 @@ class ClientsGrid extends PureComponent {
           )}
         />
         <GridColumn
-          name="lastActivity"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
           render={({ lastActivity, online }) => {
             const lastActivityDate = get(lastActivity, 'date');
@@ -161,7 +158,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="country"
           sortBy="address.countryCode"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
           render={({ address: { countryCode }, languageCode }) => (
@@ -180,7 +176,6 @@ class ClientsGrid extends PureComponent {
           )}
         />
         <GridColumn
-          name="balance"
           sortBy="balance.amount"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
           render={(data) => {
@@ -197,7 +192,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="deposits"
           sortBy="paymentDetails.depositsCount"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
           render={(data) => {
@@ -220,24 +214,25 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="affiliate"
-          header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE')}
+          header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
           render={(data) => {
-            const { uuid, source, campaignId, partner } = get(data, 'affiliate') || {};
+            const { uuid: affiliateUuid, source, campaignId, partner } = get(data, 'affiliate') || {};
+            const {
+              uuid: referrerUuid,
+              fullName: referrerName,
+            } = get(data, 'referrer') || {};
 
             return (
               <Choose>
-                <When condition={uuid}>
+                <When condition={affiliateUuid}>
                   <If condition={partner}>
                     <div>
-                      <a
+                      <div
                         className="header-block-middle"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`/partners/${uuid}/profile`}
+                        onClick={() => window.open(`/partners/${affiliateUuid}/profile`, '_blank')}
                       >
                         {partner.fullName}
-                      </a>
+                      </div>
                     </div>
                   </If>
                   <If condition={source}>
@@ -281,6 +276,14 @@ class ClientsGrid extends PureComponent {
                     </UncontrolledTooltip>
                   </If>
                 </When>
+                <When condition={referrerUuid}>
+                  <div className="header-block-middle">{referrerName}</div>
+                  <Uuid
+                    className="header-block-small"
+                    length={12}
+                    uuid={referrerUuid}
+                  />
+                </When>
                 <Otherwise>
                   <GridEmptyValue />
                 </Otherwise>
@@ -289,7 +292,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="sales"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
           render={(data) => {
             const { acquisitionStatus, salesStatus, salesOperator } = get(data, 'acquisition') || {};
@@ -325,7 +327,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="retention"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
           render={(data) => {
             const { acquisitionStatus, retentionStatus, retentionOperator } = get(data, 'acquisition') || {};
@@ -361,7 +362,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="registrationDate"
           sortBy="registrationDetails.registrationDate"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
           render={({ registrationDetails: { registrationDate } }) => (
@@ -382,7 +382,6 @@ class ClientsGrid extends PureComponent {
           )}
         />
         <GridColumn
-          name="lastNote"
           sortBy="lastNote.changedAt"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
           render={({ uuid, lastNote }) => {
@@ -435,7 +434,6 @@ class ClientsGrid extends PureComponent {
           }}
         />
         <GridColumn
-          name="status"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
           render={(data) => {
             const { changedAt, type } = get(data, 'status') || {};
