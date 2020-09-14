@@ -5,7 +5,6 @@ import PropTypes from 'constants/propTypes';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import { roles, departments } from 'constants/brands';
 import { decodeNullValues } from 'components/Formik/utils';
 import PersonalInformationForm from './PersonalInformationForm';
 import AddressForm from './AddressForm';
@@ -22,7 +21,6 @@ const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDAT
 class View extends Component {
   static propTypes = {
     verifyEmail: PropTypes.func.isRequired,
-    auth: PropTypes.auth.isRequired,
     updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -42,22 +40,6 @@ class View extends Component {
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
   };
-
-  static childContextTypes = {
-    tradingOperatorAccessDisabled: PropTypes.bool.isRequired,
-  };
-
-  getChildContext = () => ({
-    tradingOperatorAccessDisabled: this.tradingOperatorAccessDisabled,
-  });
-
-  get tradingOperatorAccessDisabled() {
-    const {
-      auth: { department, role },
-    } = this.props;
-
-    return role === roles.ROLE1 && [departments.RETENTION, departments.SALES].includes(department);
-  }
 
   handleUpdatePersonalInformation = async (data) => {
     const {

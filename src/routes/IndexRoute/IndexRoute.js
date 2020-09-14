@@ -31,6 +31,7 @@ import BrandConfig from 'routes/BrandConfig';
 import EmailTemplates from 'routes/EmailTemplates';
 import TradingAccounts from 'routes/TradingAccounts';
 import Notifications from 'routes/Notifications';
+import RolesAndPermissions from 'routes/RolesAndPermissions';
 import { operatorsExcludeAuthorities } from 'config/menu';
 import { withStorage } from 'providers/StorageProvider';
 
@@ -101,6 +102,7 @@ class IndexRoute extends PureComponent {
             <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
             <Route path="/brand-config" layout={MainLayout} component={BrandConfig} isPrivate />
             <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />
+            <Route path="/roles-and-permissions" layout={MainLayout} component={RolesAndPermissions} isPrivate />
             <Route path="/logout" component={Logout} isPrivate />
 
             {/* Public routes */}
@@ -121,4 +123,4 @@ class IndexRoute extends PureComponent {
   }
 }
 
-export default withRouter(withStorage(['token', 'auth', 'brand', 'brands'])(IndexRoute));
+export default withRouter(withStorage(['token', 'auth'])(IndexRoute));

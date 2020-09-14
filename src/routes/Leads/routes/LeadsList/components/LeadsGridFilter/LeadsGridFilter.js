@@ -108,8 +108,9 @@ class LeadsGridFilter extends PureComponent {
 
   handleReset = () => {
     const { history, resetForm } = this.props;
+    const query = history.location?.query || {};
 
-    history.replace({ query: { filters: {} } });
+    history.replace({ query: { ...query, filters: {} } });
     resetForm({});
   };
 
@@ -325,11 +326,14 @@ export default compose(
   withFormik({
     mapPropsToValues: () => ({}),
     validate: values => createValidator({
-      searchLimit: ['numeric', 'greater:0', 'max:2000'],
+      searchLimit: ['numeric', 'greater:0', 'max:5000'],
     }, translateLabels(attributeLabels))(values),
     handleSubmit: (values, { props, setSubmitting }) => {
+      const query = props.history?.location?.query || {};
+
       props.history.replace({
         query: {
+          ...query,
           filters: decodeNullValues(values),
         },
       });

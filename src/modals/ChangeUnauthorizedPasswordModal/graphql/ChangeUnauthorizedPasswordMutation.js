@@ -6,13 +6,13 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`
   mutation ChangeUnauthorizedPasswordModal_ChangeUnauthorizedPasswordMutation(
     $uuid: String!
-    $oldPassword: String!
+    $currentPassword: String!
     $newPassword: String!
   ) {
     auth {
       changeUnauthorizedPassword (
         uuid: $uuid
-        oldPassword: $oldPassword
+        currentPassword: $currentPassword
         newPassword: $newPassword
       )
     }

@@ -59,7 +59,13 @@ class CallbackDetailsModal extends Component {
     if (hasValidationErrors) return;
 
     try {
-      await updateCallback({ variables: { callbackId, ...values } });
+      await updateCallback({
+        variables: {
+          ...values,
+          callbackId,
+          callbackTime: moment(values.callbackTime).utc().format(),
+        },
+      });
 
       notify({
         level: 'success',
@@ -122,7 +128,7 @@ class CallbackDetailsModal extends Component {
           <Otherwise>
             <Formik
               initialValues={{
-                callbackTime,
+                callbackTime: moment.utc(callbackTime).local().format('YYYY-MM-DD HH:mm'),
                 operatorId,
                 status,
                 reminder,
@@ -181,7 +187,6 @@ class CallbackDetailsModal extends Component {
                       isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
                       closeOnSelect={false}
                       withTime
-                      utc
                     />
 
                     <Field

@@ -2,10 +2,8 @@ import React, { PureComponent, Suspense } from 'react';
 import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { withStorage } from 'providers/StorageProvider';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { LEAD_PROMOTED, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
@@ -14,6 +12,7 @@ import Route from 'components/Route';
 import HideDetails from 'components/HideDetails';
 import { leadProfileTabs } from '../../constants';
 import LeadProfileTab from './routes/LeadProfileTab';
+import LeadFeedsTab from './routes/LeadFeedsTab';
 import LeadNotesTab from './routes/LeadNotesTab';
 import Information from './components/Information';
 import Header from './components/Header';
@@ -33,7 +32,6 @@ class LeadProfile extends PureComponent {
       path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }).isRequired,
-    auth: PropTypes.auth.isRequired,
   };
 
   componentDidMount() {
@@ -60,7 +58,6 @@ class LeadProfile extends PureComponent {
       leadData,
       leadData: { loading: isLoading },
       match: { params, path, url },
-      auth: { department },
     } = this.props;
 
     const lead = get(leadData, 'data.lead') || {};
@@ -73,23 +70,17 @@ class LeadProfile extends PureComponent {
       return null;
     }
 
-    const isPhoneHidden = getBrand().privatePhoneByDepartment.includes(department);
-    const isEmailHidden = getBrand().privateEmailByDepartment.includes(department);
-
     return (
       <div className="profile">
         <div className="profile__info">
           <Header
             data={lead}
             loading={isLoading}
-            isEmailHidden={isEmailHidden}
           />
           <HideDetails>
             <Information
               data={lead}
               loading={isLoading}
-              isPhoneHidden={isPhoneHidden}
-              isEmailHidden={isEmailHidden}
             />
           </HideDetails>
         </div>
@@ -99,6 +90,7 @@ class LeadProfile extends PureComponent {
             <Switch>
               <Route path={`${path}/profile`} component={LeadProfileTab} />
               <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
+              <Route disableScroll path={`${path}/feeds`} component={LeadFeedsTab} />
               <Redirect to={`${url}/profile`} />
             </Switch>
           </Suspense>
@@ -110,7 +102,6 @@ class LeadProfile extends PureComponent {
 
 export default compose(
   withNotifications,
-  withStorage(['auth']),
   withRequests({
     leadData: LeadProfileQuery,
   }),

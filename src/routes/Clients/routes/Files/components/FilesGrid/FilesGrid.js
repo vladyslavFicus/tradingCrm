@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
@@ -40,13 +40,12 @@ class FilesGrid extends PureComponent {
     <div>
       <Choose>
         <When condition={client}>
-          <Link
+          <div
             className="FilesGrid__client-name"
-            to={`/clients/${clientUuid}/profile`}
-            target="_blank"
+            onClick={() => window.open(`/clients/${clientUuid}/profile`, '_blank')}
           >
             {client.fullName}
-          </Link>
+          </div>
         </When>
         <Otherwise>
           {I18n.t('COMMON.NONE')}

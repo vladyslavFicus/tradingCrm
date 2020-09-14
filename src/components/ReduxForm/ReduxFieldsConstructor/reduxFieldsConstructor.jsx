@@ -31,6 +31,7 @@ const reduxFieldsConstructor = (
       onIconClick,
       normalize,
       step,
+      maxLength,
       // select props
       multiple,
       searchable,
@@ -75,6 +76,7 @@ const reduxFieldsConstructor = (
               {...inputAddon && { inputAddon }}
               {...onIconClick && { onIconClick }}
               {...normalize && { normalize }}
+              {...maxLength && { maxLength }}
             />
           );
 

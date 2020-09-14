@@ -8,12 +8,14 @@ const REQUEST = gql`
     $incUuids: [String]
     $excUuids: [String]
     $totalElements: Int!
+    $searchParams: NotificationCenterSearch__Input
   ) {
     notificationCenter {
       update(
         incUuids: $incUuids
         excUuids: $excUuids
         totalElements: $totalElements
+        searchParams: $searchParams
       )
     }
   }

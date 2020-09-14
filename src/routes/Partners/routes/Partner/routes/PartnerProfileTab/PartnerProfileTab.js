@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import PartnerPersonalInfoForm from './components/PartnerPersonalInfoForm';
-import Schedule from './components/Schedule';
+import PartnerScheduleGrid from './components/PartnerSchedule';
 import './PartnerProfileTab.scss';
 
 class PartnerProfileTab extends PureComponent {
@@ -21,7 +21,7 @@ class PartnerProfileTab extends PureComponent {
           disabled={this.readOnly}
         />
 
-        <Schedule affiliateUuid={partnerData?.data?.partner?.uuid} />
+        <PartnerScheduleGrid partnerData={partnerData} />
       </div>
     );
   }

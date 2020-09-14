@@ -8,7 +8,14 @@ import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
 import { statuses, attributeLabels, reasons as blockReasons, unblockReasons } from 'constants/user';
 import { documentsType, categories } from 'constants/files';
-import { manualPaymentMethodsLabels, tradingStatuses, statuses as paymentStatuses } from 'constants/payment';
+import {
+  methodsLabels as paymentMethodsLabels,
+  manualPaymentMethodsLabels,
+  tradingStatuses,
+  statuses as paymentStatuses,
+} from 'constants/payment';
+import { salesStatuses } from 'constants/salesStatuses';
+import { retentionStatuses } from 'constants/retentionStatuses';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -24,7 +31,6 @@ const rolesPath = 'CONSTANTS.OPERATORS.ROLES';
 const statusesPath = 'STATUSES_LABELS';
 const documentTypesPath = 'FILES.DOCUMENTS_TYPE';
 const documentCategoriesPath = 'FILES.CATEGORIES';
-const manualPaymentMethodsPath = 'CONSTANTS.PAYMENT.PAYMENT_METHODS';
 const tradingStatusesPath = 'FEED_ITEM.TRADING_STATUSES';
 const paymentStatusesPath = 'COMMON.PAYMENT_STATUS';
 
@@ -38,9 +44,9 @@ const transformConstFromObj = (obj, path) => Object.keys(obj).reduce((acc, key) 
   [key]: i18n.t(`${path}.${key}`),
 }), {});
 
-const translateReasons = reasons => Object.keys(reasons).reduce((acc, key) => ({
+const translateObject = obj => Object.keys(obj).reduce((acc, key) => ({
   ...acc,
-  [key]: i18n.t(key),
+  [key]: i18n.t(obj[key]),
 }), {});
 
 const translateValue = (value) => {
@@ -52,11 +58,14 @@ const translateValue = (value) => {
     ...(transformConstFromObj(roles, rolesPath)),
     ...(transformConstFromObj(documentsType, documentTypesPath)),
     ...(transformConstFromObj(categories, documentCategoriesPath)),
-    ...(transformConstFromObj(manualPaymentMethodsLabels, manualPaymentMethodsPath)),
     ...(transformConstFromObj(tradingStatuses, tradingStatusesPath)),
     ...(transformConstFromObj(paymentStatuses, paymentStatusesPath)),
-    ...(translateReasons(blockReasons)),
-    ...(translateReasons(unblockReasons)),
+    ...(translateObject(blockReasons)),
+    ...(translateObject(unblockReasons)),
+    ...(translateObject(salesStatuses)),
+    ...(translateObject(retentionStatuses)),
+    ...(translateObject(paymentMethodsLabels)),
+    ...(translateObject(manualPaymentMethodsLabels)),
     ...(genders),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),

@@ -77,15 +77,13 @@ class PartnerFeedsFilterForm extends PureComponent {
                 ))}
               </Field>
 
-              <Field
+              <FormikDateRangePicker
                 className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__dates"
                 label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-                component={FormikDateRangePicker}
                 periodKeys={{
                   start: 'creationDateFrom',
                   end: 'creationDateTo',
                 }}
-                withTime
               />
             </div>
 

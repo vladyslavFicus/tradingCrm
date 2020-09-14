@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { getBackofficeBrand } from 'config';
 import { Formik, Form, Field } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
-import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { parse } from 'qs';
 import PropTypes from 'prop-types';
@@ -35,7 +34,6 @@ const validator = createValidator({
 
 class ResetPassword extends PureComponent {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     resetPassword: PropTypes.func.isRequired,
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,
@@ -53,9 +51,7 @@ class ResetPassword extends PureComponent {
   }
 
   componentDidUpdate() {
-    const { loading } = this.state;
-
-    return loading === true ? this.removePreloader() : null;
+    return this.state.loading ? this.removePreloader() : null;
   }
 
   removePreloader = () => {
@@ -75,26 +71,27 @@ class ResetPassword extends PureComponent {
         resetPasswordFormError: '',
         hasSubmittedForm: true,
       });
-    } catch (e) {
-      this.setState({ resetPasswordFormError: parseErrors(e).message });
+    } catch (error) {
+      this.setState({ resetPasswordFormError: parseErrors(error).message });
     }
   };
 
   render() {
-    const { history } = this.props;
     const {
       loading,
       hasSubmittedForm,
       resetPasswordFormError,
     } = this.state;
 
+    if (loading) {
+      return <Preloader isVisible={loading} />;
+    }
+
     return (
       <div className="ResetPassword">
-        <Preloader isVisible={loading} />
-
         <div className="ResetPassword__logo">
           <If condition={getBackofficeBrand().themeConfig.logo}>
-            <img src={getBackofficeBrand().themeConfig.logo} alt="logo" />
+            <img src={getBackofficeBrand().themeConfig.logo} alt="Brand logo" />
           </If>
         </div>
 
@@ -106,8 +103,8 @@ class ResetPassword extends PureComponent {
               </div>
               <Button
                 primary
+                to="/logout"
                 className="ResetPassword__form-button"
-                onClick={() => history.push('/logout')}
               >
                 {I18n.t('RESET_PASSWORD.LOGIN')}
               </Button>
@@ -115,11 +112,13 @@ class ResetPassword extends PureComponent {
           </When>
           <Otherwise>
             <Formik
-              initialValues={{ password: '', repeatPassword: '' }}
+              initialValues={{}}
               onSubmit={this.handleSubmit}
+              validateOnBlur={false}
+              validateOnChange={false}
               validate={validator}
             >
-              {({ isSubmitting, dirty }) => (
+              {({ isSubmitting }) => (
                 <Form className="ResetPassword__form">
                   <div className="ResetPassword__form-title">
                     {I18n.t('RESET_PASSWORD.TITLE')}
@@ -130,25 +129,26 @@ class ResetPassword extends PureComponent {
                       {resetPasswordFormError}
                     </div>
                   </If>
+
                   <Field
                     name="password"
                     type="password"
                     placeholder={I18n.t('RESET_PASSWORD.PASSWORD')}
-                    label={I18n.t('RESET_PASSWORD.PASSWORD')}
                     component={FormikInputField}
                   />
                   <Field
                     name="repeatPassword"
                     type="password"
                     placeholder={I18n.t('RESET_PASSWORD.REPEAT_PASSWORD')}
-                    label={I18n.t('RESET_PASSWORD.REPEAT_PASSWORD')}
                     component={FormikInputField}
                   />
+
                   <div className="ResetPassword__form-buttons">
                     <Button
                       primary
                       type="submit"
-                      disabled={!dirty || isSubmitting}
+                      className="ResetPassword__form-button"
+                      disabled={isSubmitting}
                     >
                       {I18n.t('COMMON.SUBMIT')}
                     </Button>
@@ -165,8 +165,6 @@ class ResetPassword extends PureComponent {
   }
 }
 
-export default compose(
-  withRequests({
-    resetPassword: resetPasswordMutation,
-  }),
-)(ResetPassword);
+export default withRequests({
+  resetPassword: resetPasswordMutation,
+})(ResetPassword);

@@ -99,6 +99,15 @@ const brands = keyMirror({
   '24fintime': null,
   thecapstocksit: null,
   fcautomatic: null,
+  cptest: null,
+  trsmarkets: null,
+  cryptodeutsch: null,
+  'consulting-alfa': null,
+  investflow: null,
+  profitassist: null,
+  winmarket: null,
+  eurofx: null,
+  primecap: null,
 });
 
 const departments = keyMirror({
@@ -517,6 +526,42 @@ const brandsConfig = {
   [brands.fcautomatic]: {
     name: 'fcautomatic',
     image: { src: '/img/brand/choose-brand/fcautomatic.svg' },
+  },
+  [brands.cptest]: {
+    name: 'cptest',
+    image: { src: '/img/brand/choose-brand/cptest.svg' },
+  },
+  [brands.trsmarkets]: {
+    name: 'trsmarkets',
+    image: { src: '/img/brand/choose-brand/trsmarkets.svg' },
+  },
+  [brands.cryptodeutsch]: {
+    name: 'cryptodeutsch',
+    image: { src: '/img/brand/choose-brand/cryptodeutsch.svg' },
+  },
+  [brands['consulting-alfa']]: {
+    name: 'consulting-alfa',
+    image: { src: '/img/brand/choose-brand/consulting-alfa.svg' },
+  },
+  [brands.investflow]: {
+    name: 'investflow',
+    image: { src: '/img/brand/choose-brand/investflow.svg' },
+  },
+  [brands.profitassist]: {
+    name: 'profitassist',
+    image: { src: '/img/brand/choose-brand/profitassist.svg' },
+  },
+  [brands.winmarket]: {
+    name: 'winmarket',
+    image: { src: '/img/brand/choose-brand/winmarket.svg' },
+  },
+  [brands.eurofx]: {
+    name: 'eurofx',
+    image: { src: '/img/brand/choose-brand/eurofx.svg' },
+  },
+  [brands.primecap]: {
+    name: 'primecap',
+    image: { src: '/img/brand/choose-brand/primecap.svg' },
   },
 };
 const departmentsConfig = {

@@ -12,10 +12,10 @@ class DesksGrid extends PureComponent {
     desksData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderDeskCell = ({ name, uuid, deskType }) => (
+  renderDeskCell = ({ name, uuid }) => (
     <Fragment>
       <div className="DesksGrid__cell-primary">
-        <Link to={`/desks/${uuid}/rules/${deskType.toLowerCase()}-rules`}>{name}</Link>
+        <Link to={`/desks/${uuid}`}>{name}</Link>
       </div>
       <div className="DesksGrid__cell-secondary">
         <Uuid uuid={uuid} uuidPrefix="DE" />

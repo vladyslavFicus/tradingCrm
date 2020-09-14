@@ -5,11 +5,9 @@ import './input.scss';
 
 class Input extends PureComponent {
   static propTypes = {
-    field: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      onChange: PropTypes.func.isRequired,
-    }).isRequired,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
     error: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -29,18 +27,19 @@ class Input extends PureComponent {
     disabled: false,
     className: '',
     label: '',
+    value: '',
     icon: null,
     addition: null,
+    onChange: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
   };
 
   render() {
     const {
-      field: {
-        value,
-        ...field
-      },
+      name,
+      value,
+      onChange,
       error,
       disabled,
       className,
@@ -53,11 +52,12 @@ class Input extends PureComponent {
     } = this.props;
 
     const inputProps = {
-      value,
-      ...input,
-      ...field,
-      disabled,
       className: 'input__control',
+      name,
+      value,
+      disabled,
+      onChange,
+      ...input,
     };
 
     return (

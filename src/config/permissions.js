@@ -1,6 +1,7 @@
 export default {
   AUTH: {
     GET_AUTHORITIES: 'auth2.getAuthorities',
+    UPDATE_ACTIONS: 'auth2.updateActions',
   },
   OPERATORS: {
     OPERATORS_LIST_VIEW: 'operator.searchOperators',
@@ -57,13 +58,23 @@ export default {
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
     RESET_PASSWORD: 'auth2.user.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
-    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
+    CHANGE_ACQUISITION: 'hierarchy-updater.user.bulkUpdateAcquisition',
+    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateAcquisitionStatus',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
     VIEW_FILES: 'attachments.getUserAttachments',
     VIEW_FILE: 'attachments.downloadFile',
     GET_FILES: 'attachments.getUserVerificationStatus',
     UPLOAD_FILE: 'attachments.updateAttachment',
     DELETE_FILE: 'attachments.deleteAttachment',
+    FIELD_PHONE: 'backoffice-graphql.profile.field.phone',
+    FIELD_ADDITIONAL_PHONE: 'backoffice-graphql.profile.field.additionalPhone',
+    FIELD_EMAIL: 'backoffice-graphql.profile.field.email',
+    FIELD_ADDITIONAL_EMAIL: 'backoffice-graphql.profile.field.additionalEmail',
+  },
+  LEAD_PROFILE: {
+    FIELD_PHONE: 'backoffice-graphql.lead.field.phone',
+    FIELD_MOBILE: 'backoffice-graphql.lead.field.mobile',
+    FIELD_EMAIL: 'backoffice-graphql.lead.field.email',
   },
   FILES: {
     SEARCH_FILES: 'attachments.searchAttachments',
@@ -82,10 +93,10 @@ export default {
     CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
   },
   PAYMENTS: {
-    PLAYER_PAYMENTS_LIST: 'payment.searchPayments',
+    PAYMENTS_LIST: 'payment.searchPayments',
   },
   AUDIT: {
-    PROFILE_AUDIT_LOGS: 'audit.searchAudit',
+    AUDIT_LOGS: 'audit.searchAudit',
   },
   TRADING_ACTIVITY: {
     CLIENT_TRADING_ACTIVITY: 'trading-activity.searchGet',
@@ -114,9 +125,19 @@ export default {
     DELETE_EMAIL_TEMPLATE: 'email.deleteTemplate',
   },
   TRADING_ACCOUNTS: {
-    GET_TRADING_ACCOUNTS: 'accountview;POST;/search',
+    GET_TRADING_ACCOUNTS: 'accountview.search',
   },
   NOTIFICATION_CENTER: {
+    LIST: 'notification.search',
     GET_UNREAD_COUNT: 'notification.countAllUserUnreadNotifications',
+  },
+  DASHBOARD: {
+    REGISTRATION_STATISTICS: 'profileview.admin.getRegistrationStatistics',
+    PAYMENT_STATISTICS: 'payment.getStatistics',
+    PAYMENTS_LIST: 'payment.searchPayments',
+    PROFILES_LIST: 'profileview.admin.pageableSearch',
+  },
+  CALLBACKS: {
+    LIST: 'callback.searchCallbacks',
   },
 };
