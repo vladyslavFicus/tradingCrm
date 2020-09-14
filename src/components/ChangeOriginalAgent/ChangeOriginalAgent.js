@@ -17,7 +17,10 @@ import './OriginalAgent.scss';
 
 class ChangeOriginalAgent extends PureComponent {
   static propTypes = {
-    agentId: PropTypes.string.isRequired,
+    originalAgent: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      fullName: PropTypes.string.isRequired,
+    }),
     paymentId: PropTypes.string.isRequired,
     changeOriginalAgent: PropTypes.func.isRequired,
     operators: PropTypes.query({
@@ -34,6 +37,10 @@ class ChangeOriginalAgent extends PureComponent {
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    originalAgent: null,
   };
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
@@ -71,13 +78,17 @@ class ChangeOriginalAgent extends PureComponent {
     const {
       operators: { loading, error },
       operators,
-      agentId,
+      originalAgent,
       permission: {
         permissions: currentPermission,
       },
     } = this.props;
 
     const operatorsList = get(operators, 'data.operators.content', []);
+    const computedOperatorsList = originalAgent?.uuid
+      && !operatorsList.find(({ uuid }) => uuid === originalAgent.uuid)
+      ? [originalAgent].concat(operatorsList)
+      : operatorsList;
     const canChangeOriginalAgent = new Permissions(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT).check(currentPermission);
 
     return (
@@ -86,7 +97,7 @@ class ChangeOriginalAgent extends PureComponent {
           {I18n.t('CHANGE_ORIGINAL_AGENT.TITLE')}
         </div>
         <Formik
-          initialValues={{ agentId }}
+          initialValues={{ agentId: originalAgent?.uuid }}
           onSubmit={this.handleChangeOriginalAgent}
         >
           {({ isSubmitting, dirty }) => (
@@ -98,7 +109,7 @@ class ChangeOriginalAgent extends PureComponent {
                 className="ChangeOriginalAgent__select"
                 disabled={!canChangeOriginalAgent || loading}
               >
-                {operatorsList.map(({ uuid, fullName }) => (
+                {computedOperatorsList.map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>{fullName}</option>
                 ))}
               </Field>
