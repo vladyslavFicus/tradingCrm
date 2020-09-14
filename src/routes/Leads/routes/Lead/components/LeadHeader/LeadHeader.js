@@ -39,8 +39,6 @@ class LeadHeader extends PureComponent {
       surname,
     } = lead || {};
 
-    console.log('status', status);
-
     return (
       <div className="LeadHeader">
         <div className="LeadHeader__topic">
