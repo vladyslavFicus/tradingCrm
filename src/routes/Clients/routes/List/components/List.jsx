@@ -15,7 +15,7 @@ class List extends Component {
       profiles: PropTypes.pageable(PropTypes.profileView),
     }).isRequired,
     location: PropTypes.shape({
-      query: PropTypes.shape({
+      state: PropTypes.shape({
         filters: PropTypes.object,
       }),
       filterSetValues: PropTypes.object,
