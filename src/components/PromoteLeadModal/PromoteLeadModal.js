@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { get, omit } from 'lodash';
+import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import I18n from 'i18n-js';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { getActiveBrandConfig, getAvailableLanguages } from 'config';
@@ -16,7 +16,7 @@ import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
-import PromoteLeadModalQuery from './graphql/PromoteLeadModalQuery';
+import LeadQuery from './graphql/LeadQuery';
 import attributeLabels from './constants';
 
 const validate = createValidator({
@@ -29,7 +29,7 @@ const validate = createValidator({
 
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
-    lead: PropTypes.query({
+    leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
     formError: PropTypes.string,
@@ -47,35 +47,36 @@ class PromoteLeadModal extends PureComponent {
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
     const {
-      lead,
+      leadQuery,
       notify,
       promoteLead,
       onCloseModal,
     } = this.props;
 
     const args = {
-      uuid: lead.data.lead.uuid,
+      uuid: leadQuery.data.lead.uuid,
       ...omit(values, ['contacts']),
     };
 
     try {
-      const { data: { leads: { promote: { uuid } } } } = await promoteLead({
+      await promoteLead({
         variables: { args },
       });
 
-      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead);
+      EventEmitter.emit(LEAD_PROMOTED, leadQuery.data.lead);
 
       onCloseModal();
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: uuid }),
+        message: I18n.t('LEADS.SUCCESS_PROMOTED'),
       });
     } catch (e) {
       const { error } = parseErrors(e);
 
       if (error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error}`, { email: lead.data.lead.email }) });
+        setErrors({ submit: I18n.t(`lead.${error}`, { email: leadQuery.data.lead.email }) });
       } else {
         setErrors({ submit: I18n.t(`lead.${error}`) });
       }
@@ -86,7 +87,7 @@ class PromoteLeadModal extends PureComponent {
 
   renderForm() {
     const {
-      lead,
+      leadQuery,
       onCloseModal,
       formError,
     } = this.props;
@@ -99,7 +100,7 @@ class PromoteLeadModal extends PureComponent {
       surname: lastName,
       country: countryCode,
       language: languageCode,
-    } = get(lead, 'data.lead');
+    } = get(leadQuery, 'data.lead');
 
     return (
       <Formik
@@ -209,7 +210,7 @@ class PromoteLeadModal extends PureComponent {
 
   render() {
     const {
-      lead,
+      leadQuery,
       onCloseModal,
       isOpen,
       size,
@@ -227,7 +228,7 @@ class PromoteLeadModal extends PureComponent {
         </ModalHeader>
         <ModalBody>
           <Choose>
-            <When condition={lead.loading}>
+            <When condition={leadQuery.loading}>
               <ShortLoader />
             </When>
             <Otherwise>
@@ -243,7 +244,7 @@ class PromoteLeadModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    lead: PromoteLeadModalQuery,
+    leadQuery: LeadQuery,
     promoteLead: PromoteLeadMutation,
   }),
 )(PromoteLeadModal);

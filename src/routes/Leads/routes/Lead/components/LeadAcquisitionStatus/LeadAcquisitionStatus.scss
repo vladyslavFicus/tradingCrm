@@ -1,0 +1,53 @@
+.LeadAcquisitionStatus {
+  margin-right: 15px;
+  width: calc(33.3% - 10px);
+
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+  }
+
+  &__item {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__right {
+    & > div {
+      text-align: right;
+    }
+  }
+
+  &__representative,
+  &__status {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  &__status {
+    font-size: 15px;
+  }
+
+  &__operator {
+    font-weight: 700;
+  }
+}

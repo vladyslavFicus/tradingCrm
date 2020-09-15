@@ -2781,7 +2781,7 @@
       "CONVERTED": "Converted",
       "SELF_CONVETED": "self-converted"
     },
-    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "SUCCESS_PROMOTED": "Lead was successfully promoted",
     "LEADS_BULK_MODAL": {
       "HEADER": "Bulk action - Sales"
     },
@@ -2790,6 +2790,9 @@
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
       "SAMPLE_CSV": "Sample CSV"
     }
+  },
+  "PINNED_NOTES": {
+    "TITLE": "Pinned notes"
   },
   "LEAD_PROFILE": {
     "UPDATED": "Lead updated successfully",
@@ -2813,8 +2816,9 @@
       "CONVERTED_TO_CLIENT": "Converted to Client",
       "CONVERTED_SINCE": "Converted since"
     },
-    "PINNED_NOTES": {
-      "TITLE": "Pinned notes"
+    "ASQUISITION_STATUS": {
+      "TITLE": "Acquisition status",
+      "SALES": "Sales"
     },
     "NOTES": {
       "TITLE": "Notes",
