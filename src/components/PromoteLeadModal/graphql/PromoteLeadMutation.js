@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation promoteLead($args: CreateProfile__Input) {
-    profile {
-      createProfile (args: $args) {
+  mutation promoteLead($args: PromoteLead__Input) {
+    leads {
+      promote(args: $args) {
         uuid
       }
     }

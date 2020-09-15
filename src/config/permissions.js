@@ -1,6 +1,7 @@
 export default {
   AUTH: {
     GET_AUTHORITIES: 'auth2.getAuthorities',
+    UPDATE_ACTIONS: 'auth2.updateActions',
   },
   OPERATORS: {
     OPERATORS_LIST_VIEW: 'operator.searchOperators',
@@ -57,13 +58,23 @@ export default {
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
     RESET_PASSWORD: 'auth2.user.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
-    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateUserParents',
+    CHANGE_ACQUISITION: 'hierarchy-updater.user.bulkUpdateAcquisition',
+    CHANGE_ACQUISITION_STATUS: 'hierarchy-updater.user.bulkUpdateAcquisitionStatus',
     CHANGE_CONFIGURATION: 'profile.admin.updateProfileConfiguration',
     VIEW_FILES: 'attachments.getUserAttachments',
     VIEW_FILE: 'attachments.downloadFile',
     GET_FILES: 'attachments.getUserVerificationStatus',
     UPLOAD_FILE: 'attachments.updateAttachment',
     DELETE_FILE: 'attachments.deleteAttachment',
+    FIELD_PHONE: 'backoffice-graphql.profile.field.phone',
+    FIELD_ADDITIONAL_PHONE: 'backoffice-graphql.profile.field.additionalPhone',
+    FIELD_EMAIL: 'backoffice-graphql.profile.field.email',
+    FIELD_ADDITIONAL_EMAIL: 'backoffice-graphql.profile.field.additionalEmail',
+  },
+  LEAD_PROFILE: {
+    FIELD_PHONE: 'backoffice-graphql.lead.field.phone',
+    FIELD_MOBILE: 'backoffice-graphql.lead.field.mobile',
+    FIELD_EMAIL: 'backoffice-graphql.lead.field.email',
   },
   FILES: {
     SEARCH_FILES: 'attachments.searchAttachments',

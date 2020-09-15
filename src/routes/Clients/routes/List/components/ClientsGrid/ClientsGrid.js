@@ -31,7 +31,7 @@ import Uuid from 'components/Uuid';
 import renderLabel from 'utils/renderLabel';
 import './ClientsGrid.scss';
 
-const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
+const changeAsquisitionPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION);
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
@@ -108,7 +108,7 @@ class ClientsGrid extends PureComponent {
 
     const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
 
-    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
+    const isAvailableMultySelect = changeAsquisitionPermission.check(currentPermissions);
 
     return (
       <Grid
@@ -227,14 +227,12 @@ class ClientsGrid extends PureComponent {
                 <When condition={affiliateUuid}>
                   <If condition={partner}>
                     <div>
-                      <a
+                      <div
                         className="header-block-middle"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`/partners/${affiliateUuid}/profile`}
+                        onClick={() => window.open(`/partners/${affiliateUuid}/profile`, '_blank')}
                       >
                         {partner.fullName}
-                      </a>
+                      </div>
                     </div>
                   </If>
                   <If condition={source}>

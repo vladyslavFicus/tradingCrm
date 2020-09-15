@@ -5,12 +5,14 @@ import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
+import { getBrand } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
+import CopyToClipboard from 'components/CopyToClipboard';
 import { FormikInputField, FormikSelectField, FormikCheckbox, FormikMultiInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import updatePartnerMutation from './graphql/UpdatePartnerMutation';
@@ -119,6 +121,8 @@ class PartnerPersonalInfoForm extends PureComponent {
       permission: partnerPermissions,
     } = get(partnerData, 'data.partner') || {};
 
+    const brand = getBrand();
+
     return (
       <div className="PartnerPersonalInfoForm">
         <Formik
@@ -150,7 +154,7 @@ class PartnerPersonalInfoForm extends PureComponent {
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, values }) => (
             <Form>
               <div className="PartnerPersonalInfoForm__header">
                 <div className="PartnerPersonalInfoForm__title">
@@ -213,6 +217,18 @@ class PartnerPersonalInfoForm extends PureComponent {
                   label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
                   disabled={isSubmitting || this.isReadOnly}
                 />
+
+                <If condition={values.externalAffiliateId && values.public}>
+                  <div className="PartnerPersonalInfoForm__ib-link-container">
+                    (&nbsp;
+                    <CopyToClipboard text={`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}>
+                      <span className="PartnerPersonalInfoForm__ib-link">
+                        {`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}
+                      </span>
+                    </CopyToClipboard>
+                    &nbsp;)
+                  </div>
+                </If>
               </div>
 
               <hr />

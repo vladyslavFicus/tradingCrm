@@ -33,7 +33,8 @@
       "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
-      "NOTIFICATIONS": "Notifications"
+      "NOTIFICATIONS": "Notifications",
+      "ROLES_AND_PERMISSIONS": "Roles & Permissions"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -706,7 +707,8 @@
       "DE": "German",
       "IT": "Italian",
       "FR": "French",
-      "TR": "Turkish"
+      "TR": "Turkish",
+      "EL": "Greek"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
@@ -723,6 +725,7 @@
     "LANGUAGE": "Language",
     "UNTIL": "Until",
     "ON": "on",
+    "UPDATE_FAILED": "Update failed",
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
@@ -989,6 +992,9 @@
         "CITY": "City",
         "COMPLETED": "Profile completion",
         "CONFIRMED_EMAIL": "Confirmed email",
+        "CONVERTED_TO_CLIENT": "Converted to client",
+        "CONVERTED_TO_CLIENT_UUID": "Converted to client uuid",
+        "CONVERTED_BY_OPERATOR_UUID": "Converted by operator uuid",
         "COUNTRY": "Country",
         "COUNTRY_CODE": "Country code",
         "COUNTRY_OF_ISSUE": "Passport - country of issue",
@@ -1013,7 +1019,7 @@
         "MARKETING_SMS": "Marketing SMS",
         "PERSONAL_KYC_METADATA": "Personal files",
         "KYC_PERSONAL_STATUS": "Personal status",
-        "PHONE_NUMBER": "Phone - number",
+        "PHONE_NUMBER": "Phone number",
         "PHONE_NUMBER_VERIFIED": "Phone number verification",
         "ADDITIONAL_PHONE": "Additional phone",
         "POST_CODE": "Post code",
@@ -1027,6 +1033,7 @@
         "REASON": "Reason",
         "STATE": "State",
         "STATUS": "Status",
+        "STATUS_CHANGED_DATE": "Status changed date",
         "SUSPEND_END_DATE": "Suspend end date",
         "TITLE": "Title",
         "TYPE": "Type",
@@ -1042,14 +1049,6 @@
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
-        "BANK_DETAILS": "Bank details",
-        "BANK_NAME": "Bank details - Bank name",
-        "PROVINCE": "Bank details - Province",
-        "SWIFT_CODE": "Bank details - Swift code",
-        "ACCOUNT_NUMBER": "Bank details - Account number",
-        "ACCOUNT_HOLDER_NAME": "Bank details - Account holder name",
-        "BRANCH_NAME": "Bank details - Branch name",
-        "WITHDRAWAL_AREA": "Bank details - Withdrawal area",
         "ACCOUNT_CREATED": "Account created",
         "SHUFTIPRO_SENT": "Shuftipro sent",
         "ATTACHMENT_ADDED": "Attachment added",
@@ -1057,6 +1056,9 @@
         "NOTE_PROFILE_CREATED": "Note profile created",
         "NOTE_PROFILE_REMOVED": "Note profile removed",
         "NOTE_PROFILE_UPDATED": "Note profile updated",
+        "NOTE_CREATED": "Note created",
+        "NOTE_REMOVED": "Note removed",
+        "NOTE_UPDATED": "Note updated",
         "CREDIT_IN": "Credit in",
         "CREDIT_OUT": "Credit out",
         "DEPOSIT": "Deposit",
@@ -1070,7 +1072,9 @@
         "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
-        "INTEREST_RATE": "Interest rate"
+        "INTEREST_RATE": "Interest rate",
+        "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
+        "ACQUISITION_UPDATED": "Acquisition updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1118,6 +1122,7 @@
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
+        "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing"
       },
@@ -1303,7 +1308,8 @@
       "DIALER_NEW": "Dialer New",
       "DIALER_ASSIGNED": "Dialer Assigned",
       "DIALER_FAILED": "Dialer Failed",
-      "DIALER_DROP": "Dialer Drop"
+      "DIALER_DROP": "Dialer Drop",
+      "WIRE_SENT": "Wire Sent"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -1461,7 +1467,7 @@
     "FEED": {
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "Action ID, Partner ID, IP",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
         "ACTION_TYPE": "Action type",
         "ACTION_DATE_RANGE": "Action date range"
       },
@@ -1607,7 +1613,9 @@
       "PAYMENT_APPROVED": "Payment approved"
     },
     "LAST_UPDATED_DATE": "Last updated date",
-    "LEVERAGE": "Leverage"
+    "LEVERAGE": "Leverage",
+    "INITIATOR_NAME": "Initiator name",
+    "INITIATOR_UUID": "Initiator uuid"
   },
   "ERRORS": {
     "FILE": {
@@ -2697,8 +2705,10 @@
   },
   "CLIENTS": {
     "BULK_ACTIONS": "Bulk actions",
-    "RETENTION_INFO_UPDATED": "Clients retention info updated",
-    "SALES_INFO_UPDATED": "Clients sales info updated",
+    "BULK_RETENTION_INFO_UPDATED": "Clients retention info updated",
+    "BULK_SALES_INFO_UPDATED": "Clients sales info updated",
+    "RETENTION_INFO_UPDATED": "Client retention info updated",
+    "SALES_INFO_UPDATED": "Client sales info updated",
     "ACQUISITION_STATUS_UPDATED": "Acquisition status updated",
     "LIST": {
       "GRID_HEADER": {
@@ -2743,7 +2753,8 @@
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
     "BULK_ACTIONS": "Bulk actions",
-    "UPDATED": "Leads updated successfully",
+    "BULK_UPDATED": "Leads updated successfully",
+    "UPDATED": "Lead updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2770,7 +2781,7 @@
       "CONVERTED": "Converted",
       "SELF_CONVETED": "self-converted"
     },
-    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "SUCCESS_PROMOTED": "Lead was successfully promoted",
     "LEADS_BULK_MODAL": {
       "HEADER": "Bulk action - Sales"
     },
@@ -2779,6 +2790,9 @@
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
       "SAMPLE_CSV": "Sample CSV"
     }
+  },
+  "PINNED_NOTES": {
+    "TITLE": "Pinned notes"
   },
   "LEAD_PROFILE": {
     "UPDATED": "Lead updated successfully",
@@ -2802,8 +2816,9 @@
       "CONVERTED_TO_CLIENT": "Converted to Client",
       "CONVERTED_SINCE": "Converted since"
     },
-    "PINNED_NOTES": {
-      "TITLE": "Pinned notes"
+    "ASQUISITION_STATUS": {
+      "TITLE": "Acquisition status",
+      "SALES": "Sales"
     },
     "NOTES": {
       "TITLE": "Notes",
@@ -2813,9 +2828,19 @@
         }
       }
     },
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Feed"
+    },
     "TABS": {
       "PROFILE": "Profile",
-      "NOTES": "Notes"
+      "NOTES": "Notes",
+      "FEEDS": "Feeds"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",
@@ -3034,10 +3059,16 @@
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
-      "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
       "MARGIN_CALL": "Margin level under 100%"
+    },
+    "DETAILS": {
+      "CALLBACK": "Callback",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Callback requested",
+      "CALLBACK_TIME": "Callback time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3049,7 +3080,11 @@
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
-      "HEADING": "Hierarchy"
+      "HEADING": "Hierarchy",
+      "ITEM_DESCRIPTION":  "{{childrenCount}} branches / {{usersCount}} users",
+      "MANAGER": "Manager",
+      "MANAGER_NOT_SELECTED": "Not selected",
+      "OPERATOR": "OPERATOR"
     },
     "INFO_MODAL": {
       "HEADER": "Status",
@@ -3496,5 +3531,18 @@
       "REGISTRATION": "Registration"
     },
     "TITLE": "Referrals"
+  },
+  "ROLES_AND_PERMISSIONS": {
+    "TITLE": "Roles and Permissions",
+    "SELECT_FILTER":  {
+      "ALL": "All",
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled"
+    },
+    "TABLE":  {
+      "ACTION": "Action",
+      "PERMISSION":  "Permission"
+    },
+    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions..."
   }
 }

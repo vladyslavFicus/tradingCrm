@@ -4,15 +4,9 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation VerifyPhoneMutation_ContactForm(
-    $playerUUID: String!
-    $phone: String
-  ) {
+  mutation VerifyPhoneMutation_ContactForm($playerUUID: String!) {
     profile {
-      verifyPhone(
-        playerUUID: $playerUUID
-        phone: $phone
-      ) {
+      verifyPhone(playerUUID: $playerUUID) {
         _id
         phoneVerified
       }

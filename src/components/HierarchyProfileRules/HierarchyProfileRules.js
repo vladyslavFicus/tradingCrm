@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import classNames from 'classnames';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
@@ -318,8 +317,10 @@ class HierarchyProfileRules extends PureComponent {
         <Button
           id="add-rule"
           type="submit"
-          className={classNames(!enabled && 'disabled', 'btn btn-sm btn-outline')}
-          onClick={enabled ? this.triggerRuleModal : null}
+          onClick={this.triggerRuleModal}
+          disabled={!enabled}
+          commonOutline
+          small
         >
           {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
         </Button>

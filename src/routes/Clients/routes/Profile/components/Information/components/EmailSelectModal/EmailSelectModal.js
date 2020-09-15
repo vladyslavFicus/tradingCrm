@@ -21,12 +21,14 @@ const validator = createValidator({
 
 class EmailSelectModal extends PureComponent {
   static propTypes = {
+    uuid: PropTypes.string.isRequired,
+    field: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['PROFILE', 'LEAD']).isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     clientInfo: PropTypes.shape({
       firstName: PropTypes.string,
       lastName: PropTypes.string,
-      email: PropTypes.string,
     }).isRequired,
     emailTemplatesData: PropTypes.shape({
       loading: PropTypes.bool,
@@ -40,7 +42,10 @@ class EmailSelectModal extends PureComponent {
 
   sendEmail = async ({ text, ...restValues }) => {
     const {
-      clientInfo: { email, firstName, lastName },
+      uuid,
+      field,
+      type,
+      clientInfo: { firstName, lastName },
       emailSendMutation,
       onCloseModal,
       notify,
@@ -49,7 +54,9 @@ class EmailSelectModal extends PureComponent {
     try {
       await emailSendMutation({
         variables: {
-          email,
+          uuid,
+          field,
+          type,
           text: injectName(firstName, lastName, text),
           ...restValues,
         },
@@ -116,7 +123,7 @@ class EmailSelectModal extends PureComponent {
             subject: '',
             text: '',
           }}
-          onSubmit={values => this.sendEmail(values)}
+          onSubmit={this.sendEmail}
           validate={validator}
           validateOnChange={false}
         >

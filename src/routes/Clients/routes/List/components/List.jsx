@@ -6,7 +6,7 @@ import ClientsGridFilter from './ClientsGridFilter';
 import ClientsGrid from './ClientsGrid';
 import ClientsGridHeader from './ClientsGridHeader';
 
-const MAX_SELECTED_ROWS = 2000;
+const MAX_SELECTED_ROWS = 5000;
 
 class List extends Component {
   static propTypes = {
@@ -22,8 +22,6 @@ class List extends Component {
     }).isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
-      representativeModal: PropTypes.modalType,
-      moveModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -108,13 +106,9 @@ class List extends Component {
       const { profiles, location } = this.props;
 
       const totalElements = get(profiles, 'profiles.totalElements');
-      const searchLimit = get(location, 'query.filters.searchLimit');
+      const searchLimit = get(location, 'query.filters.searchLimit') || Infinity;
 
-      const selectedLimit = searchLimit && (searchLimit < totalElements) ? searchLimit : totalElements;
-
-      selectedRowsLength = selectedLimit > MAX_SELECTED_ROWS
-        ? MAX_SELECTED_ROWS - selectedRowsLength
-        : selectedLimit - selectedRowsLength;
+      selectedRowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_ROWS) - selectedRowsLength;
     }
 
     return selectedRowsLength;

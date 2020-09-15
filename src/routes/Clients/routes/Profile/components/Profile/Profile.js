@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense } from 'react';
+import React, { PureComponent, Fragment, Suspense } from 'react';
 import { get } from 'lodash';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
@@ -32,13 +32,15 @@ import Information from '../Information';
 import ProfileQuery from './graphql/ProfileQuery';
 import { userProfileTabs } from './constants';
 
-class Profile extends Component {
+class Profile extends PureComponent {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string,
     }).isRequired,
-    profile: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
+    profileQuery: PropTypes.query({
+      profile: PropTypes.profile,
+    }).isRequired,
   };
 
   componentDidMount() {
@@ -52,16 +54,16 @@ class Profile extends Component {
   }
 
   onProfileEvent = () => {
-    this.props.profile.refetch();
+    this.props.profileQuery.refetch();
   };
 
   onAcquisitionStatusChangedEvent = () => {
-    this.props.profile.refetch();
+    this.props.profileQuery.refetch();
   };
 
   get availableStatuses() {
-    const { profile, permission: { permissions } } = this.props;
-    const profileStatus = get(profile, 'data.profile.status.type');
+    const { profileQuery, permission: { permissions } } = this.props;
+    const profileStatus = get(profileQuery, 'data.profile.status.type');
 
     if (!profileStatus) {
       return [];
@@ -74,7 +76,7 @@ class Profile extends Component {
 
   render() {
     const {
-      profile: {
+      profileQuery: {
         data,
         loading,
         error,
@@ -85,10 +87,7 @@ class Profile extends Component {
     if (error && parseErrors(error).error === 'error.entity.not.found') {
       return <NotFound />;
     }
-
     const profileData = get(data, 'profile');
-    const acquisitionData = get(profileData, 'acquisition') || {};
-    const lastSignInSessions = get(profileData, 'profileView.lastSignInSessions') || [];
 
     if (loading && !profileData) {
       return null;
@@ -106,12 +105,7 @@ class Profile extends Component {
             loaded={!loading}
           />
           <HideDetails>
-            <Information
-              profile={profileData}
-              ips={lastSignInSessions}
-              acquisitionData={acquisitionData}
-              loading={loading && !profileData}
-            />
+            <Information profile={profileData} profileLoading={loading} />
           </HideDetails>
         </div>
 
@@ -143,6 +137,6 @@ export default compose(
   withRouter,
   withPermission,
   withRequests({
-    profile: ProfileQuery,
+    profileQuery: ProfileQuery,
   }),
 )(Profile);

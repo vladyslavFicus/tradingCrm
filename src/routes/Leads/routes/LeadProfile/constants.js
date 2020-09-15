@@ -1,3 +1,0 @@
-const PINNED_NOTES_SIZE = 100;
-
-export { PINNED_NOTES_SIZE };
