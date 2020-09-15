@@ -30,6 +30,7 @@ async function load({ zookeeperUrl, onBrandsConfigUpdated }) {
       'nas.brand.mt4.leverages_changing_request',
       'nas.brand.mt5.leverages_changing_request',
       'nas.brand.backoffice.privateEmailByDepartment',
+      'nas.brand.client_portal.url',
     ],
     null,
     options,
