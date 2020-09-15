@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import capitalize from 'utils/capitalize';
+import { Link } from 'components/Link';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { ReactComponent as OperatorIcon } from './img/OperatorIcon.svg';
 import './HierarchyItemUser.scss';
@@ -19,10 +20,6 @@ class HierarchyItemUser extends PureComponent {
       })),
     }).isRequired,
   };
-
-  onOperatorClick = (uuid) => {
-    window.open(`/operators/${uuid}`, '_blank');
-  }
 
   render() {
     const {
@@ -43,16 +40,20 @@ class HierarchyItemUser extends PureComponent {
     return (
       <div className="HierarchyItemUser">
         <div className="HierarchyItemUser__content">
-          <div onClick={() => this.onOperatorClick(uuid)}>
+          <Link
+            to={`/operators/${uuid}`}
+            target="_blank"
+          >
             <OperatorIcon className="HierarchyItemUser__icon" />
-          </div>
+          </Link>
           <div>
-            <div
+            <Link
+              to={`/operators/${uuid}`}
+              target="_blank"
               className="HierarchyItemUser__title HierarchyItemUser__link"
-              onClick={() => this.onOperatorClick(uuid)}
             >
               {fullName}
-            </div>
+            </Link>
             <span className="HierarchyItemBranch__type">{I18n.t('HIERARCHY.TREE.OPERATOR')}</span>
             <div className="HierarchyItemUser__description-wrapper">
               <If condition={authority}>

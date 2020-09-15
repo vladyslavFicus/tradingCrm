@@ -7,6 +7,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { categoriesLabels, documentsTypeLabels } from 'constants/files';
+import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
@@ -40,12 +41,13 @@ class FilesGrid extends PureComponent {
     <div>
       <Choose>
         <When condition={client}>
-          <div
+          <Link
             className="FilesGrid__client-name"
-            onClick={() => window.open(`/clients/${clientUuid}/profile`, '_blank')}
+            to={`/clients/${clientUuid}/profile`}
+            target="_blank"
           >
             {client.fullName}
-          </div>
+          </Link>
         </When>
         <Otherwise>
           {I18n.t('COMMON.NONE')}

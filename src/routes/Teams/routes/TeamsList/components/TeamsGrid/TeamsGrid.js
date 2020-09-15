@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import './TeamsGrid.scss';

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { Link } from 'react-router-dom';
+import { Link } from 'components/Link';
 import CallbacksCalendarComponent from 'components/CallbacksCalendar';
 import './CallbacksCalendar.scss';
 

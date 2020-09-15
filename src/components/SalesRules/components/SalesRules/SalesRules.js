@@ -2,7 +2,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import { parseErrors, withRequests } from 'apollo';
@@ -15,6 +15,7 @@ import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
+import { Link } from 'components/Link';
 import { Button } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';

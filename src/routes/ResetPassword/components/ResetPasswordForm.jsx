@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
@@ -9,6 +8,7 @@ import {
   passwordMaxSize,
   passwordCustomError,
 } from 'constants/operators';
+import { Link } from 'components/Link';
 import { FormikInputField } from 'components/Formik';
 import { createValidator, translateLabels } from 'utils/validator';
 

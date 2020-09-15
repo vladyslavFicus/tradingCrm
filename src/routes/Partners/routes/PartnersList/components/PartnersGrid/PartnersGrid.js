@@ -1,10 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
