@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./containers/ResetPasswordContainer'));
+export default lazy(() => import('./ResetPassword'));
