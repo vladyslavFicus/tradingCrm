@@ -44,8 +44,8 @@ class ChangeOriginalAgent extends PureComponent {
   };
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
-    const { paymentId, notify, operators, changeOriginalAgent } = this.props;
-    const operatorsList = get(operators, 'data.operators.content') || [];
+    const { paymentId, notify, changeOriginalAgent } = this.props;
+    const operatorsList = this.getOperatorsList();
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
 
@@ -74,21 +74,31 @@ class ChangeOriginalAgent extends PureComponent {
     }
   };
 
+  getOperatorsList = () => {
+    const {
+      operators,
+      originalAgent,
+    } = this.props;
+
+    const operatorsList = get(operators, 'data.operators.content', []);
+
+    if (originalAgent?.uuid && !operatorsList.find(({ uuid }) => uuid === originalAgent.uuid)) {
+      operatorsList.unshift(originalAgent);
+    }
+
+    return operatorsList;
+  };
+
   render() {
     const {
       operators: { loading, error },
-      operators,
       originalAgent,
       permission: {
         permissions: currentPermission,
       },
     } = this.props;
 
-    const operatorsList = get(operators, 'data.operators.content', []);
-    const computedOperatorsList = originalAgent?.uuid
-      && !operatorsList.find(({ uuid }) => uuid === originalAgent.uuid)
-      ? [originalAgent].concat(operatorsList)
-      : operatorsList;
+    const operatorsList = this.getOperatorsList();
     const canChangeOriginalAgent = new Permissions(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT).check(currentPermission);
 
     return (
@@ -109,7 +119,7 @@ class ChangeOriginalAgent extends PureComponent {
                 className="ChangeOriginalAgent__select"
                 disabled={!canChangeOriginalAgent || loading}
               >
-                {computedOperatorsList.map(({ uuid, fullName }) => (
+                {operatorsList.map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>{fullName}</option>
                 ))}
               </Field>
