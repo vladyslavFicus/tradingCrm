@@ -1,0 +1,41 @@
+.PinnedNotes {
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    overflow-y: auto;
+    height: 200px;
+  }
+
+  &__item {
+    background-color: #fffde6;
+    padding: 7px;
+    margin-bottom: 4px;
+
+    &-operator,
+    &-author {
+      font-size: 13px;
+    }
+
+    &-author {
+      color: #666;
+    }
+
+    &-subject {
+      font-weight: 700;
+      margin: 5px 0 0 0;
+    }
+
+    &-content {
+      font-style: italic;
+    }
+  }
+}

@@ -31,5 +31,8 @@ module.exports = configs => Object.entries(configs).reduce((acc, [id, config]) =
     leveragesChangingRequestMT4: get(config, 'nas.brand.mt4.leverages_changing_request', []),
     leveragesChangingRequestMT5: get(config, 'nas.brand.mt5.leverages_changing_request', []),
     privateEmailByDepartment: get(config, 'nas.brand.backoffice.privateEmailByDepartment', []),
+    clientPortal: {
+      url: get(config, 'nas.brand.client_portal.url'),
+    },
   },
 }), {});

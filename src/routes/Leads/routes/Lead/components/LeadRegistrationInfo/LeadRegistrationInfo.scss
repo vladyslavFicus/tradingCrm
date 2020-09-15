@@ -1,0 +1,21 @@
+.LeadRegistrationInfo {
+  padding: 5px 0 5px 15px;
+  flex: 1;
+  min-height: 60px;
+
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__primary {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  &__secondary {
+    color: #333;
+    font-size: 11px;
+  }
+}

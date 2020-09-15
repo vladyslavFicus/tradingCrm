@@ -32,7 +32,7 @@ class Feed extends PureComponent {
   }
 
   onProfileEvent = () => {
-    this.props.feeds.refetch();
+    this.props.feedsQuery.refetch();
   };
 
   handlePageChange = () => {

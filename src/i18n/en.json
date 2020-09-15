@@ -992,6 +992,9 @@
         "CITY": "City",
         "COMPLETED": "Profile completion",
         "CONFIRMED_EMAIL": "Confirmed email",
+        "CONVERTED_TO_CLIENT": "Converted to client",
+        "CONVERTED_TO_CLIENT_UUID": "Converted to client uuid",
+        "CONVERTED_BY_OPERATOR_UUID": "Converted by operator uuid",
         "COUNTRY": "Country",
         "COUNTRY_CODE": "Country code",
         "COUNTRY_OF_ISSUE": "Passport - country of issue",
@@ -1016,7 +1019,7 @@
         "MARKETING_SMS": "Marketing SMS",
         "PERSONAL_KYC_METADATA": "Personal files",
         "KYC_PERSONAL_STATUS": "Personal status",
-        "PHONE_NUMBER": "Phone - number",
+        "PHONE_NUMBER": "Phone number",
         "PHONE_NUMBER_VERIFIED": "Phone number verification",
         "ADDITIONAL_PHONE": "Additional phone",
         "POST_CODE": "Post code",
@@ -1030,6 +1033,7 @@
         "REASON": "Reason",
         "STATE": "State",
         "STATUS": "Status",
+        "STATUS_CHANGED_DATE": "Status changed date",
         "SUSPEND_END_DATE": "Suspend end date",
         "TITLE": "Title",
         "TYPE": "Type",
@@ -1045,14 +1049,6 @@
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
-        "BANK_DETAILS": "Bank details",
-        "BANK_NAME": "Bank details - Bank name",
-        "PROVINCE": "Bank details - Province",
-        "SWIFT_CODE": "Bank details - Swift code",
-        "ACCOUNT_NUMBER": "Bank details - Account number",
-        "ACCOUNT_HOLDER_NAME": "Bank details - Account holder name",
-        "BRANCH_NAME": "Bank details - Branch name",
-        "WITHDRAWAL_AREA": "Bank details - Withdrawal area",
         "ACCOUNT_CREATED": "Account created",
         "SHUFTIPRO_SENT": "Shuftipro sent",
         "ATTACHMENT_ADDED": "Attachment added",
@@ -1060,6 +1056,9 @@
         "NOTE_PROFILE_CREATED": "Note profile created",
         "NOTE_PROFILE_REMOVED": "Note profile removed",
         "NOTE_PROFILE_UPDATED": "Note profile updated",
+        "NOTE_CREATED": "Note created",
+        "NOTE_REMOVED": "Note removed",
+        "NOTE_UPDATED": "Note updated",
         "CREDIT_IN": "Credit in",
         "CREDIT_OUT": "Credit out",
         "DEPOSIT": "Deposit",
@@ -2782,7 +2781,7 @@
       "CONVERTED": "Converted",
       "SELF_CONVETED": "self-converted"
     },
-    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "SUCCESS_PROMOTED": "Lead was successfully promoted",
     "LEADS_BULK_MODAL": {
       "HEADER": "Bulk action - Sales"
     },
@@ -2791,6 +2790,9 @@
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
       "SAMPLE_CSV": "Sample CSV"
     }
+  },
+  "PINNED_NOTES": {
+    "TITLE": "Pinned notes"
   },
   "LEAD_PROFILE": {
     "UPDATED": "Lead updated successfully",
@@ -2814,8 +2816,9 @@
       "CONVERTED_TO_CLIENT": "Converted to Client",
       "CONVERTED_SINCE": "Converted since"
     },
-    "PINNED_NOTES": {
-      "TITLE": "Pinned notes"
+    "ASQUISITION_STATUS": {
+      "TITLE": "Acquisition status",
+      "SALES": "Sales"
     },
     "NOTES": {
       "TITLE": "Notes",
