@@ -3206,7 +3206,13 @@
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
       "SUCCESSFULLY_CREATED": "Callback has been successfully created",
-      "REMINDER": "Reminder"
+      "REMINDER": "Reminder",
+      "ERROR": {
+        "TITLE": "Callback creation failed",
+        "MESSAGES": {
+          "CALLBACK_EXIST": "Callback already exist"
+        }
+      }
     },
     "MODAL": {
       "TITLE": "Callback details",
