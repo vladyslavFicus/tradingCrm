@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import { getBackofficeBrand } from 'config';
 import { Formik, Form, Field } from 'formik';
+import { compose } from 'react-apollo';
 import { withRequests, parseErrors } from 'apollo';
 import I18n from 'i18n-js';
 import { parse } from 'qs';
@@ -38,6 +40,7 @@ class ResetPassword extends PureComponent {
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,
     }).isRequired,
+    ...PropTypes.router,
   };
 
   state = {
@@ -77,6 +80,8 @@ class ResetPassword extends PureComponent {
   };
 
   render() {
+    const { history } = this.props;
+
     const {
       loading,
       hasSubmittedForm,
@@ -103,8 +108,8 @@ class ResetPassword extends PureComponent {
               </div>
               <Button
                 primary
-                to="/logout"
                 className="ResetPassword__form-button"
+                onClick={() => history.push('/logout')}
               >
                 {I18n.t('RESET_PASSWORD.LOGIN')}
               </Button>
@@ -165,6 +170,9 @@ class ResetPassword extends PureComponent {
   }
 }
 
-export default withRequests({
-  resetPassword: resetPasswordMutation,
-})(ResetPassword);
+export default compose(
+  withRouter,
+  withRequests({
+    resetPassword: resetPasswordMutation,
+  }),
+)(ResetPassword);
