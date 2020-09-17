@@ -33,9 +33,6 @@ class LeadPersonalInfo extends PureComponent {
       },
     } = this.props;
 
-    console.log('country', country);
-    console.log('countryList[country.toUpperCase()]', countryList[country.toUpperCase()]);
-
     return (
       <div className="LeadPersonalInfo">
         <div className="LeadPersonalInfo__title">
