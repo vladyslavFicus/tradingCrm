@@ -63,14 +63,14 @@ class NoteItem extends Component {
     const [targetType] = targetUUID.split('-', 1);
 
     return (
-      <div className="note-item">
-        <div className="note-item__content-wrapper">
+      <div className="NoteItem">
+        <div className="NoteItem__content-wrapper">
           <b>{fullName}</b>
-          <div className="note-item__heading">
+          <div className="NoteItem__heading">
             <If condition={changedBy}>
               <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
             </If>
-            <div className="note-item__edition-date">
+            <div className="NoteItem__edition-date">
               <Choose>
                 <When condition={changedAt}>
                   {moment.utc(changedAt)
@@ -87,11 +87,11 @@ class NoteItem extends Component {
           </div>
           <div className="row">
             <div className="col">
-              <div className="note-item__body">
+              <div className="NoteItem__body">
                 <If condition={subject}>
-                  <div className="note-item__subject">{subject}</div>
+                  <div className="NoteItem__subject">{subject}</div>
                 </If>
-                <div className="note-item__content">{content}</div>
+                <div className="NoteItem__content">{content}</div>
                 <If condition={pinned}>
                   <span className="note-item__pinned-note-badge">
                     {I18n.t('COMMON.PINNED')}

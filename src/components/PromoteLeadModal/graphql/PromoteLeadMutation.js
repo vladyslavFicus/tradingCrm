@@ -6,9 +6,7 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`
   mutation promoteLead($args: PromoteLead__Input) {
     leads {
-      promote(args: $args) {
-        uuid
-      }
+      promote(args: $args)
     }
   }
 `;

@@ -118,9 +118,11 @@ class PromoteLeadModal extends PureComponent {
           languageCode,
         }}
         validate={validate}
+        validateOnBlur={false}
+        validateOnChange={false}
         onSubmit={this.handlePromoteLead}
       >
-        {({ errors, isValid, isSubmitting, dirty, setFieldValue }) => (
+        {({ errors, isSubmitting, setFieldValue }) => (
           <Form>
             <div className="mb-3 font-weight-700 text-center">
               {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.BODY_HEADER', { fullName: `${firstName} ${lastName}` })}
@@ -150,6 +152,7 @@ class PromoteLeadModal extends PureComponent {
                   label={I18n.t(attributeLabels.country)}
                   component={FormikSelectField}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  searchable
                 >
                   {Object.entries(countryList).map(([key, value]) => (
                     <option key={key} value={key}>
@@ -176,6 +179,7 @@ class PromoteLeadModal extends PureComponent {
                   label={I18n.t(attributeLabels.language)}
                   component={FormikSelectField}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  searchable
                 >
                   {getAvailableLanguages().map(locale => (
                     <option key={locale} value={locale}>
@@ -197,7 +201,7 @@ class PromoteLeadModal extends PureComponent {
               <Button
                 primary
                 type="submit"
-                disabled={!dirty || !isValid || isSubmitting}
+                disabled={isSubmitting}
               >
                 {I18n.t('COMMON.BUTTONS.CONFIRM')}
               </Button>

@@ -4,6 +4,11 @@
   }
 
   &__value {
+    &-from,
+    &-to {
+      word-break: break-all;
+    }
+
     &-from {
       margin-right: 5px;
     }
