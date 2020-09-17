@@ -33,6 +33,9 @@ class LeadPersonalInfo extends PureComponent {
       },
     } = this.props;
 
+    console.log('country', country);
+    console.log('countryList[country.toUpperCase()]', countryList[country.toUpperCase()]);
+
     return (
       <div className="LeadPersonalInfo">
         <div className="LeadPersonalInfo__title">
@@ -81,7 +84,7 @@ class LeadPersonalInfo extends PureComponent {
                 <When condition={country}>
                   <Flag height={10} code={getCountryCode(country)} />
                   {' '}
-                  {countryList[country.toUpperCase()]}
+                  {countryList[getCountryCode(country)]}
                 </When>
                 <Otherwise>
                   <span>&mdash;</span>
