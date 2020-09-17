@@ -74,8 +74,14 @@ class ResetPassword extends PureComponent {
         resetPasswordFormError: '',
         hasSubmittedForm: true,
       });
-    } catch (error) {
-      this.setState({ resetPasswordFormError: parseErrors(error).message });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      this.setState({
+        resetPasswordFormError: error.error === 'error.entity.not.found'
+          ? I18n.t('RESET_PASSWORD.ERRORS.REQUEST_NOT_FOUND')
+          : error.message,
+      });
     }
   };
 

@@ -2405,7 +2405,10 @@
     "PASSWORD": "Password",
     "REPEAT_PASSWORD": "Repeat password",
     "PASSWORD_SETTLED": "You have successfully settled new password",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "ERRORS": {
+      "REQUEST_NOT_FOUND": "Reset password request not found or expired"
+    }
   },
   "SIGN_IN": {
     "EMAIL": "Email",
