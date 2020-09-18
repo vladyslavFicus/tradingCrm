@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
@@ -12,6 +11,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import { Button } from 'components/UI';
 import { accountTypesLabels, leverageStatusesColor } from 'constants/accountTypes';
 import Grid, { GridColumn } from 'components/Grid';

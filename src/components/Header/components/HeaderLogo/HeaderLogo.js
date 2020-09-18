@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 import { getLogo } from 'config';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import './HeaderLogo.scss';
 
 class HeaderLogo extends PureComponent {

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withApollo, compose } from 'react-apollo';
 import I18n from 'i18n-js';
+import { Link } from 'components/Link';
 import CircleLoader from 'components/CircleLoader';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { ReactComponent as CompanyIcon } from './img/CompanyIcon.svg';
@@ -135,12 +136,13 @@ class HierarchyItemBranch extends PureComponent {
           </span>
         </When>
         <Otherwise>
-          <div
+          <Link
+            to={`/${branchType.toLowerCase()}s/${uuid}`}
+            target="_blank"
             className="HierarchyItemBranch__title HierarchyItemBranch__link"
-            onClick={() => window.open(`/${branchType.toLowerCase()}s/${uuid}`, '_blank')}
           >
             {name}
-          </div>
+          </Link>
         </Otherwise>
       </Choose>
     );
@@ -185,15 +187,16 @@ class HierarchyItemBranch extends PureComponent {
               {I18n.t('HIERARCHY.TREE.MANAGER')}:&nbsp;
               <Choose>
                 <When condition={manager}>
-                  <div
+                  <Link
+                    to={`/operators/${manager.uuid}`}
+                    target="_blank"
                     className="HierarchyItemBranch__manager-title HierarchyItemBranch__link"
-                    onClick={() => window.open(`/operators/${manager.uuid}`, '_blank')}
                   >
                     <OperatorIcon id={`manager-${manager.uuid}`} className="HierarchyItemBranch__manager-icon" />
                     <UncontrolledTooltip target={`manager-${manager.uuid}`}>
                       {manager.fullName}
                     </UncontrolledTooltip>
-                  </div>
+                  </Link>
                 </When>
                 <Otherwise>
                   {I18n.t('HIERARCHY.TREE.MANAGER_NOT_SELECTED')}

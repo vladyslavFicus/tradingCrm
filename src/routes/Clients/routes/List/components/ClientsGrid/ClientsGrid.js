@@ -20,6 +20,7 @@ import {
   lastActivityStatusesColors,
 } from 'constants/lastActivity';
 import { warningLabels } from 'constants/warnings';
+import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
@@ -227,12 +228,13 @@ class ClientsGrid extends PureComponent {
                 <When condition={affiliateUuid}>
                   <If condition={partner}>
                     <div>
-                      <div
+                      <Link
                         className="header-block-middle"
-                        onClick={() => window.open(`/partners/${affiliateUuid}/profile`, '_blank')}
+                        target="_blank"
+                        to={`/partners/${affiliateUuid}/profile`}
                       >
                         {partner.fullName}
-                      </div>
+                      </Link>
                     </div>
                   </If>
                   <If condition={source}>
