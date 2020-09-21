@@ -560,6 +560,7 @@
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
       },
+      "COPY_LINK": "Link has been copied to clipboard",
       "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
     },
     "OR": "Or",

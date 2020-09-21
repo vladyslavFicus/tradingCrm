@@ -221,7 +221,13 @@ class PartnerPersonalInfoForm extends PureComponent {
                 <If condition={values.externalAffiliateId && values.public}>
                   <div className="PartnerPersonalInfoForm__ib-link-container">
                     (&nbsp;
-                    <CopyToClipboard text={`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}>
+                    <CopyToClipboard
+                      notify
+                      notificationLevel="success"
+                      notificationTitle={I18n.t('COMMON.NOTIFICATIONS.COPIED')}
+                      notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_LINK')}
+                      text={`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}
+                    >
                       <span className="PartnerPersonalInfoForm__ib-link">
                         {`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}
                       </span>
