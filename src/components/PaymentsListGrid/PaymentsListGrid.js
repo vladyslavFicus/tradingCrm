@@ -12,7 +12,6 @@ import {
   aggregatorsLabels,
   tradingTypesLabelsWithColor,
 } from 'constants/payment';
-import { warningLabels } from 'constants/warnings';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
@@ -22,7 +21,6 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import formatLabel from 'utils/formatLabel';
-import renderLabel from 'utils/renderLabel';
 
 class PaymentsListGrid extends PureComponent {
   static propTypes = {
@@ -158,15 +156,28 @@ class PaymentsListGrid extends PureComponent {
             />
           </If>
           <GridColumn
-            header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.WARNING')}
-            render={({ warnings }) => (
-              <If condition={warnings}>
-                {warnings.map(warning => (
-                  <div key={warning}>
-                    {I18n.t(renderLabel(warning, warningLabels))}
+            header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AFFILIATE')}
+            render={({ partner, playerProfile: { affiliateUuid } }) => (
+              <Choose>
+                <When condition={partner}>
+                  <div>
+                    <a
+                      className="header-block-middle"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`/partners/${affiliateUuid}/profile`}
+                    >
+                      {partner.fullName}
+                    </a>
                   </div>
-                ))}
-              </If>
+                  <div className="font-size-11">
+                    <Uuid uuid={affiliateUuid} />
+                  </div>
+                </When>
+                <Otherwise>
+                  <div>&mdash;</div>
+                </Otherwise>
+              </Choose>
             )}
           />
           <GridColumn

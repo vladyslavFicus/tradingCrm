@@ -1207,6 +1207,7 @@
     },
     "TRANSACTIONS": {
       "GRID_COLUMNS": {
+        "AFFILIATE": "Affiliate",
         "TRANSACTION": "Transaction",
         "WARNING": "Warning",
         "CLIENT": "Client",
@@ -1263,7 +1264,7 @@
           "REFERRAL_BONUS": "Referral bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "Transaction ID, Player, External reference",
+          "KEYWORD": "Transaction ID, Affiliate ID, Player, External reference",
           "CLIENT_KEYWORD": "ID, Reference number"
         }
       },
