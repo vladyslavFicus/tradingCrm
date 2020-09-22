@@ -397,23 +397,23 @@ class PaymentsListFilters extends PureComponent {
                 </option>
               ))}
             </Field>
+            <Field
+              name="affiliateUuids"
+              className="form-group filter-row__medium"
+              label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              component={FormikSelectField}
+              disabled={partnersLoading || !partners.length}
+              searchable
+              multiple
+            >
+              {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
+                <option key={uuid} value={uuid}>
+                  {fullName}
+                </option>
+              ))}
+            </Field>
             <If condition={!clientView}>
-              <Field
-                name="affiliateUuids"
-                className="form-group filter-row__medium"
-                label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                disabled={partnersLoading || !partners.length}
-                searchable
-                multiple
-              >
-                {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
-                  <option key={uuid} value={uuid}>
-                    {fullName}
-                  </option>
-                ))}
-              </Field>
               <Field
                 name="currency"
                 className="form-group filter-row__medium"

@@ -17,6 +17,7 @@ import PaymentAddModal from './components/PaymentAddModal';
 import {
   PaymentsQuery,
   ProfileQuery,
+  PartnersQuery,
 } from './graphql';
 
 class Payments extends PureComponent {
@@ -29,6 +30,9 @@ class Payments extends PureComponent {
     }).isRequired,
     modals: PropTypes.shape({
       addPaymentModal: PropTypes.modalType,
+    }).isRequired,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
   };
 
@@ -71,7 +75,10 @@ class Payments extends PureComponent {
         data,
         loading,
       },
+      partnersQuery: { data: partnersData, loading: partnersLoading },
     } = this.props;
+
+    const partners = get(partnersData, 'partners.content') || [];
 
     const clientPaymentsQuery = {
       ...paymentsQuery,
@@ -105,6 +112,8 @@ class Payments extends PureComponent {
         <PaymentsListFilters
           paymentsLoading={loading}
           clientView
+          partnersLoading={partnersLoading}
+          partners={partners}
         />
         <PaymentsListGrid
           paymentsQuery={clientPaymentsQuery}
@@ -123,5 +132,6 @@ export default compose(
   withRequests({
     paymentsQuery: PaymentsQuery,
     profileQuery: ProfileQuery,
+    partnersQuery: PartnersQuery,
   }),
 )(Payments);
