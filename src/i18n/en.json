@@ -1125,7 +1125,8 @@
         "DIDLOGIC_OPERATOR": "DID Logic operator",
         "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
-        "DEALING": "Dealing"
+        "DEALING": "Dealing",
+        "IB": "IB"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1137,7 +1138,8 @@
         "E2E": "E2E",
         "BI": "Business intelligence",
         "AFFILIATE": "Affiliate",
-        "PLAYER": "Player"
+        "PLAYER": "Player",
+        "AGENT": "Agent"
       }
     },
     "COUNTRIES": {
