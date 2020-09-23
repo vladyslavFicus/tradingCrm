@@ -5,6 +5,7 @@ PropTypes.router = {
     search: PropTypes.string.isRequired,
     pathname: PropTypes.string.isRequired,
     query: PropTypes.object,
+    state: PropTypes.object,
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -14,6 +14,16 @@ class GridHeader extends PureComponent {
     sortList: {},
   };
 
+  static getDerivedStateFromProps(props, state) {
+    // If sorts controlled from top level component --> use outside data if not --> use local state data
+    const sortList = state.prevSorts !== props.sorts ? props.sorts : state.sortList;
+
+    return {
+      sortList: sortList || {},
+      prevSorts: props.sorts,
+    };
+  }
+
   handleSortBy = async (sortBy) => {
     if (!sortBy) return;
 

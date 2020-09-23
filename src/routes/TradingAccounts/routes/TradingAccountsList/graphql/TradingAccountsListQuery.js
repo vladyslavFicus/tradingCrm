@@ -48,14 +48,16 @@ const REQUEST = gql`
   }
 `;
 
-const TradingAccountsListQuery = ({ children, location: { query } }) => (
+const TradingAccountsListQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
     variables={{
-      size: 20,
+      ...state && state.filters,
       page: 0,
-      ...query && query.filters,
+      size: 20,
+      // Parse to boolean value if 'archived' value exist
+      archived: state?.filters?.archived ? !!+state?.filters?.archived : undefined,
     }}
   >
     {children}
@@ -65,7 +67,7 @@ const TradingAccountsListQuery = ({ children, location: { query } }) => (
 TradingAccountsListQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
     }),
   }).isRequired,
