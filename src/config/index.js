@@ -74,10 +74,6 @@ function removeActiveBrand() {
   window.app.brandId = undefined;
 }
 
-function getLogo() {
-  return `/img/brand/header/${getBrandId()}.svg`;
-}
-
 function getVersion() {
   return config.version;
 }
@@ -125,7 +121,6 @@ export {
   getClickToCall,
   removeActiveBrand,
   getEnvironment,
-  getLogo,
   getActiveBrandConfig,
   getAvailableLanguages,
   getVersion,
