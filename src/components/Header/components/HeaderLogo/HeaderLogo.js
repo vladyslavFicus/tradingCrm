@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { getLogo } from 'config';
+import { getBrandId, getStaticFileUrl } from 'config';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
@@ -18,7 +18,7 @@ class HeaderLogo extends PureComponent {
     return (
       <Link className="HeaderLogo" to={brands.length > 1 ? '/brands' : '/'}>
         <img
-          src={getLogo()}
+          src={getStaticFileUrl(getBrandId(), 'header.svg')}
           alt="current-brand-logo"
           onError={(e) => { e.target.src = '/img/logo-placeholder.svg'; }}
         />

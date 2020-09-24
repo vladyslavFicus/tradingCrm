@@ -110,6 +110,13 @@ function setBackofficeBrand(brandId) {
   }
 }
 
+/**
+ * Get static files url
+ *
+ * @return {string}
+ */
+const getStaticFileUrl = (brand, file) => `/cloud-static/${brand}/backoffice/${file}`;
+
 export {
   getApiRoot,
   getBrand,
@@ -128,6 +135,7 @@ export {
   getPaymentReason,
   getBackofficeBrand,
   setBackofficeBrand,
+  getStaticFileUrl,
 };
 
 export default config;

@@ -1,12 +1,10 @@
-import { brandsConfig, departmentsConfig, rolesConfig } from 'constants/brands';
+import { departmentsConfig, rolesConfig } from 'constants/brands';
 
 const getMappedBrands = (brandToAuthorities) => {
-  const brandsNames = Object.keys(brandToAuthorities);
+  const brands = Object.keys(brandToAuthorities);
 
-  return brandsNames.map(brand => ({
+  return brands.map(brand => ({
     id: brand,
-    name: brandsConfig[brand]?.name || brand,
-    image: brandsConfig[brand]?.image?.src || '/img/image-placeholder.svg',
     departments: brandToAuthorities[brand].map(({ id, department, role }) => ({
       id,
       department,

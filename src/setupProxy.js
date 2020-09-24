@@ -30,4 +30,13 @@ module.exports = (app) => {
     res.contentType('application/javascript');
     res.send(`window.nas = ${JSON.stringify(config)}`);
   });
+
+  // Proxy for cloud static resources
+  app.use('/cloud-static', createProxyMiddleware({
+    target: process.env.CLOUD_STATIC_URL,
+    pathRewrite: {
+      '^/cloud-static': '',
+    },
+    changeOrigin: true,
+  }));
 };
