@@ -286,7 +286,6 @@ class LeadsGrid extends PureComponent {
           withNoResults={!isLoading && (!content || content.length === 0)}
         >
           <GridColumn
-            sortBy="name"
             header={I18n.t('LEADS.GRID_HEADER.LEAD')}
             render={this.renderLead}
           />
