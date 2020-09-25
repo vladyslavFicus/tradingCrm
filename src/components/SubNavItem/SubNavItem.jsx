@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { NavLink } from 'components/Link';
 import './SubNavItem.scss';
 
 class SubNavItem extends Component {

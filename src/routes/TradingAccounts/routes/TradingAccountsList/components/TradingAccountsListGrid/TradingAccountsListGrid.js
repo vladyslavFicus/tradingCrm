@@ -30,7 +30,7 @@ class TradingAccountsListGrid extends PureComponent {
     loadMore(page + 1);
   };
 
-  renderTradingAccountColumn = ({ accountUUID, name, accountType, platformType, archived }) => (
+  renderTradingAccountColumn = ({ uuid, name, accountType, platformType, archived }) => (
     <Fragment>
       <Badge
         text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
@@ -43,7 +43,7 @@ class TradingAccountsListGrid extends PureComponent {
         </div>
       </Badge>
       <div className="font-size-11">
-        <Uuid uuid={accountUUID} uuidPrefix={platformType} />
+        <Uuid uuid={uuid} uuidPrefix={platformType} />
       </div>
     </Fragment>
   );

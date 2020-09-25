@@ -71,6 +71,7 @@ const departments = keyMirror({
   FINANCE: null,
   COMPLIANCE: null,
   DEALING: null,
+  IB: null,
 });
 
 const departmentsLabels = {
@@ -91,6 +92,7 @@ const departmentsLabels = {
   [departments.FINANCE]: 'CONSTANTS.OPERATORS.DEPARTMENTS.FINANCE',
   [departments.COMPLIANCE]: 'CONSTANTS.OPERATORS.DEPARTMENTS.COMPLIANCE',
   [departments.DEALING]: 'CONSTANTS.OPERATORS.DEPARTMENTS.DEALING',
+  [departments.IB]: 'CONSTANTS.OPERATORS.DEPARTMENTS.IB',
 };
 
 const roles = keyMirror({
@@ -104,6 +106,7 @@ const roles = keyMirror({
   BI: null,
   AFFILIATE: null,
   PLAYER: null,
+  AGENT: null,
 });
 
 const rolesLabels = {
@@ -117,6 +120,7 @@ const rolesLabels = {
   [roles.BI]: 'CONSTANTS.OPERATORS.ROLES.BI',
   [roles.AFFILIATE]: 'CONSTANTS.OPERATORS.ROLES.AFFILIATE',
   [roles.PLAYER]: 'CONSTANTS.OPERATORS.ROLES.PLAYER',
+  [roles.AGENT]: 'CONSTANTS.OPERATORS.ROLES.AGENT',
 };
 
 const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';

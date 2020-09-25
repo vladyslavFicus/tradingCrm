@@ -47,11 +47,11 @@ const REQUEST = gql`
   }
 `;
 
-const FilesQuery = ({ children, location: { query } }) => (
+const FilesQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query && query.filters,
+      ...state && state.filters,
       page: 0,
       size: 20,
     }}
@@ -64,7 +64,7 @@ const FilesQuery = ({ children, location: { query } }) => (
 FilesQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
     }),
   }).isRequired,

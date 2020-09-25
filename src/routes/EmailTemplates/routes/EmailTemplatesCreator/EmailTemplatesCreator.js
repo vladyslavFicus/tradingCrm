@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { withRequests } from 'apollo';
 import { Field, Form, Formik } from 'formik';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import { FormikInputField, FormikTextEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
 import EmailTemplateCreateMutation from './graphql/EmailTemplateCreateMutation';

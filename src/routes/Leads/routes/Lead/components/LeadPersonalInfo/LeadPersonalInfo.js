@@ -81,7 +81,7 @@ class LeadPersonalInfo extends PureComponent {
                 <When condition={country}>
                   <Flag height={10} code={getCountryCode(country)} />
                   {' '}
-                  {countryList[country.toUpperCase()]}
+                  {countryList[getCountryCode(country)]}
                 </When>
                 <Otherwise>
                   <span>&mdash;</span>

@@ -560,6 +560,7 @@
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
       },
+      "COPY_LINK": "Link has been copied to clipboard",
       "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
     },
     "OR": "Or",
@@ -1124,7 +1125,8 @@
         "DIDLOGIC_OPERATOR": "DID Logic operator",
         "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
-        "DEALING": "Dealing"
+        "DEALING": "Dealing",
+        "IB": "IB"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1136,7 +1138,8 @@
         "E2E": "E2E",
         "BI": "Business intelligence",
         "AFFILIATE": "Affiliate",
-        "PLAYER": "Player"
+        "PLAYER": "Player",
+        "AGENT": "Agent"
       }
     },
     "COUNTRIES": {
@@ -1207,6 +1210,7 @@
     },
     "TRANSACTIONS": {
       "GRID_COLUMNS": {
+        "AFFILIATE": "Affiliate",
         "TRANSACTION": "Transaction",
         "WARNING": "Warning",
         "CLIENT": "Client",
@@ -1263,7 +1267,7 @@
           "REFERRAL_BONUS": "Referral bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "Transaction ID, Player, External reference",
+          "KEYWORD": "Transaction ID, Affiliate ID, Player, External reference",
           "CLIENT_KEYWORD": "ID, Reference number"
         }
       },
@@ -2405,7 +2409,10 @@
     "PASSWORD": "Password",
     "REPEAT_PASSWORD": "Repeat password",
     "PASSWORD_SETTLED": "You have successfully settled new password",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "ERRORS": {
+      "REQUEST_NOT_FOUND": "Reset password request not found or expired"
+    }
   },
   "SIGN_IN": {
     "EMAIL": "Email",
@@ -2471,7 +2478,6 @@
           "SELL_MARKET": "Sell market",
           "BUY_STOP_LIMIT": "Buy stop limit",
           "SELL_STOP_LIMIT": "Sell stop limit",
-          "BALANCE": "Balance",
           "CREDIT": "Credit"
         },
         "SYMBOLS": {
@@ -3210,7 +3216,13 @@
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
       "SUCCESSFULLY_CREATED": "Callback has been successfully created",
-      "REMINDER": "Reminder"
+      "REMINDER": "Reminder",
+      "ERROR": {
+        "TITLE": "Callback creation failed",
+        "MESSAGES": {
+          "CALLBACK_EXIST": "Callback already exist"
+        }
+      }
     },
     "MODAL": {
       "TITLE": "Callback details",

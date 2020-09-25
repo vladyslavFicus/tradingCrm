@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
@@ -18,6 +17,7 @@ import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Grid, { GridColumn } from 'components/Grid';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
+import { Link } from 'components/Link';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import {
   RulesQuery,

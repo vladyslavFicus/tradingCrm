@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
@@ -106,11 +106,15 @@ class CreateCallbackModal extends PureComponent {
         title: I18n.t('CALLBACKS.CREATE_MODAL.TITLE'),
         message: I18n.t('CALLBACKS.CREATE_MODAL.SUCCESSFULLY_CREATED'),
       });
-    } catch {
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
-        title: I18n.t('CALLBACKS.CREATE_MODAL.TITLE'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
+        title: I18n.t('CALLBACKS.CREATE_MODAL.ERROR.TITLE'),
+        message: error.error === 'error.entity.already.exist'
+          ? I18n.t('CALLBACKS.CREATE_MODAL.ERROR.MESSAGES.CALLBACK_EXIST')
+          : I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
 

@@ -20,6 +20,7 @@ import {
   lastActivityStatusesColors,
 } from 'constants/lastActivity';
 import { warningLabels } from 'constants/warnings';
+import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
@@ -70,8 +71,9 @@ class ClientsGrid extends PureComponent {
   };
 
   handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const { history, location } = this.props;
+
+    const state = location?.state || {};
 
     const sorts = Object.keys(sortData)
       .filter(sortingKey => sortData[sortingKey])
@@ -81,9 +83,10 @@ class ClientsGrid extends PureComponent {
       }));
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
@@ -104,6 +107,7 @@ class ClientsGrid extends PureComponent {
       permission: {
         permissions: currentPermissions,
       },
+      location,
     } = this.props;
 
     const { content: gridData, last } = get(profiles, 'profiles') || { content: [] };
@@ -122,6 +126,7 @@ class ClientsGrid extends PureComponent {
         handlePageChanged={this.handlePageChanged}
         isLoading={loading}
         isLastPage={last}
+        sorts={location?.state?.sortData}
         withRowsHover
         withMultiSelect={isAvailableMultySelect}
         withLazyLoad={!searchLimit || searchLimit !== gridData.length}
@@ -227,12 +232,13 @@ class ClientsGrid extends PureComponent {
                 <When condition={affiliateUuid}>
                   <If condition={partner}>
                     <div>
-                      <div
+                      <Link
                         className="header-block-middle"
-                        onClick={() => window.open(`/partners/${affiliateUuid}/profile`, '_blank')}
+                        target="_blank"
+                        to={`/partners/${affiliateUuid}/profile`}
                       >
                         {partner.fullName}
-                      </div>
+                      </Link>
                     </div>
                   </If>
                   <If condition={source}>

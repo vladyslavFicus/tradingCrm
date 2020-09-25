@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { accountTypes, accountStatuses } from '../../constants';
 import './TradingAccountsListFilters.scss';
@@ -18,31 +19,40 @@ class TradingAccountsListFilters extends PureComponent {
     loading: false,
   };
 
-  handleSubmit = ({ archived, ...filters }) => {
-    this.props.history.replace({
-      query: {
-        filters: {
-          ...filters,
-          ...(archived && { archived: !!+archived }),
-        },
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
       },
     });
   };
 
-  handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm();
   };
 
   render() {
-    const { loading } = this.props;
+    const { loading, location: { state } } = this.props;
 
     return (
       <Formik
-        initialValues={{}}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
       >
-        {({ resetForm, dirty }) => (
+        {({ dirty, values, resetForm }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -84,8 +94,8 @@ class TradingAccountsListFilters extends PureComponent {
             <div className="TradingAccountsListFilters__buttons">
               <Button
                 className="TradingAccountsListFilters__button"
-                onClick={resetForm}
-                disabled={loading || !dirty}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={loading || !Object.keys(values).length}
                 common
               >
                 {I18n.t('COMMON.RESET')}
