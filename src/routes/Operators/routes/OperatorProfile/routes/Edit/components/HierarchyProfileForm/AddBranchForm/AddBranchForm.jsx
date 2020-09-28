@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
+import { withModals } from 'hoc';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import reduxFieldsConstructor from 'components/ReduxForm/ReduxFieldsConstructor';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import PropTypes from 'constants/propTypes';
 import { branchTypes as branchNames } from 'constants/hierarchyTypes';
 import { branchField, fieldNames } from './utils';
@@ -17,6 +19,8 @@ class AddBranchForm extends Component {
     notify: PropTypes.func.isRequired,
     addOperatorToBranch: PropTypes.func.isRequired,
     currentBranches: PropTypes.array.isRequired,
+    subordinatesCount: PropTypes.number.isRequired,
+    operatorFullName: PropTypes.string.isRequired,
     branchHierarchy: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       teams: PropTypes.array,
@@ -30,7 +34,28 @@ class AddBranchForm extends Component {
         id: PropTypes.string,
       }),
     }).isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
     refetchUserBranchesTreeUp: PropTypes.func.isRequired,
+  };
+
+  static retrieveTextFromReactEl = (reactEl) => {
+    if (!React.isValidElement(reactEl)) {
+      return reactEl;
+    }
+
+    const { props: { children } } = reactEl;
+
+    return (
+      children.reduce
+        ? children.reduce((result, child) => (
+          typeof child === 'string'
+            ? result + child
+            : result + AddBranchForm.retrieveTextFromReactEl(child)
+        ), '')
+        : children
+    );
   };
 
   state = {
@@ -91,7 +116,38 @@ class AddBranchForm extends Component {
     }
   };
 
-  handleAddBranch = async ({ [fieldNames.BRANCH]: branchId }) => {
+  handleSubmit = ({ [fieldNames.BRANCH]: branchId }) => {
+    const {
+      operatorFullName,
+      subordinatesCount,
+      modals: {
+        confirmActionModal,
+      },
+    } = this.props;
+
+    if (subordinatesCount >= 10000) {
+      const { label } = this.state.branches.find(({ value }) => value === branchId);
+      const branchName = AddBranchForm.retrieveTextFromReactEl(label);
+
+      confirmActionModal.show({
+        onSubmit: () => this.handleAddBranch(branchId),
+        modalTitle: I18n.t('MODALS.ASSIGN_BRANCH.TITLE'),
+        actionText: I18n.t('MODALS.ASSIGN_BRANCH.DESCRIPTION', {
+          operator: operatorFullName,
+          clients: subordinatesCount,
+          branch: branchName,
+        }),
+        submitButtonLabel: I18n.t('ACTIONS_LABELS.ASSIGN'),
+        cancelButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
+      });
+
+      return;
+    }
+
+    this.handleAddBranch(branchId);
+  }
+
+  handleAddBranch = async (branchId) => {
     const {
       notify,
       hideForm,
@@ -173,7 +229,7 @@ class AddBranchForm extends Component {
     } = this.props;
 
     return (
-      <form className="row" onSubmit={handleSubmit(this.handleAddBranch)}>
+      <form className="row" onSubmit={handleSubmit(this.handleSubmit)}>
         <Choose>
           <When condition={loading}>
             <div className="width-full">
@@ -228,4 +284,6 @@ class AddBranchForm extends Component {
   }
 }
 
-export default AddBranchForm;
+export default withModals({
+  confirmActionModal: ConfirmActionModal,
+})(AddBranchForm);
