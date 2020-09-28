@@ -582,6 +582,7 @@
     "UNKNOWN_TIME": "Unknown time",
     "TOTAL_WIN": "Total win",
     "ERROR": "Error",
+    "ERROR_CONTENT": "Something went wrong.<br>Please reload the page. If the problem did not disappear, contact our support team.",
     "GOOD_MORNING": "Good morning!",
     "GOOD_AFTERNOON": "Good afternoon!",
     "GOOD_EVENING": "Good evening!",
