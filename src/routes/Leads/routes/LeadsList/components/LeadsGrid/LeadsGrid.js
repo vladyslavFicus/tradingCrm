@@ -290,6 +290,7 @@ class LeadsGrid extends PureComponent {
             render={this.renderLead}
           />
           <GridColumn
+            sortBy="country"
             header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
             render={this.renderCountry}
           />
@@ -298,6 +299,7 @@ class LeadsGrid extends PureComponent {
             render={this.renderSales}
           />
           <GridColumn
+            sortBy="registrationDate"
             header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDate}
           />
