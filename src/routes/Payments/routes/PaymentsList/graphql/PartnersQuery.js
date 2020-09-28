@@ -13,7 +13,7 @@ const REQUEST = gql`query PartnersQuery {
 }`;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST}>{children}</Query>
+  <Query query={REQUEST} fetchPolicy="cache-and-network">{children}</Query>
 );
 
 PartnersQuery.propTypes = {
