@@ -1245,6 +1245,7 @@
           "MODIFICATION_DATE_RANGE": "Modification date range",
           "STATUS_DATE_RANGE": "Status modification date range",
           "ACCOUNT_TYPE": "Account type",
+          "PLATFORM_TYPE": "Platform type",
           "ORIGINAL_AGENT": "Original Agent",
           "TEAMS": "Teams",
           "DESKS": "Desks",
@@ -2599,7 +2600,7 @@
         "TITLE": "New trading account",
         "NAME_LABEL": "Account name",
         "ACCOUNT_TYPE_LABEL": "Account type",
-        "PLATFORM_TYPE_LABEL": "Account type",
+        "PLATFORM_TYPE_LABEL": "Platform type",
         "AMOUNT_LABEL": "Amount",
         "CURRENCY_LABEL": "Currency",
         "PASSWORD_LABEL": "Password",
@@ -3497,6 +3498,7 @@
         "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
+        "PLATFORM_TYPE": "Platform type",
         "STATUS": "Status"
       },
       "ACCOUNT_TYPE": {
