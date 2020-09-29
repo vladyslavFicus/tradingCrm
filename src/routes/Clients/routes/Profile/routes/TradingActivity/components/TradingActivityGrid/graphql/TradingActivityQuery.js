@@ -21,6 +21,7 @@ const REQUEST = gql`query TradingActivityQuery(
   $limit: Int,
   $loginIds: [Int],
   $tradeType: String,
+  $platformType: String,
   $agentIds: [String],
 ) {
   tradingActivity(
@@ -41,6 +42,7 @@ const REQUEST = gql`query TradingActivityQuery(
     limit: $limit,
     loginIds: $loginIds,
     tradeType: $tradeType,
+    platformType: $platformType,
     agentIds: $agentIds,
   ) {
     content {
