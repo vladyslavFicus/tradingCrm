@@ -131,6 +131,7 @@ const attributeLabels = {
   leverage: 'FEED_ITEM.LEVERAGE',
   initiatorName: 'FEED_ITEM.INITIATOR_NAME',
   initiatorUuid: 'FEED_ITEM.INITIATOR_UUID',
+  templateName: 'FEED_ITEM.EMAIL.TEMPLATE_NAME',
 };
 
 const filterLabels = {
