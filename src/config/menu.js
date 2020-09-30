@@ -107,6 +107,11 @@ const sidebarTopMenu = [{
     url: '/roles-and-permissions',
     permissions: new Permissions(permissions.AUTH.UPDATE_ACTIONS),
   }],
+}, {
+  label: 'SIDEBAR.TOP_MENU.CLIENTS_DISTRIBUTION',
+  icon: 'icon-clients-distribution',
+  url: '/clients-distribution',
+  // permissions: new Permissions(permissions.CLIENTS_DISTRIBUTION),
 }];
 
 const sidebarBottomMenu = [{

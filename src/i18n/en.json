@@ -34,7 +34,8 @@
       "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications",
-      "ROLES_AND_PERMISSIONS": "Roles & Permissions"
+      "ROLES_AND_PERMISSIONS": "Roles & Permissions",
+      "CLIENTS_DISTRIBUTION": "Clients distribution"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",

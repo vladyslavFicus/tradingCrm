@@ -32,6 +32,7 @@ import EmailTemplates from 'routes/EmailTemplates';
 import TradingAccounts from 'routes/TradingAccounts';
 import Notifications from 'routes/Notifications';
 import RolesAndPermissions from 'routes/RolesAndPermissions';
+import ClientsDistribution from 'routes/ClientsDistribution';
 import { operatorsExcludeAuthorities } from 'config/menu';
 import { withStorage } from 'providers/StorageProvider';
 
@@ -103,6 +104,7 @@ class IndexRoute extends PureComponent {
             <Route path="/brand-config" layout={MainLayout} component={BrandConfig} isPrivate />
             <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />
             <Route path="/roles-and-permissions" layout={MainLayout} component={RolesAndPermissions} isPrivate />
+            <Route path="/clients-distribution" layout={MainLayout} component={ClientsDistribution} isPrivate />
             <Route path="/logout" component={Logout} isPrivate />
 
             {/* Public routes */}

@@ -1,0 +1,12 @@
+.RulesSelection {
+  &__form {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -15px;
+  }
+
+  &__form-field {
+    flex: 1 250px;
+    padding: 0 15px;
+  }
+}
