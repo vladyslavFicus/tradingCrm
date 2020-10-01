@@ -113,8 +113,7 @@ export default ({
     label: filterLabels.country,
     placeholder: 'COMMON.SELECT_OPTION.ANY',
     multiple: true,
-    multipleLabel: true,
-    className: fieldClassNames.BIG,
+    className: fieldClassNames.MEDIUM,
     selectOptions: Object.keys(countries).map(value => ({
       value,
       label: countries[value],
