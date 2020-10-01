@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { decodeNullValues } from 'components/Formik/utils';
 import ClientsGridFilter from './ClientsGridFilter';
 import ClientsGrid from './ClientsGrid';
 import ClientsGridHeader from './ClientsGridHeader';
@@ -51,7 +52,7 @@ class List extends Component {
         ...(filterSetValues && { filterSetValues }),
         state: {
           ...state,
-          filters,
+          filters: decodeNullValues(filters),
         },
       });
     });
