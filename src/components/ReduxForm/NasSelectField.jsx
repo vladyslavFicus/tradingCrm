@@ -23,6 +23,7 @@ class NasSelectField extends Component {
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     multiple: PropTypes.bool,
+    multipleLabel: PropTypes.bool,
     disabled: PropTypes.bool,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
@@ -51,6 +52,7 @@ class NasSelectField extends Component {
     showErrorMessage: true,
     disabled: false,
     multiple: false,
+    multipleLabel: false,
     inputAddon: null,
     searchable: true,
     inputAddonPosition: 'left',
@@ -69,6 +71,7 @@ class NasSelectField extends Component {
       disabled,
       children,
       multiple,
+      multipleLabel,
       placeholder,
       optionsHeader,
       searchable,
@@ -88,6 +91,7 @@ class NasSelectField extends Component {
         singleOptionComponent={singleOptionComponent}
         disabled={disabled}
         multiple={multiple}
+        multipleLabel={multipleLabel}
         id={id}
       >
         {[withAnyOption && <option key="any" value={null}>{I18n.t('COMMON.ANY')}</option>, ...children]}
