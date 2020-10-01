@@ -8,8 +8,9 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent/PermissionContent';
-import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
+import { FormikInputField } from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator } from 'utils/validator';
 import { UpdateContactsMutation, VerifyPhoneMutation } from './graphql';
 
@@ -71,7 +72,7 @@ class ContactForm extends PureComponent {
     } = this.props;
 
     try {
-      await updateContacts({ variables });
+      await updateContacts({ variables: decodeNullValues(variables) });
       resetForm();
 
       notify({
