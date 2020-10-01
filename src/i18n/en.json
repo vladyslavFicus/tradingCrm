@@ -1076,7 +1076,8 @@
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
-        "ACQUISITION_UPDATED": "Acquisition updated"
+        "ACQUISITION_UPDATED": "Acquisition updated",
+        "EMAIL_SENT": "Email sent"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1621,7 +1622,10 @@
     "LAST_UPDATED_DATE": "Last updated date",
     "LEVERAGE": "Leverage",
     "INITIATOR_NAME": "Initiator name",
-    "INITIATOR_UUID": "Initiator uuid"
+    "INITIATOR_UUID": "Initiator uuid",
+    "EMAIL": {
+      "TEMPLATE_NAME": "Template name"
+    }
   },
   "ERRORS": {
     "FILE": {
