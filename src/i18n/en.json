@@ -3462,8 +3462,8 @@
       "INPUT_NAME_LABEL": "Email Template Name",
       "INPUT_SUBJECT_LABEL": "Subject",
       "INPUT_EDITOR_LABEL": "Email text",
-      "INPUT_EDITOR_PLACEHOLDER": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
-      "HINT": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "INPUT_EDITOR_PLACEHOLDER": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "HINT": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
       "LINK_GO_TO_EMAIL_TEMPLATES": "Go to Email Templates"
     },
     "MODALS": {
