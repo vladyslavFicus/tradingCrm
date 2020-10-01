@@ -40,30 +40,12 @@ class AddBranchForm extends Component {
     refetchUserBranchesTreeUp: PropTypes.func.isRequired,
   };
 
-  static retrieveTextFromReactEl = (reactEl) => {
-    if (!React.isValidElement(reactEl)) {
-      return reactEl;
-    }
-
-    const { props: { children } } = reactEl;
-
-    return (
-      children.reduce
-        ? children.reduce((result, child) => (
-          typeof child === 'string'
-            ? result + child
-            : result + AddBranchForm.retrieveTextFromReactEl(child)
-        ), '')
-        : children
-    );
-  };
-
   state = {
     selectedBranchType: '',
     branches: null,
   };
 
-  hierarchyTree = (type, parentBranch, name, brandId) => {
+  getHierarchyTreeSequence = (type, parentBranch, name, brandId) => {
     const { branchHierarchy } = this.props;
     const parentBranchUuid = parentBranch && parentBranch.uuid;
 
@@ -83,12 +65,7 @@ class AddBranchForm extends Component {
           return null;
         }
 
-        return (
-          <div className="hierarchy__tree">
-            {brandId} &rarr; {office.name} &rarr; {deskName} &rarr;&nbsp;
-            <span className="color-info">{name}</span>
-          </div>
-        );
+        return [brandId, office.name, deskName, name];
       }
       case branchNames.DESK: {
         const office = branchHierarchy[branchNames.OFFICE].find(({ uuid }) => (uuid === parentBranchUuid));
@@ -97,21 +74,13 @@ class AddBranchForm extends Component {
           return null;
         }
 
-        return (
-          <div className="hierarchy__tree">
-            {brandId} &rarr; {office.name} &rarr; <span className="color-info">{name}</span>
-          </div>
-        );
+        return [brandId, office.name, name];
       }
       case branchNames.OFFICE: {
-        return (
-          <div className="hierarchy__tree">
-            {brandId} &rarr; <span className="color-info">{name}</span>
-          </div>
-        );
+        return [brandId, name];
       }
       default: {
-        return <div className="hierarchy__tree">{name}</div>;
+        return [name];
       }
     }
   };
@@ -126,8 +95,7 @@ class AddBranchForm extends Component {
     } = this.props;
 
     if (subordinatesCount >= 10000) {
-      const { label } = this.state.branches.find(({ value }) => value === branchId);
-      const branchName = AddBranchForm.retrieveTextFromReactEl(label);
+      const { branchHierarchySequence } = this.state.branches.find(({ value }) => value === branchId);
 
       confirmActionModal.show({
         onSubmit: () => this.handleAddBranch(branchId),
@@ -135,7 +103,7 @@ class AddBranchForm extends Component {
         actionText: I18n.t('MODALS.ASSIGN_BRANCH.DESCRIPTION', {
           operator: operatorFullName,
           clients: subordinatesCount,
-          branch: branchName,
+          branch: branchHierarchySequence.join(' → '),
         }),
         submitButtonLabel: I18n.t('ACTIONS_LABELS.ASSIGN'),
         cancelButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
@@ -186,6 +154,7 @@ class AddBranchForm extends Component {
       currentBranches,
       branchHierarchy,
     } = this.props;
+
     let branches;
 
     branches = branchHierarchy[selectedBranchType].map((
@@ -195,11 +164,16 @@ class AddBranchForm extends Component {
         brandId,
         parentBranch,
       },
-    ) => ({
-      value: uuid,
-      label: this.hierarchyTree(selectedBranchType, parentBranch, name, brandId),
-      search: name,
-    }));
+    ) => {
+      const branchHierarchySequence = this.getHierarchyTreeSequence(selectedBranchType, parentBranch, name, brandId);
+
+      return ({
+        value: uuid,
+        label: this.renderBranchLabel(branchHierarchySequence),
+        search: name,
+        branchHierarchySequence,
+      });
+    });
 
     if (Array.isArray(currentBranches) && currentBranches.length) {
       branches = branches.filter(({ value }) => !currentBranches.includes(value));
@@ -209,6 +183,21 @@ class AddBranchForm extends Component {
       selectedBranchType,
       branches,
     });
+  }
+
+  renderBranchLabel = (branchTree) => {
+    if (branchTree.length === 1) {
+      return <div className="hierarchy__tree">{branchTree[0]}</div>;
+    }
+
+    // Building component like this -> "branchName → branchName → branchName → branchName"
+    return (
+      <div className="hierarchy__tree">
+        {branchTree.slice(0, branchTree.length - 1).join(' → ')}
+        &nbsp; →&nbsp;
+        <span className="color-info">{branchTree[branchTree.length - 1]}</span>
+      </div>
+    );
   }
 
   render() {
