@@ -1,0 +1,32 @@
+.MigrationBrands {
+  &__headline {
+    margin-bottom: 15px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  &__columns-wrapper {
+    display: flex;
+    margin: 0 -15px;
+  }
+
+  &__column {
+    flex: 1 50%;
+    padding: 0 15px;
+  }
+
+  &__column-label {
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  &__column-inner {
+    padding: 30px 10px;
+    border: 1px solid #DFDFDF;
+    border-radius: 5px;
+  }
+
+  &__card {
+    margin-bottom: 15px;
+  }
+}

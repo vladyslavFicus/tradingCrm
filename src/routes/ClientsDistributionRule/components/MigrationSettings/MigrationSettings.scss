@@ -1,4 +1,10 @@
-.RulesSelection {
+.MigrationSettings {
+  &__headline {
+    margin-bottom: 15px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
   &__form {
     display: flex;
     flex-flow: row wrap;
