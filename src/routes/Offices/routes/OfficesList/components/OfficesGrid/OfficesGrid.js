@@ -52,7 +52,7 @@ class OfficesGrid extends PureComponent {
     return (
       <div className="OfficesGrid">
         <Grid
-          data={officesList}
+          data={!isLoading ? officesList : []}
           isLoading={isLoading}
           withNoResults={!isLoading && officesList.length === 0}
         >

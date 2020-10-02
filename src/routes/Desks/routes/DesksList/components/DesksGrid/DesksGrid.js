@@ -52,7 +52,7 @@ class DesksGrid extends PureComponent {
     return (
       <div className="DesksGrid">
         <Grid
-          data={desks}
+          data={!isLoading ? desks : []}
           isLoading={isLoading}
         >
           <GridColumn
