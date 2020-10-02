@@ -25,6 +25,7 @@ import Offices from 'routes/Offices';
 import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
 import SalesRules from 'components/SalesRules';
+import DistributionRules from 'components/DistributionRules';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import BrandConfig from 'routes/BrandConfig';
@@ -98,6 +99,7 @@ class IndexRoute extends PureComponent {
             <Route path="/desks" layout={MainLayout} component={Desks} isPrivate />
             <Route path="/teams" layout={MainLayout} component={Teams} isPrivate />
             <Route path="/sales-rules" layout={MainLayout} component={SalesRules} isPrivate />
+            <Route path="/distribution" layout={MainLayout} component={DistributionRules} isPrivate />
             <Route path="/notifications" layout={MainLayout} component={Notifications} isPrivate />
             <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
             <Route path="/brand-config" layout={MainLayout} component={BrandConfig} isPrivate />

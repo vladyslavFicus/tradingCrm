@@ -87,6 +87,11 @@ const sidebarTopMenu = [{
   url: '/notifications',
   permissions: new Permissions(permissions.NOTIFICATION_CENTER.LIST),
 }, {
+  label: 'SIDEBAR.TOP_MENU.CLIENTS_DISTRIBUTION',
+  icon: 'icon-union',
+  url: '/distribution',
+  permissions: new Permissions(permissions.NOTIFICATION_CENTER.LIST),
+}, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',
   isOpen: false,
