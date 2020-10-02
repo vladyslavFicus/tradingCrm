@@ -110,6 +110,7 @@ const brands = keyMirror({
   primecap: null,
   ofxb: null,
   fantex: null,
+  unionstock: null,
 });
 
 const departments = keyMirror({
@@ -572,6 +573,10 @@ const brandsConfig = {
   [brands.fantex]: {
     name: 'fantex',
     image: { src: '/img/brand/choose-brand/fantex.svg' },
+  },
+  [brands.unionstock]: {
+    name: 'unionstock',
+    image: { src: '/img/brand/choose-brand/unionstock.svg' },
   },
 };
 const departmentsConfig = {
