@@ -30,8 +30,7 @@ class OperatorsGrid extends PureComponent {
   };
 
   handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const { history, location: { state } } = this.props;
 
     let nameDirection = null;
 
@@ -66,9 +65,10 @@ class OperatorsGrid extends PureComponent {
     }
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
@@ -138,6 +138,7 @@ class OperatorsGrid extends PureComponent {
     const {
       operatorsQuery,
       operatorsQuery: { loading },
+      location: { state },
     } = this.props;
 
     const { last, content } = get(operatorsQuery, 'operators') || { content: [] };
@@ -146,6 +147,7 @@ class OperatorsGrid extends PureComponent {
       <div className="card-body">
         <Grid
           data={content}
+          sorts={state?.sortData}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}

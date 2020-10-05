@@ -40,8 +40,7 @@ class PartnersGrid extends PureComponent {
   };
 
   handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const { history, location: { state } } = this.props;
 
     let nameDirection = null;
 
@@ -76,9 +75,10 @@ class PartnersGrid extends PureComponent {
     }
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
@@ -148,6 +148,7 @@ class PartnersGrid extends PureComponent {
         loading,
         data: partnersData,
       },
+      location: { state },
     } = this.props;
 
     const { last, content } = get(partnersData, 'partners') || { content: [] };
@@ -156,6 +157,7 @@ class PartnersGrid extends PureComponent {
       <div className="PartnersGrid">
         <Grid
           data={content}
+          sorts={state?.sortData}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}

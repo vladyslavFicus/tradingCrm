@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Form, Field, withFormik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
@@ -15,140 +14,135 @@ class TeamsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     desksAndOffices: PropTypes.userBranchHierarchyResponse.isRequired,
-    setFieldValue: PropTypes.func.isRequired,
-    resetForm: PropTypes.func.isRequired,
-    initialValues: PropTypes.shape({
-      keyword: PropTypes.string,
-      officeUuid: PropTypes.string,
-      deskUuid: PropTypes.string,
-    }).isRequired,
-    values: PropTypes.shape({
-      keyword: PropTypes.string,
-      officeUuid: PropTypes.string,
-      deskUuid: PropTypes.string,
-    }).isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    dirty: PropTypes.bool.isRequired,
   };
 
-  handleReset = () => {
-    const { history, initialValues, resetForm } = this.props;
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
 
-    history.replace({ query: { filters: {} } });
-    resetForm(initialValues);
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
   };
 
-  handleOfficeChange = (value) => {
-    const { setFieldValue } = this.props;
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
 
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+
+    setSubmitting(false);
+  };
+
+  handleOfficeChange = (value, setFieldValue) => {
     setFieldValue('deskUuid', '');
     setFieldValue('officeUuid', value);
   };
 
   render() {
     const {
-      values: { officeUuid },
       desksAndOffices,
-      isSubmitting,
-      dirty,
+      location: { state },
     } = this.props;
 
     const isLoading = desksAndOffices.loading;
     const offices = get(desksAndOffices, 'data.userBranches.OFFICE') || [];
     const desks = get(desksAndOffices, 'data.userBranches.DESK') || [];
-    const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === officeUuid);
-    const desksOptions = officeUuid ? desksByOffice : desks;
 
     return (
-      <Form className="TeamsGridFilter__form">
-        <div className="TeamsGridFilter__fields">
-          <Field
-            name="keyword"
-            className="TeamsGridFilter__field TeamsGridFilter__search"
-            label={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY')}
-            placeholder={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
-            addition={<i className="icon icon-search" />}
-            component={FormikInputField}
-          />
-          <Field
-            name="officeUuid"
-            className="TeamsGridFilter__field TeamsGridFilter__select"
-            label={I18n.t('TEAMS.GRID_FILTERS.OFFICE')}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-            component={FormikSelectField}
-            customOnChange={this.handleOfficeChange}
-            disabled={isLoading}
-            searchable
-            withAnyOption
-          >
-            {offices.map(({ name, uuid }) => (
-              <option key={uuid} value={uuid}>{name}</option>
-            ))}
-          </Field>
-          <Field
-            name="deskUuid"
-            className="TeamsGridFilter__field TeamsGridFilter__select"
-            label={I18n.t('TEAMS.GRID_FILTERS.DESK')}
-            placeholder={I18n.t(
-              (officeUuid && !desksByOffice.length)
-                ? 'TEAMS.GRID_FILTERS.DESK_ERROR_PLACEHOLDER'
-                : 'COMMON.SELECT_OPTION.ANY',
-            )}
-            component={FormikSelectField}
-            disabled={isLoading || (!!officeUuid && !desksByOffice.length)}
-            searchable
-            withAnyOption
-          >
-            {desksOptions.map(({ name, uuid }) => (
-              <option key={uuid} value={uuid}>{name}</option>
-            ))}
-          </Field>
-        </div>
+      <Formik
+        enableReinitialize
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
+        validate={createValidator({
+          keyword: 'string',
+          officeUuid: 'string',
+          deskUuid: 'string',
+        })}
+      >
+        {({ values, dirty, isSubmitting, setFieldValue, resetForm }) => {
+          const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === values.officeUuid);
+          const desksOptions = values.officeUuid ? desksByOffice : desks;
 
-        <div className="TeamsGridFilter__buttons">
-          <Button
-            className="TeamsGridFilter__button"
-            onClick={this.handleReset}
-            disabled={isSubmitting}
-            common
-          >
-            {I18n.t('COMMON.RESET')}
-          </Button>
+          return (
+            <Form className="TeamsGridFilter__form">
+              <div className="TeamsGridFilter__fields">
+                <Field
+                  name="keyword"
+                  className="TeamsGridFilter__field TeamsGridFilter__search"
+                  label={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY')}
+                  placeholder={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
+                  addition={<i className="icon icon-search" />}
+                  component={FormikInputField}
+                />
+                <Field
+                  name="officeUuid"
+                  className="TeamsGridFilter__field TeamsGridFilter__select"
+                  label={I18n.t('TEAMS.GRID_FILTERS.OFFICE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  customOnChange={value => this.handleOfficeChange(value, setFieldValue)}
+                  disabled={isLoading}
+                  searchable
+                  withAnyOption
+                >
+                  {offices.map(({ name, uuid }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+                <Field
+                  name="deskUuid"
+                  className="TeamsGridFilter__field TeamsGridFilter__select"
+                  label={I18n.t('TEAMS.GRID_FILTERS.DESK')}
+                  placeholder={I18n.t(
+                    (values.officeUuid && !desksByOffice.length)
+                      ? 'TEAMS.GRID_FILTERS.DESK_ERROR_PLACEHOLDER'
+                      : 'COMMON.SELECT_OPTION.ANY',
+                  )}
+                  component={FormikSelectField}
+                  disabled={isLoading || (!!values.officeUuid && !desksByOffice.length)}
+                  searchable
+                  withAnyOption
+                >
+                  {desksOptions.map(({ name, uuid }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+              </div>
 
-          <Button
-            className="TeamsGridFilter__button"
-            disabled={isSubmitting || !dirty}
-            type="submit"
-            primary
-          >
-            {I18n.t('COMMON.APPLY')}
-          </Button>
-        </div>
-      </Form>
+              <div className="TeamsGridFilter__buttons">
+                <Button
+                  className="TeamsGridFilter__button"
+                  onClick={() => this.handleReset(resetForm)}
+                  disabled={isSubmitting}
+                  common
+                >
+                  {I18n.t('COMMON.RESET')}
+                </Button>
+
+                <Button
+                  className="TeamsGridFilter__button"
+                  disabled={isSubmitting || !dirty}
+                  type="submit"
+                  primary
+                >
+                  {I18n.t('COMMON.APPLY')}
+                </Button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
     );
   }
 }
 
-export default compose(
-  withRouter,
-  withFormik({
-    mapPropsToValues: () => ({
-      keyword: '',
-      officeUuid: '',
-      deskUuid: '',
-    }),
-    validate: values => createValidator({
-      keyword: 'string',
-      officeUuid: 'string',
-      deskUuid: 'string',
-    })(values),
-    handleSubmit: (values, { props, setSubmitting }) => {
-      props.history.replace({
-        query: {
-          filters: decodeNullValues(values),
-        },
-      });
-      setSubmitting(false);
-    },
-  }),
-)(TeamsGridFilter);
+export default withRouter(TeamsGridFilter);

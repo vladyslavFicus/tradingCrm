@@ -78,10 +78,6 @@ class SalesRules extends PureComponent {
     isTab: false,
   };
 
-  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
-
-  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
-
   triggerRuleModal = () => {
     const {
       type,
@@ -522,8 +518,8 @@ class SalesRules extends PureComponent {
           </PermissionContent>
         </div>
         <RulesFilters
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
+          onSubmit={this.handleSubmit}
+          onReset={this.handleReset}
           disabled={!allowActions}
           countries={countries}
           partners={partners}

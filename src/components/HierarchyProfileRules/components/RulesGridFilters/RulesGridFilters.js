@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { withRouter } from 'react-router-dom';
 import { getAvailableLanguages } from 'config';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
@@ -20,8 +21,7 @@ const validate = createValidator({
 
 class RulesFilters extends Component {
   static propTypes = {
-    onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    ...PropTypes.router,
     partners: PropTypes.partnersList,
     operators: PropTypes.operatorsList,
     type: PropTypes.string,
@@ -33,22 +33,30 @@ class RulesFilters extends Component {
     operators: [],
   };
 
-  initialValues = {
-    createdByOrUuid: '',
-    language: '',
-    country: '',
-    operatorUuids: '',
-    affiliateId: '',
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.onSubmit(decodeNullValues(values));
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+
     setSubmitting(false);
-  };
-
-  onHandleReset = (resetForm) => {
-    resetForm(this.initialValues);
-    this.props.onReset();
   };
 
   render() {
@@ -56,13 +64,15 @@ class RulesFilters extends Component {
       partners,
       operators,
       type,
+      location: { state },
     } = this.props;
 
     return (
       <Formik
-        initialValues={this.initialValues}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         validate={validate}
-        onSubmit={this.onHandleSubmit}
+        onSubmit={this.handleSubmit}
       >
         {({
           isSubmitting,
@@ -146,7 +156,7 @@ class RulesFilters extends Component {
               <button
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={() => this.handleReset(resetForm)}
                 type="button"
               >
                 {I18n.t('COMMON.RESET')}
@@ -166,4 +176,4 @@ class RulesFilters extends Component {
   }
 }
 
-export default RulesFilters;
+export default withRouter(RulesFilters);
