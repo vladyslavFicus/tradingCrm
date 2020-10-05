@@ -21,21 +21,8 @@ const statusesLabels = {
   [statuses.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };
 
-const executionTime = [
-  {
-    value: 1,
-  },
-  {
-    value: 2,
-  },
-  {
-    value: 3,
-  },
-];
-
 export {
   statuses,
-  executionTime,
   statusesLabels,
   clientDistributionStatuses,
 };

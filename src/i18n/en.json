@@ -3051,7 +3051,7 @@
     },
     "MIGRATION_MODAL": {
       "TITLE": "Start migration",
-      "TEXT": "You will start clients migration by %{name} now. %{clientsAmount} Clients would be migrated from %{sourceBrandConfigs} to %{targetBrandConfigs}.Do you want to continue?",
+      "TEXT": "You will start clients migration by %{name} now. %{clientsAmount} Clients would be migrated from %{sourceBrandNames} to %{targetBrandNames}. Do you want to continue?",
       "BUTTON_ACTION": "Start"
     },
     "NOTIFICATIONS": {

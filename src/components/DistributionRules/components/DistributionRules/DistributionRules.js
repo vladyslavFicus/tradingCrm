@@ -10,7 +10,6 @@ import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
-import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
@@ -22,12 +21,14 @@ import { clientDistributionStatuses } from '../constants';
 import {
   DistributionRulesQuery,
   DistributionRuleMigrationMutation,
+  DistributionRulesClientsAmountMutation,
 } from '../graphql';
 
 class DistributionRules extends PureComponent {
   static propTypes = {
-    rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
+    rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleClientsDistributionType)).isRequired,
     migration: PropTypes.func.isRequired,
+    getClientAmount: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
@@ -91,22 +92,40 @@ class DistributionRules extends PureComponent {
     }
   }
 
-  handleStartMigrationClick = ({ uuid, name, targetBrandConfigs, sourceBrandConfigs, clientsAmount }) => {
+  handleStartMigrationClick = async ({ uuid, name, targetBrandConfigs, sourceBrandConfigs }) => {
+    const targetBrandNames = targetBrandConfigs.map(({ brand }) => brand);
+    const sourceBrandNames = sourceBrandConfigs.map(({ brand }) => brand);
+
     const {
       modals: { confirmActionModal },
+      getClientAmount,
     } = this.props;
 
-    confirmActionModal.show({
-      onSubmit: () => this.handleStartMigration(uuid),
-      modalTitle: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.TITLE'),
-      actionText: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.TEXT', {
-        name,
-        targetBrandConfigs,
-        sourceBrandConfigs,
-        clientsAmount,
-      }),
-      submitButtonLabel: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.BUTTON_ACTION'),
-    });
+    try {
+      const {
+        data: {
+          distributionRule: {
+            distributionRuleClientsAmount: {
+              clientsAmount,
+            },
+          },
+        },
+      } = await getClientAmount({ variables: { uuid } });
+
+      confirmActionModal.show({
+        onSubmit: () => this.handleStartMigration(uuid),
+        modalTitle: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.TITLE'),
+        actionText: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.TEXT', {
+          name,
+          targetBrandNames: targetBrandNames.toString(),
+          sourceBrandNames: sourceBrandNames.toString(),
+          clientsAmount,
+        }),
+        submitButtonLabel: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.BUTTON_ACTION'),
+      });
+    } catch (e) {
+      // Do nothing...
+    }
   };
 
   renderRule = ({ uuid, name, createdBy }) => (
@@ -127,13 +146,20 @@ class DistributionRules extends PureComponent {
     </Fragment>
   );
 
-  renderActions = data => (
+  renderActions = ({ latestMigration, ...rest }) => (
     <>
       <Button
         transparent
-        onClick={() => this.handleStartMigrationClick(data)}
+        onClick={() => this.handleStartMigrationClick(rest)}
       >
-        <i className="icon-play btn-transparent" />
+        <Choose>
+          <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
+            <i className="icon-pause btn-transparent" />
+          </When>
+          <Otherwise>
+            <i className="icon-play btn-transparent" />
+          </Otherwise>
+        </Choose>
       </Button>
     </>
   );
@@ -235,21 +261,25 @@ class DistributionRules extends PureComponent {
     </>
   );
 
-  renderExecutionTime = ({ executionType, executionPeriodInHours }) => (
-    <Choose>
-      <When condition={executionType}>
-        <div className="font-weight-700">
-          {executionPeriodInHours}
-        </div>
-        <div className="font-size-11">
-          {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
-        </div>0000
-      </When>
-      <Otherwise>
-        <span>&mdash;</span>
-      </Otherwise>
-    </Choose>
-  );
+  renderExecutionTime = ({ executionType, executionPeriodInHours }) => {
+    const day = Math.floor(executionPeriodInHours / 24);
+
+    return (
+      <Choose>
+        <When condition={executionPeriodInHours}>
+          <div className="font-weight-700">
+            {`${day} ${I18n.t(`COMMON.${day > 1 ? 'DAYS' : 'DAY'}`)}`}
+          </div>
+          <div className="font-size-11">
+            {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
+          </div>
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  }
 
   renderLastTimeExecuted = ({ statusChangedAt }) => (
     <>
@@ -367,9 +397,9 @@ class DistributionRules extends PureComponent {
             <GridColumn
               name="action"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.ACTION')}
-              render={({ sourceBrandConfigs, targetBrandConfigs }) => (
-                <If condition={sourceBrandConfigs && targetBrandConfigs}>
-                  {this.renderActions}
+              render={value => (
+                <If condition={value.sourceBrandConfigs && value.targetBrandConfigs}>
+                  {this.renderActions(value)}
                 </If>
               )}
             />
@@ -381,7 +411,6 @@ class DistributionRules extends PureComponent {
 }
 
 export default compose(
-  withPermission,
   withRouter,
   withModals({
     confirmActionModal: ConfirmActionModal,
@@ -390,5 +419,6 @@ export default compose(
   withRequests({
     rules: DistributionRulesQuery,
     migration: DistributionRuleMigrationMutation,
+    getClientAmount: DistributionRulesClientsAmountMutation,
   }),
 )(DistributionRules);

@@ -90,7 +90,7 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.CLIENTS_DISTRIBUTION',
   icon: 'icon-union',
   url: '/distribution',
-  permissions: new Permissions(permissions.NOTIFICATION_CENTER.LIST),
+  permissions: new Permissions(permissions.CLIENTS_DISTRIBUTION.LIST),
 }, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',

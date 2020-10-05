@@ -10,7 +10,7 @@ import { salesStatuses } from 'constants/salesStatuses';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
-import { statusesLabels, executionTime } from '../constants';
+import { statusesLabels } from '../constants';
 
 const validate = createValidator({
   searchBy: 'string',
@@ -32,6 +32,19 @@ class DistributionRulesFilters extends Component {
     resetForm({});
     this.props.onReset();
   };
+
+  generateExecutionDays = () => {
+    const days = [];
+
+    for (let i = 1; i <= 14; i++) {
+      days.push({
+        value: i * 24,
+        label: i,
+      });
+    }
+
+    return days;
+  }
 
   render() {
     return (
@@ -134,8 +147,10 @@ class DistributionRulesFilters extends Component {
                 searchable
                 withAnyOption
               >
-                {executionTime.map(({ value }) => (
-                  <option key={value} value={value}>{`${I18n.t('COMMON.DAY')} ${value}`}</option>
+                {this.generateExecutionDays().map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {`${I18n.t(`COMMON.${label > 1 ? 'DAYS' : 'DAY'}`)} ${label}`}
+                  </option>
                 ))}
               </Field>
             </div>
