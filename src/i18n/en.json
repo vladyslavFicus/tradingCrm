@@ -2348,6 +2348,14 @@
           "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
         }
       }
+    },
+    "ASSIGN_BRANCH": {
+      "TITLE": "Branch assignment",
+      "DESCRIPTION": "You are trying to add the Operator %{operator} with %{clients} of assigned clients to branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
+    },
+    "UNASSIGN_BRANCH": {
+      "TITLE": "Branch unassignment",
+      "DESCRIPTION": "You are trying to remove the Operator %{operator} with %{clients} of assigned clients from branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
     }
   },
   "FILE_DROPZONE": {
@@ -3189,7 +3197,10 @@
     "PROLONG": "Prolong",
     "SELF_EXCLUSION": "Self exclusion",
     "RESUME": "Resume",
-    "MANUAL_COOLOFF": "Manual Cooloff"
+    "MANUAL_COOLOFF": "Manual Cooloff",
+    "ASSIGN": "Assign",
+    "UNASSIGN": "Unassign",
+    "IGNORE": "Ignore"
   },
   "STATUSES_LABELS": {
     "NOT_VERIFIED": "Not Verified",
