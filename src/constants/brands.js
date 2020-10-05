@@ -109,6 +109,7 @@ const brands = keyMirror({
   eurofx: null,
   primecap: null,
   ofxb: null,
+  supratrade: null,
 });
 
 const departments = keyMirror({
@@ -567,6 +568,10 @@ const brandsConfig = {
   [brands.ofxb]: {
     name: 'ofxb',
     image: { src: '/img/brand/choose-brand/ofxb.svg' },
+  },
+  [brands.supratrade]: {
+    name: 'supratrade',
+    image: { src: '/img/brand/choose-brand/supratrade.svg' },
   },
 };
 const departmentsConfig = {
