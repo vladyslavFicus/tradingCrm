@@ -19,6 +19,7 @@ class MigrationBrands extends PureComponent {
     handleTargetBrandSettings: PropTypes.func.isRequired,
     addSourceBrandEnabled: PropTypes.bool.isRequired,
     addTargetBrandEnabled: PropTypes.bool.isRequired,
+    handleRemoveBrandCard: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -30,9 +31,13 @@ class MigrationBrands extends PureComponent {
     const {
       modals: { addSourceBrandModal },
       handleSourceBrandSettings,
+      sourceBrandSettings,
     } = this.props;
 
     addSourceBrandModal.show({
+      ...sourceBrandSettings && {
+        initialValues: sourceBrandSettings,
+      },
       handleSubmit: (values) => {
         handleSourceBrandSettings(values);
         addSourceBrandModal.hide();
@@ -44,9 +49,16 @@ class MigrationBrands extends PureComponent {
     const {
       modals: { addTargetBrandModal },
       handleTargetBrandSettings,
+      targetBrandSettings,
     } = this.props;
 
     addTargetBrandModal.show({
+      ...targetBrandSettings && {
+        initialValues: {
+          ...targetBrandSettings,
+          operatorUuid: targetBrandSettings.operator?.uuid,
+        },
+      },
       handleSubmit: (values) => {
         handleTargetBrandSettings(values);
         addTargetBrandModal.hide();
@@ -60,6 +72,7 @@ class MigrationBrands extends PureComponent {
       addTargetBrandEnabled,
       sourceBrandSettings,
       targetBrandSettings,
+      handleRemoveBrandCard,
     } = this.props;
 
     return (
@@ -73,6 +86,8 @@ class MigrationBrands extends PureComponent {
                 <When condition={sourceBrandSettings}>
                   <MigrationBrandCard
                     className="MigrationBrands__card"
+                    handleEditBrandCard={this.handleAddSourceBrand}
+                    handleRemoveBrandCard={() => handleRemoveBrandCard('source')}
                     {...sourceBrandSettings}
                   />
                 </When>
@@ -92,6 +107,8 @@ class MigrationBrands extends PureComponent {
                 <When condition={targetBrandSettings}>
                   <MigrationBrandCard
                     className="MigrationBrands__card"
+                    handleEditBrandCard={this.handleAddTargetBrand}
+                    handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
                     {...targetBrandSettings}
                   />
                 </When>

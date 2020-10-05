@@ -49,6 +49,19 @@ class ClientsDistributionRule extends PureComponent {
     }));
   };
 
+  handleRemoveBrandCard = key => (
+    key === 'source'
+      ? this.setState({
+        sourceBrandSettings: null,
+        addSourceBrandEnabled: true,
+        addTargetBrandEnabled: false,
+      })
+      : this.setState(({ sourceBrandSettings }) => ({
+        targetBrandSettings: null,
+        addTargetBrandEnabled: !!sourceBrandSettings,
+      }))
+  );
+
   handleCreateRule = () => {};
 
   render() {
@@ -75,6 +88,7 @@ class ClientsDistributionRule extends PureComponent {
             handleTargetBrandSettings={this.handleTargetBrandSettings}
             addSourceBrandEnabled={addSourceBrandEnabled}
             addTargetBrandEnabled={addTargetBrandEnabled}
+            handleRemoveBrandCard={this.handleRemoveBrandCard}
           />
         </div>
         <div className="ClientsDistributionRule__actions">

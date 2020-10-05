@@ -17,16 +17,22 @@ class AddTargetBrandModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     operators: PropTypes.query({
-      operators: PropTypes.shape({
-        content: PropTypes.arrayOf(
-          PropTypes.shape({
-            uuid: PropTypes.string.isRequired,
-            fullName: PropTypes.string.isRequired,
-          }),
-        ),
-      }),
+      operators: PropTypes.pageable(PropTypes.shape({
+        uuid: PropTypes.string,
+        fullName: PropTypes.string,
+      })),
     }).isRequired,
+    initialValues: PropTypes.object,
   };
+
+  static defaultProps = {
+    initialValues: {
+      brandId: '',
+      clientsAmount: '',
+      clientsAmountUnit: '',
+      operatorUuid: '',
+    },
+  }
 
   handleSubmit = ({ operatorUuid, ...values }) => {
     const {
@@ -40,7 +46,9 @@ class AddTargetBrandModal extends PureComponent {
 
     handleSubmit({
       ...values,
-      operator: operators.find(({ uuid }) => uuid === operatorUuid),
+      operator: operators.find(({ uuid }) => uuid === operatorUuid) || {
+        fullName: 'Automatic operator',
+      },
     });
   };
 
@@ -52,6 +60,7 @@ class AddTargetBrandModal extends PureComponent {
         data: operatorsData,
         loading: operatorsLoading,
       },
+      initialValues,
     } = this.props;
 
     const operators = operatorsData?.operators?.content || [];
@@ -63,16 +72,13 @@ class AddTargetBrandModal extends PureComponent {
         className="AddTargetBrandModal"
       >
         <Formik
-          initialValues={{
-            brandId: '',
-            clientsAmount: '',
-            clientsAmountUnit: '',
-            operatorUuid: '',
-          }}
+          initialValues={initialValues}
           validate={createValidator({
             brandId: 'required',
             clientsAmount: 'required',
           })}
+          validateOnBlur={false}
+          validateOnChange={false}
           onSubmit={this.handleSubmit}
         >
           {() => (
@@ -112,9 +118,9 @@ class AddTargetBrandModal extends PureComponent {
                 <Field
                   name="operatorUuid"
                   label="Operator"
+                  placeholder="Automatic operator"
                   component={FormikSelectField}
                   disabled={operatorsLoading || !operators.length}
-                  withAnyOption
                 >
                   {operators.map(({ uuid, fullName }) => (
                     <option key={uuid} value={uuid}>{fullName}</option>

@@ -16,6 +16,8 @@ class MigrationBrandCard extends PureComponent {
       uuid: PropTypes.string,
       fullName: PropTypes.string,
     }),
+    handleEditBrandCard: PropTypes.func.isRequired,
+    handleRemoveBrandCard: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -33,6 +35,8 @@ class MigrationBrandCard extends PureComponent {
       clientsAmountUnit,
       sortMethod,
       operator,
+      handleEditBrandCard,
+      handleRemoveBrandCard,
     } = this.props;
 
     return (
@@ -53,8 +57,14 @@ class MigrationBrandCard extends PureComponent {
             </If>
           </div>
           <div className="MigrationBrandCard__actions">
-            <EditButton className="MigrationBrandCard__action" />
-            <RemoveButton className="MigrationBrandCard__action" />
+            <EditButton
+              className="MigrationBrandCard__action"
+              onClick={handleEditBrandCard}
+            />
+            <RemoveButton
+              className="MigrationBrandCard__action"
+              onClick={handleRemoveBrandCard}
+            />
           </div>
         </div>
       </div>

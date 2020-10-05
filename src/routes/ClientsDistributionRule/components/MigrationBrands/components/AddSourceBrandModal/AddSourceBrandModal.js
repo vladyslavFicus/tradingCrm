@@ -14,13 +14,24 @@ class AddSourceBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.object,
   };
+
+  static defaultProps = {
+    initialValues: {
+      brandId: '',
+      clientsAmount: '',
+      clientsAmountUnit: '',
+      sortMethod: '',
+    },
+  }
 
   render() {
     const {
       onCloseModal,
       isOpen,
       handleSubmit,
+      initialValues,
     } = this.props;
 
     return (
@@ -30,12 +41,7 @@ class AddSourceBrandModal extends PureComponent {
         className="AddSourceBrandModal"
       >
         <Formik
-          initialValues={{
-            brandId: '',
-            clientsAmount: '',
-            clientsAmountUnit: '',
-            sortMethod: '',
-          }}
+          initialValues={initialValues}
           validate={createValidator({
             brandId: 'required',
             clientsAmount: 'required',
