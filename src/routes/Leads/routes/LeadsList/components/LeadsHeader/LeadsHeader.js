@@ -54,7 +54,7 @@ class LeadsHeader extends PureComponent {
       leadsQuery,
       touchedRowsIds,
       allRowsSelected,
-      location: { query },
+      location: { state },
       updateLeadsListState,
       modals: { representativeUpdateModal },
     } = this.props;
@@ -69,8 +69,8 @@ class LeadsHeader extends PureComponent {
         allRowsSelected,
         selectedRowsLength: this.selectedRowsLength,
         multiAssign: true,
-        ...query && {
-          searchParams: query.filters,
+        ...state && {
+          searchParams: state.filters,
         },
       },
       onSuccess: () => {

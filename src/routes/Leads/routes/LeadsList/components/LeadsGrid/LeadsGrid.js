@@ -81,6 +81,7 @@ class LeadsGrid extends PureComponent {
       state: {
         ...query,
         sorts,
+        sortData,
       },
     });
   };
@@ -260,7 +261,7 @@ class LeadsGrid extends PureComponent {
     } = this.props;
 
     const leads = get(leadsQuery, 'data.leads') || [];
-    const searchLimit = get(location, 'query.filters.searchLimit') || null;
+    const searchLimit = get(location, 'state.filters.searchLimit') || null;
 
     const { response } = limitItems(leads, location);
     const { content = [], last = true } = response;
@@ -272,6 +273,7 @@ class LeadsGrid extends PureComponent {
         <Grid
           data={content || []}
           touchedRowsIds={touchedRowsIds}
+          sorts={location?.state?.sortData}
           handleSort={this.handleSort}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
