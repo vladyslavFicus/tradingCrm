@@ -51,7 +51,7 @@ export default compose(
         },
       };
     },
-    props: ({ profiles: { profiles, fetchMore, ...rest }, ownProps: { location } }) => {
+    props: ({ profiles: { variables: { args }, profiles, fetchMore, ...rest }, ownProps: { location } }) => {
       const { response, currentPage } = limitItems(profiles, location);
       const filters = location?.state?.filters || {};
       const sorts = location?.state?.sorts || [];
@@ -71,6 +71,7 @@ export default compose(
             variables: {
               args: {
                 ...filters,
+                ...args,
                 page: {
                   from: currentPage + 1,
                   size,
