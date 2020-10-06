@@ -1,0 +1,10 @@
+.SalesRules {
+  & .GridHeaderCell {
+    position: sticky;
+    top: 127px;
+  }
+
+  &__grid {
+    padding: 0 25px 25px;
+  }
+}

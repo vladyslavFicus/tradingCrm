@@ -1,0 +1,12 @@
+.ClientTradingActivity {
+  &__header {
+    position: sticky;
+    top: 124px;
+    z-index: 3;
+  }
+
+  & .GridHeaderCell {
+    position: sticky;
+    top: 189px;
+  }
+}

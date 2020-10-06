@@ -1,5 +1,10 @@
 .ClientCallbacksGrid {
-  padding: 25px;
+  padding: 0 25px 25px;
+
+  & .GridHeaderCell {
+    position: sticky;
+    top: 189px;
+  }
 
   &__info {
     &-main {

@@ -4,7 +4,12 @@ $color-green: #46be8a;
 
 .PartnersGrid {
   background-color: #fff;
-  padding: 25px;
+  padding: 0 25px 25px;
+
+  & .GridHeaderCell {
+    position: sticky;
+    top: 138px;
+  }
 
   &__name {
     font-weight: 700;

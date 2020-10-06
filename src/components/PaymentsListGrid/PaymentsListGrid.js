@@ -21,6 +21,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import formatLabel from 'utils/formatLabel';
+import './PaymentsListGrid.scss';
 
 class PaymentsListGrid extends PureComponent {
   static propTypes = {
@@ -88,7 +89,7 @@ class PaymentsListGrid extends PureComponent {
     const isLoading = paymentsQuery.loading;
 
     return (
-      <div className="card card-body">
+      <div className="PaymentsListGrid card">
         <Grid
           data={content || []}
           handleSort={this.handleSort}

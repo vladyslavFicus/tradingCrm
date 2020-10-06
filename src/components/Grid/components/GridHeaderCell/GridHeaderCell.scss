@@ -1,6 +1,9 @@
 .GridHeaderCell {
-  padding: 12px;
-  
+  background-color: #fff;
+  box-shadow: 0 1px 0 #eee;
+  padding: 38px 12px 20px;
+  z-index: 1;
+
   &__title {
     font-size: 12px;
     font-weight: 400;
@@ -50,7 +53,7 @@
 
       &:hover {
         color: #333;
-  
+
         & path {
           fill: #333;
         }

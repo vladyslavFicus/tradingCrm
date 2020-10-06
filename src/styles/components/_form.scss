@@ -430,6 +430,7 @@
       align-items: flex-end;
       flex-grow: 1;
 
+      & button:not(:last-child),
       & .btn:not(:last-child) {
         margin-right: 15px;
       }

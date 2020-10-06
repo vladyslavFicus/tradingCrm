@@ -10,6 +10,7 @@ import Placeholder from 'components/Placeholder';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import { PartnersQuery, PaymentsQuery } from './graphql';
+import './PaymentsList.scss';
 
 class PaymentsList extends PureComponent {
   static propTypes = {
@@ -51,8 +52,8 @@ class PaymentsList extends PureComponent {
     const totalPayments = get(payments, 'totalElements');
 
     return (
-      <div className="card">
-        <div className="card-heading">
+      <div className="PaymentsList card">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!paymentsLoading}
             customPlaceholder={(
