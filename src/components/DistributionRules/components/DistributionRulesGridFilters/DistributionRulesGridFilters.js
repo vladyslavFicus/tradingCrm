@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
+import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { compose } from 'react-apollo';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
@@ -19,18 +21,13 @@ const validate = createValidator({
 
 class DistributionRulesFilters extends Component {
   static propTypes = {
-    onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    ...PropTypes.router,
   }
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.onSubmit(decodeNullValues(values));
-    setSubmitting(false);
-  };
+  handleFiltersChanged = (filters, { setSubmitting }) => {
+    this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
 
-  onHandleReset = (resetForm) => {
-    resetForm({});
-    this.props.onReset();
+    setSubmitting(false);
   };
 
   generateExecutionDays = () => {
@@ -51,7 +48,8 @@ class DistributionRulesFilters extends Component {
       <Formik
         initialValues={{}}
         validate={validate}
-        onSubmit={this.onHandleSubmit}
+        onSubmit={this.handleFiltersChanged}
+        onReset={this.handleFiltersChanged}
       >
         {({
           isSubmitting,
@@ -159,7 +157,7 @@ class DistributionRulesFilters extends Component {
               <button
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={resetForm}
                 type="button"
               >
                 {I18n.t('COMMON.RESET')}
@@ -179,4 +177,4 @@ class DistributionRulesFilters extends Component {
   }
 }
 
-export default DistributionRulesFilters;
+export default compose(withRouter)(DistributionRulesFilters);

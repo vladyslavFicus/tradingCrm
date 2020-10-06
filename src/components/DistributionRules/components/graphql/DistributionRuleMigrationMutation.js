@@ -3,11 +3,12 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation distributionRuleMigration($uuid: String!) {
-  distributionRule {
-    distributionRuleMigration(uuid: $uuid)
+const REQUEST = gql`mutation
+  DistributionRules__Migration($uuid: String!) {
+    distributionRule {
+      migration(uuid: $uuid)
+    }
   }
-}
 `;
 
 const DistributionRuleMigrationMutation = ({ children }) => (

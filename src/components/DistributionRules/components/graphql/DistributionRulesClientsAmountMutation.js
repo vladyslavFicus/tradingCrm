@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation
-  getDistributionRuleClientsAmount($uuid: String!) {
+  DistributionRules__ClientsAmount($uuid: String!) {
     distributionRule {
-      distributionRuleClientsAmount(uuid: $uuid) {
+      clientsAmount(uuid: $uuid) {
         clientsAmount
       }
     }

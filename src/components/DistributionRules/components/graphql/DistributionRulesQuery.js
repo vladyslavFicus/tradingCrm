@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query getDistributionRules($args: DistributionRuleSearch__Input) {
+const REQUEST = gql`query DistributionRules__GetDistributionRules($args: DistributionRuleSearch__Input) {
   distributionRules (args: $args) {
     content {
       uuid

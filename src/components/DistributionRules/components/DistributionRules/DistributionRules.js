@@ -36,9 +36,6 @@ class DistributionRules extends PureComponent {
     location: PropTypes.shape({
       query: PropTypes.object,
     }).isRequired,
-    history: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -48,21 +45,17 @@ class DistributionRules extends PureComponent {
 
   handlePageChanged = () => {
     const {
-      rules,
       rules: {
+        data,
         variables: { args },
         loadMore,
       },
     } = this.props;
 
-    const page = get(rules, 'data.distributionRules.number') || 0;
+    const page = get(data, 'distributionRules.number') || 0;
 
     loadMore(set({ args: { ...cloneDeep(args), page: page + 1 } }));
   };
-
-  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
-
-  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   handleStartMigration = async (uuid) => {
     const {
@@ -92,7 +85,7 @@ class DistributionRules extends PureComponent {
     }
   }
 
-  handleStartMigrationClick = async ({ uuid, name, targetBrandConfigs, sourceBrandConfigs }) => {
+  handleStartMigrationClick = async (uuid, name, targetBrandConfigs, sourceBrandConfigs) => {
     const targetBrandNames = targetBrandConfigs.map(({ brand }) => brand);
     const sourceBrandNames = sourceBrandConfigs.map(({ brand }) => brand);
 
@@ -105,7 +98,7 @@ class DistributionRules extends PureComponent {
       const {
         data: {
           distributionRule: {
-            distributionRuleClientsAmount: {
+            clientsAmount: {
               clientsAmount,
             },
           },
@@ -146,11 +139,19 @@ class DistributionRules extends PureComponent {
     </Fragment>
   );
 
-  renderActions = ({ latestMigration, ...rest }) => (
+  renderActions = (
+    {
+      latestMigration,
+      uuid,
+      name,
+      targetBrandConfigs,
+      sourceBrandConfigs,
+    },
+  ) => (
     <>
       <Button
         transparent
-        onClick={() => this.handleStartMigrationClick(rest)}
+        onClick={() => this.handleStartMigrationClick(uuid, name, targetBrandConfigs, sourceBrandConfigs)}
       >
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
@@ -329,10 +330,7 @@ class DistributionRules extends PureComponent {
             </Button>
           </div>
         </div>
-        <DistributionRulesFilters
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-        />
+        <DistributionRulesFilters />
 
         <div className="card-body">
           <Grid
@@ -340,62 +338,50 @@ class DistributionRules extends PureComponent {
             isLoading={loading}
             isLastPage={entities.last}
             withLazyLoad
-            lazyLoad
             handlePageChanged={this.handlePageChanged}
             withNoResults={!loading && entities.content.length === 0}
           >
             <GridColumn
-              name="rule"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE')}
               render={this.renderRule}
             />
             <GridColumn
-              name="order"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULER_ORDER')}
               render={this.renderOrder}
             />
             <GridColumn
-              name="status"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE_STATUS')}
               render={this.renderStatus}
             />
             <GridColumn
-              name="fromBrand"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.FROM_BRAND')}
               render={this.renderFromBrands}
             />
             <GridColumn
-              name="toBrand"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TO_BRAND')}
               render={this.renderToBrands}
             />
             <GridColumn
-              name="country"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
             />
             <GridColumn
-              name="salesStatus"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SALES_STATUS')}
               render={this.renderSalesStatus}
             />
             <GridColumn
-              name="createdTime"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.CREATED_TIME')}
               render={this.renderCreatedTime}
             />
             <GridColumn
-              name="executionTime"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.EXECUTION_TIME')}
               render={this.renderExecutionTime}
             />
             <GridColumn
-              name="lastTimeExecuted"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LAST_TIME_EXECUTED')}
               render={this.renderLastTimeExecuted}
             />
             <GridColumn
-              name="action"
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.ACTION')}
               render={value => (
                 <If condition={value.sourceBrandConfigs && value.targetBrandConfigs}>
