@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'constants/propTypes';
 import { Query } from 'react-apollo';
 
-export const REQUEST = gql`query AddTargetBrandModal_getOperators {
+export const REQUEST = gql`query ClientsDistributionRule_OperatorsQuery {
   operators {
     page
     number

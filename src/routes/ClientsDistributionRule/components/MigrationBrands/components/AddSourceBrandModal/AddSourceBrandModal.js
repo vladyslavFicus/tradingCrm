@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { brands, clientsAmountUnits, sortMethods } from '../../constants';
+import { brands, baseUnits, sortTypes } from '../../constants';
 import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
@@ -14,16 +14,18 @@ class AddSourceBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.object,
-  };
+    initialValues: PropTypes.shape({
+      brand: PropTypes.string,
+      distributionUnit: PropTypes.shape({
+        quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        baseUnit: PropTypes.string,
+      }),
+      sortType: PropTypes.string,
+    }),
+  }
 
   static defaultProps = {
-    initialValues: {
-      brandId: '',
-      clientsAmount: '',
-      clientsAmountUnit: '',
-      sortMethod: '',
-    },
+    initialValues: {},
   }
 
   render() {
@@ -31,8 +33,14 @@ class AddSourceBrandModal extends PureComponent {
       onCloseModal,
       isOpen,
       handleSubmit,
-      initialValues,
+      initialValues: {
+        brand,
+        distributionUnit,
+        sortType,
+      },
     } = this.props;
+
+    const { quantity, baseUnit } = distributionUnit || {};
 
     return (
       <Modal
@@ -41,10 +49,15 @@ class AddSourceBrandModal extends PureComponent {
         className="AddSourceBrandModal"
       >
         <Formik
-          initialValues={initialValues}
+          initialValues={{
+            brand,
+            quantity,
+            baseUnit,
+            sortType,
+          }}
           validate={createValidator({
-            brandId: 'required',
-            clientsAmount: 'required',
+            brand: 'required',
+            quantity: 'required',
           })}
           validateOnBlur={false}
           validateOnChange={false}
@@ -55,7 +68,7 @@ class AddSourceBrandModal extends PureComponent {
               <ModalHeader>From brand</ModalHeader>
               <ModalBody>
                 <Field
-                  name="brandId"
+                  name="brand"
                   label="Brand"
                   component={FormikSelectField}
                   searchable
@@ -66,7 +79,7 @@ class AddSourceBrandModal extends PureComponent {
                 </Field>
                 <div className="AddSourceBrandModal__row--amount">
                   <Field
-                    name="clientsAmount"
+                    name="quantity"
                     type="number"
                     label="Amount of clients for migration"
                     step="1"
@@ -74,22 +87,22 @@ class AddSourceBrandModal extends PureComponent {
                     className="AddSourceBrandModal__field--amount"
                   />
                   <Field
-                    name="clientsAmountUnit"
+                    name="baseUnit"
                     label="&nbsp;"
                     component={FormikSelectField}
                     className="AddSourceBrandModal__field--unit"
                   >
-                    {clientsAmountUnits.map(({ value, label }) => (
+                    {baseUnits.map(({ value, label }) => (
                       <option key={value} value={value}>{label}</option>
                     ))}
                   </Field>
                 </div>
                 <Field
-                  name="sortMethod"
+                  name="sortType"
                   label="Sort method"
                   component={FormikSelectField}
                 >
-                  {sortMethods.map(({ value, label }) => (
+                  {sortTypes.map(({ value, label }) => (
                     <option key={value} value={value}>{label}</option>
                   ))}
                 </Field>

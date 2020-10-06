@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { withModals } from 'hoc';
+import PropTypes from 'constants/propTypes';
 import MigrationButton from './components/MigrationButton';
 import MigrationBrandCard from './components/MigrationBrandCard';
 import AddSourceBrandModal from './components/AddSourceBrandModal';
@@ -13,33 +13,39 @@ class MigrationBrands extends PureComponent {
       addSourceBrandModal: PropTypes.object,
       addTargetBrandModal: PropTypes.object,
     }).isRequired,
-    sourceBrandSettings: PropTypes.object,
-    targetBrandSettings: PropTypes.object,
-    handleSourceBrandSettings: PropTypes.func.isRequired,
-    handleTargetBrandSettings: PropTypes.func.isRequired,
+    sourceBrandConfig: PropTypes.object,
+    targetBrandConfig: PropTypes.object,
+    handleSourceBrandConfig: PropTypes.func.isRequired,
+    handleTargetBrandConfig: PropTypes.func.isRequired,
     addSourceBrandEnabled: PropTypes.bool.isRequired,
     addTargetBrandEnabled: PropTypes.bool.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
+    operatorsQuery: PropTypes.query({
+      operators: PropTypes.pageable(PropTypes.shape({
+        uuid: PropTypes.string,
+        fullName: PropTypes.string,
+      })),
+    }).isRequired,
   }
 
   static defaultProps = {
-    sourceBrandSettings: null,
-    targetBrandSettings: null,
+    sourceBrandConfig: null,
+    targetBrandConfig: null,
   }
 
   handleAddSourceBrand = () => {
     const {
       modals: { addSourceBrandModal },
-      handleSourceBrandSettings,
-      sourceBrandSettings,
+      handleSourceBrandConfig,
+      sourceBrandConfig,
     } = this.props;
 
     addSourceBrandModal.show({
-      ...sourceBrandSettings && {
-        initialValues: sourceBrandSettings,
+      ...sourceBrandConfig && {
+        initialValues: sourceBrandConfig,
       },
       handleSubmit: (values) => {
-        handleSourceBrandSettings(values);
+        handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
       },
     });
@@ -48,19 +54,24 @@ class MigrationBrands extends PureComponent {
   handleAddTargetBrand = () => {
     const {
       modals: { addTargetBrandModal },
-      handleTargetBrandSettings,
-      targetBrandSettings,
+      handleTargetBrandConfig,
+      targetBrandConfig,
+      operatorsQuery: {
+        data: operatorsData,
+        loading: operatorsLoading,
+      },
     } = this.props;
 
+    const operators = operatorsData?.operators?.content || [];
+
     addTargetBrandModal.show({
-      ...targetBrandSettings && {
-        initialValues: {
-          ...targetBrandSettings,
-          operatorUuid: targetBrandSettings.operator?.uuid,
-        },
+      operators,
+      operatorsLoading,
+      ...targetBrandConfig && {
+        initialValues: targetBrandConfig,
       },
       handleSubmit: (values) => {
-        handleTargetBrandSettings(values);
+        handleTargetBrandConfig(values);
         addTargetBrandModal.hide();
       },
     });
@@ -70,10 +81,15 @@ class MigrationBrands extends PureComponent {
     const {
       addSourceBrandEnabled,
       addTargetBrandEnabled,
-      sourceBrandSettings,
-      targetBrandSettings,
+      sourceBrandConfig,
+      targetBrandConfig,
       handleRemoveBrandCard,
+      operatorsQuery: {
+        data: operatorsData,
+      },
     } = this.props;
+
+    const operators = operatorsData?.operators?.content || [];
 
     return (
       <div className="MigrationBrands">
@@ -83,12 +99,12 @@ class MigrationBrands extends PureComponent {
             <div className="MigrationBrands__column-label">From brand</div>
             <div className="MigrationBrands__column-inner">
               <Choose>
-                <When condition={sourceBrandSettings}>
+                <When condition={sourceBrandConfig}>
                   <MigrationBrandCard
                     className="MigrationBrands__card"
                     handleEditBrandCard={this.handleAddSourceBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('source')}
-                    {...sourceBrandSettings}
+                    {...sourceBrandConfig}
                   />
                 </When>
                 <Otherwise>
@@ -104,12 +120,13 @@ class MigrationBrands extends PureComponent {
             <div className="MigrationBrands__column-label">To brand</div>
             <div className="MigrationBrands__column-inner">
               <Choose>
-                <When condition={targetBrandSettings}>
+                <When condition={targetBrandConfig}>
                   <MigrationBrandCard
                     className="MigrationBrands__card"
                     handleEditBrandCard={this.handleAddTargetBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
-                    {...targetBrandSettings}
+                    operators={operators}
+                    {...targetBrandConfig}
                   />
                 </When>
                 <Otherwise>

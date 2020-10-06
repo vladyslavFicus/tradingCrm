@@ -1,90 +1,92 @@
 import I18n from 'i18n-js';
-import { salesStatuses } from 'constants/salesStatuses';
+import { salesStatuses as originalSalesStatuses } from 'constants/salesStatuses';
 import countryList from 'utils/countryList';
 
-export const salesStatus = Object.keys(salesStatuses).map(value => ({
+export const salesStatuses = Object.keys(originalSalesStatuses).map(value => ({
   value,
-  label: I18n.t(salesStatuses[value]),
+  label: I18n.t(originalSalesStatuses[value]),
 }));
-
-export const migrationStatus = salesStatus;
 
 export const countries = Object.keys(countryList).map(value => ({
   value,
   label: countryList[value],
 }));
 
-export const executionTime = [
+export const executionPeriodInHours = [
   {
     label: '3 hours',
-    value: '1',
+    value: 3,
   },
   {
     label: '6 hours',
-    value: '2',
+    value: 6,
   },
   {
     label: '12 hours',
-    value: '3',
+    value: 12,
   },
   {
     label: '18 hours',
-    value: '4',
+    value: 18,
   },
   {
     label: '1 Day',
-    value: '5',
+    value: 24,
   },
   {
     label: '2 Day ',
-    value: '6',
+    value: 48,
   },
   {
     label: '3 Day ',
-    value: '7',
+    value: 72,
   },
   {
     label: '4 Day ',
-    value: '8',
+    value: 96,
   },
   {
     label: '5 Day ',
-    value: '9',
+    value: 120,
   },
   {
     label: 'Last week',
-    value: '0',
+    value: 168,
   },
   {
     label: 'Last 2 weeks',
-    value: '',
+    value: 336,
   },
 ];
 
-export const registrationDate = [
+export const registrationPeriodInHours = [
+  {
+    label: 'Last 2 hours',
+    value: 2,
+  },
   {
     label: 'Last 6 hours',
-    value: '1',
+    value: 6,
   },
   {
     label: 'Last 12 hours',
-    value: '2',
+    value: 12,
   },
   {
     label: 'Last day',
-    value: '3',
+    value: 24,
   },
   {
     label: 'Last 3 days',
-    value: '4',
+    value: 72,
   },
   {
     label: 'Last week',
-    value: '5',
+    value: 168,
   },
   {
     label: 'Last 2 weeks',
-    value: '6',
+    value: 336,
   },
 ];
 
@@ -95,6 +97,6 @@ export const executionType = [
   },
   {
     label: 'Daily',
-    value: 'DAILY',
+    value: 'AUTO',
   },
 ];

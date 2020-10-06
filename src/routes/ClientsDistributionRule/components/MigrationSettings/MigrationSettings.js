@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
 import {
-  salesStatus,
-  migrationStatus,
+  salesStatuses,
   countries,
-  executionTime,
-  registrationDate,
+  executionPeriodInHours,
+  registrationPeriodInHours,
   executionType,
 } from './constants';
 import './MigrationSettings.scss';
@@ -16,11 +15,7 @@ import './MigrationSettings.scss';
 class MigrationSettings extends PureComponent {
   static propTypes = {
     handleGeneralSettings: PropTypes.func.isRequired,
-    generalSettings: PropTypes.object,
-  }
-
-  static defaultProps = {
-    generalSettings: {},
+    generalSettings: PropTypes.object.isRequired,
   }
 
   render() {
@@ -39,11 +34,11 @@ class MigrationSettings extends PureComponent {
           }}
           validate={(values) => {
             const errors = createValidator({
-              salesStatus: ['required'],
-              migrationStatus: ['required'],
-              country: ['required'],
-              executionTime: ['required'],
-              registrationDate: ['required'],
+              salesStatuses: ['required'],
+              targetSalesStatus: ['required'],
+              countries: ['required'],
+              executionPeriodInHours: ['required'],
+              registrationPeriodInHours: ['required'],
             })(values);
 
             handleGeneralSettings(Object.keys(errors).length === 0, values);
@@ -55,7 +50,7 @@ class MigrationSettings extends PureComponent {
           {() => (
             <Form className="MigrationSettings__form">
               <Field
-                name="salesStatus"
+                name="salesStatuses"
                 label="Sales status"
                 className="MigrationSettings__form-field"
                 component={FormikSelectField}
@@ -63,24 +58,24 @@ class MigrationSettings extends PureComponent {
                 searchable
                 multiple
               >
-                {salesStatus.map(({ label, value }) => (
+                {salesStatuses.map(({ label, value }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
               </Field>
               <Field
-                name="migrationStatus"
+                name="targetSalesStatus"
                 label="Migration status"
                 className="MigrationSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
               >
-                {migrationStatus.map(({ label, value }) => (
+                {salesStatuses.map(({ label, value }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
               </Field>
               <Field
-                name="country"
+                name="countries"
                 label="Country"
                 className="MigrationSettings__form-field"
                 component={FormikSelectField}
@@ -93,24 +88,24 @@ class MigrationSettings extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="executionTime"
+                name="executionPeriodInHours"
                 label="Execution time"
                 className="MigrationSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
-                {executionTime.map(({ label, value }) => (
+                {executionPeriodInHours.map(({ label, value }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
               </Field>
               <Field
-                name="registrationDate"
+                name="registrationPeriodInHours"
                 label="Registration date"
                 className="MigrationSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
-                {registrationDate.map(({ label, value }) => (
+                {registrationPeriodInHours.map(({ label, value }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
               </Field>

@@ -8,51 +8,60 @@ import './MigrationBrandCard.scss';
 class MigrationBrandCard extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    brandId: PropTypes.string.isRequired,
-    clientsAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    clientsAmountUnit: PropTypes.string,
-    sortMethod: PropTypes.string,
-    operator: PropTypes.shape({
-      uuid: PropTypes.string,
-      fullName: PropTypes.string,
+    brand: PropTypes.string.isRequired,
+    distributionUnit: PropTypes.shape({
+      quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      baseUnit: PropTypes.string,
     }),
+    sortType: PropTypes.string,
+    operator: PropTypes.string,
     handleEditBrandCard: PropTypes.func.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
+    operators: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.string,
+      fullName: PropTypes.string,
+    })),
   }
 
   static defaultProps = {
     className: '',
-    clientsAmountUnit: '',
-    sortMethod: '',
-    operator: null,
+    distributionUnit: {},
+    sortType: '',
+    operator: '',
+    operators: [],
   }
 
   render() {
     const {
       className,
-      brandId,
-      clientsAmount,
-      clientsAmountUnit,
-      sortMethod,
-      operator,
+      brand,
+      distributionUnit: {
+        quantity,
+        baseUnit,
+      },
+      sortType,
+      operator: operatorUuid,
       handleEditBrandCard,
       handleRemoveBrandCard,
+      operators,
     } = this.props;
+
+    const operator = operatorUuid && (operators.find(({ uuid }) => uuid === operatorUuid)?.fullName || operatorUuid);
 
     return (
       <div className={classNames('MigrationBrandCard', className)}>
         <div className="MigrationBrandCard__inner">
           <div className="MigrationBrandCard__cell">
-            <div className="MigrationBrandCard__dt">{brandId}</div>
-            <div className="MigrationBrandCard__dd">{clientsAmount}{clientsAmountUnit} clients chosen</div>
+            <div className="MigrationBrandCard__dt">{brand}</div>
+            <div className="MigrationBrandCard__dd">{quantity}{baseUnit} clients chosen</div>
           </div>
           <div className="MigrationBrandCard__cell">
-            <If condition={sortMethod}>
+            <If condition={sortType}>
               <div className="MigrationBrandCard__dt">Sort</div>
-              <div className="MigrationBrandCard__dd">{sortMethod}</div>
+              <div className="MigrationBrandCard__dd">{sortType}</div>
             </If>
             <If condition={operator}>
-              <div className="MigrationBrandCard__dt">{operator.fullName}</div>
+              <div className="MigrationBrandCard__dt">{operator}</div>
               <div className="MigrationBrandCard__dd">Operator</div>
             </If>
           </div>

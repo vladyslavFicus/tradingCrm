@@ -1,4 +1,13 @@
 .ClientsDistributionRule {
+  &__header {
+    display: block;
+  }
+
+  &__headline {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
   &__actions {
     display: flex;
     justify-content: flex-end;

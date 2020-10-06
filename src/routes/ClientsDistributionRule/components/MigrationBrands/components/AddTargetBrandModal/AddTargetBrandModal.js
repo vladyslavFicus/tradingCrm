@@ -2,13 +2,11 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withRequests } from 'apollo';
 import { createValidator } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { OperatorsQuery } from './graphql';
-import { brands, clientsAmountUnits } from '../../constants';
+import { brands, baseUnits } from '../../constants';
 import './AddTargetBrandModal.scss';
 
 class AddTargetBrandModal extends PureComponent {
@@ -16,54 +14,40 @@ class AddTargetBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    operators: PropTypes.query({
-      operators: PropTypes.pageable(PropTypes.shape({
-        uuid: PropTypes.string,
-        fullName: PropTypes.string,
-      })),
-    }).isRequired,
-    initialValues: PropTypes.object,
+    operators: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.string,
+      fullName: PropTypes.string,
+    })).isRequired,
+    operatorsLoading: PropTypes.bool.isRequired,
+    initialValues: PropTypes.shape({
+      brand: PropTypes.string,
+      distributionUnit: PropTypes.shape({
+        quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        baseUnit: PropTypes.string,
+      }),
+      operator: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
-    initialValues: {
-      brandId: '',
-      clientsAmount: '',
-      clientsAmountUnit: '',
-      operatorUuid: '',
-    },
+    initialValues: {},
   }
-
-  handleSubmit = ({ operatorUuid, ...values }) => {
-    const {
-      handleSubmit,
-      operators: {
-        data: operatorsData,
-      },
-    } = this.props;
-
-    const operators = operatorsData?.operators?.content || [];
-
-    handleSubmit({
-      ...values,
-      operator: operators.find(({ uuid }) => uuid === operatorUuid) || {
-        fullName: 'Automatic operator',
-      },
-    });
-  };
 
   render() {
     const {
       onCloseModal,
       isOpen,
-      operators: {
-        data: operatorsData,
-        loading: operatorsLoading,
+      handleSubmit,
+      operators,
+      operatorsLoading,
+      initialValues: {
+        brand,
+        distributionUnit,
+        operator,
       },
-      initialValues,
     } = this.props;
 
-    const operators = operatorsData?.operators?.content || [];
+    const { quantity, baseUnit } = distributionUnit || {};
 
     return (
       <Modal
@@ -72,21 +56,26 @@ class AddTargetBrandModal extends PureComponent {
         className="AddTargetBrandModal"
       >
         <Formik
-          initialValues={initialValues}
+          initialValues={{
+            brand,
+            quantity,
+            baseUnit,
+            operator,
+          }}
           validate={createValidator({
-            brandId: 'required',
-            clientsAmount: 'required',
+            brand: 'required',
+            quantity: 'required',
           })}
           validateOnBlur={false}
           validateOnChange={false}
-          onSubmit={this.handleSubmit}
+          onSubmit={handleSubmit}
         >
           {() => (
             <Form>
               <ModalHeader>From brand</ModalHeader>
               <ModalBody>
                 <Field
-                  name="brandId"
+                  name="brand"
                   label="Brand"
                   component={FormikSelectField}
                   searchable
@@ -97,7 +86,7 @@ class AddTargetBrandModal extends PureComponent {
                 </Field>
                 <div className="AddTargetBrandModal__row--amount">
                   <Field
-                    name="clientsAmount"
+                    name="quantity"
                     type="number"
                     label="Amount of clients for migration"
                     step="1"
@@ -105,18 +94,18 @@ class AddTargetBrandModal extends PureComponent {
                     className="AddTargetBrandModal__field--amount"
                   />
                   <Field
-                    name="clientsAmountUnit"
+                    name="baseUnit"
                     label="&nbsp;"
                     component={FormikSelectField}
                     className="AddTargetBrandModal__field--unit"
                   >
-                    {clientsAmountUnits.map(({ value, label }) => (
+                    {baseUnits.map(({ value, label }) => (
                       <option key={value} value={value}>{label}</option>
                     ))}
                   </Field>
                 </div>
                 <Field
-                  name="operatorUuid"
+                  name="operator"
                   label="Operator"
                   placeholder="Automatic operator"
                   component={FormikSelectField}
@@ -149,6 +138,4 @@ class AddTargetBrandModal extends PureComponent {
   }
 }
 
-export default withRequests({
-  operators: OperatorsQuery,
-})(AddTargetBrandModal);
+export default AddTargetBrandModal;

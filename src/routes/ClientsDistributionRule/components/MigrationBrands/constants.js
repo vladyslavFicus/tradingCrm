@@ -5,18 +5,18 @@ export const brands = Object.keys(brandsConfig).map(value => ({
   label: brandsConfig[value].name,
 }));
 
-export const clientsAmountUnits = [
+export const baseUnits = [
   {
-    value: '',
+    value: 'AMOUNT',
     label: 'clients',
   },
   {
-    value: 'percent',
+    value: 'PERCENTAGE',
     label: '%',
   },
 ];
 
-export const sortMethods = [
+export const sortTypes = [
   {
     value: 'FIFO',
     label: 'FIFO',
