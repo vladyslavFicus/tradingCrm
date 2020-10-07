@@ -467,8 +467,6 @@ const ReleaseNotes = () => (
         <p>BCC generation to the brand support on templated email sending event</p>
       </li>
       <li>
-      <li>
-      <li>
         <p>Disable of &lsquo;Social Trading&rsquo; feature for those Client&rsquo;s whose KYC Status is not &lsquo;APPROVED&rsquo;</p>
       </li>
     </ul>
