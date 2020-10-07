@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import MigrationButton from './components/MigrationButton';
@@ -93,10 +94,14 @@ class DistributionRuleBrands extends PureComponent {
 
     return (
       <div className="DistributionRuleBrands">
-        <div className="DistributionRuleBrands__headline">Brands for migration</div>
+        <div className="DistributionRuleBrands__headline">
+          {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRANDS_FOR_MIGRATION')}
+        </div>
         <div className="DistributionRuleBrands__columns-wrapper">
           <div className="DistributionRuleBrands__column">
-            <div className="DistributionRuleBrands__column-label">From brand</div>
+            <div className="DistributionRuleBrands__column-label">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}
+            </div>
             <div className="DistributionRuleBrands__column-inner">
               <Choose>
                 <When condition={sourceBrandConfig}>
@@ -104,6 +109,7 @@ class DistributionRuleBrands extends PureComponent {
                     className="DistributionRuleBrands__card"
                     handleEditBrandCard={this.handleAddSourceBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('source')}
+                    brandType="source"
                     {...sourceBrandConfig}
                   />
                 </When>
@@ -117,7 +123,9 @@ class DistributionRuleBrands extends PureComponent {
             </div>
           </div>
           <div className="DistributionRuleBrands__column">
-            <div className="DistributionRuleBrands__column-label">To brand</div>
+            <div className="DistributionRuleBrands__column-label">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}
+            </div>
             <div className="DistributionRuleBrands__column-inner">
               <Choose>
                 <When condition={targetBrandConfig}>
@@ -126,6 +134,7 @@ class DistributionRuleBrands extends PureComponent {
                     handleEditBrandCard={this.handleAddTargetBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
                     operators={operators}
+                    brandType="target"
                     {...targetBrandConfig}
                   />
                 </When>

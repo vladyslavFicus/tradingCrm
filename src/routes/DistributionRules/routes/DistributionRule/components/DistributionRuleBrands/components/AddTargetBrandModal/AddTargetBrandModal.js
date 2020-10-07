@@ -3,10 +3,12 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from 'utils/validator';
+import renderLabel from 'utils/renderLabel';
+import { brandsConfig } from 'constants/brands';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { brands, baseUnits } from '../../constants';
+import { baseUnits } from '../../constants';
 import './AddTargetBrandModal.scss';
 
 class AddTargetBrandModal extends PureComponent {
@@ -72,23 +74,23 @@ class AddTargetBrandModal extends PureComponent {
         >
           {() => (
             <Form>
-              <ModalHeader>From brand</ModalHeader>
+              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}</ModalHeader>
               <ModalBody>
                 <Field
                   name="brand"
-                  label="Brand"
+                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND')}
                   component={FormikSelectField}
                   searchable
                 >
-                  {brands.map(({ value, label }) => (
-                    <option key={value} value={value}>{label}</option>
+                  {Object.keys(brandsConfig).map(value => (
+                    <option key={value} value={value}>{brandsConfig[value].name}</option>
                   ))}
                 </Field>
                 <div className="AddTargetBrandModal__row--amount">
                   <Field
                     name="quantity"
                     type="number"
-                    label="Amount of clients for migration"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
                     step="1"
                     component={FormikInputField}
                     className="AddTargetBrandModal__field--amount"
@@ -99,15 +101,15 @@ class AddTargetBrandModal extends PureComponent {
                     component={FormikSelectField}
                     className="AddTargetBrandModal__field--unit"
                   >
-                    {baseUnits.map(({ value, label }) => (
-                      <option key={value} value={value}>{label}</option>
+                    {Object.keys(baseUnits).map(value => (
+                      <option key={value} value={value}>{renderLabel(value, baseUnits)}</option>
                     ))}
                   </Field>
                 </div>
                 <Field
                   name="operator"
-                  label="Operator"
-                  placeholder="Automatic operator"
+                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
+                  placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
                   component={FormikSelectField}
                   disabled={operatorsLoading || !operators.length}
                 >

@@ -3057,6 +3057,61 @@
     "NOTIFICATIONS": {
       "MIGRATION_SUCCESSFUL": "Migration started successfully",
       "MIGRATION_ERROR": "Migration started failed"
+    },
+    "RULE": {
+      "TITLE": "Rule %{name}",
+      "INFO": {
+        "STATUS": "Status",
+        "STATUS_SINCE": "since",
+        "CREATED": "Created",
+        "UPDATED": "Updated",
+        "LAST_EXECUTION": "Last time executed"
+      },
+      "STATUS": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "GENERAL_INFO": "General information",
+      "FILTERS_LABELS": {
+        "SALES_STATUS": "Sales Status",
+        "MIGRATION_STATUS": "Migration status",
+        "COUNTRY": "Country",
+        "EXECUTION_TIME":"Execution Time",
+        "REGISTRATION_DATE": "Registration date",
+        "EXECUTION_TYPE": "Execution type"
+      },
+      "FILTERS": {
+        "EXECUTION_TYPE": {
+          "AUTO": "Auto",
+          "MANUAL": "Manual"
+        }
+      },
+      "BRANDS_FOR_MIGRATION": "Brands for migration",
+      "FROM_BRAND": "From Brand",
+      "TO_BRAND": "To Brand",
+      "BRAND": {
+        "SORT": "Sort",
+        "OPERATOR": "Operator",
+        "CLIENTS_CHOOSEN": "clients choosen",
+        "CLIENTS_TO_MIGRATION": "clients to migration"
+      },
+      "MODAL": {
+        "SOURCE_BRAND": "Brand",
+        "TARGET_BRAND": "Migration to brand",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "OPERATOR": "Operator",
+        "AUTO_OPERATOR": "Automatic operator",
+        "SORT_METHOD": "Sort method"
+      },
+      "SORT_METHOD": {
+        "RANDOM": "Random",
+        "FIFO": "FIFO",
+        "LIFO": "LIFO"
+      },
+      "BASE_UNITS": {
+        "AMOUNT": "clients",
+        "PERCENTAGE": "%"
+      }
     }
   },
   "NOTIFICATION_CENTER": {

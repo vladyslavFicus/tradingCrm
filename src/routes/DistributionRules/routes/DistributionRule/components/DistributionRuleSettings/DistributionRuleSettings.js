@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
@@ -36,7 +37,7 @@ class DistributionRuleSettings extends PureComponent {
 
     return (
       <div className="DistributionRuleSettings">
-        <div className="DistributionRuleSettings__headline">General information</div>
+        <div className="DistributionRuleSettings__headline">{I18n.t('CLIENTS_DISTRIBUTION.RULE.GENERAL_INFO')}</div>
         <Formik
           initialValues={{
             executionType: 'MANUAL',
@@ -67,7 +68,7 @@ class DistributionRuleSettings extends PureComponent {
             <Form className="DistributionRuleSettings__form">
               <Field
                 name="salesStatuses"
-                label="Sales status"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.SALES_STATUS')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -80,7 +81,7 @@ class DistributionRuleSettings extends PureComponent {
               </Field>
               <Field
                 name="targetSalesStatus"
-                label="Migration status"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -92,7 +93,7 @@ class DistributionRuleSettings extends PureComponent {
               </Field>
               <Field
                 name="countries"
-                label="Country"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.COUNTRY')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -105,7 +106,7 @@ class DistributionRuleSettings extends PureComponent {
               </Field>
               <Field
                 name="executionPeriodInHours"
-                label="Execution time"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TIME')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -116,7 +117,7 @@ class DistributionRuleSettings extends PureComponent {
               </Field>
               <Field
                 name="registrationPeriodInHours"
-                label="Registration date"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.REGISTRATION_DATE')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -127,7 +128,7 @@ class DistributionRuleSettings extends PureComponent {
               </Field>
               <Field
                 name="executionType"
-                label="Execution type"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TYPE')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
               >

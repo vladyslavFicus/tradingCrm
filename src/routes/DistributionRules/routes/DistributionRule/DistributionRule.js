@@ -216,7 +216,7 @@ class DistributionRule extends PureComponent {
       updatedAt,
       statusChangedAt,
       latestMigration,
-    } = ruleData?.distributionRule || {};
+    } = ruleData?.distributionRule || { name: '' };
 
     const headerProps = {
       status,
@@ -239,7 +239,7 @@ class DistributionRule extends PureComponent {
     return (
       <div className="DistributionRule card">
         <div className="DistributionRule__header card-heading">
-          <div className="DistributionRule__headline">Rule {name}</div>
+          <div className="DistributionRule__headline">{I18n.t('CLIENTS_DISTRIBUTION.RULE.TITLE', { name })}</div>
           <If condition={createdBy}><Uuid uuid={createdBy} /></If>
         </div>
         <DistributionRuleInfo {...headerProps} />

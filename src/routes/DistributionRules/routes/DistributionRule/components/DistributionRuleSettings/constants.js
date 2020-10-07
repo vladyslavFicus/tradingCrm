@@ -92,11 +92,11 @@ export const registrationPeriodInHours = [
 
 export const executionType = [
   {
-    label: 'Manual',
-    value: 'MANUAL',
+    label: I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.AUTO'),
+    value: 'AUTO',
   },
   {
-    label: 'Daily',
-    value: 'AUTO',
+    label: I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.MANUAL'),
+    value: 'MANUAL',
   },
 ];
