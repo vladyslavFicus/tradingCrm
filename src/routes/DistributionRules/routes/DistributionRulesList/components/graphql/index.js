@@ -1,9 +1,9 @@
 import DistributionRulesQuery from './DistributionRulesQuery';
 import DistributionRuleMigrationMutation from './DistributionRuleMigrationMutation';
-import DistributionRulesClientsAmountMutation from './DistributionRulesClientsAmountMutation';
+import DistributionRuleClientsAmountQuery from './DistributionRulesClientsAmountQuery';
 
 export {
   DistributionRulesQuery,
   DistributionRuleMigrationMutation,
-  DistributionRulesClientsAmountMutation,
+  DistributionRuleClientsAmountQuery,
 };

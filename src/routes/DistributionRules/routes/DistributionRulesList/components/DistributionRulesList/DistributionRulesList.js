@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { get, set, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import { compose, withApollo } from 'react-apollo';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
@@ -21,15 +21,17 @@ import { clientDistributionStatuses } from '../constants';
 import {
   DistributionRulesQuery,
   DistributionRuleMigrationMutation,
-  DistributionRulesClientsAmountMutation,
+  DistributionRuleClientsAmountQuery,
 } from '../graphql';
 
 class DistributionRules extends PureComponent {
   static propTypes = {
     rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleClientsDistributionType)).isRequired,
     migration: PropTypes.func.isRequired,
-    getClientAmount: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
@@ -85,25 +87,28 @@ class DistributionRules extends PureComponent {
     }
   }
 
-  handleStartMigrationClick = async (uuid, name, targetBrandConfigs, sourceBrandConfigs) => {
+  handleStartMigrationClick = async ({ uuid, name, targetBrandConfigs, sourceBrandConfigs }) => {
     const targetBrandNames = targetBrandConfigs.map(({ brand }) => brand);
     const sourceBrandNames = sourceBrandConfigs.map(({ brand }) => brand);
 
     const {
       modals: { confirmActionModal },
-      getClientAmount,
+      client,
     } = this.props;
 
     try {
       const {
         data: {
-          distributionRule: {
-            clientsAmount: {
-              clientsAmount,
-            },
+          clientsAmount: {
+            clientsAmount,
           },
         },
-      } = await getClientAmount({ variables: { uuid } });
+      } = await client.query({
+        query: DistributionRuleClientsAmountQuery,
+        variables: {
+          uuid,
+        },
+      });
 
       confirmActionModal.show({
         onSubmit: () => this.handleStartMigration(uuid),
@@ -139,30 +144,20 @@ class DistributionRules extends PureComponent {
     </Fragment>
   );
 
-  renderActions = (
-    {
-      latestMigration,
-      uuid,
-      name,
-      targetBrandConfigs,
-      sourceBrandConfigs,
-    },
-  ) => (
-    <>
-      <Button
-        transparent
-        onClick={() => this.handleStartMigrationClick(uuid, name, targetBrandConfigs, sourceBrandConfigs)}
-      >
-        <Choose>
-          <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
-            <i className="icon-pause btn-transparent" />
-          </When>
-          <Otherwise>
-            <i className="icon-play btn-transparent" />
-          </Otherwise>
-        </Choose>
-      </Button>
-    </>
+  renderActions = ({ latestMigration, ...rest }) => (
+    <Button
+      transparent
+      onClick={() => this.handleStartMigrationClick(rest)}
+    >
+      <Choose>
+        <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
+          <i className="icon-pause btn-transparent" />
+        </When>
+        <Otherwise>
+          <i className="icon-play btn-transparent" />
+        </Otherwise>
+      </Choose>
+    </Button>
   );
 
   renderOrder = ({ order }) => (
@@ -397,6 +392,7 @@ class DistributionRules extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withRouter,
   withModals({
     confirmActionModal: ConfirmActionModal,
@@ -405,6 +401,5 @@ export default compose(
   withRequests({
     rules: DistributionRulesQuery,
     migration: DistributionRuleMigrationMutation,
-    getClientAmount: DistributionRulesClientsAmountMutation,
   }),
 )(DistributionRules);

@@ -25,7 +25,7 @@ import Offices from 'routes/Offices';
 import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
 import SalesRules from 'components/SalesRules';
-import DistributionRules from 'components/DistributionRules';
+import DistributionRules from 'routes/DistributionRules';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import BrandConfig from 'routes/BrandConfig';

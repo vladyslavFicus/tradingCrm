@@ -9,6 +9,7 @@ import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
+import Button from 'components/UI/Button';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -154,21 +155,22 @@ class DistributionRulesFilters extends Component {
             </div>
 
             <div className="filter__form-buttons">
-              <button
+              <Button
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
                 onClick={resetForm}
-                type="button"
+                common
               >
                 {I18n.t('COMMON.RESET')}
-              </button>
-              <button
+              </Button>
+              <Button
                 className="btn btn-primary filter__form-button"
                 disabled={isSubmitting || !dirty}
                 type="submit"
+                primary
               >
                 {I18n.t('COMMON.APPLY')}
-              </button>
+              </Button>
             </div>
           </Form>
         )}
