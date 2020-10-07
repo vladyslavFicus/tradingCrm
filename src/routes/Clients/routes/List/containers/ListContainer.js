@@ -26,14 +26,6 @@ export default compose(
         if (filters.teams && !Array.isArray(filters.teams)) {
           filters.teams = [filters.teams];
         }
-
-        if (filters.firstTimeDeposit) {
-          filters.firstTimeDeposit = Boolean(+filters.firstTimeDeposit);
-        }
-
-        if (filters.isReferrered) {
-          filters.isReferrered = Boolean(+filters.isReferrered);
-        }
       }
 
       return {
