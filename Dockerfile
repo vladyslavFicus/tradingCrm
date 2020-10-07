@@ -5,6 +5,7 @@ RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 ENV PORT 9090
 ENV BUILD_PATH /opt/build
 ENV NGINX_CONF_OUTPUT /etc/nginx/conf.d/default.conf
+ENV NODE_ENV production
 
 RUN mkdir -p $BUILD_PATH
 WORKDIR $BUILD_PATH
