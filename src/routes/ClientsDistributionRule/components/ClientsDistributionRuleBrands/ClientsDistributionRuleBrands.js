@@ -5,9 +5,9 @@ import MigrationButton from './components/MigrationButton';
 import MigrationBrandCard from './components/MigrationBrandCard';
 import AddSourceBrandModal from './components/AddSourceBrandModal';
 import AddTargetBrandModal from './components/AddTargetBrandModal';
-import './MigrationBrands.scss';
+import './ClientsDistributionRuleBrands.scss';
 
-class MigrationBrands extends PureComponent {
+class ClientsDistributionRuleBrands extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
       addSourceBrandModal: PropTypes.object,
@@ -92,16 +92,16 @@ class MigrationBrands extends PureComponent {
     const operators = operatorsData?.operators?.content || [];
 
     return (
-      <div className="MigrationBrands">
-        <div className="MigrationBrands__headline">Brands for migration</div>
-        <div className="MigrationBrands__columns-wrapper">
-          <div className="MigrationBrands__column">
-            <div className="MigrationBrands__column-label">From brand</div>
-            <div className="MigrationBrands__column-inner">
+      <div className="ClientsDistributionRuleBrands">
+        <div className="ClientsDistributionRuleBrands__headline">Brands for migration</div>
+        <div className="ClientsDistributionRuleBrands__columns-wrapper">
+          <div className="ClientsDistributionRuleBrands__column">
+            <div className="ClientsDistributionRuleBrands__column-label">From brand</div>
+            <div className="ClientsDistributionRuleBrands__column-inner">
               <Choose>
                 <When condition={sourceBrandConfig}>
                   <MigrationBrandCard
-                    className="MigrationBrands__card"
+                    className="ClientsDistributionRuleBrands__card"
                     handleEditBrandCard={this.handleAddSourceBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('source')}
                     {...sourceBrandConfig}
@@ -116,13 +116,13 @@ class MigrationBrands extends PureComponent {
               </Choose>
             </div>
           </div>
-          <div className="MigrationBrands__column">
-            <div className="MigrationBrands__column-label">To brand</div>
-            <div className="MigrationBrands__column-inner">
+          <div className="ClientsDistributionRuleBrands__column">
+            <div className="ClientsDistributionRuleBrands__column-label">To brand</div>
+            <div className="ClientsDistributionRuleBrands__column-inner">
               <Choose>
                 <When condition={targetBrandConfig}>
                   <MigrationBrandCard
-                    className="MigrationBrands__card"
+                    className="ClientsDistributionRuleBrands__card"
                     handleEditBrandCard={this.handleAddTargetBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
                     operators={operators}
@@ -147,4 +147,4 @@ class MigrationBrands extends PureComponent {
 export default withModals({
   addSourceBrandModal: AddSourceBrandModal,
   addTargetBrandModal: AddTargetBrandModal,
-})(MigrationBrands);
+})(ClientsDistributionRuleBrands);

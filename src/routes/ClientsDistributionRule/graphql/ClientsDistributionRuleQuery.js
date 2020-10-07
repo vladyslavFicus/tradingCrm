@@ -10,24 +10,19 @@ const REQUEST = gql`
       _id
       uuid
       name
-      # order
-      # status
+      status
       createdBy
-      # statusChangedAt
-      # createdAt
+      statusChangedAt
+      createdAt
       countries
       salesStatuses
       targetSalesStatus
       registrationPeriodInHours
       executionType
       executionPeriodInHours
-      # latestMigration {
-      #   uuid
-      #   startDate
-      #   clientsAmount
-      #   status
-      #   ruleUuid
-      # }
+      latestMigration {
+        startDate
+      }
       sourceBrandConfigs {
         brand
         distributionUnit {

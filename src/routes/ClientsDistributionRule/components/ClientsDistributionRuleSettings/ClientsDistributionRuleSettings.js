@@ -10,9 +10,9 @@ import {
   registrationPeriodInHours,
   executionType,
 } from './constants';
-import './MigrationSettings.scss';
+import './ClientsDistributionRuleSettings.scss';
 
-class MigrationSettings extends PureComponent {
+class ClientsDistributionRuleSettings extends PureComponent {
   static propTypes = {
     handleGeneralSettings: PropTypes.func.isRequired,
     generalSettings: PropTypes.object.isRequired,
@@ -35,8 +35,8 @@ class MigrationSettings extends PureComponent {
     } = this.props;
 
     return (
-      <div className="MigrationSettings">
-        <div className="MigrationSettings__headline">General information</div>
+      <div className="ClientsDistributionRuleSettings">
+        <div className="ClientsDistributionRuleSettings__headline">General information</div>
         <Formik
           initialValues={{
             executionType: 'MANUAL',
@@ -51,7 +51,7 @@ class MigrationSettings extends PureComponent {
               registrationPeriodInHours: ['required'],
             })(values);
 
-            const { normalizeObject } = MigrationSettings;
+            const { normalizeObject } = ClientsDistributionRuleSettings;
             const valuesAreEqual = JSON.stringify(normalizeObject(generalSettings))
               === JSON.stringify(normalizeObject(values));
 
@@ -64,11 +64,11 @@ class MigrationSettings extends PureComponent {
           enableReinitialize
         >
           {() => (
-            <Form className="MigrationSettings__form">
+            <Form className="ClientsDistributionRuleSettings__form">
               <Field
                 name="salesStatuses"
                 label="Sales status"
-                className="MigrationSettings__form-field"
+                className="ClientsDistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
@@ -81,7 +81,7 @@ class MigrationSettings extends PureComponent {
               <Field
                 name="targetSalesStatus"
                 label="Migration status"
-                className="MigrationSettings__form-field"
+                className="ClientsDistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
@@ -93,7 +93,7 @@ class MigrationSettings extends PureComponent {
               <Field
                 name="countries"
                 label="Country"
-                className="MigrationSettings__form-field"
+                className="ClientsDistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
@@ -106,7 +106,7 @@ class MigrationSettings extends PureComponent {
               <Field
                 name="executionPeriodInHours"
                 label="Execution time"
-                className="MigrationSettings__form-field"
+                className="ClientsDistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
@@ -117,7 +117,7 @@ class MigrationSettings extends PureComponent {
               <Field
                 name="registrationPeriodInHours"
                 label="Registration date"
-                className="MigrationSettings__form-field"
+                className="ClientsDistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
@@ -128,7 +128,7 @@ class MigrationSettings extends PureComponent {
               <Field
                 name="executionType"
                 label="Execution type"
-                className="MigrationSettings__form-field"
+                className="ClientsDistributionRuleSettings__form-field"
                 component={FormikSelectField}
               >
                 {executionType.map(({ label, value }) => (
@@ -143,4 +143,4 @@ class MigrationSettings extends PureComponent {
   }
 }
 
-export default MigrationSettings;
+export default ClientsDistributionRuleSettings;

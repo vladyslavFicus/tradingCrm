@@ -4,8 +4,9 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
-import MigrationSettings from './components/MigrationSettings';
-import MigrationBrands from './components/MigrationBrands';
+import ClientsDistributionRuleInfo from './components/ClientsDistributionRuleInfo';
+import ClientsDistributionRuleSettings from './components/ClientsDistributionRuleSettings';
+import ClientsDistributionRuleBrands from './components/ClientsDistributionRuleBrands';
 import {
   ClientsDistributionRuleQuery,
   ClientsDistributionRuleUpdate,
@@ -207,7 +208,23 @@ class ClientsDistributionRule extends PureComponent {
       settingsWasChanged,
     } = this.state;
 
-    const { name, createdBy } = ruleData?.distributionRule || {};
+    const {
+      name,
+      createdBy,
+      status,
+      createdAt,
+      updatedAt,
+      statusChangedAt,
+      latestMigration,
+    } = ruleData?.distributionRule || {};
+
+    const headerProps = {
+      status,
+      createdAt,
+      updatedAt,
+      statusChangedAt,
+      latestMigration,
+    };
 
     const resetDisabled = ruleLoading
       || isSubmitting
@@ -225,12 +242,13 @@ class ClientsDistributionRule extends PureComponent {
           <div className="ClientsDistributionRule__headline">Rule {name}</div>
           <If condition={createdBy}><Uuid uuid={createdBy} /></If>
         </div>
+        <ClientsDistributionRuleInfo {...headerProps} />
         <div className="card-body">
-          <MigrationSettings
+          <ClientsDistributionRuleSettings
             generalSettings={generalSettings}
             handleGeneralSettings={this.handleGeneralSettings}
           />
-          <MigrationBrands
+          <ClientsDistributionRuleBrands
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}
             handleSourceBrandConfig={this.handleSourceBrandConfig}
