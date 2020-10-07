@@ -10,9 +10,9 @@ import {
   registrationPeriodInHours,
   executionType,
 } from './constants';
-import './ClientsDistributionRuleSettings.scss';
+import './DistributionRuleSettings.scss';
 
-class ClientsDistributionRuleSettings extends PureComponent {
+class DistributionRuleSettings extends PureComponent {
   static propTypes = {
     handleGeneralSettings: PropTypes.func.isRequired,
     generalSettings: PropTypes.object.isRequired,
@@ -35,8 +35,8 @@ class ClientsDistributionRuleSettings extends PureComponent {
     } = this.props;
 
     return (
-      <div className="ClientsDistributionRuleSettings">
-        <div className="ClientsDistributionRuleSettings__headline">General information</div>
+      <div className="DistributionRuleSettings">
+        <div className="DistributionRuleSettings__headline">General information</div>
         <Formik
           initialValues={{
             executionType: 'MANUAL',
@@ -51,7 +51,7 @@ class ClientsDistributionRuleSettings extends PureComponent {
               registrationPeriodInHours: ['required'],
             })(values);
 
-            const { normalizeObject } = ClientsDistributionRuleSettings;
+            const { normalizeObject } = DistributionRuleSettings;
             const valuesAreEqual = JSON.stringify(normalizeObject(generalSettings))
               === JSON.stringify(normalizeObject(values));
 
@@ -64,11 +64,11 @@ class ClientsDistributionRuleSettings extends PureComponent {
           enableReinitialize
         >
           {() => (
-            <Form className="ClientsDistributionRuleSettings__form">
+            <Form className="DistributionRuleSettings__form">
               <Field
                 name="salesStatuses"
                 label="Sales status"
-                className="ClientsDistributionRuleSettings__form-field"
+                className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
@@ -81,7 +81,7 @@ class ClientsDistributionRuleSettings extends PureComponent {
               <Field
                 name="targetSalesStatus"
                 label="Migration status"
-                className="ClientsDistributionRuleSettings__form-field"
+                className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
@@ -93,7 +93,7 @@ class ClientsDistributionRuleSettings extends PureComponent {
               <Field
                 name="countries"
                 label="Country"
-                className="ClientsDistributionRuleSettings__form-field"
+                className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
                 searchable
@@ -106,7 +106,7 @@ class ClientsDistributionRuleSettings extends PureComponent {
               <Field
                 name="executionPeriodInHours"
                 label="Execution time"
-                className="ClientsDistributionRuleSettings__form-field"
+                className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
@@ -117,7 +117,7 @@ class ClientsDistributionRuleSettings extends PureComponent {
               <Field
                 name="registrationPeriodInHours"
                 label="Registration date"
-                className="ClientsDistributionRuleSettings__form-field"
+                className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
@@ -128,7 +128,7 @@ class ClientsDistributionRuleSettings extends PureComponent {
               <Field
                 name="executionType"
                 label="Execution type"
-                className="ClientsDistributionRuleSettings__form-field"
+                className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
               >
                 {executionType.map(({ label, value }) => (
@@ -143,4 +143,4 @@ class ClientsDistributionRuleSettings extends PureComponent {
   }
 }
 
-export default ClientsDistributionRuleSettings;
+export default DistributionRuleSettings;

@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-/* eslint-disable */
 const REQUEST = gql`
-  query ClientsDistributionRuleQuery($uuid: String!) {
+  query DistributionRuleQuery($uuid: String!) {
     distributionRule (uuid: $uuid) {
       _id
       uuid
@@ -43,17 +42,17 @@ const REQUEST = gql`
   }
 `;
 
-const ClientsDistributionRuleQuery = ({ children, match: { params: { id } } }) => (
+const DistributionRuleQuery = ({ children, match: { params: { id } } }) => (
   <Query
     query={REQUEST}
-    variables={{ uuid: '52eb058f-5e99-4dc4-ad25-f8d6b2bec0d4' }}
+    variables={{ uuid: id }}
     fetchPolicy="cache-and-network"
   >
     {children}
   </Query>
 );
 
-ClientsDistributionRuleQuery.propTypes = {
+DistributionRuleQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -62,4 +61,4 @@ ClientsDistributionRuleQuery.propTypes = {
   }).isRequired,
 };
 
-export default ClientsDistributionRuleQuery;
+export default DistributionRuleQuery;

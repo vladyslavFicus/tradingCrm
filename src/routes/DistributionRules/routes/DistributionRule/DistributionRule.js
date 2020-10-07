@@ -4,17 +4,17 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
-import ClientsDistributionRuleInfo from './components/ClientsDistributionRuleInfo';
-import ClientsDistributionRuleSettings from './components/ClientsDistributionRuleSettings';
-import ClientsDistributionRuleBrands from './components/ClientsDistributionRuleBrands';
+import DistributionRuleInfo from './components/DistributionRuleInfo';
+import DistributionRuleSettings from './components/DistributionRuleSettings';
+import DistributionRuleBrands from './components/DistributionRuleBrands';
 import {
-  ClientsDistributionRuleQuery,
-  ClientsDistributionRuleUpdate,
+  DistributionRuleQuery,
+  DistributionRuleUpdate,
   OperatorsQuery,
 } from './graphql';
-import './ClientsDistributionRule.scss';
+import './DistributionRule.scss';
 
-class ClientsDistributionRule extends PureComponent {
+class DistributionRule extends PureComponent {
   static propTypes = {
     ruleQuery: PropTypes.query({
       distributionRule: PropTypes.object,
@@ -29,7 +29,7 @@ class ClientsDistributionRule extends PureComponent {
   }
 
   static getDerivedStateFromProps({ ruleQuery: { data, loading } }, state) {
-    if (!loading && !ClientsDistributionRule.initSettingsAreSet) {
+    if (!loading && !DistributionRule.initSettingsAreSet) {
       const {
         countries,
         salesStatuses,
@@ -37,16 +37,16 @@ class ClientsDistributionRule extends PureComponent {
         registrationPeriodInHours,
         executionType,
         executionPeriodInHours,
-        sourceBrandConfigs = [],
-        targetBrandConfigs = [],
+        sourceBrandConfigs,
+        targetBrandConfigs,
       } = data?.distributionRule || {};
 
-      const sourceBrandConfig = sourceBrandConfigs[0];
-      const targetBrandConfig = targetBrandConfigs[0];
+      const sourceBrandConfig = sourceBrandConfigs && sourceBrandConfigs[0];
+      const targetBrandConfig = sourceBrandConfigs && targetBrandConfigs[0];
 
-      ClientsDistributionRule.initSettingsAreSet = true;
-      ClientsDistributionRule.initialState = {
-        ...ClientsDistributionRule.initialState,
+      DistributionRule.initSettingsAreSet = true;
+      DistributionRule.initialState = {
+        ...DistributionRule.initialState,
         generalSettings: {
           countries,
           salesStatuses,
@@ -59,10 +59,10 @@ class ClientsDistributionRule extends PureComponent {
         targetBrandConfig,
       };
 
-      return JSON.parse(JSON.stringify(ClientsDistributionRule.initialState));
+      return JSON.parse(JSON.stringify(DistributionRule.initialState));
     }
 
-    const { initialState } = ClientsDistributionRule;
+    const { initialState } = DistributionRule;
 
     const settingsWasChanged = JSON.stringify({
       generalSettings: state.generalSettings,
@@ -94,7 +94,7 @@ class ClientsDistributionRule extends PureComponent {
   };
 
   resetToInitialState = () => {
-    this.setState(JSON.parse(JSON.stringify(ClientsDistributionRule.initialState)));
+    this.setState(JSON.parse(JSON.stringify(DistributionRule.initialState)));
   }
 
   handleUpdateRule = async () => {
@@ -128,7 +128,7 @@ class ClientsDistributionRule extends PureComponent {
         },
       });
 
-      ClientsDistributionRule.initialState = JSON.parse(JSON.stringify({
+      DistributionRule.initialState = JSON.parse(JSON.stringify({
         ...this.state,
         isSubmitting: false,
       }));
@@ -237,18 +237,18 @@ class ClientsDistributionRule extends PureComponent {
       || !targetBrandConfig;
 
     return (
-      <div className="ClientsDistributionRule card">
-        <div className="ClientsDistributionRule__header card-heading">
-          <div className="ClientsDistributionRule__headline">Rule {name}</div>
+      <div className="DistributionRule card">
+        <div className="DistributionRule__header card-heading">
+          <div className="DistributionRule__headline">Rule {name}</div>
           <If condition={createdBy}><Uuid uuid={createdBy} /></If>
         </div>
-        <ClientsDistributionRuleInfo {...headerProps} />
+        <DistributionRuleInfo {...headerProps} />
         <div className="card-body">
-          <ClientsDistributionRuleSettings
+          <DistributionRuleSettings
             generalSettings={generalSettings}
             handleGeneralSettings={this.handleGeneralSettings}
           />
-          <ClientsDistributionRuleBrands
+          <DistributionRuleBrands
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}
             handleSourceBrandConfig={this.handleSourceBrandConfig}
@@ -259,9 +259,9 @@ class ClientsDistributionRule extends PureComponent {
             operatorsQuery={operatorsQuery}
           />
         </div>
-        <div className="ClientsDistributionRule__actions">
+        <div className="DistributionRule__actions">
           <Button
-            className="ClientsDistributionRule__actions-btn"
+            className="DistributionRule__actions-btn"
             onClick={this.resetToInitialState}
             disabled={resetDisabled}
             commonOutline
@@ -269,7 +269,7 @@ class ClientsDistributionRule extends PureComponent {
             {I18n.t('COMMON.CANCEL')}
           </Button>
           <Button
-            className="ClientsDistributionRule__actions-btn"
+            className="DistributionRule__actions-btn"
             onClick={this.handleUpdateRule}
             disabled={submitDisabled}
             primary
@@ -283,7 +283,7 @@ class ClientsDistributionRule extends PureComponent {
 }
 
 export default withRequests({
-  ruleQuery: ClientsDistributionRuleQuery,
-  updateRule: ClientsDistributionRuleUpdate,
+  ruleQuery: DistributionRuleQuery,
+  updateRule: DistributionRuleUpdate,
   operatorsQuery: OperatorsQuery,
-})(ClientsDistributionRule);
+})(DistributionRule);

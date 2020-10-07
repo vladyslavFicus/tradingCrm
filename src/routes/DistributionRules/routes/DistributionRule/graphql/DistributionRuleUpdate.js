@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation ClientsDistributionRuleUpdate(
+  mutation DistributionRuleUpdate(
     $args: DistributionRuleUpdate__Input
   ) {
     distributionRule {
@@ -13,14 +13,14 @@ const REQUEST = gql`
   }
 `;
 
-const ClientsDistributionRuleUpdate = ({ children }) => (
+const DistributionRuleUpdate = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-ClientsDistributionRuleUpdate.propTypes = {
+DistributionRuleUpdate.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default ClientsDistributionRuleUpdate;
+export default DistributionRuleUpdate;
