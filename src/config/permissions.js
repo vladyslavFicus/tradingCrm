@@ -140,4 +140,7 @@ export default {
   CALLBACKS: {
     LIST: 'callback.searchCallbacks',
   },
+  CLIENTS_DISTRIBUTION: {
+    LIST: 'clients-distributor.searchRules',
+  },
 };
