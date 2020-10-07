@@ -154,7 +154,6 @@ class PaymentsListFilters extends PureComponent {
 
   handleFormChange = (data = {}) => {
     const {
-      firstTimeDeposit,
       amountFrom,
       amountTo,
       desks,
@@ -171,7 +170,6 @@ class PaymentsListFilters extends PureComponent {
       query: {
         filters: decodeNullValues({
           ...filters,
-          ...(firstTimeDeposit && { firstTimeDeposit: !!+firstTimeDeposit }),
           ...(statuses && { statuses }),
           ...(amountFrom && { amountFrom }),
           ...(amountTo && { amountTo }),
@@ -469,8 +467,8 @@ class PaymentsListFilters extends PureComponent {
               withAnyOption
             >
               {[
-                { label: 'COMMON.YES', value: '1' },
-                { label: 'COMMON.NO', value: '0' },
+                { label: 'COMMON.YES', value: true },
+                { label: 'COMMON.NO', value: false },
               ].map(({ value, label }) => (
                 <option key={value} value={value}>
                   {I18n.t(label)}
