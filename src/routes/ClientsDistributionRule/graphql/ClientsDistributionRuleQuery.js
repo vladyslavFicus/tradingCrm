@@ -7,6 +7,7 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query ClientsDistributionRuleQuery($uuid: String!) {
     distributionRule (uuid: $uuid) {
+      _id
       uuid
       name
       # order
@@ -42,7 +43,6 @@ const REQUEST = gql`
           baseUnit
         }
         operator
-        # country
       }
     }
   }

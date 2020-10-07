@@ -27,8 +27,8 @@ class ClientsDistributionRule extends PureComponent {
     }).isRequired,
   }
 
-  static getDerivedStateFromProps({ ruleQuery: { data, loading } }) {
-    if (!loading && !ClientsDistributionRule.initSettingsWasSet) {
+  static getDerivedStateFromProps({ ruleQuery: { data, loading } }, state) {
+    if (!loading && !ClientsDistributionRule.initSettingsAreSet) {
       const {
         countries,
         salesStatuses,
@@ -43,7 +43,7 @@ class ClientsDistributionRule extends PureComponent {
       const sourceBrandConfig = sourceBrandConfigs[0];
       const targetBrandConfig = targetBrandConfigs[0];
 
-      ClientsDistributionRule.initSettingsWasSet = true;
+      ClientsDistributionRule.initSettingsAreSet = true;
       ClientsDistributionRule.initialState = {
         ...ClientsDistributionRule.initialState,
         generalSettings: {
@@ -61,7 +61,21 @@ class ClientsDistributionRule extends PureComponent {
       return JSON.parse(JSON.stringify(ClientsDistributionRule.initialState));
     }
 
-    return null;
+    const { initialState } = ClientsDistributionRule;
+
+    const settingsWasChanged = JSON.stringify({
+      generalSettings: state.generalSettings,
+      sourceBrandConfig: state.sourceBrandConfig,
+      targetBrandConfig: state.targetBrandConfig,
+    }) !== JSON.stringify({
+      generalSettings: initialState.generalSettings,
+      sourceBrandConfig: initialState.sourceBrandConfig,
+      targetBrandConfig: initialState.targetBrandConfig,
+    });
+
+    return {
+      settingsWasChanged,
+    };
   }
 
   static initialState = {
@@ -70,6 +84,8 @@ class ClientsDistributionRule extends PureComponent {
     targetBrandConfig: null,
     addSourceBrandEnabled: false,
     addTargetBrandEnabled: false,
+    settingsWasChanged: false,
+    isSubmitting: false,
   };
 
   state = {
@@ -79,6 +95,48 @@ class ClientsDistributionRule extends PureComponent {
   resetToInitialState = () => {
     this.setState(JSON.parse(JSON.stringify(ClientsDistributionRule.initialState)));
   }
+
+  handleUpdateRule = async () => {
+    const {
+      ruleQuery: {
+        data: ruleData,
+      },
+      updateRule,
+    } = this.props;
+
+    const {
+      generalSettings,
+      sourceBrandConfig,
+      targetBrandConfig,
+    } = this.state;
+
+    const { uuid, name: ruleName } = ruleData.distributionRule;
+
+    this.setState({ isSubmitting: true });
+
+    try {
+      await updateRule({
+        variables: {
+          args: {
+            uuid,
+            ruleName,
+            sourceBrandConfig,
+            targetBrandConfig,
+            ...generalSettings,
+          },
+        },
+      });
+
+      ClientsDistributionRule.initialState = JSON.parse(JSON.stringify({
+        ...this.state,
+        isSubmitting: false,
+      }));
+    } catch {
+      // ...
+    } finally {
+      this.setState({ isSubmitting: false });
+    }
+  };
 
   handleGeneralSettings = (isValid, generalSettings) => {
     this.setState({
@@ -130,35 +188,6 @@ class ClientsDistributionRule extends PureComponent {
       }))
   );
 
-  handleUpdateRule = () => {
-    const {
-      ruleQuery: {
-        data: ruleData,
-      },
-      updateRule,
-    } = this.props;
-
-    const {
-      generalSettings,
-      sourceBrandConfig,
-      targetBrandConfig,
-    } = this.state;
-
-    const { uuid, name } = ruleData.distributionRule;
-
-    updateRule({
-      variables: {
-        args: {
-          uuid,
-          name,
-          sourceBrandConfig,
-          targetBrandConfig,
-          ...generalSettings,
-        },
-      },
-    });
-  };
-
   render() {
     const {
       ruleQuery: {
@@ -174,10 +203,21 @@ class ClientsDistributionRule extends PureComponent {
       targetBrandConfig,
       addSourceBrandEnabled,
       addTargetBrandEnabled,
+      isSubmitting,
+      settingsWasChanged,
     } = this.state;
 
     const { name, createdBy } = ruleData?.distributionRule || {};
-    const settingsWasChanged = JSON.stringify(this.state) !== JSON.stringify(this.constructor.initialState);
+
+    const resetDisabled = ruleLoading
+      || isSubmitting
+      || !settingsWasChanged;
+
+    const submitDisabled = ruleLoading
+      || isSubmitting
+      || !settingsWasChanged
+      || !sourceBrandConfig
+      || !targetBrandConfig;
 
     return (
       <div className="ClientsDistributionRule card">
@@ -205,7 +245,7 @@ class ClientsDistributionRule extends PureComponent {
           <Button
             className="ClientsDistributionRule__actions-btn"
             onClick={this.resetToInitialState}
-            disabled={!settingsWasChanged}
+            disabled={resetDisabled}
             commonOutline
           >
             {I18n.t('COMMON.CANCEL')}
@@ -213,7 +253,7 @@ class ClientsDistributionRule extends PureComponent {
           <Button
             className="ClientsDistributionRule__actions-btn"
             onClick={this.handleUpdateRule}
-            disabled={ruleLoading || !sourceBrandConfig || !targetBrandConfig || !settingsWasChanged}
+            disabled={submitDisabled}
             primary
           >
             {I18n.t('COMMON.SAVE')}

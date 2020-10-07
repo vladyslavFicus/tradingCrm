@@ -18,6 +18,16 @@ class MigrationSettings extends PureComponent {
     generalSettings: PropTypes.object.isRequired,
   }
 
+  /**
+   * The entry and output objects of the form values may contain the same props,
+   * but in a different arrange, so very important to bring them in the same order
+   * to make the right comparison of them
+   */
+  static normalizeObject = obj => Object.keys(obj).sort().reduce((acc, cur) => ({
+    ...acc,
+    [cur]: obj[cur].sort ? [...obj[cur]].sort() : obj[cur],
+  }), {});
+
   render() {
     const {
       handleGeneralSettings,
@@ -41,7 +51,13 @@ class MigrationSettings extends PureComponent {
               registrationPeriodInHours: ['required'],
             })(values);
 
-            handleGeneralSettings(Object.keys(errors).length === 0, values);
+            const { normalizeObject } = MigrationSettings;
+            const valuesAreEqual = JSON.stringify(normalizeObject(generalSettings))
+              === JSON.stringify(normalizeObject(values));
+
+            if (!valuesAreEqual) {
+              handleGeneralSettings(Object.keys(errors).length === 0, values);
+            }
 
             return errors;
           }}
