@@ -1,9 +1,4 @@
 .ClientsGrid {
-  & .GridHeaderCell {
-    position: sticky;
-    top: 154px;
-  }
-
   &__noteAuthor {
     display: block;
     font-weight: bolder;

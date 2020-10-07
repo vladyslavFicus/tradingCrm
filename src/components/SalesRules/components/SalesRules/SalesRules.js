@@ -538,6 +538,7 @@ class SalesRules extends PureComponent {
             data={entities}
             isLoading={loading}
             isLastPage
+            headerStickyFromTop={127}
             withNoResults={!loading && entities.length === 0}
           >
             <GridColumn

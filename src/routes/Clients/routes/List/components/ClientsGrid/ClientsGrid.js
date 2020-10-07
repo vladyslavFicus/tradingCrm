@@ -125,6 +125,7 @@ class ClientsGrid extends PureComponent {
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
+        headerStickyFromTop={154}
         isLoading={loading}
         isLastPage={last}
         sorts={location?.state?.sortData}

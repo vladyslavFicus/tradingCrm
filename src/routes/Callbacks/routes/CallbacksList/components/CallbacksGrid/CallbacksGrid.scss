@@ -1,11 +1,6 @@
 .CallbacksGrid {
   padding: 0 25px 25px;
 
-  & .GridHeaderCell {
-    position: sticky;
-    top: 129px;
-  }
-
   &__info {
     &-main {
       font-weight: 700;

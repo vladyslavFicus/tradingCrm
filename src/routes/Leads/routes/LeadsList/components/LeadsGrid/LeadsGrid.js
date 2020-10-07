@@ -278,6 +278,7 @@ class LeadsGrid extends PureComponent {
           handleRowClick={this.handleRowClick}
           handleAllRowsSelect={this.handleAllRowsSelect}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={156}
           isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={!searchLimit || searchLimit !== content.length}

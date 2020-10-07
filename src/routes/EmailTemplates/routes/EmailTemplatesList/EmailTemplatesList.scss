@@ -39,10 +39,5 @@
   &__body {
     flex: 1 1 auto;
     padding: 0 25px 25px;
-
-    & .GridHeaderCell {
-      position: sticky;
-      top: 126px;
-    }
   }
 }

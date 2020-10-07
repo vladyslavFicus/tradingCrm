@@ -83,6 +83,7 @@ class TradingAccountsListGrid extends PureComponent {
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
+          headerStickyFromTop={126}
           withNoResults={!loading && content.length === 0}
           withLazyLoad
         >

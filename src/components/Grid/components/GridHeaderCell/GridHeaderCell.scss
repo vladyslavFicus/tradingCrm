@@ -47,6 +47,10 @@
     padding-left: 30px;
   }
 
+  &--is-sticky {
+    position: sticky;
+  }
+
   &__content {
     &--with-sorting {
       cursor: pointer;

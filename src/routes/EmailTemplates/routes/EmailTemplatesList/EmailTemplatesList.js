@@ -107,8 +107,9 @@ class EmailTemplatesList extends PureComponent {
         </div>
         <div className="EmailTemplatesList__body">
           <Grid
-            data={[...entities, ...entities, ...entities, ...entities]}
+            data={entities}
             handleRowClick={this.handleTemplateClick}
+            headerStickyFromTop={126}
             isLoading={loading}
             isLastPage
             withNoResults={!loading && entities.length === 0}

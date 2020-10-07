@@ -2,11 +2,6 @@
   background-color: #fff;
   padding: 0 25px 25px;
 
-  & .GridHeaderCell {
-    position: sticky;
-    top: 138px;
-  }
-
   &__cell {
     &-primary {
       font-weight: 700;

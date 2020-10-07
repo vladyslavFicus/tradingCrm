@@ -183,6 +183,7 @@ class NotificationsGrid extends PureComponent {
           withNoResults={!loading && entities.length === 0}
           withLazyLoad={!searchLimit || searchLimit !== entities.length}
           handlePageChanged={handlePageChanged}
+          headerStickyFromTop={126}
           rowsClassNames={
             ({ priority }) => classNames({
               'Notifications__columns-color--high': priority === 'HIGH',

@@ -113,6 +113,7 @@ class Payments extends PureComponent {
         <PaymentsListGrid
           paymentsQuery={clientPaymentsQuery}
           handleRefresh={this.handleRefresh}
+          headerStickyFromTop={189}
           clientView
         />
       </div>

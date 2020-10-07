@@ -37,11 +37,13 @@ class PaymentsListGrid extends PureComponent {
     handleRefresh: PropTypes.func.isRequired,
     clientView: PropTypes.bool,
     withLazyLoad: PropTypes.bool,
+    headerStickyFromTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
     clientView: false,
     withLazyLoad: true,
+    headerStickyFromTop: null,
   };
 
   handlePageChanged = () => {
@@ -83,6 +85,7 @@ class PaymentsListGrid extends PureComponent {
       handleRefresh,
       paymentsQuery,
       withLazyLoad,
+      headerStickyFromTop,
     } = this.props;
 
     const { content, last } = get(paymentsQuery, 'data.payments') || { content: [] };
@@ -94,6 +97,7 @@ class PaymentsListGrid extends PureComponent {
           data={content || []}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={withLazyLoad}
