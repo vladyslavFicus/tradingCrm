@@ -119,8 +119,8 @@ class ChangeOriginalAgent extends PureComponent {
                 className="ChangeOriginalAgent__select"
                 disabled={!canChangeOriginalAgent || loading}
               >
-                {operatorsList.map(({ uuid, fullName }) => (
-                  <option key={uuid} value={uuid}>{fullName}</option>
+                {operatorsList.map(({ uuid, fullName, operatorStatus }) => (
+                  <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>
                 ))}
               </Field>
               <If condition={canChangeOriginalAgent}>
