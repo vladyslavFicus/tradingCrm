@@ -49,7 +49,10 @@ class MigrationBrandCard extends PureComponent {
     const operator = operatorUuid && (operators.find(({ uuid }) => uuid === operatorUuid)?.fullName || operatorUuid);
 
     return (
-      <div className={classNames('MigrationBrandCard', className)}>
+      <div
+        className={classNames('MigrationBrandCard', className)}
+        onClick={handleEditBrandCard}
+      >
         <div className="MigrationBrandCard__inner">
           <div className="MigrationBrandCard__cell">
             <div className="MigrationBrandCard__dt">{brand}</div>
@@ -73,6 +76,7 @@ class MigrationBrandCard extends PureComponent {
             <RemoveButton
               className="MigrationBrandCard__action"
               onClick={handleRemoveBrandCard}
+              stopPropagation
             />
           </div>
         </div>

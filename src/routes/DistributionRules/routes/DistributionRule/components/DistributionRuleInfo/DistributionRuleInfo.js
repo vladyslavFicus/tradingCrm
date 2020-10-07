@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import './DistributionRuleInfo.scss';
 
 class DistributionRuleInfo extends PureComponent {
@@ -39,29 +40,43 @@ class DistributionRuleInfo extends PureComponent {
             <div className="DistributionRuleInfo__item-label">status</div>
             <div className="DistributionRuleInfo__item-value">{status}</div>
             <If condition={statusChangedAt}>
-              <div className="DistributionRuleInfo__item-small-text">{statusChangedAt}</div>
+              <div className="DistributionRuleInfo__item-small-text">
+                since {moment.utc(statusChangedAt).local().format('DD.MM.YYYY HH:mm')}
+              </div>
             </If>
           </div>
         </If>
         <If condition={createdAt}>
           <div className="DistributionRuleInfo__item">
             <div className="DistributionRuleInfo__item-label">created</div>
-            <div className="DistributionRuleInfo__item-value">{createdAt}</div>
-            <div className="DistributionRuleInfo__item-small-text">{createdAt}</div>
+            <div className="DistributionRuleInfo__item-value">
+              {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+            </div>
+            <div className="DistributionRuleInfo__item-small-text">
+              {moment.utc(createdAt).local().format('HH:mm')}
+            </div>
           </div>
         </If>
         <If condition={updatedAt}>
           <div className="DistributionRuleInfo__item">
             <div className="DistributionRuleInfo__item-label">updated</div>
-            <div className="DistributionRuleInfo__item-value">{updatedAt}</div>
-            <div className="DistributionRuleInfo__item-small-text">{updatedAt}</div>
+            <div className="DistributionRuleInfo__item-value">
+              {moment.utc(updatedAt).local().format('DD.MM.YYYY')}
+            </div>
+            <div className="DistributionRuleInfo__item-small-text">
+              {moment.utc(updatedAt).local().format('HH:mm')}
+            </div>
           </div>
         </If>
         <If condition={latestMigrationDate}>
           <div className="DistributionRuleInfo__item">
             <div className="DistributionRuleInfo__item-label">last time executed</div>
-            <div className="DistributionRuleInfo__item-value">{latestMigrationDate}</div>
-            <div className="DistributionRuleInfo__item-small-text">{latestMigrationDate}</div>
+            <div className="DistributionRuleInfo__item-value">
+              {moment.utc(latestMigrationDate).local().format('DD.MM.YYYY')}
+            </div>
+            <div className="DistributionRuleInfo__item-small-text">
+              {moment.utc(latestMigrationDate).local().format('HH:mm')}
+            </div>
           </div>
         </If>
       </div>
