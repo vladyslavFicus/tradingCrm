@@ -105,8 +105,7 @@ class AddBranchForm extends Component {
           clients: subordinatesCount,
           branch: branchHierarchySequence.join(' → '),
         }),
-        submitButtonLabel: I18n.t('ACTIONS_LABELS.ASSIGN'),
-        cancelButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
+        submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
       });
 
       return;
