@@ -90,7 +90,7 @@ export const registrationPeriodInHours = [
   },
 ];
 
-export const executionType = [
+export const executionTypes = [
   {
     label: I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.AUTO'),
     value: 'AUTO',

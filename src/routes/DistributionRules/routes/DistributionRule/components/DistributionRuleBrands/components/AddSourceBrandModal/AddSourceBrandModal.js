@@ -42,7 +42,7 @@ class AddSourceBrandModal extends PureComponent {
       },
     } = this.props;
 
-    const { quantity, baseUnit } = distributionUnit || {};
+    const { quantity, baseUnit } = distributionUnit || { baseUnit: 'AMOUNT' };
 
     return (
       <Modal

@@ -9,7 +9,7 @@ import {
   countries,
   executionPeriodInHours,
   registrationPeriodInHours,
-  executionType,
+  executionTypes,
 } from './constants';
 import { checkEqualityOfDataObjects } from '../../utils';
 import './DistributionRuleSettings.scss';
@@ -46,13 +46,16 @@ class DistributionRuleSettings extends PureComponent {
    */
   static normalizeObject = obj => Object.keys(obj).sort().reduce((acc, cur) => ({
     ...acc,
-    [cur]: obj[cur].sort ? [...obj[cur]].sort() : obj[cur],
+    [cur]: obj[cur]?.sort ? [...obj[cur]].sort() : obj[cur],
   }), {});
 
   render() {
     const {
       handleGeneralSettings,
-      generalSettings,
+      generalSettings: {
+        executionType,
+        ...generalSettings
+      },
     } = this.props;
 
     return (
@@ -60,8 +63,8 @@ class DistributionRuleSettings extends PureComponent {
         <div className="DistributionRuleSettings__headline">{I18n.t('CLIENTS_DISTRIBUTION.RULE.GENERAL_INFO')}</div>
         <Formik
           initialValues={{
-            executionType: 'MANUAL',
             ...generalSettings,
+            executionType: executionType || 'MANUAL',
           }}
           validate={(values) => {
             const errors = createValidator({
@@ -154,7 +157,7 @@ class DistributionRuleSettings extends PureComponent {
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
               >
-                {executionType.map(({ label, value }) => (
+                {executionTypes.map(({ label, value }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
               </Field>
