@@ -11,12 +11,32 @@ import {
   registrationPeriodInHours,
   executionType,
 } from './constants';
+import { checkEqualityOfDataObjects } from '../../utils';
 import './DistributionRuleSettings.scss';
 
 class DistributionRuleSettings extends PureComponent {
   static propTypes = {
     handleGeneralSettings: PropTypes.func.isRequired,
-    generalSettings: PropTypes.object.isRequired,
+    generalSettings: PropTypes.shape({
+      countries: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string,
+      ]),
+      salesStatuses: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string,
+      ]),
+      targetSalesStatus: PropTypes.string,
+      registrationPeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      executionType: PropTypes.string,
+      executionPeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+    }).isRequired,
   }
 
   /**
@@ -53,8 +73,10 @@ class DistributionRuleSettings extends PureComponent {
             })(values);
 
             const { normalizeObject } = DistributionRuleSettings;
-            const valuesAreEqual = JSON.stringify(normalizeObject(generalSettings))
-              === JSON.stringify(normalizeObject(values));
+            const valuesAreEqual = checkEqualityOfDataObjects(
+              normalizeObject(generalSettings),
+              normalizeObject(values),
+            );
 
             if (!valuesAreEqual) {
               handleGeneralSettings(Object.keys(errors).length === 0, values);

@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import EditButton from './components/EditButton';
-import RemoveButton from './components/RemoveButton';
+import { brandsConfig } from 'constants/brands';
+import { EditButton, RemoveButton } from 'components/UI';
 import './MigrationBrandCard.scss';
 
 class MigrationBrandCard extends PureComponent {
@@ -46,7 +46,7 @@ class MigrationBrandCard extends PureComponent {
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brand}</div>
+          <div className="MigrationBrandCard__dt">{brandsConfig[brand]?.name || brand}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOOSEN')}
@@ -78,7 +78,7 @@ class MigrationBrandCard extends PureComponent {
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brand}</div>
+          <div className="MigrationBrandCard__dt">{brandsConfig[brand]?.name || brand}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_TO_MIGRATION')}

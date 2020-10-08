@@ -19,7 +19,7 @@ class AddSourceBrandModal extends PureComponent {
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
       distributionUnit: PropTypes.shape({
-        quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        quantity: PropTypes.number,
         baseUnit: PropTypes.string,
       }),
       sortType: PropTypes.string,

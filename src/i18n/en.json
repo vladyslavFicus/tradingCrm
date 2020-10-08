@@ -3111,6 +3111,12 @@
       "BASE_UNITS": {
         "AMOUNT": "clients",
         "PERCENTAGE": "%"
+      },
+      "UPDATE": {
+        "ERROR_TITLE": "Failure",
+        "ERROR_MESSAGE": "The distribution rule was not updated",
+        "SUCCESS_TITLE": "Success",
+        "SUCCESS_MESSAGE": "The distribution rule was successfully updated"
       }
     }
   },

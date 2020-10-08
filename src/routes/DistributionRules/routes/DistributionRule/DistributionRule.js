@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
@@ -12,12 +14,16 @@ import {
   DistributionRuleUpdate,
   OperatorsQuery,
 } from './graphql';
+import {
+  checkEqualityOfDataObjects,
+  deepCopyOfDataObject,
+} from './utils';
 import './DistributionRule.scss';
 
 class DistributionRule extends PureComponent {
   static propTypes = {
     ruleQuery: PropTypes.query({
-      distributionRule: PropTypes.object,
+      distributionRule: PropTypes.ruleClientsDistributionType,
     }).isRequired,
     updateRule: PropTypes.func.isRequired,
     operatorsQuery: PropTypes.query({
@@ -26,6 +32,7 @@ class DistributionRule extends PureComponent {
         fullName: PropTypes.string,
       })),
     }).isRequired,
+    notify: PropTypes.func.isRequired,
   }
 
   static getDerivedStateFromProps({ ruleQuery: { data, loading } }, state) {
@@ -59,20 +66,23 @@ class DistributionRule extends PureComponent {
         targetBrandConfig,
       };
 
-      return JSON.parse(JSON.stringify(DistributionRule.initialState));
+      return deepCopyOfDataObject(DistributionRule.initialState);
     }
 
     const { initialState } = DistributionRule;
 
-    const settingsWasChanged = JSON.stringify({
-      generalSettings: state.generalSettings,
-      sourceBrandConfig: state.sourceBrandConfig,
-      targetBrandConfig: state.targetBrandConfig,
-    }) !== JSON.stringify({
-      generalSettings: initialState.generalSettings,
-      sourceBrandConfig: initialState.sourceBrandConfig,
-      targetBrandConfig: initialState.targetBrandConfig,
-    });
+    const settingsWasChanged = !checkEqualityOfDataObjects(
+      {
+        generalSettings: state.generalSettings,
+        sourceBrandConfig: state.sourceBrandConfig,
+        targetBrandConfig: state.targetBrandConfig,
+      },
+      {
+        generalSettings: initialState.generalSettings,
+        sourceBrandConfig: initialState.sourceBrandConfig,
+        targetBrandConfig: initialState.targetBrandConfig,
+      },
+    );
 
     return {
       settingsWasChanged,
@@ -94,7 +104,7 @@ class DistributionRule extends PureComponent {
   };
 
   resetToInitialState = () => {
-    this.setState(JSON.parse(JSON.stringify(DistributionRule.initialState)));
+    this.setState(deepCopyOfDataObject(DistributionRule.initialState));
   }
 
   handleUpdateRule = async () => {
@@ -103,6 +113,7 @@ class DistributionRule extends PureComponent {
         data: ruleData,
       },
       updateRule,
+      notify,
     } = this.props;
 
     const {
@@ -128,12 +139,22 @@ class DistributionRule extends PureComponent {
         },
       });
 
-      DistributionRule.initialState = JSON.parse(JSON.stringify({
+      DistributionRule.initialState = deepCopyOfDataObject({
         ...this.state,
         isSubmitting: false,
-      }));
+      });
+
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
+        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
+      });
     } catch {
-      // ...
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_TITLE'),
+        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_MESSAGE'),
+      });
     } finally {
       this.setState({ isSubmitting: false });
     }
@@ -282,8 +303,11 @@ class DistributionRule extends PureComponent {
   }
 }
 
-export default withRequests({
-  ruleQuery: DistributionRuleQuery,
-  updateRule: DistributionRuleUpdate,
-  operatorsQuery: OperatorsQuery,
-})(DistributionRule);
+export default compose(
+  withNotifications,
+  withRequests({
+    ruleQuery: DistributionRuleQuery,
+    updateRule: DistributionRuleUpdate,
+    operatorsQuery: OperatorsQuery,
+  }),
+)(DistributionRule);

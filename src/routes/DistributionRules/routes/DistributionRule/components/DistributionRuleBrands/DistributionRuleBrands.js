@@ -11,11 +11,11 @@ import './DistributionRuleBrands.scss';
 class DistributionRuleBrands extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
-      addSourceBrandModal: PropTypes.object,
-      addTargetBrandModal: PropTypes.object,
+      addSourceBrandModal: PropTypes.modalType,
+      addTargetBrandModal: PropTypes.modalType,
     }).isRequired,
-    sourceBrandConfig: PropTypes.object,
-    targetBrandConfig: PropTypes.object,
+    sourceBrandConfig: PropTypes.ruleSourceBrandConfigsType,
+    targetBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     handleSourceBrandConfig: PropTypes.func.isRequired,
     handleTargetBrandConfig: PropTypes.func.isRequired,
     addSourceBrandEnabled: PropTypes.bool.isRequired,
