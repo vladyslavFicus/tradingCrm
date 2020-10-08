@@ -57,14 +57,6 @@ export default compose(
       const sorts = location?.state?.sorts || [];
       const searchLimit = filters?.searchLimit || 0;
 
-      if (filters.firstTimeDeposit) {
-        filters.firstTimeDeposit = Boolean(+filters.firstTimeDeposit);
-      }
-
-      if (filters.isReferrered) {
-        filters.isReferrered = Boolean(+filters.isReferrered);
-      }
-
       const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * PROFILES_SIZE);
 
       const size = restLimitSize && (restLimitSize < PROFILES_SIZE)
