@@ -26,8 +26,9 @@ import {
 
 class DistributionRules extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleClientsDistributionType)).isRequired,
-    migration: PropTypes.func.isRequired,
+    migrateRules: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
@@ -61,14 +62,14 @@ class DistributionRules extends PureComponent {
 
   handleStartMigration = async (uuid) => {
     const {
-      migration,
+      migrateRules,
       notify,
       rules: { refetch },
       modals: { confirmActionModal },
     } = this.props;
 
     try {
-      await migration({ variables: { uuid } });
+      await migrateRules({ variables: { uuid } });
       await refetch();
 
       confirmActionModal.hide();
@@ -189,10 +190,10 @@ class DistributionRules extends PureComponent {
     <Choose>
       <When condition={sourceBrandConfigs}>
         {sourceBrandConfigs.map(({ brand, distributionUnit }) => (
-          <>
+          <div key={brand}>
             <div className="font-weight-700">{brand}</div>
             <div className="font-size-11">{`${distributionUnit.quantity} ${I18n.t('COMMON.CLIENTS')}`}</div>
-          </>
+          </div>
         ))}
       </When>
       <Otherwise>
@@ -205,10 +206,10 @@ class DistributionRules extends PureComponent {
     <Choose>
       <When condition={targetBrandConfigs}>
         {targetBrandConfigs.map(({ brand, distributionUnit }) => (
-          <>
+          <div key={brand}>
             <div className="font-weight-700">{brand}</div>
             <div className="font-size-11">{`${distributionUnit.quantity} ${I18n.t('COMMON.CLIENTS')}`}</div>
-          </>
+          </div>
         ))}
       </When>
       <Otherwise>
@@ -222,6 +223,7 @@ class DistributionRules extends PureComponent {
       <When condition={countries}>
         {countries.map(country => (
           <CountryLabelWithFlag
+            key={country}
             code={country}
             height="14"
           />
@@ -237,7 +239,12 @@ class DistributionRules extends PureComponent {
     <Choose>
       <When condition={statuses}>
         {statuses.map(status => (
-          <div className="font-weight-600">{I18n.t(salesStatuses[status])}</div>
+          <div
+            key={status}
+            className="font-weight-600"
+          >
+            {I18n.t(salesStatuses[status])}
+          </div>
         ))}
       </When>
       <Otherwise>
@@ -288,6 +295,10 @@ class DistributionRules extends PureComponent {
     </>
   );
 
+  handleRowClick = ({ uuid }) => {
+    this.props.history.push(`/distribution/${uuid}/rule`);
+  };
+
   render() {
     const {
       rules: {
@@ -296,7 +307,7 @@ class DistributionRules extends PureComponent {
       },
     } = this.props;
 
-    const entities = get(data, 'distributionRules') || { content: [] };
+    const { last, totalElements, content } = data?.distributionRules || { content: [] };
 
     return (
       <div className="card">
@@ -305,18 +316,15 @@ class DistributionRules extends PureComponent {
             ready={!loading}
             className={null}
             customPlaceholder={(
-              <div>
-                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-              </div>
+              <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
             )}
           >
             <span className="font-size-20">
-              {entities.totalElements} {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
+              {totalElements} {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
             </span>
           </Placeholder>
           <div className="ml-auto">
             <Button
-              type="submit"
               small
               commonOutline
               onClick={() => console.log('--Handle add rule--')}
@@ -329,12 +337,14 @@ class DistributionRules extends PureComponent {
 
         <div className="card-body">
           <Grid
-            data={entities.content}
+            data={content}
             isLoading={loading}
-            isLastPage={entities.last}
+            isLastPage={last}
             withLazyLoad
+            withRowsHover
+            handleRowClick={this.handleRowClick}
             handlePageChanged={this.handlePageChanged}
-            withNoResults={!loading && entities.content.length === 0}
+            withNoResults={!loading && content.length === 0}
           >
             <GridColumn
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE')}
@@ -400,6 +410,6 @@ export default compose(
   withNotifications,
   withRequests({
     rules: DistributionRulesQuery,
-    migration: DistributionRuleMigrationMutation,
+    migrateRules: DistributionRuleMigrationMutation,
   }),
 )(DistributionRules);
