@@ -1,7 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import moment from 'moment';
+import renderLabel from 'utils/renderLabel';
+import {
+  clientDistributionStatuses,
+  statusesLabels,
+} from 'constants/clientsDistribution';
 import './DistributionRuleInfo.scss';
 
 class DistributionRuleInfo extends PureComponent {
@@ -13,7 +19,7 @@ class DistributionRuleInfo extends PureComponent {
     latestMigration: PropTypes.shape({
       startDate: PropTypes.string,
     }),
-  }
+  };
 
   static defaultProps = {
     status: '',
@@ -21,7 +27,7 @@ class DistributionRuleInfo extends PureComponent {
     updatedAt: '',
     statusChangedAt: '',
     latestMigration: {},
-  }
+  };
 
   render() {
     const {
@@ -38,8 +44,18 @@ class DistributionRuleInfo extends PureComponent {
       <div className="DistributionRuleInfo">
         <If condition={status}>
           <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">{I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS')}</div>
-            <div className="DistributionRuleInfo__item-value">{status}</div>
+            <div className="DistributionRuleInfo__item-label">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS')}
+            </div>
+            <div
+              className={classNames(
+                'DistributionRuleInfo__item-value',
+                'text-uppercase',
+                clientDistributionStatuses[status].color,
+              )}
+            >
+              {renderLabel(status, statusesLabels)}
+            </div>
             <If condition={statusChangedAt}>
               <div className="DistributionRuleInfo__item-small-text">
                 {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS_SINCE')}&nbsp;
@@ -50,7 +66,9 @@ class DistributionRuleInfo extends PureComponent {
         </If>
         <If condition={createdAt}>
           <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">{I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.CREATED')}</div>
+            <div className="DistributionRuleInfo__item-label">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.CREATED')}
+            </div>
             <div className="DistributionRuleInfo__item-value">
               {moment.utc(createdAt).local().format('DD.MM.YYYY')}
             </div>
@@ -61,7 +79,9 @@ class DistributionRuleInfo extends PureComponent {
         </If>
         <If condition={updatedAt}>
           <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">{I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.UPDATED')}</div>
+            <div className="DistributionRuleInfo__item-label">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.UPDATED')}
+            </div>
             <div className="DistributionRuleInfo__item-value">
               {moment.utc(updatedAt).local().format('DD.MM.YYYY')}
             </div>

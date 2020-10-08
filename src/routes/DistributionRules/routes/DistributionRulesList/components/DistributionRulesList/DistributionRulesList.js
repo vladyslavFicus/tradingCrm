@@ -10,6 +10,7 @@ import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
+import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
@@ -17,7 +18,6 @@ import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
-import { clientDistributionStatuses } from '../constants';
 import {
   DistributionRulesQuery,
   DistributionRuleMigrationMutation,
@@ -174,7 +174,7 @@ class DistributionRules extends PureComponent {
   renderStatus = ({ status, statusChangedAt }) => (
     <>
       <div className={classNames('text-uppercase font-weight-700', clientDistributionStatuses[status].color)}>
-        {I18n.t(clientDistributionStatuses[status].label)}
+        {clientDistributionStatuses[status].label}
       </div>
 
       <If condition={statusChangedAt}>

@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from 'i18n-js';
 
 const statuses = keyMirror({
   ACTIVE: null,
@@ -7,18 +8,18 @@ const statuses = keyMirror({
 
 const clientDistributionStatuses = {
   [statuses.ACTIVE]: {
-    label: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
+    label: I18n.t('CLIENTS_DISTRIBUTION.STATUSES.ACTIVE'),
     color: 'color-success',
   },
   [statuses.INACTIVE]: {
-    label: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
+    label: I18n.t('CLIENTS_DISTRIBUTION.STATUSES.INACTIVE'),
     color: 'color-default',
   },
 };
 
 const statusesLabels = {
-  [statuses.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
-  [statuses.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
+  [statuses.ACTIVE]: I18n.t('CLIENTS_DISTRIBUTION.STATUSES.ACTIVE'),
+  [statuses.INACTIVE]: I18n.t('CLIENTS_DISTRIBUTION.STATUSES.INACTIVE'),
 };
 
 export {
