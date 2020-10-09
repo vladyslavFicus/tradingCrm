@@ -18,6 +18,7 @@ class Input extends PureComponent {
     label: PropTypes.string,
     icon: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    unit: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
   };
@@ -30,6 +31,7 @@ class Input extends PureComponent {
     value: '',
     icon: null,
     addition: null,
+    unit: '',
     onChange: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
@@ -46,6 +48,7 @@ class Input extends PureComponent {
       label,
       icon,
       addition,
+      unit,
       onAdditionClick,
       showErrorMessage,
       ...input
@@ -69,10 +72,10 @@ class Input extends PureComponent {
           'input--has-addition': addition,
         })}
       >
+        <If condition={label}>
+          <label className="input__label">{label}</label>
+        </If>
         <div className="input__body">
-          <If condition={label}>
-            <label className="input__label">{label}</label>
-          </If>
           <input {...inputProps} />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
@@ -84,6 +87,9 @@ class Input extends PureComponent {
             >
               {addition}
             </div>
+          </If>
+          <If condition={unit}>
+            <div className="input__unit">{unit}</div>
           </If>
         </div>
         <If condition={error && showErrorMessage}>

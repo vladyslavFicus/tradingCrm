@@ -52,10 +52,7 @@ class DistributionRuleSettings extends PureComponent {
   render() {
     const {
       handleGeneralSettings,
-      generalSettings: {
-        executionType,
-        ...generalSettings
-      },
+      generalSettings,
     } = this.props;
 
     return (
@@ -64,7 +61,6 @@ class DistributionRuleSettings extends PureComponent {
         <Formik
           initialValues={{
             ...generalSettings,
-            executionType: executionType || 'MANUAL',
           }}
           validate={(values) => {
             const errors = createValidator({

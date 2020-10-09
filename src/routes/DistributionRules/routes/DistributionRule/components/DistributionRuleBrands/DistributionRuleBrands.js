@@ -14,6 +14,7 @@ class DistributionRuleBrands extends PureComponent {
       addSourceBrandModal: PropTypes.modalType,
       addTargetBrandModal: PropTypes.modalType,
     }).isRequired,
+    allowedBaseUnit: PropTypes.string.isRequired,
     sourceBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     targetBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     handleSourceBrandConfig: PropTypes.func.isRequired,
@@ -38,10 +39,12 @@ class DistributionRuleBrands extends PureComponent {
     const {
       modals: { addSourceBrandModal },
       handleSourceBrandConfig,
+      allowedBaseUnit,
       sourceBrandConfig,
     } = this.props;
 
     addSourceBrandModal.show({
+      allowedBaseUnit,
       ...sourceBrandConfig && {
         initialValues: sourceBrandConfig,
       },
@@ -56,6 +59,7 @@ class DistributionRuleBrands extends PureComponent {
     const {
       modals: { addTargetBrandModal },
       handleTargetBrandConfig,
+      allowedBaseUnit,
       targetBrandConfig,
       operatorsQuery: {
         data: operatorsData,
@@ -68,6 +72,7 @@ class DistributionRuleBrands extends PureComponent {
     addTargetBrandModal.show({
       operators,
       operatorsLoading,
+      allowedBaseUnit,
       ...targetBrandConfig && {
         initialValues: targetBrandConfig,
       },

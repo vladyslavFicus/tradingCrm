@@ -51,15 +51,17 @@ class DistributionRule extends PureComponent {
       const sourceBrandConfig = sourceBrandConfigs && sourceBrandConfigs[0];
       const targetBrandConfig = sourceBrandConfigs && targetBrandConfigs[0];
 
+      const { initialState } = DistributionRule;
+
       DistributionRule.initSettingsAreSet = true;
       DistributionRule.initialState = {
-        ...DistributionRule.initialState,
+        ...initialState,
         generalSettings: {
           countries,
           salesStatuses,
           targetSalesStatus,
           registrationPeriodInHours,
-          executionType,
+          executionType: executionType || initialState.generalSettings.executionType,
           executionPeriodInHours,
         },
         sourceBrandConfig,
@@ -90,7 +92,7 @@ class DistributionRule extends PureComponent {
   }
 
   static initialState = {
-    generalSettings: {},
+    generalSettings: { executionType: 'MANUAL' },
     sourceBrandConfig: null,
     targetBrandConfig: null,
     addSourceBrandEnabled: false,
@@ -221,6 +223,9 @@ class DistributionRule extends PureComponent {
 
     const {
       generalSettings,
+      generalSettings: {
+        executionType,
+      },
       sourceBrandConfig,
       targetBrandConfig,
       addSourceBrandEnabled,
@@ -247,6 +252,8 @@ class DistributionRule extends PureComponent {
       latestMigration,
     };
 
+    const allowedBaseUnit = executionType === 'MANUAL' ? 'AMOUNT' : 'PERCENTAGE';
+
     const resetDisabled = ruleLoading
       || isSubmitting
       || !settingsWasChanged;
@@ -270,6 +277,7 @@ class DistributionRule extends PureComponent {
             handleGeneralSettings={this.handleGeneralSettings}
           />
           <DistributionRuleBrands
+            allowedBaseUnit={allowedBaseUnit}
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}
             handleSourceBrandConfig={this.handleSourceBrandConfig}

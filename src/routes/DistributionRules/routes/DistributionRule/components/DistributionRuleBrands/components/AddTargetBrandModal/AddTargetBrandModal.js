@@ -3,13 +3,11 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
 import { brandsConfig } from 'constants/brands';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { baseUnits } from '../../constants';
-import './AddTargetBrandModal.scss';
 
 class AddTargetBrandModal extends PureComponent {
   static propTypes = {
@@ -21,6 +19,7 @@ class AddTargetBrandModal extends PureComponent {
       fullName: PropTypes.string,
     })).isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
+    allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
       distributionUnit: PropTypes.shape({
@@ -42,6 +41,7 @@ class AddTargetBrandModal extends PureComponent {
       handleSubmit,
       operators,
       operatorsLoading,
+      allowedBaseUnit,
       initialValues: {
         brand,
         distributionUnit,
@@ -49,7 +49,7 @@ class AddTargetBrandModal extends PureComponent {
       },
     } = this.props;
 
-    const { quantity, baseUnit } = distributionUnit || { baseUnit: 'AMOUNT' };
+    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
 
     return (
       <Modal
@@ -86,26 +86,14 @@ class AddTargetBrandModal extends PureComponent {
                     <option key={value} value={value}>{brandsConfig[value].name}</option>
                   ))}
                 </Field>
-                <div className="AddTargetBrandModal__row--amount">
-                  <Field
-                    name="quantity"
-                    type="number"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
-                    step="1"
-                    component={FormikInputField}
-                    className="AddTargetBrandModal__field--amount"
-                  />
-                  <Field
-                    name="baseUnit"
-                    label="&nbsp;"
-                    component={FormikSelectField}
-                    className="AddTargetBrandModal__field--unit"
-                  >
-                    {Object.keys(baseUnits).map(value => (
-                      <option key={value} value={value}>{renderLabel(value, baseUnits)}</option>
-                    ))}
-                  </Field>
-                </div>
+                <Field
+                  name="quantity"
+                  type="number"
+                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
+                  step="1"
+                  unit={baseUnits[baseUnit]}
+                  component={FormikInputField}
+                />
                 <Field
                   name="operator"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}

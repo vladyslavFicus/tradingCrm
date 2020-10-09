@@ -9,13 +9,13 @@ import { brandsConfig } from 'constants/brands';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { baseUnits, sortTypes } from '../../constants';
-import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
       distributionUnit: PropTypes.shape({
@@ -35,6 +35,7 @@ class AddSourceBrandModal extends PureComponent {
       onCloseModal,
       isOpen,
       handleSubmit,
+      allowedBaseUnit,
       initialValues: {
         brand,
         distributionUnit,
@@ -42,7 +43,7 @@ class AddSourceBrandModal extends PureComponent {
       },
     } = this.props;
 
-    const { quantity, baseUnit } = distributionUnit || { baseUnit: 'AMOUNT' };
+    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
 
     return (
       <Modal
@@ -55,7 +56,7 @@ class AddSourceBrandModal extends PureComponent {
             brand,
             quantity,
             baseUnit,
-            sortType,
+            sortType: sortType || 'FIFO',
           }}
           validate={createValidator({
             brand: 'required',
@@ -79,26 +80,14 @@ class AddSourceBrandModal extends PureComponent {
                     <option key={value} value={value}>{brandsConfig[value].name}</option>
                   ))}
                 </Field>
-                <div className="AddSourceBrandModal__row--amount">
-                  <Field
-                    name="quantity"
-                    type="number"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
-                    step="1"
-                    component={FormikInputField}
-                    className="AddSourceBrandModal__field--amount"
-                  />
-                  <Field
-                    name="baseUnit"
-                    label="&nbsp;"
-                    component={FormikSelectField}
-                    className="AddSourceBrandModal__field--unit"
-                  >
-                    {Object.keys(baseUnits).map(value => (
-                      <option key={value} value={value}>{renderLabel(value, baseUnits)}</option>
-                    ))}
-                  </Field>
-                </div>
+                <Field
+                  name="quantity"
+                  type="number"
+                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
+                  step="1"
+                  unit={baseUnits[baseUnit]}
+                  component={FormikInputField}
+                />
                 <Field
                   name="sortType"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SORT_METHOD')}
