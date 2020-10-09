@@ -85,7 +85,7 @@ class ClientsDistributionModal extends PureComponent {
     }
   }
 
-  async handleUpdate(ruleName, ruleOrder) {
+  async handleUpdate(ruleName, ruleOrder, setErrors) {
     const {
       notify,
       updateRule,
@@ -134,7 +134,7 @@ class ClientsDistributionModal extends PureComponent {
     }
 
     if (action === actionTypes.UPDATE) {
-      await this.handleUpdate(ruleName, ruleOrder);
+      await this.handleUpdate(ruleName, ruleOrder, setErrors);
     }
   }
 
