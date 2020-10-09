@@ -8,6 +8,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { baseUnits } from '../../constants';
+import './AddTargetBrandModal.scss';
 
 class AddTargetBrandModal extends PureComponent {
   static propTypes = {
@@ -19,6 +20,7 @@ class AddTargetBrandModal extends PureComponent {
       fullName: PropTypes.string,
     })).isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
+    sourceBrand: PropTypes.string.isRequired,
     allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
@@ -28,11 +30,41 @@ class AddTargetBrandModal extends PureComponent {
       }),
       operator: PropTypes.string,
     }),
+    fetchAvailableClientsAmount: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     initialValues: {},
   }
+
+  state = {
+    availableClientsAmount: null,
+  }
+
+  async componentDidMount() {
+    const {
+      sourceBrand,
+      initialValues: { brand: targetBrand },
+      fetchAvailableClientsAmount,
+    } = this.props;
+
+    if (targetBrand) {
+      const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
+      this.setState({ availableClientsAmount });
+    }
+  }
+
+  handleBrandChange = setFieldValue => async (targetBrand) => {
+    const {
+      sourceBrand,
+      fetchAvailableClientsAmount,
+    } = this.props;
+
+    setFieldValue('brand', targetBrand);
+
+    const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
+    this.setState({ availableClientsAmount });
+  };
 
   render() {
     const {
@@ -48,6 +80,8 @@ class AddTargetBrandModal extends PureComponent {
         operator,
       },
     } = this.props;
+
+    const { availableClientsAmount } = this.state;
 
     const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
 
@@ -72,7 +106,7 @@ class AddTargetBrandModal extends PureComponent {
           validateOnChange={false}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ setFieldValue }) => (
             <Form>
               <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}</ModalHeader>
               <ModalBody>
@@ -80,12 +114,20 @@ class AddTargetBrandModal extends PureComponent {
                   name="brand"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND')}
                   component={FormikSelectField}
+                  customOnChange={this.handleBrandChange(setFieldValue)}
                   searchable
                 >
                   {Object.keys(brandsConfig).map(value => (
                     <option key={value} value={value}>{brandsConfig[value].name}</option>
                   ))}
                 </Field>
+                <If condition={typeof availableClientsAmount === 'number'}>
+                  <div className="AddTargetBrandModal__message">
+                    {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
+                      value: availableClientsAmount,
+                    })}
+                  </div>
+                </If>
                 <Field
                   name="quantity"
                   type="number"
@@ -106,7 +148,7 @@ class AddTargetBrandModal extends PureComponent {
                   ))}
                 </Field>
               </ModalBody>
-              <ModalFooter className="AddTargetBrandModal__actions">
+              <ModalFooter>
                 <Button
                   commonOutline
                   onClick={onCloseModal}

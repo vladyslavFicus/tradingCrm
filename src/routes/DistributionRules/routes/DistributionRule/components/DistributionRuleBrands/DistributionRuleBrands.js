@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { withApollo, compose } from 'react-apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import MigrationButton from './components/MigrationButton';
 import MigrationBrandCard from './components/MigrationBrandCard';
 import AddSourceBrandModal from './components/AddSourceBrandModal';
 import AddTargetBrandModal from './components/AddTargetBrandModal';
+import { distributionRuleClientsAmountQuery } from '../../graphql';
 import './DistributionRuleBrands.scss';
 
 class DistributionRuleBrands extends PureComponent {
@@ -15,6 +17,26 @@ class DistributionRuleBrands extends PureComponent {
       addTargetBrandModal: PropTypes.modalType,
     }).isRequired,
     allowedBaseUnit: PropTypes.string.isRequired,
+    generalSettings: PropTypes.shape({
+      countries: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string,
+      ]),
+      salesStatuses: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string,
+      ]),
+      targetSalesStatus: PropTypes.string,
+      registrationPeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      executionType: PropTypes.string,
+      executionPeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+    }).isRequired,
     sourceBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     targetBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     handleSourceBrandConfig: PropTypes.func.isRequired,
@@ -27,6 +49,9 @@ class DistributionRuleBrands extends PureComponent {
         uuid: PropTypes.string,
         fullName: PropTypes.string,
       })),
+    }).isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
     }).isRequired,
   }
 
@@ -48,6 +73,7 @@ class DistributionRuleBrands extends PureComponent {
       ...sourceBrandConfig && {
         initialValues: sourceBrandConfig,
       },
+      fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
       handleSubmit: (values) => {
         handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
@@ -60,6 +86,7 @@ class DistributionRuleBrands extends PureComponent {
       modals: { addTargetBrandModal },
       handleTargetBrandConfig,
       allowedBaseUnit,
+      sourceBrandConfig: { brand: sourceBrand },
       targetBrandConfig,
       operatorsQuery: {
         data: operatorsData,
@@ -72,15 +99,49 @@ class DistributionRuleBrands extends PureComponent {
     addTargetBrandModal.show({
       operators,
       operatorsLoading,
+      sourceBrand,
       allowedBaseUnit,
       ...targetBrandConfig && {
         initialValues: targetBrandConfig,
       },
+      fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);
         addTargetBrandModal.hide();
       },
     });
+  };
+
+  fetchAvailableClientsAmount = async (sourceBrand, targetBrand) => {
+    const {
+      client,
+      generalSettings: {
+        salesStatuses,
+        countries,
+        registrationPeriodInHours,
+        executionPeriodInHours,
+      },
+    } = this.props;
+
+    try {
+      const { data: { distributionRuleClientsAmount } } = await client.query({
+        query: distributionRuleClientsAmountQuery,
+        variables: {
+          sourceBrand,
+          targetBrand,
+          salesStatuses,
+          countries,
+          registrationPeriodInHours,
+          executionPeriodInHours,
+        },
+      });
+
+      return distributionRuleClientsAmount;
+    } catch {
+      // ...
+    }
+
+    return null;
   };
 
   render() {
@@ -158,7 +219,10 @@ class DistributionRuleBrands extends PureComponent {
   }
 }
 
-export default withModals({
-  addSourceBrandModal: AddSourceBrandModal,
-  addTargetBrandModal: AddTargetBrandModal,
-})(DistributionRuleBrands);
+export default compose(
+  withApollo,
+  withModals({
+    addSourceBrandModal: AddSourceBrandModal,
+    addTargetBrandModal: AddTargetBrandModal,
+  }),
+)(DistributionRuleBrands);

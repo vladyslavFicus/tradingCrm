@@ -9,6 +9,7 @@ import { brandsConfig } from 'constants/brands';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { baseUnits, sortTypes } from '../../constants';
+import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
   static propTypes = {
@@ -24,11 +25,39 @@ class AddSourceBrandModal extends PureComponent {
       }),
       sortType: PropTypes.string,
     }),
+    fetchAvailableClientsAmount: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     initialValues: {},
   }
+
+  state = {
+    availableClientsAmount: null,
+  }
+
+  async componentDidMount() {
+    const {
+      initialValues: { brand },
+      fetchAvailableClientsAmount,
+    } = this.props;
+
+    if (brand) {
+      const availableClientsAmount = await fetchAvailableClientsAmount(brand);
+      this.setState({ availableClientsAmount });
+    }
+  }
+
+  handleBrandChange = setFieldValue => async (brand) => {
+    const {
+      fetchAvailableClientsAmount,
+    } = this.props;
+
+    setFieldValue('brand', brand);
+
+    const availableClientsAmount = await fetchAvailableClientsAmount(brand);
+    this.setState({ availableClientsAmount });
+  };
 
   render() {
     const {
@@ -42,6 +71,8 @@ class AddSourceBrandModal extends PureComponent {
         sortType,
       },
     } = this.props;
+
+    const { availableClientsAmount } = this.state;
 
     const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
 
@@ -66,7 +97,7 @@ class AddSourceBrandModal extends PureComponent {
           validateOnChange={false}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ setFieldValue }) => (
             <Form>
               <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}</ModalHeader>
               <ModalBody>
@@ -74,12 +105,20 @@ class AddSourceBrandModal extends PureComponent {
                   name="brand"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SOURCE_BRAND')}
                   component={FormikSelectField}
+                  customOnChange={this.handleBrandChange(setFieldValue)}
                   searchable
                 >
                   {Object.keys(brandsConfig).map(value => (
                     <option key={value} value={value}>{brandsConfig[value].name}</option>
                   ))}
                 </Field>
+                <If condition={typeof availableClientsAmount === 'number'}>
+                  <div className="AddSourceBrandModal__message">
+                    {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
+                      value: availableClientsAmount,
+                    })}
+                  </div>
+                </If>
                 <Field
                   name="quantity"
                   type="number"
@@ -98,7 +137,7 @@ class AddSourceBrandModal extends PureComponent {
                   ))}
                 </Field>
               </ModalBody>
-              <ModalFooter className="AddSourceBrandModal__actions">
+              <ModalFooter>
                 <Button
                   commonOutline
                   onClick={onCloseModal}

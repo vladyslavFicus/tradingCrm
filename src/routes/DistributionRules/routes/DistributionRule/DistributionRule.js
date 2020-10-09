@@ -203,6 +203,7 @@ class DistributionRule extends PureComponent {
     key === 'source'
       ? this.setState({
         sourceBrandConfig: null,
+        targetBrandConfig: null,
         addSourceBrandEnabled: true,
         addTargetBrandEnabled: false,
       })
@@ -278,6 +279,7 @@ class DistributionRule extends PureComponent {
           />
           <DistributionRuleBrands
             allowedBaseUnit={allowedBaseUnit}
+            generalSettings={generalSettings}
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}
             handleSourceBrandConfig={this.handleSourceBrandConfig}

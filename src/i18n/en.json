@@ -3101,7 +3101,8 @@
         "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
-        "SORT_METHOD": "Sort method"
+        "SORT_METHOD": "Sort method",
+        "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
