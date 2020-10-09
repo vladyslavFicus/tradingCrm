@@ -71,10 +71,10 @@ class ClientsDistributionModal extends PureComponent {
       onSuccess(onCloseModal);
     } catch (e) {
       const error = get(e, 'graphQLErrors.0.extensions.response.body');
-      console.log('ERRORRR', error);
 
       setErrors({
-        submit: error === 'filter.set.not.unique' && I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_EXIST'),
+        submit: error.error === 'error.entity.already.exist'
+          && I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_EXIST', { ruleName: error?.errorParameters?.ruleName }),
       });
 
       notify({
@@ -111,6 +111,13 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.UPDATE_RULE_SUCCESS', { ruleName }),
       });
     } catch (e) {
+      const error = get(e, 'graphQLErrors.0.extensions.response.body');
+
+      setErrors({
+        submit: error.error === 'error.entity.already.exist'
+        && I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_EXIST', { ruleName: error?.errorParameters?.ruleName }),
+      });
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),

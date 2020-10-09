@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { compose } from 'react-apollo';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
@@ -20,7 +19,7 @@ const validate = createValidator({
   country: `in:,${Object.keys(countryList).join()}`,
 }, filterLabels, false);
 
-class DistributionRulesFilters extends Component {
+class DistributionRulesFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
   }
@@ -179,4 +178,4 @@ class DistributionRulesFilters extends Component {
   }
 }
 
-export default compose(withRouter)(DistributionRulesFilters);
+export default withRouter(DistributionRulesFilters);
