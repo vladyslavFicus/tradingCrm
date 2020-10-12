@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation updateClientsDistributionRule(
+const REQUEST = gql`mutation ClientsDistributionModal_UpdateRuleMutation(
   $ruleName: String
   $ruleOrder: Int
   $uuid: String!

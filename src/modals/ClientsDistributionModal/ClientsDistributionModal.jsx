@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
-import { get } from 'lodash';
-import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
@@ -46,12 +45,11 @@ class ClientsDistributionModal extends PureComponent {
     formError: '',
   };
 
-  async handleCreate(ruleName, ruleOrder, setErrors) {
+  async handleCreate(ruleName, ruleOrder, setErrors, setSubmitting) {
     const {
       notify,
       createRule,
       onSuccess,
-      onCloseModal,
     } = this.props;
 
     try {
@@ -68,9 +66,9 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_SUCCESS', { ruleName }),
       });
 
-      onSuccess(onCloseModal);
+      onSuccess();
     } catch (e) {
-      const error = get(e, 'graphQLErrors.0.extensions.response.body');
+      const error = parseErrors(e);
 
       setErrors({
         submit: error.error === 'error.entity.already.exist'
@@ -83,14 +81,15 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_FAILED'),
       });
     }
+
+    setSubmitting(false);
   }
 
-  async handleUpdate(ruleName, ruleOrder, setErrors) {
+  async handleUpdate(ruleName, ruleOrder, setErrors, setSubmitting) {
     const {
       notify,
       updateRule,
       onSuccess,
-      onCloseModal,
       uuid,
     } = this.props;
 
@@ -103,7 +102,7 @@ class ClientsDistributionModal extends PureComponent {
         },
       });
 
-      onSuccess(onCloseModal);
+      onSuccess();
 
       notify({
         level: 'success',
@@ -111,7 +110,7 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.UPDATE_RULE_SUCCESS', { ruleName }),
       });
     } catch (e) {
-      const error = get(e, 'graphQLErrors.0.extensions.response.body');
+      const error = parseErrors(e);
 
       setErrors({
         submit: error.error === 'error.entity.already.exist'
@@ -124,17 +123,19 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.UPDATE_RULE_FAILED'),
       });
     }
+
+    setSubmitting(false);
   }
 
-  handlePerformSubmitAction = async ({ ruleName, ruleOrder }, { setErrors }) => {
+  handlePerformSubmitAction = ({ ruleName, ruleOrder }, { setErrors, setSubmitting }) => {
     const { action } = this.props;
 
     if (action === actionTypes.CREATE) {
-      await this.handleCreate(ruleName, ruleOrder, setErrors);
+      this.handleCreate(ruleName, ruleOrder, setErrors, setSubmitting);
     }
 
     if (action === actionTypes.UPDATE) {
-      await this.handleUpdate(ruleName, ruleOrder, setErrors);
+      this.handleUpdate(ruleName, ruleOrder, setErrors, setSubmitting);
     }
   }
 

@@ -100,10 +100,10 @@ class DistributionRules extends PureComponent {
 
     clientsDistributionModal.show({
       action: 'CREATE',
-      onSuccess: async (closeModal) => {
+      onSuccess: async () => {
         await refetch();
 
-        closeModal();
+        clientsDistributionModal.hide();
       },
     });
   }
