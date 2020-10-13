@@ -165,20 +165,22 @@ class DistributionRules extends PureComponent {
     </Fragment>
   );
 
-  renderActions = ({ latestMigration, ...rest }) => (
-    <Button
-      transparent
-      onClick={() => this.handleStartMigrationClick(rest)}
-    >
-      <Choose>
-        <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
-          <i className="icon-pause btn-transparent" />
-        </When>
-        <Otherwise>
-          <i className="icon-play btn-transparent" />
-        </Otherwise>
-      </Choose>
-    </Button>
+  renderActions = ({ latestMigration, status, ...rest }) => (
+    <If condition={status !== 'INACTIVE'}>
+      <Button
+        transparent
+        onClick={() => this.handleStartMigrationClick(rest)}
+      >
+        <Choose>
+          <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
+            <i className="icon-pause btn-transparent" />
+          </When>
+          <Otherwise>
+            <i className="icon-play btn-transparent" />
+          </Otherwise>
+        </Choose>
+      </Button>
+    </If>
   );
 
   renderOrder = ({ order }) => (
