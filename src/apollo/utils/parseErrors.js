@@ -12,9 +12,13 @@ export default (error) => {
     [curr]: I18n.t(fieldsErrors[curr].error),
   }), {});
 
+  const errorCode = get(errorResponse, 'error', 'error.internal');
+  const errorParameters = get(errorResponse, 'errorParameters', {});
+
   return {
-    error: get(errorResponse, 'error', 'error.internal'),
-    message: I18n.t(get(errorResponse, 'error', 'error.internal'), { defaultValue: errorResponse?.message }),
+    error: errorCode,
+    message: I18n.t(errorCode, { defaultValue: errorResponse?.message }),
     fields: Object.keys(fields).length ? fields : null,
+    errorParameters,
   };
 };
