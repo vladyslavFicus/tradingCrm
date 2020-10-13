@@ -9,18 +9,18 @@ import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { Button } from 'components/UI';
 import { FormikInputField } from 'components/Formik/index';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import TradingAccountChangePasswordMutation from './graphql/TradingAccountChangePasswordMutation';
 
 const attributeLabels = {
-  newPasswordLabel: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.NEW_PASSWORD'),
-  repeatPasswordLabel: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.REPEAT_PASSWORD'),
+  password: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.NEW_PASSWORD'),
+  repeatPassword: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.REPEAT_PASSWORD'),
 };
 
 const validate = createValidator({
   password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
   repeatPassword: ['required', 'same:password'],
-}, attributeLabels, false);
+}, translateLabels(attributeLabels), false);
 
 class TradingAccountChangePasswordModal extends PureComponent {
   static propTypes = {
@@ -95,15 +95,15 @@ class TradingAccountChangePasswordModal extends PureComponent {
                 <Field
                   name="password"
                   type="password"
-                  label={attributeLabels.newPasswordLabel}
-                  placeholder={attributeLabels.newPasswordLabel}
+                  label={attributeLabels.password}
+                  placeholder={attributeLabels.password}
                   component={FormikInputField}
                 />
                 <Field
                   name="repeatPassword"
                   type="password"
-                  label={attributeLabels.repeatPasswordLabel}
-                  placeholder={attributeLabels.repeatPasswordLabel}
+                  label={attributeLabels.repeatPassword}
+                  placeholder={attributeLabels.repeatPassword}
                   component={FormikInputField}
                 />
               </ModalBody>
