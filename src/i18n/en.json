@@ -3114,6 +3114,19 @@
         "EXECUTION_TYPE": {
           "AUTO": "Auto",
           "MANUAL": "Manual"
+        },
+        "EXECUTION_TIME": {
+          "N_HOURS": "%{value} hours",
+          "N_DAY": "%{value} Day",
+          "LAST_WEEK": "Last week",
+          "LAST_N_WEEKS": "Last %{value} weeks"
+        },
+        "REGISTRATION_TIME": {
+          "LAST_N_HOURS": "Last %{value} hours",
+          "LAST_DAY": "Last day",
+          "LAST_N_DAYS": "Last %{value} days",
+          "LAST_WEEK": "Last week",
+          "LAST_N_WEEKS": "Last %{value} weeks"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",

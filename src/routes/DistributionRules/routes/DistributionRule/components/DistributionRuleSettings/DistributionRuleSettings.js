@@ -124,8 +124,10 @@ class DistributionRuleSettings extends PureComponent {
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
-                {executionPeriodInHours.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
+                {executionPeriodInHours.map(({ label, value, i18nValue }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label, { value: i18nValue })}
+                  </option>
                 ))}
               </Field>
               <Field
@@ -135,8 +137,10 @@ class DistributionRuleSettings extends PureComponent {
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
-                {registrationPeriodInHours.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
+                {registrationPeriodInHours.map(({ label, value, i18nValue }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label, { value: i18nValue })}
+                  </option>
                 ))}
               </Field>
               <Field
@@ -146,7 +150,7 @@ class DistributionRuleSettings extends PureComponent {
                 component={FormikSelectField}
               >
                 {executionTypes.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
+                  <option key={value} value={value}>{I18n.t(label)}</option>
                 ))}
               </Field>
             </Form>

@@ -14,89 +14,104 @@ export const countries = Object.keys(countryList).map(value => ({
 
 export const executionPeriodInHours = [
   {
-    label: '3 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_HOURS',
     value: 3,
+    i18nValue: 3,
   },
   {
-    label: '6 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_HOURS',
     value: 6,
+    i18nValue: 6,
   },
   {
-    label: '12 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_HOURS',
     value: 12,
+    i18nValue: 12,
   },
   {
-    label: '18 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_HOURS',
     value: 18,
+    i18nValue: 18,
   },
   {
-    label: '1 Day',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_DAY',
     value: 24,
+    i18nValue: 1,
   },
   {
-    label: '2 Day ',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_DAY',
     value: 48,
+    i18nValue: 2,
   },
   {
-    label: '3 Day ',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_DAY',
     value: 72,
+    i18nValue: 3,
   },
   {
-    label: '4 Day ',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_DAY',
     value: 96,
+    i18nValue: 4,
   },
   {
-    label: '5 Day ',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_DAY',
     value: 120,
+    i18nValue: 5,
   },
   {
-    label: 'Last week',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.LAST_WEEK',
     value: 168,
   },
   {
-    label: 'Last 2 weeks',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.LAST_N_WEEKS',
     value: 336,
+    i18nValue: 2,
   },
 ];
 
 export const registrationPeriodInHours = [
   {
-    label: 'Last 2 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_HOURS',
     value: 2,
+    i18nValue: 2,
   },
   {
-    label: 'Last 6 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_HOURS',
     value: 6,
+    i18nValue: 6,
   },
   {
-    label: 'Last 12 hours',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_HOURS',
     value: 12,
+    i18nValue: 12,
   },
   {
-    label: 'Last day',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_DAY',
     value: 24,
   },
   {
-    label: 'Last 3 days',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_DAYS',
     value: 72,
+    i18nValue: 3,
   },
   {
-    label: 'Last week',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_WEEK',
     value: 168,
   },
   {
-    label: 'Last 2 weeks',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_WEEKS',
     value: 336,
+    i18nValue: 2,
   },
 ];
 
 export const executionTypes = [
   {
-    label: I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.AUTO'),
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.AUTO',
     value: 'AUTO',
   },
   {
-    label: I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.MANUAL'),
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TYPE.MANUAL',
     value: 'MANUAL',
   },
 ];

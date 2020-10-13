@@ -35,6 +35,11 @@ class DistributionRule extends PureComponent {
     notify: PropTypes.func.isRequired,
   }
 
+  /**
+   * This method has two prime points:
+   * 1. Setting the <<< initialState >>> just once as a static prop to have its as a start point
+   * 2. Setting the <<< settingsWasChanged >> flag of a state shape in all other cases
+   */
   static getDerivedStateFromProps({ ruleQuery: { data, loading } }, state) {
     if (!loading && !DistributionRule.initSettingsAreSet) {
       const {
