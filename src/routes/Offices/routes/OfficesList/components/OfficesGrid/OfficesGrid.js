@@ -54,6 +54,7 @@ class OfficesGrid extends PureComponent {
         <Grid
           data={officesList}
           isLoading={isLoading}
+          headerStickyFromTop={138}
           withNoResults={!isLoading && officesList.length === 0}
         >
           <GridColumn

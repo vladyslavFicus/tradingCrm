@@ -31,11 +31,15 @@ const REQUEST = gql`
         userMigrationId
         normalizedAmount
         declineReason
+        partner {
+          fullName
+        }
         playerProfile {
           uuid
           firstName
           lastName
           country
+          affiliateUuid
         }
         paymentMetadata {
           clientIp

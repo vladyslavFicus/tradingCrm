@@ -11,6 +11,7 @@ class ConfirmActionModal extends Component {
     modalTitle: PropTypes.string,
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
+    cancelButtonLabel: PropTypes.string,
     fullName: PropTypes.string,
     uuid: PropTypes.string,
     additionalText: PropTypes.string,
@@ -22,6 +23,7 @@ class ConfirmActionModal extends Component {
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
+    cancelButtonLabel: I18n.t('COMMON.CANCEL'),
     fullName: '',
     uuid: null,
     additionalText: null,
@@ -49,6 +51,7 @@ class ConfirmActionModal extends Component {
       fullName,
       uuid,
       submitButtonLabel,
+      cancelButtonLabel,
       additionalText,
       isOpen,
     } = this.props;
@@ -73,7 +76,7 @@ class ConfirmActionModal extends Component {
             onClick={this.handleClose}
             className="btn btn-default-outline mr-auto"
           >
-            {I18n.t('COMMON.CANCEL')}
+            {cancelButtonLabel}
           </button>
           <button
             type="submit"

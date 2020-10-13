@@ -1076,7 +1076,8 @@
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
-        "ACQUISITION_UPDATED": "Acquisition updated"
+        "ACQUISITION_UPDATED": "Acquisition updated",
+        "EMAIL_SENT": "Email sent"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1621,7 +1622,10 @@
     "LAST_UPDATED_DATE": "Last updated date",
     "LEVERAGE": "Leverage",
     "INITIATOR_NAME": "Initiator name",
-    "INITIATOR_UUID": "Initiator uuid"
+    "INITIATOR_UUID": "Initiator uuid",
+    "EMAIL": {
+      "TEMPLATE_NAME": "Template name"
+    }
   },
   "ERRORS": {
     "FILE": {
@@ -2344,6 +2348,14 @@
           "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
         }
       }
+    },
+    "ASSIGN_BRANCH": {
+      "TITLE": "Branch assignment",
+      "DESCRIPTION": "You are trying to add the Operator %{operator} with %{clients} of assigned clients to branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
+    },
+    "UNASSIGN_BRANCH": {
+      "TITLE": "Branch unassignment",
+      "DESCRIPTION": "You are trying to remove the Operator %{operator} with %{clients} of assigned clients from branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
     }
   },
   "FILE_DROPZONE": {
@@ -3185,7 +3197,9 @@
     "PROLONG": "Prolong",
     "SELF_EXCLUSION": "Self exclusion",
     "RESUME": "Resume",
-    "MANUAL_COOLOFF": "Manual Cooloff"
+    "MANUAL_COOLOFF": "Manual Cooloff",
+    "UNASSIGN": "Unassign",
+    "IGNORE": "Ignore"
   },
   "STATUSES_LABELS": {
     "NOT_VERIFIED": "Not Verified",
@@ -3462,8 +3476,8 @@
       "INPUT_NAME_LABEL": "Email Template Name",
       "INPUT_SUBJECT_LABEL": "Subject",
       "INPUT_EDITOR_LABEL": "Email text",
-      "INPUT_EDITOR_PLACEHOLDER": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
-      "HINT": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "INPUT_EDITOR_PLACEHOLDER": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "HINT": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
       "LINK_GO_TO_EMAIL_TEMPLATES": "Go to Email Templates"
     },
     "MODALS": {

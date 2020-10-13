@@ -46,6 +46,7 @@ export const getValidationRules = fields => omitBy(fields
     inputType,
     fields: rangeFields,
     multiple,
+    boolean,
   }) => {
     switch (type) {
       case (fieldTypes.INPUT): {
@@ -53,7 +54,10 @@ export const getValidationRules = fields => omitBy(fields
       }
 
       case (fieldTypes.SELECT): {
-        return { ...acc, [name]: multiple ? 'array' : 'string' };
+        return {
+          ...acc,
+          [name]: multiple ? 'array' : boolean ? 'boolean' : 'string', // eslint-disable-line
+        };
       }
 
       case (fieldTypes.DATE): {

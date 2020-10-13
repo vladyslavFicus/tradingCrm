@@ -1,12 +1,12 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const buildConfig = require('../docker/buildConfig');
-const platform = require('../docker/platform');
+const infra = require('../docker/infra');
 
 let config = null;
 
 module.exports = (app) => {
   app.use('/api', async (...args) => {
-    const platformConfig = await platform.load();
+    const platformConfig = await infra.load();
 
     return createProxyMiddleware({
       target: platformConfig.hrzn.api_url,
