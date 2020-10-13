@@ -1078,7 +1078,8 @@
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
-        "ACQUISITION_UPDATED": "Acquisition updated"
+        "ACQUISITION_UPDATED": "Acquisition updated",
+        "EMAIL_SENT": "Email sent"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1247,6 +1248,7 @@
           "MODIFICATION_DATE_RANGE": "Modification date range",
           "STATUS_DATE_RANGE": "Status modification date range",
           "ACCOUNT_TYPE": "Account type",
+          "PLATFORM_TYPE": "Platform type",
           "ORIGINAL_AGENT": "Original Agent",
           "TEAMS": "Teams",
           "DESKS": "Desks",
@@ -1622,7 +1624,10 @@
     "LAST_UPDATED_DATE": "Last updated date",
     "LEVERAGE": "Leverage",
     "INITIATOR_NAME": "Initiator name",
-    "INITIATOR_UUID": "Initiator uuid"
+    "INITIATOR_UUID": "Initiator uuid",
+    "EMAIL": {
+      "TEMPLATE_NAME": "Template name"
+    }
   },
   "ERRORS": {
     "FILE": {
@@ -2345,6 +2350,14 @@
           "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
         }
       }
+    },
+    "ASSIGN_BRANCH": {
+      "TITLE": "Branch assignment",
+      "DESCRIPTION": "You are trying to add the Operator %{operator} with %{clients} of assigned clients to branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
+    },
+    "UNASSIGN_BRANCH": {
+      "TITLE": "Branch unassignment",
+      "DESCRIPTION": "You are trying to remove the Operator %{operator} with %{clients} of assigned clients from branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
     }
   },
   "FILE_DROPZONE": {
@@ -2601,7 +2614,7 @@
         "TITLE": "New trading account",
         "NAME_LABEL": "Account name",
         "ACCOUNT_TYPE_LABEL": "Account type",
-        "PLATFORM_TYPE_LABEL": "Account type",
+        "PLATFORM_TYPE_LABEL": "Platform type",
         "AMOUNT_LABEL": "Amount",
         "CURRENCY_LABEL": "Currency",
         "PASSWORD_LABEL": "Password",
@@ -3293,7 +3306,9 @@
     "PROLONG": "Prolong",
     "SELF_EXCLUSION": "Self exclusion",
     "RESUME": "Resume",
-    "MANUAL_COOLOFF": "Manual Cooloff"
+    "MANUAL_COOLOFF": "Manual Cooloff",
+    "UNASSIGN": "Unassign",
+    "IGNORE": "Ignore"
   },
   "STATUSES_LABELS": {
     "NOT_VERIFIED": "Not Verified",
@@ -3570,8 +3585,8 @@
       "INPUT_NAME_LABEL": "Email Template Name",
       "INPUT_SUBJECT_LABEL": "Subject",
       "INPUT_EDITOR_LABEL": "Email text",
-      "INPUT_EDITOR_PLACEHOLDER": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
-      "HINT": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "INPUT_EDITOR_PLACEHOLDER": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "HINT": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
       "LINK_GO_TO_EMAIL_TEMPLATES": "Go to Email Templates"
     },
     "MODALS": {
@@ -3606,6 +3621,7 @@
         "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
+        "PLATFORM_TYPE": "Platform type",
         "STATUS": "Status"
       },
       "ACCOUNT_TYPE": {

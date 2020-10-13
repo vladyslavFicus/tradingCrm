@@ -19,10 +19,7 @@ const attributeLabels = {
 
 const validate = createValidator({
   password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
-  repeatPassword: [
-    'required',
-    'same:password',
-  ],
+  repeatPassword: ['required', 'same:password'],
 }, attributeLabels, false);
 
 class TradingAccountChangePasswordModal extends PureComponent {
@@ -75,9 +72,9 @@ class TradingAccountChangePasswordModal extends PureComponent {
 
   render() {
     const {
+      login,
       isOpen,
       onCloseModal,
-      login,
     } = this.props;
 
     return (
@@ -85,9 +82,11 @@ class TradingAccountChangePasswordModal extends PureComponent {
         <Formik
           initialValues={{ password: '', repeatPassword: '' }}
           validate={validate}
+          validateOnBlur={false}
+          validateOnChange={false}
           onSubmit={this.onSubmit}
         >
-          {({ dirty, isValid, isSubmitting }) => (
+          {({ isSubmitting }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login })}
@@ -117,7 +116,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
                 </Button>
                 <Button
                   danger
-                  disabled={!dirty || !isValid || isSubmitting}
+                  disabled={isSubmitting}
                   type="submit"
                 >
                   {I18n.t('COMMON.BUTTONS.SAVE_NEW_PASSWORD')}

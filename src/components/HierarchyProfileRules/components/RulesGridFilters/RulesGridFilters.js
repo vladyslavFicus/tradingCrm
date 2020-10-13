@@ -6,6 +6,7 @@ import { getAvailableLanguages } from 'config';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { filterLabels } from 'constants/user';
+import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -143,21 +144,21 @@ class RulesFilters extends Component {
             </div>
 
             <div className="filter__form-buttons">
-              <button
-                className="btn btn-default filter__form-button"
+              <Button
+                common
+                className="filter__form-button"
                 disabled={isSubmitting}
                 onClick={() => this.onHandleReset(resetForm)}
-                type="button"
               >
                 {I18n.t('COMMON.RESET')}
-              </button>
-              <button
-                className="btn btn-primary filter__form-button"
+              </Button>
+              <Button
+                primary
+                className="filter__form-button"
                 disabled={isSubmitting || !dirty}
-                type="submit"
               >
                 {I18n.t('COMMON.APPLY')}
-              </button>
+              </Button>
             </div>
           </Form>
         )}

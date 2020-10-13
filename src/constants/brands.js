@@ -109,6 +109,9 @@ const brands = keyMirror({
   eurofx: null,
   primecap: null,
   ofxb: null,
+  tradingnetwork: null,
+  axa: null,
+  'cd-engine': null,
 });
 
 const departments = keyMirror({
@@ -567,6 +570,18 @@ const brandsConfig = {
   [brands.ofxb]: {
     name: 'ofxb',
     image: { src: '/img/brand/choose-brand/ofxb.svg' },
+  },
+  [brands.tradingnetwork]: {
+    name: 'tradingnetwork',
+    image: { src: '/img/brand/choose-brand/tradingnetwork.svg' },
+  },
+  [brands.axa]: {
+    name: 'axa',
+    image: { src: '/img/brand/choose-brand/axa.svg' },
+  },
+  [brands['cd-engine']]: {
+    name: 'cd-engine',
+    image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
 };
 const departmentsConfig = {

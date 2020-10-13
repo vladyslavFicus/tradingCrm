@@ -164,6 +164,7 @@ class CallbacksGrid extends PureComponent {
           withRowsHover
           withLazyLoad
           lazyLoad
+          headerStickyFromTop={129}
           withNoResults={callbacks.content.length === 0 && !loading}
         >
           <GridColumn

@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -11,9 +11,11 @@ import { getClientTradingAccounts } from 'graphql/queries/tradingAccount';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
 import ListFilterForm from 'components/ListFilterForm';
+import { Button } from 'components/UI';
 import TradingAccountAddModal from './TradingAccountAddModal';
 import TradingAccountsGrid from './TradingAccountsGrid';
 import filterFields from '../filterFields';
+import '../ClientTradingAccounts.scss';
 
 class Accounts extends PureComponent {
   static propTypes = {
@@ -72,16 +74,19 @@ class Accounts extends PureComponent {
     const profileUuid = get(profile, 'profile.uuid') || '';
 
     return (
-      <Fragment>
-        <TabHeader title={I18n.t('CLIENT_PROFILE.ACCOUNTS.ROUTES.TRADING_ACC')}>
+      <div className="ClientTradingAccounts">
+        <TabHeader
+          title={I18n.t('CLIENT_PROFILE.ACCOUNTS.ROUTES.TRADING_ACC')}
+          className="ClientTradingAccounts__header"
+        >
           <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
-            <button
-              type="button"
-              className="btn btn-default-outline"
+            <Button
+              small
+              commonOutline
               onClick={this.showTradingAccountAddModal}
             >
               {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}
-            </button>
+            </Button>
           </PermissionContent>
         </TabHeader>
 
@@ -98,7 +103,7 @@ class Accounts extends PureComponent {
           profileUuid={profileUuid}
           isLoading={loading}
         />
-      </Fragment>
+      </div>
     );
   }
 }

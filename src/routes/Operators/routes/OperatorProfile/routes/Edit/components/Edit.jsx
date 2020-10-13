@@ -168,6 +168,7 @@ class View extends Component {
         </div>
         <HierarchyProfileForm
           operatorUUID={profile.uuid}
+          operatorFullName={profile.fullName}
           loading={loading}
           initialValues={initialValues}
           allowUpdateHierarchy={allowUpdateHierarchy}

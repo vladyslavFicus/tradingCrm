@@ -1,8 +1,8 @@
 @import "../../styles/helpers/variables";
 
 .NotePopover {
-  width: 320px;
-  max-width: 320px;
+  width: 100%;
+  max-width: 475px;
   background-color: $color-paper;
 
   &__header,
@@ -59,16 +59,16 @@
     font-size: 14px;
     line-height: 18px;
     padding: 2px;
-    height: 26px;
   }
 
   input {
     background-color: transparent !important;
+    height: 26px;
   }
 
   textarea {
     margin-bottom: 8px;
-    height: 64px;
+    height: 200px;
     background-attachment: local;
     background-image:
       linear-gradient(to right, white 0px, transparent 0px),

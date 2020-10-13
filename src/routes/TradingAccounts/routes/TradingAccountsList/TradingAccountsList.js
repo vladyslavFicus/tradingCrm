@@ -25,7 +25,7 @@ class TradingAccountsList extends PureComponent {
 
     return (
       <div className="card">
-        <div className="card-heading">
+        <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ACCOUNTS.HEADLINE')}
           </span>
