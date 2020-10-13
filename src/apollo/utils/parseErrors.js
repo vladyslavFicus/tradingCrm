@@ -14,9 +14,11 @@ export default (error) => {
 
   const errorCode = get(errorResponse, 'error', 'error.internal');
   const errorParameters = get(errorResponse, 'errorParameters', {});
+  const backendMessage = get(errorResponse, 'message');
 
   return {
     error: errorCode,
+    backendMessage,
     message: I18n.t(errorCode),
     fields: Object.keys(fields).length ? fields : null,
     errorParameters,
