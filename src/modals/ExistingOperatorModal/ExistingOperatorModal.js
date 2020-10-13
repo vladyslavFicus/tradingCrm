@@ -59,7 +59,7 @@ class ExistingOperatorModal extends Component {
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.TITLE'),
-        message: error.backendMessage || I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
+        message: error.message || I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
       });
     }
   };
