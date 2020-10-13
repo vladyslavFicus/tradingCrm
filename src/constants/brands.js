@@ -111,6 +111,7 @@ const brands = keyMirror({
   ofxb: null,
   tradingnetwork: null,
   axa: null,
+  'cd-engine': null,
 });
 
 const departments = keyMirror({
@@ -577,6 +578,10 @@ const brandsConfig = {
   [brands.axa]: {
     name: 'axa',
     image: { src: '/img/brand/choose-brand/axa.svg' },
+  },
+  [brands['cd-engine']]: {
+    name: 'cd-engine',
+    image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
 };
 const departmentsConfig = {
