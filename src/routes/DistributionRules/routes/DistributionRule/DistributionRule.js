@@ -91,7 +91,7 @@ class DistributionRule extends PureComponent {
     };
   }
 
-  static initialState = {
+  static nullState = {
     generalSettings: { executionType: 'MANUAL' },
     sourceBrandConfig: null,
     targetBrandConfig: null,
@@ -101,13 +101,25 @@ class DistributionRule extends PureComponent {
     isSubmitting: false,
   };
 
-  state = {
-    ...this.constructor.initialState,
+  static initialState = {
+    ...this.constructor.nullState,
   };
 
-  resetToInitialState = () => {
-    this.setState(deepCopyOfDataObject(DistributionRule.initialState));
+  state = {
+    ...this.constructor.nullState,
+  };
+
+  componentWillUnmount() {
+    this.constructor.initialState = this.constructor.nullState;
+
+    this.resetToInitialState();
+
+    DistributionRule.initSettingsAreSet = false;
   }
+
+  resetToInitialState = () => {
+    this.setState(deepCopyOfDataObject(this.constructor.initialState));
+  };
 
   handleUpdateRule = async () => {
     const {
@@ -141,7 +153,7 @@ class DistributionRule extends PureComponent {
         },
       });
 
-      DistributionRule.initialState = deepCopyOfDataObject({
+      this.constructor.initialState = deepCopyOfDataObject({
         ...this.state,
         isSubmitting: false,
       });

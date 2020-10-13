@@ -94,17 +94,17 @@ $input-height: 40px;
     &:hover {
       color: #9b9b9b;
     }
-  }
-
-  &__unit {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-    padding: 0 8px;
-    margin-left: 10px;
-    border: solid 1px #cfcfcf;
-    border-radius: 3px;
-    user-select: none;
+    
+    &--right {
+      position: static;
+      width: auto;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      padding: 0 8px;
+      margin-left: 10px;
+      user-select: none;
+    }
   }
 }
 

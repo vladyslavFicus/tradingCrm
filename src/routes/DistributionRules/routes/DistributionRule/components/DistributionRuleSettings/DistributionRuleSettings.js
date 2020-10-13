@@ -11,6 +11,7 @@ import {
   registrationPeriodInHours,
   executionTypes,
 } from './constants';
+import { normalizeObject } from './utils';
 import { checkEqualityOfDataObjects } from '../../utils';
 import './DistributionRuleSettings.scss';
 
@@ -39,16 +40,6 @@ class DistributionRuleSettings extends PureComponent {
     }).isRequired,
   }
 
-  /**
-   * The entry and output objects of the form values may contain the same props,
-   * but in a different arrange, so very important to bring them in the same order
-   * to make the right comparison of them
-   */
-  static normalizeObject = obj => Object.keys(obj).sort().reduce((acc, cur) => ({
-    ...acc,
-    [cur]: obj[cur]?.sort ? [...obj[cur]].sort() : obj[cur],
-  }), {});
-
   render() {
     const {
       handleGeneralSettings,
@@ -71,7 +62,6 @@ class DistributionRuleSettings extends PureComponent {
               registrationPeriodInHours: ['required'],
             })(values);
 
-            const { normalizeObject } = DistributionRuleSettings;
             const valuesAreEqual = checkEqualityOfDataObjects(
               normalizeObject(generalSettings),
               normalizeObject(values),
@@ -93,6 +83,7 @@ class DistributionRuleSettings extends PureComponent {
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
+                multipleLabel
                 searchable
                 multiple
               >
@@ -118,6 +109,7 @@ class DistributionRuleSettings extends PureComponent {
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
+                multipleLabel
                 searchable
                 multiple
               >

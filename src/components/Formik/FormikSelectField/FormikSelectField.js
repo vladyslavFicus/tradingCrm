@@ -15,6 +15,7 @@ class FormikSelectField extends Component {
     ]),
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
+    multipleLabel: PropTypes.bool,
     disabled: PropTypes.bool,
     searchable: PropTypes.bool,
     withAnyOption: PropTypes.bool,
@@ -46,6 +47,7 @@ class FormikSelectField extends Component {
     disabled: false,
     label: null,
     multiple: false,
+    multipleLabel: false,
     placeholder: null,
     searchable: false,
     showErrorMessage: true,
@@ -81,6 +83,7 @@ class FormikSelectField extends Component {
       },
       label,
       multiple,
+      multipleLabel,
       placeholder,
       searchable,
       showErrorMessage,
@@ -107,6 +110,7 @@ class FormikSelectField extends Component {
           <Select
             disabled={disabled}
             multiple={multiple}
+            multipleLabel={multipleLabel}
             name={name}
             onChange={this.onHandleChange}
             placeholder={placeholder}

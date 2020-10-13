@@ -124,7 +124,8 @@ class AddSourceBrandModal extends PureComponent {
                   type="number"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
                   step="1"
-                  unit={baseUnits[baseUnit]}
+                  addition={baseUnits[baseUnit]}
+                  additionPosition="right"
                   component={FormikInputField}
                 />
                 <Field
