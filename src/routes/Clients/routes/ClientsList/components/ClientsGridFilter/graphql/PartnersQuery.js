@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query PartnersQuery(
+const REQUEST = gql`query ClientsGridFilter_PartnersQuery(
   $searchBy: String,
   $country: String,
   $status: String,
@@ -17,18 +17,9 @@ const REQUEST = gql`query PartnersQuery(
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
   ) {
-    page
-    number
-    totalElements
-    size
-    last
     content {
       uuid
       fullName
-      createdAt
-      status
-      statusChangeDate
-      country
     }
   }
 }`;

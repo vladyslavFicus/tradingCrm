@@ -17,7 +17,7 @@ const validate = createValidator({
   acquisitionStatus: ['required', 'string'],
 });
 
-class MoveModal extends PureComponent {
+class UpdateAcquisitionStatusModal extends PureComponent {
   static propTypes = {
     configs: PropTypes.shape({
       allRowsSelected: PropTypes.bool,
@@ -110,8 +110,8 @@ class MoveModal extends PureComponent {
     } catch (e) {
       const error = parseErrors(e);
 
-      // when we try to move clients, when they don't have assigned {{type}} representative
-      // GQL will return exact this error and we catch it to show custom message
+      // when we try to move clients and they don't have assigned {{type}} representative
+      // GQL will return the error and we catch it to show custom message
       const condition = error.error && error.error === 'clients.bulkUpdate.moveForbidden';
 
       notify({
@@ -205,4 +205,4 @@ export default compose(
   withRequests({
     bulkUpdateAcquisitionStatus: BulkUpdateAcquisitionStatus,
   }),
-)(MoveModal);
+)(UpdateAcquisitionStatusModal);
