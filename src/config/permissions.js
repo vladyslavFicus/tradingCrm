@@ -142,5 +142,6 @@ export default {
   },
   CLIENTS_DISTRIBUTION: {
     LIST: 'clients-distributor.searchRules',
+    CREATE_RULE: 'clients-distributor.createRule',
   },
 };

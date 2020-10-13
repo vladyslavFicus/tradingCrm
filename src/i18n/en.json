@@ -3057,7 +3057,24 @@
     "NOTIFICATIONS": {
       "MIGRATION_SUCCESSFUL": "Migration started successfully",
       "MIGRATION_ERROR": "Migration started failed"
-    }
+    },
+    "MODAL": {
+      "FIELDS": {
+        "NAME": "Rule name",
+        "ORDER": "Rule order"
+      }
+    },
+    "CREATE_MODAL": {
+      "HEADER": "Create rule"
+    },
+    "UPDATE_MODAL": {
+      "HEADER": "Update rule"
+    },
+    "CREATE_RULE_SUCCESS": "Rule %{ruleName} created successfully",
+    "CREATE_RULE_FAILED": "Creating new rule failed",
+    "CREATE_RULE_EXIST": "Rule %{ruleName} already exists",
+    "UPDATE_RULE_SUCCESS": "Rule %{ruleName} updated successfully",
+    "UPDATE_RULE_FAILED": "Updating rule failed"
   },
   "NOTIFICATION_CENTER": {
     "TITLE": "Notifications",

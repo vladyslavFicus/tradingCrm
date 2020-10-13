@@ -11,11 +11,14 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import Uuid from 'components/Uuid';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ClientsDistributionModal from 'modals/ClientsDistributionModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
 import { clientDistributionStatuses } from '../constants';
 import {
@@ -35,6 +38,7 @@ class DistributionRules extends PureComponent {
     }).isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
+      clientsDistributionModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.object,
@@ -86,6 +90,22 @@ class DistributionRules extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ERROR'),
       });
     }
+  }
+
+  handleCreateRule = () => {
+    const {
+      modals: { clientsDistributionModal },
+      rules: { refetch },
+    } = this.props;
+
+    clientsDistributionModal.show({
+      action: 'CREATE',
+      onSuccess: async () => {
+        await refetch();
+
+        clientsDistributionModal.hide();
+      },
+    });
   }
 
   handleStartMigrationClick = async ({ uuid, name, targetBrandConfigs, sourceBrandConfigs }) => {
@@ -323,15 +343,17 @@ class DistributionRules extends PureComponent {
               {totalElements} {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
             </span>
           </Placeholder>
-          <div className="ml-auto">
-            <Button
-              small
-              commonOutline
-              onClick={() => console.log('--Handle add rule--')}
-            >
-              {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
-            </Button>
-          </div>
+          <PermissionContent permissions={permissions.CLIENTS_DISTRIBUTION.CREATE_RULE}>
+            <div className="ml-auto">
+              <Button
+                small
+                commonOutline
+                onClick={this.handleCreateRule}
+              >
+                {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
+              </Button>
+            </div>
+          </PermissionContent>
         </div>
         <DistributionRulesFilters />
 
@@ -406,6 +428,7 @@ export default compose(
   withRouter,
   withModals({
     confirmActionModal: ConfirmActionModal,
+    clientsDistributionModal: ClientsDistributionModal,
   }),
   withNotifications,
   withRequests({
