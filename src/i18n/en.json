@@ -3087,7 +3087,82 @@
     "CREATE_RULE_FAILED": "Creating new rule failed",
     "CREATE_RULE_EXIST": "Rule %{ruleName} already exists",
     "UPDATE_RULE_SUCCESS": "Rule %{ruleName} updated successfully",
-    "UPDATE_RULE_FAILED": "Updating rule failed"
+    "UPDATE_RULE_FAILED": "Updating rule failed",
+    "RULE": {
+      "TITLE": "Rule %{name}",
+      "INFO": {
+        "STATUS": "Status",
+        "STATUS_SINCE": "since",
+        "CREATED": "Created",
+        "UPDATED": "Updated",
+        "LAST_EXECUTION": "Last time executed"
+      },
+      "STATUS": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "GENERAL_INFO": "General information",
+      "FILTERS_LABELS": {
+        "SALES_STATUS": "Sales Status",
+        "MIGRATION_STATUS": "Migration status",
+        "COUNTRY": "Country",
+        "EXECUTION_TIME":"Execution Time",
+        "REGISTRATION_DATE": "Registration date",
+        "EXECUTION_TYPE": "Execution type"
+      },
+      "FILTERS": {
+        "EXECUTION_TYPE": {
+          "AUTO": "Auto",
+          "MANUAL": "Manual"
+        },
+        "EXECUTION_TIME": {
+          "N_HOURS": "%{value} hours",
+          "N_DAY": "%{value} Day",
+          "LAST_WEEK": "Last week",
+          "LAST_N_WEEKS": "Last %{value} weeks"
+        },
+        "REGISTRATION_TIME": {
+          "LAST_N_HOURS": "Last %{value} hours",
+          "LAST_DAY": "Last day",
+          "LAST_N_DAYS": "Last %{value} days",
+          "LAST_WEEK": "Last week",
+          "LAST_N_WEEKS": "Last %{value} weeks"
+        }
+      },
+      "BRANDS_FOR_MIGRATION": "Brands for migration",
+      "FROM_BRAND": "From Brand",
+      "TO_BRAND": "To Brand",
+      "BRAND": {
+        "SORT": "Sort",
+        "OPERATOR": "Operator",
+        "CLIENTS_CHOOSEN": "clients choosen",
+        "CLIENTS_TO_MIGRATION": "clients to migration"
+      },
+      "MODAL": {
+        "SOURCE_BRAND": "Brand",
+        "TARGET_BRAND": "Migration to brand",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "OPERATOR": "Operator",
+        "AUTO_OPERATOR": "Automatic operator",
+        "SORT_METHOD": "Sort method",
+        "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients"
+      },
+      "SORT_METHOD": {
+        "RANDOM": "Random",
+        "FIFO": "FIFO",
+        "LIFO": "LIFO"
+      },
+      "BASE_UNITS": {
+        "AMOUNT": "clients",
+        "PERCENTAGE": "%"
+      },
+      "UPDATE": {
+        "ERROR_TITLE": "Failure",
+        "ERROR_MESSAGE": "The distribution rule was not updated",
+        "SUCCESS_TITLE": "Success",
+        "SUCCESS_MESSAGE": "The distribution rule was successfully updated"
+      }
+    }
   },
   "NOTIFICATION_CENTER": {
     "TITLE": "Notifications",

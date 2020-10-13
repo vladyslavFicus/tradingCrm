@@ -10,6 +10,7 @@ import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
+import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -20,7 +21,6 @@ import Placeholder from 'components/Placeholder';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import ClientsDistributionModal from 'modals/ClientsDistributionModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
-import { clientDistributionStatuses } from '../constants';
 import {
   DistributionRulesQuery,
   DistributionRuleMigrationMutation,

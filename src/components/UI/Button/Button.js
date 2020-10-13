@@ -21,6 +21,7 @@ class Button extends PureComponent {
     dangerOutline: PropTypes.bool,
     onClick: PropTypes.func,
     small: PropTypes.bool,
+    stopPropagation: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -38,13 +39,23 @@ class Button extends PureComponent {
     transparent: false,
     onClick: () => {},
     small: false,
+    stopPropagation: false,
   };
 
   /**
    * Should be here to prevent synthetic event errors
    */
-  onClick = () => {
-    this.props.onClick();
+  onClick = (e) => {
+    const {
+      onClick,
+      stopPropagation,
+    } = this.props;
+
+    onClick();
+
+    if (stopPropagation) {
+      e.stopPropagation();
+    }
   };
 
   render() {
@@ -62,6 +73,7 @@ class Button extends PureComponent {
       verified,
       transparent,
       small,
+      stopPropagation,
       ...props
     } = this.props;
 

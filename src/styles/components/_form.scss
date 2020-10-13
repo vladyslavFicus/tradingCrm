@@ -55,7 +55,8 @@
   font-size: 15px;
   font-weight: 600;
   padding-top: 7px;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
 
   &:focus {
     border-color: #4990e2;
@@ -131,6 +132,31 @@
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 30px;
+
+    &--multipleLabel {
+      padding-bottom: 0;
+    }
+  }
+  &__placeholder-options {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__placeholder-option {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    border: 1px solid #9dd0f9;
+    background: #e9f4fe;
+  }
+  &__placeholder-option-delete {
+    margin-left: 5px;
+    color: #ff6f6f;
+
+    &:hover {
+      color: #d70000;
+    }
   }
   &__content {
     width: 100%;
