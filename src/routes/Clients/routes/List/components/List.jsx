@@ -159,16 +159,14 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
         />
 
-        <div className="card-body card-grid-multiselect">
-          <ClientsGrid
-            profiles={profiles}
-            searchLimit={searchLimit}
-            touchedRowsIds={touchedRowsIds}
-            allRowsSelected={allRowsSelected}
-            handleAllRowsSelect={this.handleAllRowsSelect}
-            handleSelectRow={this.handleSelectRow}
-          />
-        </div>
+        <ClientsGrid
+          profiles={profiles}
+          searchLimit={searchLimit}
+          touchedRowsIds={touchedRowsIds}
+          allRowsSelected={allRowsSelected}
+          handleAllRowsSelect={this.handleAllRowsSelect}
+          handleSelectRow={this.handleSelectRow}
+        />
       </div>
     );
   }

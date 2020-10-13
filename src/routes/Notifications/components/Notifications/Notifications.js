@@ -105,7 +105,7 @@ class Notifications extends PureComponent {
 
     return (
       <div className="Notifications">
-        <div className="card-heading">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!loading}
             className={null}
@@ -129,15 +129,13 @@ class Notifications extends PureComponent {
           onReset={this.handleFilterReset}
           countries={countries}
         />
-        <div className="card-body">
-          <NotificationsGrid
-            entities={entities}
-            handlePageChanged={this.handlePageChanged}
-            searchLimit={totalEntities}
-            isLastPage={isLastPage}
-            loading={loading}
-          />
-        </div>
+        <NotificationsGrid
+          entities={entities}
+          handlePageChanged={this.handlePageChanged}
+          searchLimit={totalEntities}
+          isLastPage={isLastPage}
+          loading={loading}
+        />
       </div>
     );
   }
