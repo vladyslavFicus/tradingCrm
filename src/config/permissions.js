@@ -140,4 +140,8 @@ export default {
   CALLBACKS: {
     LIST: 'callback.searchCallbacks',
   },
+  CLIENTS_DISTRIBUTION: {
+    LIST: 'clients-distributor.searchRules',
+    CREATE_RULE: 'clients-distributor.createRule',
+  },
 };
