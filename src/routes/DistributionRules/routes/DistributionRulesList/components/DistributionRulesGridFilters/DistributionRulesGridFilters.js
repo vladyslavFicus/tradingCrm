@@ -76,7 +76,7 @@ class DistributionRulesFilters extends PureComponent {
               >
                 {Object.keys(statusesLabels).map(status => (
                   <option key={status} value={status}>
-                    {statusesLabels[status]}
+                    {I18n.t(statusesLabels[status])}
                   </option>
                 ))}
               </Field>

@@ -54,7 +54,7 @@ class DistributionRuleInfo extends PureComponent {
                 clientDistributionStatuses[status].color,
               )}
             >
-              {renderLabel(status, statusesLabels)}
+              {I18n.t(renderLabel(status, statusesLabels))}
             </div>
             <If condition={statusChangedAt}>
               <div className="DistributionRuleInfo__item-small-text">

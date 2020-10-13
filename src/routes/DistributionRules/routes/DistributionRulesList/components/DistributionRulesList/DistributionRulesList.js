@@ -175,7 +175,7 @@ class DistributionRules extends PureComponent {
   renderStatus = ({ status, statusChangedAt }) => (
     <>
       <div className={classNames('text-uppercase font-weight-700', clientDistributionStatuses[status].color)}>
-        {clientDistributionStatuses[status].label}
+        {I18n.t(clientDistributionStatuses[status].label)}
       </div>
 
       <If condition={statusChangedAt}>
