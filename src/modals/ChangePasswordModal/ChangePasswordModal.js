@@ -70,6 +70,8 @@ class ChangePasswordModal extends PureComponent {
               },
             )
           }
+          validateOnBlur={false}
+          validateOnChange={false}
           onSubmit={this.onHandleSubmit}
         >
           {({ dirty, isValid, isSubmitting }) => (
