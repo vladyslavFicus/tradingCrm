@@ -107,11 +107,11 @@ class DistributionRule extends PureComponent {
   };
 
   static initialState = {
-    ...this.constructor.nullState,
+    ...DistributionRule.nullState,
   };
 
   state = {
-    ...this.constructor.nullState,
+    ...DistributionRule.nullState,
   };
 
   componentWillUnmount() {
