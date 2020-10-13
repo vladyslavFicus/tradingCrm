@@ -3085,7 +3085,7 @@
     },
     "CREATE_RULE_SUCCESS": "Rule %{ruleName} created successfully",
     "CREATE_RULE_FAILED": "Creating new rule failed",
-    "CREATE_RULE_EXIST": "Rule %{ruleName} already exists",
+    "CREATE_RULE_EXIST": "Current rule intersects existent rule %{ruleName}",
     "UPDATE_RULE_SUCCESS": "Rule %{ruleName} updated successfully",
     "UPDATE_RULE_FAILED": "Updating rule failed",
     "RULE": {
