@@ -109,6 +109,7 @@ const brands = keyMirror({
   eurofx: null,
   primecap: null,
   ofxb: null,
+  supratrade: null,
   horizoninvest: null,
   tradingnetwork: null,
   axa: null,
@@ -573,6 +574,10 @@ const brandsConfig = {
   [brands.ofxb]: {
     name: 'ofxb',
     image: { src: '/img/brand/choose-brand/ofxb.svg' },
+  },
+  [brands.supratrade]: {
+    name: 'supratrade',
+    image: { src: '/img/brand/choose-brand/supratrade.svg' },
   },
   [brands.horizoninvest]: {
     name: 'horizoninvest',
