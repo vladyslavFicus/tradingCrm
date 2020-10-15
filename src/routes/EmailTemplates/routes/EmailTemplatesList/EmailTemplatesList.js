@@ -91,7 +91,7 @@ class EmailTemplatesList extends PureComponent {
             )}
           >
             <span className="EmailTemplatesList__header-title">
-              {entities.length} {I18n.t('EMAILS.EMAIL_TEMPLATES.PLACEHOLDER')}
+              <b>{entities.length}</b> {I18n.t('EMAILS.EMAIL_TEMPLATES.PLACEHOLDER')}
             </span>
           </Placeholder>
           <PermissionContent permissions={permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE}>
@@ -109,6 +109,7 @@ class EmailTemplatesList extends PureComponent {
           <Grid
             data={entities}
             handleRowClick={this.handleTemplateClick}
+            headerStickyFromTop={126}
             isLoading={loading}
             isLastPage
             withNoResults={!loading && entities.length === 0}

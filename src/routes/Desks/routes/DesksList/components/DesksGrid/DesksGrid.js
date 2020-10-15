@@ -54,6 +54,7 @@ class DesksGrid extends PureComponent {
         <Grid
           data={desks}
           isLoading={isLoading}
+          headerStickyFromTop={138}
         >
           <GridColumn
             header={I18n.t('DESKS.GRID_HEADER.DESK')}

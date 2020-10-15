@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
@@ -18,6 +18,7 @@ import {
   PaymentsQuery,
   ProfileQuery,
 } from './graphql';
+import './ClientPayments.scss';
 
 class Payments extends PureComponent {
   static propTypes = {
@@ -81,8 +82,11 @@ class Payments extends PureComponent {
     };
 
     return (
-      <Fragment>
-        <TabHeader title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.PAYMENTS')}>
+      <div className="ClientPayments">
+        <TabHeader
+          title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.PAYMENTS')}
+          className="ClientPayments__header"
+        >
           <PermissionContent
             permissions={[
               permissions.PAYMENT.DEPOSIT,
@@ -95,7 +99,7 @@ class Payments extends PureComponent {
           >
             <Button
               onClick={this.handleOpenAddPaymentModal}
-              primaryOutline
+              commonOutline
               small
             >
               {I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION')}
@@ -109,9 +113,10 @@ class Payments extends PureComponent {
         <PaymentsListGrid
           paymentsQuery={clientPaymentsQuery}
           handleRefresh={this.handleRefresh}
+          headerStickyFromTop={189}
           clientView
         />
-      </Fragment>
+      </div>
     );
   }
 }

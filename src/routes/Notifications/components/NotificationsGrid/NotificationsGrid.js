@@ -8,6 +8,7 @@ import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import MiniProfile from 'components/MiniProfile';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
+import './NotificationsGrid.scss';
 
 const prioritiesColor = {
   MEDIUM: 'Notifications__columns-priority-text--medium',
@@ -174,50 +175,53 @@ class NotificationsGrid extends PureComponent {
     } = this.props;
 
     return (
-      <Grid
-        data={entities}
-        isLoading={loading}
-        isLastPage={isLastPage}
-        withNoResults={!loading && entities.length === 0}
-        withLazyLoad={!searchLimit || searchLimit !== entities.length}
-        handlePageChanged={handlePageChanged}
-        rowsClassNames={
-          ({ priority }) => classNames({
-            'Notifications__columns-color--high': priority === 'HIGH',
-            'Notifications__columns-color--medium': priority === 'MEDIUM',
-            'Notifications__columns-color--low': priority === 'LOW',
-          })
-        }
-      >
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
-          render={this.renderNotificationUuid}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-          render={this.renderPriority}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
-          render={this.renderAgent}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
-          render={this.renderClient}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
-          render={this.renderNotificationDate}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-          render={this.renderNotificationType}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
-          render={this.renderNotificationTypeDetails}
-        />
-      </Grid>
+      <div className="NotificationsGrid">
+        <Grid
+          data={entities}
+          isLoading={loading}
+          isLastPage={isLastPage}
+          withNoResults={!loading && entities.length === 0}
+          withLazyLoad={!searchLimit || searchLimit !== entities.length}
+          handlePageChanged={handlePageChanged}
+          headerStickyFromTop={126}
+          rowsClassNames={
+            ({ priority }) => classNames({
+              'Notifications__columns-color--high': priority === 'HIGH',
+              'Notifications__columns-color--medium': priority === 'MEDIUM',
+              'Notifications__columns-color--low': priority === 'LOW',
+            })
+          }
+        >
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
+            render={this.renderNotificationUuid}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
+            render={this.renderPriority}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
+            render={this.renderAgent}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
+            render={this.renderClient}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
+            render={this.renderNotificationDate}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+            render={this.renderNotificationType}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
+            render={this.renderNotificationTypeDetails}
+          />
+        </Grid>
+      </div>
     );
   }
 }

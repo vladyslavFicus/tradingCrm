@@ -79,6 +79,7 @@ class TradingActivityGrid extends PureComponent {
         <Grid
           data={content}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={189}
           isLoading={loading}
           isLastPage={last}
           withNoResults={!loading && !content.length}

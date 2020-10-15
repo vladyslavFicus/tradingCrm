@@ -158,6 +158,7 @@ class PartnersGrid extends PureComponent {
           data={content}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={138}
           isLoading={loading}
           isLastPage={last}
           withLazyLoad
