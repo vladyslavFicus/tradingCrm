@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import EventEmitter, { DISTRIBUTION_RULE_CHANGED } from 'utils/EventEmitter';
 import ClientsDistributionModal from 'modals/ClientsDistributionModal';
 import Uuid from 'components/Uuid';
 import { EditButton } from 'components/UI';
@@ -16,7 +17,6 @@ class DistributionRuleHeader extends PureComponent {
     modals: PropTypes.shape({
       updateRuleModal: PropTypes.modalType,
     }).isRequired,
-    refetchRule: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -33,7 +33,6 @@ class DistributionRuleHeader extends PureComponent {
       modals: {
         updateRuleModal,
       },
-      refetchRule,
     } = this.props;
 
     updateRuleModal.show({
@@ -42,7 +41,7 @@ class DistributionRuleHeader extends PureComponent {
       ruleName,
       ruleOrder,
       onSuccess: () => {
-        refetchRule();
+        EventEmitter.emit(DISTRIBUTION_RULE_CHANGED);
         updateRuleModal.hide();
       },
     });

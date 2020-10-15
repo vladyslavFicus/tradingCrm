@@ -4,6 +4,7 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import EventEmitter, { DISTRIBUTION_RULE_CHANGED } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import DistributionRuleHeader from './components/DistributionRuleHeader';
 import DistributionRuleInfo from './components/DistributionRuleInfo';
@@ -119,13 +120,23 @@ class DistributionRule extends PureComponent {
     ...DistributionRule.nullState,
   };
 
+  componentDidMount() {
+    EventEmitter.on(DISTRIBUTION_RULE_CHANGED, this.refetchRule);
+  }
+
   componentWillUnmount() {
     this.constructor.initialState = this.constructor.nullState;
 
     this.resetToInitialState();
 
     DistributionRule.initSettingsAreSet = false;
+
+    EventEmitter.off(DISTRIBUTION_RULE_CHANGED, this.refetchRule);
   }
+
+  refetchRule = () => {
+    this.props.ruleQuery.refetch();
+  };
 
   resetToInitialState = () => {
     this.setState(deepCopyOfDataObject(this.constructor.initialState));
@@ -243,7 +254,6 @@ class DistributionRule extends PureComponent {
       ruleQuery: {
         data: ruleData,
         loading: ruleLoading,
-        refetch: refetchRule,
       },
       operatorsQuery,
     } = this.props;
@@ -291,7 +301,6 @@ class DistributionRule extends PureComponent {
           ruleName={name}
           ruleOrder={order}
           createdBy={createdBy}
-          refetchRule={refetchRule}
         />
         <DistributionRuleInfo
           status={status}
