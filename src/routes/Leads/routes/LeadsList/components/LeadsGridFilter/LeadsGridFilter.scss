@@ -9,38 +9,40 @@
   }
 
   &__fields {
-    margin-right: -15px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-grow: 1;
+    width: 100%;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(8, calc(12.5% - 15px * 7 / 8));
+
+    /*
+      grid-template-columns: repeat(8, calc(12.5% - 15px * 7 / 8));
+
+      where:
+        8 - columns in a row
+        12.5% - basic column width (100% / 8)
+        15px - gap size
+        7 - count of gaps in a row
+    */
   }
 
   &__field {
-    margin: 0 15px 15px 0;
-    display: inline-block;
-    vertical-align: top;
-
-    &:last-child {
-      margin-right: 0;
-    }
+    margin-bottom: 0;
   }
 
   &__search {
-    flex-grow: 0.6;
-    flex-basis: 350px;
-    min-width: 350px;
+    grid-column: span 2;
   }
 
   &__select {
-    flex-grow: 1;
-    flex-basis: 150px;
-    min-width: 250px;
-    max-width: 300px;
+    grid-column: span 2;
+  }
+
+  &__date-range {
+    grid-column: span 4;
   }
 
   &__search-limit {
-    flex-basis: 250px;
-    min-width: 250px;
+    grid-column: span 2;
   }
 
   &__buttons {

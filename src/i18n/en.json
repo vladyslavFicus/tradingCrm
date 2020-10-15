@@ -1666,6 +1666,7 @@
         "STATUS": "Profile status",
         "TAGS": "Tags",
         "SEGMENTS": "Segments",
+        "LANGUAGES": "Languages",
         "REG_DATE_RANGE": "Registration date range",
         "FIRST_DEPOSIT_DATE": "FTD date range",
         "REG_DATE_FROM": "Registered From",
@@ -2788,6 +2789,7 @@
     },
     "FILTER": {
       "SEARCH": "Search by",
+      "LANGUAGES": "Languages",
       "COUNTRIES": "Countries",
       "DESKS": "Desks",
       "TEAMS": "Teams",

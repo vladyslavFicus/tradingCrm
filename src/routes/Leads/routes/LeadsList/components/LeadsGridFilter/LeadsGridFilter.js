@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { omit, get, intersection } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { getAvailableLanguages } from 'config';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
@@ -20,6 +21,7 @@ import './LeadsGridFilter.scss';
 
 const attributeLabels = {
   searchKeyword: 'LEADS.FILTER.SEARCH',
+  languages: 'LEADS.FILTER.LANGUAGES',
   countries: 'LEADS.FILTER.COUNTRIES',
   desks: 'LEADS.FILTER.DESKS',
   teams: 'LEADS.FILTER.TEAMS',
@@ -41,19 +43,7 @@ class LeadsGridFilter extends PureComponent {
       }),
     }).isRequired,
     operatorsData: PropTypes.query({
-      operators: PropTypes.shape({
-        content: PropTypes.arrayOf(
-          PropTypes.shape({
-            uuid: PropTypes.string,
-            fullName: PropTypes.string,
-            operatorStatus: PropTypes.string,
-            parentBranches: PropTypes.shape({
-              branchType: PropTypes.string,
-              uuid: PropTypes.string,
-            }),
-          }),
-        ),
-      }),
+      operators: PropTypes.pageable(PropTypes.operator),
     }).isRequired,
   };
 
@@ -161,6 +151,22 @@ class LeadsGridFilter extends PureComponent {
                   addition={<i className="icon icon-search" />}
                   component={FormikInputField}
                 />
+
+                <Field
+                  name="languages"
+                  className="LeadsGridFilter__field LeadsGridFilter__select"
+                  label={I18n.t(attributeLabels.languages)}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  multiple
+                  searchable
+                >
+                  {getAvailableLanguages().map(locale => (
+                    <option key={locale} value={locale}>
+                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                    </option>
+                  ))}
+                </Field>
 
                 <Field
                   name="countries"
@@ -286,7 +292,7 @@ class LeadsGridFilter extends PureComponent {
                 </Field>
 
                 <FormikDateRangeGroup
-                  className="LeadsGridFilter__field"
+                  className="LeadsGridFilter__field LeadsGridFilter__date-range"
                   label={I18n.t(attributeLabels.registrationDateRange)}
                   periodKeys={{
                     start: 'registrationDateStart',
@@ -295,7 +301,7 @@ class LeadsGridFilter extends PureComponent {
                 />
 
                 <FormikDateRangeGroup
-                  className="LeadsGridFilter__field"
+                  className="LeadsGridFilter__field LeadsGridFilter__date-range"
                   label={I18n.t(attributeLabels.lastNoteDateRange)}
                   periodKeys={{
                     start: 'lastNoteDateFrom',
