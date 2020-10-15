@@ -3,10 +3,14 @@
   border-radius: 5px;
 
   &__header {
+    background-color: #fff;
     border-bottom: 1px solid #dfe4ed;
     padding: 25px;
+    position: sticky;
+    top: 48px;
     display: flex;
     align-items: center;
+    z-index: 2;
   }
 
   &__title {

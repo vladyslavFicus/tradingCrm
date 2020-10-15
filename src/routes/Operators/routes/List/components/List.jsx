@@ -110,7 +110,7 @@ class List extends Component {
 
     return (
       <div className="card">
-        <div className="card-heading">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!loading && !!operators}
             className={null}
@@ -123,7 +123,7 @@ class List extends Component {
           >
             <Choose>
               <When condition={totalElements}>
-                <span className="font-size-20 height-55">
+                <span className="font-size-20">
                   <div>
                     <strong>{totalElements} </strong>
                     {I18n.t('COMMON.OPERATORS_FOUND')}

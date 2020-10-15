@@ -21,11 +21,11 @@ const REQUEST = gql`
   }
 `;
 
-const OfficesQuery = ({ children, location: { query = {} } }) => (
+const OfficesQuery = ({ children, location: { state = {} } }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query.filters,
+      ...state?.filters,
       branchType: 'office',
     }}
     fetchPolicy="network-only"
@@ -37,7 +37,7 @@ const OfficesQuery = ({ children, location: { query = {} } }) => (
 OfficesQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
     }),
   }).isRequired,

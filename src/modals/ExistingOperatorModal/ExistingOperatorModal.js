@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { getBrandId } from 'config';
+import { parseErrors } from 'apollo';
 
 class ExistingOperatorModal extends Component {
   static propTypes = {
@@ -17,8 +18,8 @@ class ExistingOperatorModal extends Component {
     branchId: PropTypes.string.isRequired,
   };
 
-  handleSubmitExistingOperator = async (e) => {
-    e.preventDefault();
+  handleSubmitExistingOperator = async (event) => {
+    event.preventDefault();
 
     const {
       addExistingOperator,
@@ -52,11 +53,13 @@ class ExistingOperatorModal extends Component {
       onCloseModal();
 
       history.replace(`${uuid}/profile`);
-    } catch (_) {
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.TITLE'),
-        message: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
+        message: error.message || I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
       });
     }
   };

@@ -20,6 +20,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatus from 'components/GridStatus';
 import renderLabel from 'utils/renderLabel';
 import ClientsQuery from './graphql/ClientsQuery';
+import './ClientsGrid.scss';
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
@@ -41,7 +42,7 @@ class ClientsGrid extends PureComponent {
     const profiles = get(clientsQuery, 'data.profiles.content') || [];
 
     return (
-      <div className="card card-body">
+      <div className="ClientsGrid card">
         <Grid
           data={profiles}
           isLoading={loading}

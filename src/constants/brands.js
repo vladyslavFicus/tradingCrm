@@ -110,6 +110,11 @@ const brands = keyMirror({
   primecap: null,
   ofxb: null,
   horizoninvest: null,
+  tradingnetwork: null,
+  axa: null,
+  'cd-engine': null,
+  cfbroker: null,
+  octofinance: null,
 });
 
 const departments = keyMirror({
@@ -572,6 +577,26 @@ const brandsConfig = {
   [brands.horizoninvest]: {
     name: 'horizoninvest',
     image: { src: '/img/brand/choose-brand/horizoninvest.svg' },
+  },
+  [brands.tradingnetwork]: {
+    name: 'tradingnetwork',
+    image: { src: '/img/brand/choose-brand/tradingnetwork.svg' },
+  },
+  [brands.axa]: {
+    name: 'axa',
+    image: { src: '/img/brand/choose-brand/axa.svg' },
+  },
+  [brands['cd-engine']]: {
+    name: 'cd-engine',
+    image: { src: '/img/brand/choose-brand/cd-engine.svg' },
+  },
+  [brands.cfbroker]: {
+    name: 'cfbroker',
+    image: { src: '/img/brand/choose-brand/cfbroker.svg' },
+  },
+  [brands.octofinance]: {
+    name: 'octofinance',
+    image: { src: '/img/brand/choose-brand/octofinance.svg' },
   },
 };
 const departmentsConfig = {
