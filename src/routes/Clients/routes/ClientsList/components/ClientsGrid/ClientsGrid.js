@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
-import { withPermission } from 'providers/PermissionsProvider';
 import { getActiveBrandConfig } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -14,6 +13,7 @@ import { statusColorNames, statusesLabels } from 'constants/user';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
+import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import GridStatus from 'components/GridStatus';
@@ -27,8 +27,8 @@ import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import Permissions from 'utils/permissions';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
-import './ClientsGrid.scss';
 import { MAX_SELECTED_CLIENTS } from '../../constants';
+import './ClientsGrid.scss';
 
 const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
 

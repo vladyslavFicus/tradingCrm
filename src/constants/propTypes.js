@@ -132,11 +132,12 @@ PropTypes.dropDownOption = PropTypes.shape({
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 });
-PropTypes.operatorProfile = PropTypes.shape({
+PropTypes.operator = PropTypes.shape({
   country: PropTypes.any,
   email: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
+  fullName: PropTypes.string,
   operatorStatus: PropTypes.string,
   phoneNumber: PropTypes.string,
   sip: PropTypes.string,
@@ -144,6 +145,10 @@ PropTypes.operatorProfile = PropTypes.shape({
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,
   uuid: PropTypes.string,
+  parentBranches: PropTypes.shape({
+    branchType: PropTypes.string,
+    uuid: PropTypes.string,
+  }),
 });
 // # This one can be removed after PartnerProfile page will be refactored
 PropTypes.partnerProfile = PropTypes.shape({
@@ -899,13 +904,13 @@ PropTypes.treeBranch = PropTypes.shape({
   name: PropTypes.string,
   branchType: PropTypes.string,
   managerUuid: PropTypes.string,
-  manager: PropTypes.operatorProfile,
+  manager: PropTypes.operator,
   usersCount: PropTypes.number,
   childrenCount: PropTypes.number,
 });
 PropTypes.treeUser = PropTypes.shape({
   uuid: PropTypes.string,
-  operator: PropTypes.operatorProfile,
+  operator: PropTypes.operator,
 });
 
 PropTypes.referral = PropTypes.shape({

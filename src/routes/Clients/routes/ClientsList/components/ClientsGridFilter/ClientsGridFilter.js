@@ -49,17 +49,7 @@ class ClientsGridFilter extends PureComponent {
       }),
     }).isRequired,
     operatorsQuery: PropTypes.query({
-      operators: PropTypes.pageable(
-        PropTypes.shape({
-          uuid: PropTypes.string,
-          fullName: PropTypes.string,
-          operatorStatus: PropTypes.string,
-          parentBranches: PropTypes.shape({
-            branchType: PropTypes.string,
-            uuid: PropTypes.string,
-          }),
-        }),
-      ),
+      operators: PropTypes.pageable(PropTypes.operator),
     }).isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),

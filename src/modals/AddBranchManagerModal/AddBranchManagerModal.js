@@ -29,7 +29,7 @@ class AddBranchManagerModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     addBranchManager: PropTypes.func.isRequired,
     branchUsersQuery: PropTypes.query({
-      branchUsers: PropTypes.arrayOf(PropTypes.operatorProfile),
+      branchUsers: PropTypes.arrayOf(PropTypes.operator),
     }).isRequired,
     branch: PropTypes.shape({
       uuid: PropTypes.string.isRequired,
