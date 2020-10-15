@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object, PropTypes.bool]),
 });
 
 class SelectSingleOptions extends PureComponent {

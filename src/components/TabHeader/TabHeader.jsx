@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const TabHeader = ({ title, children }) => (
-  <div className={classNames('tab-header', { 'row no-gutters': children })}>
+const TabHeader = ({ title, className, children }) => (
+  <div className={classNames('tab-header', className, { 'row no-gutters': children })}>
     <div className={classNames('tab-header__title', { col: children })}>
       {title}
     </div>
@@ -20,10 +20,12 @@ TabHeader.propTypes = {
     PropTypes.string,
     PropTypes.object,
   ]).isRequired,
+  className: PropTypes.string,
   children: PropTypes.node,
 };
 TabHeader.defaultProps = {
   children: null,
+  className: null,
 };
 
 export default TabHeader;

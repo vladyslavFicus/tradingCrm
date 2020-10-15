@@ -89,7 +89,7 @@ class List extends Component {
       } = this.props;
 
       const totalElements = get(profiles, 'profiles.totalElements');
-      const searchLimit = get(location, 'query.filters.searchLimit');
+      const searchLimit = get(location, 'state.filters.searchLimit');
 
       let selectedLimit = totalElements > MAX_SELECTED_ROWS;
 
@@ -117,7 +117,7 @@ class List extends Component {
       const { profiles, location } = this.props;
 
       const totalElements = get(profiles, 'profiles.totalElements');
-      const searchLimit = get(location, 'query.filters.searchLimit') || Infinity;
+      const searchLimit = get(location, 'state.filters.searchLimit') || Infinity;
 
       selectedRowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_ROWS) - selectedRowsLength;
     }
@@ -159,16 +159,14 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
         />
 
-        <div className="card-body card-grid-multiselect">
-          <ClientsGrid
-            profiles={profiles}
-            searchLimit={searchLimit}
-            touchedRowsIds={touchedRowsIds}
-            allRowsSelected={allRowsSelected}
-            handleAllRowsSelect={this.handleAllRowsSelect}
-            handleSelectRow={this.handleSelectRow}
-          />
-        </div>
+        <ClientsGrid
+          profiles={profiles}
+          searchLimit={searchLimit}
+          touchedRowsIds={touchedRowsIds}
+          allRowsSelected={allRowsSelected}
+          handleAllRowsSelect={this.handleAllRowsSelect}
+          handleSelectRow={this.handleSelectRow}
+        />
       </div>
     );
   }

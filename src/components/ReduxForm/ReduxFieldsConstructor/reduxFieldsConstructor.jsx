@@ -34,6 +34,7 @@ const reduxFieldsConstructor = (
       maxLength,
       // select props
       multiple,
+      multipleLabel,
       searchable,
       withAnyOption,
       selectOptions,
@@ -89,6 +90,7 @@ const reduxFieldsConstructor = (
               {...commonProps}
               component={components.SELECT}
               multiple={multiple}
+              multipleLabel={multipleLabel}
               {...customOnChange && { onFieldChange: onSelectFieldChange(name) }}
               {...(searchable === false) && { searchable }}
               {...(withAnyOption === false)

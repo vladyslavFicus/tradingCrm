@@ -17,7 +17,7 @@ export default (error) => {
 
   return {
     error: errorCode,
-    message: I18n.t(errorCode),
+    message: I18n.t(errorCode, { defaultValue: errorResponse?.message }),
     fields: Object.keys(fields).length ? fields : null,
     errorParameters,
   };

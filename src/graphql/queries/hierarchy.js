@@ -32,6 +32,7 @@ const getUserHierarchyById = gql`query getUserHierarchyById(
         uuid
       }
     }
+    subordinatesCount
   }
 }`;
 

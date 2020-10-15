@@ -9,6 +9,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
+import './TradingAccountsListGrid.scss';
 
 class TradingAccountsListGrid extends PureComponent {
   static propTypes = {
@@ -76,12 +77,13 @@ class TradingAccountsListGrid extends PureComponent {
     const { content, last } = get(tradingAccountsData, 'data.tradingAccounts') || { content: [] };
 
     return (
-      <div className="card-body">
+      <div className="TradingAccountsListGrid">
         <Grid
           data={content}
           handlePageChanged={this.handlePageChanged}
           isLoading={loading}
           isLastPage={last}
+          headerStickyFromTop={126}
           withNoResults={!loading && content.length === 0}
           withLazyLoad
         >

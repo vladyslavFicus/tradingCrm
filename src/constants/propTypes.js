@@ -536,6 +536,39 @@ PropTypes.ruleType = PropTypes.shape({
   type: PropTypes.string,
   updatedBy: PropTypes.string,
 });
+PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
+  brand: PropTypes.string,
+  sortType: PropTypes.string,
+  operator: PropTypes.string,
+  country: PropTypes.string,
+  distributionUnit: PropTypes.shape({
+    quantity: PropTypes.number,
+    baseUnit: PropTypes.string,
+  }),
+});
+PropTypes.ruleClientsDistributionType = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  order: PropTypes.number,
+  status: PropTypes.string,
+  createdBy: PropTypes.string,
+  createdAt: PropTypes.string,
+  countries: PropTypes.arrayOf(PropTypes.string),
+  salesStatuses: PropTypes.arrayOf(PropTypes.string),
+  targetSalesStatus: PropTypes.string,
+  executionType: PropTypes.string,
+  registrationPeriodInHours: PropTypes.number,
+  executionPeriodInHours: PropTypes.number,
+  latestMigration: PropTypes.shape({
+    uuid: PropTypes.string,
+    startDate: PropTypes.string,
+    status: PropTypes.string,
+    ruleUuid: PropTypes.string,
+    clientsAmount: PropTypes.number,
+  }),
+  sourceBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
+  targetBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
+});
 PropTypes.tradingActivity = PropTypes.shape({
   id: PropTypes.number.isRequired,
   tradeId: PropTypes.number.isRequired,

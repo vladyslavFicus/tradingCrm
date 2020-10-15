@@ -1,0 +1,19 @@
+.DistributionRuleSettings {
+  &__headline {
+    margin-bottom: 15px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  &__form {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -15px;
+  }
+
+  &__form-field {
+    flex: 1 33.3333%;
+    min-width: 250px;
+    padding: 0 15px;
+  }
+}
