@@ -5,7 +5,7 @@ import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
-import Uuid from 'components/Uuid';
+import DistributionRuleHeader from './components/DistributionRuleHeader';
 import DistributionRuleInfo from './components/DistributionRuleInfo';
 import DistributionRuleSettings from './components/DistributionRuleSettings';
 import DistributionRuleBrands from './components/DistributionRuleBrands';
@@ -22,6 +22,11 @@ import './DistributionRule.scss';
 
 class DistributionRule extends PureComponent {
   static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
     ruleQuery: PropTypes.query({
       distributionRule: PropTypes.ruleClientsDistributionType,
     }).isRequired,
@@ -232,9 +237,13 @@ class DistributionRule extends PureComponent {
 
   render() {
     const {
+      match: {
+        params: { id: ruleUuid },
+      },
       ruleQuery: {
         data: ruleData,
         loading: ruleLoading,
+        refetch: refetchRule,
       },
       operatorsQuery,
     } = this.props;
@@ -254,6 +263,7 @@ class DistributionRule extends PureComponent {
 
     const {
       name,
+      order,
       createdBy,
       status,
       createdAt,
@@ -261,14 +271,6 @@ class DistributionRule extends PureComponent {
       statusChangedAt,
       latestMigration,
     } = ruleData?.distributionRule || { name: '' };
-
-    const headerProps = {
-      status,
-      createdAt,
-      updatedAt,
-      statusChangedAt,
-      latestMigration,
-    };
 
     const allowedBaseUnit = executionType === 'MANUAL' ? 'AMOUNT' : 'PERCENTAGE';
 
@@ -284,11 +286,20 @@ class DistributionRule extends PureComponent {
 
     return (
       <div className="DistributionRule card">
-        <div className="DistributionRule__header card-heading">
-          <div className="DistributionRule__headline">{I18n.t('CLIENTS_DISTRIBUTION.RULE.TITLE', { name })}</div>
-          <If condition={createdBy}><Uuid uuid={createdBy} /></If>
-        </div>
-        <DistributionRuleInfo {...headerProps} />
+        <DistributionRuleHeader
+          ruleUuid={ruleUuid}
+          ruleName={name}
+          ruleOrder={order}
+          createdBy={createdBy}
+          refetchRule={refetchRule}
+        />
+        <DistributionRuleInfo
+          status={status}
+          createdAt={createdAt}
+          updatedAt={updatedAt}
+          statusChangedAt={statusChangedAt}
+          latestMigration={latestMigration}
+        />
         <div className="card-body">
           <DistributionRuleSettings
             generalSettings={generalSettings}
