@@ -6,20 +6,20 @@ import { getBackofficeBrand } from '../../config';
 const ReleaseNotes = () => (
   <Fragment>
     <h1>{startCase(getBackofficeBrand().id)} CRM<br/>Release notes</h1>
-    <h2>30/September/20 - Version 47</h2>
+
+    <hr/>
+
+    <h2>1/October/20 - Version 47</h2>
     <h2>What has been done</h2>
     <ul>
       <li>
         <p>Implemented keeping of filtering result after page refresh on several pages: Search clients , KYC documents, Trading accounts</p>
       </li>
       <li>
-        <p>Added &lsquo;account_id&rsquo; and 'crm' parameters to Didlogic request</p>
+        <p>Extended set of parameters for Didlogic</p>
       </li>
       <li>
-        <p>Added ability to delete Trades (closed and pending) in CRM After They Have Been Deleted in MT4 Provider</p>
-      </li>
-      <li>
-        <p>Redirection to brand landing page after click on logo in CP</p>
+        <p>Redirection to main page of Client Portal after clicking on logo</p>
       </li>
       <li>
         <p>On Partner profile page added a link to share with clients for their sign up. After sign up client will refer to this partner</p>
@@ -31,9 +31,12 @@ const ReleaseNotes = () => (
         <p>Fixed problem with logout from Status</p>
       </li>
       <li>
-        <p>Handle duplicate callback error at callback creation modal</p>
+        <p>Fixed with callback error</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>24/September/20 - Version 46</h2>
     <h2>What has been done</h2>
     <ul>
@@ -50,6 +53,9 @@ const ReleaseNotes = () => (
         <p>Fixed issue with the deposit&rsquo;s number сalculation</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>11/September/20 - Version 45</h2>
     <h2>What has been done</h2>
     <ul>
@@ -66,6 +72,9 @@ const ReleaseNotes = () => (
         <p>Fixed Miss match between email validation on Client Portal and Affiliate API</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>7/September/20 - Version 44</h2>
     <h2>What has been done</h2>
     <ul>
@@ -112,6 +121,10 @@ const ReleaseNotes = () => (
         <p>Added max length validation to search by fields on Clients page</p>
       </li>
     </ul>
+
+    <hr/>
+
+
     <h2>24/July/20 - Version 43</h2>
     <h2>What has been done</h2>
     <ul>
@@ -134,6 +147,10 @@ const ReleaseNotes = () => (
         <p>Fixed issue with KYC filter</p>
       </li>
     </ul>
+
+    <hr/>
+
+
     <h2>13/July/20 - Version 42</h2>
     <h2>What has been done</h2>
     <ul>
@@ -174,6 +191,10 @@ const ReleaseNotes = () => (
         <p>Fixed DateTo time display issue</p>
       </li>
     </ul>
+
+    <hr/>
+
+
     <h2>29/June/20 - Version 41</h2>
     <h2>What has been done</h2>
     <ul>
@@ -190,6 +211,9 @@ const ReleaseNotes = () => (
         <p>Fixed some permissions issues</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>28/May/20 - Version 40</h2>
     <h2>What has been done</h2>
     <ul>
@@ -206,6 +230,9 @@ const ReleaseNotes = () => (
         <p>Fixed incorrect display for big notes on Clients and Leads Page</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>11/May/20 - Version 39</h2>
     <h2>What has been done</h2>
     <ul>
@@ -243,6 +270,9 @@ const ReleaseNotes = () => (
         <p>Corrected leverage value in change leverage history</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>14/Apr/20 - Version 38</h2>
     <h2>What has been done</h2>
     <ul>
@@ -268,6 +298,9 @@ const ReleaseNotes = () => (
         <p>Fixed issue with displaying incorrect information about change leverage request</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>03/Apr/20 - Version 37</h2>
     <h2>What has been done</h2>
     <ul>
@@ -299,6 +332,9 @@ const ReleaseNotes = () => (
         <p>Fixed bug with leads filtering by sales status on Leads page</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>29/Mar/20 - Version 36</h2>
     <h2>What has been done</h2>
     <ul>
@@ -342,6 +378,9 @@ const ReleaseNotes = () => (
         <p>Fixed Error with list pagination on Payments tab on Client&rsquo;s page</p>
       </li>
     </ul>
+
+    <hr/>
+
     <h2>12/Mar/20 - Version 35</h2>
     <h2>What has been done</h2>
     <ul>
@@ -380,6 +419,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
     <h2>5/Mar/20 - Version 34</h2>
 
 
@@ -403,14 +444,13 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
     <h1>26/Feb/20 - Version 33</h1>
 
     <h2>What has been done</h2>
 
     <ul>
-      <li>
-        <p>Social Trading integration for EverFX Int Client Portal</p>
-      </li>
       <li>
         <p>Inactivity fee</p>
       </li>
@@ -424,19 +464,7 @@ const ReleaseNotes = () => (
         <p>Automated email sending once the MT4 Trading Account has been created</p>
       </li>
       <li>
-        <p>Hiding of &lsquo;Hierarchy&rsquo; and &lsquo;Management&rsquo; items in the EverFX Int Backoffice</p>
-      </li>
-      <li>
-        <p>Enabling of &lsquo;PAMM&rsquo;, &lsquo;Trading Central&rsquo; and &lsquo;Social Trading&rsquo; features for the EverFX Int Client Portal</p>
-      </li>
-      <li>
         <p>BCC generation to the brand support on templated email sending event</p>
-      </li>
-      <li>
-        <p>Adding of GTM Support to the EverFX Int Client Portal</p>
-      </li>
-      <li>
-        <p>Integration of the BiGWPay payment system to the EverFX Int Client Portal</p>
       </li>
       <li>
         <p>Disable of &lsquo;Social Trading&rsquo; feature for those Client&rsquo;s whose KYC Status is not &lsquo;APPROVED&rsquo;</p>
@@ -458,6 +486,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
 
     <h1>13/Feb/20 - Version 32</h1>
 
@@ -466,13 +496,7 @@ const ReleaseNotes = () => (
 
     <ul>
       <li>
-        <p>Close permissions to edit in Management and Hierarchy tabs ONLY for EverFX Global</p>
-      </li>
-      <li>
         <p>Templated emails functionality</p>
-      </li>
-      <li>
-        <p>Block the SignUp function for multiple EverFX brands</p>
       </li>
       <li>
         <p>Disable specific fields in the "Personal Info" subitem</p>
@@ -487,6 +511,8 @@ const ReleaseNotes = () => (
         <p>&nbsp;Fix support service for mt4 account archiving</p>
       </li>
     </ul>
+
+    <hr/>
 
 
     <h1>05/Feb/20 - Version 31</h1>
@@ -517,6 +543,8 @@ const ReleaseNotes = () => (
         <p>Fix an error that breaks Profile page when clicking on different Profile tabs</p>
       </li>
     </ul>
+
+    <hr/>
 
 
     <h1>31/Jan/20 - Version 30</h1>
@@ -598,6 +626,8 @@ const ReleaseNotes = () => (
         <p>Operators who have no permissions to change KYC status were banned from doing so.</p>
       </li>
     </ul>
+
+    <hr/>
 
 
     <h1>22/Dec/19 - Version 29</h1>
@@ -692,6 +722,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
     <h1>18/Sep/19 - Version 28</h1>
 
     <h2>What has been done</h2>
@@ -743,6 +775,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
     <h1>29/August/19 - Version 27</h1>
 
     <h2>What has been done</h2>
@@ -788,6 +822,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
 
     <h1>18/July/19 - Version 26</h1>
 
@@ -830,6 +866,8 @@ const ReleaseNotes = () => (
         <p>Fixed - Errors when client translates Client Portal with Google translate</p>
       </li>
     </ul>
+
+    <hr/>
 
     <h1>11/July/19 - Version 25</h1>
 
@@ -879,6 +917,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
     <h1>27/June/19 - Version 24</h1>
 
     <h2>What has been done</h2>
@@ -923,6 +963,8 @@ const ReleaseNotes = () => (
         <p>Client portal styling issues after implementation multi-currency - fixed</p>
       </li>
     </ul>
+
+    <hr/>
 
     <h1>31/May/19 - Version 23</h1>
 
@@ -984,6 +1026,8 @@ const ReleaseNotes = () => (
       </li>
     </ul>
 
+    <hr/>
+
     <h1>17/May/19 - Version 22</h1>
 
     <h2>What has been done</h2>
@@ -1010,6 +1054,8 @@ const ReleaseNotes = () => (
         <p>Client portal caching problem fixed</p>
       </li>
     </ul>
+
+    <hr/>
 
     <h1>7/May/19 - Version 21</h1>
 
@@ -1049,6 +1095,8 @@ const ReleaseNotes = () => (
         <p>Affiliate API - Save birth date fixed</p>
       </li>
     </ul>
+
+    <hr/>
 
     <h1>16/Apr/19 - Version 19</h1>
 

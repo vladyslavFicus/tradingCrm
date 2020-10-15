@@ -64,8 +64,8 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
   }
 }`;
 
-const getLeadsQuery = ({ children, location: { query } }) => {
-  const searchLimit = query?.filters?.searchLimit;
+const getLeadsQuery = ({ children, location: { state } }) => {
+  const searchLimit = state?.filters?.searchLimit;
   const size = (searchLimit && searchLimit < 20) ? searchLimit : 20;
 
   return (
@@ -73,11 +73,11 @@ const getLeadsQuery = ({ children, location: { query } }) => {
       query={REQUEST}
       variables={{
         args: {
-          ...query && query.filters,
+          ...state && state.filters,
           page: {
             from: 0,
             size,
-            sorts: (query) ? query.sorts : [],
+            sorts: state ? state.sorts : [],
           },
         },
       }}
@@ -92,7 +92,7 @@ const getLeadsQuery = ({ children, location: { query } }) => {
 getLeadsQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
       sorts: PropTypes.pageable.isRequired,
     }),

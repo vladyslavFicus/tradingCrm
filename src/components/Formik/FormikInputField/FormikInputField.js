@@ -36,7 +36,7 @@ class FormikInputField extends PureComponent {
     return (
       <Input
         name={name}
-        value={value}
+        value={value !== null ? value : ''}
         onChange={onChange}
         error={get(errors, name)}
         {...input}

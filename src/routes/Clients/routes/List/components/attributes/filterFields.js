@@ -40,11 +40,11 @@ const assignStatuses = [
 
 const radioSelect = [
   {
-    value: '0',
+    value: false,
     label: 'COMMON.NO',
   },
   {
-    value: '1',
+    value: true,
     label: 'COMMON.YES',
   },
 ];
@@ -206,6 +206,7 @@ export default ({
     className: fieldClassNames.MEDIUM,
     selectOptions: radioSelect,
     searchable: false,
+    boolean: true,
   },
   {
     type: fieldTypes.SELECT,
@@ -282,6 +283,7 @@ export default ({
     className: fieldClassNames.MEDIUM,
     selectOptions: radioSelect,
     searchable: false,
+    boolean: true,
   },
   {
     type: fieldTypes.SELECT,

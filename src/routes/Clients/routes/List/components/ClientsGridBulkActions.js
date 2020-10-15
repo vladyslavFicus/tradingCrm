@@ -42,7 +42,7 @@ class ClientsGridBulkActions extends PureComponent {
       touchedRowsIds,
       allRowsSelected,
       selectedRowsLength,
-      location: { query },
+      location: { state },
       modals: { representativeUpdateModal },
       profiles: {
         profiles: {
@@ -58,7 +58,7 @@ class ClientsGridBulkActions extends PureComponent {
         allRowsSelected,
         selectedRowsLength,
         multiAssign: true,
-        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
+        ...(state && { searchParams: omit(state.filters, ['page.size']) }),
       },
       onSuccess: this.onSubmitSuccess,
       header: (
@@ -77,7 +77,7 @@ class ClientsGridBulkActions extends PureComponent {
       touchedRowsIds,
       allRowsSelected,
       selectedRowsLength,
-      location: { query },
+      location: { state },
       modals: { moveModal },
       profiles: {
         profiles: {
@@ -94,7 +94,7 @@ class ClientsGridBulkActions extends PureComponent {
         touchedRowsIds,
         allRowsSelected,
         selectedRowsLength,
-        ...(query && { searchParams: omit(query.filters, ['page.size']) }),
+        ...(state && { searchParams: omit(state.filters, ['page.size']) }),
       },
       onSuccess: this.onSubmitSuccess,
     });

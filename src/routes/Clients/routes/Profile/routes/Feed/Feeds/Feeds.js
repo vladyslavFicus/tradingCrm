@@ -70,7 +70,7 @@ class Feed extends PureComponent {
             totalPages={totalPages}
             render={(feed, key) => <FeedItem key={key} data={feed} />}
             onPageChange={this.handlePageChange}
-            showNoResults={!loading && !content.length}
+            showNoResults={!loading && !content?.length}
           />
         </div>
       </Fragment>

@@ -6,6 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { accountTypes, accountStatuses } from '../../constants';
 import './TradingAccountsListFilters.scss';
 
@@ -46,6 +47,8 @@ class TradingAccountsListFilters extends PureComponent {
   render() {
     const { loading, location: { state } } = this.props;
 
+    const platformTypes = getAvailablePlatformTypes();
+
     return (
       <Formik
         enableReinitialize
@@ -76,6 +79,20 @@ class TradingAccountsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <If condition={platformTypes.length > 1}>
+                <Field
+                  name="platformType"
+                  label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.PLATFORM_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="form-group filter-row__medium"
+                  component={FormikSelectField}
+                  withAnyOption
+                >
+                  {platformTypes.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </If>
               <Field
                 name="archived"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.STATUS')}

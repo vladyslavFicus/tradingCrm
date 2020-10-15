@@ -16,6 +16,7 @@ import {
 import { RangeGroup } from 'components/Forms';
 import { Button } from 'components/UI';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import {
   types,
   symbols,
@@ -73,6 +74,8 @@ class TradingActivityGridFilter extends PureComponent {
     const accounts = get(tradingAccountsData, 'clientTradingAccounts') || [];
     const originalAgents = get(operatorsData, 'operators.content') || [];
     const disabledOriginalAgentField = operatorsLoading;
+
+    const platformTypes = getAvailablePlatformTypes();
 
     return (
       <Formik
@@ -209,6 +212,20 @@ class TradingActivityGridFilter extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <If condition={platformTypes.length > 1}>
+                <Field
+                  name="platformType"
+                  label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="form-group filter-row__medium"
+                  component={FormikSelectField}
+                  withAnyOption
+                >
+                  {platformTypes.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </If>
               <FormikDateRangeGroup
                 className="form-group filter-row__date-range"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}

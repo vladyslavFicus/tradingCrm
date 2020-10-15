@@ -21,6 +21,7 @@ import { accountTypes } from 'constants/accountTypes';
 import { warningValues, warningLabels } from 'constants/warnings';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { filterSetTypes } from 'constants/filterSet';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import formatLabel from 'utils/formatLabel';
 import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
@@ -153,7 +154,6 @@ class PaymentsListFilters extends PureComponent {
 
   handleFormChange = (data = {}) => {
     const {
-      firstTimeDeposit,
       amountFrom,
       amountTo,
       desks,
@@ -170,7 +170,6 @@ class PaymentsListFilters extends PureComponent {
       query: {
         filters: decodeNullValues({
           ...filters,
-          ...(firstTimeDeposit && { firstTimeDeposit: !!+firstTimeDeposit }),
           ...(statuses && { statuses }),
           ...(amountFrom && { amountFrom }),
           ...(amountTo && { amountTo }),
@@ -224,6 +223,8 @@ class PaymentsListFilters extends PureComponent {
     const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
 
     const currencies = getActiveBrandConfig().currencies.supported;
+
+    const platformTypes = getAvailablePlatformTypes();
 
     return (
       <FormikExtForm
@@ -443,6 +444,20 @@ class PaymentsListFilters extends PureComponent {
                 </option>
               ))}
             </Field>
+            <If condition={platformTypes.length > 1}>
+              <Field
+                name="platformType"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                className="form-group filter-row__medium"
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {platformTypes.map(({ value, label }) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </Field>
+            </If>
             <Field
               name="firstTimeDeposit"
               className="form-group filter-row__medium"
@@ -452,8 +467,8 @@ class PaymentsListFilters extends PureComponent {
               withAnyOption
             >
               {[
-                { label: 'COMMON.YES', value: '1' },
-                { label: 'COMMON.NO', value: '0' },
+                { label: 'COMMON.YES', value: true },
+                { label: 'COMMON.NO', value: false },
               ].map(({ value, label }) => (
                 <option key={value} value={value}>
                   {I18n.t(label)}

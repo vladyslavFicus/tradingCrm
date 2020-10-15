@@ -59,6 +59,7 @@ const types = keyMirror({
   INTEREST_RATE: null,
   PROFILE_ACQUISITION_UPDATED: null,
   ACQUISITION_UPDATED: null,
+  EMAIL_SENT: null,
 });
 const typesLabels = {
   [types.AFFILIATE_ACCOUNT_CREATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_ACCOUNT_CREATED',
@@ -120,6 +121,7 @@ const typesLabels = {
   [types.INTEREST_RATE]: 'CONSTANTS.AUDIT.TYPES.INTEREST_RATE',
   [types.PROFILE_ACQUISITION_UPDATED]: 'CONSTANTS.AUDIT.TYPES.PROFILE_ACQUISITION_UPDATED',
   [types.ACQUISITION_UPDATED]: 'CONSTANTS.AUDIT.TYPES.ACQUISITION_UPDATED',
+  [types.EMAIL_SENT]: 'CONSTANTS.AUDIT.TYPES.EMAIL_SENT',
 };
 const typesClassNames = {
   [types.AFFILIATE_ACCOUNT_CREATED]: 'green',
@@ -154,6 +156,7 @@ const typesClassNames = {
   [types.PROFILE_ASSIGN]: 'blue',
   [types.CHANGE_LEVERAGE_REQUESTED]: 'blue',
   [types.RISK_PROFILE_DATA_CREATED]: 'green',
+  [types.EMAIL_SENT]: '',
 };
 
 export {

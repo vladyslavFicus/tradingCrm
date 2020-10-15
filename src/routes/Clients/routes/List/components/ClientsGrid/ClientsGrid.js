@@ -117,6 +117,7 @@ class ClientsGrid extends PureComponent {
     return (
       <Grid
         data={gridData}
+        className="ClientsGrid"
         allRowsSelected={allRowsSelected}
         touchedRowsIds={touchedRowsIds}
         handleSort={this.handleSort}
@@ -124,6 +125,7 @@ class ClientsGrid extends PureComponent {
         handleSelectRow={handleSelectRow}
         handleAllRowsSelect={handleAllRowsSelect}
         handlePageChanged={this.handlePageChanged}
+        headerStickyFromTop={154}
         isLoading={loading}
         isLastPage={last}
         sorts={location?.state?.sortData}

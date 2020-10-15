@@ -41,7 +41,7 @@ class LeadsHeader extends PureComponent {
 
     if (allRowsSelected) {
       const totalElements = get(leadsQuery, 'data.leads.totalElements');
-      const searchLimit = get(location, 'query.filters.searchLimit') || Infinity;
+      const searchLimit = get(location, 'state.filters.searchLimit') || Infinity;
 
       rowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_LEADS) - rowsLength;
     }
@@ -54,7 +54,7 @@ class LeadsHeader extends PureComponent {
       leadsQuery,
       touchedRowsIds,
       allRowsSelected,
-      location: { query },
+      location: { state },
       updateLeadsListState,
       modals: { representativeUpdateModal },
     } = this.props;
@@ -69,8 +69,8 @@ class LeadsHeader extends PureComponent {
         allRowsSelected,
         selectedRowsLength: this.selectedRowsLength,
         multiAssign: true,
-        ...query && {
-          searchParams: query.filters,
+        ...state && {
+          searchParams: state.filters,
         },
       },
       onSuccess: () => {
@@ -105,12 +105,12 @@ class LeadsHeader extends PureComponent {
     const {
       leadsQuery,
       location: {
-        query,
+        state,
       },
     } = this.props;
 
     const totalElements = get(leadsQuery, 'data.leads.totalElements') || null;
-    const searchLimit = get(query, 'filters.searchLimit');
+    const searchLimit = get(state, 'filters.searchLimit');
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit
