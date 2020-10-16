@@ -119,11 +119,7 @@ class DistributionRules extends PureComponent {
 
     try {
       const {
-        data: {
-          clientsAmount: {
-            clientsAmount,
-          },
-        },
+        data: { clientsAmount },
       } = await client.query({
         query: DistributionRuleClientsAmountQuery,
         variables: {
@@ -169,6 +165,7 @@ class DistributionRules extends PureComponent {
     <If condition={status !== 'INACTIVE'}>
       <Button
         transparent
+        stopPropagation
         onClick={() => this.handleStartMigrationClick(rest)}
       >
         <Choose>
