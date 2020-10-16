@@ -1,13 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import classNames from 'classnames';
 import moment from 'moment';
-import renderLabel from 'utils/renderLabel';
-import {
-  clientDistributionStatuses,
-  statusesLabels,
-} from 'constants/clientsDistribution';
+import DistributionRuleStatus from './components/DistributionRuleStatus';
 import './DistributionRuleInfo.scss';
 
 class DistributionRuleInfo extends PureComponent {
@@ -19,6 +14,7 @@ class DistributionRuleInfo extends PureComponent {
     latestMigration: PropTypes.shape({
       startDate: PropTypes.string,
     }),
+    updateRuleStatus: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -36,6 +32,7 @@ class DistributionRuleInfo extends PureComponent {
       updatedAt,
       statusChangedAt,
       latestMigration,
+      updateRuleStatus,
     } = this.props;
 
     const { startDate: latestMigrationDate } = latestMigration || {};
@@ -43,26 +40,15 @@ class DistributionRuleInfo extends PureComponent {
     return (
       <div className="DistributionRuleInfo">
         <If condition={status}>
-          <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS')}
-            </div>
-            <div
-              className={classNames(
-                'DistributionRuleInfo__item-value',
-                'text-uppercase',
-                clientDistributionStatuses[status].color,
-              )}
-            >
-              {I18n.t(renderLabel(status, statusesLabels))}
-            </div>
-            <If condition={statusChangedAt}>
-              <div className="DistributionRuleInfo__item-small-text">
-                {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS_SINCE')}&nbsp;
-                {moment.utc(statusChangedAt).local().format('DD.MM.YYYY HH:mm')}
-              </div>
-            </If>
-          </div>
+          <DistributionRuleStatus
+            status={status}
+            statusChangedAt={statusChangedAt}
+            updateRuleStatus={updateRuleStatus}
+            rootClassName="DistributionRuleInfo__item"
+            labelClassName="DistributionRuleInfo__item-label"
+            valueClassName="DistributionRuleInfo__item-value text-uppercase"
+            smallTextClassName="DistributionRuleInfo__item-small-text"
+          />
         </If>
         <If condition={createdAt}>
           <div className="DistributionRuleInfo__item">
