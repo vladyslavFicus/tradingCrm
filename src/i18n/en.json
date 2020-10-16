@@ -3145,7 +3145,9 @@
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
-        "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients"
+        "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients",
+        "BRAND": "Brand",
+        "QUANTITY": "Amount of cilents"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",

@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { brandsConfig } from 'constants/brands';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { baseUnits, sortTypes } from '../../constants';
+import {
+  baseUnits,
+  sortTypes,
+  modalFieldsNames,
+} from '../../constants';
 import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
@@ -89,10 +93,12 @@ class AddSourceBrandModal extends PureComponent {
             baseUnit,
             sortType: sortType || 'FIFO',
           }}
-          validate={createValidator({
-            brand: 'required',
-            quantity: 'required',
-          })}
+          validate={values => (
+            createValidator({
+              brand: 'required',
+              quantity: ['required', 'integer', values.baseUnit === 'PERCENTAGE' ? 'between:1,100' : 'min:1'],
+            }, translateLabels(modalFieldsNames))(values)
+          )}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={handleSubmit}

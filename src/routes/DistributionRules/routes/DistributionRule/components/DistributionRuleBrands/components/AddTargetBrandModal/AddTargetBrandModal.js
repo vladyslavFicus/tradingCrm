@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import { brandsConfig } from 'constants/brands';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { baseUnits } from '../../constants';
+import { baseUnits, modalFieldsNames } from '../../constants';
 import './AddTargetBrandModal.scss';
 
 class AddTargetBrandModal extends PureComponent {
@@ -98,10 +98,12 @@ class AddTargetBrandModal extends PureComponent {
             baseUnit,
             operator,
           }}
-          validate={createValidator({
-            brand: 'required',
-            quantity: 'required',
-          })}
+          validate={values => (
+            createValidator({
+              brand: 'required',
+              quantity: ['required', 'integer', values.baseUnit === 'PERCENTAGE' ? 'between:1,100' : 'min:1'],
+            }, translateLabels(modalFieldsNames))(values)
+          )}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={handleSubmit}
