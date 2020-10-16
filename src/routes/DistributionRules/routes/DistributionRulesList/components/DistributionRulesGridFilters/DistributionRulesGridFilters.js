@@ -10,7 +10,7 @@ import { filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statusesLabels } from 'constants/clientsDistribution';
 import Button from 'components/UI/Button';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
 
@@ -122,14 +122,14 @@ class DistributionRulesFilters extends PureComponent {
                   <option key={key} value={key}>{countryList[key]}</option>
                 ))}
               </Field>
-              <FormikDateRangePicker
+              <FormikDateRangeGroup
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
                 periodKeys={{
                   start: 'createdDateFrom',
                   end: 'createdDateTo',
                 }}
               />
-              <FormikDateRangePicker
+              <FormikDateRangeGroup
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LAST_TIME_EXECUTED')}
                 periodKeys={{
                   start: 'lastTimeExecutedFrom',
