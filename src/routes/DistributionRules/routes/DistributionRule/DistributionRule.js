@@ -13,6 +13,7 @@ import DistributionRuleBrands from './components/DistributionRuleBrands';
 import {
   DistributionRuleQuery,
   DistributionRuleUpdate,
+  DistributionRuleUpdateStatus,
   OperatorsQuery,
 } from './graphql';
 import {
@@ -32,6 +33,7 @@ class DistributionRule extends PureComponent {
       distributionRule: PropTypes.ruleClientsDistributionType,
     }).isRequired,
     updateRule: PropTypes.func.isRequired,
+    updateRuleStatus: PropTypes.func.isRequired,
     operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.shape({
         uuid: PropTypes.string,
@@ -142,6 +144,57 @@ class DistributionRule extends PureComponent {
     this.setState(deepCopyOfDataObject(this.constructor.initialState));
   };
 
+  handleGeneralSettings = (isValid, generalSettings) => {
+    this.setState({
+      generalSettings,
+      sourceBrandConfig: null,
+      targetBrandConfig: null,
+      addSourceBrandEnabled: isValid,
+      addTargetBrandEnabled: false,
+    });
+  };
+
+  handleSourceBrandConfig = ({ quantity, baseUnit, ...brandSettings }) => {
+    this.setState({
+      sourceBrandConfig: {
+        ...brandSettings,
+        distributionUnit: {
+          quantity,
+          baseUnit,
+        },
+      },
+      addSourceBrandEnabled: false,
+      addTargetBrandEnabled: true,
+    });
+  };
+
+  handleTargetBrandConfig = ({ quantity, baseUnit, ...brandSettings }) => {
+    this.setState({
+      targetBrandConfig: {
+        ...brandSettings,
+        distributionUnit: {
+          quantity,
+          baseUnit,
+        },
+      },
+      addTargetBrandEnabled: false,
+    });
+  };
+
+  handleRemoveBrandCard = key => (
+    key === 'source'
+      ? this.setState({
+        sourceBrandConfig: null,
+        targetBrandConfig: null,
+        addSourceBrandEnabled: true,
+        addTargetBrandEnabled: false,
+      })
+      : this.setState(({ sourceBrandConfig }) => ({
+        targetBrandConfig: null,
+        addTargetBrandEnabled: !!sourceBrandConfig,
+      }))
+  );
+
   handleUpdateRule = async () => {
     const {
       ruleQuery: {
@@ -195,56 +248,40 @@ class DistributionRule extends PureComponent {
     }
   };
 
-  handleGeneralSettings = (isValid, generalSettings) => {
-    this.setState({
-      generalSettings,
-      sourceBrandConfig: null,
-      targetBrandConfig: null,
-      addSourceBrandEnabled: isValid,
-      addTargetBrandEnabled: false,
-    });
-  };
-
-  handleSourceBrandConfig = ({ quantity, baseUnit, ...brandSettings }) => {
-    this.setState({
-      sourceBrandConfig: {
-        ...brandSettings,
-        distributionUnit: {
-          quantity,
-          baseUnit,
-        },
+  updateRuleStatus = async (ruleStatus) => {
+    const {
+      ruleQuery: {
+        data: ruleData,
       },
-      addSourceBrandEnabled: false,
-      addTargetBrandEnabled: true,
-    });
-  };
+      updateRuleStatus,
+      notify,
+    } = this.props;
 
-  handleTargetBrandConfig = ({ quantity, baseUnit, ...brandSettings }) => {
-    this.setState({
-      targetBrandConfig: {
-        ...brandSettings,
-        distributionUnit: {
-          quantity,
-          baseUnit,
+    const { uuid } = ruleData.distributionRule;
+
+    try {
+      await updateRuleStatus({
+        variables: {
+          uuid,
+          ruleStatus,
         },
-      },
-      addTargetBrandEnabled: false,
-    });
-  };
+      });
 
-  handleRemoveBrandCard = key => (
-    key === 'source'
-      ? this.setState({
-        sourceBrandConfig: null,
-        targetBrandConfig: null,
-        addSourceBrandEnabled: true,
-        addTargetBrandEnabled: false,
-      })
-      : this.setState(({ sourceBrandConfig }) => ({
-        targetBrandConfig: null,
-        addTargetBrandEnabled: !!sourceBrandConfig,
-      }))
-  );
+      notify({
+        level: 'success',
+        title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
+        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
+      });
+
+      EventEmitter.emit(DISTRIBUTION_RULE_CHANGED);
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_TITLE'),
+        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_MESSAGE'),
+      });
+    }
+  };
 
   render() {
     const {
@@ -308,6 +345,7 @@ class DistributionRule extends PureComponent {
           updatedAt={updatedAt}
           statusChangedAt={statusChangedAt}
           latestMigration={latestMigration}
+          updateRuleStatus={this.updateRuleStatus}
         />
         <div className="card-body">
           <DistributionRuleSettings
@@ -355,6 +393,7 @@ export default compose(
   withRequests({
     ruleQuery: DistributionRuleQuery,
     updateRule: DistributionRuleUpdate,
+    updateRuleStatus: DistributionRuleUpdateStatus,
     operatorsQuery: OperatorsQuery,
   }),
 )(DistributionRule);

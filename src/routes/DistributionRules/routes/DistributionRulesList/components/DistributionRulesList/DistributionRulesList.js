@@ -173,10 +173,10 @@ class DistributionRules extends PureComponent {
       >
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
-            <i className="icon-pause btn-transparent" />
+            <i className="icon-pause btn-transparent font-size-20" />
           </When>
           <Otherwise>
-            <i className="icon-play btn-transparent" />
+            <i className="icon-play btn-transparent font-size-20" />
           </Otherwise>
         </Choose>
       </Button>

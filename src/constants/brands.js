@@ -109,6 +109,10 @@ const brands = keyMirror({
   eurofx: null,
   primecap: null,
   ofxb: null,
+  fantex: null,
+  unionstock: null,
+  supratrade: null,
+  horizoninvest: null,
   tradingnetwork: null,
   axa: null,
   'cd-engine': null,
@@ -572,6 +576,22 @@ const brandsConfig = {
   [brands.ofxb]: {
     name: 'ofxb',
     image: { src: '/img/brand/choose-brand/ofxb.svg' },
+  },
+  [brands.fantex]: {
+    name: 'fantex',
+    image: { src: '/img/brand/choose-brand/fantex.svg' },
+  },
+  [brands.unionstock]: {
+    name: 'unionstock',
+    image: { src: '/img/brand/choose-brand/unionstock.svg' },
+  },
+  [brands.supratrade]: {
+    name: 'supratrade',
+    image: { src: '/img/brand/choose-brand/supratrade.svg' },
+  },
+  [brands.horizoninvest]: {
+    name: 'horizoninvest',
+    image: { src: '/img/brand/choose-brand/horizoninvest.svg' },
   },
   [brands.tradingnetwork]: {
     name: 'tradingnetwork',

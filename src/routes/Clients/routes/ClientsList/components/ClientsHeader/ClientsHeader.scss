@@ -1,0 +1,21 @@
+.ClientsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 48px;
+  height: 110px;
+  padding: 25px;
+  background-color: #fff;
+  border-bottom: 1px solid #dfe4ed;
+  z-index: 3;
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__selected {
+    color: #5187bd;
+    font-size: 14px;
+  }
+}

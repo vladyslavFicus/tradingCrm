@@ -17,7 +17,7 @@ const Information = ({ data, authorities }) => (
 );
 
 Information.propTypes = {
-  data: PropTypes.operatorProfile.isRequired,
+  data: PropTypes.operator.isRequired,
   authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
 };
 
