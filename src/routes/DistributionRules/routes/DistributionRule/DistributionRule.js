@@ -270,7 +270,7 @@ class DistributionRule extends PureComponent {
       latestMigration,
     };
 
-    const allowedBaseUnit = executionType === 'MANUAL' ? 'AMOUNT' : 'PERCENTAGE';
+    const allowedBaseUnits = [(executionType === 'MANUAL' && 'AMOUNT'), 'PERCENTAGE'].filter(Boolean);
 
     const resetDisabled = ruleLoading
       || isSubmitting
@@ -295,7 +295,7 @@ class DistributionRule extends PureComponent {
             handleGeneralSettings={this.handleGeneralSettings}
           />
           <DistributionRuleBrands
-            allowedBaseUnit={allowedBaseUnit}
+            allowedBaseUnits={allowedBaseUnits}
             generalSettings={generalSettings}
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}

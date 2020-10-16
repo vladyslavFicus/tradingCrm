@@ -21,7 +21,7 @@ class AddTargetBrandModal extends PureComponent {
     })).isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
     sourceBrand: PropTypes.string.isRequired,
-    allowedBaseUnit: PropTypes.string.isRequired,
+    allowedBaseUnits: PropTypes.arrayOf(PropTypes.string).isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
       distributionUnit: PropTypes.shape({
@@ -73,7 +73,7 @@ class AddTargetBrandModal extends PureComponent {
       handleSubmit,
       operators,
       operatorsLoading,
-      allowedBaseUnit,
+      allowedBaseUnits,
       initialValues: {
         brand,
         distributionUnit,
@@ -83,7 +83,7 @@ class AddTargetBrandModal extends PureComponent {
 
     const { availableClientsAmount } = this.state;
 
-    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
+    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnits[0] };
 
     return (
       <Modal
@@ -130,15 +130,27 @@ class AddTargetBrandModal extends PureComponent {
                     })}
                   </div>
                 </If>
-                <Field
-                  name="quantity"
-                  type="number"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
-                  step="1"
-                  addition={baseUnits[baseUnit]}
-                  additionPosition="right"
-                  component={FormikInputField}
-                />
+                <div className="AddTargetBrandModal__row">
+                  <Field
+                    name="quantity"
+                    type="number"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
+                    step="1"
+                    className="AddTargetBrandModal__field AddTargetBrandModal__field--quantity"
+                    component={FormikInputField}
+                  />
+                  <Field
+                    name="baseUnit"
+                    label="&nbsp;"
+                    className="AddTargetBrandModal__field AddTargetBrandModal__field--unit"
+                    component={FormikSelectField}
+                    disabled={allowedBaseUnits.length === 1}
+                  >
+                    {allowedBaseUnits.map(value => (
+                      <option key={value} value={value}>{baseUnits[value]}</option>
+                    ))}
+                  </Field>
+                </div>
                 <Field
                   name="operator"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}

@@ -20,7 +20,7 @@ class AddSourceBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    allowedBaseUnit: PropTypes.string.isRequired,
+    allowedBaseUnits: PropTypes.arrayOf(PropTypes.string).isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
       distributionUnit: PropTypes.shape({
@@ -68,7 +68,7 @@ class AddSourceBrandModal extends PureComponent {
       onCloseModal,
       isOpen,
       handleSubmit,
-      allowedBaseUnit,
+      allowedBaseUnits,
       initialValues: {
         brand,
         distributionUnit,
@@ -78,7 +78,7 @@ class AddSourceBrandModal extends PureComponent {
 
     const { availableClientsAmount } = this.state;
 
-    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
+    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnits[0] };
 
     return (
       <Modal
@@ -125,15 +125,27 @@ class AddSourceBrandModal extends PureComponent {
                     })}
                   </div>
                 </If>
-                <Field
-                  name="quantity"
-                  type="number"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
-                  step="1"
-                  addition={baseUnits[baseUnit]}
-                  additionPosition="right"
-                  component={FormikInputField}
-                />
+                <div className="AddSourceBrandModal__row">
+                  <Field
+                    name="quantity"
+                    type="number"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
+                    step="1"
+                    className="AddSourceBrandModal__field AddSourceBrandModal__field--quantity"
+                    component={FormikInputField}
+                  />
+                  <Field
+                    name="baseUnit"
+                    label="&nbsp;"
+                    className="AddSourceBrandModal__field AddSourceBrandModal__field--unit"
+                    component={FormikSelectField}
+                    disabled={allowedBaseUnits.length === 1}
+                  >
+                    {allowedBaseUnits.map(value => (
+                      <option key={value} value={value}>{baseUnits[value]}</option>
+                    ))}
+                  </Field>
+                </div>
                 <Field
                   name="sortType"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SORT_METHOD')}
