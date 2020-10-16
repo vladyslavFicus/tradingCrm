@@ -25,7 +25,7 @@ class OperatorPersonalForm extends PureComponent {
   static propTypes = {
     updateOperator: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    operatorProfile: PropTypes.operatorProfile.isRequired,
+    operatorProfile: PropTypes.operator.isRequired,
     disabled: PropTypes.bool.isRequired,
   };
 

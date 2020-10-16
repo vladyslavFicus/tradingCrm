@@ -15,12 +15,16 @@ class ExtendedForm extends PureComponent {
     filterSetType: PropTypes.string.isRequired,
     isDataLoading: PropTypes.bool,
     children: PropTypes.func.isRequired,
+    enableReinitialize: PropTypes.bool,
+    validate: PropTypes.func,
   };
 
   static defaultProps = {
     initialValues: {},
     handleReset: () => {},
     isDataLoading: false,
+    enableReinitialize: false,
+    validate: null,
   };
 
   state = {
@@ -29,7 +33,7 @@ class ExtendedForm extends PureComponent {
     selectedFilterDropdownItem: '',
   };
 
-  handleSubmit = (values) => {
+  handleSubmit = (values, formikBag) => {
     const { prevValues } = this.state;
     const { isDataLoading, handleSubmit } = this.props;
 
@@ -43,19 +47,19 @@ class ExtendedForm extends PureComponent {
       requestId = Math.random().toString(36).slice(2);
     }
 
-    handleSubmit({ ...values, ...(requestId && { requestId }) });
+    handleSubmit({ ...values, ...(requestId && { requestId }) }, formikBag);
 
     this.setState({ prevValues: values });
   };
 
-  handleReset = () => {
+  handleReset = (values, formikBag) => {
     const { handleReset, isDataLoading } = this.props;
 
     if (isDataLoading) {
       return;
     }
 
-    handleReset();
+    handleReset(values, formikBag);
 
     this.setState({ selectedFilterDropdownItem: '' });
   };
@@ -72,8 +76,10 @@ class ExtendedForm extends PureComponent {
 
   render() {
     const {
+      enableReinitialize,
       filterSetType,
       isDataLoading,
+      validate,
       children,
       initialValues,
     } = this.props;
@@ -85,9 +91,11 @@ class ExtendedForm extends PureComponent {
 
     return (
       <Formik
+        enableReinitialize={enableReinitialize}
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
         onReset={this.handleReset}
+        validate={validate}
       >
         {({
           values,
@@ -129,7 +137,7 @@ class ExtendedForm extends PureComponent {
 
                   <div className="filter__form-buttons-group">
                     <Button
-                      disabled={!dirty || isDataLoading}
+                      disabled={isDataLoading}
                       onClick={handleReset}
                       common
                     >
@@ -138,7 +146,6 @@ class ExtendedForm extends PureComponent {
 
                     <Button
                       disabled={isDataLoading || !dirty}
-                      className="margin-left-15"
                       type="submit"
                       primary
                     >

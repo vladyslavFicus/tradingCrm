@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./components/Clients'));
+export default lazy(() => import('./Clients'));
