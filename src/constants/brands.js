@@ -616,7 +616,7 @@ const brandsConfig = {
   },
   [brands['cd engine']]: {
     name: 'cd engine',
-    image: { src: '/img/brand/choose-brand/cd engine.svg' },
+    image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
 };
 const departmentsConfig = {
