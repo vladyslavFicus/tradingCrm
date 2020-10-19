@@ -3168,7 +3168,8 @@
         "ERROR_TITLE": "Failure",
         "ERROR_MESSAGE": "The distribution rule was not updated",
         "SUCCESS_TITLE": "Success",
-        "SUCCESS_MESSAGE": "The distribution rule was successfully updated"
+        "SUCCESS_MESSAGE": "The distribution rule was successfully updated",
+        "ALREADY_EXIST": "There is an existing rule with the same conditions"
       }
     }
   },
