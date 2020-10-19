@@ -288,13 +288,15 @@ class DistributionRules extends PureComponent {
   );
 
   renderExecutionTime = ({ executionType, executionPeriodInHours }) => {
-    const day = Math.floor(executionPeriodInHours / 24);
+    const { time, type } = executionPeriodInHours >= 24
+      ? { time: Math.floor(executionPeriodInHours / 24), type: 'DAY' }
+      : { time: executionPeriodInHours, type: 'HOURS' };
 
     return (
       <Choose>
         <When condition={executionPeriodInHours}>
           <div className="font-weight-700">
-            {`${day} ${I18n.t(`COMMON.${day > 1 ? 'DAYS' : 'DAY'}`)}`}
+            {`${time} ${I18n.t(`COMMON.${type}`)}`}
           </div>
           <div className="font-size-11">
             {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
