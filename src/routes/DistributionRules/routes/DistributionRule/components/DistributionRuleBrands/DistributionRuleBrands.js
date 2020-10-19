@@ -95,7 +95,10 @@ class DistributionRuleBrands extends PureComponent {
       sourceBrandQuantity,
       allowedBaseUnit,
       ...targetBrandConfig && {
-        initialValues: targetBrandConfig,
+        initialValues: {
+          ...targetBrandConfig,
+          operator: targetBrandConfig.operatorEntity?.uuid,
+        },
       },
       fetchAvailableClientsAmount: (targetBrandId) => {
         this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);

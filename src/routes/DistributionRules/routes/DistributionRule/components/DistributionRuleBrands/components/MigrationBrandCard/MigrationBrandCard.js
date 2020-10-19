@@ -46,7 +46,7 @@ class MigrationBrandCard extends PureComponent {
           <div className="MigrationBrandCard__dt">{brandsConfig[brand]?.name || brand}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
-            {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOOSEN')}
+            {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOSEN')}
           </div>
         </div>
         <div className="MigrationBrandCard__cell">
