@@ -3148,7 +3148,8 @@
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients",
         "BRAND": "Brand",
-        "QUANTITY": "Amount of cilents"
+        "QUANTITY": "Amount of cilents",
+        "QUANTITY_LIMIT": "Target brand can't contain greater distribution quantity than source brand"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",

@@ -20,7 +20,7 @@ class AddTargetBrandModal extends PureComponent {
       fullName: PropTypes.string,
     })).isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
-    sourceBrand: PropTypes.string.isRequired,
+    sourceBrandQuantity: PropTypes.number.isRequired,
     allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
@@ -43,26 +43,24 @@ class AddTargetBrandModal extends PureComponent {
 
   async componentDidMount() {
     const {
-      sourceBrand,
       initialValues: { brand: targetBrand },
       fetchAvailableClientsAmount,
     } = this.props;
 
     if (targetBrand) {
-      const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
+      const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
       this.setState({ availableClientsAmount });
     }
   }
 
   handleBrandChange = setFieldValue => async (targetBrand) => {
     const {
-      sourceBrand,
       fetchAvailableClientsAmount,
     } = this.props;
 
     setFieldValue('brand', targetBrand);
 
-    const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
+    const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
     this.setState({ availableClientsAmount });
   };
 
@@ -73,6 +71,7 @@ class AddTargetBrandModal extends PureComponent {
       handleSubmit,
       operators,
       operatorsLoading,
+      sourceBrandQuantity,
       allowedBaseUnit,
       initialValues: {
         brand,
@@ -101,8 +100,10 @@ class AddTargetBrandModal extends PureComponent {
           validate={values => (
             createValidator({
               brand: 'required',
-              quantity: ['required', 'integer', values.baseUnit === 'PERCENTAGE' ? 'between:1,100' : 'min:1'],
-            }, translateLabels(modalFieldsNames))(values)
+              quantity: ['required', 'integer', 'min:1', `max:${sourceBrandQuantity}`],
+            }, translateLabels(modalFieldsNames), false, {
+              'max.quantity': I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.QUANTITY_LIMIT'),
+            })(values)
           )}
           validateOnBlur={false}
           validateOnChange={false}
