@@ -12,16 +12,16 @@
     width: 100%;
     display: grid;
     grid-gap: 15px;
-    grid-template-columns: repeat(8, calc(12.5% - 15px * 7 / 8));
+    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
 
     /*
-      grid-template-columns: repeat(8, calc(12.5% - 15px * 7 / 8));
+      grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
 
       where:
-        8 - columns in a row
-        12.5% - basic column width (100% / 8)
+        12 - columns in a row
+        8.33% - basic column width (100% / 12)
         15px - gap size
-        7 - count of gaps in a row
+        11 - count of gaps in a row
     */
   }
 
