@@ -26,6 +26,7 @@ import {
   DistributionRuleMigrationMutation,
   DistributionRuleClientsAmountQuery,
 } from '../graphql';
+import './DistributionRuleList.scss';
 
 class DistributionRules extends PureComponent {
   static propTypes = {
@@ -173,10 +174,10 @@ class DistributionRules extends PureComponent {
       >
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
-            <i className="icon-pause btn-transparent font-size-20" />
+            <i className="DistributionRulesList__actions-icon icon-pause" />
           </When>
           <Otherwise>
-            <i className="icon-play btn-transparent font-size-20" />
+            <i className="DistributionRulesList__actions-icon icon-play" />
           </Otherwise>
         </Choose>
       </Button>
@@ -332,7 +333,7 @@ class DistributionRules extends PureComponent {
     const { last, totalElements, content } = data?.distributionRules || { content: [] };
 
     return (
-      <div className="card">
+      <div className="DistributionRulesList card">
         <div className="card-heading">
           <Placeholder
             ready={!loading}
