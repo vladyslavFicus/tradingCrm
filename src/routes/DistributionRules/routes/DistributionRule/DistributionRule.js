@@ -163,6 +163,7 @@ class DistributionRule extends PureComponent {
           baseUnit,
         },
       },
+      targetBrandConfig: null,
       addSourceBrandEnabled: false,
       addTargetBrandEnabled: true,
     });

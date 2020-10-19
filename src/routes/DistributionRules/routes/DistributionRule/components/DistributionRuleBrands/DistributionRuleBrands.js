@@ -87,11 +87,11 @@ class DistributionRuleBrands extends PureComponent {
         addTargetBrandModal,
       },
       handleTargetBrandConfig,
-      allowedBaseUnits,
       sourceBrandConfig: {
         brand: sourceBrandId,
         distributionUnit: {
           quantity: sourceBrandQuantity,
+          baseUnit: sourceBrandBaseUnit,
         },
       },
       targetBrandConfig,
@@ -107,9 +107,12 @@ class DistributionRuleBrands extends PureComponent {
       operators,
       operatorsLoading,
       sourceBrandQuantity,
-      allowedBaseUnits,
-      ...targetBrandConfig && {
-        initialValues: targetBrandConfig,
+      initialValues: {
+        ...targetBrandConfig,
+        distributionUnit: {
+          quantity: targetBrandConfig?.distributionUnit?.quantity,
+          baseUnit: sourceBrandBaseUnit,
+        },
       },
       fetchAvailableClientsAmount: (targetBrandId) => {
         this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);
