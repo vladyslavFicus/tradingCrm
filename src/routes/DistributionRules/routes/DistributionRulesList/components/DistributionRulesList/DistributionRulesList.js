@@ -334,7 +334,7 @@ class DistributionRules extends PureComponent {
 
     return (
       <div className="DistributionRulesList card">
-        <div className="card-heading">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!loading}
             className={null}
@@ -360,13 +360,14 @@ class DistributionRules extends PureComponent {
         </div>
         <DistributionRulesFilters />
 
-        <div className="card-body">
+        <div className="card-body--table">
           <Grid
             data={content}
             isLoading={loading}
             isLastPage={last}
             withLazyLoad
             withRowsHover
+            headerStickyFromTop={127}
             handleRowClick={this.handleRowClick}
             handlePageChanged={this.handlePageChanged}
             withNoResults={!loading && content.length === 0}
