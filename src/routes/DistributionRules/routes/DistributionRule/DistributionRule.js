@@ -320,7 +320,7 @@ class DistributionRule extends PureComponent {
       latestMigration,
     } = ruleData?.distributionRule || { name: '' };
 
-    const allowedBaseUnits = [(executionType === 'MANUAL' && 'AMOUNT'), 'PERCENTAGE'].filter(Boolean);
+    const allowedBaseUnits = executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE'];
 
     const resetDisabled = ruleLoading
       || isSubmitting
