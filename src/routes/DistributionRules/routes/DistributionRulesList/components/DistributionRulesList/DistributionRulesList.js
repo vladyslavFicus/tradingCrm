@@ -159,7 +159,7 @@ class DistributionRules extends PureComponent {
       </If>
       <If condition={createdBy}>
         <div className="font-size-11">
-          <Uuid uuid={createdBy} uuidPrefix="OP" />
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
     </Fragment>
