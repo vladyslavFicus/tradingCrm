@@ -119,7 +119,7 @@ class DistributionRules extends PureComponent {
 
     try {
       const {
-        data: { clientsAmount },
+        data: { distributionClientsAmount },
       } = await client.query({
         query: DistributionRuleClientsAmountQuery,
         variables: {
@@ -134,7 +134,7 @@ class DistributionRules extends PureComponent {
           name,
           targetBrandNames: targetBrandNames.toString(),
           sourceBrandNames: sourceBrandNames.toString(),
-          clientsAmount,
+          clientsAmount: distributionClientsAmount,
         }),
         submitButtonLabel: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.BUTTON_ACTION'),
       });
