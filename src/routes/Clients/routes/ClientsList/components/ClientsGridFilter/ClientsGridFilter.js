@@ -5,7 +5,7 @@ import { intersection } from 'lodash';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withStorage } from 'providers/StorageProvider';
+import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/user';
 import { statuses as operatorsStasuses } from 'constants/operators';
@@ -14,6 +14,7 @@ import { retentionStatuses } from 'constants/retentionStatuses';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import { warningLabels } from 'constants/warnings';
 import { filterSetTypes } from 'constants/filterSet';
+import { withStorage } from 'providers/StorageProvider';
 import {
   FormikExtForm,
   FormikInputField,
@@ -178,6 +179,35 @@ class ClientsGridFilter extends PureComponent {
               />
 
               <Field
+                name="activityStatus"
+                className="ClientsGridFilter__field ClientsGridFilter__select"
+                label={I18n.t(attributeLabels.activityStatus)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {activityStatuses.map(({ value, label }) => (
+                  <option key={value} value={value}>{I18n.t(label)}</option>
+                ))}
+              </Field>
+
+              <Field
+                name="languages"
+                className="ClientsGridFilter__field ClientsGridFilter__select"
+                label={I18n.t(attributeLabels.languages)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                multiple
+                searchable
+              >
+                {getAvailableLanguages().map(locale => (
+                  <option key={locale} value={locale}>
+                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                  </option>
+                ))}
+              </Field>
+
+              <Field
                 name="countries"
                 className="ClientsGridFilter__field ClientsGridFilter__select"
                 label={I18n.t(attributeLabels.countries)}
@@ -190,19 +220,6 @@ class ClientsGridFilter extends PureComponent {
                   .map(country => (
                     <option key={country} value={country}>{countries[country]}</option>
                   ))}
-              </Field>
-
-              <Field
-                name="activityStatus"
-                className="ClientsGridFilter__field ClientsGridFilter__select"
-                label={I18n.t(attributeLabels.activityStatus)}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                withAnyOption
-              >
-                {activityStatuses.map(({ value, label }) => (
-                  <option key={value} value={value}>{I18n.t(label)}</option>
-                ))}
               </Field>
 
               <Field
