@@ -25,7 +25,7 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     profile: PropTypes.shape({
-      data: PropTypes.operatorProfile,
+      data: PropTypes.operator,
       refetch: PropTypes.func.isRequired,
       error: PropTypes.any,
     }).isRequired,

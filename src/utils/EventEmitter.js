@@ -18,4 +18,7 @@ export const FILE_REMOVED = 'FILE_REMOVED';
 // ---- Acquisition status events ---- //
 export const ACQUISITION_STATUS_CHANGED = 'ACQUISITION_STATUS_CHANGED';
 
+// ---- Distribution rule events ---- //
+export const DISTRIBUTION_RULE_CHANGED = 'DISTRIBUTION_RULE_CHANGED';
+
 export default new EventEmitter();

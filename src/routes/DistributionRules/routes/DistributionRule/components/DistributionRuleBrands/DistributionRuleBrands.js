@@ -83,10 +83,17 @@ class DistributionRuleBrands extends PureComponent {
 
   handleAddTargetBrand = () => {
     const {
-      modals: { addTargetBrandModal },
+      modals: {
+        addTargetBrandModal,
+      },
       handleTargetBrandConfig,
       allowedBaseUnits,
-      sourceBrandConfig: { brand: sourceBrand },
+      sourceBrandConfig: {
+        brand: sourceBrandId,
+        distributionUnit: {
+          quantity: sourceBrandQuantity,
+        },
+      },
       targetBrandConfig,
       operatorsQuery: {
         data: operatorsData,
@@ -99,12 +106,14 @@ class DistributionRuleBrands extends PureComponent {
     addTargetBrandModal.show({
       operators,
       operatorsLoading,
-      sourceBrand,
+      sourceBrandQuantity,
       allowedBaseUnits,
       ...targetBrandConfig && {
         initialValues: targetBrandConfig,
       },
-      fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
+      fetchAvailableClientsAmount: (targetBrandId) => {
+        this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);
+      },
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);
         addTargetBrandModal.hide();

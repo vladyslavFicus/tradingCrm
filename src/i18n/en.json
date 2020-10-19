@@ -712,7 +712,9 @@
       "IT": "Italian",
       "FR": "French",
       "TR": "Turkish",
-      "EL": "Greek"
+      "EL": "Greek",
+      "GR": "Greek",
+      "PL": "Polish"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
@@ -1666,6 +1668,7 @@
         "STATUS": "Profile status",
         "TAGS": "Tags",
         "SEGMENTS": "Segments",
+        "LANGUAGES": "Languages",
         "REG_DATE_RANGE": "Registration date range",
         "FIRST_DEPOSIT_DATE": "FTD date range",
         "REG_DATE_FROM": "Registered From",
@@ -1682,6 +1685,7 @@
         "ACCOUNT_STATUS": "Account Status",
         "DESKS": "Desks",
         "TEAMS": "Teams",
+        "OPERATORS": "Operators",
         "OFFICES": "Offices",
         "SALES_STATUS": "Sales status",
         "RETENTION_STATUS": "Retention status",
@@ -2787,6 +2791,7 @@
     },
     "FILTER": {
       "SEARCH": "Search by",
+      "LANGUAGES": "Languages",
       "COUNTRIES": "Countries",
       "DESKS": "Desks",
       "TEAMS": "Teams",
@@ -3147,7 +3152,8 @@
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients",
         "BRAND": "Brand",
-        "QUANTITY": "Amount of cilents"
+        "QUANTITY": "Amount of cilents",
+        "QUANTITY_LIMIT": "Target brand can't contain greater distribution quantity than source brand"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",

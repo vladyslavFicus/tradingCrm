@@ -143,101 +143,6 @@ ${ContactsFragment}
 ${AddressFragment}
 `;
 
-const clientsQuery = gql`query ClientListQuery (
-  $args: ClientSearch__Input
-) {
-  profiles(
-    args: $args
-  ) {
-    page
-    number
-    totalElements
-    totalPages
-    size
-    last
-    content {
-      acquisition {
-        acquisitionStatus
-        retentionStatus
-        retentionRepresentative
-        retentionOperator {
-          fullName
-          hierarchy {
-            parentBranches {
-              name
-              branchType
-              parentBranch {
-                name
-                branchType
-              }
-            }
-          }
-        }
-        salesStatus
-        salesRepresentative
-        salesOperator {
-          fullName
-          hierarchy {
-            parentBranches {
-              name
-              branchType
-              parentBranch {
-                name
-                branchType
-              }
-            }
-          }
-        }
-      }
-      address {
-        countryCode
-      }
-      affiliate {
-        uuid
-        source
-        campaignId
-        partner {
-          fullName
-        }
-      }
-      referrer {
-        fullName
-        uuid
-      }
-      balance {
-        amount
-      }
-      firstName
-      languageCode
-      lastName
-      lastNote {
-        changedAt
-        content
-        operator {
-          fullName
-        }
-      }
-      paymentDetails {
-        depositsCount
-        lastDepositTime
-      }
-      registrationDetails {
-        registrationDate
-      }
-      status {
-        changedAt
-        type
-      }
-      uuid
-      lastActivity {
-        date
-      }
-      warnings
-      online
-    }
-  }
-}`;
-
 const getLoginLock = gql`query getLoginLock($uuid: String!) {
   loginLock(uuid: $uuid) {
     lock
@@ -245,7 +150,6 @@ const getLoginLock = gql`query getLoginLock($uuid: String!) {
 }`;
 
 export {
-  clientsQuery,
   getLoginLock,
   profile,
 };
