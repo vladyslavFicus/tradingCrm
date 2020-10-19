@@ -15,13 +15,11 @@ class MigrationBrandCard extends PureComponent {
       baseUnit: PropTypes.string,
     }),
     sortType: PropTypes.string,
-    operator: PropTypes.string,
+    operatorEntity: PropTypes.shape({
+      fullName: PropTypes.string,
+    }),
     handleEditBrandCard: PropTypes.func.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
-    operators: PropTypes.arrayOf(PropTypes.shape({
-      uuid: PropTypes.string,
-      fullName: PropTypes.string,
-    })),
     brandType: PropTypes.string.isRequired,
   }
 
@@ -29,8 +27,7 @@ class MigrationBrandCard extends PureComponent {
     className: '',
     distributionUnit: {},
     sortType: '',
-    operator: '',
-    operators: [],
+    operatorEntity: null,
   }
 
   renderSourceBrandContent = () => {
@@ -69,11 +66,8 @@ class MigrationBrandCard extends PureComponent {
         quantity,
         baseUnit,
       },
-      operator: operatorUuid,
-      operators,
+      operatorEntity,
     } = this.props;
-
-    const operator = operatorUuid && (operators.find(({ uuid }) => uuid === operatorUuid)?.fullName || operatorUuid);
 
     return (
       <>
@@ -85,8 +79,8 @@ class MigrationBrandCard extends PureComponent {
           </div>
         </div>
         <div className="MigrationBrandCard__cell">
-          <If condition={operator}>
-            <div className="MigrationBrandCard__dt">{operator}</div>
+          <If condition={operatorEntity?.fullName}>
+            <div className="MigrationBrandCard__dt">{operatorEntity.fullName}</div>
             <div className="MigrationBrandCard__dd">{I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.OPERATOR')}</div>
           </If>
         </div>

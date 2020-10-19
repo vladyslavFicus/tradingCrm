@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { withApollo } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -7,6 +8,7 @@ import { brandsConfig } from 'constants/brands';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
+import operatorsByBrandQuery from './graphql/operatorsByBrandQuery';
 import { baseUnits, modalFieldsNames } from '../../constants';
 import './AddTargetBrandModal.scss';
 
@@ -15,11 +17,6 @@ class AddTargetBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    operators: PropTypes.arrayOf(PropTypes.shape({
-      uuid: PropTypes.string,
-      fullName: PropTypes.string,
-    })).isRequired,
-    operatorsLoading: PropTypes.bool.isRequired,
     sourceBrand: PropTypes.string.isRequired,
     allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
@@ -31,6 +28,9 @@ class AddTargetBrandModal extends PureComponent {
       operator: PropTypes.string,
     }),
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -38,41 +38,86 @@ class AddTargetBrandModal extends PureComponent {
   }
 
   state = {
+    operatorsByBrand: [],
+    operatorsLoading: false,
     availableClientsAmount: null,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const {
-      sourceBrand,
-      initialValues: { brand: targetBrand },
-      fetchAvailableClientsAmount,
+      initialValues: { brand: targetBrandId },
     } = this.props;
 
-    if (targetBrand) {
-      const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
-      this.setState({ availableClientsAmount });
+    if (targetBrandId) {
+      this.fetchOperatorsByBrand(targetBrandId);
+      this.fetchAvailableClientsAmount(targetBrandId);
     }
   }
 
-  handleBrandChange = setFieldValue => async (targetBrand) => {
+  fetchOperatorsByBrand = async (brandId) => {
+    const { client } = this.props;
+
+    this.setState({
+      operatorsLoading: true,
+    });
+
+    try {
+      const { data: { operatorsByBrand } } = await client.query({
+        query: operatorsByBrandQuery,
+        variables: {
+          brandId,
+          hierarchyTypeGroup: 'SALES',
+        },
+      });
+
+      this.setState({
+        operatorsByBrand,
+        operatorsLoading: false,
+      });
+    } catch {
+      this.setState({
+        operatorsLoading: false,
+      });
+    }
+  };
+
+  fetchAvailableClientsAmount = async (targetBrand) => {
     const {
       sourceBrand,
       fetchAvailableClientsAmount,
     } = this.props;
 
-    setFieldValue('brand', targetBrand);
+    try {
+      const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
+      this.setState({ availableClientsAmount });
+    } catch {
+      // ...
+    }
+  };
 
-    const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
-    this.setState({ availableClientsAmount });
+  handleBrandChange = setFieldValue => async (targetBrandId) => {
+    this.fetchOperatorsByBrand(targetBrandId);
+    this.fetchAvailableClientsAmount(targetBrandId);
+
+    setFieldValue('brand', targetBrandId);
+  };
+
+  handleSubmit = ({ operator, ...values }) => {
+    const { handleSubmit } = this.props;
+    const { operatorsByBrand } = this.state;
+
+    const operatorEntity = operatorsByBrand.find(({ uuid }) => uuid === operator);
+
+    handleSubmit({
+      ...values,
+      ...operatorEntity && { operatorEntity },
+    });
   };
 
   render() {
     const {
       onCloseModal,
       isOpen,
-      handleSubmit,
-      operators,
-      operatorsLoading,
       allowedBaseUnit,
       initialValues: {
         brand,
@@ -81,7 +126,11 @@ class AddTargetBrandModal extends PureComponent {
       },
     } = this.props;
 
-    const { availableClientsAmount } = this.state;
+    const {
+      operatorsByBrand,
+      operatorsLoading,
+      availableClientsAmount,
+    } = this.state;
 
     const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
 
@@ -106,7 +155,7 @@ class AddTargetBrandModal extends PureComponent {
           )}
           validateOnBlur={false}
           validateOnChange={false}
-          onSubmit={handleSubmit}
+          onSubmit={this.handleSubmit}
         >
           {({ setFieldValue }) => (
             <Form>
@@ -144,9 +193,9 @@ class AddTargetBrandModal extends PureComponent {
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
                   placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
                   component={FormikSelectField}
-                  disabled={operatorsLoading || !operators.length}
+                  disabled={operatorsLoading || !operatorsByBrand.length}
                 >
-                  {operators.map(({ uuid, fullName }) => (
+                  {operatorsByBrand.map(({ uuid, fullName }) => (
                     <option key={uuid} value={uuid}>{fullName}</option>
                   ))}
                 </Field>
@@ -173,4 +222,4 @@ class AddTargetBrandModal extends PureComponent {
   }
 }
 
-export default AddTargetBrandModal;
+export default withApollo(AddTargetBrandModal);
