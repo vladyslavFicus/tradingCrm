@@ -99,7 +99,7 @@ export default {
     AUDIT_LOGS: 'audit.searchAudit',
   },
   TRADING_ACTIVITY: {
-    CLIENT_TRADING_ACTIVITY: 'trading-activity.searchGet',
+    CLIENT_TRADING_ACTIVITY: 'trading-activity.searchPost',
   },
   TRADING_ACCOUNT: {
     CREATE: 'trading-account.createAccount',
