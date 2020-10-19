@@ -166,8 +166,8 @@ class DistributionRules extends PureComponent {
     </Fragment>
   );
 
-  renderActions = ({ latestMigration, status, ...rest }) => (
-    <If condition={status !== 'INACTIVE'}>
+  renderActions = ({ latestMigration, status, executionType, ...rest }) => (
+    <If condition={status !== 'INACTIVE' || executionType !== 'AUTO'}>
       <Button
         transparent
         onClick={() => this.handleStartMigrationClick(rest)}
