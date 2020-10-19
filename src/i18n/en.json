@@ -712,7 +712,9 @@
       "IT": "Italian",
       "FR": "French",
       "TR": "Turkish",
-      "EL": "Greek"
+      "EL": "Greek",
+      "GR": "Greek",
+      "PL": "Polish"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
