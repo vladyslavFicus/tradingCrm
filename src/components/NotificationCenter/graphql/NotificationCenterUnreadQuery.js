@@ -12,7 +12,7 @@ const REQUEST = gql`
 const NotificationCenterUnreadQuery = ({ children }) => (
   <Query
     query={REQUEST}
-    // pollInterval={10000}
+    pollInterval={10000}
     fetchPolicy="network-only"
   >
     {children}
