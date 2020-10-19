@@ -11,8 +11,8 @@ import { salesStatuses } from 'constants/salesStatuses';
 import { statusesLabels } from 'constants/clientsDistribution';
 import Button from 'components/UI/Button';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
+import './DistributionRulesGridFilters.scss';
 
 const validate = createValidator({
   searchBy: 'string',
@@ -56,18 +56,18 @@ class DistributionRulesFilters extends PureComponent {
           resetForm,
           dirty,
         }) => (
-          <Form className="filter__form">
-            <div className="filter__form-inputs">
+          <Form className="DistributionRulesFilters__form">
+            <div className="DistributionRulesFilters__fields">
               <Field
                 name="searchParam"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__search"
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY_PLACEHOLDER')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY')}
                 component={FormikInputField}
               />
               <Field
                 name="ruleStatus"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.RULE_STATUS')}
                 component={FormikSelectField}
@@ -82,21 +82,21 @@ class DistributionRulesFilters extends PureComponent {
               </Field>
               <Field
                 name="fromBrand"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FROM_BRAND')}
                 component={FormikInputField}
               />
               <Field
                 name="toBrand"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TO_BRAND')}
                 component={FormikInputField}
               />
               <Field
                 name="salesStatus"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
@@ -111,7 +111,7 @@ class DistributionRulesFilters extends PureComponent {
               </Field>
               <Field
                 name="country"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
                 component={FormikSelectField}
@@ -123,6 +123,7 @@ class DistributionRulesFilters extends PureComponent {
                 ))}
               </Field>
               <FormikDateRangeGroup
+                className="DistributionRulesFilters__date-range"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
                 periodKeys={{
                   start: 'createdDateFrom',
@@ -130,6 +131,7 @@ class DistributionRulesFilters extends PureComponent {
                 }}
               />
               <FormikDateRangeGroup
+                className="DistributionRulesFilters__date-range"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LAST_TIME_EXECUTED')}
                 periodKeys={{
                   start: 'lastTimeExecutedFrom',
@@ -138,7 +140,7 @@ class DistributionRulesFilters extends PureComponent {
               />
               <Field
                 name="executionPeriodInHours"
-                className={fieldClassNames.MEDIUM}
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.EXECUTION_TIME')}
                 component={FormikSelectField}
