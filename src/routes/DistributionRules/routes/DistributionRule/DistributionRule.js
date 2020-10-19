@@ -24,6 +24,7 @@ import './DistributionRule.scss';
 
 class DistributionRule extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -202,6 +203,7 @@ class DistributionRule extends PureComponent {
       },
       updateRule,
       notify,
+      history,
     } = this.props;
 
     const {
@@ -227,23 +229,14 @@ class DistributionRule extends PureComponent {
         },
       });
 
-      this.constructor.initialState = deepCopyOfDataObject({
-        ...this.state,
-        isSubmitting: false,
-      });
-
-      notify({
-        level: 'success',
-        title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
-        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
-      });
+      history.push('/distribution');
     } catch {
       notify({
         level: 'error',
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_TITLE'),
         message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_MESSAGE'),
       });
-    } finally {
+
       this.setState({ isSubmitting: false });
     }
   };
