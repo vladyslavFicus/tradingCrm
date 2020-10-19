@@ -9,6 +9,7 @@ const REQUEST = gql`
       _id
       uuid
       name
+      order
       status
       createdBy
       statusChangedAt

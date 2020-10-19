@@ -17,7 +17,7 @@ class AddTargetBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    sourceBrand: PropTypes.string.isRequired,
+    sourceBrandQuantity: PropTypes.number.isRequired,
     allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
@@ -83,19 +83,18 @@ class AddTargetBrandModal extends PureComponent {
 
   fetchAvailableClientsAmount = async (targetBrand) => {
     const {
-      sourceBrand,
       fetchAvailableClientsAmount,
     } = this.props;
 
     try {
-      const availableClientsAmount = await fetchAvailableClientsAmount(sourceBrand, targetBrand);
+      const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
       this.setState({ availableClientsAmount });
     } catch {
       // ...
     }
   };
 
-  handleBrandChange = setFieldValue => async (targetBrandId) => {
+  handleBrandChange = setFieldValue => (targetBrandId) => {
     this.fetchOperatorsByBrand(targetBrandId);
     this.fetchAvailableClientsAmount(targetBrandId);
 
@@ -118,6 +117,7 @@ class AddTargetBrandModal extends PureComponent {
     const {
       onCloseModal,
       isOpen,
+      sourceBrandQuantity,
       allowedBaseUnit,
       initialValues: {
         brand,
@@ -150,8 +150,10 @@ class AddTargetBrandModal extends PureComponent {
           validate={values => (
             createValidator({
               brand: 'required',
-              quantity: ['required', 'integer', values.baseUnit === 'PERCENTAGE' ? 'between:1,100' : 'min:1'],
-            }, translateLabels(modalFieldsNames))(values)
+              quantity: ['required', 'integer', 'min:1', `max:${sourceBrandQuantity}`],
+            }, translateLabels(modalFieldsNames), false, {
+              'max.quantity': I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.QUANTITY_LIMIT'),
+            })(values)
           )}
           validateOnBlur={false}
           validateOnChange={false}

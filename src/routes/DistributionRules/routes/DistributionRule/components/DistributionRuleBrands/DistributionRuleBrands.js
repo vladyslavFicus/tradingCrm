@@ -77,20 +77,29 @@ class DistributionRuleBrands extends PureComponent {
 
   handleAddTargetBrand = () => {
     const {
-      modals: { addTargetBrandModal },
+      modals: {
+        addTargetBrandModal,
+      },
       handleTargetBrandConfig,
       allowedBaseUnit,
-      sourceBrandConfig: { brand: sourceBrand },
+      sourceBrandConfig: {
+        brand: sourceBrandId,
+        distributionUnit: {
+          quantity: sourceBrandQuantity,
+        },
+      },
       targetBrandConfig,
     } = this.props;
 
     addTargetBrandModal.show({
-      sourceBrand,
+      sourceBrandQuantity,
       allowedBaseUnit,
       ...targetBrandConfig && {
         initialValues: targetBrandConfig,
       },
-      fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
+      fetchAvailableClientsAmount: (targetBrandId) => {
+        this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);
+      },
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);
         addTargetBrandModal.hide();

@@ -34,13 +34,13 @@ class ClientsDistributionModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     ruleName: PropTypes.string,
-    ruleOrder: PropTypes.string,
+    ruleOrder: PropTypes.number,
     uuid: PropTypes.string,
   };
 
   static defaultProps = {
     ruleName: '',
-    ruleOrder: '',
+    ruleOrder: null,
     uuid: '',
     formError: '',
   };
