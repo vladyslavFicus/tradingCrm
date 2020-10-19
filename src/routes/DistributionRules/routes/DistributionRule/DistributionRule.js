@@ -6,7 +6,7 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { DISTRIBUTION_RULE_CHANGED } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
-import Uuid from 'components/Uuid';
+import DistributionRuleHeader from './components/DistributionRuleHeader';
 import DistributionRuleInfo from './components/DistributionRuleInfo';
 import DistributionRuleSettings from './components/DistributionRuleSettings';
 import DistributionRuleBrands from './components/DistributionRuleBrands';
@@ -24,6 +24,11 @@ import './DistributionRule.scss';
 
 class DistributionRule extends PureComponent {
   static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
     ruleQuery: PropTypes.query({
       distributionRule: PropTypes.ruleClientsDistributionType,
     }).isRequired,
@@ -280,6 +285,9 @@ class DistributionRule extends PureComponent {
 
   render() {
     const {
+      match: {
+        params: { id: ruleUuid },
+      },
       ruleQuery: {
         data: ruleData,
         loading: ruleLoading,
@@ -302,6 +310,7 @@ class DistributionRule extends PureComponent {
 
     const {
       name,
+      order,
       createdBy,
       status,
       createdAt,
@@ -324,10 +333,12 @@ class DistributionRule extends PureComponent {
 
     return (
       <div className="DistributionRule card">
-        <div className="DistributionRule__header card-heading">
-          <div className="DistributionRule__headline">{I18n.t('CLIENTS_DISTRIBUTION.RULE.TITLE', { name })}</div>
-          <If condition={createdBy}><Uuid uuid={createdBy} /></If>
-        </div>
+        <DistributionRuleHeader
+          ruleUuid={ruleUuid}
+          ruleName={name}
+          ruleOrder={order}
+          createdBy={createdBy}
+        />
         <DistributionRuleInfo
           status={status}
           createdAt={createdAt}
