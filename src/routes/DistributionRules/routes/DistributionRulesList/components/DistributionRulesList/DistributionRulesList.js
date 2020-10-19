@@ -120,11 +120,7 @@ class DistributionRules extends PureComponent {
 
     try {
       const {
-        data: {
-          clientsAmount: {
-            clientsAmount,
-          },
-        },
+        data: { distributionClientsAmount },
       } = await client.query({
         query: DistributionRuleClientsAmountQuery,
         variables: {
@@ -139,7 +135,7 @@ class DistributionRules extends PureComponent {
           name,
           targetBrandNames: targetBrandNames.toString(),
           sourceBrandNames: sourceBrandNames.toString(),
-          clientsAmount,
+          clientsAmount: distributionClientsAmount,
         }),
         submitButtonLabel: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.BUTTON_ACTION'),
       });
@@ -170,6 +166,7 @@ class DistributionRules extends PureComponent {
     <If condition={status !== 'INACTIVE' || executionType !== 'AUTO'}>
       <Button
         transparent
+        stopPropagation
         onClick={() => this.handleStartMigrationClick(rest)}
       >
         <Choose>
