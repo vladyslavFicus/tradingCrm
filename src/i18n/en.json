@@ -3407,7 +3407,8 @@
       "options_not_found": "Available options by query \"%{query}\" not found...",
       "selected_options": "selected options",
       "clear": "Clear",
-      "options_selected": "options selected"
+      "options_selected": "options selected",
+      "label_more": "And %{value} more ..."
     },
     "any": "Any",
     "reset": "Reset",
