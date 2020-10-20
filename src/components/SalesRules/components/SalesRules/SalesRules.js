@@ -520,8 +520,6 @@ class SalesRules extends PureComponent {
         </div>
 
         <RulesFilters
-          onSubmit={this.handleSubmit}
-          onReset={this.handleReset}
           disabled={!allowActions}
           countries={countries}
           partners={partners}

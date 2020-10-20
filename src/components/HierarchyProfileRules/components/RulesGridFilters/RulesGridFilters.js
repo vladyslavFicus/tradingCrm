@@ -165,6 +165,7 @@ class RulesFilters extends Component {
               </Button>
               <Button
                 primary
+                type="submit"
                 className="filter__form-button"
                 disabled={isSubmitting || !dirty}
               >
