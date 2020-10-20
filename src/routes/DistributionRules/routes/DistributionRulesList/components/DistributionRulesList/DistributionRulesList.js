@@ -163,7 +163,7 @@ class DistributionRules extends PureComponent {
   );
 
   renderActions = ({ latestMigration, status, executionType, ...rest }) => (
-    <If condition={status !== 'INACTIVE' || executionType !== 'AUTO'}>
+    <If condition={!(status === 'INACTIVE' || executionType === 'AUTO')}>
       <Button
         transparent
         stopPropagation
