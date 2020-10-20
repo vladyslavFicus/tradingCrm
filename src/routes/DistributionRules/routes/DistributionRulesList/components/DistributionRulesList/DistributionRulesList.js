@@ -306,15 +306,20 @@ class DistributionRules extends PureComponent {
     );
   }
 
-  renderLastTimeExecuted = ({ statusChangedAt }) => (
-    <>
-      <div className="font-weight-700">
-        {moment.utc(statusChangedAt).local().format('DD.MM.YYYY')}
-      </div>
-      <div className="font-size-11">
-        {moment.utc(statusChangedAt).local().format('HH:mm:ss')}
-      </div>
-    </>
+  renderLastTimeExecuted = ({ latestMigration }) => (
+    <Choose>
+      <When condition={latestMigration}>
+        <div className="font-weight-700">
+          {moment.utc(latestMigration.startDate).local().format('DD.MM.YYYY')}
+        </div>
+        <div className="font-size-11">
+          {moment.utc(latestMigration.startDate).local().format('HH:mm:ss')}
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   handleRowClick = ({ uuid }) => {
