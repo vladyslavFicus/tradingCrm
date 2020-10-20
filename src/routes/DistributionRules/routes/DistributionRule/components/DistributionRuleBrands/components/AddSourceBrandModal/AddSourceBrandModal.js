@@ -12,6 +12,7 @@ import {
   baseUnits,
   sortTypes,
   modalFieldsNames,
+  MAX_MIGRATED_CLIENTS,
 } from '../../constants';
 import './AddSourceBrandModal.scss';
 
@@ -96,7 +97,9 @@ class AddSourceBrandModal extends PureComponent {
           validate={values => (
             createValidator({
               brand: 'required',
-              quantity: ['required', 'integer', values.baseUnit === 'PERCENTAGE' ? 'between:1,100' : 'min:1'],
+              quantity: ['required', 'integer', 'min:1',
+                `max:${values.baseUnit === 'PERCENTAGE' ? '100' : MAX_MIGRATED_CLIENTS}`,
+              ],
             }, translateLabels(modalFieldsNames))(values)
           )}
           validateOnBlur={false}

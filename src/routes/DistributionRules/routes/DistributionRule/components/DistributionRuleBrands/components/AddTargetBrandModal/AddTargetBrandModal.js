@@ -20,6 +20,7 @@ class AddTargetBrandModal extends PureComponent {
       fullName: PropTypes.string,
     })).isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
+    sourceBrandId: PropTypes.string.isRequired,
     sourceBrandQuantity: PropTypes.number.isRequired,
     allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
@@ -71,6 +72,7 @@ class AddTargetBrandModal extends PureComponent {
       handleSubmit,
       operators,
       operatorsLoading,
+      sourceBrandId,
       sourceBrandQuantity,
       allowedBaseUnit,
       initialValues: {
@@ -120,9 +122,12 @@ class AddTargetBrandModal extends PureComponent {
                   customOnChange={this.handleBrandChange(setFieldValue)}
                   searchable
                 >
-                  {Object.keys(brandsConfig).map(value => (
-                    <option key={value} value={value}>{brandsConfig[value].name}</option>
-                  ))}
+                  {Object.keys(brandsConfig)
+                    .filter(value => value !== sourceBrandId)
+                    .map(value => (
+                      <option key={value} value={value}>{brandsConfig[value].name}</option>
+                    ))
+                  }
                 </Field>
                 <If condition={typeof availableClientsAmount === 'number'}>
                   <div className="AddTargetBrandModal__message">
