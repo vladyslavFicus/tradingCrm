@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'components/UI';
-import { ReactComponent as CrossIcon } from './icon-cross.svg';
 import './RemoveButton.scss';
 
 class RemoveButton extends PureComponent {
@@ -22,7 +21,7 @@ class RemoveButton extends PureComponent {
         className={classNames('RemoveButton', className)}
         {...props}
       >
-        <CrossIcon className="RemoveButton__icon" />
+        <i className="RemoveButton__icon icon icon-times" />
       </Button>
     );
   }

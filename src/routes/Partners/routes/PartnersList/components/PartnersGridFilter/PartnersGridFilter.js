@@ -15,34 +15,41 @@ class PartnersGridFilter extends PureComponent {
     ...PropTypes.router,
   };
 
-  initialValues = {
-    searchBy: '',
-    country: '',
-    status: '',
-    registrationDateFrom: '',
-    registrationDateTo: '',
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
+
     setSubmitting(false);
   };
 
-  onHandleReset = (resetForm) => {
-    this.props.history.replace({ query: { filters: {} } });
-    resetForm(this.initialValues);
-  };
-
   render() {
+    const { location: { state } } = this.props;
+
     return (
       <Formik
+        enableReinitialize
         className="PartnersGridFilter"
-        initialValues={this.initialValues}
-        onSubmit={this.onHandleSubmit}
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
       >
         {({
           isSubmitting,
@@ -98,7 +105,7 @@ class PartnersGridFilter extends PureComponent {
             <div className="PartnersGridFilter__buttons">
               <Button
                 className="PartnersGridFilter__button"
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
                 common
               >

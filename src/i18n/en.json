@@ -712,7 +712,9 @@
       "IT": "Italian",
       "FR": "French",
       "TR": "Turkish",
-      "EL": "Greek"
+      "EL": "Greek",
+      "GR": "Greek",
+      "PL": "Polish"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
@@ -3166,7 +3168,9 @@
         "ERROR_TITLE": "Failure",
         "ERROR_MESSAGE": "The distribution rule was not updated",
         "SUCCESS_TITLE": "Success",
-        "SUCCESS_MESSAGE": "The distribution rule was successfully updated"
+        "SUCCESS_MESSAGE": "The distribution rule was successfully updated",
+        "INCOMPLETE_STATUS": "Rule %{name} is not completed",
+        "ALREADY_EXIST": "There is an existing rule with the same conditions"
       }
     }
   },
@@ -3403,7 +3407,8 @@
       "options_not_found": "Available options by query \"%{query}\" not found...",
       "selected_options": "selected options",
       "clear": "Clear",
-      "options_selected": "options selected"
+      "options_selected": "options selected",
+      "label_more": "And %{value} more ..."
     },
     "any": "Any",
     "reset": "Reset",

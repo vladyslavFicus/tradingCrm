@@ -26,6 +26,7 @@ import {
   DistributionRuleMigrationMutation,
   DistributionRuleClientsAmountQuery,
 } from '../graphql';
+import './DistributionRuleList.scss';
 
 class DistributionRules extends PureComponent {
   static propTypes = {
@@ -119,11 +120,7 @@ class DistributionRules extends PureComponent {
 
     try {
       const {
-        data: {
-          clientsAmount: {
-            clientsAmount,
-          },
-        },
+        data: { distributionClientsAmount },
       } = await client.query({
         query: DistributionRuleClientsAmountQuery,
         variables: {
@@ -138,7 +135,7 @@ class DistributionRules extends PureComponent {
           name,
           targetBrandNames: targetBrandNames.toString(),
           sourceBrandNames: sourceBrandNames.toString(),
-          clientsAmount,
+          clientsAmount: distributionClientsAmount,
         }),
         submitButtonLabel: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.BUTTON_ACTION'),
       });
@@ -159,24 +156,25 @@ class DistributionRules extends PureComponent {
       </If>
       <If condition={createdBy}>
         <div className="font-size-11">
-          <Uuid uuid={createdBy} uuidPrefix="OP" />
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
     </Fragment>
   );
 
-  renderActions = ({ latestMigration, status, ...rest }) => (
-    <If condition={status !== 'INACTIVE'}>
+  renderActions = ({ latestMigration, status, executionType, ...rest }) => (
+    <If condition={!(status === 'INACTIVE' || executionType === 'AUTO')}>
       <Button
         transparent
+        stopPropagation
         onClick={() => this.handleStartMigrationClick(rest)}
       >
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
-            <i className="icon-pause btn-transparent font-size-20" />
+            <i className="DistributionRulesList__actions-icon icon-pause" />
           </When>
           <Otherwise>
-            <i className="icon-play btn-transparent font-size-20" />
+            <i className="DistributionRulesList__actions-icon icon-play" />
           </Otherwise>
         </Choose>
       </Button>
@@ -287,13 +285,15 @@ class DistributionRules extends PureComponent {
   );
 
   renderExecutionTime = ({ executionType, executionPeriodInHours }) => {
-    const day = Math.floor(executionPeriodInHours / 24);
+    const { time, type } = executionPeriodInHours >= 24
+      ? { time: Math.floor(executionPeriodInHours / 24), type: 'DAY' }
+      : { time: executionPeriodInHours, type: 'HOURS' };
 
     return (
       <Choose>
         <When condition={executionPeriodInHours}>
           <div className="font-weight-700">
-            {`${day} ${I18n.t(`COMMON.${day > 1 ? 'DAYS' : 'DAY'}`)}`}
+            {`${time} ${I18n.t(`COMMON.${type}`)}`}
           </div>
           <div className="font-size-11">
             {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
@@ -306,15 +306,20 @@ class DistributionRules extends PureComponent {
     );
   }
 
-  renderLastTimeExecuted = ({ statusChangedAt }) => (
-    <>
-      <div className="font-weight-700">
-        {moment.utc(statusChangedAt).local().format('DD.MM.YYYY')}
-      </div>
-      <div className="font-size-11">
-        {moment.utc(statusChangedAt).local().format('HH:mm:ss')}
-      </div>
-    </>
+  renderLastTimeExecuted = ({ latestMigration }) => (
+    <Choose>
+      <When condition={latestMigration}>
+        <div className="font-weight-700">
+          {moment.utc(latestMigration.startDate).local().format('DD.MM.YYYY')}
+        </div>
+        <div className="font-size-11">
+          {moment.utc(latestMigration.startDate).local().format('HH:mm:ss')}
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   handleRowClick = ({ uuid }) => {
@@ -332,8 +337,8 @@ class DistributionRules extends PureComponent {
     const { last, totalElements, content } = data?.distributionRules || { content: [] };
 
     return (
-      <div className="card">
-        <div className="card-heading">
+      <div className="DistributionRulesList card">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!loading}
             className={null}
@@ -359,13 +364,14 @@ class DistributionRules extends PureComponent {
         </div>
         <DistributionRulesFilters />
 
-        <div className="card-body">
+        <div className="card-body--table">
           <Grid
             data={content}
             isLoading={loading}
             isLastPage={last}
             withLazyLoad
             withRowsHover
+            headerStickyFromTop={127}
             handleRowClick={this.handleRowClick}
             handlePageChanged={this.handlePageChanged}
             withNoResults={!loading && content.length === 0}

@@ -16,7 +16,7 @@ class DistributionRuleBrands extends PureComponent {
       addSourceBrandModal: PropTypes.modalType,
       addTargetBrandModal: PropTypes.modalType,
     }).isRequired,
-    allowedBaseUnit: PropTypes.string.isRequired,
+    allowedBaseUnits: PropTypes.arrayOf(PropTypes.string).isRequired,
     generalSettings: PropTypes.shape({
       countries: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.string),
@@ -58,12 +58,12 @@ class DistributionRuleBrands extends PureComponent {
     const {
       modals: { addSourceBrandModal },
       handleSourceBrandConfig,
-      allowedBaseUnit,
+      allowedBaseUnits,
       sourceBrandConfig,
     } = this.props;
 
     addSourceBrandModal.show({
-      allowedBaseUnit,
+      allowedBaseUnits,
       ...sourceBrandConfig && {
         initialValues: sourceBrandConfig,
       },
@@ -81,24 +81,26 @@ class DistributionRuleBrands extends PureComponent {
         addTargetBrandModal,
       },
       handleTargetBrandConfig,
-      allowedBaseUnit,
       sourceBrandConfig: {
         brand: sourceBrandId,
         distributionUnit: {
           quantity: sourceBrandQuantity,
+          baseUnit: sourceBrandBaseUnit,
         },
       },
       targetBrandConfig,
     } = this.props;
 
     addTargetBrandModal.show({
+      sourceBrandId,
       sourceBrandQuantity,
-      allowedBaseUnit,
-      ...targetBrandConfig && {
-        initialValues: {
-          ...targetBrandConfig,
-          operator: targetBrandConfig.operatorEntity?.uuid,
+      initialValues: {
+        ...targetBrandConfig,
+        distributionUnit: {
+          quantity: targetBrandConfig?.distributionUnit?.quantity,
+          baseUnit: sourceBrandBaseUnit,
         },
+        operator: targetBrandConfig.operatorEntity?.uuid,
       },
       fetchAvailableClientsAmount: (targetBrandId) => {
         this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);
