@@ -701,6 +701,7 @@
     "CLIENTS_SELECTED": "Clients selected",
     "UNLIMITED": "Unlimited",
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
+    "AND_N_MORE": "and %{value} more ...",
     "LANGUAGE_NAME": {
       "UK": "Ukrainian",
       "ZH": "Chinese",
