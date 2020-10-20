@@ -603,7 +603,7 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/axa.svg' },
   },
   [brands['cd-engine']]: {
-    name: 'cd-engine',
+    name: 'cd engine',
     image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
   [brands.cfbroker]: {
@@ -614,9 +614,9 @@ const brandsConfig = {
     name: 'octofinance',
     image: { src: '/img/brand/choose-brand/octofinance.svg' },
   },
-  [brands['cd engine']]: {
+  [brands.cd_engine]: {
     name: 'cd engine',
-    image: { src: '/img/brand/choose-brand/cd engine.svg' },
+    image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
 };
 const departmentsConfig = {

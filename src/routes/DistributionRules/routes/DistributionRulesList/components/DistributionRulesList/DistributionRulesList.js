@@ -120,11 +120,7 @@ class DistributionRules extends PureComponent {
 
     try {
       const {
-        data: {
-          clientsAmount: {
-            clientsAmount,
-          },
-        },
+        data: { distributionClientsAmount },
       } = await client.query({
         query: DistributionRuleClientsAmountQuery,
         variables: {
@@ -139,7 +135,7 @@ class DistributionRules extends PureComponent {
           name,
           targetBrandNames: targetBrandNames.toString(),
           sourceBrandNames: sourceBrandNames.toString(),
-          clientsAmount,
+          clientsAmount: distributionClientsAmount,
         }),
         submitButtonLabel: I18n.t('CLIENTS_DISTRIBUTION.MIGRATION_MODAL.BUTTON_ACTION'),
       });
@@ -167,9 +163,10 @@ class DistributionRules extends PureComponent {
   );
 
   renderActions = ({ latestMigration, status, executionType, ...rest }) => (
-    <If condition={status !== 'INACTIVE' || executionType !== 'AUTO'}>
+    <If condition={!(status === 'INACTIVE' || executionType === 'AUTO')}>
       <Button
         transparent
+        stopPropagation
         onClick={() => this.handleStartMigrationClick(rest)}
       >
         <Choose>
@@ -309,15 +306,20 @@ class DistributionRules extends PureComponent {
     );
   }
 
-  renderLastTimeExecuted = ({ statusChangedAt }) => (
-    <>
-      <div className="font-weight-700">
-        {moment.utc(statusChangedAt).local().format('DD.MM.YYYY')}
-      </div>
-      <div className="font-size-11">
-        {moment.utc(statusChangedAt).local().format('HH:mm:ss')}
-      </div>
-    </>
+  renderLastTimeExecuted = ({ latestMigration }) => (
+    <Choose>
+      <When condition={latestMigration}>
+        <div className="font-weight-700">
+          {moment.utc(latestMigration.startDate).local().format('DD.MM.YYYY')}
+        </div>
+        <div className="font-size-11">
+          {moment.utc(latestMigration.startDate).local().format('HH:mm:ss')}
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   handleRowClick = ({ uuid }) => {

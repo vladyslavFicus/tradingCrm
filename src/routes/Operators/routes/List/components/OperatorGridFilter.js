@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import {
@@ -22,32 +23,42 @@ const validate = createValidator({
 
 class OperatorGridFilter extends Component {
   static propTypes = {
-    onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    ...PropTypes.router,
   };
 
-  initialValues = {
-    searchBy: '',
-    country: '',
-    status: '',
-    registrationDateFrom: '',
-    registrationDateTo: '',
-  }
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
 
-  handleSubmit = (value, { setSubmitting }) => {
-    this.props.onSubmit(decodeNullValues(value));
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
+  };
+
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+
     setSubmitting(false);
   };
 
-  onHandleReset = (resetForm) => {
-    resetForm(this.initialValues);
-    this.props.onReset();
-  };
-
   render() {
+    const { location: { state } } = this.props;
+
     return (
       <Formik
-        initialValues={this.initialValues}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         validate={validate}
         onSubmit={this.handleSubmit}
       >
@@ -100,7 +111,7 @@ class OperatorGridFilter extends Component {
               <Button
                 common
                 disabled={isSubmitting}
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={() => this.handleReset(resetForm)}
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
@@ -120,4 +131,4 @@ class OperatorGridFilter extends Component {
   }
 }
 
-export default OperatorGridFilter;
+export default withRouter(OperatorGridFilter);
