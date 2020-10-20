@@ -106,6 +106,7 @@ class DistributionRuleBrands extends PureComponent {
     addTargetBrandModal.show({
       operators,
       operatorsLoading,
+      sourceBrandId,
       sourceBrandQuantity,
       allowedBaseUnit,
       ...targetBrandConfig && {
