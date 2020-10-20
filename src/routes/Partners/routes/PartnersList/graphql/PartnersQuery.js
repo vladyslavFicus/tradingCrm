@@ -38,15 +38,15 @@ const REQUEST = gql`
   }
 `;
 
-const PartnersQuery = ({ children, location: { query } }) => (
+const PartnersQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query && query.filters,
+      ...state?.filters,
       page: {
         from: 0,
         size: 20,
-        ...query && query.sorts ? { sorts: query.sorts } : { sorts: [] },
+        ...{ sorts: state?.sorts || [] },
       },
     }}
     fetchPolicy="network-only"
@@ -58,9 +58,9 @@ const PartnersQuery = ({ children, location: { query } }) => (
 PartnersQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
-      sorts: PropTypes.object,
+      sorts: PropTypes.array,
     }),
   }).isRequired,
 };
