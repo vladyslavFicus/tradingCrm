@@ -164,6 +164,7 @@ class DistributionRule extends PureComponent {
           baseUnit,
         },
       },
+      targetBrandConfig: null,
       addSourceBrandEnabled: false,
       addTargetBrandEnabled: true,
     });
@@ -320,7 +321,7 @@ class DistributionRule extends PureComponent {
       latestMigration,
     } = ruleData?.distributionRule || { name: '' };
 
-    const allowedBaseUnit = executionType === 'MANUAL' ? 'AMOUNT' : 'PERCENTAGE';
+    const allowedBaseUnits = executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE'];
 
     const resetDisabled = ruleLoading
       || isSubmitting
@@ -354,7 +355,7 @@ class DistributionRule extends PureComponent {
             handleGeneralSettings={this.handleGeneralSettings}
           />
           <DistributionRuleBrands
-            allowedBaseUnit={allowedBaseUnit}
+            allowedBaseUnits={allowedBaseUnits}
             generalSettings={generalSettings}
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}
