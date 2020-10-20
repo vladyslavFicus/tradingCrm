@@ -603,7 +603,7 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/axa.svg' },
   },
   [brands['cd-engine']]: {
-    name: 'cd-engine',
+    name: 'cd engine',
     image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
   [brands.cfbroker]: {
