@@ -1,4 +1,9 @@
 .EditButton {
   padding: 0;
   border: none;
+
+  &__icon {
+    display: block;
+    line-height: 1;
+  }
 }

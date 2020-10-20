@@ -24,6 +24,7 @@ import './DistributionRule.scss';
 
 class DistributionRule extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -163,6 +164,7 @@ class DistributionRule extends PureComponent {
           baseUnit,
         },
       },
+      targetBrandConfig: null,
       addSourceBrandEnabled: false,
       addTargetBrandEnabled: true,
     });
@@ -202,6 +204,7 @@ class DistributionRule extends PureComponent {
       },
       updateRule,
       notify,
+      history,
     } = this.props;
 
     const {
@@ -227,16 +230,7 @@ class DistributionRule extends PureComponent {
         },
       });
 
-      this.constructor.initialState = deepCopyOfDataObject({
-        ...this.state,
-        isSubmitting: false,
-      });
-
-      notify({
-        level: 'success',
-        title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
-        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
-      });
+      history.push('/distribution');
     } catch (e) {
       const { error } = parseErrors(e);
 
@@ -247,7 +241,7 @@ class DistributionRule extends PureComponent {
           ? I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ALREADY_EXIST')
           : I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_MESSAGE'),
       });
-    } finally {
+
       this.setState({ isSubmitting: false });
     }
   };
@@ -327,7 +321,7 @@ class DistributionRule extends PureComponent {
       latestMigration,
     } = ruleData?.distributionRule || { name: '' };
 
-    const allowedBaseUnit = executionType === 'MANUAL' ? 'AMOUNT' : 'PERCENTAGE';
+    const allowedBaseUnits = executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE'];
 
     const resetDisabled = ruleLoading
       || isSubmitting
@@ -361,7 +355,7 @@ class DistributionRule extends PureComponent {
             handleGeneralSettings={this.handleGeneralSettings}
           />
           <DistributionRuleBrands
-            allowedBaseUnit={allowedBaseUnit}
+            allowedBaseUnits={allowedBaseUnits}
             generalSettings={generalSettings}
             sourceBrandConfig={sourceBrandConfig}
             targetBrandConfig={targetBrandConfig}

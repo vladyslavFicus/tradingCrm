@@ -20,8 +20,8 @@ class AddTargetBrandModal extends PureComponent {
       fullName: PropTypes.string,
     })).isRequired,
     operatorsLoading: PropTypes.bool.isRequired,
+    sourceBrandId: PropTypes.string.isRequired,
     sourceBrandQuantity: PropTypes.number.isRequired,
-    allowedBaseUnit: PropTypes.string.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
       distributionUnit: PropTypes.shape({
@@ -29,13 +29,9 @@ class AddTargetBrandModal extends PureComponent {
         baseUnit: PropTypes.string,
       }),
       operator: PropTypes.string,
-    }),
+    }).isRequired,
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
   };
-
-  static defaultProps = {
-    initialValues: {},
-  }
 
   state = {
     availableClientsAmount: null,
@@ -71,18 +67,19 @@ class AddTargetBrandModal extends PureComponent {
       handleSubmit,
       operators,
       operatorsLoading,
+      sourceBrandId,
       sourceBrandQuantity,
-      allowedBaseUnit,
       initialValues: {
         brand,
-        distributionUnit,
+        distributionUnit: {
+          quantity,
+          baseUnit,
+        },
         operator,
       },
     } = this.props;
 
     const { availableClientsAmount } = this.state;
-
-    const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnit };
 
     return (
       <Modal
@@ -120,9 +117,12 @@ class AddTargetBrandModal extends PureComponent {
                   customOnChange={this.handleBrandChange(setFieldValue)}
                   searchable
                 >
-                  {Object.keys(brandsConfig).map(value => (
-                    <option key={value} value={value}>{brandsConfig[value].name}</option>
-                  ))}
+                  {Object.keys(brandsConfig)
+                    .filter(value => value !== sourceBrandId)
+                    .map(value => (
+                      <option key={value} value={value}>{brandsConfig[value].name}</option>
+                    ))
+                  }
                 </Field>
                 <If condition={typeof availableClientsAmount === 'number'}>
                   <div className="AddTargetBrandModal__message">
@@ -131,15 +131,18 @@ class AddTargetBrandModal extends PureComponent {
                     })}
                   </div>
                 </If>
-                <Field
-                  name="quantity"
-                  type="number"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
-                  step="1"
-                  addition={baseUnits[baseUnit]}
-                  additionPosition="right"
-                  component={FormikInputField}
-                />
+                <div className="AddTargetBrandModal__row">
+                  <Field
+                    name="quantity"
+                    type="number"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
+                    step="1"
+                    addition={baseUnits[baseUnit]}
+                    additionPosition="right"
+                    className="AddTargetBrandModal__field AddTargetBrandModal__field--quantity"
+                    component={FormikInputField}
+                  />
+                </div>
                 <Field
                   name="operator"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
