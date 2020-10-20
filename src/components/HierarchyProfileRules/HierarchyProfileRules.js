@@ -32,6 +32,7 @@ import RuleModal from './components/RuleModal';
 import EditRuleModal from './components/EditRuleModal';
 import RulesFilters from './components/RulesGridFilters';
 import infoConfig from './constants';
+import './HierarchyProfileRules.scss';
 
 class HierarchyProfileRules extends PureComponent {
   static propTypes = {
@@ -313,7 +314,10 @@ class HierarchyProfileRules extends PureComponent {
 
   renderButtonAddRule = ({ enabled, message }) => (
     <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
-      <TabHeader title={I18n.t(this.props.title)}>
+      <TabHeader
+        title={I18n.t(this.props.title)}
+        className="HierarchyProfileRules__header"
+      >
         <Button
           id="add-rule"
           type="submit"
@@ -463,7 +467,7 @@ class HierarchyProfileRules extends PureComponent {
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
-      <Fragment>
+      <div className="HierarchyProfileRules">
         {this.handleRenderButtonAddRule(branchType)}
 
         <RulesFilters
@@ -471,10 +475,11 @@ class HierarchyProfileRules extends PureComponent {
           onReset={this.handleFilterReset}
         />
 
-        <div className="card-body">
+        <div className="HierarchyProfileRules__grid">
           <Grid
             data={entities}
             isLoading={loading}
+            headerStickyFromTop={113}
           >
             <GridColumn
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}
@@ -512,7 +517,7 @@ class HierarchyProfileRules extends PureComponent {
             </If>
           </Grid>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

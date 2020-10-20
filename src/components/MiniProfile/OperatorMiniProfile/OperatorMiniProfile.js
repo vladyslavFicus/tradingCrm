@@ -77,7 +77,7 @@ const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
 OperatorMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
-      operator: PropTypes.operatorProfile,
+      operator: PropTypes.operator,
     }).isRequired,
     loading: PropTypes.bool.isRequired,
   }),

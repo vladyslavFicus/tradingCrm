@@ -332,6 +332,7 @@ class TradingAccountsGrid extends PureComponent {
         <Grid
           isLoading={isLoading}
           data={tradingAccounts}
+          headerStickyFromTop={189}
           withRowsHover
           withNoResults={!isLoading && tradingAccounts.length === 0}
         >

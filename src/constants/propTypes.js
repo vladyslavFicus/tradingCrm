@@ -132,11 +132,12 @@ PropTypes.dropDownOption = PropTypes.shape({
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 });
-PropTypes.operatorProfile = PropTypes.shape({
+PropTypes.operator = PropTypes.shape({
   country: PropTypes.any,
   email: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
+  fullName: PropTypes.string,
   operatorStatus: PropTypes.string,
   phoneNumber: PropTypes.string,
   sip: PropTypes.string,
@@ -144,6 +145,10 @@ PropTypes.operatorProfile = PropTypes.shape({
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,
   uuid: PropTypes.string,
+  parentBranches: PropTypes.shape({
+    branchType: PropTypes.string,
+    uuid: PropTypes.string,
+  }),
 });
 // # This one can be removed after PartnerProfile page will be refactored
 PropTypes.partnerProfile = PropTypes.shape({
@@ -536,6 +541,39 @@ PropTypes.ruleType = PropTypes.shape({
   type: PropTypes.string,
   updatedBy: PropTypes.string,
 });
+PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
+  brand: PropTypes.string,
+  sortType: PropTypes.string,
+  operator: PropTypes.string,
+  country: PropTypes.string,
+  distributionUnit: PropTypes.shape({
+    quantity: PropTypes.number,
+    baseUnit: PropTypes.string,
+  }),
+});
+PropTypes.ruleClientsDistributionType = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  order: PropTypes.number,
+  status: PropTypes.string,
+  createdBy: PropTypes.string,
+  createdAt: PropTypes.string,
+  countries: PropTypes.arrayOf(PropTypes.string),
+  salesStatuses: PropTypes.arrayOf(PropTypes.string),
+  targetSalesStatus: PropTypes.string,
+  executionType: PropTypes.string,
+  registrationPeriodInHours: PropTypes.number,
+  executionPeriodInHours: PropTypes.number,
+  latestMigration: PropTypes.shape({
+    uuid: PropTypes.string,
+    startDate: PropTypes.string,
+    status: PropTypes.string,
+    ruleUuid: PropTypes.string,
+    clientsAmount: PropTypes.number,
+  }),
+  sourceBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
+  targetBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
+});
 PropTypes.tradingActivity = PropTypes.shape({
   id: PropTypes.number.isRequired,
   tradeId: PropTypes.number.isRequired,
@@ -866,13 +904,13 @@ PropTypes.treeBranch = PropTypes.shape({
   name: PropTypes.string,
   branchType: PropTypes.string,
   managerUuid: PropTypes.string,
-  manager: PropTypes.operatorProfile,
+  manager: PropTypes.operator,
   usersCount: PropTypes.number,
   childrenCount: PropTypes.number,
 });
 PropTypes.treeUser = PropTypes.shape({
   uuid: PropTypes.string,
-  operator: PropTypes.operatorProfile,
+  operator: PropTypes.operator,
 });
 
 PropTypes.referral = PropTypes.shape({

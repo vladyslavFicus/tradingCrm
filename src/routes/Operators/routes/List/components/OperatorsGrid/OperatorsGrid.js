@@ -14,6 +14,7 @@ import Grid, { GridColumn } from 'components/Grid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import MiniProfile from 'components/MiniProfile';
 import Uuid from 'components/Uuid';
+import './OperatorsGrid.scss';
 
 class OperatorsGrid extends PureComponent {
   static propTypes = {
@@ -144,12 +145,13 @@ class OperatorsGrid extends PureComponent {
     const { last, content } = get(operatorsQuery, 'operators') || { content: [] };
 
     return (
-      <div className="card-body">
+      <div className="OperatorsGrid">
         <Grid
           data={content}
           sorts={state?.sortData}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={138}
           isLoading={loading}
           isLastPage={last}
         >

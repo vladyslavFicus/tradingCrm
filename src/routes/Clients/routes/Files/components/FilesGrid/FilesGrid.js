@@ -130,6 +130,7 @@ class FilesGrid extends PureComponent {
           data={files}
           isLoading={isLoading}
           isLastPage={isLastPage}
+          headerStickyFromTop={129}
           handlePageChanged={this.handlePageChanged}
           withNoResults={!isLoading && files.length === 0}
         >

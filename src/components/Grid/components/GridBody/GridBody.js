@@ -16,6 +16,7 @@ class GridBody extends PureComponent {
     initialLoad: PropTypes.bool,
     useWindow: PropTypes.bool,
     threshold: PropTypes.number,
+    sorts: PropTypes.object,
   };
 
   static defaultProps = {
@@ -23,7 +24,20 @@ class GridBody extends PureComponent {
     initialLoad: false,
     useWindow: true,
     threshold: 250,
+    sorts: null,
   };
+
+  state = {
+    isLoadMore: false,
+    isSort: false,
+    sorts: this.props.sorts, // eslint-disable-line
+  };
+
+  static getDerivedStateFromProps = (props, state) => ({
+    isLoadMore: props.isLoading && state.isLoadMore,
+    isSort: props.sorts !== state.sorts,
+    sorts: props.sorts,
+  });
 
   handlePageChanged = () => {
     const { handlePageChanged, isLastPage, isLoading } = this.props;
@@ -31,6 +45,8 @@ class GridBody extends PureComponent {
     if (!isLastPage && !isLoading) {
       handlePageChanged();
     }
+
+    this.setState({ isLoadMore: true });
   };
 
   render() {
@@ -45,13 +61,18 @@ class GridBody extends PureComponent {
       useWindow,
     } = this.props;
 
+    const {
+      isLoadMore,
+      isSort,
+    } = this.state;
+
     const gridRows = gridData.map((gridRowData, index) => (
       <GridRow key={index} rowIndex={index} gridRowData={gridRowData} />
     ));
 
     return (
       <Choose>
-        <When condition={isLoading && !gridData.length}>
+        <When condition={isLoading && !isLoadMore && !isSort}>
           <tbody>
             <GridLoader />
           </tbody>

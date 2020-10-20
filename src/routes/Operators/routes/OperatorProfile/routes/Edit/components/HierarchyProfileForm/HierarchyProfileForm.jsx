@@ -150,8 +150,7 @@ class HierarchyProfileForm extends Component {
           clients: subordinatesCount,
           branch: name,
         }),
-        submitButtonLabel: I18n.t('ACTIONS_LABELS.UNASSIGN'),
-        cancelButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
+        submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
       });
 
       return;
