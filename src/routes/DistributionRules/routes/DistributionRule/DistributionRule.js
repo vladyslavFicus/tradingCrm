@@ -237,11 +237,15 @@ class DistributionRule extends PureComponent {
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
         message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
       });
-    } catch {
+    } catch (e) {
+      const { error } = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_TITLE'),
-        message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_MESSAGE'),
+        message: error === 'error.entity.already.exist'
+          ? I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ALREADY_EXIST')
+          : I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_MESSAGE'),
       });
     } finally {
       this.setState({ isSubmitting: false });

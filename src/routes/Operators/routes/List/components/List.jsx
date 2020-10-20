@@ -47,14 +47,6 @@ class List extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    this.props.history.replace({ query: { filters } });
-  };
-
-  handleFilterReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
-  };
-
   handleOpenCreateModal = async () => {
     const {
       modals: {
@@ -149,10 +141,7 @@ class List extends Component {
           </PermissionContent>
         </div>
 
-        <OperatorGridFilter
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-        />
+        <OperatorGridFilter />
         <OperatorsGrid operatorsQuery={operators} />
       </div>
     );
