@@ -392,7 +392,7 @@ class Select extends PureComponent {
 
           placeholder = (
             <div className="select-block__placeholder-options">
-              {mergedOptions.map(option => (
+              {mergedOptions.slice(0, 3).map(option => (
                 <div key={option.value} className="select-block__placeholder-option">
                   {option.label}
                   <i
@@ -401,6 +401,9 @@ class Select extends PureComponent {
                   />
                 </div>
               ))}
+              {mergedOptions.length > 3 && I18n.t('common.select.label_more', {
+                value: mergedOptions.length - 3,
+              })}
             </div>
           );
         } else {
