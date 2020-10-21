@@ -261,7 +261,7 @@ class DistributionRules extends PureComponent {
   renderSalesStatus = ({ salesStatuses: statuses }) => (
     <Choose>
       <When condition={statuses}>
-        {statuses.map(status => (
+        {statuses.slice(0, 3).map(status => (
           <div
             key={status}
             className="font-weight-600"
@@ -269,6 +269,7 @@ class DistributionRules extends PureComponent {
             {I18n.t(salesStatuses[status])}
           </div>
         ))}
+        {statuses.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: statuses.length - 3 })}
       </When>
       <Otherwise>
         <span>&mdash;</span>
