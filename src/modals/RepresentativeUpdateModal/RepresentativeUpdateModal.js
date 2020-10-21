@@ -113,7 +113,7 @@ class RepresentativeUpdateModal extends PureComponent {
       return this.filterOperatorsByBranch({ operators, uuids: [desk, ...teamsUuids] });
     }
 
-    return operators || [];
+    return operators.sort((a, b) => a.fullName.localeCompare(b.fullName)) || [];
   }
 
   // Filter teams by parent deskType or selected desk
