@@ -166,14 +166,14 @@ class DistributionRules extends PureComponent {
       <Button
         transparent
         stopPropagation
-        onClick={() => this.handleStartMigrationClick(rest)}
+        onClick={executionType === 'AUTO' ? () => {} : () => this.handleStartMigrationClick(rest)}
       >
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
             <i className="DistributionRulesList__actions-icon icon-pause" />
           </When>
           <When condition={executionType === 'AUTO'}>
-            <i className="DistributionRulesList__actions-icon icon-auto" />
+            <i className="font-size-20 icon-auto" />
           </When>
           <Otherwise>
             <i className="DistributionRulesList__actions-icon icon-play" />
