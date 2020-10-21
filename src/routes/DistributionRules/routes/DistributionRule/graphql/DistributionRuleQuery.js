@@ -14,6 +14,7 @@ const REQUEST = gql`
       createdBy
       statusChangedAt
       createdAt
+      updatedAt
       countries
       salesStatuses
       targetSalesStatus
