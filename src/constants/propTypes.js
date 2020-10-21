@@ -545,6 +545,7 @@ PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
   brand: PropTypes.string,
   sortType: PropTypes.string,
   operator: PropTypes.string,
+  operatorEntity: PropTypes.operatorsListEntity,
   country: PropTypes.string,
   distributionUnit: PropTypes.shape({
     quantity: PropTypes.number,

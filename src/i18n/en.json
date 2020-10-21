@@ -3141,7 +3141,7 @@
       "BRAND": {
         "SORT": "Sort",
         "OPERATOR": "Operator",
-        "CLIENTS_CHOOSEN": "clients choosen",
+        "CLIENTS_CHOSEN": "clients chosen",
         "CLIENTS_TO_MIGRATION": "clients to migration"
       },
       "MODAL": {

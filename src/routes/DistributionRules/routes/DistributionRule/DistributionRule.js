@@ -14,7 +14,6 @@ import {
   DistributionRuleQuery,
   DistributionRuleUpdate,
   DistributionRuleUpdateStatus,
-  OperatorsQuery,
 } from './graphql';
 import {
   checkEqualityOfDataObjects,
@@ -35,12 +34,6 @@ class DistributionRule extends PureComponent {
     }).isRequired,
     updateRule: PropTypes.func.isRequired,
     updateRuleStatus: PropTypes.func.isRequired,
-    operatorsQuery: PropTypes.query({
-      operators: PropTypes.pageable(PropTypes.shape({
-        uuid: PropTypes.string,
-        fullName: PropTypes.string,
-      })),
-    }).isRequired,
     notify: PropTypes.func.isRequired,
   }
 
@@ -132,7 +125,7 @@ class DistributionRule extends PureComponent {
 
     this.resetToInitialState();
 
-    DistributionRule.initSettingsAreSet = false;
+    this.constructor.initSettingsAreSet = false;
 
     EventEmitter.off(DISTRIBUTION_RULE_CHANGED, this.refetchRule);
   }
@@ -210,7 +203,10 @@ class DistributionRule extends PureComponent {
     const {
       generalSettings,
       sourceBrandConfig,
-      targetBrandConfig,
+      targetBrandConfig: {
+        operatorEntity,
+        ...targetBrandConfig
+      },
     } = this.state;
 
     const { uuid, name: ruleName } = ruleData.distributionRule;
@@ -224,7 +220,10 @@ class DistributionRule extends PureComponent {
             uuid,
             ruleName,
             sourceBrandConfig,
-            targetBrandConfig,
+            targetBrandConfig: {
+              ...targetBrandConfig,
+              operator: operatorEntity?.uuid,
+            },
             ...generalSettings,
           },
         },
@@ -294,7 +293,6 @@ class DistributionRule extends PureComponent {
         data: ruleData,
         loading: ruleLoading,
       },
-      operatorsQuery,
     } = this.props;
 
     const {
@@ -364,7 +362,6 @@ class DistributionRule extends PureComponent {
             addSourceBrandEnabled={addSourceBrandEnabled}
             addTargetBrandEnabled={addTargetBrandEnabled}
             handleRemoveBrandCard={this.handleRemoveBrandCard}
-            operatorsQuery={operatorsQuery}
           />
         </div>
         <div className="DistributionRule__actions">
@@ -396,6 +393,5 @@ export default compose(
     ruleQuery: DistributionRuleQuery,
     updateRule: DistributionRuleUpdate,
     updateRuleStatus: DistributionRuleUpdateStatus,
-    operatorsQuery: OperatorsQuery,
   }),
 )(DistributionRule);

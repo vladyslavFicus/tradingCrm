@@ -44,12 +44,6 @@ class DistributionRuleBrands extends PureComponent {
     addSourceBrandEnabled: PropTypes.bool.isRequired,
     addTargetBrandEnabled: PropTypes.bool.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
-    operatorsQuery: PropTypes.query({
-      operators: PropTypes.pageable(PropTypes.shape({
-        uuid: PropTypes.string,
-        fullName: PropTypes.string,
-      })),
-    }).isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
@@ -95,17 +89,9 @@ class DistributionRuleBrands extends PureComponent {
         },
       },
       targetBrandConfig,
-      operatorsQuery: {
-        data: operatorsData,
-        loading: operatorsLoading,
-      },
     } = this.props;
 
-    const operators = operatorsData?.operators?.content || [];
-
     addTargetBrandModal.show({
-      operators,
-      operatorsLoading,
       sourceBrandId,
       sourceBrandQuantity,
       initialValues: {
@@ -114,6 +100,7 @@ class DistributionRuleBrands extends PureComponent {
           quantity: targetBrandConfig?.distributionUnit?.quantity,
           baseUnit: sourceBrandBaseUnit,
         },
+        operator: targetBrandConfig.operatorEntity?.uuid,
       },
       fetchAvailableClientsAmount: (targetBrandId) => {
         this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);
@@ -164,12 +151,7 @@ class DistributionRuleBrands extends PureComponent {
       sourceBrandConfig,
       targetBrandConfig,
       handleRemoveBrandCard,
-      operatorsQuery: {
-        data: operatorsData,
-      },
     } = this.props;
-
-    const operators = operatorsData?.operators?.content || [];
 
     return (
       <div className="DistributionRuleBrands">
@@ -212,7 +194,6 @@ class DistributionRuleBrands extends PureComponent {
                     className="DistributionRuleBrands__card"
                     handleEditBrandCard={this.handleAddTargetBrand}
                     handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
-                    operators={operators}
                     brandType="target"
                     {...targetBrandConfig}
                   />

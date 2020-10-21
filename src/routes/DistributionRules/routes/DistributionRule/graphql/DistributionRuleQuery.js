@@ -37,7 +37,10 @@ const REQUEST = gql`
           quantity
           baseUnit
         }
-        operator
+        operatorEntity {
+          uuid
+          fullName
+        }
       }
     }
   }
