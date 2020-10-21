@@ -241,13 +241,14 @@ class DistributionRules extends PureComponent {
   renderCountry = ({ countries }) => (
     <Choose>
       <When condition={countries}>
-        {countries.map(country => (
+        {countries.slice(0, 3).map(country => (
           <CountryLabelWithFlag
             key={country}
             code={country}
             height="14"
           />
         ))}
+        {countries.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: countries.length - 3 })}
       </When>
       <Otherwise>
         <span>&mdash;</span>
