@@ -162,7 +162,7 @@ class DistributionRules extends PureComponent {
   );
 
   renderActions = ({ latestMigration, status, executionType, ...rest }) => (
-    <If condition={!(status === 'INACTIVE' || executionType === 'AUTO')}>
+    <If condition={status !== 'INACTIVE'}>
       <Button
         transparent
         stopPropagation
@@ -171,6 +171,9 @@ class DistributionRules extends PureComponent {
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
             <i className="DistributionRulesList__actions-icon icon-pause" />
+          </When>
+          <When condition={executionType === 'AUTO'}>
+            <i className="DistributionRulesList__actions-icon icon-auto" />
           </When>
           <Otherwise>
             <i className="DistributionRulesList__actions-icon icon-play" />
@@ -286,8 +289,14 @@ class DistributionRules extends PureComponent {
 
   renderExecutionTime = ({ executionType, executionPeriodInHours }) => {
     const { time, type } = executionPeriodInHours >= 24
-      ? { time: Math.floor(executionPeriodInHours / 24), type: 'DAY' }
-      : { time: executionPeriodInHours, type: 'HOURS' };
+      ? {
+        time: Math.floor(executionPeriodInHours / 24),
+        type: executionPeriodInHours / 24 > 1 ? 'DAYS' : 'DAY',
+      }
+      : {
+        time: executionPeriodInHours,
+        type: executionPeriodInHours > 1 ? 'HOURS' : 'HOUR',
+      };
 
     return (
       <Choose>
