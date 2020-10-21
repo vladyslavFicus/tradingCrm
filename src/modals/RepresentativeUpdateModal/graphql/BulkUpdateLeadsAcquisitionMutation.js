@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-// Мутация ассайна лидов на оператора
 const MUTATION = gql`
   mutation RepresentativeUpdateModal_BulkUpdateLeadsAcquisition(
     $uuids: [String]!

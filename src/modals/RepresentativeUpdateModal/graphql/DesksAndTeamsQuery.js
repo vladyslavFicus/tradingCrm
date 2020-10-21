@@ -7,8 +7,8 @@ const REQUEST = gql`
   query RepresentativeUpdateModal_DesksAndTeamsQuery {
     userBranches {
       DESK {
-        name #
-        uuid #
+        name
+        uuid
         deskType
         parentBranch {
           uuid

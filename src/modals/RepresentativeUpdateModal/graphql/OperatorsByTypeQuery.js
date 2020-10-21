@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { userTypes } from 'constants/hierarchyTypes';
 
-// Получение юзеров по типу
 const REQUEST = gql`
   query RepresentativeUpdateModal_OperatorsByTypeQuery(
     $userTypes: [String]!
