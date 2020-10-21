@@ -166,6 +166,7 @@ class DistributionRules extends PureComponent {
       <Button
         transparent
         stopPropagation
+        className="DistributionRulesList__action"
         onClick={executionType === 'AUTO' ? () => {} : () => this.handleStartMigrationClick(rest)}
       >
         <Choose>

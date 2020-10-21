@@ -122,9 +122,6 @@ class DistributionRule extends PureComponent {
 
   componentWillUnmount() {
     this.constructor.initialState = this.constructor.nullState;
-
-    this.resetToInitialState();
-
     this.constructor.initSettingsAreSet = false;
 
     EventEmitter.off(DISTRIBUTION_RULE_CHANGED, this.refetchRule);
@@ -132,10 +129,6 @@ class DistributionRule extends PureComponent {
 
   refetchRule = () => {
     this.props.ruleQuery.refetch();
-  };
-
-  resetToInitialState = () => {
-    this.setState(deepCopyOfDataObject(this.constructor.initialState));
   };
 
   handleGeneralSettings = (isValid, generalSettings) => {
@@ -243,6 +236,10 @@ class DistributionRule extends PureComponent {
 
       this.setState({ isSubmitting: false });
     }
+  };
+
+  handleCancel = () => {
+    this.props.history.push('/distribution');
   };
 
   updateRuleStatus = async (ruleStatus) => {
@@ -367,7 +364,7 @@ class DistributionRule extends PureComponent {
         <div className="DistributionRule__actions">
           <Button
             className="DistributionRule__actions-btn"
-            onClick={this.resetToInitialState}
+            onClick={this.handleCancel}
             disabled={resetDisabled}
             commonOutline
           >
