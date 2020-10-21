@@ -11,7 +11,9 @@ const REQUEST = gql`mutation ClientsDistributionModal_CreateRuleMutation(
     create(
       ruleName: $ruleName
       ruleOrder: $ruleOrder
-    )
+    ) {
+      uuid
+    }
   }
 }
 `;
