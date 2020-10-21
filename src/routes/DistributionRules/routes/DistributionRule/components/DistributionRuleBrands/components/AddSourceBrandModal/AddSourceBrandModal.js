@@ -98,7 +98,10 @@ class AddSourceBrandModal extends PureComponent {
             createValidator({
               brand: 'required',
               quantity: ['required', 'integer', 'min:1',
-                `max:${values.baseUnit === 'PERCENTAGE' ? '100' : MAX_MIGRATED_CLIENTS}`,
+                `max:${values.baseUnit === 'PERCENTAGE'
+                  ? 100
+                  : Math.min(availableClientsAmount, MAX_MIGRATED_CLIENTS)
+                }`,
               ],
             }, translateLabels(modalFieldsNames))(values)
           )}
