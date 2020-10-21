@@ -509,6 +509,7 @@ PropTypes.userHierarchyType = PropTypes.shape({
     uuid: PropTypes.string.isRequired,
   })),
   fullName: PropTypes.string,
+  operator: PropTypes.operator,
 });
 PropTypes.hierarchyBranch = PropTypes.shape({
   uuid: PropTypes.string.isRequired,

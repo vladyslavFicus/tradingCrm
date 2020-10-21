@@ -4,13 +4,13 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation BulkUpdateClientsAcquisition(
+  mutation RepresentativeUpdateModal_BulkUpdateClientsAcquisition(
     $uuids: [String]!
     $parentOperators: [String]
     $salesStatus: String
     $retentionStatus: String
     $searchParams: ClientSearch__Input
-    $bulkSize: Int    
+    $bulkSize: Int
   ) {
     hierarchy {
       bulkUpdateClientsAcquisition(
@@ -19,18 +19,18 @@ const MUTATION = gql`
         salesStatus: $salesStatus
         retentionStatus: $retentionStatus
         searchParams: $searchParams
-        bulkSize: $bulkSize        
+        bulkSize: $bulkSize
       )
     }
   }
 `;
 
-const BulkUpdateClientsAcquisition = ({ children }) => (
+const BulkUpdateClientsAcquisitionMutation = ({ children }) => (
   <Mutation mutation={MUTATION}>{children}</Mutation>
 );
 
-BulkUpdateClientsAcquisition.propTypes = {
+BulkUpdateClientsAcquisitionMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default BulkUpdateClientsAcquisition;
+export default BulkUpdateClientsAcquisitionMutation;

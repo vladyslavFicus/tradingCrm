@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
+// Мутация ассайна лидов на оператора
 const MUTATION = gql`
-  mutation BulkUpdateLeadsAcquisition(
+  mutation RepresentativeUpdateModal_BulkUpdateLeadsAcquisition(
     $uuids: [String]!
     $parentOperators: [String]
     $salesStatus: String
     $searchParams: LeadSearch__Input
-    $bulkSize: Int 
+    $bulkSize: Int
   ) {
     hierarchy {
       bulkUpdateLeadsAcquisition(
@@ -17,18 +18,18 @@ const MUTATION = gql`
         parentOperators: $parentOperators
         salesStatus: $salesStatus
         searchParams: $searchParams
-        bulkSize: $bulkSize     
+        bulkSize: $bulkSize
       )
     }
   }
 `;
 
-const BulkUpdateLeadsAcquisition = ({ children }) => (
+const BulkUpdateLeadsAcquisitionMutations = ({ children }) => (
   <Mutation mutation={MUTATION}>{children}</Mutation>
 );
 
-BulkUpdateLeadsAcquisition.propTypes = {
+BulkUpdateLeadsAcquisitionMutations.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default BulkUpdateLeadsAcquisition;
+export default BulkUpdateLeadsAcquisitionMutations;
