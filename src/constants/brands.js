@@ -118,7 +118,7 @@ const brands = keyMirror({
   'cd-engine': null,
   cfbroker: null,
   octofinance: null,
-  'cd engine': null,
+  cdengine: null,
 });
 
 const departments = keyMirror({
@@ -603,7 +603,7 @@ const brandsConfig = {
     image: { src: '/img/brand/choose-brand/axa.svg' },
   },
   [brands['cd-engine']]: {
-    name: 'cd engine',
+    name: 'cd-engine',
     image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
   [brands.cfbroker]: {
@@ -614,7 +614,7 @@ const brandsConfig = {
     name: 'octofinance',
     image: { src: '/img/brand/choose-brand/octofinance.svg' },
   },
-  [brands.cd_engine]: {
+  [brands.cdengine]: {
     name: 'cd engine',
     image: { src: '/img/brand/choose-brand/cd-engine.svg' },
   },
