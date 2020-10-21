@@ -77,15 +77,22 @@ class RepresentativeUpdateModal extends PureComponent {
     onSuccess: () => {},
   };
 
+  // Sort operators by fullName
+  sortOperators = operators => (
+    operators.sort((a, b) => a.fullName.localeCompare(b.fullName))
+  );
+
   // Filter operators by branch
-  filterOperatorsByBranch = ({ operators, uuids }) => (
-    operators.filter((operator) => {
+  filterOperatorsByBranch = ({ operators, uuids }) => {
+    const filteredOperators = operators.filter((operator) => {
       const partnerBranches = operator.operator?.hierarchy?.parentBranches || [];
       const branches = partnerBranches.map(({ uuid }) => uuid);
 
       return intersection(branches, uuids).length;
-    })
-  )
+    });
+
+    return this.sortOperators(filteredOperators);
+  }
 
   // Filter operators by Sales/Retention type, parent desk and parent team
   getFilteredOperators = ({ desk, team }) => {
@@ -113,7 +120,7 @@ class RepresentativeUpdateModal extends PureComponent {
       return this.filterOperatorsByBranch({ operators, uuids: [desk, ...teamsUuids] });
     }
 
-    return operators.sort((a, b) => a.fullName.localeCompare(b.fullName)) || [];
+    return this.sortOperators(operators);
   }
 
   // Filter teams by parent deskType or selected desk
