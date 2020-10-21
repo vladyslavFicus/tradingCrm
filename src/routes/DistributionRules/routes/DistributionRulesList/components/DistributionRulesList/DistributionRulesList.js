@@ -96,15 +96,14 @@ class DistributionRules extends PureComponent {
   handleCreateRule = () => {
     const {
       modals: { clientsDistributionModal },
-      rules: { refetch },
     } = this.props;
 
     clientsDistributionModal.show({
       action: 'CREATE',
-      onSuccess: async () => {
-        await refetch();
-
+      onSuccess: (uuid) => {
         clientsDistributionModal.hide();
+
+        this.props.history.push(`/distribution/${uuid}/rule`);
       },
     });
   }

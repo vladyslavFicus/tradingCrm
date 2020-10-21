@@ -45,7 +45,7 @@ class ClientsDistributionModal extends PureComponent {
     formError: '',
   };
 
-  async handleCreate(ruleName, ruleOrder, setErrors, setSubmitting) {
+  async handleCreate(ruleName, ruleOrder, setErrors) {
     const {
       notify,
       createRule,
@@ -53,7 +53,7 @@ class ClientsDistributionModal extends PureComponent {
     } = this.props;
 
     try {
-      await createRule({
+      const { data: { distributionRule: { create: { uuid } } } } = await createRule({
         variables: {
           ruleName,
           ruleOrder,
@@ -66,7 +66,7 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_SUCCESS', { ruleName }),
       });
 
-      onSuccess();
+      onSuccess(uuid);
     } catch (e) {
       const error = parseErrors(e);
 
@@ -81,11 +81,9 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_FAILED'),
       });
     }
-
-    setSubmitting(false);
   }
 
-  async handleUpdate(ruleName, ruleOrder, setErrors, setSubmitting) {
+  async handleUpdate(ruleName, ruleOrder, setErrors) {
     const {
       notify,
       updateRule,
@@ -123,19 +121,19 @@ class ClientsDistributionModal extends PureComponent {
         message: I18n.t('CLIENTS_DISTRIBUTION.UPDATE_RULE_FAILED'),
       });
     }
-
-    setSubmitting(false);
   }
 
   handlePerformSubmitAction = ({ ruleName, ruleOrder }, { setErrors, setSubmitting }) => {
     const { action } = this.props;
 
+    setSubmitting(false);
+
     if (action === actionTypes.CREATE) {
-      this.handleCreate(ruleName, ruleOrder, setErrors, setSubmitting);
+      this.handleCreate(ruleName, ruleOrder, setErrors);
     }
 
     if (action === actionTypes.UPDATE) {
-      this.handleUpdate(ruleName, ruleOrder, setErrors, setSubmitting);
+      this.handleUpdate(ruleName, ruleOrder, setErrors);
     }
   }
 
