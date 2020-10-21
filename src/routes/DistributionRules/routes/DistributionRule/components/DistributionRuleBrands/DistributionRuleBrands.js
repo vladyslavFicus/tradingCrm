@@ -102,9 +102,9 @@ class DistributionRuleBrands extends PureComponent {
         },
         operator: targetBrandConfig.operatorEntity?.uuid,
       },
-      fetchAvailableClientsAmount: (targetBrandId) => {
-        this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId);
-      },
+      fetchAvailableClientsAmount: targetBrandId => (
+        this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId)
+      ),
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);
         addTargetBrandModal.hide();
