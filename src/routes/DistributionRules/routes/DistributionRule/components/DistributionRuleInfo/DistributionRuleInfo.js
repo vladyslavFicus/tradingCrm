@@ -25,6 +25,20 @@ class DistributionRuleInfo extends PureComponent {
     latestMigration: {},
   };
 
+  renderDateColumn = (label, date) => (
+    <div className="DistributionRuleInfo__item">
+      <div className="DistributionRuleInfo__item-label">
+        {label}
+      </div>
+      <div className="DistributionRuleInfo__item-value">
+        {moment.utc(date).local().format('DD.MM.YYYY')}
+      </div>
+      <div className="DistributionRuleInfo__item-small-text">
+        {moment.utc(date).local().format('HH:mm')}
+      </div>
+    </div>
+  );
+
   render() {
     const {
       status,
@@ -51,43 +65,13 @@ class DistributionRuleInfo extends PureComponent {
           />
         </If>
         <If condition={createdAt}>
-          <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.CREATED')}
-            </div>
-            <div className="DistributionRuleInfo__item-value">
-              {moment.utc(createdAt).local().format('DD.MM.YYYY')}
-            </div>
-            <div className="DistributionRuleInfo__item-small-text">
-              {moment.utc(createdAt).local().format('HH:mm')}
-            </div>
-          </div>
+          {this.renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.CREATED'), createdAt)}
         </If>
         <If condition={updatedAt}>
-          <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.UPDATED')}
-            </div>
-            <div className="DistributionRuleInfo__item-value">
-              {moment.utc(updatedAt).local().format('DD.MM.YYYY')}
-            </div>
-            <div className="DistributionRuleInfo__item-small-text">
-              {moment.utc(updatedAt).local().format('HH:mm')}
-            </div>
-          </div>
+          {this.renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.UPDATED'), updatedAt)}
         </If>
         <If condition={latestMigrationDate}>
-          <div className="DistributionRuleInfo__item">
-            <div className="DistributionRuleInfo__item-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.LAST_EXECUTION')}
-            </div>
-            <div className="DistributionRuleInfo__item-value">
-              {moment.utc(latestMigrationDate).local().format('DD.MM.YYYY')}
-            </div>
-            <div className="DistributionRuleInfo__item-small-text">
-              {moment.utc(latestMigrationDate).local().format('HH:mm')}
-            </div>
-          </div>
+          {this.renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.LAST_EXECUTION'), latestMigrationDate)}
         </If>
       </div>
     );
