@@ -20,7 +20,6 @@ import UpdateAcquisitionMutation from './graphql/UpdateAcquisitionMutation';
 import OperatorsByTypeQuery from './graphql/OperatorsByTypeQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 
-
 const attributeLabels = type => ({
   desk: `CLIENTS.MODALS.${type}_MODAL.DESK`,
   team: 'CLIENTS.MODALS.TEAM',
@@ -265,17 +264,17 @@ class RepresentativeUpdateModal extends PureComponent {
     }
   }
 
-  handleSubmit = async ({ operators, status }) => {
+  handleSubmit = ({ operators, status }) => {
     const { uuid } = this.props;
 
     if (uuid) {
       // If we want to update single Lead / Client
       // In this case operators is a single operator uuid because multiselect prop -> false
-      await this.handleSingleProfileAcquisitionUpdate(operators, status);
+      this.handleSingleProfileAcquisitionUpdate(operators, status);
     } else {
       // If we want to update a list of Leads / Clients
       // In this case operators is a list of operators uuids because multiselect prop -> true
-      await this.handleBulkAcquisitionUpdate(operators, status);
+      this.handleBulkAcquisitionUpdate(operators, status);
     }
   }
 
