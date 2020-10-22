@@ -8,7 +8,7 @@ import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
-import { statusesLabels } from 'constants/clientsDistribution';
+import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import Button from 'components/UI/Button';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -29,19 +29,6 @@ class DistributionRulesFilters extends PureComponent {
 
     setSubmitting(false);
   };
-
-  generateExecutionDays = () => {
-    const days = [];
-
-    for (let i = 1; i <= 14; i++) {
-      days.push({
-        value: i * 24,
-        label: i,
-      });
-    }
-
-    return days;
-  }
 
   render() {
     return (
@@ -147,9 +134,9 @@ class DistributionRulesFilters extends PureComponent {
                 searchable
                 withAnyOption
               >
-                {this.generateExecutionDays().map(({ value, label }) => (
+                {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>
-                    {`${I18n.t(`COMMON.${label > 1 ? 'DAYS' : 'DAY'}`)} ${label}`}
+                    {I18n.t(label, { value: i18nValue })}
                   </option>
                 ))}
               </Field>
