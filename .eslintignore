@@ -3,8 +3,3 @@ node_modules/**
 dist/**
 *.spec.js
 src/index.html
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
