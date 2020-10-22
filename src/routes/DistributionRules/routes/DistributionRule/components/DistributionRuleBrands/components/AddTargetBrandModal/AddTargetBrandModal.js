@@ -199,6 +199,7 @@ class AddTargetBrandModal extends PureComponent {
                   placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
                   component={FormikSelectField}
                   disabled={operatorsLoading || !operatorsByBrand.length}
+                  searchable
                 >
                   {operatorsByBrand.map(({ uuid, fullName }) => (
                     <option key={uuid} value={uuid}>{fullName}</option>
