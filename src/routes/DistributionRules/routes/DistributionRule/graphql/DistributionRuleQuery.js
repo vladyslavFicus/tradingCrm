@@ -11,7 +11,6 @@ const REQUEST = gql`
       name
       order
       status
-      createdBy
       statusChangedAt
       createdAt
       updatedAt
