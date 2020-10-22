@@ -14,7 +14,6 @@ import Copyrights from 'components/Copyrights';
 import ChangeUnauthorizedPasswordModal from 'modals/ChangeUnauthorizedPasswordModal';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
-import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 import { getMappedBrands } from './utils';
 import SignInMutation from './graphql/SignInMutation';
 import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
@@ -98,8 +97,6 @@ class SignIn extends PureComponent {
 
       storage.set('token', token);
       storage.set('auth', { department, role, uuid });
-
-      setBrandIdByUserToken();
 
       history.push('/dashboard');
     } catch (e) {

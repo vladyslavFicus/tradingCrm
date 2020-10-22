@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
-import { getActiveBrandConfig, getAvailableLanguages } from 'config';
+import { getBrand, getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
@@ -22,7 +22,7 @@ import attributeLabels from './constants';
 const validate = createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
-  password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+  password: ['required', `regex:${getBrand().password.pattern}`],
   languageCode: ['required', 'string'],
   'address.countryCode': ['required', 'string'],
 }, translateLabels(attributeLabels), false);

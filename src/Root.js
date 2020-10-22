@@ -4,11 +4,11 @@ import moment from 'moment';
 import jwtDecode from 'jwt-decode';
 import I18n from 'i18n';
 import IndexRoute from 'routes/IndexRoute';
-import { getBrandId, setBrandId, removeActiveBrand } from 'config';
+import { getBrand, setBrand, removeActiveBrand } from 'config';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 
-class LocalStorageListener extends PureComponent {
+class Root extends PureComponent {
   static propTypes = {
     auth: PropTypes.auth,
     locale: PropTypes.string,
@@ -28,7 +28,7 @@ class LocalStorageListener extends PureComponent {
     try {
       const { brandId } = jwtDecode(this.props.token);
 
-      setBrandId(brandId);
+      setBrand(brandId);
     } catch (e) {
       removeActiveBrand();
     }
@@ -54,9 +54,9 @@ class LocalStorageListener extends PureComponent {
     this.initBrand();
 
     return (
-      <IndexRoute key={`${I18n.locale}-${auth ? auth.department : ''}-${getBrandId()}`} />
+      <IndexRoute key={`${I18n.locale}-${auth?.department}-${getBrand()?.id}`} />
     );
   }
 }
 
-export default withStorage(['locale', 'auth', 'token'])(LocalStorageListener);
+export default withStorage(['locale', 'auth', 'token'])(Root);

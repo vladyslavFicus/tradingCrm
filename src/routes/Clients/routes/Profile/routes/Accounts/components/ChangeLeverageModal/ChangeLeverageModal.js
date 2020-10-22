@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { Formik, Form, Field } from 'formik';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withNotifications } from 'hoc';
 import { Button } from 'components/UI';
 import Badge from 'components/Badge';
@@ -86,7 +86,7 @@ class ChangeLeverageModal extends PureComponent {
       leverage,
     } = this.props;
 
-    const brand = getActiveBrandConfig();
+    const brand = getBrand();
 
     return (
       <Modal className="ChangeLeverageModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -130,7 +130,7 @@ class ChangeLeverageModal extends PureComponent {
                     label={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
                     component={FormikSelectField}
                   >
-                    {brand[`leveragesChangingRequest${platformType}`]
+                    {brand[platformType.toLowerCase()].leveragesChangingRequest
                       .filter(item => leverage !== item)
                       .map(value => <option key={value} value={value}>1:{value}</option>)}
                   </Field>
