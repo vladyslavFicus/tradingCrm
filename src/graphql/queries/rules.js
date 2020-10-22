@@ -50,46 +50,6 @@ const getRules = gql`query getRules(
   }
 }`;
 
-const getRulesRetention = gql`query getRulesRetention(
-  $uuid: [String],
-  $country: String,
-  $language: String,
-  $createdByOrUuid: String,
-  $name: String,
-  $parentId: String,
-) {
-  rulesRetention (
-    uuid: $uuid,
-    country: $country,
-    language: $language,
-    createdByOrUuid: $createdByOrUuid,
-    name: $name,
-    parentId: $parentId,
-  ) {
-    error {
-      error
-      fields_errors
-    }
-    data {
-      actions {
-        id
-        parentBranch
-        parentUser
-        ruleType
-      }
-      uuid
-      countries
-      languages
-      priority
-      name
-      type
-      updatedBy
-      createdBy
-    }
-  }
-}`;
-
 export {
   getRules,
-  getRulesRetention,
 };

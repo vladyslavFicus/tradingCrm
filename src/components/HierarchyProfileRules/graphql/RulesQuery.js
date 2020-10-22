@@ -2,9 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/rules';
 
-const RulesRequest = gql`query RulesQuery(
+const REQUEST = gql`query RulesQuery(
   $uuid: [String],
   $country: String,
   $language: String,
@@ -54,49 +53,13 @@ const RulesRequest = gql`query RulesQuery(
   }
 }`;
 
-const RetentionRulesRequest = gql`query RetentionRulesQuery(
-  $uuid: [String],
-  $country: String,
-  $language: String,
-  $createdByOrUuid: String,
-  $name: String,
-  $parentId: String,
-) {
-  rulesRetention (
-    uuid: $uuid,
-    country: $country,
-    language: $language,
-    createdByOrUuid: $createdByOrUuid,
-    name: $name,
-    parentId: $parentId,
-  ) {
-    actions {
-      id
-      parentBranch
-      parentUser
-      ruleType
-    }
-    uuid
-    countries
-    languages
-    priority
-    name
-    type
-    updatedBy
-    createdBy
-  }
-}`;
-
 const RulesQuery = ({
   children,
-  deskType,
   location: { query },
   match: { params: { id: branchUuid } },
 }) => (
   <Query
-    query={
-      deskType === deskTypes.RETENTION ? RetentionRulesRequest : RulesRequest
-    }
+    query={REQUEST}
     variables={{
       ...query && query.filters,
       branchUuid,
@@ -109,7 +72,6 @@ const RulesQuery = ({
 RulesQuery.propTypes = {
   ...PropTypes.router,
   children: PropTypes.func.isRequired,
-  deskType: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
