@@ -1,4 +1,9 @@
-.PaymentsListFilters {
+.RulesGridFilter {
+  &__form {
+    background-color: #f2f4f8;
+    padding: 20px 25px 40px;
+  }
+
   &__fields {
     width: 100%;
     display: grid;
@@ -28,11 +33,15 @@
     grid-column: span 2;
   }
 
-  &__range-inputs {
-    grid-column: span 2;
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
   }
 
-  &__date-range {
-    grid-column: span 4;
+  &__button {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
   }
 }

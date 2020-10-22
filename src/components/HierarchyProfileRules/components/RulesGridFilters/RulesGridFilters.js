@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'constants/propTypes';
+import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { withRouter } from 'react-router-dom';
 import { getAvailableLanguages } from 'config';
-import { createValidator } from 'utils/validator';
-import countryList from 'utils/countryList';
+import PropTypes from 'constants/propTypes';
 import { filterLabels } from 'constants/user';
+import { createValidator } from 'utils/validator';
+import { statuses as operatorsStasuses } from 'constants/operators';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
+import countryList from 'utils/countryList';
+import './RulesGridFilter.scss';
 
 const validate = createValidator({
   searchBy: 'string',
@@ -30,8 +32,8 @@ class RulesFilters extends Component {
 
   static defaultProps = {
     type: null,
-    partners: [],
-    operators: [],
+    partners: null,
+    operators: null,
   };
 
   handleReset = (resetForm) => {
@@ -70,28 +72,29 @@ class RulesFilters extends Component {
 
     return (
       <Formik
-        enableReinitialize
+        className="RulesGridFilter"
         initialValues={state?.filters || {}}
-        validate={validate}
         onSubmit={this.handleSubmit}
+        validate={validate}
+        enableReinitialize
       >
         {({
           isSubmitting,
           resetForm,
           dirty,
         }) => (
-          <Form className="filter__form filter__form--row">
-            <div className="filter__form-inputs">
+          <Form className="RulesGridFilter__form">
+            <div className="RulesGridFilter__fields">
               <Field
                 name="createdByOrUuid"
-                className={fieldClassNames.MEDIUM}
+                className="RulesGridFilter__field RulesGridFilter__search"
                 placeholder={I18n.t('RULES.FILTERS.RULE')}
                 label={I18n.t(filterLabels.searchValue)}
                 component={FormikInputField}
               />
               <Field
                 name="country"
-                className={fieldClassNames.MEDIUM}
+                className="RulesGridFilter__field RulesGridFilter__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
                 component={FormikSelectField}
@@ -104,7 +107,7 @@ class RulesFilters extends Component {
               </Field>
               <Field
                 name="language"
-                className={fieldClassNames.MEDIUM}
+                className="RulesGridFilter__field RulesGridFilter__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.language)}
                 component={FormikSelectField}
@@ -120,10 +123,11 @@ class RulesFilters extends Component {
               <If condition={partners && type !== 'PARTNER'}>
                 <Field
                   name="affiliateId"
-                  className={fieldClassNames.MEDIUM}
+                  className="RulesGridFilter__field RulesGridFilter__select"
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   label={I18n.t('RULES.FILTERS.PARTNER')}
                   component={FormikSelectField}
+                  disabled={partners.length === 0}
                   searchable
                   withAnyOption
                 >
@@ -137,15 +141,22 @@ class RulesFilters extends Component {
               <If condition={operators && type !== 'OPERATOR'}>
                 <Field
                   name="operatorUuids"
-                  className={fieldClassNames.MEDIUM}
+                  className="RulesGridFilter__field RulesGridFilter__select"
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  label={I18n.t('RULES.FILTERS.OPERATOR')}
+                  label={I18n.t('RULES.FILTERS.OPERATORS')}
                   component={FormikSelectField}
+                  disabled={operators.length === 0}
                   searchable
                   multiple
                 >
-                  {operators.map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>
+                  {operators.map(({ uuid, fullName, operatorStatus }) => (
+                    <option
+                      key={uuid}
+                      value={uuid}
+                      className={classNames({
+                        'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                      })}
+                    >
                       {I18n.t(fullName)}
                     </option>
                   ))}
@@ -153,20 +164,19 @@ class RulesFilters extends Component {
               </If>
             </div>
 
-            <div className="filter__form-buttons">
+            <div className="RulesGridFilter__buttons">
               <Button
                 common
-                className="filter__form-button"
+                className="RulesGridFilter__button"
                 disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}
-                type="button"
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 primary
                 type="submit"
-                className="filter__form-button"
+                className="RulesGridFilter__button"
                 disabled={isSubmitting || !dirty}
               >
                 {I18n.t('COMMON.APPLY')}

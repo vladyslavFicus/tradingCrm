@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { compose } from 'react-apollo';
 import { withStorage } from 'providers/StorageProvider';
@@ -24,17 +25,6 @@ class NotificationsFilters extends PureComponent {
     }).isRequired,
     userBranchHierarchy: PropTypes.any.isRequired,
     typesQuery: PropTypes.any.isRequired,
-  };
-
-  initialValues = {
-    operators: '',
-    searchKeyword: '',
-    operatorTeams: '',
-    operatorDesks: '',
-    creationDateTo: '',
-    creationDateFrom: '',
-    notificationTypes: '',
-    notificationSubtypes: '',
   };
 
   onHandleSubmit = (
@@ -117,7 +107,7 @@ class NotificationsFilters extends PureComponent {
 
     return (
       <Formik
-        initialValues={this.initialValues}
+        initialValues={{}}
         onSubmit={this.onHandleSubmit}
       >
         {({
@@ -136,31 +126,19 @@ class NotificationsFilters extends PureComponent {
 
           return (
             <Form className="NotificationsGridFilter__form">
-              <div className="NotificationsGridFilter__inputs">
+              <div className="NotificationsGridFilter__fields">
                 <Field
                   name="searchKeyword"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__search"
-                  placeholder={I18n.t('NOTIFICATION_CENTER.FILTERS.PLACEHOLDERS.NOTIFICATION_OR_PLAYER')}
+                  className="NotificationsGridFilter__field NotificationsGridFilter__search"
                   label={I18n.t(filterLabels.searchValue)}
+                  placeholder={I18n.t('NOTIFICATION_CENTER.FILTERS.PLACEHOLDERS.NOTIFICATION_OR_PLAYER')}
+                  addition={<i className="icon icon-search" />}
                   component={FormikInputField}
                 />
                 <Field
-                  name="operators"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.AGENTS')}
-                  component={FormikSelectField}
-                  searchable
-                  multiple
-                  disabled={operatorsLoading}
-                >
-                  {operators.map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>{fullName}</option>
-                  ))}
-                </Field>
-                <Field
                   name="operatorDesks"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                  label={I18n.t(filterLabels.desks)}
                   placeholder={
                     I18n.t(
                       (!hierarchyLoading && desks.length === 0)
@@ -168,7 +146,6 @@ class NotificationsFilters extends PureComponent {
                         : 'COMMON.SELECT_OPTION.ANY',
                     )
                   }
-                  label={I18n.t(filterLabels.desks)}
                   component={FormikSelectField}
                   searchable
                   multiple
@@ -180,7 +157,8 @@ class NotificationsFilters extends PureComponent {
                 </Field>
                 <Field
                   name="operatorTeams"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select"
+                  className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                  label={I18n.t(filterLabels.teams)}
                   placeholder={
                     I18n.t(
                       (!hierarchyLoading && teamsOptions.length === 0)
@@ -188,37 +166,50 @@ class NotificationsFilters extends PureComponent {
                         : 'COMMON.SELECT_OPTION.ANY',
                     )
                   }
-                  label={I18n.t(filterLabels.teams)}
                   component={FormikSelectField}
+                  disabled={hierarchyLoading || teamsOptions.length === 0}
                   searchable
                   multiple
-                  disabled={hierarchyLoading || teamsOptions.length === 0}
                 >
                   {teamsOptions.map(({ uuid, name }) => (
                     <option key={uuid} value={uuid}>{name}</option>
                   ))}
                 </Field>
-                <FormikDateRangeGroup
-                  className="NotificationsGridFilter__input NotificationsGridFilter__dates"
-                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
-                  periodKeys={{
-                    start: 'creationDateFrom',
-                    end: 'creationDateTo',
-                  }}
-                />
+                <Field
+                  name="operators"
+                  className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.AGENTS')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  disabled={operatorsLoading}
+                  searchable
+                  multiple
+                >
+                  {operators.map(({ uuid, fullName, operatorStatus }) => (
+                    <option
+                      key={uuid}
+                      value={uuid}
+                      className={classNames({
+                        'color-inactive': operatorStatus !== 'ACTIVE',
+                      })}
+                    >
+                      {fullName}
+                    </option>
+                  ))}
+                </Field>
                 <Field
                   name="notificationTypes"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select--L"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="NotificationsGridFilter__field NotificationsGridFilter__select"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
+                  disabled={notificationCenterTypesLoading}
                   searchable
                   multiple
                   customOnChange={(value) => {
                     setFieldValue('notificationTypes', value || '');
                     if (notificationSubtypes) setFieldValue('notificationSubtypes', '');
                   }}
-                  disabled={notificationCenterTypesLoading}
                 >
                   {types.map(key => (
                     <option key={key} value={key}>{key}</option>
@@ -226,16 +217,24 @@ class NotificationsFilters extends PureComponent {
                 </Field>
                 <Field
                   name="notificationSubtypes"
-                  className="NotificationsGridFilter__input NotificationsGridFilter__select--L"
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="NotificationsGridFilter__field NotificationsGridFilter__select"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE_DETAILS')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
+                  disabled={notificationCenterTypesLoading || !subtypesOptions.length}
                   searchable
                   multiple
-                  disabled={notificationCenterTypesLoading || !subtypesOptions.length}
                 >
                   {subtypesOptions}
                 </Field>
+                <FormikDateRangeGroup
+                  className="NotificationsGridFilter__field NotificationsGridFilter__date-range"
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
+                  periodKeys={{
+                    start: 'creationDateFrom',
+                    end: 'creationDateTo',
+                  }}
+                />
               </div>
               <div className="NotificationsGridFilter__buttons">
                 <Button

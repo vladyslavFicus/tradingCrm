@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { intersection } from 'lodash';
+import classNames from 'classnames';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
@@ -284,8 +285,10 @@ class ClientsGridFilter extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    disabled={operatorStatus === operatorsStasuses.INACTIVE
-                    || operatorStatus === operatorsStasuses.CLOSED}
+                    className={classNames({
+                      'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                        || operatorStatus === operatorsStasuses.CLOSED,
+                    })}
                   >
                     {fullName}
                   </option>
