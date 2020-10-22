@@ -269,7 +269,7 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery: { data },
     } = this.props;
 
-    const rules = get(data, 'rules') || [];
+    const rules = data?.rules || [];
 
     const { name } = rules.find(({ uuid: ruleId }) => ruleId === uuid);
 
