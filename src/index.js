@@ -14,10 +14,7 @@ const store = createStore(combineReducers({ form: formReducer })); // #remove
 const MOUNT_NODE = document.getElementById('root');
 
 if (!getBackofficeBrand()) {
-  ReactDOM.render(
-    'Brand not found in cookie: brand=BRAND_NAME or in process.env.NAS_BRAND or in local brand configuration',
-    MOUNT_NODE,
-  );
+  ReactDOM.render('Brand not found :(', MOUNT_NODE);
 } else {
   ReactDOM.render(<App store={store} />, MOUNT_NODE); // # remove -> store
 }
