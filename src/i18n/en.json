@@ -3151,9 +3151,9 @@
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
-        "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients",
+        "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
         "BRAND": "Brand",
-        "QUANTITY": "Amount of cilents",
+        "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
         "QUANTITY_LIMIT": "Target brand can't contain greater distribution quantity than source brand"
       },
