@@ -16,4 +16,5 @@ export const sortTypes = {
 export const modalFieldsNames = {
   brand: 'CLIENTS_DISTRIBUTION.RULE.MODAL.BRAND',
   quantity: 'CLIENTS_DISTRIBUTION.RULE.MODAL.QUANTITY',
+  quantityPercentage: 'CLIENTS_DISTRIBUTION.RULE.MODAL.QUANTITY_PERCENTAGE',
 };

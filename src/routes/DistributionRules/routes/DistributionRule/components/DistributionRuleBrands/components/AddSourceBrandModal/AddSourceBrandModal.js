@@ -103,7 +103,12 @@ class AddSourceBrandModal extends PureComponent {
                   : Math.min(availableClientsAmount, MAX_MIGRATED_CLIENTS)
                 }`,
               ],
-            }, translateLabels(modalFieldsNames))(values)
+            }, translateLabels({
+              ...modalFieldsNames,
+              quantity: values.baseUnit === 'PERCENTAGE'
+                ? modalFieldsNames.quantityPercentage
+                : modalFieldsNames.quantity,
+            }))(values)
           )}
           validateOnBlur={false}
           validateOnChange={false}
