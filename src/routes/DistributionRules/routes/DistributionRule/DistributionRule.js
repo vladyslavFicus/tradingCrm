@@ -308,7 +308,6 @@ class DistributionRule extends PureComponent {
     const {
       name,
       order,
-      createdBy,
       status,
       createdAt,
       updatedAt,
@@ -334,7 +333,6 @@ class DistributionRule extends PureComponent {
           ruleUuid={ruleUuid}
           ruleName={name}
           ruleOrder={order}
-          createdBy={createdBy}
         />
         <DistributionRuleInfo
           status={status}
