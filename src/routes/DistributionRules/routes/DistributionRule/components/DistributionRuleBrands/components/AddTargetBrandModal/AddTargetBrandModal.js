@@ -82,6 +82,8 @@ class AddTargetBrandModal extends PureComponent {
       fetchAvailableClientsAmount,
     } = this.props;
 
+    this.setState({ availableClientsAmount: null });
+
     try {
       const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
       this.setState({ availableClientsAmount });
@@ -131,6 +133,10 @@ class AddTargetBrandModal extends PureComponent {
       availableClientsAmount,
     } = this.state;
 
+    const limitAmount = baseUnit === 'PERCENTAGE'
+      ? Math.floor(availableClientsAmount * sourceBrandQuantity / 100)
+      : Math.min(availableClientsAmount, sourceBrandQuantity);
+
     return (
       <Modal
         toggle={onCloseModal}
@@ -147,16 +153,21 @@ class AddTargetBrandModal extends PureComponent {
           validate={values => (
             createValidator({
               brand: 'required',
-              quantity: ['required', 'integer', 'min:1', `max:${sourceBrandQuantity}`],
-            }, translateLabels(modalFieldsNames), false, {
-              'max.quantity': I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.QUANTITY_LIMIT'),
-            })(values)
+              quantity: ['required', 'integer', 'min:1',
+                `max:${values.baseUnit === 'PERCENTAGE' ? 100 : limitAmount}`,
+              ],
+            }, translateLabels({
+              ...modalFieldsNames,
+              quantity: values.baseUnit === 'PERCENTAGE'
+                ? modalFieldsNames.quantityPercentage
+                : modalFieldsNames.quantity,
+            }))(values)
           )}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={this.handleSubmit}
         >
-          {({ setFieldValue }) => (
+          {({ values, setFieldValue }) => (
             <Form>
               <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}</ModalHeader>
               <ModalBody>
@@ -174,12 +185,17 @@ class AddTargetBrandModal extends PureComponent {
                     ))
                   }
                 </Field>
-                <If condition={typeof availableClientsAmount === 'number'}>
-                  <div className="AddTargetBrandModal__message">
-                    {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
-                      value: availableClientsAmount,
-                    })}
-                  </div>
+                <If condition={values.brand}>
+                  <div
+                    className="AddTargetBrandModal__message"
+                    dangerouslySetInnerHTML={{
+                      __html: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
+                        value: typeof availableClientsAmount === 'number'
+                          ? limitAmount
+                          : '<span class="AddTargetBrandModal__message-spinner">...</span>',
+                      }),
+                    }}
+                  />
                 </If>
                 <div className="AddTargetBrandModal__row">
                   <Field
@@ -190,6 +206,7 @@ class AddTargetBrandModal extends PureComponent {
                     addition={baseUnits[baseUnit]}
                     additionPosition="right"
                     className="AddTargetBrandModal__field AddTargetBrandModal__field--quantity"
+                    disabled={!availableClientsAmount}
                     component={FormikInputField}
                   />
                 </div>
