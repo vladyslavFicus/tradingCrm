@@ -317,10 +317,6 @@ class DistributionRule extends PureComponent {
 
     const allowedBaseUnits = executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE'];
 
-    const resetDisabled = ruleLoading
-      || isSubmitting
-      || !settingsWasChanged;
-
     const submitDisabled = ruleLoading
       || isSubmitting
       || !settingsWasChanged
@@ -363,7 +359,6 @@ class DistributionRule extends PureComponent {
           <Button
             className="DistributionRule__actions-btn"
             onClick={this.handleCancel}
-            disabled={resetDisabled}
             commonOutline
           >
             {I18n.t('COMMON.CANCEL')}
