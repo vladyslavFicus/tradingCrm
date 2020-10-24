@@ -10,11 +10,10 @@ import { profile as profileQuery } from 'graphql/queries/profile';
 import { getClientTradingAccounts } from 'graphql/queries/tradingAccount';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
-import ListFilterForm from 'components/ListFilterForm';
 import { Button } from 'components/UI';
+import ClientTradingAccountsGridFilter from './ClientTradingAccountsGridFilter';
 import TradingAccountAddModal from './TradingAccountAddModal';
 import TradingAccountsGrid from './TradingAccountsGrid';
-import filterFields from '../filterFields';
 import '../ClientTradingAccounts.scss';
 
 class Accounts extends PureComponent {
@@ -55,10 +54,6 @@ class Accounts extends PureComponent {
     });
   };
 
-  handleFiltersSubmit = filters => this.props.history.replace({ query: { filters } });
-
-  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
-
   render() {
     const {
       profile,
@@ -90,12 +85,7 @@ class Accounts extends PureComponent {
           </PermissionContent>
         </TabHeader>
 
-        <ListFilterForm
-          onSubmit={this.handleFiltersSubmit}
-          onReset={this.handleFilterReset}
-          initialValues={{ accountType }}
-          fields={filterFields()}
-        />
+        <ClientTradingAccountsGridFilter accountType={accountType} />
 
         <TradingAccountsGrid
           tradingAccounts={tradingAccounts}

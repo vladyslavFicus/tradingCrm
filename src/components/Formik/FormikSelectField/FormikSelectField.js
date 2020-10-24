@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { getIn } from 'formik';
-import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
+import { getIn } from 'formik';
+import { get, isNil } from 'lodash';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
 
 class FormikSelectField extends Component {
   static propTypes = {
+    ...PropTypes.router,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     label: PropTypes.oneOfType([
@@ -18,6 +21,7 @@ class FormikSelectField extends Component {
     multipleLabel: PropTypes.bool,
     disabled: PropTypes.bool,
     searchable: PropTypes.bool,
+    withFocus: PropTypes.bool,
     withAnyOption: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
     customOnChange: PropTypes.func,
@@ -53,6 +57,7 @@ class FormikSelectField extends Component {
     showErrorMessage: true,
     singleOptionComponent: null,
     withAnyOption: false,
+    withFocus: false,
   };
 
   onHandleChange = (value) => {
@@ -71,6 +76,7 @@ class FormikSelectField extends Component {
 
   render() {
     const {
+      location,
       children,
       className,
       disabled,
@@ -90,9 +96,15 @@ class FormikSelectField extends Component {
       customTouched,
       singleOptionComponent,
       withAnyOption,
+      withFocus,
     } = this.props;
 
     const error = getIn(errors, name);
+
+    // isNill was used because of select options can have Boolean values
+    const isFocused = withFocus
+      ? !isNil(get(location, `state.filters.${name}`)) || !isNil(get(location, `query.filters.${name}`))
+      : false;
 
     return (
       <div className={classNames(
@@ -108,12 +120,13 @@ class FormikSelectField extends Component {
 
         <div>
           <Select
+            name={name}
             disabled={disabled}
             multiple={multiple}
             multipleLabel={multipleLabel}
-            name={name}
             onChange={this.onHandleChange}
             placeholder={placeholder}
+            isFocused={isFocused}
             showSearch={searchable}
             singleOptionComponent={singleOptionComponent}
             value={!value && multiple ? [] : value}
@@ -139,4 +152,4 @@ class FormikSelectField extends Component {
   }
 }
 
-export default FormikSelectField;
+export default withRouter(FormikSelectField);

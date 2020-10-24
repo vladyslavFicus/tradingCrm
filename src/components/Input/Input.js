@@ -14,6 +14,7 @@ class Input extends PureComponent {
       PropTypes.arrayOf(PropTypes.string),
     ]),
     disabled: PropTypes.bool,
+    isFocused: PropTypes.bool,
     className: PropTypes.string,
     label: PropTypes.string,
     icon: PropTypes.string,
@@ -26,6 +27,7 @@ class Input extends PureComponent {
   static defaultProps = {
     error: null,
     disabled: false,
+    isFocused: false,
     className: '',
     label: '',
     value: '',
@@ -44,6 +46,7 @@ class Input extends PureComponent {
       onChange,
       error,
       disabled,
+      isFocused,
       className,
       label,
       icon,
@@ -70,6 +73,7 @@ class Input extends PureComponent {
           'input--has-error': error && showErrorMessage,
           'input--is-disabled': disabled,
           'input--has-addition': addition && additionPosition !== 'right',
+          'input--is-focused': isFocused,
         })}
       >
         <If condition={label}>

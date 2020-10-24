@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query PartnersQuery(
+  query PartnersList_PartnersQuery(
     $page: Page__Input
     $searchBy: String
     $country: String

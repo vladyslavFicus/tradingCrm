@@ -3182,7 +3182,10 @@
         "NOTIFICATION_OR_PLAYER": "Notification ID, Player UUID"
       },
       "LABELS": {
-        "AGENTS": "Agents",
+        "SEARCH": "Search by",
+        "OPERATORS": "Agents",
+        "DESKS": "Desks",
+        "TEAMS": "Teams",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
         "READ_UNREAD": "Read/Unread",

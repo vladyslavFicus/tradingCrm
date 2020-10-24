@@ -139,7 +139,7 @@ class ExtendedForm extends PureComponent {
                     <Button
                       disabled={isDataLoading}
                       onClick={handleReset}
-                      common
+                      primary
                     >
                       {I18n.t('COMMON.RESET')}
                     </Button>
