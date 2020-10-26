@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import { useField } from 'formik';
+import PropTypes from 'constants/propTypes';
 import DateRangeGroup from 'components/Forms/DateRangeGroup';
 
-const FormikDateRangeGroup = ({ periodKeys, ...props }) => {
+const FormikDateRangeGroup = ({ periodKeys, withFocus, ...props }) => {
   const startField = useField(periodKeys.start).reduce(
     (acc, cur) => ({ ...acc, ...cur }), {},
   );
+
   const endField = useField(periodKeys.end).reduce(
     (acc, cur) => ({ ...acc, ...cur }), {},
   );
@@ -16,6 +17,8 @@ const FormikDateRangeGroup = ({ periodKeys, ...props }) => {
       {...props}
       startField={startField}
       endField={endField}
+      isFocusedStartField={withFocus && Boolean(startField.value)}
+      isFocusedEndField={withFocus && Boolean(endField.value)}
     />
   );
 };
@@ -25,6 +28,11 @@ FormikDateRangeGroup.propTypes = {
     start: PropTypes.string.isRequired,
     end: PropTypes.string.isRequired,
   }).isRequired,
+  withFocus: PropTypes.bool,
+};
+
+FormikDateRangeGroup.defaultProps = {
+  withFocus: false,
 };
 
 export default memo(FormikDateRangeGroup);

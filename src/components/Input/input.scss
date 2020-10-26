@@ -94,7 +94,7 @@ $input-height: 40px;
     &:hover {
       color: #9b9b9b;
     }
-    
+
     &--right {
       position: static;
       width: auto;
@@ -154,6 +154,17 @@ $input-height: 40px;
         .input__icon {
           border-color: #edeff5;
         }
+      }
+    }
+  }
+
+  &--is-focused {
+    .input__control {
+      border-color: #4990e2;
+
+      & + .input__addition {
+        border-color: #4990e2;
+        color: #aaa;
       }
     }
   }

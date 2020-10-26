@@ -42,11 +42,6 @@ class TeamsGridFilter extends PureComponent {
     setSubmitting(false);
   };
 
-  handleOfficeChange = (value, setFieldValue) => {
-    setFieldValue('deskUuid', '');
-    setFieldValue('officeUuid', value);
-  };
-
   render() {
     const {
       desksAndOffices,
@@ -68,7 +63,7 @@ class TeamsGridFilter extends PureComponent {
           deskUuid: 'string',
         })}
       >
-        {({ values, dirty, isSubmitting, setFieldValue, resetForm }) => {
+        {({ values, dirty, isSubmitting, resetForm }) => {
           const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === values.officeUuid);
           const desksOptions = values.officeUuid ? desksByOffice : desks;
 
@@ -82,35 +77,39 @@ class TeamsGridFilter extends PureComponent {
                   placeholder={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                   addition={<i className="icon icon-search" />}
                   component={FormikInputField}
+                  withFocus
                 />
+
                 <Field
                   name="officeUuid"
                   className="TeamsGridFilter__field TeamsGridFilter__select"
                   label={I18n.t('TEAMS.GRID_FILTERS.OFFICE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  customOnChange={value => this.handleOfficeChange(value, setFieldValue)}
                   disabled={isLoading}
-                  searchable
                   withAnyOption
+                  searchable
+                  withFocus
                 >
                   {offices.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>{name}</option>
                   ))}
                 </Field>
+
                 <Field
                   name="deskUuid"
                   className="TeamsGridFilter__field TeamsGridFilter__select"
                   label={I18n.t('TEAMS.GRID_FILTERS.DESK')}
                   placeholder={I18n.t(
-                    (values.officeUuid && !desksByOffice.length)
+                    !desksByOffice.length
                       ? 'TEAMS.GRID_FILTERS.DESK_ERROR_PLACEHOLDER'
                       : 'COMMON.SELECT_OPTION.ANY',
                   )}
                   component={FormikSelectField}
-                  disabled={isLoading || (!!values.officeUuid && !desksByOffice.length)}
-                  searchable
+                  disabled={isLoading || !desksByOffice.length}
                   withAnyOption
+                  searchable
+                  withFocus
                 >
                   {desksOptions.map(({ name, uuid }) => (
                     <option key={uuid} value={uuid}>{name}</option>
@@ -123,7 +122,7 @@ class TeamsGridFilter extends PureComponent {
                   className="TeamsGridFilter__button"
                   onClick={() => this.handleReset(resetForm)}
                   disabled={isSubmitting}
-                  common
+                  primary
                 >
                   {I18n.t('COMMON.RESET')}
                 </Button>
