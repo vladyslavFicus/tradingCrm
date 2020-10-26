@@ -423,9 +423,7 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    const error = get(data, 'error');
-
-    if (error) {
+    if (data?.error) {
       return null;
     }
 
