@@ -18,7 +18,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
 
   onHandleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({
-      query: {
+      state: {
         filters: decodeNullValues(values),
       },
     });
@@ -28,7 +28,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
 
   onHandleReset = () => {
     this.props.history.replace({
-      query: {
+      state: {
         filters: {},
       },
     });
@@ -41,7 +41,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
     return (
       <Formik
         className="ClientTradingAccountsGridFilter"
-        initialValues={{ accountType }}
+        initialValues={state?.filters || { accountType }}
         onSubmit={this.onHandleSubmit}
         onReset={this.onHandleReset}
       >
