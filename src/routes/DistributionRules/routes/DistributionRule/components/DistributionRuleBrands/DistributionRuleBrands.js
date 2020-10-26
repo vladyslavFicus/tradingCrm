@@ -161,7 +161,7 @@ class DistributionRuleBrands extends PureComponent {
         <div className="DistributionRuleBrands__columns-wrapper">
           <div className="DistributionRuleBrands__column">
             <div className="DistributionRuleBrands__column-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.SOURCE_BRAND')}
             </div>
             <div className="DistributionRuleBrands__column-inner">
               <Choose>
@@ -185,7 +185,7 @@ class DistributionRuleBrands extends PureComponent {
           </div>
           <div className="DistributionRuleBrands__column">
             <div className="DistributionRuleBrands__column-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}
             </div>
             <div className="DistributionRuleBrands__column-inner">
               <Choose>
