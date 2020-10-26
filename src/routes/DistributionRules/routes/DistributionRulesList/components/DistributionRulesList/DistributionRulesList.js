@@ -26,6 +26,8 @@ import {
   DistributionRuleMigrationMutation,
   DistributionRuleClientsAmountQuery,
 } from '../graphql';
+import { ReactComponent as PlayIcon } from './play-icon.svg';
+import { ReactComponent as TimeIcon } from './time-icon.svg';
 import './DistributionRuleList.scss';
 
 class DistributionRules extends PureComponent {
@@ -174,10 +176,10 @@ class DistributionRules extends PureComponent {
             <i className="DistributionRulesList__actions-icon icon-pause" />
           </When>
           <When condition={executionType === 'AUTO'}>
-            <i className="font-size-20 icon-auto" />
+            <TimeIcon />
           </When>
           <Otherwise>
-            <i className="DistributionRulesList__actions-icon icon-play" />
+            <PlayIcon className="DistributionRulesList__actions-icon" />
           </Otherwise>
         </Choose>
       </Button>
