@@ -82,13 +82,14 @@ class DistributionRulesFilters extends PureComponent {
                 component={FormikInputField}
               />
               <Field
-                name="salesStatus"
+                name="salesStatuses"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                multiple
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
