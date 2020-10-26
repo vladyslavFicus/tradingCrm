@@ -8,7 +8,7 @@ import countries from 'utils/countryList';
 import {
   FormikInputField,
   FormikSelectField,
-  FormikDateRangePicker,
+  FormikDateRangeGroup,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -69,8 +69,9 @@ class OperatorGridFilter extends Component {
               label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.SEARCH_BY')}
               placeholder={I18n.t(attributeLabels.keyword)}
               component={FormikInputField}
-              inputAddon={<i className="icon icon-search" />}
+              addition={<i className="icon icon-search" />}
               className="filter-row__medium"
+              withFocus
             />
             <Field
               name="country"
@@ -79,6 +80,7 @@ class OperatorGridFilter extends Component {
               component={FormikSelectField}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="filter-row__medium"
+              withFocus
             >
               {Object.keys(countries).map(key => (
                 <option key={key} value={key}>{countries[key]}</option>
@@ -91,6 +93,7 @@ class OperatorGridFilter extends Component {
               component={FormikSelectField}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="filter-row__medium"
+              withFocus
             >
               {Object.keys(statusesLabels).map(status => (
                 <option key={status} value={status}>
@@ -98,18 +101,18 @@ class OperatorGridFilter extends Component {
                 </option>
               ))}
             </Field>
-            <div className="form-group filter-row__medium">
-              <FormikDateRangePicker
-                label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
-                periodKeys={{
-                  start: 'registrationDateFrom',
-                  end: 'registrationDateTo',
-                }}
-              />
-            </div>
+            <FormikDateRangeGroup
+              className="form-group filter-row__big"
+              label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
+              periodKeys={{
+                start: 'registrationDateFrom',
+                end: 'registrationDateTo',
+              }}
+              withFocus
+            />
             <div className="filter-row__button-block">
               <Button
-                common
+                primary
                 disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}
               >

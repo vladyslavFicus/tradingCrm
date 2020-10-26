@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { callbacksStatuses } from 'constants/callbacks';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import './CallbacksGridFilter.scss';
@@ -12,13 +12,6 @@ import './CallbacksGridFilter.scss';
 class CallbacksGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-  };
-
-  initialValues = {
-    searchKeyword: '',
-    statuses: '',
-    callbackTimeFrom: '',
-    callbackTimeTo: '',
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -34,7 +27,7 @@ class CallbacksGridFilter extends PureComponent {
     return (
       <Formik
         className="CallbacksGridFilter"
-        initialValues={this.initialValues}
+        initialValues={{}}
         onSubmit={this.handleSubmit}
         onReset={this.handleReset}
       >
@@ -44,46 +37,47 @@ class CallbacksGridFilter extends PureComponent {
           dirty,
         }) => (
           <Form className="CallbacksGridFilter__form">
-            <div className="CallbacksGridFilter__fields">
-              <Field
-                name="searchKeyword"
-                className="CallbacksGridFilter__field CallbacksGridFilter__search"
-                label={I18n.t('CALLBACKS.FILTER.SEARCH_BY')}
-                placeholder={I18n.t('CALLBACKS.FILTER.SEARCH_BY_PLACEHOLDER')}
-                addition={<i className="icon icon-search" />}
-                component={FormikInputField}
-              />
+            <Field
+              name="searchKeyword"
+              className="CallbacksGridFilter__field CallbacksGridFilter__search"
+              label={I18n.t('CALLBACKS.FILTER.SEARCH_BY')}
+              placeholder={I18n.t('CALLBACKS.FILTER.SEARCH_BY_PLACEHOLDER')}
+              addition={<i className="icon icon-search" />}
+              component={FormikInputField}
+              withFocus
+            />
 
-              <Field
-                name="statuses"
-                className="CallbacksGridFilter__field CallbacksGridFilter__status"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                label={I18n.t('CALLBACKS.FILTER.STATUS')}
-                component={FormikSelectField}
-                searchable
-                withAnyOption
-              >
-                {Object.keys(callbacksStatuses).map(status => (
-                  <option key={status} value={status}>{I18n.t(callbacksStatuses[status])}</option>
-                ))}
-              </Field>
+            <Field
+              name="statuses"
+              className="CallbacksGridFilter__field CallbacksGridFilter__select"
+              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              label={I18n.t('CALLBACKS.FILTER.STATUS')}
+              component={FormikSelectField}
+              withAnyOption
+              searchable
+              withFocus
+            >
+              {Object.keys(callbacksStatuses).map(status => (
+                <option key={status} value={status}>{I18n.t(callbacksStatuses[status])}</option>
+              ))}
+            </Field>
 
-              <FormikDateRangePicker
-                className="CallbacksGridFilter__field CallbacksGridFilter__dates"
-                label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
-                periodKeys={{
-                  start: 'callbackTimeFrom',
-                  end: 'callbackTimeTo',
-                }}
-              />
-            </div>
+            <FormikDateRangeGroup
+              className="CallbacksGridFilter__field CallbacksGridFilter__date-range"
+              label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
+              periodKeys={{
+                start: 'callbackTimeFrom',
+                end: 'callbackTimeTo',
+              }}
+              withFocus
+            />
 
             <div className="CallbacksGridFilter__buttons">
               <Button
                 className="CallbacksGridFilter__button"
                 onClick={resetForm}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
