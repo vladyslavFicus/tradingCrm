@@ -3055,7 +3055,7 @@
     },
     "EXECUTION_TYPE": {
       "MANUAL": "Manual",
-      "AUTO": "Auto"
+      "AUTO": "Daily (auto)"
     },
     "FILTERS": {
       "SEARCH_BY": "Search by",

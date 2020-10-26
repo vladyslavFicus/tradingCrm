@@ -197,7 +197,7 @@ class DistributionRules extends PureComponent {
     </Choose>
   );
 
-  renderStatus = ({ status, statusChangedAt }) => (
+  renderStatus = ({ status, statusChangedAt, executionType }) => (
     <>
       <div className={classNames('text-uppercase font-weight-700', clientDistributionStatuses[status].color)}>
         {I18n.t(clientDistributionStatuses[status].label)}
@@ -206,6 +206,12 @@ class DistributionRules extends PureComponent {
       <If condition={statusChangedAt}>
         <div className="font-size-11">
           {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY HH:mm:ss') })}
+        </div>
+      </If>
+
+      <If condition={executionType}>
+        <div className="font-size-11">
+          {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
         </div>
       </If>
     </>
@@ -281,7 +287,7 @@ class DistributionRules extends PureComponent {
     </>
   );
 
-  renderExecutionTime = ({ executionType, executionPeriodInHours }) => {
+  renderExecutionTime = ({ executionPeriodInHours }) => {
     const { time, type } = executionPeriodInHours >= 24
       ? {
         time: Math.floor(executionPeriodInHours / 24),
@@ -297,9 +303,6 @@ class DistributionRules extends PureComponent {
         <When condition={executionPeriodInHours}>
           <div className="font-weight-700">
             {`${time} ${I18n.t(`COMMON.${type}`)}`}
-          </div>
-          <div className="font-size-11">
-            {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
           </div>
         </When>
         <Otherwise>
