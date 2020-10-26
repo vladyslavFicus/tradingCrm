@@ -51,6 +51,7 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY_PLACEHOLDER')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY')}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="ruleStatus"
@@ -58,8 +59,9 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.RULE_STATUS')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(statusesLabels).map(status => (
                   <option key={status} value={status}>
@@ -73,6 +75,7 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FROM_BRAND')}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="toBrand"
@@ -80,6 +83,7 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TO_BRAND')}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="salesStatus"
@@ -87,8 +91,9 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
@@ -102,8 +107,9 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
@@ -116,6 +122,7 @@ class DistributionRulesFilters extends PureComponent {
                   start: 'createdDateFrom',
                   end: 'createdDateTo',
                 }}
+                withFocus
               />
               <FormikDateRangeGroup
                 className="DistributionRulesFilters__date-range"
@@ -124,6 +131,7 @@ class DistributionRulesFilters extends PureComponent {
                   start: 'lastTimeExecutedFrom',
                   end: 'lastTimeExecutedTo',
                 }}
+                withFocus
               />
               <Field
                 name="executionPeriodsInHours"
@@ -133,6 +141,7 @@ class DistributionRulesFilters extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
                 searchable
+                withFocus
                 multiple
               >
                 {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
@@ -148,7 +157,7 @@ class DistributionRulesFilters extends PureComponent {
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
                 onClick={resetForm}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import { Button } from 'components/UI';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
 import './LeadFeedsFilterForm.scss';
@@ -50,50 +50,49 @@ class LeadFeedsFilterForm extends PureComponent {
           dirty,
         }) => (
           <Form className="LeadFeedsFilterForm__form">
-            <div className="LeadFeedsFilterForm__fields">
-              <Field
-                name="searchBy"
-                className="LeadFeedsFilterForm__field LeadFeedsFilterForm__search"
-                label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
-                placeholder={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
-                addition={<i className="icon icon-search" />}
-                component={FormikInputField}
-              />
+            <Field
+              name="searchBy"
+              className="LeadFeedsFilterForm__field LeadFeedsFilterForm__search"
+              label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
+              placeholder={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
+              addition={<i className="icon icon-search" />}
+              component={FormikInputField}
+              withFocus
+            />
 
-              <Field
-                name="auditLogType"
-                className="LeadFeedsFilterForm__field LeadFeedsFilterForm__types"
-                label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
-                placeholder={I18n.t('COMMON.ANY')}
-                component={FormikSelectField}
-                searchable
-                withAnyOption
-              >
-                {availableFeedTypes.map(type => (
-                  <option key={type} value={type}>
-                    {typesLabels[type] ? I18n.t(typesLabels[type]) : formatLabel(type)}
-                  </option>
-                ))}
-              </Field>
+            <Field
+              name="auditLogType"
+              className="LeadFeedsFilterForm__field LeadFeedsFilterForm__select"
+              label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
+              placeholder={I18n.t('COMMON.ANY')}
+              component={FormikSelectField}
+              withAnyOption
+              searchable
+              withFocus
+            >
+              {availableFeedTypes.map(type => (
+                <option key={type} value={type}>
+                  {typesLabels[type] ? I18n.t(typesLabels[type]) : formatLabel(type)}
+                </option>
+              ))}
+            </Field>
 
-              <Field
-                className="LeadFeedsFilterForm__field LeadFeedsFilterForm__dates"
-                label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-                component={FormikDateRangePicker}
-                periodKeys={{
-                  start: 'creationDateFrom',
-                  end: 'creationDateTo',
-                }}
-                withTime
-              />
-            </div>
+            <FormikDateRangeGroup
+              className="LeadFeedsFilterForm__field LeadFeedsFilterForm__date-range"
+              label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
+              periodKeys={{
+                start: 'creationDateFrom',
+                end: 'creationDateTo',
+              }}
+              withFocus
+              withTime
+            />
 
             <div className="LeadFeedsFilterForm__buttons">
               <Button
                 className="LeadFeedsFilterForm__button"
                 onClick={resetForm}
-                disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

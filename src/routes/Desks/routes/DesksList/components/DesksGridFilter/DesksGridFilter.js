@@ -74,6 +74,7 @@ class DesksGridFilter extends PureComponent {
                 placeholder={I18n.t('DESKS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
 
               <Field
@@ -82,8 +83,9 @@ class DesksGridFilter extends PureComponent {
                 label={I18n.t('DESKS.GRID_FILTERS.OFFICE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {offices.map(({ name, uuid }) => (
                   <option key={uuid} value={uuid}>{name}</option>
@@ -97,6 +99,7 @@ class DesksGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {deskTypes.map((deskType, key) => (
                   <option key={key} value={deskType.value}>
@@ -111,7 +114,7 @@ class DesksGridFilter extends PureComponent {
                 className="DesksGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

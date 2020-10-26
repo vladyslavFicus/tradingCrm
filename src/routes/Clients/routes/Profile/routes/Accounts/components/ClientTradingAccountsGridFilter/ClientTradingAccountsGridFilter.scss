@@ -1,4 +1,4 @@
-.LeadNotesTabFilter {
+.ClientTradingAccountsGridFilter {
   width: 100%;
   padding: 20px 25px 30px;
   background-color: #f2f4f8;
@@ -19,8 +19,8 @@
     margin-bottom: 0;
   }
 
-  &__date-range {
-    grid-column: span 4;
+  &__select {
+    grid-column: span 2;
   }
 
   &__buttons {

@@ -85,18 +85,21 @@ class RulesFilters extends Component {
               <Field
                 name="createdByOrUuid"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('RULES.FILTERS.RULE')}
                 label={I18n.t(filterLabels.searchValue)}
+                placeholder={I18n.t('RULES.FILTERS.RULE')}
+                addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="country"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
@@ -105,11 +108,12 @@ class RulesFilters extends Component {
               <Field
                 name="language"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.language)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
@@ -121,11 +125,12 @@ class RulesFilters extends Component {
                 <Field
                   name="affiliateId"
                   className={fieldClassNames.MEDIUM}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   label={I18n.t('RULES.FILTERS.PARTNER')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  searchable
                   withAnyOption
+                  searchable
+                  withFocus
                 >
                   {partners.map(({ uuid, fullName }) => (
                     <option key={uuid} value={uuid}>
@@ -138,10 +143,11 @@ class RulesFilters extends Component {
                 <Field
                   name="operatorUuids"
                   className={fieldClassNames.MEDIUM}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   label={I18n.t('RULES.FILTERS.OPERATOR')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
                   searchable
+                  withFocus
                   multiple
                 >
                   {operators.map(({ uuid, fullName }) => (
@@ -155,7 +161,7 @@ class RulesFilters extends Component {
 
             <div className="filter__form-buttons">
               <Button
-                common
+                primary
                 className="filter__form-button"
                 disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}

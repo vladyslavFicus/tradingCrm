@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'constants/propTypes';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query ClientsList_ClientsQuery(
   $args: ClientSearch__Input

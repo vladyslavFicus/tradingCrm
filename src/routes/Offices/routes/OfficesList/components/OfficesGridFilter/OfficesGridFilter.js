@@ -64,6 +64,7 @@ class OfficesGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.NAME')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="country"
@@ -73,6 +74,7 @@ class OfficesGridFilter extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
                 searchable
+                withFocus
               >
                 {Object.entries(countryList).map(([key, value]) => (
                   <option key={key} value={key}>
@@ -87,7 +89,7 @@ class OfficesGridFilter extends PureComponent {
                 className="OfficesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

@@ -37,11 +37,7 @@ class NotesGridFilter extends PureComponent {
 
     return (
       <Formik
-        initialValues={{
-          department: '',
-          changedAtFrom: '',
-          changedAtTo: '',
-        }}
+        initialValues={{}}
         onSubmit={onSubmit}
         onReset={onSubmit}
         validate={
@@ -63,6 +59,7 @@ class NotesGridFilter extends PureComponent {
               disabled={loading}
               withAnyOption
               searchable
+              withFocus
             >
               {Object.keys(departmentRoles).map(department => (
                 <option key={department} value={department}>
@@ -77,19 +74,20 @@ class NotesGridFilter extends PureComponent {
                 start: 'changedAtFrom',
                 end: 'changedAtTo',
               }}
+              withFocus
             />
             <div className="filter-row__button-block">
               <Button
                 className="margin-right-15"
-                common
                 onClick={resetForm}
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
+                type="submit"
                 disabled={!isValid || !dirty}
                 primary
-                type="submit"
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>
