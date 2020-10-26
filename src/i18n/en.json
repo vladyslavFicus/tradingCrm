@@ -3154,8 +3154,7 @@
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
-        "QUANTITY_PERCENTAGE": "Percentage",
-        "QUANTITY_LIMIT": "Target brand can't contain greater distribution quantity than source brand"
+        "QUANTITY_PERCENTAGE": "Percentage"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
