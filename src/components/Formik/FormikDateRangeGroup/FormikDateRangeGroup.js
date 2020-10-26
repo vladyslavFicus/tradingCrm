@@ -17,8 +17,8 @@ const FormikDateRangeGroup = ({ periodKeys, withFocus, ...props }) => {
       {...props}
       startField={startField}
       endField={endField}
-      isFocusedStartField={withFocus && startField.name}
-      isFocusedEndField={withFocus && endField.name}
+      isFocusedStartField={withFocus && Boolean(startField.value)}
+      isFocusedEndField={withFocus && Boolean(endField.value)}
     />
   );
 };
