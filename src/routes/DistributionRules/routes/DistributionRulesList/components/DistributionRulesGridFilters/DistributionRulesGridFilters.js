@@ -3,6 +3,7 @@ import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { getAvailableLanguages } from 'config';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
@@ -93,6 +94,21 @@ class DistributionRulesFilters extends PureComponent {
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
                     {I18n.t(renderLabel(value, salesStatuses))}
+                  </option>
+                ))}
+              </Field>
+              <Field
+                name="languages"
+                className="DistributionRulesFilters__field"
+                label={I18n.t(filterLabels.languages)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                searchable
+                multiple
+              >
+                {getAvailableLanguages().map(locale => (
+                  <option key={locale} value={locale}>
+                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                   </option>
                 ))}
               </Field>
