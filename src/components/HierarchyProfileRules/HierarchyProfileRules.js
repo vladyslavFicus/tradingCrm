@@ -95,7 +95,7 @@ class HierarchyProfileRules extends PureComponent {
 
         if (!branchChildrenQuery.loading) {
           data = {
-            enabled: !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser)),
+            enabled: !!(teams && teams.length && teams.some(({ uuid }) => !!uuid)),
             message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK'),
           };
         }
@@ -108,7 +108,7 @@ class HierarchyProfileRules extends PureComponent {
 
         if (!branchInfoQuery.loading) {
           data = {
-            enabled: !!branchInfo.defaultUser,
+            enabled: !!branchInfo?.uuid,
             message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM'),
           };
         }

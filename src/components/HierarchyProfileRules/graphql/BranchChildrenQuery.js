@@ -10,7 +10,7 @@ const REQUEST = gql`query BranchChildrenQuery(
   branchChildren (
     uuid: $uuid,
   ) {
-    defaultUser
+    uuid
   }
 }`;
 
