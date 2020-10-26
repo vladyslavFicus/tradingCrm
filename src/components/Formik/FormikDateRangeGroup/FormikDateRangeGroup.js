@@ -1,11 +1,9 @@
 import React, { memo } from 'react';
-import { withRouter } from 'react-router-dom';
-import { get } from 'lodash';
 import { useField } from 'formik';
 import PropTypes from 'constants/propTypes';
 import DateRangeGroup from 'components/Forms/DateRangeGroup';
 
-const FormikDateRangeGroup = ({ periodKeys, withFocus, location, ...props }) => {
+const FormikDateRangeGroup = ({ periodKeys, withFocus, ...props }) => {
   const startField = useField(periodKeys.start).reduce(
     (acc, cur) => ({ ...acc, ...cur }), {},
   );
@@ -14,25 +12,18 @@ const FormikDateRangeGroup = ({ periodKeys, withFocus, location, ...props }) => 
     (acc, cur) => ({ ...acc, ...cur }), {},
   );
 
-  const isFocusedField = name => (
-    withFocus
-      ? Boolean(get(location, `state.filters.${name}`) || get(location, `query.filters.${name}`))
-      : false
-  );
-
   return (
     <DateRangeGroup
       {...props}
       startField={startField}
       endField={endField}
-      isFocusedStartField={isFocusedField(startField.name)}
-      isFocusedEndField={isFocusedField(endField.name)}
+      isFocusedStartField={withFocus && startField.name}
+      isFocusedEndField={withFocus && endField.name}
     />
   );
 };
 
 FormikDateRangeGroup.propTypes = {
-  ...PropTypes.router,
   periodKeys: PropTypes.shape({
     start: PropTypes.string.isRequired,
     end: PropTypes.string.isRequired,
@@ -44,4 +35,4 @@ FormikDateRangeGroup.defaultProps = {
   withFocus: false,
 };
 
-export default memo(withRouter(FormikDateRangeGroup));
+export default memo(FormikDateRangeGroup);
