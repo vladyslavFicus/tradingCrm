@@ -5,18 +5,20 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { getApiRoot, getApiVersion } from 'config';
 import { withRequests } from 'apollo';
-import { withModals } from 'hoc';
+import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { shortifyInMiddle } from 'utils/stringFormat';
+import EventEmitter, { FILE_CHANGED } from 'utils/EventEmitter';
 import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
 import Grid, { GridColumn } from 'components/Grid';
 import NoteButton from 'components/NoteButton';
+import { EditButton } from 'components/UI';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
-import { DeleteModal } from 'components/Files';
+import { DeleteModal, RenameModal } from 'components/Files';
 import permissions from 'config/permissions';
 import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
@@ -38,7 +40,9 @@ class FileGrid extends PureComponent {
     onDownloadFileClick: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       deleteFileModal: PropTypes.modalType,
+      renameFileModal: PropTypes.modalType,
     }).isRequired,
+    updateFileMeta: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -92,6 +96,41 @@ class FileGrid extends PureComponent {
     const { modals: { deleteFileModal } } = this.props;
 
     deleteFileModal.show({ file });
+  };
+
+  handleRenameFile = ({ uuid, fileName }) => {
+    const {
+      notify,
+      modals: {
+        renameFileModal,
+      },
+      updateFileMeta,
+    } = this.props;
+
+    renameFileModal.show({
+      fileName,
+      onSubmit: async (title) => {
+        try {
+          await updateFileMeta({ variables: { uuid, title } });
+
+          renameFileModal.hide();
+
+          EventEmitter.emit(FILE_CHANGED);
+
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('FILES.DOCUMENT_RENAMED'),
+          });
+        } catch {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.FAIL'),
+            message: I18n.t('COMMON.SOMETHING_WRONG'),
+          });
+        }
+      },
+    });
   };
 
   renderGridHeader = () => {
@@ -187,6 +226,8 @@ class FileGrid extends PureComponent {
 
   renderActions = data => (
     <span className="margin-left-5">
+      <EditButton onClick={() => this.handleRenameFile(data)} />
+      {' '}
       <button type="button" className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
         <i className="fa fa-download" />
       </button>
@@ -293,10 +334,12 @@ class FileGrid extends PureComponent {
 
 export default compose(
   withImages,
+  withNotifications,
   withRequests({
     tokenRenew: TokenRefreshMutation,
   }),
   withModals({
     deleteFileModal: DeleteModal,
+    renameFileModal: RenameModal,
   }),
 )(FileGrid);

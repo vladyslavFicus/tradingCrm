@@ -18,6 +18,7 @@ const updateFileStatusMutation = gql`mutation updateFileStatusMutation(
 
 const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
   $uuid: String!
+  $title: String
   $verificationType: String
   $documentType: String
   $status: String
@@ -25,6 +26,7 @@ const updateFileMetaMutation = gql`mutation updateFileMetaMutation(
   file {
     updateFileMeta(
       uuid: $uuid,
+      title: $title,
       verificationType: $verificationType,
       documentType: $documentType,
       status: $status
