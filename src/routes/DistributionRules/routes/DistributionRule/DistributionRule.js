@@ -122,9 +122,6 @@ class DistributionRule extends PureComponent {
 
   componentWillUnmount() {
     this.constructor.initialState = this.constructor.nullState;
-
-    this.resetToInitialState();
-
     this.constructor.initSettingsAreSet = false;
 
     EventEmitter.off(DISTRIBUTION_RULE_CHANGED, this.refetchRule);
@@ -132,10 +129,6 @@ class DistributionRule extends PureComponent {
 
   refetchRule = () => {
     this.props.ruleQuery.refetch();
-  };
-
-  resetToInitialState = () => {
-    this.setState(deepCopyOfDataObject(this.constructor.initialState));
   };
 
   handleGeneralSettings = (isValid, generalSettings) => {
@@ -245,6 +238,10 @@ class DistributionRule extends PureComponent {
     }
   };
 
+  handleCancel = () => {
+    this.props.history.push('/distribution');
+  };
+
   updateRuleStatus = async (ruleStatus) => {
     const {
       ruleQuery: {
@@ -311,7 +308,6 @@ class DistributionRule extends PureComponent {
     const {
       name,
       order,
-      createdBy,
       status,
       createdAt,
       updatedAt,
@@ -320,10 +316,6 @@ class DistributionRule extends PureComponent {
     } = ruleData?.distributionRule || { name: '' };
 
     const allowedBaseUnits = executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE'];
-
-    const resetDisabled = ruleLoading
-      || isSubmitting
-      || !settingsWasChanged;
 
     const submitDisabled = ruleLoading
       || isSubmitting
@@ -337,7 +329,6 @@ class DistributionRule extends PureComponent {
           ruleUuid={ruleUuid}
           ruleName={name}
           ruleOrder={order}
-          createdBy={createdBy}
         />
         <DistributionRuleInfo
           status={status}
@@ -367,8 +358,7 @@ class DistributionRule extends PureComponent {
         <div className="DistributionRule__actions">
           <Button
             className="DistributionRule__actions-btn"
-            onClick={this.resetToInitialState}
-            disabled={resetDisabled}
+            onClick={this.handleCancel}
             commonOutline
           >
             {I18n.t('COMMON.CANCEL')}

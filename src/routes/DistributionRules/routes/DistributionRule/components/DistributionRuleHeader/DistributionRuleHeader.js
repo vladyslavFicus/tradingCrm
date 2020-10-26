@@ -13,7 +13,6 @@ class DistributionRuleHeader extends PureComponent {
     ruleUuid: PropTypes.string.isRequired,
     ruleName: PropTypes.string,
     ruleOrder: PropTypes.number,
-    createdBy: PropTypes.string,
     modals: PropTypes.shape({
       updateRuleModal: PropTypes.modalType,
     }).isRequired,
@@ -22,7 +21,6 @@ class DistributionRuleHeader extends PureComponent {
   static defaultProps = {
     ruleName: '',
     ruleOrder: null,
-    createdBy: '',
   };
 
   showUpdateRuleModal = () => {
@@ -49,8 +47,8 @@ class DistributionRuleHeader extends PureComponent {
 
   render() {
     const {
+      ruleUuid,
       ruleName,
-      createdBy,
     } = this.props;
 
     return (
@@ -65,7 +63,7 @@ class DistributionRuleHeader extends PureComponent {
           />
         </div>
         <br />
-        <If condition={createdBy}><Uuid uuid={createdBy} /></If>
+        <Uuid uuid={ruleUuid} uuidPrefix="RL" />
       </div>
     );
   }

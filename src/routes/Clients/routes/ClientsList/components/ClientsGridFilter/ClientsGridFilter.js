@@ -157,6 +157,7 @@ class ClientsGridFilter extends PureComponent {
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
                 maxLength={200}
+                withFocus
               />
 
               <Field
@@ -167,6 +168,7 @@ class ClientsGridFilter extends PureComponent {
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
                 maxLength={200}
+                withFocus
               />
 
               <Field
@@ -177,6 +179,7 @@ class ClientsGridFilter extends PureComponent {
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
                 maxLength={200}
+                withFocus
               />
 
               <Field
@@ -186,6 +189,7 @@ class ClientsGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {activityStatuses.map(({ value, label }) => (
                   <option key={value} value={value}>{I18n.t(label)}</option>
@@ -198,8 +202,9 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.languages)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                multiple
                 searchable
+                withFocus
+                multiple
               >
                 {getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
@@ -214,8 +219,9 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.countries)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                multiple
                 searchable
+                withFocus
+                multiple
               >
                 {Object.keys(countries)
                   .map(country => (
@@ -236,8 +242,9 @@ class ClientsGridFilter extends PureComponent {
                 }
                 component={FormikSelectField}
                 disabled={isDesksAndTeamsLoading || desks.length === 0}
-                multiple
                 searchable
+                withFocus
+                multiple
               >
                 {desks.map(({ uuid, name }) => (
                   <option key={uuid} value={uuid}>{name}</option>
@@ -257,8 +264,9 @@ class ClientsGridFilter extends PureComponent {
                 }
                 component={FormikSelectField}
                 disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
-                multiple
                 searchable
+                withFocus
+                multiple
               >
                 {teamsOptions.map(({ uuid, name }) => (
                   <option key={uuid} value={uuid}>{name}</option>
@@ -278,8 +286,9 @@ class ClientsGridFilter extends PureComponent {
                 }
                 component={FormikSelectField}
                 disabled={isOperatorsLoading || operatorsOptions.length === 0}
-                multiple
                 searchable
+                withFocus
+                multiple
               >
                 {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
                   <option
@@ -308,8 +317,9 @@ class ClientsGridFilter extends PureComponent {
                 }
                 component={FormikSelectField}
                 disabled={isPartnersLoading || partners.length === 0}
-                multiple
                 searchable
+                withFocus
+                multiple
               >
                 {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>
@@ -325,6 +335,7 @@ class ClientsGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
                 boolean
               >
                 {radioSelect.map(({ value, label }) => (
@@ -340,6 +351,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.statuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                withFocus
                 multiple
               >
                 {Object.keys(statusesLabels).map(status => (
@@ -356,6 +368,7 @@ class ClientsGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {acquisitionStatuses.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -370,6 +383,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.salesStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                withFocus
                 multiple
               >
                 {Object.keys(salesStatuses).map(status => (
@@ -385,6 +399,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.retentionStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                withFocus
                 multiple
               >
                 {Object.keys(retentionStatuses).map(status => (
@@ -408,6 +423,7 @@ class ClientsGridFilter extends PureComponent {
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
                   withAnyOption
+                  withFocus
                 >
                   {assignStatuses.map(({ value, label }) => (
                     <option key={value} value={value}>
@@ -423,6 +439,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.kycStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                withFocus
                 multiple
               >
                 {Object.keys(kycStatusesLabels).map(status => (
@@ -439,6 +456,7 @@ class ClientsGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
                 boolean
               >
                 {radioSelect.map(({ value, label }) => (
@@ -455,6 +473,7 @@ class ClientsGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(warningLabels).map(warning => (
                   <option key={warning} value={warning}>
@@ -474,6 +493,7 @@ class ClientsGridFilter extends PureComponent {
                   min={0}
                   placeholder="0.0"
                   component={FormikInputField}
+                  withFocus
                 />
                 <Field
                   name="balanceRange.to"
@@ -482,6 +502,7 @@ class ClientsGridFilter extends PureComponent {
                   min={0}
                   placeholder="0.0"
                   component={FormikInputField}
+                  withFocus
                 />
               </RangeGroup>
 
@@ -492,6 +513,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'registrationDateRange.from',
                   end: 'registrationDateRange.to',
                 }}
+                withFocus
               />
 
               <FormikDateRangeGroup
@@ -501,6 +523,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'firstDepositDateRange.from',
                   end: 'firstDepositDateRange.to',
                 }}
+                withFocus
               />
 
               <FormikDateRangeGroup
@@ -510,6 +533,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'firstNoteDateRange.from',
                   end: 'firstNoteDateRange.to',
                 }}
+                withFocus
               />
 
               <FormikDateRangeGroup
@@ -519,6 +543,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'lastNoteDateRange.from',
                   end: 'lastNoteDateRange.to',
                 }}
+                withFocus
               />
 
               <FormikDateRangeGroup
@@ -528,6 +553,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'lastTradeDateRange.from',
                   end: 'lastTradeDateRange.to',
                 }}
+                withFocus
               />
 
               <FormikDateRangeGroup
@@ -537,6 +563,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'lastLoginDateRange.from',
                   end: 'lastLoginDateRange.to',
                 }}
+                withFocus
               />
 
               <FormikDateRangeGroup
@@ -546,6 +573,7 @@ class ClientsGridFilter extends PureComponent {
                   start: 'lastModificationDateRange.from',
                   end: 'lastModificationDateRange.to',
                 }}
+                withFocus
               />
 
               <Field
@@ -556,6 +584,7 @@ class ClientsGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.UNLIMITED')}
                 component={FormikInputField}
                 min={0}
+                withFocus
               />
             </div>
           );

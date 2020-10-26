@@ -3151,10 +3151,10 @@
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
-        "AVAILABLE_CLIENTS_AMOUNT": "Maximum avialible %{value} clients",
+        "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
         "BRAND": "Brand",
-        "QUANTITY": "Amount of cilents",
-        "QUANTITY_LIMIT": "Target brand can't contain greater distribution quantity than source brand"
+        "QUANTITY": "Amount of clients",
+        "QUANTITY_PERCENTAGE": "Percentage"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
@@ -3182,7 +3182,10 @@
         "NOTIFICATION_OR_PLAYER": "Notification ID, Player UUID"
       },
       "LABELS": {
-        "AGENTS": "Agents",
+        "SEARCH": "Search by",
+        "OPERATORS": "Agents",
+        "DESKS": "Desks",
+        "TEAMS": "Teams",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
         "READ_UNREAD": "Read/Unread",

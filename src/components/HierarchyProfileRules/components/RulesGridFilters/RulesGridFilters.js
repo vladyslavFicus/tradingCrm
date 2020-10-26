@@ -90,7 +90,9 @@ class RulesFilters extends Component {
                 className="RulesGridFilter__field RulesGridFilter__search"
                 placeholder={I18n.t('RULES.FILTERS.RULE')}
                 label={I18n.t(filterLabels.searchValue)}
+                addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="country"
@@ -98,8 +100,9 @@ class RulesFilters extends Component {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
@@ -111,8 +114,9 @@ class RulesFilters extends Component {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.language)}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
@@ -128,8 +132,9 @@ class RulesFilters extends Component {
                   label={I18n.t('RULES.FILTERS.PARTNER')}
                   component={FormikSelectField}
                   disabled={partners.length === 0}
-                  searchable
                   withAnyOption
+                  searchable
+                  withFocus
                 >
                   {partners.map(({ uuid, fullName }) => (
                     <option key={uuid} value={uuid}>
@@ -147,6 +152,7 @@ class RulesFilters extends Component {
                   component={FormikSelectField}
                   disabled={operators.length === 0}
                   searchable
+                  withFocus
                   multiple
                 >
                   {operators.map(({ uuid, fullName, operatorStatus }) => (
@@ -166,7 +172,7 @@ class RulesFilters extends Component {
 
             <div className="RulesGridFilter__buttons">
               <Button
-                common
+                primary
                 className="RulesGridFilter__button"
                 disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}

@@ -1,128 +1,133 @@
 import React, { PureComponent } from 'react';
-import I18n from 'i18n-js';
-import { get } from 'lodash';
-import classNames from 'classnames';
-import { withRequests } from 'apollo';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { withStorage } from 'providers/StorageProvider';
-import PropTypes from 'constants/propTypes';
+import I18n from 'i18n-js';
+import { intersection } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import { FormikDateRangeGroup, FormikInputField, FormikSelectField } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
-import Button from 'components/UI/Button';
-import { filterLabels } from 'constants/user';
+import { withRequests } from 'apollo';
+import PropTypes from 'constants/propTypes';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
-import { OperatorsQuery, UserBranchHierarchyQuery, TypesQuery } from './graphql';
-import { subtypesOfChosenTypes } from './utils';
+import { decodeNullValues } from 'components/Formik/utils';
+import { FormikDateRangeGroup, FormikInputField, FormikSelectField } from 'components/Formik';
+import { Button } from 'components/UI';
+import formatLabel from 'utils/formatLabel';
+import NotificationTypesQuery from './graphql/NotificationTypesQuery';
+import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
+import OperatorsQuery from './graphql/OperatorsQuery';
+
 import './NotificationsGridFilters.scss';
 
 class NotificationsFilters extends PureComponent {
   static propTypes = {
-    onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    operators: PropTypes.query({
+    ...PropTypes.router,
+    operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.operator),
     }).isRequired,
-    userBranchHierarchy: PropTypes.any.isRequired,
-    typesQuery: PropTypes.any.isRequired,
-  };
+    desksAndTeamsQuery: PropTypes.query({
+      hierarchy: PropTypes.shape({
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+      }),
+    }).isRequired,
+    notificationTypesQuery: PropTypes.query({
+      notificationCenterTypes: PropTypes.shape({
+        ACCOUNT: PropTypes.arrayOf(PropTypes.string),
+        CALLBACK: PropTypes.arrayOf(PropTypes.string),
+        CLIENT: PropTypes.arrayOf(PropTypes.string),
+        DEPOSIT: PropTypes.arrayOf(PropTypes.string),
+        KYC: PropTypes.arrayOf(PropTypes.string),
+        TRADING: PropTypes.arrayOf(PropTypes.string),
+        WITHDRAWAL: PropTypes.arrayOf(PropTypes.string),
+      }),
+    }).isRequired,
+  }
 
-  onHandleSubmit = (
-    {
-      creationDateFrom,
-      creationDateTo,
-      operatorTeams,
-      operatorDesks,
-      ...restValues
-    },
-    { setSubmitting },
-  ) => {
-    const creationDateRange = {
-      from: creationDateFrom,
-      to: creationDateTo,
-    };
+  filterOperatorsByBranch = ({ operators, uuids }) => (
+    operators.filter((operator) => {
+      const partnerBranches = operator.hierarchy?.parentBranches || [];
+      const branches = partnerBranches.map(({ uuid }) => uuid);
 
-    this.props.onSubmit(decodeNullValues({
-      ...restValues,
-      operatorTeams,
-      operatorDesks,
-      creationDateRange,
-      ...(!operatorTeams) && {
-        operatorTeams: this.getFilteredTeams(operatorDesks).map(({ uuid }) => uuid),
+      return intersection(branches, uuids).length;
+    })
+  )
+
+  filterOperators = ({ operatorDesks, operatorTeams }) => {
+    const {
+      operatorsQuery,
+      desksAndTeamsQuery,
+    } = this.props;
+
+    const operators = operatorsQuery.data?.operators?.content || [];
+
+    if (operatorTeams && operatorTeams.length) {
+      return this.filterOperatorsByBranch({ operators, uuids: operatorTeams });
+    }
+
+    if (operatorDesks && operatorDesks.length) {
+      // If desk chosen -> find all teams of these desks to filter operators
+      const teamsList = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
+      const teamsByDesks = teamsList
+        .filter(team => operatorDesks.includes(team.parentBranch.uuid))
+        .map(({ uuid }) => uuid);
+
+      return this.filterOperatorsByBranch({ operators, uuids: [...operatorDesks, ...teamsByDesks] });
+    }
+
+    return operators;
+  }
+
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
       },
-    }));
+    });
+
     setSubmitting(false);
   };
 
-  onHandleReset = (handleReset) => {
-    handleReset();
-    this.props.onReset();
-  };
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
 
-  renderSubtypesOptions = (types, subtypes) => {
-    if (!types || !types.length) return [];
-
-    return subtypesOfChosenTypes(subtypes, types)
-      .filter(value => notificationCenterSubTypesLabels[value])
-      .map(value => (
-        <option key={value} value={value}>
-          {I18n.t(notificationCenterSubTypesLabels[value])}
-        </option>
-      ));
-  };
-
-  getFilteredTeams = (desks = []) => {
-    const {
-      userBranchHierarchy: {
-        data: hierarchyData,
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
       },
-    } = this.props;
-
-    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
-    const teamsByDesks = teams.filter(team => desks.includes(team.parentBranch.uuid));
-
-    return desks.length ? teamsByDesks : teams;
-  }
+    });
+  };
 
   render() {
     const {
-      operators: {
-        data: operatorsData,
-        loading: operatorsLoading,
-      },
-      userBranchHierarchy: {
-        data: hierarchyData,
-        loading: hierarchyLoading,
-      },
-      typesQuery: {
-        data: notificationTypesData,
-        loading: notificationCenterTypesLoading,
-      },
+      location: { state },
+      desksAndTeamsQuery,
+      notificationTypesQuery,
+      operatorsQuery: { loading: isOperatorsLoading },
+      desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
+      notificationTypesQuery: { loading: isNotificationTypesLoading },
     } = this.props;
-
-    const operators = get(operatorsData, 'operators.content') || [];
-    const desks = get(hierarchyData, 'userBranches.DESK') || [];
-    const typesData = get(notificationTypesData, 'notificationCenterTypes') || [];
-    const types = Object.keys(typesData);
 
     return (
       <Formik
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          setFieldValue,
-          isSubmitting,
-          handleReset,
-          values: {
-            notificationSubtypes,
-            notificationTypes,
-            operatorDesks,
-          },
-          dirty,
-        }) => {
-          const subtypesOptions = this.renderSubtypesOptions(notificationTypes, typesData);
-          const teamsOptions = this.getFilteredTeams(operatorDesks);
+        {({ values, isSubmitting, dirty }) => {
+          const desksUuids = values.operatorDesks || [];
+          const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
+          const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
+          const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
+          const teamsOptions = desksUuids.length ? teamsByDesks : teams;
+          const operatorsOptions = this.filterOperators(values);
+          const notificationTypesData = notificationTypesQuery.data?.notificationCenterTypes || {};
+          const notificationTypes = Object.keys(notificationTypesData);
+          const notificationSubtypes = (values.notificationTypes || notificationTypes)
+            .map(type => notificationTypesData[type])
+            .flat(Infinity);
 
           return (
             <Form className="NotificationsGridFilter__form">
@@ -130,121 +135,142 @@ class NotificationsFilters extends PureComponent {
                 <Field
                   name="searchKeyword"
                   className="NotificationsGridFilter__field NotificationsGridFilter__search"
-                  label={I18n.t(filterLabels.searchValue)}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.SEARCH')}
                   placeholder={I18n.t('NOTIFICATION_CENTER.FILTERS.PLACEHOLDERS.NOTIFICATION_OR_PLAYER')}
                   addition={<i className="icon icon-search" />}
                   component={FormikInputField}
+                  withFocus
                 />
+
                 <Field
                   name="operatorDesks"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
-                  label={I18n.t(filterLabels.desks)}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.DESKS')}
                   placeholder={
                     I18n.t(
-                      (!hierarchyLoading && desks.length === 0)
+                      (!isDesksAndTeamsLoading && desks.length === 0)
                         ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                         : 'COMMON.SELECT_OPTION.ANY',
                     )
                   }
                   component={FormikSelectField}
+                  disabled={isDesksAndTeamsLoading || desks.length === 0}
                   searchable
+                  withFocus
                   multiple
-                  disabled={hierarchyLoading || desks.length === 0}
                 >
                   {desks.map(({ uuid, name }) => (
-                    <option key={uuid} value={uuid}>{name}</option>
+                    <option key={uuid} value={uuid}>
+                      {I18n.t(name)}
+                    </option>
                   ))}
                 </Field>
+
                 <Field
                   name="operatorTeams"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
-                  label={I18n.t(filterLabels.teams)}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.TEAMS')}
                   placeholder={
                     I18n.t(
-                      (!hierarchyLoading && teamsOptions.length === 0)
+                      (!isDesksAndTeamsLoading && teamsOptions.length === 0)
                         ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                         : 'COMMON.SELECT_OPTION.ANY',
                     )
                   }
                   component={FormikSelectField}
-                  disabled={hierarchyLoading || teamsOptions.length === 0}
+                  disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
                   searchable
+                  withFocus
                   multiple
                 >
                   {teamsOptions.map(({ uuid, name }) => (
-                    <option key={uuid} value={uuid}>{name}</option>
+                    <option key={uuid} value={uuid}>
+                      {I18n.t(name)}
+                    </option>
                   ))}
                 </Field>
+
                 <Field
                   name="operators"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
-                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.AGENTS')}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.OPERATORS')}
+                  placeholder={
+                    I18n.t(
+                      (!isOperatorsLoading && operatorsOptions.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
                   component={FormikSelectField}
-                  disabled={operatorsLoading}
+                  disabled={isOperatorsLoading || operatorsOptions.length === 0}
                   searchable
+                  withFocus
                   multiple
                 >
-                  {operators.map(({ uuid, fullName, operatorStatus }) => (
+                  {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
                     <option
                       key={uuid}
                       value={uuid}
-                      className={classNames({
-                        'color-inactive': operatorStatus !== 'ACTIVE',
-                      })}
+                      className={operatorStatus !== 'ACTIVE' ? 'color-inactive' : ''}
                     >
                       {fullName}
                     </option>
                   ))}
                 </Field>
+
                 <Field
                   name="notificationTypes"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  disabled={notificationCenterTypesLoading}
+                  disabled={isNotificationTypesLoading}
                   searchable
+                  withFocus
                   multiple
-                  customOnChange={(value) => {
-                    setFieldValue('notificationTypes', value || '');
-                    if (notificationSubtypes) setFieldValue('notificationSubtypes', '');
-                  }}
                 >
-                  {types.map(key => (
-                    <option key={key} value={key}>{key}</option>
+                  {notificationTypes.map(type => (
+                    <option key={type} value={type}>{formatLabel(type)}</option>
                   ))}
                 </Field>
+
                 <Field
                   name="notificationSubtypes"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE_DETAILS')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  disabled={notificationCenterTypesLoading || !subtypesOptions.length}
+                  disabled={isNotificationTypesLoading || notificationSubtypes.length === 0}
                   searchable
+                  withFocus
                   multiple
                 >
-                  {subtypesOptions}
+                  {notificationSubtypes.map(subtype => (
+                    <option key={subtype} value={subtype}>
+                      {I18n.t(notificationCenterSubTypesLabels[subtype])}
+                    </option>
+                  ))}
                 </Field>
                 <FormikDateRangeGroup
                   className="NotificationsGridFilter__field NotificationsGridFilter__date-range"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
                   periodKeys={{
-                    start: 'creationDateFrom',
-                    end: 'creationDateTo',
+                    start: 'creationDateRange.from',
+                    end: 'creationDateRange.to',
                   }}
+                  withFocus
                 />
               </div>
+
               <div className="NotificationsGridFilter__buttons">
                 <Button
                   className="NotificationsGridFilter__button"
-                  disabled={isSubmitting || !dirty}
-                  onClick={() => this.onHandleReset(handleReset)}
-                  common
+                  onClick={this.handleReset}
+                  primary
                 >
                   {I18n.t('COMMON.RESET')}
                 </Button>
+
                 <Button
                   disabled={isSubmitting || !dirty}
                   type="submit"
@@ -262,10 +288,10 @@ class NotificationsFilters extends PureComponent {
 }
 
 export default compose(
-  withStorage(['auth']),
+  withRouter,
   withRequests({
-    typesQuery: TypesQuery,
-    operators: OperatorsQuery,
-    userBranchHierarchy: UserBranchHierarchyQuery,
+    operatorsQuery: OperatorsQuery,
+    desksAndTeamsQuery: DesksAndTeamsQuery,
+    notificationTypesQuery: NotificationTypesQuery,
   }),
 )(NotificationsFilters);

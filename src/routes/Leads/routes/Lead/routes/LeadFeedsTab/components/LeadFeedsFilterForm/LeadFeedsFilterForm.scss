@@ -1,43 +1,44 @@
 .LeadFeedsFilterForm {
   &__form {
+    width: 100%;
+    padding: 20px 25px 30px;
     background-color: #f2f4f8;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 20px 25px 35px;
-  }
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+    /*
+      grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
 
-  &__fields {
-    display: flex;
-    flex-grow: 1;
+      where:
+        12 - columns in a row
+        8.33% - basic column width (100% / 12)
+        15px - gap size
+        11 - count of gaps in a row
+    */
   }
 
   &__field {
-    display: inline-block;
-    vertical-align: top;
     margin-bottom: 0;
-    margin-right: 15px;
-
-    &:last-child {
-      margin-right: 0;
-    }
   }
 
   &__search {
-    flex-grow: 0.6;
-    flex-basis: 350px;
-    min-width: 350px;
+    grid-column: span 4;
   }
 
-  &__types {
-    flex-basis: 250px;
-    min-width: 250px;
+  &__select {
+    grid-column: span 2;
   }
 
-  &__dates {
-    flex-basis: 300px;
-    min-width: 300px;
+  &__date-range {
+    grid-column: span 4;
+  }
+
+  &__buttons {
+    grid-column-start: 11;
+    grid-column-end: 13;
+    display: flex;
+    margin-left: auto;
+    align-self: flex-end;
   }
 
   &__button {

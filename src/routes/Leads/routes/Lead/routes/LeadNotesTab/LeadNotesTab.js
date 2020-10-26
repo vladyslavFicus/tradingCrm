@@ -32,10 +32,6 @@ class LeadNotesTab extends PureComponent {
     this.props.notes.refetch();
   };
 
-  handleApplyFilters = (filters) => {
-    this.props.history.replace({ query: { filters } });
-  };
-
   loadMore = () => {
     const { notes } = this.props;
 
@@ -58,7 +54,7 @@ class LeadNotesTab extends PureComponent {
     return (
       <Fragment>
         <TabHeader title={I18n.t('LEAD_PROFILE.NOTES.TITLE')} />
-        <LeadNotesTabFilter handleApplyFilters={this.handleApplyFilters} />
+        <LeadNotesTabFilter />
         <div className="tab-wrapper">
           <ListView
             dataSource={content}

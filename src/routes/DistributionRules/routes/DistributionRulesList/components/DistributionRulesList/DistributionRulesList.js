@@ -166,6 +166,7 @@ class DistributionRules extends PureComponent {
       <Button
         transparent
         stopPropagation
+        className="DistributionRulesList__action"
         onClick={executionType === 'AUTO' ? () => {} : () => this.handleStartMigrationClick(rest)}
       >
         <Choose>
@@ -208,13 +209,15 @@ class DistributionRules extends PureComponent {
     </>
   );
 
-  renderFromBrands = ({ sourceBrandConfigs }) => (
+  renderBrands = brands => (
     <Choose>
-      <When condition={sourceBrandConfigs}>
-        {sourceBrandConfigs.map(({ brand, distributionUnit }) => (
+      <When condition={brands}>
+        {brands.map(({ brand, distributionUnit: { baseUnit, quantity } }) => (
           <div key={brand}>
             <div className="font-weight-700">{brand}</div>
-            <div className="font-size-11">{`${distributionUnit.quantity} ${I18n.t('COMMON.CLIENTS')}`}</div>
+            <div className="font-size-11">
+              {`${quantity}${baseUnit === 'PERCENTAGE' ? '%' : ''} ${I18n.t('COMMON.CLIENTS')}`}
+            </div>
           </div>
         ))}
       </When>
@@ -224,21 +227,9 @@ class DistributionRules extends PureComponent {
     </Choose>
   );
 
-  renderToBrands = ({ targetBrandConfigs }) => (
-    <Choose>
-      <When condition={targetBrandConfigs}>
-        {targetBrandConfigs.map(({ brand, distributionUnit }) => (
-          <div key={brand}>
-            <div className="font-weight-700">{brand}</div>
-            <div className="font-size-11">{`${distributionUnit.quantity} ${I18n.t('COMMON.CLIENTS')}`}</div>
-          </div>
-        ))}
-      </When>
-      <Otherwise>
-        <span>&mdash;</span>
-      </Otherwise>
-    </Choose>
-  );
+  renderFromBrands = ({ sourceBrandConfigs }) => this.renderBrands(sourceBrandConfigs);
+
+  renderToBrands = ({ targetBrandConfigs }) => this.renderBrands(targetBrandConfigs);
 
   renderCountry = ({ countries }) => (
     <Choose>

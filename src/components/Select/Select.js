@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -26,6 +27,7 @@ class Select extends PureComponent {
     disabled: PropTypes.bool,
     customClassName: PropTypes.string,
     id: PropTypes.string,
+    isFocused: PropTypes.bool,
     withArrowDown: PropTypes.bool,
     customArrowComponent: PropTypes.object,
   };
@@ -46,6 +48,7 @@ class Select extends PureComponent {
     id: null,
     withArrowDown: true,
     customArrowComponent: null,
+    isFocused: false,
   };
 
   mounted = false;
@@ -510,6 +513,7 @@ class Select extends PureComponent {
       originalSelectedOptions,
       toSelectOptions,
     } = this.state;
+
     const {
       multiple,
       searchPlaceholder,
@@ -517,6 +521,7 @@ class Select extends PureComponent {
       singleOptionComponent,
       disabled,
       customClassName,
+      isFocused,
       id,
       name,
     } = this.props;
@@ -527,6 +532,7 @@ class Select extends PureComponent {
       'is-opened': opened,
       'with-option': !!selectedOptions.length > 0,
       'is-disabled': disabled,
+      'is-focused': isFocused,
       [customClassName]: customClassName,
     });
     const selectBlockClassName = classNames('select-block__content', {
@@ -579,4 +585,4 @@ class Select extends PureComponent {
   }
 }
 
-export default onClickOutside(Select);
+export default withRouter(onClickOutside(Select));
