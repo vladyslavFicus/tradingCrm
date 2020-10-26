@@ -1,5 +1,4 @@
 import React from 'react';
-import { get } from 'lodash';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
@@ -77,26 +76,31 @@ const REQUEST = gql`
   }
 `;
 
-const PaymentsQuery = ({ children, location: { query } }) => (
-  <Query
-    query={REQUEST}
-    variables={{
-      args: {
-        accountType: 'LIVE',
-        ...(query && query.filters),
-        page: {
-          from: 0,
-          size: 20,
-          sorts: get(query, 'sorts') || [],
+const PaymentsQuery = ({ children, location: { state } }) => {
+  const filters = { ...state?.filters };
+  const sorts = state?.sorts || [];
+
+  return (
+    <Query
+      query={REQUEST}
+      variables={{
+        args: {
+          accountType: 'LIVE',
+          ...filters,
+          page: {
+            from: 0,
+            size: 20,
+            sorts,
+          },
         },
-      },
-    }}
-    fetchPolicy="network-only"
-    context={{ batch: false }}
-  >
-    {children}
-  </Query>
-);
+      }}
+      fetchPolicy="network-only"
+      context={{ batch: false }}
+    >
+      {children}
+    </Query>
+  );
+};
 
 PaymentsQuery.propTypes = {
   ...PropTypes.router,

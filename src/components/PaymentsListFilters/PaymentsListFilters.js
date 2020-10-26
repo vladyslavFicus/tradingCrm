@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
-import classNames from 'classnames';
+import { get, intersection } from 'lodash';
 import { Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -13,7 +12,6 @@ import {
   aggregatorsLabels,
   statuses as tradingStatuses,
   statusesLabels as tradingStatusesLabels,
-  statusMapper,
   tradingTypes,
   tradingTypesLabelsWithColor,
 } from 'constants/payment';
@@ -34,18 +32,17 @@ import {
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import {
-  HierarchyQuery,
+  DesksAndTeamsQuery,
   OperatorsQuery,
   PaymentMethodsQuery,
-  usersByBranchQuery,
 } from './graphql';
 import './PaymentsListFilters.scss';
 
 class PaymentsListFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    hierarchyQuery: PropTypes.query({
-      userBranches: PropTypes.shape({
+    desksAndTeamsQuery: PropTypes.query({
+      hierarchy: PropTypes.shape({
         TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
         DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
@@ -64,7 +61,6 @@ class PaymentsListFilters extends PureComponent {
     paymentMethodsQuery: PropTypes.query({
       paymentMethods: PropTypes.paymentMethods,
     }).isRequired,
-    accountType: PropTypes.string,
     partners: PropTypes.partnersList,
     partnersLoading: PropTypes.bool,
     paymentsLoading: PropTypes.bool,
@@ -72,153 +68,82 @@ class PaymentsListFilters extends PureComponent {
   };
 
   static defaultProps = {
-    accountType: 'LIVE',
     partners: null,
     partnersLoading: false,
     paymentsLoading: false,
     clientView: false,
   };
 
-  state = {
-    filteredTeams: null,
-    filteredOperators: null,
-    disabledFilteredOperators: false,
-  };
+  filterOperatorsByBranch = ({ operators, uuids }) => (
+    operators.filter((operator) => {
+      const partnerBranches = operator.hierarchy?.parentBranches || [];
+      const branches = partnerBranches.map(({ uuid }) => uuid);
 
-  filterOperators = async (uuids, setFieldValue) => {
-    setFieldValue('agentIds', null);
+      return intersection(branches, uuids).length;
+    })
+  )
 
-    this.setState({
-      disabledFilteredOperators: true,
-    });
-
-    try {
-      const { data: { usersByBranch } } = await this.props.client.query({
-        query: usersByBranchQuery,
-        variables: { uuids },
-      });
-
-      this.setState({
-        filteredOperators: usersByBranch || [],
-        disabledFilteredOperators: false,
-      });
-    } catch {
-      this.setState({
-        filteredOperators: [],
-        disabledFilteredOperators: true,
-      });
-    }
-  };
-
-  isValueInForm = (formValues, field) => formValues && formValues[field];
-
-  mapTeamsByDesks = (desks) => {
+  filterOperators = ({ desks, teams }) => {
     const {
-      hierarchyQuery: { data: hierarchyData },
+      operatorsQuery,
+      desksAndTeamsQuery,
     } = this.props;
 
-    const teams = get(hierarchyData, 'userBranches.TEAM') || [];
+    const operators = operatorsQuery.data?.operators?.content || [];
 
-    return teams.filter(({ parentBranch: { uuid } }) => desks.includes(uuid));
+    if (teams && teams.length) {
+      return this.filterOperatorsByBranch({ operators, uuids: teams });
+    }
+
+    if (desks && desks.length) {
+      // If desk chosen -> find all teams of these desks to filter operators
+      const teamsList = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
+      const teamsByDesks = teamsList.filter(team => desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
+      const uuids = [...desks, ...teamsByDesks];
+
+      return this.filterOperatorsByBranch({ operators, uuids });
+    }
+
+    return operators;
   }
 
-  handleBranchChange = (fieldName, value, setFieldValue, formValues) => {
-    if (fieldName === 'desks') {
-      const filteredTeams = value ? this.mapTeamsByDesks(value) : null;
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
 
-      this.setState(
-        { filteredTeams },
-        value ? () => setFieldValue('teams', null) : null,
-      );
-    }
-
-    switch (true) {
-      case !!value: {
-        this.filterOperators(value, setFieldValue);
-        break;
-      }
-      case fieldName === 'teams' && this.isValueInForm(formValues, 'desks'): {
-        this.filterOperators(formValues.desks, setFieldValue);
-        break;
-      }
-      case fieldName === 'desks' && this.isValueInForm(formValues, 'teams'): {
-        this.filterOperators(formValues.teams, setFieldValue);
-        break;
-      }
-      default:
-        this.setState({ filteredOperators: null });
-    }
-
-    setFieldValue(fieldName, value);
-  };
-
-  handleFormChange = (data = {}) => {
-    const {
-      amountFrom,
-      amountTo,
-      desks,
-      teams,
-      ...filters
-    } = data;
-    let statuses = null;
-
-    if (Array.isArray(filters.statuses)) {
-      statuses = filters.statuses.map(item => statusMapper[item]).flat(Infinity);
-    }
-
-    this.props.history.replace({
-      query: {
-        filters: decodeNullValues({
-          ...filters,
-          ...(statuses && { statuses }),
-          ...(amountFrom && { amountFrom }),
-          ...(amountTo && { amountTo }),
-          desks,
-          teams: desks && !teams
-            ? this.mapTeamsByDesks(desks).map(({ uuid }) => uuid)
-            : teams,
-        }),
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
       },
     });
   };
 
-  handleFormReset = () => {
-    this.setState(
-      {
-        filteredTeams: null,
-        filteredOperators: null,
-        disabledFilteredOperators: false,
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
       },
-      () => this.props.history.replace({}),
-    );
+    });
   };
 
   render() {
     const {
-      hierarchyQuery: { data: hierarchyData, loading: hierarchyLoading },
-      operatorsQuery: { data: operatorsData, loading: operatorsLoading },
+      partners,
+      clientView,
+      paymentsLoading,
+      partnersLoading,
+      desksAndTeamsQuery,
+      location: { state },
       paymentMethodsQuery: {
         data: paymentMethodsData,
         loading: paymentMethodsLoading,
       },
-      accountType,
-      partners,
-      partnersLoading,
-      paymentsLoading,
-      clientView,
+      operatorsQuery: { loading: isOperatorsLoading },
+      desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
     } = this.props;
-
-    const {
-      filteredTeams,
-      filteredOperators,
-      disabledFilteredOperators,
-    } = this.state;
-
-    const teams = filteredTeams || get(hierarchyData, 'userBranches.TEAM') || [];
-    const desks = get(hierarchyData, 'userBranches.DESK') || [];
-
-    const operators = filteredOperators || get(operatorsData, 'operators.content') || [];
-    const disabledOperators = operatorsLoading || disabledFilteredOperators;
 
     const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
 
@@ -226,308 +151,324 @@ class PaymentsListFilters extends PureComponent {
 
     const platformTypes = getAvailablePlatformTypes();
 
+    const desks = desksAndTeamsQuery.data?.userBranches?.DESK || [];
+    const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
+
     return (
       <FormikExtForm
-        initialValues={{
-          accountType,
-        }}
-        handleSubmit={this.handleFormChange}
-        handleReset={this.handleFormReset}
+        enableReinitialize
+        initialValues={state?.filters || {}}
+        handleSubmit={this.handleSubmit}
+        handleReset={this.handleReset}
         isDataLoading={paymentsLoading}
         filterSetType={filterSetTypes.PAYMENT}
       >
-        {({ values, setFieldValue }) => (
-          <Fragment>
-            <Field
-              name="searchParam"
-              className="form-group filter-row__big"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD')}
-              placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
-              addition={<i className="icon icon-search" />}
-              component={FormikInputField}
-            />
-            <If condition={!clientView}>
+        {({ values }) => {
+          const desksUuids = values.desks || [];
+          const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
+          const teamsOptions = desksUuids.length ? teamsByDesks : teams;
+          const operatorsOptions = this.filterOperators(values);
+
+          return (
+            <Fragment>
               <Field
-                name="countries"
+                name="searchParam"
+                className="form-group filter-row__big"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD')}
+                placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
+                addition={<i className="icon icon-search" />}
+                component={FormikInputField}
+              />
+              <If condition={!clientView}>
+                <Field
+                  name="countries"
+                  className="form-group filter-row__medium"
+                  label={I18n.t('PROFILE.LIST.FILTERS.COUNTRY')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  searchable
+                  multiple
+                >
+                  {Object.keys(countries).map(value => (
+                    <option key={value} value={value}>
+                      {countries[value]}
+                    </option>
+                  ))}
+                </Field>
+              </If>
+              <Field
+                name="paymentAggregator"
                 className="form-group filter-row__medium"
-                label={I18n.t('PROFILE.LIST.FILTERS.COUNTRY')}
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
-                multiple
+                withAnyOption
               >
-                {Object.keys(countries).map(value => (
+                {Object.keys(aggregators).map(value => (
                   <option key={value} value={value}>
-                    {countries[value]}
+                    {I18n.t(aggregatorsLabels[value])}
                   </option>
                 ))}
               </Field>
-            </If>
-            <Field
-              name="paymentAggregator"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-            >
-              {Object.keys(aggregators).map(value => (
-                <option key={value} value={value}>
-                  {I18n.t(aggregatorsLabels[value])}
-                </option>
-              ))}
-            </Field>
-            <Field
-              name="paymentMethods"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              disabled={paymentMethodsLoading}
-              component={FormikSelectField}
-              searchable
-              multiple
-            >
-              {paymentMethods.map(value => (
-                <option key={value} value={value}>
-                  {formatLabel(value)}
-                </option>
-              ))}
-            </Field>
-            <Field
-              name="paymentTypes"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              searchable
-              multiple
-            >
-              {Object.keys(tradingTypes)
-                .filter(value => tradingTypesLabelsWithColor[value])
-                .map(value => (
-                  <option key={value} value={value}>
-                    {I18n.t(tradingTypesLabelsWithColor[value].label)}
-                  </option>
-                ))}
-            </Field>
-            <Field
-              name="statuses"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              searchable
-              multiple
-            >
-              {Object.keys(tradingStatuses).map(value => (
-                <option key={value} value={value}>
-                  {I18n.t(renderLabel(value, tradingStatusesLabels))}
-                </option>
-              ))}
-            </Field>
-            <FormikDateRangeGroup
-              className="form-group filter-row__date-range"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
-              periodKeys={{
-                start: 'statusChangedTimeFrom',
-                end: 'statusChangedTimeTo',
-              }}
-            />
-            <Field
-              name="desks"
-              className="form-group filter-row__medium"
-              label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
-              placeholder={
-                hierarchyLoading || !desks.length
-                  ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-                  : I18n.t('COMMON.SELECT_OPTION.ANY')
-              }
-              component={FormikSelectField}
-              disabled={hierarchyLoading || !desks.length}
-              customOnChange={value => this.handleBranchChange('desks', value, setFieldValue, values)}
-              searchable
-              multiple
-            >
-              {desks.map(({ uuid, name }) => (
-                <option key={uuid} value={uuid}>
-                  {name}
-                </option>
-              ))}
-            </Field>
-            <Field
-              name="teams"
-              className="form-group filter-row__medium"
-              label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
-              placeholder={
-                hierarchyLoading || !teams.length
-                  ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-                  : I18n.t('COMMON.SELECT_OPTION.ANY')
-              }
-              component={FormikSelectField}
-              disabled={hierarchyLoading || !teams.length}
-              customOnChange={value => this.handleBranchChange('teams', value, setFieldValue, values)}
-              searchable
-              multiple
-            >
-              {teams.map(({ uuid, name }) => (
-                <option key={uuid} value={uuid}>
-                  {name}
-                </option>
-              ))}
-            </Field>
-            <Field
-              name="agentIds"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              disabled={disabledOperators}
-              searchable
-              multiple
-            >
-              {operators.map(({ fullName, uuid, operatorStatus }) => (
-                <option
-                  key={uuid}
-                  value={uuid}
-                  className={classNames({
-                    'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
-                    || operatorStatus === operatorsStasuses.CLOSED,
-                  })}
-                >
-                  {fullName}
-                </option>
-              ))}
-            </Field>
-            <If condition={!clientView}>
               <Field
-                name="affiliateUuids"
+                name="paymentMethods"
                 className="form-group filter-row__medium"
-                label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                disabled={paymentMethodsLoading}
                 component={FormikSelectField}
-                disabled={partnersLoading || !partners.length}
                 searchable
                 multiple
               >
-                {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
+                {paymentMethods.map(value => (
+                  <option key={value} value={value}>
+                    {formatLabel(value)}
+                  </option>
+                ))}
+              </Field>
+              <Field
+                name="paymentTypes"
+                className="form-group filter-row__medium"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                searchable
+                multiple
+              >
+                {Object.keys(tradingTypes)
+                  .filter(value => tradingTypesLabelsWithColor[value])
+                  .map(value => (
+                    <option key={value} value={value}>
+                      {I18n.t(tradingTypesLabelsWithColor[value].label)}
+                    </option>
+                  ))}
+              </Field>
+              <Field
+                name="statuses"
+                className="form-group filter-row__medium"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                searchable
+                multiple
+              >
+                {Object.keys(tradingStatuses).map(value => (
+                  <option key={value} value={value}>
+                    {I18n.t(renderLabel(value, tradingStatusesLabels))}
+                  </option>
+                ))}
+              </Field>
+              <FormikDateRangeGroup
+                className="form-group filter-row__date-range"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
+                periodKeys={{
+                  start: 'statusChangedTimeFrom',
+                  end: 'statusChangedTimeTo',
+                }}
+              />
+              <Field
+                name="desks"
+                className="form-group filter-row__medium"
+                label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
+                placeholder={
+                  I18n.t(
+                    (!isDesksAndTeamsLoading && desks.length === 0)
+                      ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                      : 'COMMON.SELECT_OPTION.ANY',
+                  )
+                }
+                component={FormikSelectField}
+                disabled={isDesksAndTeamsLoading || desks.length === 0}
+                searchable
+                multiple
+              >
+                {desks.map(({ uuid, name }) => (
                   <option key={uuid} value={uuid}>
+                    {name}
+                  </option>
+                ))}
+              </Field>
+              <Field
+                name="teams"
+                className="form-group filter-row__medium"
+                label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
+                placeholder={
+                  I18n.t(
+                    (!isDesksAndTeamsLoading && teamsOptions.length === 0)
+                      ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                      : 'COMMON.SELECT_OPTION.ANY',
+                  )
+                }
+                component={FormikSelectField}
+                disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
+                searchable
+                multiple
+              >
+                {teamsOptions.map(({ uuid, name }) => (
+                  <option key={uuid} value={uuid}>
+                    {name}
+                  </option>
+                ))}
+              </Field>
+              <Field
+                name="agentIds"
+                className="form-group filter-row__medium"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT')}
+                placeholder={
+                  I18n.t(
+                    (!isOperatorsLoading && operatorsOptions.length === 0)
+                      ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                      : 'COMMON.SELECT_OPTION.ANY',
+                  )
+                }
+                component={FormikSelectField}
+                disabled={isOperatorsLoading || operatorsOptions.length === 0}
+                searchable
+                multiple
+              >
+                {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
+                  <option
+                    key={uuid}
+                    value={uuid}
+                    disabled={operatorStatus === operatorsStasuses.INACTIVE
+                    || operatorStatus === operatorsStasuses.CLOSED}
+                  >
                     {fullName}
                   </option>
                 ))}
               </Field>
+              <If condition={!clientView}>
+                <Field
+                  name="affiliateUuids"
+                  className="form-group filter-row__medium"
+                  label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  disabled={partnersLoading || !partners.length}
+                  searchable
+                  multiple
+                >
+                  {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
+                    <option key={uuid} value={uuid}>
+                      {fullName}
+                    </option>
+                  ))}
+                </Field>
+                <Field
+                  name="currency"
+                  className="form-group filter-row__medium"
+                  label={I18n.t('COMMON.CURRENCY')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  withAnyOption
+                >
+                  {currencies.map(value => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </Field>
+              </If>
               <Field
-                name="currency"
+                name="accountType"
                 className="form-group filter-row__medium"
-                label={I18n.t('COMMON.CURRENCY')}
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
               >
-                {currencies.map(value => (
+                {accountTypes.map(({ value, label }) => (
                   <option key={value} value={value}>
-                    {value}
+                    {I18n.t(label)}
                   </option>
                 ))}
               </Field>
-            </If>
-            <Field
-              name="accountType"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-            >
-              {accountTypes.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
-            <If condition={platformTypes.length > 1}>
+              <If condition={platformTypes.length > 1}>
+                <Field
+                  name="platformType"
+                  label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="form-group filter-row__medium"
+                  component={FormikSelectField}
+                  withAnyOption
+                >
+                  {platformTypes.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </If>
               <Field
-                name="platformType"
-                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                name="firstTimeDeposit"
                 className="form-group filter-row__medium"
+                label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
               >
-                {platformTypes.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
+                {[
+                  { label: 'COMMON.YES', value: true },
+                  { label: 'COMMON.NO', value: false },
+                ].map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label)}
+                  </option>
                 ))}
               </Field>
-            </If>
-            <Field
-              name="firstTimeDeposit"
-              className="form-group filter-row__medium"
-              label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-            >
-              {[
-                { label: 'COMMON.YES', value: true },
-                { label: 'COMMON.NO', value: false },
-              ].map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
-            <Field
-              name="warnings"
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-            >
-              {Object.keys(warningValues).map(value => (
-                <option key={value} value={value}>
-                  {I18n.t(warningLabels[value])}
-                </option>
-              ))}
-            </Field>
-            <RangeGroup
-              className="form-group filter-row__medium"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
-            >
               <Field
-                name="amountFrom"
-                type="number"
-                step="0.01"
-                min={0}
-                placeholder="0.0"
-                component={FormikInputField}
+                name="warnings"
+                className="form-group filter-row__medium"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {Object.keys(warningValues).map(value => (
+                  <option key={value} value={value}>
+                    {I18n.t(warningLabels[value])}
+                  </option>
+                ))}
+              </Field>
+              <RangeGroup
+                className="form-group filter-row__medium"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
+              >
+                <Field
+                  name="amountFrom"
+                  type="number"
+                  step="0.01"
+                  min={0}
+                  placeholder="0.0"
+                  component={FormikInputField}
+                />
+                <Field
+                  name="amountTo"
+                  type="number"
+                  step="0.01"
+                  min={0}
+                  placeholder="0.0"
+                  component={FormikInputField}
+                />
+              </RangeGroup>
+              <FormikDateRangeGroup
+                className="form-group filter-row__date-range"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
+                periodKeys={{
+                  start: 'creationTimeFrom',
+                  end: 'creationTimeTo',
+                }}
               />
-              <Field
-                name="amountTo"
-                type="number"
-                step="0.01"
-                min={0}
-                placeholder="0.0"
-                component={FormikInputField}
+              <FormikDateRangeGroup
+                className="form-group filter-row__date-range"
+                label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
+                periodKeys={{
+                  start: 'modificationTimeFrom',
+                  end: 'modificationTimeTo',
+                }}
               />
-            </RangeGroup>
-            <FormikDateRangeGroup
-              className="form-group filter-row__date-range"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
-              periodKeys={{
-                start: 'creationTimeFrom',
-                end: 'creationTimeTo',
-              }}
-            />
-            <FormikDateRangeGroup
-              className="form-group filter-row__date-range"
-              label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
-              periodKeys={{
-                start: 'modificationTimeFrom',
-                end: 'modificationTimeTo',
-              }}
-            />
-          </Fragment>
-        )}
+            </Fragment>
+          );
+        }
+      }
       </FormikExtForm>
     );
   }
@@ -537,7 +478,7 @@ export default compose(
   withRouter,
   withApollo,
   withRequests({
-    hierarchyQuery: HierarchyQuery,
+    desksAndTeamsQuery: DesksAndTeamsQuery,
     operatorsQuery: OperatorsQuery,
     paymentMethodsQuery: PaymentMethodsQuery,
   }),

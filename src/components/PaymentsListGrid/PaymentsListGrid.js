@@ -47,22 +47,35 @@ class PaymentsListGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
+    const { location } = this.props;
+
+    const filters = location?.state?.filters || {};
+    const sorts = location?.state?.sorts || [];
+
     const {
       paymentsQuery,
       paymentsQuery: {
-        variables: { args },
         loadMore,
       },
     } = this.props;
 
     const page = get(paymentsQuery, 'data.payments.number') || 0;
 
-    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
+    loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: page + 1,
+          size: 20,
+          sorts,
+        },
+      },
+    });
   };
 
   handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const { history, location } = this.props;
+    const state = location?.state || {};
 
     const sorts = Object.keys(sortData)
       .filter(sortingKey => sortData[sortingKey])
@@ -72,15 +85,19 @@ class PaymentsListGrid extends PureComponent {
       }));
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
 
   render() {
     const {
+      location: {
+        state,
+      },
       clientView,
       handleRefresh,
       paymentsQuery,
@@ -96,6 +113,7 @@ class PaymentsListGrid extends PureComponent {
         <Grid
           data={content || []}
           handleSort={this.handleSort}
+          sorts={state?.sortData}
           handlePageChanged={this.handlePageChanged}
           headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}
