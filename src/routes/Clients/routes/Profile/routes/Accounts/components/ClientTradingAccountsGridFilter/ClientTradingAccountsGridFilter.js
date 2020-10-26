@@ -35,7 +35,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
   };
 
   render() {
-    const { accountType } = this.props;
+    const { accountType, location: { state } } = this.props;
     const platformTypes = getAvailablePlatformTypes();
 
     return (
