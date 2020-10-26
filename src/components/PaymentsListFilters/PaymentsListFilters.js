@@ -405,14 +405,8 @@ class PaymentsListFilters extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
               >
-                {[
-                  { label: 'COMMON.YES', value: true },
-                  { label: 'COMMON.NO', value: false },
-                ].map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
-                  </option>
-                ))}
+                <option key={0} value={true}>{I18n.t('COMMON.YES')}</option> {/* eslint-disable-line */}
+                <option key={1} value={false}>{I18n.t('COMMON.NO')}</option>
               </Field>
               <Field
                 name="warnings"

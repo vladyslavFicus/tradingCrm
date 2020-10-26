@@ -77,7 +77,6 @@ const REQUEST = gql`
 `;
 
 const PaymentsQuery = ({ children, location: { state } }) => {
-  const filters = { ...state?.filters };
   const sorts = state?.sorts || [];
 
   return (
@@ -86,7 +85,7 @@ const PaymentsQuery = ({ children, location: { state } }) => {
       variables={{
         args: {
           accountType: 'LIVE',
-          ...filters,
+          ...state?.filters,
           page: {
             from: 0,
             size: 20,
