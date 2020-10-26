@@ -37,38 +37,36 @@ class RenameModal extends PureComponent {
           })}
           onSubmit={this.onSubmit}
         >
-          {() => (
-            <Form>
-              <ModalHeader toggle={onCloseModal}>
-                {I18n.t('FILES.RENAME_MODAL.TITLE')}
-              </ModalHeader>
-              <ModalBody className="text-center">
-                <div className="margin-bottom-20 font-weight-700">
-                  {I18n.t('FILES.RENAME_MODAL.ACTION_TEXT', { fileName })}
-                </div>
-                <Field
-                  name="title"
-                  component={FormikInputField}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  commonOutline
-                  className="mr-auto"
-                  onClick={onCloseModal}
-                >
-                  {I18n.t('COMMON.BUTTONS.CANCEL')}
-                </Button>
+          <Form>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('FILES.RENAME_MODAL.TITLE')}
+            </ModalHeader>
+            <ModalBody className="text-center">
+              <div className="margin-bottom-20 font-weight-700">
+                {I18n.t('FILES.RENAME_MODAL.ACTION_TEXT', { fileName })}
+              </div>
+              <Field
+                name="title"
+                component={FormikInputField}
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                commonOutline
+                className="mr-auto"
+                onClick={onCloseModal}
+              >
+                {I18n.t('COMMON.BUTTONS.CANCEL')}
+              </Button>
 
-                <Button
-                  danger
-                  type="submit"
-                >
-                  {I18n.t('COMMON.BUTTONS.CONFIRM')}
-                </Button>
-              </ModalFooter>
-            </Form>
-          )}
+              <Button
+                danger
+                type="submit"
+              >
+                {I18n.t('COMMON.BUTTONS.CONFIRM')}
+              </Button>
+            </ModalFooter>
+          </Form>
         </Formik>
       </Modal>
     );
