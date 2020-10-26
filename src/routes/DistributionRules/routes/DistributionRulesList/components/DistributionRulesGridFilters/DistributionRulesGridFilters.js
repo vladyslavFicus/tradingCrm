@@ -24,25 +24,25 @@ class DistributionRulesFilters extends PureComponent {
     ...PropTypes.router,
   }
 
-  handleFiltersChanged = (filters, { setSubmitting }) => {
+  handleSubmit = (filters) => {
     this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
+  };
 
-    setSubmitting(false);
+  handleReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
+    const { location: { query } } = this.props;
+
     return (
       <Formik
-        initialValues={{}}
+        initialValues={query?.filters || {}}
         validate={validate}
-        onSubmit={this.handleFiltersChanged}
-        onReset={this.handleFiltersChanged}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
@@ -155,7 +155,7 @@ class DistributionRulesFilters extends PureComponent {
               <Button
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
-                onClick={resetForm}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

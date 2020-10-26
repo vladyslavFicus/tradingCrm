@@ -23,17 +23,20 @@ class PartnerFeedsFilterForm extends PureComponent {
     }).isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
-    const { feedTypesData } = this.props;
+    const {
+      location: { query },
+      feedTypesData,
+    } = this.props;
 
     const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
@@ -41,15 +44,11 @@ class PartnerFeedsFilterForm extends PureComponent {
     return (
       <Formik
         className="PartnerFeedsFilterForm"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="PartnerFeedsFilterForm__form">
             <Field
               name="searchBy"
@@ -91,7 +90,7 @@ class PartnerFeedsFilterForm extends PureComponent {
             <div className="PartnerFeedsFilterForm__buttons">
               <Button
                 className="PartnerFeedsFilterForm__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

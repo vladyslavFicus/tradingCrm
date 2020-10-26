@@ -20,10 +20,9 @@ class DateRangeGroup extends PureComponent {
       value: PropTypes.string,
       setValue: PropTypes.func,
     }).isRequired,
-    isFocusedStartField: PropTypes.bool,
-    isFocusedEndField: PropTypes.bool,
     utc: PropTypes.bool,
     withTime: PropTypes.bool,
+    withFocus: PropTypes.bool,
     timePresets: PropTypes.bool,
     closeOnSelect: PropTypes.bool,
   };
@@ -35,10 +34,9 @@ class DateRangeGroup extends PureComponent {
     label: '',
     utc: true,
     withTime: true,
+    withFocus: false,
     timePresets: true,
     closeOnSelect: false,
-    isFocusedEndField: false,
-    isFocusedStartField: false,
   };
 
   /**
@@ -75,12 +73,11 @@ class DateRangeGroup extends PureComponent {
       startPickerClassName,
       endPickerClassName,
       label,
-      isFocusedStartField,
-      isFocusedEndField,
       startField,
       endField,
       utc,
       withTime,
+      withFocus,
       timePresets,
       closeOnSelect,
     } = this.props;
@@ -97,7 +94,7 @@ class DateRangeGroup extends PureComponent {
           placeholder={I18n.t('COMMON.DATE_OPTIONS.START_DATE')}
           utc={utc}
           withTime={withTime}
-          isFocused={isFocusedStartField}
+          withFocus={withFocus}
           timePresets={timePresets}
           closeOnSelect={closeOnSelect}
         />
@@ -108,7 +105,7 @@ class DateRangeGroup extends PureComponent {
           placeholder={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
           utc={utc}
           withTime={withTime}
-          isFocused={isFocusedEndField}
+          withFocus={withFocus}
           timePresets={timePresets}
           closeOnSelect={closeOnSelect}
           isDateRangeEndValue

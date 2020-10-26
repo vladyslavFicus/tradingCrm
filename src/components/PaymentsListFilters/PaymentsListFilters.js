@@ -195,6 +195,7 @@ class PaymentsListFilters extends PureComponent {
 
   render() {
     const {
+      location: { query },
       hierarchyQuery: { data: hierarchyData, loading: hierarchyLoading },
       operatorsQuery: { data: operatorsData, loading: operatorsLoading },
       paymentMethodsQuery: {
@@ -228,13 +229,12 @@ class PaymentsListFilters extends PureComponent {
 
     return (
       <FormikExtForm
-        initialValues={{
-          accountType,
-        }}
+        initialValues={query?.filters || { accountType }}
         handleSubmit={this.handleFormChange}
         handleReset={this.handleFormReset}
         isDataLoading={paymentsLoading}
         filterSetType={filterSetTypes.PAYMENT}
+        enableReinitialize
       >
         {({ values, setFieldValue }) => (
           <Fragment>

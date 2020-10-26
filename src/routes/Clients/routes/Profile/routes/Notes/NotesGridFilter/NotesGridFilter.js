@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 import { get, omit } from 'lodash';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
@@ -7,6 +9,7 @@ import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
 import { attributeLabels } from '../constants';
@@ -14,7 +17,7 @@ import AuthoritiesOptionsQuery from './graphql/AuthorityOptionsQuery';
 
 class NotesGridFilter extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    ...PropTypes.router,
     authoritiesOptions: PropTypes.shape({
       data: PropTypes.shape({
         authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
@@ -23,13 +26,27 @@ class NotesGridFilter extends PureComponent {
     }).isRequired,
   };
 
+  handleSubmit = (values, { setSubmitting }) => {
+    this.props.history.replace({
+      query: {
+        filters: decodeNullValues(values),
+      },
+    });
+
+    setSubmitting(false);
+  };
+
+  handleReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
+  };
+
   render() {
     const {
+      location: { query },
       authoritiesOptions: {
         data,
         loading,
       },
-      onSubmit,
     } = this.props;
 
     const allDepartmentRoles = get(data, 'authoritiesOptions') || {};
@@ -37,9 +54,8 @@ class NotesGridFilter extends PureComponent {
 
     return (
       <Formik
-        initialValues={{}}
-        onSubmit={onSubmit}
-        onReset={onSubmit}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
         validate={
           createValidator({
             department: ['string', `in:${Object.keys(departmentRoles).join()}`],
@@ -47,8 +63,9 @@ class NotesGridFilter extends PureComponent {
             changedAtTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
           }, translateLabels(attributeLabels), false)
         }
+        enableReinitialize
       >
-        {({ resetForm, isValid, dirty }) => (
+        {({ isValid, dirty }) => (
           <Form className="filter-row">
             <Field
               name="department"
@@ -79,7 +96,7 @@ class NotesGridFilter extends PureComponent {
             <div className="filter-row__button-block">
               <Button
                 className="margin-right-15"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -99,6 +116,9 @@ class NotesGridFilter extends PureComponent {
   }
 }
 
-export default withRequests({
-  authoritiesOptions: AuthoritiesOptionsQuery,
-})(NotesGridFilter);
+export default compose(
+  withRouter,
+  withRequests({
+    authoritiesOptions: AuthoritiesOptionsQuery,
+  }),
+)(NotesGridFilter);

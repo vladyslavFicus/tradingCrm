@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { get, omit } from 'lodash';
+import { eq, get, omit } from 'lodash';
 import Input from 'components/Input';
 
 class FormikInputField extends PureComponent {
@@ -12,6 +12,7 @@ class FormikInputField extends PureComponent {
     }).isRequired,
     form: PropTypes.shape({
       errors: PropTypes.object.isRequired,
+      initialValues: PropTypes.object.isRequired,
     }).isRequired,
     type: PropTypes.string,
     withFocus: PropTypes.bool,
@@ -31,6 +32,7 @@ class FormikInputField extends PureComponent {
       },
       form: {
         errors,
+        initialValues,
       },
       withFocus,
       ...input
@@ -42,7 +44,7 @@ class FormikInputField extends PureComponent {
         value={value !== null ? value : ''}
         onChange={onChange}
         error={get(errors, name)}
-        isFocused={withFocus && value}
+        isFocused={withFocus && !!value && eq(initialValues[name], value)}
         {...omit(input, ['staticContext'])}
       />
     );
