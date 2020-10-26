@@ -129,7 +129,7 @@ class ExtendedForm extends PureComponent {
                   <FilterSetButtons
                     resetForm={handleReset}
                     filterSetType={filterSetType}
-                    currentValues={dirty ? values : null}
+                    currentValues={values}
                     selectValue={selectedFilterDropdownItem}
                     handleHistoryReplace={handleReset}
                     handleSelectFilterDropdownItem={this.handleSelectFilterDropdownItem}
