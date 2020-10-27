@@ -5,10 +5,9 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { getApiRoot, getApiVersion } from 'config';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { shortifyInMiddle } from 'utils/stringFormat';
-import EventEmitter, { FILE_CHANGED } from 'utils/EventEmitter';
 import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
 import Grid, { GridColumn } from 'components/Grid';
@@ -100,7 +99,6 @@ class FileGrid extends PureComponent {
 
   handleRenameFile = ({ uuid, fileName }) => {
     const {
-      notify,
       modals: {
         renameFileModal,
       },
@@ -108,28 +106,10 @@ class FileGrid extends PureComponent {
     } = this.props;
 
     renameFileModal.show({
+      uuid,
       fileName,
-      onSubmit: async (title) => {
-        try {
-          await updateFileMeta({ variables: { uuid, title } });
-
-          renameFileModal.hide();
-
-          EventEmitter.emit(FILE_CHANGED);
-
-          notify({
-            level: 'success',
-            title: I18n.t('COMMON.SUCCESS'),
-            message: I18n.t('FILES.DOCUMENT_RENAMED'),
-          });
-        } catch {
-          notify({
-            level: 'error',
-            title: I18n.t('COMMON.FAIL'),
-            message: I18n.t('COMMON.SOMETHING_WRONG'),
-          });
-        }
-      },
+      onSubmit: renameFileModal.hide,
+      updateFileMeta,
     });
   };
 
@@ -334,7 +314,6 @@ class FileGrid extends PureComponent {
 
 export default compose(
   withImages,
-  withNotifications,
   withRequests({
     tokenRenew: TokenRefreshMutation,
   }),
