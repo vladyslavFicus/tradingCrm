@@ -308,7 +308,6 @@ class DistributionRule extends PureComponent {
     const {
       name,
       order,
-      createdBy,
       status,
       createdAt,
       updatedAt,
@@ -317,10 +316,6 @@ class DistributionRule extends PureComponent {
     } = ruleData?.distributionRule || { name: '' };
 
     const allowedBaseUnits = executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE'];
-
-    const resetDisabled = ruleLoading
-      || isSubmitting
-      || !settingsWasChanged;
 
     const submitDisabled = ruleLoading
       || isSubmitting
@@ -334,7 +329,6 @@ class DistributionRule extends PureComponent {
           ruleUuid={ruleUuid}
           ruleName={name}
           ruleOrder={order}
-          createdBy={createdBy}
         />
         <DistributionRuleInfo
           status={status}
@@ -365,7 +359,6 @@ class DistributionRule extends PureComponent {
           <Button
             className="DistributionRule__actions-btn"
             onClick={this.handleCancel}
-            disabled={resetDisabled}
             commonOutline
           >
             {I18n.t('COMMON.CANCEL')}

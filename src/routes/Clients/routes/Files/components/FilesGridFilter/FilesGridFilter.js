@@ -85,6 +85,7 @@ class FilesGridFilter extends PureComponent {
                 placeholder={I18n.t('FILES.FILTER.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="verificationType"
@@ -95,6 +96,7 @@ class FilesGridFilter extends PureComponent {
                 customOnChange={value => this.handleVerificationTypeChange(value, setFieldValue)}
                 searchable
                 withAnyOption
+                withFocus
               >
                 {verificationTypes.map(item => (
                   <option key={item} value={item}>
@@ -111,6 +113,7 @@ class FilesGridFilter extends PureComponent {
                 disabled={!values.verificationType || values.verificationType === 'OTHER'}
                 searchable
                 withAnyOption
+                withFocus
               >
                 {(categories[values.verificationType] || []).map(item => (
                   <option key={item} value={item}>
@@ -125,6 +128,7 @@ class FilesGridFilter extends PureComponent {
                   start: 'uploadedDateFrom',
                   end: 'uploadedDateTo',
                 }}
+                withFocus
               />
             </div>
 
@@ -132,8 +136,7 @@ class FilesGridFilter extends PureComponent {
               <Button
                 className="FilesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !Object.keys(values).length}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

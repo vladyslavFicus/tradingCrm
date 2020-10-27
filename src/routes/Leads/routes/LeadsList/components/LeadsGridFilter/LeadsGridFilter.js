@@ -150,6 +150,7 @@ class LeadsGridFilter extends PureComponent {
                   placeholder={I18n.t('COMMON.SEARCH_BY.LEAD')}
                   addition={<i className="icon icon-search" />}
                   component={FormikInputField}
+                  withFocus
                 />
 
                 <Field
@@ -158,8 +159,9 @@ class LeadsGridFilter extends PureComponent {
                   label={I18n.t(attributeLabels.languages)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  multiple
                   searchable
+                  withFocus
+                  multiple
                 >
                   {getAvailableLanguages().map(locale => (
                     <option key={locale} value={locale}>
@@ -174,8 +176,9 @@ class LeadsGridFilter extends PureComponent {
                   label={I18n.t(attributeLabels.countries)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  multiple
                   searchable
+                  withFocus
+                  multiple
                 >
                   {Object.keys(countries)
                     .map(country => (
@@ -196,8 +199,9 @@ class LeadsGridFilter extends PureComponent {
                   }
                   component={FormikSelectField}
                   disabled={isDesksAndTeamsLoading || desks.length === 0}
-                  multiple
                   searchable
+                  withFocus
+                  multiple
                 >
                   {desks.map(({ uuid, name }) => (
                     <option key={uuid} value={uuid}>
@@ -219,8 +223,9 @@ class LeadsGridFilter extends PureComponent {
                   }
                   component={FormikSelectField}
                   disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
-                  multiple
                   searchable
+                  withFocus
+                  multiple
                 >
                   {teamsOptions.map(({ uuid, name }) => (
                     <option key={uuid} value={uuid}>
@@ -242,8 +247,9 @@ class LeadsGridFilter extends PureComponent {
                   }
                   component={FormikSelectField}
                   disabled={isOperatorsLoading || operatorsOptions.length === 0}
-                  multiple
                   searchable
+                  withFocus
+                  multiple
                 >
                   {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
                     <option
@@ -264,6 +270,7 @@ class LeadsGridFilter extends PureComponent {
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
                   searchable
+                  withFocus
                   multiple
                 >
                   {Object.entries(this.leadsSalesStatuses)
@@ -280,8 +287,9 @@ class LeadsGridFilter extends PureComponent {
                   label={I18n.t(attributeLabels.status)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  searchable
                   withAnyOption
+                  searchable
+                  withFocus
                 >
                   {Object.values(leadAccountStatuses)
                     .map(({ label, value }) => (
@@ -298,6 +306,7 @@ class LeadsGridFilter extends PureComponent {
                     start: 'registrationDateStart',
                     end: 'registrationDateEnd',
                   }}
+                  withFocus
                 />
 
                 <FormikDateRangeGroup
@@ -307,6 +316,7 @@ class LeadsGridFilter extends PureComponent {
                     start: 'lastNoteDateFrom',
                     end: 'lastNoteDateTo',
                   }}
+                  withFocus
                 />
 
                 <Field
@@ -316,6 +326,7 @@ class LeadsGridFilter extends PureComponent {
                   label={I18n.t(attributeLabels.searchLimit)}
                   placeholder={I18n.t('COMMON.UNLIMITED')}
                   component={FormikInputField}
+                  withFocus
                   min={0}
                 />
               </div>
@@ -325,7 +336,7 @@ class LeadsGridFilter extends PureComponent {
                   className="LeadsGridFilter__button"
                   disabled={isSubmitting}
                   onClick={() => this.handleReset(resetForm)}
-                  common
+                  primary
                 >
                   {I18n.t('COMMON.RESET')}
                 </Button>

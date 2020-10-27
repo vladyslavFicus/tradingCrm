@@ -41,27 +41,34 @@ class AddSourceBrandModal extends PureComponent {
     availableClientsAmount: null,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const {
       initialValues: { brand },
-      fetchAvailableClientsAmount,
     } = this.props;
 
     if (brand) {
-      const availableClientsAmount = await fetchAvailableClientsAmount(brand);
-      this.setState({ availableClientsAmount });
+      this.fetchAvailableClientsAmount(brand);
     }
   }
 
-  handleBrandChange = setFieldValue => async (brand) => {
+  fetchAvailableClientsAmount = async (targetBrand) => {
     const {
       fetchAvailableClientsAmount,
     } = this.props;
 
-    setFieldValue('brand', brand);
+    this.setState({ availableClientsAmount: null });
 
-    const availableClientsAmount = await fetchAvailableClientsAmount(brand);
-    this.setState({ availableClientsAmount });
+    try {
+      const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
+      this.setState({ availableClientsAmount });
+    } catch {
+      // ...
+    }
+  };
+
+  handleBrandChange = setFieldValue => (brand) => {
+    setFieldValue('brand', brand);
+    this.fetchAvailableClientsAmount(brand);
   };
 
   render() {
@@ -81,6 +88,8 @@ class AddSourceBrandModal extends PureComponent {
 
     const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnits[0] };
 
+    const limitAmount = Math.min(availableClientsAmount, MAX_MIGRATED_CLIENTS);
+
     return (
       <Modal
         toggle={onCloseModal}
@@ -98,18 +107,20 @@ class AddSourceBrandModal extends PureComponent {
             createValidator({
               brand: 'required',
               quantity: ['required', 'integer', 'min:1',
-                `max:${values.baseUnit === 'PERCENTAGE'
-                  ? 100
-                  : Math.min(availableClientsAmount, MAX_MIGRATED_CLIENTS)
-                }`,
+                `max:${values.baseUnit === 'PERCENTAGE' ? 100 : limitAmount}`,
               ],
-            }, translateLabels(modalFieldsNames))(values)
+            }, translateLabels({
+              ...modalFieldsNames,
+              quantity: values.baseUnit === 'PERCENTAGE'
+                ? modalFieldsNames.quantityPercentage
+                : modalFieldsNames.quantity,
+            }))(values)
           )}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={handleSubmit}
         >
-          {({ setFieldValue }) => (
+          {({ values, setFieldValue }) => (
             <Form>
               <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}</ModalHeader>
               <ModalBody>
@@ -124,12 +135,17 @@ class AddSourceBrandModal extends PureComponent {
                     <option key={value} value={value}>{brandsConfig[value].name}</option>
                   ))}
                 </Field>
-                <If condition={typeof availableClientsAmount === 'number'}>
-                  <div className="AddSourceBrandModal__message">
-                    {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
-                      value: availableClientsAmount,
-                    })}
-                  </div>
+                <If condition={values.brand}>
+                  <div
+                    className="AddSourceBrandModal__message"
+                    dangerouslySetInnerHTML={{
+                      __html: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
+                        value: typeof availableClientsAmount === 'number'
+                          ? limitAmount
+                          : '<span class="AddSourceBrandModal__message-spinner">...</span>',
+                      }),
+                    }}
+                  />
                 </If>
                 <div className="AddSourceBrandModal__row">
                   <Field
@@ -138,6 +154,7 @@ class AddSourceBrandModal extends PureComponent {
                     label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
                     step="1"
                     className="AddSourceBrandModal__field AddSourceBrandModal__field--quantity"
+                    disabled={!availableClientsAmount}
                     component={FormikInputField}
                   />
                   <Field

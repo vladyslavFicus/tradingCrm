@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { getIn } from 'formik';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { getIn } from 'formik';
+import { eq, isNil } from 'lodash';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
 
 class FormikSelectField extends Component {
@@ -18,6 +19,7 @@ class FormikSelectField extends Component {
     multipleLabel: PropTypes.bool,
     disabled: PropTypes.bool,
     searchable: PropTypes.bool,
+    withFocus: PropTypes.bool,
     withAnyOption: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
     customOnChange: PropTypes.func,
@@ -37,6 +39,7 @@ class FormikSelectField extends Component {
       errors: PropTypes.object.isRequired,
       touched: PropTypes.object.isRequired,
       setFieldValue: PropTypes.func.isRequired,
+      initialValues: PropTypes.object.isRequired,
     }).isRequired,
   }
 
@@ -53,6 +56,7 @@ class FormikSelectField extends Component {
     showErrorMessage: true,
     singleOptionComponent: null,
     withAnyOption: false,
+    withFocus: false,
   };
 
   onHandleChange = (value) => {
@@ -80,6 +84,7 @@ class FormikSelectField extends Component {
       },
       form: {
         errors,
+        initialValues,
       },
       label,
       multiple,
@@ -90,6 +95,7 @@ class FormikSelectField extends Component {
       customTouched,
       singleOptionComponent,
       withAnyOption,
+      withFocus,
     } = this.props;
 
     const error = getIn(errors, name);
@@ -108,12 +114,13 @@ class FormikSelectField extends Component {
 
         <div>
           <Select
+            name={name}
             disabled={disabled}
             multiple={multiple}
             multipleLabel={multipleLabel}
-            name={name}
             onChange={this.onHandleChange}
             placeholder={placeholder}
+            isFocused={withFocus && !isNil(value) && eq(value, initialValues[name])}
             showSearch={searchable}
             singleOptionComponent={singleOptionComponent}
             value={!value && multiple ? [] : value}

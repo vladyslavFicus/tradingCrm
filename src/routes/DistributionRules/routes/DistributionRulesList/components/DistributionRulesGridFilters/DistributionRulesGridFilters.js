@@ -8,7 +8,7 @@ import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
-import { statusesLabels } from 'constants/clientsDistribution';
+import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import Button from 'components/UI/Button';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -24,38 +24,25 @@ class DistributionRulesFilters extends PureComponent {
     ...PropTypes.router,
   }
 
-  handleFiltersChanged = (filters, { setSubmitting }) => {
+  handleSubmit = (filters) => {
     this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
-
-    setSubmitting(false);
   };
 
-  generateExecutionDays = () => {
-    const days = [];
-
-    for (let i = 1; i <= 14; i++) {
-      days.push({
-        value: i * 24,
-        label: i,
-      });
-    }
-
-    return days;
-  }
+  handleReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
+  };
 
   render() {
+    const { location: { query } } = this.props;
+
     return (
       <Formik
-        initialValues={{}}
+        initialValues={query?.filters || {}}
         validate={validate}
-        onSubmit={this.handleFiltersChanged}
-        onReset={this.handleFiltersChanged}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
@@ -64,6 +51,7 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY_PLACEHOLDER')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY')}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="ruleStatus"
@@ -71,8 +59,9 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.RULE_STATUS')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(statusesLabels).map(status => (
                   <option key={status} value={status}>
@@ -86,6 +75,7 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FROM_BRAND')}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="toBrand"
@@ -93,6 +83,7 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TO_BRAND')}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="salesStatus"
@@ -100,8 +91,9 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
@@ -115,8 +107,9 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
@@ -129,6 +122,7 @@ class DistributionRulesFilters extends PureComponent {
                   start: 'createdDateFrom',
                   end: 'createdDateTo',
                 }}
+                withFocus
               />
               <FormikDateRangeGroup
                 className="DistributionRulesFilters__date-range"
@@ -137,6 +131,7 @@ class DistributionRulesFilters extends PureComponent {
                   start: 'lastTimeExecutedFrom',
                   end: 'lastTimeExecutedTo',
                 }}
+                withFocus
               />
               <Field
                 name="executionPeriodInHours"
@@ -144,12 +139,13 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.EXECUTION_TIME')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
-                {this.generateExecutionDays().map(({ value, label }) => (
+                {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>
-                    {`${I18n.t(`COMMON.${label > 1 ? 'DAYS' : 'DAY'}`)} ${label}`}
+                    {I18n.t(label, { value: i18nValue })}
                   </option>
                 ))}
               </Field>
@@ -159,8 +155,8 @@ class DistributionRulesFilters extends PureComponent {
               <Button
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
-                onClick={resetForm}
-                common
+                onClick={this.handleReset}
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

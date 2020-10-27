@@ -4,10 +4,10 @@ import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
+import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import {
   salesStatuses,
   countries,
-  executionPeriodInHours,
   registrationPeriodInHours,
   executionTypes,
 } from './constants';
@@ -124,7 +124,7 @@ class DistributionRuleSettings extends PureComponent {
                 component={FormikSelectField}
                 showErrorMessage={false}
               >
-                {executionPeriodInHours.map(({ label, value, i18nValue }) => (
+                {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>
                     {I18n.t(label, { value: i18nValue })}
                   </option>

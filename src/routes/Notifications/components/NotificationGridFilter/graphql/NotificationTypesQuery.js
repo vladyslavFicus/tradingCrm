@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query NotificationGridFilters_TypesQuery {
+const REQUEST = gql`query NotificationGridFilters_NotificationTypesQuery {
   notificationCenterTypes
 }`;
 
-const TypesQuery = ({ children }) => (
+const NotificationTypesQuery = ({ children }) => (
   <Query query={REQUEST}>
     {children}
   </Query>
 );
 
-TypesQuery.propTypes = {
+NotificationTypesQuery.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default TypesQuery;
+export default NotificationTypesQuery;
