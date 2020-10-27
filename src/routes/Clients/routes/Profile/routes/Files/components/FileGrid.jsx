@@ -17,6 +17,7 @@ import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
 import { DeleteModal } from 'components/Files';
+import ShortLoader from 'components/ShortLoader';
 import permissions from 'config/permissions';
 import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
@@ -46,6 +47,7 @@ class FileGrid extends PureComponent {
   }
 
   state = {
+    previewFileLoading: false,
     selectedVerificationStatusValue: '',
   }
 
@@ -71,6 +73,8 @@ class FileGrid extends PureComponent {
 
       const requestUrl = `${getApiRoot()}/attachments/users/${clientUuid}/files/${uuid}`;
 
+      this.setState({ previewFileLoading: true });
+
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
@@ -82,8 +86,11 @@ class FileGrid extends PureComponent {
 
       const fileUrl = URL.createObjectURL(await response.blob());
 
+      this.setState({ previewFileLoading: false });
+
       if (mediaType === 'application/pdf') {
         const link = document.createElement('a');
+
         link.href = fileUrl;
         link.target = '_blank';
         link.dispatchEvent(new MouseEvent('click')); // eslint-disable-line jsx-control-statements/jsx-jcs-no-undef
@@ -172,10 +179,13 @@ class FileGrid extends PureComponent {
     return (
       <div className="files-grid__col-name">
         <div
-          className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
+          className={classNames('files-grid__col-title', { 'cursor-pointer': isClickable })}
           onClick={onClick}
         >
           {data.title}
+          <If condition={this.state.previewFileLoading}>
+            &nbsp;<ShortLoader height={15} />
+          </If>
         </div>
         <div title={data.realName} className="font-size-11">
           {data.fileName === data.title ? null : `${shortifyInMiddle(data.fileName, 40)} - `}
