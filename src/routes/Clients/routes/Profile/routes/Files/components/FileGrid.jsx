@@ -63,7 +63,7 @@ class FileGrid extends PureComponent {
     this.props.onChangeFileStatusActionClick(status, uuid);
   }
 
-  onPreviewClick = async ({ uuid, clientUuid }) => {
+  onPreviewClick = async ({ uuid, clientUuid, mediaType }) => {
     const { tokenRenew } = this.props;
 
     try {
@@ -80,9 +80,16 @@ class FileGrid extends PureComponent {
         },
       });
 
-      const imageUrl = URL.createObjectURL(await response.blob());
+      const fileUrl = URL.createObjectURL(await response.blob());
 
-      this.props.images.show([{ src: imageUrl }]);
+      if (mediaType === 'application/pdf') {
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = '_blank';
+        link.dispatchEvent(new MouseEvent('click')); // eslint-disable-line jsx-control-statements/jsx-jcs-no-undef
+      } else {
+        this.props.images.show([{ src: fileUrl }]);
+      }
     } catch (e) {
       // Do nothing...
     }
@@ -156,7 +163,7 @@ class FileGrid extends PureComponent {
   )
 
   renderFileName = (data) => {
-    const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
     const isClickable = availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
     const onClick = isClickable ? () => this.onPreviewClick(data) : null;
     const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
