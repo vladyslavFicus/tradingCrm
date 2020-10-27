@@ -50,7 +50,7 @@ const DistributionRuleQuery = ({ children, match: { params: { id } } }) => (
   <Query
     query={REQUEST}
     variables={{ uuid: id }}
-    fetchPolicy="cache-and-network"
+    fetchPolicy="network-only"
   >
     {children}
   </Query>
