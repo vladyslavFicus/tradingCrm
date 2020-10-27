@@ -10,7 +10,7 @@ const REQUEST = gql`query BranchInfoQuery(
   branchInfo (
     branchId: $branchId,
   ) {
-    uuid
+    defaultUser
   }
 }`;
 

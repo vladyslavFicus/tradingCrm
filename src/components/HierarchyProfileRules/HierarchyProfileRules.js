@@ -108,7 +108,7 @@ class HierarchyProfileRules extends PureComponent {
 
         if (!branchInfoQuery.loading) {
           data = {
-            enabled: !!branchInfo?.uuid,
+            enabled: !!branchInfo.defaultUser,
             message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM'),
           };
         }
