@@ -9,7 +9,12 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { accountTypes } from 'constants/accountTypes';
 import { statuses as operatorsStasuses } from 'constants/operators';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import {
+  FormikInputField,
+  FormikSelectField,
+  FormikDateRangeGroup,
+} from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
 import { Button } from 'components/UI';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -38,7 +43,7 @@ class TradingActivityGridFilter extends PureComponent {
   handleApplyFilters = (values, { setSubmitting }) => {
     this.props.history.replace({
       query: {
-        filters: values,
+        filters: decodeNullValues(values),
       },
     });
 
@@ -47,7 +52,9 @@ class TradingActivityGridFilter extends PureComponent {
 
   handleFilterReset = () => {
     this.props.history.replace({
-      query: { filters: {} },
+      query: {
+        filters: {},
+      },
     });
   };
 
