@@ -21,13 +21,15 @@ class LeadNotesTabFilter extends PureComponent {
   };
 
   render() {
+    const { location: { query } } = this.props;
+
     return (
       <Formik
-        initialValues={{}}
+        initialValues={query?.filters || {}}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
+        enableReinitialize
       >
-        {({ dirty, handleReset }) => (
+        {({ dirty }) => (
           <Form className="LeadNotesTabFilter">
             <FormikDateRangeGroup
               className="LeadNotesTabFilter__field LeadNotesTabFilter__date-range"
@@ -41,7 +43,7 @@ class LeadNotesTabFilter extends PureComponent {
             <div className="LeadNotesTabFilter__buttons">
               <Button
                 className="LeadNotesTabFilter__button"
-                onClick={handleReset}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

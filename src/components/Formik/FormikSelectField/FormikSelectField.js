@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { getIn } from 'formik';
-import { isNil } from 'lodash';
+import { eq, isNil } from 'lodash';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
@@ -39,6 +39,7 @@ class FormikSelectField extends Component {
       errors: PropTypes.object.isRequired,
       touched: PropTypes.object.isRequired,
       setFieldValue: PropTypes.func.isRequired,
+      initialValues: PropTypes.object.isRequired,
     }).isRequired,
   }
 
@@ -83,6 +84,7 @@ class FormikSelectField extends Component {
       },
       form: {
         errors,
+        initialValues,
       },
       label,
       multiple,
@@ -118,7 +120,7 @@ class FormikSelectField extends Component {
             multipleLabel={multipleLabel}
             onChange={this.onHandleChange}
             placeholder={placeholder}
-            isFocused={withFocus && !isNil(value)} // isNill was used because of select options can have Boolean values
+            isFocused={withFocus && !isNil(value) && eq(value, initialValues[name])}
             showSearch={searchable}
             singleOptionComponent={singleOptionComponent}
             value={!value && multiple ? [] : value}

@@ -22,17 +22,20 @@ class LeadFeedsFilterForm extends PureComponent {
     }).isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
-    const { feedTypesQuery } = this.props;
+    const {
+      location: { query },
+      feedTypesQuery,
+    } = this.props;
 
     const feedTypes = get(feedTypesQuery, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
@@ -40,13 +43,12 @@ class LeadFeedsFilterForm extends PureComponent {
     return (
       <Formik
         className="LeadFeedsFilterForm"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="LeadFeedsFilterForm__form">
@@ -91,7 +93,7 @@ class LeadFeedsFilterForm extends PureComponent {
             <div className="LeadFeedsFilterForm__buttons">
               <Button
                 className="LeadFeedsFilterForm__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
