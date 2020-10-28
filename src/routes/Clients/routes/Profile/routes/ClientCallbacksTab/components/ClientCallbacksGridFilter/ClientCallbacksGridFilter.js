@@ -14,26 +14,27 @@ class ClientCallbacksGridFilter extends PureComponent {
     ...PropTypes.router,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
+    const { location: { query } } = this.props;
+
     return (
       <Formik
         className="ClientCallbacksGridFilter"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="ClientCallbacksGridFilter__form">
@@ -75,7 +76,7 @@ class ClientCallbacksGridFilter extends PureComponent {
             <div className="ClientCallbacksGridFilter__buttons">
               <Button
                 className="ClientCallbacksGridFilter__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

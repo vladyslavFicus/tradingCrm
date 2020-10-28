@@ -50,7 +50,7 @@ class OperatorsFeed extends PureComponent {
             dataSource={content || []}
             render={(feed, key) => <FeedItem key={key} data={feed} />}
             onPageChange={this.handlePageChanged}
-            showNoResults={!loading && !content.length}
+            showNoResults={!loading && !content?.length}
             totalPages={totalPages}
             last={last}
           />

@@ -4,33 +4,36 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query UserBranchHierarchyQuery {
+  query RepresentativeUpdateModal_DesksAndTeamsQuery {
     userBranches {
       DESK {
         name
         uuid
-        branchType
-        defaultUser
-        defaultBranch
         deskType
-        language
-        brandId
         parentBranch {
           uuid
+        }
+      }
+      TEAM {
+        name
+        uuid
+        parentBranch {
+          uuid
+          deskType
         }
       }
     }
   }
 `;
 
-const UserBranchHierarchyQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="network-only">
+const DesksAndTeamsQuery = ({ children }) => (
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
 
-UserBranchHierarchyQuery.propTypes = {
+DesksAndTeamsQuery.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UserBranchHierarchyQuery;
+export default DesksAndTeamsQuery;

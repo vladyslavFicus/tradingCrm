@@ -13,6 +13,7 @@ import {
   FormikSelectField,
   FormikDateRangeGroup,
 } from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
 import { Button } from 'components/UI';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -41,12 +42,7 @@ class TradingActivityGridFilter extends PureComponent {
   handleApplyFilters = (values, { setSubmitting }) => {
     this.props.history.replace({
       query: {
-        filters: {
-          ...values,
-          ...values.tradeId && { tradeId: Number(values.tradeId) },
-          ...values.volumeFrom && { volumeFrom: Number(values.volumeFrom) },
-          ...values.volumeTo && { volumeTo: Number(values.volumeTo) },
-        },
+        filters: decodeNullValues(values),
       },
     });
 
@@ -55,12 +51,15 @@ class TradingActivityGridFilter extends PureComponent {
 
   handleFilterReset = () => {
     this.props.history.replace({
-      query: { filters: {} },
+      query: {
+        filters: {},
+      },
     });
   };
 
   render() {
     const {
+      location: { query },
       operatorsQuery: {
         data: operatorsData,
         loading: operatorsLoading,
@@ -79,19 +78,21 @@ class TradingActivityGridFilter extends PureComponent {
 
     return (
       <Formik
-        initialValues={{ tradeType: 'LIVE' }}
+        initialValues={query?.filters || { tradeType: 'LIVE' }}
         onSubmit={this.handleApplyFilters}
-        onReset={this.handleFilterReset}
+        enableReinitialize
       >
-        {({ handleReset, dirty, isSubmitting }) => (
+        {({ dirty, isSubmitting }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
                 name="tradeId"
+                type="number"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_LABEL')}
                 placeholder={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER')}
                 className="filter-row__big"
                 component={FormikInputField}
+                addition={<i className="icon icon-search" />}
                 withFocus
               />
               <Field
@@ -259,15 +260,14 @@ class TradingActivityGridFilter extends PureComponent {
             <div className="filter__form-buttons">
               <Button
                 className="margin-right-15"
-                onClick={handleReset}
-                disabled={!dirty || isSubmitting}
+                onClick={this.handleFilterReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 type="submit"
-                disabled={isSubmitting || tradingAccountsLoading}
+                disabled={!dirty || isSubmitting || tradingAccountsLoading}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

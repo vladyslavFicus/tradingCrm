@@ -24,25 +24,25 @@ class DistributionRulesFilters extends PureComponent {
     ...PropTypes.router,
   }
 
-  handleFiltersChanged = (filters, { setSubmitting }) => {
+  handleSubmit = (filters) => {
     this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
+  };
 
-    setSubmitting(false);
+  handleReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
+    const { location: { query } } = this.props;
+
     return (
       <Formik
-        initialValues={{}}
+        initialValues={query?.filters || {}}
         validate={validate}
-        onSubmit={this.handleFiltersChanged}
-        onReset={this.handleFiltersChanged}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
@@ -86,14 +86,14 @@ class DistributionRulesFilters extends PureComponent {
                 withFocus
               />
               <Field
-                name="salesStatus"
+                name="salesStatuses"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
@@ -139,7 +139,6 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.EXECUTION_TIME')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
                 multiple
@@ -156,7 +155,7 @@ class DistributionRulesFilters extends PureComponent {
               <Button
                 className="btn btn-default filter__form-button"
                 disabled={isSubmitting}
-                onClick={resetForm}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

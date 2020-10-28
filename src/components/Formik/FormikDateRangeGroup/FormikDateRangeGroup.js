@@ -3,7 +3,11 @@ import { useField } from 'formik';
 import PropTypes from 'constants/propTypes';
 import DateRangeGroup from 'components/Forms/DateRangeGroup';
 
-const FormikDateRangeGroup = ({ periodKeys, withFocus, ...props }) => {
+const FormikDateRangeGroup = ({
+  periodKeys,
+  withFocus,
+  ...props
+}) => {
   const startField = useField(periodKeys.start).reduce(
     (acc, cur) => ({ ...acc, ...cur }), {},
   );
@@ -17,8 +21,7 @@ const FormikDateRangeGroup = ({ periodKeys, withFocus, ...props }) => {
       {...props}
       startField={startField}
       endField={endField}
-      isFocusedStartField={withFocus && Boolean(startField.value)}
-      isFocusedEndField={withFocus && Boolean(endField.value)}
+      withFocus={withFocus}
     />
   );
 };

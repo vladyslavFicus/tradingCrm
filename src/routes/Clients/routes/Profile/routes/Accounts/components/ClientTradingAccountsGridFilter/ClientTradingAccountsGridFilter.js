@@ -16,7 +16,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
     accountType: PropTypes.string.isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({
       state: {
         filters: decodeNullValues(values),
@@ -26,7 +26,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({
       state: {
         filters: {},
@@ -42,12 +42,11 @@ class ClientTradingAccountsGridFilter extends PureComponent {
       <Formik
         className="ClientTradingAccountsGridFilter"
         initialValues={state?.filters || { accountType }}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="ClientTradingAccountsGridFilter__form">
@@ -85,7 +84,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
             <div className="ClientTradingAccountsGridFilter__buttons">
               <Button
                 className="ClientTradingAccountsGridFilter__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

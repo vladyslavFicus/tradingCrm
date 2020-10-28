@@ -24,16 +24,17 @@ class CallbacksGridFilter extends PureComponent {
   };
 
   render() {
+    const { location: { query } } = this.props;
+
     return (
       <Formik
         className="CallbacksGridFilter"
-        initialValues={{}}
+        initialValues={query?.filters || {}}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
+        enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="CallbacksGridFilter__form">
@@ -62,9 +63,10 @@ class CallbacksGridFilter extends PureComponent {
               ))}
             </Field>
 
-            <FormikDateRangeGroup
+            <Field
               className="CallbacksGridFilter__field CallbacksGridFilter__date-range"
               label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
+              component={FormikDateRangeGroup}
               periodKeys={{
                 start: 'callbackTimeFrom',
                 end: 'callbackTimeTo',
@@ -75,7 +77,7 @@ class CallbacksGridFilter extends PureComponent {
             <div className="CallbacksGridFilter__buttons">
               <Button
                 className="CallbacksGridFilter__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >
