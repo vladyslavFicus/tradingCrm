@@ -75,6 +75,66 @@ const ReleaseNotes = () => (
 
     <hr/>
 
+    <h2>30/September/20 - Version 47</h2>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Implemented keeping of filtering result after page refresh on several pages: Search clients , KYC documents, Trading accounts</p>
+      </li>
+      <li>
+        <p>Added &lsquo;account_id&rsquo; and 'crm' parameters to Didlogic request</p>
+      </li>
+      <li>
+        <p>Added ability to delete Trades (closed and pending) in CRM After They Have Been Deleted in MT4 Provider</p>
+      </li>
+      <li>
+        <p>Redirection to brand landing page after click on logo in CP</p>
+      </li>
+      <li>
+        <p>On Partner profile page added a link to share with clients for their sign up. After sign up client will refer to this partner</p>
+      </li>
+    </ul>
+    <h2>Bugs and Fixes</h2>
+    <ul>
+      <li>
+        <p>Fixed problem with logout from Status</p>
+      </li>
+      <li>
+        <p>Handle duplicate callback error at callback creation modal</p>
+      </li>
+    </ul>
+    <h2>24/September/20 - Version 46</h2>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Added feed tab to Lead profile page</p>
+      </li>
+      <li>
+        <p>Added new sales status &ldquo;Wire Sent&ldquo; to BO</p>
+      </li>
+    </ul>
+    <h2>Bugs and Fixes</h2>
+    <ul>
+      <li>
+        <p>Fixed issue with the deposit&rsquo;s number сalculation</p>
+      </li>
+    </ul>
+    <h2>11/September/20 - Version 45</h2>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Request callback feature</p>
+      </li>
+      <li>
+        <p>New hierarchy tree structure on Backoffice</p>
+      </li>
+    </ul>
+    <h2>Bugs and Fixes</h2>
+    <ul>
+      <li>
+        <p>Fixed Miss match between email validation on Client Portal and Affiliate API</p>
+      </li>
+    </ul>
     <h2>7/September/20 - Version 44</h2>
     <h2>What has been done</h2>
     <ul>
