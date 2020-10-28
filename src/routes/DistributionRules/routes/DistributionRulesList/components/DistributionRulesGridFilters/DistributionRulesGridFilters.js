@@ -91,7 +91,6 @@ class DistributionRulesFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
                 multiple
