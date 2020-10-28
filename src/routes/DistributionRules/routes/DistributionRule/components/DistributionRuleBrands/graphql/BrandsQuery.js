@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query DistributionRule__BrandsQuery {
+  query DistributionRuleBrands__BrandsQuery {
     brands {
       brandId
       brandName

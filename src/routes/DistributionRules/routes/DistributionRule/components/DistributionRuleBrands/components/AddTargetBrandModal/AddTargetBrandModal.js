@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withApollo, compose } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import operatorsByBrandQuery from './graphql/operatorsByBrandQuery';
-import BrandsQuery from './graphql/BrandsQuery';
 import { baseUnits, modalFieldsNames } from '../../constants';
 import './AddTargetBrandModal.scss';
 
@@ -32,9 +30,7 @@ class AddTargetBrandModal extends PureComponent {
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
-    brandsQuery: PropTypes.query({
-      brands: PropTypes.arrayOf(PropTypes.brandConfig),
-    }).isRequired,
+    brands: PropTypes.arrayOf(PropTypes.brandConfig).isRequired,
   };
 
   state = {
@@ -121,7 +117,7 @@ class AddTargetBrandModal extends PureComponent {
       isOpen,
       sourceBrandId,
       sourceBrandQuantity,
-      brandsQuery,
+      brands,
       initialValues: {
         brand,
         distributionUnit: {
@@ -131,8 +127,6 @@ class AddTargetBrandModal extends PureComponent {
         operator,
       },
     } = this.props;
-
-    const brands = brandsQuery?.data?.brands || [];
 
     const {
       operatorsByBrand,
@@ -255,9 +249,4 @@ class AddTargetBrandModal extends PureComponent {
   }
 }
 
-export default compose(
-  withApollo,
-  withRequests({
-    brandsQuery: BrandsQuery,
-  }),
-)(AddTargetBrandModal);
+export default withApollo(AddTargetBrandModal);

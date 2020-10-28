@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
 import classNames from 'classnames';
-import { withRequests } from 'apollo';
 import { EditButton, RemoveButton } from 'components/UI';
-import BrandQuery from './graphql/BrandQuery';
 import './MigrationBrandCard.scss';
 
 class MigrationBrandCard extends PureComponent {
@@ -21,9 +19,7 @@ class MigrationBrandCard extends PureComponent {
     handleEditBrandCard: PropTypes.func.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
     brandType: PropTypes.string.isRequired,
-    brandQuery: PropTypes.query({
-      brandConfig: PropTypes.brandConfig,
-    }).isRequired,
+    brand: PropTypes.brandConfig.isRequired,
   }
 
   static defaultProps = {
@@ -40,15 +36,13 @@ class MigrationBrandCard extends PureComponent {
         baseUnit,
       },
       sortType,
-      brandQuery,
+      brand,
     } = this.props;
-
-    const brandName = brandQuery?.data?.brandConfig?.brandName;
 
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brandName}</div>
+          <div className="MigrationBrandCard__dt">{brand.brandName}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOSEN')}
@@ -71,15 +65,13 @@ class MigrationBrandCard extends PureComponent {
         baseUnit,
       },
       operatorEntity,
-      brandQuery,
+      brand,
     } = this.props;
-
-    const brandName = brandQuery?.data?.brandConfig?.brandName;
 
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brandName}</div>
+          <div className="MigrationBrandCard__dt">{brand.brandName}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_TO_MIGRATION')}
@@ -134,6 +126,4 @@ class MigrationBrandCard extends PureComponent {
   }
 }
 
-export default withRequests({
-  brandQuery: BrandQuery,
-})(MigrationBrandCard);
+export default MigrationBrandCard;

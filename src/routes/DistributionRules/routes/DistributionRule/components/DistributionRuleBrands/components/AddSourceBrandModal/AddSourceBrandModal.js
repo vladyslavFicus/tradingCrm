@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
@@ -14,7 +13,6 @@ import {
   modalFieldsNames,
   MAX_MIGRATED_CLIENTS,
 } from '../../constants';
-import BrandsQuery from './graphql/BrandsQuery';
 import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
@@ -32,9 +30,7 @@ class AddSourceBrandModal extends PureComponent {
       sortType: PropTypes.string,
     }),
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
-    brandsQuery: PropTypes.query({
-      brands: PropTypes.arrayOf(PropTypes.brandConfig),
-    }).isRequired,
+    brands: PropTypes.arrayOf(PropTypes.brandConfig).isRequired,
   }
 
   static defaultProps = {
@@ -81,15 +77,13 @@ class AddSourceBrandModal extends PureComponent {
       isOpen,
       handleSubmit,
       allowedBaseUnits,
-      brandsQuery,
+      brands,
       initialValues: {
         brand,
         distributionUnit,
         sortType,
       },
     } = this.props;
-
-    const brands = brandsQuery?.data?.brands || [];
 
     const { availableClientsAmount } = this.state;
 
@@ -211,6 +205,4 @@ class AddSourceBrandModal extends PureComponent {
   }
 }
 
-export default withRequests({
-  brandsQuery: BrandsQuery,
-})(AddSourceBrandModal);
+export default AddSourceBrandModal;
