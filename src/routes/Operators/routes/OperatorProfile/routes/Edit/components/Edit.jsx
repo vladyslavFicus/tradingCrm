@@ -25,7 +25,7 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     profile: PropTypes.shape({
-      data: PropTypes.operatorProfile,
+      data: PropTypes.operator,
       refetch: PropTypes.func.isRequired,
       error: PropTypes.any,
     }).isRequired,
@@ -168,6 +168,7 @@ class View extends Component {
         </div>
         <HierarchyProfileForm
           operatorUUID={profile.uuid}
+          operatorFullName={profile.fullName}
           loading={loading}
           initialValues={initialValues}
           allowUpdateHierarchy={allowUpdateHierarchy}

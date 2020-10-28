@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { Button } from 'components/UI';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
 import './PartnerFeedsFilterForm.scss';
@@ -23,17 +23,20 @@ class PartnerFeedsFilterForm extends PureComponent {
     }).isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
-    const { feedTypesData } = this.props;
+    const {
+      location: { query },
+      feedTypesData,
+    } = this.props;
 
     const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
@@ -41,58 +44,55 @@ class PartnerFeedsFilterForm extends PureComponent {
     return (
       <Formik
         className="PartnerFeedsFilterForm"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="PartnerFeedsFilterForm__form">
-            <div className="PartnerFeedsFilterForm__fields">
-              <Field
-                name="searchBy"
-                className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__search"
-                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
-                placeholder={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
-                addition={<i className="icon icon-search" />}
-                component={FormikInputField}
-              />
+            <Field
+              name="searchBy"
+              className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__search"
+              label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
+              placeholder={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
+              addition={<i className="icon icon-search" />}
+              component={FormikInputField}
+              withFocus
+            />
 
-              <Field
-                name="auditLogType"
-                className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__types"
-                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
-                placeholder={I18n.t('COMMON.ANY')}
-                component={FormikSelectField}
-                searchable
-                withAnyOption
-              >
-                {availableFeedTypes.map(type => (
-                  <option key={type} value={type}>
-                    {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
-                  </option>
-                ))}
-              </Field>
+            <Field
+              name="auditLogType"
+              className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__select"
+              label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
+              placeholder={I18n.t('COMMON.ANY')}
+              component={FormikSelectField}
+              withAnyOption
+              searchable
+              withFocus
+            >
+              {availableFeedTypes.map(type => (
+                <option key={type} value={type}>
+                  {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
+                </option>
+              ))}
+            </Field>
 
-              <FormikDateRangePicker
-                className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__dates"
-                label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-                periodKeys={{
-                  start: 'creationDateFrom',
-                  end: 'creationDateTo',
-                }}
-              />
-            </div>
+            <FormikDateRangeGroup
+              className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__date-range"
+              label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
+              periodKeys={{
+                start: 'creationDateFrom',
+                end: 'creationDateTo',
+              }}
+              withFocus
+            />
 
             <div className="PartnerFeedsFilterForm__buttons">
               <Button
                 className="PartnerFeedsFilterForm__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

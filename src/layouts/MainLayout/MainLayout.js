@@ -7,6 +7,7 @@ import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
 import ShortLoader from 'components/ShortLoader';
+import ErrorBoundary from 'components/ErrorBoundary';
 import { withStorage } from 'providers/StorageProvider';
 import PermissionProvider from 'providers/PermissionsProvider';
 import './MainLayout.scss';
@@ -43,9 +44,11 @@ class MainLayout extends PureComponent {
         <Sidebar />
 
         <main className="content-container">
-          <Suspense fallback={<ShortLoader />}>
-            {children}
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<ShortLoader />}>
+              {children}
+            </Suspense>
+          </ErrorBoundary>
         </main>
 
         <BackToTop />

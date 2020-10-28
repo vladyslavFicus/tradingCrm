@@ -68,7 +68,7 @@ class LeadsGrid extends PureComponent {
 
   handleSort = (sortData) => {
     const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const query = get(history, 'location.state') || {};
 
     const sorts = Object.keys(sortData)
       .filter(sortingKey => sortData[sortingKey])
@@ -78,9 +78,10 @@ class LeadsGrid extends PureComponent {
       }));
 
     history.replace({
-      query: {
+      state: {
         ...query,
         sorts,
+        sortData,
       },
     });
   };
@@ -106,7 +107,7 @@ class LeadsGrid extends PureComponent {
       } = this.props;
 
       const totalElements = get(leadsQuery, 'data.leads.totalElements') || 0;
-      const searchLimit = get(location, 'query.filters.searchLimit') || null;
+      const searchLimit = get(location, 'state.filters.searchLimit') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
         ? searchLimit > MAX_SELECTED_LEADS
@@ -260,10 +261,10 @@ class LeadsGrid extends PureComponent {
     } = this.props;
 
     const leads = get(leadsQuery, 'data.leads') || [];
-    const searchLimit = get(location, 'query.filters.searchLimit') || null;
+    const searchLimit = get(location, 'state.filters.searchLimit') || null;
 
     const { response } = limitItems(leads, location);
-    const { content, last } = response;
+    const { content = [], last = true } = response;
 
     const isLoading = leadsQuery.loading;
 
@@ -272,12 +273,14 @@ class LeadsGrid extends PureComponent {
         <Grid
           data={content || []}
           touchedRowsIds={touchedRowsIds}
+          sorts={location?.state?.sortData}
           handleSort={this.handleSort}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
           handleRowClick={this.handleRowClick}
           handleAllRowsSelect={this.handleAllRowsSelect}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={156}
           isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={!searchLimit || searchLimit !== content.length}
@@ -290,6 +293,7 @@ class LeadsGrid extends PureComponent {
             render={this.renderLead}
           />
           <GridColumn
+            sortBy="country"
             header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
             render={this.renderCountry}
           />
@@ -298,6 +302,7 @@ class LeadsGrid extends PureComponent {
             render={this.renderSales}
           />
           <GridColumn
+            sortBy="registrationDate"
             header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDate}
           />

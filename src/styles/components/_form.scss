@@ -55,7 +55,8 @@
   font-size: 15px;
   font-weight: 600;
   padding-top: 7px;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
 
   &:focus {
     border-color: #4990e2;
@@ -109,6 +110,11 @@
       visibility: visible;
     }
   }
+  &.is-focused {
+    .select-block__label {
+      border: 1px solid #4990e2;
+    }
+  }
   &.with-option {
     font-weight: 600;
     color: #4a4a4a;
@@ -125,12 +131,38 @@
   }
   &__label {
     position: relative;
-    padding-top: 6px;
+    padding-top: 2px;
     padding-right: 30px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 30px;
+    line-height: 34px;
+    max-height: 40px;
+
+    &--multipleLabel {
+      padding-bottom: 0;
+    }
+  }
+  &__placeholder-options {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__placeholder-option {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    border: 1px solid #9dd0f9;
+    background: #e9f4fe;
+  }
+  &__placeholder-option-delete {
+    margin-left: 5px;
+    color: #ff6f6f;
+
+    &:hover {
+      color: #d70000;
+    }
   }
   &__content {
     width: 100%;
@@ -294,9 +326,16 @@
   .form-control:focus {
     z-index: 0;
   }
+  .date-time-icon,
+  &-text,
+  &-addon {
+    border: 1px solid #ced4da;
+    transition: all 0.2s;
+  }
   &-addon {
     background-color: #fff;
     color: #cfcfcf;
+
     &.clickable:hover {
       cursor: pointer;
       color: #4a4a4a;
@@ -308,6 +347,14 @@
     .form-control {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+    }
+  }
+  &--rtd-is-focused {
+    .form-control {
+      border-color: #4990e2;
+    }
+    .input-group-addon {
+      border-color: #4990e2;
     }
   }
 }
@@ -430,6 +477,7 @@
       align-items: flex-end;
       flex-grow: 1;
 
+      & button:not(:last-child),
       & .btn:not(:last-child) {
         margin-right: 15px;
       }

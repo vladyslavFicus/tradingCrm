@@ -1,0 +1,15 @@
+.RemoveButton {
+  padding: 0;
+  border: none;
+
+  &:hover &__icon {
+    color: #d70000;
+  }
+
+  &__icon {
+    display: block;
+    line-height: 1;
+    font-size: 13px;
+    color: #ff6f6f;
+  }
+}

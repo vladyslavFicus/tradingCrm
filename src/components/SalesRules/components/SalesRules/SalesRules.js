@@ -26,6 +26,7 @@ import RuleModal from 'components/HierarchyProfileRules/components/RuleModal';
 import EditRuleModal from 'components/HierarchyProfileRules/components/EditRuleModal';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import infoConfig from './constants';
+import './SalesRules.scss';
 import {
   OperatorsQuery,
   PartnersQuery,
@@ -77,10 +78,6 @@ class SalesRules extends PureComponent {
     type: null,
     isTab: false,
   };
-
-  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
-
-  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   triggerRuleModal = () => {
     const {
@@ -492,8 +489,8 @@ class SalesRules extends PureComponent {
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
-      <div className={classNames('card', { 'no-borders': isTab })}>
-        <div className="card-heading">
+      <div className={classNames('SalesRules card', { 'no-borders': isTab })}>
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!loading}
             className={null}
@@ -521,9 +518,8 @@ class SalesRules extends PureComponent {
             </div>
           </PermissionContent>
         </div>
+
         <RulesFilters
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
           disabled={!allowActions}
           countries={countries}
           partners={partners}
@@ -531,11 +527,12 @@ class SalesRules extends PureComponent {
           type={type}
         />
 
-        <div className="card-body">
+        <div className="SalesRules__grid">
           <Grid
             data={entities}
             isLoading={loading}
             isLastPage
+            headerStickyFromTop={127}
             withNoResults={!loading && entities.length === 0}
           >
             <GridColumn

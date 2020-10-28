@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import PropTypes from '../../constants/propTypes';
-import { shortify } from '../../utils/uuid';
+import PropTypes from 'constants/propTypes';
+import { shortify } from 'utils/uuid';
+import { Button } from 'components/UI';
 
 class ConfirmActionModal extends Component {
   static propTypes = {
@@ -11,6 +12,7 @@ class ConfirmActionModal extends Component {
     modalTitle: PropTypes.string,
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
+    cancelButtonLabel: PropTypes.string,
     fullName: PropTypes.string,
     uuid: PropTypes.string,
     additionalText: PropTypes.string,
@@ -22,11 +24,16 @@ class ConfirmActionModal extends Component {
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
+    cancelButtonLabel: I18n.t('COMMON.CANCEL'),
     fullName: '',
     uuid: null,
     additionalText: null,
     onCloseCallback: () => {},
   };
+
+  state = {
+    isSubmitting: false,
+  }
 
   handleClose = () => {
     const { onCloseModal, onCloseCallback } = this.props;
@@ -35,11 +42,18 @@ class ConfirmActionModal extends Component {
     onCloseCallback();
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const { onSubmit, onCloseCallback } = this.props;
+    const { isSubmitting } = this.state;
 
-    onSubmit();
-    onCloseCallback();
+    if (!isSubmitting) {
+      this.setState({ isSubmitting: true });
+
+      await onSubmit();
+      await onCloseCallback();
+
+      this.setState({ isSubmitting: false });
+    }
   }
 
   render() {
@@ -49,9 +63,12 @@ class ConfirmActionModal extends Component {
       fullName,
       uuid,
       submitButtonLabel,
+      cancelButtonLabel,
       additionalText,
       isOpen,
     } = this.props;
+
+    const { isSubmitting } = this.state;
 
     return (
       <Modal isOpen={isOpen} toggle={this.handleClose} className="modal-danger">
@@ -68,20 +85,21 @@ class ConfirmActionModal extends Component {
         </ModalBody>
 
         <ModalFooter>
-          <button
-            type="button"
+          <Button
+            commonOutline
+            className="mr-auto"
             onClick={this.handleClose}
-            className="btn btn-default-outline mr-auto"
           >
-            {I18n.t('COMMON.CANCEL')}
-          </button>
-          <button
+            {cancelButtonLabel}
+          </Button>
+          <Button
             type="submit"
-            className="btn btn-danger-outline"
+            dangerOutline
+            disabled={isSubmitting}
             onClick={this.onSubmit}
           >
             {submitButtonLabel}
-          </button>
+          </Button>
         </ModalFooter>
       </Modal>
     );

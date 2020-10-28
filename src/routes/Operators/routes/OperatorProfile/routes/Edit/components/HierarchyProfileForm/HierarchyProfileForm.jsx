@@ -3,9 +3,11 @@ import I18n from 'i18n-js';
 import { Field } from 'redux-form';
 import { omit } from 'lodash';
 import classNames from 'classnames';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import permissions from 'config/permissions';
+import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import ShortLoader from 'components/ShortLoader';
 import { NasSelectField } from 'components/ReduxForm';
 import PermissionContent from 'components/PermissionContent';
@@ -25,6 +27,7 @@ class HierarchyProfileForm extends Component {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     initialValues: PropTypes.object,
+    operatorFullName: PropTypes.string.isRequired,
     allowUpdateHierarchy: PropTypes.bool.isRequired,
     userBranchesTreeUp: PropTypes.shape({
       refetch: PropTypes.func,
@@ -43,6 +46,9 @@ class HierarchyProfileForm extends Component {
       params: PropTypes.shape({
         id: PropTypes.string,
       }),
+    }).isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -93,38 +99,64 @@ class HierarchyProfileForm extends Component {
     }
   };
 
-  handleRemoveBranch = (branchId, name) => async () => {
+  handleRemoveBranch = (branchId, name) => () => {
     const {
       notify,
       removeOperatorFromBranch,
       userBranchesTreeUp,
       match: { params: { id } },
       reset,
+      initialValues: { subordinatesCount },
+      operatorFullName,
+      modals: {
+        confirmActionModal,
+      },
     } = this.props;
 
-    try {
-      await removeOperatorFromBranch({
-        variables: {
-          operatorId: id,
-          branchId,
-        },
+    const removeBranch = async () => {
+      try {
+        await removeOperatorFromBranch({
+          variables: {
+            operatorId: id,
+            branchId,
+          },
+        });
+
+        notify({
+          level: 'success',
+          title: I18n.t('COMMON.SUCCESS'),
+          message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
+        });
+
+        await userBranchesTreeUp.refetch();
+        reset();
+      } catch {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.FAIL'),
+          message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_REMOVE_BRANCH'),
+        });
+      }
+
+      confirmActionModal.hide();
+    };
+
+    if (subordinatesCount >= 10000) {
+      confirmActionModal.show({
+        onSubmit: removeBranch,
+        modalTitle: I18n.t('MODALS.UNASSIGN_BRANCH.TITLE'),
+        actionText: I18n.t('MODALS.UNASSIGN_BRANCH.DESCRIPTION', {
+          operator: operatorFullName,
+          clients: subordinatesCount,
+          branch: name,
+        }),
+        submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
       });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
-      });
-
-      await userBranchesTreeUp.refetch();
-      reset();
-    } catch {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_REMOVE_BRANCH'),
-      });
+      return;
     }
+
+    removeBranch();
   };
 
   buildUserBranchChain = ({ name, parentBranch }, branchChain) => {
@@ -199,10 +231,12 @@ class HierarchyProfileForm extends Component {
       allowUpdateHierarchy,
       initialValues: {
         parentBranches,
+        subordinatesCount,
       },
       userBranchesTreeUp: {
         refetch,
       },
+      operatorFullName,
     } = this.props;
 
     const { branchFormVisibility } = this.state;
@@ -268,6 +302,8 @@ class HierarchyProfileForm extends Component {
                 <AddBranchForm
                   refetchUserBranchesTreeUp={refetch}
                   hideForm={this.toggleBranchForm}
+                  operatorFullName={operatorFullName}
+                  subordinatesCount={subordinatesCount}
                   currentBranches={
                     Array.isArray(parentBranches) ? parentBranches.map(({ uuid }) => uuid) : null
                   }
@@ -281,4 +317,6 @@ class HierarchyProfileForm extends Component {
   }
 }
 
-export default HierarchyProfileForm;
+export default withModals({
+  confirmActionModal: ConfirmActionModal,
+})(HierarchyProfileForm);

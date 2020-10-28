@@ -152,6 +152,7 @@ class ClientCallbacksGrid extends PureComponent {
           data={callbacks.content}
           handleRowClick={this.handleOpenDetailsModal}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={189}
           isLoading={loading}
           isLastPage={callbacks.last}
           withRowsHover

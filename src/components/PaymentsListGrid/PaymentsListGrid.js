@@ -21,6 +21,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import formatLabel from 'utils/formatLabel';
+import './PaymentsListGrid.scss';
 
 class PaymentsListGrid extends PureComponent {
   static propTypes = {
@@ -36,11 +37,13 @@ class PaymentsListGrid extends PureComponent {
     handleRefresh: PropTypes.func.isRequired,
     clientView: PropTypes.bool,
     withLazyLoad: PropTypes.bool,
+    headerStickyFromTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
     clientView: false,
     withLazyLoad: true,
+    headerStickyFromTop: null,
   };
 
   handlePageChanged = () => {
@@ -82,17 +85,19 @@ class PaymentsListGrid extends PureComponent {
       handleRefresh,
       paymentsQuery,
       withLazyLoad,
+      headerStickyFromTop,
     } = this.props;
 
     const { content, last } = get(paymentsQuery, 'data.payments') || { content: [] };
     const isLoading = paymentsQuery.loading;
 
     return (
-      <div className="card card-body">
+      <div className="PaymentsListGrid card">
         <Grid
           data={content || []}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={withLazyLoad}

@@ -7,12 +7,14 @@ const REQUEST = gql`
   query TradingAccountsQuery(
     $searchKeyword: String
     $accountType: String
+    $platformType: String
     $archived: Boolean
     $size: Int
     $page: Int
   ) {
     tradingAccounts (
       searchKeyword: $searchKeyword
+      platformType: $platformType
       accountType: $accountType
       archived: $archived
       size: $size

@@ -17,13 +17,25 @@ class DesksGridFilter extends PureComponent {
     officesData: PropTypes.userBranchHierarchyResponse.isRequired,
   };
 
-  onHandleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
@@ -32,21 +44,21 @@ class DesksGridFilter extends PureComponent {
   };
 
   render() {
-    const { officesData } = this.props;
+    const { officesData, location: { state } } = this.props;
 
     const offices = get(officesData, 'data.userBranches.OFFICE') || [];
 
     return (
       <Formik
+        enableReinitialize
         className="DesksGridFilter"
-        initialValues={{}}
+        initialValues={state?.filters || {}}
         validate={createValidator({
           keyword: 'string',
           officeUuid: 'string',
           deskType: 'string',
         })}
-        onReset={this.onHandleReset}
-        onSubmit={this.onHandleSubmit}
+        onSubmit={this.handleSubmit}
       >
         {({
           isSubmitting,
@@ -62,6 +74,7 @@ class DesksGridFilter extends PureComponent {
                 placeholder={I18n.t('DESKS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
 
               <Field
@@ -70,8 +83,9 @@ class DesksGridFilter extends PureComponent {
                 label={I18n.t('DESKS.GRID_FILTERS.OFFICE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {offices.map(({ name, uuid }) => (
                   <option key={uuid} value={uuid}>{name}</option>
@@ -85,6 +99,7 @@ class DesksGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {deskTypes.map((deskType, key) => (
                   <option key={key} value={deskType.value}>
@@ -97,9 +112,9 @@ class DesksGridFilter extends PureComponent {
             <div className="DesksGridFilter__buttons">
               <Button
                 className="DesksGridFilter__button"
-                onClick={resetForm}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

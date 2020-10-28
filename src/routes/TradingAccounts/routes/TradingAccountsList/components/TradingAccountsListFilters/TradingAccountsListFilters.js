@@ -6,6 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { accountTypes, accountStatuses } from '../../constants';
 import './TradingAccountsListFilters.scss';
 
@@ -46,13 +47,15 @@ class TradingAccountsListFilters extends PureComponent {
   render() {
     const { loading, location: { state } } = this.props;
 
+    const platformTypes = getAvailablePlatformTypes();
+
     return (
       <Formik
         enableReinitialize
         initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
-        {({ dirty, values, resetForm }) => (
+        {({ dirty, resetForm }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -61,6 +64,8 @@ class TradingAccountsListFilters extends PureComponent {
                 placeholder={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
                 className="form-group filter-row__big"
                 component={FormikInputField}
+                addition={<i className="icon icon-search" />}
+                withFocus
               />
               <Field
                 name="accountType"
@@ -69,6 +74,7 @@ class TradingAccountsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(accountTypes).map(key => (
                   <option key={key} value={key}>
@@ -76,6 +82,21 @@ class TradingAccountsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <If condition={platformTypes.length > 1}>
+                <Field
+                  name="platformType"
+                  label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.PLATFORM_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="form-group filter-row__medium"
+                  component={FormikSelectField}
+                  withAnyOption
+                  withFocus
+                >
+                  {platformTypes.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </If>
               <Field
                 name="archived"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.STATUS')}
@@ -83,6 +104,7 @@ class TradingAccountsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(accountStatuses).map(key => (
                   <option key={key} value={key}>
@@ -95,8 +117,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={loading || !Object.keys(values).length}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

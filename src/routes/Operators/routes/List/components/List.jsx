@@ -47,14 +47,6 @@ class List extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    this.props.history.replace({ query: { filters } });
-  };
-
-  handleFilterReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
-  };
-
   handleOpenCreateModal = async () => {
     const {
       modals: {
@@ -110,7 +102,7 @@ class List extends Component {
 
     return (
       <div className="card">
-        <div className="card-heading">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!loading && !!operators}
             className={null}
@@ -123,7 +115,7 @@ class List extends Component {
           >
             <Choose>
               <When condition={totalElements}>
-                <span className="font-size-20 height-55">
+                <span className="font-size-20">
                   <div>
                     <strong>{totalElements} </strong>
                     {I18n.t('COMMON.OPERATORS_FOUND')}
@@ -149,10 +141,7 @@ class List extends Component {
           </PermissionContent>
         </div>
 
-        <OperatorGridFilter
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
-        />
+        <OperatorGridFilter />
         <OperatorsGrid operatorsQuery={operators} />
       </div>
     );
