@@ -121,6 +121,7 @@ const brands = keyMirror({
   cdengine: null,
   neotrade: null,
   luxinvestment: null,
+  moneyback: null,
 });
 
 const departments = keyMirror({
@@ -627,6 +628,10 @@ const brandsConfig = {
   [brands.luxinvestment]: {
     name: 'luxinvestment',
     image: { src: '/img/brand/choose-brand/luxinvestment.svg' },
+  },
+  [brands.moneyback]: {
+    name: 'moneyback',
+    image: { src: '/img/brand/choose-brand/moneyback.svg' },
   },
 };
 const departmentsConfig = {
