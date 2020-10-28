@@ -52,7 +52,7 @@ const Personal = ({ data }) => {
 };
 
 Personal.propTypes = {
-  data: PropTypes.operatorProfile.isRequired,
+  data: PropTypes.operator.isRequired,
 };
 
 export default Personal;

@@ -109,6 +109,19 @@ const brands = keyMirror({
   eurofx: null,
   primecap: null,
   ofxb: null,
+  fantex: null,
+  unionstock: null,
+  supratrade: null,
+  horizoninvest: null,
+  tradingnetwork: null,
+  axa: null,
+  'cd-engine': null,
+  cfbroker: null,
+  octofinance: null,
+  cdengine: null,
+  neotrade: null,
+  luxinvestment: null,
+  moneyback: null,
 });
 
 const departments = keyMirror({
@@ -567,6 +580,58 @@ const brandsConfig = {
   [brands.ofxb]: {
     name: 'ofxb',
     image: { src: '/img/brand/choose-brand/ofxb.svg' },
+  },
+  [brands.fantex]: {
+    name: 'fantex',
+    image: { src: '/img/brand/choose-brand/fantex.svg' },
+  },
+  [brands.unionstock]: {
+    name: 'unionstock',
+    image: { src: '/img/brand/choose-brand/unionstock.svg' },
+  },
+  [brands.supratrade]: {
+    name: 'supratrade',
+    image: { src: '/img/brand/choose-brand/supratrade.svg' },
+  },
+  [brands.horizoninvest]: {
+    name: 'horizoninvest',
+    image: { src: '/img/brand/choose-brand/horizoninvest.svg' },
+  },
+  [brands.tradingnetwork]: {
+    name: 'tradingnetwork',
+    image: { src: '/img/brand/choose-brand/tradingnetwork.svg' },
+  },
+  [brands.axa]: {
+    name: 'axa',
+    image: { src: '/img/brand/choose-brand/axa.svg' },
+  },
+  [brands['cd-engine']]: {
+    name: 'cd-engine',
+    image: { src: '/img/brand/choose-brand/cd-engine.svg' },
+  },
+  [brands.cfbroker]: {
+    name: 'cfbroker',
+    image: { src: '/img/brand/choose-brand/cfbroker.svg' },
+  },
+  [brands.octofinance]: {
+    name: 'octofinance',
+    image: { src: '/img/brand/choose-brand/octofinance.svg' },
+  },
+  [brands.cdengine]: {
+    name: 'cd engine',
+    image: { src: '/img/brand/choose-brand/cdengine.svg' },
+  },
+  [brands.neotrade]: {
+    name: 'neotrade',
+    image: { src: '/img/brand/choose-brand/neotrade.svg' },
+  },
+  [brands.luxinvestment]: {
+    name: 'luxinvestment',
+    image: { src: '/img/brand/choose-brand/luxinvestment.svg' },
+  },
+  [brands.moneyback]: {
+    name: 'moneyback',
+    image: { src: '/img/brand/choose-brand/moneyback.svg' },
   },
 };
 const departmentsConfig = {

@@ -15,13 +15,13 @@ export default compose(
   withNotifications,
   graphql(managementOperatorsQuery, {
     name: 'operators',
-    options: ({ location: { query } }) => ({
+    options: ({ location: { state } }) => ({
       variables: {
-        ...query && query.filters,
+        ...state?.filters,
         page: {
           from: 0,
           size: 20,
-          ...query && query.sorts ? { sorts: query.sorts } : { sorts: [] },
+          ...{ sorts: state?.sorts || [] },
         },
       },
       fetchPolicy: 'network-only',

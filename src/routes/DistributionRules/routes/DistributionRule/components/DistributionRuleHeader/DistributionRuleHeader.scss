@@ -1,0 +1,16 @@
+.DistributionRuleHeader {
+  display: block;
+
+  &__headline {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__button {
+    margin-left: 10px;
+  }
+}

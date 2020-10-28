@@ -40,7 +40,7 @@ class OperatorProfile extends Component {
       }).isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
-    data: PropTypes.operatorProfile.isRequired,
+    data: PropTypes.operator.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,

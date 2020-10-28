@@ -52,7 +52,7 @@ class PaymentsList extends PureComponent {
 
     return (
       <div className="card">
-        <div className="card-heading">
+        <div className="card-heading card-heading--is-sticky">
           <Placeholder
             ready={!paymentsLoading}
             customPlaceholder={(
@@ -87,6 +87,7 @@ class PaymentsList extends PureComponent {
           payments={payments}
           paymentsQuery={paymentsQuery}
           handleRefresh={this.handleRefresh}
+          headerStickyFromTop={126}
         />
       </div>
     );

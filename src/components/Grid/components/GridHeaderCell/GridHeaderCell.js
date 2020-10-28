@@ -18,11 +18,13 @@ class GridHeaderCell extends PureComponent {
     onHandleSort: PropTypes.func.isRequired,
     sortingName: PropTypes.string,
     sortingDirection: PropTypes.string,
+    stickyFromTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   static defaultProps = {
     sortingName: '',
     sortingDirection: '',
+    stickyFromTop: null,
   };
 
   renderHeaderCellContent = () => {
@@ -73,12 +75,20 @@ class GridHeaderCell extends PureComponent {
       withMultiSelect,
       touchedRowsIds,
       allRowsSelected,
+      stickyFromTop,
     } = this.props;
 
     return (
       <Choose>
         <When condition={withMultiSelect && gridData.length && columnIndex === 0}>
-          <th className="GridHeaderCell GridHeaderCell--with-multiselect">
+          <th
+            className={
+              classNames('GridHeaderCell GridHeaderCell--with-multiselect', {
+                'GridHeaderCell--is-sticky': stickyFromTop,
+              })
+            }
+            style={{ top: stickyFromTop }}
+          >
             <GridCheckbox
               isActive={allRowsSelected}
               withoutCheckIcon={allRowsSelected && touchedRowsIds.length > 0}
@@ -88,7 +98,14 @@ class GridHeaderCell extends PureComponent {
           </th>
         </When>
         <Otherwise>
-          <th className="GridHeaderCell">
+          <th
+            className={
+              classNames('GridHeaderCell GridHeaderCell--with-multiselect', {
+                'GridHeaderCell--is-sticky': stickyFromTop,
+              })
+            }
+            style={{ top: stickyFromTop }}
+          >
             {this.renderHeaderCellContent()}
           </th>
         </Otherwise>

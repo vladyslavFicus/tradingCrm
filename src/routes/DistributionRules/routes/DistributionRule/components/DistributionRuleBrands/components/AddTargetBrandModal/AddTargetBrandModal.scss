@@ -1,0 +1,47 @@
+.AddTargetBrandModal {
+  &__message {
+    margin: -20px 0 20px;
+    font-size: 14px;
+    color: #2196f3;
+  }
+
+  &__message-spinner {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    color: transparent;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: '...';
+      color: #2196f3;
+      animation: spinner steps(3) 1.5s infinite;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: flex-start;
+
+    .select-block__label {
+      display: flex;
+      align-items: center;
+      height: 40px;
+    }
+  }
+
+  &__field {
+    &--quantity {
+      flex: 1;
+    }
+  }
+}
+
+@keyframes spinner {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}

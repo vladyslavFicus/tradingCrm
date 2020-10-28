@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -16,7 +17,8 @@ class Select extends PureComponent {
     onChange: PropTypes.func,
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     multiple: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object]),
+    multipleLabel: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array, PropTypes.object, PropTypes.bool]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
     name: PropTypes.string,
@@ -25,6 +27,7 @@ class Select extends PureComponent {
     disabled: PropTypes.bool,
     customClassName: PropTypes.string,
     id: PropTypes.string,
+    isFocused: PropTypes.bool,
     withArrowDown: PropTypes.bool,
     customArrowComponent: PropTypes.object,
   };
@@ -35,6 +38,7 @@ class Select extends PureComponent {
     showSearch: null,
     placeholder: 'Any',
     multiple: false,
+    multipleLabel: false,
     value: null,
     searchPlaceholder: null,
     optionsHeader: null,
@@ -44,6 +48,7 @@ class Select extends PureComponent {
     id: null,
     withArrowDown: true,
     customArrowComponent: null,
+    isFocused: false,
   };
 
   mounted = false;
@@ -305,6 +310,30 @@ class Select extends PureComponent {
     throw new Error('Incorrect field value');
   };
 
+  handleMultiInputOptionDeleteClick = option => (e) => {
+    const {
+      originalOptions,
+      originalSelectedOptions,
+      toSelectOptions,
+    } = this.state;
+
+    e.stopPropagation();
+
+    const mergedOptions = [...originalSelectedOptions, ...toSelectOptions];
+
+    const newSelectedOptions = mergedOptions.filter(o => o.value !== option.value);
+    const newOptions = originalOptions.filter(o => !newSelectedOptions.includes(o));
+
+    this.updateState({
+      options: newOptions,
+      selectedOptions: newSelectedOptions,
+      originalSelectedOptions: newSelectedOptions,
+      toSelectOptions: [],
+    }, () => {
+      this.props.onChange(newSelectedOptions.map(o => o.value));
+    });
+  };
+
   filterOptions = options => (Array.isArray(options)
     ? options
       .filter(option => option.type === 'option')
@@ -347,6 +376,7 @@ class Select extends PureComponent {
     const { originalSelectedOptions, toSelectOptions } = this.state;
     const {
       multiple,
+      multipleLabel,
       placeholder: inputPlaceholder,
       singleOptionComponent,
       withArrowDown,
@@ -354,14 +384,36 @@ class Select extends PureComponent {
     } = this.props;
 
     let placeholder = inputPlaceholder;
+    let isMultipleLabel = false;
 
     if (multiple) {
       const mergedOptions = [...originalSelectedOptions, ...toSelectOptions];
 
       if (mergedOptions.length) {
-        placeholder = mergedOptions.length === 1
-          ? mergedOptions[0].label
-          : `${mergedOptions.length} ${I18n.t('common.select.options_selected')}`;
+        if (multipleLabel) {
+          isMultipleLabel = true;
+
+          placeholder = (
+            <div className="select-block__placeholder-options">
+              {mergedOptions.slice(0, 3).map(option => (
+                <div key={option.value} className="select-block__placeholder-option">
+                  {option.label}
+                  <i
+                    className="icon icon-times select-block__placeholder-option-delete"
+                    onClick={this.handleMultiInputOptionDeleteClick(option)}
+                  />
+                </div>
+              ))}
+              {mergedOptions.length > 3 && I18n.t('common.select.label_more', {
+                value: mergedOptions.length - 3,
+              })}
+            </div>
+          );
+        } else {
+          placeholder = mergedOptions.length === 1
+            ? mergedOptions[0].label
+            : `${mergedOptions.length} ${I18n.t('common.select.options_selected')}`;
+        }
       }
     } else {
       const OptionCustomComponent = singleOptionComponent;
@@ -387,7 +439,12 @@ class Select extends PureComponent {
     }
 
     return (
-      <div className="form-control select-block__label" onClick={this.handleInputClick}>
+      <div
+        className={classNames('form-control', 'select-block__label', {
+          'select-block__label--multipleLabel': isMultipleLabel,
+        })}
+        onClick={this.handleInputClick}
+      >
         <Choose>
           <When condition={customArrowComponent}>
             {customArrowComponent}
@@ -456,6 +513,7 @@ class Select extends PureComponent {
       originalSelectedOptions,
       toSelectOptions,
     } = this.state;
+
     const {
       multiple,
       searchPlaceholder,
@@ -463,6 +521,7 @@ class Select extends PureComponent {
       singleOptionComponent,
       disabled,
       customClassName,
+      isFocused,
       id,
       name,
     } = this.props;
@@ -473,6 +532,7 @@ class Select extends PureComponent {
       'is-opened': opened,
       'with-option': !!selectedOptions.length > 0,
       'is-disabled': disabled,
+      'is-focused': isFocused,
       [customClassName]: customClassName,
     });
     const selectBlockClassName = classNames('select-block__content', {
@@ -525,4 +585,4 @@ class Select extends PureComponent {
   }
 }
 
-export default onClickOutside(Select);
+export default withRouter(onClickOutside(Select));

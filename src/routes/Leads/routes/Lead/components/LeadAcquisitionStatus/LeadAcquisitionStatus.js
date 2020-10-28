@@ -8,7 +8,7 @@ import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import './LeadAcquisitionStatus.scss';
 
 const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION]);
@@ -31,10 +31,9 @@ class LeadAcquisitionStatus extends PureComponent {
 
     if (changeAcquisitionStatus.check(currentPermissions)) {
       representativeUpdateModal.show({
+        uuid,
         type: 'SALES',
         userType: 'LEAD_CUSTOMER',
-        uuids: [uuid],
-        initialValues: { aquisitionStatus: 'SALES' },
         header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
           type: 'Sales',
         }),

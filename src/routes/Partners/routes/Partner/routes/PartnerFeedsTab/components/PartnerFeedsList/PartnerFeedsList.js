@@ -50,7 +50,7 @@ class PartnerFeedsList extends PureComponent {
           render={(feed, key) => <FeedItem key={key} data={feed} />}
           totalPages={totalPages}
           last={last}
-          showNoResults={!feedsQuery.loading && !content.length}
+          showNoResults={!feedsQuery.loading && !content?.length}
         />
       </div>
     );

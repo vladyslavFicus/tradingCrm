@@ -66,6 +66,7 @@ class TeamsGrid extends PureComponent {
         <Grid
           data={teams}
           isLoading={isLoading}
+          headerStickyFromTop={138}
           withNoResults={!isLoading && teams.length === 0}
         >
           <GridColumn

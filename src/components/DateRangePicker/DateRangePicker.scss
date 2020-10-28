@@ -115,7 +115,7 @@ $iconColorHover: #9b9b9b;
   line-height: normal;
   color: #4a4a4a;
   cursor: pointer;
-  
+
   &__focused {
     background-color: rgba(lightskyblue, .2);
   }
@@ -136,7 +136,7 @@ $iconColorHover: #9b9b9b;
 
 .DateRangePicker_picker {
   top: 50px !important;
-  z-index: 1;
+  z-index: 2;
 }
 
 .DayPicker_weekHeaders {

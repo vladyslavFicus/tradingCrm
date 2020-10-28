@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { withRouter } from 'react-router-dom';
 import { getAvailableLanguages } from 'config';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { filterLabels } from 'constants/user';
+import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -20,8 +22,7 @@ const validate = createValidator({
 
 class RulesFilters extends Component {
   static propTypes = {
-    onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    ...PropTypes.router,
     partners: PropTypes.partnersList,
     operators: PropTypes.operatorsList,
     type: PropTypes.string,
@@ -33,22 +34,28 @@ class RulesFilters extends Component {
     operators: [],
   };
 
-  initialValues = {
-    createdByOrUuid: '',
-    language: '',
-    country: '',
-    operatorUuids: '',
-    affiliateId: '',
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.onSubmit(decodeNullValues(values));
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+
     setSubmitting(false);
-  };
-
-  onHandleReset = (resetForm) => {
-    resetForm(this.initialValues);
-    this.props.onReset();
   };
 
   render() {
@@ -56,36 +63,37 @@ class RulesFilters extends Component {
       partners,
       operators,
       type,
+      location: { state },
     } = this.props;
 
     return (
       <Formik
-        initialValues={this.initialValues}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         validate={validate}
-        onSubmit={this.onHandleSubmit}
+        onSubmit={this.handleSubmit}
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="filter__form filter__form--row">
             <div className="filter__form-inputs">
               <Field
                 name="createdByOrUuid"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('RULES.FILTERS.RULE')}
                 label={I18n.t(filterLabels.searchValue)}
+                placeholder={I18n.t('RULES.FILTERS.RULE')}
+                addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="country"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.country)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
@@ -94,11 +102,12 @@ class RulesFilters extends Component {
               <Field
                 name="language"
                 className={fieldClassNames.MEDIUM}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t(filterLabels.language)}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
@@ -110,11 +119,12 @@ class RulesFilters extends Component {
                 <Field
                   name="affiliateId"
                   className={fieldClassNames.MEDIUM}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   label={I18n.t('RULES.FILTERS.PARTNER')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
-                  searchable
                   withAnyOption
+                  searchable
+                  withFocus
                 >
                   {partners.map(({ uuid, fullName }) => (
                     <option key={uuid} value={uuid}>
@@ -127,10 +137,11 @@ class RulesFilters extends Component {
                 <Field
                   name="operatorUuids"
                   className={fieldClassNames.MEDIUM}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   label={I18n.t('RULES.FILTERS.OPERATOR')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
                   searchable
+                  withFocus
                   multiple
                 >
                   {operators.map(({ uuid, fullName }) => (
@@ -143,21 +154,23 @@ class RulesFilters extends Component {
             </div>
 
             <div className="filter__form-buttons">
-              <button
-                className="btn btn-default filter__form-button"
+              <Button
+                primary
+                className="filter__form-button"
                 disabled={isSubmitting}
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={this.handleReset}
                 type="button"
               >
                 {I18n.t('COMMON.RESET')}
-              </button>
-              <button
-                className="btn btn-primary filter__form-button"
-                disabled={isSubmitting || !dirty}
+              </Button>
+              <Button
+                primary
                 type="submit"
+                className="filter__form-button"
+                disabled={isSubmitting || !dirty}
               >
                 {I18n.t('COMMON.APPLY')}
-              </button>
+              </Button>
             </div>
           </Form>
         )}
@@ -166,4 +179,4 @@ class RulesFilters extends Component {
   }
 }
 
-export default RulesFilters;
+export default withRouter(RulesFilters);

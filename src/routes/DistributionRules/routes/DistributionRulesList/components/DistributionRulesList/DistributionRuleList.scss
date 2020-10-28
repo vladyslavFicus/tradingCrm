@@ -1,0 +1,14 @@
+.DistributionRulesList {
+  &__action {
+    background: transparent;
+    border: none;
+  }
+
+  &__actions-icon {
+    font-size: 20px;
+
+    &:hover {
+      color: #4990e2;
+    }
+  }
+}
