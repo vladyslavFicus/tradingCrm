@@ -86,7 +86,7 @@ class DistributionRulesFilters extends PureComponent {
                 withFocus
               />
               <Field
-                name="salesStatus"
+                name="salesStatuses"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
@@ -94,6 +94,7 @@ class DistributionRulesFilters extends PureComponent {
                 withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
