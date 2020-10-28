@@ -393,11 +393,11 @@ class DistributionRules extends PureComponent {
               render={this.renderStatus}
             />
             <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.FROM_BRAND')}
+              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SOURCE_BRAND')}
               render={this.renderFromBrands}
             />
             <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TO_BRAND')}
+              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TARGET_BRAND')}
               render={this.renderToBrands}
             />
             <GridColumn
@@ -413,7 +413,7 @@ class DistributionRules extends PureComponent {
               render={this.renderCreatedTime}
             />
             <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.EXECUTION_TIME')}
+              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TIME_IN_STATUS')}
               render={this.renderExecutionTime}
             />
             <GridColumn

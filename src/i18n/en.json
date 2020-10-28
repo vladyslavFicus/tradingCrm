@@ -3039,13 +3039,13 @@
       "RULE": "Rule",
       "RULER_ORDER": "Rule Order",
       "RULE_STATUS": "Rule status",
-      "FROM_BRAND": "From Brand",
-      "TO_BRAND": "To Brand",
-      "COUNTRY": "Country",
-      "SALES_STATUS": "Sales Status",
-      "CREATED_TIME": "Created Time",
-      "EXECUTION_TIME": "Execution Time",
-      "LAST_TIME_EXECUTED": "Last Time Executed",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "COUNTRY": "Client Country",
+      "SALES_STATUS": "Client Sales Status",
+      "CREATED_TIME": "Rule Created Time",
+      "TIME_IN_STATUS": "Time in Status",
+      "LAST_TIME_EXECUTED": "Rule Last Time Executed",
       "ACTION": "Action"
     },
     "STATUSES": {
@@ -3060,13 +3060,14 @@
     "FILTERS": {
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "ID, Name",
-      "FROM_BRAND": "From Brand",
-      "TO_BRAND": "To Brand",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "COUNTRY": "Client Country",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
       "CREATED_TIME": "Created Time",
-      "LAST_TIME_EXECUTED": "Last Time Executed",
-      "EXECUTION_TIME": "Execution Time"
+      "LAST_TIME_EXECUTED": "Rule Last Time Executed",
+      "TIME_IN_STATUS": "Time in Status"
     },
     "MIGRATION_MODAL": {
       "TITLE": "Start migration",
