@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { getApiRoot, getApiVersion } from 'config';
+import { getGraphQLUrl, getVersion } from 'config';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -69,14 +69,14 @@ class FileGrid extends PureComponent {
     try {
       const { data: { auth: { tokenRenew: { token } } } } = await tokenRenew();
 
-      const requestUrl = `${getApiRoot()}/attachments/users/${clientUuid}/files/${uuid}`;
+      const requestUrl = `${getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
 
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
           Authorization: token ? `Bearer ${token}` : undefined,
           'Content-Type': 'application/json',
-          'x-client-version': getApiVersion(),
+          'x-client-version': getVersion(),
         },
       });
 

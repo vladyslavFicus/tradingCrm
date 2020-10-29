@@ -5,7 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
@@ -49,7 +49,7 @@ class ReferralsGrid extends PureComponent {
         {Number(currency).toFixed(2)} {amount}
       </div>
       <div className="font-size-11">
-        {`(${getActiveBrandConfig().currencies.base} ${Number(
+        {`(${getBrand().currencies.base} ${Number(
           normalizedAmount,
         ).toFixed(2)})`}
       </div>

@@ -5,7 +5,7 @@ import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
-import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import transformAcquisitionData from './utils';

@@ -22,77 +22,83 @@ const config = _.merge({
     },
   },
   backofficeBrands,
-}, (window.nas || {}));
+});
 
 function getApiRoot() {
   return '/api';
 }
 
-function getApiVersion() {
-  return config.version;
-}
+/**
+ * Get GraphQL API url
+ *
+ * @return {*}
+ */
+const getGraphQLUrl = () => '/api';
 
-function getAvailableLanguages() {
-  return _.get(window, 'app.brand.locales.languages', []);
-}
+/**
+ * Get application version
+ *
+ * @return {*}
+ */
+const getVersion = () => process.env.REACT_APP_VERSION || 'dev';
 
-function getGraphQLRoot() {
-  return config.graphqlRoot;
-}
+/**
+ * Get brand config for chosen brand
+ *
+ * @return {any}
+ */
+const getBrand = () => config.brand;
 
-function getActiveBrandConfig() {
-  return _.get(window, 'app.brand');
-}
+/**
+ * Set current brand by brandId
+ *
+ * @return {object | undefined }
+ */
+const setBrand = (brandId) => {
+  config.brand = { id: brandId };
+};
 
-function getBrand() {
-  return _.get(window, 'app.brand');
-}
+/**
+ * Remove chosen brand config
+ */
+const removeActiveBrand = () => {
+  config.brand = undefined;
+};
 
-function getBrandId() {
-  return _.get(window, 'app.brandId');
-}
+/**
+ * Get payment rejection reasons
+ *
+ * @type {any}
+ */
+const getPaymentReason = () => config.brand?.payment?.reasons;
 
-function getEnvironment() {
-  return _.get(window, 'nas.environment');
-}
+/**
+ * Get available languages for brand
+ *
+ * @return {any}
+ */
+const getAvailableLanguages = () => config.brand?.locales?.languages || [];
 
-function getPaymentReason() {
-  return _.get(window, 'app.brand.payment.reasons');
-}
+/**
+ * Get click to call credentials
+ *
+ * @return {any}
+ */
+const getClickToCall = () => config.brand?.clickToCall;
 
-function getClickToCall() {
-  return _.get(window, 'app.brand.clickToCall');
-}
+/**
+ * Get backoffice brand
+ *
+ * @return {*}
+ */
+const getBackofficeBrand = () => config.backofficeBrand;
 
-function setBrandId(brandId) {
-  window.app.brandId = brandId;
-  window.app.brand = config.brands[brandId];
-}
-
-function removeActiveBrand() {
-  window.app.brand = undefined;
-  window.app.brandId = undefined;
-}
-
-function getVersion() {
-  return config.version;
-}
-
-function getDomain() {
-  if (window && window.location) {
-    const { protocol, hostname, port } = window.location;
-
-    return `${protocol}//${hostname}${port ? `:${port}` : ''}`;
-  }
-
-  return '';
-}
-
-function getBackofficeBrand() {
-  return config.backofficeBrand;
-}
-
-function setBackofficeBrand(brandId) {
+/**
+ * Set backoffice brand
+ *
+ * @param brandId
+ */
+const setBackofficeBrand = (brandId) => {
   config.backofficeBrand = config.backofficeBrands[brandId];
 
   // Set brand id to configuration for future usage
@@ -104,7 +110,7 @@ function setBackofficeBrand(brandId) {
   if (typeof _.get(config.backofficeBrand, 'importStyle') === 'function') {
     config.backofficeBrand.importStyle();
   }
-}
+};
 
 /**
  * Get static files url
@@ -116,17 +122,12 @@ const getStaticFileUrl = (brand, file) => `/cloud-static/${brand}/backoffice/${f
 export {
   getApiRoot,
   getBrand,
-  getBrandId,
-  setBrandId,
+  setBrand,
   getClickToCall,
   removeActiveBrand,
-  getEnvironment,
-  getActiveBrandConfig,
   getAvailableLanguages,
   getVersion,
-  getApiVersion,
-  getDomain,
-  getGraphQLRoot,
+  getGraphQLUrl,
   getPaymentReason,
   getBackofficeBrand,
   setBackofficeBrand,

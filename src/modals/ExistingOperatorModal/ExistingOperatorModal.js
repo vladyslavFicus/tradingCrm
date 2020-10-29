@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
-import { getBrandId } from 'config';
+import { getBrand } from 'config';
 import { parseErrors } from 'apollo';
 
 class ExistingOperatorModal extends Component {
@@ -77,7 +77,7 @@ class ExistingOperatorModal extends Component {
           {I18n.t('OPERATORS.MODALS.EXISTING_OPERATOR.MESSAGE')}
           <span className="font-weight-700">
             &nbsp;
-            {I18n.t('OPERATORS.MODALS.EXISTING_OPERATOR.BRAND', { brand: getBrandId() })}
+            {I18n.t('OPERATORS.MODALS.EXISTING_OPERATOR.BRAND', { brand: getBrand().id })}
           </span>
         </ModalBody>
         <ModalFooter>

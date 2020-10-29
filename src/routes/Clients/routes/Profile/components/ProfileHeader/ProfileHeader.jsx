@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -273,7 +273,7 @@ class ProfileHeader extends Component {
 
     const fullName = [firstName, lastName].filter(i => i).join(' ');
 
-    const baseCurrency = getActiveBrandConfig().currencies.base;
+    const baseCurrency = getBrand().currencies.base;
 
     return (
       <div className="ProfileHeader">

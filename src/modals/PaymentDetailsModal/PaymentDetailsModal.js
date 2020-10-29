@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { tradingTypes, statusMapper } from 'constants/payment';
@@ -89,7 +89,7 @@ class PaymentDetailsModal extends PureComponent {
     const { profile } = this.props;
 
     const { amount, credit } = get(profile, 'data.profile.profileView.balance') || {};
-    const currency = getActiveBrandConfig().currencies.base;
+    const currency = getBrand().currencies.base;
 
     return (
       <div className="PaymentDetailsModal__block PaymentDetailsModal__one-third">

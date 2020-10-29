@@ -86,14 +86,14 @@ class DistributionRulesFilters extends PureComponent {
                 withFocus
               />
               <Field
-                name="salesStatus"
+                name="salesStatuses"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
@@ -134,14 +134,14 @@ class DistributionRulesFilters extends PureComponent {
                 withFocus
               />
               <Field
-                name="executionPeriodInHours"
+                name="executionPeriodsInHours"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.EXECUTION_TIME')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>

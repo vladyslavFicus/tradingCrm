@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { warningLabels } from 'constants/warnings';
@@ -177,7 +177,7 @@ class ClientsGrid extends PureComponent {
   );
 
   renderBalanceColumn = ({ balance }) => {
-    const currency = getActiveBrandConfig().currencies.base;
+    const currency = getBrand().currencies.base;
     const amount = balance?.amount || 0;
 
     return (

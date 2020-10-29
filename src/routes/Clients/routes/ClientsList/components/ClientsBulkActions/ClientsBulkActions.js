@@ -12,7 +12,7 @@ import { withStorage } from 'providers/StorageProvider';
 import UpdateAcquisitionStatusModal from 'modals/UpdateAcquisitionStatusModal';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
-import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import './ClientsBulkActions.scss';
 
 class ClientsBulkActions extends PureComponent {

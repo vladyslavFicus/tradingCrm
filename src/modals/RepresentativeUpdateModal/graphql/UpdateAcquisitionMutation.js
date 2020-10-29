@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation UpdateAcquisition(
+  mutation RepresentativeUpdateModal_UpdateAcquisition(
     $uuid: String!
     $parentOperator: String
     $salesStatus: String
@@ -21,12 +21,12 @@ const MUTATION = gql`
   }
 `;
 
-const UpdateAcquisition = ({ children }) => (
+const UpdateAcquisitionMutations = ({ children }) => (
   <Mutation mutation={MUTATION}>{children}</Mutation>
 );
 
-UpdateAcquisition.propTypes = {
+UpdateAcquisitionMutations.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UpdateAcquisition;
+export default UpdateAcquisitionMutations;
