@@ -122,7 +122,7 @@ class AddSourceBrandModal extends PureComponent {
         >
           {({ values, setFieldValue }) => (
             <Form>
-              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}</ModalHeader>
+              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.SOURCE_BRAND')}</ModalHeader>
               <ModalBody>
                 <Field
                   name="brand"

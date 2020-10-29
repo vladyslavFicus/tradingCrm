@@ -3055,7 +3055,7 @@
     },
     "EXECUTION_TYPE": {
       "MANUAL": "Manual",
-      "AUTO": "Auto"
+      "AUTO": "Daily (auto)"
     },
     "FILTERS": {
       "SEARCH_BY": "Search by",
@@ -3109,12 +3109,12 @@
       },
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
-        "SALES_STATUS": "Sales Status",
-        "MIGRATION_STATUS": "Migration status",
+        "SALES_STATUS": "Current Sales Status",
+        "MIGRATION_STATUS": "Migration Sales status",
         "COUNTRY": "Country",
-        "EXECUTION_TIME":"Execution Time",
+        "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
-        "EXECUTION_TYPE": "Execution type"
+        "EXECUTION_TYPE": "Rule Execution Type"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
@@ -3136,8 +3136,8 @@
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
-      "FROM_BRAND": "From Brand",
-      "TO_BRAND": "To Brand",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
       "BRAND": {
         "SORT": "Sort",
         "OPERATOR": "Operator",

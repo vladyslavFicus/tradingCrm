@@ -169,7 +169,7 @@ class AddTargetBrandModal extends PureComponent {
         >
           {({ values, setFieldValue }) => (
             <Form>
-              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}</ModalHeader>
+              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}</ModalHeader>
               <ModalBody>
                 <Field
                   name="brand"

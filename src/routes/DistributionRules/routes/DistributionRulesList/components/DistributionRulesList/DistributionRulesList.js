@@ -26,6 +26,8 @@ import {
   DistributionRuleMigrationMutation,
   DistributionRuleClientsAmountQuery,
 } from '../graphql';
+import { ReactComponent as PlayIcon } from './play-icon.svg';
+import { ReactComponent as TimeIcon } from './time-icon.svg';
 import './DistributionRuleList.scss';
 
 class DistributionRules extends PureComponent {
@@ -177,10 +179,10 @@ class DistributionRules extends PureComponent {
             <i className="font-size-20 icon-pause" />
           </When>
           <When condition={executionType === 'AUTO'}>
-            <i className="font-size-20 icon-auto" />
+            <TimeIcon />
           </When>
           <Otherwise>
-            <i className="DistributionRulesList__actions-icon icon-play" />
+            <PlayIcon className="DistributionRulesList__actions-icon" />
           </Otherwise>
         </Choose>
       </Button>
@@ -198,7 +200,7 @@ class DistributionRules extends PureComponent {
     </Choose>
   );
 
-  renderStatus = ({ status, statusChangedAt }) => (
+  renderStatus = ({ status, statusChangedAt, executionType }) => (
     <>
       <div className={classNames('text-uppercase font-weight-700', clientDistributionStatuses[status].color)}>
         {I18n.t(clientDistributionStatuses[status].label)}
@@ -207,6 +209,12 @@ class DistributionRules extends PureComponent {
       <If condition={statusChangedAt}>
         <div className="font-size-11">
           {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY HH:mm:ss') })}
+        </div>
+      </If>
+
+      <If condition={executionType}>
+        <div className="font-size-11">
+          {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
         </div>
       </If>
     </>
@@ -282,7 +290,7 @@ class DistributionRules extends PureComponent {
     </>
   );
 
-  renderExecutionTime = ({ executionType, executionPeriodInHours }) => {
+  renderExecutionTime = ({ executionPeriodInHours }) => {
     const { time, type } = executionPeriodInHours >= 24
       ? {
         time: Math.floor(executionPeriodInHours / 24),
@@ -298,9 +306,6 @@ class DistributionRules extends PureComponent {
         <When condition={executionPeriodInHours}>
           <div className="font-weight-700">
             {`${time} ${I18n.t(`COMMON.${type}`)}`}
-          </div>
-          <div className="font-size-11">
-            {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
           </div>
         </When>
         <Otherwise>
