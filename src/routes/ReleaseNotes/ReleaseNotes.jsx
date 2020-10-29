@@ -9,6 +9,28 @@ const ReleaseNotes = () => (
 
     <hr/>
 
+    <h2>15/October/20 - Version 48</h2>
+    <h2>What has been done</h2>
+    <ul>
+      <li>
+        <p>Added "Email send" record to Feeds tab on Client&rsquo;s profile page</p>
+      </li>
+      <li>
+        <p>Increased size of &ldquo;Add Note&rdquo; created area</p>
+      </li>
+      <li>
+        <p>Added Polish language to Client Portal</p>
+      </li>
+      <li>
+        <p>Implemented sorting for &ldquo;Country&rdquo; and &ldquo;Registration&ldquo; columns on Leads page</p>
+      </li>
+    </ul>
+    <h2>Bugs and Fixes</h2>
+    <ul>
+      <li>
+        <p>Fixed translation error on the client portal for the Italian language</p>
+      </li>
+    </ul>
     <h2>1/October/20 - Version 47</h2>
     <h2>What has been done</h2>
     <ul>
