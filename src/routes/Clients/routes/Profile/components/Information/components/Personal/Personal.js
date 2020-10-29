@@ -4,7 +4,6 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
 import { withNotifications, withModals } from 'hoc';
-import Regulated from 'components/Regulated';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -18,7 +17,6 @@ import {
   // uncomment when email history will be rdy
   // PersonalInformationSentEmails
 } from 'components/Information';
-import NotificationDetailsItem from 'components/Information/NotificationDetailsItem';
 // uncomment when email history will be rdy
 // import EmailPreviewModal from 'components/EmailPreviewModal';
 import PropTypes from 'constants/propTypes';
@@ -130,9 +128,6 @@ class Personal extends PureComponent {
         configuration: {
           crs,
           fatca,
-          gdpr,
-          webCookies,
-          subscription,
         },
         kyc: {
           status,
@@ -284,55 +279,6 @@ class Personal extends PureComponent {
                   onClickValue={this.handleReferrerClick}
                 />
               </If>
-              <Regulated>
-                <div className="account-details__label margin-top-15">
-                  {I18n.t('CLIENT_PROFILE.DETAILS.GDPR.TITLE')}
-                </div>
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SMS')}
-                  value={gdpr.sms}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.EMAIL')}
-                  value={gdpr.email}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.PHONE')}
-                  value={gdpr.phone}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.GDPR.SOCIAL_MEDIA')}
-                  value={gdpr.socialMedia}
-                />
-                <div className="account-details__label margin-top-15">
-                  {I18n.t('CLIENT_PROFILE.DETAILS.SPAM.TITLE')}
-                </div>
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.MARKET_NEWS')}
-                  value={subscription.marketNews}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.INFORMATION')}
-                  value={subscription.information}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.EDUCATIONAL')}
-                  value={subscription.educational}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.PROMOS_OFFERS')}
-                  value={subscription.promosAndOffers}
-                />
-                <NotificationDetailsItem
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.SPAM.STATISTICS_SUMMARY')}
-                  value={subscription.statisticsAndSummary}
-                />
-                <NotificationDetailsItem
-                  className="margin-top-15"
-                  label={I18n.t('CLIENT_PROFILE.DETAILS.WEB_COOKIES.TITLE')}
-                  value={webCookies.enabled}
-                />
-              </Regulated>
             </If>
           </div>
         </div>

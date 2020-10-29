@@ -23,9 +23,9 @@ class Logout extends PureComponent {
     } catch (e) {
       // Do nothing if token was invalid or something else...
     } finally {
-      storage.remove('brands');
-      storage.remove('brand');
       storage.remove('token');
+      storage.remove('brand');
+      storage.remove('brands');
       storage.remove('auth');
       client.resetStore();
     }

@@ -3,7 +3,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import classNames from 'classnames';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import renderLabel from 'utils/renderLabel';
 import NoteIcon from 'components/NoteIcon';
@@ -53,7 +53,7 @@ const PlayerMiniProfile = ({ miniProfile }) => {
     },
   } = data;
 
-  const currency = getActiveBrandConfig().currencies.base;
+  const currency = getBrand().currencies.base;
   const lastLogin = (lastSignInSessions && lastSignInSessions.length)
     ? lastSignInSessions[lastSignInSessions.length - 1].startedAt
     : null;

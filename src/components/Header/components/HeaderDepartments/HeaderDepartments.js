@@ -6,7 +6,6 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
-import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 import formatLabel from 'utils/formatLabel';
 import HeaderDepartmentsMutation from './graphql/HeaderDepartmentsMutation';
 import './HeaderDepartments.scss';
@@ -45,9 +44,6 @@ class HeaderDepartments extends Component {
 
       storage.set('token', token);
       storage.set('auth', { department, role, uuid });
-
-      // This function need to refresh window.app object to get new data from token
-      setBrandIdByUserToken();
     } catch (e) {
       // Do nothing...
     }
