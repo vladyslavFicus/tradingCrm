@@ -3111,7 +3111,7 @@
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
         "SALES_STATUS": "Current Sales Status",
-        "MIGRATION_STATUS": "Migration Sales status",
+        "MIGRATION_STATUS": "Migration Sales Status",
         "COUNTRY": "Country",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
