@@ -117,7 +117,7 @@ const setBackofficeBrand = (brandId) => {
  *
  * @return {string}
  */
-const getStaticFileUrl = (brand, file) => `/cloud-static/${brand}/backoffice/${file}`;
+const getStaticFileUrl = (brand, file) => `/cloud-static/brands/${brand}/backoffice/${file}`;
 
 export {
   getApiRoot,
