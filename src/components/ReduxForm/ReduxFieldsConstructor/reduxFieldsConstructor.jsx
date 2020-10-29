@@ -31,8 +31,10 @@ const reduxFieldsConstructor = (
       onIconClick,
       normalize,
       step,
+      maxLength,
       // select props
       multiple,
+      multipleLabel,
       searchable,
       withAnyOption,
       selectOptions,
@@ -75,6 +77,7 @@ const reduxFieldsConstructor = (
               {...inputAddon && { inputAddon }}
               {...onIconClick && { onIconClick }}
               {...normalize && { normalize }}
+              {...maxLength && { maxLength }}
             />
           );
 
@@ -87,6 +90,7 @@ const reduxFieldsConstructor = (
               {...commonProps}
               component={components.SELECT}
               multiple={multiple}
+              multipleLabel={multipleLabel}
               {...customOnChange && { onFieldChange: onSelectFieldChange(name) }}
               {...(searchable === false) && { searchable }}
               {...(withAnyOption === false)

@@ -1,0 +1,26 @@
+.Notifications {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-clip: border-box;
+  background-color: #fff;
+  word-wrap: break-word;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 48px;
+    padding: 25px;
+    background-color: #fff;
+    border-bottom: 1px solid #dfe4ed;
+    z-index: 3;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+}

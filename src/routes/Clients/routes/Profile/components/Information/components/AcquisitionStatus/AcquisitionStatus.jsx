@@ -1,24 +1,22 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
-import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 import transformAcquisitionData from './utils';
 import './AcquisitionStatus.scss';
 
-const changeAcquisitionStatus = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS]);
+const changeAcquisition = new Permissions([permissions.USER_PROFILE.CHANGE_ACQUISITION]);
 
 class AcquisitionStatus extends PureComponent {
   static propTypes = {
-    profile: PropTypes.object,
-    acquisitionData: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
+    profile: PropTypes.profile.isRequired,
+    profileLoading: PropTypes.bool.isRequired,
     auth: PropTypes.shape({
       department: PropTypes.string.isRequired,
     }).isRequired,
@@ -30,34 +28,28 @@ class AcquisitionStatus extends PureComponent {
     }).isRequired,
   };
 
-  static defaultProps = {
-    profile: null,
-  };
-
-  handleChangeAcquisitionStatusClick = (type) => {
+  handleChangeAcquisitionClick = (type) => {
     const {
       modals: { representativeUpdateModal },
-      profile: { uuid, acquisition },
+      profile: { uuid },
     } = this.props;
 
-    const assignToOperator = get(acquisition, `${type.toLowerCase()}Representative`) || null;
-
     representativeUpdateModal.show({
+      uuid,
       type,
-      clients: [{ uuid }],
-      currentInactiveOperator: assignToOperator,
       header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: type.toLowerCase() }),
-      isAvailableToMove: true,
     });
   };
 
   render() {
     const {
-      loading,
-      acquisitionData,
+      profile,
+      profileLoading,
       auth: { department },
       permission: { permissions: currentPermissions },
     } = this.props;
+
+    const acquisition = profile.acquisition || {};
 
     return (
       <div className="account-details__personal-info">
@@ -66,8 +58,8 @@ class AcquisitionStatus extends PureComponent {
         </span>
         <div className="card">
           <div className="card-body acquisition-status">
-            <If condition={!loading}>
-              {transformAcquisitionData(acquisitionData, department)
+            <If condition={!profileLoading}>
+              {transformAcquisitionData(acquisition, department)
                 .map(({
                   label, statusLabel, statusColor, borderColor, repName, modalType, allowAction, desk, team,
                 }) => (
@@ -75,8 +67,8 @@ class AcquisitionStatus extends PureComponent {
                     key={label}
                     className={`acquisition-item border-${borderColor || 'color-neutral'}`}
                     onClick={
-                      changeAcquisitionStatus.check(currentPermissions) && allowAction
-                        ? () => this.handleChangeAcquisitionStatusClick(modalType)
+                      changeAcquisition.check(currentPermissions) && allowAction
+                        ? () => this.handleChangeAcquisitionClick(modalType)
                         : null
                     }
                   >

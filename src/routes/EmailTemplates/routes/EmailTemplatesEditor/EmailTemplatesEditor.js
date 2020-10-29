@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Link } from 'react-router-dom';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import Placeholder from 'components/Placeholder';
@@ -9,6 +8,7 @@ import { Button } from 'reactstrap';
 import { withRequests } from 'apollo';
 import { Field, Form, Formik } from 'formik';
 import { withNotifications } from 'hoc';
+import { Link } from 'components/Link';
 import { FormikInputField, FormikTextEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
 import EmailTemplateUpdateMutation from './graphql/EmailTemplateUpdateMutation';
@@ -108,7 +108,7 @@ class EmailTemplatesEditor extends PureComponent {
             }}
             enableReinitialize
             validate={validator}
-            onSubmit={values => this.editTemplate(values)}
+            onSubmit={this.editTemplate}
             validateOnChange={false}
             validateOnBlur={false}
           >

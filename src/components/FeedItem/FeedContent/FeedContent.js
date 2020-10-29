@@ -16,7 +16,10 @@ class FeedContent extends PureComponent {
       acc.push(
         <div key={uuidv4()}>
           <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
-          <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
+          <span
+            className="FeedContent__value-to"
+            dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, detailValue) }}
+          />
         </div>,
       );
     });
@@ -29,7 +32,10 @@ class FeedContent extends PureComponent {
       acc.push(
         <div key={uuidv4()}>
           <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
-          <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
+          <span
+            className="FeedContent__value-to"
+            dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, detailValue) }}
+          />
           <span className="FeedContent__arrow">&#8594;</span>
           <span className="FeedContent__value-to">&laquo; &raquo;</span>
         </div>,
@@ -72,7 +78,10 @@ class FeedContent extends PureComponent {
             acc.push(
               <div key={uuidv4()}>
                 <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
-                <span className="FeedContent__value-to">{prepareValue(detailKey, value)}</span>
+                <span
+                  className="FeedContent__value-to"
+                  dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, value) }}
+                />
               </div>,
             );
 
@@ -83,9 +92,14 @@ class FeedContent extends PureComponent {
             acc.push(
               <div key={uuidv4()}>
                 <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
-                <span className="FeedContent__value-from">{prepareValue(detailKey, from)}</span>
+                <If condition={from}>
+                  <span className="FeedContent__value-from">{prepareValue(detailKey, from)}</span>
+                </If>
                 <span className="FeedContent__arrow">&#8594;</span>
-                <span className="FeedContent__value-to">{prepareValue(detailKey, to)}</span>
+                <span
+                  className="FeedContent__value-to"
+                  dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, to) }}
+                />
               </div>,
             );
 
@@ -127,7 +141,10 @@ class FeedContent extends PureComponent {
         acc.push(
           <div key={uuidv4()}>
             <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
-            <span className="FeedContent__value-to">{prepareValue(detailKey, detailValue)}</span>
+            <span
+              className="FeedContent__value-to"
+              dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, detailValue) }}
+            />
           </div>,
         );
       }
@@ -141,7 +158,10 @@ class FeedContent extends PureComponent {
       <div key={uuidv4()}>
         <span className="FeedContent__value-from">{prepareValue(undefined, from)}</span>
         <span className="FeedContent__arrow">&#8594;</span>
-        <span className="FeedContent__value-to">{prepareValue(undefined, to)}</span>
+        <span
+          className="FeedContent__value-to"
+          dangerouslySetInnerHTML={{ __html: prepareValue(undefined, to) }}
+        />
       </div>,
     );
   };

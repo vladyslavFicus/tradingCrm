@@ -1,17 +1,17 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withModals, withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import { Button } from 'components/UI';
 import { accountTypesLabels, leverageStatusesColor } from 'constants/accountTypes';
 import Grid, { GridColumn } from 'components/Grid';
@@ -277,7 +277,7 @@ class TradingAccountsGrid extends PureComponent {
     },
   ) => {
     const { modals: { tradingAccountChangePasswordModal, changeLeverageModal } } = this.props;
-    const brand = getActiveBrandConfig();
+    const brand = getBrand();
 
     const dropDownActions = [
       {
@@ -286,7 +286,7 @@ class TradingAccountsGrid extends PureComponent {
       },
     ];
 
-    if (brand[`leveragesChangingRequest${platformType}`].length) {
+    if (brand[platformType.toLowerCase()].leveragesChangingRequest.length) {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         onClick: () => changeLeverageModal.show({
@@ -332,6 +332,7 @@ class TradingAccountsGrid extends PureComponent {
         <Grid
           isLoading={isLoading}
           data={tradingAccounts}
+          headerStickyFromTop={189}
           withRowsHover
           withNoResults={!isLoading && tradingAccounts.length === 0}
         >

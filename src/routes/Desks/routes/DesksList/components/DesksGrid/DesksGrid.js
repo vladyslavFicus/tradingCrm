@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import './DesksGrid.scss';
@@ -12,10 +12,10 @@ class DesksGrid extends PureComponent {
     desksData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderDeskCell = ({ name, uuid, deskType }) => (
+  renderDeskCell = ({ name, uuid }) => (
     <Fragment>
       <div className="DesksGrid__cell-primary">
-        <Link to={`/desks/${uuid}/rules/${deskType.toLowerCase()}-rules`}>{name}</Link>
+        <Link to={`/desks/${uuid}`}>{name}</Link>
       </div>
       <div className="DesksGrid__cell-secondary">
         <Uuid uuid={uuid} uuidPrefix="DE" />
@@ -54,6 +54,7 @@ class DesksGrid extends PureComponent {
         <Grid
           data={desks}
           isLoading={isLoading}
+          headerStickyFromTop={138}
         >
           <GridColumn
             header={I18n.t('DESKS.GRID_HEADER.DESK')}

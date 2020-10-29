@@ -15,13 +15,25 @@ class OfficesGridFilter extends PureComponent {
     ...PropTypes.router,
   };
 
-  handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
   };
 
   handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
@@ -30,11 +42,13 @@ class OfficesGridFilter extends PureComponent {
   };
 
   render() {
+    const { location: { state } } = this.props;
+
     return (
       <Formik
-        initialValues={{}}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
       >
         {({
           isSubmitting,
@@ -50,6 +64,7 @@ class OfficesGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.NAME')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="country"
@@ -59,6 +74,7 @@ class OfficesGridFilter extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
                 searchable
+                withFocus
               >
                 {Object.entries(countryList).map(([key, value]) => (
                   <option key={key} value={key}>
@@ -71,9 +87,9 @@ class OfficesGridFilter extends PureComponent {
             <div className="OfficesGridFilter__buttons">
               <Button
                 className="OfficesGridFilter__button"
-                onClick={resetForm}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

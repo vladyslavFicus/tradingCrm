@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
@@ -8,6 +7,7 @@ import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import AddBranchManagerModal from 'modals/AddBranchManagerModal';
+import { Link } from 'components/Link';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import PermissionContent from 'components/PermissionContent';
 import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';

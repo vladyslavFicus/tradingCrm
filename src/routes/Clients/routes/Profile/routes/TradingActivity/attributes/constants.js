@@ -5,9 +5,6 @@ export const tradeStatusesColor = {
 };
 
 export const types = [{
-  value: 'OP_BALANCE',
-  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.BALANCE',
-}, {
   value: 'OP_BUY',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.BUY',
 }, {

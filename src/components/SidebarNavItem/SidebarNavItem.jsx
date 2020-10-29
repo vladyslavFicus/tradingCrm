@@ -3,8 +3,9 @@ import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import TimelineLite from 'gsap/TimelineLite';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
+import { NavLink } from 'components/Link';
 import SubNav from '../SubNav';
 import './SidebarNavItem.scss';
 

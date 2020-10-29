@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import ApolloProvider from 'apollo/ApolloProvider';
 import StorageProvider from 'providers/StorageProvider';
-import LocalStorageListener from 'providers/LocalStorageListener';
+import Root from './Root';
 
 class App extends PureComponent {
   static propTypes = {
@@ -20,7 +20,7 @@ class App extends PureComponent {
           <BrowserRouter>
             <StorageProvider>
               <ApolloProvider>
-                <LocalStorageListener />
+                <Root />
               </ApolloProvider>
             </StorageProvider>
           </BrowserRouter>

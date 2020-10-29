@@ -1,0 +1,12 @@
+.DistributionRulesList {
+  &__action {
+    background: transparent;
+    border: none;
+  }
+
+  &__actions-icon {
+    &:hover {
+      fill: #4990e2;
+    }
+  }
+}

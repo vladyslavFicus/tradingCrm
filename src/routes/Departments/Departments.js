@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
-import { withRouter, Link, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { getBackofficeBrand } from 'config';
+import { Link } from 'components/Link';
 import Greeting from 'components/Greeting';
 import BrandItem from 'components/BrandItem';
 import DepartmentItem from 'components/DepartmentItem';
 import Copyrights from 'components/Copyrights';
-import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
 import './Departments.scss';
 
@@ -37,9 +37,6 @@ class Departments extends PureComponent {
 
       storage.set('token', token);
       storage.set('auth', { department, role, uuid });
-
-      // The function need to refresh window.app object to get new data from token
-      setBrandIdByUserToken();
 
       history.push('/dashboard');
     } catch (e) {

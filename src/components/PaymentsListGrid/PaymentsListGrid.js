@@ -5,14 +5,13 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { get, set, cloneDeep } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import {
   aggregatorsLabels,
   tradingTypesLabelsWithColor,
 } from 'constants/payment';
-import { warningLabels } from 'constants/warnings';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
@@ -22,7 +21,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
 import formatLabel from 'utils/formatLabel';
-import renderLabel from 'utils/renderLabel';
+import './PaymentsListGrid.scss';
 
 class PaymentsListGrid extends PureComponent {
   static propTypes = {
@@ -38,11 +37,13 @@ class PaymentsListGrid extends PureComponent {
     handleRefresh: PropTypes.func.isRequired,
     clientView: PropTypes.bool,
     withLazyLoad: PropTypes.bool,
+    headerStickyFromTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
     clientView: false,
     withLazyLoad: true,
+    headerStickyFromTop: null,
   };
 
   handlePageChanged = () => {
@@ -84,17 +85,19 @@ class PaymentsListGrid extends PureComponent {
       handleRefresh,
       paymentsQuery,
       withLazyLoad,
+      headerStickyFromTop,
     } = this.props;
 
     const { content, last } = get(paymentsQuery, 'data.payments') || { content: [] };
     const isLoading = paymentsQuery.loading;
 
     return (
-      <div className="card card-body">
+      <div className="PaymentsListGrid card">
         <Grid
           data={content || []}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={withLazyLoad}
@@ -158,15 +161,28 @@ class PaymentsListGrid extends PureComponent {
             />
           </If>
           <GridColumn
-            header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.WARNING')}
-            render={({ warnings }) => (
-              <If condition={warnings}>
-                {warnings.map(warning => (
-                  <div key={warning}>
-                    {I18n.t(renderLabel(warning, warningLabels))}
+            header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AFFILIATE')}
+            render={({ partner, playerProfile: { affiliateUuid } }) => (
+              <Choose>
+                <When condition={partner}>
+                  <div>
+                    <a
+                      className="header-block-middle"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`/partners/${affiliateUuid}/profile`}
+                    >
+                      {partner.fullName}
+                    </a>
                   </div>
-                ))}
-              </If>
+                  <div className="font-size-11">
+                    <Uuid uuid={affiliateUuid} />
+                  </div>
+                </When>
+                <Otherwise>
+                  <div>&mdash;</div>
+                </Otherwise>
+              </Choose>
             )}
           />
           <GridColumn
@@ -236,7 +252,7 @@ class PaymentsListGrid extends PureComponent {
                   {currency} {Number(amount).toFixed(2)}
                 </div>
                 <div className="font-size-11">
-                  {`(${getActiveBrandConfig().currencies.base} ${Number(
+                  {`(${getBrand().currencies.base} ${Number(
                     normalizedAmount,
                   ).toFixed(2)})`}
                 </div>

@@ -5,15 +5,15 @@ $input-height: 40px;
 .input {
   margin-bottom: 20px;
 
-  &__body {
-    margin: 0 auto;
-    width: 100%;
-  }
-
   &__label {
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 5px;
+  }
+
+  &__body {
+    position: relative;
+    display: flex;
   }
 
   &__control {
@@ -94,6 +94,17 @@ $input-height: 40px;
     &:hover {
       color: #9b9b9b;
     }
+
+    &--right {
+      position: static;
+      width: auto;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      padding: 0 8px;
+      margin-left: 10px;
+      user-select: none;
+    }
   }
 }
 
@@ -143,6 +154,17 @@ $input-height: 40px;
         .input__icon {
           border-color: #edeff5;
         }
+      }
+    }
+  }
+
+  &--is-focused {
+    .input__control {
+      border-color: #4990e2;
+
+      & + .input__addition {
+        border-color: #4990e2;
+        color: #aaa;
       }
     }
   }

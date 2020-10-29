@@ -13,9 +13,11 @@ import {
   FormikSelectField,
   FormikDateRangeGroup,
 } from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
 import { Button } from 'components/UI';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import {
   types,
   symbols,
@@ -40,12 +42,7 @@ class TradingActivityGridFilter extends PureComponent {
   handleApplyFilters = (values, { setSubmitting }) => {
     this.props.history.replace({
       query: {
-        filters: {
-          ...values,
-          ...values.tradeId && { tradeId: Number(values.tradeId) },
-          ...values.volumeFrom && { volumeFrom: Number(values.volumeFrom) },
-          ...values.volumeTo && { volumeTo: Number(values.volumeTo) },
-        },
+        filters: decodeNullValues(values),
       },
     });
 
@@ -54,12 +51,15 @@ class TradingActivityGridFilter extends PureComponent {
 
   handleFilterReset = () => {
     this.props.history.replace({
-      query: { filters: {} },
+      query: {
+        filters: {},
+      },
     });
   };
 
   render() {
     const {
+      location: { query },
       operatorsQuery: {
         data: operatorsData,
         loading: operatorsLoading,
@@ -74,21 +74,26 @@ class TradingActivityGridFilter extends PureComponent {
     const originalAgents = get(operatorsData, 'operators.content') || [];
     const disabledOriginalAgentField = operatorsLoading;
 
+    const platformTypes = getAvailablePlatformTypes();
+
     return (
       <Formik
-        initialValues={{ tradeType: 'LIVE' }}
+        initialValues={query?.filters || { tradeType: 'LIVE' }}
         onSubmit={this.handleApplyFilters}
-        onReset={this.handleFilterReset}
+        enableReinitialize
       >
-        {({ handleReset, dirty, isSubmitting }) => (
+        {({ dirty, isSubmitting }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
                 name="tradeId"
+                type="number"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_LABEL')}
                 placeholder={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER')}
                 className="filter-row__big"
                 component={FormikInputField}
+                addition={<i className="icon icon-search" />}
+                withFocus
               />
               <Field
                 name="loginIds"
@@ -96,6 +101,8 @@ class TradingActivityGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ALL')}
                 className="filter-row__medium"
                 component={FormikSelectField}
+                disabled={accounts.length === 0}
+                withFocus
                 multiple
               >
                 {accounts.map(({ login, platformType }) => (
@@ -114,6 +121,7 @@ class TradingActivityGridFilter extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
                 searchable
+                withFocus
               >
                 {types.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -129,6 +137,7 @@ class TradingActivityGridFilter extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
                 searchable
+                withFocus
               >
                 {symbols.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -144,6 +153,7 @@ class TradingActivityGridFilter extends PureComponent {
                 component={FormikSelectField}
                 disabled={disabledOriginalAgentField}
                 searchable
+                withFocus
                 multiple
               >
                 {originalAgents.map(({ fullName, uuid, operatorStatus }) => (
@@ -171,6 +181,7 @@ class TradingActivityGridFilter extends PureComponent {
                   min={0}
                   placeholder="0"
                   component={FormikInputField}
+                  withFocus
                 />
                 <Field
                   name="volumeTo"
@@ -179,6 +190,7 @@ class TradingActivityGridFilter extends PureComponent {
                   min={0}
                   placeholder="0"
                   component={FormikInputField}
+                  withFocus
                 />
               </RangeGroup>
               <Field
@@ -188,6 +200,7 @@ class TradingActivityGridFilter extends PureComponent {
                 className="filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {statuses.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -202,6 +215,7 @@ class TradingActivityGridFilter extends PureComponent {
                 className="filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {accountTypes.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -209,6 +223,21 @@ class TradingActivityGridFilter extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <If condition={platformTypes.length > 1}>
+                <Field
+                  name="platformType"
+                  label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="form-group filter-row__medium"
+                  component={FormikSelectField}
+                  withAnyOption
+                  withFocus
+                >
+                  {platformTypes.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </If>
               <FormikDateRangeGroup
                 className="form-group filter-row__date-range"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
@@ -216,6 +245,7 @@ class TradingActivityGridFilter extends PureComponent {
                   start: 'openTimeStart',
                   end: 'openTimeEnd',
                 }}
+                withFocus
               />
               <FormikDateRangeGroup
                 className="form-group filter-row__date-range"
@@ -224,20 +254,20 @@ class TradingActivityGridFilter extends PureComponent {
                   start: 'closeTimeStart',
                   end: 'closeTimeEnd',
                 }}
+                withFocus
               />
             </div>
             <div className="filter__form-buttons">
               <Button
                 className="margin-right-15"
-                onClick={handleReset}
-                disabled={!dirty || isSubmitting}
-                common
+                onClick={this.handleFilterReset}
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 type="submit"
-                disabled={isSubmitting || tradingAccountsLoading}
+                disabled={!dirty || isSubmitting || tradingAccountsLoading}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

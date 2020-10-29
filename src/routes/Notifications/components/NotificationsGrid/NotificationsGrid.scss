@@ -1,0 +1,44 @@
+.NotificationsGrid {
+  padding: 0 25px 25px;
+
+  &__text {
+    &-primary {
+      font-weight: 700;
+    }
+
+    &-secondary {
+      color: #333;
+      font-size: 11px;
+    }
+  }
+
+  &__row {
+    &-color {
+      &--high {
+        background-color: #FFF8F6;
+      }
+
+      &--medium {
+        background-color: #FFFCF2;
+      }
+
+      &--low {
+        background-color: #F8FFFA;
+      }
+    }
+
+    &-priority-text {
+      &--high {
+        color: #FB434A;
+      }
+
+      &--medium {
+        color: #F39834;
+      }
+
+      &--low {
+        color: #46BE8A;
+      }
+    }
+  }
+}

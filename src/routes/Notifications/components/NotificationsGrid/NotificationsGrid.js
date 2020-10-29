@@ -1,97 +1,91 @@
 import React, { Fragment, PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import MiniProfile from 'components/MiniProfile';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
+import './NotificationsGrid.scss';
 
 const prioritiesColor = {
-  MEDIUM: 'Notifications__columns-priority-text--medium',
-  HIGH: 'Notifications__columns-priority-text--high',
-  LOW: 'Notifications__columns-priority-text--low',
+  MEDIUM: 'NotificationsGrid__row-priority-text--medium',
+  HIGH: 'NotificationsGrid__row-priority-text--high',
+  LOW: 'NotificationsGrid__row-priority-text--low',
 };
 
 class NotificationsGrid extends PureComponent {
   static propTypes = {
-    handlePageChanged: PropTypes.func.isRequired,
-    searchLimit: PropTypes.number.isRequired,
-    isLastPage: PropTypes.bool.isRequired,
-    entities: PropTypes.arrayOf(
-      PropTypes.shape({
-        uuid: PropTypes.string.isRequired,
-        priority: PropTypes.string.isRequired,
-        agent: PropTypes.shape({
-          uuid: PropTypes.string.isRequired,
-          fullName: PropTypes.string.isRequired,
-        }),
-        client: PropTypes.shape({
-          uuid: PropTypes.string.isRequired,
-          fullName: PropTypes.string.isRequired,
-          languageCode: PropTypes.string,
-        }),
-        createdAt: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        details: PropTypes.shape({
-          platformType: PropTypes.string,
-          amount: PropTypes.string,
-          currency: PropTypes.string,
-          login: PropTypes.number,
-        }),
-        subtype: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    loading: PropTypes.bool.isRequired,
+    ...PropTypes.router,
+    notificationCenterQuery: PropTypes.query({
+      notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
+    }).isRequired,
+  };
+
+  handlePageChanged = () => {
+    const { notificationCenterQuery, location } = this.props;
+
+    const currentPage = notificationCenterQuery.data?.notificationCenter?.number || 0;
+
+    const filters = location.state?.filters || {};
+
+    notificationCenterQuery.loadMore({
+      args: {
+        ...filters,
+        hierarchical: true,
+        page: {
+          from: currentPage + 1,
+          size: 20,
+        },
+      },
+    });
   };
 
   renderNotificationUuid = ({ uuid }) => (
-    <Uuid uuid={uuid} className="font-weight-700" />
+    <Uuid uuid={uuid} className="NotificationsGrid__text-primary" />
   );
 
   renderNotificationType = ({ type }) => (
-    <span className="font-weight-700">{type}</span>
+    <span className="NotificationsGrid__text-primary">{type}</span>
   );
 
-  renderNotificationTypeDetails = ({ type, details, subtype, client }) => (
+  renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
       <Choose>
         <When
           condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}
         >
-          <span className="font-weight-700">
+          <span className="NotificationsGrid__text-primary">
             {I18n.t(notificationCenterSubTypesLabels[subtype])}
           </span>
-          <div className="font-size-11">{details.amount} {details.currency}</div>
+          <div className="NotificationsGrid__text-secondary">{details.amount} {details.currency}</div>
         </When>
         <When condition={type === 'ACCOUNT'}>
-          <span className="font-weight-700">
+          <span className="NotificationsGrid__text-primary">
             {I18n.t(notificationCenterSubTypesLabels[subtype])}
           </span>
-          <div className="font-size-11">{details.platformType} - {details.login}</div>
+          <div className="NotificationsGrid__text-secondary">{details.platformType} - {details.login}</div>
         </When>
         <When condition={type === 'KYC' || type === 'CLIENT'}>
-          <span className="font-weight-700">
+          <span className="NotificationsGrid__text-primary">
             {I18n.t(notificationCenterSubTypesLabels[subtype])}
           </span>
         </When>
         <When condition={type === 'CALLBACK'}>
-          <div className="font-weight-700">
-            {I18n.t(
-              notificationCenterSubTypesLabels.CALLBACK_NAME,
-              { name: client.fullName },
-            )}
+          <div className="NotificationsGrid__text-primary">
+            {I18n.t(`NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}`)}
           </div>
-          <div className="font-weight-700">
-            {I18n.t(notificationCenterSubTypesLabels.CALLBACK_TIME, {
+          <div className="NotificationsGrid__text-primary">
+            {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
               time: moment.utc(details.callbackTime).local().format('HH:mm'),
             })}
           </div>
         </When>
         <When condition={type === 'TRADING' && subtype === 'MARGIN_CALL'}>
-          <div className="font-weight-700">
+          <div className="NotificationsGrid__text-primary">
             {I18n.t('NOTIFICATION_CENTER.SUBTYPES.MARGIN_CALL')}
           </div>
         </When>
@@ -102,10 +96,10 @@ class NotificationsGrid extends PureComponent {
   renderAgent = ({ agent }) => (
     <Choose>
       <When condition={agent}>
-        <div className="font-weight-700">
+        <div className="NotificationsGrid__text-primary">
           {agent.fullName}
         </div>
-        <div className="font-size-11">
+        <div className="NotificationsGrid__text-secondary">
           <MiniProfile id={agent.uuid} type="operator">
             <Uuid uuid={agent.uuid} />
           </MiniProfile>
@@ -124,13 +118,13 @@ class NotificationsGrid extends PureComponent {
       <Choose>
         <When condition={uuid}>
           <Link
-            className="font-weight-700"
+            className="NotificationsGrid__text-primary"
             to={`/clients/${uuid}/profile`}
             target="_blank"
           >
             {fullName}
           </Link>
-          <div className="font-size-11">
+          <div className="NotificationsGrid__text-secondary">
             <MiniProfile id={uuid} type="player">
               <Uuid uuid={uuid} />
             </MiniProfile>
@@ -149,7 +143,7 @@ class NotificationsGrid extends PureComponent {
   renderPriority = ({ priority }) => (
     <div className={classNames(
       prioritiesColor[priority],
-      'font-weight-700 text-uppercase',
+      'NotificationsGrid__text-primary text-uppercase',
     )}
     >
       {priority}
@@ -158,71 +152,70 @@ class NotificationsGrid extends PureComponent {
 
   renderNotificationDate = ({ createdAt }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div className="NotificationsGrid__text-primary">
         {moment.utc(createdAt).local().format('DD.MM.YYYY')}
       </div>
-      <div className="font-size-11">
+      <div className="NotificationsGrid__text-secondary">
         {moment.utc(createdAt).local().format('HH:mm:ss')}
       </div>
     </Fragment>
   );
 
   render() {
-    const {
-      handlePageChanged,
-      searchLimit,
-      isLastPage,
-      entities,
-      loading,
-    } = this.props;
+    const { notificationCenterQuery } = this.props;
+
+    const { content, last } = notificationCenterQuery.data?.notificationCenter || { content: [] };
+    const isLoadingNotifications = notificationCenterQuery.loading;
 
     return (
-      <Grid
-        data={entities}
-        isLoading={loading}
-        isLastPage={isLastPage}
-        withNoResults={!loading && entities.length === 0}
-        withLazyLoad={!searchLimit || searchLimit !== entities.length}
-        handlePageChanged={handlePageChanged}
-        rowsClassNames={
-          ({ priority }) => classNames({
-            'Notifications__columns-color--high': priority === 'HIGH',
-            'Notifications__columns-color--medium': priority === 'MEDIUM',
-            'Notifications__columns-color--low': priority === 'LOW',
-          })
-        }
-      >
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
-          render={this.renderNotificationUuid}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-          render={this.renderPriority}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
-          render={this.renderAgent}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
-          render={this.renderClient}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
-          render={this.renderNotificationDate}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-          render={this.renderNotificationType}
-        />
-        <GridColumn
-          header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
-          render={this.renderNotificationTypeDetails}
-        />
-      </Grid>
+      <div className="NotificationsGrid">
+        <Grid
+          data={content}
+          isLoading={isLoadingNotifications}
+          isLastPage={last}
+          withNoResults={!isLoadingNotifications && content.length === 0}
+          handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={126}
+          rowsClassNames={
+            ({ priority }) => classNames({
+              'NotificationsGrid__row-color--high': priority === 'HIGH',
+              'NotificationsGrid__row-color--medium': priority === 'MEDIUM',
+              'NotificationsGrid__row-color--low': priority === 'LOW',
+            })
+          }
+        >
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
+            render={this.renderNotificationUuid}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
+            render={this.renderPriority}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
+            render={this.renderAgent}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
+            render={this.renderClient}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
+            render={this.renderNotificationDate}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+            render={this.renderNotificationType}
+          />
+          <GridColumn
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
+            render={this.renderNotificationTypeDetails}
+          />
+        </Grid>
+      </div>
     );
   }
 }
 
-export default NotificationsGrid;
+export default withRouter(NotificationsGrid);

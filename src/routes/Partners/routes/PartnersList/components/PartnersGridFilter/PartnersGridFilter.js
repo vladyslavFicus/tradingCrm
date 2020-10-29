@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import countryList from 'utils/countryList';
@@ -15,34 +15,41 @@ class PartnersGridFilter extends PureComponent {
     ...PropTypes.router,
   };
 
-  initialValues = {
-    searchBy: '',
-    country: '',
-    status: '',
-    registrationDateFrom: '',
-    registrationDateTo: '',
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm({});
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+  handleSubmit = (values, { setSubmitting }) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
+
     setSubmitting(false);
   };
 
-  onHandleReset = (resetForm) => {
-    this.props.history.replace({ query: { filters: {} } });
-    resetForm(this.initialValues);
-  };
-
   render() {
+    const { location: { state } } = this.props;
+
     return (
       <Formik
         className="PartnersGridFilter"
-        initialValues={this.initialValues}
-        onSubmit={this.onHandleSubmit}
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
@@ -50,57 +57,64 @@ class PartnersGridFilter extends PureComponent {
           dirty,
         }) => (
           <Form className="PartnersGridFilter__form">
-            <div className="PartnersGridFilter__inputs">
+            <div className="PartnersGridFilter__fields">
               <Field
                 name="searchBy"
-                className="PartnersGridFilter__input PartnersGridFilter__search"
+                className="PartnersGridFilter__field PartnersGridFilter__search"
                 label={I18n.t('PARTNERS.GRID_FILTERS.SEARCH_BY')}
                 placeholder={I18n.t('PARTNERS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                withFocus
               />
+
               <Field
                 name="country"
-                className="PartnersGridFilter__input PartnersGridFilter__select"
+                className="PartnersGridFilter__field PartnersGridFilter__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('PARTNERS.GRID_FILTERS.COUNTRY')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
                 ))}
               </Field>
+
               <Field
                 name="status"
-                className="PartnersGridFilter__input PartnersGridFilter__select"
+                className="PartnersGridFilter__field PartnersGridFilter__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('PARTNERS.GRID_FILTERS.STATUS')}
                 component={FormikSelectField}
-                searchable
                 withAnyOption
+                searchable
+                withFocus
               >
                 {Object.keys(statusLabels).map(status => (
                   <option key={status} value={status}>{I18n.t(statusLabels[status])}</option>
                 ))}
               </Field>
-              <FormikDateRangePicker
-                className="PartnersGridFilter__input PartnersGridFilter__dates"
+
+              <FormikDateRangeGroup
+                className="PartnersGridFilter__field PartnersGridFilter__date-range"
                 label={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
                 periodKeys={{
                   start: 'registrationDateFrom',
                   end: 'registrationDateTo',
                 }}
+                withFocus
               />
             </div>
 
             <div className="PartnersGridFilter__buttons">
               <Button
                 className="PartnersGridFilter__button"
-                onClick={() => this.onHandleReset(resetForm)}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

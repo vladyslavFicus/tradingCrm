@@ -53,12 +53,12 @@ class TradingActivityGrid extends PureComponent {
     loadMore(page + 1);
   };
 
-  showChangeOriginalAgentModal = (tradeId, agentId, platformType) => {
+  showChangeOriginalAgentModal = (tradeId, originalAgent, platformType) => {
     const { tradingActivityQuery, modals: { changeOriginalAgentModal } } = this.props;
 
     changeOriginalAgentModal.show({
       tradeId,
-      agentId,
+      originalAgent,
       platformType,
       onSuccess: tradingActivityQuery.refetch,
     });
@@ -79,6 +79,7 @@ class TradingActivityGrid extends PureComponent {
         <Grid
           data={content}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={189}
           isLoading={loading}
           isLastPage={last}
           withNoResults={!loading && !content.length}
@@ -95,7 +96,7 @@ class TradingActivityGrid extends PureComponent {
                   <div
                     className="btn-transparent-text font-weight-700 cursor-pointer"
                     onClick={() => (
-                      this.showChangeOriginalAgentModal(tradeId, originalAgent && originalAgent.uuid, platformType)
+                      this.showChangeOriginalAgentModal(tradeId, originalAgent, platformType)
                     )}
                   >
                     TR-{tradeId}

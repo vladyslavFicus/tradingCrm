@@ -1,37 +1,35 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
+import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import I18n from 'i18n-js';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
-import { getActiveBrandConfig, getAvailableLanguages } from 'config';
+import { getBrand, getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
 import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
-import { hideText } from 'utils/hideText';
 import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
-import PromoteLeadModalQuery from './graphql/PromoteLeadModalQuery';
+import LeadQuery from './graphql/LeadQuery';
 import attributeLabels from './constants';
 
 const validate = createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
-  'contacts.email': ['required', 'string'],
-  password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+  password: ['required', `regex:${getBrand().password.pattern}`],
   languageCode: ['required', 'string'],
   'address.countryCode': ['required', 'string'],
 }, translateLabels(attributeLabels), false);
 
 class PromoteLeadModal extends PureComponent {
   static propTypes = {
-    lead: PropTypes.query({
+    leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
     formError: PropTypes.string,
@@ -40,7 +38,6 @@ class PromoteLeadModal extends PureComponent {
     size: PropTypes.string,
     notify: PropTypes.func.isRequired,
     promoteLead: PropTypes.func.isRequired,
-    isEmailHidden: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -50,44 +47,36 @@ class PromoteLeadModal extends PureComponent {
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
     const {
-      lead,
+      leadQuery,
       notify,
       promoteLead,
       onCloseModal,
-      isEmailHidden,
     } = this.props;
 
-    let variables = values;
-
-    if (isEmailHidden) {
-      const { email } = get(lead, 'data.lead');
-      variables = {
-        ...values,
-        contacts: {
-          ...values.contacts,
-          email,
-        },
-      };
-    }
+    const args = {
+      uuid: leadQuery.data.lead.uuid,
+      ...omit(values, ['contacts']),
+    };
 
     try {
-      const { data: { profile: { createProfile: { uuid } } } } = await promoteLead({
-        variables: { args: variables },
+      await promoteLead({
+        variables: { args },
       });
 
-      EventEmitter.emit(LEAD_PROMOTED, lead.data.lead);
+      EventEmitter.emit(LEAD_PROMOTED, leadQuery.data.lead);
 
       onCloseModal();
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED', { id: uuid }),
+        message: I18n.t('LEADS.SUCCESS_PROMOTED'),
       });
     } catch (e) {
       const { error } = parseErrors(e);
 
       if (error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error}`, { email: values.contacts.email }) });
+        setErrors({ submit: I18n.t(`lead.${error}`, { email: leadQuery.data.lead.email }) });
       } else {
         setErrors({ submit: I18n.t(`lead.${error}`) });
       }
@@ -98,23 +87,20 @@ class PromoteLeadModal extends PureComponent {
 
   renderForm() {
     const {
-      lead,
+      leadQuery,
       onCloseModal,
       formError,
-      isEmailHidden,
     } = this.props;
 
     const {
       email,
-      phone,
       gender,
       birthDate,
       name: firstName,
       surname: lastName,
       country: countryCode,
       language: languageCode,
-      mobile: additionalPhone,
-    } = get(lead, 'data.lead');
+    } = get(leadQuery, 'data.lead');
 
     return (
       <Formik
@@ -123,9 +109,7 @@ class PromoteLeadModal extends PureComponent {
             countryCode,
           },
           contacts: {
-            email: isEmailHidden ? hideText(email) : email,
-            phone,
-            additionalPhone,
+            email,
           },
           gender,
           lastName,
@@ -134,9 +118,11 @@ class PromoteLeadModal extends PureComponent {
           languageCode,
         }}
         validate={validate}
+        validateOnBlur={false}
+        validateOnChange={false}
         onSubmit={this.handlePromoteLead}
       >
-        {({ errors, isValid, isSubmitting, dirty, setFieldValue }) => (
+        {({ errors, isSubmitting, setFieldValue }) => (
           <Form>
             <div className="mb-3 font-weight-700 text-center">
               {I18n.t('LEAD_PROFILE.PROMOTE_MODAL.BODY_HEADER', { fullName: `${firstName} ${lastName}` })}
@@ -166,6 +152,7 @@ class PromoteLeadModal extends PureComponent {
                   label={I18n.t(attributeLabels.country)}
                   component={FormikSelectField}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  searchable
                 >
                   {Object.entries(countryList).map(([key, value]) => (
                     <option key={key} value={key}>
@@ -192,6 +179,7 @@ class PromoteLeadModal extends PureComponent {
                   label={I18n.t(attributeLabels.language)}
                   component={FormikSelectField}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  searchable
                 >
                   {getAvailableLanguages().map(locale => (
                     <option key={locale} value={locale}>
@@ -213,7 +201,7 @@ class PromoteLeadModal extends PureComponent {
               <Button
                 primary
                 type="submit"
-                disabled={!dirty || !isValid || isSubmitting}
+                disabled={isSubmitting}
               >
                 {I18n.t('COMMON.BUTTONS.CONFIRM')}
               </Button>
@@ -226,7 +214,7 @@ class PromoteLeadModal extends PureComponent {
 
   render() {
     const {
-      lead,
+      leadQuery,
       onCloseModal,
       isOpen,
       size,
@@ -244,7 +232,7 @@ class PromoteLeadModal extends PureComponent {
         </ModalHeader>
         <ModalBody>
           <Choose>
-            <When condition={lead.loading}>
+            <When condition={leadQuery.loading}>
               <ShortLoader />
             </When>
             <Otherwise>
@@ -260,7 +248,7 @@ class PromoteLeadModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    lead: PromoteLeadModalQuery,
+    leadQuery: LeadQuery,
     promoteLead: PromoteLeadMutation,
   }),
 )(PromoteLeadModal);

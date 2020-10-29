@@ -1,10 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
@@ -39,8 +40,7 @@ class PartnersGrid extends PureComponent {
   };
 
   handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const { history, location: { state } } = this.props;
 
     let nameDirection = null;
 
@@ -75,9 +75,10 @@ class PartnersGrid extends PureComponent {
     }
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
@@ -147,6 +148,7 @@ class PartnersGrid extends PureComponent {
         loading,
         data: partnersData,
       },
+      location: { state },
     } = this.props;
 
     const { last, content } = get(partnersData, 'partners') || { content: [] };
@@ -155,8 +157,10 @@ class PartnersGrid extends PureComponent {
       <div className="PartnersGrid">
         <Grid
           data={content}
+          sorts={state?.sortData}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={138}
           isLoading={loading}
           isLastPage={last}
           withLazyLoad

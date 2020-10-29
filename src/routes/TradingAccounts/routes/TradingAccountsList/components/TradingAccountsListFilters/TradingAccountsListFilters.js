@@ -4,7 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
+import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { accountTypes, accountStatuses } from '../../constants';
 import './TradingAccountsListFilters.scss';
 
@@ -18,31 +20,42 @@ class TradingAccountsListFilters extends PureComponent {
     loading: false,
   };
 
-  handleSubmit = ({ archived, ...filters }) => {
-    this.props.history.replace({
-      query: {
-        filters: {
-          ...filters,
-          ...(archived && { archived: !!+archived }),
-        },
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
       },
     });
   };
 
-  handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm();
   };
 
   render() {
-    const { loading } = this.props;
+    const { loading, location: { state } } = this.props;
+
+    const platformTypes = getAvailablePlatformTypes();
 
     return (
       <Formik
-        initialValues={{}}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
       >
-        {({ resetForm, dirty }) => (
+        {({ dirty, resetForm }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -51,6 +64,8 @@ class TradingAccountsListFilters extends PureComponent {
                 placeholder={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
                 className="form-group filter-row__big"
                 component={FormikInputField}
+                addition={<i className="icon icon-search" />}
+                withFocus
               />
               <Field
                 name="accountType"
@@ -59,6 +74,7 @@ class TradingAccountsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(accountTypes).map(key => (
                   <option key={key} value={key}>
@@ -66,6 +82,21 @@ class TradingAccountsListFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <If condition={platformTypes.length > 1}>
+                <Field
+                  name="platformType"
+                  label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.PLATFORM_TYPE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  className="form-group filter-row__medium"
+                  component={FormikSelectField}
+                  withAnyOption
+                  withFocus
+                >
+                  {platformTypes.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Field>
+              </If>
               <Field
                 name="archived"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.STATUS')}
@@ -73,6 +104,7 @@ class TradingAccountsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(accountStatuses).map(key => (
                   <option key={key} value={key}>
@@ -84,9 +116,8 @@ class TradingAccountsListFilters extends PureComponent {
             <div className="TradingAccountsListFilters__buttons">
               <Button
                 className="TradingAccountsListFilters__button"
-                onClick={resetForm}
-                disabled={loading || !dirty}
-                common
+                onClick={() => this.handleReset(resetForm)}
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

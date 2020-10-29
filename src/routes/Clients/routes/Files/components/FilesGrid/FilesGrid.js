@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
@@ -7,6 +7,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { categoriesLabels, documentsTypeLabels } from 'constants/files';
+import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
@@ -129,6 +130,7 @@ class FilesGrid extends PureComponent {
           data={files}
           isLoading={isLoading}
           isLastPage={isLastPage}
+          headerStickyFromTop={129}
           handlePageChanged={this.handlePageChanged}
           withNoResults={!isLoading && files.length === 0}
         >

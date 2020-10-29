@@ -2,7 +2,7 @@
   position: relative;
   &.rdtOpen .rdtPicker {
     display: block;
-    z-index: 1;
+    z-index: 2;
   }
   &.left-side .rdtPicker {
     right: auto;
@@ -168,6 +168,7 @@
   padding-top: 8px;
   padding-bottom: 8px;
   text-transform: uppercase;
+  text-align: center;
   letter-spacing: 0.6px;
 }
 

@@ -17,7 +17,10 @@ import './OriginalAgent.scss';
 
 class ChangeOriginalAgent extends PureComponent {
   static propTypes = {
-    agentId: PropTypes.string.isRequired,
+    originalAgent: PropTypes.shape({
+      uuid: PropTypes.string.isRequired,
+      fullName: PropTypes.string.isRequired,
+    }),
     paymentId: PropTypes.string.isRequired,
     changeOriginalAgent: PropTypes.func.isRequired,
     operators: PropTypes.query({
@@ -36,9 +39,13 @@ class ChangeOriginalAgent extends PureComponent {
     }).isRequired,
   };
 
+  static defaultProps = {
+    originalAgent: null,
+  };
+
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
-    const { paymentId, notify, operators, changeOriginalAgent } = this.props;
-    const operatorsList = get(operators, 'data.operators.content') || [];
+    const { paymentId, notify, changeOriginalAgent } = this.props;
+    const operatorsList = this.getOperatorsList();
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
 
@@ -67,17 +74,31 @@ class ChangeOriginalAgent extends PureComponent {
     }
   };
 
+  getOperatorsList = () => {
+    const {
+      operators,
+      originalAgent,
+    } = this.props;
+
+    const operatorsList = get(operators, 'data.operators.content', []);
+
+    if (originalAgent?.uuid && !operatorsList.find(({ uuid }) => uuid === originalAgent.uuid)) {
+      operatorsList.unshift(originalAgent);
+    }
+
+    return operatorsList;
+  };
+
   render() {
     const {
       operators: { loading, error },
-      operators,
-      agentId,
+      originalAgent,
       permission: {
         permissions: currentPermission,
       },
     } = this.props;
 
-    const operatorsList = get(operators, 'data.operators.content', []);
+    const operatorsList = this.getOperatorsList();
     const canChangeOriginalAgent = new Permissions(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT).check(currentPermission);
 
     return (
@@ -86,7 +107,7 @@ class ChangeOriginalAgent extends PureComponent {
           {I18n.t('CHANGE_ORIGINAL_AGENT.TITLE')}
         </div>
         <Formik
-          initialValues={{ agentId }}
+          initialValues={{ agentId: originalAgent?.uuid }}
           onSubmit={this.handleChangeOriginalAgent}
         >
           {({ isSubmitting, dirty }) => (
@@ -98,8 +119,8 @@ class ChangeOriginalAgent extends PureComponent {
                 className="ChangeOriginalAgent__select"
                 disabled={!canChangeOriginalAgent || loading}
               >
-                {operatorsList.map(({ uuid, fullName }) => (
-                  <option key={uuid} value={uuid}>{fullName}</option>
+                {operatorsList.map(({ uuid, fullName, operatorStatus }) => (
+                  <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>
                 ))}
               </Field>
               <If condition={canChangeOriginalAgent}>

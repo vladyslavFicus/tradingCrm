@@ -9,7 +9,6 @@ import PropTypes from 'constants/propTypes';
 import Greeting from 'components/Greeting';
 import BrandItem from 'components/BrandItem';
 import Copyrights from 'components/Copyrights';
-import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
 import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
 import './Brands.scss';
 
@@ -48,9 +47,6 @@ class Brands extends PureComponent {
 
       storage.set('token', token);
       storage.set('auth', { department, role, uuid });
-
-      // The function need to refresh window.app object to get new data from token
-      setBrandIdByUserToken();
 
       history.push('/dashboard');
     } catch (e) {

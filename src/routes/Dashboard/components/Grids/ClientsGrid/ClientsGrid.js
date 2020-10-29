@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import {
@@ -20,6 +20,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatus from 'components/GridStatus';
 import renderLabel from 'utils/renderLabel';
 import ClientsQuery from './graphql/ClientsQuery';
+import './ClientsGrid.scss';
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
@@ -41,7 +42,7 @@ class ClientsGrid extends PureComponent {
     const profiles = get(clientsQuery, 'data.profiles.content') || [];
 
     return (
-      <div className="card card-body">
+      <div className="ClientsGrid card">
         <Grid
           data={profiles}
           isLoading={loading}
@@ -75,7 +76,7 @@ class ClientsGrid extends PureComponent {
           <GridColumn
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
             render={(data) => {
-              const currency = getActiveBrandConfig().currencies.base;
+              const currency = getBrand().currencies.base;
               const balance = get(data, 'balance') || {};
 
               return (

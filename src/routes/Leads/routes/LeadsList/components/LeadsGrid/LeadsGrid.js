@@ -32,19 +32,20 @@ class LeadsGrid extends PureComponent {
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
-    leadsData: PropTypes.query({
+    leadsQuery: PropTypes.query({
       leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
   };
 
   handlePageChanged = () => {
-    const { location, leadsData } = this.props;
+    const { location, leadsQuery } = this.props;
 
     const defaultSize = 20;
-    const leads = get(leadsData, 'data.leads') || [];
+    const leads = get(leadsQuery, 'data.leads') || [];
     const { currentPage } = limitItems(leads, location);
 
     const filters = get(location, 'query.filters') || {};
+    const sorts = get(location, 'query.sorts') || [];
 
     const { searchLimit } = filters;
     const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
@@ -53,12 +54,13 @@ class LeadsGrid extends PureComponent {
       ? restLimitSize
       : defaultSize;
 
-    leadsData.loadMore({
+    leadsQuery.loadMore({
       args: {
         ...filters,
         page: {
           from: currentPage + 1,
           size,
+          sorts,
         },
       },
     });
@@ -66,7 +68,7 @@ class LeadsGrid extends PureComponent {
 
   handleSort = (sortData) => {
     const { history } = this.props;
-    const query = get(history, 'location.query') || {};
+    const query = get(history, 'location.state') || {};
 
     const sorts = Object.keys(sortData)
       .filter(sortingKey => sortData[sortingKey])
@@ -76,9 +78,10 @@ class LeadsGrid extends PureComponent {
       }));
 
     history.replace({
-      query: {
+      state: {
         ...query,
         sorts,
+        sortData,
       },
     });
   };
@@ -99,12 +102,12 @@ class LeadsGrid extends PureComponent {
     if (allRowsSelected) {
       const {
         location,
-        leadsData,
+        leadsQuery,
         modals: { confirmationModal },
       } = this.props;
 
-      const totalElements = get(leadsData, 'data.leads.totalElements') || 0;
-      const searchLimit = get(location, 'query.filters.searchLimit') || null;
+      const totalElements = get(leadsQuery, 'data.leads.totalElements') || 0;
+      const searchLimit = get(location, 'state.filters.searchLimit') || null;
 
       const selectedLimit = (searchLimit && searchLimit < totalElements)
         ? searchLimit > MAX_SELECTED_LEADS
@@ -150,20 +153,24 @@ class LeadsGrid extends PureComponent {
     </Choose>
   );
 
-  renderSales = ({ salesStatus, salesAgent }) => (
-    <GridStatus
-      colorClassName={salesStatusesColor[salesStatus]}
-      statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
-      info={(
-        <If condition={salesAgent}>
-          <GridStatusDeskTeam
-            fullName={salesAgent.fullName}
-            hierarchy={salesAgent.hierarchy}
-          />
-        </If>
-      )}
-    />
-  );
+  renderSales = ({ acquisition }) => {
+    const { salesStatus, salesOperator } = acquisition || {};
+
+    return (
+      <GridStatus
+        colorClassName={salesStatusesColor[salesStatus]}
+        statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
+        info={(
+          <If condition={salesOperator}>
+            <GridStatusDeskTeam
+              fullName={salesOperator.fullName}
+              hierarchy={salesOperator.hierarchy}
+            />
+          </If>
+        )}
+      />
+    );
+  };
 
   renderRegistrationDate = ({ registrationDate }) => (
     <>
@@ -248,30 +255,32 @@ class LeadsGrid extends PureComponent {
   render() {
     const {
       location,
-      leadsData,
+      leadsQuery,
       touchedRowsIds,
       allRowsSelected,
     } = this.props;
 
-    const leads = get(leadsData, 'data.leads') || [];
-    const searchLimit = get(location, 'query.filters.searchLimit') || null;
+    const leads = get(leadsQuery, 'data.leads') || [];
+    const searchLimit = get(location, 'state.filters.searchLimit') || null;
 
     const { response } = limitItems(leads, location);
-    const { content, last } = response;
+    const { content = [], last = true } = response;
 
-    const isLoading = leadsData.loading;
+    const isLoading = leadsQuery.loading;
 
     return (
       <div className="LeadsGrid">
         <Grid
           data={content || []}
           touchedRowsIds={touchedRowsIds}
+          sorts={location?.state?.sortData}
           handleSort={this.handleSort}
           allRowsSelected={allRowsSelected}
           handleSelectRow={this.handleSelectRow}
           handleRowClick={this.handleRowClick}
           handleAllRowsSelect={this.handleAllRowsSelect}
           handlePageChanged={this.handlePageChanged}
+          headerStickyFromTop={156}
           isLoading={isLoading}
           isLastPage={last}
           withLazyLoad={!searchLimit || searchLimit !== content.length}
@@ -284,6 +293,7 @@ class LeadsGrid extends PureComponent {
             render={this.renderLead}
           />
           <GridColumn
+            sortBy="country"
             header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
             render={this.renderCountry}
           />
@@ -292,6 +302,7 @@ class LeadsGrid extends PureComponent {
             render={this.renderSales}
           />
           <GridColumn
+            sortBy="registrationDate"
             header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDate}
           />

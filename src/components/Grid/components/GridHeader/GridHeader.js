@@ -7,12 +7,27 @@ import './GridHeader.scss';
 class GridHeader extends PureComponent {
   static propTypes = {
     gridColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
+    headerStickyFromTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     handleSort: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    headerStickyFromTop: null,
+  }
 
   state = {
     sortList: {},
   };
+
+  static getDerivedStateFromProps(props, state) {
+    // If sorts controlled from top level component --> use outside data if not --> use local state data
+    const sortList = state.prevSorts !== props.sorts ? props.sorts : state.sortList;
+
+    return {
+      sortList: sortList || {},
+      prevSorts: props.sorts,
+    };
+  }
 
   handleSortBy = async (sortBy) => {
     if (!sortBy) return;
@@ -45,6 +60,7 @@ class GridHeader extends PureComponent {
   render() {
     const {
       gridColumns,
+      headerStickyFromTop,
     } = this.props;
 
     const { sortList } = this.state;
@@ -60,6 +76,7 @@ class GridHeader extends PureComponent {
               sortingName={sortBy}
               sortingDirection={sortList[sortBy]}
               columnIndex={index}
+              stickyFromTop={headerStickyFromTop}
             />
           ))}
         </tr>

@@ -33,11 +33,11 @@ const REQUEST = gql`
   }
 `;
 
-const getTeamsQuery = ({ children, location: { query = {} } }) => (
+const getTeamsQuery = ({ children, location: { state = {} } }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query.filters,
+      ...state?.filters,
       branchType: 'team',
     }}
     fetchPolicy="network-only"
@@ -49,7 +49,7 @@ const getTeamsQuery = ({ children, location: { query = {} } }) => (
 getTeamsQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.shape({
         keyword: PropTypes.string,
         officeUuid: PropTypes.string,

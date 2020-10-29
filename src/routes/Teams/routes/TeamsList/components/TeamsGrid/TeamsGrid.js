@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import './TeamsGrid.scss';
@@ -12,10 +12,10 @@ class TeamsGrid extends PureComponent {
     teamsData: PropTypes.branchHierarchyResponse.isRequired,
   };
 
-  renderTeamCell = ({ name, uuid, parentBranch: { deskType } }) => (
+  renderTeamCell = ({ name, uuid }) => (
     <Fragment>
       <div className="TeamsGrid__cell-primary">
-        <Link to={`/teams/${uuid}/rules/${deskType.toLowerCase()}-rules`}>{name}</Link>
+        <Link to={`/teams/${uuid}`}>{name}</Link>
       </div>
       <div className="TeamsGrid__cell-secondary">
         <Uuid uuid={uuid} uuidPrefix="TE" />
@@ -66,6 +66,7 @@ class TeamsGrid extends PureComponent {
         <Grid
           data={teams}
           isLoading={isLoading}
+          headerStickyFromTop={138}
           withNoResults={!isLoading && teams.length === 0}
         >
           <GridColumn

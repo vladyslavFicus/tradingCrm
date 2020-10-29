@@ -149,7 +149,7 @@ class FilterSetButtons extends Component {
     const { selectValue, currentValues, filtersLoading, errorLoading } = this.props;
 
     return (
-      <If condition={currentValues}>
+      <If condition={currentValues && Object.keys(currentValues).length > 0}>
         <div
           className={
             classNames('filter__form-buttons-group', { 'is-disabled': filtersLoading || errorLoading })

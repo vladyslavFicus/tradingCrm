@@ -58,13 +58,13 @@ const REQUEST = gql`query getRules(
 }
 `;
 
-const GetRulesQuery = ({ children, match: { params: { id } }, location: { query }, type }) => (
+const GetRulesQuery = ({ children, match: { params: { id } }, location: { state }, type }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query && query.filters,
-      ...(type === 'PARTNER' && { affiliateId: get(query, 'filters.affiliateId') || id }),
-      ...(type === 'OPERATOR' && { operatorUuids: [...get(query, 'filters.operatorUuids') || '', id] }),
+      ...state?.filters,
+      ...(type === 'PARTNER' && { affiliateId: get(state, 'filters.affiliateId') || id }),
+      ...(type === 'OPERATOR' && { operatorUuids: [...get(state, 'filters.operatorUuids') || '', id] }),
     }}
     fetchPolicy="cache-and-network"
     context={{ batch: false }}
@@ -81,7 +81,7 @@ GetRulesQuery.propTypes = {
     }).isRequired,
   }).isRequired,
   location: PropTypes.shape({
-    query: PropTypes.object,
+    state: PropTypes.object,
   }).isRequired,
   type: PropTypes.string,
 };

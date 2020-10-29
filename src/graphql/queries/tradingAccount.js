@@ -2,12 +2,14 @@ import gql from 'graphql-tag';
 
 const getClientTradingAccounts = gql`
   query getClientTradingAccounts(
-    $profileUUID: String!,
+    $profileUUID: String!
     $accountType: String
+    $platformType: String
   ) {
     clientTradingAccounts(
       profileUUID: $profileUUID,
       accountType: $accountType
+      platformType: $platformType
     ) {
       accountUUID
       currency

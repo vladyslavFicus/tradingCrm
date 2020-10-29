@@ -1,0 +1,47 @@
+.MigrationBrandCard {
+  padding: 15px 20px;
+  border: 1px solid #cfcfcf;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &__inner {
+    position: relative;
+    margin: 0 -10px;
+    padding-right: 50px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &__cell {
+    flex: 1 50%;
+    padding: 0 10px;
+  }
+
+  &__dt {
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  &__dd {
+    font-weight: 600;
+    font-size: 12px;
+    color: #4a4a4a;
+  }
+
+  &__actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    vertical-align: middle;
+  }
+
+  &__action {
+    margin-right: 5px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

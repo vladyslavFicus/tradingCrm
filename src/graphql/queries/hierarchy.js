@@ -32,6 +32,7 @@ const getUserHierarchyById = gql`query getUserHierarchyById(
         uuid
       }
     }
+    subordinatesCount
   }
 }`;
 
@@ -129,47 +130,11 @@ const getBranchInfo = gql`query getBranchInfo(
 }
 ${HierarchyBranchFragment}`;
 
-const getBranchHierarchyTree = gql`
-  fragment BranchTreeItem on HierarchyBranchTree {
-    uuid
-    name
-    branchType
-    deskType
-    users {
-      uuid
-      userType
-      operator {
-        fullName
-      }
-    }
-  }
-
-  query getBranchHierarchyTree($branchUuid: String!) {
-    # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
-    branchTree(branchUuid: $branchUuid) {
-      ...BranchTreeItem
-      children {
-        ...BranchTreeItem
-        children {
-          ...BranchTreeItem
-          children {
-            ...BranchTreeItem
-            children {
-              ...BranchTreeItem
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 
 export {
   getUserHierarchy,
   getUserHierarchyById,
   getUserBranchHierarchy,
   getBranchInfo,
-  getBranchHierarchyTree,
   getUserBranchesTreeUp,
 };

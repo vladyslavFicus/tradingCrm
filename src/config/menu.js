@@ -21,6 +21,7 @@ const sidebarTopMenu = [{
   items: [{
     label: 'SIDEBAR.TOP_MENU.SEARCH_CLIENTS',
     url: '/clients/list',
+    permissions: new Permissions(permissions.USER_PROFILE.PROFILES_LIST),
   }, {
     label: 'SIDEBAR.TOP_MENU.KYC_DOCUMENTS',
     url: '/clients/kyc-documents',
@@ -28,6 +29,7 @@ const sidebarTopMenu = [{
   }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
     url: '/trading-accounts/list',
+    permissions: new Permissions(permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.LEADS',
@@ -73,14 +75,22 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',
   icon: 'icon-payments sidebar-nav-item__icon--payments',
   url: '/payments/list',
+  permissions: new Permissions(permissions.PAYMENTS.PAYMENTS_LIST),
 }, {
   label: 'SIDEBAR.TOP_MENU.CALLBACKS',
   icon: 'icon-callbacks',
   url: '/callbacks/list',
+  permissions: new Permissions(permissions.CALLBACKS.LIST),
 }, {
   label: 'SIDEBAR.TOP_MENU.NOTIFICATIONS',
   icon: 'icon-notifications',
   url: '/notifications',
+  permissions: new Permissions(permissions.NOTIFICATION_CENTER.LIST),
+}, {
+  label: 'SIDEBAR.TOP_MENU.CLIENTS_DISTRIBUTION',
+  icon: 'icon-union',
+  url: '/distribution',
+  permissions: new Permissions(permissions.CLIENTS_DISTRIBUTION.LIST),
 }, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',
@@ -97,6 +107,10 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.EMAIL_TEMPLATES',
     url: '/email-templates',
     permissions: new Permissions(permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.ROLES_AND_PERMISSIONS',
+    url: '/roles-and-permissions',
+    permissions: new Permissions(permissions.AUTH.UPDATE_ACTIONS),
   }],
 }];
 
@@ -113,8 +127,16 @@ const operatorProfileTabs = [
 
 const partnerTabs = [
   { label: 'PARTNER_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
-  { label: 'PARTNER_PROFILE.TABS.FEED', url: '/partners/:id/feed' },
-  { label: 'PARTNER_PROFILE.TABS.SALES_RULES', url: '/partners/:id/sales-rules' },
+  {
+    label: 'PARTNER_PROFILE.TABS.FEED',
+    url: '/partners/:id/feed',
+    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+  },
+  {
+    label: 'PARTNER_PROFILE.TABS.SALES_RULES',
+    url: '/partners/:id/sales-rules',
+    permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
+  },
 ];
 
 export {

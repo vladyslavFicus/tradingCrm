@@ -1,9 +1,0 @@
-name: falcon/backoffice
-version: 0.@
-extends:
-- devops/escape_docker-latest
-
-inputs:
-- id: docker_build_path
-  default: "."
-  type: string

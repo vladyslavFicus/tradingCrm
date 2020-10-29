@@ -7,12 +7,14 @@ const REQUEST = gql`
   query TradingAccountsQuery(
     $searchKeyword: String
     $accountType: String
+    $platformType: String
     $archived: Boolean
     $size: Int
     $page: Int
   ) {
     tradingAccounts (
       searchKeyword: $searchKeyword
+      platformType: $platformType
       accountType: $accountType
       archived: $archived
       size: $size
@@ -20,7 +22,12 @@ const REQUEST = gql`
     ) {
       content {
         uuid
+        name
+        login
+        group
+        accountUUID
         platformType
+        credit
         profile {
           uuid
           fullName
@@ -43,14 +50,16 @@ const REQUEST = gql`
   }
 `;
 
-const TradingAccountsListQuery = ({ children, location: { query } }) => (
+const TradingAccountsListQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
     variables={{
-      size: 20,
+      ...state && state.filters,
       page: 0,
-      ...query && query.filters,
+      size: 20,
+      // Parse to boolean value if 'archived' value exist
+      archived: state?.filters?.archived ? !!+state?.filters?.archived : undefined,
     }}
   >
     {children}
@@ -60,7 +69,7 @@ const TradingAccountsListQuery = ({ children, location: { query } }) => (
 TradingAccountsListQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
     }),
   }).isRequired,

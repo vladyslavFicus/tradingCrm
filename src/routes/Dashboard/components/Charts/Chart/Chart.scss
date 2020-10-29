@@ -35,8 +35,8 @@
 
     // # need to remove rewrite this class after refacoring .form-control
     & .form-control {
-      line-height: 18px;
       height: 100%;
+      min-height: 35px;
     }
 
     // # need to remove rewrite this class after refacoring .form-control
@@ -72,8 +72,6 @@
     justify-content: space-around;
 
     &-item {
-      
-
       &-title {
         font-size: 10px;
         text-align: center;

@@ -11,6 +11,7 @@ import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';
 import CreateCallbackModal from './components/CreateCallbackModal';
 import getClientCallbacksQuery from './graphql/getClientCallbacksQuery';
+import './ClientCallbacksTab.scss';
 
 class ClientCallbacksTab extends PureComponent {
   static propTypes = {
@@ -49,8 +50,11 @@ class ClientCallbacksTab extends PureComponent {
     const { clientCallbacksData } = this.props;
 
     return (
-      <>
-        <TabHeader title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}>
+      <div className="ClientCallbacksTab">
+        <TabHeader
+          title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}
+          className="ClientCallbacksTab__header"
+        >
           <Button
             small
             commonOutline
@@ -62,7 +66,7 @@ class ClientCallbacksTab extends PureComponent {
 
         <ClientCallbacksGridFilter />
         <ClientCallbacksGrid clientCallbacksData={clientCallbacksData} />
-      </>
+      </div>
     );
   }
 }

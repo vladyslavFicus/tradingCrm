@@ -33,7 +33,9 @@
       "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
-      "NOTIFICATIONS": "Notifications"
+      "NOTIFICATIONS": "Notifications",
+      "ROLES_AND_PERMISSIONS": "Roles & Permissions",
+      "CLIENTS_DISTRIBUTION": "Clients Distribution"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -559,6 +561,7 @@
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
       },
+      "COPY_LINK": "Link has been copied to clipboard",
       "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
     },
     "OR": "Or",
@@ -580,6 +583,7 @@
     "UNKNOWN_TIME": "Unknown time",
     "TOTAL_WIN": "Total win",
     "ERROR": "Error",
+    "ERROR_CONTENT": "Something went wrong.<br>Please reload the page. If the problem did not disappear, contact our support team.",
     "GOOD_MORNING": "Good morning!",
     "GOOD_AFTERNOON": "Good afternoon!",
     "GOOD_EVENING": "Good evening!",
@@ -613,7 +617,7 @@
     "SEARCH_BY": {
       "CLIENT": "Name, Email, Phone, ID, MT ID",
       "LEAD": "Name, Email, Phone, ID, source",
-      "AFFILIATE": "Affiliate ID, source",
+      "AFFILIATE": "Affiliate ID, Referrer ID, source",
       "NAME": "Name",
       "MIGRATION_ID": "Migration ID"
     },
@@ -649,6 +653,7 @@
     "REASON": "Reason",
     "HOURS": "Hours",
     "DAYS": "Days",
+    "DAY": "Day",
     "WEEKS": "Weeks",
     "NONE": "None",
     "REMOVE": "Remove",
@@ -696,6 +701,7 @@
     "CLIENTS_SELECTED": "Clients selected",
     "UNLIMITED": "Unlimited",
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
+    "AND_N_MORE": "and %{value} more ...",
     "LANGUAGE_NAME": {
       "UK": "Ukrainian",
       "ZH": "Chinese",
@@ -706,7 +712,10 @@
       "DE": "German",
       "IT": "Italian",
       "FR": "French",
-      "TR": "Turkish"
+      "TR": "Turkish",
+      "EL": "Greek",
+      "GR": "Greek",
+      "PL": "Polish"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
@@ -723,6 +732,7 @@
     "LANGUAGE": "Language",
     "UNTIL": "Until",
     "ON": "on",
+    "UPDATE_FAILED": "Update failed",
     "BULK_UPDATE_FAILED": "Bulk update failed",
     "CHOOSE_OPERATOR": "Choose an operator",
     "ADD_MANAGER_TO_BRANCH": "+ Add Manager",
@@ -989,6 +999,9 @@
         "CITY": "City",
         "COMPLETED": "Profile completion",
         "CONFIRMED_EMAIL": "Confirmed email",
+        "CONVERTED_TO_CLIENT": "Converted to client",
+        "CONVERTED_TO_CLIENT_UUID": "Converted to client uuid",
+        "CONVERTED_BY_OPERATOR_UUID": "Converted by operator uuid",
         "COUNTRY": "Country",
         "COUNTRY_CODE": "Country code",
         "COUNTRY_OF_ISSUE": "Passport - country of issue",
@@ -1013,7 +1026,7 @@
         "MARKETING_SMS": "Marketing SMS",
         "PERSONAL_KYC_METADATA": "Personal files",
         "KYC_PERSONAL_STATUS": "Personal status",
-        "PHONE_NUMBER": "Phone - number",
+        "PHONE_NUMBER": "Phone number",
         "PHONE_NUMBER_VERIFIED": "Phone number verification",
         "ADDITIONAL_PHONE": "Additional phone",
         "POST_CODE": "Post code",
@@ -1027,6 +1040,7 @@
         "REASON": "Reason",
         "STATE": "State",
         "STATUS": "Status",
+        "STATUS_CHANGED_DATE": "Status changed date",
         "SUSPEND_END_DATE": "Suspend end date",
         "TITLE": "Title",
         "TYPE": "Type",
@@ -1042,14 +1056,6 @@
         "CHANGE_LEVERAGE_TO": "Change leverage to",
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
-        "BANK_DETAILS": "Bank details",
-        "BANK_NAME": "Bank details - Bank name",
-        "PROVINCE": "Bank details - Province",
-        "SWIFT_CODE": "Bank details - Swift code",
-        "ACCOUNT_NUMBER": "Bank details - Account number",
-        "ACCOUNT_HOLDER_NAME": "Bank details - Account holder name",
-        "BRANCH_NAME": "Bank details - Branch name",
-        "WITHDRAWAL_AREA": "Bank details - Withdrawal area",
         "ACCOUNT_CREATED": "Account created",
         "SHUFTIPRO_SENT": "Shuftipro sent",
         "ATTACHMENT_ADDED": "Attachment added",
@@ -1057,6 +1063,9 @@
         "NOTE_PROFILE_CREATED": "Note profile created",
         "NOTE_PROFILE_REMOVED": "Note profile removed",
         "NOTE_PROFILE_UPDATED": "Note profile updated",
+        "NOTE_CREATED": "Note created",
+        "NOTE_REMOVED": "Note removed",
+        "NOTE_UPDATED": "Note updated",
         "CREDIT_IN": "Credit in",
         "CREDIT_OUT": "Credit out",
         "DEPOSIT": "Deposit",
@@ -1070,7 +1079,10 @@
         "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
-        "INTEREST_RATE": "Interest rate"
+        "INTEREST_RATE": "Interest rate",
+        "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
+        "ACQUISITION_UPDATED": "Acquisition updated",
+        "EMAIL_SENT": "Email sent"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1118,8 +1130,10 @@
         "AFFILIATE_MANAGER": "Affiliate manager",
         "AFFILIATE_PARTNER": "Affiliate partner",
         "DIDLOGIC_OPERATOR": "DID Logic operator",
+        "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
-        "DEALING": "Dealing"
+        "DEALING": "Dealing",
+        "IB": "IB"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1131,7 +1145,8 @@
         "E2E": "E2E",
         "BI": "Business intelligence",
         "AFFILIATE": "Affiliate",
-        "PLAYER": "Player"
+        "PLAYER": "Player",
+        "AGENT": "Agent"
       }
     },
     "COUNTRIES": {
@@ -1185,9 +1200,9 @@
         "BONUS": "Bonus"
       },
       "PAYMENT_AGGREGATORS": {
-        "CASHIER": "Cashier",
         "MANUAL": "Manual",
-        "NASPAY": "NasPay"
+        "INTERNAL": "Internal",
+        "CASHIER": "Cashier"
       },
       "PAYMENT_ACCOUNT": {
         "STATUS": {
@@ -1202,6 +1217,7 @@
     },
     "TRANSACTIONS": {
       "GRID_COLUMNS": {
+        "AFFILIATE": "Affiliate",
         "TRANSACTION": "Transaction",
         "WARNING": "Warning",
         "CLIENT": "Client",
@@ -1235,6 +1251,7 @@
           "MODIFICATION_DATE_RANGE": "Modification date range",
           "STATUS_DATE_RANGE": "Status modification date range",
           "ACCOUNT_TYPE": "Account type",
+          "PLATFORM_TYPE": "Platform type",
           "ORIGINAL_AGENT": "Original Agent",
           "TEAMS": "Teams",
           "DESKS": "Desks",
@@ -1254,10 +1271,11 @@
           "PAYRETAILERS": "Payretailers",
           "RECALL": "Recall",
           "CHARGEBACK": "Chargeback",
-          "CASHIER": "CASHIER"
+          "CASHIER": "CASHIER",
+          "REFERRAL_BONUS": "Referral bonus"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "KEYWORD": "Transaction ID, Player, External reference",
+          "KEYWORD": "Transaction ID, Affiliate ID, Player, External reference",
           "CLIENT_KEYWORD": "ID, Reference number"
         }
       },
@@ -1302,7 +1320,8 @@
       "DIALER_NEW": "Dialer New",
       "DIALER_ASSIGNED": "Dialer Assigned",
       "DIALER_FAILED": "Dialer Failed",
-      "DIALER_DROP": "Dialer Drop"
+      "DIALER_DROP": "Dialer Drop",
+      "WIRE_SENT": "Wire Sent"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -1460,7 +1479,7 @@
     "FEED": {
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "Action ID, Partner ID, IP",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
         "ACTION_TYPE": "Action type",
         "ACTION_DATE_RANGE": "Action date range"
       },
@@ -1606,7 +1625,12 @@
       "PAYMENT_APPROVED": "Payment approved"
     },
     "LAST_UPDATED_DATE": "Last updated date",
-    "LEVERAGE": "Leverage"
+    "LEVERAGE": "Leverage",
+    "INITIATOR_NAME": "Initiator name",
+    "INITIATOR_UUID": "Initiator uuid",
+    "EMAIL": {
+      "TEMPLATE_NAME": "Template name"
+    }
   },
   "ERRORS": {
     "FILE": {
@@ -1645,6 +1669,7 @@
         "STATUS": "Profile status",
         "TAGS": "Tags",
         "SEGMENTS": "Segments",
+        "LANGUAGES": "Languages",
         "REG_DATE_RANGE": "Registration date range",
         "FIRST_DEPOSIT_DATE": "FTD date range",
         "REG_DATE_FROM": "Registered From",
@@ -1661,6 +1686,7 @@
         "ACCOUNT_STATUS": "Account Status",
         "DESKS": "Desks",
         "TEAMS": "Teams",
+        "OPERATORS": "Operators",
         "OFFICES": "Offices",
         "SALES_STATUS": "Sales status",
         "RETENTION_STATUS": "Retention status",
@@ -1670,7 +1696,8 @@
         "AFFILIATES": "Affiliates",
         "PARTNER_TYPE": "Created by",
         "WARNING": "Warning",
-        "ACTIVITY": "Activity"
+        "ACTIVITY": "Activity",
+        "REFERRAL": "Referral"
       }
     }
   },
@@ -1712,13 +1739,15 @@
       "duplicated": "Profile is duplicated"
     },
     "user": {
-      "logon-attempts-limit-reached": "by 5 failed login attempts",
       "account": {
         "create": {
           "restriction": "You can't create more accounts for this currency"
         }
       },
       "locked": {
+        "by": {
+          "operator": "User is locked, please contact customer support"
+        },
         "failed": {
           "sign": {
             "in": {
@@ -2326,6 +2355,14 @@
           "OPERATOR_ADDED_DESC": "Operator %{operator} added to %{branchType} %{branchName}"
         }
       }
+    },
+    "ASSIGN_BRANCH": {
+      "TITLE": "Branch assignment",
+      "DESCRIPTION": "You are trying to add the Operator %{operator} with %{clients} of assigned clients to branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
+    },
+    "UNASSIGN_BRANCH": {
+      "TITLE": "Branch unassignment",
+      "DESCRIPTION": "You are trying to remove the Operator %{operator} with %{clients} of assigned clients from branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
     }
   },
   "FILE_DROPZONE": {
@@ -2393,7 +2430,10 @@
     "PASSWORD": "Password",
     "REPEAT_PASSWORD": "Repeat password",
     "PASSWORD_SETTLED": "You have successfully settled new password",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "ERRORS": {
+      "REQUEST_NOT_FOUND": "Reset password request not found or expired"
+    }
   },
   "SIGN_IN": {
     "EMAIL": "Email",
@@ -2408,7 +2448,8 @@
       "CALLBACKS": "Callbacks",
       "FILES": "Files",
       "NOTES": "Notes",
-      "FEED": "Feed"
+      "FEED": "Feed",
+      "REFERRALS": "Referrals"
     },
     "PROFILE": {
       "TITLE": "Profile",
@@ -2458,7 +2499,6 @@
           "SELL_MARKET": "Sell market",
           "BUY_STOP_LIMIT": "Buy stop limit",
           "SELL_STOP_LIMIT": "Sell stop limit",
-          "BALANCE": "Balance",
           "CREDIT": "Credit"
         },
         "SYMBOLS": {
@@ -2517,6 +2557,11 @@
       },
       "REGISTERED": {
         "TITLE": "Registered"
+      },
+      "REFERRALS": {
+        "TITLE": "REFERRALS",
+        "FTD": "FTD: %{value}",
+        "REMUNERATION": "Remuneration: %{currency} %{value}"
       }
     },
     "TRANSACTIONS": {
@@ -2574,7 +2619,7 @@
         "TITLE": "New trading account",
         "NAME_LABEL": "Account name",
         "ACCOUNT_TYPE_LABEL": "Account type",
-        "PLATFORM_TYPE_LABEL": "Account type",
+        "PLATFORM_TYPE_LABEL": "Platform type",
         "AMOUNT_LABEL": "Amount",
         "CURRENCY_LABEL": "Currency",
         "PASSWORD_LABEL": "Password",
@@ -2657,7 +2702,8 @@
       },
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
-      }
+      },
+      "REFERRER": "Referrer"
     },
     "FATCA": {
       "TITLE": "FATCA"
@@ -2686,8 +2732,10 @@
   },
   "CLIENTS": {
     "BULK_ACTIONS": "Bulk actions",
-    "RETENTION_INFO_UPDATED": "Clients retention info updated",
-    "SALES_INFO_UPDATED": "Clients sales info updated",
+    "BULK_RETENTION_INFO_UPDATED": "Clients retention info updated",
+    "BULK_SALES_INFO_UPDATED": "Clients sales info updated",
+    "RETENTION_INFO_UPDATED": "Client retention info updated",
+    "SALES_INFO_UPDATED": "Client sales info updated",
     "ACQUISITION_STATUS_UPDATED": "Acquisition status updated",
     "LIST": {
       "GRID_HEADER": {
@@ -2698,6 +2746,7 @@
         "BALANCE": "Balance",
         "DEPOSITS": "Deposits",
         "AFFILIATE": "Affiliate",
+        "AFFILIATE_REFERRER": "Affiliate/Referrer",
         "SALES": "Sales",
         "RETENTION": "Retention",
         "REGISTRATION": "Registration",
@@ -2731,7 +2780,8 @@
     "LEADS_FOUND": "Leads found",
     "LEADS_SELECTED": "Leads selected",
     "BULK_ACTIONS": "Bulk actions",
-    "UPDATED": "Leads updated successfully",
+    "BULK_UPDATED": "Leads updated successfully",
+    "UPDATED": "Lead updated successfully",
     "GRID_HEADER": {
       "LEAD": "Lead",
       "COUNTRY": "Country",
@@ -2742,6 +2792,7 @@
     },
     "FILTER": {
       "SEARCH": "Search by",
+      "LANGUAGES": "Languages",
       "COUNTRIES": "Countries",
       "DESKS": "Desks",
       "TEAMS": "Teams",
@@ -2758,7 +2809,7 @@
       "CONVERTED": "Converted",
       "SELF_CONVETED": "self-converted"
     },
-    "SUCCESS_PROMOTED": "Lead was promoted to id %{id}",
+    "SUCCESS_PROMOTED": "Lead was successfully promoted",
     "LEADS_BULK_MODAL": {
       "HEADER": "Bulk action - Sales"
     },
@@ -2767,6 +2818,9 @@
       "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
       "SAMPLE_CSV": "Sample CSV"
     }
+  },
+  "PINNED_NOTES": {
+    "TITLE": "Pinned notes"
   },
   "LEAD_PROFILE": {
     "UPDATED": "Lead updated successfully",
@@ -2790,8 +2844,9 @@
       "CONVERTED_TO_CLIENT": "Converted to Client",
       "CONVERTED_SINCE": "Converted since"
     },
-    "PINNED_NOTES": {
-      "TITLE": "Pinned notes"
+    "ASQUISITION_STATUS": {
+      "TITLE": "Acquisition status",
+      "SALES": "Sales"
     },
     "NOTES": {
       "TITLE": "Notes",
@@ -2801,9 +2856,19 @@
         }
       }
     },
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Feed"
+    },
     "TABS": {
       "PROFILE": "Profile",
-      "NOTES": "Notes"
+      "NOTES": "Notes",
+      "FEEDS": "Feeds"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",
@@ -2968,6 +3033,149 @@
   "SALES_RULES": {
     "TITLE": "Sales rules"
   },
+  "CLIENTS_DISTRIBUTION": {
+    "TITLE": "Clients Distribution Rules",
+    "GRID_HEADER": {
+      "RULE": "Rule",
+      "RULER_ORDER": "Rule Order",
+      "RULE_STATUS": "Rule status",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "COUNTRY": "Client Country",
+      "SALES_STATUS": "Client Sales Status",
+      "CREATED_TIME": "Rule Created Time",
+      "TIME_IN_STATUS": "Time in Status",
+      "LAST_TIME_EXECUTED": "Rule Last Time Executed",
+      "ACTION": "Action"
+    },
+    "STATUSES": {
+      "ACTIVE": "Active",
+      "CLOSE": "Close",
+      "INACTIVE": "Inactive"
+    },
+    "EXECUTION_TYPE": {
+      "MANUAL": "Manual",
+      "AUTO": "Daily (auto)"
+    },
+    "FILTERS": {
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "ID, Name",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "COUNTRY": "Client Country",
+      "RULE_STATUS": "Rule status",
+      "SALES_STATUS": "Sales Status",
+      "CREATED_TIME": "Created Time",
+      "LAST_TIME_EXECUTED": "Rule Last Time Executed",
+      "TIME_IN_STATUS": "Time in Status"
+    },
+    "MIGRATION_MODAL": {
+      "TITLE": "Start migration",
+      "TEXT": "You will start clients migration by %{name} now. %{clientsAmount} Clients would be migrated from %{sourceBrandNames} to %{targetBrandNames}. Do you want to continue?",
+      "BUTTON_ACTION": "Start"
+    },
+    "NOTIFICATIONS": {
+      "MIGRATION_SUCCESSFUL": "Migration started successfully",
+      "MIGRATION_ERROR": "Migration started failed"
+    },
+    "MODAL": {
+      "FIELDS": {
+        "NAME": "Rule name",
+        "ORDER": "Rule order"
+      }
+    },
+    "CREATE_MODAL": {
+      "HEADER": "Create rule"
+    },
+    "UPDATE_MODAL": {
+      "HEADER": "Update rule"
+    },
+    "CREATE_RULE_SUCCESS": "Rule %{ruleName} created successfully",
+    "CREATE_RULE_FAILED": "Creating new rule failed",
+    "CREATE_RULE_EXIST": "Current rule intersects existent rule %{ruleName}",
+    "UPDATE_RULE_SUCCESS": "Rule %{ruleName} updated successfully",
+    "UPDATE_RULE_FAILED": "Updating rule failed",
+    "RULE": {
+      "TITLE": "Rule %{name}",
+      "INFO": {
+        "STATUS": "Status",
+        "STATUS_SINCE": "since",
+        "CREATED": "Created",
+        "UPDATED": "Updated",
+        "LAST_EXECUTION": "Last time executed"
+      },
+      "STATUS": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "GENERAL_INFO": "General information",
+      "FILTERS_LABELS": {
+        "SALES_STATUS": "Current Sales Status",
+        "MIGRATION_STATUS": "Migration Sales Status",
+        "COUNTRY": "Country",
+        "EXECUTION_TIME":"Time in Current Sales Status",
+        "REGISTRATION_DATE": "Registration date",
+        "EXECUTION_TYPE": "Rule Execution Type"
+      },
+      "FILTERS": {
+        "EXECUTION_TYPE": {
+          "AUTO": "Auto",
+          "MANUAL": "Manual"
+        },
+        "EXECUTION_TIME": {
+          "N_HOURS": "%{value} hours",
+          "N_DAY": "%{value} Day",
+          "LAST_WEEK": "Last week",
+          "LAST_N_WEEKS": "Last %{value} weeks"
+        },
+        "REGISTRATION_TIME": {
+          "LAST_N_HOURS": "Last %{value} hours",
+          "LAST_DAY": "Last day",
+          "LAST_N_DAYS": "Last %{value} days",
+          "LAST_WEEK": "Last week",
+          "LAST_N_WEEKS": "Last %{value} weeks"
+        }
+      },
+      "BRANDS_FOR_MIGRATION": "Brands for migration",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "BRAND": {
+        "SORT": "Sort",
+        "OPERATOR": "Operator",
+        "CLIENTS_CHOSEN": "clients chosen",
+        "CLIENTS_TO_MIGRATION": "clients to migration"
+      },
+      "MODAL": {
+        "SOURCE_BRAND": "Brand",
+        "TARGET_BRAND": "Migration to brand",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "OPERATOR": "Operator",
+        "AUTO_OPERATOR": "Automatic operator",
+        "SORT_METHOD": "Sort method",
+        "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
+        "BRAND": "Brand",
+        "QUANTITY": "Amount of clients",
+        "QUANTITY_PERCENTAGE": "Percentage"
+      },
+      "SORT_METHOD": {
+        "RANDOM": "Random",
+        "FIFO": "FIFO",
+        "LIFO": "LIFO"
+      },
+      "BASE_UNITS": {
+        "AMOUNT": "clients",
+        "PERCENTAGE": "%"
+      },
+      "UPDATE": {
+        "ERROR_TITLE": "Failure",
+        "ERROR_MESSAGE": "The distribution rule was not updated",
+        "SUCCESS_TITLE": "Success",
+        "SUCCESS_MESSAGE": "The distribution rule was successfully updated",
+        "INCOMPLETE_STATUS": "Rule %{name} is not completed",
+        "ALREADY_EXIST": "There is an existing rule with the same conditions"
+      }
+    }
+  },
   "NOTIFICATION_CENTER": {
     "TITLE": "Notifications",
     "FILTERS": {
@@ -2975,7 +3183,10 @@
         "NOTIFICATION_OR_PLAYER": "Notification ID, Player UUID"
       },
       "LABELS": {
-        "AGENTS": "Agents",
+        "SEARCH": "Search by",
+        "OPERATORS": "Agents",
+        "DESKS": "Desks",
+        "TEAMS": "Teams",
         "CREATION_RANGE": "Notification creation date range",
         "NOTIFICATION_TYPE": "Notification type",
         "READ_UNREAD": "Read/Unread",
@@ -3022,10 +3233,16 @@
       "ACCOUNT_CREATED": "Account created",
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
-      "CALLBACK_NAME": "Callback to %{name}",
-      "CALLBACK_TIME": "Time: %{time}",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
       "MARGIN_CALL": "Margin level under 100%"
+    },
+    "DETAILS": {
+      "CALLBACK": "Callback",
+      "CALLBACK_REMINDER": "Callback reminder",
+      "CALLBACK_REQUESTED": "Callback requested",
+      "CALLBACK_TIME": "Callback time: %{time}"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3037,7 +3254,11 @@
   "HIERARCHY": {
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
-      "HEADING": "Hierarchy"
+      "HEADING": "Hierarchy",
+      "ITEM_DESCRIPTION":  "{{childrenCount}} branches / {{usersCount}} users",
+      "MANAGER": "Manager",
+      "MANAGER_NOT_SELECTED": "Not selected",
+      "OPERATOR": "OPERATOR"
     },
     "INFO_MODAL": {
       "HEADER": "Status",
@@ -3130,7 +3351,9 @@
     "PROLONG": "Prolong",
     "SELF_EXCLUSION": "Self exclusion",
     "RESUME": "Resume",
-    "MANUAL_COOLOFF": "Manual Cooloff"
+    "MANUAL_COOLOFF": "Manual Cooloff",
+    "UNASSIGN": "Unassign",
+    "IGNORE": "Ignore"
   },
   "STATUSES_LABELS": {
     "NOT_VERIFIED": "Not Verified",
@@ -3163,7 +3386,13 @@
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
       "SUCCESSFULLY_CREATED": "Callback has been successfully created",
-      "REMINDER": "Reminder"
+      "REMINDER": "Reminder",
+      "ERROR": {
+        "TITLE": "Callback creation failed",
+        "MESSAGES": {
+          "CALLBACK_EXIST": "Callback already exist"
+        }
+      }
     },
     "MODAL": {
       "TITLE": "Callback details",
@@ -3183,7 +3412,8 @@
       "options_not_found": "Available options by query \"%{query}\" not found...",
       "selected_options": "selected options",
       "clear": "Clear",
-      "options_selected": "options selected"
+      "options_selected": "options selected",
+      "label_more": "And %{value} more ..."
     },
     "any": "Any",
     "reset": "Reset",
@@ -3401,8 +3631,8 @@
       "INPUT_NAME_LABEL": "Email Template Name",
       "INPUT_SUBJECT_LABEL": "Subject",
       "INPUT_EDITOR_LABEL": "Email text",
-      "INPUT_EDITOR_PLACEHOLDER": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
-      "HINT": "Mariable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "INPUT_EDITOR_PLACEHOLDER": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
+      "HINT": "Variable text elements must be placed inside curly braces.\nExample: {firstName}, {lastName}",
       "LINK_GO_TO_EMAIL_TEMPLATES": "Go to Email Templates"
     },
     "MODALS": {
@@ -3435,8 +3665,9 @@
     "FORM": {
       "FIELDS": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "UUID, Player's Full Name, Source Name.",
+        "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
+        "PLATFORM_TYPE": "Platform type",
         "STATUS": "Status"
       },
       "ACCOUNT_TYPE": {
@@ -3449,7 +3680,7 @@
       }
     },
     "GRID": {
-      "ACCOUNT_ID": "Account ID",
+      "ACCOUNT_ID": "Trading acc",
       "PLATFORM_TYPE": "Platform type",
       "PROFILE": "Client",
       "SOURCE_NAME": "Source name",
@@ -3457,11 +3688,45 @@
       "LEVERAGE": "Leverage",
       "BALANCE": "Balance",
       "STATUS": "Status",
-      "ACCOUNT_TYPE": "Account type"
+      "ACCOUNT_TYPE": "Account type",
+      "LOGIN": "MT4 login",
+      "CREDIT": "Credit"
     }
   },
   "BRANCH_MANAGER_INFO": {
     "MANAGED_BY": "Managed by",
     "NO_MANAGER": "Current branch does not have a manager"
+  },
+  "REFERRALS": {
+    "GRID": {
+      "NAME": "Referral name",
+      "COUNTRY": "Country",
+      "BONUS_TYPE": "Bonus type",
+      "REGISTRATION": "Registration",
+      "FTD_AMOUNT": "FTD amount",
+      "FTD_DATE": "FTD date",
+      "REMUNERATION": "Remuneration",
+      "REMUNERATION_DATE": "Remuneration date",
+      "SALES": "Sales",
+      "RETENTION": "Retention"
+    },
+    "BONUS_TYPE_STATUS": {
+      "FTD": "FTD",
+      "REGISTRATION": "Registration"
+    },
+    "TITLE": "Referrals"
+  },
+  "ROLES_AND_PERMISSIONS": {
+    "TITLE": "Roles and Permissions",
+    "SELECT_FILTER":  {
+      "ALL": "All",
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled"
+    },
+    "TABLE":  {
+      "ACTION": "Action",
+      "PERMISSION":  "Permission"
+    },
+    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions..."
   }
 }
