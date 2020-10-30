@@ -14,7 +14,7 @@ class BrandItem extends PureComponent {
 
   render() {
     const { brand, onClick, isActive } = this.props;
-    const { id } = brand || {};
+    const { id, name } = brand || {};
 
     return (
       <div
@@ -31,7 +31,7 @@ class BrandItem extends PureComponent {
           alt={id}
           onError={(e) => { e.target.src = '/img/image-placeholder.svg'; }}
         />
-        <div className="BrandItem__title">{id}</div>
+        <div className="BrandItem__title">{name}</div>
       </div>
     );
   }

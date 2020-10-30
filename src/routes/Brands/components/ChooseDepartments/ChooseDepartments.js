@@ -6,21 +6,38 @@ import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { getBackofficeBrand } from 'config';
-import { Link } from 'components/Link';
 import Greeting from 'components/Greeting';
 import BrandItem from 'components/BrandItem';
 import DepartmentItem from 'components/DepartmentItem';
 import Copyrights from 'components/Copyrights';
+import Preloader from 'components/Preloader';
 import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
-import './Departments.scss';
+import './ChooseDepartments.scss';
 
-class Departments extends PureComponent {
+class ChooseDepartments extends PureComponent {
   static propTypes = {
     chooseDepartment: PropTypes.func.isRequired,
-    brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     brand: PropTypes.brand.isRequired,
+    brands: PropTypes.array.isRequired,
+    onBackClick: PropTypes.func.isRequired,
     ...PropTypes.router,
     ...withStorage.propTypes,
+  }
+
+  state = {
+    loading: true,
+  };
+
+  componentDidMount() {
+    const { departments } = this.props.brand;
+
+    if (departments.length === 1) {
+      return this.handleSelectDepartment(departments[0]);
+    }
+
+    this.setState({ loading: false });
+
+    return null;
   }
 
   handleSelectDepartment = async ({ department, role }) => {
@@ -45,12 +62,17 @@ class Departments extends PureComponent {
   }
 
   render() {
-    const { brand, brands, token } = this.props;
+    const { brand, brands, onBackClick } = this.props;
+    const { loading } = this.state;
 
     const backofficeLogo = getBackofficeBrand().themeConfig.logo;
 
-    if (!brand || !token) {
+    if (!brand) {
       return <Redirect to="/sign-in" />;
+    }
+
+    if (loading) {
+      return <Preloader />;
     }
 
     return (
@@ -73,8 +95,8 @@ class Departments extends PureComponent {
           </div>
 
           <If condition={brands.length > 1}>
-            <div className="Departments__back">
-              <Link to="/brands">{I18n.t('DEPARTMENTS.ALL_BRANDS')}</Link>
+            <div className="Departments__back" onClick={onBackClick}>
+              <span>{I18n.t('DEPARTMENTS.ALL_BRANDS')}</span>
             </div>
           </If>
 
@@ -97,8 +119,8 @@ class Departments extends PureComponent {
 
 export default compose(
   withRouter,
-  withStorage(['brand', 'brands', 'token']),
+  withStorage,
   withRequests({
     chooseDepartment: ChooseDepartmentMutation,
   }),
-)(Departments);
+)(ChooseDepartments);

@@ -25,7 +25,6 @@ class Logout extends PureComponent {
     } finally {
       storage.remove('token');
       storage.remove('brand');
-      storage.remove('brands');
       storage.remove('auth');
       client.resetStore();
     }

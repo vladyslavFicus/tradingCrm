@@ -1,10 +1,11 @@
 import { departmentsConfig, rolesConfig } from 'constants/brands';
 
-const getMappedBrands = (brandToAuthorities) => {
-  const brands = Object.keys(brandToAuthorities);
+const getMappedBrands = (brandToAuthorities, brands) => {
+  const userBrands = Object.keys(brandToAuthorities).sort();
 
-  return brands.map(brand => ({
+  return userBrands.map(brand => ({
     id: brand,
+    name: brands.find(_brand => _brand.brandId === brand)?.brandName,
     departments: brandToAuthorities[brand].map(({ id, department, role }) => ({
       id,
       department,

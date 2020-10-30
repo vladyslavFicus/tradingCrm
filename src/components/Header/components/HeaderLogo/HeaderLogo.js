@@ -1,22 +1,12 @@
 import React, { PureComponent } from 'react';
 import { getBrand, getStaticFileUrl } from 'config';
-import { withStorage } from 'providers/StorageProvider';
-import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import './HeaderLogo.scss';
 
 class HeaderLogo extends PureComponent {
-  static propTypes = {
-    brands: PropTypes.arrayOf(
-      PropTypes.brand.isRequired,
-    ).isRequired,
-  };
-
   render() {
-    const { brands } = this.props;
-
     return (
-      <Link className="HeaderLogo" to={brands.length > 1 ? '/brands' : '/'}>
+      <Link className="HeaderLogo" to="/brands">
         <img
           src={getStaticFileUrl(getBrand().id, 'header.svg')}
           alt="current-brand-logo"
@@ -27,4 +17,4 @@ class HeaderLogo extends PureComponent {
   }
 }
 
-export default withStorage(['brands'])(HeaderLogo);
+export default HeaderLogo;
