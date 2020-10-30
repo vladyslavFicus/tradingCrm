@@ -33,10 +33,6 @@ class AddressForm extends PureComponent {
   static propTypes = {
     initialValues: PropTypes.object,
     disabled: PropTypes.bool,
-    meta: PropTypes.shape({
-      countries: PropTypes.arrayOf(PropTypes.object).isRequired,
-      countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }),
     updateAddress: PropTypes.func.isRequired,
     clientUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
@@ -45,10 +41,6 @@ class AddressForm extends PureComponent {
   static defaultProps = {
     initialValues: {},
     disabled: false,
-    meta: {
-      countries: [],
-      countryCodes: [],
-    },
   };
 
   handleUpdateAddress = async (values, { setSubmitting }) => {
