@@ -108,46 +108,9 @@ const addExistingOperator = gql`mutation addExistingOperator(
   }
 }`;
 
-const changePassword = gql`mutation changeOperatorPassword(
-  $operatorUuid: String!
-  $newPassword: String!
-) {
-  auth {
-    changeOperatorPassword(
-      operatorUuid: $operatorUuid
-      newPassword: $newPassword
-    )
-  }
-}`;
-
-const passwordResetRequest = gql`mutation resetOperatorPassword(
-  $uuid: String!
-) {
-  auth {
-    resetUserPassword(userUuid: $uuid)
-  }
-}`;
-
-const changeStatus = gql`mutation changeStatus(
-  $uuid: String!
-  $reason: String!
-  $status: String!
-) {
-  operator {
-    changeStatus(
-      uuid: $uuid
-      reason: $reason
-      status: $status
-    )
-  }
-}`;
-
 export {
   removeDepartment,
   createOperator,
   updateOperator,
   addExistingOperator,
-  changePassword,
-  passwordResetRequest,
-  changeStatus,
 };

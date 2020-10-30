@@ -1451,22 +1451,46 @@
       }
     },
     "NOTIFICATIONS": {
-      "SUCCESS_UNLOCK": {
-        "TITLE": "success",
-        "MESSAGE": "Operator unlocked successfully"
+      "UNLOCK": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Operator unlocked successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to unlock operator"
+        }
       },
-      "ERROR_SET_NEW_PASSWORD": {
-        "TITLE": "Error",
-        "MESSAGE": "Failed to change password"
+      "RESET_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Reset password notification was sent to operator's email"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to reset password"
+        }
       },
-      "SUCCESS_SET_NEW_PASSWORD": {
-        "TITLE": "Success",
-        "MESSAGE": "Password changed successfully"
+      "CHANGE_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Password changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change password"
+        }
+      },
+      "CHANGE_ACCOUNT_STATUS": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Account status changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change account status"
+        }
       }
-    },
-    "ERROR_UNLOCK": {
-      "TITLE": "error",
-      "MESSAGE": "Operator unlocked unsuccessfully"
     }
   },
   "PARTNER_PROFILE": {
