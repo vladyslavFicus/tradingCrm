@@ -76,8 +76,8 @@ class ChooseDepartments extends PureComponent {
     }
 
     return (
-      <div className="Departments">
-        <div className="Departments__logo">
+      <div className="ChooseDepartments">
+        <div className="ChooseDepartments__logo">
           <If condition={backofficeLogo}>
             <img src={backofficeLogo} alt="logo" />
           </If>
@@ -85,22 +85,22 @@ class ChooseDepartments extends PureComponent {
 
         <div>
           <If condition={brands.length <= 1}>
-            <div className="Departments__greeting">
+            <div className="ChooseDepartments__greeting">
               <Greeting />
             </div>
           </If>
 
-          <div className="Departments__brand">
+          <div className="ChooseDepartments__brand">
             <BrandItem brand={brand} isActive />
           </div>
 
           <If condition={brands.length > 1}>
-            <div className="Departments__back" onClick={onBackClick}>
+            <div className="ChooseDepartments__back" onClick={onBackClick}>
               <span>{I18n.t('DEPARTMENTS.ALL_BRANDS')}</span>
             </div>
           </If>
 
-          <div className="Departments__list">
+          <div className="ChooseDepartments__list">
             {brand.departments.map(department => (
               <DepartmentItem
                 key={department.name}

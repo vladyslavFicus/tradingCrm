@@ -58,21 +58,21 @@ class ChooseBrands extends PureComponent {
     }
 
     return (
-      <div className="Brands">
-        <div className="Brands__logo">
+      <div className="ChooseBrands">
+        <div className="ChooseBrands__logo">
           <If condition={backofficeLogo}>
             <img src={backofficeLogo} alt="logo" />
           </If>
         </div>
 
         <div>
-          <div className="Brands__greeting">
+          <div className="ChooseBrands__greeting">
             <Greeting />
           </div>
 
-          <div className="Brands__message">{I18n.t('BRANDS.CHOOSE_BRAND')}</div>
+          <div className="ChooseBrands__message">{I18n.t('BRANDS.CHOOSE_BRAND')}</div>
 
-          <div className="Brands__list">
+          <div className="ChooseBrands__list">
             {brands.map(brand => (
               <BrandItem
                 key={brand.id}
