@@ -21,7 +21,7 @@ export default compose(
         page: {
           from: 0,
           size: 20,
-          ...{ sorts: state?.sorts || [] },
+          ...state?.sorts?.length && { sorts: state.sorts },
         },
       },
       fetchPolicy: 'network-only',
