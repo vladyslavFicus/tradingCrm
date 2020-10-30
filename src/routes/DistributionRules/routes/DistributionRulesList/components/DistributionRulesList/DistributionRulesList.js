@@ -27,6 +27,7 @@ import {
   DistributionRuleClientsAmountQuery,
 } from '../graphql';
 import { ReactComponent as PlayIcon } from './play-icon.svg';
+import { ReactComponent as PauseIcon } from './pause-icon.svg';
 import { ReactComponent as TimeIcon } from './time-icon.svg';
 import './DistributionRuleList.scss';
 
@@ -176,7 +177,7 @@ class DistributionRules extends PureComponent {
       >
         <Choose>
           <When condition={latestMigration && latestMigration.status === 'IN_PROGRESS'}>
-            <i className="font-size-20 icon-pause" />
+            <PauseIcon />
           </When>
           <When condition={executionType === 'AUTO'}>
             <TimeIcon />
