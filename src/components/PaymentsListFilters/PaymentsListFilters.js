@@ -6,7 +6,7 @@ import { Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import {
   aggregators,
@@ -223,7 +223,7 @@ class PaymentsListFilters extends PureComponent {
 
     const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
 
-    const currencies = getActiveBrandConfig().currencies.supported;
+    const currencies = getBrand().currencies.supported;
 
     const platformTypes = getAvailablePlatformTypes();
 

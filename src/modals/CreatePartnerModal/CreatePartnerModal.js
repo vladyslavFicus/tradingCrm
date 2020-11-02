@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
@@ -29,7 +29,7 @@ const validate = createValidator({
   firstName: ['required', 'string', 'min:3'],
   lastName: ['required', 'string', 'min:3'],
   email: ['required', 'email'],
-  password: ['required', `regex:${getActiveBrandConfig().password.pattern}`],
+  password: ['required', `regex:${getBrand().password.pattern}`],
   phone: ['required', 'min:3'],
   externalAffiliateId: ['min:3'],
   public: ['boolean'],

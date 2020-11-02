@@ -9,7 +9,7 @@ import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { onError } from 'apollo-link-error';
 import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { getGraphQLRoot, getApiVersion } from 'config';
+import { getGraphQLUrl, getVersion } from 'config';
 import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
@@ -30,7 +30,7 @@ class ApolloProvider extends PureComponent {
   static createClient({ history, storage, modals }) {
     // ========= Batch http link with upload link ========= //
     const httpLinkOptions = {
-      uri: getGraphQLRoot(),
+      uri: getGraphQLUrl(),
     };
 
     const batchHttpLink = split(
@@ -81,12 +81,12 @@ class ApolloProvider extends PureComponent {
 
     // ========= Auth link ========= //
     const authLink = new AuthLink({
-      uri: getGraphQLRoot(),
+      uri: getGraphQLUrl(),
       getToken: () => storage.get('token'),
       onRefresh: onRefreshToken(storage),
       onLogout: () => history.push('/logout'),
       headers: {
-        'x-client-version': getApiVersion(),
+        'x-client-version': getVersion(),
       },
       skip: ['SignInMutation', 'LogoutMutation'],
     });

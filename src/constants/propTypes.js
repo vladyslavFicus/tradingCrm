@@ -1011,4 +1011,10 @@ PropTypes.acquisition = PropTypes.shape({
   }),
 });
 
+PropTypes.brandConfig = PropTypes.shape({
+  brandId: PropTypes.string,
+  brandName: PropTypes.string,
+  config: PropTypes.object,
+});
+
 export default PropTypes;

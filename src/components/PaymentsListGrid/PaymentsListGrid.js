@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { get, set, cloneDeep } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import {
@@ -252,7 +252,7 @@ class PaymentsListGrid extends PureComponent {
                   {currency} {Number(amount).toFixed(2)}
                 </div>
                 <div className="font-size-11">
-                  {`(${getActiveBrandConfig().currencies.base} ${Number(
+                  {`(${getBrand().currencies.base} ${Number(
                     normalizedAmount,
                   ).toFixed(2)})`}
                 </div>

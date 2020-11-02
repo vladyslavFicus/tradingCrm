@@ -3,7 +3,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip, XAxis } from 'recharts';
 import PropTypes from 'constants/propTypes';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import createCustomTooltip from './createCustomTooltip';
@@ -153,7 +153,7 @@ class Chart extends PureComponent {
                   <Otherwise>
                     {(withCurrency && totals) ? Number(totals[key].value).toFixed(2) : totals[key].value}
                     <If condition={withCurrency}>
-                      {` ${getActiveBrandConfig().currencies.base || ''}`}
+                      {` ${getBrand().currencies.base || ''}`}
                     </If>
                   </Otherwise>
                 </Choose>

@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import PropTypes from 'prop-types';
+import PropTypes from 'constants/propTypes';
 import classNames from 'classnames';
-import { brandsConfig } from 'constants/brands';
 import { EditButton, RemoveButton } from 'components/UI';
 import './MigrationBrandCard.scss';
 
 class MigrationBrandCard extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    brand: PropTypes.string.isRequired,
     distributionUnit: PropTypes.shape({
       quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       baseUnit: PropTypes.string,
@@ -21,6 +19,7 @@ class MigrationBrandCard extends PureComponent {
     handleEditBrandCard: PropTypes.func.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
     brandType: PropTypes.string.isRequired,
+    brand: PropTypes.brandConfig.isRequired,
   }
 
   static defaultProps = {
@@ -32,18 +31,18 @@ class MigrationBrandCard extends PureComponent {
 
   renderSourceBrandContent = () => {
     const {
-      brand,
       distributionUnit: {
         quantity,
         baseUnit,
       },
       sortType,
+      brand,
     } = this.props;
 
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brandsConfig[brand]?.name || brand}</div>
+          <div className="MigrationBrandCard__dt">{brand.brandName}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOSEN')}
@@ -61,18 +60,18 @@ class MigrationBrandCard extends PureComponent {
 
   renderTargetBrandContent = () => {
     const {
-      brand,
       distributionUnit: {
         quantity,
         baseUnit,
       },
       operatorEntity,
+      brand,
     } = this.props;
 
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brandsConfig[brand]?.name || brand}</div>
+          <div className="MigrationBrandCard__dt">{brand.brandName}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_TO_MIGRATION')}
