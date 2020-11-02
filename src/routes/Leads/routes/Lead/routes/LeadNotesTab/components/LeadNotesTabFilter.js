@@ -1,45 +1,50 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form } from 'formik';
-import { FormikDateRangePicker } from 'components/Formik';
-import Button from 'components/UI/Button';
+import PropTypes from 'constants/propTypes';
+import { FormikDateRangeGroup } from 'components/Formik';
+import { Button } from 'components/UI';
 import './LeadNotesTabFilter.scss';
 
 class LeadNotesTabFilter extends PureComponent {
   static propTypes = {
-    handleApplyFilters: PropTypes.func.isRequired,
+    ...PropTypes.router,
+  };
+
+  handleSubmit = (filters) => {
+    this.props.history.replace({ query: { filters } });
+  };
+
+  handleReset = () => {
+    this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
-    const { handleApplyFilters } = this.props;
+    const { location: { query } } = this.props;
 
     return (
       <Formik
-        initialValues={{
-          changedAtFrom: '',
-          changedAtTo: '',
-        }}
-        onSubmit={handleApplyFilters}
-        onReset={handleApplyFilters}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({ dirty, handleReset }) => (
+        {({ dirty }) => (
           <Form className="LeadNotesTabFilter">
-            <FormikDateRangePicker
-              className="LeadNotesTabFilter__field"
+            <FormikDateRangeGroup
+              className="LeadNotesTabFilter__field LeadNotesTabFilter__date-range"
               label={I18n.t('LEAD_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
               periodKeys={{
                 start: 'changedAtFrom',
                 end: 'changedAtTo',
               }}
-              anchorDirection="left"
+              withFocus
             />
-            <div className="LeadNotesTabFilter__button-group">
+            <div className="LeadNotesTabFilter__buttons">
               <Button
                 className="LeadNotesTabFilter__button"
-                onClick={handleReset}
-                disabled={!dirty}
-                common
+                onClick={this.handleReset}
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
@@ -59,4 +64,4 @@ class LeadNotesTabFilter extends PureComponent {
   }
 }
 
-export default LeadNotesTabFilter;
+export default withRouter(LeadNotesTabFilter);

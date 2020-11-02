@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import DatePicker from 'components/DatePicker';
 import { RangeGroup } from 'components/Forms';
 
@@ -22,6 +22,7 @@ class DateRangeGroup extends PureComponent {
     }).isRequired,
     utc: PropTypes.bool,
     withTime: PropTypes.bool,
+    withFocus: PropTypes.bool,
     timePresets: PropTypes.bool,
     closeOnSelect: PropTypes.bool,
   };
@@ -33,6 +34,7 @@ class DateRangeGroup extends PureComponent {
     label: '',
     utc: true,
     withTime: true,
+    withFocus: false,
     timePresets: true,
     closeOnSelect: false,
   };
@@ -75,6 +77,7 @@ class DateRangeGroup extends PureComponent {
       endField,
       utc,
       withTime,
+      withFocus,
       timePresets,
       closeOnSelect,
     } = this.props;
@@ -91,6 +94,7 @@ class DateRangeGroup extends PureComponent {
           placeholder={I18n.t('COMMON.DATE_OPTIONS.START_DATE')}
           utc={utc}
           withTime={withTime}
+          withFocus={withFocus}
           timePresets={timePresets}
           closeOnSelect={closeOnSelect}
         />
@@ -101,6 +105,7 @@ class DateRangeGroup extends PureComponent {
           placeholder={I18n.t('COMMON.DATE_OPTIONS.END_DATE')}
           utc={utc}
           withTime={withTime}
+          withFocus={withFocus}
           timePresets={timePresets}
           closeOnSelect={closeOnSelect}
           isDateRangeEndValue

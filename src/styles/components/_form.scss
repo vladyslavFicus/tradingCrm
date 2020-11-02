@@ -110,6 +110,11 @@
       visibility: visible;
     }
   }
+  &.is-focused {
+    .select-block__label {
+      border: 1px solid #4990e2;
+    }
+  }
   &.with-option {
     font-weight: 600;
     color: #4a4a4a;
@@ -126,12 +131,13 @@
   }
   &__label {
     position: relative;
-    padding-top: 2px;
+    // padding-top: 2px;
     padding-right: 30px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 30px;
+    // line-height: 30px;
+    min-height: 40px;
 
     &--multipleLabel {
       padding-bottom: 0;
@@ -320,9 +326,16 @@
   .form-control:focus {
     z-index: 0;
   }
+  .date-time-icon,
+  &-text,
+  &-addon {
+    border: 1px solid #ced4da;
+    transition: all 0.2s;
+  }
   &-addon {
     background-color: #fff;
     color: #cfcfcf;
+
     &.clickable:hover {
       cursor: pointer;
       color: #4a4a4a;
@@ -334,6 +347,14 @@
     .form-control {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+    }
+  }
+  &--rtd-is-focused {
+    .form-control {
+      border-color: #4990e2;
+    }
+    .input-group-addon {
+      border-color: #4990e2;
     }
   }
 }

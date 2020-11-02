@@ -5,7 +5,6 @@ import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
-import { brandsConfig } from 'constants/brands';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import {
@@ -31,6 +30,7 @@ class AddSourceBrandModal extends PureComponent {
       sortType: PropTypes.string,
     }),
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
+    brands: PropTypes.arrayOf(PropTypes.brandConfig).isRequired,
   }
 
   static defaultProps = {
@@ -77,6 +77,7 @@ class AddSourceBrandModal extends PureComponent {
       isOpen,
       handleSubmit,
       allowedBaseUnits,
+      brands,
       initialValues: {
         brand,
         distributionUnit,
@@ -97,6 +98,7 @@ class AddSourceBrandModal extends PureComponent {
         className="AddSourceBrandModal"
       >
         <Formik
+          enableReinitialize
           initialValues={{
             brand,
             quantity,
@@ -122,7 +124,7 @@ class AddSourceBrandModal extends PureComponent {
         >
           {({ values, setFieldValue }) => (
             <Form>
-              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}</ModalHeader>
+              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.SOURCE_BRAND')}</ModalHeader>
               <ModalBody>
                 <Field
                   name="brand"
@@ -131,8 +133,10 @@ class AddSourceBrandModal extends PureComponent {
                   customOnChange={this.handleBrandChange(setFieldValue)}
                   searchable
                 >
-                  {Object.keys(brandsConfig).map(value => (
-                    <option key={value} value={value}>{brandsConfig[value].name}</option>
+                  {brands.map(_brand => (
+                    <option key={_brand.brandId} value={_brand.brandId}>
+                      {_brand.brandName}
+                    </option>
                   ))}
                 </Field>
                 <If condition={values.brand}>

@@ -45,12 +45,7 @@ class FeedFilterForm extends PureComponent {
 
     return (
       <Formik
-        initialValues={{
-          searchBy: '',
-          auditLogType: '',
-          creationDateFrom: '',
-          creationDateTo: '',
-        }}
+        initialValues={{}}
         onSubmit={this.handleFiltersChanged}
         onReset={this.handleFiltersChanged}
         validate={
@@ -66,11 +61,12 @@ class FeedFilterForm extends PureComponent {
           <Form className="filter-row">
             <Field
               name="searchBy"
+              className="filter-row__medium"
               label={I18n.t(attributeLabels.searchBy)}
               placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
-              component={FormikInputField}
-              className="filter-row__medium"
               addition={<i className="icon icon-search" />}
+              component={FormikInputField}
+              withFocus
             />
             <Field
               name="auditLogType"
@@ -78,6 +74,7 @@ class FeedFilterForm extends PureComponent {
               component={FormikSelectField}
               className="filter-row__medium"
               withAnyOption
+              withFocus
             >
               {availableTypes.map(({ key, value }) => (
                 <option key={key} value={key}>{value}</option>
@@ -90,12 +87,13 @@ class FeedFilterForm extends PureComponent {
                 start: 'creationDateFrom',
                 end: 'creationDateTo',
               }}
+              withFocus
             />
             <div className="filter-row__button-block">
               <Button
                 className="margin-right-15"
                 onClick={resetForm}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

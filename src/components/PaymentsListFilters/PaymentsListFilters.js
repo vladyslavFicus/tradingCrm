@@ -6,7 +6,7 @@ import { Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import {
   aggregators,
@@ -195,6 +195,7 @@ class PaymentsListFilters extends PureComponent {
 
   render() {
     const {
+      location: { query },
       hierarchyQuery: { data: hierarchyData, loading: hierarchyLoading },
       operatorsQuery: { data: operatorsData, loading: operatorsLoading },
       paymentMethodsQuery: {
@@ -222,19 +223,18 @@ class PaymentsListFilters extends PureComponent {
 
     const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
 
-    const currencies = getActiveBrandConfig().currencies.supported;
+    const currencies = getBrand().currencies.supported;
 
     const platformTypes = getAvailablePlatformTypes();
 
     return (
       <FormikExtForm
-        initialValues={{
-          accountType,
-        }}
+        initialValues={query?.filters || { accountType }}
         handleSubmit={this.handleFormChange}
         handleReset={this.handleFormReset}
         isDataLoading={paymentsLoading}
         filterSetType={filterSetTypes.PAYMENT}
+        enableReinitialize
       >
         {({ values, setFieldValue }) => (
           <Fragment>
@@ -245,6 +245,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
               addition={<i className="icon icon-search" />}
               component={FormikInputField}
+              withFocus
             />
             <If condition={!clientView}>
               <Field
@@ -254,6 +255,7 @@ class PaymentsListFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 searchable
+                withFocus
                 multiple
               >
                 {Object.keys(countries).map(value => (
@@ -270,6 +272,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               withAnyOption
+              withFocus
             >
               {Object.keys(aggregators).map(value => (
                 <option key={value} value={value}>
@@ -285,6 +288,7 @@ class PaymentsListFilters extends PureComponent {
               disabled={paymentMethodsLoading}
               component={FormikSelectField}
               searchable
+              withFocus
               multiple
             >
               {paymentMethods.map(value => (
@@ -300,6 +304,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               searchable
+              withFocus
               multiple
             >
               {Object.keys(tradingTypes)
@@ -317,6 +322,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               searchable
+              withFocus
               multiple
             >
               {Object.keys(tradingStatuses).map(value => (
@@ -332,6 +338,7 @@ class PaymentsListFilters extends PureComponent {
                 start: 'statusChangedTimeFrom',
                 end: 'statusChangedTimeTo',
               }}
+              withFocus
             />
             <Field
               name="desks"
@@ -346,6 +353,7 @@ class PaymentsListFilters extends PureComponent {
               disabled={hierarchyLoading || !desks.length}
               customOnChange={value => this.handleBranchChange('desks', value, setFieldValue, values)}
               searchable
+              withFocus
               multiple
             >
               {desks.map(({ uuid, name }) => (
@@ -367,6 +375,7 @@ class PaymentsListFilters extends PureComponent {
               disabled={hierarchyLoading || !teams.length}
               customOnChange={value => this.handleBranchChange('teams', value, setFieldValue, values)}
               searchable
+              withFocus
               multiple
             >
               {teams.map(({ uuid, name }) => (
@@ -383,6 +392,7 @@ class PaymentsListFilters extends PureComponent {
               component={FormikSelectField}
               disabled={disabledOperators}
               searchable
+              withFocus
               multiple
             >
               {operators.map(({ fullName, uuid, operatorStatus }) => (
@@ -407,6 +417,7 @@ class PaymentsListFilters extends PureComponent {
                 component={FormikSelectField}
                 disabled={partnersLoading || !partners.length}
                 searchable
+                withFocus
                 multiple
               >
                 {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
@@ -422,6 +433,7 @@ class PaymentsListFilters extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {currencies.map(value => (
                   <option key={value} value={value}>
@@ -437,6 +449,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               withAnyOption
+              withFocus
             >
               {accountTypes.map(({ value, label }) => (
                 <option key={value} value={value}>
@@ -452,6 +465,7 @@ class PaymentsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {platformTypes.map(({ value, label }) => (
                   <option key={value} value={value}>{label}</option>
@@ -465,6 +479,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               withAnyOption
+              withFocus
             >
               {[
                 { label: 'COMMON.YES', value: true },
@@ -482,6 +497,7 @@ class PaymentsListFilters extends PureComponent {
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               withAnyOption
+              withFocus
             >
               {Object.keys(warningValues).map(value => (
                 <option key={value} value={value}>
@@ -500,6 +516,7 @@ class PaymentsListFilters extends PureComponent {
                 min={0}
                 placeholder="0.0"
                 component={FormikInputField}
+                withFocus
               />
               <Field
                 name="amountTo"
@@ -508,6 +525,7 @@ class PaymentsListFilters extends PureComponent {
                 min={0}
                 placeholder="0.0"
                 component={FormikInputField}
+                withFocus
               />
             </RangeGroup>
             <FormikDateRangeGroup
@@ -517,6 +535,7 @@ class PaymentsListFilters extends PureComponent {
                 start: 'creationTimeFrom',
                 end: 'creationTimeTo',
               }}
+              withFocus
             />
             <FormikDateRangeGroup
               className="form-group filter-row__date-range"
@@ -525,6 +544,7 @@ class PaymentsListFilters extends PureComponent {
                 start: 'modificationTimeFrom',
                 end: 'modificationTimeTo',
               }}
+              withFocus
             />
           </Fragment>
         )}

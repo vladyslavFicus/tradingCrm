@@ -55,7 +55,7 @@ class TradingAccountsListFilters extends PureComponent {
         initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
-        {({ dirty, values, resetForm }) => (
+        {({ dirty, resetForm }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -64,6 +64,8 @@ class TradingAccountsListFilters extends PureComponent {
                 placeholder={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
                 className="form-group filter-row__big"
                 component={FormikInputField}
+                addition={<i className="icon icon-search" />}
+                withFocus
               />
               <Field
                 name="accountType"
@@ -72,6 +74,7 @@ class TradingAccountsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(accountTypes).map(key => (
                   <option key={key} value={key}>
@@ -87,6 +90,7 @@ class TradingAccountsListFilters extends PureComponent {
                   className="form-group filter-row__medium"
                   component={FormikSelectField}
                   withAnyOption
+                  withFocus
                 >
                   {platformTypes.map(({ value, label }) => (
                     <option key={value} value={value}>{label}</option>
@@ -100,6 +104,7 @@ class TradingAccountsListFilters extends PureComponent {
                 className="form-group filter-row__medium"
                 component={FormikSelectField}
                 withAnyOption
+                withFocus
               >
                 {Object.keys(accountStatuses).map(key => (
                   <option key={key} value={key}>
@@ -112,8 +117,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={loading || !Object.keys(values).length}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

@@ -8,7 +8,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
-import CreatePartnerModal from './components/CreatePartnerModal';
+import CreatePartnerModal from 'modals/CreatePartnerModal';
 import PartnersGridFilter from './components/PartnersGridFilter';
 import PartnersGrid from './components/PartnersGrid';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -49,6 +49,7 @@ class PartnersList extends PureComponent {
               </Otherwise>
             </Choose>
           </div>
+
           <PermissionContent permissions={permissions.PARTNERS.CREATE}>
             <div className="PartnersList__header-right">
               <Button
@@ -60,6 +61,7 @@ class PartnersList extends PureComponent {
             </div>
           </PermissionContent>
         </div>
+
         <PartnersGridFilter />
         <PartnersGrid partnersQuery={partnersQuery} />
       </div>

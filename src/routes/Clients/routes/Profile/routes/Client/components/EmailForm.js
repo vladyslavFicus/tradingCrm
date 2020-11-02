@@ -103,7 +103,7 @@ class EmailForm extends PureComponent {
             </div>
             <If condition={!(!dirty || !isValid || isSubmitting)}>
               <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>
-                <div className="auth__form-buttons">
+                <div className="text-right">
                   <Button
                     primary
                     type="submit"
