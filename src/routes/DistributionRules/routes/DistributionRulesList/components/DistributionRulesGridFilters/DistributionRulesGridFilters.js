@@ -97,7 +97,7 @@ class DistributionRulesFilters extends PureComponent {
               <Field
                 name="languages"
                 className="DistributionRulesFilters__field"
-                label={I18n.t(filterLabels.languages)}
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LANGUAGES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 searchable
