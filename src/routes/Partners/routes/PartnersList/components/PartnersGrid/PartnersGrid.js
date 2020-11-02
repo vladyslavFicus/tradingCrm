@@ -77,7 +77,7 @@ class PartnersGrid extends PureComponent {
     history.replace({
       state: {
         ...state,
-        sorts,
+        sorts: sorts.length ? sorts : undefined,
         sortData,
       },
     });
