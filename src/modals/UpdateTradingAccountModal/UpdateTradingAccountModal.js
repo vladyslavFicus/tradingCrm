@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import UpdateTradingAccountMutation from './graphql/UpdateTradingAccountMutation';
