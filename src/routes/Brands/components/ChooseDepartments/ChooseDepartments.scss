@@ -1,4 +1,4 @@
-.Departments {
+.ChooseDepartments {
   padding: 0 20px;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@
     margin-bottom: 90px;
     text-align: center;
 
-    & a {
+    & span {
       color: #9b9b9b;
       cursor: pointer;
       font-size: 20px;

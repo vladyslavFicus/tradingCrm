@@ -65,7 +65,8 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
 }`;
 
 const getLeadsQuery = ({ children, location: { state } }) => {
-  const searchLimit = state?.filters?.searchLimit;
+  const filters = state?.filters;
+  const searchLimit = filters?.searchLimit;
   const size = (searchLimit && searchLimit < 20) ? searchLimit : 20;
 
   return (
@@ -73,7 +74,7 @@ const getLeadsQuery = ({ children, location: { state } }) => {
       query={REQUEST}
       variables={{
         args: {
-          ...state?.filters,
+          ...filters,
           page: {
             from: 0,
             size,
