@@ -13,35 +13,38 @@ import './ClientTradingAccountsGridFilter.scss';
 class ClientTradingAccountsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    accountType: PropTypes.string.isRequired,
   };
 
-  handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
       state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
-
-    setSubmitting(false);
   };
 
   handleReset = () => {
-    this.props.history.replace({
+    const { history, location: { state } } = this.props;
+
+    history.replace({
       state: {
-        filters: {},
+        ...state,
+        filters: null,
       },
     });
   };
 
   render() {
-    const { accountType, location: { state } } = this.props;
+    const { location: { state } } = this.props;
     const platformTypes = getAvailablePlatformTypes();
 
     return (
       <Formik
         className="ClientTradingAccountsGridFilter"
-        initialValues={state?.filters || { accountType }}
+        initialValues={state?.filters || { accountType: 'LIVE' }}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
