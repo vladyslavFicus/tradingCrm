@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
@@ -60,21 +58,14 @@ class PaymentsListGrid extends PureComponent {
     loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
 
-  handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
-
-    const sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
+  handleSort = (sortData, sorts) => {
+    const { history, location: { query } } = this.props;
 
     history.replace({
       query: {
         ...query,
         sorts,
+        sortData,
       },
     });
   };

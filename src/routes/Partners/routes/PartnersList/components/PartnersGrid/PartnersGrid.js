@@ -39,45 +39,37 @@ class PartnersGrid extends PureComponent {
     });
   };
 
-  handleSort = (sortData) => {
+  handleSort = (sortData, sorts) => {
     const { history, location: { state } } = this.props;
 
-    let nameDirection = null;
+    let sortsWithName = null;
 
-    let sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map((sortingKey) => {
-        if (sortingKey === 'name') {
-          nameDirection = sortData[sortingKey];
-        }
+    if (sorts) {
+      const nameDirection = sortData.name;
+      sortsWithName = [...sorts];
 
-        return {
-          column: sortingKey,
-          direction: sortData[sortingKey],
-        };
-      });
-
-    if (nameDirection) {
-      sorts = sorts
-        .filter(({ column }) => column !== 'name')
-        .concat([
-          {
-            column: 'firstName',
-            direction: nameDirection,
-          },
-          {
-            column: 'lastName',
-            direction: nameDirection,
-          },
-        ]);
-    } else {
-      sorts = sorts.filter(({ column }) => column !== 'firstName' && column !== 'lastName');
+      if (nameDirection) {
+        sortsWithName = sortsWithName
+          .filter(({ column }) => column !== 'name')
+          .concat([
+            {
+              column: 'firstName',
+              direction: nameDirection,
+            },
+            {
+              column: 'lastName',
+              direction: nameDirection,
+            },
+          ]);
+      } else {
+        sortsWithName = sortsWithName.filter(({ column }) => column !== 'firstName' && column !== 'lastName');
+      }
     }
 
     history.replace({
       state: {
         ...state,
-        sorts: sorts.length ? sorts : undefined,
+        sorts: sortsWithName,
         sortData,
       },
     });

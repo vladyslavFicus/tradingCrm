@@ -73,11 +73,11 @@ const getLeadsQuery = ({ children, location: { state } }) => {
       query={REQUEST}
       variables={{
         args: {
-          ...state && state.filters,
+          ...state?.filters,
           page: {
             from: 0,
             size,
-            sorts: state ? state.sorts : [],
+            sorts: state?.sorts,
           },
         },
       }}

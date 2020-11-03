@@ -1,5 +1,4 @@
 import React from 'react';
-import { get } from 'lodash';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
@@ -83,11 +82,11 @@ const PaymentsQuery = ({ children, location: { query } }) => (
     variables={{
       args: {
         accountType: 'LIVE',
-        ...(query && query.filters),
+        ...query?.filters,
         page: {
           from: 0,
           size: 20,
-          sorts: get(query, 'sorts') || [],
+          sorts: query?.sorts,
         },
       },
     }}

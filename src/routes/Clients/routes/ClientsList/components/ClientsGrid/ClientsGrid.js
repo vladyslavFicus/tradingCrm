@@ -46,16 +46,8 @@ class ClientsGrid extends PureComponent {
     }).isRequired,
   }
 
-  handleSort = (sortData) => {
-    const { history, location } = this.props;
-    const state = location?.state || {};
-
-    const sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
+  handleSort = (sortData, sorts) => {
+    const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
@@ -67,23 +59,24 @@ class ClientsGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
-    const { location, clientsQuery } = this.props;
+    const {
+      location,
+      location: {
+        state,
+      },
+      clientsQuery: {
+        data,
+        loadMore,
+        variables,
+      },
+    } = this.props;
 
-    const defaultSize = 20;
-    const clients = clientsQuery?.data?.profiles || null;
-    const { currentPage } = limitItems(clients, location);
+    const { currentPage } = limitItems(data?.profiles, location);
+    const filters = state?.filters;
+    const sorts = state?.sorts;
+    const size = variables?.args?.page?.size;
 
-    const filters = location?.state?.filters || {};
-    const sorts = location?.state?.sorts || [];
-
-    const { searchLimit } = filters;
-    const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
-
-    const size = (restLimitSize && restLimitSize < defaultSize && restLimitSize > 0)
-      ? restLimitSize
-      : defaultSize;
-
-    clientsQuery.loadMore({
+    loadMore({
       args: {
         ...filters,
         page: {
