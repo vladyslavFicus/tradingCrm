@@ -12,7 +12,6 @@ import MainLayout from 'layouts/MainLayout';
 import Logout from 'routes/Logout';
 import SignIn from 'routes/SignIn';
 import Brands from 'routes/Brands';
-import Departments from 'routes/Departments';
 import Clients from 'routes/Clients';
 import Payments from 'routes/Payments';
 import ResetPassword from 'routes/ResetPassword';
@@ -113,7 +112,6 @@ class IndexRoute extends PureComponent {
 
             {/* Common routes */}
             <Route path="/brands" layout={BlackLayout} component={Brands} />
-            <Route path="/departments" layout={BlackLayout} component={Departments} />
 
             {/* Not found routes */}
             <Route component={NotFound} />

@@ -6,7 +6,7 @@ import moment from 'moment';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withModals, withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
@@ -296,7 +296,7 @@ class TradingAccountsGrid extends PureComponent {
         },
       },
     } = this.props;
-    const brand = getActiveBrandConfig();
+    const brand = getBrand();
 
     const dropDownActions = [
       {
@@ -313,7 +313,7 @@ class TradingAccountsGrid extends PureComponent {
       },
     ];
 
-    if (brand[`leveragesChangingRequest${platformType}`].length) {
+    if (brand[platformType.toLowerCase()].leveragesChangingRequest.length) {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         onClick: () => changeLeverageModal.show({

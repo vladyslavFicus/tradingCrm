@@ -3,21 +3,14 @@ import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
-import { filterLabels } from 'constants/user';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import Button from 'components/UI/Button';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import './DistributionRulesGridFilters.scss';
-
-const validate = createValidator({
-  searchBy: 'string',
-  country: `in:,${Object.keys(countryList).join()}`,
-}, filterLabels, false);
 
 class DistributionRulesFilters extends PureComponent {
   static propTypes = {
@@ -38,7 +31,6 @@ class DistributionRulesFilters extends PureComponent {
     return (
       <Formik
         initialValues={query?.filters || {}}
-        validate={validate}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
@@ -73,7 +65,7 @@ class DistributionRulesFilters extends PureComponent {
                 name="fromBrand"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.NAME')}
-                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FROM_BRAND')}
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SOURCE_BRAND')}
                 component={FormikInputField}
                 withFocus
               />
@@ -81,7 +73,7 @@ class DistributionRulesFilters extends PureComponent {
                 name="toBrand"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.NAME')}
-                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TO_BRAND')}
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TARGET_BRAND')}
                 component={FormikInputField}
                 withFocus
               />
@@ -105,7 +97,7 @@ class DistributionRulesFilters extends PureComponent {
                 name="country"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t(filterLabels.country)}
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.COUNTRY')}
                 component={FormikSelectField}
                 withAnyOption
                 searchable
@@ -134,14 +126,14 @@ class DistributionRulesFilters extends PureComponent {
                 withFocus
               />
               <Field
-                name="executionPeriodInHours"
+                name="executionPeriodsInHours"
                 className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.EXECUTION_TIME')}
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>

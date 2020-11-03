@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { generate } from 'utils/password';
 import { createValidator, translateLabels } from 'utils/validator';
 import { getAvailablePlatformTypes, getAvailableAccountTypes } from 'utils/tradingAccount';
@@ -20,7 +20,7 @@ import './TradingAccountAddModal.scss';
 const validator = values => createValidator({
   name: ['required', 'string', 'max:50', 'min:4'],
   currency: ['required', 'string'],
-  password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
+  password: ['required', `regex:${getBrand().password.mt4_pattern}`],
   amount: values.accountType === 'DEMO' && 'required',
 }, translateLabels(attributeLabels), false)(values);
 
@@ -165,7 +165,7 @@ class TradingAccountAddModal extends PureComponent {
                   label={attributeLabels.currency}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 >
-                  {getActiveBrandConfig().currencies.supported.map((item, index) => (
+                  {getBrand().currencies.supported.map((item, index) => (
                     <option key={index} value={item}>
                       {item}
                     </option>

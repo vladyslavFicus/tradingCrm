@@ -1,108 +1,58 @@
 import React, { PureComponent } from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import { compose } from 'react-apollo';
-import I18n from 'i18n-js';
-import { getBackofficeBrand } from 'config';
-import { withRequests } from 'apollo';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { withStorage } from 'providers/StorageProvider';
-import PropTypes from 'constants/propTypes';
-import Greeting from 'components/Greeting';
-import BrandItem from 'components/BrandItem';
-import Copyrights from 'components/Copyrights';
-import setBrandIdByUserToken from 'utils/setBrandIdByUserToken';
-import ChooseDepartmentMutation from './graphql/ChooseDepartmentMutation';
-import './Brands.scss';
+import ChooseBrands from './components/ChooseBrands';
+import ChooseDepartments from './components/ChooseDepartments';
 
 class Brands extends PureComponent {
   static propTypes = {
-    chooseDepartment: PropTypes.func.isRequired,
-    ...PropTypes.router,
-    ...withStorage.propTypes,
-  }
+    token: PropTypes.string,
+  };
 
-  handleSelectBrand = (brand) => {
-    const { storage, history } = this.props;
+  static defaultProps = {
+    token: null,
+  };
 
-    const { id: brandId, departments } = brand;
+  state = {
+    step: 0,
+    brand: null,
+    brands: [],
+  };
 
-    storage.set('brand', brand);
+  onBrandChosen = (brand, brands) => {
+    this.setState({ brand, brands, step: 1 });
+  };
 
-    if (departments.length === 1) {
-      this.handleSelectDepartment(brandId, departments[0]);
-    } else {
-      history.push('/departments');
-    }
-  }
-
-  handleSelectDepartment = async (brandId, { department, role }) => {
-    const { chooseDepartment, storage, history } = this.props;
-
-    try {
-      const { data: { auth: { chooseDepartment: { token, uuid } } } } = await chooseDepartment({
-        variables: {
-          brand: brandId,
-          department,
-          role,
-        },
-      });
-
-      storage.set('token', token);
-      storage.set('auth', { department, role, uuid });
-
-      // The function need to refresh window.app object to get new data from token
-      setBrandIdByUserToken();
-
-      history.push('/dashboard');
-    } catch (e) {
-      // Do nothing...
-    }
-  }
+  onDepartmentBackClick = () => {
+    this.setState({ step: 0, brand: null });
+  };
 
   render() {
-    const { brands, token } = this.props;
+    const { token } = this.props;
+    const { step, brands, brand } = this.state;
 
-    const backofficeLogo = getBackofficeBrand().themeConfig.logo;
-
-    if (!brands || !token) {
+    if (!token) {
       return <Redirect to="/sign-in" />;
     }
 
     return (
-      <div className="Brands">
-        <div className="Brands__logo">
-          <If condition={backofficeLogo}>
-            <img src={backofficeLogo} alt="logo" />
-          </If>
-        </div>
-
-        <div>
-          <div className="Brands__greeting">
-            <Greeting />
-          </div>
-
-          <div className="Brands__message">{I18n.t('BRANDS.CHOOSE_BRAND')}</div>
-
-          <div className="Brands__list">
-            {brands.map(brand => (
-              <BrandItem
-                key={brand.id}
-                brand={brand}
-                onClick={() => this.handleSelectBrand(brand)}
-              />
-            ))}
-          </div>
-        </div>
-
-        <Copyrights />
-      </div>
+      <Choose>
+        <When condition={step === 0}>
+          <ChooseBrands
+            onChosen={this.onBrandChosen}
+          />
+        </When>
+        <When condition={step === 1}>
+          <ChooseDepartments
+            brand={brand}
+            brands={brands}
+            onBackClick={this.onDepartmentBackClick}
+          />
+        </When>
+      </Choose>
     );
   }
 }
 
-export default compose(
-  withRouter,
-  withStorage(['brands', 'token']),
-  withRequests({
-    chooseDepartment: ChooseDepartmentMutation,
-  }),
-)(Brands);
+export default withStorage(['token'])(Brands);

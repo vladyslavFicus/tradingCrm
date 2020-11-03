@@ -6,14 +6,14 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import UpdateTradingAccountMutation from './graphql/UpdateTradingAccountMutation';
 import './UpdateTradingAccountModal.scss';
 
 const attributeLabels = {
-  name: I18n.t('MODALS.UPDATE_TRADING_ACCOUNT_MODAL.LABLES.NAME'),
+  name: 'MODALS.UPDATE_TRADING_ACCOUNT_MODAL.LABLES.NAME',
 };
 
 class UpdateTradingAccountModal extends PureComponent {
@@ -36,8 +36,6 @@ class UpdateTradingAccountModal extends PureComponent {
       profileUUID,
       accountUUID,
     } = this.props;
-
-    setSubmitting(false);
 
     try {
       await updateTradingAccount({
@@ -63,6 +61,8 @@ class UpdateTradingAccountModal extends PureComponent {
         message: I18n.t('MODALS.UPDATE_TRADING_ACCOUNT_MODAL.NOTIFICATION.ERROR'),
       });
     }
+
+    setSubmitting(false);
   };
 
   render() {
@@ -80,7 +80,7 @@ class UpdateTradingAccountModal extends PureComponent {
           initialValues={{}}
           validate={createValidator({
             name: ['required', 'string'],
-          }, attributeLabels, false)}
+          }, translateLabels(attributeLabels), false)}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={this.handleSubmit}
@@ -93,7 +93,7 @@ class UpdateTradingAccountModal extends PureComponent {
               <ModalBody>
                 <Field
                   name="name"
-                  label={attributeLabels.name}
+                  label={I18n.t(attributeLabels.name)}
                   placeholder={I18n.t('COMMON.NAME')}
                   component={FormikInputField}
                   disabled={isSubmitting}

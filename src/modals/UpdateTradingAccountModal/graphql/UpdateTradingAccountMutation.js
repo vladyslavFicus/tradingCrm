@@ -11,9 +11,9 @@ const REQUEST = gql`
 ) {
   tradingAccount {
     update(
-      profileId: $profileId,
-      accountUUID: $accountUUID,
-      name: $name,
+      profileId: $profileId
+      accountUUID: $accountUUID
+      name: $name
     )
   }
 }`;
