@@ -106,12 +106,14 @@ class HierarchyProfileForm extends Component {
       userBranchesTreeUp,
       match: { params: { id } },
       reset,
-      initialValues: { subordinatesCount },
+      initialValues: { statistics },
       operatorFullName,
       modals: {
         confirmActionModal,
       },
     } = this.props;
+
+    const totalSubordinatesCount = statistics?.totalSubordinatesCount;
 
     const removeBranch = async () => {
       try {
@@ -141,13 +143,13 @@ class HierarchyProfileForm extends Component {
       confirmActionModal.hide();
     };
 
-    if (subordinatesCount >= 10000) {
+    if (totalSubordinatesCount >= 10000) {
       confirmActionModal.show({
         onSubmit: removeBranch,
         modalTitle: I18n.t('MODALS.UNASSIGN_BRANCH.TITLE'),
         actionText: I18n.t('MODALS.UNASSIGN_BRANCH.DESCRIPTION', {
           operator: operatorFullName,
-          clients: subordinatesCount,
+          clients: totalSubordinatesCount,
           branch: name,
         }),
         submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
@@ -231,13 +233,15 @@ class HierarchyProfileForm extends Component {
       allowUpdateHierarchy,
       initialValues: {
         parentBranches,
-        subordinatesCount,
+        statistics,
       },
       userBranchesTreeUp: {
         refetch,
       },
       operatorFullName,
     } = this.props;
+
+    const totalSubordinatesCount = statistics?.totalSubordinatesCount;
 
     const { branchFormVisibility } = this.state;
 
@@ -303,7 +307,7 @@ class HierarchyProfileForm extends Component {
                   refetchUserBranchesTreeUp={refetch}
                   hideForm={this.toggleBranchForm}
                   operatorFullName={operatorFullName}
-                  subordinatesCount={subordinatesCount}
+                  totalSubordinatesCount={totalSubordinatesCount}
                   currentBranches={
                     Array.isArray(parentBranches) ? parentBranches.map(({ uuid }) => uuid) : null
                   }

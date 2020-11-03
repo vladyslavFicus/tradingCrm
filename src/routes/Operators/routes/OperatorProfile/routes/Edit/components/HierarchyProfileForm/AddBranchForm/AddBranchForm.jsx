@@ -19,7 +19,7 @@ class AddBranchForm extends Component {
     notify: PropTypes.func.isRequired,
     addOperatorToBranch: PropTypes.func.isRequired,
     currentBranches: PropTypes.array.isRequired,
-    subordinatesCount: PropTypes.number.isRequired,
+    totalSubordinatesCount: PropTypes.number.isRequired,
     operatorFullName: PropTypes.string.isRequired,
     branchHierarchy: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -88,13 +88,13 @@ class AddBranchForm extends Component {
   handleSubmit = ({ [fieldNames.BRANCH]: branchId }) => {
     const {
       operatorFullName,
-      subordinatesCount,
+      totalSubordinatesCount,
       modals: {
         confirmActionModal,
       },
     } = this.props;
 
-    if (subordinatesCount >= 10000) {
+    if (totalSubordinatesCount >= 10000) {
       const { branchHierarchySequence } = this.state.branches.find(({ value }) => value === branchId);
 
       confirmActionModal.show({
@@ -102,7 +102,7 @@ class AddBranchForm extends Component {
         modalTitle: I18n.t('MODALS.ASSIGN_BRANCH.TITLE'),
         actionText: I18n.t('MODALS.ASSIGN_BRANCH.DESCRIPTION', {
           operator: operatorFullName,
-          clients: subordinatesCount,
+          clients: totalSubordinatesCount,
           branch: branchHierarchySequence.join(' → '),
         }),
         submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
