@@ -1,6 +1,15 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { pickBy } from 'lodash';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
@@ -9,6 +18,8 @@ import { withRequests } from 'apollo';
 import AllActionsQuery from './graphql/AllActionsQuery';
 import ActionsQuery from './graphql/ActionsQuery';
 import UpdateAuthorityActionsMutation from './graphql/UpdateAuthorityActionsMutation';
+import { ReactComponent as PreviewIcon } from './preview-icon.svg';
+import mapping from './mapping.json';
 import './PermissionsTable.scss';
 
 class PermissionsTable extends PureComponent {
@@ -28,51 +39,6 @@ class PermissionsTable extends PureComponent {
     department: null,
     role: null,
   };
-
-  state = {
-    filter: 'all',
-
-    // Used for rendering actions (the main problem is change enabled with filter)
-    // If filter is 'Enabled' and you change permission to disable -> permission lost from list depends on filter
-    actions: null,
-
-    // Used to enable/disable actions under the hood
-    shadowActions: null,
-
-    role: null,
-    department: null,
-  };
-
-  /**
-   * Init actions list in state
-   *
-   * @param props
-   * @param state
-   *
-   * @return {{actions: *}|null}
-   */
-  static getDerivedStateFromProps(props, state) {
-    const { allActionsQuery, actionsQuery } = props;
-
-    const authorityActions = actionsQuery.data?.authorityActions || [];
-    const allActions = allActionsQuery.data?.allActions || [];
-
-    const shouldInit = (!actionsQuery.loading && !allActionsQuery.loading)
-      && (state.department !== props.department || state.role !== props.role);
-
-    if (shouldInit) {
-      const actions = allActions.reduce((acc, curr) => ({ ...acc, [curr]: authorityActions.includes(curr) }), {});
-
-      return {
-        actions,
-        shadowActions: actions,
-        department: props.department,
-        role: props.role,
-      };
-    }
-
-    return null;
-  }
 
   /**
    * Handle switch permission
@@ -113,107 +79,81 @@ class PermissionsTable extends PureComponent {
     );
   }
 
-  /**
-   * Handle enabled/disabled/all filter
-   */
-  handleSelectFilter = (filter) => {
-    this.setState(({ shadowActions }) => ({ filter, actions: shadowActions }));
-  };
-
-  /**
-   * Get list of actions depends on filter
-   *
-   * @return {*|*[]}
-   */
-  getAllActionsList() {
-    const { filter, actions } = this.state;
-
-    // Get empty object if actions not defined yet
-    if (!actions) {
-      return {};
-    }
-
-    // Get only enabled actions
-    if (filter === 'enabled') {
-      return pickBy(actions);
-    }
-
-    // Get only disabled actions
-    if (filter === 'disabled') {
-      return pickBy(actions, enabled => !enabled);
-    }
-
-    // Get all actions
-    return actions;
-  }
+  renderSettings = (actions) => (
+    <>
+    <div className="PermissionsSetting__switcher-container">
+      <div className="PermissionsSetting__switcher-view">
+        <ReactSwitch
+          on={actions?.view?.state}
+          className="PermissionsSetting__switcher"
+          onClick={_enabled => this.handleSwitchPermission(action, _enabled)}
+        />
+      </div>
+      <div className="PermissionsSetting__switcher-edit">
+        <ReactSwitch
+          on={actions?.edit?.state}
+          className="PermissionsSetting__switcher"
+          onClick={_enabled => this.handleSwitchPermission(action, _enabled)}
+        />
+      </div>
+    </div>
+    <div className="PermissionsSetting__preview">
+      <PreviewIcon />
+    </div>
+    </>
+  );
 
 
   render() {
     const {
-      department,
       role,
-      actionsQuery,
     } = this.props;
 
-    const { filter, shadowActions } = this.state;
-
-    const actions = this.getAllActionsList();
-
     return (
-      <div className="PermissionsTable">
-        <div className="PermissionsTable__filters">
-          <Select value={filter} onChange={this.handleSelectFilter}>
-            <option key={0} value="all">
-              {I18n.t('ROLES_AND_PERMISSIONS.SELECT_FILTER.ALL')}
-            </option>
-            <option key={1} value="enabled">
-              {I18n.t('ROLES_AND_PERMISSIONS.SELECT_FILTER.ENABLED')}
-            </option>
-            <option key={2} value="disabled">
-              {I18n.t('ROLES_AND_PERMISSIONS.SELECT_FILTER.DISABLED')}
-            </option>
-          </Select>
+      <div className="PermissionsSetting">
+        <If condition={role}>
+          <div className="PermissionsSetting__title">
+            {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
+          </div>
+        </If>
+        <div className="PermissionsSetting__header">
+          <div className="PermissionsSetting__action">
+            {I18n.t('ROLES_AND_PERMISSIONS.TABLE.ACTION')}
+          </div>
+          <div className="PermissionsSetting__permissions">
+            <div className="PermissionsSetting__permissions-title">
+              {I18n.t('ROLES_AND_PERMISSIONS.TABLE.PERMISSION')}
+            </div>
+            <div className="PermissionsSetting__permissions-container">
+              <div className="PermissionsSetting__permissions-view">View</div>
+              <div className="PermissionsSetting__permissions-edit">Edit</div>
+            </div>
+          </div>
+          <div className="PermissionsSetting__preview-title">
+            Preview
+          </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>{I18n.t('ROLES_AND_PERMISSIONS.TABLE.ACTION')}</th>
-              <th>{I18n.t('ROLES_AND_PERMISSIONS.TABLE.PERMISSION')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Choose>
-              <When condition={actionsQuery.loading}>
-                <tr>
-                  <td colSpan={2}>
-                    <ShortLoader />
-                  </td>
-                </tr>
-              </When>
-              <When condition={!department || !role}>
-                <tr>
-                  <td className="PermissionsTable__align-center" colSpan={2}>
-                    {I18n.t('ROLES_AND_PERMISSIONS.CHOOSE_AN_AUTHORITY')}
-                  </td>
-                </tr>
-              </When>
-              <Otherwise>
-                {Object.keys(actions).map(action => (
-                  <tr key={action}>
-                    <td>{action}</td>
-                    <td className="PermissionsTable__align-center">
-                      <ReactSwitch
-                        on={shadowActions[action]}
-                        className="PermissionsTable__switcher"
-                        onClick={_enabled => this.handleSwitchPermission(action, _enabled)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </Otherwise>
-            </Choose>
-          </tbody>
-        </table>
+        <Accordion allowZeroExpanded>
+          {mapping.sections.map(({ id, permissions }) => (
+            <AccordionItem key={id}>
+              <AccordionItemHeading>
+                <AccordionItemButton className="PermissionsSetting__section-title">
+                  <div className="PermissionsSetting__permission-title">{ id }</div>
+                  {this.renderSettings()}
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              {permissions.map(({ id, actions }) => (
+                <AccordionItemPanel
+                  key={id}
+                  className="PermissionsSetting__actions cursor-pointer"
+                >
+                  <div className="PermissionsSetting__permission-title">{ id }</div>
+                  {this.renderSettings(actions)}
+                </AccordionItemPanel>
+              ))}
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     );
   }
