@@ -1,7 +1,7 @@
 .NotificationsGridFilter {
   &__form {
     background-color: #f2f4f8;
-    padding: 20px 25px;
+    padding: 20px 25px 35px;
   }
 
   &__fields {
@@ -44,6 +44,8 @@
   }
 
   &__button {
-    margin-right: 15px;
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
   }
 }

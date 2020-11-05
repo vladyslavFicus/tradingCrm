@@ -220,7 +220,6 @@ class NotificationsFilters extends PureComponent {
                   ))}
                 </Field>
 
-
                 <Field
                   name="notificationTypes"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
@@ -254,7 +253,6 @@ class NotificationsFilters extends PureComponent {
                     </option>
                   ))}
                 </Field>
-
                 <FormikDateRangeGroup
                   className="NotificationsGridFilter__field NotificationsGridFilter__date-range"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
