@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
@@ -7,7 +7,7 @@ import { getAvailableLanguages } from 'config';
 import { createValidator } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { filterLabels } from 'constants/user';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { fieldClassNames } from 'components/Formik/constants';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -20,18 +20,20 @@ const validate = createValidator({
   partners: 'string',
 }, filterLabels, false);
 
-class RulesFilters extends Component {
+class RulesFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     partners: PropTypes.partnersList,
     operators: PropTypes.operatorsList,
     type: PropTypes.string,
+    handleRefetch: PropTypes.func,
   }
 
   static defaultProps = {
     type: null,
     partners: [],
     operators: [],
+    handleRefetch: null,
   };
 
   handleReset = () => {
@@ -60,9 +62,10 @@ class RulesFilters extends Component {
 
   render() {
     const {
+      type,
       partners,
       operators,
-      type,
+      handleRefetch,
       location: { state },
     } = this.props;
 
@@ -74,7 +77,7 @@ class RulesFilters extends Component {
         onSubmit={this.handleSubmit}
       >
         {({ isSubmitting, dirty }) => (
-          <Form className="filter__form filter__form--row">
+          <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
                 name="createdByOrUuid"
@@ -154,6 +157,12 @@ class RulesFilters extends Component {
             </div>
 
             <div className="filter__form-buttons">
+              <If condition={handleRefetch}>
+                <RefreshButton
+                  className="filter__form-button"
+                  onClick={handleRefetch}
+                />
+              </If>
               <Button
                 primary
                 className="filter__form-button"

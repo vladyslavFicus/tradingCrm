@@ -4,15 +4,16 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { filterLabels } from 'constants/user';
+import countryList from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
-import countryList from 'utils/countryList';
+import { Button, RefreshButton } from 'components/UI';
 import './OfficesGridFilter.scss';
 
 class OfficesGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleReset = (resetForm) => {
@@ -42,7 +43,10 @@ class OfficesGridFilter extends PureComponent {
   };
 
   render() {
-    const { location: { state } } = this.props;
+    const {
+      handleRefetch,
+      location: { state },
+    } = this.props;
 
     return (
       <Formik
@@ -85,6 +89,10 @@ class OfficesGridFilter extends PureComponent {
             </div>
 
             <div className="OfficesGridFilter__buttons">
+              <RefreshButton
+                className="OfficesGridFilter__button"
+                onClick={handleRefetch}
+              />
               <Button
                 className="OfficesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}

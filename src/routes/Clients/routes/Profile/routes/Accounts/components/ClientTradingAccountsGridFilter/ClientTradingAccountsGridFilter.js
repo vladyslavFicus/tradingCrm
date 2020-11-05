@@ -7,41 +7,48 @@ import { accountTypes } from 'constants/accountTypes';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import './ClientTradingAccountsGridFilter.scss';
 
 class ClientTradingAccountsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    accountType: PropTypes.string.isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
       state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
-
-    setSubmitting(false);
   };
 
   handleReset = () => {
-    this.props.history.replace({
+    const { history, location: { state } } = this.props;
+
+    history.replace({
       state: {
-        filters: {},
+        ...state,
+        filters: null,
       },
     });
   };
 
   render() {
-    const { accountType, location: { state } } = this.props;
+    const {
+      handleRefetch,
+      location: { state },
+    } = this.props;
     const platformTypes = getAvailablePlatformTypes();
 
     return (
       <Formik
         className="ClientTradingAccountsGridFilter"
-        initialValues={state?.filters || { accountType }}
+        initialValues={state?.filters || { accountType: 'LIVE' }}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
@@ -82,6 +89,11 @@ class ClientTradingAccountsGridFilter extends PureComponent {
             </If>
 
             <div className="ClientTradingAccountsGridFilter__buttons">
+              <RefreshButton
+                className="ClientTradingAccountsGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="ClientTradingAccountsGridFilter__button"
                 onClick={this.handleReset}

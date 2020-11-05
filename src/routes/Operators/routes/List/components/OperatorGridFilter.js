@@ -10,7 +10,7 @@ import {
   FormikSelectField,
   FormikDateRangeGroup,
 } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import { statusesLabels, statuses } from 'constants/operators';
 import { attributeLabels } from '../constants';
@@ -24,6 +24,7 @@ const validate = createValidator({
 class OperatorGridFilter extends Component {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleReset = (resetForm) => {
@@ -53,7 +54,10 @@ class OperatorGridFilter extends Component {
   };
 
   render() {
-    const { location: { state } } = this.props;
+    const {
+      handleRefetch,
+      location: { state },
+    } = this.props;
 
     return (
       <Formik
@@ -63,54 +67,59 @@ class OperatorGridFilter extends Component {
         onSubmit={this.handleSubmit}
       >
         {({ isSubmitting, resetForm, dirty }) => (
-          <Form className="filter-row">
-            <Field
-              name="searchBy"
-              label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.SEARCH_BY')}
-              placeholder={I18n.t(attributeLabels.keyword)}
-              component={FormikInputField}
-              addition={<i className="icon icon-search" />}
-              className="filter-row__medium"
-              withFocus
-            />
-            <Field
-              name="country"
-              searchable
-              label={I18n.t(attributeLabels.country)}
-              component={FormikSelectField}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              className="filter-row__medium"
-              withFocus
-            >
-              {Object.keys(countries).map(key => (
-                <option key={key} value={key}>{countries[key]}</option>
-              ))}
-            </Field>
-            <Field
-              name="status"
-              searchable
-              label={I18n.t(attributeLabels.status)}
-              component={FormikSelectField}
-              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              className="filter-row__medium"
-              withFocus
-            >
-              {Object.keys(statusesLabels).map(status => (
-                <option key={status} value={status}>
-                  {I18n.t(statusesLabels[status])}
-                </option>
-              ))}
-            </Field>
-            <FormikDateRangeGroup
-              className="form-group filter-row__big"
-              label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
-              periodKeys={{
-                start: 'registrationDateFrom',
-                end: 'registrationDateTo',
-              }}
-              withFocus
-            />
-            <div className="filter-row__button-block">
+          <Form className="filter__form">
+            <div className="filter__form-inputs">
+              <Field
+                name="searchBy"
+                label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.SEARCH_BY')}
+                placeholder={I18n.t(attributeLabels.keyword)}
+                component={FormikInputField}
+                addition={<i className="icon icon-search" />}
+                className="filter-row__medium"
+                withFocus
+              />
+              <Field
+                name="country"
+                searchable
+                label={I18n.t(attributeLabels.country)}
+                component={FormikSelectField}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                className="filter-row__medium"
+                withFocus
+              >
+                {Object.keys(countries).map(key => (
+                  <option key={key} value={key}>{countries[key]}</option>
+                ))}
+              </Field>
+              <Field
+                name="status"
+                searchable
+                label={I18n.t(attributeLabels.status)}
+                component={FormikSelectField}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                className="filter-row__medium"
+                withFocus
+              >
+                {Object.keys(statusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {I18n.t(statusesLabels[status])}
+                  </option>
+                ))}
+              </Field>
+              <FormikDateRangeGroup
+                className="form-group filter-row__big"
+                label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
+                periodKeys={{
+                  start: 'registrationDateFrom',
+                  end: 'registrationDateTo',
+                }}
+                withFocus
+              />
+            </div>
+            <div className="filter__form-buttons">
+              <RefreshButton
+                onClick={handleRefetch}
+              />
               <Button
                 primary
                 disabled={isSubmitting}
@@ -120,7 +129,6 @@ class OperatorGridFilter extends Component {
               </Button>
               <Button
                 primary
-                className="margin-left-15"
                 disabled={isSubmitting || !dirty}
                 type="submit"
               >

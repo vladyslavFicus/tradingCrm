@@ -69,6 +69,7 @@ class PaymentsListFilters extends PureComponent {
     partnersLoading: PropTypes.bool,
     paymentsLoading: PropTypes.bool,
     clientView: PropTypes.bool,
+    handleRefetch: PropTypes.func,
   };
 
   static defaultProps = {
@@ -77,6 +78,7 @@ class PaymentsListFilters extends PureComponent {
     partnersLoading: false,
     paymentsLoading: false,
     clientView: false,
+    handleRefetch: null,
   };
 
   state = {
@@ -202,6 +204,7 @@ class PaymentsListFilters extends PureComponent {
         data: paymentMethodsData,
         loading: paymentMethodsLoading,
       },
+      handleRefetch,
       accountType,
       partners,
       partnersLoading,
@@ -232,6 +235,7 @@ class PaymentsListFilters extends PureComponent {
         initialValues={query?.filters || { accountType }}
         handleSubmit={this.handleFormChange}
         handleReset={this.handleFormReset}
+        handleRefetch={handleRefetch}
         isDataLoading={paymentsLoading}
         filterSetType={filterSetTypes.PAYMENT}
         enableReinitialize

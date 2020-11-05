@@ -141,7 +141,7 @@ class List extends Component {
           </PermissionContent>
         </div>
 
-        <OperatorGridFilter />
+        <OperatorGridFilter handleRefetch={operators.refetch} />
         <OperatorsGrid operatorsQuery={operators} />
       </div>
     );

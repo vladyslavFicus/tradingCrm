@@ -28,7 +28,7 @@ const OfficesQuery = ({ children, location: { state = {} } }) => (
       ...state?.filters,
       branchType: 'office',
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

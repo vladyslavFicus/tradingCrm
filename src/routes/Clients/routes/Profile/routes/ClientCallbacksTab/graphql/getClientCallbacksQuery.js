@@ -65,7 +65,7 @@ const getClientCallbacksQuery = ({
       userId: id,
       limit: 20,
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

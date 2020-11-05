@@ -95,7 +95,7 @@ class HierarchyProfileRules extends PureComponent {
 
         if (!branchChildrenQuery.loading) {
           data = {
-            enabled: !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser)),
+            enabled: !!(teams && teams.length && teams.some(({ uuid }) => !!uuid)),
             message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK'),
           };
         }
@@ -448,6 +448,7 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery: {
         data: rulesQueryData,
         loading,
+        refetch,
       },
       permission: {
         permissions: currentPermissions,
@@ -473,6 +474,7 @@ class HierarchyProfileRules extends PureComponent {
         <RulesFilters
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          handleRefetch={refetch}
         />
 
         <div className="HierarchyProfileRules__grid">
