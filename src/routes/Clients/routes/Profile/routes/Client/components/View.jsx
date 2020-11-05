@@ -21,7 +21,6 @@ const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDAT
 class View extends Component {
   static propTypes = {
     verifyEmail: PropTypes.func.isRequired,
-    updateAddress: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     updatePersonalInformation: PropTypes.func.isRequired,
@@ -83,28 +82,6 @@ class View extends Component {
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     } catch (e) {
-      this.context.addNotification({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
-      });
-    }
-  };
-
-  handleUpdateAddress = async (data) => {
-    try {
-      await this.props.updateAddress({
-        variables: {
-          ...data,
-        },
-      });
-
-      this.context.addNotification({
-        level: 'success',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
-    } catch {
       this.context.addNotification({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
@@ -209,7 +186,7 @@ class View extends Component {
                 <div className="card-body">
                   <AddressForm
                     initialValues={address}
-                    onSubmit={this.handleUpdateAddress}
+                    clientUuid={uuid}
                     disabled={!canUpdateAddress}
                   />
                 </div>

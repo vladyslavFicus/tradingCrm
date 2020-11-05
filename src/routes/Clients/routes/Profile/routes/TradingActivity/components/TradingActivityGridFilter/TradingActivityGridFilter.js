@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import I18n from 'i18n-js';
+import { get } from 'lodash';
+import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -162,11 +163,9 @@ class TradingActivityGridFilter extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    className={operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSE
-                      ? 'color-inactive'
-                      : ''
-                    }
+                    className={classNames({
+                      'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                    })}
                   >
                     {fullName}
                   </option>
