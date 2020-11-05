@@ -145,14 +145,14 @@ const operatorTabs = (isSales) => {
 const partnerTabs = [
   { label: 'PARTNER_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
   {
-    label: 'PARTNER_PROFILE.TABS.FEED',
-    url: '/partners/:id/feed',
-    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
-  },
-  {
     label: 'PARTNER_PROFILE.TABS.SALES_RULES',
     url: '/partners/:id/sales-rules',
     permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
+  },
+  {
+    label: 'PARTNER_PROFILE.TABS.FEED',
+    url: '/partners/:id/feed',
+    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
   },
 ];
 

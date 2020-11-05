@@ -18,4 +18,13 @@ module.exports = (app) => {
     },
     changeOrigin: true,
   }));
+
+  // Proxy for cloud static resources
+  app.use('/cloud-static', createProxyMiddleware({
+    target: process.env.CLOUD_STATIC_URL,
+    pathRewrite: {
+      '^/cloud-static': '',
+    },
+    changeOrigin: true,
+  }));
 };

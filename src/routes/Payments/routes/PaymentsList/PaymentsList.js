@@ -82,7 +82,9 @@ class PaymentsList extends PureComponent {
           partners={partners}
           partnersLoading={partnersLoading}
           paymentsLoading={paymentsLoading}
+          handleRefetch={paymentsQuery.refetch}
         />
+
         <PaymentsListGrid
           payments={payments}
           paymentsQuery={paymentsQuery}

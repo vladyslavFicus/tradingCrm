@@ -2275,6 +2275,17 @@
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
     },
+    "UPDATE_TRADING_ACCOUNT_MODAL": {
+      "TITLE": "Update trading account",
+      "LABLES": {
+        "NAME": "Trading account's name"
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Trading account's name was successfully updated",
+        "ERROR": "Failed to update trading account's name"
+      },
+      "UPDATE_BUTTON": "Update"
+    },
     "ADD_OFFICE_MODAL": {
       "TITLE": "New office",
       "CREATE_BUTTON": "Create office",
@@ -2636,6 +2647,7 @@
       },
       "ACTIONS_DROPDOWN": {
         "CHANGE_PASSWORD": "Change password",
+        "RENAME": "Rename",
         "DISABLE": "Disable",
         "ENABLE": "Enable"
       },
