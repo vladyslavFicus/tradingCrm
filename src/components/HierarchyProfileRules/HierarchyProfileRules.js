@@ -448,6 +448,7 @@ class HierarchyProfileRules extends PureComponent {
       rulesQuery: {
         data: rulesQueryData,
         loading,
+        refetch,
       },
       permission: {
         permissions: currentPermissions,
@@ -473,6 +474,7 @@ class HierarchyProfileRules extends PureComponent {
         <RulesFilters
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          handleRefetch={refetch}
         />
 
         <div className="HierarchyProfileRules__grid">

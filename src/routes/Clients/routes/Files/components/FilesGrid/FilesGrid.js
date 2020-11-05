@@ -1,36 +1,32 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
 import moment from 'moment';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { categoriesLabels, documentsTypeLabels } from 'constants/files';
 import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';
-import FilesQuery from './graphql/FilesQuery';
 import './FilesGrid.scss';
 
 class FilesGrid extends PureComponent {
   static propTypes = {
-    filesData: PropTypes.query({
+    filesQuery: PropTypes.query({
       files: PropTypes.pageable(PropTypes.fileEntity),
     }).isRequired,
   };
 
   handlePageChanged = () => {
     const {
-      filesData,
-      filesData: {
+      filesQuery,
+      filesQuery: {
         loadMore,
         loading,
       },
     } = this.props;
 
-    const page = get(filesData, 'data.files.number') || 0;
+    const page = get(filesQuery, 'data.files.number') || 0;
 
     if (!loading) {
       loadMore(page + 1);
@@ -118,11 +114,11 @@ class FilesGrid extends PureComponent {
   );
 
   render() {
-    const { filesData } = this.props;
+    const { filesQuery } = this.props;
 
-    const isLoading = filesData.loading;
-    const isLastPage = get(filesData, 'data.files.last');
-    const files = get(filesData, 'data.files.content') || [];
+    const isLoading = filesQuery.loading;
+    const isLastPage = get(filesQuery, 'data.files.last');
+    const files = get(filesQuery, 'data.files.content') || [];
 
     return (
       <div className="FilesGrid">
@@ -170,9 +166,4 @@ class FilesGrid extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withRequests({
-    filesData: FilesQuery,
-  }),
-)(FilesGrid);
+export default FilesGrid;

@@ -37,7 +37,7 @@ const getDesksQuery = ({ children, location: { state = {} } }) => (
       ...state?.filters,
       branchType: 'desk',
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

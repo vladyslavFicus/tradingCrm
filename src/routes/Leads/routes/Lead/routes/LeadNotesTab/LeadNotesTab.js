@@ -44,7 +44,7 @@ class LeadNotesTab extends PureComponent {
 
   render() {
     const {
-      notes: { data, loading },
+      notes: { data, loading, refetch },
     } = this.props;
 
     const { content, number, totalPages, last } = get(data, 'notes') || {
@@ -54,7 +54,7 @@ class LeadNotesTab extends PureComponent {
     return (
       <Fragment>
         <TabHeader title={I18n.t('LEAD_PROFILE.NOTES.TITLE')} />
-        <LeadNotesTabFilter />
+        <LeadNotesTabFilter handleRefetch={refetch} />
         <div className="tab-wrapper">
           <ListView
             dataSource={content}

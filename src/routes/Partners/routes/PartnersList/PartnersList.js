@@ -62,7 +62,7 @@ class PartnersList extends PureComponent {
           </PermissionContent>
         </div>
 
-        <PartnersGridFilter />
+        <PartnersGridFilter handleRefetch={partnersQuery.refetch} />
         <PartnersGrid partnersQuery={partnersQuery} />
       </div>
     );

@@ -341,6 +341,7 @@ class DistributionRules extends PureComponent {
       rules: {
         data,
         loading,
+        refetch,
       },
     } = this.props;
 
@@ -372,7 +373,8 @@ class DistributionRules extends PureComponent {
             </div>
           </PermissionContent>
         </div>
-        <DistributionRulesFilters />
+
+        <DistributionRulesFilters handleRefetch={refetch} />
 
         <div className="card-body--table">
           <Grid

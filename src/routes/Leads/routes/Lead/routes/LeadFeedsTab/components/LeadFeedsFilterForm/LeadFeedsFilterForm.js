@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
@@ -20,6 +20,7 @@ class LeadFeedsFilterForm extends PureComponent {
     feedTypesQuery: PropTypes.query({
       feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -35,6 +36,7 @@ class LeadFeedsFilterForm extends PureComponent {
     const {
       location: { query },
       feedTypesQuery,
+      handleRefetch,
     } = this.props;
 
     const feedTypes = get(feedTypesQuery, 'data.feedTypes') || {};
@@ -91,6 +93,11 @@ class LeadFeedsFilterForm extends PureComponent {
             />
 
             <div className="LeadFeedsFilterForm__buttons">
+              <RefreshButton
+                className="LeadFeedsFilterForm__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="LeadFeedsFilterForm__button"
                 onClick={this.handleReset}

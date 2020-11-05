@@ -4,12 +4,13 @@ import I18n from 'i18n-js';
 import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikDateRangeGroup } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import './LeadNotesTabFilter.scss';
 
 class LeadNotesTabFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (filters) => {
@@ -21,7 +22,10 @@ class LeadNotesTabFilter extends PureComponent {
   };
 
   render() {
-    const { location: { query } } = this.props;
+    const {
+      handleRefetch,
+      location: { query },
+    } = this.props;
 
     return (
       <Formik
@@ -40,7 +44,13 @@ class LeadNotesTabFilter extends PureComponent {
               }}
               withFocus
             />
+
             <div className="LeadNotesTabFilter__buttons">
+              <RefreshButton
+                className="LeadNotesTabFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="LeadNotesTabFilter__button"
                 onClick={this.handleReset}
@@ -48,6 +58,7 @@ class LeadNotesTabFilter extends PureComponent {
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
+
               <Button
                 className="LeadNotesTabFilter__button"
                 type="submit"
