@@ -40,7 +40,7 @@ const getTeamsQuery = ({ children, location: { state = {} } }) => (
       ...state?.filters,
       branchType: 'team',
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

@@ -37,13 +37,19 @@ class OperatorsFeed extends PureComponent {
   };
 
   render() {
-    const { feedsQuery: { data, loading } } = this.props;
+    const {
+      feedsQuery: {
+        data,
+        loading,
+        refetch,
+      },
+    } = this.props;
 
     const { content, totalPages, last } = get(data, 'feeds') || {};
 
     return (
       <Fragment>
-        <OperatorFeedFilterForm />
+        <OperatorFeedFilterForm handleRefetch={refetch} />
 
         <div className="tab-wrapper">
           <ListView

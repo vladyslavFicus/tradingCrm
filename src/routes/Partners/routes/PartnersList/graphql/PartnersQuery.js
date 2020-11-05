@@ -49,7 +49,7 @@ const PartnersQuery = ({ children, location: { state } }) => (
         ...{ sorts: state?.sorts || [] },
       },
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

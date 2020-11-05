@@ -4,7 +4,6 @@ import { withApollo } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator, translateLabels } from 'utils/validator';
-import { brandsConfig } from 'constants/brands';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -31,6 +30,7 @@ class AddTargetBrandModal extends PureComponent {
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
+    brands: PropTypes.arrayOf(PropTypes.brandConfig).isRequired,
   };
 
   state = {
@@ -117,6 +117,7 @@ class AddTargetBrandModal extends PureComponent {
       isOpen,
       sourceBrandId,
       sourceBrandQuantity,
+      brands,
       initialValues: {
         brand,
         distributionUnit: {
@@ -144,6 +145,7 @@ class AddTargetBrandModal extends PureComponent {
         className="AddTargetBrandModal"
       >
         <Formik
+          enableReinitialize
           initialValues={{
             brand,
             quantity,
@@ -178,10 +180,12 @@ class AddTargetBrandModal extends PureComponent {
                   customOnChange={this.handleBrandChange(setFieldValue)}
                   searchable
                 >
-                  {Object.keys(brandsConfig)
-                    .filter(value => value !== sourceBrandId)
-                    .map(value => (
-                      <option key={value} value={value}>{brandsConfig[value].name}</option>
+                  {brands
+                    .filter(_brand => _brand.brandId !== sourceBrandId)
+                    .map(_brand => (
+                      <option key={_brand.brandId} value={_brand.brandId}>
+                        {_brand.brandName}
+                      </option>
                     ))
                   }
                 </Field>

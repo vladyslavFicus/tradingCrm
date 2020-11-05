@@ -10,7 +10,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
 import { attributeLabels } from '../constants';
 import AuthoritiesOptionsQuery from './graphql/AuthorityOptionsQuery';
@@ -24,6 +24,7 @@ class NotesGridFilter extends PureComponent {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -42,6 +43,7 @@ class NotesGridFilter extends PureComponent {
 
   render() {
     const {
+      handleRefetch,
       location: { query },
       authoritiesOptions: {
         data,
@@ -94,6 +96,10 @@ class NotesGridFilter extends PureComponent {
               withFocus
             />
             <div className="filter-row__button-block">
+              <RefreshButton
+                className="margin-right-15"
+                onClick={handleRefetch}
+              />
               <Button
                 className="margin-right-15"
                 onClick={this.handleReset}

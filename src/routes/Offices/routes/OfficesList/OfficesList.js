@@ -53,7 +53,7 @@ class OfficesList extends PureComponent {
           </PermissionContent>
         </div>
 
-        <OfficesGridFilter />
+        <OfficesGridFilter handleRefetch={officesData.refetch} />
         <OfficesGrid officesData={officesData} />
       </div>
     );
