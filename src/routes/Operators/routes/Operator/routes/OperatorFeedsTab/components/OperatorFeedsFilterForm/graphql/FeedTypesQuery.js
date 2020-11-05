@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query OperatorFeeds_getFeedTypes(
+  query OperatorFeedsFilterForm_getFeedsTypesQuery(
     $uuid: String!
   ) {
     feedTypes (
@@ -13,7 +13,7 @@ const REQUEST = gql`
   }
 `;
 
-const FeedTypesQuery = ({
+const FeedsTypesQuery = ({
   children,
   match: { params: { id } },
 }) => (
@@ -22,7 +22,7 @@ const FeedTypesQuery = ({
   </Query>
 );
 
-FeedTypesQuery.propTypes = {
+FeedsTypesQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -31,4 +31,4 @@ FeedTypesQuery.propTypes = {
   }).isRequired,
 };
 
-export default FeedTypesQuery;
+export default FeedsTypesQuery;

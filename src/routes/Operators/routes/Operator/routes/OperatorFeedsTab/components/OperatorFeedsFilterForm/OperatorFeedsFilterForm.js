@@ -1,60 +1,59 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
+import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import FeedTypesQuery from './graphql/FeedTypesQuery';
-import './OperatorFeedFilterForm.scss';
+import FeedsTypesQuery from './graphql/FeedTypesQuery';
+import './OperatorFeedsFilterForm.scss';
 
-class OperatorFeedFilterForm extends PureComponent {
+class OperatorFeedsFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feedTypesData: PropTypes.query({
+    feedTypesQuery: PropTypes.query({
       feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
     handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(values) } });
+    this.props.history.replace({ state: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
   handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+    this.props.history.replace({ state: { filters: {} } });
   };
 
   render() {
     const {
-      location: { query },
-      feedTypesData,
       handleRefetch,
+      feedTypesQuery,
+      location: { state },
     } = this.props;
 
-    const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
+    const feedTypes = feedTypesQuery.data?.feedTypes || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
 
     return (
       <Formik
-        className="OperatorFeedFilterForm"
-        initialValues={query?.filters || {}}
+        className="OperatorFeedsFilterForm"
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
         {({ isSubmitting, dirty }) => (
-          <Form className="OperatorFeedFilterForm__form">
+          <Form className="OperatorFeedsFilterForm__form">
             <Field
               name="searchBy"
-              className="OperatorFeedFilterForm__field OperatorFeedFilterForm__search"
-              label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_LABEL')}
-              placeholder={I18n.t('PARTNERS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
+              className="OperatorFeedsFilterForm__field OperatorFeedsFilterForm__search"
+              label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY')}
+              placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
               component={FormikInputField}
               withFocus
@@ -62,11 +61,12 @@ class OperatorFeedFilterForm extends PureComponent {
 
             <Field
               name="auditLogType"
-              className="OperatorFeedFilterForm__field OperatorFeedFilterForm__select"
-              label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPES')}
+              className="OperatorFeedsFilterForm__field OperatorFeedsFilterForm__select"
+              label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPE')}
               placeholder={I18n.t('COMMON.ANY')}
               component={FormikSelectField}
               withAnyOption
+              searchable
               withFocus
             >
               {availableFeedTypes.map(type => (
@@ -77,7 +77,7 @@ class OperatorFeedFilterForm extends PureComponent {
             </Field>
 
             <FormikDateRangeGroup
-              className="OperatorFeedFilterForm__field OperatorFeedFilterForm__date-range"
+              className="OperatorFeedsFilterForm__field OperatorFeedsFilterForm__date-range"
               label={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
               periodKeys={{
                 start: 'creationDateFrom',
@@ -86,14 +86,14 @@ class OperatorFeedFilterForm extends PureComponent {
               withFocus
             />
 
-            <div className="OperatorFeedFilterForm__buttons">
+            <div className="OperatorFeedsFilterForm__buttons">
               <RefreshButton
-                className="OperatorFeedFilterForm__button"
+                className="OperatorFeedsFilterForm__button"
                 onClick={handleRefetch}
               />
 
               <Button
-                className="OperatorFeedFilterForm__button"
+                className="OperatorFeedsFilterForm__button"
                 onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
@@ -102,7 +102,7 @@ class OperatorFeedFilterForm extends PureComponent {
               </Button>
 
               <Button
-                className="OperatorFeedFilterForm__button"
+                className="OperatorFeedsFilterForm__button"
                 disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
@@ -120,6 +120,6 @@ class OperatorFeedFilterForm extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feedTypesData: FeedTypesQuery,
+    feedTypesQuery: FeedsTypesQuery,
   }),
-)(OperatorFeedFilterForm);
+)(OperatorFeedsFilterForm);
