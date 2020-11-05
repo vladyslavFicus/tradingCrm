@@ -2923,7 +2923,7 @@
   "RULES": {
     "FILTERS": {
       "RULE": "Rule UUID",
-      "OPERATOR": "Operator",
+      "OPERATORS": "Operators",
       "PARTNER": "Partner"
     }
   },
