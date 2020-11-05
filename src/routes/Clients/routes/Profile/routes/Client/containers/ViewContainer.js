@@ -3,7 +3,6 @@ import { withNotifications, withModals } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import {
   updatePersonalInformationMutation,
-  updateAddressMutation,
   verifyEmailMutation,
   updateEmailMutation,
 } from 'graphql/mutations/profile';
@@ -17,10 +16,6 @@ export default compose(
   withModals({ confirmationModal: ConfirmActionModal }),
   graphql(updatePersonalInformationMutation, {
     name: 'updatePersonalInformation',
-  }),
-  graphql(updateAddressMutation, {
-    name: 'updateAddress',
-    options: ({ match: { params: { id: playerUUID } } }) => ({ variables: { playerUUID } }),
   }),
   graphql(verifyEmailMutation, {
     name: 'verifyEmail',
