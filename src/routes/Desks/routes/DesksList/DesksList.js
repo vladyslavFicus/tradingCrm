@@ -57,7 +57,11 @@ class DesksList extends PureComponent {
           </PermissionContent>
         </div>
 
-        <DesksGridFilter officesData={officesData} />
+        <DesksGridFilter
+          officesData={officesData}
+          handleRefetch={desksData.refetch}
+        />
+
         <DesksGrid desksData={desksData} />
       </div>
     );

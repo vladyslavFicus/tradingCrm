@@ -4,10 +4,10 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
-import { createValidator } from 'utils/validator';
+import { Button, RefreshButton } from 'components/UI';
 import { deskTypes } from '../../constants';
 import './DesksGridFilter.scss';
 
@@ -15,6 +15,7 @@ class DesksGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     officesData: PropTypes.userBranchHierarchyResponse.isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleReset = (resetForm) => {
@@ -44,7 +45,11 @@ class DesksGridFilter extends PureComponent {
   };
 
   render() {
-    const { officesData, location: { state } } = this.props;
+    const {
+      officesData,
+      handleRefetch,
+      location: { state },
+    } = this.props;
 
     const offices = get(officesData, 'data.userBranches.OFFICE') || [];
 
@@ -110,6 +115,11 @@ class DesksGridFilter extends PureComponent {
             </div>
 
             <div className="DesksGridFilter__buttons">
+              <RefreshButton
+                className="DesksGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="DesksGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}

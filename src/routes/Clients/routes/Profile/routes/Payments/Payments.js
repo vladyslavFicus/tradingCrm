@@ -106,10 +106,13 @@ class Payments extends PureComponent {
             </Button>
           </PermissionContent>
         </TabHeader>
+
         <PaymentsListFilters
+          handleRefetch={this.handleRefresh}
           paymentsLoading={loading}
           clientView
         />
+
         <PaymentsListGrid
           paymentsQuery={clientPaymentsQuery}
           handleRefresh={this.handleRefresh}

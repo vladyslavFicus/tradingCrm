@@ -40,7 +40,7 @@ class LeadsList extends PureComponent {
           updateLeadsListState={this.updateLeadsListState}
         />
 
-        <LeadsGridFilter />
+        <LeadsGridFilter handleRefetch={leadsQuery.refetch} />
 
         <LeadsGrid
           leadsQuery={leadsQuery}

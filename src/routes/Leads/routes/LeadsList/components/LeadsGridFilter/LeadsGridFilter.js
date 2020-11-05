@@ -12,7 +12,7 @@ import { salesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
@@ -46,6 +46,7 @@ class LeadsGridFilter extends PureComponent {
     operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.operator),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   get leadsSalesStatuses() {
@@ -119,6 +120,7 @@ class LeadsGridFilter extends PureComponent {
 
   render() {
     const {
+      handleRefetch,
       desksAndTeamsQuery,
       operatorsQuery: { loading: isOperatorsLoading },
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
@@ -336,6 +338,11 @@ class LeadsGridFilter extends PureComponent {
               </div>
 
               <div className="LeadsGridFilter__buttons">
+                <RefreshButton
+                  className="LeadsGridFilter__button"
+                  onClick={handleRefetch}
+                />
+
                 <Button
                   className="LeadsGridFilter__button"
                   disabled={isSubmitting}

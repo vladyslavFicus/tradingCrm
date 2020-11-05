@@ -3,17 +3,12 @@ import { get } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
-import TradingActivityQuery from './graphql/TradingActivityQuery';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
 import ChangeOriginalAgentModal from '../ChangeOriginalAgentModal';
@@ -26,18 +21,6 @@ class TradingActivityGrid extends PureComponent {
     modals: PropTypes.shape({
       changeOriginalAgentModal: PropTypes.modalType,
     }).isRequired,
-  };
-
-  componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-  }
-
-  onProfileEvent = () => {
-    this.props.tradingActivityQuery.refetch();
   };
 
   handlePageChanged = () => {
@@ -248,12 +231,7 @@ class TradingActivityGrid extends PureComponent {
     );
   }
 }
-export default compose(
-  withRouter,
-  withModals({
-    changeOriginalAgentModal: ChangeOriginalAgentModal,
-  }),
-  withRequests({
-    tradingActivityQuery: TradingActivityQuery,
-  }),
-)(TradingActivityGrid);
+
+export default withModals({
+  changeOriginalAgentModal: ChangeOriginalAgentModal,
+})(TradingActivityGrid);

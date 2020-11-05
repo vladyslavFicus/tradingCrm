@@ -49,7 +49,7 @@ const REQUEST = gql`query OperatorFeeds_getFeeds(
 const FeedsQuery = ({ children, location: { query }, match: { params: { id } } }) => (
   <Query
     query={REQUEST}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
     variables={{
       ...query && query.filters,
       targetUUID: id,

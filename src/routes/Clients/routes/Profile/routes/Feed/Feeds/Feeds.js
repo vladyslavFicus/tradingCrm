@@ -53,14 +53,14 @@ class Feed extends PureComponent {
 
   render() {
     const {
-      feedsQuery: { data, loading },
+      feedsQuery: { data, loading, refetch },
     } = this.props;
 
     const { content, last, number, totalPages } = get(data, 'feeds') || {};
 
     return (
       <Fragment>
-        <FeedFilterForm />
+        <FeedFilterForm handleRefetch={refetch} />
 
         <div className="tab-wrapper">
           <ListView

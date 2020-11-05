@@ -56,6 +56,7 @@ class ClientsGridFilter extends PureComponent {
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
@@ -119,6 +120,7 @@ class ClientsGridFilter extends PureComponent {
       auth: { role, department },
       clientsLoading,
       partnersQuery,
+      handleRefetch,
       desksAndTeamsQuery,
       partnersQuery: { loading: isPartnersLoading },
       operatorsQuery: { loading: isOperatorsLoading },
@@ -134,6 +136,7 @@ class ClientsGridFilter extends PureComponent {
         enableReinitialize
         handleSubmit={this.handleSubmit}
         handleReset={this.handleReset}
+        handleRefetch={handleRefetch}
         initialValues={state?.filters || {}}
         isDataLoading={clientsLoading}
         validate={createValidator({

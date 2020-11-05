@@ -5,7 +5,7 @@ import { get, groupBy, sumBy } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import Select from 'components/Select';
@@ -113,7 +113,7 @@ class Balances extends PureComponent {
     const {
       balances: { amount, credit },
     } = this.props;
-    const baseCurrency = getActiveBrandConfig().currencies.base;
+    const baseCurrency = getBrand().currencies.base;
 
     return (
       <div className="dropdown-tab">
@@ -133,7 +133,7 @@ class Balances extends PureComponent {
   };
 
   renderStatistics = () => {
-    const baseCurrency = getActiveBrandConfig().currencies.base;
+    const baseCurrency = getBrand().currencies.base;
 
     const {
       depositPaymentStatistic: {

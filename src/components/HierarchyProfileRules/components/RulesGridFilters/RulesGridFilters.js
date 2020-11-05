@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import classNames from 'classnames';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { filterLabels } from 'constants/user';
-import { createValidator } from 'utils/validator';
 import { statuses as operatorsStasuses } from 'constants/operators';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
+import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import './RulesGridFilter.scss';
 
@@ -20,20 +20,22 @@ const validate = createValidator({
   language: 'string',
   operators: 'string',
   partners: 'string',
-}, filterLabels, false);
+}, translateLabels(filterLabels), false);
 
-class RulesFilters extends Component {
+class RulesFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     partners: PropTypes.partnersList,
     operators: PropTypes.operatorsList,
     type: PropTypes.string,
+    handleRefetch: PropTypes.func,
   }
 
   static defaultProps = {
     type: null,
     partners: null,
     operators: null,
+    handleRefetch: null,
   };
 
   handleReset = () => {
@@ -62,9 +64,10 @@ class RulesFilters extends Component {
 
   render() {
     const {
+      type,
       partners,
       operators,
-      type,
+      handleRefetch,
       location: { state },
     } = this.props;
 
@@ -165,6 +168,13 @@ class RulesFilters extends Component {
             </div>
 
             <div className="RulesGridFilter__buttons">
+              <If condition={handleRefetch}>
+                <RefreshButton
+                  className="RulesGridFilter__button"
+                  onClick={handleRefetch}
+                />
+              </If>
+
               <Button
                 primary
                 className="RulesGridFilter__button"

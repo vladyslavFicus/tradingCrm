@@ -6,12 +6,13 @@ import PropTypes from 'constants/propTypes';
 import { callbacksStatuses } from 'constants/callbacks';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import './CallbacksGridFilter.scss';
 
 class CallbacksGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -24,7 +25,10 @@ class CallbacksGridFilter extends PureComponent {
   };
 
   render() {
-    const { location: { query } } = this.props;
+    const {
+      location: { query },
+      handleRefetch,
+    } = this.props;
 
     return (
       <Formik
@@ -75,6 +79,11 @@ class CallbacksGridFilter extends PureComponent {
             />
 
             <div className="CallbacksGridFilter__buttons">
+              <RefreshButton
+                className="CallbacksGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="CallbacksGridFilter__button"
                 onClick={this.handleReset}

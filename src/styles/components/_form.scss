@@ -131,13 +131,13 @@
   }
   &__label {
     position: relative;
-    padding-top: 2px;
+    // padding-top: 2px;
     padding-right: 30px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 34px;
-    max-height: 40px;
+    // line-height: 30px;
+    min-height: 40px;
 
     &--multipleLabel {
       padding-bottom: 0;

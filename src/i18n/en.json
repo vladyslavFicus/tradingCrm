@@ -2251,6 +2251,17 @@
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
     },
+    "UPDATE_TRADING_ACCOUNT_MODAL": {
+      "TITLE": "Update trading account",
+      "LABLES": {
+        "NAME": "Trading account's name"
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Trading account's name was successfully updated",
+        "ERROR": "Failed to update trading account's name"
+      },
+      "UPDATE_BUTTON": "Update"
+    },
     "ADD_OFFICE_MODAL": {
       "TITLE": "New office",
       "CREATE_BUTTON": "Create office",
@@ -2612,6 +2623,7 @@
       },
       "ACTIONS_DROPDOWN": {
         "CHANGE_PASSWORD": "Change password",
+        "RENAME": "Rename",
         "DISABLE": "Disable",
         "ENABLE": "Enable"
       },
@@ -3039,13 +3051,13 @@
       "RULE": "Rule",
       "RULER_ORDER": "Rule Order",
       "RULE_STATUS": "Rule status",
-      "FROM_BRAND": "From Brand",
-      "TO_BRAND": "To Brand",
-      "COUNTRY": "Country",
-      "SALES_STATUS": "Sales Status",
-      "CREATED_TIME": "Created Time",
-      "EXECUTION_TIME": "Execution Time",
-      "LAST_TIME_EXECUTED": "Last Time Executed",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "COUNTRY": "Client Country",
+      "SALES_STATUS": "Client Sales Status",
+      "CREATED_TIME": "Rule Created Time",
+      "TIME_IN_STATUS": "Time in Status",
+      "LAST_TIME_EXECUTED": "Rule Last Time Executed",
       "ACTION": "Action"
     },
     "STATUSES": {
@@ -3055,18 +3067,19 @@
     },
     "EXECUTION_TYPE": {
       "MANUAL": "Manual",
-      "AUTO": "Auto"
+      "AUTO": "Daily (auto)"
     },
     "FILTERS": {
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "ID, Name",
-      "FROM_BRAND": "From Brand",
-      "TO_BRAND": "To Brand",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
+      "COUNTRY": "Client Country",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
       "CREATED_TIME": "Created Time",
-      "LAST_TIME_EXECUTED": "Last Time Executed",
-      "EXECUTION_TIME": "Execution Time"
+      "LAST_TIME_EXECUTED": "Rule Last Time Executed",
+      "TIME_IN_STATUS": "Time in Status"
     },
     "MIGRATION_MODAL": {
       "TITLE": "Start migration",
@@ -3109,12 +3122,12 @@
       },
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
-        "SALES_STATUS": "Sales Status",
-        "MIGRATION_STATUS": "Migration status",
+        "SALES_STATUS": "Current Sales Status",
+        "MIGRATION_STATUS": "Migration Sales Status",
         "COUNTRY": "Country",
-        "EXECUTION_TIME":"Execution Time",
+        "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
-        "EXECUTION_TYPE": "Execution type"
+        "EXECUTION_TYPE": "Rule Execution Type"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
@@ -3136,8 +3149,8 @@
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
-      "FROM_BRAND": "From Brand",
-      "TO_BRAND": "To Brand",
+      "SOURCE_BRAND": "Source Brand",
+      "TARGET_BRAND": "Target Brand",
       "BRAND": {
         "SORT": "Sort",
         "OPERATOR": "Operator",
