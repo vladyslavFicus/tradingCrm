@@ -75,10 +75,13 @@ class OperatorAccountStatus extends PureComponent {
 
   handleSelectStatus = (reasons, action) => {
     const {
+      operator: { uuid, fullName },
       modals: { changeAccountStatusModal },
     } = this.props;
 
     changeAccountStatusModal.show({
+      uuid,
+      fullName,
       reasons,
       onSubmit: values => this.handleChangeAccountStatus(values, action),
     });

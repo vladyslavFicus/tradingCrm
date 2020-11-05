@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
+import { Link } from 'components/Link';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
+import OperatorRelationsCountQuery from './graphql/OperatorRelationsCountQuery';
 
 const attributeLabels = {
   reason: 'COMMON.REASON',
@@ -18,6 +21,14 @@ class ChangeAccountStatusModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     reasons: PropTypes.objectOf(PropTypes.string).isRequired,
+    fullName: PropTypes.string.isRequired,
+    operatorRelationsCountQuery: PropTypes.query({
+      operatorRelationsCount: PropTypes.shape({
+        customersCount: PropTypes.number,
+        leadsCount: PropTypes.number,
+        rulesCount: PropTypes.number,
+      }),
+    }).isRequired,
   }
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -26,6 +37,70 @@ class ChangeAccountStatusModal extends PureComponent {
     onSubmit(values, onCloseModal);
     setSubmitting(false);
   }
+
+  renderMessage = ({
+    name,
+    link,
+    count,
+    operatorName,
+  }) => (
+    <p>
+      {operatorName && `${operatorName} `}
+      {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.BEFORE_LINK`, { count })}
+      <Link to={link}>
+        {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.LINK`)}
+      </Link>
+      {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.AFTER_LINK`)}
+    </p>
+  );
+
+  renderMessages = () => {
+    const {
+      fullName,
+      operatorRelationsCountQuery: { data },
+    } = this.props;
+
+    const {
+      customersCount,
+      leadsCount,
+      rulesCount,
+    } = data?.operatorRelationsCount || {};
+
+    const isListType = (customersCount && leadsCount)
+      || (customersCount && rulesCount)
+      || (leadsCount && rulesCount);
+    const operatorName = isListType ? null : fullName;
+
+    return (
+      <div>
+        <If condition={isListType}>{fullName}</If>
+        <If condition={customersCount}>
+          {this.renderMessages({
+            name: 'CLIENTS',
+            link: '/clients/list',
+            count: customersCount,
+            operatorName,
+          })}
+        </If>
+        <If condition={leadsCount}>
+          {this.renderMessages({
+            name: 'LEADS',
+            link: '/leads/list',
+            count: leadsCount,
+            operatorName,
+          })}
+        </If>
+        <If condition={rulesCount}>
+          {this.renderMessages({
+            name: 'RULES',
+            link: '/sales-rules',
+            count: rulesCount,
+            operatorName,
+          })}
+        </If>
+      </div>
+    );
+  };
 
   render() {
     const {
@@ -74,6 +149,7 @@ class ChangeAccountStatusModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
+                {this.renderMessages()}
               </ModalBody>
 
               <ModalFooter>
@@ -100,4 +176,6 @@ class ChangeAccountStatusModal extends PureComponent {
   }
 }
 
-export default ChangeAccountStatusModal;
+export default withRequests({
+  operatorRelationsCountQuery: OperatorRelationsCountQuery,
+})(ChangeAccountStatusModal);
