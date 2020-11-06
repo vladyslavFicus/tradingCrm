@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { getBrandId } from 'config';
+import { getBrand } from 'config';
 
 const REQUEST = gql`
   mutation PasswordResetRequestMutation(
@@ -14,7 +14,7 @@ const REQUEST = gql`
   }`;
 
 const PasswordResetRequestMutation = ({ children }) => (
-  <Mutation mutation={REQUEST} variables={{ brandId: getBrandId() }}>
+  <Mutation mutation={REQUEST} variables={{ brandId: getBrand().id }}>
     {children}
   </Mutation>
 );

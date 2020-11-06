@@ -1,11 +1,11 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get, intersection } from 'lodash';
 import { Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import {
   aggregators,
@@ -65,6 +65,7 @@ class PaymentsListFilters extends PureComponent {
     partnersLoading: PropTypes.bool,
     paymentsLoading: PropTypes.bool,
     clientView: PropTypes.bool,
+    handleRefetch: PropTypes.func,
   };
 
   static defaultProps = {
@@ -72,6 +73,7 @@ class PaymentsListFilters extends PureComponent {
     partnersLoading: false,
     paymentsLoading: false,
     clientView: false,
+    handleRefetch: null,
   };
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
@@ -141,13 +143,14 @@ class PaymentsListFilters extends PureComponent {
         data: paymentMethodsData,
         loading: paymentMethodsLoading,
       },
+      handleRefetch,
       operatorsQuery: { loading: isOperatorsLoading },
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
     } = this.props;
 
     const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
 
-    const currencies = getActiveBrandConfig().currencies.supported;
+    const currencies = getBrand().currencies.supported;
 
     const platformTypes = getAvailablePlatformTypes();
 
@@ -160,6 +163,7 @@ class PaymentsListFilters extends PureComponent {
         initialValues={state?.filters || {}}
         handleSubmit={this.handleSubmit}
         handleReset={this.handleReset}
+        handleRefetch={handleRefetch}
         isDataLoading={paymentsLoading}
         filterSetType={filterSetTypes.PAYMENT}
       >
@@ -170,10 +174,10 @@ class PaymentsListFilters extends PureComponent {
           const operatorsOptions = this.filterOperators(values);
 
           return (
-            <Fragment>
+            <div className="PaymentsListFilters__fields">
               <Field
                 name="searchParam"
-                className="form-group filter-row__big"
+                className="PaymentsListFilters__field PaymentsListFilters__search"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD')}
                 placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
                 addition={<i className="icon icon-search" />}
@@ -183,7 +187,7 @@ class PaymentsListFilters extends PureComponent {
               <If condition={!clientView}>
                 <Field
                   name="countries"
-                  className="form-group filter-row__medium"
+                  className="PaymentsListFilters__field PaymentsListFilters__select"
                   label={I18n.t('PROFILE.LIST.FILTERS.COUNTRY')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
@@ -200,7 +204,7 @@ class PaymentsListFilters extends PureComponent {
               </If>
               <Field
                 name="paymentAggregator"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -215,7 +219,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="paymentMethods"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 disabled={paymentMethodsLoading}
@@ -232,7 +236,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="paymentTypes"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -250,7 +254,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="statuses"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -265,7 +269,7 @@ class PaymentsListFilters extends PureComponent {
                 ))}
               </Field>
               <FormikDateRangeGroup
-                className="form-group filter-row__date-range"
+                className="PaymentsListFilters__field PaymentsListFilters__date-range"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
                 periodKeys={{
                   start: 'statusChangedTimeFrom',
@@ -275,7 +279,7 @@ class PaymentsListFilters extends PureComponent {
               />
               <Field
                 name="desks"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
                 placeholder={
                   I18n.t(
@@ -298,7 +302,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="teams"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
                 placeholder={
                   I18n.t(
@@ -321,7 +325,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="agentIds"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT')}
                 placeholder={
                   I18n.t(
@@ -341,7 +345,7 @@ class PaymentsListFilters extends PureComponent {
                     key={uuid}
                     value={uuid}
                     disabled={operatorStatus === operatorsStasuses.INACTIVE
-                    || operatorStatus === operatorsStasuses.CLOSED}
+                      || operatorStatus === operatorsStasuses.CLOSED}
                   >
                     {fullName}
                   </option>
@@ -350,7 +354,7 @@ class PaymentsListFilters extends PureComponent {
               <If condition={!clientView}>
                 <Field
                   name="affiliateUuids"
-                  className="form-group filter-row__medium"
+                  className="PaymentsListFilters__field PaymentsListFilters__select"
                   label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
@@ -367,7 +371,7 @@ class PaymentsListFilters extends PureComponent {
                 </Field>
                 <Field
                   name="currency"
-                  className="form-group filter-row__medium"
+                  className="PaymentsListFilters__field PaymentsListFilters__select"
                   label={I18n.t('COMMON.CURRENCY')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
@@ -383,7 +387,7 @@ class PaymentsListFilters extends PureComponent {
               </If>
               <Field
                 name="accountType"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -401,7 +405,7 @@ class PaymentsListFilters extends PureComponent {
                   name="platformType"
                   label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  className="form-group filter-row__medium"
+                  className="PaymentsListFilters__field PaymentsListFilters__select"
                   component={FormikSelectField}
                   withAnyOption
                   withFocus
@@ -413,7 +417,7 @@ class PaymentsListFilters extends PureComponent {
               </If>
               <Field
                 name="firstTimeDeposit"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -425,7 +429,7 @@ class PaymentsListFilters extends PureComponent {
               </Field>
               <Field
                 name="warnings"
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__select"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -439,7 +443,7 @@ class PaymentsListFilters extends PureComponent {
                 ))}
               </Field>
               <RangeGroup
-                className="form-group filter-row__medium"
+                className="PaymentsListFilters__field PaymentsListFilters__range-inputs"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
               >
                 <Field
@@ -462,7 +466,7 @@ class PaymentsListFilters extends PureComponent {
                 />
               </RangeGroup>
               <FormikDateRangeGroup
-                className="form-group filter-row__date-range"
+                className="PaymentsListFilters__field PaymentsListFilters__date-range"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
                 periodKeys={{
                   start: 'creationTimeFrom',
@@ -471,7 +475,7 @@ class PaymentsListFilters extends PureComponent {
                 withFocus
               />
               <FormikDateRangeGroup
-                className="form-group filter-row__date-range"
+                className="PaymentsListFilters__field PaymentsListFilters__date-range"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
                 periodKeys={{
                   start: 'modificationTimeFrom',
@@ -479,7 +483,7 @@ class PaymentsListFilters extends PureComponent {
                 }}
                 withFocus
               />
-            </Fragment>
+            </div>
           );
         }
       }

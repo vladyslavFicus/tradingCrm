@@ -57,7 +57,11 @@ class TeamsList extends PureComponent {
           </PermissionContent>
         </div>
 
-        <TeamsGridFilter desksAndOffices={desksAndOffices} />
+        <TeamsGridFilter
+          desksAndOffices={desksAndOffices}
+          handleRefetch={teamsData.refetch}
+        />
+
         <TeamsGrid teamsData={teamsData} />
       </div>
     );

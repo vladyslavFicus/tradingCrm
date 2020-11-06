@@ -4,12 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:rewired": "craco start",
-    "start": "env-cmd .env npm run start:rewired",
-    "start:dev": "env-cmd .env.development npm run start:rewired",
-    "start:qa": "env-cmd .env.qa npm run start:rewired",
-    "start:staging": "env-cmd .env.staging npm run start:rewired",
-    "start:production": "env-cmd .env.production npm run start:rewired",
+    "start": "craco start",
     "build": "craco build",
     "test": "craco test",
     "test:jenkins": "echo no jenkins test",

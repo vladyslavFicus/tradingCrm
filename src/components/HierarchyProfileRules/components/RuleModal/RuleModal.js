@@ -331,11 +331,11 @@ class RuleModal extends PureComponent {
                               >
                                 {operatorsList
                                   .filter(({ hierarchy: { userType } }) => isSales(userType))
-                                  .map(({ uuid, fullName, operatorStatus }) => (
+                                  .map(({ uuid, fullName }) => (
                                     <option
                                       key={uuid}
                                       value={uuid}
-                                      disabled={selectedOperators.indexOf(uuid) !== -1 || operatorStatus !== 'ACTIVE'}
+                                      disabled={selectedOperators.indexOf(uuid) !== -1}
                                     >
                                       {fullName}
                                     </option>

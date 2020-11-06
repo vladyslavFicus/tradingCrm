@@ -83,7 +83,8 @@ class GridHeaderCell extends PureComponent {
         <When condition={withMultiSelect && gridData.length && columnIndex === 0}>
           <th
             className={
-              classNames('GridHeaderCell GridHeaderCell--with-multiselect', {
+              classNames('GridHeaderCell', {
+                'GridHeaderCell--with-multiselect': withMultiSelect,
                 'GridHeaderCell--is-sticky': stickyFromTop,
               })
             }
@@ -100,7 +101,7 @@ class GridHeaderCell extends PureComponent {
         <Otherwise>
           <th
             className={
-              classNames('GridHeaderCell GridHeaderCell--with-multiselect', {
+              classNames('GridHeaderCell', {
                 'GridHeaderCell--is-sticky': stickyFromTop,
               })
             }

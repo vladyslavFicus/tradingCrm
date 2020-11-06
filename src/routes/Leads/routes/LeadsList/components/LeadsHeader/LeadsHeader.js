@@ -8,7 +8,7 @@ import { withNotifications, withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
-import RepresentativeUpdateModal from 'components/RepresentativeUpdateModal';
+import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import Placeholder from 'components/Placeholder';
 import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';

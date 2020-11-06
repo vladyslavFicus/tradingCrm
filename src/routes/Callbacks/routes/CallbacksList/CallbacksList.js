@@ -38,7 +38,7 @@ class CallbacksList extends PureComponent {
           </div>
         </div>
 
-        <CallbacksGridFilter />
+        <CallbacksGridFilter handleRefetch={callbacksData.refetch} />
         <CallbacksGrid callbacksData={callbacksData} />
       </div>
     );

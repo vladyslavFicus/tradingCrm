@@ -112,7 +112,7 @@ class FormikTextAreaField extends PureComponent {
           placeholder={placeholder}
           maxLength={maxLength}
           disabled={disabled}
-          value={value}
+          value={value || ''} // value shouldn't be null
           name={name}
           id={id}
         />

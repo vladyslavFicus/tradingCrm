@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import FilesCategoriesQuery from './graphql/FilesCategoriesQuery';
 import './FilesGridFilter.scss';
 
@@ -20,6 +20,7 @@ class FilesGridFilter extends PureComponent {
       ADRESS_VERIFICATION: PropTypes.arrayOf(PropTypes.string),
       OTHER: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleReset = (resetForm) => {
@@ -60,6 +61,7 @@ class FilesGridFilter extends PureComponent {
 
   render() {
     const {
+      handleRefetch,
       filesCategories,
       location: { state },
     } = this.props;
@@ -133,6 +135,11 @@ class FilesGridFilter extends PureComponent {
             </div>
 
             <div className="FilesGridFilter__buttons">
+              <RefreshButton
+                className="FilesGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="FilesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}

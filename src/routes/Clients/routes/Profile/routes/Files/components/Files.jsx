@@ -1,9 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
-import { v4 } from 'uuid';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { getApiRoot, getApiVersion } from 'config';
+import { getGraphQLUrl, getVersion } from 'config';
 import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
 import TabHeader from 'components/TabHeader';
@@ -168,14 +167,14 @@ class Files extends PureComponent {
     try {
       const { data: { auth: { tokenRenew: { token } } } } = await tokenRenew();
 
-      const requestUrl = `${getApiRoot()}/attachments/users/${id}/files/${uuid}`;
+      const requestUrl = `${getGraphQLUrl()}/attachment/${id}/${uuid}`;
 
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
           authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
-          'x-client-version': getApiVersion(),
+          'x-client-version': getVersion(),
         },
       });
 
@@ -229,9 +228,9 @@ class Files extends PureComponent {
           <When condition={verificationData.length}>
             {
               verificationData.map(({ documents, verificationType }) => (
-                documents.map(({ documentType, files, verificationStatus }) => (
+                documents.map(({ documentType, files, verificationStatus, verificationTime }) => (
                   <FileGrid
-                    key={`${verificationType}-${documentType}-${v4()}`}
+                    key={`${verificationType}-${documentType}-${verificationTime}`}
                     data={files}
                     categories={categories}
                     verificationType={verificationType}

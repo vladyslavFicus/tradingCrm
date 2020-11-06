@@ -60,7 +60,7 @@ const getCallbacksQuery = ({ children, location: { state } }) => (
       ...state?.filters,
       limit: 20,
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

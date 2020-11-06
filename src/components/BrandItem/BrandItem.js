@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
+import { getStaticFileUrl } from 'config';
 import PropTypes from 'constants/propTypes';
 import './BrandItem.scss';
 
@@ -13,7 +14,7 @@ class BrandItem extends PureComponent {
 
   render() {
     const { brand, onClick, isActive } = this.props;
-    const { name, image } = brand || {};
+    const { id, name } = brand || {};
 
     return (
       <div
@@ -24,7 +25,12 @@ class BrandItem extends PureComponent {
         }
         onClick={onClick}
       >
-        <img className="BrandItem__image" alt={name} src={image} />
+        <img
+          className="BrandItem__image"
+          src={getStaticFileUrl(id, 'choose-brand.svg')}
+          alt={id}
+          onError={(e) => { e.target.src = '/img/image-placeholder.svg'; }}
+        />
         <div className="BrandItem__title">{name}</div>
       </div>
     );
