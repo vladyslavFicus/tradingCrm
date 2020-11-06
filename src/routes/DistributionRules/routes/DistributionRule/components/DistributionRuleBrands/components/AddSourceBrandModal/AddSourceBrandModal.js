@@ -104,6 +104,7 @@ class AddSourceBrandModal extends PureComponent {
             quantity,
             baseUnit,
             sortType: sortType || 'FIFO',
+            limitAmount,
           }}
           validate={values => (
             createValidator({
