@@ -276,15 +276,12 @@ class SalesRules extends PureComponent {
     const {
       modals: { deleteModal },
       rules: {
-        data: {
-          rules,
-          rulesRetention,
-        },
+        data,
       },
     } = this.props;
 
-    const data = rules || rulesRetention || [];
-    const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
+    const rules = data?.rules || [];
+    const { name } = rules.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
       onSubmit: this.handleDeleteRule(uuid),
