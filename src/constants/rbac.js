@@ -1,5 +1,341 @@
 export default [
   // ============================================= //
+  // ================== Clients ================== //
+  // ============================================= //
+  {
+    id: 'clients',
+    permissions: [
+      // List of clients
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'profileview.admin.pageableSearch',
+            state: false,
+          },
+        },
+      },
+      // Make deposit transaction
+      {
+        id: 'payment-deposit',
+        actions: {
+          edit: {
+            action: 'payment.deposit',
+            state: false,
+          },
+        },
+      },
+      // Make withdraw transaction
+      {
+        id: 'payment-withdraw',
+        actions: {
+          edit: {
+            action: 'payment.withdraw',
+            state: false,
+          },
+        },
+      },
+      // Make credit in transaction
+      {
+        id: 'payment-creditIn',
+        actions: {
+          edit: {
+            action: 'payment.creditIn',
+            state: false,
+          },
+        },
+      },
+      // Make credit out transaction
+      {
+        id: 'payment-creditOut',
+        actions: {
+          edit: {
+            action: 'payment.creditOut',
+            state: false,
+          },
+        },
+      },
+      // Make transfer transaction
+      {
+        id: 'payment-transfer',
+        actions: {
+          edit: {
+            action: 'payment.transfer',
+            state: false,
+          },
+        },
+      },
+      // Approve payment
+      {
+        id: 'payment-approve',
+        actions: {
+          edit: {
+            action: 'payment.approvePayment',
+            state: false,
+          },
+        },
+      },
+      // Reject payment
+      {
+        id: 'payment-reject',
+        actions: {
+          edit: {
+            action: 'payment.rejectPayment',
+            state: false,
+          },
+        },
+      },
+      // Change payment status
+      {
+        id: 'payment-changeStatus',
+        actions: {
+          edit: {
+            action: 'payment.changePaymentStatus',
+            state: false,
+          },
+        },
+      },
+      // Change payment method
+      {
+        id: 'payment-changeMethod',
+        actions: {
+          edit: {
+            action: 'payment.changePaymentMethod',
+            state: false,
+          },
+        },
+      },
+      // Payment original agent
+      {
+        id: 'payment-changeAgent',
+        actions: {
+          edit: {
+            action: 'payment.changePaymentAgent',
+            state: false,
+          },
+        },
+      },
+      // Reset password
+      {
+        id: 'resetPassword',
+        actions: {
+          edit: {
+            action: 'auth2.user.resetPassword',
+            state: false,
+          },
+        },
+      },
+      // Change password for client
+      {
+        id: 'changePassword',
+        actions: {
+          edit: {
+            action: 'auth2.client.changePassword',
+            state: false,
+          },
+        },
+      },
+      // Get authorities for notes
+      {
+        id: 'getAuthorities',
+        actions: {
+          view: {
+            action: 'auth2.getAuthorities',
+            state: false,
+          },
+        },
+      },
+      // Client's status
+      {
+        id: 'changeStatus',
+        actions: {
+          edit: {
+            action: 'profile.admin.changeProfileStatus',
+            state: false,
+          },
+        },
+      },
+      // Client's KYC status
+      {
+        id: 'changeKYCStatus',
+        actions: {
+          edit: {
+            action: 'profile.admin.updateKycStatus',
+            state: false,
+          },
+        },
+      },
+      // Client's personal information
+      {
+        id: 'updatePersonalInfo',
+        actions: {
+          edit: {
+            action: 'profile.admin.updateProfilePersonalInformation',
+            state: false,
+          },
+        },
+      },
+      // Client's address information
+      {
+        id: 'updateAddress',
+        actions: {
+          edit: {
+            action: 'profile.admin.updateProfileAddress',
+            state: false,
+          },
+        },
+      },
+      // KYC verification files
+      {
+        id: 'kycVerificationFiles',
+        actions: {
+          view: {
+            action: 'attachments.getUserVerificationStatus',
+            state: false,
+          },
+        },
+      },
+      // View/Download file
+      {
+        id: 'viewDownloadFile',
+        actions: {
+          view: {
+            action: 'attachments.downloadFile',
+            state: false,
+          },
+        },
+      },
+      // Delete file for KYC
+      {
+        id: 'deleteKYCFile',
+        actions: {
+          edit: {
+            action: 'attachments.deleteAttachment',
+            state: false,
+          },
+        },
+      },
+      // Upload file for KYC
+      {
+        id: 'uploadKYCFile',
+        actions: {
+          edit: {
+            action: 'attachments.updateAttachment',
+            state: false,
+          },
+        },
+      },
+      // Verify phone
+      {
+        id: 'verifyPhone',
+        actions: {
+          edit: {
+            action: 'profile.admin.verifyPhone',
+            state: false,
+          },
+        },
+      },
+      // Verify email
+      {
+        id: 'verifyEmail',
+        actions: {
+          edit: {
+            action: 'profile.admin.verifyEmail',
+            state: false,
+          },
+        },
+      },
+      // Profile configuration (FATCA, CRS)
+      {
+        id: 'updateProfileConfiguration',
+        actions: {
+          edit: {
+            action: 'profile.admin.updateProfileConfiguration',
+            state: false,
+          },
+        },
+      },
+      // Show feed tab
+      {
+        id: 'showFeedTab',
+        actions: {
+          edit: {
+            action: 'audit.searchAudit',
+            state: false,
+          },
+        },
+      },
+      // Client's phone
+      {
+        id: 'phone',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.field.phone',
+            state: false,
+          },
+          edit: {
+            action: 'profile.admin.updateProfileContacts',
+            state: false,
+          },
+        },
+      },
+      // Additional phone
+      {
+        id: 'additionalPhone',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.field.additionalPhone',
+            state: false,
+          },
+        },
+      },
+      // Client's email
+      {
+        id: 'email',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.field.email',
+            state: false,
+          },
+          edit: {
+            action: 'profile.admin.updateProfileEmail',
+            state: false,
+          },
+        },
+      },
+      // Additional email
+      {
+        id: 'additionalEmail',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.field.additionalEmail',
+            state: false,
+          },
+        },
+      },
+      // Select several clients on grid
+      {
+        id: 'bulkUpdate',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.user.bulkUpdateAcquisitionStatus',
+            state: false,
+          },
+        },
+      },
+      // List of trades
+      {
+        id: 'trades-list',
+        actions: {
+          view: {
+            action: 'trading-activity.searchPost',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
   // =================== Leads =================== //
   // ============================================= //
   {

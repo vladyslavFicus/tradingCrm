@@ -3729,6 +3729,43 @@
     },
     "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions...",
     "SECTIONS": {
+      "clients": {
+        "TITLE": "Clients",
+        "PERMISSIONS": {
+          "list": "List of clients",
+          "payment-deposit": "Make deposit transaction",
+          "payment-withdraw": "Make withdraw transaction",
+          "payment-creditIn": "Make credit in transaction",
+          "payment-creditOut": "Make credit out transaction",
+          "payment-transfer": "Make transfer transaction",
+          "payment-approve": "Approve payment",
+          "payment-reject": "Reject payment",
+          "payment-changeStatus": "Change payment status",
+          "payment-changeMethod": "Change payment method",
+          "payment-changeAgent": "Payment original agent",
+          "resetPassword": "Reset password",
+          "changePassword": "Change password for client",
+          "getAuthorities": "Get authorities for notes",
+          "changeStatus": "Client's status",
+          "changeKYCStatus": "Client's KYC status",
+          "updatePersonalInfo": "Client's personal information",
+          "updateAddress": "Client's address information",
+          "kycVerificationFiles": "KYC verification files",
+          "viewDownloadFile": "View/Download file",
+          "deleteKYCFile": "Delete file for KYC",
+          "uploadKYCFile": "Upload file for KYC",
+          "verifyPhone": "Verify phone",
+          "verifyEmail": "Verify email",
+          "updateProfileConfiguration": "Profile configuration (FATCA, CRS)",
+          "showFeedTab": "Show feed tab",
+          "phone": "Client's phone",
+          "additionalPhone": "Additional phone",
+          "email": "Client's email",
+          "additionalEmail": "Additional email",
+          "bulkUpdate": "Select several clients on grid",
+          "trades-list": "List of trades"
+        }
+      },
       "leads": {
         "TITLE": "Leads",
         "PERMISSIONS": {
