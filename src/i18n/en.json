@@ -3773,6 +3773,76 @@
           "createSalesRule": "Create sales rule",
           "deleteSalesRule": "Delete sales rule"
         }
+      },
+      "management-hierarchy": {
+        "TITLE": "Management - Hierarchy",
+        "PERMISSIONS": {
+          "tree": "Show hierarchy tree",
+          "listOffices": "List of Offices",
+          "listDesks": "List of Desks",
+          "listTeams": "List of Teams",
+          "listOperators": "List of Operators",
+          "branchPage": "Branch page",
+          "branchCreate": "Create new branch",
+          "branchAddManager": "Add branch manager",
+          "removeAddManager": "Remove branch manager"
+        }
+      },
+      "management-sales-rules": {
+        "TITLE": "Management - Sales Rules",
+        "PERMISSIONS": {
+          "salesRulesList": "List of sales rules",
+          "salesRulesCreate": "Create sales rule",
+          "salesRulesDelete": "Delete sales rule"
+        }
+      },
+      "payments": {
+        "TITLE": "Payments",
+        "PERMISSIONS": {
+          "list": "List of payments",
+          "approve": "Approve payment",
+          "reject": "Reject payment",
+          "changeStatus": "Change payment status",
+          "changeMethod": "Change payment method",
+          "changeAgent": "Payment original agent"
+        }
+      },
+      "callbacks": {
+        "TITLE": "Callbacks",
+        "PERMISSIONS": {
+          "list": "List of callbacks"
+        }
+      },
+      "email-templates": {
+        "TITLE": "Email templates",
+        "PERMISSIONS": {
+          "list": "List of templates",
+          "create": "Create template",
+          "send": "Send email"
+        }
+      },
+      "kyc-documents": {
+        "TITLE": "KYC Documents",
+        "PERMISSIONS": {
+          "list": "List of KYC documents"
+        }
+      },
+      "trading-accounts": {
+        "TITLE": "Trading accounts",
+        "PERMISSIONS": {
+          "list": "List of trading accounts",
+          "create": "Create trading account",
+          "changePassword": "Trading account password"
+        }
+      },
+      "notes": {
+        "TITLE": "Notes",
+        "PERMISSIONS": {
+          "list": "List of notes",
+          "create": "Create note",
+          "update": "Update note",
+          "delete": "Delete note"
+        }
       }
     }
   }
