@@ -2378,17 +2378,17 @@
       "WARNING_CLIENTS": {
         "BEFORE_LINK": "has %{count} assigned clients. Please, go to ",
         "LINK": "Clients Search Page",
-        "AFTER_LINK": " to re-assign all clients to another active operator"
+        "AFTER_LINK": " to re-assign all clients to another active operator."
       },
       "WARNING_LEADS": {
         "BEFORE_LINK": "has %{count} assigned leads. Please, go to ",
         "LINK": "Leads Search Page",
-        "AFTER_LINK": " to re-assign all leads to another active operator"
+        "AFTER_LINK": " to re-assign all leads to another active operator."
       },
       "WARNING_RULES": {
         "BEFORE_LINK": "has %{count} assigned sales rules. Please, go to ",
         "LINK": "Sales Rules Page",
-        "AFTER_LINK": " to re-assign all rules to another active operator"
+        "AFTER_LINK": " to re-assign all rules to another active operator."
       }
     },
     "ADD_OPERATOR_TO_BRANCH": {

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
@@ -10,6 +11,7 @@ import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import OperatorRelationsCountQuery from './graphql/OperatorRelationsCountQuery';
+import './ChangeAccountStatusModal.scss';
 
 const attributeLabels = {
   reason: 'COMMON.REASON',
@@ -44,10 +46,10 @@ class ChangeAccountStatusModal extends PureComponent {
     count,
     operatorName,
   }) => (
-    <p>
+    <p className={classNames({ ChangeAccountStatusModal__message: !operatorName })}>
       {operatorName && `${operatorName} `}
       {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.BEFORE_LINK`, { count })}
-      <Link to={link}>
+      <Link to={link} className="ChangeAccountStatusModal__link">
         {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.LINK`)}
       </Link>
       {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.AFTER_LINK`)}
@@ -75,7 +77,7 @@ class ChangeAccountStatusModal extends PureComponent {
       <div>
         <If condition={isListType}>{fullName}</If>
         <If condition={customersCount}>
-          {this.renderMessages({
+          {this.renderMessage({
             name: 'CLIENTS',
             link: '/clients/list',
             count: customersCount,
@@ -83,7 +85,7 @@ class ChangeAccountStatusModal extends PureComponent {
           })}
         </If>
         <If condition={leadsCount}>
-          {this.renderMessages({
+          {this.renderMessage({
             name: 'LEADS',
             link: '/leads/list',
             count: leadsCount,
@@ -91,7 +93,7 @@ class ChangeAccountStatusModal extends PureComponent {
           })}
         </If>
         <If condition={rulesCount}>
-          {this.renderMessages({
+          {this.renderMessage({
             name: 'RULES',
             link: '/sales-rules',
             count: rulesCount,
@@ -112,7 +114,11 @@ class ChangeAccountStatusModal extends PureComponent {
     const reasonsKeys = Object.keys(reasons);
 
     return (
-      <Modal className="modal-danger" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal
+        className="ChangeAccountStatusModal modal-danger"
+        toggle={onCloseModal}
+        isOpen={isOpen}
+      >
         <ModalHeader
           toggle={onCloseModal}
         >
