@@ -11,11 +11,11 @@ import PropTypes from 'constants/propTypes';
 // import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import { withRequests } from 'apollo';
+import rbac from 'constants/rbac';
 import AllActionsQuery from './graphql/AllActionsQuery';
 import ActionsQuery from './graphql/ActionsQuery';
 import UpdateAuthorityActionsMutation from './graphql/UpdateAuthorityActionsMutation';
 import { ReactComponent as PreviewIcon } from './preview-icon.svg';
-import mapping from './mapping.json';
 import './PermissionsSetting.scss';
 
 class PermissionsSetting extends PureComponent {
@@ -43,20 +43,24 @@ class PermissionsSetting extends PureComponent {
     <>
       <div className="PermissionsSetting__settings">
         <div className="PermissionsSetting__settings-switcher-view">
-          <ReactSwitch
-            stopPropagation
-            on={actions?.view?.state}
-            className="PermissionsSetting__settings-switcher"
-            onClick={_enabled => this.handleSwitchPermission(_enabled)}
-          />
+          <If condition={!!actions?.view}>
+            <ReactSwitch
+              stopPropagation
+              on={actions?.view?.state}
+              className="PermissionsSetting__settings-switcher"
+              onClick={_enabled => this.handleSwitchPermission(_enabled)}
+            />
+          </If>
         </div>
         <div className="PermissionsSetting__settings-switcher-edit">
-          <ReactSwitch
-            stopPropagation
-            on={actions?.edit?.state}
-            className="PermissionsSetting__settings-switcher"
-            onClick={_enabled => this.handleSwitchPermission(_enabled)}
-          />
+          <If condition={!!actions?.edit}>
+            <ReactSwitch
+              stopPropagation
+              on={actions?.edit?.state}
+              className="PermissionsSetting__settings-switcher"
+              onClick={_enabled => this.handleSwitchPermission(_enabled)}
+            />
+          </If>
         </div>
       </div>
       <div className="PermissionsSetting__preview">
@@ -96,21 +100,25 @@ class PermissionsSetting extends PureComponent {
           </div>
         </div>
         <Accordion className="PermissionsSetting__section" allowZeroExpanded>
-          {mapping.sections.map(({ id, permissions }) => (
-            <AccordionItem key={id}>
+          {rbac.map(section => (
+            <AccordionItem key={section.id}>
               <AccordionItemHeading>
                 <AccordionItemButton className="PermissionsSetting__section-list">
-                  <div className="PermissionsSetting__section-title">{ id }</div>
+                  <div className="PermissionsSetting__section-title">
+                    {I18n.t(`ROLES_AND_PERMISSIONS.SECTIONS.${section.id}.TITLE`)}
+                  </div>
                   {this.renderSettings()}
                 </AccordionItemButton>
               </AccordionItemHeading>
-              {permissions.map(({ id: title, actions }) => (
+              {section.permissions.map(permission => (
                 <AccordionItemPanel
-                  key={title}
+                  key={permission.id}
                   className="PermissionsSetting__section-actions cursor-pointer"
                 >
-                  <div className="PermissionsSetting__section-permission-title">{ title }</div>
-                  {this.renderSettings(actions)}
+                  <div className="PermissionsSetting__section-permission-title">
+                    {I18n.t(`ROLES_AND_PERMISSIONS.SECTIONS.${section.id}.PERMISSIONS.${permission.id}`)}
+                  </div>
+                  {this.renderSettings(permission.actions)}
                 </AccordionItemPanel>
               ))}
             </AccordionItem>

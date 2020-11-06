@@ -3727,6 +3727,53 @@
       "ACTION": "Action",
       "PERMISSION":  "Permission"
     },
-    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions..."
+    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions...",
+    "SECTIONS": {
+      "leads": {
+        "TITLE": "Leads",
+        "PERMISSIONS": {
+          "list": "List of leads",
+          "profile": "Lead's profile",
+          "promote": "Promote lead to client",
+          "phone": "Phone",
+          "mobile": "Mobile",
+          "email": "Email"
+        }
+      },
+      "operators": {
+        "TITLE": "Operators",
+        "PERMISSIONS": {
+          "create": "Create new operator",
+          "profile": "Operator's profile",
+          "list": "List of operators",
+          "addAuthority": "Add authority for user",
+          "deleteAuthority": "Delete authority for user",
+          "personalDetails": "Operator's personal details",
+          "resetPassword": "Reset password for user",
+          "changeStatus": "Operator's status",
+          "changePassword": "Change password for other operator",
+          "getAuthorities": "Get authorities on edit profile",
+          "list2": "List of operators",
+          "updateBranch": "User branch",
+          "createSalesRule": "Create sales rule",
+          "deleteSalesRule": "Delete sales rule"
+        }
+      },
+      "partners": {
+        "TITLE": "Partners",
+        "PERMISSIONS": {
+          "list": "List of partners",
+          "profile": "Partner's profile",
+          "create": "Create new partner",
+          "changeStatus": "Partner account status",
+          "personalDetails": "Partner personal details",
+          "changePassword": "Change password for partner",
+          "feedTab": "Show feed tab",
+          "listSalesRules": "List of sales rules",
+          "createSalesRule": "Create sales rule",
+          "deleteSalesRule": "Delete sales rule"
+        }
+      }
+    }
   }
 }
