@@ -3843,6 +3843,20 @@
           "update": "Update note",
           "delete": "Delete note"
         }
+      },
+      "notifications": {
+        "TITLE": "Notifications",
+        "PERMISSIONS": {
+          "list": "List of notifications",
+          "unreadCount": "Get unread count"
+        }
+      },
+      "clients-distribution": {
+        "TITLE": "Clients distribution",
+        "PERMISSIONS": {
+          "list": "List of distribution rules",
+          "create": "Create rule"
+        }
       }
     }
   }

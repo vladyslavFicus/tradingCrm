@@ -687,4 +687,60 @@ export default [
       },
     ],
   },
+  // ============================================= //
+  // ================ Notifications ============== //
+  // ============================================= //
+  {
+    id: 'notifications',
+    permissions: [
+      // List of notifications
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'notification.search',
+            state: false,
+          },
+        },
+      },
+      // Get unread count
+      {
+        id: 'unreadCount',
+        actions: {
+          view: {
+            action: 'notification.countAllUserUnreadNotifications',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
+  // ============ Clients Distribution =========== //
+  // ============================================= //
+  {
+    id: 'clients-distribution',
+    permissions: [
+      // List of distribution rules
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'clients-distributor.searchRules',
+            state: false,
+          },
+        },
+      },
+      // Create rule
+      {
+        id: 'create',
+        actions: {
+          edit: {
+            action: 'clients-distributor.createRule',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
 ];
