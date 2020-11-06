@@ -60,7 +60,7 @@ class DistributionRuleBrands extends PureComponent {
   }
 
   state = {
-    sourceBrandLimitAmount: null,
+    sourceBrandAvailableAmount: null,
   }
 
   handleAddSourceBrand = () => {
@@ -81,8 +81,8 @@ class DistributionRuleBrands extends PureComponent {
         initialValues: sourceBrandConfig,
       },
       fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
-      handleSubmit: ({ limitAmount, ...values }) => {
-        this.setState({ sourceBrandLimitAmount: limitAmount });
+      handleSubmit: ({ availableClientsAmount, ...values }) => {
+        this.setState({ sourceBrandAvailableAmount: availableClientsAmount });
         handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
       },
@@ -105,7 +105,7 @@ class DistributionRuleBrands extends PureComponent {
       targetBrandConfig,
       brandsQuery,
     } = this.props;
-    const { sourceBrandLimitAmount } = this.state;
+    const { sourceBrandAvailableAmount } = this.state;
 
     const brands = brandsQuery?.data?.brands || [];
 
@@ -113,7 +113,7 @@ class DistributionRuleBrands extends PureComponent {
       brands,
       sourceBrandId,
       sourceBrandQuantity: sourceBrandBaseUnit === 'PERCENTAGE'
-        ? Math.floor(sourceBrandLimitAmount * sourceBrandQuantity / 100)
+        ? Math.floor(sourceBrandAvailableAmount * sourceBrandQuantity / 100)
         : sourceBrandQuantity,
       initialValues: {
         ...targetBrandConfig,
