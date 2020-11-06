@@ -83,6 +83,7 @@ class OperatorAccountStatus extends PureComponent {
       uuid,
       fullName,
       reasons,
+      withSubordinatesWarnings: action === 'CLOSED',
       onSubmit: values => this.handleChangeAccountStatus(values, action),
     });
   };

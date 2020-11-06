@@ -11,8 +11,8 @@ const REQUEST = gql`query OperatorRelationsCountQuery($uuid: String!) {
   }
 }`;
 
-const OperatorRelationsCountQuery = ({ children, uuid }) => (
-  <Query query={REQUEST} variables={{ uuid }}>
+const OperatorRelationsCountQuery = ({ children, uuid, withSubordinatesWarnings }) => (
+  <Query query={REQUEST} variables={{ uuid }} skip={!withSubordinatesWarnings}>
     {children}
   </Query>
 );
@@ -20,6 +20,7 @@ const OperatorRelationsCountQuery = ({ children, uuid }) => (
 OperatorRelationsCountQuery.propTypes = {
   children: PropTypes.func.isRequired,
   uuid: PropTypes.string.isRequired,
+  withSubordinatesWarnings: PropTypes.bool.isRequired,
 };
 
 export default OperatorRelationsCountQuery;

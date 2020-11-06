@@ -31,6 +31,7 @@ class ChangeAccountStatusModal extends PureComponent {
         rulesCount: PropTypes.number,
       }),
     }).isRequired,
+    withSubordinatesWarnings: PropTypes.bool.isRequired,
   }
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -109,6 +110,7 @@ class ChangeAccountStatusModal extends PureComponent {
       isOpen,
       reasons,
       onCloseModal,
+      withSubordinatesWarnings,
     } = this.props;
 
     const reasonsKeys = Object.keys(reasons);
@@ -155,7 +157,9 @@ class ChangeAccountStatusModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                {this.renderMessages()}
+                <If condition={withSubordinatesWarnings}>
+                  {this.renderMessages()}
+                </If>
               </ModalBody>
 
               <ModalFooter>
