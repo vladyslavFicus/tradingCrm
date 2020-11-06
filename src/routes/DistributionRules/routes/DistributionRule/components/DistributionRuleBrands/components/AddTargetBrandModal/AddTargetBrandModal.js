@@ -134,9 +134,7 @@ class AddTargetBrandModal extends PureComponent {
       availableClientsAmount,
     } = this.state;
 
-    const limitAmount = baseUnit === 'PERCENTAGE'
-      ? Math.floor(availableClientsAmount * sourceBrandQuantity / 100)
-      : Math.min(availableClientsAmount, sourceBrandQuantity);
+    const limitAmount = Math.min(availableClientsAmount, sourceBrandQuantity);
 
     return (
       <Modal
