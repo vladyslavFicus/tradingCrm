@@ -98,7 +98,6 @@ class AddSourceBrandModal extends PureComponent {
         className="AddSourceBrandModal"
       >
         <Formik
-          enableReinitialize
           initialValues={{
             brand,
             quantity,
