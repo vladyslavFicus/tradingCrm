@@ -386,6 +386,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.salesStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                searchable
                 withFocus
                 multiple
               >
@@ -402,6 +403,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.retentionStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                searchable
                 withFocus
                 multiple
               >
@@ -442,6 +444,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.kycStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                searchable
                 withFocus
                 multiple
               >
