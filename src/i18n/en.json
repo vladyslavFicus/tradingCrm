@@ -3173,6 +3173,7 @@
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
+        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only %{percentage}% of clients for migration.",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage"
