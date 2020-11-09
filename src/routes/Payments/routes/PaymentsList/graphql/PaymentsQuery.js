@@ -76,30 +76,26 @@ const REQUEST = gql`
   }
 `;
 
-const PaymentsQuery = ({ children, location: { state } }) => {
-  const sorts = state?.sorts || [];
-
-  return (
-    <Query
-      query={REQUEST}
-      variables={{
-        args: {
-          accountType: 'LIVE',
-          ...state?.filters,
-          page: {
-            from: 0,
-            size: 20,
-            sorts,
-          },
+const PaymentsQuery = ({ children, location: { state } }) => (
+  <Query
+    query={REQUEST}
+    variables={{
+      args: {
+        accountType: 'LIVE',
+        ...state?.filters,
+        page: {
+          from: 0,
+          size: 20,
+          sorts: state?.sorts,
         },
-      }}
-      fetchPolicy="cache-and-network"
-      context={{ batch: false }}
-    >
-      {children}
-    </Query>
-  );
-};
+      },
+    }}
+    fetchPolicy="cache-and-network"
+    context={{ batch: false }}
+  >
+    {children}
+  </Query>
+);
 
 PaymentsQuery.propTypes = {
   ...PropTypes.router,

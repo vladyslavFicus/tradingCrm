@@ -99,8 +99,7 @@ const REQUEST = gql`query ClientsList_ClientsQuery(
 }`;
 
 const ClientsQuery = ({ children, location: { state } }) => {
-  const filters = { ...state?.filters };
-  const sorts = state?.sorts || [];
+  const filters = state?.filters;
   const searchLimit = filters?.searchLimit;
   const size = (searchLimit && searchLimit < 20) ? searchLimit : 20;
 
@@ -113,7 +112,7 @@ const ClientsQuery = ({ children, location: { state } }) => {
           page: {
             from: 0,
             size,
-            sorts,
+            sorts: state?.sorts,
           },
         },
       }}

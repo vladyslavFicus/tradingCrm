@@ -46,7 +46,7 @@ const PartnersQuery = ({ children, location: { state } }) => (
       page: {
         from: 0,
         size: 20,
-        ...{ sorts: state?.sorts || [] },
+        sorts: state?.sorts,
       },
     }}
     fetchPolicy="cache-and-network"
