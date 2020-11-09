@@ -73,6 +73,7 @@ class RenameModal extends PureComponent {
               </div>
               <Field
                 name="title"
+                placeholder={I18n.t('FILES.RENAME_MODAL.PLACEHOLDERS.TITLE')}
                 component={FormikInputField}
               />
             </ModalBody>

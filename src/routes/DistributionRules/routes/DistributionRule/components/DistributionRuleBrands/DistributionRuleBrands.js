@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withApollo, compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import MigrationButton from './components/MigrationButton';
@@ -8,6 +9,7 @@ import MigrationBrandCard from './components/MigrationBrandCard';
 import AddSourceBrandModal from './components/AddSourceBrandModal';
 import AddTargetBrandModal from './components/AddTargetBrandModal';
 import { distributionRuleClientsAmountQuery } from '../../graphql';
+import BrandsQuery from './graphql/BrandsQuery';
 import './DistributionRuleBrands.scss';
 
 class DistributionRuleBrands extends PureComponent {
@@ -47,11 +49,18 @@ class DistributionRuleBrands extends PureComponent {
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
+    brandsQuery: PropTypes.query({
+      brands: PropTypes.arrayOf(PropTypes.brandConfig),
+    }).isRequired,
   }
 
   static defaultProps = {
     sourceBrandConfig: null,
     targetBrandConfig: null,
+  }
+
+  state = {
+    sourceBrandLimitAmount: null,
   }
 
   handleAddSourceBrand = () => {
@@ -60,15 +69,20 @@ class DistributionRuleBrands extends PureComponent {
       handleSourceBrandConfig,
       allowedBaseUnits,
       sourceBrandConfig,
+      brandsQuery,
     } = this.props;
 
+    const brands = brandsQuery?.data?.brands || [];
+
     addSourceBrandModal.show({
+      brands,
       allowedBaseUnits,
       ...sourceBrandConfig && {
         initialValues: sourceBrandConfig,
       },
       fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
-      handleSubmit: (values) => {
+      handleSubmit: ({ limitAmount, ...values }) => {
+        this.setState({ sourceBrandLimitAmount: limitAmount });
         handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
       },
@@ -89,11 +103,18 @@ class DistributionRuleBrands extends PureComponent {
         },
       },
       targetBrandConfig,
+      brandsQuery,
     } = this.props;
+    const { sourceBrandLimitAmount } = this.state;
+
+    const brands = brandsQuery?.data?.brands || [];
 
     addTargetBrandModal.show({
+      brands,
       sourceBrandId,
-      sourceBrandQuantity,
+      sourceBrandQuantity: sourceBrandBaseUnit === 'PERCENTAGE'
+        ? Math.floor(sourceBrandLimitAmount * sourceBrandQuantity / 100)
+        : sourceBrandQuantity,
       initialValues: {
         ...targetBrandConfig,
         distributionUnit: {
@@ -134,6 +155,7 @@ class DistributionRuleBrands extends PureComponent {
           registrationPeriodInHours,
           executionPeriodInHours,
         },
+        fetchPolicy: 'network-only',
       });
 
       return distributionRuleClientsAmount;
@@ -151,7 +173,13 @@ class DistributionRuleBrands extends PureComponent {
       sourceBrandConfig,
       targetBrandConfig,
       handleRemoveBrandCard,
+      brandsQuery,
     } = this.props;
+
+    const brands = brandsQuery?.data?.brands || [];
+
+    const sourceBrand = sourceBrandConfig && brands.find(brand => brand.brandId === sourceBrandConfig.brand);
+    const targetBrand = targetBrandConfig && brands.find(brand => brand.brandId === targetBrandConfig.brand);
 
     return (
       <div className="DistributionRuleBrands">
@@ -161,7 +189,7 @@ class DistributionRuleBrands extends PureComponent {
         <div className="DistributionRuleBrands__columns-wrapper">
           <div className="DistributionRuleBrands__column">
             <div className="DistributionRuleBrands__column-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.FROM_BRAND')}
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.SOURCE_BRAND')}
             </div>
             <div className="DistributionRuleBrands__column-inner">
               <Choose>
@@ -172,6 +200,7 @@ class DistributionRuleBrands extends PureComponent {
                     handleRemoveBrandCard={() => handleRemoveBrandCard('source')}
                     brandType="source"
                     {...sourceBrandConfig}
+                    brand={sourceBrand}
                   />
                 </When>
                 <Otherwise>
@@ -185,7 +214,7 @@ class DistributionRuleBrands extends PureComponent {
           </div>
           <div className="DistributionRuleBrands__column">
             <div className="DistributionRuleBrands__column-label">
-              {I18n.t('CLIENTS_DISTRIBUTION.RULE.TO_BRAND')}
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}
             </div>
             <div className="DistributionRuleBrands__column-inner">
               <Choose>
@@ -196,6 +225,7 @@ class DistributionRuleBrands extends PureComponent {
                     handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
                     brandType="target"
                     {...targetBrandConfig}
+                    brand={targetBrand}
                   />
                 </When>
                 <Otherwise>
@@ -215,6 +245,9 @@ class DistributionRuleBrands extends PureComponent {
 
 export default compose(
   withApollo,
+  withRequests({
+    brandsQuery: BrandsQuery,
+  }),
   withModals({
     addSourceBrandModal: AddSourceBrandModal,
     addTargetBrandModal: AddTargetBrandModal,

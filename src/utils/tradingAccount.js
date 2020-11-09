@@ -1,4 +1,5 @@
-import { getActiveBrandConfig } from 'config';
+import { get } from 'lodash';
+import { getBrand } from 'config';
 import { accountTypes } from 'constants/accountTypes';
 import { platformTypes } from 'constants/platformTypes';
 
@@ -8,23 +9,17 @@ import { platformTypes } from 'constants/platformTypes';
  * @return {*[]}
  */
 const getAvailablePlatformTypes = () => {
-  const {
-    isMT4LiveAvailable,
-    isMT4DemoAvailable,
-    isMT5LiveAvailable,
-    isMT5DemoAvailable,
-  } = getActiveBrandConfig();
+  const brand = getBrand();
 
-  return platformTypes.filter(({ value }) => {
-    if (value === 'MT4') {
-      return isMT4LiveAvailable || isMT4DemoAvailable;
-    }
+  return platformTypes.filter(({ value: _platformType }) => {
+    const platformType = _platformType.toLowerCase();
 
-    if (value === 'MT5') {
-      return isMT5LiveAvailable || isMT5DemoAvailable;
-    }
+    // Check if event one from account types is available for platform type
+    return accountTypes.some(({ value: _accountType }) => {
+      const accountType = _accountType.toLocaleLowerCase();
 
-    return false;
+      return get(brand, `${platformType}.${accountType}.enabled`);
+    });
   });
 };
 
@@ -33,32 +28,14 @@ const getAvailablePlatformTypes = () => {
  *
  * @return {*[]}
  */
-const getAvailableAccountTypes = (platformType) => {
-  const {
-    isMT4LiveAvailable,
-    isMT4DemoAvailable,
-    isMT5LiveAvailable,
-    isMT5DemoAvailable,
-  } = getActiveBrandConfig();
+const getAvailableAccountTypes = (_platformType) => {
+  const brand = getBrand();
+  const platformType = _platformType.toLowerCase();
 
-  return accountTypes.filter(({ value }) => {
-    if (platformType === 'MT4' && value === 'LIVE') {
-      return isMT4LiveAvailable;
-    }
+  return accountTypes.filter(({ value: _accountType }) => {
+    const accountType = _accountType.toLowerCase();
 
-    if (platformType === 'MT4' && value === 'DEMO') {
-      return isMT4DemoAvailable;
-    }
-
-    if (platformType === 'MT5' && value === 'LIVE') {
-      return isMT5LiveAvailable;
-    }
-
-    if (platformType === 'MT5' && value === 'DEMO') {
-      return isMT5DemoAvailable;
-    }
-
-    return false;
+    return get(brand, `${platformType}.${accountType}.enabled`);
   });
 };
 

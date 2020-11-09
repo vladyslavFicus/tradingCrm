@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
@@ -16,24 +16,27 @@ import './OperatorFeedFilterForm.scss';
 class OperatorFeedFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feedTypesData: PropTypes.shape({
-      data: PropTypes.shape({
-        feedTypes: PropTypes.objectOf(PropTypes.string),
-      }),
+    feedTypesData: PropTypes.query({
+      feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
-    const { feedTypesData } = this.props;
+    const {
+      location: { query },
+      feedTypesData,
+      handleRefetch,
+    } = this.props;
 
     const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
@@ -41,15 +44,11 @@ class OperatorFeedFilterForm extends PureComponent {
     return (
       <Formik
         className="OperatorFeedFilterForm"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="OperatorFeedFilterForm__form">
             <Field
               name="searchBy"
@@ -88,9 +87,14 @@ class OperatorFeedFilterForm extends PureComponent {
             />
 
             <div className="OperatorFeedFilterForm__buttons">
+              <RefreshButton
+                className="OperatorFeedFilterForm__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="OperatorFeedFilterForm__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

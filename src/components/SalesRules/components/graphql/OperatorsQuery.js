@@ -4,22 +4,22 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query OperatorsQuery(
-  $searchBy: String,
-  $country: String,
-  $phone: String,
-  $status: String,
-  $registrationDateFrom: String,
-  $registrationDateTo: String,
-  $page: Page__Input,
+  $searchBy: String
+  $country: String
+  $phone: String
+  $status: String
+  $registrationDateFrom: String
+  $registrationDateTo: String
+  $page: Page__Input
 ) {
   operators(
-    searchBy: $searchBy,
-    country: $country,
-    phone: $phone,
-    status: $status,
-    registrationDateFrom: $registrationDateFrom,
-    registrationDateTo: $registrationDateTo,
-    page: $page,
+    searchBy: $searchBy
+    country: $country
+    phone: $phone
+    status: $status
+    registrationDateFrom: $registrationDateFrom
+    registrationDateTo: $registrationDateTo
+    page: $page
   ) {
     page
     number
@@ -35,7 +35,19 @@ const REQUEST = gql`query OperatorsQuery(
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query
+    query={REQUEST}
+    variables={{
+      page: {
+        sorts: [
+          { column: 'operatorStatus', direction: 'ASC' },
+          { column: 'firstName', direction: 'ASC' },
+          { column: 'lastName', direction: 'ASC' },
+        ],
+      },
+    }}
+    fetchPolicy="cache-and-network"
+  >
     {children}
   </Query>
 );

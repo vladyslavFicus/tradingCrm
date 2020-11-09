@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { FormikInputField } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
@@ -58,7 +58,7 @@ class ChangePasswordModal extends PureComponent {
               {
                 newPassword: [
                   'required',
-                  `regex:${passwordPattern || getActiveBrandConfig().password.pattern}`,
+                  `regex:${passwordPattern || getBrand().password.pattern}`,
                   ...[passwordMaxSize && `max:${passwordMaxSize}`],
                 ],
                 repeatPassword: ['required', 'same:newPassword'],

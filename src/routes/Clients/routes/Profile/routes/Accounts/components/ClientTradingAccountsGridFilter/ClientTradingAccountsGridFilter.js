@@ -7,47 +7,53 @@ import { accountTypes } from 'constants/accountTypes';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import './ClientTradingAccountsGridFilter.scss';
 
 class ClientTradingAccountsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    accountType: PropTypes.string.isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
       state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
-
-    setSubmitting(false);
   };
 
-  onHandleReset = () => {
-    this.props.history.replace({
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
       state: {
-        filters: {},
+        ...state,
+        filters: null,
       },
     });
   };
 
   render() {
-    const { accountType, location: { state } } = this.props;
+    const {
+      handleRefetch,
+      location: { state },
+    } = this.props;
     const platformTypes = getAvailablePlatformTypes();
 
     return (
       <Formik
         className="ClientTradingAccountsGridFilter"
-        initialValues={state?.filters || { accountType }}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={state?.filters || { accountType: 'LIVE' }}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="ClientTradingAccountsGridFilter__form">
@@ -83,9 +89,14 @@ class ClientTradingAccountsGridFilter extends PureComponent {
             </If>
 
             <div className="ClientTradingAccountsGridFilter__buttons">
+              <RefreshButton
+                className="ClientTradingAccountsGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="ClientTradingAccountsGridFilter__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

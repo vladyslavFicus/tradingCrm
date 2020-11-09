@@ -30,7 +30,12 @@ class TradingAccountsList extends PureComponent {
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ACCOUNTS.HEADLINE')}
           </span>
         </div>
-        <TradingAccountsListFilters loading={loading} />
+
+        <TradingAccountsListFilters
+          loading={loading}
+          handleRefetch={tradingAccountsData.refetch}
+        />
+
         <TradingAccountsListGrid tradingAccountsData={tradingAccountsData} />
       </div>
     );

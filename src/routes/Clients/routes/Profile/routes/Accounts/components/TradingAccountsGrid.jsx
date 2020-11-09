@@ -1,11 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withModals, withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
@@ -19,6 +20,7 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
+import UpdateTradingAccountModal from 'modals/UpdateTradingAccountModal';
 import updateTradingAccountMutation from './graphql/updateTradingAccountMutation';
 import approveChangingLeverageMutation from './graphql/approveChangingLeverageMutation';
 import rejectChangingLeverageMutation from './graphql/rejectChangingLeverageMutation';
@@ -29,7 +31,13 @@ class TradingAccountsGrid extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
       tradingAccountChangePasswordModal: PropTypes.modalType,
+      updateTradingAccountModal: PropTypes.modalType,
       changeLeverageModal: PropTypes.modalType,
+    }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
     }).isRequired,
     tradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount).isRequired,
     updateTradingAccount: PropTypes.func.isRequired,
@@ -268,7 +276,6 @@ class TradingAccountsGrid extends PureComponent {
       accountType,
       archived,
       accountUUID,
-      profileUUID,
       login,
       name,
       group,
@@ -276,17 +283,37 @@ class TradingAccountsGrid extends PureComponent {
       platformType,
     },
   ) => {
-    const { modals: { tradingAccountChangePasswordModal, changeLeverageModal } } = this.props;
-    const brand = getActiveBrandConfig();
+    const {
+      refetchTradingAccountsList,
+      modals: {
+        tradingAccountChangePasswordModal,
+        updateTradingAccountModal,
+        changeLeverageModal,
+      },
+      match: {
+        params: {
+          id,
+        },
+      },
+    } = this.props;
+    const brand = getBrand();
 
     const dropDownActions = [
       {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-        onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
+        onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID: id, login }),
+      },
+      {
+        label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.RENAME'),
+        onClick: () => updateTradingAccountModal.show({
+          accountUUID,
+          profileUUID: id,
+          onSuccess: refetchTradingAccountsList,
+        }),
       },
     ];
 
-    if (brand[`leveragesChangingRequest${platformType}`].length) {
+    if (brand[platformType.toLowerCase()].leveragesChangingRequest.length) {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         onClick: () => changeLeverageModal.show({
@@ -298,7 +325,7 @@ class TradingAccountsGrid extends PureComponent {
           platformType,
           archived,
           accountUUID,
-          refetchTradingAccountsList: this.props.refetchTradingAccountsList,
+          refetchTradingAccountsList,
         }),
       });
     }
@@ -393,10 +420,12 @@ class TradingAccountsGrid extends PureComponent {
 }
 
 export default compose(
+  withRouter,
   withPermission,
   withNotifications,
   withModals({
     tradingAccountChangePasswordModal: TradingAccountChangePasswordModal,
+    updateTradingAccountModal: UpdateTradingAccountModal,
     changeLeverageModal: ChangeLeverageModal,
   }),
   withRequests({

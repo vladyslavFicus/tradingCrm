@@ -509,6 +509,7 @@ PropTypes.userHierarchyType = PropTypes.shape({
     uuid: PropTypes.string.isRequired,
   })),
   fullName: PropTypes.string,
+  operator: PropTypes.operator,
 });
 PropTypes.hierarchyBranch = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
@@ -1008,6 +1009,12 @@ PropTypes.acquisition = PropTypes.shape({
       ),
     }),
   }),
+});
+
+PropTypes.brandConfig = PropTypes.shape({
+  brandId: PropTypes.string,
+  brandName: PropTypes.string,
+  config: PropTypes.object,
 });
 
 export default PropTypes;

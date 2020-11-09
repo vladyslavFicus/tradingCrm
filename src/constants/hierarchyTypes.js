@@ -80,3 +80,13 @@ export const isSales = userType => [
   userTypes.SALES_MANAGER,
   userTypes.SALES_HOD,
 ].includes(userType);
+
+
+/**
+ * Check if userType is lead
+ *
+ * @param userType
+ *
+ * @return {boolean}
+ */
+export const isLead = userType => userType === userTypes.LEAD_CUSTOMER;

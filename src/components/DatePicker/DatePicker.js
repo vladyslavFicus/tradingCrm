@@ -16,6 +16,7 @@ class DatePicker extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
       setValue: PropTypes.func,
+      initialValue: PropTypes.string,
     }).isRequired,
     isValidDate: PropTypes.func,
     id: PropTypes.string,
@@ -31,7 +32,7 @@ class DatePicker extends Component {
     utc: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
     closeOnSelect: PropTypes.bool,
-    isFocused: PropTypes.bool,
+    withFocus: PropTypes.bool,
     withTime: PropTypes.bool,
     timePresets: PropTypes.bool,
     helpText: PropTypes.node,
@@ -49,10 +50,10 @@ class DatePicker extends Component {
     utc: false,
     disabled: false,
     placeholder: '',
-    isFocused: false,
     showErrorMessage: true,
     closeOnSelect: true,
     withTime: false,
+    withFocus: false,
     timePresets: false,
     isDateRangeEndValue: false,
     helpText: null,
@@ -164,8 +165,11 @@ class DatePicker extends Component {
   renderInput = () => {
     const {
       id,
+      field: {
+        initialValue,
+        value,
+      },
       disabled,
-      isFocused,
       placeholder,
       pickerClassName,
       isValidDate,
@@ -173,6 +177,7 @@ class DatePicker extends Component {
       timeFormat,
       timePresets,
       closeOnSelect,
+      withFocus,
       withTime,
     } = this.props;
 
@@ -180,7 +185,7 @@ class DatePicker extends Component {
       <div
         className={
           classNames('input-group', {
-            'input-group--rtd-is-focused': isFocused,
+            'input-group--rtd-is-focused': withFocus && initialValue && initialValue === value,
           })
         }
       >

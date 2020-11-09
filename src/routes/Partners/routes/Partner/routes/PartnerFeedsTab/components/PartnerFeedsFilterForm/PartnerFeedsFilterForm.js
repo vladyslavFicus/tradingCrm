@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
@@ -21,19 +21,24 @@ class PartnerFeedsFilterForm extends PureComponent {
         feedTypes: PropTypes.objectOf(PropTypes.string),
       }),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
-    const { feedTypesData } = this.props;
+    const {
+      handleRefetch,
+      feedTypesData,
+      location: { query },
+    } = this.props;
 
     const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
     const availableFeedTypes = Object.keys(feedTypes).filter(key => (!!feedTypes[key] && key !== '__typename'));
@@ -41,15 +46,11 @@ class PartnerFeedsFilterForm extends PureComponent {
     return (
       <Formik
         className="PartnerFeedsFilterForm"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
-        {({
-          isSubmitting,
-          resetForm,
-          dirty,
-        }) => (
+        {({ isSubmitting, dirty }) => (
           <Form className="PartnerFeedsFilterForm__form">
             <Field
               name="searchBy"
@@ -89,9 +90,14 @@ class PartnerFeedsFilterForm extends PureComponent {
             />
 
             <div className="PartnerFeedsFilterForm__buttons">
+              <RefreshButton
+                className="PartnerFeedsFilterForm__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="PartnerFeedsFilterForm__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

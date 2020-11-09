@@ -21,10 +21,10 @@ export default compose(
         page: {
           from: 0,
           size: 20,
-          ...{ sorts: state?.sorts || [] },
+          sorts: state?.sorts,
         },
       },
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     }),
     props: ({ operators: { operators, fetchMore, variables, ...rest } }) => {
       const newPage = get(operators, 'number') || 0;

@@ -1,12 +1,8 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import FeedsQuery from './graphql/FeedsQuery';
 import './LeadFeedsList.scss';
 
 class LeadFeedsList extends PureComponent {
@@ -49,9 +45,4 @@ class LeadFeedsList extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withRequests({
-    feedsQuery: FeedsQuery,
-  }),
-)(LeadFeedsList);
+export default LeadFeedsList;

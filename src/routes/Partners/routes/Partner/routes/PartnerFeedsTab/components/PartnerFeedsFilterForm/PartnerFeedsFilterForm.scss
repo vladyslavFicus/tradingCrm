@@ -22,7 +22,7 @@
   }
 
   &__search {
-    grid-column: span 4;
+    grid-column: span 3;
   }
 
   &__select {
@@ -34,7 +34,7 @@
   }
 
   &__buttons {
-    grid-column-start: 11;
+    grid-column-start: 10;
     grid-column-end: 13;
     display: flex;
     margin-left: auto;

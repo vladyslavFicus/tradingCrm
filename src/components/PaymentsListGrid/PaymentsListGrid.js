@@ -1,11 +1,9 @@
-/* eslint-disable */
-
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get, set, cloneDeep } from 'lodash';
+import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import {
@@ -47,40 +45,49 @@ class PaymentsListGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
+    const { location } = this.props;
+
+    const filters = location?.state?.filters || {};
+    const sorts = location?.state?.sorts || [];
+
     const {
       paymentsQuery,
       paymentsQuery: {
-        variables: { args },
         loadMore,
       },
     } = this.props;
 
     const page = get(paymentsQuery, 'data.payments.number') || 0;
 
-    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
+    loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: page + 1,
+          size: 20,
+          sorts,
+        },
+      },
+    });
   };
 
-  handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
-
-    const sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
+  handleSort = (sortData, sorts) => {
+    const { history, location: { state } } = this.props;
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
 
   render() {
     const {
+      location: {
+        state,
+      },
       clientView,
       handleRefresh,
       paymentsQuery,
@@ -96,6 +103,7 @@ class PaymentsListGrid extends PureComponent {
         <Grid
           data={content || []}
           handleSort={this.handleSort}
+          sorts={state?.sortData}
           handlePageChanged={this.handlePageChanged}
           headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}
@@ -252,7 +260,7 @@ class PaymentsListGrid extends PureComponent {
                   {currency} {Number(amount).toFixed(2)}
                 </div>
                 <div className="font-size-11">
-                  {`(${getActiveBrandConfig().currencies.base} ${Number(
+                  {`(${getBrand().currencies.base} ${Number(
                     normalizedAmount,
                   ).toFixed(2)})`}
                 </div>

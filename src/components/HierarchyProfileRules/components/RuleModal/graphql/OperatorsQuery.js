@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query OperatorsQuery {
-  operators {
+const REQUEST = gql`query RuleModal_OperatorsQuery(
+  $page: Page__Input
+) {
+  operators(page: $page) {
     content {
       uuid
       fullName
@@ -18,7 +20,19 @@ const REQUEST = gql`query OperatorsQuery {
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="cache-and-network">
+  <Query
+    query={REQUEST}
+    fetchPolicy="cache-and-network"
+    variables={{
+      status: 'ACTIVE',
+      page: {
+        sorts: [
+          { column: 'firstName', direction: 'ASC' },
+          { column: 'lastName', direction: 'ASC' },
+        ],
+      },
+    }}
+  >
     {children}
   </Query>
 );

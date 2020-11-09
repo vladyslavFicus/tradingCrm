@@ -8,7 +8,6 @@ import { targetTypes } from 'constants/note';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
 import NoteItem from 'components/NoteItem';
-import { decodeNullValues } from 'components/Formik/utils';
 import ClientNotesQuery from './graphql/ClientNotesQuery';
 import NotesGridFilter from './NotesGridFilter';
 
@@ -48,15 +47,6 @@ class Notes extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    const { location, history } = this.props;
-    history.replace({
-      query: {
-        filters: decodeNullValues(filters) || (location.query && location.query.filters) || {},
-      },
-    });
-  };
-
   loadMore = () => {
     const { notes } = this.props;
 
@@ -72,6 +62,7 @@ class Notes extends Component {
       notes: {
         data,
         loading,
+        refetch,
       },
     } = this.props;
 
@@ -84,7 +75,9 @@ class Notes extends Component {
     return (
       <Fragment>
         <TabHeader title={I18n.t('PLAYER_PROFILE.NOTES.TITLE')} />
-        <NotesGridFilter onSubmit={this.handleFiltersChanged} />
+
+        <NotesGridFilter handleRefetch={refetch} />
+
         <div className="tab-wrapper">
           <ListView
             dataSource={notes.content}

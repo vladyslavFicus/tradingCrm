@@ -54,7 +54,18 @@ class GridHeader extends PureComponent {
       }
     }
 
-    this.setState({ sortList: { ...newSortList } }, () => handleSort(this.state.sortList));
+    this.setState({ sortList: { ...newSortList } }, () => {
+      const sorts = Object.keys(newSortList)[0]
+        ? Object.keys(newSortList)
+          .filter(key => newSortList[key])
+          .map(key => ({
+            column: key,
+            direction: newSortList[key],
+          }))
+        : null;
+
+      handleSort(newSortList, sorts);
+    });
   };
 
   render() {

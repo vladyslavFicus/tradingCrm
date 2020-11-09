@@ -3,16 +3,17 @@ import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
+import countryList from 'utils/countryList';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
-import countryList from 'utils/countryList';
+import { Button, RefreshButton } from 'components/UI';
 import { statusLabels } from '../../../../constants';
 import './PartnersGridFilter.scss';
 
 class PartnersGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleReset = (resetForm) => {
@@ -42,7 +43,10 @@ class PartnersGridFilter extends PureComponent {
   };
 
   render() {
-    const { location: { state } } = this.props;
+    const {
+      handleRefetch,
+      location: { state },
+    } = this.props;
 
     return (
       <Formik
@@ -110,6 +114,11 @@ class PartnersGridFilter extends PureComponent {
             </div>
 
             <div className="PartnersGridFilter__buttons">
+              <RefreshButton
+                className="PartnersGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="PartnersGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}

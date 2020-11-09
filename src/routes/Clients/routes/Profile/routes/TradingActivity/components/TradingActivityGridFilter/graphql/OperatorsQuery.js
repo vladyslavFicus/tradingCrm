@@ -3,8 +3,10 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query OperatorsQuery_TradingActivityGridFilter {
-  operators {
+const REQUEST = gql`query TradingActivityGridFilter_OperatorsQuery(
+  $page: Page__Input
+) {
+  operators(page: $page) {
     content {
       uuid
       fullName
@@ -18,7 +20,19 @@ const REQUEST = gql`query OperatorsQuery_TradingActivityGridFilter {
 }`;
 
 const OperatorsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query
+    query={REQUEST}
+    variables={{
+      page: {
+        sorts: [
+          { column: 'operatorStatus', direction: 'ASC' },
+          { column: 'firstName', direction: 'ASC' },
+          { column: 'lastName', direction: 'ASC' },
+        ],
+      },
+    }}
+    fetchPolicy="cache-and-network"
+  >
     {children}
   </Query>
 );

@@ -1,5 +1,4 @@
 import React from 'react';
-import { get } from 'lodash';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
@@ -77,21 +76,21 @@ const REQUEST = gql`
   }
 `;
 
-const PaymentsQuery = ({ children, location: { query } }) => (
+const PaymentsQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
       args: {
         accountType: 'LIVE',
-        ...(query && query.filters),
+        ...state?.filters,
         page: {
           from: 0,
           size: 20,
-          sorts: get(query, 'sorts') || [],
+          sorts: state?.sorts,
         },
       },
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
     context={{ batch: false }}
   >
     {children}

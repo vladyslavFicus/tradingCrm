@@ -37,20 +37,26 @@ class OperatorsFeed extends PureComponent {
   };
 
   render() {
-    const { feedsQuery: { data, loading } } = this.props;
+    const {
+      feedsQuery: {
+        data,
+        loading,
+        refetch,
+      },
+    } = this.props;
 
     const { content, totalPages, last } = get(data, 'feeds') || {};
 
     return (
       <Fragment>
-        <OperatorFeedFilterForm />
+        <OperatorFeedFilterForm handleRefetch={refetch} />
 
         <div className="tab-wrapper">
           <ListView
             dataSource={content || []}
             render={(feed, key) => <FeedItem key={key} data={feed} />}
             onPageChange={this.handlePageChanged}
-            showNoResults={!loading && !content.length}
+            showNoResults={!loading && !content?.length}
             totalPages={totalPages}
             last={last}
           />

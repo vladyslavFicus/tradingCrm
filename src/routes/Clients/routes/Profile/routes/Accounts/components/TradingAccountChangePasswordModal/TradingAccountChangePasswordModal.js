@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { getActiveBrandConfig } from 'config';
+import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { Button } from 'components/UI';
@@ -18,7 +18,7 @@ const attributeLabels = {
 };
 
 const validate = createValidator({
-  password: ['required', `regex:${getActiveBrandConfig().password.mt4_pattern}`],
+  password: ['required', `regex:${getBrand().password.mt4_pattern}`],
   repeatPassword: ['required', 'same:password'],
 }, translateLabels(attributeLabels), false);
 

@@ -6,34 +6,39 @@ import PropTypes from 'constants/propTypes';
 import { callbacksStatuses } from 'constants/callbacks';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import './ClientCallbacksGridFilter.scss';
 
 class ClientCallbacksGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  onHandleSubmit = (values, { setSubmitting }) => {
+  handleSubmit = (values, { setSubmitting }) => {
     this.props.history.replace({ query: { filters: decodeNullValues(values) } });
     setSubmitting(false);
   };
 
-  onHandleReset = () => {
+  handleReset = () => {
     this.props.history.replace({ query: { filters: {} } });
   };
 
   render() {
+    const {
+      handleRefetch,
+      location: { query },
+    } = this.props;
+
     return (
       <Formik
         className="ClientCallbacksGridFilter"
-        initialValues={{}}
-        onSubmit={this.onHandleSubmit}
-        onReset={this.onHandleReset}
+        initialValues={query?.filters || {}}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="ClientCallbacksGridFilter__form">
@@ -73,9 +78,14 @@ class ClientCallbacksGridFilter extends PureComponent {
             />
 
             <div className="ClientCallbacksGridFilter__buttons">
+              <RefreshButton
+                className="ClientCallbacksGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="ClientCallbacksGridFilter__button"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 disabled={isSubmitting}
                 primary
               >

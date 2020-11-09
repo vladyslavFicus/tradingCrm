@@ -42,6 +42,7 @@ class ClientsList extends PureComponent {
 
         <ClientsGridFilter
           clientsLoading={clientsQuery.loading}
+          handleRefetch={clientsQuery.refetch}
         />
 
         <ClientsGrid

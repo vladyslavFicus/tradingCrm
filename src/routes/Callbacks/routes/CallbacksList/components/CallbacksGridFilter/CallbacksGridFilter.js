@@ -6,30 +6,53 @@ import PropTypes from 'constants/propTypes';
 import { callbacksStatuses } from 'constants/callbacks';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import './CallbacksGridFilter.scss';
 
 class CallbacksGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(values) } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+
     setSubmitting(false);
   };
 
-  handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
-  };
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm();
+  }
 
   render() {
+    const {
+      location: { state },
+      handleRefetch,
+    } = this.props;
+
     return (
       <Formik
         className="CallbacksGridFilter"
-        initialValues={{}}
+        enableReinitialize
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
       >
         {({
           isSubmitting,
@@ -50,7 +73,7 @@ class CallbacksGridFilter extends PureComponent {
             <Field
               name="statuses"
               className="CallbacksGridFilter__field CallbacksGridFilter__select"
-              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t('CALLBACKS.FILTER.STATUS')}
               component={FormikSelectField}
               withAnyOption
@@ -62,9 +85,10 @@ class CallbacksGridFilter extends PureComponent {
               ))}
             </Field>
 
-            <FormikDateRangeGroup
+            <Field
               className="CallbacksGridFilter__field CallbacksGridFilter__date-range"
               label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
+              component={FormikDateRangeGroup}
               periodKeys={{
                 start: 'callbackTimeFrom',
                 end: 'callbackTimeTo',
@@ -73,9 +97,14 @@ class CallbacksGridFilter extends PureComponent {
             />
 
             <div className="CallbacksGridFilter__buttons">
+              <RefreshButton
+                className="CallbacksGridFilter__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="CallbacksGridFilter__button"
-                onClick={resetForm}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
                 primary
               >
