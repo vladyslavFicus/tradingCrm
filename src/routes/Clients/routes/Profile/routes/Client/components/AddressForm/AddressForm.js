@@ -48,7 +48,7 @@ class AddressForm extends PureComponent {
     try {
       await updateAddress({
         variables: {
-          clientUuid,
+          playerUUID: clientUuid,
           ...values,
         },
       });
