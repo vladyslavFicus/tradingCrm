@@ -284,10 +284,13 @@ class HierarchyProfileForm extends Component {
                   </div>
                 </If>
               </form>
+
               <div className="personal-form-heading margin-bottom-10">
                 {I18n.t('OPERATORS.PROFILE.HIERARCHY.BRANCHES')}
               </div>
+
               {this.renderHierarchyTree()}
+
               <PermissionContent permissions={permissions.HIERARCHY.UPDATE_USER_BRANCH}>
                 <button
                   type="button"
@@ -298,6 +301,7 @@ class HierarchyProfileForm extends Component {
                   {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
                 </button>
               </PermissionContent>
+
               <If condition={branchFormVisibility && allowUpdateHierarchy}>
                 <AddBranchForm
                   refetchUserBranchesTreeUp={refetch}

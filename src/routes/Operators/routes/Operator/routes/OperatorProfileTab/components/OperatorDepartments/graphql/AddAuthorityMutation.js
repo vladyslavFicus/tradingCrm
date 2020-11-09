@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation UpdateOperatorDepartmentsFormMutation_addDepartment(
-  $uuid: String!,
-  $department: String!,
-  $role: String!,
+const REQUEST = gql`mutation OperatorDepartmnets_addAuthority(
+  $uuid: String!
+  $department: String!
+  $role: String!
 ) {
   auth {
     addAuthority(
@@ -17,14 +17,14 @@ const REQUEST = gql`mutation UpdateOperatorDepartmentsFormMutation_addDepartment
   }
 }`;
 
-const UpdateOperatorDepartmentsFormMutation = ({ children }) => (
+const AddAuthorityMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-UpdateOperatorDepartmentsFormMutation.propTypes = {
+AddAuthorityMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UpdateOperatorDepartmentsFormMutation;
+export default AddAuthorityMutation;

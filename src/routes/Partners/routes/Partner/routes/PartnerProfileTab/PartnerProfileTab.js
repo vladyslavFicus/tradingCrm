@@ -16,10 +16,7 @@ class PartnerProfileTab extends PureComponent {
 
     return (
       <div className="PartnerProfileTab">
-        <PartnerPersonalInfoForm
-          partnerData={partnerData}
-          disabled={this.readOnly}
-        />
+        <PartnerPersonalInfoForm partnerData={partnerData} />
 
         <PartnerScheduleGrid partnerData={partnerData} />
       </div>

@@ -1977,7 +1977,7 @@
           "ROLE": "Role"
         },
         "LABEL": "Departments",
-        "ADD_BUTTON_LABEL": "+ADD"
+        "ADD_BUTTON_LABEL": "+ Add department"
       },
       "HIERARCHY": {
         "LABEL": "Hierarchy",

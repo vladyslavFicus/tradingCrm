@@ -10,7 +10,7 @@ import EventEmitter, { OPERATOR_ACCOUNT_STATUS_CHANGED } from 'utils/EventEmitte
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import HideDetails from 'components/HideDetails';
-import OperatorProfileTab from './routes/Edit';
+import OperatorProfileTab from './routes/OperatorProfileTab';
 import OperatorFeedsTab from './routes/OperatorFeedsTab';
 import OperatorSalesRulesTab from './routes/OperatorSalesRulesTab';
 import OperatorHeader from './components/OperatorHeader';
