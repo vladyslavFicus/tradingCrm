@@ -12,11 +12,12 @@ import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
 import Grid, { GridColumn } from 'components/Grid';
 import NoteButton from 'components/NoteButton';
+import { EditButton } from 'components/UI';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
-import { DeleteModal } from 'components/Files';
+import { DeleteModal, RenameModal } from 'components/Files';
 import ShortLoader from 'components/ShortLoader';
 import permissions from 'config/permissions';
 import { statusesCategory, statusesFile } from '../constants';
@@ -39,7 +40,9 @@ class FileGrid extends PureComponent {
     onDownloadFileClick: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       deleteFileModal: PropTypes.modalType,
+      renameFileModal: PropTypes.modalType,
     }).isRequired,
+    updateFileMeta: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -106,6 +109,22 @@ class FileGrid extends PureComponent {
     const { modals: { deleteFileModal } } = this.props;
 
     deleteFileModal.show({ file });
+  };
+
+  handleRenameFile = ({ uuid, fileName }) => {
+    const {
+      modals: {
+        renameFileModal,
+      },
+      updateFileMeta,
+    } = this.props;
+
+    renameFileModal.show({
+      uuid,
+      fileName,
+      onSubmit: renameFileModal.hide,
+      updateFileMeta,
+    });
   };
 
   renderGridHeader = () => {
@@ -204,6 +223,8 @@ class FileGrid extends PureComponent {
 
   renderActions = data => (
     <span className="margin-left-5">
+      <EditButton onClick={() => this.handleRenameFile(data)} />
+      {' '}
       <button type="button" className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
         <i className="fa fa-download" />
       </button>
@@ -315,5 +336,6 @@ export default compose(
   }),
   withModals({
     deleteFileModal: DeleteModal,
+    renameFileModal: RenameModal,
   }),
 )(FileGrid);
