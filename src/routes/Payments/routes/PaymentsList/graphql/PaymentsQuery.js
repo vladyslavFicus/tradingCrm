@@ -88,7 +88,7 @@ const PaymentsQuery = ({ children, location: { state } }) => (
           size: 20,
           sorts: state?.sorts,
         },
-      }
+      },
     }}
     fetchPolicy="cache-and-network"
     context={{ batch: false }}
