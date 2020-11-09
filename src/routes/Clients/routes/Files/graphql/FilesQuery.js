@@ -5,22 +5,22 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query FilesGrid__FilesQuery(
-    $size: Int,
-    $page: Int,
-    $searchBy: String,
-    $uploadedDateFrom: String,
-    $uploadedDateTo: String,
-    $verificationType: String,
-    $documentType: String,
+    $size: Int
+    $page: Int
+    $searchBy: String
+    $uploadedDateFrom: String
+    $uploadedDateTo: String
+    $verificationType: String
+    $documentType: String
   ){
     files(
-      size: $size,
-      page: $page,
-      searchBy: $searchBy,
-      uploadedDateFrom: $uploadedDateFrom,
-      uploadedDateTo: $uploadedDateTo,
-      verificationType: $verificationType,
-      documentType: $documentType,
+      size: $size
+      page: $page
+      searchBy: $searchBy
+      uploadedDateFrom: $uploadedDateFrom
+      uploadedDateTo: $uploadedDateTo
+      verificationType: $verificationType
+      documentType: $documentType
     ) {
       last
       number

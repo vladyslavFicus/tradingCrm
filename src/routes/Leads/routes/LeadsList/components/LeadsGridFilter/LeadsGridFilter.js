@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { omit, get, intersection } from 'lodash';
+import { omit, intersection } from 'lodash';
+import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { getAvailableLanguages } from 'config';
@@ -11,7 +12,7 @@ import { salesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
@@ -36,15 +37,16 @@ const attributeLabels = {
 class LeadsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    desksAndTeamsData: PropTypes.query({
+    desksAndTeamsQuery: PropTypes.query({
       hierarchy: PropTypes.shape({
         TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
         DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
     }).isRequired,
-    operatorsData: PropTypes.query({
+    operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.operator),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   get leadsSalesStatuses() {
@@ -59,7 +61,8 @@ class LeadsGridFilter extends PureComponent {
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
-      const branches = get(operator, 'hierarchy.parentBranches').map(({ uuid }) => uuid) || [];
+      const parentBranches = operator.hierarchy?.parentBranches || [];
+      const branches = parentBranches.map(({ uuid }) => uuid) || [];
 
       return intersection(branches, uuids).length;
     })
@@ -67,11 +70,11 @@ class LeadsGridFilter extends PureComponent {
 
   filterOperators = ({ desks, teams }) => {
     const {
-      operatorsData,
-      desksAndTeamsData,
+      operatorsQuery,
+      desksAndTeamsQuery,
     } = this.props;
 
-    const operators = get(operatorsData, 'data.operators.content') || [];
+    const operators = operatorsQuery.data.operators?.content || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });
@@ -79,7 +82,7 @@ class LeadsGridFilter extends PureComponent {
 
     if (desks && desks.length) {
       // If desk chosen -> find all teams of these desks to filter operators
-      const teamsList = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
+      const teamsList = desksAndTeamsQuery.data.userBranches?.TEAM || [];
       const teamsByDesks = teamsList.filter(team => desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
       const uuids = [...desks, ...teamsByDesks];
 
@@ -117,9 +120,10 @@ class LeadsGridFilter extends PureComponent {
 
   render() {
     const {
-      desksAndTeamsData,
-      operatorsData: { loading: isOperatorsLoading },
-      desksAndTeamsData: { loading: isDesksAndTeamsLoading },
+      handleRefetch,
+      desksAndTeamsQuery,
+      operatorsQuery: { loading: isOperatorsLoading },
+      desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
       location: { state },
     } = this.props;
 
@@ -134,8 +138,8 @@ class LeadsGridFilter extends PureComponent {
       >
         {({ values, isSubmitting, dirty, resetForm }) => {
           const desksUuids = values.desks || [];
-          const desks = get(desksAndTeamsData, 'data.userBranches.DESK') || [];
-          const teams = get(desksAndTeamsData, 'data.userBranches.TEAM') || [];
+          const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
+          const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
           const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const operatorsOptions = this.filterOperators(values);
@@ -255,8 +259,10 @@ class LeadsGridFilter extends PureComponent {
                     <option
                       key={uuid}
                       value={uuid}
-                      disabled={operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSED}
+                      className={classNames({
+                        'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                          || operatorStatus === operatorsStasuses.CLOSED,
+                      })}
                     >
                       {fullName}
                     </option>
@@ -332,6 +338,11 @@ class LeadsGridFilter extends PureComponent {
               </div>
 
               <div className="LeadsGridFilter__buttons">
+                <RefreshButton
+                  className="LeadsGridFilter__button"
+                  onClick={handleRefetch}
+                />
+
                 <Button
                   className="LeadsGridFilter__button"
                   disabled={isSubmitting}
@@ -362,7 +373,7 @@ export default compose(
   withApollo,
   withRouter,
   withRequests({
-    desksAndTeamsData: DesksAndTeamsQuery,
-    operatorsData: OperatorsQuery,
+    desksAndTeamsQuery: DesksAndTeamsQuery,
+    operatorsQuery: OperatorsQuery,
   }),
 )(LeadsGridFilter);

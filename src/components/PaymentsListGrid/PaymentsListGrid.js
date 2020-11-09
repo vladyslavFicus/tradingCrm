@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get, set, cloneDeep } from 'lodash';
+import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -45,25 +45,38 @@ class PaymentsListGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
+    const { location } = this.props;
+
+    const filters = location?.state?.filters || {};
+    const sorts = location?.state?.sorts || [];
+
     const {
       paymentsQuery,
       paymentsQuery: {
-        variables: { args },
         loadMore,
       },
     } = this.props;
 
     const page = get(paymentsQuery, 'data.payments.number') || 0;
 
-    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
+    loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: page + 1,
+          size: 20,
+          sorts,
+        },
+      },
+    });
   };
 
   handleSort = (sortData, sorts) => {
-    const { history, location: { query } } = this.props;
+    const { history, location: { state } } = this.props;
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
         sortData,
       },
@@ -72,6 +85,9 @@ class PaymentsListGrid extends PureComponent {
 
   render() {
     const {
+      location: {
+        state,
+      },
       clientView,
       handleRefresh,
       paymentsQuery,
@@ -87,6 +103,7 @@ class PaymentsListGrid extends PureComponent {
         <Grid
           data={content || []}
           handleSort={this.handleSort}
+          sorts={state?.sortData}
           handlePageChanged={this.handlePageChanged}
           headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}

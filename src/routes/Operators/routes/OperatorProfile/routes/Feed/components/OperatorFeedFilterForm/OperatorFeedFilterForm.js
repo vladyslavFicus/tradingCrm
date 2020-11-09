@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
@@ -16,11 +16,10 @@ import './OperatorFeedFilterForm.scss';
 class OperatorFeedFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feedTypesData: PropTypes.shape({
-      data: PropTypes.shape({
-        feedTypes: PropTypes.objectOf(PropTypes.string),
-      }),
+    feedTypesData: PropTypes.query({
+      feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -36,6 +35,7 @@ class OperatorFeedFilterForm extends PureComponent {
     const {
       location: { query },
       feedTypesData,
+      handleRefetch,
     } = this.props;
 
     const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
@@ -87,6 +87,11 @@ class OperatorFeedFilterForm extends PureComponent {
             />
 
             <div className="OperatorFeedFilterForm__buttons">
+              <RefreshButton
+                className="OperatorFeedFilterForm__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="OperatorFeedFilterForm__button"
                 onClick={this.handleReset}

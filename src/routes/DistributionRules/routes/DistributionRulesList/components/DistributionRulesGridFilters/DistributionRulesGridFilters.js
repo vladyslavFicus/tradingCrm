@@ -7,7 +7,7 @@ import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
-import Button from 'components/UI/Button';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import './DistributionRulesGridFilters.scss';
@@ -15,6 +15,7 @@ import './DistributionRulesGridFilters.scss';
 class DistributionRulesFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    handleRefetch: PropTypes.func.isRequired,
   }
 
   handleSubmit = (filters) => {
@@ -26,7 +27,10 @@ class DistributionRulesFilters extends PureComponent {
   };
 
   render() {
-    const { location: { query } } = this.props;
+    const {
+      location: { query },
+      handleRefetch,
+    } = this.props;
 
     return (
       <Formik
@@ -144,16 +148,22 @@ class DistributionRulesFilters extends PureComponent {
             </div>
 
             <div className="filter__form-buttons">
+              <RefreshButton
+                className="filter__form-button"
+                onClick={handleRefetch}
+              />
+
               <Button
-                className="btn btn-default filter__form-button"
+                className="filter__form-button"
                 disabled={isSubmitting}
                 onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
+
               <Button
-                className="btn btn-primary filter__form-button"
+                className="filter__form-button"
                 disabled={isSubmitting || !dirty}
                 type="submit"
                 primary

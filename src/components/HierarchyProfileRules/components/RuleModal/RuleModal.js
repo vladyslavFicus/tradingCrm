@@ -11,7 +11,6 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
 import { isSales } from 'constants/hierarchyTypes';
-import { RangeGroup } from 'components/Forms';
 import {
   FormikInputField,
   FormikSelectField,
@@ -20,9 +19,6 @@ import {
 import {
   ruleTypes,
   priorities,
-  clientDistribution,
-  depositCount,
-  deskTypes,
 } from 'constants/rules';
 import { OperatorsQuery, PartnersQuery } from './graphql';
 import { attributeLabels, customErrors } from './constants';
@@ -37,14 +33,7 @@ const validate = (deskType, withOperatorSpreads) => createValidator({
   ...withOperatorSpreads && {
     'operatorSpreads.0.parentUser': 'required',
   },
-  ...(deskType !== deskTypes.RETENTION) && {
-    type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
-  },
-  ...(deskType === deskTypes.RETENTION) && {
-    ruleType: ['required', `in:${clientDistribution.map(({ value }) => value).join()}`],
-    depositAmountFrom: ['required', 'integer'],
-    depositAmountTo: ['required', 'integer'],
-  },
+  type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
 }, translateLabels(attributeLabels), false, customErrors);
 
 class RuleModal extends PureComponent {
@@ -185,73 +174,20 @@ class RuleModal extends PureComponent {
                       </option>
                     ))}
                   </Field>
-                  <Choose>
-                    <When condition={deskType === deskTypes.RETENTION}>
-                      <Field
-                        name="depositCount"
-                        label={I18n.t(attributeLabels.depositCount)}
-                        component={FormikSelectField}
-                        disabled={isSubmitting}
-                        className="col-6"
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      >
-                        {depositCount.map(item => (
-                          <option key={item} value={item}>
-                            {item.toString()}
-                          </option>
-                        ))}
-                      </Field>
-                      <RangeGroup
-                        className="col-6"
-                        label={I18n.t(attributeLabels.amount)}
-                      >
-                        <Field
-                          name="depositAmountFrom"
-                          type="number"
-                          placeholder="0"
-                          step="1"
-                          component={FormikInputField}
-                        />
-                        <Field
-                          name="depositAmountTo"
-                          type="number"
-                          placeholder="0"
-                          step="1"
-                          component={FormikInputField}
-                        />
-                      </RangeGroup>
-                      <Field
-                        name="ruleType"
-                        label={I18n.t(attributeLabels.ruleType)}
-                        component={FormikSelectField}
-                        disabled={isSubmitting}
-                        className="col-6"
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      >
-                        {clientDistribution.map(({ label, value }) => (
-                          <option key={value} value={value}>
-                            {I18n.t(label)}
-                          </option>
-                        ))}
-                      </Field>
-                    </When>
-                    <Otherwise>
-                      <Field
-                        name="type"
-                        label={I18n.t(attributeLabels.type)}
-                        component={FormikSelectField}
-                        disabled={isSubmitting}
-                        className="col-6"
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      >
-                        {ruleTypes.map(({ label, value }) => (
-                          <option key={value} value={value}>
-                            {I18n.t(label)}
-                          </option>
-                        ))}
-                      </Field>
-                    </Otherwise>
-                  </Choose>
+                  <Field
+                    name="type"
+                    label={I18n.t(attributeLabels.type)}
+                    component={FormikSelectField}
+                    disabled={isSubmitting}
+                    className="col-6"
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  >
+                    {ruleTypes.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Field>
                 </div>
                 <Field
                   name="countries"
@@ -282,29 +218,27 @@ class RuleModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                <If condition={deskType === deskTypes.SALES}>
-                  <Field
-                    name="affiliateUUIDs"
-                    label={I18n.t(attributeLabels.partner)}
-                    component={FormikSelectField}
-                    disabled={isSubmitting || partnersList.length === 0}
-                    multiple
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-                    searchable
-                  >
-                    {partnersList.sort((a, b) => a.fullName.localeCompare(b.fullName)).map(partner => (
-                      <option key={partner.uuid} value={partner.uuid}>
-                        {partner.fullName}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="sources"
-                    label={I18n.t(attributeLabels.source)}
-                    placeholder={I18n.t(attributeLabels.source)}
-                    component={FormikMultiInputField}
-                  />
-                </If>
+                <Field
+                  name="affiliateUUIDs"
+                  label={I18n.t(attributeLabels.partner)}
+                  component={FormikSelectField}
+                  disabled={isSubmitting || partnersList.length === 0}
+                  multiple
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
+                  searchable
+                >
+                  {partnersList.sort((a, b) => a.fullName.localeCompare(b.fullName)).map(partner => (
+                    <option key={partner.uuid} value={partner.uuid}>
+                      {partner.fullName}
+                    </option>
+                  ))}
+                </Field>
+                <Field
+                  name="sources"
+                  label={I18n.t(attributeLabels.source)}
+                  placeholder={I18n.t(attributeLabels.source)}
+                  component={FormikMultiInputField}
+                />
                 <If condition={withOperatorSpreads}>
                   <div className="row">
                     <FieldArray
@@ -331,11 +265,11 @@ class RuleModal extends PureComponent {
                               >
                                 {operatorsList
                                   .filter(({ hierarchy: { userType } }) => isSales(userType))
-                                  .map(({ uuid, fullName, operatorStatus }) => (
+                                  .map(({ uuid, fullName }) => (
                                     <option
                                       key={uuid}
                                       value={uuid}
-                                      disabled={selectedOperators.indexOf(uuid) !== -1 || operatorStatus !== 'ACTIVE'}
+                                      disabled={selectedOperators.indexOf(uuid) !== -1}
                                     >
                                       {fullName}
                                     </option>

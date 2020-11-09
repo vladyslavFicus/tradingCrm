@@ -373,7 +373,7 @@
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "ERRORS": {
         "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
-        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+        "LIMIT_EXCEED": "Insufficient funds due to opened orders. Please close all opened orders and complete previous withdrawals to proceed with the withdrawal."
       },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
@@ -2251,6 +2251,17 @@
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
     },
+    "UPDATE_TRADING_ACCOUNT_MODAL": {
+      "TITLE": "Update trading account",
+      "LABLES": {
+        "NAME": "Trading account's name"
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Trading account's name was successfully updated",
+        "ERROR": "Failed to update trading account's name"
+      },
+      "UPDATE_BUTTON": "Update"
+    },
     "ADD_OFFICE_MODAL": {
       "TITLE": "New office",
       "CREATE_BUTTON": "Create office",
@@ -2612,6 +2623,7 @@
       },
       "ACTIONS_DROPDOWN": {
         "CHANGE_PASSWORD": "Change password",
+        "RENAME": "Rename",
         "DISABLE": "Disable",
         "ENABLE": "Enable"
       },
@@ -2911,7 +2923,7 @@
   "RULES": {
     "FILTERS": {
       "RULE": "Rule UUID",
-      "OPERATOR": "Operator",
+      "OPERATORS": "Operators",
       "PARTNER": "Partner"
     }
   },

@@ -24,9 +24,7 @@ import {
   BranchInfoQuery,
   BranchChildrenQuery,
   CreateRule,
-  CreateRuleRetention,
   DeleteRule,
-  DeleteRuleRetention,
 } from './graphql';
 import RuleModal from './components/RuleModal';
 import EditRuleModal from './components/EditRuleModal';
@@ -47,9 +45,7 @@ class HierarchyProfileRules extends PureComponent {
       branchInfo: PropTypes.hierarchyBranch,
     }).isRequired,
     createRule: PropTypes.func.isRequired,
-    createRuleRetention: PropTypes.func.isRequired,
     deleteRule: PropTypes.func.isRequired,
-    deleteRuleRetention: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       ruleModal: PropTypes.modalType,
       ruleModalRetention: PropTypes.modalType,
@@ -95,7 +91,7 @@ class HierarchyProfileRules extends PureComponent {
 
         if (!branchChildrenQuery.loading) {
           data = {
-            enabled: !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser)),
+            enabled: !!(teams && teams.length && teams.some(({ uuid }) => !!uuid)),
             message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK'),
           };
         }
@@ -178,30 +174,13 @@ class HierarchyProfileRules extends PureComponent {
     const {
       notify,
       createRule,
-      createRuleRetention,
       modals: { ruleModal },
       match: { params: { id } },
       rulesQuery,
-      deskType,
     } = this.props;
 
-    let request;
-
-    if (deskType === deskTypes.RETENTION) {
-      const { ruleType, ...data } = variables;
-      request = createRuleRetention(
-        {
-          variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType,
-            }],
-            ...decodeNullValues(data),
-          },
-        },
-      );
-    } else {
-      request = createRule(
+    try {
+      await createRule(
         {
           variables: {
             actions: [{
@@ -212,10 +191,6 @@ class HierarchyProfileRules extends PureComponent {
           },
         },
       );
-    }
-
-    try {
-      await request;
 
       await rulesQuery.refetch();
 
@@ -263,18 +238,12 @@ class HierarchyProfileRules extends PureComponent {
     const {
       notify,
       deleteRule,
-      deleteRuleRetention,
       rulesQuery,
       modals: { deleteModal },
-      deskType,
     } = this.props;
 
     try {
-      if (deskType === deskTypes.RETENTION) {
-        await deleteRuleRetention({ variables: { uuid } });
-      } else {
-        await deleteRule({ variables: { uuid } });
-      }
+      await deleteRule({ variables: { uuid } });
 
       await rulesQuery.refetch();
 
@@ -297,12 +266,12 @@ class HierarchyProfileRules extends PureComponent {
   handleDeleteRuleClick = (uuid) => {
     const {
       modals: { deleteModal },
-      rulesQuery: { data: rulesQueryData },
+      rulesQuery: { data },
     } = this.props;
 
-    const data = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
+    const rules = data?.rules || [];
 
-    const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
+    const { name } = rules.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
       onSubmit: this.handleDeleteRule(uuid),
@@ -430,24 +399,23 @@ class HierarchyProfileRules extends PureComponent {
       >
         <i className="fa fa-trash btn-transparent color-danger" />
       </Button>
-      <If condition={this.props.deskType !== deskTypes.RETENTION}>
-        <Button
-          transparent
-        >
-          <i
-            onClick={() => this.triggerEditRuleModal(uuid)}
-            className="font-size-16 cursor-pointer fa fa-edit float-right"
-          />
-        </Button>
-      </If>
+      <Button
+        transparent
+      >
+        <i
+          onClick={() => this.triggerEditRuleModal(uuid)}
+          className="font-size-16 cursor-pointer fa fa-edit float-right"
+        />
+      </Button>
     </>
   );
 
   render() {
     const {
       rulesQuery: {
-        data: rulesQueryData,
+        data,
         loading,
+        refetch,
       },
       permission: {
         permissions: currentPermissions,
@@ -456,13 +424,11 @@ class HierarchyProfileRules extends PureComponent {
       deskType,
     } = this.props;
 
-    const error = get(rulesQueryData, 'error') || get(rulesQueryData, 'error');
-
-    if (error) {
+    if (data?.error) {
       return null;
     }
 
-    const entities = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
+    const entities = data?.rules || [];
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
@@ -473,6 +439,7 @@ class HierarchyProfileRules extends PureComponent {
         <RulesFilters
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          handleRefetch={refetch}
         />
 
         <div className="HierarchyProfileRules__grid">
@@ -537,9 +504,7 @@ export default (title, deskType, branchType) => props => (
         branchInfoQuery: BranchInfoQuery,
         branchChildrenQuery: BranchChildrenQuery,
         createRule: CreateRule,
-        createRuleRetention: CreateRuleRetention,
         deleteRule: DeleteRule,
-        deleteRuleRetention: DeleteRuleRetention,
       }),
     )(HierarchyProfileRules),
     { title, deskType, branchType, ...props },

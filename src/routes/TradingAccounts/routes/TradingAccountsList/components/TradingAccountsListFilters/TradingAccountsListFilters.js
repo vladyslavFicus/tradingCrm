@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { accountTypes, accountStatuses } from '../../constants';
 import './TradingAccountsListFilters.scss';
@@ -14,6 +14,7 @@ class TradingAccountsListFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     loading: PropTypes.bool,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -45,7 +46,11 @@ class TradingAccountsListFilters extends PureComponent {
   };
 
   render() {
-    const { loading, location: { state } } = this.props;
+    const {
+      loading,
+      handleRefetch,
+      location: { state },
+    } = this.props;
 
     const platformTypes = getAvailablePlatformTypes();
 
@@ -114,6 +119,11 @@ class TradingAccountsListFilters extends PureComponent {
               </Field>
             </div>
             <div className="TradingAccountsListFilters__buttons">
+              <RefreshButton
+                className="TradingAccountsListFilters__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="TradingAccountsListFilters__button"
                 onClick={() => this.handleReset(resetForm)}

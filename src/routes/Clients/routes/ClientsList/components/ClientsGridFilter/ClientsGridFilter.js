@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { intersection } from 'lodash';
+import classNames from 'classnames';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
@@ -55,6 +56,7 @@ class ClientsGridFilter extends PureComponent {
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
@@ -118,6 +120,7 @@ class ClientsGridFilter extends PureComponent {
       auth: { role, department },
       clientsLoading,
       partnersQuery,
+      handleRefetch,
       desksAndTeamsQuery,
       partnersQuery: { loading: isPartnersLoading },
       operatorsQuery: { loading: isOperatorsLoading },
@@ -133,6 +136,7 @@ class ClientsGridFilter extends PureComponent {
         enableReinitialize
         handleSubmit={this.handleSubmit}
         handleReset={this.handleReset}
+        handleRefetch={handleRefetch}
         initialValues={state?.filters || {}}
         isDataLoading={clientsLoading}
         validate={createValidator({
@@ -293,8 +297,10 @@ class ClientsGridFilter extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    disabled={operatorStatus === operatorsStasuses.INACTIVE
-                    || operatorStatus === operatorsStasuses.CLOSED}
+                    className={classNames({
+                      'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                        || operatorStatus === operatorsStasuses.CLOSED,
+                    })}
                   >
                     {fullName}
                   </option>

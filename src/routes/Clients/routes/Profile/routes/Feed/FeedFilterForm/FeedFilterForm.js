@@ -6,7 +6,7 @@ import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
@@ -21,6 +21,7 @@ class FeedFilterForm extends PureComponent {
     feedTypes: PropTypes.query({
       feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleFiltersChanged = (filters, { setSubmitting }) => {
@@ -32,6 +33,7 @@ class FeedFilterForm extends PureComponent {
   render() {
     const {
       feedTypes,
+      handleRefetch,
     } = this.props;
 
     const feedTypesList = get(feedTypes, 'data.feedTypes') || [];
@@ -90,6 +92,10 @@ class FeedFilterForm extends PureComponent {
               withFocus
             />
             <div className="filter-row__button-block">
+              <RefreshButton
+                className="margin-right-15"
+                onClick={handleRefetch}
+              />
               <Button
                 className="margin-right-15"
                 onClick={resetForm}

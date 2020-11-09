@@ -1,23 +1,14 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import getFeedsQuery from './graphql/getFeedsQuery';
 import './PartnerFeedsList.scss';
 
 class PartnerFeedsList extends PureComponent {
   static propTypes = {
     feedsQuery: PropTypes.query({
-      feeds: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.feed),
-        last: PropTypes.bool,
-        page: PropTypes.number,
-        totalPages: PropTypes.number,
-      }),
+      feeds: PropTypes.pageable(PropTypes.feed),
     }).isRequired,
   };
 
@@ -57,9 +48,4 @@ class PartnerFeedsList extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withRequests({
-    feedsQuery: getFeedsQuery,
-  }),
-)(PartnerFeedsList);
+export default PartnerFeedsList;

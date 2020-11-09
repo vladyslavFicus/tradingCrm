@@ -76,21 +76,21 @@ const REQUEST = gql`
   }
 `;
 
-const PaymentsQuery = ({ children, location: { query } }) => (
+const PaymentsQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
       args: {
         accountType: 'LIVE',
-        ...query?.filters,
+        ...state?.filters,
         page: {
           from: 0,
           size: 20,
-          sorts: query?.sorts,
+          sorts: state?.sorts,
         },
-      },
+      }
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
     context={{ batch: false }}
   >
     {children}

@@ -98,12 +98,12 @@ class AddSourceBrandModal extends PureComponent {
         className="AddSourceBrandModal"
       >
         <Formik
-          enableReinitialize
           initialValues={{
             brand,
             quantity,
             baseUnit,
             sortType: sortType || 'FIFO',
+            limitAmount,
           }}
           validate={values => (
             createValidator({

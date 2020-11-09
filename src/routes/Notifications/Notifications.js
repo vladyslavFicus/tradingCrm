@@ -27,7 +27,7 @@ class Notifications extends PureComponent {
           </div>
         </div>
 
-        <NotificationsGridFilters />
+        <NotificationsGridFilters handleRefetch={notificationCenterQuery.refetch} />
         <NotificationsGrid notificationCenterQuery={notificationCenterQuery} />
       </div>
     );

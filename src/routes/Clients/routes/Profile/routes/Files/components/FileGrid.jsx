@@ -17,6 +17,7 @@ import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
 import { DeleteModal } from 'components/Files';
+import ShortLoader from 'components/ShortLoader';
 import permissions from 'config/permissions';
 import { statusesCategory, statusesFile } from '../constants';
 import MoveFileDropDown from './MoveFileDropDown';
@@ -46,6 +47,7 @@ class FileGrid extends PureComponent {
   }
 
   state = {
+    previewFileLoading: false,
     selectedVerificationStatusValue: '',
   }
 
@@ -63,13 +65,15 @@ class FileGrid extends PureComponent {
     this.props.onChangeFileStatusActionClick(status, uuid);
   }
 
-  onPreviewClick = async ({ uuid, clientUuid }) => {
+  onPreviewClick = async ({ uuid, clientUuid, mediaType }) => {
     const { tokenRenew } = this.props;
 
     try {
       const { data: { auth: { tokenRenew: { token } } } } = await tokenRenew();
 
       const requestUrl = `${getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
+
+      this.setState({ previewFileLoading: true });
 
       const response = await fetch(requestUrl, {
         method: 'GET',
@@ -80,9 +84,19 @@ class FileGrid extends PureComponent {
         },
       });
 
-      const imageUrl = URL.createObjectURL(await response.blob());
+      const fileUrl = URL.createObjectURL(await response.blob());
 
-      this.props.images.show([{ src: imageUrl }]);
+      this.setState({ previewFileLoading: false });
+
+      if (mediaType === 'application/pdf') {
+        const link = document.createElement('a');
+
+        link.href = fileUrl;
+        link.target = '_blank';
+        link.dispatchEvent(new MouseEvent('click')); // eslint-disable-line jsx-control-statements/jsx-jcs-no-undef
+      } else {
+        this.props.images.show([{ src: fileUrl }]);
+      }
     } catch (e) {
       // Do nothing...
     }
@@ -156,7 +170,7 @@ class FileGrid extends PureComponent {
   )
 
   renderFileName = (data) => {
-    const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
     const isClickable = availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
     const onClick = isClickable ? () => this.onPreviewClick(data) : null;
     const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
@@ -165,10 +179,13 @@ class FileGrid extends PureComponent {
     return (
       <div className="files-grid__col-name">
         <div
-          className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
+          className={classNames('files-grid__col-title', { 'cursor-pointer': isClickable })}
           onClick={onClick}
         >
           {data.title}
+          <If condition={this.state.previewFileLoading}>
+            &nbsp;<ShortLoader height={15} />
+          </If>
         </div>
         <div title={data.realName} className="font-size-11">
           {data.fileName === data.title ? null : `${shortifyInMiddle(data.fileName, 40)} - `}

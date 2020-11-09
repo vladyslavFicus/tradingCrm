@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query PartnerFeedsTab_getFeedsQuery(
+  query PartnerFeedsTab_FeedsQuery(
     $searchBy: String
     $creationDateFrom: String
     $creationDateTo: String
@@ -48,7 +48,7 @@ const REQUEST = gql`
   }
 `;
 
-const getFeedsQuery = ({
+const FeedsQuery = ({
   children,
   location: { query },
   match: { params: { id } },
@@ -67,7 +67,7 @@ const getFeedsQuery = ({
   </Query>
 );
 
-getFeedsQuery.propTypes = {
+FeedsQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -81,4 +81,4 @@ getFeedsQuery.propTypes = {
   }).isRequired,
 };
 
-export default getFeedsQuery;
+export default FeedsQuery;
