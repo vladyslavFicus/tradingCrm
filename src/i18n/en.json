@@ -3272,7 +3272,10 @@
       "HEADLINE": "Notifications found",
       "SUBLINE": "Notifications selected",
       "MAX_ITEM_SELECTED": "Notifications selected",
-      "UPDATE_FAILED": "Failed update"
+      "UPDATE_FAILED": "Failed update",
+      "ERRORS": {
+        "SELECTED_MORE_THAN_MAX": "Only {{max}} notifications were selected due to the limit"
+      }
     }
   },
   "HIERARCHY": {
