@@ -561,6 +561,7 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   createdBy: PropTypes.string,
   createdAt: PropTypes.string,
   countries: PropTypes.arrayOf(PropTypes.string),
+  languages: PropTypes.arrayOf(PropTypes.string),
   salesStatuses: PropTypes.arrayOf(PropTypes.string),
   targetSalesStatus: PropTypes.string,
   executionType: PropTypes.string,

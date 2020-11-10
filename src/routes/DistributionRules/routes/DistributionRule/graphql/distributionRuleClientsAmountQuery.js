@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export default gql`query DistributionRuleClientsAmountQuery(
   $salesStatuses: [String]!
   $countries: [String]!
+  $languages: [String]!
   $sourceBrand: String!
   $targetBrand: String
   $registrationPeriodInHours: Int!
@@ -11,6 +12,7 @@ export default gql`query DistributionRuleClientsAmountQuery(
   distributionRuleClientsAmount(
     salesStatuses: $salesStatuses
     countries: $countries
+    languages: $languages
     sourceBrand: $sourceBrand
     targetBrand: $targetBrand
     registrationPeriodInHours: $registrationPeriodInHours

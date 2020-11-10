@@ -38,6 +38,7 @@ class DistributionRuleBrands extends PureComponent {
         PropTypes.number,
         PropTypes.string,
       ]),
+      languages: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
     sourceBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     targetBrandConfig: PropTypes.ruleSourceBrandConfigsType,
@@ -139,6 +140,7 @@ class DistributionRuleBrands extends PureComponent {
       generalSettings: {
         salesStatuses,
         countries,
+        languages,
         registrationPeriodInHours,
         executionPeriodInHours,
       },
@@ -152,6 +154,7 @@ class DistributionRuleBrands extends PureComponent {
           targetBrand,
           salesStatuses,
           countries,
+          languages,
           registrationPeriodInHours,
           executionPeriodInHours,
         },

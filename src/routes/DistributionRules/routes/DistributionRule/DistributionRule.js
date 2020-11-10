@@ -46,6 +46,7 @@ class DistributionRule extends PureComponent {
     if (!loading && !DistributionRule.initSettingsAreSet) {
       const {
         countries,
+        languages,
         salesStatuses,
         targetSalesStatus,
         registrationPeriodInHours,
@@ -65,6 +66,7 @@ class DistributionRule extends PureComponent {
         ...initialState,
         generalSettings: {
           countries,
+          languages,
           salesStatuses,
           targetSalesStatus,
           registrationPeriodInHours,
