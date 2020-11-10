@@ -23,8 +23,10 @@ class DistributionRulesFilters extends PureComponent {
     this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     this.props.history.replace({ query: { filters: {} } });
+
+    resetForm();
   };
 
   render() {
@@ -39,7 +41,7 @@ class DistributionRulesFilters extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, dirty }) => (
+        {({ isSubmitting, resetForm, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
@@ -172,7 +174,7 @@ class DistributionRulesFilters extends PureComponent {
               <Button
                 className="filter__form-button"
                 disabled={isSubmitting}
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
