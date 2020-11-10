@@ -143,7 +143,6 @@ class AddTargetBrandModal extends PureComponent {
         className="AddTargetBrandModal"
       >
         <Formik
-          enableReinitialize
           initialValues={{
             brand,
             quantity,

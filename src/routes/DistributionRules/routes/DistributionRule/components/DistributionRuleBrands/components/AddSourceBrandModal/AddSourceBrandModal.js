@@ -71,11 +71,15 @@ class AddSourceBrandModal extends PureComponent {
     this.fetchAvailableClientsAmount(brand);
   };
 
+  handleSubmit = (values) => {
+    const { availableClientsAmount } = this.state;
+    this.props.handleSubmit({ ...values, availableClientsAmount });
+  }
+
   render() {
     const {
       onCloseModal,
       isOpen,
-      handleSubmit,
       allowedBaseUnits,
       brands,
       initialValues: {
@@ -104,7 +108,6 @@ class AddSourceBrandModal extends PureComponent {
             quantity,
             baseUnit,
             sortType: sortType || 'FIFO',
-            availableClientsAmount,
           }}
           validate={values => (
             createValidator({
@@ -128,7 +131,7 @@ class AddSourceBrandModal extends PureComponent {
           )}
           validateOnBlur={false}
           validateOnChange={false}
-          onSubmit={handleSubmit}
+          onSubmit={this.handleSubmit}
         >
           {({ values, setFieldValue }) => (
             <Form>
