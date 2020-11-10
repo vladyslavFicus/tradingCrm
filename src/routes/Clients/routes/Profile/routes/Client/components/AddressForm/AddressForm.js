@@ -104,6 +104,7 @@ class AddressForm extends PureComponent {
                 className="col-lg-4"
                 component={FormikSelectField}
                 disabled={disabled}
+                searchable
               >
                 {Object
                   .keys(countries)
