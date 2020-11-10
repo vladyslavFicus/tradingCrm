@@ -3062,6 +3062,7 @@
       "SOURCE_BRAND": "Source Brand",
       "TARGET_BRAND": "Target Brand",
       "COUNTRY": "Client Country",
+      "LANGUAGES": "Client language",
       "SALES_STATUS": "Client Sales Status",
       "CREATED_TIME": "Rule Created Time",
       "TIME_IN_STATUS": "Time in Status",
