@@ -143,6 +143,7 @@ class LeadsGridFilter extends PureComponent {
           const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const operatorsOptions = this.filterOperators(values);
+          const languagesOptions = ['other', ...getAvailableLanguages()];
 
           return (
             <Form className="LeadsGridFilter__form">
@@ -167,7 +168,7 @@ class LeadsGridFilter extends PureComponent {
                   withFocus
                   multiple
                 >
-                  {getAvailableLanguages().map(locale => (
+                  {languagesOptions.map(locale => (
                     <option key={locale} value={locale}>
                       {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                     </option>
