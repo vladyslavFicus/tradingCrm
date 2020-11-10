@@ -155,6 +155,7 @@ class DistributionRuleSettings extends PureComponent {
                 className="DistributionRuleSettings__form-field"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LANGUAGE')}
                 component={FormikSelectField}
+                showErrorMessage={false}
                 multipleLabel
                 searchable
                 multiple
