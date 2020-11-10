@@ -3083,6 +3083,7 @@
       "SOURCE_BRAND": "Source Brand",
       "TARGET_BRAND": "Target Brand",
       "COUNTRY": "Client Country",
+      "LANGUAGES": "Languages",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
       "CREATED_TIME": "Created Time",
