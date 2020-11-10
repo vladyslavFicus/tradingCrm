@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import { get, intersection } from 'lodash';
 import { Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
@@ -344,8 +345,9 @@ class PaymentsListFilters extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    disabled={operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSED}
+                    className={classNames({
+                      'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                    })}
                   >
                     {fullName}
                   </option>
