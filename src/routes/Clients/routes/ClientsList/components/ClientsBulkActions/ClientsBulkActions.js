@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { omit } from 'lodash';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
@@ -88,7 +87,10 @@ class ClientsBulkActions extends PureComponent {
         touchedRowsIds,
         allRowsSelected,
         selectedRowsLength,
-        ...(state && { searchParams: omit(state.filters, ['page.size']) }),
+        ...(state && {
+          searchParams: state.filters,
+          sorts: state.sorts,
+        }),
       },
       onSuccess: this.onSubmitSuccess,
     });
