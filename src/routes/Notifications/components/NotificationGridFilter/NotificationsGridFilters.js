@@ -90,7 +90,7 @@ class NotificationsFilters extends PureComponent {
     setSubmitting(false);
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -99,6 +99,8 @@ class NotificationsFilters extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
@@ -118,7 +120,7 @@ class NotificationsFilters extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ values, isSubmitting, dirty }) => {
+        {({ values, isSubmitting, resetForm, dirty }) => {
           const desksUuids = values.operatorDesks || [];
           const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
           const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
@@ -272,7 +274,7 @@ class NotificationsFilters extends PureComponent {
 
                 <Button
                   className="NotificationsGridFilter__button"
-                  onClick={this.handleReset}
+                  onClick={() => this.handleReset(resetForm)}
                   primary
                 >
                   {I18n.t('COMMON.RESET')}
