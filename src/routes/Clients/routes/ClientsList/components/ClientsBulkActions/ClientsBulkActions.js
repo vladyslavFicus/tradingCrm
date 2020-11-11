@@ -51,7 +51,10 @@ class ClientsBulkActions extends PureComponent {
         allRowsSelected,
         selectedRowsLength,
         multiAssign: true,
-        ...(state && { searchParams: omit(state.filters, ['page.size']) }),
+        ...(state && {
+          searchParams: state.filters,
+          sorts: state.sorts,
+        }),
       },
       onSuccess: this.onSubmitSuccess,
       header: (
