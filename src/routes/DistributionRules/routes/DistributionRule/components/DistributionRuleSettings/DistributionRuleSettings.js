@@ -24,6 +24,7 @@ class DistributionRuleSettings extends PureComponent {
       languages: PropTypes.arrayOf(PropTypes.string),
       salesStatuses: PropTypes.arrayOf(PropTypes.string),
       targetSalesStatus: PropTypes.string,
+      firstTimeDeposit: PropTypes.bool,
       registrationPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.string,
@@ -77,6 +78,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="salesStatuses"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.SALES_STATUS')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -91,6 +93,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="targetSalesStatus"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -103,6 +106,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="executionPeriodInHours"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TIME')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -116,6 +120,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="registrationPeriodInHours"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.REGISTRATION_DATE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -129,6 +134,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="executionType"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TYPE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
               >
@@ -137,8 +143,28 @@ class DistributionRuleSettings extends PureComponent {
                 ))}
               </Field>
               <Field
+                name="firstTimeDeposit"
+                className="DistributionRulesFilters__field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.FIRST_TIME_DEPOSIT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {
+                  [
+                    { label: 'COMMON.NO', value: false },
+                    { label: 'COMMON.YES', value: true },
+                  ].map(({ label, value }) => (
+                    <option key={`firstTimeDeposit-${value}`} value={value}>
+                      {I18n.t(label)}
+                    </option>
+                  ))
+                }
+              </Field>
+              <Field
                 name="countries"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.COUNTRY')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -154,6 +180,7 @@ class DistributionRuleSettings extends PureComponent {
                 name="languages"
                 className="DistributionRuleSettings__form-field"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LANGUAGE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
                 component={FormikSelectField}
                 showErrorMessage={false}
                 multipleLabel
