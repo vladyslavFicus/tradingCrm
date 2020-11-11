@@ -81,7 +81,7 @@ class HierarchyProfileRules extends PureComponent {
     });
   };
 
-  handleRenderButtonAddRule = (type) => {
+  handleRenderButtonAddRule = (type, deskType) => {
     let data = {};
 
     switch (type) {
@@ -115,7 +115,7 @@ class HierarchyProfileRules extends PureComponent {
       }
     }
 
-    return this.renderButtonAddRule(data);
+    return this.renderButtonAddRule(data, deskType);
   };
 
   triggerEditRuleModal = (uuid) => {
@@ -281,22 +281,24 @@ class HierarchyProfileRules extends PureComponent {
     });
   };
 
-  renderButtonAddRule = ({ enabled, message }) => (
+  renderButtonAddRule = ({ enabled, message }, deskType) => (
     <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
       <TabHeader
         title={I18n.t(this.props.title)}
         className="HierarchyProfileRules__header"
       >
-        <Button
-          id="add-rule"
-          type="submit"
-          onClick={this.triggerRuleModal}
-          disabled={!enabled}
-          commonOutline
-          small
-        >
-          {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
-        </Button>
+        <If condition={deskType.toUpperCase() !== 'RETENTION'}>
+          <Button
+            id="add-rule"
+            type="submit"
+            onClick={this.triggerRuleModal}
+            disabled={!enabled}
+            commonOutline
+            small
+          >
+            {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
+          </Button>
+        </If>
       </TabHeader>
 
       <If condition={!enabled && message}>
@@ -434,7 +436,7 @@ class HierarchyProfileRules extends PureComponent {
 
     return (
       <div className="HierarchyProfileRules">
-        {this.handleRenderButtonAddRule(branchType)}
+        {this.handleRenderButtonAddRule(branchType, deskType)}
 
         <RulesFilters
           onSubmit={this.handleFiltersChanged}
