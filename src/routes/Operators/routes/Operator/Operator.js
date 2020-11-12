@@ -1,6 +1,5 @@
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { operatorTabs } from 'config/menu';
 import PropTypes from 'constants/propTypes';
@@ -10,6 +9,7 @@ import EventEmitter, { OPERATOR_ACCOUNT_STATUS_CHANGED } from 'utils/EventEmitte
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import HideDetails from 'components/HideDetails';
+import ShortLoader from 'components/ShortLoader';
 import OperatorProfileTab from './routes/Edit';
 import OperatorFeedsTab from './routes/Feed';
 import OperatorSalesRulesTab from './routes/OperatorSalesRulesTab';
@@ -61,7 +61,7 @@ class Operator extends PureComponent {
     }
 
     if (isLoading) {
-      return null;
+      return <ShortLoader />;
     }
 
     return (
@@ -104,8 +104,6 @@ class Operator extends PureComponent {
   }
 }
 
-export default compose(
-  withRequests({
-    operatorQuery: OperatorQuery,
-  }),
-)(Operator);
+export default withRequests({
+  operatorQuery: OperatorQuery,
+})(Operator);
