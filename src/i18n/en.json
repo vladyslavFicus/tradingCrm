@@ -3087,6 +3087,7 @@
       "LANGUAGES": "Languages",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
+      "FIRST_TIME_DEPOSIT": "First time deposit",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
       "TIME_IN_STATUS": "Time in Status"
@@ -3138,6 +3139,7 @@
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
         "EXECUTION_TYPE": "Rule Execution Type",
+        "FIRST_TIME_DEPOSIT": "First time deposit",
         "LANGUAGE": "Language"
       },
       "FILTERS": {

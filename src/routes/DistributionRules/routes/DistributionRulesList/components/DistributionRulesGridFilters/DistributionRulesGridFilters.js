@@ -129,6 +129,41 @@ class DistributionRulesFilters extends PureComponent {
                   <option key={key} value={key}>{countryList[key]}</option>
                 ))}
               </Field>
+              <Field
+                name="firstTimeDeposit"
+                className="DistributionRulesFilters__field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FIRST_TIME_DEPOSIT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {
+                  [
+                    { label: 'COMMON.NO', value: false },
+                    { label: 'COMMON.YES', value: true },
+                  ].map(({ label, value }) => (
+                    <option key={`firstTimeDeposit-${value}`} value={value}>
+                      {I18n.t(label)}
+                    </option>
+                  ))
+                }
+              </Field>
+              <Field
+                name="executionPeriodsInHours"
+                className="DistributionRulesFilters__field"
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
+                component={FormikSelectField}
+                searchable
+                withFocus
+                multiple
+              >
+                {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label, { value: i18nValue })}
+                  </option>
+                ))}
+              </Field>
               <FormikDateRangeGroup
                 className="DistributionRulesFilters__date-range"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
@@ -147,22 +182,6 @@ class DistributionRulesFilters extends PureComponent {
                 }}
                 withFocus
               />
-              <Field
-                name="executionPeriodsInHours"
-                className="DistributionRulesFilters__field"
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
-                component={FormikSelectField}
-                searchable
-                withFocus
-                multiple
-              >
-                {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label, { value: i18nValue })}
-                  </option>
-                ))}
-              </Field>
             </div>
 
             <div className="filter__form-buttons">
