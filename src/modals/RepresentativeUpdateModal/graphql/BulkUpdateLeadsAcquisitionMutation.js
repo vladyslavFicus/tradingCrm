@@ -9,6 +9,7 @@ const MUTATION = gql`
     $parentOperators: [String]
     $salesStatus: String
     $searchParams: LeadSearch__Input
+    $sorts: [Sort__Input]
     $bulkSize: Int
   ) {
     hierarchy {
@@ -17,6 +18,7 @@ const MUTATION = gql`
         parentOperators: $parentOperators
         salesStatus: $salesStatus
         searchParams: $searchParams
+        sorts: $sorts
         bulkSize: $bulkSize
       )
     }
