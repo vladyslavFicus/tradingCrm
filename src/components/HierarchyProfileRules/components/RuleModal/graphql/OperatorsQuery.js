@@ -4,9 +4,13 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query RuleModal_OperatorsQuery(
+  $status: String
   $page: Page__Input
 ) {
-  operators(page: $page) {
+  operators(
+    page: $page
+    status: $status
+  ) {
     content {
       uuid
       fullName
