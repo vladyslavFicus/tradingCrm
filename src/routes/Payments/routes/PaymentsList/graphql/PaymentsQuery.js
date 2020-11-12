@@ -2,6 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
+import { statusMapper } from 'constants/payment';
 
 const REQUEST = gql`
   query PaymentsQuery($args: PaymentSearch__Input) {
@@ -83,6 +84,7 @@ const PaymentsQuery = ({ children, location: { state } }) => (
       args: {
         accountType: 'LIVE',
         ...state?.filters,
+        statuses: state?.filters?.statuses && state.filters.statuses.map(item => statusMapper[item]).flat(Infinity),
         page: {
           from: 0,
           size: 20,

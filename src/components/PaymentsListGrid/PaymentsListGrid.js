@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get } from 'lodash';
+import { get, set } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -45,11 +45,6 @@ class PaymentsListGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
-    const { location } = this.props;
-
-    const filters = location?.state?.filters || {};
-    const sorts = location?.state?.sorts || [];
-
     const {
       paymentsQuery,
       paymentsQuery: {
@@ -57,18 +52,9 @@ class PaymentsListGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(paymentsQuery, 'data.payments.number') || 0;
+    const page = paymentsQuery?.data?.payments?.number || 0;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: page + 1,
-          size: 20,
-          sorts,
-        },
-      },
-    });
+    loadMore(variables => set(variables, 'args.page.from', page + 1));
   };
 
   handleSort = (sortData, sorts) => {
