@@ -155,8 +155,27 @@ class DistributionRulesFilters extends PureComponent {
                 ))}
               </Field>
               <Field
+                name="firstTimeDeposit"
+                className="DistributionRulesFilters__field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FIRST_TIME_DEPOSIT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {
+                  [
+                    { label: 'COMMON.NO', value: false },
+                    { label: 'COMMON.YES', value: true },
+                  ].map(({ label, value }) => (
+                    <option key={`firstTimeDeposit-${value}`} value={value}>
+                      {I18n.t(label)}
+                    </option>
+                  ))
+                }
+              </Field>
+              <Field
                 name="executionPeriodsInHours"
-                className="DistributionRulesFilters__field DistributionRulesFilters__select"
+                className="DistributionRulesFilters__field"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
                 component={FormikSelectField}

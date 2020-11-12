@@ -40,6 +40,7 @@ class DistributionRuleBrands extends PureComponent {
       ]),
       languages: PropTypes.arrayOf(PropTypes.string),
       affiliateUuid: PropTypes.string,
+      firstTimeDeposit: PropTypes.bool,
     }).isRequired,
     sourceBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     targetBrandConfig: PropTypes.ruleSourceBrandConfigsType,
@@ -145,6 +146,7 @@ class DistributionRuleBrands extends PureComponent {
         affiliateUuid,
         registrationPeriodInHours,
         executionPeriodInHours,
+        firstTimeDeposit,
       },
     } = this.props;
 
@@ -160,6 +162,7 @@ class DistributionRuleBrands extends PureComponent {
           affiliateUuid,
           registrationPeriodInHours,
           executionPeriodInHours,
+          firstTimeDeposit,
         },
         fetchPolicy: 'network-only',
       });

@@ -3087,6 +3087,7 @@
       "LANGUAGES": "Languages",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
+      "FIRST_TIME_DEPOSIT": "First time deposit",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
       "TIME_IN_STATUS": "Time in Status",
@@ -3140,7 +3141,8 @@
         "REGISTRATION_DATE": "Registration date",
         "EXECUTION_TYPE": "Rule Execution Type",
         "LANGUAGE": "Language",
-        "AFFILIATE": "Affiliate"
+        "AFFILIATE": "Affiliate",
+        "FIRST_TIME_DEPOSIT": "First time deposit"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
