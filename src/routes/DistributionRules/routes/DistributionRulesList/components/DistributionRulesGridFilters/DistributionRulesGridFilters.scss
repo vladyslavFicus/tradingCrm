@@ -16,10 +16,15 @@
   }
 
   &__field {
+    margin-bottom: 0;
+  }
+
+  &__select {
     grid-column: span 2;
   }
 
-  &__date-range, &__search {
+  &__date-range,
+  &__search {
     grid-column: span 4;
   }
 }

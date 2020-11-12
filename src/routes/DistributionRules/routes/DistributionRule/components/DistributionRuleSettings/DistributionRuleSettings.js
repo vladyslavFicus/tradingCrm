@@ -14,6 +14,7 @@ import {
 } from './constants';
 import { normalizeObject } from './utils';
 import { checkEqualityOfDataObjects } from '../../utils';
+import PartnersQuery from './graphql/PartnersQuery';
 import './DistributionRuleSettings.scss';
 
 class DistributionRuleSettings extends PureComponent {
@@ -34,13 +35,19 @@ class DistributionRuleSettings extends PureComponent {
         PropTypes.string,
       ]),
     }).isRequired,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(PropTypes.partner),
+    }).isRequired,
   }
 
   render() {
     const {
       handleGeneralSettings,
       generalSettings,
+      partnersQuery,
     } = this.props;
+
+    const partners = partnersQuery.data?.partners?.content || [];
 
     return (
       <div className="DistributionRuleSettings">
@@ -137,6 +144,21 @@ class DistributionRuleSettings extends PureComponent {
                 ))}
               </Field>
               <Field
+                name="affiliateUuid"
+                className="DistributionRuleSettings__form-field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABEL.AFFILIATE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                disabled={partnersQuery.loading}
+                searchable
+              >
+                {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
+                  <option key={uuid} value={uuid}>
+                    {fullName}
+                  </option>
+                ))}
+              </Field>
+              <Field
                 name="countries"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.COUNTRY')}
                 className="DistributionRuleSettings__form-field"
@@ -174,4 +196,6 @@ class DistributionRuleSettings extends PureComponent {
   }
 }
 
-export default DistributionRuleSettings;
+export default withRequests({
+  partnersQuery: PartnersQuery,
+})(DistributionRuleSettings);

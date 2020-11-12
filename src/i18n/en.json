@@ -3089,7 +3089,8 @@
       "SALES_STATUS": "Sales Status",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
-      "TIME_IN_STATUS": "Time in Status"
+      "TIME_IN_STATUS": "Time in Status",
+      "AFFILIATE": "Affiliate"
     },
     "MIGRATION_MODAL": {
       "TITLE": "Start migration",
@@ -3138,7 +3139,8 @@
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "LANGUAGE": "Language"
+        "LANGUAGE": "Language",
+        "AFFILIATE": "Affiliate"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
