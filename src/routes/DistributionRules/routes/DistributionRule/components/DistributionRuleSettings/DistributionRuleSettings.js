@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import PropTypes from 'prop-types';
+import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import PropTypes from 'constants/propTypes';
+import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
-import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import {
   salesStatuses,
   countries,
