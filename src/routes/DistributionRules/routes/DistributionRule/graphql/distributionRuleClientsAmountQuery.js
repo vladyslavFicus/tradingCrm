@@ -9,6 +9,7 @@ export default gql`query DistributionRuleClientsAmountQuery(
   $firstTimeDeposit: Boolean
   $registrationPeriodInHours: Int!
   $executionPeriodInHours: Int!
+  $affiliateUuids: [String]
 ) {
   distributionRuleClientsAmount(
     salesStatuses: $salesStatuses
@@ -19,5 +20,6 @@ export default gql`query DistributionRuleClientsAmountQuery(
     firstTimeDeposit: $firstTimeDeposit
     registrationPeriodInHours: $registrationPeriodInHours
     executionPeriodInHours: $executionPeriodInHours
+    affiliateUuids: $affiliateUuids
   )
 }`;

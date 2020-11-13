@@ -110,7 +110,7 @@ class DistributionRulesFilters extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="affiliateUuid"
+                name="affiliateUuids"
                 className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.AFFILIATE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
@@ -118,6 +118,7 @@ class DistributionRulesFilters extends PureComponent {
                 disabled={partnersQuery.loading}
                 searchable
                 withFocus
+                multiple
               >
                 {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>

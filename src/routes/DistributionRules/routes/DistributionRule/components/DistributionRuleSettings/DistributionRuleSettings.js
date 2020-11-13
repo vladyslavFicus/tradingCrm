@@ -27,6 +27,7 @@ class DistributionRuleSettings extends PureComponent {
       salesStatuses: PropTypes.arrayOf(PropTypes.string),
       targetSalesStatus: PropTypes.string,
       firstTimeDeposit: PropTypes.bool,
+      affiliateUuids: PropTypes.arrayOf(PropTypes.string),
       registrationPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.string,
@@ -151,13 +152,14 @@ class DistributionRuleSettings extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="affiliateUuid"
+                name="affiliateUuids"
                 className="DistributionRuleSettings__form-field"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABEL.AFFILIATE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 disabled={partnersQuery.loading}
                 searchable
+                multiple
               >
                 {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>
