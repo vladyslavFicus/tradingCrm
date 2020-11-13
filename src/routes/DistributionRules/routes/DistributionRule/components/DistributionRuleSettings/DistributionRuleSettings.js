@@ -144,7 +144,7 @@ class DistributionRuleSettings extends PureComponent {
               </Field>
               <Field
                 name="firstTimeDeposit"
-                className="DistributionRulesFilters__field"
+                className="DistributionRuleSettings__form-field"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.FIRST_TIME_DEPOSIT')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
