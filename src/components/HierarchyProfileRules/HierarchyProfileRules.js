@@ -253,15 +253,15 @@ class HierarchyProfileRules extends PureComponent {
       case branchTypes.DESK: {
         const teams = branchChildrenQuery.data?.branchChildren;
 
-        disabled = teams?.length && teams.some(({ uuid }) => !!uuid);
+        disabled = !(teams && teams.length && teams.some(({ uuid }) => !!uuid));
         tooltipMessage = I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK');
 
         break;
       }
       case branchTypes.TEAM: {
-        const branchInfo = branchInfoQuery.data?.branchInfo;
+        const defaultUser = branchInfoQuery.data?.branchInfo?.defaultUser;
 
-        disabled = branchInfo.defaultUser;
+        disabled = !defaultUser;
         tooltipMessage = I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM');
 
         break;
