@@ -7,14 +7,16 @@ import { BatchHttpLink } from 'apollo-link-batch-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { onError } from 'apollo-link-error';
+import { getMainDefinition } from 'apollo-utilities';
 import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { getGraphQLUrl, getVersion } from 'config';
+import { getGraphQLUrl, getGraphQLSubscriptionUrl, getVersion } from 'config';
 import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
 import onRefreshToken from 'apollo/utils/onRefreshToken';
 import AuthLink from 'apollo/links/AuthLink';
+import WebSocketLink from 'apollo/links/WebSocketLink';
 import { withStorage } from 'providers/StorageProvider';
 import UpdateVersionModal from 'modals/UpdateVersionModal';
 import PropTypes from 'constants/propTypes';
@@ -44,6 +46,28 @@ class ApolloProvider extends PureComponent {
       isUpload,
       createUploadLink(httpLinkOptions),
       batchHttpLink,
+    );
+
+    const wsLink = new WebSocketLink({
+      uri: getGraphQLSubscriptionUrl(),
+      options: {
+        reconnect: true,
+        lazy: true,
+        inactivityTimeout: 60000,
+        connectionParams: () => ({
+          token: storage.get('token'),
+        }),
+      },
+    });
+
+    const transportLink = split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+
+        return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+      },
+      wsLink,
+      httpLink,
     );
 
     // ========= Error link ========= //
@@ -95,7 +119,7 @@ class ApolloProvider extends PureComponent {
     const persistedQueryLink = createPersistedQueryLink();
 
     return new ApolloClient({
-      link: from([createOmitTypenameLink, authLink, errorLink, persistedQueryLink, httpLink]),
+      link: from([createOmitTypenameLink, authLink, errorLink, persistedQueryLink, transportLink]),
       cache: new InMemoryCache(),
 
       // Query deduplication should be turned off because request cancellation not working with turned it on

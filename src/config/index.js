@@ -36,6 +36,17 @@ function getApiRoot() {
 const getGraphQLUrl = () => '/api';
 
 /**
+ * Get GraphQL Subscription url
+ *
+ * @return {*}
+ */
+const getGraphQLSubscriptionUrl = () => {
+  const { protocol, host } = window.location;
+
+  return `${protocol === 'https:' ? 'wss' : 'ws'}://${host}/ws`;
+};
+
+/**
  * Get application version
  *
  * @return {*}
@@ -128,6 +139,7 @@ export {
   getAvailableLanguages,
   getVersion,
   getGraphQLUrl,
+  getGraphQLSubscriptionUrl,
   getPaymentReason,
   getBackofficeBrand,
   setBackofficeBrand,

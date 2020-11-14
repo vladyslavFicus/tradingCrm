@@ -2,7 +2,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = (app) => {
   // Proxy-passing /api/attachment requests to /attachment endpoint
-  app.use('/api/attachment', createProxyMiddleware({
+  app.use(createProxyMiddleware('/api/attachment', {
     target: process.env.API_URL.replace('/gql', ''), // Replace `/gql` to avoiding adding new ENV variable
     pathRewrite: {
       '^/api': '',
@@ -11,7 +11,7 @@ module.exports = (app) => {
   }));
 
   // Proxy-passing /api requests to /gql endpoint
-  app.use('/api', createProxyMiddleware({
+  app.use(createProxyMiddleware('/api', {
     target: process.env.API_URL,
     pathRewrite: {
       '^/api': '',
@@ -19,8 +19,18 @@ module.exports = (app) => {
     changeOrigin: true,
   }));
 
+  // Proxy-passing /ws web-socket requests to /gql endpoint
+  app.use(createProxyMiddleware('/ws', {
+    target: process.env.SUBSCRIPTION_URL,
+    pathRewrite: {
+      '^/ws': '',
+    },
+    ws: true,
+    changeOrigin: true,
+  }));
+
   // Proxy for cloud static resources
-  app.use('/cloud-static', createProxyMiddleware({
+  app.use(createProxyMiddleware('/cloud-static', {
     target: process.env.CLOUD_STATIC_URL,
     pathRewrite: {
       '^/cloud-static': '',
