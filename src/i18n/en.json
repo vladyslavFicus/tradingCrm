@@ -3723,10 +3723,22 @@
       "ENABLED": "Enabled",
       "DISABLED": "Disabled"
     },
+    "UPDATE_PERMISSIONS": {
+      "ERROR": "Change permission is failed",
+      "RESET_ERROR": "Reset to default permission is failed"
+    },
     "TABLE":  {
       "ACTION": "Action",
-      "PERMISSION":  "Permission"
+      "PERMISSION":  "Permission",
+      "VIEW": "View",
+      "EDIT": "Edit",
+      "PREVIEW": "Preview"
     },
+    "RESET_TO_DEFAULT_MODAL": {
+      "TITLE": "Reset all role permissions",
+      "TEXT": "All role permissions will be set to default. Do you want to continue?"
+    },
+    "RESET_TO_DEFAULT": "Reset to Default",
     "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions...",
     "SECTIONS": {
       "clients": {

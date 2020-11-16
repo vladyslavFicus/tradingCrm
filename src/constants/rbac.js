@@ -4,6 +4,12 @@ export default [
   // ============================================= //
   {
     id: 'clients',
+    actions: {
+      view: {
+        action: 'profileview.admin.pageableSearch',
+        state: false,
+      },
+    },
     permissions: [
       // List of clients
       {
@@ -340,6 +346,12 @@ export default [
   // ============================================= //
   {
     id: 'leads',
+    actions: {
+      view: {
+        action: 'lead.searchLeads',
+        state: false,
+      },
+    },
     permissions: [
       // List of leads
       {
@@ -408,6 +420,12 @@ export default [
   // ============================================= //
   {
     id: 'operators',
+    actions: {
+      view: {
+        action: 'operator.searchOperators',
+        state: false,
+      },
+    },
     permissions: [
       // Create new operator
       {
@@ -556,6 +574,12 @@ export default [
   // ============================================= //
   {
     id: 'partners',
+    actions: {
+      view: {
+        action: 'affiliate.searchAffiliate',
+        state: false,
+      },
+    },
     permissions: [
       // List of partners
       {
@@ -664,6 +688,12 @@ export default [
   // ============================================= //
   {
     id: 'management-hierarchy',
+    actions: {
+      view: {
+        action: 'hierarchy.branch.getBranchTree',
+        state: false,
+      },
+    },
     permissions: [
       // Show hierarchy tree
       {
@@ -762,6 +792,12 @@ export default [
   // ============================================= //
   {
     id: 'management-sales-rules',
+    actions: {
+      view: {
+        action: 'rules-profile.searchRules',
+        state: false,
+      },
+    },
     permissions: [
       // List of sales rules
       {
@@ -800,6 +836,12 @@ export default [
   // ============================================= //
   {
     id: 'payments',
+    actions: {
+      view: {
+        action: 'payment.searchPayments',
+        state: false,
+      },
+    },
     permissions: [
       // List of payments
       {
@@ -868,6 +910,12 @@ export default [
   // ============================================= //
   {
     id: 'callbacks',
+    actions: {
+      view: {
+        action: 'callback.searchCallbacks',
+        state: false,
+      },
+    },
     permissions: [
       // List of callbacks
       {
@@ -886,6 +934,12 @@ export default [
   // ============================================= //
   {
     id: 'email-templates',
+    actions: {
+      view: {
+        action: 'email.getAllTemplates',
+        state: false,
+      },
+    },
     permissions: [
       // List of templates
       {
@@ -924,6 +978,12 @@ export default [
   // ============================================= //
   {
     id: 'kyc-documents',
+    actions: {
+      view: {
+        action: 'attachments.searchAttachments',
+        state: false,
+      },
+    },
     permissions: [
       // List of KYC documents
       {
@@ -942,6 +1002,12 @@ export default [
   // ============================================= //
   {
     id: 'trading-accounts',
+    actions: {
+      view: {
+        action: 'accountview.search',
+        state: false,
+      },
+    },
     permissions: [
       // List of trading accounts
       {
@@ -980,6 +1046,12 @@ export default [
   // ============================================= //
   {
     id: 'notes',
+    actions: {
+      view: {
+        action: 'note.searchNotesPost',
+        state: false,
+      },
+    },
     permissions: [
       // Notes tab
       {
@@ -1028,6 +1100,12 @@ export default [
   // ============================================= //
   {
     id: 'notifications',
+    actions: {
+      view: {
+        action: 'notification.search',
+        state: false,
+      },
+    },
     permissions: [
       // List of notifications
       {
@@ -1056,6 +1134,12 @@ export default [
   // ============================================= //
   {
     id: 'clients-distribution',
+    actions: {
+      view: {
+        action: 'clients-distributor.searchRules',
+        state: false,
+      },
+    },
     permissions: [
       // List of distribution rules
       {

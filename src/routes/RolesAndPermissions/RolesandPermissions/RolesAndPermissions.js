@@ -13,7 +13,6 @@ import ShortLoader from 'components/ShortLoader';
 import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
 import PermissionsSetting from '../components/PermissionsSetting';
 import './RolesAndPermissions.scss';
-import 'react-accessible-accordion/dist/fancy-example.css';
 
 class RolesAndPermissions extends PureComponent {
   static propTypes = {
@@ -39,9 +38,7 @@ class RolesAndPermissions extends PureComponent {
 
   render() {
     const { authoritiesQuery } = this.props;
-
     const { department: activeDepartment, role: activeRole } = this.state;
-
     const authorities = authoritiesQuery.data?.authoritiesOptions || {};
 
     return (

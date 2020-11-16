@@ -8,12 +8,14 @@ const REQUEST = gql`
     $department: String!
     $role: String!
     $actions: [String]!
+    $isPermitted: Boolean!
   ) {
     auth {
       updateAuthorityActions(
         department: $department
         role: $role
         actions: $actions
+        isPermitted: $isPermitted
       )
     }
   }

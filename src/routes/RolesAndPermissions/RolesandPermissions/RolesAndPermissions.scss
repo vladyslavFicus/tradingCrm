@@ -3,6 +3,15 @@
   border: 1px solid rgba(0,0,0,.125);
   border-radius: 5px;
 
+  .accordion {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+  }
+
+  .accordion__item + .accordion__item {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
   &__header {
     border-bottom: 1px solid #dfe4ed;
     padding: 25px;
@@ -58,13 +67,17 @@
   }
 
   &__authority {
-    padding: 20px;
+    align-items: center;
+    display: flex;
+    padding: 0 10px 0 20px;
     background-color: #FFF;
     animation: fadein 0.35s ease-in;
 
     &:before {
       content: '\00B7';
-      font-size: 14px;
+      font-size: 20px;
+      padding: 5px;
+      font-weight: 900;
     }
   }
 
