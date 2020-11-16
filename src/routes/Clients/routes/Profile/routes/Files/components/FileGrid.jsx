@@ -92,11 +92,7 @@ class FileGrid extends PureComponent {
       this.setState({ previewFileLoading: false });
 
       if (mediaType === 'application/pdf') {
-        const link = document.createElement('a');
-
-        link.href = fileUrl;
-        link.target = '_blank';
-        link.dispatchEvent(new MouseEvent('click')); // eslint-disable-line jsx-control-statements/jsx-jcs-no-undef
+        window.open(fileUrl, '_blank');
       } else {
         this.props.images.show([{ src: fileUrl }]);
       }
