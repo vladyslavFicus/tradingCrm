@@ -61,10 +61,6 @@ class DistributionRuleBrands extends PureComponent {
     targetBrandConfig: null,
   }
 
-  state = {
-    sourceBrandAvailableAmount: null,
-  }
-
   handleAddSourceBrand = () => {
     const {
       modals: { addSourceBrandModal },
@@ -83,8 +79,7 @@ class DistributionRuleBrands extends PureComponent {
         initialValues: sourceBrandConfig,
       },
       fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
-      handleSubmit: ({ availableClientsAmount, ...values }) => {
-        this.setState({ sourceBrandAvailableAmount: availableClientsAmount });
+      handleSubmit: (values) => {
         handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
       },
@@ -107,16 +102,13 @@ class DistributionRuleBrands extends PureComponent {
       targetBrandConfig,
       brandsQuery,
     } = this.props;
-    const { sourceBrandAvailableAmount } = this.state;
 
     const brands = brandsQuery?.data?.brands || [];
 
     addTargetBrandModal.show({
       brands,
       sourceBrandId,
-      sourceBrandQuantity: sourceBrandBaseUnit === 'PERCENTAGE'
-        ? Math.floor(sourceBrandAvailableAmount * sourceBrandQuantity / 100)
-        : sourceBrandQuantity,
+      sourceBrandQuantity,
       initialValues: {
         ...targetBrandConfig,
         distributionUnit: {
@@ -161,7 +153,6 @@ class DistributionRuleBrands extends PureComponent {
           executionPeriodInHours,
           firstTimeDeposit,
         },
-        fetchPolicy: 'network-only',
       });
 
       return distributionRuleClientsAmount;
