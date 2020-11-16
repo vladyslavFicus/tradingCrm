@@ -48,7 +48,7 @@ class AddressForm extends PureComponent {
     try {
       await updateAddress({
         variables: {
-          clientUuid,
+          playerUUID: clientUuid,
           ...values,
         },
       });
@@ -104,6 +104,7 @@ class AddressForm extends PureComponent {
                 className="col-lg-4"
                 component={FormikSelectField}
                 disabled={disabled}
+                searchable
               >
                 {Object
                   .keys(countries)

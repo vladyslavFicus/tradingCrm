@@ -11,6 +11,12 @@ const REQUEST = gql`query PaymentsListFilters_OperatorsQuery(
       uuid
       fullName
       operatorStatus
+      hierarchy {
+        parentBranches {
+          branchType
+          uuid
+        }
+      }
     }
   }
 }`;

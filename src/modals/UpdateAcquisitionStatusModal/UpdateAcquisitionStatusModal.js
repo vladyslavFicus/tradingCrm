@@ -24,6 +24,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
       totalElements: PropTypes.number,
       touchedRowsIds: PropTypes.arrayOf(PropTypes.number),
       searchParams: PropTypes.object,
+      sorts: PropTypes.array,
       selectedRowsLength: PropTypes.number,
     }).isRequired,
     notify: PropTypes.func.isRequired,
@@ -43,6 +44,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
         touchedRowsIds,
         searchParams,
         selectedRowsLength,
+        sorts,
       },
       content,
       onSuccess,
@@ -94,6 +96,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
           acquisitionStatus,
           ...allRowsSelected && {
             searchParams,
+            sorts,
             bulkSize: selectedRowsLength,
           },
         },

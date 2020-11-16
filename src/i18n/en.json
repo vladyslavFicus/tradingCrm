@@ -373,7 +373,7 @@
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "ERRORS": {
         "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
-        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+        "LIMIT_EXCEED": "Insufficient funds due to opened orders. Please close all opened orders and complete previous withdrawals to proceed with the withdrawal."
       },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
@@ -795,6 +795,7 @@
     "TITLE": "Files",
     "SEARCH_PLACEHOLDER": "File name, File ID",
     "STATUS_CHANGED": "File status successfully changed",
+    "DOCUMENT_RENAMED": "Document was successfully renamed",
     "DOCUMENT_TYPE_CHANGED": "Document type successfully changed",
     "CHANGE_VERIFICATION_STATUS": "Change verification status",
     "MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE": "Move to verification type > document type",
@@ -881,6 +882,13 @@
       },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName}"
+    },
+    "RENAME_MODAL": {
+      "TITLE": "Rename file",
+      "ACTION_TEXT": "You are about to rename file %{fileName}",
+      "PLACEHOLDERS": {
+        "TITLE": "New file name"
+      }
     },
     "CONFIRM_ACTION_MODAL": {
       "TITLE": "Delete file - Confirmation",
@@ -3074,6 +3082,7 @@
       "SOURCE_BRAND": "Source Brand",
       "TARGET_BRAND": "Target Brand",
       "COUNTRY": "Client Country",
+      "LANGUAGES": "Client language",
       "SALES_STATUS": "Client Sales Status",
       "CREATED_TIME": "Rule Created Time",
       "TIME_IN_STATUS": "Time in Status",
@@ -3095,8 +3104,10 @@
       "SOURCE_BRAND": "Source Brand",
       "TARGET_BRAND": "Target Brand",
       "COUNTRY": "Client Country",
+      "LANGUAGES": "Languages",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
+      "FIRST_TIME_DEPOSIT": "First time deposit",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
       "TIME_IN_STATUS": "Time in Status"
@@ -3147,7 +3158,9 @@
         "COUNTRY": "Country",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
-        "EXECUTION_TYPE": "Rule Execution Type"
+        "EXECUTION_TYPE": "Rule Execution Type",
+        "FIRST_TIME_DEPOSIT": "First time deposit",
+        "LANGUAGE": "Language"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
@@ -3185,6 +3198,7 @@
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
+        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only %{percentage}% of clients for migration.",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage"

@@ -23,14 +23,12 @@ class OperatorRegistrationInfo extends PureComponent {
         </div>
 
         <If condition={registrationDate}>
-          <>
-            <div className="OperatorRegistrationInfo__primary">
-              {moment.utc(registrationDate).local().fromNow()}
-            </div>
-            <div className="OperatorRegistrationInfo__secondary">
-              {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
-            </div>
-          </>
+          <div className="OperatorRegistrationInfo__primary">
+            {moment.utc(registrationDate).local().fromNow()}
+          </div>
+          <div className="OperatorRegistrationInfo__secondary">
+            {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
+          </div>
         </If>
       </div>
     );

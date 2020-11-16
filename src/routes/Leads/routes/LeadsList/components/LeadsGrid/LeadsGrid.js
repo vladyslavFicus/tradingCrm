@@ -38,23 +38,24 @@ class LeadsGrid extends PureComponent {
   };
 
   handlePageChanged = () => {
-    const { location, leadsQuery } = this.props;
+    const {
+      location,
+      location: {
+        state,
+      },
+      leadsQuery: {
+        data,
+        loadMore,
+        variables,
+      },
+    } = this.props;
 
-    const defaultSize = 20;
-    const leads = get(leadsQuery, 'data.leads') || [];
-    const { currentPage } = limitItems(leads, location);
+    const { currentPage } = limitItems(data?.leads, location);
+    const filters = state?.filters;
+    const sorts = state?.sorts;
+    const size = variables?.args?.page?.size;
 
-    const filters = get(location, 'state.filters') || {};
-    const sorts = get(location, 'state.sorts') || null;
-
-    const { searchLimit } = filters;
-    const restLimitSize = searchLimit && (searchLimit - (currentPage + 1) * defaultSize);
-
-    const size = (restLimitSize && restLimitSize < defaultSize && restLimitSize > 0)
-      ? restLimitSize
-      : defaultSize;
-
-    leadsQuery.loadMore({
+    loadMore({
       args: {
         ...filters,
         page: {
@@ -66,20 +67,12 @@ class LeadsGrid extends PureComponent {
     });
   };
 
-  handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.state') || {};
-
-    const sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
+  handleSort = (sortData, sorts) => {
+    const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
-        ...query,
+        ...state,
         sorts,
         sortData,
       },

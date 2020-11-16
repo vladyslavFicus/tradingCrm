@@ -38,7 +38,7 @@ class RulesFilters extends PureComponent {
     handleRefetch: null,
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -47,6 +47,8 @@ class RulesFilters extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -79,7 +81,7 @@ class RulesFilters extends PureComponent {
         validate={validate}
         enableReinitialize
       >
-        {({ isSubmitting, dirty }) => (
+        {({ isSubmitting, resetForm, dirty }) => (
           <Form className="RulesGridFilter__form">
             <div className="RulesGridFilter__fields">
               <Field
@@ -179,7 +181,7 @@ class RulesFilters extends PureComponent {
                 primary
                 className="RulesGridFilter__button"
                 disabled={isSubmitting}
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

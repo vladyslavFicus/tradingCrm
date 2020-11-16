@@ -20,6 +20,13 @@ class ClientsList extends PureComponent {
     touchedRowsIds: [],
   };
 
+  componentDidUpdate(prevProps) {
+    // Clear selecting when filters or sorting changed
+    if (this.props.clientsQuery.loading && !prevProps.clientsQuery.loading) {
+      this.updateClientsListState();
+    }
+  }
+
   updateClientsListState = (
     allRowsSelected = false,
     touchedRowsIds = [],

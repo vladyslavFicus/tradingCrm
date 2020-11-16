@@ -71,6 +71,7 @@ class LeadsHeader extends PureComponent {
         multiAssign: true,
         ...state && {
           searchParams: state.filters,
+          sorts: state.sorts,
         },
       },
       onSuccess: () => {

@@ -98,7 +98,7 @@ class CreatePartnerModal extends PureComponent {
         const { error } = parseErrors(e);
 
         switch (error) {
-          case 'error.entity.already.exists': {
+          case 'error.entity.already.exist': {
             notify({
               level: 'error',
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.TITLE'),

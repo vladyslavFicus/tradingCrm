@@ -28,8 +28,10 @@ class LeadFeedsFilterForm extends PureComponent {
     setSubmitting(false);
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     this.props.history.replace({ query: { filters: {} } });
+
+    resetForm();
   };
 
   render() {
@@ -51,6 +53,7 @@ class LeadFeedsFilterForm extends PureComponent {
       >
         {({
           isSubmitting,
+          resetForm,
           dirty,
         }) => (
           <Form className="LeadFeedsFilterForm__form">
@@ -100,7 +103,7 @@ class LeadFeedsFilterForm extends PureComponent {
 
               <Button
                 className="LeadFeedsFilterForm__button"
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

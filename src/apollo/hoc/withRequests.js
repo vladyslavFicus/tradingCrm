@@ -5,17 +5,35 @@ import deepMerge from 'deepmerge';
  * Helper to extend query props with loadMore function
  *
  * @param fetchMore
+ * @param variables
  *
- * @return {function(*): *}
+ * @return {function(*): *} Function which takes only one argument and this argument can be a:
+ *
+ * 1. Function with variables arguments to use it in load more
+ * 2. Number to override variables.page only
+ * 3. Object to override all variables
  */
-const loadMore = ({ fetchMore }) => {
+const loadMore = ({ fetchMore, variables: prevVariables }) => {
   let loading = false;
 
-  return async (page) => {
+  return async (arg) => {
     if (!loading) {
       loading = true;
 
-      const variables = typeof page === 'number' ? { page } : page;
+      let variables = {};
+
+      switch (typeof arg) {
+        case 'function':
+          // Should provide new object to disable modifying existing one
+          // because Apollo Client doesn't work with mutable variables object
+          variables = arg(deepMerge({}, prevVariables));
+          break;
+        case 'number':
+          variables = { page: arg };
+          break;
+        default:
+          variables = arg;
+      }
 
       await fetchMore({
         variables,
