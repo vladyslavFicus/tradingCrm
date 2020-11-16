@@ -1,19 +1,9 @@
-.OperatorDepartments {
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 5px;
-  padding: 25px;
-
-  &__title {
-    color: #333;
-    font-size: 18px;
+.OperatorHierarchyBranches {
+  &__branches {
     margin-bottom: 20px;
   }
 
-  &__list {
-    margin-bottom: 20px;
-  }
-
-  &__item {
+  &__branch {
     margin-bottom: 10px;
 
     &-title,
@@ -25,12 +15,20 @@
       font-weight: 700;
     }
 
+    &-name {
+      color: #0190da;
+    }
+
     &-remove {
       margin-left: 15px;
       top: 1px;
       color: #fb434a;
       cursor: pointer;
     }
+  }
+
+  &__no-branches {
+    font-weight: 700;
   }
 
   &__form {

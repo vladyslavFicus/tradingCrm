@@ -4,29 +4,23 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`
-  query OperatorHierarchy_getOperatorBranchesQuery(
+  query OperatorHierarchyBranches_OperatorHierarchyQuery(
     $uuid: String!
   ) {
-    uuid #
-    userType #
-    parentUsers { #
-      uuid #
-      userType #
-    } #
-    parentBranches {
-      branchType
-      uuid
-      name
-      brandId #
-      parentBranch {
+    userHierarchyById (
+      uuid: $uuid
+    ) {
+      subordinatesCount
+      parentBranches {
+        branchType
         uuid
+        name
       }
     }
-    subordinatesCount #
   }
 `;
 
-const OperatorBranchesQuery = ({ children, match: { params: { id } } }) => (
+const OperatorHierarchyQuery = ({ children, match: { params: { id } } }) => (
   <Query
     query={REQUEST}
     variables={{ uuid: id }}
@@ -36,7 +30,7 @@ const OperatorBranchesQuery = ({ children, match: { params: { id } } }) => (
   </Query>
 );
 
-OperatorBranchesQuery.propTypes = {
+OperatorHierarchyQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -45,4 +39,4 @@ OperatorBranchesQuery.propTypes = {
   }).isRequired,
 };
 
-export default OperatorBranchesQuery;
+export default OperatorHierarchyQuery;

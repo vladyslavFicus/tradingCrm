@@ -4,6 +4,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import OperatorPersonal from './components/OperatorPersonal';
 import OperatorDepartments from './components/OperatorDepartments';
+import OperatorHierarchy from './components/OperatorHierarchy';
 import OperatorQuery from './graphql/OperatorQuery';
 import './OperatorProfileTab.scss';
 
@@ -21,6 +22,7 @@ class OperatorProfileTab extends PureComponent {
       <div className="OperatorProfileTab">
         <OperatorPersonal operatorQuery={operatorQuery} />
         <OperatorDepartments operatorQuery={operatorQuery} />
+        <OperatorHierarchy operatorQuery={operatorQuery} />
       </div>
     );
   }
