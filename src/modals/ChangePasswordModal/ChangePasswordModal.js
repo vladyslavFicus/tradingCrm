@@ -74,7 +74,7 @@ class ChangePasswordModal extends PureComponent {
           validateOnChange={false}
           onSubmit={this.onHandleSubmit}
         >
-          {({ dirty, isValid, isSubmitting }) => (
+          {({ dirty, isSubmitting }) => (
             <Form>
               <ModalHeader
                 className="ChangePasswordModal__header"
@@ -118,7 +118,7 @@ class ChangePasswordModal extends PureComponent {
                 </Button>
                 <Button
                   danger
-                  disabled={!dirty || !isValid || isSubmitting}
+                  disabled={!dirty || isSubmitting}
                   type="submit"
                 >
                   {I18n.t('COMMON.BUTTONS.SAVE_NEW_PASSWORD')}
