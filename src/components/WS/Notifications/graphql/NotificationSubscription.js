@@ -6,14 +6,20 @@ import { Subscription } from 'react-apollo';
 const REQUEST = gql`
   subscription MainLayout__NotificationSubscription {
     onNotification {
-      uuid
-      targetUuid
-      type
-      subtype
-      priority
-      profileUuid
-      operatorUuid
-      details
+      notification {
+        uuid
+        targetUuid
+        type
+        subtype
+        priority
+        profileUuid
+        operatorUuid
+        details
+      }
+      configuration {
+        popUpDelayMs
+      }
+      totalNotificationsCount
     }
   }
 `;
