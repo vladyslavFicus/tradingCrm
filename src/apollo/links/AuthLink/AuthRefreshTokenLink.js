@@ -44,18 +44,11 @@ class AuthRefreshTokenLink extends ApolloLink {
   }
 
   /**
-   * Refresh token operation
-   *
-   * @param operation
-   * @param forward
-   * @param observer
+   * Refresh token and consume operations queue
    *
    * @return {Promise<void>}
    */
-  async refreshToken(operation, forward, observer) {
-    // Enqueue unauthenticated operation to execute it when token will be refreshed
-    this.queue.push({ operation, forward, observer });
-
+  async refreshToken() {
     // Refresh token only if it isn't if flight now
     if (!this.refreshing) {
       this.refreshing = true;
@@ -87,26 +80,23 @@ class AuthRefreshTokenLink extends ApolloLink {
           const isUnauthenticated = isUnauthenticatedError(result);
 
           if (isUnauthenticated) {
-            await this.refreshToken(operation, forward, observer);
+            // Enqueue non-subscription unauthenticated operation to execute it when token will be refreshed
+            if (!isSubscription) {
+              this.queue.push({ operation, forward, observer });
+            }
+
+            await this.refreshToken();
 
             return;
           }
 
-          // Execute next link and complete this operation
+          // Execute next link
           observer.next(result);
 
           // Complete operation if it isn't subscription
           if (!isSubscription) {
             observer.complete();
           }
-        },
-        error: async (error) => {
-          // Refresh token for UNAUTHENTICATED subscription connection
-          if (error.message === 'UNAUTHENTICATED') {
-            await this.refreshToken(operation, forward, observer);
-          }
-
-          observer.error(error);
         },
       });
 

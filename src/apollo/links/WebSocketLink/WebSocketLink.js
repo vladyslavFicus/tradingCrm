@@ -1,5 +1,5 @@
-const { ApolloLink } = require('apollo-link');
-const { SubscriptionClient } = require('subscriptions-transport-ws-ack');
+import { ApolloLink, Observable } from 'apollo-link';
+import { SubscriptionClient } from 'subscriptions-transport-ws-ack';
 
 /**
  * WebSocket link implementation to usage custom `subscriptions-transport-ws-ack` package
@@ -10,22 +10,37 @@ const { SubscriptionClient } = require('subscriptions-transport-ws-ack');
  * re-subscribe if something with connection (for example bad token or websocket service doesn't answer)
  */
 class WebSocketLink extends ApolloLink {
-  constructor(paramsOrClient) {
+  constructor({ uri, options }) {
     super();
 
-    if (paramsOrClient instanceof SubscriptionClient) {
-      this.subscriptionClient = paramsOrClient;
-    } else {
-      this.subscriptionClient = new SubscriptionClient(
-        paramsOrClient.uri,
-        paramsOrClient.options,
-        paramsOrClient.webSocketImpl,
-      );
-    }
+    this.observer = null;
+
+    this.subscriptionClient = new SubscriptionClient(
+      uri,
+      {
+        ...options,
+        connectionCallback: this.connectionCallback,
+      },
+    );
   }
 
+  /**
+   * Send code UNAUTHENTICATED if socket receive UNAUTHENTICATED error on connection
+   *
+   * @param error
+   */
+  connectionCallback = (error) => {
+    if (error?.message === 'UNAUTHENTICATED' && this.observer) {
+      this.observer.next({ errors: [{ extensions: { code: 'UNAUTHENTICATED' } }] });
+    }
+  };
+
   request(operation) {
-    return this.subscriptionClient.request(operation);
+    return new Observable((observer) => {
+      this.observer = observer;
+
+      this.subscriptionClient.request(operation).subscribe(observer);
+    });
   }
 }
 
