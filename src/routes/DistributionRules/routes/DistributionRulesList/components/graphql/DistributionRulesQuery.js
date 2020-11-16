@@ -14,6 +14,7 @@ const REQUEST = gql`query DistributionRules__GetDistributionRules($args: Distrib
       statusChangedAt
       createdAt
       countries
+      languages
       salesStatuses
       targetSalesStatus
       registrationPeriodInHours

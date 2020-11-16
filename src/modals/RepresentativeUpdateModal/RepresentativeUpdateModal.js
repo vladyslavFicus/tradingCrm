@@ -63,6 +63,7 @@ class RepresentativeUpdateModal extends PureComponent {
       allRowsSelected: PropTypes.bool,
       selectedRowsLength: PropTypes.number,
       searchParams: PropTypes.object,
+      sorts: PropTypes.array,
     }),
     uuids: PropTypes.arrayOf(PropTypes.string), // used to bulk update list of leads/clients
     uuid: PropTypes.string, // used to update single lead/client
@@ -221,7 +222,7 @@ class RepresentativeUpdateModal extends PureComponent {
       bulkUpdateClientsAcquisition,
     } = this.props;
 
-    const { allRowsSelected, selectedRowsLength, searchParams } = configs;
+    const { allRowsSelected, selectedRowsLength, searchParams, sorts } = configs;
 
     const variables = {
       uuids,
@@ -231,6 +232,7 @@ class RepresentativeUpdateModal extends PureComponent {
         : { retentionStatus: status }),
       ...allRowsSelected && {
         searchParams,
+        sorts,
         bulkSize: selectedRowsLength,
       },
     };

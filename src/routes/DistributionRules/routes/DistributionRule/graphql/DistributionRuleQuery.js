@@ -15,6 +15,8 @@ const REQUEST = gql`
       createdAt
       updatedAt
       countries
+      languages
+      firstTimeDeposit
       salesStatuses
       targetSalesStatus
       registrationPeriodInHours

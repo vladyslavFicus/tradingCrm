@@ -71,11 +71,15 @@ class AddSourceBrandModal extends PureComponent {
     this.fetchAvailableClientsAmount(brand);
   };
 
+  handleSubmit = (values) => {
+    const { availableClientsAmount } = this.state;
+    this.props.handleSubmit({ ...values, availableClientsAmount });
+  }
+
   render() {
     const {
       onCloseModal,
       isOpen,
-      handleSubmit,
       allowedBaseUnits,
       brands,
       initialValues: {
@@ -90,6 +94,7 @@ class AddSourceBrandModal extends PureComponent {
     const { quantity, baseUnit } = distributionUnit || { baseUnit: allowedBaseUnits[0] };
 
     const limitAmount = Math.min(availableClientsAmount, MAX_MIGRATED_CLIENTS);
+    const limitAmountPercentage = Math.min(100, Math.floor(MAX_MIGRATED_CLIENTS / availableClientsAmount * 100));
 
     return (
       <Modal
@@ -98,7 +103,6 @@ class AddSourceBrandModal extends PureComponent {
         className="AddSourceBrandModal"
       >
         <Formik
-          enableReinitialize
           initialValues={{
             brand,
             quantity,
@@ -109,18 +113,25 @@ class AddSourceBrandModal extends PureComponent {
             createValidator({
               brand: 'required',
               quantity: ['required', 'integer', 'min:1',
-                `max:${values.baseUnit === 'PERCENTAGE' ? 100 : limitAmount}`,
+                `max:${values.baseUnit === 'PERCENTAGE' ? limitAmountPercentage : limitAmount}`,
               ],
             }, translateLabels({
               ...modalFieldsNames,
               quantity: values.baseUnit === 'PERCENTAGE'
                 ? modalFieldsNames.quantityPercentage
                 : modalFieldsNames.quantity,
-            }))(values)
+            }), false, {
+              ...(limitAmountPercentage < 100) && {
+                'max.quantity': I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_BY_PERCENTAGE', {
+                  amount: availableClientsAmount,
+                  percentage: limitAmountPercentage,
+                }),
+              },
+            })(values)
           )}
           validateOnBlur={false}
           validateOnChange={false}
-          onSubmit={handleSubmit}
+          onSubmit={this.handleSubmit}
         >
           {({ values, setFieldValue }) => (
             <Form>
@@ -145,7 +156,7 @@ class AddSourceBrandModal extends PureComponent {
                     dangerouslySetInnerHTML={{
                       __html: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
                         value: typeof availableClientsAmount === 'number'
-                          ? limitAmount
+                          ? availableClientsAmount
                           : '<span class="AddSourceBrandModal__message-spinner">...</span>',
                       }),
                     }}

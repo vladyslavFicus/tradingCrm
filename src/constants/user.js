@@ -170,6 +170,7 @@ const filterLabels = {
   office: 'DESKS.FILTERS.OFFICE',
   desk: 'DESKS.FILTERS.DESK',
   language: 'COMMON.LANGUAGE',
+  languages: 'PROFILE.LIST.FILTERS.LANGUAGES',
   assignStatus: 'PROFILE.LIST.FILTERS.ASSIGN_STATUS',
   kycStatuses: 'PROFILE.LIST.FILTERS.KYC_STATUSES',
   firstDeposit: 'PROFILE.LIST.FILTERS.FIRST_DEPOSIT',

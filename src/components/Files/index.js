@@ -1,5 +1,6 @@
 import DeleteModal from './DeleteModal';
 import UploadModal from './UploadModal';
+import RenameModal from './RenameModal';
 import UploadingFile from './UploadingFile';
 import constants from './constants';
 
@@ -8,4 +9,5 @@ export {
   DeleteModal,
   UploadModal,
   UploadingFile,
+  RenameModal,
 };
