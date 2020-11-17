@@ -66,8 +66,6 @@ class FormikSelectField extends Component {
       form: { setFieldValue },
     } = this.props;
 
-    console.log('value');
-
     if (customOnChange) {
       customOnChange(value);
     } else {
