@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { accountTypes } from 'constants/accountTypes';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { FormikSelectField } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './ClientTradingAccountsGridFilter.scss';
 
@@ -101,7 +101,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
               <Button
                 className="ClientTradingAccountsGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

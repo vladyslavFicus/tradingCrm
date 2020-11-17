@@ -7,7 +7,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import FilesCategoriesQuery from './graphql/FilesCategoriesQuery';
 import './FilesGridFilter.scss';
@@ -143,7 +143,7 @@ class FilesGridFilter extends PureComponent {
               <Button
                 className="FilesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -151,7 +151,7 @@ class FilesGridFilter extends PureComponent {
 
               <Button
                 className="FilesGridFilter__button"
-                disabled={!dirty || isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

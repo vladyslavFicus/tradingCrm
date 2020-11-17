@@ -9,7 +9,7 @@ import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
 import { attributeLabels } from '../constants';
@@ -107,7 +107,7 @@ class NotesGridFilter extends PureComponent {
               <Button
                 className="margin-right-15"
                 onClick={this.handleReset}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

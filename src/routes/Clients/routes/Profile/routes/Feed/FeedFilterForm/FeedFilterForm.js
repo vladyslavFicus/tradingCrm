@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import PropTypes from 'constants/propTypes';
@@ -104,7 +104,7 @@ class FeedFilterForm extends PureComponent {
               <Button
                 className="margin-right-15"
                 onClick={resetForm}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

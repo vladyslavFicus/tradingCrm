@@ -11,7 +11,7 @@ import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
@@ -136,7 +136,12 @@ class LeadsGridFilter extends PureComponent {
           searchLimit: ['numeric', 'greater:0', 'max:5000'],
         }, translateLabels(attributeLabels))}
       >
-        {({ values, isSubmitting, dirty, resetForm }) => {
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => {
           const desksUuids = values.desks || [];
           const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
           const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
@@ -345,7 +350,7 @@ class LeadsGridFilter extends PureComponent {
 
                 <Button
                   className="LeadsGridFilter__button"
-                  disabled={isSubmitting || !hasSelectedValues(values)}
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   onClick={() => this.handleReset(resetForm)}
                   primary
                 >

@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { filterLabels } from 'constants/user';
 import countryList from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './OfficesGridFilter.scss';
 
@@ -97,7 +97,7 @@ class OfficesGridFilter extends PureComponent {
               <Button
                 className="OfficesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

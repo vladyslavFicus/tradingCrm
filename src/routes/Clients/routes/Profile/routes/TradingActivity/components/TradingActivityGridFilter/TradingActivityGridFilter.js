@@ -14,7 +14,7 @@ import {
   FormikSelectField,
   FormikDateRangeGroup,
 } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
 import { Button, RefreshButton } from 'components/UI';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -266,7 +266,7 @@ class TradingActivityGridFilter extends PureComponent {
               <Button
                 className="margin-right-15"
                 onClick={this.handleFilterReset}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

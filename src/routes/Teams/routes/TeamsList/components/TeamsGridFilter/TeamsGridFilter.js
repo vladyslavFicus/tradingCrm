@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import './TeamsGridFilter.scss';
 
 class TeamsGridFilter extends PureComponent {
@@ -128,7 +128,7 @@ class TeamsGridFilter extends PureComponent {
                 <Button
                   className="TeamsGridFilter__button"
                   onClick={() => this.handleReset(resetForm)}
-                  disabled={isSubmitting || !hasSelectedValues(values)}
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   primary
                 >
                   {I18n.t('COMMON.RESET')}

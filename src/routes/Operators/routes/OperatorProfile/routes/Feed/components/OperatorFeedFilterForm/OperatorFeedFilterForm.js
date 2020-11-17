@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
 import './OperatorFeedFilterForm.scss';
 
@@ -102,7 +102,7 @@ class OperatorFeedFilterForm extends PureComponent {
               <Button
                 className="OperatorFeedFilterForm__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

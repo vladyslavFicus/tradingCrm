@@ -66,6 +66,8 @@ class FormikSelectField extends Component {
       form: { setFieldValue },
     } = this.props;
 
+    console.log('value');
+
     if (customOnChange) {
       customOnChange(value);
     } else {
@@ -127,7 +129,7 @@ class FormikSelectField extends Component {
           >
             {
               [
-                withAnyOption && <option key="any" value="">{I18n.t('COMMON.ANY')}</option>,
+                withAnyOption && <option key="any" value={undefined}>{I18n.t('COMMON.ANY')}</option>,
                 ...children,
               ]
             }

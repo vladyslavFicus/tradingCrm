@@ -4,7 +4,6 @@ import I18n from 'i18n-js';
 import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikDateRangeGroup } from 'components/Formik';
-import { hasSelectedValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './LeadNotesTabFilter.scss';
 
@@ -62,7 +61,7 @@ class LeadNotesTabFilter extends PureComponent {
               <Button
                 className="LeadNotesTabFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

@@ -9,7 +9,7 @@ import { filterLabels } from 'constants/user';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import './RulesGridFilter.scss';
@@ -186,7 +186,7 @@ class RulesFilters extends PureComponent {
                 primary
                 className="RulesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { callbacksStatuses } from 'constants/callbacks';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './ClientCallbacksGridFilter.scss';
 
@@ -87,7 +87,7 @@ class ClientCallbacksGridFilter extends PureComponent {
               <Button
                 className="ClientCallbacksGridFilter__button"
                 onClick={this.handleReset}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

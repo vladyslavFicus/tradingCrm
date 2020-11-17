@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import { deskTypes } from '../../constants';
@@ -124,7 +124,7 @@ class DesksGridFilter extends PureComponent {
               <Button
                 className="DesksGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

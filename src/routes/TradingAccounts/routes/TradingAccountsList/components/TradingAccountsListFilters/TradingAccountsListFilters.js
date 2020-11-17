@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
+import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { accountTypes, accountStatuses } from '../../constants';
@@ -132,7 +132,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || !hasSelectedValues(values)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
