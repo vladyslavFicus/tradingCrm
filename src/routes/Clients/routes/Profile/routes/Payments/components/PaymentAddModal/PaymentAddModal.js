@@ -21,7 +21,7 @@ import Currency from 'components/Amount/Currency';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Permissions from 'utils/permissions';
 import { validation } from './utils';
-import { paymentTypes, paymentTypesLabels, attributeLabels, paymentErrors } from './constants';
+import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
 import { ManualPaymentMethodsQuery, AddNote, AddPayment } from './graphql';
 import './PaymentAddModal.scss';
 
@@ -94,15 +94,12 @@ class PaymentAddModal extends PureComponent {
     } catch (e) {
       const error = parseErrors(e);
 
-      const defaultErrorMessage = I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL');
-      const errorMessage = paymentErrors[error.error] || defaultErrorMessage;
-
-      this.setState({ errorMessage });
+      this.setState({ errorMessage: error.message });
 
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
-        message: defaultErrorMessage,
+        message: error.message || I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
       });
     }
   };
