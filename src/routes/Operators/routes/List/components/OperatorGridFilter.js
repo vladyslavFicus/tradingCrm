@@ -11,7 +11,7 @@ import {
   FormikDateRangeGroup,
 } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import { statusesLabels, statuses } from 'constants/operators';
 import { attributeLabels } from '../constants';
 
@@ -66,7 +66,12 @@ class OperatorGridFilter extends Component {
         validate={validate}
         onSubmit={this.handleSubmit}
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -122,8 +127,8 @@ class OperatorGridFilter extends Component {
               />
               <Button
                 primary
-                disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || !hasSelectedValues(values)}
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

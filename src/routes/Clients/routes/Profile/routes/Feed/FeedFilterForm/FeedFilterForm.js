@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import PropTypes from 'constants/propTypes';
@@ -59,7 +59,12 @@ class FeedFilterForm extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ isValid, resetForm, isSubmitting, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -99,12 +104,13 @@ class FeedFilterForm extends PureComponent {
               <Button
                 className="margin-right-15"
                 onClick={resetForm}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid || isSubmitting || !dirty}
+                disabled={isSubmitting || !dirty}
                 primary
                 type="submit"
               >

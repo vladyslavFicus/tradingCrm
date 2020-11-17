@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikDateRangeGroup } from 'components/Formik';
+import { hasSelectedValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './LeadNotesTabFilter.scss';
 
@@ -35,7 +36,12 @@ class LeadNotesTabFilter extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ dirty, resetForm }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="LeadNotesTabFilter">
             <FormikDateRangeGroup
               className="LeadNotesTabFilter__field LeadNotesTabFilter__date-range"
@@ -56,6 +62,7 @@ class LeadNotesTabFilter extends PureComponent {
               <Button
                 className="LeadNotesTabFilter__button"
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -65,7 +72,7 @@ class LeadNotesTabFilter extends PureComponent {
                 className="LeadNotesTabFilter__button"
                 type="submit"
                 primary
-                disabled={!dirty}
+                disabled={isSubmitting || !dirty}
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>

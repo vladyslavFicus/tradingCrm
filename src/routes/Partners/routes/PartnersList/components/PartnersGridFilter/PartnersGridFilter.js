@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { statusLabels } from '../../../../constants';
 import './PartnersGridFilter.scss';
@@ -58,6 +58,7 @@ class PartnersGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          values,
           dirty,
         }) => (
           <Form className="PartnersGridFilter__form">
@@ -122,7 +123,7 @@ class PartnersGridFilter extends PureComponent {
               <Button
                 className="PartnersGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

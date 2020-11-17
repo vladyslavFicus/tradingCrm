@@ -31,7 +31,20 @@ const decodeNullValues = (values) => {
   return newValues;
 };
 
+const hasSelectedValues = (values) => {
+  let hasValues = false;
+
+  Object.keys(values).forEach((key) => {
+    if (!hasValues && values[key] !== '' && values[key] !== null) {
+      hasValues = true;
+    }
+  });
+
+  return hasValues;
+};
+
 export {
   encodeNullValues,
   decodeNullValues,
+  hasSelectedValues,
 };

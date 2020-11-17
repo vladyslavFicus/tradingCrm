@@ -10,7 +10,7 @@ import { salesStatuses } from 'constants/salesStatuses';
 import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import './DistributionRulesGridFilters.scss';
 
 class DistributionRulesFilters extends PureComponent {
@@ -41,7 +41,7 @@ class DistributionRulesFilters extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({ isSubmitting, values, resetForm, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
@@ -192,7 +192,7 @@ class DistributionRulesFilters extends PureComponent {
 
               <Button
                 className="filter__form-button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 onClick={() => this.handleReset(resetForm)}
                 primary
               >

@@ -11,7 +11,7 @@ import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
@@ -345,7 +345,7 @@ class LeadsGridFilter extends PureComponent {
 
                 <Button
                   className="LeadsGridFilter__button"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !hasSelectedValues(values)}
                   onClick={() => this.handleReset(resetForm)}
                   primary
                 >

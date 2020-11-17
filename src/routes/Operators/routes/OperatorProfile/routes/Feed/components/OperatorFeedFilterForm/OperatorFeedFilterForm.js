@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
 import './OperatorFeedFilterForm.scss';
 
@@ -50,7 +50,12 @@ class OperatorFeedFilterForm extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="OperatorFeedFilterForm__form">
             <Field
               name="searchBy"
@@ -97,7 +102,7 @@ class OperatorFeedFilterForm extends PureComponent {
               <Button
                 className="OperatorFeedFilterForm__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

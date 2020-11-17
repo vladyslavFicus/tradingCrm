@@ -9,7 +9,7 @@ import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
 import { attributeLabels } from '../constants';
@@ -67,7 +67,11 @@ class NotesGridFilter extends PureComponent {
         }
         enableReinitialize
       >
-        {({ isValid, dirty }) => (
+        {({
+          isSubmitting,
+          values,
+          dirty,
+        }) => (
           <Form className="filter-row">
             <Field
               name="department"
@@ -103,13 +107,14 @@ class NotesGridFilter extends PureComponent {
               <Button
                 className="margin-right-15"
                 onClick={this.handleReset}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 type="submit"
-                disabled={!isValid || !dirty}
+                disabled={!isSubmitting || !dirty}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

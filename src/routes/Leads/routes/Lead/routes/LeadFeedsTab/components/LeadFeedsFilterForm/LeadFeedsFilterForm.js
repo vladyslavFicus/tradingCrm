@@ -10,7 +10,7 @@ import { typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
 import './LeadFeedsFilterForm.scss';
 
@@ -54,6 +54,7 @@ class LeadFeedsFilterForm extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          values,
           dirty,
         }) => (
           <Form className="LeadFeedsFilterForm__form">
@@ -104,6 +105,7 @@ class LeadFeedsFilterForm extends PureComponent {
               <Button
                 className="LeadFeedsFilterForm__button"
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || !hasSelectedValues(values)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import { isEqual } from 'lodash';
 import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
+import { hasSelectedValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import FilterSet from 'components/FilterSet';
 import FilterSetButtons from 'components/FilterSetButtons';
@@ -104,6 +105,7 @@ class ExtendedForm extends PureComponent {
           dirty,
           setValues,
           handleReset,
+          isSubmitting,
           resetForm,
           ...formikBag
         }) => (
@@ -144,16 +146,16 @@ class ExtendedForm extends PureComponent {
                     </If>
 
                     <Button
-                      disabled={isDataLoading}
                       onClick={() => this.handleReset(resetForm)}
+                      disabled={isDataLoading || isSubmitting || !hasSelectedValues(values)}
                       primary
                     >
                       {I18n.t('COMMON.RESET')}
                     </Button>
 
                     <Button
-                      disabled={isDataLoading || !dirty}
                       type="submit"
+                      disabled={isDataLoading || isSubmitting || !dirty}
                       primary
                     >
                       {I18n.t('COMMON.APPLY')}

@@ -8,13 +8,12 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
 import formatLabel from 'utils/formatLabel';
-import { decodeNullValues } from 'components/Formik/utils';
+import { decodeNullValues, hasSelectedValues } from 'components/Formik/utils';
 import { FormikDateRangeGroup, FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import NotificationTypesQuery from './graphql/NotificationTypesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
-
 import './NotificationsGridFilters.scss';
 
 class NotificationsFilters extends PureComponent {
@@ -275,6 +274,7 @@ class NotificationsFilters extends PureComponent {
                 <Button
                   className="NotificationsGridFilter__button"
                   onClick={() => this.handleReset(resetForm)}
+                  disabled={isSubmitting || !hasSelectedValues(values)}
                   primary
                 >
                   {I18n.t('COMMON.RESET')}
