@@ -1755,6 +1755,9 @@
       "password": {
         "repeated": "You used this password recently. Please choose a different one",
         "nonEquals": "Old password value is wrong"
+      },
+      "country": {
+        "restricted": "Restricted country"
       }
     },
     "payment": {
