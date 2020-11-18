@@ -10,6 +10,7 @@ import {
 import { Button } from 'components/UI';
 import { isSales } from 'constants/hierarchyTypes';
 import { attributeLabels } from '../../constants';
+import './RuleOperatorSpreads.scss';
 
 class RuleOperatorSpreads extends PureComponent {
   static propTypes = {
@@ -79,7 +80,7 @@ class RuleOperatorSpreads extends PureComponent {
                   <If condition={operatorSpreads.length && operatorSpreads.length !== index}>
                     <Button
                       transparent
-                      className="RuleSettings__button"
+                      className="RuleOperatorSpreads__button"
                       onClick={() => arrayHelpers.remove(index)}
                     >
                       <i className="fa fa-trash btn-transparent color-danger" />
@@ -91,7 +92,7 @@ class RuleOperatorSpreads extends PureComponent {
           )}
         />
         <If condition={percentageLimitError}>
-          <div className="RuleSettings__percentage-error color-danger">
+          <div className="RuleOperatorSpreads__percentage-error color-danger">
             <div className="col-7">
               {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}
             </div>
