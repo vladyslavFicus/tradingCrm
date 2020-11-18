@@ -15,9 +15,6 @@ class RuleOperatorSpreads extends PureComponent {
   static propTypes = {
     operators: PropTypes.array.isRequired,
     operatorSpreads: PropTypes.array.isRequired,
-    selectedOperators: PropTypes.array.isRequired,
-    setSelectedOperators: PropTypes.func.isRequired,
-    setFieldValue: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     percentageLimitError: PropTypes.bool,
   }
@@ -26,29 +23,15 @@ class RuleOperatorSpreads extends PureComponent {
     percentageLimitError: false,
   }
 
-  handleSelectOperator = (index, name, value, arrayHelpers) => {
-    const {
-      setFieldValue,
-      selectedOperators,
-      setSelectedOperators,
-    } = this.props;
-
-    setSelectedOperators([...selectedOperators, value]);
-
-    arrayHelpers.insert(index, '');
-
-    setFieldValue(name, value);
-  };
-
   render() {
     const {
       operators,
       operatorSpreads,
-      selectedOperators, // ?
-      setSelectedOperators, // ?
       isSubmitting,
       percentageLimitError,
     } = this.props;
+
+    const selectedOperators = operatorSpreads.map(({ parentUser }) => parentUser);
 
     return (
       <div className="row">
@@ -56,18 +39,12 @@ class RuleOperatorSpreads extends PureComponent {
           name="operatorSpreads"
           render={arrayHelpers => (
             <Fragment>
-              {operatorSpreads.map(({ parentUser }, index) => (
+              {[...operatorSpreads, ''].map((_, index) => (
                 <Fragment key={index}>
                   <Field
                     name={`operatorSpreads[${index}].parentUser`}
                     label={index === 0 ? I18n.t(attributeLabels.operator) : ''}
                     component={FormikSelectField}
-                    customOnChange={value => this.handleSelectOperator(
-                      index,
-                      `operatorSpreads[${index}].parentUser`,
-                      value,
-                      arrayHelpers,
-                    )}
                     className="col-7"
                     disabled={isSubmitting}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -79,7 +56,7 @@ class RuleOperatorSpreads extends PureComponent {
                         <option
                           key={uuid}
                           value={uuid}
-                          disabled={selectedOperators.indexOf(uuid) !== -1}
+                          disabled={selectedOperators.includes(uuid)}
                         >
                           {fullName}
                         </option>
@@ -99,17 +76,11 @@ class RuleOperatorSpreads extends PureComponent {
                       })
                     }
                   />
-                  <If condition={selectedOperators.length > 0 && selectedOperators.length !== index}>
+                  <If condition={operatorSpreads.length && operatorSpreads.length !== index}>
                     <Button
                       transparent
                       className="RuleSettings__button"
-                      onClick={() => {
-                        const newSelectedOperators = [...selectedOperators];
-                        newSelectedOperators.splice(newSelectedOperators.indexOf(parentUser), 1);
-                        setSelectedOperators(newSelectedOperators);
-
-                        arrayHelpers.remove(index);
-                      }}
+                      onClick={() => arrayHelpers.remove(index)}
                     >
                       <i className="fa fa-trash btn-transparent color-danger" />
                     </Button>

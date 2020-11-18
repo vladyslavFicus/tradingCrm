@@ -18,19 +18,13 @@ class RuleSettings extends PureComponent {
   static propTypes = {
     operators: PropTypes.arrayOf(PropTypes.operatorsListEntity).isRequired,
     partners: PropTypes.arrayOf(PropTypes.partnersListEntity).isRequired,
-    selectedOperators: PropTypes.array.isRequired,
-    // with operator spreads
-    setSelectedOperators: PropTypes.func,
     withOperatorSpreads: PropTypes.bool,
     operatorSpreads: PropTypes.array,
-    // formik bag
-    setFieldValue: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     errors: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
-    setSelectedOperators: null,
     withOperatorSpreads: false,
     operatorSpreads: [],
   };
@@ -39,11 +33,8 @@ class RuleSettings extends PureComponent {
     const {
       operators,
       partners,
-      selectedOperators,
-      setSelectedOperators,
       withOperatorSpreads,
       operatorSpreads,
-      setFieldValue,
       isSubmitting,
       errors,
     } = this.props;
@@ -146,9 +137,6 @@ class RuleSettings extends PureComponent {
           <RuleOperatorSpreads
             operators={operators}
             operatorSpreads={operatorSpreads}
-            selectedOperators={selectedOperators}
-            setSelectedOperators={setSelectedOperators}
-            setFieldValue={setFieldValue}
             isSubmitting={isSubmitting}
             percentageLimitError={errors.percentageLimitError}
           />

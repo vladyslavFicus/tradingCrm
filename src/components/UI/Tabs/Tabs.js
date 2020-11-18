@@ -15,8 +15,10 @@ class Tabs extends PureComponent {
   };
 
   componentDidMount() {
+    const { children } = this.props;
+
     this.setState({
-      activeTabName: this.props.children[0].props.label,
+      activeTabName: children[0]?.props.label || children.props.label,
     });
   }
 

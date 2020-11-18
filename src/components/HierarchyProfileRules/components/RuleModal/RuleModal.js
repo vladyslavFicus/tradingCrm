@@ -12,7 +12,7 @@ import { Button, Tabs, TabsItem } from 'components/UI';
 import { OperatorsQuery, PartnersQuery } from './graphql';
 import { attributeLabels, customErrors } from './constants';
 import RuleSettings from './components/RuleSettings';
-import RuleSchedule from './components/RuleSchedule';
+// import RuleSchedule from './components/RuleSchedule';
 
 class RuleModal extends PureComponent {
   static propTypes = {
@@ -37,7 +37,6 @@ class RuleModal extends PureComponent {
   };
 
   state = {
-    ...(this.props.type === 'OPERATOR' ? { selectedOperators: [this.props.currentUuid] } : { selectedOperators: [] }),
     validationByChange: false,
   };
 
@@ -45,8 +44,6 @@ class RuleModal extends PureComponent {
     this.props.onSubmit(values, setErrors);
     setSubmitting(false);
   };
-
-  setSelectedOperators = selectedOperators => this.setState({ selectedOperators });
 
   render() {
     const {
@@ -62,11 +59,6 @@ class RuleModal extends PureComponent {
       currentUuid,
       withOperatorSpreads,
     } = this.props;
-
-    const {
-      selectedOperators,
-      validationByChange,
-    } = this.state;
 
     const operators = operatorsQueryData?.operators?.content || [];
     const partners = partnersQueryData?.partners?.content || [];
@@ -88,9 +80,7 @@ class RuleModal extends PureComponent {
             languages: '',
             type: '',
             affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
-            ...(type === 'OPERATOR'
-              ? { operatorSpreads: [{ parentUser: currentUuid, percentage: 100 }, ''] }
-              : { operatorSpreads: [''] }),
+            operatorSpreads: type === 'OPERATOR' ? [{ parentUser: currentUuid, percentage: 100 }] : [],
           }}
           validate={(values) => {
             const errors = createValidator({
@@ -105,16 +95,16 @@ class RuleModal extends PureComponent {
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
-            const percentageLimitError = withOperatorSpreads && selectedOperators.length
+            const percentageLimitError = withOperatorSpreads && values.operatorSpreads.length
               && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100;
 
-            return { ...errors, percentageLimitError };
+            return { ...errors, ...percentageLimitError && { percentageLimitError } };
           }}
           validateOnBlur={false}
-          validateOnChange={validationByChange}
+          validateOnChange={this.state.validationByChange}
           onSubmit={this.handleSubmit}
         >
-          {({ errors, dirty, isSubmitting, values: { operatorSpreads }, setFieldValue }) => (
+          {({ errors, dirty, isSubmitting, values: { operatorSpreads } }) => (
             <Form className="RuleSettings">
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
@@ -126,18 +116,15 @@ class RuleModal extends PureComponent {
                     component={RuleSettings}
                     operators={operators}
                     partners={partners}
-                    selectedOperators={selectedOperators}
-                    setSelectedOperators={this.setSelectedOperators}
                     withOperatorSpreads={withOperatorSpreads}
                     operatorSpreads={operatorSpreads}
-                    setFieldValue={setFieldValue}
                     isSubmitting={isSubmitting}
                     errors={errors}
                   />
-                  <TabsItem
+                  {/* <TabsItem
                     label="Schedule settings"
                     component={RuleSchedule}
-                  />
+                  /> */}
                 </Tabs>
               </ModalBody>
               <ModalFooter>
