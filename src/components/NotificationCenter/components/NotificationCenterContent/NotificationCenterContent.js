@@ -14,7 +14,7 @@ import NotificationCenterTypesQuery from '../../graphql/NotificationCenterTypesQ
 import NotificationCenterUpdate from '../../graphql/NotificationCenterUpdate';
 import './NotificationCenterContent.scss';
 
-const MAX_SELECTED_ROWS = 10000;
+const MAX_SELECTED_ROWS = 1000;
 
 class NotificationCenterContent extends PureComponent {
   static propTypes = {
@@ -54,7 +54,7 @@ class NotificationCenterContent extends PureComponent {
           onSubmit: confirmationModal.hide,
           onCloseCallback: onCloseModal(),
           modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
-          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_ROWS }),
+          actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: MAX_SELECTED_ROWS }),
           submitButtonLabel: I18n.t('COMMON.OK'),
         });
       }
