@@ -1,0 +1,39 @@
+$color-blue: #01a8fe;
+$color-gray: #495057;
+
+.Tabs {
+  &__nav-item {
+    border: none;
+    border-top: 3px solid transparent;
+    color: $color-gray;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 20px;
+    display: inline-block;
+
+    &:focus {
+      outline: none;
+      color: $color-blue;
+    }
+
+    &:not(&--active):hover {
+      color: $color-gray;
+    }
+  }
+
+  &__nav-item--active, &__nav-item--active:focus {
+    z-index: 1000;
+    background-color: #fff;
+    border-top-color: $color-blue;
+    box-shadow: 0 15px 0 0 #fff, 0 0 0 0 #fff, 0 0 15px -4px rgba(0,0,0,.15), 0 0 15px -4px rgba(0,0,0,.15);
+    color: $color-blue;
+
+    &:hover {
+      color: $color-blue;
+    }
+  }
+
+  &__content {
+    padding-top: 20px;
+  }
+}

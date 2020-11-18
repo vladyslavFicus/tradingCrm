@@ -864,6 +864,7 @@ PropTypes.query = content => PropTypes.shape({
   loading: PropTypes.bool,
   loadMore: PropTypes.func,
   refetch: PropTypes.func,
+  error: PropTypes.object,
 });
 PropTypes.branchHierarchyResponse = PropTypes.query({
   branch: PropTypes.shape({
