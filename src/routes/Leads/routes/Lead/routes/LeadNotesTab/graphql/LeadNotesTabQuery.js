@@ -39,7 +39,7 @@ const LeadNotesTabQuery = ({
   match: {
     params: { id },
   },
-  location: { query },
+  location: { state },
   children,
 }) => (
   <Query
@@ -48,7 +48,7 @@ const LeadNotesTabQuery = ({
       targetUUID: id,
       size: 20,
       page: 0,
-      ...(query ? query.filters : {}),
+      ...state?.filters,
     }}
     fetchPolicy="cache-and-network"
   >

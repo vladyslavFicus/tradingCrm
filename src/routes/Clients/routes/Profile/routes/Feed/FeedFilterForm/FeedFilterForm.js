@@ -24,16 +24,33 @@ class FeedFilterForm extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleFiltersChanged = (filters, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
 
-    setSubmitting(false);
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+  };
+
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
   };
 
   render() {
     const {
       feedTypes,
       handleRefetch,
+      location: { state },
     } = this.props;
 
     const feedTypesList = get(feedTypes, 'data.feedTypes') || [];
@@ -47,9 +64,9 @@ class FeedFilterForm extends PureComponent {
 
     return (
       <Formik
-        initialValues={{}}
-        onSubmit={this.handleFiltersChanged}
-        onReset={this.handleFiltersChanged}
+        enableReinitialize
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
         validate={
           createValidator({
             searchBy: 'string',
@@ -59,7 +76,7 @@ class FeedFilterForm extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ isValid, resetForm, isSubmitting, dirty }) => (
+        {({ isValid, dirty }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -98,13 +115,13 @@ class FeedFilterForm extends PureComponent {
               />
               <Button
                 className="margin-right-15"
-                onClick={resetForm}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid || isSubmitting || !dirty}
+                disabled={!isValid || !dirty}
                 primary
                 type="submit"
               >

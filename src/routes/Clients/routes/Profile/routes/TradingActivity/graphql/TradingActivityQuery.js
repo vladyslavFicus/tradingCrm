@@ -89,7 +89,7 @@ const REQUEST = gql`query TradingActivityQuery(
 
 const TradingActivityQuery = ({
   children,
-  location: { query },
+  location: { state },
   match: { params: { id: profileUUID } },
 }) => (
   <Query
@@ -97,7 +97,7 @@ const TradingActivityQuery = ({
     variables={{
       profileUUID,
       tradeType: 'LIVE',
-      ...(query && query.filters),
+      ...state?.filters,
       page: 0,
       limit: 20,
     }}
