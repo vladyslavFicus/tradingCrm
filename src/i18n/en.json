@@ -662,6 +662,7 @@
     "YES": "Yes",
     "NO": "No",
     "CUSTOM_REASON_OPTION": "Other",
+    "OTHER": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
@@ -703,6 +704,7 @@
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "AND_N_MORE": "and %{value} more ...",
     "LANGUAGE_NAME": {
+      "OTHER": "Other",
       "UK": "Ukrainian",
       "ZH": "Chinese",
       "AR": "Arabic",
