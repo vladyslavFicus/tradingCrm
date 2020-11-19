@@ -1405,12 +1405,10 @@
     },
     "FEED": {
       "FILTER_FORM": {
-        "SEARCH_BY_LABEL": "Search by",
+        "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPES": "Action types",
-        "ACTION_DATE_RANGE": "Action date range",
-        "CREATION_DATE_FROM": "Creation date from",
-        "CREATION_DATE_TO": "Creation date to"
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
       },
       "TITLE": "Feed"
     },
@@ -1992,13 +1990,13 @@
           "ROLE": "Role"
         },
         "LABEL": "Departments",
-        "ADD_BUTTON_LABEL": "+ADD"
+        "ADD_BUTTON_LABEL": "+ Add department"
       },
       "HIERARCHY": {
         "LABEL": "Hierarchy",
         "BRANCHES": "Branches",
         "NO_BRANCHES": "This user has no branches yet",
-        "ADD_BRANCH_LABEL": "Add Branch",
+        "ADD_BRANCH_LABEL": "+ Add Branch",
         "BRANCH_ADDED": "Branch %{name} successfully added",
         "ERROR_UPDATE_TYPE": "Update operator's user type failed. Please try again later",
         "SUCCESS_UPDATE_TYPE": "Successfully updated operator's user type",
@@ -2014,9 +2012,7 @@
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
           "PHONE": "Phone",
-          "SIP": "SIP",
-          "WHITE_LISTED_IP": "White listed IPs",
-          "RESTRICTED_COUNTRIES": "Restricted countries"
+          "SIP": "SIP"
         }
       }
     },

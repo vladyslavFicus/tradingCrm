@@ -1530,9 +1530,7 @@
           "FIRST_NAME": "名字",
           "LAST_NAME": "姓氏",
           "COUNTRY": "国家",
-          "PHONE": "电话",
-          "WHITE_LISTED_IP": "白名单中的 IP",
-          "RESTRICTED_COUNTRIES": "受限国家"
+          "PHONE": "电话"
         }
       }
     },

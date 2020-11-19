@@ -1,0 +1,37 @@
+.OperatorPersonal {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 25px;
+
+  & hr {
+    margin: 30px 0 25px 0;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  &__action {
+    &:not(:first-child) {
+      margin-left: 15px;
+    }
+  }
+
+  &__fields {
+    width: 100%;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(3, calc(33.3% - 20px * 3 / 4));
+  }
+
+  &__field {
+    margin: 0;
+  }
+}
