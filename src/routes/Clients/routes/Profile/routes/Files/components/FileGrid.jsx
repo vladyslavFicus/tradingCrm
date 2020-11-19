@@ -50,7 +50,7 @@ class FileGrid extends PureComponent {
   }
 
   state = {
-    previewFileLoading: false,
+    previewFileLoadingUuid: null,
     selectedVerificationStatusValue: '',
   }
 
@@ -76,7 +76,7 @@ class FileGrid extends PureComponent {
 
       const requestUrl = `${getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
 
-      this.setState({ previewFileLoading: true });
+      this.setState({ previewFileLoadingUuid: uuid });
 
       const response = await fetch(requestUrl, {
         method: 'GET',
@@ -89,7 +89,7 @@ class FileGrid extends PureComponent {
 
       const fileUrl = URL.createObjectURL(await response.blob());
 
-      this.setState({ previewFileLoading: false });
+      this.setState({ previewFileLoadingUuid: null });
 
       if (mediaType === 'application/pdf') {
         window.open(fileUrl, '_blank');
@@ -198,7 +198,7 @@ class FileGrid extends PureComponent {
           onClick={onClick}
         >
           {data.title}
-          <If condition={this.state.previewFileLoading}>
+          <If condition={this.state.previewFileLoadingUuid === data.uuid}>
             &nbsp;<ShortLoader height={15} />
           </If>
         </div>
