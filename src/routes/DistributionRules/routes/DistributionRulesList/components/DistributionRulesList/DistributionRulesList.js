@@ -261,6 +261,22 @@ class DistributionRules extends PureComponent {
     </Choose>
   );
 
+  renderLanguages = ({ languages }) => (
+    <Choose>
+      <When condition={languages}>
+        {languages.slice(0, 3).map(locale => (
+          <div key={locale} className="font-weight-600">
+            {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+          </div>
+        ))}
+        {languages.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: languages.length - 3 })}
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
+
   renderSalesStatus = ({ salesStatuses: statuses }) => (
     <Choose>
       <When condition={statuses}>
@@ -341,6 +357,7 @@ class DistributionRules extends PureComponent {
       rules: {
         data,
         loading,
+        refetch,
       },
     } = this.props;
 
@@ -372,7 +389,8 @@ class DistributionRules extends PureComponent {
             </div>
           </PermissionContent>
         </div>
-        <DistributionRulesFilters />
+
+        <DistributionRulesFilters handleRefetch={refetch} />
 
         <div className="card-body--table">
           <Grid
@@ -409,6 +427,10 @@ class DistributionRules extends PureComponent {
             <GridColumn
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.COUNTRY')}
               render={this.renderCountry}
+            />
+            <GridColumn
+              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LANGUAGES')}
+              render={this.renderLanguages}
             />
             <GridColumn
               header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SALES_STATUS')}

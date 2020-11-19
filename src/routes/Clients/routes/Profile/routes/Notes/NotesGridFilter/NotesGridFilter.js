@@ -10,7 +10,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
 import { attributeLabels } from '../constants';
 import AuthoritiesOptionsQuery from './graphql/AuthorityOptionsQuery';
@@ -24,25 +24,35 @@ class NotesGridFilter extends PureComponent {
       }),
       loading: PropTypes.bool.isRequired,
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
-
-    setSubmitting(false);
   };
 
   handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
   };
 
   render() {
     const {
-      location: { query },
+      handleRefetch,
+      location: { state },
       authoritiesOptions: {
         data,
         loading,
@@ -54,7 +64,7 @@ class NotesGridFilter extends PureComponent {
 
     return (
       <Formik
-        initialValues={query?.filters || {}}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
         validate={
           createValidator({
@@ -94,6 +104,10 @@ class NotesGridFilter extends PureComponent {
               withFocus
             />
             <div className="filter-row__button-block">
+              <RefreshButton
+                className="margin-right-15"
+                onClick={handleRefetch}
+              />
               <Button
                 className="margin-right-15"
                 onClick={this.handleReset}

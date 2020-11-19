@@ -1,11 +1,24 @@
 import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import PartnerFeedsFilterForm from './components/PartnerFeedsFilterForm';
 import PartnerFeedsList from './components/PartnerFeedsList';
+import FeedsQuery from './graphql/FeedsQuery';
 import './PartnerFeedsTab.scss';
 
 class PartnerFeedsTab extends PureComponent {
+  static propTypes = {
+    feedsQuery: PropTypes.query({
+      feeds: PropTypes.pageable(PropTypes.feed),
+    }).isRequired,
+  };
+
   render() {
+    const { feedsQuery } = this.props;
+
     return (
       <div className="PartnerFeedsTab">
         <div className="PartnerFeedsTab__header">
@@ -14,11 +27,17 @@ class PartnerFeedsTab extends PureComponent {
           </div>
         </div>
 
-        <PartnerFeedsFilterForm />
-        <PartnerFeedsList />
+        <PartnerFeedsFilterForm handleRefetch={feedsQuery.refetch} />
+        <PartnerFeedsList feedsQuery={feedsQuery} />
       </div>
     );
   }
 }
 
-export default PartnerFeedsTab;
+
+export default compose(
+  withRouter,
+  withRequests({
+    feedsQuery: FeedsQuery,
+  }),
+)(PartnerFeedsTab);

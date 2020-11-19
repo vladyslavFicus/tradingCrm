@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { intersection } from 'lodash';
+import classNames from 'classnames';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
@@ -55,6 +56,7 @@ class ClientsGridFilter extends PureComponent {
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
@@ -118,6 +120,7 @@ class ClientsGridFilter extends PureComponent {
       auth: { role, department },
       clientsLoading,
       partnersQuery,
+      handleRefetch,
       desksAndTeamsQuery,
       partnersQuery: { loading: isPartnersLoading },
       operatorsQuery: { loading: isOperatorsLoading },
@@ -133,6 +136,7 @@ class ClientsGridFilter extends PureComponent {
         enableReinitialize
         handleSubmit={this.handleSubmit}
         handleReset={this.handleReset}
+        handleRefetch={handleRefetch}
         initialValues={state?.filters || {}}
         isDataLoading={clientsLoading}
         validate={createValidator({
@@ -145,6 +149,7 @@ class ClientsGridFilter extends PureComponent {
           const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const operatorsOptions = this.filterOperators(values);
+          const languagesOptions = ['other', ...getAvailableLanguages()];
 
           return (
             <div className="ClientsGridFilter__fields">
@@ -205,7 +210,7 @@ class ClientsGridFilter extends PureComponent {
                 withFocus
                 multiple
               >
-                {getAvailableLanguages().map(locale => (
+                {languagesOptions.map(locale => (
                   <option key={locale} value={locale}>
                     {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                   </option>
@@ -293,8 +298,10 @@ class ClientsGridFilter extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    disabled={operatorStatus === operatorsStasuses.INACTIVE
-                    || operatorStatus === operatorsStasuses.CLOSED}
+                    className={classNames({
+                      'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                        || operatorStatus === operatorsStasuses.CLOSED,
+                    })}
                   >
                     {fullName}
                   </option>
@@ -380,6 +387,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.salesStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                searchable
                 withFocus
                 multiple
               >
@@ -396,6 +404,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.retentionStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                searchable
                 withFocus
                 multiple
               >
@@ -436,6 +445,7 @@ class ClientsGridFilter extends PureComponent {
                 label={I18n.t(attributeLabels.kycStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                searchable
                 withFocus
                 multiple
               >

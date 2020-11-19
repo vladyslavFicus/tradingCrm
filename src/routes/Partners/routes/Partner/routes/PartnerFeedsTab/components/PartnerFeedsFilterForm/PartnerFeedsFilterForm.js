@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
@@ -21,6 +21,7 @@ class PartnerFeedsFilterForm extends PureComponent {
         feedTypes: PropTypes.objectOf(PropTypes.string),
       }),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -28,14 +29,17 @@ class PartnerFeedsFilterForm extends PureComponent {
     setSubmitting(false);
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     this.props.history.replace({ query: { filters: {} } });
+
+    resetForm();
   };
 
   render() {
     const {
-      location: { query },
+      handleRefetch,
       feedTypesData,
+      location: { query },
     } = this.props;
 
     const feedTypes = get(feedTypesData, 'data.feedTypes') || {};
@@ -48,7 +52,7 @@ class PartnerFeedsFilterForm extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, dirty }) => (
+        {({ isSubmitting, resetForm, dirty }) => (
           <Form className="PartnerFeedsFilterForm__form">
             <Field
               name="searchBy"
@@ -88,9 +92,14 @@ class PartnerFeedsFilterForm extends PureComponent {
             />
 
             <div className="PartnerFeedsFilterForm__buttons">
+              <RefreshButton
+                className="PartnerFeedsFilterForm__button"
+                onClick={handleRefetch}
+              />
+
               <Button
                 className="PartnerFeedsFilterForm__button"
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting}
                 primary
               >

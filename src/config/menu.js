@@ -120,28 +120,45 @@ const sidebarBottomMenu = [{
   url: '/release-notes',
 }];
 
-const operatorProfileTabs = [
-  { label: 'OPERATOR_PROFILE.TABS.PROFILE', url: '/operators/:id/profile' },
-  { label: 'OPERATOR_PROFILE.TABS.FEED', url: '/operators/:id/feed' },
-];
+const operatorTabs = (isSales) => {
+  const tabs = [
+    { label: 'OPERATOR_PROFILE.TABS.PROFILE', url: '/operators/:id/profile' },
+    {
+      label: 'OPERATOR_PROFILE.TABS.FEED',
+      url: '/operators/:id/feed',
+      permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+    },
+  ];
+
+  // Check if operator profile userType is SALES to show sales rules tab
+  if (isSales) {
+    tabs.push({
+      label: 'OPERATOR_PROFILE.TABS.SALES_RULES',
+      url: '/operators/:id/sales-rules',
+      permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
+    });
+  }
+
+  return tabs;
+};
 
 const partnerTabs = [
   { label: 'PARTNER_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
-  {
-    label: 'PARTNER_PROFILE.TABS.FEED',
-    url: '/partners/:id/feed',
-    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
-  },
   {
     label: 'PARTNER_PROFILE.TABS.SALES_RULES',
     url: '/partners/:id/sales-rules',
     permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
   },
+  {
+    label: 'PARTNER_PROFILE.TABS.FEED',
+    url: '/partners/:id/feed',
+    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+  },
 ];
 
 export {
-  operatorProfileTabs,
   partnerTabs,
+  operatorTabs,
   sidebarTopMenu,
   sidebarBottomMenu,
   operatorsExcludeAuthorities,

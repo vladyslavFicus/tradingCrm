@@ -1,11 +1,9 @@
-import HierarchyQuery from './HierarchyQuery';
+import DesksAndTeamsQuery from './DesksAndTeamsQuery';
 import OperatorsQuery from './OperatorsQuery';
 import PaymentMethodsQuery from './PaymentMethodsQuery';
-import usersByBranchQuery from './usersByBranchQuery';
 
 export {
-  HierarchyQuery,
+  DesksAndTeamsQuery,
   OperatorsQuery,
   PaymentMethodsQuery,
-  usersByBranchQuery,
 };

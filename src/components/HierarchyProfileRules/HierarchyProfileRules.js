@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
@@ -24,9 +23,7 @@ import {
   BranchInfoQuery,
   BranchChildrenQuery,
   CreateRule,
-  CreateRuleRetention,
   DeleteRule,
-  DeleteRuleRetention,
 } from './graphql';
 import RuleModal from './components/RuleModal';
 import EditRuleModal from './components/EditRuleModal';
@@ -47,9 +44,7 @@ class HierarchyProfileRules extends PureComponent {
       branchInfo: PropTypes.hierarchyBranch,
     }).isRequired,
     createRule: PropTypes.func.isRequired,
-    createRuleRetention: PropTypes.func.isRequired,
     deleteRule: PropTypes.func.isRequired,
-    deleteRuleRetention: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       ruleModal: PropTypes.modalType,
       ruleModalRetention: PropTypes.modalType,
@@ -85,43 +80,6 @@ class HierarchyProfileRules extends PureComponent {
     });
   };
 
-  handleRenderButtonAddRule = (type) => {
-    let data = {};
-
-    switch (type) {
-      case branchTypes.DESK: {
-        const { branchChildrenQuery } = this.props;
-        const teams = get(branchChildrenQuery, 'data.branchChildren');
-
-        if (!branchChildrenQuery.loading) {
-          data = {
-            enabled: !!(teams && teams.length && teams.some(({ defaultUser }) => !!defaultUser)),
-            message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK'),
-          };
-        }
-        break;
-      }
-      case branchTypes.TEAM: {
-        const { branchInfoQuery } = this.props;
-
-        const branchInfo = get(branchInfoQuery, 'data.branchInfo');
-
-        if (!branchInfoQuery.loading) {
-          data = {
-            enabled: !!branchInfo.defaultUser,
-            message: I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM'),
-          };
-        }
-        break;
-      }
-      default: {
-        data = { enabled: true };
-      }
-    }
-
-    return this.renderButtonAddRule(data);
-  };
-
   triggerEditRuleModal = (uuid) => {
     const {
       modals: { editRuleModal },
@@ -133,11 +91,11 @@ class HierarchyProfileRules extends PureComponent {
     });
   };
 
-  handleEditRule = async (variables, uuid) => {
+  handleAddRule = async (variables, setErrors) => {
     const {
       notify,
       createRule,
-      modals: { editRuleModal },
+      modals: { ruleModal },
       match: { params: { id } },
       rulesQuery,
     } = this.props;
@@ -150,72 +108,10 @@ class HierarchyProfileRules extends PureComponent {
               parentBranch: id,
               ruleType: actionRuleTypes.ROUND_ROBIN,
             }],
-            uuid,
             ...decodeNullValues(variables),
           },
         },
       );
-
-      await rulesQuery.refetch();
-
-      editRuleModal.hide();
-
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
-    } catch (e) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
-      });
-    }
-  };
-
-  handleAddRule = async (variables, setErrors) => {
-    const {
-      notify,
-      createRule,
-      createRuleRetention,
-      modals: { ruleModal },
-      match: { params: { id } },
-      rulesQuery,
-      deskType,
-    } = this.props;
-
-    let request;
-
-    if (deskType === deskTypes.RETENTION) {
-      const { ruleType, ...data } = variables;
-      request = createRuleRetention(
-        {
-          variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType,
-            }],
-            ...decodeNullValues(data),
-          },
-        },
-      );
-    } else {
-      request = createRule(
-        {
-          variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-            }],
-            ...decodeNullValues(variables),
-          },
-        },
-      );
-    }
-
-    try {
-      await request;
 
       await rulesQuery.refetch();
 
@@ -259,22 +155,57 @@ class HierarchyProfileRules extends PureComponent {
     }
   };
 
+  handleEditRule = async (variables, uuid) => {
+    const {
+      notify,
+      createRule,
+      modals: { editRuleModal },
+      match: { params: { id } },
+      rulesQuery,
+    } = this.props;
+
+    try {
+      await createRule(
+        {
+          variables: {
+            actions: [{
+              parentBranch: id,
+              ruleType: actionRuleTypes.ROUND_ROBIN,
+            }],
+            uuid,
+            ...decodeNullValues(variables),
+          },
+        },
+      );
+
+      await rulesQuery.refetch();
+
+      editRuleModal.hide();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
+      });
+    }
+  };
+
   handleDeleteRule = uuid => async () => {
     const {
       notify,
       deleteRule,
-      deleteRuleRetention,
       rulesQuery,
       modals: { deleteModal },
-      deskType,
     } = this.props;
 
     try {
-      if (deskType === deskTypes.RETENTION) {
-        await deleteRuleRetention({ variables: { uuid } });
-      } else {
-        await deleteRule({ variables: { uuid } });
-      }
+      await deleteRule({ variables: { uuid } });
 
       await rulesQuery.refetch();
 
@@ -297,12 +228,12 @@ class HierarchyProfileRules extends PureComponent {
   handleDeleteRuleClick = (uuid) => {
     const {
       modals: { deleteModal },
-      rulesQuery: { data: rulesQueryData },
+      rulesQuery: { data },
     } = this.props;
 
-    const data = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
+    const rules = data?.rules || [];
 
-    const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
+    const { name } = rules.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
       onSubmit: this.handleDeleteRule(uuid),
@@ -312,34 +243,58 @@ class HierarchyProfileRules extends PureComponent {
     });
   };
 
-  renderButtonAddRule = ({ enabled, message }) => (
-    <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
-      <TabHeader
-        title={I18n.t(this.props.title)}
-        className="HierarchyProfileRules__header"
-      >
+  renderAddButtonWithTooltip = () => {
+    const { branchType, branchChildrenQuery, branchInfoQuery } = this.props;
+
+    let disabled = false;
+    let tooltipMessage = '';
+
+    switch (branchType) {
+      case branchTypes.DESK: {
+        const teams = branchChildrenQuery.data?.branchChildren;
+
+        disabled = !(teams && teams.length && teams.some(({ uuid }) => !!uuid));
+        tooltipMessage = I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK');
+
+        break;
+      }
+      case branchTypes.TEAM: {
+        const defaultUser = branchInfoQuery.data?.branchInfo?.defaultUser;
+
+        disabled = !defaultUser;
+        tooltipMessage = I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM');
+
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    return (
+      <>
         <Button
           id="add-rule"
           type="submit"
           onClick={this.triggerRuleModal}
-          disabled={!enabled}
+          disabled={disabled}
           commonOutline
           small
         >
           {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
         </Button>
-      </TabHeader>
 
-      <If condition={!enabled && message}>
-        <UncontrolledTooltip
-          placement="bottom"
-          target="add-rule"
-        >
-          {message}
-        </UncontrolledTooltip>
-      </If>
-    </PermissionContent>
-  );
+        <If condition={disabled && tooltipMessage}>
+          <UncontrolledTooltip
+            placement="bottom"
+            target="add-rule"
+          >
+            {tooltipMessage}
+          </UncontrolledTooltip>
+        </If>
+      </>
+    );
+  };
 
   renderRule = ({ uuid, name, createdBy }) => (
     <Fragment>
@@ -430,49 +385,56 @@ class HierarchyProfileRules extends PureComponent {
       >
         <i className="fa fa-trash btn-transparent color-danger" />
       </Button>
-      <If condition={this.props.deskType !== deskTypes.RETENTION}>
-        <Button
-          transparent
-        >
-          <i
-            onClick={() => this.triggerEditRuleModal(uuid)}
-            className="font-size-16 cursor-pointer fa fa-edit float-right"
-          />
-        </Button>
-      </If>
+      <Button
+        transparent
+      >
+        <i
+          onClick={() => this.triggerEditRuleModal(uuid)}
+          className="font-size-16 cursor-pointer fa fa-edit float-right"
+        />
+      </Button>
     </>
   );
 
   render() {
     const {
       rulesQuery: {
-        data: rulesQueryData,
+        data,
         loading,
+        refetch,
       },
       permission: {
         permissions: currentPermissions,
       },
-      branchType,
       deskType,
+      title,
     } = this.props;
 
-    const error = get(rulesQueryData, 'error') || get(rulesQueryData, 'error');
-
-    if (error) {
+    if (data?.error) {
       return null;
     }
 
-    const entities = get(rulesQueryData, 'rules') || get(rulesQueryData, 'rulesRetention') || [];
+    const entities = data?.rules || [];
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
       <div className="HierarchyProfileRules">
-        {this.handleRenderButtonAddRule(branchType)}
+        <TabHeader
+          title={I18n.t(title)}
+          className="HierarchyProfileRules__header"
+        >
+          <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
+            <If condition={deskType.toUpperCase() !== 'RETENTION'}>
+              {this.renderAddButtonWithTooltip()}
+            </If>
+          </PermissionContent>
+        </TabHeader>
 
         <RulesFilters
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          handleRefetch={refetch}
         />
 
         <div className="HierarchyProfileRules__grid">
@@ -537,9 +499,7 @@ export default (title, deskType, branchType) => props => (
         branchInfoQuery: BranchInfoQuery,
         branchChildrenQuery: BranchChildrenQuery,
         createRule: CreateRule,
-        createRuleRetention: CreateRuleRetention,
         deleteRule: DeleteRule,
-        deleteRuleRetention: DeleteRuleRetention,
       }),
     )(HierarchyProfileRules),
     { title, deskType, branchType, ...props },

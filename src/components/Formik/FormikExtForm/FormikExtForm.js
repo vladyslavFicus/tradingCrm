@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { isEqual } from 'lodash';
 import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import FilterSet from 'components/FilterSet';
 import FilterSetButtons from 'components/FilterSetButtons';
 
@@ -17,6 +17,7 @@ class ExtendedForm extends PureComponent {
     children: PropTypes.func.isRequired,
     enableReinitialize: PropTypes.bool,
     validate: PropTypes.func,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -52,14 +53,15 @@ class ExtendedForm extends PureComponent {
     this.setState({ prevValues: values });
   };
 
-  handleReset = (values, formikBag) => {
+  handleReset = (resetForm) => {
     const { handleReset, isDataLoading } = this.props;
 
     if (isDataLoading) {
       return;
     }
 
-    handleReset(values, formikBag);
+    handleReset();
+    resetForm({});
 
     this.setState({ selectedFilterDropdownItem: '' });
   };
@@ -82,6 +84,7 @@ class ExtendedForm extends PureComponent {
       validate,
       children,
       initialValues,
+      handleRefetch,
     } = this.props;
 
     const {
@@ -94,7 +97,6 @@ class ExtendedForm extends PureComponent {
         enableReinitialize={enableReinitialize}
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
         validate={validate}
       >
         {({
@@ -102,6 +104,7 @@ class ExtendedForm extends PureComponent {
           dirty,
           setValues,
           handleReset,
+          resetForm,
           ...formikBag
         }) => (
           <Fragment>
@@ -136,9 +139,13 @@ class ExtendedForm extends PureComponent {
                   />
 
                   <div className="filter__form-buttons-group">
+                    <If condition={handleRefetch}>
+                      <RefreshButton onClick={handleRefetch} />
+                    </If>
+
                     <Button
                       disabled={isDataLoading}
-                      onClick={handleReset}
+                      onClick={() => this.handleReset(resetForm)}
                       primary
                     >
                       {I18n.t('COMMON.RESET')}

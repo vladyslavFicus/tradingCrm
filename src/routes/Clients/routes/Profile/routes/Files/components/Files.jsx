@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
-import { v4 } from 'uuid';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { getGraphQLUrl, getVersion } from 'config';
@@ -11,7 +10,12 @@ import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
-import EventEmitter, { PROFILE_RELOAD, FILE_REMOVED, FILE_UPLOADED } from 'utils/EventEmitter';
+import EventEmitter, {
+  PROFILE_RELOAD,
+  FILE_REMOVED,
+  FILE_CHANGED,
+  FILE_UPLOADED,
+} from 'utils/EventEmitter';
 import NotFoundContent from 'components/NotFoundContent';
 import KYCNote from './KYCNote';
 import FileGrid from './FileGrid';
@@ -41,12 +45,14 @@ class Files extends PureComponent {
     EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
     EventEmitter.on(FILE_UPLOADED, this.onFileEvent);
     EventEmitter.on(FILE_REMOVED, this.onFileEvent);
+    EventEmitter.on(FILE_CHANGED, this.onFileEvent);
   }
 
   componentWillUnmount() {
     EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
     EventEmitter.off(FILE_UPLOADED, this.onFileEvent);
     EventEmitter.off(FILE_REMOVED, this.onFileEvent);
+    EventEmitter.off(FILE_CHANGED, this.onFileEvent);
   }
 
   onProfileEvent = () => {
@@ -202,6 +208,7 @@ class Files extends PureComponent {
       filesCategoriesData,
       filesCategoriesData: { loading },
       match: { params: { id } },
+      updateFileMeta,
     } = this.props;
 
     const verificationData = get(clientFilesData, 'clientFiles') || [];
@@ -229,13 +236,14 @@ class Files extends PureComponent {
           <When condition={verificationData.length}>
             {
               verificationData.map(({ documents, verificationType }) => (
-                documents.map(({ documentType, files, verificationStatus }) => (
+                documents.map(({ documentType, files, verificationStatus, verificationTime }) => (
                   <FileGrid
-                    key={`${verificationType}-${documentType}-${v4()}`}
+                    key={`${verificationType}-${documentType}-${verificationTime}`}
                     data={files}
                     categories={categories}
                     verificationType={verificationType}
                     verificationStatus={verificationStatus}
+                    updateFileMeta={updateFileMeta}
                     documentType={documentType}
                     handlePageChanged={this.handlePageChanged}
                     onStatusActionClick={this.handleStatusActionClick}

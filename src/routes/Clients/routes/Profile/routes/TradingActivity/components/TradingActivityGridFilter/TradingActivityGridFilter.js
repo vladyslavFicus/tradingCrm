@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import I18n from 'i18n-js';
+import { get } from 'lodash';
+import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -15,7 +16,7 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
-import { Button } from 'components/UI';
+import { Button, RefreshButton } from 'components/UI';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import {
@@ -37,29 +38,34 @@ class TradingActivityGridFilter extends PureComponent {
     operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.tradingActivityOriginalAgent),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleApplyFilters = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
-
-    setSubmitting(false);
   };
 
-  handleFilterReset = () => {
-    this.props.history.replace({
-      query: {
-        filters: {},
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
       },
     });
   };
 
   render() {
     const {
-      location: { query },
+      location: { state },
       operatorsQuery: {
         data: operatorsData,
         loading: operatorsLoading,
@@ -68,6 +74,7 @@ class TradingActivityGridFilter extends PureComponent {
         data: tradingAccountsData,
         loading: tradingAccountsLoading,
       },
+      handleRefetch,
     } = this.props;
 
     const accounts = get(tradingAccountsData, 'clientTradingAccounts') || [];
@@ -78,9 +85,9 @@ class TradingActivityGridFilter extends PureComponent {
 
     return (
       <Formik
-        initialValues={query?.filters || { tradeType: 'LIVE' }}
-        onSubmit={this.handleApplyFilters}
         enableReinitialize
+        initialValues={state?.filters || { tradeType: 'LIVE' }}
+        onSubmit={this.handleSubmit}
       >
         {({ dirty, isSubmitting }) => (
           <Form className="filter__form">
@@ -160,11 +167,9 @@ class TradingActivityGridFilter extends PureComponent {
                   <option
                     key={uuid}
                     value={uuid}
-                    className={operatorStatus === operatorsStasuses.INACTIVE
-                      || operatorStatus === operatorsStasuses.CLOSE
-                      ? 'color-inactive'
-                      : ''
-                    }
+                    className={classNames({
+                      'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                    })}
                   >
                     {fullName}
                   </option>
@@ -258,9 +263,13 @@ class TradingActivityGridFilter extends PureComponent {
               />
             </div>
             <div className="filter__form-buttons">
+              <RefreshButton
+                className="margin-right-15"
+                onClick={handleRefetch}
+              />
               <Button
                 className="margin-right-15"
-                onClick={this.handleFilterReset}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

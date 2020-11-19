@@ -74,7 +74,7 @@ class NotificationCenterForm extends PureComponent {
                 className="NotificationCenterForm__button"
                 onClick={handleReset}
                 disabled={!dirty}
-                common
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

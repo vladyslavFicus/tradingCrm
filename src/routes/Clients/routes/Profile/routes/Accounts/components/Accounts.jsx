@@ -95,7 +95,9 @@ class Accounts extends PureComponent {
           </PermissionContent>
         </TabHeader>
 
-        <ClientTradingAccountsGridFilter />
+        <ClientTradingAccountsGridFilter
+          handleRefetch={refetch}
+        />
 
         <TradingAccountsGrid
           tradingAccounts={tradingAccounts}

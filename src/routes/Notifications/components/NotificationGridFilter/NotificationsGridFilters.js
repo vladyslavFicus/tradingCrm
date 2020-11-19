@@ -7,10 +7,10 @@ import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
+import formatLabel from 'utils/formatLabel';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikDateRangeGroup, FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
-import formatLabel from 'utils/formatLabel';
+import { Button, RefreshButton } from 'components/UI';
 import NotificationTypesQuery from './graphql/NotificationTypesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
@@ -40,6 +40,7 @@ class NotificationsFilters extends PureComponent {
         WITHDRAWAL: PropTypes.arrayOf(PropTypes.string),
       }),
     }).isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   }
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
@@ -89,7 +90,7 @@ class NotificationsFilters extends PureComponent {
     setSubmitting(false);
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -98,10 +99,13 @@ class NotificationsFilters extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
     const {
+      handleRefetch,
       location: { state },
       desksAndTeamsQuery,
       notificationTypesQuery,
@@ -116,7 +120,7 @@ class NotificationsFilters extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ values, isSubmitting, dirty }) => {
+        {({ values, isSubmitting, resetForm, dirty }) => {
           const desksUuids = values.operatorDesks || [];
           const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
           const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
@@ -218,7 +222,6 @@ class NotificationsFilters extends PureComponent {
                   ))}
                 </Field>
 
-
                 <Field
                   name="notificationTypes"
                   className="NotificationsGridFilter__field NotificationsGridFilter__select"
@@ -252,7 +255,6 @@ class NotificationsFilters extends PureComponent {
                     </option>
                   ))}
                 </Field>
-
                 <FormikDateRangeGroup
                   className="NotificationsGridFilter__field NotificationsGridFilter__date-range"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
@@ -265,9 +267,14 @@ class NotificationsFilters extends PureComponent {
               </div>
 
               <div className="NotificationsGridFilter__buttons">
+                <RefreshButton
+                  className="NotificationsGridFilter__button"
+                  onClick={handleRefetch}
+                />
+
                 <Button
                   className="NotificationsGridFilter__button"
-                  onClick={this.handleReset}
+                  onClick={() => this.handleReset(resetForm)}
                   primary
                 >
                   {I18n.t('COMMON.RESET')}

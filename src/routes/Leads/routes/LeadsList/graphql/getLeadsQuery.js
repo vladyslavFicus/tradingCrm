@@ -65,8 +65,8 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
 }`;
 
 const getLeadsQuery = ({ children, location: { state } }) => {
-  const filters = { ...state?.filters };
-  const searchLimit = state?.filters?.searchLimit;
+  const filters = state?.filters;
+  const searchLimit = filters?.searchLimit;
   const size = (searchLimit && searchLimit < 20) ? searchLimit : 20;
 
   return (
@@ -78,11 +78,11 @@ const getLeadsQuery = ({ children, location: { state } }) => {
           page: {
             from: 0,
             size,
-            sorts: state ? state.sorts : [],
+            sorts: state?.sorts,
           },
         },
       }}
-      fetchPolicy="network-only"
+      fetchPolicy="cache-and-network"
       context={{ batch: false }}
     >
       {children}

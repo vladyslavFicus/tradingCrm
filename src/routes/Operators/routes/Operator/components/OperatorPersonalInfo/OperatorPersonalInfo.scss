@@ -1,0 +1,21 @@
+.OperatorPersonalInfo {
+  margin-right: 15px;
+  width: calc(33.3% - 10px);
+
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+  }
+}

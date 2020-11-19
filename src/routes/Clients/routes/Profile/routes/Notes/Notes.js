@@ -62,6 +62,7 @@ class Notes extends Component {
       notes: {
         data,
         loading,
+        refetch,
       },
     } = this.props;
 
@@ -74,7 +75,9 @@ class Notes extends Component {
     return (
       <Fragment>
         <TabHeader title={I18n.t('PLAYER_PROFILE.NOTES.TITLE')} />
-        <NotesGridFilter />
+
+        <NotesGridFilter handleRefetch={refetch} />
+
         <div className="tab-wrapper">
           <ListView
             dataSource={notes.content}

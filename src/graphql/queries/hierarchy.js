@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { HierarchyBranchFragment, HierarchyUserBranchFragment } from '../fragments/hierarchy';
+import { HierarchyBranchFragment } from '../fragments/hierarchy';
 
 const getUserHierarchy = gql`query getUserHierarchy {
   userHierarchy {
@@ -7,33 +7,6 @@ const getUserHierarchy = gql`query getUserHierarchy {
       uuid
       branchType
       name
-    }
-  }
-}`;
-
-const getUserHierarchyById = gql`query getUserHierarchyById(
-  $uuid: String!,
-) {
-  userHierarchyById (
-    uuid: $uuid,
-  ) {
-    uuid
-    userType
-    parentUsers {
-      uuid
-      userType
-    }
-    parentBranches {
-      branchType
-      uuid
-      name
-      brandId
-      parentBranch {
-        uuid
-      }
-    }
-    statistics {
-      totalSubordinatesCount
     }
   }
 }`;
@@ -94,30 +67,6 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   }
 }`;
 
-const getUserBranchesTreeUp = gql`query getUserBranchesTreeUp(
-  $userUUID: String!
-) {
-  # Maximum nested branches == 5 [COMPANY, BRAND, OFFICE, DESK, TEAM]
-  userBranchesTreeUp (
-    userUUID: $userUUID,
-  ) {
-    ...HierarchyUserBranchFragment
-    parentBranch {
-      ...HierarchyUserBranchFragment
-      parentBranch {
-        ...HierarchyUserBranchFragment
-        parentBranch {
-          ...HierarchyUserBranchFragment
-          parentBranch {
-            ...HierarchyUserBranchFragment
-          }
-        }
-      }
-    }
-  }
-}
-${HierarchyUserBranchFragment}`;
-
 const getBranchInfo = gql`query getBranchInfo(
   $branchId: String!,
 ) {
@@ -135,8 +84,6 @@ ${HierarchyBranchFragment}`;
 
 export {
   getUserHierarchy,
-  getUserHierarchyById,
   getUserBranchHierarchy,
   getBranchInfo,
-  getUserBranchesTreeUp,
 };

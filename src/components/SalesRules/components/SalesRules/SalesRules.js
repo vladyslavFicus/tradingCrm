@@ -276,15 +276,12 @@ class SalesRules extends PureComponent {
     const {
       modals: { deleteModal },
       rules: {
-        data: {
-          rules,
-          rulesRetention,
-        },
+        data,
       },
     } = this.props;
 
-    const data = rules || rulesRetention || [];
-    const { name } = data.find(({ uuid: ruleId }) => ruleId === uuid);
+    const rules = data?.rules || [];
+    const { name } = rules.find(({ uuid: ruleId }) => ruleId === uuid);
 
     deleteModal.show({
       onSubmit: this.handleDeleteRule(uuid),
@@ -458,10 +455,7 @@ class SalesRules extends PureComponent {
 
   render() {
     const {
-      rules: {
-        data,
-        loading,
-      },
+      rules,
       location: { query },
       permission: {
         permissions: currentPermissions,
@@ -476,8 +470,9 @@ class SalesRules extends PureComponent {
       isTab,
     } = this.props;
 
-    const entities = get(data, 'rules') || [];
+    const entities = get(rules, 'data.rules') || [];
     const filters = get(query, 'filters', {});
+    const isLoadingRules = rules.loading;
 
     const operators = get(operatorsData, 'operators.content') || [];
     const partners = get(partnersData, 'partners.content') || [];
@@ -492,7 +487,7 @@ class SalesRules extends PureComponent {
       <div className={classNames('SalesRules card', { 'no-borders': isTab })}>
         <div className="card-heading card-heading--is-sticky">
           <Placeholder
-            ready={!loading}
+            ready={!isLoadingRules}
             className={null}
             customPlaceholder={(
               <div>
@@ -521,6 +516,7 @@ class SalesRules extends PureComponent {
 
         <RulesFilters
           disabled={!allowActions}
+          handleRefetch={rules.refetch}
           countries={countries}
           partners={partners}
           operators={operators}
@@ -530,10 +526,10 @@ class SalesRules extends PureComponent {
         <div className="SalesRules__grid">
           <Grid
             data={entities}
-            isLoading={loading}
+            isLoading={isLoadingRules}
             isLastPage
             headerStickyFromTop={127}
-            withNoResults={!loading && entities.length === 0}
+            withNoResults={!isLoadingRules && entities.length === 0}
           >
             <GridColumn
               name="rule"

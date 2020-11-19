@@ -4,16 +4,17 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { createValidator } from 'utils/validator';
+import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { createValidator } from 'utils/validator';
 import './TeamsGridFilter.scss';
 
 class TeamsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     desksAndOffices: PropTypes.userBranchHierarchyResponse.isRequired,
+    handleRefetch: PropTypes.func.isRequired,
   };
 
   handleReset = (resetForm) => {
@@ -44,6 +45,7 @@ class TeamsGridFilter extends PureComponent {
 
   render() {
     const {
+      handleRefetch,
       desksAndOffices,
       location: { state },
     } = this.props;
@@ -118,6 +120,11 @@ class TeamsGridFilter extends PureComponent {
               </div>
 
               <div className="TeamsGridFilter__buttons">
+                <RefreshButton
+                  className="TeamsGridFilter__button"
+                  onClick={handleRefetch}
+                />
+
                 <Button
                   className="TeamsGridFilter__button"
                   onClick={() => this.handleReset(resetForm)}

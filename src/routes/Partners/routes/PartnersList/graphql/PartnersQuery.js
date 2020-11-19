@@ -46,10 +46,10 @@ const PartnersQuery = ({ children, location: { state } }) => (
       page: {
         from: 0,
         size: 20,
-        ...{ sorts: state?.sorts || [] },
+        sorts: state?.sorts,
       },
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

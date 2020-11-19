@@ -64,7 +64,7 @@ class ClientCallbacksTab extends PureComponent {
           </Button>
         </TabHeader>
 
-        <ClientCallbacksGridFilter />
+        <ClientCallbacksGridFilter handleRefetch={clientCallbacksData.refetch} />
         <ClientCallbacksGrid clientCallbacksData={clientCallbacksData} />
       </div>
     );

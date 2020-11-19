@@ -86,6 +86,11 @@
     &-name {
       width: 375px;
     }
+
+    &-title {
+      display: flex;
+      font-weight: 700;
+    }
   }
 
   &__delete-button {

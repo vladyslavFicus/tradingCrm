@@ -1,9 +1,7 @@
-/* eslint-disable */
-
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get, set, cloneDeep } from 'lodash';
+import { get, set } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -50,37 +48,32 @@ class PaymentsListGrid extends PureComponent {
     const {
       paymentsQuery,
       paymentsQuery: {
-        variables: { args },
         loadMore,
       },
     } = this.props;
 
-    const page = get(paymentsQuery, 'data.payments.number') || 0;
+    const page = paymentsQuery?.data?.payments?.number || 0;
 
-    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
+    loadMore(variables => set(variables, 'args.page.from', page + 1));
   };
 
-  handleSort = (sortData) => {
-    const { history } = this.props;
-    const query = get(history, 'location.query') || {};
-
-    const sorts = Object.keys(sortData)
-      .filter(sortingKey => sortData[sortingKey])
-      .map(sortingKey => ({
-        column: sortingKey,
-        direction: sortData[sortingKey],
-      }));
+  handleSort = (sortData, sorts) => {
+    const { history, location: { state } } = this.props;
 
     history.replace({
-      query: {
-        ...query,
+      state: {
+        ...state,
         sorts,
+        sortData,
       },
     });
   };
 
   render() {
     const {
+      location: {
+        state,
+      },
       clientView,
       handleRefresh,
       paymentsQuery,
@@ -96,6 +89,7 @@ class PaymentsListGrid extends PureComponent {
         <Grid
           data={content || []}
           handleSort={this.handleSort}
+          sorts={state?.sortData}
           handlePageChanged={this.handlePageChanged}
           headerStickyFromTop={headerStickyFromTop}
           isLoading={isLoading}

@@ -20,6 +20,13 @@ class LeadsList extends PureComponent {
     touchedRowsIds: [],
   };
 
+  componentDidUpdate(prevProps) {
+    // Clear selecting when filters or sorting changed
+    if (this.props.leadsQuery.loading && !prevProps.leadsQuery.loading) {
+      this.updateLeadsListState();
+    }
+  }
+
   updateLeadsListState = (
     allRowsSelected = false,
     touchedRowsIds = [],
@@ -40,7 +47,7 @@ class LeadsList extends PureComponent {
           updateLeadsListState={this.updateLeadsListState}
         />
 
-        <LeadsGridFilter />
+        <LeadsGridFilter handleRefetch={leadsQuery.refetch} />
 
         <LeadsGrid
           leadsQuery={leadsQuery}

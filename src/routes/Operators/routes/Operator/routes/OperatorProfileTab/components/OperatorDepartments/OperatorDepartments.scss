@@ -1,0 +1,63 @@
+.OperatorDepartments {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 25px;
+
+  &__title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  &__list {
+    margin-bottom: 20px;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+
+    &-title,
+    &-remove {
+      display: inline-block;
+    }
+
+    &-title {
+      font-weight: 700;
+    }
+
+    &-remove {
+      margin-left: 15px;
+      top: 1px;
+      color: #fb434a;
+      cursor: pointer;
+    }
+  }
+
+  &__form {
+    width: 100%;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+
+    &-field {
+      margin-bottom: 0;
+      grid-column: span 4;
+    }
+
+    &-buttons {
+      grid-column-start: 11;
+      grid-column-end: 13;
+      display: flex;
+      margin-left: auto;
+      align-self: flex-end;
+    }
+
+    &-button {
+      margin-right: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

@@ -53,14 +53,14 @@ const REQUEST = gql`
   ${NoteFragment}
 `;
 
-const getCallbacksQuery = ({ children, location: { query = {} } }) => (
+const getCallbacksQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query.filters,
+      ...state?.filters,
       limit: 20,
     }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>
@@ -69,7 +69,7 @@ const getCallbacksQuery = ({ children, location: { query = {} } }) => (
 getCallbacksQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.shape({
         searchKeyword: PropTypes.string,
         status: PropTypes.string,
