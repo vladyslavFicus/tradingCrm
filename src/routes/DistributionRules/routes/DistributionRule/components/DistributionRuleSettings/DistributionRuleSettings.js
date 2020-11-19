@@ -154,7 +154,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="affiliateUuids"
                 className="DistributionRuleSettings__form-field"
-                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABEL.AFFILIATE')}
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 disabled={partnersQuery.loading}

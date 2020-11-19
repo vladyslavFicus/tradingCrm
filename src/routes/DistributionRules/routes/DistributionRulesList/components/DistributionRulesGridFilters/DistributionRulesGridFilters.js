@@ -157,7 +157,7 @@ class DistributionRulesFilters extends PureComponent {
               </Field>
               <Field
                 name="firstTimeDeposit"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FIRST_TIME_DEPOSIT')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -174,9 +174,18 @@ class DistributionRulesFilters extends PureComponent {
                   ))
                 }
               </Field>
+              <FormikDateRangeGroup
+                className="DistributionRulesFilters__field DistributionRulesFilters__date-range"
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
+                periodKeys={{
+                  start: 'createdDateFrom',
+                  end: 'createdDateTo',
+                }}
+                withFocus
+              />
               <Field
                 name="executionPeriodsInHours"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
                 component={FormikSelectField}
@@ -190,15 +199,6 @@ class DistributionRulesFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
-              <FormikDateRangeGroup
-                className="DistributionRulesFilters__field DistributionRulesFilters__date-range"
-                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
-                periodKeys={{
-                  start: 'createdDateFrom',
-                  end: 'createdDateTo',
-                }}
-                withFocus
-              />
               <FormikDateRangeGroup
                 className="DistributionRulesFilters__field DistributionRulesFilters__date-range"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LAST_TIME_EXECUTED')}
