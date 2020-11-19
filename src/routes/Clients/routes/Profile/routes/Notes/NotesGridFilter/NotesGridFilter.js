@@ -27,24 +27,32 @@ class NotesGridFilter extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({
-      query: {
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
         filters: decodeNullValues(values),
       },
     });
-
-    setSubmitting(false);
   };
 
   handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
   };
 
   render() {
     const {
       handleRefetch,
-      location: { query },
+      location: { state },
       authoritiesOptions: {
         data,
         loading,
@@ -56,7 +64,7 @@ class NotesGridFilter extends PureComponent {
 
     return (
       <Formik
-        initialValues={query?.filters || {}}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
         validate={
           createValidator({

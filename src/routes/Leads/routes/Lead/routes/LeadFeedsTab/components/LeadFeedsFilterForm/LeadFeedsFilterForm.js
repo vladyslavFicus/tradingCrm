@@ -23,20 +23,31 @@ class LeadFeedsFilterForm extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(values) } });
-    setSubmitting(false);
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
   };
 
-  handleReset = (resetForm) => {
-    this.props.history.replace({ query: { filters: {} } });
+  handleReset = () => {
+    const { history, location: { state } } = this.props;
 
-    resetForm();
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
   };
 
   render() {
     const {
-      location: { query },
+      location: { state },
       feedTypesQuery,
       handleRefetch,
     } = this.props;
@@ -47,13 +58,12 @@ class LeadFeedsFilterForm extends PureComponent {
     return (
       <Formik
         className="LeadFeedsFilterForm"
-        initialValues={query?.filters || {}}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
         {({
           isSubmitting,
-          resetForm,
           dirty,
         }) => (
           <Form className="LeadFeedsFilterForm__form">
@@ -103,7 +113,7 @@ class LeadFeedsFilterForm extends PureComponent {
 
               <Button
                 className="LeadFeedsFilterForm__button"
-                onClick={() => this.handleReset(resetForm)}
+                onClick={this.handleReset}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

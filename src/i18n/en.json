@@ -658,6 +658,7 @@
     "YES": "Yes",
     "NO": "No",
     "CUSTOM_REASON_OPTION": "Other",
+    "OTHER": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
@@ -699,6 +700,7 @@
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "AND_N_MORE": "and %{value} more ...",
     "LANGUAGE_NAME": {
+      "OTHER": "Other",
       "UK": "Ukrainian",
       "ZH": "Chinese",
       "AR": "Arabic",
@@ -1455,22 +1457,46 @@
       }
     },
     "NOTIFICATIONS": {
-      "SUCCESS_UNLOCK": {
-        "TITLE": "success",
-        "MESSAGE": "Operator unlocked successfully"
+      "UNLOCK": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Operator unlocked successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to unlock operator"
+        }
       },
-      "ERROR_SET_NEW_PASSWORD": {
-        "TITLE": "Error",
-        "MESSAGE": "Failed to change password"
+      "RESET_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Reset password notification was sent to operator's email"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to reset password"
+        }
       },
-      "SUCCESS_SET_NEW_PASSWORD": {
-        "TITLE": "Success",
-        "MESSAGE": "Password changed successfully"
+      "CHANGE_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Password changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change password"
+        }
+      },
+      "CHANGE_ACCOUNT_STATUS": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Account status changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change account status"
+        }
       }
-    },
-    "ERROR_UNLOCK": {
-      "TITLE": "error",
-      "MESSAGE": "Operator unlocked unsuccessfully"
     }
   },
   "PARTNER_PROFILE": {
@@ -1737,6 +1763,9 @@
         "limit": {
           "exceed": "Insufficient funds due to opened orders. Please close all opened orders and complete previous withdrawals to proceed with the withdrawal."
         }
+      },
+      "country": {
+        "restricted": "Restricted country"
       }
     },
     "payment": {
@@ -3186,7 +3215,7 @@
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
-        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only %{percentage}% of clients for migration.",
+        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only 10000 clients for migration (%{percentage}%)",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage"
@@ -3282,7 +3311,10 @@
       "HEADLINE": "Notifications found",
       "SUBLINE": "Notifications selected",
       "MAX_ITEM_SELECTED": "Notifications selected",
-      "UPDATE_FAILED": "Failed update"
+      "UPDATE_FAILED": "Failed update",
+      "ERRORS": {
+        "SELECTED_MORE_THAN_MAX": "Only {{max}} notifications were selected due to the limit"
+      }
     }
   },
   "HIERARCHY": {
