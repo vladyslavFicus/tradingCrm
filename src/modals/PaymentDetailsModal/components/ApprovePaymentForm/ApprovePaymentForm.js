@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { manualPaymentMethodsLabels } from 'constants/payment';
@@ -53,10 +53,12 @@ class ApprovePaymentForm extends PureComponent {
 
       onSuccess();
     } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
+        message: error.message || I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
       });
     }
   }
