@@ -61,7 +61,7 @@ class ExtendedForm extends PureComponent {
     }
 
     handleReset();
-    resetForm({});
+    resetForm();
 
     this.setState({ selectedFilterDropdownItem: '' });
   };

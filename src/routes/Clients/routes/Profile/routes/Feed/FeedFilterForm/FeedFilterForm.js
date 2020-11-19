@@ -24,16 +24,35 @@ class FeedFilterForm extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleFiltersChanged = (filters, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(filters) } });
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
 
-    setSubmitting(false);
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+  };
+
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm();
   };
 
   render() {
     const {
       feedTypes,
       handleRefetch,
+      location: { state },
     } = this.props;
 
     const feedTypesList = get(feedTypes, 'data.feedTypes') || [];
@@ -47,9 +66,9 @@ class FeedFilterForm extends PureComponent {
 
     return (
       <Formik
-        initialValues={{}}
-        onSubmit={this.handleFiltersChanged}
-        onReset={this.handleFiltersChanged}
+        enableReinitialize
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
         validate={
           createValidator({
             searchBy: 'string',
@@ -103,7 +122,7 @@ class FeedFilterForm extends PureComponent {
               />
               <Button
                 className="margin-right-15"
-                onClick={resetForm}
+                onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >

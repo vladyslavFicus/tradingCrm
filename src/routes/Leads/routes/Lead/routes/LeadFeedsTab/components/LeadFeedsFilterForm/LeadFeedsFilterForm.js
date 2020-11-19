@@ -23,20 +23,33 @@ class LeadFeedsFilterForm extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(values) } });
-    setSubmitting(false);
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
   };
 
   handleReset = (resetForm) => {
-    this.props.history.replace({ query: { filters: {} } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
 
     resetForm();
   };
 
   render() {
     const {
-      location: { query },
+      location: { state },
       feedTypesQuery,
       handleRefetch,
     } = this.props;
@@ -47,7 +60,7 @@ class LeadFeedsFilterForm extends PureComponent {
     return (
       <Formik
         className="LeadFeedsFilterForm"
-        initialValues={query?.filters || {}}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >

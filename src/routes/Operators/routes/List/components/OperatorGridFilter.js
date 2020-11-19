@@ -37,7 +37,7 @@ class OperatorGridFilter extends Component {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {

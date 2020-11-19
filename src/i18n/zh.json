@@ -326,24 +326,6 @@
     "IP_LIST": {
       "TITLE": "最近10个IP的"
     },
-    "DEVICES": {
-      "FILTER": {
-        "LOGIN_DATE_RANGE": "登录日期范围",
-        "LABELS": {
-          "TYPE": "类型",
-          "OPERATING_SYSTEM": "操作系统"
-        }
-      },
-      "GRID_VIEW": {
-        "DEVICE_ID": "设备ID",
-        "TYPE": "类型",
-        "OPERATING_SYSTEM": "操作系统",
-        "LAST_IP": "最近一次的IP",
-        "LAST_LOGIN": "最近一次的登录",
-        "TOTAL_LOGIN": "总登录"
-      },
-      "TITLE": "设备"
-    },
     "PINNED_NOTES": {
       "TITLE": "嵌入的备注"
     },
@@ -422,7 +404,6 @@
       "PAYMENT_ACCOUNTS": "支付账户",
       "LIMITS": "限制",
       "FILES": "文件",
-      "DEVICES": "设备",
       "NOTES_AND_TAGS": "备注与标签",
       "FEED": "资讯"
     },
@@ -917,14 +898,6 @@
       "TYPES_ACTION": {
         "FORBID": "禁止",
         "ALLOW": "允许"
-      }
-    },
-    "DEVICES": {
-      "TYPES": {
-        "MOBILE": "手机版",
-        "DESKTOP": "桌面版",
-        "TABLET": "平板端",
-        "UNKNOWN": "未知"
       }
     },
     "SIGN_IN": {
@@ -1530,9 +1503,7 @@
           "FIRST_NAME": "名字",
           "LAST_NAME": "姓氏",
           "COUNTRY": "国家",
-          "PHONE": "电话",
-          "WHITE_LISTED_IP": "白名单中的 IP",
-          "RESTRICTED_COUNTRIES": "受限国家"
+          "PHONE": "电话"
         }
       }
     },
