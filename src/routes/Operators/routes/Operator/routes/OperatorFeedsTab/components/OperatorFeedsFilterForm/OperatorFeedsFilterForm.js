@@ -27,7 +27,14 @@ class OperatorFeedsFilterForm extends PureComponent {
   };
 
   handleReset = (resetForm) => {
-    this.props.history.replace({ state: { filters: {} } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
 
     resetForm();
   };
@@ -49,7 +56,12 @@ class OperatorFeedsFilterForm extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="OperatorFeedsFilterForm__form">
             <Field
               name="searchBy"
@@ -97,7 +109,7 @@ class OperatorFeedsFilterForm extends PureComponent {
               <Button
                 className="OperatorFeedsFilterForm__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

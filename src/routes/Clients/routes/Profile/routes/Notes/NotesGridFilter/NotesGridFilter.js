@@ -38,7 +38,7 @@ class NotesGridFilter extends PureComponent {
     });
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -47,6 +47,8 @@ class NotesGridFilter extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
@@ -75,7 +77,12 @@ class NotesGridFilter extends PureComponent {
         }
         enableReinitialize
       >
-        {({ isValid, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter-row">
             <Field
               name="department"
@@ -110,14 +117,15 @@ class NotesGridFilter extends PureComponent {
               />
               <Button
                 className="margin-right-15"
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
                 type="submit"
-                disabled={!isValid || !dirty}
+                disabled={!isSubmitting || !dirty}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

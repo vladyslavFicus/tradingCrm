@@ -52,7 +52,7 @@ class TradingActivityGridFilter extends PureComponent {
     });
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -61,6 +61,8 @@ class TradingActivityGridFilter extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
@@ -89,7 +91,12 @@ class TradingActivityGridFilter extends PureComponent {
         initialValues={state?.filters || { tradeType: 'LIVE' }}
         onSubmit={this.handleSubmit}
       >
-        {({ dirty, isSubmitting }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -269,7 +276,8 @@ class TradingActivityGridFilter extends PureComponent {
               />
               <Button
                 className="margin-right-15"
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

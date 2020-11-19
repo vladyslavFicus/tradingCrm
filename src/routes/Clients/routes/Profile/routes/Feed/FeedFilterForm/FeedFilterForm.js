@@ -35,7 +35,7 @@ class FeedFilterForm extends PureComponent {
     });
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -44,6 +44,8 @@ class FeedFilterForm extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
@@ -76,7 +78,12 @@ class FeedFilterForm extends PureComponent {
           }, translateLabels(attributeLabels), false)
         }
       >
-        {({ isValid, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter-row">
             <Field
               name="searchBy"
@@ -115,13 +122,14 @@ class FeedFilterForm extends PureComponent {
               />
               <Button
                 className="margin-right-15"
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                disabled={!isValid || !dirty}
+                disabled={isSubmitting || !dirty}
                 primary
                 type="submit"
               >

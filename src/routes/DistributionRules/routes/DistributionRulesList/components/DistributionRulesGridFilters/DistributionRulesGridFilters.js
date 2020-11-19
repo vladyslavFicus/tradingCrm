@@ -41,7 +41,7 @@ class DistributionRulesFilters extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({ isSubmitting, values, resetForm, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
@@ -192,7 +192,7 @@ class DistributionRulesFilters extends PureComponent {
 
               <Button
                 className="filter__form-button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 onClick={() => this.handleReset(resetForm)}
                 primary
               >

@@ -115,7 +115,7 @@ class LeadsGridFilter extends PureComponent {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   render() {
@@ -136,7 +136,12 @@ class LeadsGridFilter extends PureComponent {
           searchLimit: ['numeric', 'greater:0', 'max:5000'],
         }, translateLabels(attributeLabels))}
       >
-        {({ values, isSubmitting, dirty, resetForm }) => {
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => {
           const desksUuids = values.desks || [];
           const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
           const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
@@ -346,7 +351,7 @@ class LeadsGridFilter extends PureComponent {
 
                 <Button
                   className="LeadsGridFilter__button"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   onClick={() => this.handleReset(resetForm)}
                   primary
                 >

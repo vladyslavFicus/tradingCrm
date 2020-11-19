@@ -25,7 +25,7 @@ class LeadNotesTabFilter extends PureComponent {
     });
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -34,6 +34,8 @@ class LeadNotesTabFilter extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
@@ -48,7 +50,12 @@ class LeadNotesTabFilter extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="LeadNotesTabFilter">
             <FormikDateRangeGroup
               className="LeadNotesTabFilter__field LeadNotesTabFilter__date-range"
@@ -68,7 +75,8 @@ class LeadNotesTabFilter extends PureComponent {
 
               <Button
                 className="LeadNotesTabFilter__button"
-                onClick={this.handleReset}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -78,7 +86,7 @@ class LeadNotesTabFilter extends PureComponent {
                 className="LeadNotesTabFilter__button"
                 type="submit"
                 primary
-                disabled={!dirty}
+                disabled={isSubmitting || !dirty}
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>

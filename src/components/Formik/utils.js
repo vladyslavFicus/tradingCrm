@@ -1,5 +1,6 @@
 const isObject = val => typeof val === 'object' && !Array.isArray(val) && val !== null;
 
+// # Will be removed after refactoring ClientProfile page
 const encodeNullValues = (values) => {
   const newValues = { ...values };
 
@@ -15,6 +16,8 @@ const encodeNullValues = (values) => {
   return newValues;
 };
 
+// # Need to convert empty strings in input fields to null
+// # Need to check how to make values undefined on component level
 const decodeNullValues = (values) => {
   const newValues = { ...values };
 
@@ -22,7 +25,7 @@ const decodeNullValues = (values) => {
     const value = newValues[key];
 
     if (value === '') {
-      newValues[key] = null;
+      newValues[key] = undefined;
     } else if (isObject(value)) {
       newValues[key] = decodeNullValues(value);
     }

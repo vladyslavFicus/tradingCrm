@@ -127,7 +127,7 @@ class FormikSelectField extends Component {
           >
             {
               [
-                withAnyOption && <option key="any" value="">{I18n.t('COMMON.ANY')}</option>,
+                withAnyOption && <option key="any" value={undefined}>{I18n.t('COMMON.ANY')}</option>,
                 ...children,
               ]
             }

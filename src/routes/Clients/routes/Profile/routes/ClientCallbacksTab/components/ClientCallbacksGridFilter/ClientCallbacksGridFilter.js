@@ -26,7 +26,7 @@ class ClientCallbacksGridFilter extends PureComponent {
     });
   };
 
-  handleReset = () => {
+  handleReset = (resetForm) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -35,6 +35,8 @@ class ClientCallbacksGridFilter extends PureComponent {
         filters: null,
       },
     });
+
+    resetForm();
   };
 
   render() {
@@ -52,6 +54,8 @@ class ClientCallbacksGridFilter extends PureComponent {
       >
         {({
           isSubmitting,
+          resetForm,
+          values,
           dirty,
         }) => (
           <Form className="ClientCallbacksGridFilter__form">
@@ -98,8 +102,8 @@ class ClientCallbacksGridFilter extends PureComponent {
 
               <Button
                 className="ClientCallbacksGridFilter__button"
-                onClick={this.handleReset}
-                disabled={isSubmitting}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

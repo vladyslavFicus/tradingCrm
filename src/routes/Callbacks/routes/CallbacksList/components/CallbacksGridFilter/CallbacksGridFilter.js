@@ -57,6 +57,7 @@ class CallbacksGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          values,
           dirty,
         }) => (
           <Form className="CallbacksGridFilter__form">
@@ -105,7 +106,7 @@ class CallbacksGridFilter extends PureComponent {
               <Button
                 className="CallbacksGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
