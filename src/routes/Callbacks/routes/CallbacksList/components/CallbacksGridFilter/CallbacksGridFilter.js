@@ -16,29 +16,48 @@ class CallbacksGridFilter extends PureComponent {
   };
 
   handleSubmit = (values, { setSubmitting }) => {
-    this.props.history.replace({ query: { filters: decodeNullValues(values) } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+
     setSubmitting(false);
   };
 
-  handleReset = () => {
-    this.props.history.replace({ query: { filters: {} } });
-  };
+  handleReset = (resetForm) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm();
+  }
 
   render() {
     const {
-      location: { query },
+      location: { state },
       handleRefetch,
     } = this.props;
 
     return (
       <Formik
         className="CallbacksGridFilter"
-        initialValues={query?.filters || {}}
-        onSubmit={this.handleSubmit}
         enableReinitialize
+        initialValues={state?.filters || {}}
+        onSubmit={this.handleSubmit}
       >
         {({
           isSubmitting,
+          resetForm,
+          values,
           dirty,
         }) => (
           <Form className="CallbacksGridFilter__form">
@@ -55,7 +74,7 @@ class CallbacksGridFilter extends PureComponent {
             <Field
               name="statuses"
               className="CallbacksGridFilter__field CallbacksGridFilter__select"
-              placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t('CALLBACKS.FILTER.STATUS')}
               component={FormikSelectField}
               withAnyOption
@@ -86,8 +105,8 @@ class CallbacksGridFilter extends PureComponent {
 
               <Button
                 className="CallbacksGridFilter__button"
-                onClick={this.handleReset}
-                disabled={isSubmitting}
+                onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

@@ -26,7 +26,7 @@ class PartnersGridFilter extends PureComponent {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -58,6 +58,7 @@ class PartnersGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          values,
           dirty,
         }) => (
           <Form className="PartnersGridFilter__form">
@@ -122,7 +123,7 @@ class PartnersGridFilter extends PureComponent {
               <Button
                 className="PartnersGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

@@ -133,9 +133,10 @@ class OperatorHeader extends PureComponent {
       notify({
         level: 'error',
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.ERROR.TITLE'),
-        message: error.error === 'error.validation.password.repeated'
-          ? I18n.t(error.error)
-          : I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.ERROR.MESSAGE'),
+        message: I18n.t(
+          error.error,
+          { defaultValue: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.ERROR.MESSAGE') },
+        ),
       });
     }
   };

@@ -53,14 +53,15 @@ class ExtendedForm extends PureComponent {
     this.setState({ prevValues: values });
   };
 
-  handleReset = (values, formikBag) => {
+  handleReset = (resetForm) => {
     const { handleReset, isDataLoading } = this.props;
 
     if (isDataLoading) {
       return;
     }
 
-    handleReset(values, formikBag);
+    handleReset();
+    resetForm();
 
     this.setState({ selectedFilterDropdownItem: '' });
   };
@@ -96,7 +97,6 @@ class ExtendedForm extends PureComponent {
         enableReinitialize={enableReinitialize}
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
         validate={validate}
       >
         {({
@@ -104,6 +104,8 @@ class ExtendedForm extends PureComponent {
           dirty,
           setValues,
           handleReset,
+          isSubmitting,
+          resetForm,
           ...formikBag
         }) => (
           <Fragment>
@@ -143,16 +145,16 @@ class ExtendedForm extends PureComponent {
                     </If>
 
                     <Button
-                      disabled={isDataLoading}
-                      onClick={handleReset}
+                      onClick={() => this.handleReset(resetForm)}
+                      disabled={isDataLoading || isSubmitting || (!dirty && !Object.keys(values).length)}
                       primary
                     >
                       {I18n.t('COMMON.RESET')}
                     </Button>
 
                     <Button
-                      disabled={isDataLoading || !dirty}
                       type="submit"
+                      disabled={isDataLoading || isSubmitting || !dirty}
                       primary
                     >
                       {I18n.t('COMMON.APPLY')}

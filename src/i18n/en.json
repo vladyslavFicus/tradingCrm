@@ -346,24 +346,6 @@
         }
       }
     },
-    "DEVICES": {
-      "FILTER": {
-        "LOGIN_DATE_RANGE": "Login date range",
-        "LABELS": {
-          "TYPE": "Type",
-          "OPERATING_SYSTEM": "Operating system"
-        }
-      },
-      "GRID_VIEW": {
-        "DEVICE_ID": "Device ID",
-        "TYPE": "Type",
-        "OPERATING_SYSTEM": "Operating system",
-        "LAST_IP": "Last IP",
-        "LAST_LOGIN": "Last login",
-        "TOTAL_LOGIN": "Total login"
-      },
-      "TITLE": "Devices"
-    },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
     },
@@ -373,7 +355,7 @@
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
       "ERRORS": {
         "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
-        "LIMIT_EXCEED": "Cannot create transaction. Limit exceeded"
+        "LIMIT_EXCEED": "Insufficient funds due to opened orders. Please close all opened orders and complete previous withdrawals to proceed with the withdrawal."
       },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
@@ -448,7 +430,6 @@
       "PAYMENT_ACCOUNTS": "Payment Accounts",
       "LIMITS": "Limits",
       "FILES": "Files",
-      "DEVICES": "Devices",
       "NOTES_AND_TAGS": "Notes & Tags",
       "FEED": "Feed"
     },
@@ -662,6 +643,7 @@
     "YES": "Yes",
     "NO": "No",
     "CUSTOM_REASON_OPTION": "Other",
+    "OTHER": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
@@ -703,6 +685,7 @@
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "AND_N_MORE": "and %{value} more ...",
     "LANGUAGE_NAME": {
+      "OTHER": "Other",
       "UK": "Ukrainian",
       "ZH": "Chinese",
       "AR": "Arabic",
@@ -795,6 +778,7 @@
     "TITLE": "Files",
     "SEARCH_PLACEHOLDER": "File name, File ID",
     "STATUS_CHANGED": "File status successfully changed",
+    "DOCUMENT_RENAMED": "Document was successfully renamed",
     "DOCUMENT_TYPE_CHANGED": "Document type successfully changed",
     "CHANGE_VERIFICATION_STATUS": "Change verification status",
     "MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE": "Move to verification type > document type",
@@ -881,6 +865,13 @@
       },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName}"
+    },
+    "RENAME_MODAL": {
+      "TITLE": "Rename file",
+      "ACTION_TEXT": "You are about to rename file %{fileName}",
+      "PLACEHOLDERS": {
+        "TITLE": "New file name"
+      }
     },
     "CONFIRM_ACTION_MODAL": {
       "TITLE": "Delete file - Confirmation",
@@ -1159,14 +1150,6 @@
         "ALLOW": "Allow"
       }
     },
-    "DEVICES": {
-      "TYPES": {
-        "MOBILE": "Mobile",
-        "DESKTOP": "Desktop",
-        "TABLET": "Tablet",
-        "UNKNOWN": "Unknown"
-      }
-    },
     "SIGN_IN": {
       "DEPARTMENTS": {
         "CS": "Customer service",
@@ -1395,12 +1378,10 @@
     },
     "FEED": {
       "FILTER_FORM": {
-        "SEARCH_BY_LABEL": "Search by",
+        "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPES": "Action types",
-        "ACTION_DATE_RANGE": "Action date range",
-        "CREATION_DATE_FROM": "Creation date from",
-        "CREATION_DATE_TO": "Creation date to"
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
       },
       "TITLE": "Feed"
     },
@@ -1745,6 +1726,9 @@
       "password": {
         "repeated": "You used this password recently. Please choose a different one",
         "nonEquals": "Old password value is wrong"
+      },
+      "country": {
+        "restricted": "Restricted country"
       }
     },
     "payment": {
@@ -1979,13 +1963,13 @@
           "ROLE": "Role"
         },
         "LABEL": "Departments",
-        "ADD_BUTTON_LABEL": "+ADD"
+        "ADD_BUTTON_LABEL": "+ Add department"
       },
       "HIERARCHY": {
         "LABEL": "Hierarchy",
         "BRANCHES": "Branches",
         "NO_BRANCHES": "This user has no branches yet",
-        "ADD_BRANCH_LABEL": "Add Branch",
+        "ADD_BRANCH_LABEL": "+ Add Branch",
         "BRANCH_ADDED": "Branch %{name} successfully added",
         "ERROR_UPDATE_TYPE": "Update operator's user type failed. Please try again later",
         "SUCCESS_UPDATE_TYPE": "Successfully updated operator's user type",
@@ -2001,9 +1985,7 @@
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
           "PHONE": "Phone",
-          "SIP": "SIP",
-          "WHITE_LISTED_IP": "White listed IPs",
-          "RESTRICTED_COUNTRIES": "Restricted countries"
+          "SIP": "SIP"
         }
       }
     },
@@ -2962,7 +2944,7 @@
   "RULES": {
     "FILTERS": {
       "RULE": "Rule UUID",
-      "OPERATOR": "Operator",
+      "OPERATORS": "Operators",
       "PARTNER": "Partner"
     }
   },
@@ -3093,6 +3075,7 @@
       "SOURCE_BRAND": "Source Brand",
       "TARGET_BRAND": "Target Brand",
       "COUNTRY": "Client Country",
+      "LANGUAGES": "Client language",
       "SALES_STATUS": "Client Sales Status",
       "CREATED_TIME": "Rule Created Time",
       "TIME_IN_STATUS": "Time in Status",
@@ -3114,8 +3097,10 @@
       "SOURCE_BRAND": "Source Brand",
       "TARGET_BRAND": "Target Brand",
       "COUNTRY": "Client Country",
+      "LANGUAGES": "Languages",
       "RULE_STATUS": "Rule status",
       "SALES_STATUS": "Sales Status",
+      "FIRST_TIME_DEPOSIT": "First time deposit",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
       "TIME_IN_STATUS": "Time in Status"
@@ -3166,7 +3151,9 @@
         "COUNTRY": "Country",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
-        "EXECUTION_TYPE": "Rule Execution Type"
+        "EXECUTION_TYPE": "Rule Execution Type",
+        "FIRST_TIME_DEPOSIT": "First time deposit",
+        "LANGUAGE": "Language"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
@@ -3204,6 +3191,7 @@
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
+        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only 10000 clients for migration (%{percentage}%)",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage"
@@ -3299,7 +3287,10 @@
       "HEADLINE": "Notifications found",
       "SUBLINE": "Notifications selected",
       "MAX_ITEM_SELECTED": "Notifications selected",
-      "UPDATE_FAILED": "Failed update"
+      "UPDATE_FAILED": "Failed update",
+      "ERRORS": {
+        "SELECTED_MORE_THAN_MAX": "Only {{max}} notifications were selected due to the limit"
+      }
     }
   },
   "HIERARCHY": {

@@ -204,6 +204,7 @@ class CreateOperatorModal extends PureComponent {
                     name="userType"
                     className="col-md-6"
                     label={I18n.t(attributeLabels.userType)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
                     searchable
                   >

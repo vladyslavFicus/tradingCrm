@@ -10,6 +10,7 @@ const MUTATION = gql`
     $salesStatus: String
     $retentionStatus: String
     $searchParams: ClientSearch__Input
+    $sorts: [Sort__Input]
     $bulkSize: Int
   ) {
     hierarchy {
@@ -19,6 +20,7 @@ const MUTATION = gql`
         salesStatus: $salesStatus
         retentionStatus: $retentionStatus
         searchParams: $searchParams
+        sorts: $sorts
         bulkSize: $bulkSize
       )
     }

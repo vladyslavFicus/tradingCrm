@@ -33,7 +33,7 @@ class FilesGridFilter extends PureComponent {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -143,6 +143,7 @@ class FilesGridFilter extends PureComponent {
               <Button
                 className="FilesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -150,7 +151,7 @@ class FilesGridFilter extends PureComponent {
 
               <Button
                 className="FilesGridFilter__button"
-                disabled={!dirty || isSubmitting}
+                disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
               >

@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import { AddressFragment } from '../fragments/address';
 
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
   $playerUUID: String!
@@ -77,34 +76,6 @@ const updateConfigurationMutation = gql`mutation updateConfiguration(
   }
 }`;
 
-const updateAddressMutation = gql`mutation updateAddress(
-  $playerUUID: String!
-  $countryCode: String
-  $city: String
-  $state: String
-  $postCode: String
-  $poBox: String
-  $address: String
-) {
-  profile {
-    updateAddress(
-      playerUUID: $playerUUID
-      countryCode: $countryCode
-      city: $city
-      state: $state
-      postCode: $postCode
-      poBox: $poBox
-      address: $address
-    ) {
-      _id
-      address {
-        ...AddressFragment
-      }
-    }
-  }
-}
-${AddressFragment}`;
-
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
@@ -118,6 +89,5 @@ export {
   updatePersonalInformationMutation,
   updateConfigurationMutation,
   verifyEmailMutation,
-  updateAddressMutation,
   updateEmailMutation,
 };

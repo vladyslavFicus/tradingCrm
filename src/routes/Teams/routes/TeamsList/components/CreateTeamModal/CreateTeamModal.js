@@ -118,7 +118,7 @@ class CreateTeamModal extends PureComponent {
               disabled={isSubmitting}
               type="submit"
             >
-              {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+              {I18n.t('TEAMS.MODAL.CREATE_BUTTON')}
             </Button>
           </ModalFooter>
         </Form>

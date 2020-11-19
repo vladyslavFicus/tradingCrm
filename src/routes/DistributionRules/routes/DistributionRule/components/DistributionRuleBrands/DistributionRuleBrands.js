@@ -38,6 +38,8 @@ class DistributionRuleBrands extends PureComponent {
         PropTypes.number,
         PropTypes.string,
       ]),
+      languages: PropTypes.arrayOf(PropTypes.string),
+      firstTimeDeposit: PropTypes.bool,
     }).isRequired,
     sourceBrandConfig: PropTypes.ruleSourceBrandConfigsType,
     targetBrandConfig: PropTypes.ruleSourceBrandConfigsType,
@@ -59,6 +61,10 @@ class DistributionRuleBrands extends PureComponent {
     targetBrandConfig: null,
   }
 
+  state = {
+    sourceBrandAvailableAmount: null,
+  }
+
   handleAddSourceBrand = () => {
     const {
       modals: { addSourceBrandModal },
@@ -77,7 +83,8 @@ class DistributionRuleBrands extends PureComponent {
         initialValues: sourceBrandConfig,
       },
       fetchAvailableClientsAmount: this.fetchAvailableClientsAmount,
-      handleSubmit: (values) => {
+      handleSubmit: ({ availableClientsAmount, ...values }) => {
+        this.setState({ sourceBrandAvailableAmount: availableClientsAmount });
         handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
       },
@@ -100,13 +107,16 @@ class DistributionRuleBrands extends PureComponent {
       targetBrandConfig,
       brandsQuery,
     } = this.props;
+    const { sourceBrandAvailableAmount } = this.state;
 
     const brands = brandsQuery?.data?.brands || [];
 
     addTargetBrandModal.show({
       brands,
       sourceBrandId,
-      sourceBrandQuantity,
+      sourceBrandQuantity: sourceBrandBaseUnit === 'PERCENTAGE'
+        ? Math.floor(sourceBrandAvailableAmount * sourceBrandQuantity / 100)
+        : sourceBrandQuantity,
       initialValues: {
         ...targetBrandConfig,
         distributionUnit: {
@@ -131,8 +141,10 @@ class DistributionRuleBrands extends PureComponent {
       generalSettings: {
         salesStatuses,
         countries,
+        languages,
         registrationPeriodInHours,
         executionPeriodInHours,
+        firstTimeDeposit,
       },
     } = this.props;
 
@@ -144,8 +156,10 @@ class DistributionRuleBrands extends PureComponent {
           targetBrand,
           salesStatuses,
           countries,
+          languages,
           registrationPeriodInHours,
           executionPeriodInHours,
+          firstTimeDeposit,
         },
         fetchPolicy: 'network-only',
       });

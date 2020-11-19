@@ -29,12 +29,12 @@ class PaymentsList extends PureComponent {
     } = this.props;
 
     paymentsQuery.refetch({
-      ...(query && query.filters),
+      ...query?.filters,
       requestId: Math.random().toString(36).slice(2),
       page: {
         from: 0,
         size: 20,
-        sorts: (query && query.sorts) || [],
+        sorts: query?.sorts,
       },
     });
   };
