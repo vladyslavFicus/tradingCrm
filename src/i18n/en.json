@@ -346,24 +346,6 @@
         }
       }
     },
-    "DEVICES": {
-      "FILTER": {
-        "LOGIN_DATE_RANGE": "Login date range",
-        "LABELS": {
-          "TYPE": "Type",
-          "OPERATING_SYSTEM": "Operating system"
-        }
-      },
-      "GRID_VIEW": {
-        "DEVICE_ID": "Device ID",
-        "TYPE": "Type",
-        "OPERATING_SYSTEM": "Operating system",
-        "LAST_IP": "Last IP",
-        "LAST_LOGIN": "Last login",
-        "TOTAL_LOGIN": "Total login"
-      },
-      "TITLE": "Devices"
-    },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
     },
@@ -448,7 +430,6 @@
       "PAYMENT_ACCOUNTS": "Payment Accounts",
       "LIMITS": "Limits",
       "FILES": "Files",
-      "DEVICES": "Devices",
       "NOTES_AND_TAGS": "Notes & Tags",
       "FEED": "Feed"
     },
@@ -1167,14 +1148,6 @@
       "TYPES_ACTION": {
         "FORBID": "Forbid",
         "ALLOW": "Allow"
-      }
-    },
-    "DEVICES": {
-      "TYPES": {
-        "MOBILE": "Mobile",
-        "DESKTOP": "Desktop",
-        "TABLET": "Tablet",
-        "UNKNOWN": "Unknown"
       }
     },
     "SIGN_IN": {
