@@ -58,6 +58,7 @@ class OperatorFeedsFilterForm extends PureComponent {
       >
         {({
           isSubmitting,
+          resetForm,
           values,
           dirty,
         }) => (
