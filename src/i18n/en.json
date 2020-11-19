@@ -3088,7 +3088,8 @@
       "FIRST_TIME_DEPOSIT": "First time deposit",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
-      "TIME_IN_STATUS": "Time in Status"
+      "TIME_IN_STATUS": "Time in Status",
+      "AFFILIATE": "Affiliate"
     },
     "MIGRATION_MODAL": {
       "TITLE": "Start migration",
@@ -3137,8 +3138,9 @@
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "FIRST_TIME_DEPOSIT": "First time deposit",
-        "LANGUAGE": "Language"
+        "LANGUAGE": "Language",
+        "AFFILIATE": "Affiliate",
+        "FIRST_TIME_DEPOSIT": "First time deposit"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
