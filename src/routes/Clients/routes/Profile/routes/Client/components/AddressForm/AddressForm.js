@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -58,11 +58,15 @@ class AddressForm extends PureComponent {
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
-    } catch {
+    } catch (e) {
+      const { error } = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+        message: error === 'error.validation.country.restricted'
+          ? I18n.t(error)
+          : `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
       });
     }
 
