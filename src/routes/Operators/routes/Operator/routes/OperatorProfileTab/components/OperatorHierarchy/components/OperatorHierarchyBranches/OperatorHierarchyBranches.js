@@ -56,9 +56,9 @@ class OperatorHierarchyBranches extends PureComponent {
   }
 
   toggleAddBranchFormVisibility = () => {
-    const { isVisibleAddBranchForm } = this.state;
-
-    this.setState({ isVisibleAddBranchForm: !isVisibleAddBranchForm });
+    this.setState(({ isVisibleAddBranchForm }) => ({
+      isVisibleAddBranchForm: !isVisibleAddBranchForm,
+    }));
   }
 
   handleConfirmAction = (branch, action) => {

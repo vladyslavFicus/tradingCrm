@@ -23,6 +23,9 @@ const attributeLabels = {
   role: 'OPERATORS.PROFILE.DEPARTMENTS.LABELS.ROLE',
 };
 
+// unAvailableDepartments - is departments that can't be set to Operator
+const unAvailableDepartments = ['AFFILIATE', 'AFFILIATE_PARTNER', 'PLAYER'];
+
 class OperatorDepartments extends PureComponent {
   static propTypes = {
     auth: PropTypes.auth.isRequired,
@@ -43,9 +46,9 @@ class OperatorDepartments extends PureComponent {
   }
 
   toggleDepartmentCreationFormVisibility = () => {
-    const { isVisibleDepartmentCreationForm } = this.state;
-
-    this.setState({ isVisibleDepartmentCreationForm: !isVisibleDepartmentCreationForm });
+    this.setState(({ isVisibleDepartmentCreationForm }) => ({
+      isVisibleDepartmentCreationForm: !isVisibleDepartmentCreationForm,
+    }));
   }
 
   handleAddAuthority = async ({ department, role }, { setSubmitting, resetForm }) => {
@@ -121,8 +124,6 @@ class OperatorDepartments extends PureComponent {
 
     const operatorDepartments = operatorAuthorities.map(({ department }) => department);
 
-    // unAvailableDepartments - is departments that can't be set to Operator
-    const unAvailableDepartments = ['AFFILIATE', 'AFFILIATE_PARTNER', 'PLAYER'];
     const availableDepartments = Object.keys(authorities)
       .filter(department => ![...operatorDepartments, ...unAvailableDepartments].includes(department));
 

@@ -34,7 +34,6 @@ class OperatorFeedsTab extends PureComponent {
   }
 }
 
-
 export default compose(
   withRouter,
   withRequests({
