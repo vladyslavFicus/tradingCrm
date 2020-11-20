@@ -142,14 +142,14 @@ class DistributionRulesFilters extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="country"
+                name="countries"
                 className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.COUNTRY')}
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {Object.keys(countryList).map(key => (
                   <option key={key} value={key}>{countryList[key]}</option>
