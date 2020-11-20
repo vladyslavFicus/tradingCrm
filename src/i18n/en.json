@@ -1411,6 +1411,23 @@
         "TITLE": "Send invitation to operator - Confirmation",
         "ACTION_TEXT": "You are about to send an invitation to operator",
         "CONFIRM_ACTION": "Send invitation"
+      },
+      "CHANGE_ACCOUNT_STATUS_MODAL": {
+        "WARNING_CLIENTS": {
+          "BEFORE_LINK": "has %{count} assigned clients. Please, go to ",
+          "LINK": "Clients Search Page",
+          "AFTER_LINK": " to re-assign all clients to another active operator."
+        },
+        "WARNING_LEADS": {
+          "BEFORE_LINK": "has %{count} assigned leads. Please, go to ",
+          "LINK": "Leads Search Page",
+          "AFTER_LINK": " to re-assign all leads to another active operator."
+        },
+        "WARNING_RULES": {
+          "BEFORE_LINK": "has %{count} assigned sales rules. Please, go to ",
+          "LINK": "Sales Rules Page",
+          "AFTER_LINK": " to re-assign all rules to another active operator."
+        }
       }
     },
     "IP_LIST": {
@@ -2356,22 +2373,7 @@
     },
     "CHANGE_ACCOUNT_STATUS_MODAL": {
       "TITLE": "Change account status",
-      "SUBMIT_BUTTON": "Change status",
-      "WARNING_CLIENTS": {
-        "BEFORE_LINK": "has %{count} assigned clients. Please, go to ",
-        "LINK": "Clients Search Page",
-        "AFTER_LINK": " to re-assign all clients to another active operator."
-      },
-      "WARNING_LEADS": {
-        "BEFORE_LINK": "has %{count} assigned leads. Please, go to ",
-        "LINK": "Leads Search Page",
-        "AFTER_LINK": " to re-assign all leads to another active operator."
-      },
-      "WARNING_RULES": {
-        "BEFORE_LINK": "has %{count} assigned sales rules. Please, go to ",
-        "LINK": "Sales Rules Page",
-        "AFTER_LINK": " to re-assign all rules to another active operator."
-      }
+      "SUBMIT_BUTTON": "Change status"
     },
     "ADD_OPERATOR_TO_BRANCH": {
       "TITLE": "Add operator",

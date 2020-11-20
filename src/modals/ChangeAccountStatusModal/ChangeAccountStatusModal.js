@@ -1,17 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
-import { Link } from 'components/Link';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
-import OperatorRelationsCountQuery from './graphql/OperatorRelationsCountQuery';
-import './ChangeAccountStatusModal.scss';
 
 const attributeLabels = {
   reason: 'COMMON.REASON',
@@ -23,16 +18,12 @@ class ChangeAccountStatusModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     reasons: PropTypes.objectOf(PropTypes.string).isRequired,
-    fullName: PropTypes.string.isRequired,
-    operatorRelationsCountQuery: PropTypes.query({
-      operatorRelationsCount: PropTypes.shape({
-        customersCount: PropTypes.number,
-        leadsCount: PropTypes.number,
-        rulesCount: PropTypes.number,
-      }),
-    }).isRequired,
-    withSubordinatesWarnings: PropTypes.bool.isRequired,
-  }
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  };
+
+  static defaultProps = {
+    message: null,
+  };
 
   handleSubmit = (values, { setSubmitting }) => {
     const { onSubmit, onCloseModal } = this.props;
@@ -41,76 +32,12 @@ class ChangeAccountStatusModal extends PureComponent {
     setSubmitting(false);
   }
 
-  renderMessage = ({
-    name,
-    link,
-    count,
-    operatorName,
-  }) => (
-    <p className={classNames({ ChangeAccountStatusModal__message: !operatorName })}>
-      {operatorName && `${operatorName} `}
-      {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.BEFORE_LINK`, { count })}
-      <Link to={link} className="ChangeAccountStatusModal__link">
-        {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.LINK`)}
-      </Link>
-      {I18n.t(`MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.AFTER_LINK`)}
-    </p>
-  );
-
-  renderMessages = () => {
-    const {
-      fullName,
-      operatorRelationsCountQuery: { data },
-    } = this.props;
-
-    const {
-      customersCount,
-      leadsCount,
-      rulesCount,
-    } = data?.operatorRelationsCount || {};
-
-    const isListType = (customersCount && leadsCount)
-      || (customersCount && rulesCount)
-      || (leadsCount && rulesCount);
-    const operatorName = isListType ? null : fullName;
-
-    return (
-      <div>
-        <If condition={isListType}>{fullName}</If>
-        <If condition={customersCount}>
-          {this.renderMessage({
-            name: 'CLIENTS',
-            link: '/clients/list',
-            count: customersCount,
-            operatorName,
-          })}
-        </If>
-        <If condition={leadsCount}>
-          {this.renderMessage({
-            name: 'LEADS',
-            link: '/leads/list',
-            count: leadsCount,
-            operatorName,
-          })}
-        </If>
-        <If condition={rulesCount}>
-          {this.renderMessage({
-            name: 'RULES',
-            link: '/sales-rules',
-            count: rulesCount,
-            operatorName,
-          })}
-        </If>
-      </div>
-    );
-  };
-
   render() {
     const {
       isOpen,
+      message,
       reasons,
       onCloseModal,
-      withSubordinatesWarnings,
     } = this.props;
 
     const reasonsKeys = Object.keys(reasons);
@@ -157,8 +84,8 @@ class ChangeAccountStatusModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                <If condition={withSubordinatesWarnings}>
-                  {this.renderMessages()}
+                <If condition={message}>
+                  {message}
                 </If>
               </ModalBody>
 
@@ -186,6 +113,4 @@ class ChangeAccountStatusModal extends PureComponent {
   }
 }
 
-export default withRequests({
-  operatorRelationsCountQuery: OperatorRelationsCountQuery,
-})(ChangeAccountStatusModal);
+export default ChangeAccountStatusModal;

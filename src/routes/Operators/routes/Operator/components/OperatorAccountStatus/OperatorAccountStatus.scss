@@ -67,4 +67,40 @@
       }
     }
   }
+
+  &__modal-warning {
+    & li {
+      display: inline;
+      line-height: 1.3em;
+    }
+
+    & b {
+      margin-right: 5px;
+    }
+
+    & a {
+      color: #2196f3;
+    }
+
+    &--list {
+      & b {
+        display: block;
+        margin: 0 0 5px 0;
+      }
+
+      & li {
+        display: block;
+        position: relative;
+        padding-left: 20px;
+        line-height: 1.4em;
+
+        &:before {
+          content: '\26AC';
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+    }
+  }
 }

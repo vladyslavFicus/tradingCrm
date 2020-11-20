@@ -13,7 +13,9 @@ import EventEmitter, { OPERATOR_ACCOUNT_STATUS_CHANGED } from 'utils/EventEmitte
 import PropTypes from 'constants/propTypes';
 import { statuses, statusesLabels, statusActions, statusColorNames } from 'constants/operators';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
+import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
+import OperatorRelationsCountQuery from './graphql/OperatorRelationsCountQuery';
 import OperatorAccountStatusMutation from './graphql/OperatorAccountStatusMutation';
 import './OperatorAccountStatus.scss';
 
@@ -28,6 +30,13 @@ class OperatorAccountStatus extends PureComponent {
       changeAccountStatusModal: PropTypes.modalType,
     }).isRequired,
     notify: PropTypes.func.isRequired,
+    operatorRelationsCountQuery: PropTypes.query({
+      operatorRelationsCount: PropTypes.shape({
+        customersCount: PropTypes.number,
+        leadsCount: PropTypes.number,
+        rulesCount: PropTypes.number,
+      }),
+    }).isRequired,
   };
 
   state = {
@@ -75,18 +84,50 @@ class OperatorAccountStatus extends PureComponent {
 
   handleSelectStatus = (reasons, action) => {
     const {
-      operator: { uuid, fullName },
       modals: { changeAccountStatusModal },
     } = this.props;
 
     changeAccountStatusModal.show({
-      uuid,
-      fullName,
       reasons,
-      withSubordinatesWarnings: action === 'CLOSED',
+      message: action === 'CLOSED' ? this.renderMessages() : null,
       onSubmit: values => this.handleChangeAccountStatus(values, action),
     });
   };
+
+  renderMessages = () => {
+    const { operator, operatorRelationsCountQuery } = this.props;
+
+    const { fullName } = operator;
+    const { customersCount, leadsCount, rulesCount } = operatorRelationsCountQuery.data?.operatorRelationsCount || {};
+
+    const messages = [
+      { name: 'CLIENTS', link: '/clients/list', count: customersCount },
+      { name: 'LEADS', link: '/leads/list', count: leadsCount },
+      { name: 'RULES', link: '/sales-rules', count: rulesCount },
+    ].filter(({ count }) => count > 0);
+
+    return (
+      <If condition={messages.length > 0}>
+        <ul
+          className={classNames('OperatorAccountStatus__modal-warning', {
+            'OperatorAccountStatus__modal-warning--list': messages.length > 1,
+          })}
+        >
+          <b>{fullName}</b>
+
+          {messages.map(({ name, link, count }) => (
+            <li key={name}>
+              {I18n.t(`OPERATOR_PROFILE.MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.BEFORE_LINK`, { count })}
+              <Link to={link}>
+                {I18n.t(`OPERATOR_PROFILE.MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.LINK`)}
+              </Link>
+              {I18n.t(`OPERATOR_PROFILE.MODALS.CHANGE_ACCOUNT_STATUS_MODAL.WARNING_${name}.AFTER_LINK`)}
+            </li>
+          ))}
+        </ul>
+      </If>
+    );
+  }
 
   renderLabel = () => {
     const {
@@ -188,6 +229,7 @@ export default compose(
   withNotifications,
   withRequests({
     changeAccountStatus: OperatorAccountStatusMutation,
+    operatorRelationsCountQuery: OperatorRelationsCountQuery,
   }),
   withModals({
     changeAccountStatusModal: ChangeAccountStatusModal,

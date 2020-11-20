@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent, Suspense } from 'react';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -5,7 +6,7 @@ import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
 import ShortLoader from 'components/ShortLoader';
-import ErrorBoundary from 'components/ErrorBoundary';
+// import ErrorBoundary from 'components/ErrorBoundary';
 import { withStorage } from 'providers/StorageProvider';
 import PermissionProvider from 'providers/PermissionsProvider';
 import ConfigProvider from 'providers/ConfigProvider';
@@ -33,11 +34,11 @@ class MainLayout extends PureComponent {
         <Sidebar />
 
         <main className="content-container">
-          <ErrorBoundary>
+          {/* <ErrorBoundary> */}
             <Suspense fallback={<ShortLoader />}>
               {children}
             </Suspense>
-          </ErrorBoundary>
+          {/* </ErrorBoundary> */}
         </main>
 
         <BackToTop />
