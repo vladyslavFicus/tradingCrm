@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikDateRangeGroup } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
+import { decodeNullValues } from 'components/Formik/utils';
 import './LeadNotesTabFilter.scss';
 
 class LeadNotesTabFilter extends PureComponent {
@@ -13,12 +14,26 @@ class LeadNotesTabFilter extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (filters) => {
-    this.props.history.replace({ query: { filters } });
+  handleSubmit = (values) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
   };
 
   handleReset = (resetForm) => {
-    this.props.history.replace({ query: { filters: {} } });
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
 
     resetForm();
   };
@@ -26,16 +41,21 @@ class LeadNotesTabFilter extends PureComponent {
   render() {
     const {
       handleRefetch,
-      location: { query },
+      location: { state },
     } = this.props;
 
     return (
       <Formik
-        initialValues={query?.filters || {}}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ dirty, resetForm }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="LeadNotesTabFilter">
             <FormikDateRangeGroup
               className="LeadNotesTabFilter__field LeadNotesTabFilter__date-range"
@@ -56,6 +76,7 @@ class LeadNotesTabFilter extends PureComponent {
               <Button
                 className="LeadNotesTabFilter__button"
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -65,7 +86,7 @@ class LeadNotesTabFilter extends PureComponent {
                 className="LeadNotesTabFilter__button"
                 type="submit"
                 primary
-                disabled={!dirty}
+                disabled={isSubmitting || !dirty}
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>

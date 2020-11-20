@@ -81,7 +81,12 @@ class RulesFilters extends PureComponent {
         validate={validate}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="RulesGridFilter__form">
             <div className="RulesGridFilter__fields">
               <Field
@@ -180,8 +185,8 @@ class RulesFilters extends PureComponent {
               <Button
                 primary
                 className="RulesGridFilter__button"
-                disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

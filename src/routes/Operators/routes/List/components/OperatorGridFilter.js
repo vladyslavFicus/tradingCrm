@@ -37,7 +37,7 @@ class OperatorGridFilter extends Component {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -66,7 +66,12 @@ class OperatorGridFilter extends Component {
         validate={validate}
         onSubmit={this.handleSubmit}
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -122,8 +127,8 @@ class OperatorGridFilter extends Component {
               />
               <Button
                 primary
-                disabled={isSubmitting}
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               >
                 {I18n.t('COMMON.RESET')}
               </Button>

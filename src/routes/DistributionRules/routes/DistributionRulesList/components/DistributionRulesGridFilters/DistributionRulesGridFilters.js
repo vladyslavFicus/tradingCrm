@@ -1,21 +1,27 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'constants/propTypes';
-import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
-import countryList from 'utils/countryList';
-import renderLabel from 'utils/renderLabel';
+import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
+import countryList from 'utils/countryList';
+import renderLabel from 'utils/renderLabel';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
+import PartnersQuery from './graphql/PartnersQuery';
 import './DistributionRulesGridFilters.scss';
 
 class DistributionRulesFilters extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(PropTypes.partner),
+    }).isRequired,
     handleRefetch: PropTypes.func.isRequired,
   }
 
@@ -32,8 +38,11 @@ class DistributionRulesFilters extends PureComponent {
   render() {
     const {
       location: { query },
+      partnersQuery,
       handleRefetch,
     } = this.props;
+
+    const partners = partnersQuery.data?.partners?.content || [];
 
     return (
       <Formik
@@ -41,12 +50,12 @@ class DistributionRulesFilters extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({ isSubmitting, values, resetForm, dirty }) => (
           <Form className="DistributionRulesFilters__form">
             <div className="DistributionRulesFilters__fields">
               <Field
                 name="searchParam"
-                className="DistributionRulesFilters__search"
+                className="DistributionRulesFilters__field DistributionRulesFilters__search"
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY_PLACEHOLDER')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY')}
                 component={FormikInputField}
@@ -54,7 +63,7 @@ class DistributionRulesFilters extends PureComponent {
               />
               <Field
                 name="ruleStatus"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.RULE_STATUS')}
                 component={FormikSelectField}
@@ -70,7 +79,7 @@ class DistributionRulesFilters extends PureComponent {
               </Field>
               <Field
                 name="fromBrand"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SOURCE_BRAND')}
                 component={FormikInputField}
@@ -78,7 +87,7 @@ class DistributionRulesFilters extends PureComponent {
               />
               <Field
                 name="toBrand"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TARGET_BRAND')}
                 component={FormikInputField}
@@ -86,7 +95,7 @@ class DistributionRulesFilters extends PureComponent {
               />
               <Field
                 name="salesStatuses"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
@@ -101,8 +110,25 @@ class DistributionRulesFilters extends PureComponent {
                 ))}
               </Field>
               <Field
+                name="affiliateUuids"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.AFFILIATE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                disabled={partnersQuery.loading}
+                searchable
+                withFocus
+                multiple
+              >
+                {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
+                  <option key={uuid} value={uuid}>
+                    {fullName}
+                  </option>
+                ))}
+              </Field>
+              <Field
                 name="languages"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LANGUAGES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -117,7 +143,7 @@ class DistributionRulesFilters extends PureComponent {
               </Field>
               <Field
                 name="countries"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.COUNTRY')}
                 component={FormikSelectField}
@@ -129,8 +155,27 @@ class DistributionRulesFilters extends PureComponent {
                   <option key={key} value={key}>{countryList[key]}</option>
                 ))}
               </Field>
+              <Field
+                name="firstTimeDeposit"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FIRST_TIME_DEPOSIT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withAnyOption
+              >
+                {
+                  [
+                    { label: 'COMMON.NO', value: false },
+                    { label: 'COMMON.YES', value: true },
+                  ].map(({ label, value }) => (
+                    <option key={`firstTimeDeposit-${value}`} value={value}>
+                      {I18n.t(label)}
+                    </option>
+                  ))
+                }
+              </Field>
               <FormikDateRangeGroup
-                className="DistributionRulesFilters__date-range"
+                className="DistributionRulesFilters__field DistributionRulesFilters__date-range"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
                 periodKeys={{
                   start: 'createdDateFrom',
@@ -138,18 +183,9 @@ class DistributionRulesFilters extends PureComponent {
                 }}
                 withFocus
               />
-              <FormikDateRangeGroup
-                className="DistributionRulesFilters__date-range"
-                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LAST_TIME_EXECUTED')}
-                periodKeys={{
-                  start: 'lastTimeExecutedFrom',
-                  end: 'lastTimeExecutedTo',
-                }}
-                withFocus
-              />
               <Field
                 name="executionPeriodsInHours"
-                className="DistributionRulesFilters__field"
+                className="DistributionRulesFilters__field DistributionRulesFilters__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
                 component={FormikSelectField}
@@ -163,6 +199,15 @@ class DistributionRulesFilters extends PureComponent {
                   </option>
                 ))}
               </Field>
+              <FormikDateRangeGroup
+                className="DistributionRulesFilters__field DistributionRulesFilters__date-range"
+                label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LAST_TIME_EXECUTED')}
+                periodKeys={{
+                  start: 'lastTimeExecutedFrom',
+                  end: 'lastTimeExecutedTo',
+                }}
+                withFocus
+              />
             </div>
 
             <div className="filter__form-buttons">
@@ -173,7 +218,7 @@ class DistributionRulesFilters extends PureComponent {
 
               <Button
                 className="filter__form-button"
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 onClick={() => this.handleReset(resetForm)}
                 primary
               >
@@ -196,4 +241,9 @@ class DistributionRulesFilters extends PureComponent {
   }
 }
 
-export default withRouter(DistributionRulesFilters);
+export default compose(
+  withRouter,
+  withRequests({
+    partnersQuery: PartnersQuery,
+  }),
+)(DistributionRulesFilters);

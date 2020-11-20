@@ -54,6 +54,8 @@ class DistributionRule extends PureComponent {
         executionPeriodInHours,
         sourceBrandConfigs,
         targetBrandConfigs,
+        affiliateUuids,
+        firstTimeDeposit,
       } = data?.distributionRule || {};
 
       const sourceBrandConfig = sourceBrandConfigs && sourceBrandConfigs[0];
@@ -72,6 +74,8 @@ class DistributionRule extends PureComponent {
           registrationPeriodInHours,
           executionType: executionType || initialState.generalSettings.executionType,
           executionPeriodInHours,
+          affiliateUuids,
+          firstTimeDeposit,
         },
         sourceBrandConfig,
         targetBrandConfig,

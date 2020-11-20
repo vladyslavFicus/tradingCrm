@@ -55,13 +55,13 @@ const REQUEST = gql`
 
 const getClientCallbacksQuery = ({
   children,
-  location: { query = {} },
+  location: { state },
   match: { params: { id } },
 }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query.filters,
+      ...state?.filters,
       userId: id,
       limit: 20,
     }}
@@ -79,7 +79,7 @@ getClientCallbacksQuery.propTypes = {
     }),
   }).isRequired,
   location: PropTypes.shape({
-    query: PropTypes.shape({
+    state: PropTypes.shape({
       filters: PropTypes.object,
     }),
   }).isRequired,

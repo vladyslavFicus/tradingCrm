@@ -1,0 +1,23 @@
+.OperatorHeader {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  &__uuid {
+    color: #827ca1;
+  }
+
+  &__action {
+    &:not(:first-child) {
+      margin-left: 15px;
+    }
+  }
+}

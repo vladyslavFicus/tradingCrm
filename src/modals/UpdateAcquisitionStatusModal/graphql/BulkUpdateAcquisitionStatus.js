@@ -8,6 +8,7 @@ const MUTATION = gql`
     $uuids: [String]!
     $acquisitionStatus: Desk__Types__Enum!
     $searchParams: ClientSearch__Input
+    $sorts: [Sort__Input]
     $bulkSize: Int
   ) {
     hierarchy {
@@ -15,6 +16,7 @@ const MUTATION = gql`
         uuids: $uuids
         acquisitionStatus: $acquisitionStatus
         searchParams: $searchParams
+        sorts: $sorts
         bulkSize: $bulkSize
       )
     }

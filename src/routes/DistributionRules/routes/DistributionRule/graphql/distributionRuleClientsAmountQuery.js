@@ -6,8 +6,10 @@ export default gql`query DistributionRuleClientsAmountQuery(
   $languages: [String]!
   $sourceBrand: String!
   $targetBrand: String
+  $firstTimeDeposit: Boolean
   $registrationPeriodInHours: Int!
   $executionPeriodInHours: Int!
+  $affiliateUuids: [String]
 ) {
   distributionRuleClientsAmount(
     salesStatuses: $salesStatuses
@@ -15,7 +17,9 @@ export default gql`query DistributionRuleClientsAmountQuery(
     languages: $languages
     sourceBrand: $sourceBrand
     targetBrand: $targetBrand
+    firstTimeDeposit: $firstTimeDeposit
     registrationPeriodInHours: $registrationPeriodInHours
     executionPeriodInHours: $executionPeriodInHours
+    affiliateUuids: $affiliateUuids
   )
 }`;
