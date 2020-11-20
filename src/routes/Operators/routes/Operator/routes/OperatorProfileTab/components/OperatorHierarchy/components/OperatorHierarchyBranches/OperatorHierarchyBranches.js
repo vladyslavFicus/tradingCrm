@@ -37,7 +37,9 @@ class OperatorHierarchyBranches extends PureComponent {
     }).isRequired,
     operatorHierarchyQuery: PropTypes.query({
       userHierarchyById: PropTypes.shape({
-        subordinatesCount: PropTypes.number,
+        statistics: PropTypes.shape({
+          totalSubordinatesCount: PropTypes.number,
+        }),
         parentBranches: PropTypes.arrayOf(PropTypes.branchHierarchyType),
       }),
     }).isRequired,
@@ -69,14 +71,14 @@ class OperatorHierarchyBranches extends PureComponent {
     } = this.props;
 
     const operator = operatorQuery.data?.operator || {};
-    const subordinatesCount = operatorHierarchyQuery.data?.userHierarchyById?.subordinatesCount;
+    const totalSubordinatesCount = operatorHierarchyQuery.data?.userHierarchyById?.totalSubordinatesCount;
 
-    if (subordinatesCount >= 10000) {
+    if (totalSubordinatesCount >= 10000) {
       confirmActionModal.show({
         modalTitle: I18n.t('MODALS.ASSIGN_BRANCH.TITLE'),
         actionText: I18n.t('MODALS.ASSIGN_BRANCH.DESCRIPTION', {
           operator: operator.fullName,
-          clients: subordinatesCount,
+          clients: totalSubordinatesCount,
           branch: `${this.buildParentsBranchChain(branch)} ${branch.name}`,
         }),
         submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),

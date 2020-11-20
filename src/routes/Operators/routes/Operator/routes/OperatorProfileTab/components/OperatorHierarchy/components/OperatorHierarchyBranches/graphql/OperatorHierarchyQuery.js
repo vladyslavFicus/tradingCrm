@@ -16,6 +16,9 @@ const REQUEST = gql`
         uuid
         name
       }
+      statistics {
+        totalSubordinatesCount
+      }
     }
   }
 `;
