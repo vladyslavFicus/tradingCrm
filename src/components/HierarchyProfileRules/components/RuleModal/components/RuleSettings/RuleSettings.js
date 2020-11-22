@@ -20,6 +20,7 @@ class RuleSettings extends PureComponent {
     partners: PropTypes.arrayOf(PropTypes.partnersListEntity).isRequired,
     withOperatorSpreads: PropTypes.bool,
     operatorSpreads: PropTypes.array,
+    setFieldValue: PropTypes.func.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
     errors: PropTypes.object.isRequired,
   };
@@ -27,6 +28,17 @@ class RuleSettings extends PureComponent {
   static defaultProps = {
     withOperatorSpreads: false,
     operatorSpreads: [],
+  };
+
+  removeOperatorSpread = (index) => {
+    const {
+      operatorSpreads,
+      setFieldValue,
+    } = this.props;
+
+    const newOperatorSpreads = [...operatorSpreads];
+    newOperatorSpreads.splice(index, 1);
+    setFieldValue('operatorSpreads', newOperatorSpreads);
   };
 
   render() {
@@ -137,8 +149,10 @@ class RuleSettings extends PureComponent {
           <RuleOperatorSpreads
             operators={operators}
             operatorSpreads={operatorSpreads}
-            isSubmitting={isSubmitting}
-            percentageLimitError={errors.percentageLimitError}
+            removeOperatorSpread={this.removeOperatorSpread}
+            namePrefix="operatorSpreads"
+            disabled={isSubmitting}
+            isValid={errors.percentageLimitError}
           />
         </If>
       </div>

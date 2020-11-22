@@ -1,0 +1,55 @@
+$border: 1px solid #DFE4ED;
+
+.RuleScheduleBoard {
+  margin-bottom: 10px;
+  border: $border;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+
+  &__header, &__footer {
+    padding: 20px 15px;
+  }
+
+  &__header, &__body {
+    position: relative;
+  }
+
+  &__body {
+    border-top: $border;
+    border-bottom: $border;
+  }
+
+  &__remove-shedule {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+  }
+
+  &__week {
+    display: flex;
+  }
+
+  &__week-day {
+    margin-right: 35px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__time-interval {
+    position: relative;
+    padding: 20px 15px 0px;
+    border-bottom: $border;
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  &__remove-time-interval {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+  }
+}

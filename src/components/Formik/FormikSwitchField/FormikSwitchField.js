@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import ReactSwitch from '../../ReactSwitch';
+import './FormikSwitchField.scss';
 
 const SwitchField = (props) => {
   const {
@@ -10,6 +12,7 @@ const SwitchField = (props) => {
     label,
     wrapperClassName,
     id,
+    textFirst,
   } = props;
 
   const onClick = () => {
@@ -18,15 +21,22 @@ const SwitchField = (props) => {
   };
 
   return (
-    <div className={wrapperClassName}>
-      <ReactSwitch
-        on={!!field.value}
-        onClick={onClick}
-        id={id}
-      />
-      <button type="button" className="note-popover__pin-label" onClick={onClick}>
-        {label}
-      </button>
+    <div
+      className={classNames('FormikSwitchField', {
+        'FormikSwitchField-reverse': textFirst,
+      }, wrapperClassName)}
+    >
+      <div className="FormikSwitchField__inner">
+        <ReactSwitch
+          on={!!field.value}
+          onClick={onClick}
+          id={id}
+          className="FormikSwitchField__trigger"
+        />
+        <button type="button" onClick={onClick}>
+          {label}
+        </button>
+      </div>
     </div>
   );
 };
@@ -46,12 +56,14 @@ SwitchField.propTypes = {
   ]),
   id: PropTypes.string,
   onChange: PropTypes.func,
+  textFirst: PropTypes.bool,
 };
 SwitchField.defaultProps = {
   wrapperClassName: null,
   label: null,
   id: null,
   onChange: () => {},
+  textFirst: false,
 };
 
 export default SwitchField;

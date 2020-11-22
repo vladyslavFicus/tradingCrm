@@ -1,5 +1,4 @@
 import React, { PureComponent, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, FieldArray } from 'formik';
@@ -8,28 +7,33 @@ import {
   FormikSelectField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
+import PropTypes from 'constants/propTypes';
 import { isSales } from 'constants/hierarchyTypes';
 import { attributeLabels } from '../../constants';
 import './RuleOperatorSpreads.scss';
 
 class RuleOperatorSpreads extends PureComponent {
   static propTypes = {
-    operators: PropTypes.array.isRequired,
+    operators: PropTypes.arrayOf(PropTypes.operatorsListEntity).isRequired,
     operatorSpreads: PropTypes.array.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    percentageLimitError: PropTypes.bool,
+    removeOperatorSpread: PropTypes.func.isRequired,
+    namePrefix: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    isValid: PropTypes.bool,
   }
 
   static defaultProps = {
-    percentageLimitError: false,
+    isValid: true,
   }
 
   render() {
     const {
       operators,
       operatorSpreads,
-      isSubmitting,
-      percentageLimitError,
+      removeOperatorSpread,
+      namePrefix,
+      disabled,
+      isValid,
     } = this.props;
 
     const selectedOperators = operatorSpreads.map(({ parentUser }) => parentUser);
@@ -37,17 +41,17 @@ class RuleOperatorSpreads extends PureComponent {
     return (
       <div className="row">
         <FieldArray
-          name="operatorSpreads"
-          render={arrayHelpers => (
+          name={namePrefix}
+          render={() => (
             <Fragment>
               {[...operatorSpreads, ''].map((_, index) => (
                 <Fragment key={index}>
                   <Field
-                    name={`operatorSpreads[${index}].parentUser`}
+                    name={`${namePrefix}[${index}].parentUser`}
                     label={index === 0 ? I18n.t(attributeLabels.operator) : ''}
                     component={FormikSelectField}
                     className="col-7"
-                    disabled={isSubmitting}
+                    disabled={disabled}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     searchable
                   >
@@ -65,15 +69,15 @@ class RuleOperatorSpreads extends PureComponent {
                     }
                   </Field>
                   <Field
-                    name={`operatorSpreads[${index}].percentage`}
+                    name={`${namePrefix}[${index}].percentage`}
                     type="number"
                     placeholder={index === 0 ? '100%' : '0%'}
                     label={index === 0 ? I18n.t(attributeLabels.ratio) : ''}
-                    disabled={isSubmitting || !operatorSpreads[index]}
+                    disabled={disabled || !operatorSpreads[index]}
                     component={FormikInputField}
                     className={
                       classNames('col-4', {
-                        'input--has-error': percentageLimitError,
+                        'input--has-error': !isValid,
                       })
                     }
                   />
@@ -81,7 +85,7 @@ class RuleOperatorSpreads extends PureComponent {
                     <Button
                       transparent
                       className="RuleOperatorSpreads__button"
-                      onClick={() => arrayHelpers.remove(index)}
+                      onClick={() => removeOperatorSpread(index)}
                     >
                       <i className="fa fa-trash btn-transparent color-danger" />
                     </Button>
@@ -91,7 +95,7 @@ class RuleOperatorSpreads extends PureComponent {
             </Fragment>
           )}
         />
-        <If condition={percentageLimitError}>
+        <If condition={!isValid}>
           <div className="RuleOperatorSpreads__percentage-error color-danger">
             <div className="col-7">
               {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}

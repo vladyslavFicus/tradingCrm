@@ -1,0 +1,12 @@
+.AddTimeIntervalButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+
+  &__icon {
+    display: block;
+    line-height: 1;
+  }
+}

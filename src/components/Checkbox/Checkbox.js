@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { ReactComponent as CheckIcon } from './check-icon.svg';
 import './Checkbox.scss';
 
 class Checkbox extends PureComponent {
@@ -12,6 +13,7 @@ class Checkbox extends PureComponent {
     disabled: PropTypes.bool,
     error: PropTypes.string,
     onChange: PropTypes.func,
+    vertical: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -21,6 +23,7 @@ class Checkbox extends PureComponent {
     label: null,
     error: null,
     onChange: () => {},
+    vertical: false,
   };
 
   render() {
@@ -32,6 +35,7 @@ class Checkbox extends PureComponent {
       disabled,
       className,
       onChange,
+      vertical,
     } = this.props;
 
     return (
@@ -42,6 +46,7 @@ class Checkbox extends PureComponent {
             {
               'Checkbox--has-error': !!error,
               'Checkbox--disabled': disabled,
+              'Checkbox--vertical': vertical,
             },
             className,
           )
@@ -56,7 +61,9 @@ class Checkbox extends PureComponent {
             type="checkbox"
             checked={value}
           />
-          <span className="Checkbox__icon" />
+          <span className="Checkbox__icon">
+            <CheckIcon className="Checkbox__icon-in" />
+          </span>
           <If condition={label}>
             <span className="Checkbox__label">{label}</span>
           </If>

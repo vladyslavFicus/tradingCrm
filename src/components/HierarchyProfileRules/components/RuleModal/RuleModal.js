@@ -12,7 +12,8 @@ import { Button, Tabs, TabsItem } from 'components/UI';
 import { OperatorsQuery, PartnersQuery } from './graphql';
 import { attributeLabels, customErrors } from './constants';
 import RuleSettings from './components/RuleSettings';
-// import RuleSchedule from './components/RuleSchedule';
+import RuleSchedule from './components/RuleSchedule';
+import './RuleModal.scss';
 
 class RuleModal extends PureComponent {
   static propTypes = {
@@ -67,6 +68,7 @@ class RuleModal extends PureComponent {
       <Modal
         toggle={onCloseModal}
         isOpen={isOpen}
+        className="RuleModal"
       >
         <Formik
           initialValues={{
@@ -81,6 +83,18 @@ class RuleModal extends PureComponent {
             type: '',
             affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
             operatorSpreads: type === 'OPERATOR' ? [{ parentUser: currentUuid, percentage: 100 }] : [],
+            schedule: [
+              {
+                week: {},
+                timeInterval: [
+                  {
+                    operatorSpreads: [],
+                    timeFrom: '',
+                    timeTo: '',
+                  },
+                ],
+              },
+            ],
           }}
           validate={(values) => {
             const errors = createValidator({
@@ -104,12 +118,18 @@ class RuleModal extends PureComponent {
           validateOnChange={this.state.validationByChange}
           onSubmit={this.handleSubmit}
         >
-          {({ errors, dirty, isSubmitting, values: { operatorSpreads } }) => (
+          {({
+            values: { operatorSpreads, schedule },
+            setFieldValue,
+            dirty,
+            errors,
+            isSubmitting,
+          }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="RuleModal__body">
                 <Tabs>
                   <TabsItem
                     label="Rule settings"
@@ -118,13 +138,19 @@ class RuleModal extends PureComponent {
                     partners={partners}
                     withOperatorSpreads={withOperatorSpreads}
                     operatorSpreads={operatorSpreads}
+                    setFieldValue={setFieldValue}
                     isSubmitting={isSubmitting}
                     errors={errors}
                   />
-                  {/* <TabsItem
+                  <TabsItem
                     label="Schedule settings"
                     component={RuleSchedule}
-                  /> */}
+                    operators={operators}
+                    schedule={schedule}
+                    setFieldValue={setFieldValue}
+                    isSubmitting={isSubmitting}
+                    errors={errors}
+                  />
                 </Tabs>
               </ModalBody>
               <ModalFooter>
