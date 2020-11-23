@@ -15,44 +15,17 @@ class NotificationCenter extends PureComponent {
 
   componentDidMount() {
     EventEmitter.on(NOTIFICATION_CLICKED, this.open);
-
-    document.addEventListener('click', this.onCloseHandler);
   }
 
   componentWillUnmount() {
     EventEmitter.off(NOTIFICATION_CLICKED, this.open);
-
-    document.removeEventListener('click', this.onCloseHandler);
   }
 
   open = () => this.setState({ isOpen: true });
 
+  close = () => this.setState({ isOpen: false });
+
   toggle = () => this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
-
-  /**
-   * Manual control closing of popover with notifications to prevent close when clicked
-   * on content inside NotificationCenterContainer and inside Notifications__toast elements.
-   *
-   * @param e
-   */
-  onCloseHandler = (e) => {
-    const element = e.target;
-    const notificationCenterTrigger = document.getElementById('NotificationCenterTrigger');
-    const notificationCenterContainer = document.getElementById('NotificationCenterContainer');
-    const notificationWSContainers = [...document.getElementsByClassName('Notifications__toast')];
-
-    const shouldClose = !(
-      element === notificationCenterTrigger
-      || element === notificationCenterContainer
-      || (notificationCenterContainer && notificationCenterContainer.contains(element))
-      || notificationWSContainers.includes(element)
-      || notificationWSContainers.some(container => container.contains(element))
-    );
-
-    if (shouldClose) {
-      this.setState({ isOpen: false });
-    }
-  };
 
   onCloseModal = () => {
     this.setState(({ enableToggle: false }));
@@ -87,7 +60,10 @@ class NotificationCenter extends PureComponent {
           innerClassName="NotificationCenter__popover-inner"
           trigger="manual"
         >
-          <NotificationCenterContent onCloseModal={this.onCloseModal} />
+          <NotificationCenterContent
+            close={this.close}
+            onCloseModal={this.onCloseModal}
+          />
         </Popover>
       </PermissionContent>
     );
