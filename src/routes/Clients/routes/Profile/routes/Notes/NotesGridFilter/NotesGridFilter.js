@@ -125,7 +125,7 @@ class NotesGridFilter extends PureComponent {
               </Button>
               <Button
                 type="submit"
-                disabled={!isSubmitting || !dirty}
+                disabled={isSubmitting || !dirty}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}
