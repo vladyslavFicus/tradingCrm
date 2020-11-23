@@ -190,7 +190,7 @@ class OperatorAccountStatus extends PureComponent {
         </div>
 
         <Choose>
-          <When condition={updateAccountStatus}>
+          <When condition={updateAccountStatus && operatorStatus !== statuses.INACTIVE}>
             <Dropdown
               isOpen={isDropDownOpen}
               toggle={this.toggleDropdown}
