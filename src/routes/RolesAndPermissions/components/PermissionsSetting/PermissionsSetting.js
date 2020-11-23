@@ -10,12 +10,12 @@ import {
 } from 'react-accessible-accordion';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
+import rbac from 'constants/rbac';
+import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { withImages } from 'components/ImageViewer';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
-import rbac from 'constants/rbac';
-import PropTypes from 'constants/propTypes';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import ActionsQuery from './graphql/ActionsQuery';
 import UpdateAuthorityActionsMutation from './graphql/UpdateAuthorityActionsMutation';
@@ -62,25 +62,27 @@ class PermissionsSetting extends PureComponent {
     const { actionsQuery } = props;
 
     const authorityActions = actionsQuery.data?.authorityActions || [];
-    const shouldInit = (!actionsQuery.loading)
+    const shouldInit = !actionsQuery.loading
       && (state.department !== props.department || state.role !== props.role);
 
     if (shouldInit || state.shouldUpdate) {
       const shadowActions = rbac.map((section) => {
-        const [sectionKey] = Object.entries(section?.actions)[0];
+        const [sectionKey] = Object.keys(section?.actions || {});
+        const _section = { ...section };
 
-        section.actions[sectionKey].state = authorityActions.includes(section.actions[sectionKey].action);
+        _section.actions[sectionKey].state = authorityActions.includes(section.actions[sectionKey].action);
 
         return {
-          ...section,
-          permissions: section.permissions.map((permission) => {
-            const [permissionKey] = Object.entries(permission.actions)[0];
+          ..._section,
+          permissions: _section.permissions.map((permission) => {
+            const [permissionKey] = Object.keys(permission.actions || {});
+            const _permission = { ...permission };
 
-            permission
+            _permission
               .actions[permissionKey]
-              .state = authorityActions.includes(permission.actions[permissionKey].action);
+              .state = authorityActions.includes(_permission.actions[permissionKey].action);
 
-            return { ...permission };
+            return { ..._permission };
           }),
         };
       });
@@ -121,29 +123,31 @@ class PermissionsSetting extends PureComponent {
       ({ shadowActions }) => ({
         shadowActions: shadowActions.map((section) => {
           if (currentSection && section.id === currentSection.id) {
-            const [sectionKey] = Object.entries(section?.actions)[0];
+            const [sectionKey] = Object.keys(section?.actions || {});
+            const _section = { ...section };
 
-            section.actions[sectionKey].state = enabled;
+            _section.actions[sectionKey].state = enabled;
 
             return {
-              ...section,
-              permissions: section.permissions.map((permission) => {
-                const [permissionKey] = Object.entries(permission.actions)[0];
+              ..._section,
+              permissions: _section.permissions.map((permission) => {
+                const [permissionKey] = Object.keys(permission.actions || {});
+                const _permission = { ...permission };
                 const { state } = {
-                  ...(enabled && action === permission.actions[permissionKey].action
+                  ...(enabled && action === _permission.actions[permissionKey].action
                     ? { state: enabled }
-                    : { state: permission.actions[permissionKey].state }
+                    : { state: _permission.actions[permissionKey].state }
                   ),
                   ...(!enabled && { state: false }),
                 };
 
                 if (!enabled) {
-                  disabledSection.push(permission.actions[permissionKey].action);
+                  disabledSection.push(_permission.actions[permissionKey].action);
                 }
 
-                permission.actions[permissionKey].state = state;
+                _permission.actions[permissionKey].state = state;
 
-                return { ...permission };
+                return { ..._permission };
               }),
             };
           }
@@ -151,13 +155,14 @@ class PermissionsSetting extends PureComponent {
           return {
             ...section,
             permissions: section.permissions.map((permission) => {
-              const [key] = Object.entries(permission.actions)[0];
+              const [key] = Object.keys(permission.actions || {});
+              const _permission = { ...permission };
 
-              if (action === permission.actions[key].action) {
-                permission.actions[key].state = enabled;
+              if (action === _permission.actions[key].action) {
+                _permission.actions[key].state = enabled;
               }
 
-              return { ...permission };
+              return { ..._permission };
             }),
           };
         }),
@@ -231,8 +236,6 @@ class PermissionsSetting extends PureComponent {
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('ROLES_AND_PERMISSIONS.UPDATE_PERMISSIONS.RESET_ERROR'),
       });
-
-      confirmationModal.hide();
     }
   }
 
@@ -249,7 +252,7 @@ class PermissionsSetting extends PureComponent {
     <>
       <div className="PermissionsSetting__settings">
         <div className="PermissionsSetting__settings-switcher-view">
-          <If condition={!!actions?.view}>
+          <If condition={actions?.view}>
             <ReactSwitch
               stopPropagation
               on={actions.view.state}
@@ -259,7 +262,7 @@ class PermissionsSetting extends PureComponent {
           </If>
         </div>
         <div className="PermissionsSetting__settings-switcher-edit">
-          <If condition={!!actions?.edit}>
+          <If condition={actions?.edit}>
             <ReactSwitch
               stopPropagation
               on={actions.edit.state}

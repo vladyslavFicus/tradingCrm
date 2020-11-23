@@ -70,7 +70,7 @@ class RolesAndPermissions extends PureComponent {
                         <AccordionItemPanel
                           key={`${department}-${role}`}
                           onClick={() => this.handleSelectAuthority(department, role)}
-                          className="RolesAndPermissions__authority cursor-pointer"
+                          className="RolesAndPermissions__authority"
                         >
                           {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
                         </AccordionItemPanel>
