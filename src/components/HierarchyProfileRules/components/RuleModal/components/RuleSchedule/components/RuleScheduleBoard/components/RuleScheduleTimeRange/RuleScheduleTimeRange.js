@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'formik';
@@ -26,9 +25,9 @@ class RuleScheduleTimeRange extends PureComponent {
       component={FormikSelectField}
       className="RuleScheduleTimeRange__field"
     >
-      {timeValues.map(({ value, label }) => (
+      {timeValues.map(({ value, label: option }) => (
         <option key={value} value={value}>
-          {label}
+          {option}
         </option>
       ))}
     </Field>

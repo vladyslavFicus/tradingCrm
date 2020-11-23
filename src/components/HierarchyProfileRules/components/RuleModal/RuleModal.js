@@ -89,8 +89,8 @@ class RuleModal extends PureComponent {
                 timeInterval: [
                   {
                     operatorSpreads: [],
-                    timeFrom: '',
-                    timeTo: '',
+                    timeFrom: '00:00',
+                    timeTo: '00:00',
                   },
                 ],
               },
@@ -119,6 +119,7 @@ class RuleModal extends PureComponent {
           onSubmit={this.handleSubmit}
         >
           {({
+            values,
             values: { operatorSpreads, schedule },
             setFieldValue,
             dirty,
@@ -126,6 +127,7 @@ class RuleModal extends PureComponent {
             isSubmitting,
           }) => (
             <Form>
+              {console.log(values)}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
               </ModalHeader>

@@ -23,7 +23,7 @@ const SwitchField = (props) => {
   return (
     <div
       className={classNames('FormikSwitchField', {
-        'FormikSwitchField-reverse': textFirst,
+        'FormikSwitchField--reverse': textFirst,
       }, wrapperClassName)}
     >
       <div className="FormikSwitchField__inner">
