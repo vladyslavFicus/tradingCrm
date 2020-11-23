@@ -73,8 +73,8 @@ class FeedFilterForm extends PureComponent {
           createValidator({
             searchBy: 'string',
             auditLogType: ['string', `in:${Object.keys(feedTypesList).join()}`],
-            creationDateFrom: 'string',
-            creationDateTo: 'string',
+            creationDateFrom: 'dateWithTime',
+            creationDateTo: 'dateWithTime',
           }, translateLabels(attributeLabels), false)
         }
       >
