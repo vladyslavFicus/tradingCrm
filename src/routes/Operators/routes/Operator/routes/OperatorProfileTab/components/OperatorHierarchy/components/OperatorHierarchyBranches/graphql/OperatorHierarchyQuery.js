@@ -10,7 +10,6 @@ const REQUEST = gql`
     userHierarchyById (
       uuid: $uuid
     ) {
-      subordinatesCount
       parentBranches {
         branchType
         uuid
