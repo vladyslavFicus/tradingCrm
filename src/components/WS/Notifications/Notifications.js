@@ -3,6 +3,7 @@ import { compose, withApollo } from 'react-apollo';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
+import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
 import NotificationItem from './components/NotificationItem';
 import NotificationSubscription from './graphql/NotificationSubscription';
 import {
@@ -20,7 +21,7 @@ class Notifications extends PureComponent {
         configuration: PropTypes.shape({
           popUpDelayMs: PropTypes.number,
         }),
-        totalNotificationsCount: PropTypes.number,
+        totalUnreadNotificationsCount: PropTypes.number,
       }),
     }).isRequired,
   };
@@ -35,7 +36,7 @@ class Notifications extends PureComponent {
       const {
         notification,
         configuration,
-        totalNotificationsCount,
+        totalUnreadNotificationsCount,
       } = notificationSubscription.data.onNotification;
 
       // Show notification with delay accepted from server
@@ -43,13 +44,15 @@ class Notifications extends PureComponent {
         // Update count of unread notifications in apollo cache
         client.writeQuery({
           query: NotificationCenterUnreadQuery,
-          data: { notificationCenterUnread: totalNotificationsCount },
+          data: { notificationCenterUnread: totalUnreadNotificationsCount },
         });
 
         // Render toast with notification if 'notification' object is present
         // 'notification' object can be absent if notifications popup was disabled by user
         if (notification) {
-          toast(<NotificationItem {...notification} />);
+          toast(<NotificationItem {...notification} />, {
+            onClick: () => EventEmitter.emit(NOTIFICATION_CLICKED, notification),
+          });
         }
       }, configuration.popUpDelayMs);
     }
@@ -60,6 +63,7 @@ class Notifications extends PureComponent {
       <ToastContainer
         newestOnTop
         hideProgressBar
+        closeOnClick={false}
         limit={3}
         className="Notifications__toast"
         position="bottom-right"

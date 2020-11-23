@@ -19,7 +19,7 @@ const REQUEST = gql`
       configuration {
         popUpDelayMs
       }
-      totalNotificationsCount
+      totalUnreadNotificationsCount
     }
   }
 `;
