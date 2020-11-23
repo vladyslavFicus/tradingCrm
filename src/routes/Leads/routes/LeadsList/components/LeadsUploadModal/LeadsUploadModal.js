@@ -58,12 +58,12 @@ class LeadsUploadModal extends PureComponent {
     } catch (e) {
       const error = parseErrors(e);
 
+      const errorMessage = error.errorParameters?.errorMessage || error.message || 'COMMON.SOMETHING_WRONG';
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: error.error
-          ? I18n.t(error.error, { size: fileConfig.maxSize })
-          : I18n.t('COMMON.SOMETHING_WRONG'),
+        message: I18n.t(errorMessage),
       });
     }
   };
