@@ -14,7 +14,7 @@ class ErrorBoundary extends PureComponent {
   static getDerivedStateFromError(error) {
     return {
       hasError: true,
-      error,
+      error: error.stack,
     };
   }
 
@@ -29,10 +29,6 @@ class ErrorBoundary extends PureComponent {
     return null;
   }
 
-  componentDidCatch(error) {
-    this.setState({ error: error.stack });
-  }
-
   state = {
     hasError: false,
     pathname: null,
@@ -42,7 +38,7 @@ class ErrorBoundary extends PureComponent {
   render() {
     const { hasError, error } = this.state;
 
-    const isAvailableToShowMessage = error && ['dev01', 'dev02', 'qa01'].includes(getBrand()?.env);
+    const isAvailableToShowMessage = error && !!getBrand()?.env?.match(/dev|qa/);
 
     return (
       <Choose>
