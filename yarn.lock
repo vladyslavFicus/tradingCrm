@@ -12155,26 +12155,6 @@ react-prop-types@^0.4.0:
   dependencies:
     warning "^3.0.0"
 
-react-redux-i18n@1.9.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/react-redux-i18n/-/react-redux-i18n-1.9.3.tgz#c3bd2c83e99d939c78a35e00df16a85b851f6315"
-  integrity sha1-w70sg+mdk5x4o14A3xaoW4UfYxU=
-  dependencies:
-    react-i18nify "^1.11.8"
-
-react-redux@^5.0.6:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.1.1.tgz#88e368682c7fa80e34e055cd7ac56f5936b0f52f"
-  integrity sha512-LE7Ned+cv5qe7tMV5BPYkGQ5Lpg8gzgItK07c67yHvJ8t0iaD9kPFPAli/mYkiyJYrs2pJgExR2ZgsGqlrOApg==
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    hoist-non-react-statics "^3.1.0"
-    invariant "^2.2.4"
-    loose-envify "^1.1.0"
-    prop-types "^15.6.1"
-    react-is "^16.6.0"
-    react-lifecycles-compat "^3.0.0"
-
 react-resize-detector@~2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-2.3.0.tgz#57bad1ae26a28a62a2ddb678ba6ffdf8fa2b599c"
@@ -12704,66 +12684,6 @@ reduce-function-call@^1.0.1:
   integrity sha1-WiAL+S4ON3UXUv5FsKszD9S2vpk=
   dependencies:
     balanced-match "^0.4.2"
-
-redux-api-middleware@^2.0.0-beta.3:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/redux-api-middleware/-/redux-api-middleware-2.3.0.tgz#82b5cc1fcb87489ea61f9b8caa24aaf9fc8994f2"
-  integrity sha512-ZXg3O0vGIIrUkjOSxCB3zH+tfgSxs+xOYgZHYzb0Wo7uk478Mk6rl+XyddYneNnULj+ZjwxAHeRJaZavqIrhsA==
-  dependencies:
-    babel-plugin-transform-runtime "^6.23.0"
-    babel-runtime "^6.25.0"
-    lodash.isplainobject "^4.0.6"
-
-redux-form@7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-7.3.0.tgz#b92ef1639c86a6009b0821aacfc80ad8b5ac8c05"
-  integrity sha512-WcZRsRsVG25l8Cih3bEeeoZFxSIvoHqTpBRe5Ifl1ob7xvEpYLXyYYHAFER1DpTfMZPgTPHZ4UkR4ILFP3hzkw==
-  dependencies:
-    deep-equal "^1.0.1"
-    es6-error "^4.1.1"
-    hoist-non-react-statics "^2.5.0"
-    invariant "^2.2.3"
-    is-promise "^2.1.0"
-    lodash "^4.17.5"
-    lodash-es "^4.17.5"
-    prop-types "^15.6.1"
-
-redux-persist-crosstab@^3.6.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/redux-persist-crosstab/-/redux-persist-crosstab-3.7.0.tgz#7d516bf80f8ff9bd958f8ab04aafd9474798f7cf"
-  integrity sha512-bI95jPU7YslFgY8SW0gaVYE/s8I415ghH6QxudL+pAAf8SwLYTgiz2XKBoHGarvOkVrDdxTLWUrQf6jDwG0hJw==
-
-redux-persist@4.10.2:
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.10.2.tgz#8efdb16cfe882c521a78a6d0bfdfef2437f49f96"
-  integrity sha512-U+e0ieMGC69Zr72929iJW40dEld7Mflh6mu0eJtVMLGfMq/aJqjxUM1hzyUWMR1VUyAEEdPHuQmeq5ti9krIgg==
-  dependencies:
-    json-stringify-safe "^5.0.1"
-    lodash "^4.17.4"
-    lodash-es "^4.17.4"
-
-redux-thunk@^2.2.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
-  integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
-
-redux@3.7.2:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
-  integrity sha512-pNqnf9q1hI5HHZRBkj3bAngGZW/JMCmexDlOxw4XagXY2o1327nHH54LoTjiPJ0gizoqPDRqWyX/00g0hD6w+A==
-  dependencies:
-    lodash "^4.2.1"
-    lodash-es "^4.2.1"
-    loose-envify "^1.1.0"
-    symbol-observable "^1.0.3"
-
-redux@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
-  integrity sha512-R7bAtSkk7nY6O/OYMVR9RiBI+XghjF9rlbl5806HJbQph0LJVHZrU5oaO4q70eUKiqMRqm4y07KLTlMZ2BlVmg==
-  dependencies:
-    loose-envify "^1.4.0"
-    symbol-observable "^1.2.0"
 
 reflect.ownkeys@^0.2.0:
   version "0.2.0"

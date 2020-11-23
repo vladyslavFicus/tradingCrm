@@ -60,7 +60,12 @@ class TradingAccountsListFilters extends PureComponent {
         initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
-        {({ dirty, resetForm }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
@@ -127,6 +132,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 onClick={() => this.handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}
@@ -134,7 +140,7 @@ class TradingAccountsListFilters extends PureComponent {
               <Button
                 className="TradingAccountsListFilters__button"
                 type="submit"
-                disabled={loading || !dirty}
+                disabled={loading || isSubmitting || !dirty}
                 primary
               >
                 {I18n.t('COMMON.APPLY')}

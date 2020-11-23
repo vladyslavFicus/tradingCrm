@@ -28,7 +28,7 @@ class DesksGridFilter extends PureComponent {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -68,6 +68,7 @@ class DesksGridFilter extends PureComponent {
         {({
           isSubmitting,
           resetForm,
+          values,
           dirty,
         }) => (
           <Form className="DesksGridFilter__form">
@@ -123,7 +124,7 @@ class DesksGridFilter extends PureComponent {
               <Button
                 className="DesksGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

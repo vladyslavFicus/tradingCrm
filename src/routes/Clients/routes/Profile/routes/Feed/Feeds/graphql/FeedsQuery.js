@@ -48,7 +48,7 @@ const REQUEST = gql`query FeedsQuery_Feeds(
 
 const FeedsQuery = ({
   children,
-  location: { query },
+  location: { state },
   match: {
     params: {
       id: targetUUID,
@@ -58,7 +58,7 @@ const FeedsQuery = ({
   <Query
     query={REQUEST}
     variables={{
-      ...query ? query.filters : {},
+      ...state?.filters,
       targetUUID,
       limit: 20,
       page: 0,
@@ -72,7 +72,7 @@ const FeedsQuery = ({
 FeedsQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    query: PropTypes.object,
+    state: PropTypes.object,
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.object.isRequired,

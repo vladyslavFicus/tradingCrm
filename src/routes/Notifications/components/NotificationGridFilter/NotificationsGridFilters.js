@@ -14,7 +14,6 @@ import { Button, RefreshButton } from 'components/UI';
 import NotificationTypesQuery from './graphql/NotificationTypesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
-
 import './NotificationsGridFilters.scss';
 
 class NotificationsFilters extends PureComponent {
@@ -275,6 +274,7 @@ class NotificationsFilters extends PureComponent {
                 <Button
                   className="NotificationsGridFilter__button"
                   onClick={() => this.handleReset(resetForm)}
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   primary
                 >
                   {I18n.t('COMMON.RESET')}

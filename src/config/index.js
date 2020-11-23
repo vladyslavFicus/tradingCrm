@@ -66,14 +66,12 @@ const getBrand = () => config.brand;
  * @return {object | undefined }
  */
 const setBrand = (brandId) => {
-  config.brand = { id: brandId };
-};
-
-/**
- * Remove chosen brand config
- */
-const removeActiveBrand = () => {
-  config.brand = undefined;
+  if (brandId) {
+    config.brand = { id: brandId };
+  } else {
+    // Remove brand if provided brandId is undefined
+    config.brand = undefined;
+  }
 };
 
 /**
@@ -135,7 +133,6 @@ export {
   getBrand,
   setBrand,
   getClickToCall,
-  removeActiveBrand,
   getAvailableLanguages,
   getVersion,
   getGraphQLUrl,

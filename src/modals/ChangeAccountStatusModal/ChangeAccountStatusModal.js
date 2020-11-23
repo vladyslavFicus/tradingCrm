@@ -18,7 +18,12 @@ class ChangeAccountStatusModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     reasons: PropTypes.objectOf(PropTypes.string).isRequired,
-  }
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  };
+
+  static defaultProps = {
+    message: null,
+  };
 
   handleSubmit = (values, { setSubmitting }) => {
     const { onSubmit, onCloseModal } = this.props;
@@ -30,6 +35,7 @@ class ChangeAccountStatusModal extends PureComponent {
   render() {
     const {
       isOpen,
+      message,
       reasons,
       onCloseModal,
     } = this.props;
@@ -37,7 +43,11 @@ class ChangeAccountStatusModal extends PureComponent {
     const reasonsKeys = Object.keys(reasons);
 
     return (
-      <Modal className="modal-danger" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal
+        className="ChangeAccountStatusModal modal-danger"
+        toggle={onCloseModal}
+        isOpen={isOpen}
+      >
         <ModalHeader
           toggle={onCloseModal}
         >
@@ -74,6 +84,9 @@ class ChangeAccountStatusModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
+                <If condition={message}>
+                  {message}
+                </If>
               </ModalBody>
 
               <ModalFooter>

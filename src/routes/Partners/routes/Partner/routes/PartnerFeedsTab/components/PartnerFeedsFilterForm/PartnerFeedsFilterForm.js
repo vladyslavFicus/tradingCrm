@@ -52,7 +52,12 @@ class PartnerFeedsFilterForm extends PureComponent {
         onSubmit={this.handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, resetForm, dirty }) => (
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => (
           <Form className="PartnerFeedsFilterForm__form">
             <Field
               name="searchBy"
@@ -100,7 +105,7 @@ class PartnerFeedsFilterForm extends PureComponent {
               <Button
                 className="PartnerFeedsFilterForm__button"
                 onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
               >
                 {I18n.t('COMMON.RESET')}

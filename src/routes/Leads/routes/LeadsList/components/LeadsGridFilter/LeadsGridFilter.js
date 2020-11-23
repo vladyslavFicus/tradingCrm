@@ -115,7 +115,7 @@ class LeadsGridFilter extends PureComponent {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   render() {
@@ -136,13 +136,19 @@ class LeadsGridFilter extends PureComponent {
           searchLimit: ['numeric', 'greater:0', 'max:5000'],
         }, translateLabels(attributeLabels))}
       >
-        {({ values, isSubmitting, dirty, resetForm }) => {
+        {({
+          isSubmitting,
+          resetForm,
+          values,
+          dirty,
+        }) => {
           const desksUuids = values.desks || [];
           const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
           const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
           const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const operatorsOptions = this.filterOperators(values);
+          const languagesOptions = ['other', ...getAvailableLanguages()];
 
           return (
             <Form className="LeadsGridFilter__form">
@@ -167,7 +173,7 @@ class LeadsGridFilter extends PureComponent {
                   withFocus
                   multiple
                 >
-                  {getAvailableLanguages().map(locale => (
+                  {languagesOptions.map(locale => (
                     <option key={locale} value={locale}>
                       {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                     </option>
@@ -345,7 +351,7 @@ class LeadsGridFilter extends PureComponent {
 
                 <Button
                   className="LeadsGridFilter__button"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   onClick={() => this.handleReset(resetForm)}
                   primary
                 >

@@ -346,24 +346,6 @@
         }
       }
     },
-    "DEVICES": {
-      "FILTER": {
-        "LOGIN_DATE_RANGE": "Login date range",
-        "LABELS": {
-          "TYPE": "Type",
-          "OPERATING_SYSTEM": "Operating system"
-        }
-      },
-      "GRID_VIEW": {
-        "DEVICE_ID": "Device ID",
-        "TYPE": "Type",
-        "OPERATING_SYSTEM": "Operating system",
-        "LAST_IP": "Last IP",
-        "LAST_LOGIN": "Last login",
-        "TOTAL_LOGIN": "Total login"
-      },
-      "TITLE": "Devices"
-    },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
     },
@@ -371,10 +353,6 @@
       "ADD_TRANSACTION": "+ Add transaction",
       "ADD_TRANSACTION_FAIL": "Failed to add transaction",
       "ADD_TRANSACTION_SUCCESS": "Transaction was added successfully",
-      "ERRORS": {
-        "FREE_MARGIN_LIMIT_EXCEED": "Cannot create transaction. Free margin limit exceeded",
-        "LIMIT_EXCEED": "Insufficient funds due to opened orders. Please close all opened orders and complete previous withdrawals to proceed with the withdrawal."
-      },
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
         "CHOOSE_PAYMENT_METHOD_LABEL": "Choose payment method",
@@ -448,7 +426,6 @@
       "PAYMENT_ACCOUNTS": "Payment Accounts",
       "LIMITS": "Limits",
       "FILES": "Files",
-      "DEVICES": "Devices",
       "NOTES_AND_TAGS": "Notes & Tags",
       "FEED": "Feed"
     },
@@ -662,6 +639,7 @@
     "YES": "Yes",
     "NO": "No",
     "CUSTOM_REASON_OPTION": "Other",
+    "OTHER": "Other",
     "NOTE": "Note",
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
@@ -703,6 +681,7 @@
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "AND_N_MORE": "and %{value} more ...",
     "LANGUAGE_NAME": {
+      "OTHER": "Other",
       "UK": "Ukrainian",
       "ZH": "Chinese",
       "AR": "Arabic",
@@ -1085,6 +1064,7 @@
         "TRANSFER_OUT": "Transfer out",
         "FEE": "Fee",
         "INACTIVITY_FEE": "Inactivity fee",
+        "TRADING_ACCOUNT_NAME_UPDATED": "Trading account name updated",
         "TRADING_ACCOUNT_ARCHIVED": "Trading account archived",
         "TRADING_ACCOUNT_LEVERAGE_UPDATED": "Trading account leverage updated",
         "INTEREST_RATE": "Interest rate",
@@ -1165,14 +1145,6 @@
       "TYPES_ACTION": {
         "FORBID": "Forbid",
         "ALLOW": "Allow"
-      }
-    },
-    "DEVICES": {
-      "TYPES": {
-        "MOBILE": "Mobile",
-        "DESKTOP": "Desktop",
-        "TABLET": "Tablet",
-        "UNKNOWN": "Unknown"
       }
     },
     "SIGN_IN": {
@@ -1403,12 +1375,10 @@
     },
     "FEED": {
       "FILTER_FORM": {
-        "SEARCH_BY_LABEL": "Search by",
+        "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
-        "ACTION_TYPES": "Action types",
-        "ACTION_DATE_RANGE": "Action date range",
-        "CREATION_DATE_FROM": "Creation date from",
-        "CREATION_DATE_TO": "Creation date to"
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
       },
       "TITLE": "Feed"
     },
@@ -1438,6 +1408,23 @@
         "TITLE": "Send invitation to operator - Confirmation",
         "ACTION_TEXT": "You are about to send an invitation to operator",
         "CONFIRM_ACTION": "Send invitation"
+      },
+      "CHANGE_ACCOUNT_STATUS_MODAL": {
+        "WARNING_CLIENTS": {
+          "BEFORE_LINK": "has %{count} assigned clients. Please, go to ",
+          "LINK": "Clients Search Page",
+          "AFTER_LINK": " to re-assign all clients to another active operator."
+        },
+        "WARNING_LEADS": {
+          "BEFORE_LINK": "has %{count} assigned leads. Please, go to ",
+          "LINK": "Leads Search Page",
+          "AFTER_LINK": " to re-assign all leads to another active operator."
+        },
+        "WARNING_RULES": {
+          "BEFORE_LINK": "has %{count} assigned sales rules. Please, go to ",
+          "LINK": "Sales Rules Page",
+          "AFTER_LINK": " to re-assign all rules to another active operator."
+        }
       }
     },
     "IP_LIST": {
@@ -1459,22 +1446,46 @@
       }
     },
     "NOTIFICATIONS": {
-      "SUCCESS_UNLOCK": {
-        "TITLE": "success",
-        "MESSAGE": "Operator unlocked successfully"
+      "UNLOCK": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Operator unlocked successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to unlock operator"
+        }
       },
-      "ERROR_SET_NEW_PASSWORD": {
-        "TITLE": "Error",
-        "MESSAGE": "Failed to change password"
+      "RESET_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Reset password notification was sent to operator's email"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to reset password"
+        }
       },
-      "SUCCESS_SET_NEW_PASSWORD": {
-        "TITLE": "Success",
-        "MESSAGE": "Password changed successfully"
+      "CHANGE_PASSWORD": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Password changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change password"
+        }
+      },
+      "CHANGE_ACCOUNT_STATUS": {
+        "SUCCESS": {
+          "TITLE": "Success",
+          "MESSAGE": "Account status changed successfully"
+        },
+        "ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Failed to change account status"
+        }
       }
-    },
-    "ERROR_UNLOCK": {
-      "TITLE": "error",
-      "MESSAGE": "Operator unlocked unsuccessfully"
     }
   },
   "PARTNER_PROFILE": {
@@ -1729,6 +1740,21 @@
       "password": {
         "repeated": "You used this password recently. Please choose a different one",
         "nonEquals": "Old password value is wrong"
+      },
+      "withdraw": {
+        "free": {
+          "margin": {
+            "limit": {
+              "exceed": "Cannot create transaction. Free margin limit exceeded"
+            }
+          }
+        },
+        "limit": {
+          "exceed": "Insufficient funds due to opened orders. Please close all opened orders and complete previous withdrawals to proceed with the withdrawal."
+        }
+      },
+      "country": {
+        "restricted": "Restricted country"
       }
     },
     "payment": {
@@ -1963,13 +1989,13 @@
           "ROLE": "Role"
         },
         "LABEL": "Departments",
-        "ADD_BUTTON_LABEL": "+ADD"
+        "ADD_BUTTON_LABEL": "+ Add department"
       },
       "HIERARCHY": {
         "LABEL": "Hierarchy",
         "BRANCHES": "Branches",
         "NO_BRANCHES": "This user has no branches yet",
-        "ADD_BRANCH_LABEL": "Add Branch",
+        "ADD_BRANCH_LABEL": "+ Add Branch",
         "BRANCH_ADDED": "Branch %{name} successfully added",
         "ERROR_UPDATE_TYPE": "Update operator's user type failed. Please try again later",
         "SUCCESS_UPDATE_TYPE": "Successfully updated operator's user type",
@@ -1985,9 +2011,7 @@
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
           "PHONE": "Phone",
-          "SIP": "SIP",
-          "WHITE_LISTED_IP": "White listed IPs",
-          "RESTRICTED_COUNTRIES": "Restricted countries"
+          "SIP": "SIP"
         }
       }
     },
@@ -3090,7 +3114,8 @@
       "FIRST_TIME_DEPOSIT": "First time deposit",
       "CREATED_TIME": "Created Time",
       "LAST_TIME_EXECUTED": "Rule Last Time Executed",
-      "TIME_IN_STATUS": "Time in Status"
+      "TIME_IN_STATUS": "Time in Status",
+      "AFFILIATE": "Affiliate"
     },
     "MIGRATION_MODAL": {
       "TITLE": "Start migration",
@@ -3139,8 +3164,9 @@
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE": "Registration date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "FIRST_TIME_DEPOSIT": "First time deposit",
-        "LANGUAGE": "Language"
+        "LANGUAGE": "Language",
+        "AFFILIATE": "Affiliate",
+        "FIRST_TIME_DEPOSIT": "First time deposit"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {
@@ -3178,7 +3204,7 @@
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
-        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only %{percentage}% of clients for migration.",
+        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only 10000 clients for migration (%{percentage}%)",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage"
@@ -3274,7 +3300,10 @@
       "HEADLINE": "Notifications found",
       "SUBLINE": "Notifications selected",
       "MAX_ITEM_SELECTED": "Notifications selected",
-      "UPDATE_FAILED": "Failed update"
+      "UPDATE_FAILED": "Failed update",
+      "ERRORS": {
+        "SELECTED_MORE_THAN_MAX": "Only {{max}} notifications were selected due to the limit"
+      }
     }
   },
   "HIERARCHY": {
