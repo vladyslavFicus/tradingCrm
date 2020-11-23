@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
+import { getBrand } from 'config';
 import './ErrorBoundary.scss';
 
 class ErrorBoundary extends PureComponent {
@@ -41,7 +42,7 @@ class ErrorBoundary extends PureComponent {
   render() {
     const { hasError, error } = this.state;
 
-    console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+    const isAvailableToShowMessage = error && ['dev01', 'dev02', 'qa01'].includes(getBrand()?.env);
 
     return (
       <Choose>
@@ -51,7 +52,7 @@ class ErrorBoundary extends PureComponent {
               <h1 className="ErrorBoundary__title">{I18n.t('COMMON.ERROR_TITLE')}</h1>
               <p className="ErrorBoundary__description">{I18n.t('COMMON.ERROR_CONTENT')}</p>
 
-              <If condition={error && process.env.NODE_ENV === 'development'}>
+              <If condition={isAvailableToShowMessage}>
                 <div className="ErrorBoundary__error" dangerouslySetInnerHTML={{ __html: error }} />
               </If>
             </div>
