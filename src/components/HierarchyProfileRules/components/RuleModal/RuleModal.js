@@ -9,7 +9,11 @@ import { ruleTypes, priorities } from 'constants/rules';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, Tabs, TabsItem } from 'components/UI';
-import { OperatorsQuery, PartnersQuery } from './graphql';
+import {
+  OperatorsQuery,
+  PartnersQuery,
+  RulesQuery,
+} from './graphql';
 import { attributeLabels, customErrors } from './constants';
 import RuleSettings from './components/RuleSettings';
 import RuleSchedule from './components/RuleSchedule';
@@ -17,23 +21,30 @@ import './RuleModal.scss';
 
 class RuleModal extends PureComponent {
   static propTypes = {
+    // ----- Modal API
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    // -----
+    // ----- Queries
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
     }).isRequired,
     operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.operatorsListEntity),
     }).isRequired,
+    rulesQuery: PropTypes.query({
+      rules: PropTypes.arrayOf(PropTypes.ruleType),
+    }).isRequired,
+    // -----
     onSubmit: PropTypes.func.isRequired,
-    type: PropTypes.string,
-    currentUuid: PropTypes.string,
-    withOperatorSpreads: PropTypes.bool,
+    userType: PropTypes.string, // SalesRules only
+    userUuid: PropTypes.string, // SalesRules only
+    withOperatorSpreads: PropTypes.bool, // SalesRules only
   };
 
   static defaultProps = {
-    type: null,
-    currentUuid: null,
+    userType: null,
+    userUuid: null,
     withOperatorSpreads: false,
   };
 
@@ -56,13 +67,44 @@ class RuleModal extends PureComponent {
       partnersQuery: {
         data: partnersQueryData,
       },
-      type,
-      currentUuid,
+      rulesQuery: {
+        data: rulesQueryData,
+      },
+      userType,
+      userUuid,
       withOperatorSpreads,
     } = this.props;
 
     const operators = operatorsQueryData?.operators?.content || [];
     const partners = partnersQueryData?.partners?.content || [];
+
+    const {
+      name,
+      type,
+      priority,
+      ruleType,
+      countries,
+      languages,
+      partners: currentPartners,
+      sources,
+      actions,
+    } = rulesQueryData?.rules?.['0'] || {};
+    const currentOperators = actions?.['0']?.operatorSpreads;
+
+    const initialValues = {
+      affiliateUUIDs: userType === 'PARTNER' ? [userUuid] : [],
+      operatorSpreads: userType === 'OPERATOR' ? [{ parentUser: userUuid, percentage: 100 }] : [],
+    };
+
+    if (currentPartners) {
+      initialValues.affiliateUUIDs = currentPartners.map(({ uuid }) => uuid);
+    }
+
+    if (currentOperators) {
+      initialValues.operatorSpreads = currentOperators.map(
+        ({ parentUser, percentage }) => ({ parentUser, percentage }),
+      );
+    }
 
     return (
       <Modal
@@ -72,17 +114,14 @@ class RuleModal extends PureComponent {
       >
         <Formik
           initialValues={{
-            name: '',
-            priority: '',
-            depositCount: '',
-            depositAmountFrom: '',
-            depositAmountTo: '',
-            ruleType: '',
-            countries: '',
-            languages: '',
-            type: '',
-            affiliateUUIDs: type === 'PARTNER' ? [currentUuid] : '',
-            operatorSpreads: type === 'OPERATOR' ? [{ parentUser: currentUuid, percentage: 100 }] : [],
+            ...initialValues,
+            name,
+            type,
+            priority,
+            ruleType,
+            countries,
+            languages,
+            sources,
             schedule: [
               {
                 week: {},
@@ -117,6 +156,7 @@ class RuleModal extends PureComponent {
           validateOnBlur={false}
           validateOnChange={this.state.validationByChange}
           onSubmit={this.handleSubmit}
+          enableReinitialize
         >
           {({
             values,
@@ -182,4 +222,5 @@ class RuleModal extends PureComponent {
 export default withRequests({
   operatorsQuery: OperatorsQuery,
   partnersQuery: PartnersQuery,
+  rulesQuery: RulesQuery,
 })(RuleModal);

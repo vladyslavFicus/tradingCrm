@@ -1,7 +1,3 @@
-import OperatorsQuery from './OperatorsQuery';
-import PartnersQuery from './PartnersQuery';
-
-export {
-  OperatorsQuery,
-  PartnersQuery,
-};
+export { default as OperatorsQuery } from './OperatorsQuery';
+export { default as PartnersQuery } from './PartnersQuery';
+export { default as RulesQuery } from './RulesQuery';

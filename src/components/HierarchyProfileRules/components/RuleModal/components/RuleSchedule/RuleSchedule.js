@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent, Fragment } from 'react';
 import { Field, FieldArray } from 'formik';
 import PropTypes from 'prop-types';
@@ -9,7 +8,7 @@ import './RuleSchedule.scss';
 
 class RuleSchedule extends PureComponent {
   static propTypes = {
-    operators: PropTypes.array.isRequired, 
+    operators: PropTypes.array.isRequired,
     schedule: PropTypes.arrayOf(PropTypes.shape({
       week: PropTypes.object.isRequired,
       timeInterval: PropTypes.arrayOf(PropTypes.shape({
@@ -32,7 +31,7 @@ class RuleSchedule extends PureComponent {
       checkedDays,
       hasLimitOfBoards: Object.values(checkedDays).filter(Boolean).length === 7,
     };
-  };
+  }
 
   state = {
     checkedDays: {},
@@ -65,7 +64,6 @@ class RuleSchedule extends PureComponent {
             name="enableScheduleSettings"
             label="Enable Schedule Settings"
             component={FormikSwitchField}
-            // onChange={() => {}}
             textFirst
           />
         </div>

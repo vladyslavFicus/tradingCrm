@@ -11,7 +11,7 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import countries from 'utils/countryList';
-import { actionRuleTypes, deskTypes } from 'constants/rules';
+import { actionRuleTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
@@ -81,20 +81,19 @@ class SalesRules extends PureComponent {
 
   triggerRuleModal = () => {
     const {
-      type,
+      type: userType,
       modals: { ruleModal },
       match: {
         params: {
-          id: currentUuid,
+          id: userUuid,
         },
       },
     } = this.props;
 
     ruleModal.show({
-      currentUuid,
-      type,
       onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
-      deskType: deskTypes.SALES,
+      userUuid,
+      userType,
       withOperatorSpreads: true,
     });
   };
@@ -105,9 +104,9 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     editRuleModal.show({
+      uuid,
       onSubmit: (values, setErrors) => this.handleEditRule(values, uuid, setErrors),
       withOperatorSpreads: true,
-      uuid,
     });
   };
 

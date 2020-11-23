@@ -29,13 +29,13 @@ class Tabs extends PureComponent {
       .filter(child => child.type === TabsItem);
 
     return (
-      <div className="Tabs">
-        <div className="Tabs__nav">
+      <div className="StaticTabs">
+        <div className="StaticTabs__nav">
           {children.map(({ props: { label } }) => (
             <Button
               key={label}
-              className={classNames('Tabs__nav-item', {
-                'Tabs__nav-item--active': activeTabName === label,
+              className={classNames('StaticTabs__nav-item', {
+                'StaticTabs__nav-item--active': activeTabName === label,
               })}
               onClick={() => this.setState({ activeTabName: label })}
             >
@@ -43,7 +43,7 @@ class Tabs extends PureComponent {
             </Button>
           ))}
         </div>
-        <div className="Tabs__content">
+        <div className="StaticTabs__content">
           {children.filter(({ props: { label } }) => label === activeTabName)}
         </div>
       </div>

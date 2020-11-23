@@ -70,13 +70,11 @@ class HierarchyProfileRules extends PureComponent {
 
   triggerRuleModal = () => {
     const {
-      deskType,
       modals: { ruleModal },
     } = this.props;
 
     ruleModal.show({
       onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
-      deskType,
     });
   };
 
@@ -86,8 +84,8 @@ class HierarchyProfileRules extends PureComponent {
     } = this.props;
 
     editRuleModal.show({
-      onSubmit: values => this.handleEditRule(values, uuid),
       uuid,
+      onSubmit: values => this.handleEditRule(values, uuid),
     });
   };
 
