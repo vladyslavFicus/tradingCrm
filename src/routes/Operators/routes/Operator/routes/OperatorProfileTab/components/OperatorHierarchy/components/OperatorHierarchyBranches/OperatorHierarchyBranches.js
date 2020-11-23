@@ -184,7 +184,7 @@ class OperatorHierarchyBranches extends PureComponent {
 
     const { branchType, uuid } = branch;
 
-    const { parentBranch } = branchesByType[branchType].find(_branch => _branch.uuid === uuid) || {};
+    const { parentBranch } = branchesByType[branchType]?.find(_branch => _branch.uuid === uuid) || {};
 
     return parentBranch && parentBranch.branchType !== 'COMPANY'
       ? this.buildParentsBranchChain(parentBranch, `${parentBranch.name} → ${parentsBranchChain}`)
@@ -201,6 +201,8 @@ class OperatorHierarchyBranches extends PureComponent {
     const { isVisibleAddBranchForm } = this.state;
 
     const branchesByType = hierarchyUserBranchesQuery.data?.userBranches || {};
+    branchesByType.BRAND = null;
+
     const operatorBranches = operatorHierarchyQuery.data?.userHierarchyById?.parentBranches || [];
     const operatorBranchesUuids = operatorBranches.map(({ uuid }) => uuid);
     const branchTypesOptions = Object.keys(omit(branchTypes, 'COMPANY'));
