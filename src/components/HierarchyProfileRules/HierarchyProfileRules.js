@@ -18,6 +18,8 @@ import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import CreateRuleModal from 'modals/CreateRuleModal';
+import UpdateRuleModal from 'modals/UpdateRuleModal';
 import {
   RulesQuery,
   BranchInfoQuery,
@@ -25,8 +27,6 @@ import {
   CreateRule,
   DeleteRule,
 } from './graphql';
-import RuleModal from './components/RuleModal';
-import EditRuleModal from './components/EditRuleModal';
 import RulesFilters from './components/RulesGridFilters';
 import infoConfig from './constants';
 import './HierarchyProfileRules.scss';
@@ -46,7 +46,7 @@ class HierarchyProfileRules extends PureComponent {
     createRule: PropTypes.func.isRequired,
     deleteRule: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      ruleModal: PropTypes.modalType,
+      createRuleModal: PropTypes.modalType,
       ruleModalRetention: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
     }).isRequired,
@@ -70,20 +70,20 @@ class HierarchyProfileRules extends PureComponent {
 
   triggerRuleModal = () => {
     const {
-      modals: { ruleModal },
+      modals: { createRuleModal },
     } = this.props;
 
-    ruleModal.show({
+    createRuleModal.show({
       onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
     });
   };
 
   triggerEditRuleModal = (uuid) => {
     const {
-      modals: { editRuleModal },
+      modals: { updateRuleModal },
     } = this.props;
 
-    editRuleModal.show({
+    updateRuleModal.show({
       uuid,
       onSubmit: values => this.handleEditRule(values, uuid),
     });
@@ -93,7 +93,7 @@ class HierarchyProfileRules extends PureComponent {
     const {
       notify,
       createRule,
-      modals: { ruleModal },
+      modals: { createRuleModal },
       match: { params: { id } },
       rulesQuery,
     } = this.props;
@@ -113,7 +113,7 @@ class HierarchyProfileRules extends PureComponent {
 
       await rulesQuery.refetch();
 
-      ruleModal.hide();
+      createRuleModal.hide();
 
       notify({
         level: 'success',
@@ -157,7 +157,7 @@ class HierarchyProfileRules extends PureComponent {
     const {
       notify,
       createRule,
-      modals: { editRuleModal },
+      modals: { updateRuleModal },
       match: { params: { id } },
       rulesQuery,
     } = this.props;
@@ -178,7 +178,7 @@ class HierarchyProfileRules extends PureComponent {
 
       await rulesQuery.refetch();
 
-      editRuleModal.hide();
+      updateRuleModal.hide();
 
       notify({
         level: 'success',
@@ -488,8 +488,8 @@ export default (title, deskType, branchType) => props => (
       withPermission,
       withNotifications,
       withModals({
-        ruleModal: RuleModal,
-        editRuleModal: EditRuleModal,
+        createRuleModal: CreateRuleModal,
+        updateRuleModal: UpdateRuleModal,
         deleteModal: ConfirmActionModal,
       }),
       withRequests({

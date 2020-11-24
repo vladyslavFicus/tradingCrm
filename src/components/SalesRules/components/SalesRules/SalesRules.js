@@ -22,8 +22,8 @@ import Placeholder from 'components/Placeholder';
 import { decodeNullValues } from 'components/Formik/utils';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
-import RuleModal from 'components/HierarchyProfileRules/components/RuleModal';
-import EditRuleModal from 'components/HierarchyProfileRules/components/EditRuleModal';
+import CreateRuleModal from 'modals/CreateRuleModal';
+import UpdateRuleModal from 'modals/UpdateRuleModal';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import infoConfig from './constants';
 import './SalesRules.scss';
@@ -44,9 +44,9 @@ class SalesRules extends PureComponent {
     updateRule: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      ruleModal: PropTypes.modalType,
+      createRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
-      editRuleModal: PropTypes.modalType,
+      updateRuleModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.object,
@@ -82,7 +82,7 @@ class SalesRules extends PureComponent {
   triggerRuleModal = () => {
     const {
       type: userType,
-      modals: { ruleModal },
+      modals: { createRuleModal },
       match: {
         params: {
           id: userUuid,
@@ -90,7 +90,7 @@ class SalesRules extends PureComponent {
       },
     } = this.props;
 
-    ruleModal.show({
+    createRuleModal.show({
       onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
       userUuid,
       userType,
@@ -100,10 +100,10 @@ class SalesRules extends PureComponent {
 
   triggerEditRuleModal = (uuid) => {
     const {
-      modals: { editRuleModal },
+      modals: { updateRuleModal },
     } = this.props;
 
-    editRuleModal.show({
+    updateRuleModal.show({
       uuid,
       onSubmit: (values, setErrors) => this.handleEditRule(values, uuid, setErrors),
       withOperatorSpreads: true,
@@ -114,7 +114,7 @@ class SalesRules extends PureComponent {
     const {
       notify,
       updateRule,
-      modals: { editRuleModal },
+      modals: { updateRuleModal },
       match: { params: { id } },
       rules: { refetch },
     } = this.props;
@@ -138,7 +138,7 @@ class SalesRules extends PureComponent {
       );
 
       await refetch();
-      editRuleModal.hide();
+      updateRuleModal.hide();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -181,7 +181,7 @@ class SalesRules extends PureComponent {
     const {
       notify,
       createRule,
-      modals: { ruleModal },
+      modals: { createRuleModal },
       match: { params: { id } },
       rules: { refetch },
     } = this.props;
@@ -204,7 +204,7 @@ class SalesRules extends PureComponent {
       );
 
       await refetch();
-      ruleModal.hide();
+      createRuleModal.hide();
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -230,7 +230,7 @@ class SalesRules extends PureComponent {
                   pathname: '/sales-rules',
                   query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
                 }}
-                onClick={ruleModal.hide}
+                onClick={createRuleModal.hide}
               >
                 {I18n.t(`rules.${error.error}`, error.errorParameters)}
               </Link>
@@ -589,8 +589,8 @@ export default compose(
   withRouter,
   withModals({
     deleteModal: ConfirmActionModal,
-    ruleModal: RuleModal,
-    editRuleModal: EditRuleModal,
+    createRuleModal: CreateRuleModal,
+    updateRuleModal: UpdateRuleModal,
   }),
   withNotifications,
   withRequests({

@@ -1,0 +1,16 @@
+.RuleScheduleTimeRange {
+  display: flex;
+  align-items: center;
+
+  &__separator {
+    display: block;
+    margin: 0 8px;
+    width: 4px;
+    height:  2px;
+    background-color: #c4c4c4;
+  }
+  
+  &__field {
+    width: 148px;
+  }
+}
