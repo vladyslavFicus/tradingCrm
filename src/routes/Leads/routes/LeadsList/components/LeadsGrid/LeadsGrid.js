@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Grid, { GridColumn } from 'components/Grid';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';

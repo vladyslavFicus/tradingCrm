@@ -23,7 +23,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Permissions from 'utils/permissions';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';

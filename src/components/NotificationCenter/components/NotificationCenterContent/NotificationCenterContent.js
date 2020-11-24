@@ -6,7 +6,7 @@ import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import NotificationCenterForm from '../NotificationCenterForm';
 import NotificationCenterTable from '../NotificationCenterTable';
 import NotificationCenterQuery from '../../graphql/NotificationCenterQuery';

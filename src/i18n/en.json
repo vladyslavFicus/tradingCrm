@@ -2283,6 +2283,10 @@
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
     },
+    "CONFIRM_ACTION_MODAL": {
+      "TITLE": "Confirm action",
+      "DESCRIPTION": "Do you really want to confirm this action?"
+    },
     "UPDATE_TRADING_ACCOUNT_MODAL": {
       "TITLE": "Update trading account",
       "LABLES": {

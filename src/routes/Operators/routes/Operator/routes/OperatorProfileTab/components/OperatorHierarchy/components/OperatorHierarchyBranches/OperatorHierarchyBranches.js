@@ -8,7 +8,7 @@ import { withRequests, parseErrors } from 'apollo';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { branchTypes } from 'constants/hierarchyTypes';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
