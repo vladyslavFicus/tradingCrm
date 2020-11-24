@@ -30,7 +30,7 @@ class ClientsHeader extends PureComponent {
     let rowsLength = touchedRowsIds.length;
 
     if (allRowsSelected) {
-      const totalElements = clientsQuery.data.profiles?.totalElements;
+      const totalElements = clientsQuery.data?.profiles?.totalElements;
       const searchLimit = location.state?.filters?.searchLimit || Infinity;
 
       rowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_CLIENTS) - rowsLength;
@@ -48,7 +48,7 @@ class ClientsHeader extends PureComponent {
       updateClientsListState,
     } = this.props;
 
-    const totalElements = clientsQuery.data.profiles?.totalElements;
+    const totalElements = clientsQuery.data?.profiles?.totalElements;
     const searchLimit = location.state?.filters?.searchLimit;
 
     const clientsListCount = (searchLimit && searchLimit < totalElements)

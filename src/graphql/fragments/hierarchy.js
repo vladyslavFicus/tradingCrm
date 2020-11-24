@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 const HierarchyBranchFragment = gql`fragment HierarchyBranchFragment on HierarchyBranch {
   uuid

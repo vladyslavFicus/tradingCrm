@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withApollo, compose } from 'react-apollo';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
 import I18n from 'i18n-js';
 import { Link } from 'components/Link';
 import CircleLoader from 'components/CircleLoader';

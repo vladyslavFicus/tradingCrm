@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { compose, withApollo } from 'react-apollo';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
 import { withRouter } from 'react-router-dom';
 import { omit, intersection } from 'lodash';
 import classNames from 'classnames';
@@ -74,7 +75,7 @@ class LeadsGridFilter extends PureComponent {
       desksAndTeamsQuery,
     } = this.props;
 
-    const operators = operatorsQuery.data.operators?.content || [];
+    const operators = operatorsQuery.data?.operators?.content || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });
@@ -82,7 +83,7 @@ class LeadsGridFilter extends PureComponent {
 
     if (desks && desks.length) {
       // If desk chosen -> find all teams of these desks to filter operators
-      const teamsList = desksAndTeamsQuery.data.userBranches?.TEAM || [];
+      const teamsList = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
       const teamsByDesks = teamsList.filter(team => desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
       const uuids = [...desks, ...teamsByDesks];
 
@@ -143,8 +144,8 @@ class LeadsGridFilter extends PureComponent {
           dirty,
         }) => {
           const desksUuids = values.desks || [];
-          const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
-          const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
+          const desks = desksAndTeamsQuery.data?.userBranches?.DESK || [];
+          const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
           const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const operatorsOptions = this.filterOperators(values);

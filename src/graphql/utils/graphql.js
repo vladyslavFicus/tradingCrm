@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql } from '@apollo/client/react/components';
 import { get } from 'lodash';
 
 /**

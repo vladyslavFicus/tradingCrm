@@ -1,4 +1,5 @@
-import { graphql, compose } from 'react-apollo';
+import compose from 'compose-function';
+import { graphql } from '@apollo/client/react/hoc';
 import { withNotifications, withModals } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import {

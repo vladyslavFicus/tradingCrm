@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withApollo } from 'react-apollo';
+import { withApollo } from '@apollo/client/react/components';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator, translateLabels } from 'utils/validator';

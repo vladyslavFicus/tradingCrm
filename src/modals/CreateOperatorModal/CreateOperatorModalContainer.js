@@ -1,5 +1,6 @@
 import { get } from 'lodash';
-import { compose, graphql } from 'react-apollo';
+import compose from 'compose-function';
+import { graphql } from '@apollo/client/react/hoc';
 import { withRouter } from 'react-router-dom';
 import { withNotifications } from 'hoc';
 import { branchTypes as branchNames } from 'constants/hierarchyTypes';

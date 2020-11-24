@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { getGraphQLUrl, getVersion } from 'config';

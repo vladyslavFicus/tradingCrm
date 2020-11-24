@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { getClickToCall } from 'config';
 import I18n from 'i18n-js';
-import { compose, graphql } from 'react-apollo';
+import compose from 'compose-function';
+import { graphql } from '@apollo/client/react/hoc';
 import ToolTip from 'react-portal-tooltip';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';

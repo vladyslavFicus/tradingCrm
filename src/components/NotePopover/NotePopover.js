@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { v4 } from 'uuid';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import moment from 'moment';

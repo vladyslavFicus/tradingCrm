@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 
 const REQUEST = gql`query DistributionRules__GetDistributionRules($args: DistributionRuleSearch__Input) {
   distributionRules (args: $args) {

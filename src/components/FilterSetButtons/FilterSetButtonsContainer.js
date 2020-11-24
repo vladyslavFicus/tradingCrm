@@ -1,4 +1,5 @@
-import { graphql, compose } from 'react-apollo';
+import compose from 'compose-function';
+import { graphql } from '@apollo/client/react/hoc';
 import { get } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
 import { deleteFilterSet } from 'graphql/mutations/filterSet';
