@@ -32,4 +32,46 @@
     overflow: auto;
     flex-grow: 1;
   }
+
+  &__actions {
+    display: flex;
+  }
+
+  &__markAsRead {
+    margin-left: 50px;
+  }
+}
+
+.NotificationCenterConfiguration {
+  display: flex;
+  align-items: center;
+
+  &__title {
+    color: #9b9b9b;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  &__switcher {
+    width: 45px;
+    height: 25px;
+    margin: 0 0 0 10px;
+    border-radius: 14px;
+
+    .switch-toggle {
+      top: 48%;
+      width: 19px;
+      height: 19px;
+      box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.5);
+      transition: left .15s ease-in-out;
+    }
+
+    &.on {
+      background: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%), #FFF;
+
+      .switch-toggle {
+        left: 23px;
+      }
+    }
+  }
 }

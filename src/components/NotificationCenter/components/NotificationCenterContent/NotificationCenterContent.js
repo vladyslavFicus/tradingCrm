@@ -6,12 +6,15 @@ import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
+import ReactSwitch from 'components/ReactSwitch';
 import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
 import NotificationCenterForm from '../NotificationCenterForm';
 import NotificationCenterTable from '../NotificationCenterTable';
 import NotificationCenterQuery from '../../graphql/NotificationCenterQuery';
 import NotificationCenterTypesQuery from '../../graphql/NotificationCenterTypesQuery';
+import NotificationCenterConfigurationQuery from '../../graphql/NotificationCenterConfigurationQuery';
 import NotificationCenterUpdate from '../../graphql/NotificationCenterUpdate';
+import NotificationCenterConfigurationUpdate from '../../graphql/NotificationCenterConfigurationUpdate';
 import './NotificationCenterContent.scss';
 
 const MAX_SELECTED_ROWS = 1000;
@@ -24,12 +27,16 @@ class NotificationCenterContent extends PureComponent {
     notificationsTypes: PropTypes.query({
       notificationCenterTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
+    notificationsConfiguration: PropTypes.query({
+      notificationCenterConfiguration: PropTypes.object,
+    }).isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
     notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     bulkUpdate: PropTypes.func.isRequired,
+    notificationsConfigurationUpdate: PropTypes.func.isRequired,
   };
 
   state = {
@@ -125,6 +132,27 @@ class NotificationCenterContent extends PureComponent {
     this.resetSelection();
   };
 
+  handleSwitchNotificationConfiguration = async (showNotificationsPopUp) => {
+    const { notificationsConfigurationUpdate, notify } = this.props;
+
+    try {
+      await notificationsConfigurationUpdate({ variables: { showNotificationsPopUp } });
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+        message: I18n.t('COMMON.ACTIONS.UPDATED'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
+      });
+
+      throw e;
+    }
+  };
+
   resetSelection = () => {
     this.setState({ allRowsSelected: false, touchedRowsIds: [] });
   };
@@ -150,6 +178,7 @@ class NotificationCenterContent extends PureComponent {
     const {
       notifications,
       notificationsTypes: { data: notificationsTypesData },
+      notificationsConfiguration,
     } = this.props;
 
     const { allRowsSelected, touchedRowsIds } = this.state;
@@ -158,6 +187,7 @@ class NotificationCenterContent extends PureComponent {
     const notificationsTypes = Object.keys(typesData);
 
     const totalElements = get(notifications, 'data.notificationCenter.totalElements');
+    const { showNotificationsPopUp } = get(notificationsConfiguration, 'data.notificationCenterConfiguration') || {};
 
     return (
       <div className="NotificationCenterContent">
@@ -170,9 +200,22 @@ class NotificationCenterContent extends PureComponent {
               {this.getSelectedRowLength()} {I18n.t('NOTIFICATION_CENTER.TOOLTIP.SUBLINE')}
             </div>
           </div>
-          <div>
+          <div className="NotificationCenterContent__actions">
+            <If condition={!notificationsConfiguration.loading}>
+              <div className="NotificationCenterConfiguration">
+                <div className="NotificationCenterConfiguration__title">
+                  {I18n.t('NOTIFICATION_CENTER.SHOW_POPUP')}
+                </div>
+                <ReactSwitch
+                  on={showNotificationsPopUp}
+                  className="NotificationCenterConfiguration__switcher"
+                  onClick={this.handleSwitchNotificationConfiguration}
+                />
+              </div>
+            </If>
             <If condition={allRowsSelected || touchedRowsIds.length}>
               <Button
+                className="NotificationCenterContent__markAsRead"
                 onClick={this.bulkUpdate}
                 commonOutline
               >
@@ -202,7 +245,9 @@ export default compose(
   withRequests({
     notifications: NotificationCenterQuery,
     notificationsTypes: NotificationCenterTypesQuery,
+    notificationsConfiguration: NotificationCenterConfigurationQuery,
     bulkUpdate: NotificationCenterUpdate,
+    notificationsConfigurationUpdate: NotificationCenterConfigurationUpdate,
   }),
   withModals({
     confirmationModal: ConfirmActionModal,

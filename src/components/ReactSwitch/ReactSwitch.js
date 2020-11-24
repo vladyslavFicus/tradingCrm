@@ -41,8 +41,13 @@ class ReactSwitch extends Component {
       e.stopPropagation();
     }
 
-    this.setState(({ on }) => ({ on: !on }), () => {
-      onClick(this.state.on);
+    this.setState(({ on }) => ({ on: !on }), async () => {
+      try {
+        await onClick(this.state.on);
+      } catch (_) {
+        // Revert changes if error has occurred
+        this.setState(({ on }) => ({ on: !on }));
+      }
     });
   };
 

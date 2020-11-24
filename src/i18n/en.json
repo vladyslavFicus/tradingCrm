@@ -3230,6 +3230,7 @@
   },
   "NOTIFICATION_CENTER": {
     "TITLE": "Notifications",
+    "SHOW_POPUP": "Show pop-up",
     "FILTERS": {
       "PLACEHOLDERS": {
         "NOTIFICATION_OR_PLAYER": "Notification ID, Player UUID"
