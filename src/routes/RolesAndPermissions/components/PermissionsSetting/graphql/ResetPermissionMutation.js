@@ -1,32 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import PropTypes from 'prop-types';
 
 const REQUEST = gql`
-  mutation RolesAndPermissions_UpdateAuthorityActionsMutation(
+  mutation PermissionSetting_ResetPermissionMutation(
     $department: String!
     $role: String!
-    $actions: [String]!
   ) {
     auth {
-      updateAuthorityActions(
+      resetPermission(
         department: $department
         role: $role
-        actions: $actions
       )
     }
-  }
-`;
+  }`;
 
-const UpdateAuthorityActionsMutation = ({ children }) => (
+const ResetPermissionMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-UpdateAuthorityActionsMutation.propTypes = {
+ResetPermissionMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UpdateAuthorityActionsMutation;
+export default ResetPermissionMutation;
