@@ -7,6 +7,7 @@ import RemoveBoardButton from './components/RemoveBoardButton';
 import AddTimeIntervalButton from './components/AddTimeIntervalButton';
 import RemoveTimeIntervalButton from './components/RemoveTimeIntervalButton';
 import RuleScheduleTimeRange from './components/RuleScheduleTimeRange';
+import { weekDays } from './constants';
 import './RuleScheduleBoard.scss';
 
 class RuleScheduleBoard extends PureComponent {
@@ -15,7 +16,7 @@ class RuleScheduleBoard extends PureComponent {
     namePrefix: PropTypes.string.isRequired,
     checkedDays: PropTypes.object.isRequired,
     scheduleBoard: PropTypes.shape({
-      week: PropTypes.object.isRequired,
+      days: PropTypes.object.isRequired,
       timeInterval: PropTypes.arrayOf(
         PropTypes.shape({
           operatorSpreads: PropTypes.array,
@@ -33,16 +34,16 @@ class RuleScheduleBoard extends PureComponent {
     removeScheduleBoard: null,
   };
 
-  changeWeekDay = (day) => {
+  selectDay = (day) => {
     const {
       namePrefix,
       scheduleBoard: {
-        week,
+        days,
       },
       setFieldValue,
     } = this.props;
 
-    setFieldValue(`${namePrefix}.week`, { ...week, [day]: !week[day] });
+    setFieldValue(`${namePrefix}.days`, { ...days, [day]: !days[day] });
   };
 
   addTimeInterval = () => {
@@ -74,25 +75,25 @@ class RuleScheduleBoard extends PureComponent {
     setFieldValue(name, operatorSpreads);
   };
 
-  renderWeek = () => {
+  renderDays = () => {
     const {
       scheduleBoard: {
-        week,
+        days,
       },
       checkedDays,
     } = this.props;
 
     return (
-      <div className="RuleScheduleBoard__week">
-        {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map(day => (
+      <div className="RuleScheduleBoard__days">
+        {weekDays.map(day => (
           <Checkbox
             key={day}
             name={day}
-            label={day.toLocaleUpperCase()}
-            className="RuleScheduleBoard__week-day"
-            onChange={() => this.changeWeekDay(day)}
-            value={week[day]}
-            disabled={!week[day] && checkedDays[day]}
+            label={day.slice(0, 3).toLocaleUpperCase()} // TODO
+            className="RuleScheduleBoard__days-item"
+            onChange={() => this.selectDay(day)}
+            value={days[day]}
+            disabled={!days[day] && checkedDays[day]}
             vertical
           />
         ))}
@@ -163,7 +164,7 @@ class RuleScheduleBoard extends PureComponent {
     return (
       <div className="RuleScheduleBoard">
         <div className="RuleScheduleBoard__header">
-          {this.renderWeek()}
+          {this.renderDays()}
           <RemoveBoardButton
             className="RuleScheduleBoard__remove-shedule"
             onClick={removeScheduleBoard}

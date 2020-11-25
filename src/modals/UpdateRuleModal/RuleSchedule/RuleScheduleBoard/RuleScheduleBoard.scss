@@ -25,11 +25,11 @@ $border: 1px solid #DFE4ED;
     right: 15px;
   }
 
-  &__week {
+  &__days {
     display: flex;
   }
 
-  &__week-day {
+  &__days-item {
     margin-right: 35px;
 
     &:last-child {
