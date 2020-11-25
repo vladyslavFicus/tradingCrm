@@ -17,7 +17,7 @@ class RuleScheduleBoard extends PureComponent {
     checkedDays: PropTypes.object.isRequired,
     scheduleBoard: PropTypes.shape({
       days: PropTypes.object.isRequired,
-      timeInterval: PropTypes.arrayOf(
+      timeIntervals: PropTypes.arrayOf(
         PropTypes.shape({
           operatorSpreads: PropTypes.array,
           timeFrom: PropTypes.string,
@@ -50,29 +50,22 @@ class RuleScheduleBoard extends PureComponent {
     const {
       namePrefix,
       scheduleBoard: {
-        timeInterval,
+        timeIntervals,
       },
       setFieldValue,
     } = this.props;
 
     setFieldValue(
-      `${namePrefix}.timeInterval`,
-      [...timeInterval, { operatorSpreads: [], timeFrom: '00:00', timeTo: '00:00' }],
+      `${namePrefix}.timeIntervals`,
+      [...timeIntervals, { operatorSpreads: [], timeFrom: '00:00', timeTo: '00:00' }],
     );
   };
 
-  removeOperatorSpread = (name, index) => {
-    const {
-      scheduleBoard: {
-        timeInterval,
-      },
-      setFieldValue,
-    } = this.props;
-
-    const operatorSpreads = [...timeInterval.operatorSpreads];
+  removeOperatorSpread = (name, index, values) => {
+    const operatorSpreads = [...values];
     operatorSpreads.splice(index, 1);
 
-    setFieldValue(name, operatorSpreads);
+    this.props.setFieldValue(name, operatorSpreads);
   };
 
   renderDays = () => {
@@ -105,19 +98,19 @@ class RuleScheduleBoard extends PureComponent {
     const {
       namePrefix,
       scheduleBoard: {
-        timeInterval,
+        timeIntervals,
       },
     } = this.props;
 
     return (
       <FieldArray
-        name={`${namePrefix}.timeInterval`}
+        name={`${namePrefix}.timeIntervals`}
         render={({ remove }) => (
           <Fragment>
-            {timeInterval.map((value, index) => this.renderTimeInterval(
-              value,
-              `${namePrefix}.timeInterval[${index}]`,
-              timeInterval[1] ? () => remove(index) : null,
+            {timeIntervals.map((timeInterval, index) => this.renderTimeInterval(
+              timeInterval,
+              `${namePrefix}.timeIntervals[${index}]`,
+              timeIntervals[1] ? () => remove(index) : null,
             ))}
           </Fragment>
         )}
@@ -143,7 +136,9 @@ class RuleScheduleBoard extends PureComponent {
         <RuleOperatorSpreads
           operators={operators}
           operatorSpreads={operatorSpreads}
-          removeOperatorSpread={index => this.removeOperatorSpread(`${namePrefix}.operatorSpreads`, index)}
+          removeOperatorSpread={index => (
+            this.removeOperatorSpread(`${namePrefix}.operatorSpreads`, index, operatorSpreads)
+          )}
           namePrefix={`${namePrefix}.operatorSpreads`}
           disabled={isSubmitting}
           isValid // TODO

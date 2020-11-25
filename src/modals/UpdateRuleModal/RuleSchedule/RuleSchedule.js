@@ -11,7 +11,7 @@ class RuleSchedule extends PureComponent {
     operators: PropTypes.array.isRequired,
     schedule: PropTypes.arrayOf(PropTypes.shape({
       days: PropTypes.object.isRequired,
-      timeInterval: PropTypes.arrayOf(PropTypes.shape({
+      timeIntervals: PropTypes.arrayOf(PropTypes.shape({
         operatorSpreads: PropTypes.arrayOf(PropTypes.shape({
           parentUser: PropTypes.string,
         })),
@@ -40,7 +40,7 @@ class RuleSchedule extends PureComponent {
 
   addScheduleBoard = addValue => () => addValue({
     days: {},
-    timeInterval: [{ operatorSpreads: [] }],
+    timeIntervals: [{ operatorSpreads: [] }],
   });
 
   render() {

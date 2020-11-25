@@ -105,7 +105,7 @@ class UpdateRuleModal extends PureComponent {
             schedule: [
               {
                 days: {},
-                timeInterval: [
+                timeIntervals: [
                   {
                     operatorSpreads: [],
                     timeFrom: '00:00',
