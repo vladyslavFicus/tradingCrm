@@ -124,16 +124,20 @@ class RuleScheduleBoard extends PureComponent {
     );
   };
 
-  renderTimeInterval = ({ operatorSpreads }, namePrefix, removeTimeInterval) => {
+  renderTimeInterval = ({ operatorSpreads, timeFrom, timeTo }, namePrefix, removeTimeInterval) => {
     const {
       operators,
       isSubmitting,
+      setFieldValue,
     } = this.props;
 
     return (
       <div key={namePrefix} className="RuleScheduleBoard__time-interval">
         <RuleScheduleTimeRange
           namePrefix={namePrefix}
+          timeFrom={timeFrom}
+          timeTo={timeTo}
+          setFieldValue={setFieldValue}
         />
         <RuleOperatorSpreads
           operators={operators}

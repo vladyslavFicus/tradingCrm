@@ -139,7 +139,7 @@ class UpdateRuleModal extends PureComponent {
           enableReinitialize
         >
           {({
-            values,
+            // values,
             values: { operatorSpreads, schedule },
             setFieldValue,
             dirty,
@@ -147,7 +147,7 @@ class UpdateRuleModal extends PureComponent {
             isSubmitting,
           }) => (
             <Form>
-              {console.log(values)}
+              {console.log(schedule)}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>

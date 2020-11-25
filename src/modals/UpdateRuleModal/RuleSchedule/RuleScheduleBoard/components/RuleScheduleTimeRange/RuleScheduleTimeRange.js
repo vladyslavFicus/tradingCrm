@@ -1,46 +1,46 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'formik';
-import { FormikSelectField } from 'components/Formik';
+import TimePicker from 'components/TimePicker';
+import { validate } from './utils';
 import './RuleScheduleTimeRange.scss';
-
-const timeValues = [...Array(24)].map((_, index) => {
-  const value = index < 10 ? `0${index}:00` : `${index}:00`;
-
-  return {
-    value,
-    label: value,
-  };
-});
 
 class RuleScheduleTimeRange extends PureComponent {
   static propTypes = {
     namePrefix: PropTypes.string.isRequired,
+    setFieldValue: PropTypes.func.isRequired,
+    timeFrom: PropTypes.string,
+    timeTo: PropTypes.string,
   };
 
-  renderField = (name, label) => (
-    <Field
-      name={name}
-      label={label}
-      component={FormikSelectField}
-      className="RuleScheduleTimeRange__field"
-    >
-      {timeValues.map(({ value, label: option }) => (
-        <option key={value} value={value}>
-          {option}
-        </option>
-      ))}
-    </Field>
-  );
+  static defaultProps = {
+    timeFrom: '',
+    timeTo: '',
+  };
 
   render() {
-    const { namePrefix } = this.props;
+    const {
+      namePrefix,
+      timeFrom,
+      timeTo,
+      setFieldValue,
+    } = this.props;
+
+    const error = validate(timeFrom, timeTo);
+    console.log(error);
 
     return (
       <div className="RuleScheduleTimeRange">
-        {this.renderField(`${namePrefix}.timeFrom`, 'Time from')}
+        <TimePicker
+          label="Time from"
+          value={timeFrom}
+          onChange={value => setFieldValue(`${namePrefix}.timeFrom`, value)}
+        />
         <span className="RuleScheduleTimeRange__separator" />
-        {this.renderField(`${namePrefix}.timeTo`, 'Time to')}
+        <TimePicker
+          label="Time to"
+          value={timeTo}
+          onChange={value => setFieldValue(`${namePrefix}.timeTo`, value)}
+        />
       </div>
     );
   }
