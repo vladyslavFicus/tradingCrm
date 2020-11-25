@@ -107,7 +107,6 @@ class CreateRuleModal extends PureComponent {
           onSubmit={this.handleSubmit}
         >
           {({
-            values,
             values: { operatorSpreads },
             setFieldValue,
             dirty,
@@ -115,7 +114,6 @@ class CreateRuleModal extends PureComponent {
             isSubmitting,
           }) => (
             <Form>
-              {console.log(values)}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
               </ModalHeader>

@@ -159,7 +159,6 @@ class RuleModal extends PureComponent {
           enableReinitialize
         >
           {({
-            values,
             values: { operatorSpreads, schedule },
             setFieldValue,
             dirty,
@@ -167,7 +166,6 @@ class RuleModal extends PureComponent {
             isSubmitting,
           }) => (
             <Form>
-              {console.log(values)}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
               </ModalHeader>
