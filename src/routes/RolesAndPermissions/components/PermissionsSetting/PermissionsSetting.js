@@ -75,12 +75,13 @@ class PermissionsSetting extends PureComponent {
         return {
           ..._section,
           permissions: _section.permissions.map((permission) => {
-            const [permissionKey] = Object.keys(permission.actions || {});
             const _permission = { ...permission };
 
-            _permission
-              .actions[permissionKey]
-              .state = authorityActions.includes(_permission.actions[permissionKey].action);
+            Object.keys(permission.actions || {}).forEach((value) => {
+              _permission
+                .actions[value]
+                .state = authorityActions.includes(_permission.actions[value].action);
+            });
 
             return { ..._permission };
           }),
@@ -131,21 +132,23 @@ class PermissionsSetting extends PureComponent {
             return {
               ..._section,
               permissions: _section.permissions.map((permission) => {
-                const [permissionKey] = Object.keys(permission.actions || {});
                 const _permission = { ...permission };
-                const { state } = {
-                  ...(enabled && action === _permission.actions[permissionKey].action
-                    ? { state: enabled }
-                    : { state: _permission.actions[permissionKey].state }
-                  ),
-                  ...(!enabled && { state: false }),
-                };
 
-                if (!enabled) {
-                  disabledSection.push(_permission.actions[permissionKey].action);
-                }
+                Object.keys(permission.actions || {}).forEach((value) => {
+                  const { state } = {
+                    ...(enabled && action === _permission.actions[value].action
+                      ? { state: enabled }
+                      : { state: _permission.actions[value].state }
+                    ),
+                    ...(!enabled && { state: false }),
+                  };
 
-                _permission.actions[permissionKey].state = state;
+                  if (!enabled) {
+                    disabledSection.push(_permission.actions[value].action);
+                  }
+
+                  _permission.actions[value].state = state;
+                });
 
                 return { ..._permission };
               }),
@@ -155,12 +158,13 @@ class PermissionsSetting extends PureComponent {
           return {
             ...section,
             permissions: section.permissions.map((permission) => {
-              const [key] = Object.keys(permission.actions || {});
               const _permission = { ...permission };
 
-              if (action === _permission.actions[key].action) {
-                _permission.actions[key].state = enabled;
-              }
+              Object.keys(permission.actions || {}).forEach((key) => {
+                if (action === _permission.actions[key].action) {
+                  _permission.actions[key].state = enabled;
+                }
+              });
 
               return { ..._permission };
             }),
