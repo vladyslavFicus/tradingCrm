@@ -81,6 +81,8 @@ class UpdateRuleModal extends PureComponent {
       partners: currentPartners = [],
       sources,
       actions,
+      enableScheduling,
+      schedules,
     } = rulesQueryData?.rules?.['0'] || {};
     const currentOperators = actions?.['0']?.operatorSpreads || [];
 
@@ -102,7 +104,8 @@ class UpdateRuleModal extends PureComponent {
             operatorSpreads: currentOperators.map(
               ({ parentUser, percentage }) => ({ parentUser, percentage }),
             ),
-            schedule: [
+            enableScheduling,
+            schedules: schedules || [
               {
                 days: {},
                 timeIntervals: [
@@ -139,15 +142,14 @@ class UpdateRuleModal extends PureComponent {
           enableReinitialize
         >
           {({
-            // values,
-            values: { operatorSpreads, schedule },
+            values,
             setFieldValue,
             dirty,
             errors,
             isSubmitting,
           }) => (
             <Form>
-              {console.log(schedule)}
+              {/* {console.log(schedules)} */}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>
@@ -159,7 +161,7 @@ class UpdateRuleModal extends PureComponent {
                     operators={operators}
                     partners={partners}
                     withOperatorSpreads={withOperatorSpreads}
-                    operatorSpreads={operatorSpreads}
+                    operatorSpreads={values.operatorSpreads}
                     setFieldValue={setFieldValue}
                     isSubmitting={isSubmitting}
                     errors={errors}
@@ -168,7 +170,7 @@ class UpdateRuleModal extends PureComponent {
                     label="Schedule settings"
                     component={RuleSchedule}
                     operators={operators}
-                    schedule={schedule}
+                    schedules={values.schedules}
                     setFieldValue={setFieldValue}
                     isSubmitting={isSubmitting}
                     errors={errors}

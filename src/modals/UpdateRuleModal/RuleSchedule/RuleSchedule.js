@@ -9,7 +9,7 @@ import './RuleSchedule.scss';
 class RuleSchedule extends PureComponent {
   static propTypes = {
     operators: PropTypes.array.isRequired,
-    schedule: PropTypes.arrayOf(PropTypes.shape({
+    schedules: PropTypes.arrayOf(PropTypes.shape({
       days: PropTypes.object.isRequired,
       timeIntervals: PropTypes.arrayOf(PropTypes.shape({
         operatorSpreads: PropTypes.arrayOf(PropTypes.shape({
@@ -24,8 +24,8 @@ class RuleSchedule extends PureComponent {
     // errors: PropTypes.object.isRequired,
   };
 
-  static getDerivedStateFromProps({ schedule }) {
-    const checkedDays = schedule.reduce((acc, { days }) => ({ ...acc, ...days }), {});
+  static getDerivedStateFromProps({ schedules }) {
+    const checkedDays = schedules.reduce((acc, { days }) => ({ ...acc, ...days }), {});
 
     return {
       checkedDays,
@@ -46,7 +46,7 @@ class RuleSchedule extends PureComponent {
   render() {
     const {
       operators,
-      schedule,
+      schedules,
       // errors,
       isSubmitting,
       setFieldValue,
@@ -61,24 +61,24 @@ class RuleSchedule extends PureComponent {
       <div className="RuleSchedule">
         <div className="RuleSchedule__header">
           <Field
-            name="enableScheduleSettings"
+            name="enableScheduling"
             label="Enable Schedule Settings"
             component={FormikSwitchField}
             textFirst
           />
         </div>
         <FieldArray
-          name="schedule"
+          name="schedules"
           render={({ push, remove }) => (
             <Fragment>
-              {schedule.map((scheduleBoard, index) => (
+              {schedules.map((scheduleBoard, index) => (
                 <RuleScheduleBoard
                   key={index}
                   operators={operators}
-                  namePrefix={`schedule[${index}]`}
+                  namePrefix={`schedules[${index}]`}
                   checkedDays={checkedDays}
                   scheduleBoard={scheduleBoard}
-                  removeScheduleBoard={schedule[1] ? () => remove(index) : null}
+                  removeScheduleBoard={schedules[1] ? () => remove(index) : null}
                   setFieldValue={setFieldValue}
                   isSubmitting={isSubmitting}
                 />
