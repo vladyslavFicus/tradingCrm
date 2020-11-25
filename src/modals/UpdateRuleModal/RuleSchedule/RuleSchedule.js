@@ -10,7 +10,7 @@ class RuleSchedule extends PureComponent {
   static propTypes = {
     operators: PropTypes.array.isRequired,
     schedules: PropTypes.arrayOf(PropTypes.shape({
-      days: PropTypes.object.isRequired,
+      days: PropTypes.arrayOf(PropTypes.string).isRequired,
       timeIntervals: PropTypes.arrayOf(PropTypes.shape({
         operatorSpreads: PropTypes.arrayOf(PropTypes.shape({
           parentUser: PropTypes.string,
@@ -25,21 +25,21 @@ class RuleSchedule extends PureComponent {
   };
 
   static getDerivedStateFromProps({ schedules }) {
-    const checkedDays = schedules.reduce((acc, { days }) => ({ ...acc, ...days }), {});
+    const checkedDays = schedules.reduce((acc, { days }) => ([...acc, ...days]), []);
 
     return {
       checkedDays,
-      hasLimitOfBoards: Object.values(checkedDays).filter(Boolean).length === 7,
+      hasLimitOfBoards: checkedDays.length === 7,
     };
   }
 
   state = {
-    checkedDays: {},
+    checkedDays: [],
     hasLimitOfBoards: false,
   };
 
   addScheduleBoard = addValue => () => addValue({
-    days: {},
+    days: [],
     timeIntervals: [{ operatorSpreads: [] }],
   });
 

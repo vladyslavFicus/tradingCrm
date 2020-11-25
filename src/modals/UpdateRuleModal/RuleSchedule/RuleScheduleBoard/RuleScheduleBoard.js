@@ -14,9 +14,9 @@ class RuleScheduleBoard extends PureComponent {
   static propTypes = {
     operators: PropTypes.array.isRequired,
     namePrefix: PropTypes.string.isRequired,
-    checkedDays: PropTypes.object.isRequired,
+    checkedDays: PropTypes.arrayOf(PropTypes.string).isRequired,
     scheduleBoard: PropTypes.shape({
-      days: PropTypes.object.isRequired,
+      days: PropTypes.arrayOf(PropTypes.string).isRequired,
       timeIntervals: PropTypes.arrayOf(
         PropTypes.shape({
           operatorSpreads: PropTypes.array,
@@ -34,7 +34,7 @@ class RuleScheduleBoard extends PureComponent {
     removeScheduleBoard: null,
   };
 
-  selectDay = (day) => {
+  selectDay = (selectedDay) => {
     const {
       namePrefix,
       scheduleBoard: {
@@ -43,7 +43,10 @@ class RuleScheduleBoard extends PureComponent {
       setFieldValue,
     } = this.props;
 
-    setFieldValue(`${namePrefix}.days`, { ...days, [day]: !days[day] });
+    setFieldValue(
+      `${namePrefix}.days`,
+      days.includes(selectedDay) ? days.filter(day => day !== selectedDay) : [...days, selectedDay],
+    );
   };
 
   addTimeInterval = () => {
@@ -85,8 +88,8 @@ class RuleScheduleBoard extends PureComponent {
             label={day.slice(0, 3).toLocaleUpperCase()} // TODO
             className="RuleScheduleBoard__days-item"
             onChange={() => this.selectDay(day)}
-            value={days[day]}
-            disabled={!days[day] && checkedDays[day]}
+            value={days.includes(day)}
+            disabled={!days.includes(day) && checkedDays.includes(day)}
             vertical
           />
         ))}

@@ -56,6 +56,18 @@ const REQUEST = gql`query RulesQuery(
     type
     updatedBy
     createdBy
+    enableScheduling
+    schedules {
+      days
+      timeIntervals {
+        operatorSpreads {
+          parentUser
+          percentage
+        }
+        timeFrom
+        timeTo
+      }
+    }
   }
 }
 `;

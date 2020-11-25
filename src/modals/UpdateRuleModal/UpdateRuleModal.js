@@ -100,14 +100,16 @@ class UpdateRuleModal extends PureComponent {
             countries,
             languages,
             sources,
-            affiliateUUIDs: currentPartners.map(({ uuid }) => uuid),
+            affiliateUUIDs: currentPartners.map(
+              ({ uuid }) => uuid,
+            ),
             operatorSpreads: currentOperators.map(
               ({ parentUser, percentage }) => ({ parentUser, percentage }),
             ),
             enableScheduling,
             schedules: schedules || [
               {
-                days: {},
+                days: [],
                 timeIntervals: [
                   {
                     operatorSpreads: [],
