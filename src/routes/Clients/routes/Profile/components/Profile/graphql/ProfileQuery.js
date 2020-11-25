@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'constants/propTypes';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 import { ContactsFragment } from 'graphql/fragments/contacts';
 import { AddressFragment } from 'graphql/fragments/address';
 

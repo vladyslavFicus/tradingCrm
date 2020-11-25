@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';

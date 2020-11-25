@@ -1,4 +1,5 @@
-import { graphql, compose, withApollo } from 'react-apollo';
+import compose from 'compose-function';
+import { graphql, withApollo } from '@apollo/client/react/hoc';
 import { get } from 'lodash';
 import { withNotifications } from 'hoc';
 import { filterSetByUserIdQuery } from 'graphql/queries/filterSet';

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import { NoteFragment } from '../fragments/notes';
 
 const callbacksQuery = gql`query getCallbacks(

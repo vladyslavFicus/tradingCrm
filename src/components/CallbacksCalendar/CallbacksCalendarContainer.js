@@ -1,4 +1,4 @@
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withModals } from 'hoc';
 import CallbackDetailsModal from 'modals/CallbackDetailsModal';
 import { callbacksQuery } from '../../graphql/queries/callbacks';

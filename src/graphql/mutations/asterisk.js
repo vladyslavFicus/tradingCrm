@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 const createCall = gql`
   mutation AsteriskCreateCall($uuid: String!, $field: String!, $type: String!, $prefix: Int!) {

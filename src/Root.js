@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import Validator from 'validatorjs';
 import moment from 'moment';
-import { withApollo, compose } from 'react-apollo';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
 import I18n from 'i18n';
 import IndexRoute from 'routes/IndexRoute';
 import { setBrand } from 'config';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
-import { graphql, compose } from 'react-apollo';
+import compose from 'compose-function';
+import { graphql } from '@apollo/client/react/hoc';
 import { Switch, Redirect } from 'react-router-dom';
 import { getBranchInfo } from 'graphql/queries/hierarchy';
 import NotFound from 'routes/NotFound';

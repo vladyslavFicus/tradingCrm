@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator, translateLabels } from 'utils/validator';

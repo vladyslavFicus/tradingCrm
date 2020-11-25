@@ -1,7 +1,7 @@
 import React from 'react';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import PropTypes from 'constants/propTypes';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 
 export const REQUEST = gql`query FilesCategoriesQuery {
   filesCategories {

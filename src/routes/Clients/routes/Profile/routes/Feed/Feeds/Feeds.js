@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';

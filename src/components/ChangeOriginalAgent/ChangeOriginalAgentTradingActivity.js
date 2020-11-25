@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import { get } from 'lodash';
 import I18n from 'i18n-js';

@@ -3,7 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { getBrand } from 'config';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';

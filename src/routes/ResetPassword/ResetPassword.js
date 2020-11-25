@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getBackofficeBrand } from 'config';
 import { Formik, Form, Field } from 'formik';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests, parseErrors } from 'apollo';
 import I18n from 'i18n-js';
 import { parse } from 'qs';

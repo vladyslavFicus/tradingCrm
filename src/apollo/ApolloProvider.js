@@ -1,13 +1,18 @@
 import React, { PureComponent } from 'react';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { split, from, ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
+import compose from 'compose-function';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { createUploadLink } from 'apollo-upload-client';
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { onError } from 'apollo-link-error';
-import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
+import {
+  ApolloProvider as OriginalApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  split,
+  from,
+  ApolloLink,
+  HttpLink,
+} from '@apollo/client';
 import { withRouter } from 'react-router-dom';
 import { getGraphQLUrl, getVersion } from 'config';
 import { withModals } from 'hoc';
@@ -36,7 +41,7 @@ class ApolloProvider extends PureComponent {
     const batchHttpLink = split(
       // Custom link to exclude some queries from batching
       operation => operation.getContext().batch === false,
-      createHttpLink(httpLinkOptions),
+      new HttpLink(httpLinkOptions),
       new BatchHttpLink(httpLinkOptions),
     );
 

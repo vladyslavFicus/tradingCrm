@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 const filterSetByUserIdQuery = gql`query getFilterSets($type: FilterSet__Types__Enum!) {
   filterSets(type: $type) {

@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment, Suspense } from 'react';
 import { get } from 'lodash';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests, parseErrors } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';

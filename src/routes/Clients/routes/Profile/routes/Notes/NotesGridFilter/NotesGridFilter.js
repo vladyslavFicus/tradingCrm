@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { get, omit } from 'lodash';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
