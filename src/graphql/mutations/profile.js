@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 const updatePersonalInformationMutation = gql`mutation updatePersonalInformation(
   $playerUUID: String!

@@ -1,11 +1,7 @@
-import {
-  ApolloLink,
-  from,
-  Observable,
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloLink, from, Observable } from 'apollo-link';
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import AuthInjectTokenLink from './AuthInjectTokenLink';
 import Queue from './Queue';
 import { isUnauthenticatedError } from './utils';

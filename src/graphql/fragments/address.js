@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 const AddressFragment = gql`
   fragment AddressFragment on Profile__Address {

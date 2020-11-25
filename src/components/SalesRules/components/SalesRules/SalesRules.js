@@ -3,7 +3,7 @@ import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import { parseErrors, withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';

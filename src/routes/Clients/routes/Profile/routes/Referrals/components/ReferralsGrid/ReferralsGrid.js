@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';

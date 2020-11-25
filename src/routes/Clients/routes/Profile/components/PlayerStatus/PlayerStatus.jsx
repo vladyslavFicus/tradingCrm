@@ -3,7 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';

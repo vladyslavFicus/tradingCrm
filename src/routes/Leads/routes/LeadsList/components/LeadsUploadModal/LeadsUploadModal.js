@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import Dropzone from 'react-dropzone';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';

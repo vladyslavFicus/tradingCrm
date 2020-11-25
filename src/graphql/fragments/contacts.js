@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 const ContactsFragment = gql`
   fragment ContactsFragment on Profile__Contacts {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import I18n from 'i18n-js';

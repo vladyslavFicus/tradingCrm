@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 const createCall = gql`
   mutation DidLogicCreateCall($uuid: String!, $field: String!, $type: String!) {

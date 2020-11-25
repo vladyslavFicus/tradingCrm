@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gql } from '@apollo/client';
-import { Mutation } from '@apollo/client/react/components';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
 import { NoteFragment } from 'graphql/fragments/notes';
 
 const REQUEST = gql`mutation UploadModal_AddNote(

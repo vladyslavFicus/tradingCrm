@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRequests, parseErrors } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';

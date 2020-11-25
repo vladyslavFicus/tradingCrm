@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Query as OriginalQuery } from '@apollo/client/react/components';
+import { Query as OriginalQuery } from 'react-apollo';
 
 /*
   This is custom Query component which goal is

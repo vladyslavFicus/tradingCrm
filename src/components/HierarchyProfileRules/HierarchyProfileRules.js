@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';

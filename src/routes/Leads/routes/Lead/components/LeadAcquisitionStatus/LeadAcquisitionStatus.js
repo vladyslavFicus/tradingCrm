@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';

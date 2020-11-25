@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';

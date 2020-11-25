@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Field, Form } from 'formik';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';

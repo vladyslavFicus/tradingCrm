@@ -1,7 +1,7 @@
 import React from 'react';
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import { Query } from '@apollo/client/react/components';
+import { Query } from 'react-apollo';
 
 const REQUEST = gql`query TradingActivityGridFilter_OperatorsQuery(
   $page: Page__Input

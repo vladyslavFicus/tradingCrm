@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { intersection } from 'lodash';
 import { Formik, Field, Form } from 'formik';

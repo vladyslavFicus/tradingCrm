@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 const getRules = gql`query getRules(
   $uuid: [String],

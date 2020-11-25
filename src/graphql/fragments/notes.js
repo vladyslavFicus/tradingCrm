@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 const NoteFragment = gql`fragment NoteFragment on Note {
   _id

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Query } from '@apollo/client/react/components';
-import { gql } from '@apollo/client';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`

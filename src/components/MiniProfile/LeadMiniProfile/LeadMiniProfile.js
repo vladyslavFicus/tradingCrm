@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import Uuid from 'components/Uuid';

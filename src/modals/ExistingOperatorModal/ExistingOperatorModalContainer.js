@@ -1,5 +1,4 @@
-import compose from 'compose-function';
-import { graphql } from '@apollo/client/react/hoc';
+import { compose, graphql } from 'react-apollo';
 import { withNotifications } from 'hoc';
 import { addExistingOperator } from 'graphql/mutations/operators';
 import ExistingOperatorModal from './ExistingOperatorModal';

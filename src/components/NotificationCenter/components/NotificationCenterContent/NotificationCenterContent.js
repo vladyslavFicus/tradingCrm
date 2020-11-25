@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';

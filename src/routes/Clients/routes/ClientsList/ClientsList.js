@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import ClientsGrid from './components/ClientsGrid';

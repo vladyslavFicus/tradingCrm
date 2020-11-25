@@ -1,6 +1,6 @@
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-import compose from 'compose-function';
+import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';

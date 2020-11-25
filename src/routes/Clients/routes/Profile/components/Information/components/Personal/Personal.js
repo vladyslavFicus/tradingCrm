@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import compose from 'compose-function';
-import { graphql } from '@apollo/client/react/hoc';
+import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';

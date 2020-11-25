@@ -1,6 +1,6 @@
 import React from 'react';
-import { gql } from '@apollo/client';
-import { Mutation } from '@apollo/client/react/components';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 const REQUEST = gql`

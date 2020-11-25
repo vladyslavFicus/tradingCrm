@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 
 export default gql`query
   DistributionRules__ClientsAmount($uuid: String) {

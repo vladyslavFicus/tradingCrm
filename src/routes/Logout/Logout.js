@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import compose from 'compose-function';
-import { withApollo } from '@apollo/client/react/hoc';
+import { compose, withApollo } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import Preloader from 'components/Preloader';

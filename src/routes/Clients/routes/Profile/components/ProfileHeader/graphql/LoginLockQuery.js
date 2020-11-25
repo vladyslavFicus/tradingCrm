@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'constants/propTypes';
-import { gql } from '@apollo/client';
-import { Query } from '@apollo/client/react/components';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query LoginLockQuery(
