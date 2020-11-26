@@ -3754,5 +3754,14 @@
       "PERMISSION":  "Permission"
     },
     "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions..."
+  },
+  "RULE_MODAL": {
+    "SCHEDULE": {
+      "ATTENTION": {
+        "TITLE": "A schedule can be configured\nonly at edition mode:",
+        "PHASE_FINISH": "Please finish\nrule creation process",
+        "PHASE_EDIT": "Proceed to edit rule mode\nto setup the schedule"
+      }
+    }
   }
 }
