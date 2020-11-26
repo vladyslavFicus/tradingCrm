@@ -39,7 +39,14 @@ class PermissionProvider extends PureComponent {
   getPermissions = () => get(this.props.permissionsQuery.data, 'permission') || [];
 
   render() {
-    if (this.props.permissionsQuery.loading) {
+    const {
+      permissionsQuery: {
+        loading,
+        data,
+      },
+    } = this.props;
+
+    if (loading && !data?.permission) {
       return <Preloader />;
     }
 

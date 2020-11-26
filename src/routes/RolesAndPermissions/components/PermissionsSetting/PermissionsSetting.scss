@@ -23,16 +23,17 @@
     border: 1px solid rgba(0, 0, 0, 0.125);
 
     &-action-title {
-      width: 60%;
+      width: 58%;
+      margin-left: 20px;
       padding: 30px 0 0 25px;
     }
 
     &-permissions {
+      width: 25%;
       border-left: 1px solid #dfe4ed;
       border-right: 1px solid #dfe4ed;
 
       &-title {
-        width: 240px;
         height: 40px;
         display: flex;
         justify-content: center;
@@ -63,7 +64,7 @@
     }
 
     &-preview-title {
-      width: 120px;
+      width: 15%;
       display: flex;
       position: static;
       align-items: center;
@@ -103,31 +104,28 @@
     }
 
     &-permission-title {
-      width: 54%;
+      width: 58%;
       padding-top: 9px;
-    }
-
-    &-actions {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      position: static;
-      left: 0;
-      top: 0;
-      border-top: 1px solid #dfe4ed;
-      animation: fadein 0.35s ease-in;
-      background: linear-gradient(0deg, #F9F9FA, #F9F9FA), #FFFFFF;
+      margin-left: 20px;
 
       &:before {
         content: '\00B7';
-        padding: 5px 10px 0 42px;
+        padding: 5px 10px 0 25px;
         font-size: 20px;
         font-weight: 900;
       }
     }
+
+    &-actions {
+      display: flex;
+      border-top: 1px solid #dfe4ed;
+      animation: fadein 0.35s ease-in;
+      background: linear-gradient(0deg, #F9F9FA, #F9F9FA), #FFFFFF;
+    }
   }
 
   &__settings {
+    width: 25%;
     display: flex;
     position: static;
 
@@ -155,14 +153,14 @@
     }
 
     &-switcher-view {
-      width: 120px;
+      width: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     &-switcher-edit {
-      width: 120px;
+      width: 50%;
       height: 40px;
       display: flex;
       position: static;

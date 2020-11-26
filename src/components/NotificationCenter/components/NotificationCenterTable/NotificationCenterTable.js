@@ -1,13 +1,16 @@
 import React, { PureComponent, Fragment } from 'react';
-import { get, set, cloneDeep } from 'lodash';
+import { set, cloneDeep } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import Uuid from 'components/Uuid';
+import { MAX_SELECTED_ROWS } from '../../constants';
 import './NotificationCenterTable.scss';
 
 class NotificationCenterTable extends PureComponent {
@@ -15,10 +18,14 @@ class NotificationCenterTable extends PureComponent {
     notifications: PropTypes.query({
       notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
     }).isRequired,
+    modals: PropTypes.shape({
+      confirmationModal: PropTypes.modalType,
+    }).isRequired,
     className: PropTypes.string,
     selectItems: PropTypes.func.isRequired,
     touchedRowsIds: PropTypes.array,
     allRowsSelected: PropTypes.bool,
+    onCloseModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -36,7 +43,7 @@ class NotificationCenterTable extends PureComponent {
       },
     } = this.props;
 
-    const page = get(data, 'notificationCenter.number') || 0;
+    const page = data?.notificationCenter?.number || 0;
 
     loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
@@ -46,7 +53,26 @@ class NotificationCenterTable extends PureComponent {
   };
 
   handleAllRowsSelect = (allRowsSelected) => {
-    this.props.selectItems(allRowsSelected, []);
+    const {
+      selectItems,
+      onCloseModal,
+      notifications,
+      modals: { confirmationModal },
+    } = this.props;
+
+    const { totalElements } = notifications?.data?.notificationCenter || {};
+
+    if (totalElements > MAX_SELECTED_ROWS) {
+      confirmationModal.show({
+        onSubmit: confirmationModal.hide,
+        onCloseCallback: onCloseModal(),
+        modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
+        actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: MAX_SELECTED_ROWS }),
+        submitButtonLabel: I18n.t('COMMON.OK'),
+      });
+    }
+
+    selectItems(allRowsSelected, []);
   };
 
   rowsClassNames = ({ priority, read }) => classNames(
@@ -103,7 +129,7 @@ class NotificationCenterTable extends PureComponent {
       touchedRowsIds,
     } = this.props;
 
-    const { content, last } = get(data, 'notificationCenter') || { content: [] };
+    const { content, last } = data?.notificationCenter || { content: [] };
 
     return (
       <div
@@ -216,4 +242,6 @@ class NotificationCenterTable extends PureComponent {
   }
 }
 
-export default NotificationCenterTable;
+export default withModals({
+  confirmationModal: ConfirmActionModal,
+})(NotificationCenterTable);
