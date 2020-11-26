@@ -32,7 +32,6 @@ class MainLayout extends PureComponent {
         <Notifications />
 
         <Header />
-
         <Sidebar />
 
         <main className="content-container">

@@ -3,18 +3,16 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import { MAX_SELECTED_ROWS } from '../../constants';
 import NotificationCenterForm from '../NotificationCenterForm';
 import NotificationCenterTable from '../NotificationCenterTable';
 import NotificationCenterQuery from '../../graphql/NotificationCenterQuery';
 import NotificationCenterTypesQuery from '../../graphql/NotificationCenterTypesQuery';
 import NotificationCenterUpdate from '../../graphql/NotificationCenterUpdate';
 import './NotificationCenterContent.scss';
-
-const MAX_SELECTED_ROWS = 1000;
 
 class NotificationCenterContent extends PureComponent {
   static propTypes = {
@@ -23,9 +21,6 @@ class NotificationCenterContent extends PureComponent {
     }).isRequired,
     notificationsTypes: PropTypes.query({
       notificationCenterTypes: PropTypes.objectOf(PropTypes.string),
-    }).isRequired,
-    modals: PropTypes.shape({
-      confirmationModal: PropTypes.modalType,
     }).isRequired,
     notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -73,26 +68,6 @@ class NotificationCenterContent extends PureComponent {
 
   selectItems = (allRowsSelected, touchedRowsIds) => {
     this.setState({ allRowsSelected, touchedRowsIds });
-
-    if (allRowsSelected) {
-      const {
-        onCloseModal,
-        notifications,
-        modals: { confirmationModal },
-      } = this.props;
-
-      const { totalElements } = get(notifications, 'data.notificationCenter');
-
-      if (totalElements > MAX_SELECTED_ROWS) {
-        confirmationModal.show({
-          onSubmit: confirmationModal.hide,
-          onCloseCallback: onCloseModal(),
-          modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
-          actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: MAX_SELECTED_ROWS }),
-          submitButtonLabel: I18n.t('COMMON.OK'),
-        });
-      }
-    }
   };
 
   onSubmit = (notificationTypes, read) => {
@@ -182,6 +157,7 @@ class NotificationCenterContent extends PureComponent {
 
   render() {
     const {
+      onCloseModal,
       notifications,
       notificationsTypes: { data: notificationsTypesData },
     } = this.props;
@@ -226,6 +202,7 @@ class NotificationCenterContent extends PureComponent {
           allRowsSelected={allRowsSelected}
           touchedRowsIds={touchedRowsIds}
           selectItems={this.selectItems}
+          onCloseModal={onCloseModal}
         />
       </div>
     );
@@ -237,9 +214,6 @@ export default compose(
     notifications: NotificationCenterQuery,
     notificationsTypes: NotificationCenterTypesQuery,
     bulkUpdate: NotificationCenterUpdate,
-  }),
-  withModals({
-    confirmationModal: ConfirmActionModal,
   }),
   withNotifications,
 )(NotificationCenterContent);

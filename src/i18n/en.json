@@ -560,7 +560,8 @@
     "UNKNOWN_TIME": "Unknown time",
     "TOTAL_WIN": "Total win",
     "ERROR": "Error",
-    "ERROR_CONTENT": "Something went wrong.<br>Please reload the page. If the problem did not disappear, contact our support team.",
+    "ERROR_TITLE": "Oops!",
+    "ERROR_CONTENT": "Something went wrong. Please reload the page and contact our support team if the problem didn't disappear.",
     "GOOD_MORNING": "Good morning!",
     "GOOD_AFTERNOON": "Good afternoon!",
     "GOOD_EVENING": "Good evening!",
@@ -3778,10 +3779,190 @@
       "ENABLED": "Enabled",
       "DISABLED": "Disabled"
     },
+    "UPDATE_PERMISSIONS": {
+      "ERROR": "Change permission is failed",
+      "RESET_ERROR": "Reset to default permission is failed"
+    },
     "TABLE":  {
       "ACTION": "Action",
-      "PERMISSION":  "Permission"
+      "PERMISSION":  "Permission",
+      "VIEW": "View",
+      "EDIT": "Edit",
+      "PREVIEW": "Preview"
     },
-    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions..."
+    "RESET_TO_DEFAULT_MODAL": {
+      "TITLE": "Reset all role permissions",
+      "TEXT": "All role permissions will be set to default. Do you want to continue?"
+    },
+    "RESET_TO_DEFAULT": "Reset to Default",
+    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions...",
+    "SECTIONS": {
+      "clients": {
+        "TITLE": "Clients",
+        "PERMISSIONS": {
+          "list": "List of clients",
+          "payment-deposit": "Make deposit transaction",
+          "payment-withdraw": "Make withdraw transaction",
+          "payment-creditIn": "Make credit in transaction",
+          "payment-creditOut": "Make credit out transaction",
+          "payment-transfer": "Make transfer transaction",
+          "payment-approve": "Approve payment",
+          "payment-reject": "Reject payment",
+          "payment-changeStatus": "Change payment status",
+          "payment-changeMethod": "Change payment method",
+          "payment-changeAgent": "Payment original agent",
+          "resetPassword": "Reset password",
+          "changePassword": "Change password for client",
+          "getAuthorities": "Get authorities for notes",
+          "changeStatus": "Client's status",
+          "changeKYCStatus": "Client's KYC status",
+          "updatePersonalInfo": "Client's personal information",
+          "updateAddress": "Client's address information",
+          "kycVerificationFiles": "KYC verification files",
+          "viewDownloadFile": "View/Download file",
+          "deleteKYCFile": "Delete file for KYC",
+          "uploadKYCFile": "Upload file for KYC",
+          "verifyPhone": "Verify phone",
+          "verifyEmail": "Verify email",
+          "updateProfileConfiguration": "Profile configuration (FATCA, CRS)",
+          "showFeedTab": "Show feed tab",
+          "phone": "Client's phone",
+          "additionalPhone": "Additional phone",
+          "email": "Client's email",
+          "additionalEmail": "Additional email",
+          "bulkUpdate": "Select several clients on grid",
+          "trades-list": "List of trades"
+        }
+      },
+      "leads": {
+        "TITLE": "Leads",
+        "PERMISSIONS": {
+          "list": "List of leads",
+          "profile": "Lead's profile",
+          "promote": "Promote lead to client",
+          "phone": "Phone",
+          "mobile": "Mobile",
+          "email": "Email"
+        }
+      },
+      "operators": {
+        "TITLE": "Operators",
+        "PERMISSIONS": {
+          "create": "Create new operator",
+          "profile": "Operator's profile",
+          "list": "List of operators",
+          "addAuthority": "Add authority for user",
+          "deleteAuthority": "Delete authority for user",
+          "personalDetails": "Operator's personal details",
+          "resetPassword": "Reset password for user",
+          "changeStatus": "Operator's status",
+          "changePassword": "Change password for other operator",
+          "getAuthorities": "Get authorities on edit profile",
+          "list2": "List of operators",
+          "updateBranch": "User branch",
+          "createSalesRule": "Create sales rule",
+          "deleteSalesRule": "Delete sales rule"
+        }
+      },
+      "partners": {
+        "TITLE": "Partners",
+        "PERMISSIONS": {
+          "list": "List of partners",
+          "profile": "Partner's profile",
+          "create": "Create new partner",
+          "changeStatus": "Partner account status",
+          "personalDetails": "Partner personal details",
+          "changePassword": "Change password for partner",
+          "feedTab": "Show feed tab",
+          "listSalesRules": "List of sales rules",
+          "createSalesRule": "Create sales rule",
+          "deleteSalesRule": "Delete sales rule"
+        }
+      },
+      "management-hierarchy": {
+        "TITLE": "Management - Hierarchy",
+        "PERMISSIONS": {
+          "tree": "Show hierarchy tree",
+          "listOffices": "List of Offices",
+          "listDesks": "List of Desks",
+          "listTeams": "List of Teams",
+          "listOperators": "List of Operators",
+          "branchPage": "Branch page",
+          "branchCreate": "Create new branch",
+          "branchAddManager": "Add branch manager",
+          "removeAddManager": "Remove branch manager"
+        }
+      },
+      "management-sales-rules": {
+        "TITLE": "Management - Sales Rules",
+        "PERMISSIONS": {
+          "salesRulesList": "List of sales rules",
+          "salesRulesCreate": "Create sales rule",
+          "salesRulesDelete": "Delete sales rule"
+        }
+      },
+      "payments": {
+        "TITLE": "Payments",
+        "PERMISSIONS": {
+          "list": "List of payments",
+          "approve": "Approve payment",
+          "reject": "Reject payment",
+          "changeStatus": "Change payment status",
+          "changeMethod": "Change payment method",
+          "changeAgent": "Payment original agent"
+        }
+      },
+      "callbacks": {
+        "TITLE": "Callbacks",
+        "PERMISSIONS": {
+          "list": "List of callbacks"
+        }
+      },
+      "email-templates": {
+        "TITLE": "Email templates",
+        "PERMISSIONS": {
+          "list": "List of templates",
+          "create": "Create template",
+          "send": "Send email"
+        }
+      },
+      "kyc-documents": {
+        "TITLE": "KYC Documents",
+        "PERMISSIONS": {
+          "list": "List of KYC documents"
+        }
+      },
+      "trading-accounts": {
+        "TITLE": "Trading accounts",
+        "PERMISSIONS": {
+          "list": "List of trading accounts",
+          "create": "Create trading account",
+          "changePassword": "Trading account password"
+        }
+      },
+      "notes": {
+        "TITLE": "Notes",
+        "PERMISSIONS": {
+          "list": "List of notes",
+          "create": "Create note",
+          "update": "Update note",
+          "delete": "Delete note"
+        }
+      },
+      "notifications": {
+        "TITLE": "Notifications",
+        "PERMISSIONS": {
+          "list": "List of notifications",
+          "unreadCount": "Get unread count"
+        }
+      },
+      "clients-distribution": {
+        "TITLE": "Clients distribution",
+        "PERMISSIONS": {
+          "list": "List of distribution rules",
+          "create": "Create rule"
+        }
+      }
+    }
   }
 }

@@ -61,7 +61,7 @@ const REQUEST = gql`
 `;
 
 const ConfigQuery = ({ children }) => (
-  <Query query={REQUEST} variables={{ brandId: getBrand()?.id }} fetchPolicy="network-only">
+  <Query query={REQUEST} variables={{ brandId: getBrand()?.id }} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
