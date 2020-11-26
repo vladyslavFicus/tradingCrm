@@ -10,7 +10,7 @@ const REQUEST = gql`
 `;
 
 const PermissionsQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="network-only">
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
