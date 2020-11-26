@@ -8,6 +8,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
+import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import ShortLoader from 'components/ShortLoader';
 import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
@@ -54,11 +55,6 @@ class RolesAndPermissions extends PureComponent {
             <Otherwise>
               <div className="RolesAndPermissions__authorities">
                 <Accordion allowZeroExpanded>
-                  <If condition={activeDepartment}>
-                    <div className="RolesAndPermissions__current-authority">
-                      {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${activeDepartment}`)}
-                    </div>
-                  </If>
                   {Object.entries(authorities).map(([department, roles]) => (
                     <AccordionItem key={department}>
                       <AccordionItemHeading>
@@ -70,7 +66,9 @@ class RolesAndPermissions extends PureComponent {
                         <AccordionItemPanel
                           key={`${department}-${role}`}
                           onClick={() => this.handleSelectAuthority(department, role)}
-                          className="RolesAndPermissions__authority"
+                          className={classNames('RolesAndPermissions__authority', {
+                            'RolesAndPermissions__authority--active': role === activeRole,
+                          })}
                         >
                           {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
                         </AccordionItemPanel>
