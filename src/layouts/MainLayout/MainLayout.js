@@ -29,7 +29,6 @@ class MainLayout extends PureComponent {
     return (
       <PermissionProvider key={auth.department}>
         <Header />
-
         <Sidebar />
 
         <main className="content-container">
