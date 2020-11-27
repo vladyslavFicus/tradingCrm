@@ -1,0 +1,65 @@
+.NotificationItem {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 30px 10px 15px;
+
+  &--low {
+    background: #4990e2;
+  }
+
+  &--medium {
+    background: #26ad84;
+  }
+
+  &--high {
+    background: #e36b6c;
+  }
+
+  &__icon-container {
+    margin-top: 5px;
+    margin-right: 30px;
+    opacity: 0.5;
+  }
+
+  &__title-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+
+  &__priority {
+    flex-shrink: 0;
+    padding: 0 7px;
+    margin-right: 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+
+    &--low {
+      background: #90c8f1;
+    }
+
+    &--medium {
+      background: #f2b458;
+    }
+
+    &--high {
+      background: #ff95a2;
+    }
+  }
+
+  &__title {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.5;
+    color: #ffffff;
+  }
+
+  &__body {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+}
