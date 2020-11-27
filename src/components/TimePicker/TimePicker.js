@@ -49,6 +49,7 @@ class TimePicker extends PureComponent {
     this.isMouseUp = false;
 
     document.body.addEventListener('mouseup', this.endChangeValue);
+    document.body.addEventListener('touchend', this.endChangeValue);
   };
 
   endChangeValue = () => {
@@ -58,6 +59,7 @@ class TimePicker extends PureComponent {
     this.isMouseUp = true;
 
     document.body.removeEventListener('mouseup', this.endChangeValue);
+    document.body.removeEventListener('touchend', this.endChangeValue);
   };
 
   increaseValue = unit => this.setState(({ [unit]: value }) => ({ [unit]: value === limits[unit] ? 0 : value + 1 }));
