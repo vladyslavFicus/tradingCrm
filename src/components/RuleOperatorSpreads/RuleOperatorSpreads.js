@@ -23,7 +23,7 @@ class RuleOperatorSpreads extends PureComponent {
   }
 
   static defaultProps = {
-    percentageLimitError: true,
+    percentageLimitError: false,
   }
 
   render() {
@@ -77,7 +77,7 @@ class RuleOperatorSpreads extends PureComponent {
                     component={FormikInputField}
                     className={
                       classNames('col-4', {
-                        'input--has-error': !percentageLimitError,
+                        'input--has-error': percentageLimitError,
                       })
                     }
                   />
@@ -95,7 +95,7 @@ class RuleOperatorSpreads extends PureComponent {
             </Fragment>
           )}
         />
-        <If condition={!percentageLimitError}>
+        <If condition={percentageLimitError}>
           <div className="RuleOperatorSpreads__percentage-error color-danger">
             <div className="col-7">
               {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}

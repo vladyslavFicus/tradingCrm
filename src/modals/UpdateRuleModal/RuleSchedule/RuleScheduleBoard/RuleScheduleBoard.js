@@ -26,12 +26,13 @@ class RuleScheduleBoard extends PureComponent {
       ),
     }).isRequired,
     removeScheduleBoard: PropTypes.func,
-    setFieldValue: PropTypes.func.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
+    formikBag: PropTypes.object.isRequired,
+    errors: PropTypes.object,
   };
 
   static defaultProps = {
     removeScheduleBoard: null,
+    errors: null,
   };
 
   selectDay = (selectedDay) => {
@@ -40,7 +41,9 @@ class RuleScheduleBoard extends PureComponent {
       scheduleBoard: {
         days,
       },
-      setFieldValue,
+      formikBag: {
+        setFieldValue,
+      },
     } = this.props;
 
     setFieldValue(
@@ -55,7 +58,9 @@ class RuleScheduleBoard extends PureComponent {
       scheduleBoard: {
         timeIntervals,
       },
-      setFieldValue,
+      formikBag: {
+        setFieldValue,
+      },
     } = this.props;
 
     setFieldValue(
@@ -68,7 +73,7 @@ class RuleScheduleBoard extends PureComponent {
     const operatorSpreads = [...values];
     operatorSpreads.splice(index, 1);
 
-    this.props.setFieldValue(name, operatorSpreads);
+    this.props.formikBag.setFieldValue(name, operatorSpreads);
   };
 
   renderDays = () => {
@@ -77,22 +82,28 @@ class RuleScheduleBoard extends PureComponent {
         days,
       },
       checkedDays,
+      errors,
     } = this.props;
 
     return (
       <div className="RuleScheduleBoard__days">
-        {weekDays.map(day => (
-          <Checkbox
-            key={day}
-            name={day}
-            label={day.slice(0, 3).toLocaleUpperCase()} // TODO
-            className="RuleScheduleBoard__days-item"
-            onChange={() => this.selectDay(day)}
-            value={days.includes(day)}
-            disabled={!days.includes(day) && checkedDays.includes(day)}
-            vertical
-          />
-        ))}
+        <div className="RuleScheduleBoard__days-list">
+          {weekDays.map(day => (
+            <Checkbox
+              key={day}
+              name={day}
+              label={day.slice(0, 3).toLocaleUpperCase()} // TODO
+              className="RuleScheduleBoard__days-item"
+              onChange={() => this.selectDay(day)}
+              value={days.includes(day)}
+              disabled={!days.includes(day) && checkedDays.includes(day)}
+              vertical
+            />
+          ))}
+        </div>
+        <div className="RuleScheduleBoard__error-message">
+          {errors?.days}
+        </div>
       </div>
     );
   };
@@ -103,6 +114,7 @@ class RuleScheduleBoard extends PureComponent {
       scheduleBoard: {
         timeIntervals,
       },
+      errors,
     } = this.props;
 
     return (
@@ -110,22 +122,30 @@ class RuleScheduleBoard extends PureComponent {
         name={`${namePrefix}.timeIntervals`}
         render={({ remove }) => (
           <Fragment>
-            {timeIntervals.map((timeInterval, index) => this.renderTimeInterval(
+            {timeIntervals.map((timeInterval, timeIntervalIndex) => this.renderTimeInterval({
               timeInterval,
-              `${namePrefix}.timeIntervals[${index}]`,
-              timeIntervals[1] ? () => remove(index) : null,
-            ))}
+              namePrefix: `${namePrefix}.timeIntervals[${timeIntervalIndex}]`,
+              removeTimeInterval: timeIntervals[1] ? () => remove(timeIntervalIndex) : null,
+              timeIntervalErrors: errors?.timeIntervals?.[timeIntervalIndex],
+            }))}
           </Fragment>
         )}
       />
     );
   };
 
-  renderTimeInterval = ({ operatorSpreads, timeFrom, timeTo }, namePrefix, removeTimeInterval) => {
+  renderTimeInterval = ({
+    timeInterval: { operatorSpreads, timeFrom, timeTo },
+    namePrefix,
+    removeTimeInterval,
+    timeIntervalErrors,
+  }) => {
     const {
       operators,
-      isSubmitting,
-      setFieldValue,
+      formikBag: {
+        setFieldValue,
+        isSubmitting,
+      },
     } = this.props;
 
     return (
@@ -134,6 +154,7 @@ class RuleScheduleBoard extends PureComponent {
           namePrefix={namePrefix}
           timeFrom={timeFrom}
           timeTo={timeTo}
+          error={timeIntervalErrors?.timeRange}
           setFieldValue={setFieldValue}
         />
         <RuleOperatorSpreads
@@ -144,7 +165,7 @@ class RuleScheduleBoard extends PureComponent {
           )}
           namePrefix={`${namePrefix}.operatorSpreads`}
           disabled={isSubmitting}
-          isValid // TODO
+          percentageLimitError={timeIntervalErrors?.operatorSpreads === 'INVALID_PERCENTAGE'}
         />
         <RemoveTimeIntervalButton
           className="RuleScheduleBoard__remove-time-interval"

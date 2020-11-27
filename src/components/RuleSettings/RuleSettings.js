@@ -152,7 +152,7 @@ class RuleSettings extends PureComponent {
             removeOperatorSpread={this.removeOperatorSpread}
             namePrefix="operatorSpreads"
             disabled={isSubmitting}
-            isValid={errors.percentageLimitError}
+            percentageLimitError={errors.operatorSpreads === 'INVALID_PERCENTAGE'}
           />
         </If>
       </div>

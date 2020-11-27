@@ -19,9 +19,7 @@ class RuleSchedule extends PureComponent {
         timeTo: PropTypes.string,
       })),
     })).isRequired,
-    setFieldValue: PropTypes.func.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    // errors: PropTypes.object.isRequired,
+    formikBag: PropTypes.object.isRequired,
   };
 
   static getDerivedStateFromProps({ schedules }) {
@@ -29,7 +27,7 @@ class RuleSchedule extends PureComponent {
 
     return {
       checkedDays,
-      hasLimitOfBoards: checkedDays.length === 7,
+      hasLimitOfBoards: checkedDays.length === 7 || schedules.length === 7,
     };
   }
 
@@ -47,9 +45,10 @@ class RuleSchedule extends PureComponent {
     const {
       operators,
       schedules,
-      // errors,
-      isSubmitting,
-      setFieldValue,
+      formikBag,
+      formikBag: {
+        errors,
+      },
     } = this.props;
 
     const {
@@ -79,8 +78,8 @@ class RuleSchedule extends PureComponent {
                   checkedDays={checkedDays}
                   scheduleBoard={scheduleBoard}
                   removeScheduleBoard={schedules[1] ? () => remove(index) : null}
-                  setFieldValue={setFieldValue}
-                  isSubmitting={isSubmitting}
+                  formikBag={formikBag}
+                  errors={errors.schedules?.[index]}
                 />
               ))}
               <div className="RuleSchedule__footer">

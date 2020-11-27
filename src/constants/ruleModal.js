@@ -21,4 +21,21 @@ export const customErrors = {
   'between.operatorSpreads.*.percentage': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.BETWEEN_RATIO'),
   'integer.operatorSpreads.*.percentage': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.INTEGER_RATIO'),
   'required.operatorSpreads.*.parentUser': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.OPERATOR'),
+  'between.schedules.*.timeIntervals.*.operatorSpreads.*.percentage':
+    I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.BETWEEN_RATIO'),
+  'integer.schedules.*.timeIntervals.*.operatorSpreads.*.percentage':
+    I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.INTEGER_RATIO'),
+  'required.schedules.*.timeIntervals.*.operatorSpreads.*.parentUser':
+    I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.OPERATOR'),
+};
+
+/**
+ * an issue for custom errors of nested fields:
+ * https://github.com/skaterdav85/validatorjs/issues/274
+ * the contributor of package suggests to implement custom solution in this case:
+ * https://github.com/skaterdav85/validatorjs/issues/374
+ */
+export const nestedFieldsNames = {
+  'schedules.*.timeIntervals.*.operatorSpreads.*.parentUser':
+    I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.OPERATOR'),
 };

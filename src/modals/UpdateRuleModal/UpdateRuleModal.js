@@ -6,7 +6,7 @@ import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { ruleTypes, priorities } from 'constants/rules';
-import { attributeLabels, customErrors } from 'constants/ruleModal';
+import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, Tabs, TabsItem } from 'components/UI';
@@ -16,6 +16,10 @@ import {
   PartnersQuery,
   RulesQuery,
 } from './graphql';
+import {
+  deepFieldsTranslator,
+  extraValidation,
+} from './utils';
 import RuleSchedule from './RuleSchedule';
 
 class UpdateRuleModal extends PureComponent {
@@ -44,7 +48,7 @@ class UpdateRuleModal extends PureComponent {
   };
 
   state = {
-    validationByChange: false,
+    validationByChange: true,
   };
 
   handleSubmit = (values, { setSubmitting, setErrors }) => {
@@ -131,27 +135,20 @@ class UpdateRuleModal extends PureComponent {
                 'operatorSpreads.0.parentUser': 'required',
               },
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
+              'schedules.*.timeIntervals.*.operatorSpreads.*.percentage': ['between:1,100', 'integer'],
+              'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
-            const percentageLimitError = withOperatorSpreads && values.operatorSpreads.length
-              && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100;
-
-            return { ...errors, ...percentageLimitError && { percentageLimitError } };
+            return deepFieldsTranslator(extraValidation(values, errors, { withOperatorSpreads }), nestedFieldsNames);
           }}
-          validateOnBlur={false}
+          // validateOnBlur={false}
           validateOnChange={this.state.validationByChange}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
-          {({
-            values,
-            setFieldValue,
-            dirty,
-            errors,
-            isSubmitting,
-          }) => (
+          {({ values, ...formikBag }) => (
             <Form>
-              {/* {console.log(schedules)} */}
+              {console.log(formikBag.errors)}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>
@@ -164,18 +161,14 @@ class UpdateRuleModal extends PureComponent {
                     partners={partners}
                     withOperatorSpreads={withOperatorSpreads}
                     operatorSpreads={values.operatorSpreads}
-                    setFieldValue={setFieldValue}
-                    isSubmitting={isSubmitting}
-                    errors={errors}
+                    {...formikBag}
                   />
                   <TabsItem
                     label="Schedule settings"
                     component={RuleSchedule}
                     operators={operators}
                     schedules={values.schedules}
-                    setFieldValue={setFieldValue}
-                    isSubmitting={isSubmitting}
-                    errors={errors}
+                    formikBag={formikBag}
                   />
                 </Tabs>
               </ModalBody>
@@ -189,7 +182,7 @@ class UpdateRuleModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!dirty || isSubmitting}
+                  disabled={!formikBag.dirty || formikBag.isSubmitting}
                   onClick={() => this.setState({ validationByChange: true })}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.SAVE_CHANGES')}

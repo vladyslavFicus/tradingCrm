@@ -1,7 +1,11 @@
 .RuleScheduleTimeRange {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
+  position: relative;
+
+  &__counts {
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
 
   &__separator {
     display: block;
@@ -13,5 +17,13 @@
   
   &__field {
     width: 148px;
+  }
+
+  &__error {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    color: #ff0000;
   }
 }
