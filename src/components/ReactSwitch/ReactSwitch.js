@@ -58,6 +58,7 @@ class ReactSwitch extends Component {
     return (
       <button
         type="button"
+        disabled={disabled}
         className={classNames('react-switch', className, { 'is-disabled': disabled, on })}
         onClick={this.handleClick}
         id={id}

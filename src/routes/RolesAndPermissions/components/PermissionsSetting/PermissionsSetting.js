@@ -8,6 +8,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import rbac from 'constants/rbac';
@@ -160,10 +161,21 @@ class PermissionsSetting extends PureComponent {
             ...section,
             permissions: section.permissions.map((permission) => {
               const _permission = { ...permission };
+              const permissionKeys = Object.keys(permission.actions || {});
 
-              Object.keys(permission.actions || {}).forEach((key) => {
+              permissionKeys.forEach((key) => {
                 if (action === _permission.actions[key].action) {
                   _permission.actions[key].state = enabled;
+
+                  /**
+                   * If section contains both toggles, and View toggle is turned off,
+                   * then Edit toggle should be turned off too.
+                   */
+                  if (key === 'view' && !enabled && ['view', 'edit'].every(i => permissionKeys.includes(i))) {
+                    _permission.actions.edit.state = false;
+
+                    disabledSection.push(_permission.actions.view.action, _permission.actions.edit.action);
+                  }
                 }
               });
 
@@ -179,7 +191,7 @@ class PermissionsSetting extends PureComponent {
             variables: {
               department,
               role,
-              actions: currentSection && !enabled && disabledSection.length ? disabledSection : [action],
+              actions: disabledSection.length ? disabledSection : [action],
               isPermitted: enabled,
             },
           });
@@ -271,7 +283,11 @@ class PermissionsSetting extends PureComponent {
             <ReactSwitch
               stopPropagation
               on={actions.edit.state}
-              className="PermissionsSetting__settings-switcher"
+              disabled={actions?.view && actions?.edit && !actions?.view?.state}
+              className={
+                classNames('PermissionsSetting__settings-switcher',
+                  { 'is-disabled': actions?.view && actions?.edit && !actions?.view?.state })
+              }
               onClick={_enabled => this.handleSwitchPermission(actions.edit.action, _enabled, section)}
             />
           </If>
