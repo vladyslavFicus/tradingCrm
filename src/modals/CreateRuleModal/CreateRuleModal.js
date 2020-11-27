@@ -12,7 +12,7 @@ import countryList from 'utils/countryList';
 import { Button, Tabs, TabsItem } from 'components/UI';
 import RuleSettings from 'components/RuleSettings';
 import { OperatorsQuery, PartnersQuery } from './graphql';
-import RuleSchedule from './RuleSchedule';
+import CreateRuleSchedule from './CreateRuleSchedule';
 
 class CreateRuleModal extends PureComponent {
   static propTypes = {
@@ -132,7 +132,7 @@ class CreateRuleModal extends PureComponent {
                   />
                   <TabsItem
                     label="Schedule settings"
-                    component={RuleSchedule}
+                    component={CreateRuleSchedule}
                   />
                 </Tabs>
               </ModalBody>
