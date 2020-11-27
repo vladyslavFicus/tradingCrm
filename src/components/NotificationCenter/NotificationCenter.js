@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Popover } from 'reactstrap';
+import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import NotificationCenterContent from './components/NotificationCenterContent';
@@ -11,6 +12,18 @@ class NotificationCenter extends PureComponent {
     isOpen: false,
     enableToggle: true,
   };
+
+  componentDidMount() {
+    EventEmitter.on(NOTIFICATION_CLICKED, this.open);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.off(NOTIFICATION_CLICKED, this.open);
+  }
+
+  open = () => this.setState({ isOpen: true });
+
+  close = () => this.setState({ isOpen: false });
 
   toggle = () => this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
 
@@ -38,15 +51,19 @@ class NotificationCenter extends PureComponent {
           onClick={this.toggle}
         />
         <Popover
+          id="NotificationCenterContainer"
           target={id}
           isOpen={isOpen}
           toggle={enableToggle ? this.toggle : () => {}}
           placement="bottom"
           className="NotificationCenter__popover"
           innerClassName="NotificationCenter__popover-inner"
-          trigger="legacy"
+          trigger="manual"
         >
-          <NotificationCenterContent onCloseModal={this.onCloseModal} />
+          <NotificationCenterContent
+            close={this.close}
+            onCloseModal={this.onCloseModal}
+          />
         </Popover>
       </PermissionContent>
     );

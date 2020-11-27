@@ -25,4 +25,7 @@ export const ACQUISITION_STATUS_CHANGED = 'ACQUISITION_STATUS_CHANGED';
 // ---- Distribution rule events ---- //
 export const DISTRIBUTION_RULE_CHANGED = 'DISTRIBUTION_RULE_CHANGED';
 
+// ---- Notifications events ---- //
+export const NOTIFICATION_CLICKED = 'NOTIFICATION_CLICKED';
+
 export default new EventEmitter();

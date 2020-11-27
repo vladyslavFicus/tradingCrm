@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'apollo';
 
-const REQUEST = gql`
+export const REQUEST = gql`
   query NotificationCenterUnreadQuery {
     notificationCenterUnread
   }
 `;
 
 const NotificationCenterUnreadQuery = ({ children }) => (
-  <Query
-    query={REQUEST}
-    pollInterval={10000}
-    fetchPolicy="network-only"
-  >
+  <Query query={REQUEST}>
     {children}
   </Query>
 );

@@ -32,11 +32,45 @@ class NotificationCenterContent extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     bulkUpdate: PropTypes.func.isRequired,
     notificationsConfigurationUpdate: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   state = {
     allRowsSelected: false,
     touchedRowsIds: [],
+  };
+
+  componentDidMount() {
+    document.addEventListener('click', this.onCloseHandler);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.onCloseHandler);
+  }
+
+  /**
+   * Manual control closing of popover with notifications to prevent close when clicked
+   * on content inside NotificationCenterContainer and inside Notifications__toast elements.
+   *
+   * @param e
+   */
+  onCloseHandler = (e) => {
+    const element = e.target;
+    const notificationCenterTrigger = document.getElementById('NotificationCenterTrigger');
+    const notificationCenterContainer = document.getElementById('NotificationCenterContainer');
+    const notificationWSContainers = [...document.getElementsByClassName('Notifications__toast')];
+
+    const shouldClose = !(
+      element === notificationCenterTrigger
+      || element === notificationCenterContainer
+      || (notificationCenterContainer && notificationCenterContainer.contains(element))
+      || notificationWSContainers.includes(element)
+      || notificationWSContainers.some(container => container.contains(element))
+    );
+
+    if (shouldClose) {
+      this.props.close();
+    }
   };
 
   selectItems = (allRowsSelected, touchedRowsIds) => {

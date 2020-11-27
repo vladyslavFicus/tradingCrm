@@ -102,7 +102,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="targetSalesStatus"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}

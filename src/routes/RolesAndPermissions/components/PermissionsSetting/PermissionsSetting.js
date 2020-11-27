@@ -122,6 +122,7 @@ class PermissionsSetting extends PureComponent {
     // Set actual list of actions to state
     this.setState(
       ({ shadowActions }) => ({
+        shouldUpdate: false,
         shadowActions: shadowActions.map((section) => {
           if (currentSection && section.id === currentSection.id) {
             const [sectionKey] = Object.keys(section?.actions || {});
@@ -202,7 +203,7 @@ class PermissionsSetting extends PureComponent {
     try {
       this.props.images.show([{
         // eslint-disable-next-line
-        src: require(`./img/${action}.png`),
+        src: require(`./img/${action}.png`).default,
       }]);
     } catch {
       // Do nothing...
