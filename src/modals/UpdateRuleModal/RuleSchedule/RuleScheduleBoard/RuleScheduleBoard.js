@@ -101,9 +101,11 @@ class RuleScheduleBoard extends PureComponent {
             />
           ))}
         </div>
-        <div className="RuleScheduleBoard__error-message">
-          {errors?.days}
-        </div>
+        <If condition={errors?.days}>
+          <div className="RuleScheduleBoard__error-message">
+            <i className="RuleScheduleBoard__error-message-icon icon-alert" />{errors?.days}
+          </div>
+        </If>
       </div>
     );
   };

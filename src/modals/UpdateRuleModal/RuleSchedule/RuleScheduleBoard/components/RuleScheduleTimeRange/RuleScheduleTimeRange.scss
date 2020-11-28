@@ -19,11 +19,26 @@
     width: 148px;
   }
 
+  &__unit {
+    margin-left: 15px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 40px;
+    color: #9B9B9B;
+  }
+
   &__error {
     position: absolute;
     left: 0;
     bottom: 0;
     font-size: 12px;
-    color: #ff0000;
+    color: #d0011b;
+  }
+
+  &__error-icon {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px;
+    vertical-align: middle;
   }
 }

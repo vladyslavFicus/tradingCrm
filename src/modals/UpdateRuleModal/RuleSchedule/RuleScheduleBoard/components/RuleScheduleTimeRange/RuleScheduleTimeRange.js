@@ -6,10 +6,10 @@ import './RuleScheduleTimeRange.scss';
 class RuleScheduleTimeRange extends PureComponent {
   static propTypes = {
     namePrefix: PropTypes.string.isRequired,
-    setFieldValue: PropTypes.func.isRequired,
     timeFrom: PropTypes.string,
     timeTo: PropTypes.string,
     error: PropTypes.string,
+    setFieldValue: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -41,10 +41,13 @@ class RuleScheduleTimeRange extends PureComponent {
             value={timeTo}
             onChange={value => setFieldValue(`${namePrefix}.timeTo`, value)}
           />
+          <div className="RuleScheduleTimeRange__unit">
+            (UTC time)
+          </div>
         </div>
         <If condition={error}>
           <div className="RuleScheduleTimeRange__error">
-            {error}
+            <i className="RuleScheduleTimeRange__error-icon icon icon-alert" />{error}
           </div>
         </If>
       </div>
