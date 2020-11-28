@@ -20,9 +20,7 @@ class RuleSettings extends PureComponent {
     partners: PropTypes.arrayOf(PropTypes.partnersListEntity).isRequired,
     withOperatorSpreads: PropTypes.bool,
     operatorSpreads: PropTypes.array,
-    setFieldValue: PropTypes.func.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    errors: PropTypes.object.isRequired,
+    formikBag: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -33,7 +31,9 @@ class RuleSettings extends PureComponent {
   removeOperatorSpread = (index) => {
     const {
       operatorSpreads,
-      setFieldValue,
+      formikBag: {
+        setFieldValue,
+      },
     } = this.props;
 
     const newOperatorSpreads = [...operatorSpreads];
@@ -47,8 +47,10 @@ class RuleSettings extends PureComponent {
       partners,
       withOperatorSpreads,
       operatorSpreads,
-      isSubmitting,
-      errors,
+      formikBag: {
+        isSubmitting,
+        errors,
+      },
     } = this.props;
 
     return (

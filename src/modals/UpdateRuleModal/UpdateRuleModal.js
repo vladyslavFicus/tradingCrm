@@ -17,7 +17,7 @@ import {
   RulesQuery,
 } from './graphql';
 import {
-  deepFieldsTranslator,
+  nestedFieldsTranslator,
   extraValidation,
 } from './utils';
 import RuleSchedule from './RuleSchedule';
@@ -139,7 +139,7 @@ class UpdateRuleModal extends PureComponent {
               'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
-            return deepFieldsTranslator(extraValidation(values, errors, { withOperatorSpreads }), nestedFieldsNames);
+            return nestedFieldsTranslator(extraValidation(values, errors, { withOperatorSpreads }), nestedFieldsNames);
           }}
           // validateOnBlur={false}
           validateOnChange={this.state.validationByChange}
@@ -161,7 +161,7 @@ class UpdateRuleModal extends PureComponent {
                     partners={partners}
                     withOperatorSpreads={withOperatorSpreads}
                     operatorSpreads={values.operatorSpreads}
-                    {...formikBag}
+                    formikBag={formikBag}
                   />
                   <TabsItem
                     label="Schedule settings"

@@ -1,16 +1,14 @@
-import moment from 'moment';
-
-const createDayWithTime = (timeString) => {
+const getMinutesFromTimeString = (timeString) => {
   const [, hours, minutes] = timeString?.match(/^(\d{1,2}):(\d{1,2})\b/) || [null, 0, 0];
 
-  return moment().hours(hours).minutes(minutes);
+  return hours * 60 + minutes * 1;
 };
 
 const validateTimeRange = (timeFromString, timeToString) => {
-  const momentTimeFrom = createDayWithTime(timeFromString);
-  const momentTimeTo = createDayWithTime(timeToString);
+  const timeFromMinutesNum = getMinutesFromTimeString(timeFromString);
+  const timeToMinutesNum = getMinutesFromTimeString(timeToString);
 
-  if (momentTimeTo.isSameOrBefore(momentTimeFrom)) {
+  if (timeFromMinutesNum === timeToMinutesNum || timeToMinutesNum < timeFromMinutesNum) {
     return 'INVALID_TIME_RANGE';
   }
 
@@ -84,7 +82,7 @@ export const extraValidation = ({ schedules, operatorSpreads }, errors, { withOp
   };
 };
 
-export const deepFieldsTranslator = (errors, patterns) => {
+export const nestedFieldsTranslator = (errors, patterns) => {
   if (Object.keys(errors).length) {
     let errorsJSON = JSON.stringify(errors);
 

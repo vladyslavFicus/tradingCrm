@@ -11,6 +11,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, Tabs, TabsItem } from 'components/UI';
 import RuleSettings from 'components/RuleSettings';
+import { extraValidation } from './utils';
 import { OperatorsQuery, PartnersQuery } from './graphql';
 import CreateRuleSchedule from './CreateRuleSchedule';
 
@@ -97,22 +98,13 @@ class CreateRuleModal extends PureComponent {
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
-            const percentageLimitError = withOperatorSpreads && values.operatorSpreads.length
-              && values.operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100;
-
-            return { ...errors, ...percentageLimitError && { percentageLimitError } };
+            return extraValidation(values, errors, { withOperatorSpreads });
           }}
           validateOnBlur={false}
           validateOnChange={this.state.validationByChange}
           onSubmit={this.handleSubmit}
         >
-          {({
-            values: { operatorSpreads },
-            setFieldValue,
-            dirty,
-            errors,
-            isSubmitting,
-          }) => (
+          {({ values: { operatorSpreads }, ...formikBag }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
@@ -126,9 +118,7 @@ class CreateRuleModal extends PureComponent {
                     partners={partners}
                     withOperatorSpreads={withOperatorSpreads}
                     operatorSpreads={operatorSpreads}
-                    setFieldValue={setFieldValue}
-                    isSubmitting={isSubmitting}
-                    errors={errors}
+                    formikBag={formikBag}
                   />
                   <TabsItem
                     label="Schedule settings"
@@ -146,7 +136,7 @@ class CreateRuleModal extends PureComponent {
                 <Button
                   primary
                   type="submit"
-                  disabled={!dirty || isSubmitting}
+                  disabled={!formikBag.dirty || formikBag.isSubmitting}
                   onClick={() => this.setState({ validationByChange: true })}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
