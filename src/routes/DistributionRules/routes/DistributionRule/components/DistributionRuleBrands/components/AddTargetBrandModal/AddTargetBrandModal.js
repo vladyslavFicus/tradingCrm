@@ -36,6 +36,7 @@ class AddTargetBrandModal extends PureComponent {
   state = {
     operatorsByBrand: [],
     operatorsLoading: false,
+    sourceBrandQuantity: null,
     availableClientsAmount: null,
   }
 
@@ -79,14 +80,40 @@ class AddTargetBrandModal extends PureComponent {
 
   fetchAvailableClientsAmount = async (targetBrand) => {
     const {
+      sourceBrandQuantity,
       fetchAvailableClientsAmount,
+      initialValues: {
+        distributionUnit: {
+          baseUnit,
+        },
+      },
     } = this.props;
+
+    try {
+      let computedSourceBrandQuantity = sourceBrandQuantity;
+
+      if (baseUnit === 'PERCENTAGE') {
+        const availableSourceClientsAmount = await fetchAvailableClientsAmount();
+        computedSourceBrandQuantity = Math.floor(availableSourceClientsAmount * sourceBrandQuantity / 100);
+      }
+
+      this.setState({
+        sourceBrandQuantity: computedSourceBrandQuantity,
+      }, () => this.fetchAvailableTargetClientsAmount(targetBrand));
+    } catch {
+      // ...
+    }
+  };
+
+  fetchAvailableTargetClientsAmount = async (targetBrand) => {
+    const { fetchAvailableClientsAmount } = this.props;
+    const { sourceBrandQuantity } = this.state;
 
     this.setState({ availableClientsAmount: null });
 
     try {
       const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
-      this.setState({ availableClientsAmount });
+      this.setState({ availableClientsAmount: Math.min(availableClientsAmount, sourceBrandQuantity) });
     } catch {
       // ...
     }
@@ -94,7 +121,7 @@ class AddTargetBrandModal extends PureComponent {
 
   handleBrandChange = setFieldValue => (targetBrandId) => {
     this.fetchOperatorsByBrand(targetBrandId);
-    this.fetchAvailableClientsAmount(targetBrandId);
+    this.fetchAvailableTargetClientsAmount(targetBrandId);
 
     setFieldValue('brand', targetBrandId);
   };
@@ -116,7 +143,6 @@ class AddTargetBrandModal extends PureComponent {
       onCloseModal,
       isOpen,
       sourceBrandId,
-      sourceBrandQuantity,
       brands,
       initialValues: {
         brand,
@@ -133,8 +159,6 @@ class AddTargetBrandModal extends PureComponent {
       operatorsLoading,
       availableClientsAmount,
     } = this.state;
-
-    const limitAmount = Math.min(availableClientsAmount, sourceBrandQuantity);
 
     return (
       <Modal
@@ -153,7 +177,7 @@ class AddTargetBrandModal extends PureComponent {
             createValidator({
               brand: 'required',
               quantity: ['required', 'integer', 'min:1',
-                `max:${values.baseUnit === 'PERCENTAGE' ? 100 : limitAmount}`,
+                `max:${values.baseUnit === 'PERCENTAGE' ? 100 : availableClientsAmount}`,
               ],
             }, translateLabels({
               ...modalFieldsNames,
@@ -192,7 +216,7 @@ class AddTargetBrandModal extends PureComponent {
                     dangerouslySetInnerHTML={{
                       __html: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
                         value: typeof availableClientsAmount === 'number'
-                          ? limitAmount
+                          ? availableClientsAmount
                           : '<span class="AddTargetBrandModal__message-spinner">...</span>',
                       }),
                     }}
