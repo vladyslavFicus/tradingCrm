@@ -16,7 +16,7 @@ import { Button } from 'components/UI';
 import { withImages } from 'components/ImageViewer';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ActionsQuery from './graphql/ActionsQuery';
 import UpdateAuthorityActionsMutation from './graphql/UpdateAuthorityActionsMutation';
 import ResetPermissionMutation from './graphql/ResetPermissionMutation';

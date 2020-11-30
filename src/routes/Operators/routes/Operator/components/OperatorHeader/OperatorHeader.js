@@ -8,7 +8,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';

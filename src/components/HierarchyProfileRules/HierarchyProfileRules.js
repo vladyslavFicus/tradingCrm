@@ -5,19 +5,19 @@ import { parseErrors, withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
+import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { Button } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
-import { actionRuleTypes, deskTypes } from 'constants/rules';
-import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Grid, { GridColumn } from 'components/Grid';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import {
   RulesQuery,
   BranchInfoQuery,

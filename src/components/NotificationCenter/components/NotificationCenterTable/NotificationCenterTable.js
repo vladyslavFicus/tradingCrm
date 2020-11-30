@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import Uuid from 'components/Uuid';
