@@ -265,39 +265,43 @@ class PermissionsSetting extends PureComponent {
     });
   };
 
-  renderSettings = (actions, section) => (
-    <>
-      <div className="PermissionsSetting__settings">
-        <div className="PermissionsSetting__settings-switcher-view">
-          <If condition={actions?.view}>
-            <ReactSwitch
-              stopPropagation
-              on={actions.view.state}
-              className="PermissionsSetting__settings-switcher"
-              onClick={_enabled => this.handleSwitchPermission(actions.view.action, _enabled, section)}
-            />
-          </If>
+  renderSettings = (actions, section) => {
+    const isDisabled = actions?.view && actions?.edit && !actions?.view?.state;
+
+    return (
+      <>
+        <div className="PermissionsSetting__settings">
+          <div className="PermissionsSetting__settings-switcher-view">
+            <If condition={actions?.view}>
+              <ReactSwitch
+                stopPropagation
+                on={actions.view.state}
+                className="PermissionsSetting__settings-switcher"
+                onClick={_enabled => this.handleSwitchPermission(actions.view.action, _enabled, section)}
+              />
+            </If>
+          </div>
+          <div className="PermissionsSetting__settings-switcher-edit">
+            <If condition={actions?.edit}>
+              <ReactSwitch
+                stopPropagation
+                on={actions.edit.state}
+                disabled={isDisabled}
+                className={
+                  classNames('PermissionsSetting__settings-switcher',
+                    { 'is-disabled': isDisabled })
+                }
+                onClick={_enabled => this.handleSwitchPermission(actions.edit.action, _enabled, section)}
+              />
+            </If>
+          </div>
         </div>
-        <div className="PermissionsSetting__settings-switcher-edit">
-          <If condition={actions?.edit}>
-            <ReactSwitch
-              stopPropagation
-              on={actions.edit.state}
-              disabled={actions?.view && actions?.edit && !actions?.view?.state}
-              className={
-                classNames('PermissionsSetting__settings-switcher',
-                  { 'is-disabled': actions?.view && actions?.edit && !actions?.view?.state })
-              }
-              onClick={_enabled => this.handleSwitchPermission(actions.edit.action, _enabled, section)}
-            />
-          </If>
+        <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
+          <PreviewIcon />
         </div>
-      </div>
-      <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
-        <PreviewIcon />
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 
   render() {
     const {
