@@ -2,4 +2,4 @@ export { default as Button } from './Button';
 export { default as EditButton } from './EditButton';
 export { default as RemoveButton } from './RemoveButton';
 export { default as RefreshButton } from './RefreshButton';
-export { default as Tabs, TabsItem } from './Tabs';
+export { default as StaticTabs, StaticTabsItem } from './StaticTabs';

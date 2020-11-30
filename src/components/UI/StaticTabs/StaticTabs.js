@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'components/UI';
-import TabsItem from './TabsItem';
-import './Tabs.scss';
+import StaticTabsItem from './StaticTabsItem';
+import './StaticTabs.scss';
 
-class Tabs extends PureComponent {
+class StaticTabs extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
   }
@@ -26,7 +26,7 @@ class Tabs extends PureComponent {
     const { activeTabName } = this.state;
     const children = React.Children
       .toArray(this.props.children)
-      .filter(child => child.type === TabsItem);
+      .filter(child => child.type === StaticTabsItem);
 
     return (
       <div className="StaticTabs">
@@ -51,4 +51,4 @@ class Tabs extends PureComponent {
   }
 }
 
-export default Tabs;
+export default StaticTabs;

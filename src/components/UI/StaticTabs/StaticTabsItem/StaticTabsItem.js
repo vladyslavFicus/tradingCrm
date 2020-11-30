@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class TabsItem extends PureComponent {
+class StaticTabsItem extends PureComponent {
   static propTypes = {
     label: PropTypes.string.isRequired,
     component: PropTypes.func.isRequired,
@@ -17,4 +17,4 @@ class TabsItem extends PureComponent {
   }
 }
 
-export default TabsItem;
+export default StaticTabsItem;

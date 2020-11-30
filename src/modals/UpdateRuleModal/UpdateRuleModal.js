@@ -9,7 +9,7 @@ import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
-import { Button, Tabs, TabsItem } from 'components/UI';
+import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
 import RuleSettings from 'components/RuleSettings';
 import {
   OperatorsQuery,
@@ -165,8 +165,8 @@ class UpdateRuleModal extends PureComponent {
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>
               <ModalBody className="p-0">
-                <Tabs>
-                  <TabsItem
+                <StaticTabs>
+                  <StaticTabsItem
                     label="Rule settings"
                     component={RuleSettings}
                     operators={operators}
@@ -175,7 +175,7 @@ class UpdateRuleModal extends PureComponent {
                     operatorSpreads={values.operatorSpreads}
                     formikBag={formikBag}
                   />
-                  <TabsItem
+                  <StaticTabsItem
                     label="Schedule settings"
                     component={RuleSchedule}
                     operators={operators}
@@ -184,7 +184,7 @@ class UpdateRuleModal extends PureComponent {
                     enableSchedulesValidation={this.enableSchedulesValidation}
                     validationSchedulesEnabled={validationSchedulesEnabled}
                   />
-                </Tabs>
+                </StaticTabs>
               </ModalBody>
               <ModalFooter>
                 <Button

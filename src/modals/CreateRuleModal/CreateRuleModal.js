@@ -9,7 +9,7 @@ import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
-import { Button, Tabs, TabsItem } from 'components/UI';
+import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
 import RuleSettings from 'components/RuleSettings';
 import { extraValidation } from './utils';
 import { OperatorsQuery, PartnersQuery } from './graphql';
@@ -109,8 +109,8 @@ class CreateRuleModal extends PureComponent {
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.HEADER')}
               </ModalHeader>
               <ModalBody className="p-0">
-                <Tabs>
-                  <TabsItem
+                <StaticTabs>
+                  <StaticTabsItem
                     label="Rule settings"
                     component={RuleSettings}
                     operators={operators}
@@ -119,11 +119,11 @@ class CreateRuleModal extends PureComponent {
                     operatorSpreads={operatorSpreads}
                     formikBag={formikBag}
                   />
-                  <TabsItem
+                  <StaticTabsItem
                     label="Schedule settings"
                     component={CreateRuleSchedule}
                   />
-                </Tabs>
+                </StaticTabs>
               </ModalBody>
               <ModalFooter>
                 <Button
