@@ -3,18 +3,20 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ReactSwitch from 'components/ReactSwitch';
+import { MAX_SELECTED_ROWS } from '../../constants';
 import NotificationCenterForm from '../NotificationCenterForm';
 import NotificationCenterTable from '../NotificationCenterTable';
 import NotificationCenterQuery from '../../graphql/NotificationCenterQuery';
 import NotificationCenterTypesQuery from '../../graphql/NotificationCenterTypesQuery';
+import NotificationCenterConfigurationQuery from '../../graphql/NotificationCenterConfigurationQuery';
 import NotificationCenterUpdate from '../../graphql/NotificationCenterUpdate';
+import NotificationCenterConfigurationUpdate from '../../graphql/NotificationCenterConfigurationUpdate';
 import './NotificationCenterContent.scss';
-
-const MAX_SELECTED_ROWS = 10000;
 
 class NotificationCenterContent extends PureComponent {
   static propTypes = {
@@ -24,12 +26,14 @@ class NotificationCenterContent extends PureComponent {
     notificationsTypes: PropTypes.query({
       notificationCenterTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
-    modals: PropTypes.shape({
-      confirmationModal: PropTypes.modalType,
+    notificationsConfiguration: PropTypes.query({
+      notificationCenterConfiguration: PropTypes.object,
     }).isRequired,
     notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     bulkUpdate: PropTypes.func.isRequired,
+    notificationsConfigurationUpdate: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
   };
 
   state = {
@@ -37,28 +41,41 @@ class NotificationCenterContent extends PureComponent {
     touchedRowsIds: [],
   };
 
+  componentDidMount() {
+    document.addEventListener('click', this.onCloseHandler);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.onCloseHandler);
+  }
+
+  /**
+   * Manual control closing of popover with notifications to prevent close when clicked
+   * on content inside NotificationCenterContainer and inside Notifications__toast elements.
+   *
+   * @param e
+   */
+  onCloseHandler = (e) => {
+    const element = e.target;
+    const notificationCenterTrigger = document.getElementById('NotificationCenterTrigger');
+    const notificationCenterContainer = document.getElementById('NotificationCenterContainer');
+    const notificationWSContainers = [...document.getElementsByClassName('Notifications__toast')];
+
+    const shouldClose = !(
+      element === notificationCenterTrigger
+      || element === notificationCenterContainer
+      || (notificationCenterContainer && notificationCenterContainer.contains(element))
+      || notificationWSContainers.includes(element)
+      || notificationWSContainers.some(container => container.contains(element))
+    );
+
+    if (shouldClose) {
+      this.props.close();
+    }
+  };
+
   selectItems = (allRowsSelected, touchedRowsIds) => {
     this.setState({ allRowsSelected, touchedRowsIds });
-
-    if (allRowsSelected) {
-      const {
-        onCloseModal,
-        notifications,
-        modals: { confirmationModal },
-      } = this.props;
-
-      const { totalElements } = get(notifications, 'data.notificationCenter');
-
-      if (totalElements > MAX_SELECTED_ROWS) {
-        confirmationModal.show({
-          onSubmit: confirmationModal.hide,
-          onCloseCallback: onCloseModal(),
-          modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
-          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_ROWS }),
-          submitButtonLabel: I18n.t('COMMON.OK'),
-        });
-      }
-    }
   };
 
   onSubmit = (notificationTypes, read) => {
@@ -111,7 +128,9 @@ class NotificationCenterContent extends PureComponent {
         },
       });
 
-      refetch();
+      EventEmitter.emit(NOTIFICATIONS_READ);
+
+      await refetch();
     } catch (e) {
       const { error } = parseErrors(e);
 
@@ -123,6 +142,27 @@ class NotificationCenterContent extends PureComponent {
     }
 
     this.resetSelection();
+  };
+
+  handleSwitchNotificationConfiguration = async (showNotificationsPopUp) => {
+    const { notificationsConfigurationUpdate, notify } = this.props;
+
+    try {
+      await notificationsConfigurationUpdate({ variables: { showNotificationsPopUp } });
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
+        message: I18n.t('COMMON.ACTIONS.UPDATED'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
+      });
+
+      throw e;
+    }
   };
 
   resetSelection = () => {
@@ -148,8 +188,10 @@ class NotificationCenterContent extends PureComponent {
 
   render() {
     const {
+      onCloseModal,
       notifications,
       notificationsTypes: { data: notificationsTypesData },
+      notificationsConfiguration,
     } = this.props;
 
     const { allRowsSelected, touchedRowsIds } = this.state;
@@ -158,6 +200,7 @@ class NotificationCenterContent extends PureComponent {
     const notificationsTypes = Object.keys(typesData);
 
     const totalElements = get(notifications, 'data.notificationCenter.totalElements');
+    const { showNotificationsPopUp } = get(notificationsConfiguration, 'data.notificationCenterConfiguration') || {};
 
     return (
       <div className="NotificationCenterContent">
@@ -170,9 +213,22 @@ class NotificationCenterContent extends PureComponent {
               {this.getSelectedRowLength()} {I18n.t('NOTIFICATION_CENTER.TOOLTIP.SUBLINE')}
             </div>
           </div>
-          <div>
+          <div className="NotificationCenterContent__actions">
+            <If condition={!notificationsConfiguration.loading}>
+              <div className="NotificationCenterConfiguration">
+                <div className="NotificationCenterConfiguration__title">
+                  {I18n.t('NOTIFICATION_CENTER.SHOW_POPUP')}
+                </div>
+                <ReactSwitch
+                  on={showNotificationsPopUp}
+                  className="NotificationCenterConfiguration__switcher"
+                  onClick={this.handleSwitchNotificationConfiguration}
+                />
+              </div>
+            </If>
             <If condition={allRowsSelected || touchedRowsIds.length}>
               <Button
+                className="NotificationCenterContent__markAsRead"
                 onClick={this.bulkUpdate}
                 commonOutline
               >
@@ -192,6 +248,7 @@ class NotificationCenterContent extends PureComponent {
           allRowsSelected={allRowsSelected}
           touchedRowsIds={touchedRowsIds}
           selectItems={this.selectItems}
+          onCloseModal={onCloseModal}
         />
       </div>
     );
@@ -202,10 +259,9 @@ export default compose(
   withRequests({
     notifications: NotificationCenterQuery,
     notificationsTypes: NotificationCenterTypesQuery,
+    notificationsConfiguration: NotificationCenterConfigurationQuery,
     bulkUpdate: NotificationCenterUpdate,
-  }),
-  withModals({
-    confirmationModal: ConfirmActionModal,
+    notificationsConfigurationUpdate: NotificationCenterConfigurationUpdate,
   }),
   withNotifications,
 )(NotificationCenterContent);

@@ -9,6 +9,7 @@ class ReactSwitch extends Component {
     onClick: PropTypes.func,
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    stopPropagation: PropTypes.bool,
     id: PropTypes.string,
   };
 
@@ -17,6 +18,7 @@ class ReactSwitch extends Component {
     on: false,
     className: '',
     disabled: false,
+    stopPropagation: false,
     onClick: () => {},
   };
 
@@ -32,9 +34,20 @@ class ReactSwitch extends Component {
     };
   }
 
-  handleClick = () => {
-    this.setState(({ on }) => ({ on: !on }), () => {
-      this.props.onClick(this.state.on);
+  handleClick = (e) => {
+    const { onClick, stopPropagation } = this.props;
+
+    if (stopPropagation) {
+      e.stopPropagation();
+    }
+
+    this.setState(({ on }) => ({ on: !on }), async () => {
+      try {
+        await onClick(this.state.on);
+      } catch (_) {
+        // Revert changes if error has occurred
+        this.setState(({ on }) => ({ on: !on }));
+      }
     });
   };
 
@@ -50,6 +63,7 @@ class ReactSwitch extends Component {
     return (
       <button
         type="button"
+        disabled={disabled}
         className={classNames('react-switch', className, { 'is-disabled': disabled, on })}
         onClick={this.handleClick}
         id={id}

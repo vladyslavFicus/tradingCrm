@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import Validator from 'validatorjs';
 import moment from 'moment';
-import jwtDecode from 'jwt-decode';
+import { withApollo, compose } from 'react-apollo';
 import I18n from 'i18n';
 import IndexRoute from 'routes/IndexRoute';
-import { getBrand, setBrand, removeActiveBrand } from 'config';
+import { setBrand } from 'config';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 
@@ -12,26 +12,47 @@ class Root extends PureComponent {
   static propTypes = {
     auth: PropTypes.auth,
     locale: PropTypes.string,
-    token: PropTypes.string,
+    client: PropTypes.shape({
+      resetStore: PropTypes.func.isRequired,
+    }).isRequired,
+    brand: PropTypes.shape({
+      id: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
     locale: null,
     auth: null,
-    token: null,
+    brand: null,
   };
 
-  /**
-   * Init active brand depends on token from storage
-   */
-  initBrand() {
-    try {
-      const { brandId } = jwtDecode(this.props.token);
+  state = {
+    // Here is required state, because we need to do re-render if new brand chosen
+    // But we shouldn't do a component re-mount (so we doesn't pass this brand as key to IndexRoute).
+    brand: this.props.brand?.id,
+  };
 
-      setBrand(brandId);
-    } catch (e) {
-      removeActiveBrand();
+  constructor(props) {
+    super(props);
+
+    // Set brand to configuration on application startup
+    setBrand(props.brand?.id);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    // If new brand chosen -> do reset apollo store to prevent data caching from previous brand
+    // set new brand to configuration and update brand in state for re-render tree of components to fetch new data
+    if (props.brand?.id !== state.brand) {
+      props.client.resetStore();
+
+      setBrand(props.brand?.id);
+
+      return {
+        brand: props.brand?.id,
+      };
     }
+
+    return null;
   }
 
   /**
@@ -50,13 +71,16 @@ class Root extends PureComponent {
 
   render() {
     const { auth } = this.props;
+
     this.initLocale();
-    this.initBrand();
 
     return (
-      <IndexRoute key={`${I18n.locale}-${auth?.department}-${getBrand()?.id}`} />
+      <IndexRoute key={`${I18n.locale}-${auth?.department}`} />
     );
   }
 }
 
-export default withStorage(['locale', 'auth', 'token'])(Root);
+export default compose(
+  withApollo,
+  withStorage(['locale', 'auth', 'brand']),
+)(Root);

@@ -1,0 +1,21 @@
+.OperatorHierarchyUserType {
+  width: 100%;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+
+  &__field {
+    margin-bottom: 0;
+    grid-column: span 4;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}

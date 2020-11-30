@@ -120,9 +120,9 @@ class PinnedNotes extends PureComponent {
 
     return (
       <div className="PinnedNotes">
-        <div className="PinnedNotes__title">
+        <span className="PinnedNotes__title">
           {I18n.t('PINNED_NOTES.TITLE')}
-        </div>
+        </span>
         <div className="PinnedNotes__content">
           <Choose>
             <When condition={!notes && loading}>

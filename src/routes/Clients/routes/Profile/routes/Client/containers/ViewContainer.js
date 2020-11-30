@@ -7,7 +7,7 @@ import {
   updateEmailMutation,
 } from 'graphql/mutations/profile';
 import { profile } from 'graphql/queries/profile';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import View from '../components/View';
 
 export default compose(

@@ -18,7 +18,7 @@ import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ClientsDistributionModal from 'modals/ClientsDistributionModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
 import {

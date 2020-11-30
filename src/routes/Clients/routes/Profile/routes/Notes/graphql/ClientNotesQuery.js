@@ -39,14 +39,14 @@ const REQUEST = gql`
   ${NoteFragment}
 `;
 
-const ClientNotesQuery = ({ match: { params: { id } }, location: { query }, children }) => (
+const ClientNotesQuery = ({ match: { params: { id } }, location: { state }, children }) => (
   <Query
     query={REQUEST}
     variables={{
       size: 20,
       page: 0,
       targetUUID: id,
-      ...query ? query.filters : {},
+      ...state?.filters,
     }}
     fetchPolicy="cache-and-network"
   >
@@ -62,7 +62,7 @@ ClientNotesQuery.propTypes = {
     }).isRequired,
   }).isRequired,
   location: PropTypes.shape({
-    query: PropTypes.object,
+    state: PropTypes.object,
   }).isRequired,
 };
 

@@ -21,7 +21,7 @@ import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import { decodeNullValues } from 'components/Formik/utils';
 import Permissions from 'utils/permissions';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';

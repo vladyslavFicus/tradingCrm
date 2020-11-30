@@ -869,6 +869,13 @@ PropTypes.query = content => PropTypes.shape({
   refetch: PropTypes.func,
   error: PropTypes.object,
 });
+
+PropTypes.subscription = content => PropTypes.shape({
+  data: PropTypes.oneOfType([PropTypes.shape(content), PropTypes.object]),
+  loading: PropTypes.bool,
+  error: PropTypes.any,
+});
+
 PropTypes.branchHierarchyResponse = PropTypes.query({
   branch: PropTypes.shape({
     ...PropTypes.hierarchyBranch,

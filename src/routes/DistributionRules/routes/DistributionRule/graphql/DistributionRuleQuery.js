@@ -16,6 +16,7 @@ const REQUEST = gql`
       updatedAt
       countries
       languages
+      affiliateUuids
       firstTimeDeposit
       salesStatuses
       targetSalesStatus

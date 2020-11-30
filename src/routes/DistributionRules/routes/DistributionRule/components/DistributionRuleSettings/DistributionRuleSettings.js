@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import PropTypes from 'prop-types';
+import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import PropTypes from 'constants/propTypes';
+import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
-import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import {
   salesStatuses,
   countries,
@@ -14,6 +15,7 @@ import {
 } from './constants';
 import { normalizeObject } from './utils';
 import { checkEqualityOfDataObjects } from '../../utils';
+import PartnersQuery from './graphql/PartnersQuery';
 import './DistributionRuleSettings.scss';
 
 class DistributionRuleSettings extends PureComponent {
@@ -25,6 +27,7 @@ class DistributionRuleSettings extends PureComponent {
       salesStatuses: PropTypes.arrayOf(PropTypes.string),
       targetSalesStatus: PropTypes.string,
       firstTimeDeposit: PropTypes.bool,
+      affiliateUuids: PropTypes.arrayOf(PropTypes.string),
       registrationPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.string,
@@ -35,13 +38,19 @@ class DistributionRuleSettings extends PureComponent {
         PropTypes.string,
       ]),
     }).isRequired,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(PropTypes.partner),
+    }).isRequired,
   }
 
   render() {
     const {
       handleGeneralSettings,
       generalSettings,
+      partnersQuery,
     } = this.props;
+
+    const partners = partnersQuery.data?.partners?.content || [];
 
     return (
       <div className="DistributionRuleSettings">
@@ -93,7 +102,7 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="targetSalesStatus"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
@@ -140,6 +149,22 @@ class DistributionRuleSettings extends PureComponent {
               >
                 {executionTypes.map(({ label, value }) => (
                   <option key={value} value={value}>{I18n.t(label)}</option>
+                ))}
+              </Field>
+              <Field
+                name="affiliateUuids"
+                className="DistributionRuleSettings__form-field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                disabled={partnersQuery.loading}
+                searchable
+                multiple
+              >
+                {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
+                  <option key={uuid} value={uuid}>
+                    {fullName}
+                  </option>
                 ))}
               </Field>
               <Field
@@ -201,4 +226,6 @@ class DistributionRuleSettings extends PureComponent {
   }
 }
 
-export default DistributionRuleSettings;
+export default withRequests({
+  partnersQuery: PartnersQuery,
+})(DistributionRuleSettings);

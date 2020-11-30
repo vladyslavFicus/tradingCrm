@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import { NetworkStatus } from 'apollo-client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
@@ -23,7 +24,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Permissions from 'utils/permissions';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
@@ -420,7 +421,8 @@ class ClientsGrid extends PureComponent {
     const { response } = limitItems(clients, location);
     const { content, last } = response || { content: [] };
 
-    const isLoading = clientsQuery.loading;
+    // Show loader only if initial load or new variables was applied
+    const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(clientsQuery.networkStatus);
 
     return (
       <div className="ClientsGrid">

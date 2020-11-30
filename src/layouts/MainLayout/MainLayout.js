@@ -6,6 +6,7 @@ import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
 import ShortLoader from 'components/ShortLoader';
 import ErrorBoundary from 'components/ErrorBoundary';
+import Notifications from 'components/WS/Notifications';
 import { withStorage } from 'providers/StorageProvider';
 import PermissionProvider from 'providers/PermissionsProvider';
 import ConfigProvider from 'providers/ConfigProvider';
@@ -28,8 +29,9 @@ class MainLayout extends PureComponent {
 
     return (
       <PermissionProvider key={auth.department}>
-        <Header />
+        <Notifications />
 
+        <Header />
         <Sidebar />
 
         <main className="content-container">

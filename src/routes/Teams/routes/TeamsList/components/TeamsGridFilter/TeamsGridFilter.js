@@ -27,7 +27,7 @@ class TeamsGridFilter extends PureComponent {
       },
     });
 
-    resetForm({});
+    resetForm();
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -128,7 +128,7 @@ class TeamsGridFilter extends PureComponent {
                 <Button
                   className="TeamsGridFilter__button"
                   onClick={() => this.handleReset(resetForm)}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   primary
                 >
                   {I18n.t('COMMON.RESET')}

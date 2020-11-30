@@ -1,0 +1,10 @@
+.OperatorProfileTab {
+  background-color: #fff;
+  padding: 25px;
+
+  & > * {
+    &:not(:last-child) {
+      margin-bottom: 25px;
+    }
+  }
+}

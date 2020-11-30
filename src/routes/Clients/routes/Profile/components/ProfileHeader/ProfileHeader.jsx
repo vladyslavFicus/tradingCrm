@@ -20,7 +20,7 @@ import Uuid from 'components/Uuid';
 import PermissionContent from 'components/PermissionContent';
 import StickyWrapper from 'components/StickyWrapper';
 import GridStatus from 'components/GridStatus';
-import ConfirmActionModal from 'components/Modal/ConfirmActionModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import { Button } from 'components/UI';
 import customTimeout from 'utils/customTimeout';

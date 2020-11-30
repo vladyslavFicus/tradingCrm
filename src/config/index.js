@@ -36,6 +36,17 @@ function getApiRoot() {
 const getGraphQLUrl = () => '/api';
 
 /**
+ * Get GraphQL Subscription url
+ *
+ * @return {*}
+ */
+const getGraphQLSubscriptionUrl = () => {
+  const { protocol, host } = window.location;
+
+  return `${protocol === 'https:' ? 'wss' : 'ws'}://${host}/ws`;
+};
+
+/**
  * Get application version
  *
  * @return {*}
@@ -55,14 +66,12 @@ const getBrand = () => config.brand;
  * @return {object | undefined }
  */
 const setBrand = (brandId) => {
-  config.brand = { id: brandId };
-};
-
-/**
- * Remove chosen brand config
- */
-const removeActiveBrand = () => {
-  config.brand = undefined;
+  if (brandId) {
+    config.brand = { id: brandId };
+  } else {
+    // Remove brand if provided brandId is undefined
+    config.brand = undefined;
+  }
 };
 
 /**
@@ -124,10 +133,10 @@ export {
   getBrand,
   setBrand,
   getClickToCall,
-  removeActiveBrand,
   getAvailableLanguages,
   getVersion,
   getGraphQLUrl,
+  getGraphQLSubscriptionUrl,
   getPaymentReason,
   getBackofficeBrand,
   setBackofficeBrand,

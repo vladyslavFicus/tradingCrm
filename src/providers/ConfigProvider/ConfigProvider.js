@@ -19,7 +19,7 @@ class ConfigProvider extends PureComponent {
       },
     } = this.props;
 
-    if (loading) {
+    if (loading && !data?.config) {
       return <Preloader isVisible />;
     }
 
