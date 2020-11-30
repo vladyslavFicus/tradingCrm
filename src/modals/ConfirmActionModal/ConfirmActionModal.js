@@ -47,8 +47,6 @@ class ConfirmActionModal extends PureComponent {
     const { onSubmit, onCloseCallback } = this.props;
     const { isSubmitting } = this.state;
 
-    console.log(onSubmit);
-
     if (!isSubmitting) {
       this.setState({ isSubmitting: true });
 
