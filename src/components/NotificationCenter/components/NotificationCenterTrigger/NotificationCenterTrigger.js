@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import { Button } from 'components/UI';
+import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import NotificationCenterUnreadQuery from '../../graphql/NotificationCenterUnreadQuery';
 import { ReactComponent as Icon } from './icon.svg';
 import './NotificationCenterTrigger.scss';
@@ -13,6 +14,21 @@ class NotificationCenterTrigger extends PureComponent {
     notificationCenterUnread: PropTypes.query({
       notificationCenterUnread: PropTypes.number,
     }).isRequired,
+  };
+
+  componentDidMount() {
+    EventEmitter.on(NOTIFICATIONS_READ, this.handleReadEvent);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.off(NOTIFICATIONS_READ, this.handleReadEvent);
+  }
+
+  /**
+   * Handle event when "Mark as Read" button was pushed
+   */
+  handleReadEvent = () => {
+    this.props.notificationCenterUnread.refetch();
   };
 
   render() {
