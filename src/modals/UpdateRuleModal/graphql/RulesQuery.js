@@ -4,58 +4,43 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query RulesQuery(
-  $uuid: [String],
-  $country: String,
-  $language: String,
-  $createdByOrUuid: String,
-  $name: String,
-  $type: Rule__Type__Enum,
-  $parentId: String,
-  $operatorUuids: [String],
-  $affiliateId: String,
-  $uuids: [String],
+  $uuid: [String]
+  $country: String
+  $language: String
+  $createdByOrUuid: String
+  $name: String
+  $type: Rule__Type__Enum
+  $parentId: String
+  $operatorUuids: [String]
+  $affiliateId: String
+  $uuids: [String]
 ) {
   rules (
-    uuid: $uuid,
-    country: $country,
-    language: $language,
-    createdByOrUuid: $createdByOrUuid,
-    name: $name,
-    type: $type,
-    parentId: $parentId,
-    operatorUuids: $operatorUuids,
-    affiliateId: $affiliateId,
-    uuids: $uuids,
-
+    uuid: $uuid
+    country: $country
+    language: $language
+    createdByOrUuid: $createdByOrUuid
+    name: $name
+    type: $type
+    parentId: $parentId
+    operatorUuids: $operatorUuids
+    affiliateId: $affiliateId
+    uuids: $uuids
   ) {
-    actions {
-      id
-      parentBranch
-      parentUser
-      ruleType
-      operatorSpreads {
-        id,
-        operator {
-          fullName,
-          uuid,
-        },
-        parentUser,
-        percentage,
-      },
-    }
-    uuid
-    countries
-    languages
-    partners {
-      uuid,
-      fullName,
-    }
-    sources
-    priority
     name
     type
-    updatedBy
-    createdBy
+    priority
+    countries
+    languages
+    sources
+    operatorSpreads {
+      parentUser
+      percentage
+    }
+    partners {
+      uuid
+      fullName
+    }
     enableScheduling
     schedules {
       days

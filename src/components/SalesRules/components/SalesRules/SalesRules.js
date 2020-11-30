@@ -123,14 +123,12 @@ class SalesRules extends PureComponent {
       await updateRule(
         {
           variables: {
-            actions: [{
-              parentUser: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-              operatorSpreads: [
-                // filter need for delete empty value in array
-                ...operatorSpreads.filter(item => item && item.percentage),
-              ],
-            }],
+            ruleType: actionRuleTypes.ROUND_ROBIN,
+            parentBranch: id,
+            operatorSpreads: [
+              // filter need for delete empty value in array
+              ...operatorSpreads.filter(item => item && item.percentage),
+            ],
             uuid,
             ...decodeNullValues(rest),
           },
@@ -190,14 +188,12 @@ class SalesRules extends PureComponent {
       await createRule(
         {
           variables: {
-            actions: [{
-              parentUser: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-              operatorSpreads: [
-                // filter need for delete empty value in array
-                ...operatorSpreads.filter(item => item && item.percentage),
-              ],
-            }],
+            parentBranch: id,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
+            operatorSpreads: [
+              // filter need for delete empty value in array
+              ...operatorSpreads.filter(item => item && item.percentage),
+            ],
             ...decodeNullValues(rest),
           },
         },
@@ -388,69 +384,61 @@ class SalesRules extends PureComponent {
     </>
   );
 
-  renderOperator = ({ actions }) => {
-    const [{ operatorSpreads }] = actions;
+  renderOperator = ({ operatorSpreads }) => (
+    <Choose>
+      <When condition={operatorSpreads && operatorSpreads.length > 0}>
+        <div className="font-weight-700">
+          {`${operatorSpreads.length} `}
+          <Choose>
+            <When condition={operatorSpreads.length === 1}>
+              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATOR')}
+            </When>
+            <Otherwise>
+              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATORS')}
+            </Otherwise>
+          </Choose>
+        </div>
+        {operatorSpreads.map(({ operator }) => (
+          <If condition={operator}>
+            <div key={operator.uuid}>
+              <Link to={`/operators/${operator.uuid}/profile`}>{operator.fullName}</Link>
+            </div>
+          </If>
+        ))}
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
 
-    return (
-      <Choose>
-        <When condition={operatorSpreads && operatorSpreads.length > 0}>
-          <div className="font-weight-700">
-            {`${operatorSpreads.length} `}
-            <Choose>
-              <When condition={operatorSpreads.length === 1}>
-                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATOR')}
-              </When>
-              <Otherwise>
-                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATORS')}
-              </Otherwise>
-            </Choose>
-          </div>
-          {operatorSpreads.map(({ operator }) => (
+  renderRatio = ({ operatorSpreads }) => (
+    <Choose>
+      <When condition={operatorSpreads && operatorSpreads.length > 0}>
+        <div className="margin-top-20">
+          {operatorSpreads.map(({ operator, percentage }) => (
             <If condition={operator}>
               <div key={operator.uuid}>
-                <Link to={`/operators/${operator.uuid}/profile`}>{operator.fullName}</Link>
+                <div className="font-weight-700">
+                  <Choose>
+                    <When condition={percentage}>
+                      <span>{percentage} &#37;</span>
+                    </When>
+                    <Otherwise>
+                      <span>&mdash;</span>
+                    </Otherwise>
+                  </Choose>
+                </div>
               </div>
             </If>
           ))}
-        </When>
-        <Otherwise>
-          <span>&mdash;</span>
-        </Otherwise>
-      </Choose>
-    );
-  }
-
-  renderRatio = ({ actions }) => {
-    const [{ operatorSpreads }] = actions;
-
-    return (
-      <Choose>
-        <When condition={operatorSpreads && operatorSpreads.length > 0}>
-          <div className="margin-top-20">
-            {operatorSpreads.map(({ operator, percentage }) => (
-              <If condition={operator}>
-                <div key={operator.uuid}>
-                  <div className="font-weight-700">
-                    <Choose>
-                      <When condition={percentage}>
-                        <span>{percentage} &#37;</span>
-                      </When>
-                      <Otherwise>
-                        <span>&mdash;</span>
-                      </Otherwise>
-                    </Choose>
-                  </div>
-                </div>
-              </If>
-            ))}
-          </div>
-        </When>
-        <Otherwise>
-          <span>&mdash;</span>
-        </Otherwise>
-      </Choose>
-    );
-  }
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
 
   render() {
     const {

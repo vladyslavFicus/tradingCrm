@@ -60,20 +60,26 @@ const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
   return null;
 };
 
-export const extraValidation = ({ schedules, operatorSpreads }, errors, { withOperatorSpreads }) => {
+export const extraValidation = (
+  { schedules, operatorSpreads },
+  errors,
+  { withOperatorSpreads, validationSchedulesEnabled },
+) => {
   const schedulesErrors = [];
   const operatorSpreadsPercentageError = withOperatorSpreads
     && getOperatorSpreadsPercentageErorr(operatorSpreads);
 
-  schedules.forEach(({ timeIntervals, days }, index) => {
-    const scheduleErrors = errors?.schedules?.[index];
-    const daysErrors = getDaysErrors(days, scheduleErrors);
-    const timeIntervalsErrors = getTimeIntervalsErrors(timeIntervals, scheduleErrors);
+  if (validationSchedulesEnabled) {
+    schedules.forEach(({ timeIntervals, days }, index) => {
+      const scheduleErrors = errors?.schedules?.[index];
+      const daysErrors = getDaysErrors(days, scheduleErrors);
+      const timeIntervalsErrors = getTimeIntervalsErrors(timeIntervals, scheduleErrors);
 
-    schedulesErrors.push(
-      (daysErrors || timeIntervalsErrors) && { days: daysErrors, timeIntervals: timeIntervalsErrors },
-    );
-  });
+      schedulesErrors.push(
+        (daysErrors || timeIntervalsErrors) && { days: daysErrors, timeIntervals: timeIntervalsErrors },
+      );
+    });
+  }
 
   return {
     ...errors,

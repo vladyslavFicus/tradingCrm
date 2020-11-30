@@ -23,20 +23,6 @@ const REQUEST = gql`query RulesQuery(
     parentId: $parentId,
     branchUuid: $branchUuid,
   ) {
-    actions {
-      id
-      parentBranch
-      parentUser
-      ruleType
-      operatorSpreads {
-        id,
-        operator {
-          fullName,
-          uuid,
-        },
-        percentage,
-      },
-    }
     uuid
     countries
     languages

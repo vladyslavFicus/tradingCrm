@@ -19,6 +19,8 @@ class RuleSchedule extends PureComponent {
         timeTo: PropTypes.string,
       })),
     })).isRequired,
+    enableSchedulesValidation: PropTypes.func.isRequired,
+    validationSchedulesEnabled: PropTypes.bool.isRequired,
     formikBag: PropTypes.object.isRequired,
   };
 
@@ -35,6 +37,23 @@ class RuleSchedule extends PureComponent {
     checkedDays: [],
     hasLimitOfBoards: false,
   };
+
+  componentDidUpdate() {
+    const {
+      schedules,
+      formikBag: {
+        initialValues: {
+          schedules: initialSchedules,
+        },
+      },
+      validationSchedulesEnabled,
+      enableSchedulesValidation,
+    } = this.props;
+
+    if (!validationSchedulesEnabled && JSON.stringify(schedules) !== JSON.stringify(initialSchedules)) {
+      enableSchedulesValidation();
+    }
+  }
 
   addScheduleBoard = addValue => () => addValue({
     days: [],

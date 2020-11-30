@@ -4,25 +4,29 @@ import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation createRule(
-  $name: String!,
-  $priority: Int!,
-  $countries: [String],
-  $languages: [String],
-  $affiliateUUIDs: [String],
-  $sources: [String],
-  $type: Rule__Type__Enum!,
-  $actions: [RuleActions__Input]!,
+  $name: String!
+  $priority: Int!
+  $countries: [String]
+  $languages: [String]
+  $affiliateUUIDs: [String]
+  $sources: [String]
+  $type: Rule__Type__Enum!
+  $operatorSpreads: [RuleOperatorSpread__Input]
+  $parentBranch: String
+  $ruleType: Rule__ActionType__Enum
 ) {
   rule {
     createRule (
-      name: $name,
-      priority: $priority,
-      countries: $countries,
-      languages: $languages,
-      affiliateUUIDs: $affiliateUUIDs,
-      sources: $sources,
-      type: $type,
-      actions: $actions,
+      name: $name
+      priority: $priority
+      countries: $countries
+      languages: $languages
+      affiliateUUIDs: $affiliateUUIDs
+      sources: $sources
+      type: $type
+      operatorSpreads: $operatorSpreads
+      parentBranch: $parentBranch
+      ruleType: $ruleType
     )
   }
 }

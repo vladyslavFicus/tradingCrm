@@ -14,9 +14,7 @@ const REQUEST = gql`query RuleModal_OperatorsQuery(
     content {
       uuid
       fullName
-      operatorStatus
       hierarchy {
-        uuid
         userType
       }
     }

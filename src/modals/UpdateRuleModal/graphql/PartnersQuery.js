@@ -8,10 +8,6 @@ const REQUEST = gql`query PartnersQuery {
     content {
       uuid
       fullName
-      createdAt
-      status
-      statusChangeDate
-      country
     }
   }
 }`;

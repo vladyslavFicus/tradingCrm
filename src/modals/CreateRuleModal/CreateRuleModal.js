@@ -42,7 +42,7 @@ class CreateRuleModal extends PureComponent {
   };
 
   state = {
-    validationByChange: false,
+    validationOnChangeEnabled: false,
   };
 
   handleSubmit = (values, { setSubmitting, setErrors }) => {
@@ -78,7 +78,6 @@ class CreateRuleModal extends PureComponent {
             name: '',
             type: '',
             priority: '',
-            ruleType: '',
             countries: [],
             languages: [],
             sources: [],
@@ -101,7 +100,7 @@ class CreateRuleModal extends PureComponent {
             return extraValidation(values, errors, { withOperatorSpreads });
           }}
           validateOnBlur={false}
-          validateOnChange={this.state.validationByChange}
+          validateOnChange={this.state.validationOnChangeEnabled}
           onSubmit={this.handleSubmit}
         >
           {({ values: { operatorSpreads }, ...formikBag }) => (
@@ -137,7 +136,7 @@ class CreateRuleModal extends PureComponent {
                   primary
                   type="submit"
                   disabled={!formikBag.dirty || formikBag.isSubmitting}
-                  onClick={() => this.setState({ validationByChange: true })}
+                  onClick={() => this.setState({ validationOnChangeEnabled: true })}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
                 </Button>

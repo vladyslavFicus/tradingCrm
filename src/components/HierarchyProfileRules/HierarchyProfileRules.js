@@ -102,10 +102,8 @@ class HierarchyProfileRules extends PureComponent {
       await createRule(
         {
           variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-            }],
+            parentBranch: id,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
             ...decodeNullValues(variables),
           },
         },
@@ -166,10 +164,8 @@ class HierarchyProfileRules extends PureComponent {
       await createRule(
         {
           variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-            }],
+            parentBranch: id,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
             uuid,
             ...decodeNullValues(variables),
           },

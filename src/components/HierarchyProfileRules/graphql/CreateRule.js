@@ -4,27 +4,31 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation CreateRule(
-  $name: String!,
-  $priority: Int!,
-  $countries: [String],
-  $languages: [String],
-  $affiliateUUIDs: [String],
-  $sources: [String],
-  $type: Rule__Type__Enum!,
-  $actions: [RuleActions__Input]!,
-  $uuid: String,
+  $name: String!
+  $priority: Int!
+  $countries: [String]
+  $languages: [String]
+  $affiliateUUIDs: [String]
+  $sources: [String]
+  $type: Rule__Type__Enum!
+  $operatorSpreads: [RuleOperatorSpread__Input]
+  $parentBranch: String
+  $ruleType: Rule__ActionType__Enum
+  $uuid: String
 ) {
   rule {
     createRule (
-      name: $name,
-      priority: $priority,
-      countries: $countries,
-      languages: $languages,
-      affiliateUUIDs: $affiliateUUIDs,
-      sources: $sources,
-      type: $type,
-      actions: $actions,
-      uuid: $uuid,
+      name: $name
+      priority: $priority
+      countries: $countries
+      languages: $languages
+      affiliateUUIDs: $affiliateUUIDs
+      sources: $sources
+      type: $type
+      operatorSpreads: $operatorSpreads
+      parentBranch: $parentBranch
+      ruleType: $ruleType
+      uuid: $uuid
     )
   }
 }`;

@@ -48,7 +48,12 @@ class UpdateRuleModal extends PureComponent {
   };
 
   state = {
-    validationByChange: true,
+    validationOnChangeEnabled: true,
+    validationSchedulesEnabled: false,
+  };
+
+  enableSchedulesValidation = () => {
+    this.setState({ validationSchedulesEnabled: true });
   };
 
   handleSubmit = (values, { setSubmitting, setErrors }) => {
@@ -72,6 +77,11 @@ class UpdateRuleModal extends PureComponent {
       withOperatorSpreads,
     } = this.props;
 
+    const {
+      validationOnChangeEnabled,
+      validationSchedulesEnabled,
+    } = this.state;
+
     const operators = operatorsQueryData?.operators?.content || [];
     const partners = partnersQueryData?.partners?.content || [];
 
@@ -79,16 +89,14 @@ class UpdateRuleModal extends PureComponent {
       name,
       type,
       priority,
-      ruleType,
       countries,
       languages,
-      partners: currentPartners = [],
+      partners: currentPartners,
       sources,
-      actions,
+      operatorSpreads,
       enableScheduling,
       schedules,
     } = rulesQueryData?.rules?.['0'] || {};
-    const currentOperators = actions?.['0']?.operatorSpreads || [];
 
     return (
       <Modal
@@ -100,18 +108,17 @@ class UpdateRuleModal extends PureComponent {
             name,
             type,
             priority,
-            ruleType,
             countries,
             languages,
             sources,
-            affiliateUUIDs: currentPartners.map(
+            affiliateUUIDs: (currentPartners || []).map(
               ({ uuid }) => uuid,
             ),
-            operatorSpreads: currentOperators.map(
+            operatorSpreads: (operatorSpreads || []).map(
               ({ parentUser, percentage }) => ({ parentUser, percentage }),
             ),
             enableScheduling,
-            schedules: schedules || [
+            schedules: (schedules?.length && schedules) || [
               {
                 days: [],
                 timeIntervals: [
@@ -135,20 +142,25 @@ class UpdateRuleModal extends PureComponent {
                 'operatorSpreads.0.parentUser': 'required',
               },
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
-              'schedules.*.timeIntervals.*.operatorSpreads.*.percentage': ['between:1,100', 'integer'],
-              'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
+              ...validationSchedulesEnabled && {
+                'schedules.*.timeIntervals.*.operatorSpreads.*.percentage': ['between:1,100', 'integer'],
+                'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
+              },
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
-            return nestedFieldsTranslator(extraValidation(values, errors, { withOperatorSpreads }), nestedFieldsNames);
+            return nestedFieldsTranslator(
+              extraValidation(values, errors, { withOperatorSpreads, validationSchedulesEnabled }),
+              nestedFieldsNames,
+            );
           }}
           // validateOnBlur={false}
-          validateOnChange={this.state.validationByChange}
+          validateOnChange={validationOnChangeEnabled}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
           {({ values, ...formikBag }) => (
             <Form>
-              {console.log(formikBag.errors)}
+              {/* {console.log(values.schedules?.[0])} */}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>
@@ -169,6 +181,8 @@ class UpdateRuleModal extends PureComponent {
                     operators={operators}
                     schedules={values.schedules}
                     formikBag={formikBag}
+                    enableSchedulesValidation={this.enableSchedulesValidation}
+                    validationSchedulesEnabled={validationSchedulesEnabled}
                   />
                 </Tabs>
               </ModalBody>
@@ -183,7 +197,7 @@ class UpdateRuleModal extends PureComponent {
                   primary
                   type="submit"
                   disabled={!formikBag.dirty || formikBag.isSubmitting}
-                  onClick={() => this.setState({ validationByChange: true })}
+                  onClick={() => this.setState({ validationOnChangeEnabled: true })}
                 >
                   {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.SAVE_CHANGES')}
                 </Button>
