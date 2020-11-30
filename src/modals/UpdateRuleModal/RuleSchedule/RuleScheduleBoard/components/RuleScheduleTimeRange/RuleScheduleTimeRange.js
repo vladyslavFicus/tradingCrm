@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import I18n from 'i18n-js';
 import TimePicker from 'components/TimePicker';
 import './RuleScheduleTimeRange.scss';
 
@@ -31,23 +32,24 @@ class RuleScheduleTimeRange extends PureComponent {
       <div className="RuleScheduleTimeRange">
         <div className="RuleScheduleTimeRange__counts">
           <TimePicker
-            label="Time from"
+            label={I18n.t('RULE_MODAL.SCHEDULE.FILTERS.TIME_FROM')}
             value={timeFrom}
             onChange={value => setFieldValue(`${namePrefix}.timeFrom`, value)}
           />
           <span className="RuleScheduleTimeRange__separator" />
           <TimePicker
-            label="Time to"
+            label={I18n.t('RULE_MODAL.SCHEDULE.FILTERS.TIME_TO')}
             value={timeTo}
             onChange={value => setFieldValue(`${namePrefix}.timeTo`, value)}
           />
           <div className="RuleScheduleTimeRange__unit">
-            (UTC time)
+            ({I18n.t('RULE_MODAL.SCHEDULE.FILTERS.TIME_UNIT')})
           </div>
         </div>
         <If condition={error}>
           <div className="RuleScheduleTimeRange__error">
-            <i className="RuleScheduleTimeRange__error-icon icon icon-alert" />{error}
+            <i className="RuleScheduleTimeRange__error-icon icon icon-alert" />
+            {I18n.t('RULE_MODAL.SCHEDULE.ERRORS.INVALID_TIME_RANGE')}
           </div>
         </If>
       </div>

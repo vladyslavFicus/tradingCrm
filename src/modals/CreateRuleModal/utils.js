@@ -1,4 +1,4 @@
-const getOperatorSpreadsPercentageErorr = (operatorSpreads) => {
+const getOperatorSpreadsPercentageError = (operatorSpreads) => {
   if (operatorSpreads?.length && operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
     return 'INVALID_PERCENTAGE';
   }
@@ -8,7 +8,7 @@ const getOperatorSpreadsPercentageErorr = (operatorSpreads) => {
 
 export const extraValidation = ({ operatorSpreads }, errors, { withOperatorSpreads }) => {
   const operatorSpreadsPercentageError = withOperatorSpreads
-    && getOperatorSpreadsPercentageErorr(operatorSpreads);
+    && getOperatorSpreadsPercentageError(operatorSpreads);
 
   return {
     ...errors,

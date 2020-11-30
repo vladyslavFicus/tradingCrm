@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import I18n from 'i18n-js';
 import { Field, FieldArray } from 'formik';
 import PropTypes from 'prop-types';
 import { FormikSwitchField } from 'components/Formik';
@@ -80,7 +81,7 @@ class RuleSchedule extends PureComponent {
         <div className="RuleSchedule__header">
           <Field
             name="enableSchedule"
-            label="Enable Schedule Settings"
+            label={I18n.t('RULE_MODAL.SCHEDULE.FILTERS.ENABLE_SCHEDULE')}
             component={FormikSwitchField}
             textFirst
           />
@@ -107,7 +108,7 @@ class RuleSchedule extends PureComponent {
                   disabled={hasLimitOfBoards}
                   primaryOutline
                 >
-                  + ADD SHEDULE
+                  {I18n.t('RULE_MODAL.SCHEDULE.ADD_SCHEDULE_BUTTON')}
                 </Button>
               </div>
             </Fragment>

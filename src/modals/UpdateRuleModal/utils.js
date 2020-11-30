@@ -15,17 +15,9 @@ const validateTimeRange = (timeFromString, timeToString) => {
   return null;
 };
 
-const getOperatorSpreadsPercentageErorr = (operatorSpreads) => {
+const getOperatorSpreadsPercentageError = (operatorSpreads) => {
   if (operatorSpreads?.length && operatorSpreads.reduce((a, b) => a + (b.percentage || 0), 0) !== 100) {
     return 'INVALID_PERCENTAGE';
-  }
-
-  return null;
-};
-
-const getDaysErrors = (days, scheduleErrors) => {
-  if (!days.length && !scheduleErrors?.days) {
-    return 'REQUIRED';
   }
 
   return null;
@@ -36,7 +28,7 @@ const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
 
   timeIntervals.forEach(({ operatorSpreads, timeFrom, timeTo }, timeIntervalIndex) => {
     const timeRangeError = validateTimeRange(timeFrom, timeTo);
-    const percentageError = getOperatorSpreadsPercentageErorr(operatorSpreads);
+    const percentageError = getOperatorSpreadsPercentageError(operatorSpreads);
 
     if (timeRangeError && !timeIntervalsErrors[timeIntervalIndex]?.timeRange) {
       timeIntervalsErrors[timeIntervalIndex] = {
@@ -48,7 +40,7 @@ const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
     if (percentageError && !timeIntervalsErrors[timeIntervalIndex]?.operatorSpreads) {
       timeIntervalsErrors[timeIntervalIndex] = {
         ...timeIntervalsErrors[timeIntervalIndex],
-        operatorSpreads: 'INVALID_PERCENTAGE',
+        operatorSpreads: percentageError,
       };
     }
   });
@@ -67,16 +59,15 @@ export const extraValidation = (
 ) => {
   const schedulesErrors = [];
   const operatorSpreadsPercentageError = withOperatorSpreads
-    && getOperatorSpreadsPercentageErorr(operatorSpreads);
+    && getOperatorSpreadsPercentageError(operatorSpreads);
 
   if (validationSchedulesEnabled) {
-    schedules.forEach(({ timeIntervals, days }, index) => {
+    schedules.forEach(({ timeIntervals }, index) => {
       const scheduleErrors = errors?.schedules?.[index];
-      const daysErrors = getDaysErrors(days, scheduleErrors);
       const timeIntervalsErrors = getTimeIntervalsErrors(timeIntervals, scheduleErrors);
 
       schedulesErrors.push(
-        (daysErrors || timeIntervalsErrors) && { days: daysErrors, timeIntervals: timeIntervalsErrors },
+        timeIntervalsErrors && { timeIntervals: timeIntervalsErrors },
       );
     });
   }

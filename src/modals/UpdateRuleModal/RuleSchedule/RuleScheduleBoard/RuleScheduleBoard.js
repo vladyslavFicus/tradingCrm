@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import I18n from 'i18n-js';
 import { FieldArray } from 'formik';
 import Checkbox from 'components/Checkbox';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
@@ -92,7 +93,7 @@ class RuleScheduleBoard extends PureComponent {
             <Checkbox
               key={day}
               name={day}
-              label={day.slice(0, 3).toLocaleUpperCase()} // TODO
+              label={I18n.t(`RULE_MODAL.SCHEDULE.FILTERS.DAYS.${day}`)}
               className="RuleScheduleBoard__days-item"
               onChange={() => this.selectDay(day)}
               value={days.includes(day)}
@@ -103,7 +104,8 @@ class RuleScheduleBoard extends PureComponent {
         </div>
         <If condition={errors?.days}>
           <div className="RuleScheduleBoard__error-message">
-            <i className="RuleScheduleBoard__error-message-icon icon-alert" />{errors?.days}
+            <i className="RuleScheduleBoard__error-message-icon icon-alert" />
+            {I18n.t('RULE_MODAL.SCHEDULE.ERRORS.DAY_IS_REQUIRED')}
           </div>
         </If>
       </div>

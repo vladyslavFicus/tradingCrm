@@ -111,7 +111,7 @@ class CreateRuleModal extends PureComponent {
               <ModalBody className="p-0">
                 <StaticTabs>
                   <StaticTabsItem
-                    label="Rule settings"
+                    label={I18n.t('RULE_MODAL.SETTINGS_TAB_NAME')}
                     component={RuleSettings}
                     operators={operators}
                     partners={partners}
@@ -120,7 +120,7 @@ class CreateRuleModal extends PureComponent {
                     formikBag={formikBag}
                   />
                   <StaticTabsItem
-                    label="Schedule settings"
+                    label={I18n.t('RULE_MODAL.SCHEDULE_TAB_NAME')}
                     component={CreateRuleSchedule}
                   />
                 </StaticTabs>
