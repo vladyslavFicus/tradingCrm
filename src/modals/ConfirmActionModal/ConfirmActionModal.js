@@ -47,6 +47,8 @@ class ConfirmActionModal extends PureComponent {
     const { onSubmit, onCloseCallback } = this.props;
     const { isSubmitting } = this.state;
 
+    console.log(onSubmit);
+
     if (!isSubmitting) {
       this.setState({ isSubmitting: true });
 
@@ -106,7 +108,7 @@ class ConfirmActionModal extends PureComponent {
             type="submit"
             dangerOutline
             disabled={isSubmitting}
-            onClick={this.onSubmit}
+            onClick={this.handleSubmit}
           >
             {submitButtonLabel}
           </Button>

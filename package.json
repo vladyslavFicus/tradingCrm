@@ -52,6 +52,7 @@
     "jsoneditor-react": "^2.0.0",
     "jwt-decode": "^2.2.0",
     "keymirror": "^0.1.1",
+    "levenary": "^1.1.1",
     "lodash": "^4.17.4",
     "moment": "^2.24.0",
     "newage-react-datetime-improved": "^1.0.11",
