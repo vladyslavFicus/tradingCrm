@@ -27,5 +27,6 @@ export const DISTRIBUTION_RULE_CHANGED = 'DISTRIBUTION_RULE_CHANGED';
 
 // ---- Notifications events ---- //
 export const NOTIFICATION_CLICKED = 'NOTIFICATION_CLICKED';
+export const NOTIFICATIONS_READ = 'NOTIFICATIONS_READ';
 
 export default new EventEmitter();

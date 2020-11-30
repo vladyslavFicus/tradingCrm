@@ -148,7 +148,7 @@ class NotificationCenterTable extends PureComponent {
           handleAllRowsSelect={this.handleAllRowsSelect}
           rowsClassNames={this.rowsClassNames}
           scrollParentRef={this.scrollParentRef}
-          isLoading={loading}
+          isLoading={loading && !content.length}
           isLastPage={last}
           threshold={0}
           withNoResults={!loading && !content.length}
