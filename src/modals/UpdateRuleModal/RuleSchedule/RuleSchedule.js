@@ -79,7 +79,7 @@ class RuleSchedule extends PureComponent {
       <div className="RuleSchedule">
         <div className="RuleSchedule__header">
           <Field
-            name="enableScheduling"
+            name="enableSchedule"
             label="Enable Schedule Settings"
             component={FormikSwitchField}
             textFirst

@@ -41,7 +41,7 @@ const REQUEST = gql`query RulesQuery(
       uuid
       fullName
     }
-    enableScheduling
+    enableSchedule
     schedules {
       days
       timeIntervals {

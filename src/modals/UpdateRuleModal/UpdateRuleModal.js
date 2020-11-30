@@ -94,7 +94,7 @@ class UpdateRuleModal extends PureComponent {
       partners: currentPartners,
       sources,
       operatorSpreads,
-      enableScheduling,
+      enableSchedule,
       schedules,
     } = rulesQueryData?.rules?.['0'] || {};
 
@@ -117,7 +117,7 @@ class UpdateRuleModal extends PureComponent {
             operatorSpreads: (operatorSpreads || []).map(
               ({ parentUser, percentage }) => ({ parentUser, percentage }),
             ),
-            enableScheduling,
+            enableSchedule,
             schedules: (schedules?.length && schedules) || [
               {
                 days: [],
