@@ -48,7 +48,7 @@ class UpdateRuleModal extends PureComponent {
   };
 
   state = {
-    validationOnChangeEnabled: true,
+    validationOnChangeEnabled: false,
     validationSchedulesEnabled: false,
   };
 
@@ -153,14 +153,13 @@ class UpdateRuleModal extends PureComponent {
               nestedFieldsNames,
             );
           }}
-          // validateOnBlur={false}
+          validateOnBlur={false}
           validateOnChange={validationOnChangeEnabled}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
           {({ values, ...formikBag }) => (
             <Form>
-              {/* {console.log(values.schedules?.[0])} */}
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.EDIT_MODAL.HEADER')}
               </ModalHeader>

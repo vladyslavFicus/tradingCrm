@@ -15,6 +15,8 @@ const REQUEST = gql`mutation SalesRules_UpdateRuleMutation(
   $parentBranch: String
   $ruleType: Rule__ActionType__Enum
   $uuid: String
+  $enableScheduling: Boolean
+  $schedules: [RuleSchedule__Input]
 ) {
   rule {
     createRule (
@@ -29,6 +31,8 @@ const REQUEST = gql`mutation SalesRules_UpdateRuleMutation(
       parentBranch: $parentBranch
       ruleType: $ruleType
       uuid: $uuid
+      enableScheduling: $enableScheduling
+      schedules: $schedules
     )
   }
 }
