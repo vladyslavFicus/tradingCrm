@@ -150,6 +150,11 @@
           left: 23px;
         }
       }
+
+      &.is-disabled {
+        opacity: 0.5;
+        cursor:not-allowed
+      }
     }
 
     &-switcher-view {
