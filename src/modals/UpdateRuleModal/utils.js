@@ -23,6 +23,14 @@ const getOperatorSpreadsPercentageError = (operatorSpreads) => {
   return null;
 };
 
+const getDaysErrors = (days, scheduleErrors) => {
+  if (!days.length && !scheduleErrors?.days) {
+    return 'REQUIRED';
+  }
+
+  return null;
+};
+
 const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
   const timeIntervalsErrors = scheduleErrors?.timeIntervals || [];
 
@@ -62,12 +70,13 @@ export const extraValidation = (
     && getOperatorSpreadsPercentageError(operatorSpreads);
 
   if (validationSchedulesEnabled) {
-    schedules.forEach(({ timeIntervals }, index) => {
+    schedules.forEach(({ days, timeIntervals }, index) => {
       const scheduleErrors = errors?.schedules?.[index];
+      const daysErrors = getDaysErrors(days, scheduleErrors);
       const timeIntervalsErrors = getTimeIntervalsErrors(timeIntervals, scheduleErrors);
 
       schedulesErrors.push(
-        timeIntervalsErrors && { timeIntervals: timeIntervalsErrors },
+        (daysErrors || timeIntervalsErrors) && { days: daysErrors, timeIntervals: timeIntervalsErrors },
       );
     });
   }

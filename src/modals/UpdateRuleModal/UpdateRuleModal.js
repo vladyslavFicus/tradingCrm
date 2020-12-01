@@ -20,7 +20,6 @@ import {
   nestedFieldsTranslator,
   extraValidation,
 } from './utils';
-import { weekDays } from './RuleSchedule/RuleScheduleBoard/constants';
 import RuleSchedule from './RuleSchedule';
 
 class UpdateRuleModal extends PureComponent {
@@ -144,7 +143,6 @@ class UpdateRuleModal extends PureComponent {
               },
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
               ...validationSchedulesEnabled && {
-                'schedules.*.days': ['required', `in:${weekDays.join()}`],
                 'schedules.*.timeIntervals.*.operatorSpreads.*.percentage': ['between:1,100', 'integer'],
                 'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
               },
