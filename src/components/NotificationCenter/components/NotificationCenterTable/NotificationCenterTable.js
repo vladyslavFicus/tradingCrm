@@ -63,7 +63,7 @@ class NotificationCenterTable extends PureComponent {
 
     const { totalElements } = notifications?.data?.notificationCenter || {};
 
-    if (totalElements > MAX_SELECTED_ROWS) {
+    if (allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
       confirmationModal.show({
         onSubmit: confirmationModal.hide,
         onCloseCallback: onCloseModal(),
