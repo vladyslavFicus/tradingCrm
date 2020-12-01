@@ -23,6 +23,8 @@ const getOperatorSpreadsPercentageError = (operatorSpreads) => {
   return null;
 };
 
+// there may to perform this validation using our Validator package,
+// but then the errors contain in schedules subfields wouldn't generate in parallel (all together)
 const getDaysErrors = (days, scheduleErrors) => {
   if (!days.length && !scheduleErrors?.days) {
     return 'REQUIRED';
@@ -60,6 +62,12 @@ const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
   return null;
 };
 
+/**
+ *
+ * @param {object} values
+ * @param {object} errors
+ * @param {object} options
+ */
 export const extraValidation = (
   { schedules, operatorSpreads },
   errors,
@@ -88,6 +96,12 @@ export const extraValidation = (
   };
 };
 
+/**
+ * the issue about custom errors of nested fields:
+ * https://github.com/skaterdav85/validatorjs/issues/274
+ * the contributor of package suggests to implement custom solution in this case:
+ * https://github.com/skaterdav85/validatorjs/issues/374
+ */
 export const nestedFieldsTranslator = (errors, patterns) => {
   if (Object.keys(errors).length) {
     let errorsJSON = JSON.stringify(errors);

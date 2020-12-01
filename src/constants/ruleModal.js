@@ -29,12 +29,6 @@ export const customErrors = {
     I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.OPERATOR'),
 };
 
-/**
- * an issue for custom errors of nested fields:
- * https://github.com/skaterdav85/validatorjs/issues/274
- * the contributor of package suggests to implement custom solution in this case:
- * https://github.com/skaterdav85/validatorjs/issues/374
- */
 export const nestedFieldsNames = {
   'schedules.*.timeIntervals.*.operatorSpreads.*.parentUser':
     I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.OPERATOR'),

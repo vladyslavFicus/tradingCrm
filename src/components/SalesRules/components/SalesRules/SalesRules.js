@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -16,7 +15,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
-import { Button } from 'components/UI';
+import { Button, EditButton } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -373,14 +372,10 @@ class SalesRules extends PureComponent {
       >
         <i className="fa fa-trash btn-transparent color-danger" />
       </Button>
-      <Button
-        transparent
-      >
-        <i
-          onClick={() => this.triggerEditRuleModal(uuid)}
-          className="font-size-16 cursor-pointer fa fa-edit float-right"
-        />
-      </Button>
+      <EditButton
+        className="SalesRules__edit-button"
+        onClick={() => this.triggerEditRuleModal(uuid)}
+      />
     </>
   );
 

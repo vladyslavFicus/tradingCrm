@@ -11,9 +11,9 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
 import RuleSettings from 'components/RuleSettings';
+import CreateRuleSchedule from './CreateRuleSchedule';
 import { extraValidation } from './utils';
 import { OperatorsQuery, PartnersQuery } from './graphql';
-import CreateRuleSchedule from './CreateRuleSchedule';
 
 class CreateRuleModal extends PureComponent {
   static propTypes = {

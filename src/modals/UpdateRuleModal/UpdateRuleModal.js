@@ -11,6 +11,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
 import RuleSettings from 'components/RuleSettings';
+import RuleSchedule from './RuleSchedule';
 import {
   OperatorsQuery,
   PartnersQuery,
@@ -20,7 +21,6 @@ import {
   nestedFieldsTranslator,
   extraValidation,
 } from './utils';
-import RuleSchedule from './RuleSchedule';
 
 class UpdateRuleModal extends PureComponent {
   static propTypes = {
