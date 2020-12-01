@@ -3,6 +3,7 @@ import { set, cloneDeep } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { NetworkStatus } from 'apollo-client';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
@@ -62,7 +63,7 @@ class NotificationCenterTable extends PureComponent {
 
     const { totalElements } = notifications?.data?.notificationCenter || {};
 
-    if (totalElements > MAX_SELECTED_ROWS) {
+    if (allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
       confirmationModal.show({
         onSubmit: confirmationModal.hide,
         onCloseCallback: onCloseModal(),
@@ -123,13 +124,16 @@ class NotificationCenterTable extends PureComponent {
       className,
       notifications: {
         data,
-        loading,
+        networkStatus,
       },
       allRowsSelected,
       touchedRowsIds,
     } = this.props;
 
     const { content, last } = data?.notificationCenter || { content: [] };
+
+    // Show loader only if initial load or new variables was applied
+    const loading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(networkStatus);
 
     return (
       <div

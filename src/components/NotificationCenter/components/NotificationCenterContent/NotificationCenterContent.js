@@ -5,6 +5,7 @@ import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import ReactSwitch from 'components/ReactSwitch';
 import { MAX_SELECTED_ROWS } from '../../constants';
@@ -127,7 +128,9 @@ class NotificationCenterContent extends PureComponent {
         },
       });
 
-      refetch();
+      EventEmitter.emit(NOTIFICATIONS_READ);
+
+      await refetch();
     } catch (e) {
       const { error } = parseErrors(e);
 

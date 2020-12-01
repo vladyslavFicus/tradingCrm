@@ -45,11 +45,15 @@ class SelectMultipleOptions extends PureComponent {
     }
   };
 
-  handleChange = (e, option) => (
-    e.target.checked
-      ? this.handleAddOption(option)
-      : this.handleDeleteOption(option)
-  );
+  handleChange = (e, option) => {
+    e.stopPropagation();
+
+    if (e.target.checked) {
+      this.handleAddOption(option);
+    } else {
+      this.handleDeleteOption(option);
+    }
+  };
 
   render() {
     const {
