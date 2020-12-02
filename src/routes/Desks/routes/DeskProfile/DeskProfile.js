@@ -3,15 +3,18 @@ import { Switch, Redirect } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
+import { deskTypes } from 'constants/rules';
+import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import BranchInfoQuery from './graphql/BranchInfoQuery';
 
-const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE', '', '');
+const RulesRetention = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.RETENTION, branchTypes.DESK);
+const RulesSales = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.DESK);
 
-class OfficeProfile extends PureComponent {
+class DeskProfile extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     match: PropTypes.shape({
@@ -19,7 +22,6 @@ class OfficeProfile extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
       path: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
     }).isRequired,
     branchInfoQuery: PropTypes.query({
       branchInfo: PropTypes.hierarchyBranch,
@@ -32,7 +34,6 @@ class OfficeProfile extends PureComponent {
       match: {
         params,
         path,
-        url,
       },
       branchInfoQuery: {
         data,
@@ -58,15 +59,18 @@ class OfficeProfile extends PureComponent {
         <Tabs
           items={[{
             label: 'HIERARCHY.PROFILE_RULE_TAB.NAME',
-            url: '/offices/:id/rules',
+            url: '/desks/:id/rules',
           }]}
           location={location}
           params={params}
         />
         <div className="card no-borders">
           <Switch>
-            <Route path={`${path}/rules`} component={Rules} />
-            <Redirect to={`${url}/rules`} />
+            <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
+            <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />
+            <If condition={branchInfo?.deskType}>
+              <Redirect to={`${path}/rules/${branchInfo.deskType.toLowerCase()}-rules`} />
+            </If>
           </Switch>
         </div>
       </div>
@@ -76,4 +80,4 @@ class OfficeProfile extends PureComponent {
 
 export default withRequests({
   branchInfoQuery: BranchInfoQuery,
-})(OfficeProfile);
+})(DeskProfile);

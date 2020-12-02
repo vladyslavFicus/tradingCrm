@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./containers/DeskProfileContainer'));
+export default lazy(() => import('./DeskProfile'));
