@@ -465,7 +465,6 @@ export default compose(
   withRequests({
     operators: OperatorsQuery,
     partners: PartnersQuery,
-    // createRule: CreateRuleMutation,
     deleteRule: DeleteRuleMutation,
     rulesQuery: GetRulesQuery,
   }),
