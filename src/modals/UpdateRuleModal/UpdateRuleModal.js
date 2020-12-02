@@ -1,18 +1,24 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
+import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
-import { ruleTypes, priorities } from 'constants/rules';
+import { ruleTypes, priorities, actionRuleTypes } from 'constants/rules';
 import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
+import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
+import Uuid from 'components/Uuid';
+import { Link } from 'components/Link';
 import RuleSettings from 'components/RuleSettings';
 import RuleSchedule from './RuleSchedule';
 import {
+  UpdateRuleMutation,
   OperatorsQuery,
   PartnersQuery,
   RulesQuery,
@@ -28,7 +34,9 @@ class UpdateRuleModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     // -----
+    notify: PropTypes.func.isRequired,
     // ----- Queries
+    updateRuleMutation: PropTypes.func.isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
     }).isRequired,
@@ -39,11 +47,14 @@ class UpdateRuleModal extends PureComponent {
       rules: PropTypes.arrayOf(PropTypes.ruleType),
     }).isRequired,
     // -----
-    onSubmit: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
+    uuid: PropTypes.string.isRequired,
+    parentBranch: PropTypes.string,
     withOperatorSpreads: PropTypes.bool,
   };
 
   static defaultProps = {
+    parentBranch: null,
     withOperatorSpreads: false,
   };
 
@@ -56,8 +67,73 @@ class UpdateRuleModal extends PureComponent {
     this.setState({ validationSchedulesEnabled: true });
   };
 
-  handleSubmit = (values, { setSubmitting, setErrors }) => {
-    this.props.onSubmit(values, setErrors);
+  handleSubmit = async ({ operatorSpreads, ...values }, { setSubmitting, setErrors }) => {
+    const {
+      notify,
+      updateRuleMutation,
+      onSuccess,
+      uuid,
+      parentBranch,
+      withOperatorSpreads,
+    } = this.props;
+
+    try {
+      await updateRuleMutation(
+        {
+          variables: {
+            uuid,
+            parentBranch,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
+            ...withOperatorSpreads && {
+              operatorSpreads: [
+                // the filter needs to delete an empty value in array
+                ...operatorSpreads.filter(item => item && item.percentage),
+              ],
+            },
+            ...decodeNullValues(values),
+          },
+        },
+      );
+
+      onSuccess();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+      });
+
+      let _error = error.error;
+
+      if (error.error === 'error.entity.already.exist') {
+        _error = (
+          <>
+            <div>
+              <Link
+                to={{
+                  pathname: '/sales-rules',
+                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+                }}
+              >
+                {I18n.t(`rules.${error.error}`, error.errorParameters)}
+              </Link>
+            </div>
+            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+          </>
+        );
+      }
+
+      setErrors({ submit: _error });
+    }
+
     setSubmitting(false);
   };
 
@@ -209,8 +285,12 @@ class UpdateRuleModal extends PureComponent {
   }
 }
 
-export default withRequests({
-  operatorsQuery: OperatorsQuery,
-  partnersQuery: PartnersQuery,
-  rulesQuery: RulesQuery,
-})(UpdateRuleModal);
+export default compose(
+  withNotifications,
+  withRequests({
+    updateRuleMutation: UpdateRuleMutation,
+    operatorsQuery: OperatorsQuery,
+    partnersQuery: PartnersQuery,
+    rulesQuery: RulesQuery,
+  }),
+)(UpdateRuleModal);

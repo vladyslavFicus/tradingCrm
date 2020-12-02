@@ -4,13 +4,12 @@ import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import { parseErrors, withRequests } from 'apollo';
+import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import countries from 'utils/countryList';
-import { actionRuleTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
@@ -18,7 +17,6 @@ import { Link } from 'components/Link';
 import { Button, EditButton } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
-import { decodeNullValues } from 'components/Formik/utils';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
@@ -31,16 +29,12 @@ import {
   PartnersQuery,
   GetRulesQuery,
   DeleteRuleMutation,
-  CreateRuleMutation,
-  UpdateRuleMutation,
 } from '../graphql';
 
 class SalesRules extends PureComponent {
   static propTypes = {
-    rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
-    createRule: PropTypes.func.isRequired,
+    rulesQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
     deleteRule: PropTypes.func.isRequired,
-    updateRule: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       createRuleModal: PropTypes.modalType,
@@ -78,172 +72,64 @@ class SalesRules extends PureComponent {
     isTab: false,
   };
 
-  triggerRuleModal = () => {
+  openCreateRuleModal = () => {
     const {
-      type: userType,
-      modals: { createRuleModal },
+      modals: {
+        createRuleModal,
+      },
       match: {
         params: {
-          id: userUuid,
+          id: parentBranch,
         },
       },
+      rulesQuery: {
+        refetch,
+      },
+      type: userType,
     } = this.props;
 
     createRuleModal.show({
-      onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
-      userUuid,
+      parentBranch,
       userType,
       withOperatorSpreads: true,
+      onSuccess: async () => {
+        await refetch();
+        createRuleModal.hide();
+      },
     });
   };
 
-  triggerEditRuleModal = (uuid) => {
+  openUpdateRuleModal = (uuid) => {
     const {
-      modals: { updateRuleModal },
+      modals: {
+        updateRuleModal,
+      },
+      match: {
+        params: {
+          id: parentBranch,
+        },
+      },
+      rulesQuery: {
+        refetch,
+      },
     } = this.props;
 
     updateRuleModal.show({
       uuid,
-      onSubmit: (values, setErrors) => this.handleEditRule(values, uuid, setErrors),
+      parentBranch,
       withOperatorSpreads: true,
+      onSuccess: async () => {
+        await refetch();
+        updateRuleModal.hide();
+      },
     });
-  };
-
-  handleEditRule = async ({ operatorSpreads, ...rest }, uuid, setErrors) => {
-    const {
-      notify,
-      updateRule,
-      modals: { updateRuleModal },
-      match: { params: { id } },
-      rules: { refetch },
-    } = this.props;
-
-    try {
-      await updateRule(
-        {
-          variables: {
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            parentBranch: id,
-            operatorSpreads: [
-              // filter need for delete empty value in array
-              ...operatorSpreads.filter(item => item && item.percentage),
-            ],
-            uuid,
-            ...decodeNullValues(rest),
-          },
-        },
-      );
-
-      await refetch();
-      updateRuleModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
-
-      let _error = error.error;
-
-      if (error.error === 'error.entity.already.exist') {
-        _error = (
-          <>
-            <div>
-              <Link
-                to={{
-                  pathname: '/sales-rules',
-                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-                }}
-              >
-                {I18n.t(`rules.${error.error}`, error.errorParameters)}
-              </Link>
-            </div>
-            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-          </>
-        );
-      }
-
-      setErrors({ submit: _error });
-    }
-  };
-
-  handleAddRule = async ({ operatorSpreads, ...rest }, setErrors) => {
-    const {
-      notify,
-      createRule,
-      modals: { createRuleModal },
-      match: { params: { id } },
-      rules: { refetch },
-    } = this.props;
-
-    try {
-      await createRule(
-        {
-          variables: {
-            parentBranch: id,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            operatorSpreads: [
-              // filter need for delete empty value in array
-              ...operatorSpreads.filter(item => item && item.percentage),
-            ],
-            ...decodeNullValues(rest),
-          },
-        },
-      );
-
-      await refetch();
-      createRuleModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED'),
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
-      });
-
-      let _error = error.error;
-
-      if (_error === 'error.entity.already.exist') {
-        _error = (
-          <>
-            <div>
-              <Link
-                to={{
-                  pathname: '/sales-rules',
-                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-                }}
-                onClick={createRuleModal.hide}
-              >
-                {I18n.t(`rules.${error.error}`, error.errorParameters)}
-              </Link>
-            </div>
-            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-          </>
-        );
-      }
-
-      setErrors({ submit: _error });
-    }
   };
 
   handleDeleteRule = uuid => async () => {
     const {
       notify,
       deleteRule,
-      rules: { refetch },
+      rulesQuery: { refetch },
       modals: { deleteModal },
     } = this.props;
 
@@ -269,7 +155,7 @@ class SalesRules extends PureComponent {
   handleDeleteRuleClick = (uuid) => {
     const {
       modals: { deleteModal },
-      rules: {
+      rulesQuery: {
         data,
       },
     } = this.props;
@@ -374,7 +260,7 @@ class SalesRules extends PureComponent {
       </Button>
       <EditButton
         className="SalesRules__edit-button"
-        onClick={() => this.triggerEditRuleModal(uuid)}
+        onClick={() => this.openUpdateRuleModal(uuid)}
       />
     </>
   );
@@ -437,7 +323,7 @@ class SalesRules extends PureComponent {
 
   render() {
     const {
-      rules,
+      rulesQuery,
       location: { query },
       permission: {
         permissions: currentPermissions,
@@ -452,9 +338,9 @@ class SalesRules extends PureComponent {
       isTab,
     } = this.props;
 
-    const entities = get(rules, 'data.rules') || [];
+    const entities = get(rulesQuery, 'data.rules') || [];
     const filters = get(query, 'filters', {});
-    const isLoadingRules = rules.loading;
+    const isLoadingRules = rulesQuery.loading;
 
     const operators = get(operatorsData, 'operators.content') || [];
     const partners = get(partnersData, 'partners.content') || [];
@@ -488,7 +374,7 @@ class SalesRules extends PureComponent {
                 type="submit"
                 small
                 commonOutline
-                onClick={this.triggerRuleModal}
+                onClick={this.openCreateRuleModal}
               >
                 {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
               </Button>
@@ -498,7 +384,7 @@ class SalesRules extends PureComponent {
 
         <RulesFilters
           disabled={!allowActions}
-          handleRefetch={rules.refetch}
+          handleRefetch={rulesQuery.refetch}
           countries={countries}
           partners={partners}
           operators={operators}
@@ -579,9 +465,8 @@ export default compose(
   withRequests({
     operators: OperatorsQuery,
     partners: PartnersQuery,
-    createRule: CreateRuleMutation,
+    // createRule: CreateRuleMutation,
     deleteRule: DeleteRuleMutation,
-    rules: GetRulesQuery,
-    updateRule: UpdateRuleMutation,
+    rulesQuery: GetRulesQuery,
   }),
 )(SalesRules);

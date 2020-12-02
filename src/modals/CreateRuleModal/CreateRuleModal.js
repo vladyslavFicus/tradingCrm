@@ -1,19 +1,28 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
-import { ruleTypes, priorities } from 'constants/rules';
+import { ruleTypes, priorities, actionRuleTypes } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';
+import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
+import Uuid from 'components/Uuid';
+import { Link } from 'components/Link';
 import RuleSettings from 'components/RuleSettings';
 import CreateRuleSchedule from './CreateRuleSchedule';
 import { extraValidation } from './utils';
-import { OperatorsQuery, PartnersQuery } from './graphql';
+import {
+  CreateRuleMutation,
+  OperatorsQuery,
+  PartnersQuery,
+} from './graphql';
 
 class CreateRuleModal extends PureComponent {
   static propTypes = {
@@ -21,7 +30,9 @@ class CreateRuleModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     // -----
+    notify: PropTypes.func.isRequired,
     // ----- Queries
+    createRuleMutation: PropTypes.func.isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
     }).isRequired,
@@ -29,15 +40,15 @@ class CreateRuleModal extends PureComponent {
       operators: PropTypes.pageable(PropTypes.operatorsListEntity),
     }).isRequired,
     // -----
-    onSubmit: PropTypes.func.isRequired,
-    userType: PropTypes.string, // SalesRules only
-    userUuid: PropTypes.string, // SalesRules only
-    withOperatorSpreads: PropTypes.bool, // SalesRules only
+    onSuccess: PropTypes.func.isRequired,
+    userType: PropTypes.string,
+    parentBranch: PropTypes.string,
+    withOperatorSpreads: PropTypes.bool,
   };
 
   static defaultProps = {
     userType: null,
-    userUuid: null,
+    parentBranch: null,
     withOperatorSpreads: false,
   };
 
@@ -45,8 +56,73 @@ class CreateRuleModal extends PureComponent {
     validationOnChangeEnabled: false,
   };
 
-  handleSubmit = (values, { setSubmitting, setErrors }) => {
-    this.props.onSubmit(values, setErrors);
+  handleSubmit = async ({ operatorSpreads, ...values }, { setSubmitting, setErrors }) => {
+    const {
+      notify,
+      onCloseModal,
+      createRuleMutation,
+      onSuccess,
+      parentBranch,
+      withOperatorSpreads,
+    } = this.props;
+
+    try {
+      await createRuleMutation(
+        {
+          variables: {
+            parentBranch,
+            ruleType: actionRuleTypes.ROUND_ROBIN,
+            ...withOperatorSpreads && {
+              operatorSpreads: [
+                // the filter needs to delete an empty value in array
+                ...operatorSpreads.filter(item => item && item.percentage),
+              ],
+            },
+            ...decodeNullValues(values),
+          },
+        },
+      );
+
+      onSuccess();
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED'),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
+      });
+
+      let _error = error.error;
+
+      if (_error === 'error.entity.already.exist') {
+        _error = (
+          <>
+            <div>
+              <Link
+                to={{
+                  pathname: '/sales-rules',
+                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
+                }}
+                onClick={onCloseModal}
+              >
+                {I18n.t(`rules.${error.error}`, error.errorParameters)}
+              </Link>
+            </div>
+            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
+          </>
+        );
+      }
+
+      setErrors({ submit: _error });
+    }
+
     setSubmitting(false);
   };
 
@@ -61,7 +137,7 @@ class CreateRuleModal extends PureComponent {
         data: partnersQueryData,
       },
       userType,
-      userUuid,
+      parentBranch,
       withOperatorSpreads,
     } = this.props;
 
@@ -81,8 +157,8 @@ class CreateRuleModal extends PureComponent {
             countries: [],
             languages: [],
             sources: [],
-            affiliateUUIDs: userType === 'PARTNER' ? [userUuid] : [],
-            operatorSpreads: userType === 'OPERATOR' ? [{ parentUser: userUuid, percentage: 100 }] : [],
+            affiliateUUIDs: userType === 'PARTNER' ? [parentBranch] : [],
+            operatorSpreads: userType === 'OPERATOR' ? [{ parentUser: parentBranch, percentage: 100 }] : [],
           }}
           validate={(values) => {
             const errors = createValidator({
@@ -149,7 +225,11 @@ class CreateRuleModal extends PureComponent {
   }
 }
 
-export default withRequests({
-  operatorsQuery: OperatorsQuery,
-  partnersQuery: PartnersQuery,
-})(CreateRuleModal);
+export default compose(
+  withNotifications,
+  withRequests({
+    createRuleMutation: CreateRuleMutation,
+    operatorsQuery: OperatorsQuery,
+    partnersQuery: PartnersQuery,
+  }),
+)(CreateRuleModal);

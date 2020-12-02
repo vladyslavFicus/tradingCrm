@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation CreateRule(
+const REQUEST = gql`mutation UpdateRuleMutation(
   $name: String!
   $priority: Int!
   $countries: [String]
@@ -15,6 +15,8 @@ const REQUEST = gql`mutation CreateRule(
   $parentBranch: String
   $ruleType: Rule__ActionType__Enum
   $uuid: String
+  $enableSchedule: Boolean
+  $schedules: [RuleSchedule__Input]
 ) {
   rule {
     createRule (
@@ -29,18 +31,21 @@ const REQUEST = gql`mutation CreateRule(
       parentBranch: $parentBranch
       ruleType: $ruleType
       uuid: $uuid
+      enableSchedule: $enableSchedule
+      schedules: $schedules
     )
   }
-}`;
+}
+`;
 
-const CreateRule = ({ children }) => (
+const UpdateRuleMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-CreateRule.propTypes = {
+UpdateRuleMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default CreateRule;
+export default UpdateRuleMutation;
