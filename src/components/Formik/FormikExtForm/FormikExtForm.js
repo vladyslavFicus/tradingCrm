@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { isEqual } from 'lodash';
 import { Formik, Form } from 'formik';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import { Button, RefreshButton } from 'components/UI';
 import FilterSet from 'components/FilterSet';
@@ -9,6 +10,7 @@ import FilterSetButtons from 'components/FilterSetButtons';
 
 class ExtendedForm extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     initialValues: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     handleReset: PropTypes.func,
@@ -31,7 +33,7 @@ class ExtendedForm extends PureComponent {
   state = {
     prevValues: null,
     isFiltersVisible: true,
-    selectedFilterDropdownItem: '',
+    selectedFilterDropdownItem: this.props.location?.state?.selectedFilterSet || '',
   };
 
   handleSubmit = (values, formikBag) => {
@@ -170,4 +172,4 @@ class ExtendedForm extends PureComponent {
   }
 }
 
-export default ExtendedForm;
+export default withRouter(ExtendedForm);

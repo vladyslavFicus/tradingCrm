@@ -92,13 +92,14 @@ class ClientsGridFilter extends PureComponent {
     return operators;
   }
 
-  handleSubmit = (values) => {
+  handleSubmit = ({ uuid, ...rest }) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: decodeNullValues(rest),
+        selectedFilterSet: uuid,
       },
     });
   };
@@ -110,6 +111,7 @@ class ClientsGridFilter extends PureComponent {
       state: {
         ...state,
         filters: null,
+        selectedFilterSet: null,
       },
     });
   };
