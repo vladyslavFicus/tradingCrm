@@ -16,7 +16,7 @@ import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import RuleSettings from 'components/RuleSettings';
-import CreateRuleSchedule from './CreateRuleSchedule';
+import CreateRuleSchedule from './components/CreateRuleSchedule';
 import { extraValidation } from './utils';
 import {
   CreateRuleMutation,

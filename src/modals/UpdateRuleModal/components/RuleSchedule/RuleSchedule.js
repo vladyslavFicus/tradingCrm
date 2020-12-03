@@ -4,7 +4,7 @@ import { Field, FieldArray } from 'formik';
 import PropTypes from 'prop-types';
 import { FormikSwitchField } from 'components/Formik';
 import { Button } from 'components/UI';
-import RuleScheduleBoard from './RuleScheduleBoard';
+import RuleScheduleBoard from './components/RuleScheduleBoard';
 import './RuleSchedule.scss';
 
 class RuleSchedule extends PureComponent {
