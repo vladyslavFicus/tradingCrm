@@ -1,0 +1,15 @@
+.DeskProfile {
+  width: 94%;
+  min-width: 960px;
+  margin: -15px auto 0;
+  background-color: #fff;
+
+  &__header {
+    padding-bottom: 50px;
+    background: linear-gradient(180deg, white 0%, white 0%, #f8f8f8 100%, #f8f8f8 100%);
+  }
+
+  &__body {
+    background-color: #fff;
+  }
+}

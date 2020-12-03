@@ -8,8 +8,7 @@ import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import BranchInfoQuery from './graphql/BranchInfoQuery';
-
-const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE', '', '');
+import './OfficeProfile.scss';
 
 class OfficeProfile extends PureComponent {
   static propTypes = {
@@ -40,15 +39,15 @@ class OfficeProfile extends PureComponent {
       },
     } = this.props;
 
-    const branchInfo = data?.branchInfo;
+    const branchInfo = data?.branchInfo || {};
 
-    if (!branchInfo) {
+    if (!loading && !data) {
       return <NotFound />;
     }
 
     return (
-      <div className="profile">
-        <div className="profile__info">
+      <div className="OfficeProfile">
+        <div className="OfficeProfile__header">
           <BranchHeader
             branchData={branchInfo}
             branchId={params.id}
@@ -63,9 +62,12 @@ class OfficeProfile extends PureComponent {
           location={location}
           params={params}
         />
-        <div className="card no-borders">
+        <div className="OfficeProfile__body">
           <Switch>
-            <Route path={`${path}/rules`} component={Rules} />
+            <Route
+              path={`${path}/rules`}
+              component={HierarchyProfileRules('OFFICES.TABS.RULES.TITLE')}
+            />
             <Redirect to={`${url}/rules`} />
           </Switch>
         </div>

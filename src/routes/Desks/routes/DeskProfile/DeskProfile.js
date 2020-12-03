@@ -3,16 +3,13 @@ import { Switch, Redirect } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/rules';
 import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import BranchInfoQuery from './graphql/BranchInfoQuery';
-
-const RulesRetention = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.RETENTION, branchTypes.DESK);
-const RulesSales = HierarchyProfileRules('DESKS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.DESK);
+import './DeskProfile.scss';
 
 class DeskProfile extends PureComponent {
   static propTypes = {
@@ -22,6 +19,7 @@ class DeskProfile extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
       path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
     }).isRequired,
     branchInfoQuery: PropTypes.query({
       branchInfo: PropTypes.hierarchyBranch,
@@ -34,6 +32,7 @@ class DeskProfile extends PureComponent {
       match: {
         params,
         path,
+        url,
       },
       branchInfoQuery: {
         data,
@@ -41,15 +40,15 @@ class DeskProfile extends PureComponent {
       },
     } = this.props;
 
-    const branchInfo = data?.branchInfo;
+    const branchInfo = data?.branchInfo || {};
 
-    if (!branchInfo) {
+    if (!loading && !data) {
       return <NotFound />;
     }
 
     return (
-      <div className="profile">
-        <div className="profile__info">
+      <div className="DeskProfile">
+        <div className="DeskProfile__header">
           <BranchHeader
             branchData={branchInfo}
             branchId={params.id}
@@ -64,13 +63,13 @@ class DeskProfile extends PureComponent {
           location={location}
           params={params}
         />
-        <div className="card no-borders">
+        <div className="DeskProfile__body">
           <Switch>
-            <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
-            <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />
-            <If condition={branchInfo?.deskType}>
-              <Redirect to={`${path}/rules/${branchInfo.deskType.toLowerCase()}-rules`} />
-            </If>
+            <Route
+              path={`${path}/rules`}
+              component={HierarchyProfileRules('DESKS.TABS.RULES.TITLE', branchTypes.DESK)}
+            />
+            <Redirect to={`${url}/rules`} />
           </Switch>
         </div>
       </div>

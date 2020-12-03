@@ -3,16 +3,13 @@ import { Switch, Redirect } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/rules';
 import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import BranchInfoQuery from './graphql/BranchInfoQuery';
-
-const RulesRetention = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.RETENTION, branchTypes.TEAM);
-const RulesSales = HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', deskTypes.SALES, branchTypes.TEAM);
+import './TeamProfile.scss';
 
 class TeamProfile extends PureComponent {
   static propTypes = {
@@ -22,6 +19,7 @@ class TeamProfile extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
       path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
     }).isRequired,
     branchInfoQuery: PropTypes.query({
       branchInfo: PropTypes.hierarchyBranch,
@@ -34,6 +32,7 @@ class TeamProfile extends PureComponent {
       match: {
         params,
         path,
+        url,
       },
       branchInfoQuery: {
         data,
@@ -41,15 +40,15 @@ class TeamProfile extends PureComponent {
       },
     } = this.props;
 
-    const branchInfo = data?.branchInfo;
+    const branchInfo = data?.branchInfo || {};
 
-    if (!branchInfo) {
+    if (!loading && !data) {
       return <NotFound />;
     }
 
     return (
-      <div className="profile">
-        <div className="profile__info">
+      <div className="TeamProfile">
+        <div className="TeamProfile__header">
           <BranchHeader
             branchData={branchInfo}
             branchId={params.id}
@@ -64,13 +63,13 @@ class TeamProfile extends PureComponent {
           location={location}
           params={params}
         />
-        <div className="card no-borders">
+        <div className="TeamProfile__body">
           <Switch>
-            <Route path={`${path}/rules/sales-rules`} component={RulesSales} />
-            <Route path={`${path}/rules/retention-rules`} component={RulesRetention} />
-            <If condition={branchInfo?.parentBranch?.deskType}>
-              <Redirect to={`${path}/rules/${branchInfo.parentBranch.deskType.toLowerCase()}-rules`} />
-            </If>
+            <Route
+              path={`${path}/rules`}
+              component={HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', branchTypes.TEAM)}
+            />
+            <Redirect to={`${url}/rules`} />
           </Switch>
         </div>
       </div>
