@@ -44,7 +44,7 @@ class HierarchyProfileRules extends PureComponent {
     deleteRule: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       createRuleModal: PropTypes.modalType,
-      ruleModalRetention: PropTypes.modalType,
+      updateRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
