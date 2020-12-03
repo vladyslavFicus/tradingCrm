@@ -19,6 +19,7 @@ import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ActionsQuery from './graphql/ActionsQuery';
+import DefaultPermissionQuery from './graphql/DefaultPermissionQuery';
 import UpdateAuthorityActionsMutation from './graphql/UpdateAuthorityActionsMutation';
 import ResetPermissionMutation from './graphql/ResetPermissionMutation';
 import { ReactComponent as PreviewIcon } from './preview-icon.svg';
@@ -49,6 +50,7 @@ class PermissionsSetting extends PureComponent {
     role: null,
     department: null,
     shouldUpdate: false,
+    defaultPermission: false,
   };
 
   /**
@@ -60,8 +62,9 @@ class PermissionsSetting extends PureComponent {
    * @return {{actions: *}|null}
    */
   static getDerivedStateFromProps(props, state) {
-    const { actionsQuery } = props;
+    const { actionsQuery, defaultPermissionQuery } = props;
 
+    const defaultPermission = defaultPermissionQuery.data?.defaultPermission;
     const authorityActions = actionsQuery.data?.authorityActions || [];
     const shouldInit = !actionsQuery.loading
       && (state.department !== props.department || state.role !== props.role);
@@ -98,6 +101,7 @@ class PermissionsSetting extends PureComponent {
 
     return {
       shouldUpdate: false,
+      defaultPermission,
     };
   }
 
@@ -322,7 +326,7 @@ class PermissionsSetting extends PureComponent {
           <Button
             className="PermissionsSetting__panel-button-reset"
             commonOutline
-            disabled={!department || !role}
+            disabled={!this.state.defaultPermission}
             onClick={this.handleResetPermission}
           >
             <i className="padding-right-10 fa fa-refresh" />
@@ -400,6 +404,7 @@ export default compose(
   withNotifications,
   withRequests({
     actionsQuery: ActionsQuery,
+    defaultPermissionQuery: DefaultPermissionQuery,
     updateAuthorityActions: UpdateAuthorityActionsMutation,
     resetPermission: ResetPermissionMutation,
   }),
