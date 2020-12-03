@@ -4,7 +4,7 @@ import { compose } from 'react-apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
 import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { ruleTypes, priorities, actionRuleTypes } from 'constants/rules';

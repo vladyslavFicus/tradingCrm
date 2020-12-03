@@ -12,7 +12,7 @@ const SwitchField = (props) => {
     label,
     wrapperClassName,
     id,
-    textFirst,
+    position,
   } = props;
 
   const onClick = () => {
@@ -23,7 +23,7 @@ const SwitchField = (props) => {
   return (
     <div
       className={classNames('FormikSwitchField', {
-        'FormikSwitchField--reverse': textFirst,
+        'FormikSwitchField--label-left': position === 'LABEL_LEFT',
       }, wrapperClassName)}
     >
       <div className="FormikSwitchField__inner">
@@ -56,14 +56,14 @@ SwitchField.propTypes = {
   ]),
   id: PropTypes.string,
   onChange: PropTypes.func,
-  textFirst: PropTypes.bool,
+  position: PropTypes.oneOf(['LABEL_LEFT', 'LABEL_RIGHT']),
 };
 SwitchField.defaultProps = {
   wrapperClassName: null,
   label: null,
   id: null,
   onChange: () => {},
-  textFirst: false,
+  position: 'LABEL_RIGHT',
 };
 
 export default SwitchField;

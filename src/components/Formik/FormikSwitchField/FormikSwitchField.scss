@@ -1,5 +1,5 @@
 .FormikSwitchField {
-  &--reverse &__inner {
+  &--label-left &__inner {
     display: inline-flex;
     align-items: center;
     flex-direction: row-reverse;
@@ -7,7 +7,7 @@
     vertical-align: middle;
   }
 
-  &--reverse &__trigger {
+  &--label-left &__trigger {
     margin: 0 0 0 5px;
   }
 }

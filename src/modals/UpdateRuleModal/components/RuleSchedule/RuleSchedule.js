@@ -83,7 +83,7 @@ class RuleSchedule extends PureComponent {
             name="enableSchedule"
             label={I18n.t('RULE_MODAL.SCHEDULE.FILTERS.ENABLE_SCHEDULE')}
             component={FormikSwitchField}
-            textFirst
+            position="LABEL_LEFT"
           />
         </div>
         <FieldArray
