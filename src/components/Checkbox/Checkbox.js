@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { ReactComponent as CheckIcon } from './check-icon.svg';
+import { ReactComponent as CheckIcon } from './img/check-icon.svg';
 import './Checkbox.scss';
 
 class Checkbox extends PureComponent {
