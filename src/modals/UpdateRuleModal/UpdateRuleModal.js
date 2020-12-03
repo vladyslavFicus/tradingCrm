@@ -30,12 +30,9 @@ import {
 
 class UpdateRuleModal extends PureComponent {
   static propTypes = {
-    // ----- Modal API
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    // -----
     notify: PropTypes.func.isRequired,
-    // ----- Queries
     updateRuleMutation: PropTypes.func.isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
@@ -46,7 +43,6 @@ class UpdateRuleModal extends PureComponent {
     rulesQuery: PropTypes.query({
       rules: PropTypes.arrayOf(PropTypes.ruleType),
     }).isRequired,
-    // -----
     onSuccess: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
     parentBranch: PropTypes.string,
@@ -241,24 +237,24 @@ class UpdateRuleModal extends PureComponent {
               </ModalHeader>
               <ModalBody className="p-0">
                 <StaticTabs>
-                  <StaticTabsItem
-                    label={I18n.t('RULE_MODAL.SETTINGS_TAB_NAME')}
-                    component={RuleSettings}
-                    operators={operators}
-                    partners={partners}
-                    withOperatorSpreads={withOperatorSpreads}
-                    operatorSpreads={values.operatorSpreads}
-                    formikBag={formikBag}
-                  />
-                  <StaticTabsItem
-                    label={I18n.t('RULE_MODAL.SCHEDULE_TAB_NAME')}
-                    component={RuleSchedule}
-                    operators={operators}
-                    schedules={values.schedules}
-                    formikBag={formikBag}
-                    enableSchedulesValidation={this.enableSchedulesValidation}
-                    validationSchedulesEnabled={validationSchedulesEnabled}
-                  />
+                  <StaticTabsItem label={I18n.t('RULE_MODAL.SETTINGS_TAB_NAME')}>
+                    <RuleSettings
+                      operators={operators}
+                      partners={partners}
+                      withOperatorSpreads={withOperatorSpreads}
+                      operatorSpreads={values.operatorSpreads}
+                      formikBag={formikBag}
+                    />
+                  </StaticTabsItem>
+                  <StaticTabsItem label={I18n.t('RULE_MODAL.SCHEDULE_TAB_NAME')}>
+                    <RuleSchedule
+                      operators={operators}
+                      schedules={values.schedules}
+                      formikBag={formikBag}
+                      enableSchedulesValidation={this.enableSchedulesValidation}
+                      validationSchedulesEnabled={validationSchedulesEnabled}
+                    />
+                  </StaticTabsItem>
                 </StaticTabs>
               </ModalBody>
               <ModalFooter>

@@ -1,5 +1,5 @@
-$color-blue: #01a8fe;
-$color-gray: #495057;
+$primary-color: #01a8fe;
+$secondary-color: #495057;
 
 .StaticTabs {
   &__nav {
@@ -11,7 +11,7 @@ $color-gray: #495057;
     border: none;
     border-top: 3px solid transparent;
     background-color: transparent;
-    color: $color-gray;
+    color: $secondary-color;
     font-size: 15px;
     font-weight: 700;
     padding: 10px 20px;
@@ -19,23 +19,23 @@ $color-gray: #495057;
 
     &:focus {
       outline: none;
-      color: $color-blue;
+      color: $primary-color;
     }
 
     &:not(&--active):hover {
-      color: $color-gray;
+      color: $secondary-color;
     }
   }
 
   &__nav-item--active, &__nav-item--active:focus {
     z-index: 1000;
     background-color: #fff;
-    border-top-color: $color-blue;
+    border-top-color: $primary-color;
     box-shadow: 0 15px 0 0 #fff, 0 0 0 0 #fff, 0 0 15px -4px rgba(0,0,0,.15), 0 0 15px -4px rgba(0,0,0,.15);
-    color: $color-blue;
+    color: $primary-color;
 
     &:hover {
-      color: $color-blue;
+      color: $primary-color;
     }
   }
 

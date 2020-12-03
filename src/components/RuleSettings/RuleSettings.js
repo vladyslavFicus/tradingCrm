@@ -78,7 +78,7 @@ class RuleSettings extends PureComponent {
           >
             {priorities.map(item => (
               <option key={item} value={item}>
-                {item.toString()}
+                {item}
               </option>
             ))}
           </Field>

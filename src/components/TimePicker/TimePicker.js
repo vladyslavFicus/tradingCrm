@@ -11,16 +11,18 @@ class TimePicker extends PureComponent {
   };
 
   static defaultProps = {
-    value: '', // /^(\d{1,2}):(\d{1,2})\b/
+    value: '', // accepts string according to pattern /^(\d{1,2}):(\d{1,2})\b/
   };
 
   static getDerivedStateFromProps({ value }, state) {
-    return {
-      ...value !== state.value && {
+    if (value !== state.value) {
+      return {
         value,
         ...getCountsFromString(value),
-      },
-    };
+      };
+    }
+
+    return null;
   }
 
   state = {

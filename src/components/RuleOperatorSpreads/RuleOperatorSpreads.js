@@ -12,6 +12,11 @@ import {
 import { Button } from 'components/UI';
 import './RuleOperatorSpreads.scss';
 
+/**
+ * This is reused part of outer Formik form.
+ * It may lay in a different level of fields nesting,
+ * so it's important to have namePrefix param to provide right fields path for Formik search engine
+ */
 class RuleOperatorSpreads extends PureComponent {
   static propTypes = {
     operators: PropTypes.arrayOf(PropTypes.operatorsListEntity).isRequired,

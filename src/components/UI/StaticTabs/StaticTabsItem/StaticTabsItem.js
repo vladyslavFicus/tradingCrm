@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 
 class StaticTabsItem extends PureComponent {
   static propTypes = {
-    label: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
+    children: PropTypes.element.isRequired,
   }
 
   render() {
-    const {
-      component: Component,
-      ...props
-    } = this.props;
-
-    return <Component {...props} />;
+    return <>{this.props.children}</>;
   }
 }
 

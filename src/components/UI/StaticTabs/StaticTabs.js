@@ -7,23 +7,18 @@ import './StaticTabs.scss';
 
 class StaticTabs extends PureComponent {
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.element),
+      PropTypes.element,
+    ]).isRequired,
   }
 
   state = {
-    activeTabName: null,
+    activeIndex: 0,
   };
 
-  componentDidMount() {
-    const { children } = this.props;
-
-    this.setState({
-      activeTabName: children[0]?.props.label || children.props.label,
-    });
-  }
-
   render() {
-    const { activeTabName } = this.state;
+    const { activeIndex } = this.state;
     const children = React.Children
       .toArray(this.props.children)
       .filter(child => child.type === StaticTabsItem);
@@ -31,20 +26,20 @@ class StaticTabs extends PureComponent {
     return (
       <div className="StaticTabs">
         <div className="StaticTabs__nav">
-          {children.map(({ props: { label } }) => (
+          {children.map(({ props: { label } }, index) => (
             <Button
-              key={label}
+              key={index}
               className={classNames('StaticTabs__nav-item', {
-                'StaticTabs__nav-item--active': activeTabName === label,
+                'StaticTabs__nav-item--active': activeIndex === index,
               })}
-              onClick={() => this.setState({ activeTabName: label })}
+              onClick={() => this.setState({ activeIndex: index })}
             >
               {label}
             </Button>
           ))}
         </div>
         <div className="StaticTabs__content">
-          {children.filter(({ props: { label } }) => label === activeTabName)}
+          {children.filter((_, index) => activeIndex === index)}
         </div>
       </div>
     );

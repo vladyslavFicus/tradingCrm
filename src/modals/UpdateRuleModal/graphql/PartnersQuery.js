@@ -15,7 +15,7 @@ const REQUEST = gql`query PartnersQuery {
 const PartnersQuery = ({ children }) => (
   <Query
     query={REQUEST}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {children}
   </Query>

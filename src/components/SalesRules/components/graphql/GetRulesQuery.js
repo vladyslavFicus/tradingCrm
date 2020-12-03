@@ -5,43 +5,43 @@ import { get } from 'lodash';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`query getRules(
-  $uuid: [String],
-  $country: String,
-  $language: String,
-  $createdByOrUuid: String,
-  $name: String,
-  $type: Rule__Type__Enum,
-  $parentId: String,
-  $operatorUuids: [String],
-  $affiliateId: String,
+  $uuid: [String]
+  $country: String
+  $language: String
+  $createdByOrUuid: String
+  $name: String
+  $type: Rule__Type__Enum
+  $parentId: String
+  $operatorUuids: [String]
+  $affiliateId: String
 ) {
   rules (
-    uuid: $uuid,
-    country: $country,
-    language: $language,
-    createdByOrUuid: $createdByOrUuid,
-    name: $name,
-    type: $type,
-    parentId: $parentId,
-    operatorUuids: $operatorUuids,
-    affiliateId: $affiliateId,
+    uuid: $uuid
+    country: $country
+    language: $language
+    createdByOrUuid: $createdByOrUuid
+    name: $name
+    type: $type
+    parentId: $parentId
+    operatorUuids: $operatorUuids
+    affiliateId: $affiliateId
 
   ) {
     ruleType
     parentBranch
     operatorSpreads {
       operator {
-        fullName,
-        uuid,
-      },
-      percentage,
-    },
+        fullName
+        uuid
+      }
+      percentage
+    }
     uuid
     countries
     languages
     partners {
-      uuid,
-      fullName,
+      uuid
+      fullName
     }
     sources
     priority

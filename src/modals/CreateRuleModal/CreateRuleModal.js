@@ -26,12 +26,9 @@ import {
 
 class CreateRuleModal extends PureComponent {
   static propTypes = {
-    // ----- Modal API
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    // -----
     notify: PropTypes.func.isRequired,
-    // ----- Queries
     createRuleMutation: PropTypes.func.isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
@@ -39,7 +36,6 @@ class CreateRuleModal extends PureComponent {
     operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.operatorsListEntity),
     }).isRequired,
-    // -----
     onSuccess: PropTypes.func.isRequired,
     userType: PropTypes.string,
     parentBranch: PropTypes.string,
@@ -186,19 +182,18 @@ class CreateRuleModal extends PureComponent {
               </ModalHeader>
               <ModalBody className="p-0">
                 <StaticTabs>
-                  <StaticTabsItem
-                    label={I18n.t('RULE_MODAL.SETTINGS_TAB_NAME')}
-                    component={RuleSettings}
-                    operators={operators}
-                    partners={partners}
-                    withOperatorSpreads={withOperatorSpreads}
-                    operatorSpreads={operatorSpreads}
-                    formikBag={formikBag}
-                  />
-                  <StaticTabsItem
-                    label={I18n.t('RULE_MODAL.SCHEDULE_TAB_NAME')}
-                    component={CreateRuleSchedule}
-                  />
+                  <StaticTabsItem label={I18n.t('RULE_MODAL.SETTINGS_TAB_NAME')}>
+                    <RuleSettings
+                      operators={operators}
+                      partners={partners}
+                      withOperatorSpreads={withOperatorSpreads}
+                      operatorSpreads={operatorSpreads}
+                      formikBag={formikBag}
+                    />
+                  </StaticTabsItem>
+                  <StaticTabsItem label={I18n.t('RULE_MODAL.SCHEDULE_TAB_NAME')}>
+                    <CreateRuleSchedule />
+                  </StaticTabsItem>
                 </StaticTabs>
               </ModalBody>
               <ModalFooter>

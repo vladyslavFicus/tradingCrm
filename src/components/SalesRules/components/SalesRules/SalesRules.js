@@ -303,7 +303,7 @@ class SalesRules extends PureComponent {
                 <div className="font-weight-700">
                   <Choose>
                     <When condition={percentage}>
-                      <span>{percentage} &#37;</span>
+                      <span>{percentage} %</span>
                     </When>
                     <Otherwise>
                       <span>&mdash;</span>
