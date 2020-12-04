@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
+import { Modal, ModalBody } from 'reactstrap';
 import { ResponsiveContainer, LineChart, Line, YAxis, CartesianGrid, Tooltip, XAxis } from 'recharts';
 import PropTypes from 'constants/propTypes';
 import { getBrand } from 'config';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
+import { ReactComponent as ExpandIcon } from './img/expand.svg';
+import { ReactComponent as CloseIcon } from './img/close.svg';
 import createCustomTooltip from './createCustomTooltip';
 import './Chart.scss';
 
@@ -52,6 +56,11 @@ class Chart extends PureComponent {
 
   state = {
     selectedOption: this.props.selectOptions[0],
+    expanded: false,
+  };
+
+  toggleExpand = () => {
+    this.setState(({ expanded }) => ({ expanded: !expanded }));
   };
 
   handleSelectChange = (value) => {
@@ -67,7 +76,7 @@ class Chart extends PureComponent {
     );
   };
 
-  render() {
+  renderContent(expanded = false) {
     const {
       data,
       title,
@@ -89,18 +98,28 @@ class Chart extends PureComponent {
     }));
 
     return (
-      <div className="Chart">
+      <div className={classNames('Chart', { 'Chart--expanded': expanded })}>
         <div className="Chart__header">
           <div className="Chart__title">{title}</div>
-          <Select
-            value={selectedOption.value}
-            customClassName="Chart__select"
-            onChange={this.handleSelectChange}
-          >
-            {selectOptions.map(({ value, label }) => (
-              <option key={`${label}-${value}`} value={value}>{label}</option>
-            ))}
-          </Select>
+          <div className="Chart__right-container">
+            <Choose>
+              <When condition={!expanded}>
+                <ExpandIcon className="Chart__icon" onClick={this.toggleExpand} />
+              </When>
+              <Otherwise>
+                <CloseIcon className="Chart__icon" onClick={this.toggleExpand} />
+              </Otherwise>
+            </Choose>
+            <Select
+              value={selectedOption.value}
+              customClassName="Chart__select"
+              onChange={this.handleSelectChange}
+            >
+              {selectOptions.map(({ value, label }) => (
+                <option key={`${label}-${value}`} value={value}>{label}</option>
+              ))}
+            </Select>
+          </div>
         </div>
 
         <div className="Chart__body">
@@ -113,7 +132,7 @@ class Chart extends PureComponent {
             <Otherwise>
               <Choose>
                 <When condition={hasResults}>
-                  <ResponsiveContainer className="Chart__grapfic" height={200} width="108%">
+                  <ResponsiveContainer className="Chart__grapfic">
                     <LineChart data={chartData}>
                       <If condition={xDataKey}>
                         <XAxis dataKey={xDataKey} />
@@ -162,6 +181,29 @@ class Chart extends PureComponent {
           ))}
         </div>
       </div>
+    );
+  }
+
+  renderModal() {
+    return (
+      <Modal
+        className="Chart__modal"
+        toggle={this.toggleExpand}
+        isOpen={this.state.expanded}
+      >
+        <ModalBody>
+          {this.renderContent(true)}
+        </ModalBody>
+      </Modal>
+    );
+  }
+
+  render() {
+    return (
+      <>
+        {this.renderContent()}
+        {this.renderModal()}
+      </>
     );
   }
 }
