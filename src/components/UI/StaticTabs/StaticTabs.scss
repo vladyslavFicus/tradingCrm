@@ -1,0 +1,45 @@
+$primary-color: #01a8fe;
+$secondary-color: #495057;
+
+.StaticTabs {
+  &__nav {
+    padding: 30px 15px 0;
+    background-color: #f8f8f8;
+  }
+
+  &__nav-item {
+    border: none;
+    border-top: 3px solid transparent;
+    background-color: transparent;
+    color: $secondary-color;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 20px;
+    display: inline-block;
+
+    &:focus {
+      outline: none;
+      color: $primary-color;
+    }
+
+    &:not(&--active):hover {
+      color: $secondary-color;
+    }
+  }
+
+  &__nav-item--active, &__nav-item--active:focus {
+    z-index: 1000;
+    background-color: #fff;
+    border-top-color: $primary-color;
+    box-shadow: 0 15px 0 0 #fff, 0 0 0 0 #fff, 0 0 15px -4px rgba(0,0,0,.15), 0 0 15px -4px rgba(0,0,0,.15);
+    color: $primary-color;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  &__content {
+    padding: 20px 15px;
+  }
+}

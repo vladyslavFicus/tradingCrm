@@ -3777,6 +3777,38 @@
     },
     "TITLE": "Referrals"
   },
+  "RULE_MODAL": {
+    "SETTINGS_TAB_NAME": "Rule settings",
+    "SCHEDULE_TAB_NAME": "Schedule settings",
+    "SCHEDULE": {
+      "ATTENTION": {
+        "TITLE": "A schedule can be configured\nonly at edition mode:",
+        "PHASE_FINISH": "Please finish\nrule creation process",
+        "PHASE_EDIT": "Proceed to edit rule mode\nto setup the schedule"
+      },
+      "FILTERS": {
+        "ENABLE_SCHEDULE": "Enable Schedule Settings",
+        "DAYS": {
+          "MONDAY": "Mon",
+          "TUESDAY": "Tue",
+          "WEDNESDAY": "Wed",
+          "THURSDAY": "Thu",
+          "FRIDAY": "Fri",
+          "SATURDAY": "Sat",
+          "SUNDAY": "Sun"
+        },
+        "TIME_FROM": "Time from:",
+        "TIME_TO": "Time to:",
+        "TIME_UNIT": "UTC time"
+      },
+      "ADD_SCHEDULE_BUTTON": "+ ADD SHEDULE",
+      "ADD_TIME_INTERVAL_BUTTON": "Add Time Interval",
+      "ERRORS": {
+        "DAY_IS_REQUIRED": "At least one day is required",
+        "INVALID_TIME_RANGE": "The end time should be bigger than the begin"
+      }
+    }
+  },
   "ROLES_AND_PERMISSIONS": {
     "TITLE": "Roles and Permissions",
     "SELECT_FILTER":  {
