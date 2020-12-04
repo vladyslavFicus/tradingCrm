@@ -1,15 +1,24 @@
 .TimePicker {
-  display: inline-flex;
-  align-items: center;
-  line-height: 1;
+  &__label {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+    color: #333333
+  }
 
   &__field {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  &__count {
     display: flex;
     align-items: center;
     flex-direction: column;
   }
 
-  &__field-count {
+  &__count-value {
     width: 40px;
     padding: 2px 4px;
     border: 1px solid #e0e0e0;
@@ -21,7 +30,7 @@
     color: #4a4a4a;
   }
 
-  &__field-button {
+  &__count-button {
     height: 20px;
     display: flex;
     align-items: center;

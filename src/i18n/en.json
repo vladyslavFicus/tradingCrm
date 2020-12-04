@@ -3798,7 +3798,7 @@
           "SUNDAY": "Sun"
         },
         "TIME_FROM": "Time from:",
-        "TIME_TO": "Time to",
+        "TIME_TO": "Time to:",
         "TIME_UNIT": "UTC time"
       },
       "ADD_SCHEDULE_BUTTON": "+ ADD SHEDULE",

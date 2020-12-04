@@ -8,9 +8,11 @@ class TimePicker extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string,
+    label: PropTypes.string,
   };
 
   static defaultProps = {
+    label: '',
     value: '', // accepts string according to pattern /^(\d{1,2}):(\d{1,2})\b/
   };
 
@@ -68,22 +70,22 @@ class TimePicker extends PureComponent {
 
   decreaseValue = unit => this.setState(({ [unit]: value }) => ({ [unit]: value ? value - 1 : limits[unit] }));
 
-  renderField = (unit, value) => (
-    <div className="TimePicker__field">
+  renderCount = (unit, value) => (
+    <div className="TimePicker__count">
       <button
         type="button"
-        className="TimePicker__field-button"
+        className="TimePicker__count-button"
         onMouseDown={this.startChangeValue(unit, this.increaseValue)}
         onClick={() => this.increaseValue(unit)}
       >
         <i className="fa fa-angle-up" />
       </button>
-      <span className="TimePicker__field-count">
+      <span className="TimePicker__count-value">
         {formatCountValue(value)}
       </span>
       <button
         type="button"
-        className="TimePicker__field-button"
+        className="TimePicker__count-button"
         onMouseDown={this.startChangeValue(unit, this.decreaseValue)}
         onClick={() => this.decreaseValue(unit)}
       >
@@ -93,13 +95,19 @@ class TimePicker extends PureComponent {
   );
 
   render() {
+    const { label } = this.props;
     const { hours, minutes } = this.state;
 
     return (
       <div className="TimePicker">
-        {this.renderField('hours', hours)}
-        <span className="TimePicker__separator">:</span>
-        {this.renderField('minutes', minutes)}
+        <If condition={label}>
+          <div className="TimePicker__label">{label}</div>
+        </If>
+        <div className="TimePicker__field">
+          {this.renderCount('hours', hours)}
+          <span className="TimePicker__separator">:</span>
+          {this.renderCount('minutes', minutes)}
+        </div>
       </div>
     );
   }
