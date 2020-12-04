@@ -67,7 +67,8 @@ class RolesAndPermissions extends PureComponent {
                           key={`${department}-${role}`}
                           onClick={() => this.handleSelectAuthority(department, role)}
                           className={classNames('RolesAndPermissions__authority', {
-                            'RolesAndPermissions__authority--active': role === activeRole,
+                            'RolesAndPermissions__authority--active':
+                              department === activeDepartment && role === activeRole,
                           })}
                         >
                           {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
