@@ -10,22 +10,25 @@ import './RuleSchedule.scss';
 class RuleSchedule extends PureComponent {
   static propTypes = {
     operators: PropTypes.array.isRequired,
-    schedules: PropTypes.arrayOf(PropTypes.shape({
-      days: PropTypes.arrayOf(PropTypes.string).isRequired,
-      timeIntervals: PropTypes.arrayOf(PropTypes.shape({
-        operatorSpreads: PropTypes.arrayOf(PropTypes.shape({
-          parentUser: PropTypes.string,
+    values: PropTypes.shape({
+      enableSchedule: PropTypes.bool,
+      schedules: PropTypes.arrayOf(PropTypes.shape({
+        days: PropTypes.arrayOf(PropTypes.string),
+        timeIntervals: PropTypes.arrayOf(PropTypes.shape({
+          operatorSpreads: PropTypes.arrayOf(PropTypes.shape({
+            parentUser: PropTypes.string,
+          })),
+          timeFrom: PropTypes.string,
+          timeTo: PropTypes.string,
         })),
-        timeFrom: PropTypes.string,
-        timeTo: PropTypes.string,
-      })),
-    })).isRequired,
+      })).isRequired,
+    }).isRequired,
+    formikBag: PropTypes.object.isRequired,
     enableSchedulesValidation: PropTypes.func.isRequired,
     validationSchedulesEnabled: PropTypes.bool.isRequired,
-    formikBag: PropTypes.object.isRequired,
   };
 
-  static getDerivedStateFromProps({ schedules }) {
+  static getDerivedStateFromProps({ values: { schedules } }) {
     const checkedDays = schedules.reduce((acc, { days }) => ([...acc, ...days]), []);
 
     return {
@@ -41,17 +44,21 @@ class RuleSchedule extends PureComponent {
 
   componentDidUpdate() {
     const {
-      schedules,
+      values: {
+        enableSchedule,
+        schedules,
+      },
       formikBag: {
-        initialValues: {
-          schedules: initialSchedules,
-        },
+        initialValues,
       },
       validationSchedulesEnabled,
       enableSchedulesValidation,
     } = this.props;
 
-    if (!validationSchedulesEnabled && JSON.stringify(schedules) !== JSON.stringify(initialSchedules)) {
+    if (!validationSchedulesEnabled
+      && (enableSchedule !== initialValues.enableSchedule
+      || JSON.stringify(schedules) !== JSON.stringify(initialValues.schedules))
+    ) {
       enableSchedulesValidation();
     }
   }
@@ -64,7 +71,9 @@ class RuleSchedule extends PureComponent {
   render() {
     const {
       operators,
-      schedules,
+      values: {
+        schedules,
+      },
       formikBag,
       formikBag: {
         errors,

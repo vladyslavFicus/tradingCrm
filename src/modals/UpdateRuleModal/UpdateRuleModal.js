@@ -189,7 +189,7 @@ class UpdateRuleModal extends PureComponent {
             operatorSpreads: (operatorSpreads || []).map(
               ({ parentUser, percentage }) => ({ parentUser, percentage }),
             ),
-            enableSchedule,
+            enableSchedule: enableSchedule || false,
             schedules: (schedules?.length && schedules) || [
               {
                 days: [],
@@ -249,7 +249,7 @@ class UpdateRuleModal extends PureComponent {
                   <StaticTabsItem label={I18n.t('RULE_MODAL.SCHEDULE_TAB_NAME')}>
                     <RuleSchedule
                       operators={operators}
-                      schedules={values.schedules}
+                      values={values}
                       formikBag={formikBag}
                       enableSchedulesValidation={this.enableSchedulesValidation}
                       validationSchedulesEnabled={validationSchedulesEnabled}
