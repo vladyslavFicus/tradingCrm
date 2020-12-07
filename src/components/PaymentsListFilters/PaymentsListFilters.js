@@ -110,14 +110,13 @@ class PaymentsListFilters extends PureComponent {
     return operators;
   }
 
-  handleSubmit = ({ uuid, ...rest }) => {
+  handleSubmit = (value) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
-        filters: decodeNullValues(rest),
-        selectedFilterSet: uuid,
+        filters: decodeNullValues(value),
       },
     });
   };
@@ -129,7 +128,6 @@ class PaymentsListFilters extends PureComponent {
       state: {
         ...state,
         filters: null,
-        selectedFilterSet: null,
       },
     });
   };

@@ -61,7 +61,7 @@ class FilterSet extends PureComponent {
       });
 
       handleHistoryReplace(filterSet);
-      submitFilters({ ...filterSet, uuid });
+      submitFilters(filterSet);
 
       handleSelectFilterDropdownItem(uuid);
     } catch {

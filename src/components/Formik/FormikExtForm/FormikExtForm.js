@@ -56,19 +56,43 @@ class ExtendedForm extends PureComponent {
   };
 
   handleReset = (resetForm) => {
-    const { handleReset, isDataLoading } = this.props;
+    const {
+      handleReset,
+      isDataLoading,
+      history,
+      location: { state },
+    } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        selectedFilterSet: null,
+      },
+    });
 
     if (isDataLoading) {
       return;
     }
 
-    handleReset();
-    resetForm();
+    // setTime is needed in order to have time to update location state in parent component
+    setTimeout(() => {
+      handleReset();
+      resetForm();
 
-    this.setState({ selectedFilterDropdownItem: '' });
+      this.setState({ selectedFilterDropdownItem: '' });
+    }, 0);
   };
 
   handleSelectFilterDropdownItem = (uuid) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        selectedFilterSet: uuid,
+      },
+    });
+
     this.setState({ selectedFilterDropdownItem: uuid });
   };
 
