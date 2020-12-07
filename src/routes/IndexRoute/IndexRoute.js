@@ -27,7 +27,6 @@ import SalesRules from 'components/SalesRules';
 import DistributionRules from 'routes/DistributionRules';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
-import BrandConfig from 'routes/BrandConfig';
 import EmailTemplates from 'routes/EmailTemplates';
 import TradingAccounts from 'routes/TradingAccounts';
 import Notifications from 'routes/Notifications';
@@ -101,7 +100,6 @@ class IndexRoute extends PureComponent {
             <Route path="/distribution" layout={MainLayout} component={DistributionRules} isPrivate />
             <Route path="/notifications" layout={MainLayout} component={Notifications} isPrivate />
             <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
-            <Route path="/brand-config" layout={MainLayout} component={BrandConfig} isPrivate />
             <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />
             <Route path="/roles-and-permissions" layout={MainLayout} component={RolesAndPermissions} isPrivate />
             <Route path="/logout" component={Logout} isPrivate />
