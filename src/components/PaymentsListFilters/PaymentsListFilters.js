@@ -110,13 +110,13 @@ class PaymentsListFilters extends PureComponent {
     return operators;
   }
 
-  handleSubmit = (value) => {
+  handleSubmit = (values) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
-        filters: decodeNullValues(value),
+        filters: decodeNullValues(values),
       },
     });
   };
