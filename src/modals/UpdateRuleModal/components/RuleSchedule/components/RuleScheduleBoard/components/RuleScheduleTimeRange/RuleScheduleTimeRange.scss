@@ -1,0 +1,44 @@
+.RuleScheduleTimeRange {
+  position: relative;
+
+  &__counts {
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__separator {
+    display: block;
+    margin: 0 8px;
+    width: 4px;
+    height:  2px;
+    background-color: #c4c4c4;
+  }
+  
+  &__field {
+    width: 148px;
+  }
+
+  &__unit {
+    margin-left: 15px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 40px;
+    color: #9B9B9B;
+  }
+
+  &__error {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    color: #d0011b;
+  }
+
+  &__error-icon {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+}

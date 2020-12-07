@@ -19,6 +19,7 @@ import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ActionsQuery from './graphql/ActionsQuery';
+import DefaultAuthorityQuery from './graphql/DefaultAuthorityQuery';
 import UpdateAuthorityActionsMutation from './graphql/UpdateAuthorityActionsMutation';
 import ResetPermissionMutation from './graphql/ResetPermissionMutation';
 import { ReactComponent as PreviewIcon } from './preview-icon.svg';
@@ -308,6 +309,7 @@ class PermissionsSetting extends PureComponent {
       role,
       department,
       actionsQuery,
+      isDefaultAuthorityQuery,
     } = this.props;
 
     return (
@@ -322,7 +324,7 @@ class PermissionsSetting extends PureComponent {
           <Button
             className="PermissionsSetting__panel-button-reset"
             commonOutline
-            disabled={!department || !role}
+            disabled={!isDefaultAuthorityQuery.data?.isDefaultAuthority}
             onClick={this.handleResetPermission}
           >
             <i className="padding-right-10 fa fa-refresh" />
@@ -400,6 +402,7 @@ export default compose(
   withNotifications,
   withRequests({
     actionsQuery: ActionsQuery,
+    isDefaultAuthorityQuery: DefaultAuthorityQuery,
     updateAuthorityActions: UpdateAuthorityActionsMutation,
     resetPermission: ResetPermissionMutation,
   }),

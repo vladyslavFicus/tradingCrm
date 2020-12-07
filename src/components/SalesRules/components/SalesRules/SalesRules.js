@@ -1,29 +1,26 @@
-/* eslint-disable */
 import React, { Fragment, PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
-import { parseErrors, withRequests } from 'apollo';
+import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import countries from 'utils/countryList';
-import { actionRuleTypes, deskTypes } from 'constants/rules';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
-import { Button } from 'components/UI';
+import { Button, EditButton } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
 import Placeholder from 'components/Placeholder';
-import { decodeNullValues } from 'components/Formik/utils';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import RuleModal from 'components/HierarchyProfileRules/components/RuleModal';
-import EditRuleModal from 'components/HierarchyProfileRules/components/EditRuleModal';
+import CreateRuleModal from 'modals/CreateRuleModal';
+import UpdateRuleModal from 'modals/UpdateRuleModal';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import infoConfig from './constants';
 import './SalesRules.scss';
@@ -32,21 +29,17 @@ import {
   PartnersQuery,
   GetRulesQuery,
   DeleteRuleMutation,
-  CreateRuleMutation,
-  UpdateRuleMutation,
 } from '../graphql';
 
 class SalesRules extends PureComponent {
   static propTypes = {
-    rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
-    createRule: PropTypes.func.isRequired,
+    rulesQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
     deleteRule: PropTypes.func.isRequired,
-    updateRule: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      ruleModal: PropTypes.modalType,
+      createRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
-      editRuleModal: PropTypes.modalType,
+      updateRuleModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.object,
@@ -79,177 +72,64 @@ class SalesRules extends PureComponent {
     isTab: false,
   };
 
-  triggerRuleModal = () => {
+  openCreateRuleModal = () => {
     const {
-      type,
-      modals: { ruleModal },
+      modals: {
+        createRuleModal,
+      },
       match: {
         params: {
-          id: currentUuid,
+          id: parentBranch,
         },
+      },
+      rulesQuery: {
+        refetch,
+      },
+      type: userType,
+    } = this.props;
+
+    createRuleModal.show({
+      parentBranch,
+      userType,
+      withOperatorSpreads: true,
+      onSuccess: async () => {
+        await refetch();
+        createRuleModal.hide();
+      },
+    });
+  };
+
+  openUpdateRuleModal = (uuid) => {
+    const {
+      modals: {
+        updateRuleModal,
+      },
+      match: {
+        params: {
+          id: parentBranch,
+        },
+      },
+      rulesQuery: {
+        refetch,
       },
     } = this.props;
 
-    ruleModal.show({
-      currentUuid,
-      type,
-      onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
-      deskType: deskTypes.SALES,
-      withOperatorSpreads: true,
-    });
-  };
-
-  triggerEditRuleModal = (uuid) => {
-    const {
-      modals: { editRuleModal },
-    } = this.props;
-
-    editRuleModal.show({
-      onSubmit: (values, setErrors) => this.handleEditRule(values, uuid, setErrors),
-      withOperatorSpreads: true,
+    updateRuleModal.show({
       uuid,
+      parentBranch,
+      withOperatorSpreads: true,
+      onSuccess: async () => {
+        await refetch();
+        updateRuleModal.hide();
+      },
     });
-  };
-
-  handleEditRule = async ({ operatorSpreads, ...rest }, uuid, setErrors) => {
-    const {
-      notify,
-      updateRule,
-      modals: { editRuleModal },
-      match: { params: { id } },
-      rules: { refetch },
-    } = this.props;
-
-    try {
-      await updateRule(
-        {
-          variables: {
-            actions: [{
-              parentUser: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-              operatorSpreads: [
-                // filter need for delete empty value in array
-                ...operatorSpreads.filter(item => item && item.percentage),
-              ],
-            }],
-            uuid,
-            ...decodeNullValues(rest),
-          },
-        },
-      );
-
-      await refetch();
-      editRuleModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
-
-      let _error = error.error;
-
-      if (error.error === 'error.entity.already.exist') {
-        _error = (
-          <>
-            <div>
-              <Link
-                to={{
-                  pathname: '/sales-rules',
-                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-                }}
-              >
-                {I18n.t(`rules.${error.error}`, error.errorParameters)}
-              </Link>
-            </div>
-            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-          </>
-        );
-      }
-
-      setErrors({ submit: _error });
-    }
-  };
-
-  handleAddRule = async ({ operatorSpreads, ...rest }, setErrors) => {
-    const {
-      notify,
-      createRule,
-      modals: { ruleModal },
-      match: { params: { id } },
-      rules: { refetch },
-    } = this.props;
-
-    try {
-      await createRule(
-        {
-          variables: {
-            actions: [{
-              parentUser: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-              operatorSpreads: [
-                // filter need for delete empty value in array
-                ...operatorSpreads.filter(item => item && item.percentage),
-              ],
-            }],
-            ...decodeNullValues(rest),
-          },
-        },
-      );
-
-      await refetch();
-      ruleModal.hide();
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED'),
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
-      });
-
-      let _error = error.error;
-
-      if (_error === 'error.entity.already.exist') {
-        _error = (
-          <>
-            <div>
-              <Link
-                to={{
-                  pathname: '/sales-rules',
-                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-                }}
-                onClick={ruleModal.hide}
-              >
-                {I18n.t(`rules.${error.error}`, error.errorParameters)}
-              </Link>
-            </div>
-            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-          </>
-        );
-      }
-
-      setErrors({ submit: _error });
-    }
   };
 
   handleDeleteRule = uuid => async () => {
     const {
       notify,
       deleteRule,
-      rules: { refetch },
+      rulesQuery: { refetch },
       modals: { deleteModal },
     } = this.props;
 
@@ -275,7 +155,7 @@ class SalesRules extends PureComponent {
   handleDeleteRuleClick = (uuid) => {
     const {
       modals: { deleteModal },
-      rules: {
+      rulesQuery: {
         data,
       },
     } = this.props;
@@ -378,84 +258,72 @@ class SalesRules extends PureComponent {
       >
         <i className="fa fa-trash btn-transparent color-danger" />
       </Button>
-      <Button
-        transparent
-      >
-        <i
-          onClick={() => this.triggerEditRuleModal(uuid)}
-          className="font-size-16 cursor-pointer fa fa-edit float-right"
-        />
-      </Button>
+      <EditButton
+        className="SalesRules__edit-button"
+        onClick={() => this.openUpdateRuleModal(uuid)}
+      />
     </>
   );
 
-  renderOperator = ({ actions }) => {
-    const [{ operatorSpreads }] = actions;
+  renderOperator = ({ operatorSpreads }) => (
+    <Choose>
+      <When condition={operatorSpreads && operatorSpreads.length > 0}>
+        <div className="font-weight-700">
+          {`${operatorSpreads.length} `}
+          <Choose>
+            <When condition={operatorSpreads.length === 1}>
+              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATOR')}
+            </When>
+            <Otherwise>
+              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATORS')}
+            </Otherwise>
+          </Choose>
+        </div>
+        {operatorSpreads.map(({ operator }) => (
+          <If condition={operator}>
+            <div key={operator.uuid}>
+              <Link to={`/operators/${operator.uuid}/profile`}>{operator.fullName}</Link>
+            </div>
+          </If>
+        ))}
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
 
-    return (
-      <Choose>
-        <When condition={operatorSpreads && operatorSpreads.length > 0}>
-          <div className="font-weight-700">
-            {`${operatorSpreads.length} `}
-            <Choose>
-              <When condition={operatorSpreads.length === 1}>
-                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATOR')}
-              </When>
-              <Otherwise>
-                {I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID.OPERATORS')}
-              </Otherwise>
-            </Choose>
-          </div>
-          {operatorSpreads.map(({ operator }) => (
+  renderRatio = ({ operatorSpreads }) => (
+    <Choose>
+      <When condition={operatorSpreads && operatorSpreads.length > 0}>
+        <div className="margin-top-20">
+          {operatorSpreads.map(({ operator, percentage }) => (
             <If condition={operator}>
               <div key={operator.uuid}>
-                <Link to={`/operators/${operator.uuid}/profile`}>{operator.fullName}</Link>
+                <div className="font-weight-700">
+                  <Choose>
+                    <When condition={percentage}>
+                      <span>{percentage} %</span>
+                    </When>
+                    <Otherwise>
+                      <span>&mdash;</span>
+                    </Otherwise>
+                  </Choose>
+                </div>
               </div>
             </If>
           ))}
-        </When>
-        <Otherwise>
-          <span>&mdash;</span>
-        </Otherwise>
-      </Choose>
-    );
-  }
-
-  renderRatio = ({ actions }) => {
-    const [{ operatorSpreads }] = actions;
-
-    return (
-      <Choose>
-        <When condition={operatorSpreads && operatorSpreads.length > 0}>
-          <div className="margin-top-20">
-            {operatorSpreads.map(({ operator, percentage }) => (
-              <If condition={operator}>
-                <div key={operator.uuid}>
-                  <div className="font-weight-700">
-                    <Choose>
-                      <When condition={percentage}>
-                        <span>{percentage} &#37;</span>
-                      </When>
-                      <Otherwise>
-                        <span>&mdash;</span>
-                      </Otherwise>
-                    </Choose>
-                  </div>
-                </div>
-              </If>
-            ))}
-          </div>
-        </When>
-        <Otherwise>
-          <span>&mdash;</span>
-        </Otherwise>
-      </Choose>
-    );
-  }
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
 
   render() {
     const {
-      rules,
+      rulesQuery,
       location: { query },
       permission: {
         permissions: currentPermissions,
@@ -470,9 +338,9 @@ class SalesRules extends PureComponent {
       isTab,
     } = this.props;
 
-    const entities = get(rules, 'data.rules') || [];
+    const entities = get(rulesQuery, 'data.rules') || [];
     const filters = get(query, 'filters', {});
-    const isLoadingRules = rules.loading;
+    const isLoadingRules = rulesQuery.loading;
 
     const operators = get(operatorsData, 'operators.content') || [];
     const partners = get(partnersData, 'partners.content') || [];
@@ -506,7 +374,7 @@ class SalesRules extends PureComponent {
                 type="submit"
                 small
                 commonOutline
-                onClick={this.triggerRuleModal}
+                onClick={this.openCreateRuleModal}
               >
                 {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
               </Button>
@@ -516,7 +384,7 @@ class SalesRules extends PureComponent {
 
         <RulesFilters
           disabled={!allowActions}
-          handleRefetch={rules.refetch}
+          handleRefetch={rulesQuery.refetch}
           countries={countries}
           partners={partners}
           operators={operators}
@@ -590,16 +458,14 @@ export default compose(
   withRouter,
   withModals({
     deleteModal: ConfirmActionModal,
-    ruleModal: RuleModal,
-    editRuleModal: EditRuleModal,
+    createRuleModal: CreateRuleModal,
+    updateRuleModal: UpdateRuleModal,
   }),
   withNotifications,
   withRequests({
     operators: OperatorsQuery,
     partners: PartnersQuery,
-    createRule: CreateRuleMutation,
     deleteRule: DeleteRuleMutation,
-    rules: GetRulesQuery,
-    updateRule: UpdateRuleMutation,
+    rulesQuery: GetRulesQuery,
   }),
 )(SalesRules);

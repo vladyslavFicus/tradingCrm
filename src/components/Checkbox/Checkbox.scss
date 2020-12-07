@@ -17,11 +17,6 @@ $color-disable: #cfcfcf;
 
         &__input:checked ~ &__icon {
           border-color: $color-primary;
-
-          &:before,
-          &:after {
-            background-color: $color-primary;
-          }
         }
 
         &__label {
@@ -32,37 +27,24 @@ $color-disable: #cfcfcf;
   }
 
   &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: white;
     border-radius: 3px;
     border: 1px solid #ccc;
     transition: border-color 0.1s ease;
-    display: inline-block;
     vertical-align: top;
     height: 20px;
     width: 20px;
+  }
 
-    &:before,
-    &:after {
-      content: '';
-      background-color: transparent;
-      border-radius: 1px;
-      transition: background-color 0.1s ease, transform 0.1s ease;
-      position: absolute;
-      bottom: 4px;
-      width: 2px;
-    }
-
-    &:before {
-      transform: rotate(35deg);
-      height: 11px;
-      left: 10px;
-    }
-
-    &:after {
-      transform: rotate(-35deg);
-      height: 6px;
-      left: 5px;
-    }
+  &__icon-in {
+    width: 10px;
+    height: 10px;
+    fill: $color-checked;
+    opacity: 0;
+    transition: .1s ease;
   }
 
   &__input {
@@ -71,11 +53,10 @@ $color-disable: #cfcfcf;
 
   &__input:checked ~ &__icon {
     border-color: $color-checked;
+  }
 
-    &:before,
-    &:after {
-      background-color: $color-checked;
-    }
+  &__input:checked ~ &__icon &__icon-in {
+    opacity: 1;
   }
 
   &__label {
@@ -118,10 +99,37 @@ $color-disable: #cfcfcf;
     & .Checkbox {
       &__icon {
         border-color: $color-disable;
+        background-color: #F6F6F6;
       }
 
       &__label {
         color: $color-disable;
+      }
+    }
+  }
+
+  &--vertical {
+    & .Checkbox {
+      &__container {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      &__label {
+        margin-left: 0;
+        margin-bottom: 8px;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      &__icon {
+        width: 25px;
+        height: 25px;
+      }
+
+      &__icon-in {
+        width: 14px;
+        height: 14px;
       }
     }
   }

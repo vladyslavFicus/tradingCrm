@@ -71,7 +71,7 @@ class OperatorHierarchyBranches extends PureComponent {
     } = this.props;
 
     const operator = operatorQuery.data?.operator || {};
-    const totalSubordinatesCount = operatorHierarchyQuery.data?.userHierarchyById?.totalSubordinatesCount;
+    const totalSubordinatesCount = operatorHierarchyQuery.data?.userHierarchyById?.statistics?.totalSubordinatesCount;
 
     if (totalSubordinatesCount >= 10000) {
       confirmActionModal.show({

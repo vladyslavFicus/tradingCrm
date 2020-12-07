@@ -522,15 +522,18 @@ PropTypes.hierarchyBranch = PropTypes.shape({
   language: PropTypes.string,
   defaultBranch: PropTypes.string,
 });
-PropTypes.ruleActionType = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  parentBranch: PropTypes.string,
-  parentUser: PropTypes.string,
-  ruleType: PropTypes.string,
-});
+
 PropTypes.ruleType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
-  actions: PropTypes.arrayOf(PropTypes.ruleActionType),
+  operatorSpreads: PropTypes.arrayOf(
+    PropTypes.shape({
+      operator: PropTypes.operator,
+      parentUser: PropTypes.string,
+      percentage: PropTypes.number,
+    }),
+  ),
+  parentBranch: PropTypes.string,
+  ruleType: PropTypes.string,
   brandId: PropTypes.string,
   countries: PropTypes.arrayOf(PropTypes.string),
   createdAt: PropTypes.string,
@@ -864,6 +867,7 @@ PropTypes.query = content => PropTypes.shape({
   loading: PropTypes.bool,
   loadMore: PropTypes.func,
   refetch: PropTypes.func,
+  error: PropTypes.object,
 });
 
 PropTypes.subscription = content => PropTypes.shape({

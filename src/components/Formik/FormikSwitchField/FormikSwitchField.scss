@@ -1,0 +1,13 @@
+.FormikSwitchField {
+  &--label-left &__inner {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  &--label-left &__trigger {
+    margin: 0 0 0 5px;
+  }
+}

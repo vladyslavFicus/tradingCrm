@@ -1,16 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { parseErrors, withRequests } from 'apollo';
+import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
-import { actionRuleTypes } from 'constants/rules';
 import { Button } from 'components/UI';
-import { decodeNullValues } from 'components/Formik/utils';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import Grid, { GridColumn } from 'components/Grid';
@@ -18,15 +16,14 @@ import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
+import CreateRuleModal from 'modals/CreateRuleModal';
+import UpdateRuleModal from 'modals/UpdateRuleModal';
 import {
   RulesQuery,
   BranchInfoQuery,
   BranchChildrenQuery,
-  CreateRule,
   DeleteRule,
 } from './graphql';
-import RuleModal from './components/RuleModal';
-import EditRuleModal from './components/EditRuleModal';
 import RulesFilters from './components/RulesGridFilters';
 import infoConfig from './constants';
 import './HierarchyProfileRules.scss';
@@ -43,11 +40,10 @@ class HierarchyProfileRules extends PureComponent {
     branchInfoQuery: PropTypes.query({
       branchInfo: PropTypes.hierarchyBranch,
     }).isRequired,
-    createRule: PropTypes.func.isRequired,
     deleteRule: PropTypes.func.isRequired,
     modals: PropTypes.shape({
-      ruleModal: PropTypes.modalType,
-      ruleModalRetention: PropTypes.modalType,
+      createRuleModal: PropTypes.modalType,
+      updateRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
@@ -67,130 +63,53 @@ class HierarchyProfileRules extends PureComponent {
 
   handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
-  triggerRuleModal = () => {
+  openCreateRuleModal = () => {
     const {
-      modals: { ruleModal },
+      modals: {
+        createRuleModal,
+      },
+      match: {
+        params: {
+          id: parentBranch,
+        },
+      },
+      rulesQuery: {
+        refetch,
+      },
     } = this.props;
 
-    ruleModal.show({
-      onSubmit: (values, setErrors) => this.handleAddRule(values, setErrors),
+    createRuleModal.show({
+      parentBranch,
+      onSuccess: async () => {
+        await refetch();
+        createRuleModal.hide();
+      },
     });
   };
 
-  triggerEditRuleModal = (uuid) => {
+  openUpdateRuleModal = (uuid) => {
     const {
-      modals: { editRuleModal },
+      modals: {
+        updateRuleModal,
+      },
+      match: {
+        params: {
+          id: parentBranch,
+        },
+      },
+      rulesQuery: {
+        refetch,
+      },
     } = this.props;
 
-    editRuleModal.show({
-      onSubmit: values => this.handleEditRule(values, uuid),
+    updateRuleModal.show({
       uuid,
+      parentBranch,
+      onSuccess: async () => {
+        await refetch();
+        updateRuleModal.hide();
+      },
     });
-  };
-
-  handleAddRule = async (variables, setErrors) => {
-    const {
-      notify,
-      createRule,
-      modals: { ruleModal },
-      match: { params: { id } },
-      rulesQuery,
-    } = this.props;
-
-    try {
-      await createRule(
-        {
-          variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-            }],
-            ...decodeNullValues(variables),
-          },
-        },
-      );
-
-      await rulesQuery.refetch();
-
-      ruleModal.hide();
-
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED'),
-      });
-    } catch (e) {
-      const error = parseErrors(e);
-
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
-      });
-
-      let _error = error.error;
-
-      if (error.error === 'error.entity.already.exist') {
-        _error = (
-          <>
-            <div>
-              <Link
-                to={{
-                  pathname: '/sales-rules',
-                  query: { filters: { createdByOrUuid: error.errorParameters.ruleUuid } },
-                }}
-              >
-                {I18n.t(`rules.${error.error}`, error.errorParameters)}
-              </Link>
-            </div>
-            <Uuid uuid={error.errorParameters.ruleUuid} uuidPrefix="RL" />
-          </>
-        );
-      }
-
-      setErrors({ submit: _error });
-    }
-  };
-
-  handleEditRule = async (variables, uuid) => {
-    const {
-      notify,
-      createRule,
-      modals: { editRuleModal },
-      match: { params: { id } },
-      rulesQuery,
-    } = this.props;
-
-    try {
-      await createRule(
-        {
-          variables: {
-            actions: [{
-              parentBranch: id,
-              ruleType: actionRuleTypes.ROUND_ROBIN,
-            }],
-            uuid,
-            ...decodeNullValues(variables),
-          },
-        },
-      );
-
-      await rulesQuery.refetch();
-
-      editRuleModal.hide();
-
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
-      });
-    } catch (e) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
-      });
-    }
   };
 
   handleDeleteRule = uuid => async () => {
@@ -273,7 +192,7 @@ class HierarchyProfileRules extends PureComponent {
         <Button
           id="add-rule"
           type="submit"
-          onClick={this.triggerRuleModal}
+          onClick={this.openCreateRuleModal}
           disabled={disabled}
           commonOutline
           small
@@ -386,7 +305,7 @@ class HierarchyProfileRules extends PureComponent {
         transparent
       >
         <i
-          onClick={() => this.triggerEditRuleModal(uuid)}
+          onClick={() => this.openUpdateRuleModal(uuid)}
           className="font-size-16 cursor-pointer fa fa-edit float-right"
         />
       </Button>
@@ -480,15 +399,14 @@ export default (title, branchType) => props => (
       withPermission,
       withNotifications,
       withModals({
-        ruleModal: RuleModal,
-        editRuleModal: EditRuleModal,
+        createRuleModal: CreateRuleModal,
+        updateRuleModal: UpdateRuleModal,
         deleteModal: ConfirmActionModal,
       }),
       withRequests({
         rulesQuery: RulesQuery,
         branchInfoQuery: BranchInfoQuery,
         branchChildrenQuery: BranchChildrenQuery,
-        createRule: CreateRule,
         deleteRule: DeleteRule,
       }),
     )(HierarchyProfileRules),

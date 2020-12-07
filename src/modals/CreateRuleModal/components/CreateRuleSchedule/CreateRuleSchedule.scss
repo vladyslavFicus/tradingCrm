@@ -1,0 +1,59 @@
+.CreateRuleSchedule {
+  max-width: 400px;
+  padding: 40px 0;
+  margin: 0 auto;
+  white-space: pre-line;
+
+  &__title {
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: left;
+  }
+
+  &__warn-icon {
+    margin-right: 20px;
+  }
+
+  &__phases {
+    position: relative;
+    display: flex;
+    vertical-align: top;
+    justify-content: space-between;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 70px;
+      right: 70px;
+      height: 3px;
+      background:
+        linear-gradient(90deg, #fff 0px, #fff 10px, transparent 10px, transparent 16px),
+        linear-gradient(90deg, #4990E2, #3BB477);
+      background-size: 16px, auto;
+    }
+  }
+
+  &__phases-item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__phases-icon {
+    margin-bottom: 30px;
+  }
+
+  &__phases-text {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+  }
+}
