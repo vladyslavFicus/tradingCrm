@@ -59,10 +59,6 @@ class HierarchyProfileRules extends PureComponent {
     branchType: PropTypes.string.isRequired,
   };
 
-  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
-
-  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
-
   openCreateRuleModal = () => {
     const {
       modals: {
@@ -345,8 +341,6 @@ class HierarchyProfileRules extends PureComponent {
         </TabHeader>
 
         <RulesFilters
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
           handleRefetch={refetch}
         />
 

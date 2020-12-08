@@ -41,13 +41,13 @@ const REQUEST = gql`query RulesQuery(
 
 const RulesQuery = ({
   children,
-  location: { query },
+  location: { state },
   match: { params: { id: branchUuid } },
 }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...query && query.filters,
+      ...state && state.filters,
       branchUuid,
     }}
   >
