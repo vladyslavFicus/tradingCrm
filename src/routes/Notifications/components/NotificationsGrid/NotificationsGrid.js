@@ -8,7 +8,7 @@ import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import MiniProfile from 'components/MiniProfile';
-import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import './NotificationsGrid.scss';
 
 const prioritiesColor = {
@@ -54,42 +54,34 @@ class NotificationsGrid extends PureComponent {
 
   renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
-      <Choose>
-        <When
-          condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}
-        >
-          <span className="NotificationsGrid__text-primary">
-            {I18n.t(notificationCenterSubTypesLabels[subtype])}
-          </span>
-          <div className="NotificationsGrid__text-secondary">{details.amount} {details.currency}</div>
-        </When>
-        <When condition={type === 'ACCOUNT'}>
-          <span className="NotificationsGrid__text-primary">
-            {I18n.t(notificationCenterSubTypesLabels[subtype])}
-          </span>
-          <div className="NotificationsGrid__text-secondary">{details.platformType} - {details.login}</div>
-        </When>
-        <When condition={type === 'KYC' || type === 'CLIENT'}>
-          <span className="NotificationsGrid__text-primary">
-            {I18n.t(notificationCenterSubTypesLabels[subtype])}
-          </span>
-        </When>
-        <When condition={type === 'CALLBACK'}>
-          <div className="NotificationsGrid__text-primary">
-            {I18n.t(`NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}`)}
-          </div>
-          <div className="NotificationsGrid__text-primary">
-            {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
-              time: moment.utc(details.callbackTime).local().format('HH:mm'),
-            })}
-          </div>
-        </When>
-        <When condition={type === 'TRADING' && subtype === 'MARGIN_CALL'}>
-          <div className="NotificationsGrid__text-primary">
-            {I18n.t('NOTIFICATION_CENTER.SUBTYPES.MARGIN_CALL')}
-          </div>
-        </When>
-      </Choose>
+      <span className="NotificationsGrid__text-primary">
+        {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
+      </span>
+
+      {/* Render custom details for individual type or subtype */}
+      <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
+        <div className="NotificationsGrid__text-subtype">{details.amount} {details.currency}</div>
+      </If>
+
+      <If condition={type === 'ACCOUNT'}>
+        <PlatformTypeBadge center position="left" platformType={details.platformType}>
+          <div className="NotificationsGrid__text-subtype">{details.login}</div>
+        </PlatformTypeBadge>
+      </If>
+
+      <If condition={type === 'CALLBACK'}>
+        <div className="NotificationsGrid__text-primary">
+          {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
+            time: moment.utc(details.callbackTime).local().format('HH:mm'),
+          })}
+        </div>
+      </If>
+
+      <If condition={subtype === 'BULK_CLIENTS_ASSIGNED'}>
+        <div className="NotificationsGrid__text-subtype">
+          {I18n.t('NOTIFICATION_CENTER.DETAILS.CLIENTS_COUNT', { clientsCount: details.clientsCount })}
+        </div>
+      </If>
     </Fragment>
   );
 

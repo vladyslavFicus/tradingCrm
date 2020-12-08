@@ -3294,13 +3294,12 @@
       "CALLBACK_REMINDER": "Callback reminder",
       "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
-      "MARGIN_CALL": "Margin level under 100%"
+      "MARGIN_CALL": "Margin level under 100%",
+      "BULK_CLIENTS_ASSIGNED": "Bulk assigned"
     },
     "DETAILS": {
-      "CALLBACK": "Callback",
-      "CALLBACK_REMINDER": "Callback reminder",
-      "CALLBACK_REQUESTED": "Callback requested",
-      "CALLBACK_TIME": "Callback time: %{time}"
+      "CALLBACK_TIME": "Callback time: %{time}",
+      "CLIENTS_COUNT": "{{clientsCount}} clients"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
