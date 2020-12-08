@@ -71,10 +71,10 @@ const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
 export const extraValidation = (
   { schedules, operatorSpreads },
   errors,
-  { withOperatorSpreads, validationSchedulesEnabled },
+  { validationSchedulesEnabled },
 ) => {
   const schedulesErrors = [];
-  const operatorSpreadsPercentageError = withOperatorSpreads
+  const operatorSpreadsPercentageError = operatorSpreads
     && getOperatorSpreadsPercentageError(operatorSpreads);
 
   if (validationSchedulesEnabled) {

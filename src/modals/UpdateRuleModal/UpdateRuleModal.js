@@ -7,7 +7,7 @@ import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
-import { ruleTypes, priorities, actionRuleTypes } from 'constants/rules';
+import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -45,13 +45,6 @@ class UpdateRuleModal extends PureComponent {
     }).isRequired,
     onSuccess: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
-    parentBranch: PropTypes.string,
-    withOperatorSpreads: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    parentBranch: null,
-    withOperatorSpreads: false,
   };
 
   state = {
@@ -63,15 +56,21 @@ class UpdateRuleModal extends PureComponent {
     this.setState({ validationSchedulesEnabled: true });
   };
 
-  handleSubmit = async ({ operatorSpreads, ...values }, { setSubmitting, setErrors }) => {
+  handleSubmit = async ({ operatorSpreads, schedules, ...values }, { setSubmitting, setErrors }) => {
     const {
       notify,
       updateRuleMutation,
       onSuccess,
       uuid,
-      parentBranch,
-      withOperatorSpreads,
+      rulesQuery: {
+        data: rulesQueryData,
+      },
     } = this.props;
+
+    const {
+      parentBranch,
+      ruleType,
+    } = rulesQueryData?.rules?.['0'] || {};
 
     try {
       await updateRuleMutation(
@@ -79,13 +78,15 @@ class UpdateRuleModal extends PureComponent {
           variables: {
             uuid,
             parentBranch,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
-            ...withOperatorSpreads && {
+            ruleType,
+            ...operatorSpreads && {
               operatorSpreads: [
                 // the filter needs to delete an empty value in array
                 ...operatorSpreads.filter(item => item && item.percentage),
               ],
             },
+            // update schedules only if it's changed to prevent sending default schedule body
+            ...this.state.validationSchedulesEnabled && { schedules },
             ...decodeNullValues(values),
           },
         },
@@ -104,7 +105,7 @@ class UpdateRuleModal extends PureComponent {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
+        message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
       });
 
       let _error = error.error;
@@ -146,7 +147,6 @@ class UpdateRuleModal extends PureComponent {
       rulesQuery: {
         data: rulesQueryData,
       },
-      withOperatorSpreads,
     } = this.props;
 
     const {
@@ -186,9 +186,7 @@ class UpdateRuleModal extends PureComponent {
             affiliateUUIDs: (currentPartners || []).map(
               ({ uuid }) => uuid,
             ),
-            operatorSpreads: (operatorSpreads || []).map(
-              ({ parentUser, percentage }) => ({ parentUser, percentage }),
-            ),
+            ...operatorSpreads && { operatorSpreads },
             enableSchedule: enableSchedule || false,
             schedules: (schedules?.length && schedules) || [
               {
@@ -210,7 +208,7 @@ class UpdateRuleModal extends PureComponent {
               countries: [`in:${Object.keys(countryList).join()}`],
               languages: [`in:${getAvailableLanguages().join()}`],
               'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
-              ...withOperatorSpreads && {
+              ...operatorSpreads && {
                 'operatorSpreads.0.parentUser': 'required',
               },
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
@@ -221,7 +219,7 @@ class UpdateRuleModal extends PureComponent {
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
             return nestedFieldsTranslator(
-              extraValidation(values, errors, { withOperatorSpreads, validationSchedulesEnabled }),
+              extraValidation(values, errors, { validationSchedulesEnabled }),
               nestedFieldsNames,
             );
           }}
@@ -241,7 +239,6 @@ class UpdateRuleModal extends PureComponent {
                     <RuleSettings
                       operators={operators}
                       partners={partners}
-                      withOperatorSpreads={withOperatorSpreads}
                       operatorSpreads={values.operatorSpreads}
                       formikBag={formikBag}
                     />

@@ -94,11 +94,6 @@ class HierarchyProfileRules extends PureComponent {
       modals: {
         updateRuleModal,
       },
-      match: {
-        params: {
-          id: parentBranch,
-        },
-      },
       rulesQuery: {
         refetch,
       },
@@ -106,7 +101,6 @@ class HierarchyProfileRules extends PureComponent {
 
     updateRuleModal.show({
       uuid,
-      parentBranch,
       onSuccess: async () => {
         await refetch();
         updateRuleModal.hide();
