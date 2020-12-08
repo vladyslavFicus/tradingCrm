@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { notificationCenterTypes } from 'constants/notificationCenter';
 import { ReactComponent as AccountIcon } from './img/account.svg';
 import { ReactComponent as CallbackIcon } from './img/callback.svg';
 import { ReactComponent as ClientIcon } from './img/client.svg';
@@ -23,25 +22,25 @@ class NotificationItem extends PureComponent {
     let icon = null;
 
     switch (this.props.type) {
-      case notificationCenterTypes.ACCOUNT:
+      case 'ACCOUNT':
         icon = <AccountIcon />;
         break;
-      case notificationCenterTypes.CALLBACK:
+      case 'CALLBACK':
         icon = <CallbackIcon />;
         break;
-      case notificationCenterTypes.CLIENT:
+      case 'CLIENT':
         icon = <ClientIcon />;
         break;
-      case notificationCenterTypes.DEPOSIT:
+      case 'DEPOSIT':
         icon = <DepositIcon />;
         break;
-      case notificationCenterTypes.KYC:
+      case 'KYC':
         icon = <KycIcon />;
         break;
-      case notificationCenterTypes.TRADING:
+      case 'TRADING':
         icon = <TradingIcon />;
         break;
-      case notificationCenterTypes.WITHDRAWAL:
+      case 'WITHDRAWAL':
         icon = <WithdrawalIcon />;
         break;
       default:
