@@ -8,7 +8,6 @@ import Permissions from 'utils/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/rules';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
@@ -57,7 +56,6 @@ class HierarchyProfileRules extends PureComponent {
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     title: PropTypes.string.isRequired,
-    deskType: PropTypes.string.isRequired,
     branchType: PropTypes.string.isRequired,
   };
 
@@ -324,7 +322,6 @@ class HierarchyProfileRules extends PureComponent {
       permission: {
         permissions: currentPermissions,
       },
-      deskType,
       title,
     } = this.props;
 
@@ -343,9 +340,7 @@ class HierarchyProfileRules extends PureComponent {
           className="HierarchyProfileRules__header"
         >
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
-            <If condition={deskType.toUpperCase() !== 'RETENTION'}>
-              {this.renderAddButtonWithTooltip()}
-            </If>
+            {this.renderAddButtonWithTooltip()}
           </PermissionContent>
         </TabHeader>
 
@@ -373,18 +368,14 @@ class HierarchyProfileRules extends PureComponent {
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
               render={this.renderRuleInfo(infoConfig.languages)}
             />
-            <If condition={deskType === deskTypes.SALES}>
-              <GridColumn
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
-                render={this.renderPartner}
-              />
-            </If>
-            <If condition={deskType === deskTypes.SALES}>
-              <GridColumn
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
-                render={this.renderRuleInfo(infoConfig.sources)}
-              />
-            </If>
+            <GridColumn
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
+              render={this.renderPartner}
+            />
+            <GridColumn
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
+              render={this.renderRuleInfo(infoConfig.sources)}
+            />
             <GridColumn
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
               render={this.renderPriority}
@@ -402,7 +393,7 @@ class HierarchyProfileRules extends PureComponent {
   }
 }
 
-export default (title, deskType, branchType) => props => (
+export default (title, branchType) => props => (
   React.createElement(
     compose(
       withPermission,
@@ -419,6 +410,6 @@ export default (title, deskType, branchType) => props => (
         deleteRule: DeleteRule,
       }),
     )(HierarchyProfileRules),
-    { title, deskType, branchType, ...props },
+    { title, branchType, ...props },
   )
 );

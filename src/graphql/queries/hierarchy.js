@@ -1,15 +1,4 @@
 import gql from 'graphql-tag';
-import { HierarchyBranchFragment } from '../fragments/hierarchy';
-
-const getUserHierarchy = gql`query getUserHierarchy {
-  userHierarchy {
-    parentBranches {
-      uuid
-      branchType
-      name
-    }
-  }
-}`;
 
 const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   $withoutBrandFilter: Boolean,
@@ -67,23 +56,6 @@ const getUserBranchHierarchy = gql`query getUserBranchHierarchy(
   }
 }`;
 
-const getBranchInfo = gql`query getBranchInfo(
-  $branchId: String!,
-) {
-  branchInfo (
-    branchId: $branchId,
-  ) {
-    ...HierarchyBranchFragment
-    parentBranch {
-      ...HierarchyBranchFragment
-    }
-  }
-}
-${HierarchyBranchFragment}`;
-
-
 export {
-  getUserHierarchy,
   getUserBranchHierarchy,
-  getBranchInfo,
 };

@@ -3,14 +3,15 @@ import { Switch, Redirect } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
+import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
 import BranchInfoQuery from './graphql/BranchInfoQuery';
-import './OfficeProfile.scss';
+import './DeskProfile.scss';
 
-class OfficeProfile extends PureComponent {
+class DeskProfile extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     match: PropTypes.shape({
@@ -46,8 +47,8 @@ class OfficeProfile extends PureComponent {
     }
 
     return (
-      <div className="OfficeProfile">
-        <div className="OfficeProfile__header">
+      <div className="DeskProfile">
+        <div className="DeskProfile__header">
           <BranchHeader
             branchData={branchInfo}
             branchId={params.id}
@@ -57,16 +58,16 @@ class OfficeProfile extends PureComponent {
         <Tabs
           items={[{
             label: 'HIERARCHY.PROFILE_RULE_TAB.NAME',
-            url: '/offices/:id/rules',
+            url: '/desks/:id/rules',
           }]}
           location={location}
           params={params}
         />
-        <div className="OfficeProfile__body">
+        <div className="DeskProfile__body">
           <Switch>
             <Route
               path={`${path}/rules`}
-              component={HierarchyProfileRules('OFFICES.TABS.RULES.TITLE')}
+              component={HierarchyProfileRules('DESKS.TABS.RULES.TITLE', branchTypes.DESK)}
             />
             <Redirect to={`${url}/rules`} />
           </Switch>
@@ -78,4 +79,4 @@ class OfficeProfile extends PureComponent {
 
 export default withRequests({
   branchInfoQuery: BranchInfoQuery,
-})(OfficeProfile);
+})(DeskProfile);
