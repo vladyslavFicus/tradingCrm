@@ -67,6 +67,7 @@ class UpdateRuleModal extends PureComponent {
       },
     } = this.props;
 
+    // most likely, [parentBranch, ruleType] params will be removed in the near future
     const {
       parentBranch,
       ruleType,
