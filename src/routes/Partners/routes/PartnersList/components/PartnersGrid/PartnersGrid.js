@@ -149,12 +149,33 @@ class PartnersGrid extends PureComponent {
     return (
       <div className="PartnersGrid">
         <Table
+          stickyFirstColumn
           stickyFromTop={138}
           items={content}
           loading={loading}
           hasMore={!last}
           onMore={this.handlePageChanged}
         >
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
           <Column
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}

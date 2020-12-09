@@ -17,7 +17,7 @@ class Table extends PureComponent {
     notFound: PropTypes.node,
     scrollableTarget: PropTypes.string,
     customClassNameRow: PropTypes.string,
-    stickyFromTop: PropTypes.number,
+    stickyFirstColumn: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -27,7 +27,7 @@ class Table extends PureComponent {
     notFound: null,
     scrollableTarget: undefined,
     customClassNameRow: null,
-    stickyFromTop: null,
+    stickyFirstColumn: false,
   };
 
   /**
@@ -46,10 +46,9 @@ class Table extends PureComponent {
             'Table__cell',
             'Table__head-cell',
             {
-              'Table__head-cell--sticky': this.props.stickyFromTop,
+              'Table__cell--sticky': this.props.stickyFirstColumn && index === 0,
             },
           )}
-          style={{ top: this.props.stickyFromTop }}
         >
           {props.header}
         </th>
@@ -91,8 +90,14 @@ class Table extends PureComponent {
       <tr key={rowIndex} className={classNames('Table__body-row', this.props.customClassNameRow)}>
         {columns.map(({ props }, columnIndex) => (
           <td
-            className="Table__cell Table__body-cell"
             key={`column-${rowIndex}-${columnIndex}`}
+            className={classNames(
+              'Table__cell',
+              'Table__body-cell',
+              {
+                'Table__cell--sticky': this.props.stickyFirstColumn && columnIndex === 0,
+              },
+            )}
           >
             {props.render(item)}
           </td>

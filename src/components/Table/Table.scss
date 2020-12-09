@@ -24,11 +24,14 @@
     box-sizing: border-box;
     white-space: nowrap;
     padding: 15px 10px;
-    vertical-align: middle;
     font-weight: 400;
 
-    &:first-child {
-      padding-left: 20px;
+    &--sticky {
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      background: #ffffff linear-gradient(90deg, transparent 0%, transparent calc(100% - .05em), #eff1f3 calc(100% - .05em), #eff1f3 100%);
     }
 
     &:last-child {
@@ -40,10 +43,6 @@
     padding-top: 32px;
     padding-bottom: 15px;
     text-align: left;
-
-    &--sticky {
-      position: sticky;
-    }
   }
 
   &--no-content {
@@ -60,4 +59,21 @@
       font-weight: 300;
     }
   }
+}
+
+
+.Table {
+  background:
+    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 10px 100%;
+}
+
+.Table__table {
+  background:
+    linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+    linear-gradient(to left, white 30%, rgba(255,255,255,0)) 100% 0;
+  background-size: 50px 100%;
+  background-repeat: no-repeat;
 }
