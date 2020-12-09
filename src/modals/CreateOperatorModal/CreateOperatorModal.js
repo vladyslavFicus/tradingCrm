@@ -1,96 +1,114 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { omit, get } from 'lodash';
-import { parseErrors } from 'apollo';
+import { omit } from 'lodash';
+import { withRequests, parseErrors } from 'apollo';
+import { withNotifications } from 'hoc';
+import PropTypes from 'constants/propTypes';
 import {
   departmentsLabels,
-  rolesLabels,
-  passwordPattern,
+  passwordCustomError,
   passwordMaxSize,
+  passwordPattern,
+  rolesLabels,
 } from 'constants/operators';
-import { Button } from 'components/UI';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { generate } from 'utils/password';
-import renderLabel from 'utils/renderLabel';
-import { createValidator, translateLabels } from 'utils/validator';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
-import { attributeLabels, customErrors } from './constants';
+import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { Button } from 'components/UI';
+import { createValidator, translateLabels } from 'utils/validator';
+import renderLabel from 'utils/renderLabel';
+import { generate } from 'utils/password';
+import CreateOperatorMutation from './graphql/CreateOperatorMutation';
+import AuthoritiesOptionsQuery from './graphql/AuthoritiesOptionsQuery';
+import HierarchyUserBranchesQuery from './graphql/HierarchyUserBranchesQuery';
+import './CreateOperatorModal.scss';
 
-const validator = createValidator({
-  firstName: ['required', 'string', 'min:2'],
-  lastName: ['required', 'string', 'min:2'],
-  email: ['required', 'email'],
-  password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
-  phone: 'min:3',
-  department: 'required',
-  userType: 'required',
-  role: 'required',
-  branchType: 'required',
-  branch: 'required',
-}, translateLabels(attributeLabels), false, customErrors);
+const attributeLabels = {
+  firstName: 'COMMON.FIRST_NAME',
+  lastName: 'COMMON.LAST_NAME',
+  email: 'COMMON.EMAIL',
+  phone: 'COMMON.PHONE',
+  department: 'COMMON.DEPARTMENT',
+  role: 'COMMON.ROLE',
+  userType: 'COMMON.USER_TYPE',
+  branch: 'COMMON.BRANCH',
+  branchType: 'COMMON.BRANCH_TYPE',
+  password: 'COMMON.PASSWORD',
+};
+
+const validate = createValidator(
+  {
+    firstName: ['required', 'string', 'min:2'],
+    lastName: ['required', 'string', 'min:2'],
+    email: ['required', 'email'],
+    password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
+    phone: 'min:3',
+    userType: 'required',
+    department: 'required',
+    role: 'required',
+    branchType: 'required',
+    branchId: 'required',
+  },
+  translateLabels(attributeLabels),
+  false,
+  {
+    'regex.password': passwordCustomError,
+  },
+);
 
 class CreateOperatorModal extends PureComponent {
   static propTypes = {
-    onCloseModal: PropTypes.func.isRequired,
-    onExist: PropTypes.func.isRequired,
-    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    branchHierarchy: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      teams: PropTypes.array,
-      desks: PropTypes.array,
-      offices: PropTypes.array,
-      brands: PropTypes.array,
-      branchTypes: PropTypes.array,
+    ...PropTypes.router,
+    authoritiesQuery: PropTypes.query({
+      authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     }).isRequired,
-    modals: PropTypes.shape({
-      existingOperator: PropTypes.shape({
-        show: PropTypes.func.isRequired,
-        hide: PropTypes.func.isRequired,
+    hierarchyUserBranchesQuery: PropTypes.query({
+      userBranches: PropTypes.shape({
+        BRAND: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+        OFFICE: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+        DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+        TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
       }),
     }).isRequired,
-    submitNewOperator: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    createOperator: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    history: PropTypes.router.history.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    onExists: PropTypes.func.isRequired,
   };
 
-  state = {
-    selectedBranchType: '',
-    selectedDepartment: '',
-    branches: null,
-  };
+  handleGeneratePassword = () => generate();
 
-  onSubmit = async ({ department, role, branch, email, ...data }) => {
+  handleSubmit = async (values) => {
     const {
-      submitNewOperator,
-      notify,
+      createOperator,
       onCloseModal,
-      onExist,
+      onExists,
+      history,
+      notify,
     } = this.props;
 
     try {
-      const {
-        data: operatorData,
-      } = await submitNewOperator({
-        variables: { ...data, department, role, email, branchId: branch },
-      });
+      const newOperator = await createOperator({ variables: values });
 
-      const { uuid } = get(operatorData, 'operator.createOperator');
+      const uuid = newOperator.data?.operator?.createOperator?.uuid;
 
-      this.props.history.push(`/operators/${uuid}/profile`);
+      if (uuid) {
+        history.push(`/operators/${uuid}/profile`);
+      }
+
+      onCloseModal();
     } catch (e) {
       const { error } = parseErrors(e);
 
       if (error === 'error.validation.email.exists') {
-        onExist({
-          department,
-          role,
-          branchId: branch,
-          email,
-        });
+        const { email, department, role, branchId } = values || {};
+
+        onCloseModal();
+        onExists({ email, department, role, branchId });
       } else {
         notify({
           level: 'error',
@@ -99,236 +117,217 @@ class CreateOperatorModal extends PureComponent {
         });
       }
     }
-
-    onCloseModal();
-  };
-
-  handleBranchChange = (setFieldValue, selectedBranchType, fieldName) => {
-    const branches = this.props.branchHierarchy[selectedBranchType]
-      .map(({ uuid, name }) => ({ value: uuid, label: name }));
-
-    setFieldValue(fieldName, selectedBranchType);
-
-    this.setState({
-      selectedBranchType,
-      branches,
-    });
   }
-
-  handleDepartmentChange = (setFieldValue, value, name) => {
-    setFieldValue(name, value);
-
-    this.setState({ selectedDepartment: value });
-  };
 
   render() {
     const {
-      departmentsRoles,
-      onCloseModal,
+      authoritiesQuery,
+      hierarchyUserBranchesQuery,
       isOpen,
-      branchHierarchy: {
-        loading,
-        branchTypes,
-      },
+      onCloseModal,
     } = this.props;
 
-    const {
-      selectedBranchType,
-      selectedDepartment,
-      branches,
-    } = this.state;
+    const authorities = authoritiesQuery?.data?.authoritiesOptions || {};
 
-    const placeholderRole = (departmentsRoles[selectedDepartment]
-      && departmentsRoles[selectedDepartment].length)
-      ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
-      : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS');
+    const departmentsRoles = omit(authorities, 'AFFILIATE');
 
-    const placeholderBranchType = (!Array.isArray(branches) || branches.length === 0)
-      ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
-      : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
+    const userTypesOptions = Object.keys(omit(userTypes, ['CUSTOMER', 'LEAD_CUSTOMER', 'AFFILIATE_PARTNER']));
+
+    const branchesByType = hierarchyUserBranchesQuery.data?.userBranches || {};
+    const branchTypesOptions = Object.keys(omit(branchesByType, '__typename'));
 
     return (
-      <Modal className="create-operator-modal CreateOperatorModal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="CreateOperatorModal" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
           initialValues={{}}
-          validate={validator}
-          validateOnBlur={false}
+          validate={validate}
           validateOnChange={false}
-          onSubmit={this.onSubmit}
+          validateOnBlur={false}
+          onSubmit={this.handleSubmit}
         >
-          {({ isValid, dirty, isSubmitting, setFieldValue }) => (
-            <Form>
-              <ModalHeader toggle={onCloseModal}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
-              <ModalBody>
-                <div className="row">
+          {({
+            values,
+            isSubmitting,
+            setFieldValue,
+          }) => {
+            const departmentsOptions = Object.keys(departmentsRoles).sort();
+            const rolesOptions = values?.department ? departmentsRoles[values.department] : [];
+            const branchesOptions = values?.branchType ? branchesByType[values.branchType] : [];
+
+            const placeholderBranchType = branchesOptions.length
+              ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+              : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
+
+            return (
+              <Form>
+                <ModalHeader toggle={onCloseModal}>{I18n.t('MODALS.CREATE_OPERATOR_MODAL.TITLE')}</ModalHeader>
+                <ModalBody>
                   <Field
                     name="firstName"
-                    className="col-md-6"
-                    label={I18n.t(attributeLabels.lastName)}
-                    placeholder={I18n.t(attributeLabels.lastName)}
-                    component={FormikInputField}
-                  />
-                  <Field
-                    name="lastName"
-                    className="col-md-6"
+                    className="CreateOperatorModal__field"
                     label={I18n.t(attributeLabels.firstName)}
                     placeholder={I18n.t(attributeLabels.firstName)}
                     component={FormikInputField}
+                    disabled={isSubmitting}
+                  />
+                  <Field
+                    name="lastName"
+                    className="CreateOperatorModal__field"
+                    label={I18n.t(attributeLabels.lastName)}
+                    placeholder={I18n.t(attributeLabels.lastName)}
+                    component={FormikInputField}
+                    disabled={isSubmitting}
                   />
                   <Field
                     name="email"
-                    type="email"
-                    className="col-md-6"
+                    className="CreateOperatorModal__field"
                     label={I18n.t(attributeLabels.email)}
                     placeholder={I18n.t(attributeLabels.email)}
                     component={FormikInputField}
+                    disabled={isSubmitting}
                   />
                   <Field
                     name="password"
-                    className="col-md-6"
-                    addition={<span className="icon-generate-password" />}
-                    onAdditionClick={() => setFieldValue('password', generate())}
+                    className="CreateOperatorModal__field"
                     label={I18n.t(attributeLabels.password)}
                     placeholder={I18n.t(attributeLabels.password)}
+                    addition={<span className="icon-generate-password" />}
+                    onAdditionClick={() => setFieldValue('password', this.handleGeneratePassword())}
                     component={FormikInputField}
+                    disabled={isSubmitting}
                   />
                   <Field
                     name="phone"
-                    type="phone"
-                    className="col-md-6"
+                    className="CreateOperatorModal__field"
                     label={I18n.t(attributeLabels.phone)}
                     placeholder={I18n.t(attributeLabels.phone)}
                     component={FormikInputField}
+                    disabled={isSubmitting}
                   />
                   <Field
                     name="userType"
-                    className="col-md-6"
+                    className="CreateOperatorModal__field"
                     label={I18n.t(attributeLabels.userType)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
-                    searchable
-                  >
-                    {
-                      Object.keys(
-                        omit(userTypes, [
-                          userTypes.CUSTOMER,
-                          userTypes.LEAD_CUSTOMER,
-                          userTypes.AFFILIATE_PARTNER,
-                        ]),
-                      ).map(userType => (
-                        <option key={userType} value={userType}>
-                          {I18n.t(renderLabel(userType, userTypeLabels))}
-                        </option>
-                      ))
-                    }
-                  </Field>
-                  <Field
-                    name="department"
-                    className="col-md-6"
-                    label={I18n.t(attributeLabels.department)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    component={FormikSelectField}
-                    customOnChange={value => this.handleDepartmentChange(setFieldValue, value, 'department')}
                     disabled={isSubmitting}
-                  >
-                    {
-                      Object
-                        .keys(departmentsRoles)
-                        .sort()
-                        .map(department => (
-                          <option key={department} value={department}>
-                            {I18n.t(renderLabel(department, departmentsLabels))}
-                          </option>
-                        ))
-                    }
-                  </Field>
-                  <Field
-                    name="role"
-                    className="col-md-6"
-                    label={I18n.t(attributeLabels.role)}
-                    placeholder={selectedDepartment
-                      ? placeholderRole
-                      : I18n.t('COMMON.SELECT_OPTION.SELECT_DEPARTMENT')}
-                    component={FormikSelectField}
-                    disabled={!selectedDepartment}
-                  >
-                    {
-                      (departmentsRoles[selectedDepartment] || []).map(role => (
-                        <option key={role} value={role}>
-                          {I18n.t(renderLabel(role, rolesLabels))}
-                        </option>
-                      ))
-                    }
-                  </Field>
-                  <div className="form-group col-md-6">
-                    <Field
-                      name="branchType"
-                      component={FormikSelectField}
-                      label={I18n.t(attributeLabels.branchType)}
-                      placeholder={loading
-                        ? I18n.t('COMMON.SELECT_OPTION.LOADING')
-                        : I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      disabled={loading}
-                      customOnChange={value => this.handleBranchChange(setFieldValue, value, 'branchType')}
-                    >
-                      {branchTypes.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {I18n.t(label)}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <Field
-                    name="branch"
-                    className="col-md-6"
                     searchable
-                    label={I18n.t(attributeLabels.branch)}
-                    component={FormikSelectField}
-                    placeholder={selectedBranchType
-                      ? placeholderBranchType
-                      : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')}
-                    disabled={!selectedBranchType || !branches}
                   >
-                    {(branches || []).map(({ value, label }) => (
-                      <option key={value} value={value}>
-                        {I18n.t(label)}
+                    {userTypesOptions.map(userType => (
+                      <option key={userType} value={userType}>
+                        {I18n.t(renderLabel(userType, userTypeLabels))}
                       </option>
                     ))}
                   </Field>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <div className="row">
-                  <div className="col-5 text-muted font-size-12 text-left">
-                    <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>:
-                    {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
+                  <Field
+                    name="department"
+                    className="CreateOperatorModal__field"
+                    label={I18n.t(attributeLabels.department)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    component={FormikSelectField}
+                    disabled={isSubmitting}
+                    searchable
+                  >
+                    {departmentsOptions.map(department => (
+                      <option key={department} value={department}>
+                        {I18n.t(renderLabel(department, departmentsLabels))}
+                      </option>
+                    ))}
+                  </Field>
+                  <Field
+                    name="role"
+                    className="CreateOperatorModal__field"
+                    label={I18n.t(attributeLabels.role)}
+                    placeholder={
+                      rolesOptions.length
+                        ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+                        : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+                    }
+                    component={FormikSelectField}
+                    disabled={isSubmitting || !rolesOptions.length}
+                    searchable
+                  >
+                    {rolesOptions.map(role => (
+                      <option key={role} value={role}>
+                        {I18n.t(renderLabel(role, rolesLabels))}
+                      </option>
+                    ))}
+                  </Field>
+                  <Field
+                    name="branchType"
+                    className="CreateOperatorModal__field"
+                    label={I18n.t(attributeLabels.branchType)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    component={FormikSelectField}
+                    disabled={isSubmitting}
+                    searchable
+                  >
+                    {branchTypesOptions.map(branchType => (
+                      <option key={branchType} value={branchType}>
+                        {I18n.t(`COMMON.${branchType}`)}
+                      </option>
+                    ))}
+                  </Field>
+                  <Field
+                    name="branchId"
+                    className="CreateOperatorModal__field"
+                    label={I18n.t(attributeLabels.branchType)}
+                    placeholder={
+                      values?.branchType
+                        ? placeholderBranchType
+                        : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')
+                    }
+                    component={FormikSelectField}
+                    disabled={isSubmitting || !branchesOptions.length}
+                    searchable
+                  >
+                    {branchesOptions.map(({ name, uuid }) => (
+                      <option key={uuid} value={uuid}>
+                        {name}
+                      </option>
+                    ))}
+                  </Field>
+                </ModalBody>
+                <ModalFooter>
+                  <div className="CreateOperatorModal__note">
+                    <b>{I18n.t('MODALS.CREATE_OPERATOR_MODAL.NOTE')}</b>
+                    {': '}
+                    {I18n.t('MODALS.CREATE_OPERATOR_MODAL.NOTE_MESSAGE')}
                   </div>
-                  <div className="col-7 text-right">
+                  <div className="CreateOperatorModal__buttons">
                     <Button
-                      default
-                      commonOutline
-                      className="CreateOperatorModal__button margin-0 margin-right-15"
                       onClick={onCloseModal}
+                      className="CreateOperatorModal__button"
+                      commonOutline
                     >
                       {I18n.t('COMMON.BUTTONS.CANCEL')}
                     </Button>
+
                     <Button
-                      type="submit"
+                      className="CreateOperatorModal__button"
                       primary
-                      className="CreateOperatorModal__button margin-0"
-                      disabled={!dirty && !isValid && isSubmitting}
+                      disabled={isSubmitting}
+                      type="submit"
                     >
                       {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
                     </Button>
                   </div>
-                </div>
-              </ModalFooter>
-            </Form>
-          )}
+                </ModalFooter>
+              </Form>
+            );
+          }}
         </Formik>
       </Modal>
     );
   }
 }
 
-export default CreateOperatorModal;
+export default compose(
+  withRouter,
+  withNotifications,
+  withRequests({
+    createOperator: CreateOperatorMutation,
+    authoritiesQuery: AuthoritiesOptionsQuery,
+    hierarchyUserBranchesQuery: HierarchyUserBranchesQuery,
+  }),
+)(CreateOperatorModal);
