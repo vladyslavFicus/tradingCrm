@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -45,9 +45,6 @@ class HierarchyProfileRules extends PureComponent {
       createRuleModal: PropTypes.modalType,
       updateRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
-    }).isRequired,
-    location: PropTypes.shape({
-      query: PropTypes.object,
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -209,21 +206,21 @@ class HierarchyProfileRules extends PureComponent {
   };
 
   renderRule = ({ uuid, name, createdBy }) => (
-    <Fragment>
-      <div className="font-weight-700">
+    <div className="HierarchyProfileRules__rule">
+      <div className="HierarchyProfileRules__rule-name">
         {name}
       </div>
       <If condition={uuid}>
-        <div className="font-size-11">
+        <div className="HierarchyProfileRules__rule-uuid">
           <Uuid uuid={uuid} uuidPrefix="RL" />
         </div>
       </If>
       <If condition={createdBy}>
-        <div className="font-size-11">
+        <div className="HierarchyProfileRules__rule-uuid">
           <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
-    </Fragment>
+    </div>
   );
 
   renderRuleInfo = ({
@@ -234,7 +231,7 @@ class HierarchyProfileRules extends PureComponent {
   }) => ({ [fieldName]: arr }) => (
     <Choose>
       <When condition={arr.length > 0}>
-        <div className="font-weight-700">
+        <div className="HierarchyProfileRules__info">
           {`${arr.length} `}
           <Choose>
             <When condition={arr.length === 1}>
@@ -245,7 +242,7 @@ class HierarchyProfileRules extends PureComponent {
             </Otherwise>
           </Choose>
         </div>
-        <div className="font-size-12">
+        <div className="HierarchyProfileRules__info-text">
           {withUpperCase ? arr.join(', ').toUpperCase() : arr.join(', ')}
         </div>
       </When>
@@ -256,7 +253,7 @@ class HierarchyProfileRules extends PureComponent {
   );
 
   renderPriority = ({ priority }) => (
-    <div className="font-weight-700">
+    <div className="HierarchyProfileRules__priority">
       {priority}
     </div>
   );
@@ -264,7 +261,7 @@ class HierarchyProfileRules extends PureComponent {
   renderPartner = ({ partners }) => (
     <Choose>
       <When condition={partners.length > 0}>
-        <div className="font-weight-700">
+        <div className="HierarchyProfileRules__partner">
           {`${partners.length} `}
           <Choose>
             <When condition={partners.length === 1}>
@@ -302,7 +299,7 @@ class HierarchyProfileRules extends PureComponent {
       >
         <i
           onClick={() => this.openUpdateRuleModal(uuid)}
-          className="font-size-16 cursor-pointer fa fa-edit float-right"
+          className="HierarchyProfileRules__edit-icon fa fa-edit"
         />
       </Button>
     </>
@@ -325,8 +322,6 @@ class HierarchyProfileRules extends PureComponent {
       return null;
     }
 
-    const entities = data?.rules || [];
-
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
@@ -346,7 +341,7 @@ class HierarchyProfileRules extends PureComponent {
 
         <div className="HierarchyProfileRules__grid">
           <Grid
-            data={entities}
+            data={data?.rules || []}
             isLoading={loading}
             headerStickyFromTop={113}
           >
