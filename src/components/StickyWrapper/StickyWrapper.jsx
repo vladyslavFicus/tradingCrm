@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Sticky from 'react-stickynode';
 
+// # Will be removed after ClientProfile refactoring
 class StickyWrapper extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
