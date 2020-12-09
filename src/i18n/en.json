@@ -29,8 +29,6 @@
       },
       "SEARCH_CLIENTS": "Search clients",
       "KYC_DOCUMENTS": "KYC documents",
-      "BRAND_CONFIG_UPDATE": "Brand config update",
-      "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications",
@@ -3639,20 +3637,6 @@
     "bulkUpdate": {
       "moveForbidden": "You can’t perform this action, as some of selected clients do not have assigned %{type} representatives",
       "detailedTypeError": "Some of the selected clients don’t have assigned %{type} representatives. Please unselect those users or assign %{type} agents."
-    }
-  },
-  "BRAND_CONFIG": {
-    "NOTIFICATIONS": {
-      "UPDATE_ERROR": "Failed to update brand config",
-      "UPDATE_SUCCESS": "Brand config updated successfully",
-      "UPDATE_CONFIRM": "Do you realy want to save changes?",
-      "CREATE_ERROR": "Failed to create brand config",
-      "CREATE_SUCCESS": "Brand config created successfully"
-    },
-    "ACTIONS": {
-      "DISCARD": "DISCARD",
-      "CREATE": "CREATE",
-      "SAVE": "SAVE"
     }
   },
   "EMAILS": {

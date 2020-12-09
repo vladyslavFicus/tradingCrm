@@ -35,7 +35,11 @@ BranchInfoQuery.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
-  branchType: PropTypes.string.isRequired,
+  branchType: PropTypes.string,
+};
+
+BranchInfoQuery.defaultProps = {
+  branchType: null,
 };
 
 export default BranchInfoQuery;

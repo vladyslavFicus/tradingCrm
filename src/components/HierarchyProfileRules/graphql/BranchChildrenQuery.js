@@ -35,7 +35,11 @@ BranchChildrenQuery.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
-  branchType: PropTypes.string.isRequired,
+  branchType: PropTypes.string,
+};
+
+BranchChildrenQuery.defaultProps = {
+  branchType: '',
 };
 
 export default BranchChildrenQuery;

@@ -96,14 +96,6 @@ const sidebarTopMenu = [{
   icon: 'icon-settings',
   isOpen: false,
   items: [{
-    label: 'SIDEBAR.TOP_MENU.BRAND_CONFIG_UPDATE',
-    url: '/brand-config/update',
-    permissions: new Permissions(permissions.BRAND_CONFIG.UPDATE_BRAND_CONFIG),
-  }, {
-    label: 'SIDEBAR.TOP_MENU.BRAND_CONFIG_CREATE',
-    url: '/brand-config/create',
-    permissions: new Permissions(permissions.BRAND_CONFIG.CREATE_BRAND_CONFIG),
-  }, {
     label: 'SIDEBAR.TOP_MENU.EMAIL_TEMPLATES',
     url: '/email-templates',
     permissions: new Permissions(permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE),

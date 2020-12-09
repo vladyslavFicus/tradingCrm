@@ -3914,11 +3914,6 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-brace@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/brace/-/brace-0.11.1.tgz#4896fcc9d544eef45f4bb7660db320d3b379fe58"
-  integrity sha1-SJb8ydVE7vRfS7dmDbMg07N5/lg=
-
 braces@^2.3.1, braces@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-2.3.2.tgz#5979fd3f14cd531565e5fa2df1abfff1dfaee729"
@@ -9215,13 +9210,6 @@ json5@^2.1.2:
   integrity sha512-KXPvOm8K9IJKFM0bmdn8QXh7udDh1g/giieX0NLCaMnb4hEiVFqnop2ImTXCc5e0/oHz3LTqmHGtExn5hfMkOA==
   dependencies:
     minimist "^1.2.5"
-
-jsoneditor-react@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/jsoneditor-react/-/jsoneditor-react-2.0.0.tgz#22f5ae78de0995b525afa60ec3cf27941d3a7114"
-  integrity sha512-WFWs+U1d7mSZkHm6HvTca+Rt8H0ol5C1EmGSfX6kFDekRfkYVPi4ub3/DEYd8vMsaCmcB1Nl9eLyOfYUZF3k2A==
-  dependencies:
-    prop-types "^15.7.2"
 
 jsonfile@^4.0.0:
   version "4.0.0"
