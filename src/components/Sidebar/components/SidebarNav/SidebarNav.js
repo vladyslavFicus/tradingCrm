@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import SidebarNavItem from '../SidebarNavItem';
+import './SidebarNav.scss';
 
-class Nav extends Component {
+class SidebarNav extends PureComponent {
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
@@ -36,11 +37,9 @@ class Nav extends Component {
       isSidebarOpen,
     } = this.props;
 
-    const filteredItemsByPermissions = this.getItemsFilteredByPermissions(items);
-
     return (
-      <ul className="nav flex-column">
-        {filteredItemsByPermissions.map((item, index) => (
+      <ul className="SidebarNav">
+        {this.getItemsFilteredByPermissions(items).map((item, index) => (
           <If condition={!(item.items && item.items.length === 0)}>
             <SidebarNavItem
               {...item}
@@ -56,4 +55,4 @@ class Nav extends Component {
 }
 
 
-export default withPermission(Nav);
+export default withPermission(SidebarNav);

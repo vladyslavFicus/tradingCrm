@@ -33,7 +33,7 @@ const sidebarTopMenu = [{
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.LEADS',
-  icon: 'icon-leads sidebar-nav-item__icon--leads',
+  icon: 'icon-leads SidebarNavItem__icon--leads',
   url: '/leads/list',
   permissions: new Permissions(permissions.LEADS.GET_LEADS),
 }, {
@@ -43,7 +43,7 @@ const sidebarTopMenu = [{
   permissions: new Permissions(permissions.HIERARCHY.GET_TREE),
 }, {
   label: 'SIDEBAR.TOP_MENU.MANAGEMENT',
-  icon: 'icon-operators sidebar-nav-item__icon--operators',
+  icon: 'icon-operators SidebarNavItem__icon--operators',
   isOpen: false,
   items: [{
     label: 'SIDEBAR.TOP_MENU.OFFICES',
@@ -73,7 +73,7 @@ const sidebarTopMenu = [{
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.PAYMENTS',
-  icon: 'icon-payments sidebar-nav-item__icon--payments',
+  icon: 'icon-payments SidebarNavItem__icon--payments',
   url: '/payments/list',
   permissions: new Permissions(permissions.PAYMENTS.PAYMENTS_LIST),
 }, {

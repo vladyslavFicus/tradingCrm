@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -9,7 +9,7 @@ import { NavLink } from 'components/Link';
 import SubNav from '../SubNav';
 import './SidebarNavItem.scss';
 
-class NavItem extends Component {
+class SidebarNavItem extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     icon: PropTypes.string,
@@ -97,17 +97,17 @@ class NavItem extends Component {
     }
 
     return (
-      <li className="sidebar-nav-item">
+      <li className="SidebarNavItem">
         <If condition={withSubmenu}>
           <button
             onClick={() => this.setState(({ isOpen }) => ({ isOpen: !isOpen }))}
             type="button"
-            className={classNames('sidebar-nav-item__link', { 'sidebar-nav-item__link--active': this.state.isOpen })}
+            className={classNames('SidebarNavItem__link', { 'SidebarNavItem__link--active': this.state.isOpen })}
           >
-            <If condition={!!icon}>
-              <i className={classNames(icon, 'sidebar-nav-item__icon')} />
+            <If condition={icon}>
+              <i className={classNames(icon, 'SidebarNavItem__icon')} />
             </If>
-            <span className="sidebar-nav-item__label">
+            <span className="SidebarNavItem__label">
               {I18n.t(label)}
             </span>
             <If condition={withSubmenu}>
@@ -115,7 +115,7 @@ class NavItem extends Component {
                 ref={(node) => {
                   this.icon = node;
                 }}
-                className="icon-nav-arrow-h sidebar-nav-item__arrow"
+                className="icon-nav-arrow-h SidebarNavItem__arrow"
               />
             </If>
           </button>
@@ -128,14 +128,14 @@ class NavItem extends Component {
         </If>
         <If condition={!withSubmenu}>
           <NavLink
-            className="sidebar-nav-item__link"
-            activeClassName="sidebar-nav-item__link--active"
+            className="SidebarNavItem__link"
+            activeClassName="SidebarNavItem__link--active"
             to={url}
           >
-            <If condition={!!icon}>
-              <i className={classNames(icon, 'sidebar-nav-item__icon')} />
+            <If condition={icon}>
+              <i className={classNames(icon, 'SidebarNavItem__icon')} />
             </If>
-            <span className="sidebar-nav-item__label">
+            <span className="SidebarNavItem__label">
               {I18n.t(label)}
             </span>
           </NavLink>
@@ -145,4 +145,4 @@ class NavItem extends Component {
   }
 }
 
-export default withRouter(NavItem);
+export default withRouter(SidebarNavItem);

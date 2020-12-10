@@ -1,25 +1,20 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 import { TimelineLite as TimeLineLite } from 'gsap';
 import PropTypes from 'constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from 'config/menu';
-import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
-import SidebarNav from '../SidebarNav';
+import SidebarNav from './components/SidebarNav';
 import './Sidebar.scss';
 
-class Sidebar extends Component {
+class Sidebar extends PureComponent {
   static propTypes = {
-    auth: PropTypes.auth.isRequired,
     permission: PropTypes.permission.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
     }).isRequired,
-  };
-
-  static contextTypes = {
-    user: PropTypes.object,
   };
 
   navLinkAnimated = false;
@@ -35,16 +30,16 @@ class Sidebar extends Component {
     this.sidebarAnimation = sidebarAnimation;
   }
 
-  componentDidUpdate(_prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { isOpen } = this.state;
 
-    if (this.props.location.pathname !== _prevProps.location.pathname) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
       setTimeout(this.close, 200);
     }
 
     if (!this.navLinkAnimated) {
       this.navLinkAnimated = true;
-      this.sidebarAnimation.fromTo('.sidebar-nav-item__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+      this.sidebarAnimation.fromTo('.SidebarNavItem__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
     }
 
     if (!prevState.isOpen && isOpen) {
@@ -70,7 +65,7 @@ class Sidebar extends Component {
     return (
       <aside
         ref={(node) => { this.sidebar = node; }}
-        className="sidebar"
+        className="Sidebar"
         onMouseEnter={this.open}
         onMouseLeave={this.close}
       >
@@ -94,4 +89,7 @@ class Sidebar extends Component {
   }
 }
 
-export default withRouter(withPermission(withStorage(['auth'])(Sidebar)));
+export default compose(
+  withRouter,
+  withPermission,
+)(Sidebar);
