@@ -1,1 +1,1 @@
-// export { default } from './FilterSetsDecorator';
+export { default } from './FilterSetsDecorator';

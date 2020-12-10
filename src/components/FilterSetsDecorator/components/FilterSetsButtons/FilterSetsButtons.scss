@@ -1,0 +1,35 @@
+.FilterSetsButtons {
+  margin-right: 30px;
+  transition: opacity 0.2s ease;
+
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__button--primary {
+    color: #5187bd;
+
+    &:hover {
+      border-color: #4085de;
+      color: #0190da;
+    }
+  }
+
+  &__button--danger {
+    color: #bd5151;
+
+    &:hover {
+      border-color: #fb434a;
+      color: #fb434a;
+    }
+  }
+}
