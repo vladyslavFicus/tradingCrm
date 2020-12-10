@@ -215,8 +215,7 @@ class PermissionsSetting extends PureComponent {
 
     try {
       this.props.images.show([{
-        // eslint-disable-next-line
-        src: require(`./img/${action}.png`).default,
+        src: `/img/rbac/${action}.png`,
       }]);
     } catch {
       // Do nothing...
