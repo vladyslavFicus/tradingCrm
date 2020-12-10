@@ -1,6 +1,4 @@
 .Table {
-  overflow: auto;
-
   // Shadows for horizontal scrollable tables
   background:
     radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
@@ -24,8 +22,26 @@
     font-size: 12px;
     line-height: 1.4em;
     text-transform: uppercase;
-    transition: color 0.2s ease;
-    border-bottom: 1px solid #eff1f3;
+    z-index: 2;
+
+    &--sticky {
+      position: sticky;
+      overflow: auto;
+      left: 125px;
+      right: 40px;
+      z-index: 2;
+      border-bottom: 1px solid #eeeeee;
+
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        background: transparent;
+      }
+    }
+
+    &--hidden {
+      visibility: collapse;
+    }
   }
 
   &__body-row {
@@ -42,6 +58,10 @@
     }
   }
 
+  &__head-row {
+    background: #ffffff;
+  }
+
   &__cell {
     box-sizing: border-box;
     white-space: nowrap;
@@ -50,9 +70,8 @@
 
     &--sticky {
       position: sticky;
-      top: 0;
       left: 0;
-      z-index: 2;
+      z-index: 1;
       background: #ffffff;
       background-clip: padding-box;
 
@@ -63,7 +82,7 @@
         top: 0;
         height: 100%;
         width: 15px;
-        box-shadow: 15px 0 7px -15px inset #aaa;
+        box-shadow: 15px 0 7px -15px inset #dcdcdc;
         right: -15px;
       }
 

@@ -12708,6 +12708,11 @@ react-scripts@^4.0.1:
   optionalDependencies:
     fsevents "^2.1.3"
 
+react-scroll-sync@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-scroll-sync/-/react-scroll-sync-0.8.0.tgz#61fabed2afc47d41e6938819d620799da3610548"
+  integrity sha512-Ms9srm41UM+lWexuqdocXjqaqqt6ZRSFxcudgB0sYhC7Or+m12WemTwY8BaQCRf7hA8zHDk55FHvMkqsH7gF+w==
+
 react-scrolllock@^2.0.1:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/react-scrolllock/-/react-scrolllock-2.0.7.tgz#3b879e1fe308fc900ab76e226e9be594c41226fd"
