@@ -33,6 +33,8 @@ const REQUEST = gql`query RulesQuery(
     countries
     languages
     sources
+    parentBranch
+    ruleType
     operatorSpreads {
       parentUser
       percentage

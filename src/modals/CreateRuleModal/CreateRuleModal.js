@@ -154,7 +154,9 @@ class CreateRuleModal extends PureComponent {
             languages: [],
             sources: [],
             affiliateUUIDs: userType === 'PARTNER' ? [parentBranch] : [],
-            operatorSpreads: userType === 'OPERATOR' ? [{ parentUser: parentBranch, percentage: 100 }] : [],
+            ...withOperatorSpreads && {
+              operatorSpreads: userType === 'OPERATOR' ? [{ parentUser: parentBranch, percentage: 100 }] : [],
+            },
           }}
           validate={(values) => {
             const errors = createValidator({
@@ -186,7 +188,6 @@ class CreateRuleModal extends PureComponent {
                     <RuleSettings
                       operators={operators}
                       partners={partners}
-                      withOperatorSpreads={withOperatorSpreads}
                       operatorSpreads={operatorSpreads}
                       formikBag={formikBag}
                     />
