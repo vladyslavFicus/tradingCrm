@@ -1,8 +1,22 @@
 .Table {
   overflow: auto;
 
+  // Shadows for horizontal scrollable tables
+  background:
+    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 10px 100%;
+
   &__table {
     width: 100%;
+
+    // Hide shadow for horizontal scrollable tables when scroll at the end of table
+    background:
+      linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+      linear-gradient(to left, white 30%, rgba(255,255,255,0)) 100% 0;
+    background-size: 50px 100%;
+    background-repeat: no-repeat;
   }
 
   &__head {
@@ -15,6 +29,14 @@
   }
 
   &__body-row {
+    &:hover {
+      background: #f8f8f8;
+
+      .Table__cell--sticky {
+        background: #f8f8f8;
+      }
+    }
+
     &:not(:last-child) {
       border-bottom: 1px solid #eff1f3;
     }
@@ -31,7 +53,23 @@
       top: 0;
       left: 0;
       z-index: 2;
-      background: #ffffff linear-gradient(90deg, transparent 0%, transparent calc(100% - .05em), #eff1f3 calc(100% - .05em), #eff1f3 100%);
+      background: #ffffff;
+      background-clip: padding-box;
+
+      // Adding shadow on end of sticky column to visual showing that table can scroll under the first column
+      &:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        height: 100%;
+        width: 15px;
+        box-shadow: 15px 0 7px -15px inset #aaa;
+        right: -15px;
+      }
+
+      & + .Table__cell {
+        padding-left: 25px;
+      }
     }
 
     &:last-child {
@@ -43,6 +81,10 @@
     padding-top: 32px;
     padding-bottom: 15px;
     text-align: left;
+
+    &:hover {
+      background: #f0f0f0;
+    }
   }
 
   &--no-content {
@@ -59,21 +101,4 @@
       font-weight: 300;
     }
   }
-}
-
-
-.Table {
-  background:
-    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
-    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
-  background-repeat: no-repeat;
-  background-size: 10px 100%;
-}
-
-.Table__table {
-  background:
-    linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-    linear-gradient(to left, white 30%, rgba(255,255,255,0)) 100% 0;
-  background-size: 50px 100%;
-  background-repeat: no-repeat;
 }
