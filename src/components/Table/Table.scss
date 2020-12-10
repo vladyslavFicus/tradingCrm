@@ -31,11 +31,11 @@
       right: 40px;
       z-index: 2;
       border-bottom: 1px solid #eeeeee;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
 
       &::-webkit-scrollbar {
-        width: 0;
-        height: 0;
-        background: transparent;
+        display: none;
       }
     }
 
