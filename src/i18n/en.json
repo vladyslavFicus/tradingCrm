@@ -1120,7 +1120,8 @@
         "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing",
-        "IB": "IB"
+        "IB": "IB",
+        "RBAC": "RBAC"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1133,7 +1134,8 @@
         "BI": "Business intelligence",
         "AFFILIATE": "Affiliate",
         "PLAYER": "Player",
-        "AGENT": "Agent"
+        "AGENT": "Agent",
+        "RBAC": "RBAC"
       }
     },
     "COUNTRIES": {
