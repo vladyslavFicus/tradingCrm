@@ -6,7 +6,7 @@ import TimelineLite from 'gsap/TimelineLite';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import { NavLink } from 'components/Link';
-import SubNav from '../SubNav';
+import SidebarSubNav from '../SidebarSubNav';
 import './SidebarNavItem.scss';
 
 class SidebarNavItem extends PureComponent {
@@ -119,7 +119,7 @@ class SidebarNavItem extends PureComponent {
               />
             </If>
           </button>
-          <SubNav
+          <SidebarSubNav
             ref={(node) => {
               this.submenu = node;
             }}

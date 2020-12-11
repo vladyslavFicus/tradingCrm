@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import SubNavItem from '../SubNavItem';
-import './SubNav.scss';
+import './SidebarSubNav.scss';
 
-class SubNav extends PureComponent {
+class SidebarSubNav extends PureComponent {
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.navSubItem).isRequired,
   };
@@ -12,7 +12,7 @@ class SubNav extends PureComponent {
     const { items } = this.props;
 
     return (
-      <div className="SubNav">
+      <div className="SidebarSubNav">
         {items.map(item => (
           <SubNavItem
             key={item.label}
@@ -25,4 +25,4 @@ class SubNav extends PureComponent {
   }
 }
 
-export default SubNav;
+export default SidebarSubNav;
