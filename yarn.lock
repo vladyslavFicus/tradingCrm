@@ -12327,6 +12327,11 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
+react-country-flag@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-country-flag/-/react-country-flag-2.3.0.tgz#dd78906551fdc231f9e02084e87f9a62f8ea6d7b"
+  integrity sha512-Lb2nhMoTOxNjlQoun3iPwqIgpluSyzr8jN45cN0mXYbeDi10/MhGJKZa1cvgyrnfCtOh/IHdhA0MkSuls78bBw==
+
 react-custom-scrollbars@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz#830fd9502927e97e8a78c2086813899b2a8b66db"
@@ -12868,14 +12873,6 @@ react-with-styles@^2.2.0:
     hoist-non-react-statics "^2.3.1"
     prop-types "^15.6.0"
     react-with-direction "^1.1.0"
-
-react-world-flags@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/react-world-flags/-/react-world-flags-1.2.4.tgz#6cbb7d4d48d7790375d07414fd527ce5a5708f5b"
-  integrity sha512-7WVe6w8SsKo3ySnzZHEZaqBogizU/u952YeQF19AyQ2EItxb4xzgBkUaMuSEXa8AxpK0id/hvJslNhSYdIWMMg==
-  dependencies:
-    svg-country-flags "^1.2.3"
-    world-countries "^2.0.0"
 
 react@16.3.2:
   version "16.3.2"
@@ -14630,11 +14627,6 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svg-country-flags@^1.2.3:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/svg-country-flags/-/svg-country-flags-1.2.6.tgz#d979895dc50245e025e1298af4e4472565645207"
-  integrity sha512-loHSF5qIEXoUgcXxLBlGG2eczDvqjzhyjdu2cIxcuHbJDGPUFBIsKnlp3N/+KBhaIZWbpksoczghkJsyJxbSGQ==
-
 svg-parser@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/svg-parser/-/svg-parser-2.0.4.tgz#fdc2e29e13951736140b76cb122c8ee6630eb6b5"
@@ -15970,11 +15962,6 @@ worker-rpc@^0.1.0:
   integrity sha512-P1WjMrUB3qgJNI9jfmpZ/htmBEjFh//6l/5y8SD9hg1Ef5zTTVVoRjTrTEzPrNBQvmhMxkoTsjOXN10GWU7aCg==
   dependencies:
     microevent.ts "~0.1.1"
-
-world-countries@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/world-countries/-/world-countries-2.0.0.tgz#a20198c438e2f78aca040d68dedeea0bc26adc6e"
-  integrity sha512-f/Atl3VHj/FxFEw5jVkTkKofbbD8z/WF/PCpmv3JPrUR2X/XtuApulLy8QwKcyrurlDDRO0lGPvX+m0GzjxaNQ==
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
