@@ -9,7 +9,8 @@
     "test": "craco test",
     "test:jenkins": "echo no jenkins test",
     "eslint": "node_modules/.bin/eslint 'src/**/*.{js,jsx}' --resolve-plugins-relative-to=./node_modules/react-scripts/config --cache",
-    "sentry-release": "node docker/scripts/sentry-release"
+    "sentry-release": "node docker/scripts/sentry-release",
+    "analyse": "node analyse.js"
   },
   "author": "nassoft",
   "license": "MIT",
@@ -101,6 +102,7 @@
     "husky": "^3.0.2",
     "jsx-control-statements": "^3.2.8",
     "sentry-release": "1.0.10",
+    "webpack-bundle-analyzer": "^4.2.0",
     "yamljs": "^0.3.0"
   },
   "browserslist": {
