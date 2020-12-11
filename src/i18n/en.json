@@ -3789,7 +3789,10 @@
       "ADD_TIME_INTERVAL_BUTTON": "Add Time Interval",
       "ERRORS": {
         "DAY_IS_REQUIRED": "At least one day is required",
-        "INVALID_TIME_RANGE": "The end time should be bigger than the begin"
+        "TIME_RANGE": {
+          "INVALID_VALUE": "Time from should be earlier time to",
+          "INTERSECTION": "Time intervals should not intersect"
+        }
       }
     }
   },

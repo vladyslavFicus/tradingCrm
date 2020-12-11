@@ -4,12 +4,49 @@ const getMinutesFromTimeString = (timeString) => {
   return hours * 60 + minutes * 1;
 };
 
-const validateTimeRange = (timeFromString, timeToString) => {
-  const timeFromMinutesNum = getMinutesFromTimeString(timeFromString);
-  const timeToMinutesNum = getMinutesFromTimeString(timeToString);
+const validateTimeRange = ({ timeFrom, timeTo }) => {
+  const timeFromMinutesNum = getMinutesFromTimeString(timeFrom);
+  const timeToMinutesNum = getMinutesFromTimeString(timeTo);
 
   if (timeFromMinutesNum === timeToMinutesNum || timeToMinutesNum < timeFromMinutesNum) {
-    return 'INVALID_TIME_RANGE';
+    return 'INVALID_VALUE';
+  }
+
+  return null;
+};
+
+const checkTimeRangesIntersection = (range1, range2) => {
+  const timeStampsRange1 = [getMinutesFromTimeString(range1.timeFrom), getMinutesFromTimeString(range1.timeTo)];
+  const timeStampsRange2 = [getMinutesFromTimeString(range2.timeFrom), getMinutesFromTimeString(range2.timeTo)];
+
+  if (timeStampsRange1[0] === timeStampsRange2[0] || timeStampsRange1[1] === timeStampsRange2[1]) {
+    return true;
+  }
+
+  const lesserLastTimeStamp = Math.min(timeStampsRange1[1], timeStampsRange2[1]);
+  const largerLastTimeStamp = Math.max(timeStampsRange1[1], timeStampsRange2[1]);
+  const largerTimeRange = [timeStampsRange1, timeStampsRange2]
+    .find(([, lastTimeStamp]) => lastTimeStamp === largerLastTimeStamp);
+
+  if (lesserLastTimeStamp > largerTimeRange[0]) {
+    return true;
+  }
+
+  return false;
+};
+
+const validateTimeRangeIntersection = (targetRange, targetRangeIndex, rangesList) => {
+  if (rangesList.length > 1) {
+    const rangesListWithoutTargetRange = [...rangesList];
+    rangesListWithoutTargetRange.splice(targetRangeIndex, 1);
+
+    for (let i = 0; i < rangesListWithoutTargetRange.length; i++) {
+      if (!validateTimeRange(rangesListWithoutTargetRange[i])
+        && checkTimeRangesIntersection(targetRange, rangesListWithoutTargetRange[i])
+      ) {
+        return 'INTERSECTION';
+      }
+    }
   }
 
   return null;
@@ -24,7 +61,7 @@ const getOperatorSpreadsPercentageError = (operatorSpreads) => {
 };
 
 // there may to perform this validation using our Validator package,
-// but then the errors contain in schedules subfields wouldn't generate in parallel (all together)
+// but then the errors contain in schedules subfields wouldn't be set all together in the same time
 const getDaysErrors = (days, scheduleErrors) => {
   if (!days.length && !scheduleErrors?.days) {
     return 'REQUIRED';
@@ -37,12 +74,15 @@ const getTimeIntervalsErrors = (timeIntervals, scheduleErrors) => {
   const timeIntervalsErrors = scheduleErrors?.timeIntervals || [];
 
   timeIntervals.forEach(({ operatorSpreads, timeFrom, timeTo }, timeIntervalIndex) => {
-    const timeRangeError = validateTimeRange(timeFrom, timeTo);
+    const timeRangeError = validateTimeRange({ timeFrom, timeTo })
+      || validateTimeRangeIntersection({ timeFrom, timeTo }, timeIntervalIndex, timeIntervals);
     const percentageError = getOperatorSpreadsPercentageError(operatorSpreads);
 
     if (timeRangeError && !timeIntervalsErrors[timeIntervalIndex]?.timeRange) {
       timeIntervalsErrors[timeIntervalIndex] = {
         ...timeIntervalsErrors[timeIntervalIndex],
+        // the error of timeInterval is set into timeRange field because of this way
+        // there doesn't alter the errors in nested fields like [operatorSpreads] in this case
         timeRange: timeRangeError,
       };
     }
