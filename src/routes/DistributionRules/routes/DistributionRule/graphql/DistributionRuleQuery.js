@@ -40,6 +40,7 @@ const REQUEST = gql`
           quantity
           baseUnit
         }
+        source
         operatorEntity {
           uuid
           fullName

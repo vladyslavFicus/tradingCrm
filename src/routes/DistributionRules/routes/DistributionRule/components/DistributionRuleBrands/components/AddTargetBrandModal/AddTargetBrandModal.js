@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withApollo } from 'react-apollo';
+import { withApollo, compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import operatorsByBrandQuery from './graphql/operatorsByBrandQuery';
+import PartnersQuery from './graphql/PartnersQuery';
 import { baseUnits, modalFieldsNames } from '../../constants';
 import './AddTargetBrandModal.scss';
 
@@ -24,11 +26,20 @@ class AddTargetBrandModal extends PureComponent {
         quantity: PropTypes.number,
         baseUnit: PropTypes.string,
       }),
+      source: PropTypes.string,
       operator: PropTypes.string,
     }).isRequired,
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
+    }).isRequired,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(
+        PropTypes.shape({
+          uuid: PropTypes.string,
+          fullName: PropTypes.string,
+        }),
+      ),
     }).isRequired,
     brands: PropTypes.arrayOf(PropTypes.brandConfig).isRequired,
   };
@@ -144,12 +155,16 @@ class AddTargetBrandModal extends PureComponent {
       isOpen,
       sourceBrandId,
       brands,
+      partnersQuery: {
+        data: partnersData,
+      },
       initialValues: {
         brand,
         distributionUnit: {
           quantity,
           baseUnit,
         },
+        source,
         operator,
       },
     } = this.props;
@@ -159,6 +174,8 @@ class AddTargetBrandModal extends PureComponent {
       operatorsLoading,
       availableClientsAmount,
     } = this.state;
+
+    const partners = partnersData?.partners?.content || [];
 
     return (
       <Modal
@@ -171,6 +188,7 @@ class AddTargetBrandModal extends PureComponent {
             brand,
             quantity,
             baseUnit,
+            source,
             operator,
           }}
           validate={values => (
@@ -179,6 +197,7 @@ class AddTargetBrandModal extends PureComponent {
               quantity: ['required', 'integer', 'min:1',
                 `max:${values.baseUnit === 'PERCENTAGE' ? 100 : availableClientsAmount}`,
               ],
+              source: 'required',
             }, translateLabels({
               ...modalFieldsNames,
               quantity: values.baseUnit === 'PERCENTAGE'
@@ -236,6 +255,18 @@ class AddTargetBrandModal extends PureComponent {
                   />
                 </div>
                 <Field
+                  name="source"
+                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SOURCE')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  component={FormikSelectField}
+                  disabled={!partners.length}
+                  searchable
+                >
+                  {partners.map(({ uuid, fullName }) => (
+                    <option key={uuid} value={uuid}>{fullName}</option>
+                  ))}
+                </Field>
+                <Field
                   name="operator"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
                   placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
@@ -270,4 +301,9 @@ class AddTargetBrandModal extends PureComponent {
   }
 }
 
-export default withApollo(AddTargetBrandModal);
+export default compose(
+  withApollo,
+  withRequests({
+    partnersQuery: PartnersQuery,
+  }),
+)(AddTargetBrandModal);
