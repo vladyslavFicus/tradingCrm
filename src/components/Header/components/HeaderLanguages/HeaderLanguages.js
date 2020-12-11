@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
-import Flag from 'react-world-flags';
+import Flag from 'react-country-flag';
 import I18n from 'i18n';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
@@ -41,7 +41,7 @@ class HeaderLanguages extends PureComponent {
         isOpen={isOpen}
       >
         <DropdownToggle className="HeaderLanguages__toggle" tag="div">
-          <Flag className="HeaderLanguages__flag" code={getCountryCode(I18n.locale)} />
+          <Flag svg className="HeaderLanguages__flag" countryCode={getCountryCode(I18n.locale)} />
           {I18n.locale}
           <i className="HeaderLanguages__caret fa fa-angle-down" />
         </DropdownToggle>
@@ -53,7 +53,7 @@ class HeaderLanguages extends PureComponent {
               onClick={this.selectLanguage}
               value={lang}
             >
-              <Flag className="HeaderLanguages__flag" code={getCountryCode(lang)} />
+              <Flag svg className="HeaderLanguages__flag" countryCode={getCountryCode(lang)} />
               {lang}
             </DropdownItem>
           ))}
