@@ -190,10 +190,13 @@ class LeadsGridFilter extends PureComponent {
                   withFocus
                   multiple
                 >
-                  {Object.keys(countries)
-                    .map(country => (
-                      <option key={country} value={country}>{countries[country]}</option>
-                    ))}
+                  {[
+                    <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                    ...Object.keys(countries)
+                      .map(country => (
+                        <option key={country} value={country}>{countries[country]}</option>
+                      )),
+                  ]}
                 </Field>
 
                 <Field

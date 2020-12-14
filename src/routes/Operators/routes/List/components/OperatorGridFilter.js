@@ -17,7 +17,7 @@ import { attributeLabels } from '../constants';
 
 const validate = createValidator({
   keyword: 'string',
-  country: ['string', `in:${Object.keys(countries).join()}`],
+  country: ['string', `in:${['UNDEFINED', ...Object.keys(countries)].join()}`],
   status: ['string', `in:${Object.keys(statuses).join()}`],
 }, translateLabels(attributeLabels), false);
 
@@ -92,9 +92,13 @@ class OperatorGridFilter extends Component {
                 className="filter-row__medium"
                 withFocus
               >
-                {Object.keys(countries).map(key => (
-                  <option key={key} value={key}>{countries[key]}</option>
-                ))}
+                {[
+                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                  ...Object.keys(countries)
+                    .map(country => (
+                      <option key={country} value={country}>{countries[country]}</option>
+                    )),
+                ]}
               </Field>
               <Field
                 name="status"
