@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
@@ -30,6 +31,7 @@ import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
 import { MAX_SELECTED_CLIENTS } from '../../constants';
 import './ClientsGrid.scss';
+import { Column, Table } from 'components/Table';
 
 const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
 
@@ -419,86 +421,143 @@ class ClientsGrid extends PureComponent {
     const searchLimit = location?.state?.filters?.searchLimit || null;
 
     const { response } = limitItems(clients, location);
-    const { content, last } = response || { content: [] };
+    const { content, last } = response || { content: [], last: true };
 
     // Show loader only if initial load or new variables was applied
     const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(clientsQuery.networkStatus);
 
     return (
       <div className="ClientsGrid">
-        <Grid
-          data={content}
-          touchedRowsIds={touchedRowsIds}
-          handleSort={this.handleSort}
-          sorts={location?.state?.sortData}
-          allRowsSelected={allRowsSelected}
-          handleSelectRow={this.handleSelectRow}
-          handleRowClick={this.handleRowClick}
-          handleAllRowsSelect={this.handleAllRowsSelect}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={154}
-          isLoading={isLoading}
-          isLastPage={last}
-          withLazyLoad={!searchLimit || searchLimit !== content.length}
-          withRowsHover
-          withMultiSelect={isAvailableMultySelect}
-          withNoResults={!isLoading && content.length === 0}
+        <Table
+          stickyFromTop={154}
+          items={content}
+          loading={isLoading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
         >
-          <GridColumn
-            sortBy="firstName"
+          <Column
+            maxWidth={200}
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
             render={this.renderClientColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}
             render={this.renderWarningColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
             render={this.renderLastActivityColumn}
           />
-          <GridColumn
-            sortBy="address.countryCode"
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <GridColumn
-            sortBy="balance.amount"
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
             render={this.renderBalanceColumn}
           />
-          <GridColumn
-            sortBy="paymentDetails.depositsCount"
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
             render={this.renderDepositColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
             render={this.renderAffiliateOrReferrerColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
             render={this.renderSalesColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
             render={this.renderRetentionColumn}
           />
-          <GridColumn
-            sortBy="registrationDetails.registrationDate"
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDateColumn}
           />
-          <GridColumn
-            sortBy="lastNote.changedAt"
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
             render={this.renderLastNoteColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
-        </Grid>
+        </Table>
+        {/*<Grid*/}
+        {/*  data={content}*/}
+        {/*  touchedRowsIds={touchedRowsIds}*/}
+        {/*  handleSort={this.handleSort}*/}
+        {/*  sorts={location?.state?.sortData}*/}
+        {/*  allRowsSelected={allRowsSelected}*/}
+        {/*  handleSelectRow={this.handleSelectRow}*/}
+        {/*  handleRowClick={this.handleRowClick}*/}
+        {/*  handleAllRowsSelect={this.handleAllRowsSelect}*/}
+        {/*  handlePageChanged={this.handlePageChanged}*/}
+        {/*  headerStickyFromTop={154}*/}
+        {/*  isLoading={isLoading}*/}
+        {/*  isLastPage={last}*/}
+        {/*  withLazyLoad={!searchLimit || searchLimit !== content.length}*/}
+        {/*  withRowsHover*/}
+        {/*  withMultiSelect={isAvailableMultySelect}*/}
+        {/*  withNoResults={!isLoading && content.length === 0}*/}
+        {/*>*/}
+        {/*  <GridColumn*/}
+        {/*    sortBy="firstName"*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}*/}
+        {/*    render={this.renderClientColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}*/}
+        {/*    render={this.renderWarningColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}*/}
+        {/*    render={this.renderLastActivityColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    sortBy="address.countryCode"*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}*/}
+        {/*    render={this.renderCountryColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    sortBy="balance.amount"*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}*/}
+        {/*    render={this.renderBalanceColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    sortBy="paymentDetails.depositsCount"*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}*/}
+        {/*    render={this.renderDepositColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}*/}
+        {/*    render={this.renderAffiliateOrReferrerColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}*/}
+        {/*    render={this.renderSalesColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}*/}
+        {/*    render={this.renderRetentionColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    sortBy="registrationDetails.registrationDate"*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}*/}
+        {/*    render={this.renderRegistrationDateColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    sortBy="lastNote.changedAt"*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}*/}
+        {/*    render={this.renderLastNoteColumn}*/}
+        {/*  />*/}
+        {/*  <GridColumn*/}
+        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}*/}
+        {/*    render={this.renderStatusColumn}*/}
+        {/*  />*/}
+        {/*</Grid>*/}
       </div>
     );
   }

@@ -181,6 +181,42 @@ class PartnersGrid extends PureComponent {
             render={this.renderPartnerColumn}
           />
           <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
+            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
+            render={this.renderPartnerColumn}
+          />
+          <Column
             header={I18n.t('PARTNERS.GRID_HEADER.EXTERNAL_ID')}
             render={this.renderExternalAffiliateIdColumn}
           />

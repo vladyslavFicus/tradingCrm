@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -33,39 +34,6 @@ class Table extends PureComponent {
     stickyFirstColumn: false,
   };
 
-  columnRefs = Array(this.getColumns().length).fill(null).map(React.createRef);
-
-  state = {};
-
-  componentDidUpdate() {
-    // Do re-calculation columns width for each table update to prevent render incorrect width of column
-    this.calculateColumnWidths();
-  }
-
-  /**
-   * Calculate columns width and save it to state
-   */
-  calculateColumnWidths = () => {
-    this.columnRefs.forEach((columnRef, index) => {
-      if (!columnRef.current) {
-        return;
-      }
-
-      const { width } = columnRef.current.getBoundingClientRect();
-
-      this.setState({ [`columnWidth-${index}`]: width });
-    });
-  };
-
-  /**
-   * Get children columns
-   *
-   * @return {Exclude<React.ReactNode, boolean | null | undefined>[]}
-   */
-  getColumns() {
-    return React.Children.toArray(this.props.children).filter(child => child.type === Column);
-  }
-
   /**
    * Render head of table (render headers)
    *
@@ -83,9 +51,10 @@ class Table extends PureComponent {
             'Table__head-cell',
             {
               'Table__cell--sticky': this.props.stickyFirstColumn && index === 0,
+              'Table__cell--max-width': props.maxWidth,
             },
           )}
-          style={{ minWidth: `${this.state[`columnWidth-${index}`] || 0}px` }}
+          style={{ maxWidth: `${props.maxWidth}px` }}
         >
           {props.header}
         </th>
@@ -128,14 +97,15 @@ class Table extends PureComponent {
         {columns.map(({ props }, columnIndex) => (
           <td
             key={`column-${rowIndex}-${columnIndex}`}
-            ref={rowIndex === 0 && this.columnRefs[columnIndex]}
             className={classNames(
               'Table__cell',
               'Table__body-cell',
               {
                 'Table__cell--sticky': this.props.stickyFirstColumn && columnIndex === 0,
+                'Table__cell--max-width': props.maxWidth,
               },
             )}
+            style={{ maxWidth: `${props.maxWidth}px` }}
           >
             {props.render(item)}
           </td>
@@ -147,20 +117,23 @@ class Table extends PureComponent {
   render() {
     const { hasMore, onMore, items, scrollableTarget, stickyFromTop } = this.props;
 
-    const columns = this.getColumns();
+    const columns = React.Children.toArray(this.props.children).filter(child => child.type === Column);
 
     return (
       <ScrollSync>
         <div className="Table">
-          {/* Sticky header for table working with overflow: auto */}
+
+          {/* Render table with hidden body to make header sticky and calculate right width of columns */}
           <ScrollSyncPane>
             <div className="Table__head--sticky" style={{ top: `${stickyFromTop}px` }}>
               <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
                 <thead className="Table__head">{this.renderHead(columns)}</thead>
+                <tbody className="Table__body Table__body--hidden">{this.renderBody(columns)}</tbody>
               </table>
             </div>
           </ScrollSyncPane>
 
+          {/* Render table with hidden header to make body scrollable and calculate right width of columns */}
           <InfiniteScroll
             dataLength={items.length}
             next={onMore}
@@ -169,9 +142,8 @@ class Table extends PureComponent {
             loader={<ShortPreloader />}
           >
             <ScrollSyncPane>
-              <div style={{ overflow: 'auto' }}>
+              <div className="Table__body--scrollable">
                 <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
-                  {/* Fake header to render column titles to get right width for body columns */}
                   <thead className="Table__head Table__head--hidden">{this.renderHead(columns)}</thead>
                   <tbody className="Table__body">{this.renderBody(columns)}</tbody>
                 </table>

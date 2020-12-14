@@ -26,11 +26,10 @@
 
     &--sticky {
       position: sticky;
-      overflow: auto;
+      overflow-y: hidden;
       left: 125px;
       right: 40px;
       z-index: 2;
-      border-bottom: 1px solid #eeeeee;
       -ms-overflow-style: none;
       scrollbar-width: none;
 
@@ -41,6 +40,32 @@
 
     &--hidden {
       visibility: collapse;
+
+      th {
+        line-height: 0;
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  &__body {
+    &--scrollable {
+      overflow: auto;
+    }
+
+    &--hidden {
+      visibility: collapse;
+
+      tr * {
+        line-height: 0;
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        vertical-align: bottom;
+      }
     }
   }
 
@@ -58,10 +83,6 @@
     }
   }
 
-  &__head-row {
-    background: #ffffff;
-  }
-
   &__cell {
     box-sizing: border-box;
     white-space: nowrap;
@@ -74,6 +95,7 @@
       z-index: 1;
       background: #ffffff;
       background-clip: padding-box;
+      border-right: 1px solid #eeeeee;
 
       // Adding shadow on end of sticky column to visual showing that table can scroll under the first column
       &:after {
@@ -91,6 +113,10 @@
       }
     }
 
+    &--max-width {
+      white-space: normal;
+    }
+
     &:last-child {
       padding-right: 20px;
     }
@@ -100,9 +126,22 @@
     padding-top: 32px;
     padding-bottom: 15px;
     text-align: left;
+    background: #ffffff;
 
     &:hover {
       background: #f0f0f0;
+    }
+
+    // Need to fix border-bottom while applied visibility: collapsed
+    &:before {
+      position: absolute;
+      content: '';
+      height: 1px;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      background: #eff1f3;
+      z-index: 2;
     }
   }
 
