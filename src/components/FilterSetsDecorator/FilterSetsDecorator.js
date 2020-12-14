@@ -1,22 +1,26 @@
 import React, { PureComponent } from 'react';
+import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { compose } from 'react-apollo';
+import { compose, withApollo } from 'react-apollo';
 import { withModals, withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
+import FilterSetsToggler from './components/FilterSetsToggler';
 import FilterSetsButtons from './components/FilterSetsButtons';
 import FilterSets from './components/FilterSets';
 import {
   FilterSetsQuery,
+  filterSetByIdQuery,
   DeleteFilterSetMutation,
+  UpdateFavouriteFilterSetMutation,
 } from './graphql';
-import { ReactComponent as SwitcherIcon } from './icons/switcher.svg';
 
 class FilterSetsDecorator extends PureComponent {
   static propTypes = {
     notify: PropTypes.func.isRequired,
+    client: PropTypes.object.isRequired,
     modals: PropTypes.shape({
       actionFilterModal: PropTypes.modalType,
       confirmActionModal: PropTypes.modalType,
@@ -28,6 +32,7 @@ class FilterSetsDecorator extends PureComponent {
       }),
     }).isRequired,
     deleteFilterSetMutation: PropTypes.func.isRequired,
+    updateFavouriteFilterSetMutation: PropTypes.func.isRequired,
     children: PropTypes.func.isRequired,
     filterSetType: PropTypes.string.isRequired,
     currentValues: PropTypes.object.isRequired,
@@ -42,7 +47,7 @@ class FilterSetsDecorator extends PureComponent {
 
   state = {
     selectedFilter: '',
-    filtersVisible: true,
+    filterSetsLoading: false,
   };
 
   selectFilter = uuid => this.setState({ selectedFilter: uuid });
@@ -106,6 +111,68 @@ class FilterSetsDecorator extends PureComponent {
     });
   };
 
+  fetchFilterByUuid = async (uuid) => {
+    const {
+      notify,
+      client,
+      submitFilters,
+    } = this.props;
+
+    this.setState({ filterSetsLoading: true });
+
+    try {
+      const { data: { filterSet } } = await client.query({
+        query: filterSetByIdQuery,
+        variables: { uuid },
+      });
+
+      submitFilters(filterSet);
+
+      this.selectFilter(uuid);
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILTER_SET.LOADING_FAILED'),
+      });
+    }
+
+    this.setState({ filterSetsLoading: false });
+  };
+
+  updateFavouriteFilter = async (uuid, newValue) => {
+    const {
+      notify,
+      updateFavouriteFilterSetMutation,
+      filterSetType,
+      filterSetsQuery: {
+        refetch,
+      },
+    } = this.props;
+
+    this.setState({ filterSetsLoading: true });
+
+    try {
+      await updateFavouriteFilterSetMutation({ variables: { uuid, favourite: newValue } });
+
+      refetch({ type: filterSetType });
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
+      });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+
+    this.setState({ filterSetsLoading: false });
+  };
+
   deleteFilter = () => {
     const {
       notify,
@@ -165,26 +232,23 @@ class FilterSetsDecorator extends PureComponent {
     });
   };
 
-  toggleVisibility = () => (
-    this.setState(({ filtersVisible }) => ({
-      filtersVisible: !filtersVisible,
-    }))
-  );
-
   renderFilterSetsButtons = () => {
     const {
+      disabled,
       currentValues,
-      filterSetsQuery: {
-        loading,
-        error,
-      },
+      filterSetsQuery,
     } = this.props;
+
+    const {
+      selectedFilter,
+      filterSetsLoading,
+    } = this.state;
 
     if (currentValues && Object.keys(currentValues).length > 0) {
       return (
         <FilterSetsButtons
-          hasSelectedFilter={!!this.state.selectedFilter}
-          disabled={loading || error}
+          hasSelectedFilter={!!selectedFilter}
+          disabled={disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error}
           createFilter={this.createFilter}
           updateFilter={this.updateFilter}
           deleteFilter={this.deleteFilter}
@@ -198,44 +262,51 @@ class FilterSetsDecorator extends PureComponent {
   render() {
     const {
       children,
-      filterSetType,
       disabled,
-      submitFilters,
+      filterSetsQuery,
     } = this.props;
 
     const {
       selectedFilter,
-      filtersVisible,
+      filterSetsLoading,
     } = this.state;
 
+    const {
+      common,
+      favourite,
+    } = filterSetsQuery.data?.filterSets || {};
+
+    const filtersList = [...(favourite || []), ...(common || [])];
+    const filtersListDisabled = disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error;
+
     return (
-      <>
-        <div className={classNames('filter-favorites', { 'is-filters-visible': filtersVisible })}>
-          <FilterSets
-            filterSetType={filterSetType}
-            selectedFilter={selectedFilter}
-            disabled={disabled}
-            submitFilters={submitFilters}
-            selectFilter={this.selectFilter}
-          />
-          <div
-            className={classNames('filter-switcher', { 'is-closed': !filtersVisible })}
-            onClick={this.toggleVisibility}
-          >
-            <SwitcherIcon />
-          </div>
-        </div>
-        <If condition={filtersVisible}>
-          {children({
-            renderFilterSetsButtons: this.renderFilterSetsButtons,
-          })}
-        </If>
-      </>
+      <FilterSetsToggler>
+        {({ filtersVisible, renderTrigger }) => (
+          <>
+            <div className={classNames('filter-favorites', { 'is-filters-visible': filtersVisible })}>
+              <FilterSets
+                filtersList={filtersList}
+                selectedFilter={selectedFilter}
+                disabled={filtersListDisabled}
+                selectFilter={this.fetchFilterByUuid}
+                updateFavouriteFilter={this.updateFavouriteFilter}
+              />
+              {renderTrigger()}
+            </div>
+            <If condition={filtersVisible}>
+              {children({
+                renderFilterSetsButtons: this.renderFilterSetsButtons,
+              })}
+            </If>
+          </>
+        )}
+      </FilterSetsToggler>
     );
   }
 }
 
 export default compose(
+  withApollo,
   withNotifications,
   withModals({
     actionFilterModal: ActionFilterModal,
@@ -244,5 +315,6 @@ export default compose(
   withRequests({
     filterSetsQuery: FilterSetsQuery,
     deleteFilterSetMutation: DeleteFilterSetMutation,
+    updateFavouriteFilterSetMutation: UpdateFavouriteFilterSetMutation,
   }),
 )(FilterSetsDecorator);

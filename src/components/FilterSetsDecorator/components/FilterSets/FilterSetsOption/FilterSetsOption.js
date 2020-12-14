@@ -1,63 +1,70 @@
-import React, { Fragment } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import PropTypes from 'constants/propTypes';
 import { ReactComponent as FavoriteStarIcon } from '../icons/favorites-star.svg';
+import './FilterSetsOption.scss';
 
-const FilterSetsOption = ({
-  handleUpdateFavorite,
-  handleSelectFilter,
-  activeId,
-  filter,
-}) => {
-  const handleOptionClick = () => {
-    if (activeId !== filter.uuid && handleSelectFilter) {
-      handleSelectFilter(filter.uuid);
+class FilterSetsOption extends PureComponent {
+  static propTypes = {
+    filter: PropTypes.shape({
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      favourite: PropTypes.bool,
+    }).isRequired,
+    selectFilter: PropTypes.func,
+    updateFavouriteFilter: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    selectFilter: null,
+  };
+
+  handleOptionClick = () => {
+    const {
+      filter,
+      selectFilter,
+    } = this.props;
+
+    if (selectFilter) {
+      selectFilter(filter.uuid);
     }
   };
 
-  const handleStarClick = (event) => {
+  handleIconClick = (event) => {
+    const {
+      filter: {
+        uuid,
+        favourite,
+      },
+      updateFavouriteFilter,
+    } = this.props;
+
     event.stopPropagation();
-    handleUpdateFavorite(filter.uuid, !filter.favourite);
+    updateFavouriteFilter(uuid, !favourite);
   };
 
-  return (
-    <Fragment key={filter.uuid}>
-      <div
-        className={classNames(
-          'filter-favorites__dropdown-item',
-          { 'is-active': activeId === filter.uuid },
-        )}
-        onClick={handleOptionClick}
-      >
+  render() {
+    const {
+      filter: {
+        name,
+        favourite,
+      },
+    } = this.props;
+
+    return (
+      <div className="FilterSetsOption" onClick={this.handleOptionClick}>
         <div
           className={classNames(
-            'filter-favorites__dropdown-item-star',
-            { 'is-active': filter.favourite },
+            'FilterSetsOption__icon', { 'FilterSetsOption__icon--active': favourite },
           )}
-          onClick={handleStarClick}
+          onClick={this.handleIconClick}
         >
-          <FavoriteStarIcon />
+          <FavoriteStarIcon className="FilterSetsOption__icon-symbol" />
         </div>
-
-        <div className="filter-favorites__dropdown-item-title">{filter.name}</div>
+        <div className="FilterSetsOption__name">{name}</div>
       </div>
-    </Fragment>
-  );
-};
+    );
+  }
+}
 
-
-FilterSetsOption.propTypes = {
-  handleUpdateFavorite: PropTypes.func.isRequired,
-  handleSelectFilter: PropTypes.func,
-  filter: PropTypes.object,
-  activeId: PropTypes.string,
-};
-
-FilterSetsOption.defaultProps = {
-  filter: {},
-  activeId: null,
-  handleSelectFilter: null,
-};
-
-
-export default React.memo(FilterSetsOption);
+export default FilterSetsOption;

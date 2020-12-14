@@ -1,36 +1,19 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import { compose, withApollo } from 'react-apollo';
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import classNames from 'classnames';
-import { withNotifications } from 'hoc';
-import { withRequests } from 'apollo';
-import PropTypes from 'constants/propTypes';
 import FilterSetsOption from './FilterSetsOption';
 import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
-import {
-  FilterSetsQuery,
-  filterSetByIdQuery,
-  UpdateFavouriteFilterSetMutation,
-} from '../../graphql';
 import './FilterSets.scss';
 
 class FilterSets extends PureComponent {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
-    client: PropTypes.object.isRequired,
-    filterSetsQuery: PropTypes.query({
-      filterSets: PropTypes.shape({
-        favourite: PropTypes.arrayOf(PropTypes.object),
-        common: PropTypes.arrayOf(PropTypes.object),
-      }),
-    }).isRequired,
-    updateFavouriteFilterSetMutation: PropTypes.func.isRequired,
-    filterSetType: PropTypes.string.isRequired,
+    selectFilter: PropTypes.func.isRequired,
+    updateFavouriteFilter: PropTypes.func.isRequired,
+    filtersList: PropTypes.arrayOf(PropTypes.object).isRequired,
     selectedFilter: PropTypes.string,
     disabled: PropTypes.bool,
-    selectFilter: PropTypes.func.isRequired,
-    submitFilters: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,75 +23,8 @@ class FilterSets extends PureComponent {
 
   state = {
     sortedByFavorites: false,
-    filterSetsLoading: false,
     isOpenDropdown: false,
     searchInputValue: '',
-  };
-
-  handleSetFilterValues = async (uuid) => {
-    const {
-      selectFilter,
-      submitFilters,
-      notify,
-      client,
-    } = this.props;
-
-    this.setState({
-      filterSetsLoading: true,
-      isOpenDropdown: false,
-    });
-
-    try {
-      const { data: { filterSet } } = await client.query({
-        query: filterSetByIdQuery,
-        variables: { uuid },
-      });
-
-      submitFilters(filterSet);
-
-      selectFilter(uuid);
-    } catch {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('FILTER_SET.LOADING_FAILED'),
-      });
-    }
-
-    this.setState({ filterSetsLoading: false });
-  };
-
-  handleUpdateFavorite = async (uuid, newValue) => {
-    const {
-      notify,
-      updateFavouriteFilterSetMutation,
-      filterSetsQuery: {
-        refetch,
-      },
-      filterSetType,
-    } = this.props;
-
-    this.setState({ filterSetsLoading: true });
-
-    try {
-      await updateFavouriteFilterSetMutation({ variables: { uuid, favourite: newValue } });
-
-      refetch({ type: filterSetType });
-
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
-      });
-    } catch (e) {
-      notify({
-        level: 'error',
-        title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
-        message: I18n.t('COMMON.SOMETHING_WRONG'),
-      });
-    }
-
-    this.setState({ filterSetsLoading: false });
   };
 
   handleToggleDropdown = () => {
@@ -129,7 +45,9 @@ class FilterSets extends PureComponent {
 
   render() {
     const {
-      filterSetsQuery,
+      selectFilter,
+      updateFavouriteFilter,
+      filtersList,
       selectedFilter,
       disabled,
     } = this.props;
@@ -137,18 +55,8 @@ class FilterSets extends PureComponent {
     const {
       isOpenDropdown,
       searchInputValue,
-      filterSetsLoading,
       sortedByFavorites,
     } = this.state;
-
-    const {
-      common,
-      favourite,
-    } = filterSetsQuery.data?.filterSets || {};
-
-    const filtersList = [...(favourite || []), ...(common || [])];
-
-    const isDisabledDropdown = filterSetsLoading || filterSetsQuery.error || !filtersList[0];
 
     const dropdownOptions = searchInputValue
       ? filtersList.filter(({ name }) => name.toLowerCase().includes(searchInputValue.toLowerCase()))
@@ -165,7 +73,7 @@ class FilterSets extends PureComponent {
       <div className="filter-favorites__dropdown-container">
         <Dropdown
           className={
-            classNames('filter-favorites__dropdown', { 'is-disabled': isDisabledDropdown || disabled })
+            classNames('filter-favorites__dropdown', { 'is-disabled': disabled })
           }
           toggle={this.handleToggleDropdown}
           isOpen={isOpenDropdown}
@@ -203,22 +111,17 @@ class FilterSets extends PureComponent {
             <Choose>
               <When condition={dropdownOptions.length}>
                 <div className="filter-favorites__dropdown-list">
-                  <Choose>
-                    <When condition={activeFilter}>
-                      <div className="filter-favorites__dropdown-list-top">
-                        <div className="filter-favorites__dropdown-list-title">
-                          Selected options
-                        </div>
+                  <If condition={activeFilter}>
+                    <div className="filter-favorites__dropdown-list-top">
+                      <div className="filter-favorites__dropdown-list-title">
+                        Selected options
                       </div>
-                      <FilterSetsOption
-                        filter={activeFilter}
-                        key={activeFilter.uuid}
-                        activeId={selectedFilter}
-                        handleSelectFilter={this.handleSetFilterValues}
-                        handleUpdateFavorite={this.handleUpdateFavorite}
-                      />
-                    </When>
-                  </Choose>
+                    </div>
+                    <FilterSetsOption
+                      filter={activeFilter}
+                      updateFavouriteFilter={updateFavouriteFilter}
+                    />
+                  </If>
 
                   <div className="filter-favorites__dropdown-list-top">
                     <div className="filter-favorites__dropdown-list-title">
@@ -241,14 +144,13 @@ class FilterSets extends PureComponent {
                     </div>
                   </div>
                   {sortedDropdownOptions
-                    .filter(item => item !== activeFilter)
+                    .filter(({ uuid }) => uuid !== selectedFilter)
                     .map(filter => (
                       <FilterSetsOption
-                        filter={filter}
                         key={filter.uuid}
-                        activeId={selectedFilter}
-                        handleSelectFilter={this.handleSetFilterValues}
-                        handleUpdateFavorite={this.handleUpdateFavorite}
+                        filter={filter}
+                        selectFilter={selectFilter}
+                        updateFavouriteFilter={updateFavouriteFilter}
                       />
                     ))
                   }
@@ -269,11 +171,4 @@ class FilterSets extends PureComponent {
   }
 }
 
-export default compose(
-  withNotifications,
-  withApollo,
-  withRequests({
-    filterSetsQuery: FilterSetsQuery,
-    updateFavouriteFilterSetMutation: UpdateFavouriteFilterSetMutation,
-  }),
-)(FilterSets);
+export default FilterSets;

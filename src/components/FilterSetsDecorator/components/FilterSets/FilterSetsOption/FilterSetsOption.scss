@@ -1,0 +1,49 @@
+.FilterSetsOption {
+  display: flex;
+  align-items: start;
+  margin-bottom: 5px;
+  padding: 0 10px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover &__name {
+    color: #000;
+  }
+
+  &:hover &__icon-symbol  {
+    fill: #ff0000;
+  }
+
+  &__icon {
+    margin-right: 10px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+    }
+  }
+
+  &__icon-symbol {
+    height: 14px;
+    width: 14px;
+    transition: .2s ease;
+  }
+
+  &__name {
+    color: #4A4A4A;
+    font-size: 15px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: .2s ease;
+  }
+}
