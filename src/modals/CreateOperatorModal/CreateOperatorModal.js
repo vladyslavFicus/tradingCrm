@@ -127,7 +127,7 @@ class CreateOperatorModal extends PureComponent {
       onCloseModal,
     } = this.props;
 
-    const authorities = authoritiesQuery?.data?.authoritiesOptions || {};
+    const authorities = authoritiesQuery.data?.authoritiesOptions || {};
 
     const departmentsRoles = omit(authorities, 'AFFILIATE');
 
@@ -151,8 +151,8 @@ class CreateOperatorModal extends PureComponent {
             setFieldValue,
           }) => {
             const departmentsOptions = Object.keys(departmentsRoles).sort();
-            const rolesOptions = values?.department ? departmentsRoles[values.department] : [];
-            const branchesOptions = values?.branchType ? branchesByType[values.branchType] : [];
+            const rolesOptions = values.department ? departmentsRoles[values.department] : [];
+            const branchesOptions = values.branchType ? branchesByType[values.branchType] : [];
 
             const placeholderBranchType = branchesOptions.length
               ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
@@ -273,7 +273,7 @@ class CreateOperatorModal extends PureComponent {
                     className="CreateOperatorModal__field"
                     label={I18n.t(attributeLabels.branchType)}
                     placeholder={
-                      values?.branchType
+                      values.branchType
                         ? placeholderBranchType
                         : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')
                     }

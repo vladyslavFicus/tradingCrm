@@ -45,7 +45,7 @@ const OperatorsQuery = ({ children, location: { state } }) => (
       page: {
         from: 0,
         size: 20,
-        sorts: state?.sorts && state.sorts.length > 0 ? state.sorts : undefined,
+        sorts: state?.sorts?.length ? state.sorts : undefined,
       },
     }}
     fetchPolicy="cache-and-network"
