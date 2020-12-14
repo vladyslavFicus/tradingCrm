@@ -21,6 +21,10 @@ const REQUEST = gql`
       salesStatuses
       targetSalesStatus
       registrationPeriodInHours
+      registrationDateRange {
+        from
+        to
+      }
       executionType
       executionPeriodInHours
       latestMigration {

@@ -568,6 +568,10 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   salesStatuses: PropTypes.arrayOf(PropTypes.string),
   targetSalesStatus: PropTypes.string,
   executionType: PropTypes.string,
+  registrationDateRange: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
   registrationPeriodInHours: PropTypes.number,
   executionPeriodInHours: PropTypes.number,
   latestMigration: PropTypes.shape({

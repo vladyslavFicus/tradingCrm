@@ -1,20 +1,19 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { isEqual } from 'lodash';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
 import { createValidator } from 'utils/validator';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import {
   salesStatuses,
   countries,
   registrationPeriodInHours,
   executionTypes,
 } from './constants';
-import { normalizeObject } from './utils';
-import { checkEqualityOfDataObjects } from '../../utils';
 import PartnersQuery from './graphql/PartnersQuery';
 import './DistributionRuleSettings.scss';
 
@@ -32,6 +31,10 @@ class DistributionRuleSettings extends PureComponent {
         PropTypes.number,
         PropTypes.string,
       ]),
+      registrationDateRange: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       executionType: PropTypes.string,
       executionPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
@@ -59,22 +62,20 @@ class DistributionRuleSettings extends PureComponent {
           initialValues={{
             ...generalSettings,
           }}
-          validate={(values) => {
+          validate={(values, initialValues) => {
             const errors = createValidator({
               salesStatuses: ['required'],
               targetSalesStatus: ['required'],
               countries: ['required'],
               executionPeriodInHours: ['required'],
-              registrationPeriodInHours: ['required'],
+              registrationDateRange: {
+                from: ['dateWithTime', `validDateTimeRange:${values?.registrationDateRange?.to}`],
+                to: ['dateWithTime'],
+              },
               languages: ['required'],
             })(values);
 
-            const valuesAreEqual = checkEqualityOfDataObjects(
-              normalizeObject(generalSettings),
-              normalizeObject(values),
-            );
-
-            if (!valuesAreEqual) {
+            if (!isEqual(initialValues, values)) {
               handleGeneralSettings(Object.keys(errors).length === 0, values);
             }
 
@@ -127,20 +128,6 @@ class DistributionRuleSettings extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="registrationPeriodInHours"
-                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.REGISTRATION_DATE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                className="DistributionRuleSettings__form-field"
-                component={FormikSelectField}
-                showErrorMessage={false}
-              >
-                {registrationPeriodInHours.map(({ label, value, i18nValue }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label, { value: i18nValue })}
-                  </option>
-                ))}
-              </Field>
-              <Field
                 name="executionType"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -151,6 +138,19 @@ class DistributionRuleSettings extends PureComponent {
                   <option key={value} value={value}>{I18n.t(label)}</option>
                 ))}
               </Field>
+              <Field
+                className="DistributionRuleSettings__form-field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.REGISTRATION_DATE_RANGE')}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'registrationDateRange.from',
+                  to: 'registrationDateRange.to',
+                  additional: 'registrationPeriodInHours',
+                }}
+                additionalOptions={registrationPeriodInHours}
+                withAdditionalValue
+                withConfirmation
+              />
               <Field
                 name="affiliateUuids"
                 className="DistributionRuleSettings__form-field"
