@@ -533,7 +533,6 @@ PropTypes.ruleType = PropTypes.shape({
     }),
   ),
   parentBranch: PropTypes.string,
-  ruleType: PropTypes.string,
   brandId: PropTypes.string,
   countries: PropTypes.arrayOf(PropTypes.string),
   createdAt: PropTypes.string,

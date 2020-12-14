@@ -7,7 +7,7 @@ import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
-import { ruleTypes, priorities, actionRuleTypes } from 'constants/rules';
+import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -67,7 +67,6 @@ class CreateRuleModal extends PureComponent {
         {
           variables: {
             parentBranch,
-            ruleType: actionRuleTypes.ROUND_ROBIN,
             ...withOperatorSpreads && {
               operatorSpreads: [
                 // the filter needs to delete an empty value in array
