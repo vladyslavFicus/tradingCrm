@@ -2,43 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { ProfileStatusFragment } from 'graphql/fragments/profileStatus';
 
-
-const REQUEST = gql`  
-  mutation changeProfileStatus_PlayerStatusModal(
-    $playerUUID: String!
+const REQUEST = gql`
+  mutation ClientAccountStatus_ChangeClientStatusMutation(
+    $uuid: String!
     $reason: String!
     $comment: String
     $status: String!
   ) {
     profile {
       changeProfileStatus(
-        playerUUID: $playerUUID
+        playerUUID: $uuid
         reason: $reason
         comment: $comment
         status: $status
       ) {
         _id
         status {
-          ...ProfileStatusFragment
+          changedAt
+          changedBy
+          comment
+          reason
+          type
         }
       }
     }
   }
-${ProfileStatusFragment}`;
+`;
 
-
-const ChangeProfileStatusMutation = ({ children }) => (
+const ChangeClientStatusMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-
-ChangeProfileStatusMutation.propTypes = {
+ChangeClientStatusMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-
-export default ChangeProfileStatusMutation;
+export default ChangeClientStatusMutation;

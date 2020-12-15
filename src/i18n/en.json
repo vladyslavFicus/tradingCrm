@@ -239,9 +239,6 @@
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
       },
-      "STATUS_MODAL": {
-        "TITLE": "Change account status"
-      },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
         "BONUS_ABUSE": "Bonus abuse",
@@ -2586,6 +2583,18 @@
       }
     },
     "CLIENT": {
+      "ACCOUNT_STATUS": {
+        "NOTIFICATIONS": {
+          "SUCCESS": {
+            "TITLE": "Success",
+            "MESSAGE": "Account status changed successfully"
+          },
+          "ERROR": {
+            "TITLE": "Error",
+            "MESSAGE": "Failed to change account status"
+          }
+        }
+      },
       "BALANCES": {
         "TOTAL_BALANCE": "Total balance",
         "BALANCE": "Balance",

@@ -1,19 +1,12 @@
 /* eslint-disable */
 
 import React, { PureComponent, Fragment, Suspense } from 'react';
-import { get } from 'lodash';
 import { Switch, Redirect } from 'react-router-dom';
-import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from 'utils/permissions';
-import {
-  statusActions as userStatuses,
-} from 'constants/user';
 import PropTypes from 'constants/propTypes';
 import Tabs from 'components/Tabs';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
-import NotFound from 'routes/NotFound';
 import {
   ClientView,
   Payments,
@@ -39,19 +32,6 @@ class Profile extends PureComponent {
       profile: PropTypes.profile,
     }).isRequired,
   };
-
-  get availableStatuses() {
-    const { profileQuery, permission: { permissions } } = this.props;
-    const profileStatus = get(profileQuery, 'data.profile.status.type');
-
-    if (!profileStatus) {
-      return [];
-    }
-
-    return userStatuses[profileStatus]
-      .filter(action => (new Permissions([action.permission]))
-        .check(permissions));
-  }
 
   render() {
     return (

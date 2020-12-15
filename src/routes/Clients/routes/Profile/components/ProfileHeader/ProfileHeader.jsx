@@ -8,7 +8,6 @@ import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constant
 import PropTypes from 'constants/propTypes';
 import ProfileLastLogin from 'components/ProfileLastLogin';
 import GridStatus from 'components/GridStatus';
-import PlayerStatus from '../PlayerStatus';
 import Balances from '../Balances';
 import ReferrerStatisticsQuery from './graphql/ReferrerStatisticsQuery';
 import './ProfileHeader.scss';
@@ -16,7 +15,6 @@ import './ProfileHeader.scss';
 class ProfileHeader extends Component {
   static propTypes = {
     profile: PropTypes.profile,
-    availableStatuses: PropTypes.array,
     referrerStatisticsQuery: PropTypes.query({
       referrerStatistics: PropTypes.shape({
         referralsCount: PropTypes.number,
@@ -28,12 +26,10 @@ class ProfileHeader extends Component {
 
   static defaultProps = {
     profile: {},
-    availableStatuses: [],
   };
 
   render() {
     const {
-      availableStatuses,
       profile,
       referrerStatisticsQuery: {
         data: referrerStatisticsData,
@@ -42,7 +38,6 @@ class ProfileHeader extends Component {
 
     const {
       uuid,
-      status,
       profileView,
       tradingAccounts,
       registrationDetails,
@@ -55,14 +50,6 @@ class ProfileHeader extends Component {
     } = get(referrerStatisticsData, 'referrerStatistics') || {};
 
     const registrationDate = registrationDetails?.registrationDate;
-
-    const {
-      changedAt,
-      changedBy,
-      comment,
-      reason,
-      type: statusType,
-    } = status || {};
 
     const {
       online,
@@ -82,17 +69,6 @@ class ProfileHeader extends Component {
       <div className="ProfileHeader">
 
         <div className="layout-quick-overview">
-          <div className="header-block header-block_account">
-            <PlayerStatus
-              playerUUID={uuid}
-              statusDate={changedAt}
-              statusAuthor={changedBy}
-              profileStatusComment={comment}
-              status={statusType}
-              reason={reason}
-              availableStatuses={availableStatuses}
-            />
-          </div>
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>
               <Balances

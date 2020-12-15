@@ -17,6 +17,7 @@ import Route from 'components/Route';
 import NotFound from 'routes/NotFound';
 
 import ClientHeader from './components/ClientHeader';
+import ClientAccountStatus from './components/ClientAccountStatus';
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
 
@@ -76,7 +77,7 @@ class Client extends PureComponent {
 
         <div className="Client__content">
           <div className="Client__info">
-
+            <ClientAccountStatus client={client} />
           </div>
 
           <div className="Client__details">
