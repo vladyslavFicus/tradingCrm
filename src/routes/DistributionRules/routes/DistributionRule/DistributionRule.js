@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import { isEqual, cloneDeep } from 'lodash';
 import { compose } from 'react-apollo';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
@@ -15,10 +16,6 @@ import {
   DistributionRuleUpdate,
   DistributionRuleUpdateStatus,
 } from './graphql';
-import {
-  checkEqualityOfDataObjects,
-  deepCopyOfDataObject,
-} from './utils';
 import './DistributionRule.scss';
 
 class DistributionRule extends PureComponent {
@@ -50,6 +47,7 @@ class DistributionRule extends PureComponent {
         salesStatuses,
         targetSalesStatus,
         registrationPeriodInHours,
+        registrationDateRange,
         executionType,
         executionPeriodInHours,
         sourceBrandConfigs,
@@ -72,6 +70,7 @@ class DistributionRule extends PureComponent {
           salesStatuses,
           targetSalesStatus,
           registrationPeriodInHours,
+          registrationDateRange,
           executionType: executionType || initialState.generalSettings.executionType,
           executionPeriodInHours,
           affiliateUuids,
@@ -81,12 +80,12 @@ class DistributionRule extends PureComponent {
         targetBrandConfig,
       };
 
-      return deepCopyOfDataObject(DistributionRule.initialState);
+      return cloneDeep(DistributionRule.initialState);
     }
 
     const { initialState } = DistributionRule;
 
-    const settingsWasChanged = !checkEqualityOfDataObjects(
+    const settingsWasChanged = !isEqual(
       {
         generalSettings: state.generalSettings,
         sourceBrandConfig: state.sourceBrandConfig,
@@ -346,6 +345,7 @@ class DistributionRule extends PureComponent {
         />
         <div className="card-body">
           <DistributionRuleSettings
+            loading={ruleLoading}
             generalSettings={generalSettings}
             handleGeneralSettings={this.handleGeneralSettings}
           />

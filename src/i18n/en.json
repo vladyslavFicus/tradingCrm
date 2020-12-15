@@ -29,8 +29,6 @@
       },
       "SEARCH_CLIENTS": "Search clients",
       "KYC_DOCUMENTS": "KYC documents",
-      "BRAND_CONFIG_UPDATE": "Brand config update",
-      "BRAND_CONFIG_CREATE": "Brand config create",
       "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications",
@@ -1122,7 +1120,8 @@
         "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing",
-        "IB": "IB"
+        "IB": "IB",
+        "RBAC": "RBAC"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1135,7 +1134,8 @@
         "BI": "Business intelligence",
         "AFFILIATE": "Affiliate",
         "PLAYER": "Player",
-        "AGENT": "Agent"
+        "AGENT": "Agent",
+        "RBAC": "RBAC"
       }
     },
     "COUNTRIES": {
@@ -2267,6 +2267,10 @@
     "NO_OPTIONS_AVAILABLE": "No options available"
   },
   "DATE_PICKER": {
+    "FROM": "From",
+    "TO": "To",
+    "START_DATE": "Start date",
+    "END_DATE": "End date",
     "PERIOD_RESETS": {
       "TODAY": "Today",
       "PREVIOUS_WEEK": "Previous week",
@@ -3167,7 +3171,7 @@
         "MIGRATION_STATUS": "Migration Sales Status",
         "COUNTRY": "Country",
         "EXECUTION_TIME":"Time in Current Sales Status",
-        "REGISTRATION_DATE": "Registration date",
+        "REGISTRATION_DATE_RANGE": "Registration date range",
         "EXECUTION_TYPE": "Rule Execution Type",
         "LANGUAGE": "Language",
         "AFFILIATE": "Affiliate",
@@ -3185,11 +3189,15 @@
           "LAST_N_WEEKS": "Last %{value} weeks"
         },
         "REGISTRATION_TIME": {
-          "LAST_N_HOURS": "Last %{value} hours",
+          "LAST_TWO_HOURS": "Last 2 hours",
+          "LAST_SIX_HOURS": "Last 6 hours",
+          "LAST_TWELVE_HOURS": "Last 12 hours",
           "LAST_DAY": "Last day",
-          "LAST_N_DAYS": "Last %{value} days",
+          "LAST_THREE_DAYS": "Last 3 days",
           "LAST_WEEK": "Last week",
-          "LAST_N_WEEKS": "Last %{value} weeks"
+          "LAST_TWO_WEEKS": "Last 2 weeks",
+          "LAST_THREE_WEEKS": "Last 3 weeks",
+          "LAST_FOUR_WEEKS": "Last 4 weeks"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
@@ -3651,20 +3659,6 @@
       "detailedTypeError": "Some of the selected clients don’t have assigned %{type} representatives. Please unselect those users or assign %{type} agents."
     }
   },
-  "BRAND_CONFIG": {
-    "NOTIFICATIONS": {
-      "UPDATE_ERROR": "Failed to update brand config",
-      "UPDATE_SUCCESS": "Brand config updated successfully",
-      "UPDATE_CONFIRM": "Do you realy want to save changes?",
-      "CREATE_ERROR": "Failed to create brand config",
-      "CREATE_SUCCESS": "Brand config created successfully"
-    },
-    "ACTIONS": {
-      "DISCARD": "DISCARD",
-      "CREATE": "CREATE",
-      "SAVE": "SAVE"
-    }
-  },
   "EMAILS": {
     "ACTIONS": {
       "SEND": "Send email"
@@ -3805,7 +3799,10 @@
       "ADD_TIME_INTERVAL_BUTTON": "Add Time Interval",
       "ERRORS": {
         "DAY_IS_REQUIRED": "At least one day is required",
-        "INVALID_TIME_RANGE": "The end time should be bigger than the begin"
+        "TIME_RANGE": {
+          "INVALID_VALUE": "Time from should be earlier time to",
+          "INTERSECTION": "Time intervals should not intersect"
+        }
       }
     }
   },

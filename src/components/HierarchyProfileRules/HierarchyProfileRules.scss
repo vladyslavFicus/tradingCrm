@@ -8,4 +8,35 @@
   &__grid {
     padding: 0 25px 25px;
   }
+
+  &__rule {
+    &-name {
+      font-weight: 700;
+    }
+
+    &-uuid {
+      font-size: 11px;
+    }
+  }
+
+  &__info {
+    font-weight: 700;
+  }
+
+  &__info-text {
+    font-size: 12px;
+  }
+
+  &__priority {
+    font-weight: 700;
+  }
+
+  &__partner {
+    font-weight: 700;
+  }
+
+  &__edit-icon {
+    font-size: 16px;
+    cursor: pointer;
+  }
 }

@@ -187,8 +187,37 @@ function listedIPsValidator(listOfIPs) {
   }, true);
 }
 
-function dateWithTime(inputValue) {
-  return moment(inputValue, 'YYYY-MM-DD HH:mm').isValid();
+function dateWithTime(inputDate) {
+  // # DATE_TIME_OLD_BASE_FORMAT must be removed after backend change all data in filter-sets to DATE_TIME_BASE_FORMAT
+  const DATE_TIME_OLD_BASE_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
+  const DATE_TIME_BASE_FORMAT = 'YYYY-MM-DDTHH:mm:ss[Z]';
+
+  const momentDateInBaseFormat = moment(inputDate, DATE_TIME_BASE_FORMAT);
+
+  if (
+    momentDateInBaseFormat.isValid()
+    && (
+      inputDate === momentDateInBaseFormat.format(DATE_TIME_BASE_FORMAT)
+      || inputDate === momentDateInBaseFormat.format(DATE_TIME_OLD_BASE_FORMAT)
+    )
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+function validDateTimeRange(startDateRange, endDateRange) {
+  const DATE_TIME_BASE_FORMAT = 'YYYY-MM-DDTHH:mm:ss[Z]';
+
+  if (!endDateRange) {
+    return true;
+  }
+
+  const momentStart = moment(startDateRange, DATE_TIME_BASE_FORMAT);
+  const momentEnd = moment(endDateRange, DATE_TIME_BASE_FORMAT);
+
+  return !momentEnd.isBefore(momentStart);
 }
 
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
@@ -196,6 +225,7 @@ Validator.register('lessThan', lessThanValidator, 'The :attribute must be less')
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
 Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
 Validator.register('dateWithTime', dateWithTime, 'The date must be valid: Example: 01.01.2020 00:00');
+Validator.register('validDateTimeRange', validDateTimeRange, 'The date range must be valid');
 Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');

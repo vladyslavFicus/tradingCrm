@@ -1,0 +1,233 @@
+.DateRangePicker {
+  position: relative;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: #4990e2;
+        }
+
+        &-calendar {
+          color: #aaa;
+        }
+      }
+    }
+
+    &--in-focus,
+    &--in-focus:hover {
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: #4990e2;
+        }
+
+        &-calendar {
+          color: #aaa;
+        }
+      }
+    }
+
+    &--has-error,
+    &--has-error:hover {
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: #d0011b;
+        }
+      }
+    }
+
+    &--is-disable,
+    &--is-disable:hover {
+      cursor: default;
+
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: #cfcfcf;
+          background-color: #f6f6f6;
+        }
+
+        &-additional-value,
+        &-devider,
+        &-date,
+        &-calendar {
+          color: #bec2d5;
+        }
+      }
+    }
+
+    &-left,
+    &-right {
+      transition: border-color 0.2s ease;
+      height: 100%;
+    }
+
+    &-left {
+      border-radius: 3px 0 0 3px;
+      border: 1px solid  #cfcfcf;
+      width: calc(100% - 40px);
+    }
+
+    &-right {
+      border-radius: 0 3px 3px 0;
+      border: 1px solid #cfcfcf;
+      border-left: none;
+      color: #cfcfcf;
+      line-height: 42px;
+      padding: 0 8px;
+      text-align: center;
+      transition: border-color 0.1s ease, color 0.1s ease;
+      user-select: none;
+      width: 40px;
+
+      &:hover {
+        color: #9b9b9b;
+      }
+    }
+
+    &-additional-value,
+    &-devider,
+    &-date input {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      line-height: 38px;
+    }
+
+    &-additional-value {
+      color: #4a4a4a;
+      padding: 0 8px;
+    }
+
+    &-devider,
+    &-date {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    &-devider {
+      color: #9b9b9b;
+      margin: 0 2px;
+    }
+
+    &-date {
+      width: 140px;
+
+      &:last-child {
+        width: calc(100% - 150px); // 140px - first data input, 10px - devider
+      }
+
+      &--in-focus {
+        background-color: rgba(lightskyblue, .2);
+      }
+
+      & input {
+        background-color: transparent;
+        color: #4a4a4a;
+        padding: 0 6px 0 8px;
+
+        display: block;
+        width: 100%;
+
+        &::-webkit-input-placeholder {
+          color: #9b9b9b;
+        }
+        &::-moz-placeholder {
+          color: #9b9b9b;
+        }
+        &:-ms-input-placeholder {
+          color: #9b9b9b;
+        }
+        &:-moz-placeholder {
+          color: #9b9b9b;
+        }
+      }
+    }
+
+    &-calendar {
+      font-size: 18px;
+    }
+
+    &-error {
+      color: #d0021b;
+      font-size: 12px;
+      position: absolute;
+      top: calc(100% + 4px);
+
+      &-icon {
+        font-size: 14px;
+        margin-right: 5px;
+        top: -3px;
+        display: inline-block;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  &__popup {
+    background-color: #fff;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    padding: 15px;
+
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+
+    display: grid;
+    grid-gap: 25px;
+    grid-template-columns: 350px;
+    z-index: 2;
+
+    &--with-additional-options {
+      grid-template-columns: 350px 350px;
+      grid-auto-flow: column;
+    }
+
+    &--anchor-right {
+      left: auto;
+      right: 0;
+    }
+
+    &-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &-times {
+      & > div {
+        margin-right: 20px;
+      }
+    }
+
+    &-buttons {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    &-button {
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+    }
+  }
+}

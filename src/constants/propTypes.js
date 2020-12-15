@@ -533,7 +533,6 @@ PropTypes.ruleType = PropTypes.shape({
     }),
   ),
   parentBranch: PropTypes.string,
-  ruleType: PropTypes.string,
   brandId: PropTypes.string,
   countries: PropTypes.arrayOf(PropTypes.string),
   createdAt: PropTypes.string,
@@ -568,6 +567,10 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   salesStatuses: PropTypes.arrayOf(PropTypes.string),
   targetSalesStatus: PropTypes.string,
   executionType: PropTypes.string,
+  registrationDateRange: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
   registrationPeriodInHours: PropTypes.number,
   executionPeriodInHours: PropTypes.number,
   latestMigration: PropTypes.shape({

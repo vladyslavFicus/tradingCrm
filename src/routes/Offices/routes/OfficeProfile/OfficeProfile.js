@@ -1,86 +1,81 @@
-import React from 'react';
-import { get } from 'lodash';
-import { graphql, compose } from 'react-apollo';
+import React, { PureComponent } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-import { getBranchInfo } from 'graphql/queries/hierarchy';
+import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
+import BranchInfoQuery from './graphql/BranchInfoQuery';
+import './OfficeProfile.scss';
 
-const officeProfileTabs = [{
-  label: 'HIERARCHY.PROFILE_RULE_TAB.NAME',
-  url: '/offices/:id/rules',
-}];
+class OfficeProfile extends PureComponent {
+  static propTypes = {
+    ...PropTypes.router,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
+      path: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+    branchInfoQuery: PropTypes.query({
+      branchInfo: PropTypes.hierarchyBranch,
+    }).isRequired,
+  };
 
-const Rules = HierarchyProfileRules('OFFICES.TABS.RULES.TITLE', '', '');
-
-const OfficeProfile = ({
-  officeProfile,
-  officeProfile: { loading },
-  match: { params, path, url },
-  location,
-}) => {
-  const data = get(officeProfile, 'branchInfo') || {};
-  const error = get(officeProfile, 'error');
-
-  if (error) {
-    return <NotFound />;
-  }
-
-  return (
-    <div className="profile">
-      <div className="profile__info">
-        <BranchHeader
-          branchData={data}
-          branchId={params.id}
-          loading={loading}
-        />
-      </div>
-      <Tabs
-        items={officeProfileTabs}
-        location={location}
-        params={params}
-      />
-      <div className="card no-borders">
-        <Switch>
-          <Route path={`${path}/rules`} component={Rules} />
-          <Redirect to={`${url}/rules`} />
-        </Switch>
-      </div>
-    </div>
-  );
-};
-
-OfficeProfile.propTypes = {
-  officeProfile: PropTypes.shape({
-    branchInfo: PropTypes.hierarchyBranch,
-    loading: PropTypes.bool.isRequired,
-    refetch: PropTypes.func.isRequired,
-  }).isRequired,
-  location: PropTypes.object.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.object.isRequired,
-    path: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-export default compose(
-  graphql(getBranchInfo, {
-    options: ({
+  render() {
+    const {
+      location,
       match: {
-        params: {
-          id: branchId,
-        },
+        params,
+        path,
+        url,
       },
-    }) => ({
-      variables: {
-        branchId,
+      branchInfoQuery: {
+        data,
+        loading,
       },
-    }),
-    name: 'officeProfile',
-  }),
-)(OfficeProfile);
+    } = this.props;
+
+    const branchInfo = data?.branchInfo || {};
+
+    if (!loading && !data) {
+      return <NotFound />;
+    }
+
+    return (
+      <div className="OfficeProfile">
+        <div className="OfficeProfile__header">
+          <BranchHeader
+            branchData={branchInfo}
+            branchId={params.id}
+            loading={loading}
+          />
+        </div>
+        <Tabs
+          items={[{
+            label: 'HIERARCHY.PROFILE_RULE_TAB.NAME',
+            url: '/offices/:id/rules',
+          }]}
+          location={location}
+          params={params}
+        />
+        <div className="OfficeProfile__body">
+          <Switch>
+            <Route
+              path={`${path}/rules`}
+              component={HierarchyProfileRules('OFFICES.TABS.RULES.TITLE')}
+            />
+            <Redirect to={`${url}/rules`} />
+          </Switch>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default withRequests({
+  branchInfoQuery: BranchInfoQuery,
+})(OfficeProfile);

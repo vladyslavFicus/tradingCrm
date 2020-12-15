@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -8,7 +8,6 @@ import Permissions from 'utils/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
-import { deskTypes } from 'constants/rules';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
@@ -47,9 +46,6 @@ class HierarchyProfileRules extends PureComponent {
       updateRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
     }).isRequired,
-    location: PropTypes.shape({
-      query: PropTypes.object,
-    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -57,13 +53,8 @@ class HierarchyProfileRules extends PureComponent {
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     title: PropTypes.string.isRequired,
-    deskType: PropTypes.string.isRequired,
     branchType: PropTypes.string.isRequired,
   };
-
-  handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
-
-  handleFilterReset = () => this.props.history.replace({ query: { filters: {} } });
 
   openCreateRuleModal = () => {
     const {
@@ -94,11 +85,6 @@ class HierarchyProfileRules extends PureComponent {
       modals: {
         updateRuleModal,
       },
-      match: {
-        params: {
-          id: parentBranch,
-        },
-      },
       rulesQuery: {
         refetch,
       },
@@ -106,7 +92,6 @@ class HierarchyProfileRules extends PureComponent {
 
     updateRuleModal.show({
       uuid,
-      parentBranch,
       onSuccess: async () => {
         await refetch();
         updateRuleModal.hide();
@@ -215,21 +200,21 @@ class HierarchyProfileRules extends PureComponent {
   };
 
   renderRule = ({ uuid, name, createdBy }) => (
-    <Fragment>
-      <div className="font-weight-700">
+    <div className="HierarchyProfileRules__rule">
+      <div className="HierarchyProfileRules__rule-name">
         {name}
       </div>
       <If condition={uuid}>
-        <div className="font-size-11">
+        <div className="HierarchyProfileRules__rule-uuid">
           <Uuid uuid={uuid} uuidPrefix="RL" />
         </div>
       </If>
       <If condition={createdBy}>
-        <div className="font-size-11">
+        <div className="HierarchyProfileRules__rule-uuid">
           <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
-    </Fragment>
+    </div>
   );
 
   renderRuleInfo = ({
@@ -240,7 +225,7 @@ class HierarchyProfileRules extends PureComponent {
   }) => ({ [fieldName]: arr }) => (
     <Choose>
       <When condition={arr.length > 0}>
-        <div className="font-weight-700">
+        <div className="HierarchyProfileRules__info">
           {`${arr.length} `}
           <Choose>
             <When condition={arr.length === 1}>
@@ -251,7 +236,7 @@ class HierarchyProfileRules extends PureComponent {
             </Otherwise>
           </Choose>
         </div>
-        <div className="font-size-12">
+        <div className="HierarchyProfileRules__info-text">
           {withUpperCase ? arr.join(', ').toUpperCase() : arr.join(', ')}
         </div>
       </When>
@@ -262,7 +247,7 @@ class HierarchyProfileRules extends PureComponent {
   );
 
   renderPriority = ({ priority }) => (
-    <div className="font-weight-700">
+    <div className="HierarchyProfileRules__priority">
       {priority}
     </div>
   );
@@ -270,7 +255,7 @@ class HierarchyProfileRules extends PureComponent {
   renderPartner = ({ partners }) => (
     <Choose>
       <When condition={partners.length > 0}>
-        <div className="font-weight-700">
+        <div className="HierarchyProfileRules__partner">
           {`${partners.length} `}
           <Choose>
             <When condition={partners.length === 1}>
@@ -308,7 +293,7 @@ class HierarchyProfileRules extends PureComponent {
       >
         <i
           onClick={() => this.openUpdateRuleModal(uuid)}
-          className="font-size-16 cursor-pointer fa fa-edit float-right"
+          className="HierarchyProfileRules__edit-icon fa fa-edit"
         />
       </Button>
     </>
@@ -324,15 +309,12 @@ class HierarchyProfileRules extends PureComponent {
       permission: {
         permissions: currentPermissions,
       },
-      deskType,
       title,
     } = this.props;
 
     if (data?.error) {
       return null;
     }
-
-    const entities = data?.rules || [];
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
@@ -343,21 +325,17 @@ class HierarchyProfileRules extends PureComponent {
           className="HierarchyProfileRules__header"
         >
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
-            <If condition={deskType.toUpperCase() !== 'RETENTION'}>
-              {this.renderAddButtonWithTooltip()}
-            </If>
+            {this.renderAddButtonWithTooltip()}
           </PermissionContent>
         </TabHeader>
 
         <RulesFilters
-          onSubmit={this.handleFiltersChanged}
-          onReset={this.handleFilterReset}
           handleRefetch={refetch}
         />
 
         <div className="HierarchyProfileRules__grid">
           <Grid
-            data={entities}
+            data={data?.rules || []}
             isLoading={loading}
             headerStickyFromTop={113}
           >
@@ -373,18 +351,14 @@ class HierarchyProfileRules extends PureComponent {
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
               render={this.renderRuleInfo(infoConfig.languages)}
             />
-            <If condition={deskType === deskTypes.SALES}>
-              <GridColumn
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
-                render={this.renderPartner}
-              />
-            </If>
-            <If condition={deskType === deskTypes.SALES}>
-              <GridColumn
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
-                render={this.renderRuleInfo(infoConfig.sources)}
-              />
-            </If>
+            <GridColumn
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
+              render={this.renderPartner}
+            />
+            <GridColumn
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
+              render={this.renderRuleInfo(infoConfig.sources)}
+            />
             <GridColumn
               header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
               render={this.renderPriority}
@@ -402,7 +376,7 @@ class HierarchyProfileRules extends PureComponent {
   }
 }
 
-export default (title, deskType, branchType) => props => (
+export default (title, branchType) => props => (
   React.createElement(
     compose(
       withPermission,
@@ -419,6 +393,6 @@ export default (title, deskType, branchType) => props => (
         deleteRule: DeleteRule,
       }),
     )(HierarchyProfileRules),
-    { title, deskType, branchType, ...props },
+    { title, branchType, ...props },
   )
 );

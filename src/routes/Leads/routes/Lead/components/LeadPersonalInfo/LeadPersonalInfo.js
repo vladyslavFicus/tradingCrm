@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import Flag from 'react-world-flags';
+import Flag from 'react-country-flag';
 import Uuid from 'components/Uuid';
 import PropTypes from 'constants/propTypes';
 import Click2Call from 'components/Click2Call';
@@ -79,7 +79,13 @@ class LeadPersonalInfo extends PureComponent {
             value={(
               <Choose>
                 <When condition={country}>
-                  <Flag height={10} code={getCountryCode(country)} />
+                  <Flag
+                    svg
+                    style={{
+                      height: 10,
+                    }}
+                    countryCode={getCountryCode(country)}
+                  />
                   {' '}
                   {countryList[getCountryCode(country)]}
                 </When>

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import Flag from 'react-world-flags';
+import Flag from 'react-country-flag';
 import { getCountryCode } from 'utils/countryList';
 import './CountryLabelWithFlag.scss';
 
@@ -24,7 +24,14 @@ class CountryLabelWithFlag extends PureComponent {
     return (
       <div className="CountryLabelWithFlag">
         <div className="CountryLabelWithFlag__flag">
-          <Flag height={height} width={width} code={getCountryCode(code)} />
+          <Flag
+            svg
+            style={{
+              height,
+              width,
+            }}
+            countryCode={getCountryCode(code)}
+          />
         </div>
         <div className="CountryLabelWithFlag__codes">
           <div className="CountryLabelWithFlag__country-code">{code}</div>
