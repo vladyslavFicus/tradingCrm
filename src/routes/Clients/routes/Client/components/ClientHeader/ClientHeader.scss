@@ -1,4 +1,4 @@
-.LeadHeader {
+.ClientHeader {
   background-color: #fff;
   border-bottom: 1px solid #eee;
   padding: 12px 25px;
@@ -12,6 +12,10 @@
   &__title {
     font-size: 20px;
     font-weight: 700;
+
+    &-verified {
+      color: #28a745;
+    }
   }
 
   &__uuid {
@@ -19,8 +23,8 @@
   }
 
   &__action {
-    &:not(:first-child) {
-      margin-left: 15px;
+    &:not(:last-child) {
+      margin-right: 15px;
     }
   }
 }

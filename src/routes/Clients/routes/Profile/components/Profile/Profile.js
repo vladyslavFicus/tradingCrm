@@ -1,12 +1,10 @@
+/* eslint-disable */
+
 import React, { PureComponent, Fragment, Suspense } from 'react';
 import { get } from 'lodash';
-import { Switch, Redirect, withRouter } from 'react-router-dom';
-import Helmet from 'react-helmet';
-import { compose } from 'react-apollo';
-import { withRequests, parseErrors } from 'apollo';
+import { Switch, Redirect } from 'react-router-dom';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
-import EventEmitter, { PROFILE_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import {
   statusActions as userStatuses,
 } from 'constants/user';
@@ -29,7 +27,6 @@ import {
 } from '../../routes';
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
-import ProfileQuery from './graphql/ProfileQuery';
 import { userProfileTabs } from './constants';
 
 class Profile extends PureComponent {
@@ -41,24 +38,6 @@ class Profile extends PureComponent {
     profileQuery: PropTypes.query({
       profile: PropTypes.profile,
     }).isRequired,
-  };
-
-  componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
-    EventEmitter.on(ACQUISITION_STATUS_CHANGED, this.onAcquisitionStatusChangedEvent);
-  }
-
-  componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-    EventEmitter.off(ACQUISITION_STATUS_CHANGED, this.onAcquisitionStatusChangedEvent);
-  }
-
-  onProfileEvent = () => {
-    this.props.profileQuery.refetch();
-  };
-
-  onAcquisitionStatusChangedEvent = () => {
-    this.props.profileQuery.refetch();
   };
 
   get availableStatuses() {
@@ -75,29 +54,8 @@ class Profile extends PureComponent {
   }
 
   render() {
-    const {
-      profileQuery: {
-        data,
-        loading,
-        error,
-      },
-      match: { path },
-    } = this.props;
-
-    if (error && parseErrors(error).error === 'error.entity.not.found') {
-      return <NotFound />;
-    }
-    const profileData = get(data, 'profile');
-
-    if (loading && !profileData) {
-      return null;
-    }
-
     return (
       <Fragment>
-        <If condition={profileData}>
-          <Helmet title={`${profileData.firstName} ${profileData.lastName}`} />
-        </If>
         <div className="profile__info">
           <ProfileHeader
             profile={profileData}
@@ -132,11 +90,3 @@ class Profile extends PureComponent {
     );
   }
 }
-
-export default compose(
-  withRouter,
-  withPermission,
-  withRequests({
-    profileQuery: ProfileQuery,
-  }),
-)(Profile);

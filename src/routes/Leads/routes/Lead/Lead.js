@@ -74,9 +74,9 @@ class Lead extends PureComponent {
 
     return (
       <div className="Lead">
-        <div className="Lead__content">
-          <LeadHeader lead={lead} />
+        <LeadHeader lead={lead} />
 
+        <div className="Lead__content">
           <div className="Lead__info">
             <LeadAccountStatus lead={lead} />
             <LeadRegistrationInfo registrationDate={lead.registrationDate} />

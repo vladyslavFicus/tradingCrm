@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query LoginLockQuery(
+  query ClientHeader_ClientLockStatusQuery(
     $playerUUID: String!
   ) {
     loginLock(uuid: $playerUUID) {
@@ -12,15 +12,15 @@ const REQUEST = gql`
     }
   }`;
 
-const LoginLockQuery = ({ children, profile: { uuid } }) => (
-  <Query query={REQUEST} variables={{ playerUUID: uuid }}>
+const ClientLockStatusQuery = ({ children, client }) => (
+  <Query query={REQUEST} variables={{ playerUUID: client.uuid }}>
     {children}
   </Query>
 );
 
-LoginLockQuery.propTypes = {
+ClientLockStatusQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  profile: PropTypes.profile.isRequired,
+  client: PropTypes.profile.isRequired,
 };
 
-export default LoginLockQuery;
+export default ClientLockStatusQuery;

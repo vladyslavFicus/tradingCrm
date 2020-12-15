@@ -42,11 +42,12 @@ const AcquisitionFragment = gql`
 `;
 
 const REQUEST = gql`
-  query ProfileQuery(
+  query Client_ClientQuery(
     $playerUUID: String!
   ) {
     profile(playerUUID: $playerUUID) {
       _id
+      uuid
       age
       birthDate
       brandId
@@ -60,13 +61,15 @@ const REQUEST = gql`
       lastUpdatedDate
       lastName
       migrationId
-      uuid
       emailVerified
       phoneVerified
       profileVerified
       timeZone
       address {
         ...AddressFragment
+      }
+      acquisition {
+        ...AcquisitionFragment
       }
       affiliate {
         uuid
@@ -176,16 +179,6 @@ const REQUEST = gql`
         fullName
         uuid
       }
-      acquisition {
-        ...AcquisitionFragment
-      }
-      #      uncomment when email history will be rdy
-      #      sentEmails {
-      #        id
-      #        name
-      #        subject
-      #        text
-      #      }
     }
   }
   ${ContactsFragment}
@@ -193,7 +186,7 @@ const REQUEST = gql`
   ${AcquisitionFragment}
 `;
 
-const ProfileQuery = ({ children, match: { params: { id } } }) => (
+const ClientQuery = ({ children, match: { params: { id } } }) => (
   <Query
     query={REQUEST}
     variables={{ playerUUID: id }}
@@ -203,7 +196,7 @@ const ProfileQuery = ({ children, match: { params: { id } } }) => (
   </Query>
 );
 
-ProfileQuery.propTypes = {
+ClientQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -212,4 +205,4 @@ ProfileQuery.propTypes = {
   }).isRequired,
 };
 
-export default ProfileQuery;
+export default ClientQuery;

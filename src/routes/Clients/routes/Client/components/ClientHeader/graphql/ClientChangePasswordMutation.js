@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation ChangePasswordMutation(
+  mutation ClientHeader_ClientChangePasswordMutation(
     $clientUuid: String!
     $newPassword: String!
   ) {
@@ -16,14 +16,14 @@ const REQUEST = gql`
     }
   }`;
 
-const ChangePasswordMutation = ({ children }) => (
+const ClientChangePasswordMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-ChangePasswordMutation.propTypes = {
+ClientChangePasswordMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default ChangePasswordMutation;
+export default ClientChangePasswordMutation;

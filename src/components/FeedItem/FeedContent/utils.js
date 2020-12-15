@@ -74,8 +74,6 @@ const translateValue = (value) => {
     'Phone verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_PHONE'),
     'E-mail verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL'),
   };
-  // 'FEED_ITEM.OPERATOR_CREATION.INVITATION_SENT_SUCCESS',
-  // 'FEED_ITEM.OPERATOR_CREATION.INVITATION_SENT_FAILURE',
 
   return detailsValues[value] || value;
 };

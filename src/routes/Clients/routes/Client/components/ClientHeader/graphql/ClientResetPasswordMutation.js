@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 import { getBrand } from 'config';
 
 const REQUEST = gql`
-  mutation PasswordResetRequestMutation(
+  mutation ClientHeader_ClientResetPasswordMutation(
     $playerUUID: String!
   ) {
     auth {
@@ -13,14 +13,14 @@ const REQUEST = gql`
     }
   }`;
 
-const PasswordResetRequestMutation = ({ children }) => (
+const ClientResetPasswordMutation = ({ children }) => (
   <Mutation mutation={REQUEST} variables={{ brandId: getBrand().id }}>
     {children}
   </Mutation>
 );
 
-PasswordResetRequestMutation.propTypes = {
+ClientResetPasswordMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default PasswordResetRequestMutation;
+export default ClientResetPasswordMutation;

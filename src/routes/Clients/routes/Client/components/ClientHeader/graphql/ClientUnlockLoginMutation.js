@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation UnlockLoginMutation(
+  mutation ClientHeader_ClientUnlockLoginMutation(
     $playerUUID: String!
   ) {
     auth {
@@ -12,14 +12,14 @@ const REQUEST = gql`
     }
   }`;
 
-const UnlockLoginMutation = ({ children }) => (
+const ClientUnlockLoginMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-UnlockLoginMutation.propTypes = {
+ClientUnlockLoginMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UnlockLoginMutation;
+export default ClientUnlockLoginMutation;
