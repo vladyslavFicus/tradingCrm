@@ -62,21 +62,19 @@ class CreateRuleModal extends PureComponent {
       withOperatorSpreads,
     } = this.props;
 
+    const variables = decodeNullValues(values);
+
+    if (withOperatorSpreads) {
+      variables.operatorSpreads = [
+        // the filter needs to delete an empty value in array
+        ...operatorSpreads.filter(item => item && item.percentage),
+      ];
+    } else {
+      variables.parentBranch = parentBranch;
+    }
+
     try {
-      await createRuleMutation(
-        {
-          variables: {
-            parentBranch,
-            ...withOperatorSpreads && {
-              operatorSpreads: [
-                // the filter needs to delete an empty value in array
-                ...operatorSpreads.filter(item => item && item.percentage),
-              ],
-            },
-            ...decodeNullValues(values),
-          },
-        },
-      );
+      await createRuleMutation({ variables });
 
       onSuccess();
 

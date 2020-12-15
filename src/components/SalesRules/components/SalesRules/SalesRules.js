@@ -59,6 +59,11 @@ class SalesRules extends PureComponent {
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     type: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
     isTab: PropTypes.bool,
   };
 
@@ -72,6 +77,11 @@ class SalesRules extends PureComponent {
       modals: {
         createRuleModal,
       },
+      match: {
+        params: {
+          id: parentBranch,
+        },
+      },
       rulesQuery: {
         refetch,
       },
@@ -79,6 +89,7 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     createRuleModal.show({
+      parentBranch,
       userType,
       withOperatorSpreads: true,
       onSuccess: async () => {
