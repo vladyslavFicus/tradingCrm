@@ -70,9 +70,7 @@ class Client extends PureComponent {
 
     return (
       <div className="Client">
-        <If condition={client}>
-          <Helmet title={`${client.firstName} ${client.lastName}`} />
-        </If>
+        <Helmet title={`${client.firstName} ${client.lastName}`} />
 
         <ClientHeader client={client} />
 

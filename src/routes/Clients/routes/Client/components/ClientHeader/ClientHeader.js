@@ -276,9 +276,9 @@ class ClientHeader extends PureComponent {
             small
           >
             <i
-              className={classNames(
-                'fa fa-refresh', { 'fa-spin': isRunningReloadAnimation },
-              )}
+              className={classNames('fa fa-refresh ClientHeader__icon', {
+                'ClientHeader__icon--spin': isRunningReloadAnimation,
+              })}
             />
           </Button>
 
