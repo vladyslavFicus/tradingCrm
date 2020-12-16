@@ -1,4 +1,4 @@
-.PartnersGrid {
+.OperatorsGrid {
   background-color: #fff;
   padding: 0 25px 25px;
 
@@ -8,14 +8,6 @@
 
   &__uuid {
     font-size: 12px;
-  }
-
-  &__partner-type {
-    font-weight: 700;
-
-    &--affiliate {
-      color: #46be8a;
-    }
   }
 
   &__registration {

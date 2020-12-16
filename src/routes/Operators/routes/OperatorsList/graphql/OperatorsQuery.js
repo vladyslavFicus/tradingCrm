@@ -4,21 +4,21 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query PartnersList_PartnersQuery(
-    $page: Page__Input
+  query OperatorsList_OperatorsQuery(
     $searchBy: String
     $country: String
     $status: String
     $registrationDateFrom: String
     $registrationDateTo: String
+    $page: Page__Input
   ) {
-    partners (
-      page: $page
+    operators(
       searchBy: $searchBy
       country: $country
       status: $status
       registrationDateFrom: $registrationDateFrom
       registrationDateTo: $registrationDateTo
+      page: $page
     ) {
       page
       number
@@ -28,17 +28,16 @@ const REQUEST = gql`
       content {
         uuid
         fullName
-        createdAt
-        externalAffiliateId
-        status
-        statusChangeDate
         country
+        registrationDate
+        operatorStatus
+        statusChangeDate
       }
     }
   }
 `;
 
-const PartnersQuery = ({ children, location: { state } }) => (
+const OperatorsQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
@@ -55,7 +54,7 @@ const PartnersQuery = ({ children, location: { state } }) => (
   </Query>
 );
 
-PartnersQuery.propTypes = {
+OperatorsQuery.propTypes = {
   children: PropTypes.func.isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
@@ -65,4 +64,4 @@ PartnersQuery.propTypes = {
   }).isRequired,
 };
 
-export default PartnersQuery;
+export default OperatorsQuery;

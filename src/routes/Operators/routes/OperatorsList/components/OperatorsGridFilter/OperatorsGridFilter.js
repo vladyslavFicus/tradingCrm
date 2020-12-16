@@ -1,27 +1,16 @@
-import React, { Component } from 'react';
-import I18n from 'i18n-js';
-import { Formik, Form, Field } from 'formik';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import { Formik, Form, Field } from 'formik';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { createValidator, translateLabels } from 'utils/validator';
-import countries from 'utils/countryList';
-import {
-  FormikInputField,
-  FormikSelectField,
-  FormikDateRangeGroup,
-} from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { statusesLabels } from 'constants/operators';
+import countryList from 'utils/countryList';
 import { decodeNullValues } from 'components/Formik/utils';
-import { statusesLabels, statuses } from 'constants/operators';
-import { attributeLabels } from '../constants';
+import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { Button, RefreshButton } from 'components/UI';
+import './OperatorsGridFilter.scss';
 
-const validate = createValidator({
-  keyword: 'string',
-  country: ['string', `in:${Object.keys(countries).join()}`],
-  status: ['string', `in:${Object.keys(statuses).join()}`],
-}, translateLabels(attributeLabels), false);
-
-class OperatorGridFilter extends Component {
+class OperatorsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
@@ -55,16 +44,16 @@ class OperatorGridFilter extends Component {
 
   render() {
     const {
-      handleRefetch,
       location: { state },
+      handleRefetch,
     } = this.props;
 
     return (
       <Formik
-        enableReinitialize
+        className="OperatorsGridFilter"
         initialValues={state?.filters || {}}
-        validate={validate}
         onSubmit={this.handleSubmit}
+        enableReinitialize
       >
         {({
           isSubmitting,
@@ -72,48 +61,51 @@ class OperatorGridFilter extends Component {
           values,
           dirty,
         }) => (
-          <Form className="filter__form">
-            <div className="filter__form-inputs">
+          <Form className="OperatorsGridFilter__form">
+            <div className="OperatorsGridFilter__fields">
               <Field
                 name="searchBy"
-                label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.SEARCH_BY')}
-                placeholder={I18n.t(attributeLabels.keyword)}
-                component={FormikInputField}
+                className="OperatorsGridFilter__field OperatorsGridFilter__search"
+                label={I18n.t('OPERATORS.GRID_FILTERS.SEARCH_BY')}
+                placeholder={I18n.t('OPERATORS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
-                className="filter-row__medium"
+                component={FormikInputField}
                 withFocus
               />
+
               <Field
                 name="country"
-                searchable
-                label={I18n.t(attributeLabels.country)}
-                component={FormikSelectField}
+                className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                label={I18n.t('OPERATORS.GRID_FILTERS.COUNTRY')}
+                component={FormikSelectField}
+                withAnyOption
+                searchable
                 withFocus
               >
-                {Object.keys(countries).map(key => (
-                  <option key={key} value={key}>{countries[key]}</option>
+                {Object.keys(countryList).map(key => (
+                  <option key={key} value={key}>{countryList[key]}</option>
                 ))}
               </Field>
+
               <Field
                 name="status"
-                searchable
-                label={I18n.t(attributeLabels.status)}
-                component={FormikSelectField}
+                className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                label={I18n.t('PARTNERS.GRID_FILTERS.STATUS')}
+                component={FormikSelectField}
+                withAnyOption
+                searchable
                 withFocus
               >
                 {Object.keys(statusesLabels).map(status => (
-                  <option key={status} value={status}>
-                    {I18n.t(statusesLabels[status])}
-                  </option>
+                  <option key={status} value={status}>{I18n.t(statusesLabels[status])}</option>
                 ))}
               </Field>
+
               <FormikDateRangeGroup
-                className="form-group filter-row__big"
-                label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
+                className="OperatorsGridFilter__field OperatorsGridFilter__date-range"
+                label={I18n.t('OPERATORS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
                 periodKeys={{
                   start: 'registrationDateFrom',
                   end: 'registrationDateTo',
@@ -121,21 +113,27 @@ class OperatorGridFilter extends Component {
                 withFocus
               />
             </div>
-            <div className="filter__form-buttons">
+
+            <div className="OperatorsGridFilter__buttons">
               <RefreshButton
+                className="OperatorsGridFilter__button"
                 onClick={handleRefetch}
               />
+
               <Button
-                primary
+                className="OperatorsGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
+                primary
               >
                 {I18n.t('COMMON.RESET')}
               </Button>
+
               <Button
-                primary
+                className="OperatorsGridFilter__button"
                 disabled={isSubmitting || !dirty}
                 type="submit"
+                primary
               >
                 {I18n.t('COMMON.APPLY')}
               </Button>
@@ -147,4 +145,4 @@ class OperatorGridFilter extends Component {
   }
 }
 
-export default withRouter(OperatorGridFilter);
+export default withRouter(OperatorsGridFilter);
