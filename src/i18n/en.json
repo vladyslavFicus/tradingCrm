@@ -1660,15 +1660,6 @@
     "FIELD_IS_REQUIRED": "Field is required"
   },
   "PROFILE": {
-    "LAST_ACTIVITY": {
-      "TITLE": "Last activity",
-      "LOCATION": "Location",
-      "MODAL": "Modal",
-      "STATUS": {
-        "ONLINE": "Online",
-        "OFFLINE": "Offline"
-      }
-    },
     "LIST": {
       "FILTERS": {
         "SEARCH": "Search by",
@@ -2611,6 +2602,15 @@
       "LAST_LOGIN": {
         "TITLE": "Last login",
         "FROM_COUNTRY": " from %{country}"
+      },
+      "LAST_ACTIVITY": {
+        "TITLE": "Last activity",
+        "LOCATION": "Location",
+        "MODAL": "Modal",
+        "STATUS": {
+          "ONLINE": "Online",
+          "OFFLINE": "Offline"
+        }
       },
       "ACQUISITION": {
         "TITLE": "Acquisition Status",

@@ -1,4 +1,4 @@
-.ClientLastLogin {
+.ClientLastActivity {
   border-right: 1px solid #dfe4ed;
   padding: 5px 0 5px 15px;
   flex: 1;
@@ -8,6 +8,19 @@
     color: #666;
     font-size: 11px;
     text-transform: uppercase;
+  }
+
+  &__status {
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &--online {
+      color: #46be8a;
+    }
+
+    &--offline {
+      color: #6c757d;
+    }
   }
 
   &__text-primary {

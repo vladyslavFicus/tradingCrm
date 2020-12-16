@@ -4,9 +4,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
-import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
 import PropTypes from 'constants/propTypes';
-import GridStatus from 'components/GridStatus';
 import Balances from '../Balances';
 import ReferrerStatisticsQuery from './graphql/ReferrerStatisticsQuery';
 import './ProfileHeader.scss';
@@ -50,16 +48,7 @@ class ProfileHeader extends Component {
 
     const registrationDate = registrationDetails?.registrationDate;
 
-    const {
-      online,
-      balance,
-      lastActivity,
-    } = profileView || {};
-
-    const { eventType, eventValue, location, date: lastActivityDate } = lastActivity || {};
-
-    const lastActivityDateLocal = lastActivityDate && moment.utc(lastActivityDate).local();
-    const lastActivityType = online ? 'ONLINE' : 'OFFLINE';
+    const { balance } = profileView || {};
 
     const baseCurrency = getBrand().currencies.base;
 
@@ -79,34 +68,6 @@ class ProfileHeader extends Component {
                 tradingAccounts={tradingAccounts && tradingAccounts.filter(account => account.accountType !== 'DEMO')}
                 uuid={uuid}
               />
-            </If>
-          </div>
-
-          {/* ClientLastActivity */}
-          <div className="header-block header-block-inner">
-            <div className="header-block-title">{I18n.t('PROFILE.LAST_ACTIVITY.TITLE')}</div>
-            <GridStatus
-              colorClassName={lastActivityStatusesColors[lastActivityType]}
-              statusLabel={I18n.t(lastActivityStatusesLabels[lastActivityType])}
-              info={lastActivityDateLocal}
-              infoLabel={date => date.fromNow()}
-            />
-            {lastActivityDateLocal && (
-              <div className="header-block-small">
-                {I18n.t('COMMON.ON')} {lastActivityDateLocal.format('DD.MM.YYYY')}
-              </div>
-            )}
-            <If condition={location}>
-              <div className="header-block-small">
-                <div className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.LOCATION')}: </div>
-                {location}
-              </div>
-            </If>
-            <If condition={eventType === 'MODALVIEW'}>
-              <div className="header-block-small">
-                <span className="header-block-middle">{I18n.t('PROFILE.LAST_ACTIVITY.MODAL')}: </span>
-                {eventValue}
-              </div>
             </If>
           </div>
 
