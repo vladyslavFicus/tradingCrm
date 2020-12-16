@@ -1,5 +1,6 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
-import moment from 'moment';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { getBrand } from 'config';
@@ -69,17 +70,6 @@ class ProfileHeader extends Component {
                 uuid={uuid}
               />
             </If>
-          </div>
-
-          {/* ClientRegistrationInfo */}
-          <div className="header-block header-block-inner">
-            <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
-            <div className="header-block-middle">
-              {moment.utc(registrationDate).local().fromNow()}
-            </div>
-            <div className="header-block-small">
-              {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
-            </div>
           </div>
 
           {/* ClientReferrals */}

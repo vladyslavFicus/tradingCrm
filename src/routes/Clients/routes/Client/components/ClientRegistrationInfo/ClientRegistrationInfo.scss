@@ -1,4 +1,4 @@
-.ClientLastLogin {
+.ClientRegistrationInfo {
   padding: 5px 0 5px 15px;
   flex: 1;
   min-height: 60px;
@@ -9,12 +9,12 @@
     text-transform: uppercase;
   }
 
-  &__text-primary {
+  &__primary {
     font-size: 13px;
     font-weight: 700;
   }
 
-  &__text-secondary {
+  &__secondary {
     color: #333;
     font-size: 11px;
   }

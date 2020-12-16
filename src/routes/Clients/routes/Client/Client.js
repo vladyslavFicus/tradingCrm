@@ -21,6 +21,7 @@ import ClientAccountStatus from './components/ClientAccountStatus';
 
 import ClientLastLogin from './components/ClientLastLogin';
 import ClientLastActivity from './components/ClientLastActivity';
+import ClientRegistrationInfo from './components/ClientRegistrationInfo';
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
 
@@ -84,7 +85,7 @@ class Client extends PureComponent {
             {/* ClientBalance */}
             <ClientLastLogin client={client} />
             <ClientLastActivity client={client} />
-            {/* ClientRegistrationInfo */}
+            <ClientRegistrationInfo registrationDate={client.registrationDetails?.registrationDate} />
             {/* ClientReferrals */}
           </div>
 
