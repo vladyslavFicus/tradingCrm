@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { entitiesPrefixes } from 'constants/uuid';
-import EventEmitter, { PROFILE_RELOAD, NOTE_ADDED, NOTE_UPDATED, NOTE_REMOVED } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD, NOTE_ADDED, NOTE_UPDATED, NOTE_REMOVED } from 'utils/EventEmitter';
 import NotePopover from 'components/NotePopover';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
@@ -19,20 +19,20 @@ class PinnedNotes extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.onClientEvent);
     EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.on(NOTE_UPDATED, this.onNoteEvent);
     EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.onClientEvent);
     EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.off(NOTE_UPDATED, this.onNoteEvent);
     EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
   }
 
-  onProfileEvent = () => {
+  onClientEvent = () => {
     this.props.notes.refetch();
   };
 

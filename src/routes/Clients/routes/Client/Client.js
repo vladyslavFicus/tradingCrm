@@ -25,6 +25,7 @@ import ClientRegistrationInfo from './components/ClientRegistrationInfo';
 import ClientReferrals from './components/ClientReferrals';
 
 import ClientLastIps from './components/ClientLastIps';
+import ClientPinnedNotes from './components/ClientPinnedNotes';
 
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
@@ -121,16 +122,14 @@ class Client extends PureComponent {
             <ClientReferrals clientUuid={uuid} />
           </div>
 
-          <div className="Client__details">
-            {/* ClientPersonalInfo */}
-            {/* ClientAcquisitionStatus */}
-            <ClientLastIps lastSignInSessions={lastSignInSessions || []} />
-            {/* ClientPinnedNotes */}
-          </div>
-
-          {/* <HideDetails>
-
-          </HideDetails> */}
+          <HideDetails>
+            <div className="Client__details">
+              {/* ClientPersonalInfo */}
+              {/* ClientAcquisitionStatus */}
+              <ClientLastIps lastSignInSessions={lastSignInSessions || []} />
+              <ClientPinnedNotes clientUuid={uuid} />
+            </div>
+          </HideDetails>
         </div>
 
         {/* <Tabs items={}/> */}
