@@ -22,6 +22,10 @@ import ClientAccountStatus from './components/ClientAccountStatus';
 import ClientLastLogin from './components/ClientLastLogin';
 import ClientLastActivity from './components/ClientLastActivity';
 import ClientRegistrationInfo from './components/ClientRegistrationInfo';
+import ClientReferrals from './components/ClientReferrals';
+
+import ClientLastIps from './components/ClientLastIps';
+
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
 
@@ -65,6 +69,21 @@ class Client extends PureComponent {
     const clientError = clientQuery.error || false;
     const isLoading = clientQuery.loading;
 
+    const {
+      uuid,
+      status,
+      lastName,
+      firstName,
+      profileView,
+      registrationDetails,
+    } = client || {};
+
+    const {
+      online,
+      lastActivity,
+      lastSignInSessions,
+    } = profileView || {};
+
     if (clientError) {
       return <NotFound />;
     }
@@ -75,24 +94,37 @@ class Client extends PureComponent {
 
     return (
       <div className="Client">
-        <Helmet title={`${client.firstName} ${client.lastName}`} />
+        <Helmet title={`${firstName} ${lastName}`} />
 
         <ClientHeader client={client} />
 
         <div className="Client__content">
           <div className="Client__info">
-            <ClientAccountStatus client={client} />
+            <ClientAccountStatus
+              clientUuid={uuid}
+              status={status}
+            />
+
             {/* ClientBalance */}
-            <ClientLastLogin client={client} />
-            <ClientLastActivity client={client} />
-            <ClientRegistrationInfo registrationDate={client.registrationDetails?.registrationDate} />
-            {/* ClientReferrals */}
+
+            <ClientLastLogin
+              lastSignInSession={lastSignInSessions && lastSignInSessions[lastSignInSessions.length -1]}
+            />
+
+            <ClientLastActivity
+              lastActivity={lastActivity}
+              onlineStatus={online}
+            />
+
+            <ClientRegistrationInfo registrationDate={registrationDetails?.registrationDate} />
+
+            <ClientReferrals clientUuid={uuid} />
           </div>
 
           <div className="Client__details">
             {/* ClientPersonalInfo */}
             {/* ClientAcquisitionStatus */}
-            {/* ClientLast10Ips */}
+            <ClientLastIps lastSignInSessions={lastSignInSessions || []} />
             {/* ClientPinnedNotes */}
           </div>
 

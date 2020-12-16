@@ -1,6 +1,4 @@
 import React, { PureComponent } from 'react';
-import I18n from 'i18n-js';
-import IpList from 'components/Information/IpList';
 import PermissionContent from 'components/PermissionContent';
 import PinnedNotes from 'components/PinnedNotes';
 import permissions from 'config/permissions';
@@ -25,8 +23,6 @@ class Information extends PureComponent {
       profileLoading,
     } = this.props;
 
-    const lastSignInSessions = profile.profileView?.lastSignInSessions || [];
-
     return (
       <div className="account-details">
         <div className="row">
@@ -40,10 +36,6 @@ class Information extends PureComponent {
               profile={profile}
               profileLoading={profileLoading}
             />
-          </div>
-          {/* ClientLastIps */}
-          <div className="col-md-2">
-            <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={lastSignInSessions} />
           </div>
           {/* ClientPinnedNotes */}
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>

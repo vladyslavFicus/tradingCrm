@@ -26,7 +26,6 @@ import ClientResetPasswordMutation from './graphql/ClientResetPasswordMutation';
 import ClientChangePasswordMutation from './graphql/ClientChangePasswordMutation';
 import './ClientHeader.scss';
 
-
 class ClientHeader extends PureComponent {
   static propTypes = {
     client: PropTypes.profile.isRequired,
@@ -50,18 +49,6 @@ class ClientHeader extends PureComponent {
     isRunningReloadAnimation: false,
   }
 
-  // componentDidUpdate() {
-  //   const { isRunningReloadAnimation } = this.state;
-
-  //   if (isRunningReloadAnimation) {
-  //     customTimeout(() => {
-  //       this.setState({ isRunningReloadAnimation: false });
-  //     }, 1000);
-  //   }
-  // }
-
-
-  // # Check this out
   onHandleReloadClick = () => {
     this.setState(
       { isRunningReloadAnimation: true },

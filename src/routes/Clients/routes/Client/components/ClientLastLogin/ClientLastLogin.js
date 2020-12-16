@@ -6,14 +6,14 @@ import './ClientLastLogin.scss';
 
 class ClientLastLogin extends PureComponent {
   static propTypes = {
-    client: PropTypes.profile.isRequired,
+    lastSignInSession: PropTypes.shape({
+      startedAt: PropTypes.string,
+      countryCode: PropTypes.string,
+    }).isRequired,
   };
 
   render() {
-    const { client } = this.props;
-
-    const lastSignInSessions = client?.profileView?.lastSignInSessions || [];
-    const lastSignInSession = lastSignInSessions[lastSignInSessions.length - 1];
+    const { lastSignInSession } = this.props;
 
     return (
       <div className="ClientLastLogin">

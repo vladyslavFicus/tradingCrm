@@ -53,21 +53,6 @@ PropTypes.pageableState = content => PropTypes.shape({
   receivedAt: PropTypes.number,
   error: PropTypes.object,
 });
-PropTypes.ipEntity = PropTypes.shape({
-  browserAgent: PropTypes.string,
-  sessionId: PropTypes.string,
-  sessionStart: PropTypes.string,
-  country: PropTypes.string,
-  ip: PropTypes.string,
-  uuid: PropTypes.string,
-});
-PropTypes.operatorIpEntity = PropTypes.shape({
-  agent: PropTypes.string.isRequired,
-  signInDate: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  ipAddress: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
-});
 PropTypes.noteEntity = PropTypes.shape({
   tagId: PropTypes.string,
   content: PropTypes.string,

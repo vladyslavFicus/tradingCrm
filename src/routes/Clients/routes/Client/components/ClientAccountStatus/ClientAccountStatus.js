@@ -21,7 +21,14 @@ const updateAccountStatusPermissions = new Permissions(permissions.USER_PROFILE.
 
 class ClientAccountStatus extends PureComponent {
   static propTypes = {
-    client: PropTypes.profile.isRequired,
+    clientUuid: PropTypes.string.isRequired,
+    status: PropTypes.shape({
+      changedAt: PropTypes.string,
+      changedBy: PropTypes.string,
+      comment: PropTypes.string,
+      reason: PropTypes.string,
+      type: PropTypes.string,
+    }).isRequired,
     changeAccountStatus: PropTypes.func.isRequired,
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -55,7 +62,7 @@ class ClientAccountStatus extends PureComponent {
   handleChangeAccountStatus = async ({ reason, comment }, action) => {
     const {
       notify,
-      client: { uuid },
+      clientUuid,
       changeAccountStatus,
       modals: { changeAccountStatusModal },
     } = this.props;
@@ -63,7 +70,7 @@ class ClientAccountStatus extends PureComponent {
     try {
       await changeAccountStatus({
         variables: {
-          uuid,
+          uuid: clientUuid,
           reason,
           comment,
           status: action,
@@ -87,8 +94,8 @@ class ClientAccountStatus extends PureComponent {
   };
 
   renderLabel = () => {
-    const { client } = this.props;
-    const { type, changedAt, changedBy } = client?.status || {};
+    const { status } = this.props;
+    const { type, changedAt, changedBy } = status || {};
 
     return (
       <div className="ClientAccountStatus__label">
@@ -113,7 +120,7 @@ class ClientAccountStatus extends PureComponent {
 
   render() {
     const {
-      client,
+      status,
       permission: { permissions: currentPermissions },
     } = this.props;
 
@@ -127,7 +134,7 @@ class ClientAccountStatus extends PureComponent {
       comment,
       reason,
       type,
-    } = client?.status || {};
+    } = status || {};
 
     const statusesOptions = type
       ? statusActions[type].filter(action => (new Permissions([action.permission])).check(currentPermissions))

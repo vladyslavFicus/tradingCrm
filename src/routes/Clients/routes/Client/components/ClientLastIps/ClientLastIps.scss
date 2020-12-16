@@ -1,0 +1,30 @@
+.ClientLastIps {
+  margin-right: 15px;
+  width: calc(25% - 11.25px);
+
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    overflow: auto;
+    height: 200px;
+  }
+
+  &__ip {
+    margin-bottom: 2px;
+
+    &-flag {
+      margin-right: 10px;
+      position: relative;
+      top: 1px;
+    }
+  }
+}

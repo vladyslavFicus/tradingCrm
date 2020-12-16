@@ -7,17 +7,22 @@ import './ClientLastActivity.scss';
 
 class ClientLastActivity extends PureComponent {
   static propTypes = {
-    client: PropTypes.profile.isRequired,
+    lastActivity: PropTypes.shape({
+      eventType: PropTypes.string,
+      eventValue: PropTypes.string,
+      location: PropTypes.string,
+      date: PropTypes.string,
+    }).isRequired,
+    onlineStatus: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { client } = this.props;
+    const { onlineStatus, lastActivity } = this.props;
 
-    const { online, lastActivity } = client?.profileView || {};
     const { eventType, eventValue, location, date } = lastActivity || {};
 
     const lastActivityDate = date && moment.utc(date).local();
-    const lastActivityType = online ? 'ONLINE' : 'OFFLINE';
+    const lastActivityType = onlineStatus ? 'ONLINE' : 'OFFLINE';
 
     return (
       <div className="ClientLastActivity">

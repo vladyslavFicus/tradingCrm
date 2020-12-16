@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query ReferrerStatistics(
+  query ClientReferrals_ClientReferrerStatisticsQuery(
     $uuid: String!
   ) {
     referrerStatistics(uuid: $uuid) {
@@ -14,15 +14,15 @@ const REQUEST = gql`
     }
   }`;
 
-const ReferrerStatistics = ({ children, profile: { uuid } }) => (
-  <Query query={REQUEST} variables={{ uuid }}>
+const ClientReferrerStatisticsQuery = ({ children, clientUuid }) => (
+  <Query query={REQUEST} variables={{ uuid: clientUuid }}>
     {children}
   </Query>
 );
 
-ReferrerStatistics.propTypes = {
+ClientReferrerStatisticsQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  profile: PropTypes.profile.isRequired,
+  clientUuid: PropTypes.string.isRequired,
 };
 
-export default ReferrerStatistics;
+export default ClientReferrerStatisticsQuery;

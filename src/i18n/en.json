@@ -332,15 +332,6 @@
       "SET_PLAYER_AS_TEST": "Set player as test",
       "UN_SET_PLAYER_AS_TEST": "Unset player as test"
     },
-    "IP_LIST": {
-      "TITLE": "Last 10 ip's",
-      "NOTIFICATIONS": {
-        "COPY": {
-          "TITLE": "IP copied to your clipboard",
-          "MESSAGE": "IP has been copied to clipboard"
-        }
-      }
-    },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
     },
@@ -1424,9 +1415,6 @@
           "AFTER_LINK": " to re-assign all rules to another active operator."
         }
       }
-    },
-    "IP_LIST": {
-      "TITLE": "Last 10 ip's"
     },
     "CLOSE_REASONS": {
       "PENDING_INVESTIGATION": "Pending investigation",
@@ -2612,10 +2600,6 @@
           "OFFLINE": "Offline"
         }
       },
-      "ACQUISITION": {
-        "TITLE": "Acquisition Status",
-        "SALES": "Sales"
-      },
       "REGISTERED": {
         "TITLE": "Registered"
       },
@@ -2623,6 +2607,19 @@
         "TITLE": "REFERRALS",
         "FTD": "FTD: %{value}",
         "REMUNERATION": "Remuneration: %{currency} %{value}"
+      },
+      "ACQUISITION": {
+        "TITLE": "Acquisition Status",
+        "SALES": "Sales"
+      },
+      "LAST_IPS": {
+        "TITLE": "Last 10 ip's",
+        "NOTIFICATIONS": {
+          "COPY": {
+            "TITLE": "IP copied to your clipboard",
+            "MESSAGE": "IP has been copied to clipboard"
+          }
+        }
       }
     },
     "TRANSACTIONS": {
