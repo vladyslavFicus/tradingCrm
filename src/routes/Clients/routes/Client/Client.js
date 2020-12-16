@@ -18,6 +18,8 @@ import NotFound from 'routes/NotFound';
 
 import ClientHeader from './components/ClientHeader';
 import ClientAccountStatus from './components/ClientAccountStatus';
+
+import ClientLastLogin from './components/ClientLastLogin';
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
 
@@ -61,6 +63,8 @@ class Client extends PureComponent {
     const clientError = clientQuery.error || false;
     const isLoading = clientQuery.loading;
 
+    const clientLastSignInSessions = client?.profileView?.lastSignInSessions || [];
+
     if (clientError) {
       return <NotFound />;
     }
@@ -78,10 +82,18 @@ class Client extends PureComponent {
         <div className="Client__content">
           <div className="Client__info">
             <ClientAccountStatus client={client} />
+            {/* ClientBalance */}
+            <ClientLastLogin lastSignInSession={clientLastSignInSessions[clientLastSignInSessions.length - 1]} />
+            {/* ClientLastActivity */}
+            {/* ClientRegistrationInfo */}
+            {/* ClientReferrals */}
           </div>
 
           <div className="Client__details">
-
+            {/* ClientPersonalInfo */}
+            {/* ClientAcquisitionStatus */}
+            {/* ClientLast10Ips */}
+            {/* ClientPinnedNotes */}
           </div>
 
           {/* <HideDetails>

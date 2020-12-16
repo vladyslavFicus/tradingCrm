@@ -1660,10 +1660,6 @@
     "FIELD_IS_REQUIRED": "Field is required"
   },
   "PROFILE": {
-    "LAST_LOGIN": {
-      "TITLE": "Last login",
-      "FROM_COUNTRY": " from %{country}"
-    },
     "LAST_ACTIVITY": {
       "TITLE": "Last activity",
       "LOCATION": "Location",
@@ -2611,6 +2607,10 @@
           "LAST_MONTH": "Last month",
           "LAST_3_MONTHS": "Last 3 month"
         }
+      },
+      "LAST_LOGIN": {
+        "TITLE": "Last login",
+        "FROM_COUNTRY": " from %{country}"
       },
       "ACQUISITION": {
         "TITLE": "Acquisition Status",

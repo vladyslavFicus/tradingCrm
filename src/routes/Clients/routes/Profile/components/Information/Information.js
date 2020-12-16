@@ -30,18 +30,22 @@ class Information extends PureComponent {
     return (
       <div className="account-details">
         <div className="row">
+          {/* ClientPersonalInfo */}
           <div className="col-md-3">
             <Personal profile={profile} profileLoading={profileLoading} />
           </div>
+          {/* ClientAcquisitionStatus */}
           <div className="col-md-3">
             <AcquisitionStatus
               profile={profile}
               profileLoading={profileLoading}
             />
           </div>
+          {/* ClientLastIps */}
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={lastSignInSessions} />
           </div>
+          {/* ClientPinnedNotes */}
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
             <div className="col">
               <PinnedNotes targetUUID={profile.uuid} targetType={targetTypes.PLAYER} />

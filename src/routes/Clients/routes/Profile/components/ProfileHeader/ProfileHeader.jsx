@@ -6,7 +6,6 @@ import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
 import PropTypes from 'constants/propTypes';
-import ProfileLastLogin from 'components/ProfileLastLogin';
 import GridStatus from 'components/GridStatus';
 import Balances from '../Balances';
 import ReferrerStatisticsQuery from './graphql/ReferrerStatisticsQuery';
@@ -55,7 +54,6 @@ class ProfileHeader extends Component {
       online,
       balance,
       lastActivity,
-      lastSignInSessions,
     } = profileView || {};
 
     const { eventType, eventValue, location, date: lastActivityDate } = lastActivity || {};
@@ -69,6 +67,7 @@ class ProfileHeader extends Component {
       <div className="ProfileHeader">
 
         <div className="layout-quick-overview">
+          {/* ClientBalance */}
           <div className="header-block header-block-inner header-block_balance" id="player-profile-balance-block">
             <If condition={uuid}>
               <Balances
@@ -82,7 +81,8 @@ class ProfileHeader extends Component {
               />
             </If>
           </div>
-          <ProfileLastLogin lastIp={lastSignInSessions ? lastSignInSessions[lastSignInSessions.length - 1] : null} />
+
+          {/* ClientLastActivity */}
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('PROFILE.LAST_ACTIVITY.TITLE')}</div>
             <GridStatus
@@ -109,6 +109,8 @@ class ProfileHeader extends Component {
               </div>
             </If>
           </div>
+
+          {/* ClientRegistrationInfo */}
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REGISTERED.TITLE')}</div>
             <div className="header-block-middle">
@@ -118,6 +120,8 @@ class ProfileHeader extends Component {
               {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
             </div>
           </div>
+
+          {/* ClientReferrals */}
           <div className="header-block header-block-inner">
             <div className="header-block-title">{I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.TITLE')}</div>
             <div className="header-block-middle">
@@ -133,6 +137,7 @@ class ProfileHeader extends Component {
               })}
             </div>
           </div>
+
         </div>
       </div>
     );
