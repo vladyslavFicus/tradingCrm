@@ -9,12 +9,26 @@
     margin-bottom: 0;
   }
 
-  &:hover &__name {
-    color: #000;
-  }
+  &:hover {
+    .FilterSetsOption {
+      &__name {
+        color: #000000;
+      }
 
-  &:hover &__icon-symbol  {
-    fill: #ff0000;
+      &__icon-symbol  {
+        fill: #5187bd;
+      }
+    }
+  }
+  
+  &--favourite {
+    .FilterSetsOption {
+      &__icon-symbol {
+        path:first-child {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   &__icon {
@@ -34,7 +48,12 @@
   &__icon-symbol {
     height: 14px;
     width: 14px;
+    fill: #7f7f7f;
     transition: .2s ease;
+
+    path:first-child {
+      opacity: 0;
+    }
   }
 
   &__name {

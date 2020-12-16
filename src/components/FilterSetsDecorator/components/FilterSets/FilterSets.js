@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import classNames from 'classnames';
-import FilterSetsOption from './FilterSetsOption';
+import FilterSetsOption from './components/FilterSetsOption';
+import FilterSetsSearch from './components/FilterSetsSearch';
 import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
 import './FilterSets.scss';
 
@@ -22,22 +23,26 @@ class FilterSets extends PureComponent {
   };
 
   state = {
+    isOpen: false,
+    searchValue: '',
     sortedByFavorites: false,
-    isOpenDropdown: false,
-    searchInputValue: '',
   };
 
-  handleToggleDropdown = () => {
-    this.setState(({ isOpenDropdown }) => ({
-      isOpenDropdown: !isOpenDropdown,
+  toggleDropdown = () => {
+    this.setState(({ isOpen }) => ({
+      isOpen: !isOpen,
     }));
   };
 
-  handleSearchFilters = ({ target: { value } }) => {
-    this.setState({ searchInputValue: value });
+  searchFilters = ({ target: { value } }) => {
+    this.setState({ searchValue: value });
   };
 
-  handleToogleSortFiltesListByFavorite = () => {
+  resetSearch = () => {
+    this.setState({ searchValue: '' });
+  };
+
+  sortByFavorite = () => {
     this.setState(({ sortedByFavorites }) => ({
       sortedByFavorites: !sortedByFavorites,
     }));
@@ -53,13 +58,13 @@ class FilterSets extends PureComponent {
     } = this.props;
 
     const {
-      isOpenDropdown,
-      searchInputValue,
+      isOpen,
+      searchValue,
       sortedByFavorites,
     } = this.state;
 
-    const dropdownOptions = searchInputValue
-      ? filtersList.filter(({ name }) => name.toLowerCase().includes(searchInputValue.toLowerCase()))
+    const dropdownOptions = searchValue
+      ? filtersList.filter(({ name }) => name.toLowerCase().includes(searchValue.toLowerCase()))
       : filtersList;
 
     const sortedDropdownOptions = sortedByFavorites
@@ -67,54 +72,47 @@ class FilterSets extends PureComponent {
       : dropdownOptions.sort((a, b) => a.name.localeCompare(b.name));
 
     const activeFilter = filtersList.find(({ uuid }) => uuid === selectedFilter);
-    const activeFilterName = activeFilter ? activeFilter.name : I18n.t('COMMON.SELECT_OPTION.DEFAULT');
+    const activeFilterName = activeFilter?.name || I18n.t('COMMON.SELECT_OPTION.DEFAULT');
 
     return (
-      <div className="filter-favorites__dropdown-container">
+      <div
+        className={
+          classNames('FilterSets', {
+            'FilterSets--disabled': disabled,
+            'FilterSets--unfolded': isOpen,
+            'FilterSets--inactive': !activeFilter,
+          })
+        }
+      >
         <Dropdown
-          className={
-            classNames('filter-favorites__dropdown', { 'is-disabled': disabled })
-          }
-          toggle={this.handleToggleDropdown}
-          isOpen={isOpenDropdown}
+          className="FilterSets__dropdown"
+          toggle={this.toggleDropdown}
+          isOpen={isOpen}
         >
-          <div className="filter-favorites__dropdown-label">
+          <div className="FilterSets__label">
             {I18n.t('FILTER_SET.DROPDOWN.LABEL')}
           </div>
 
-          <DropdownToggle className="filter-favorites__dropdown-head form-control" tag="div">
-            <div
-              className={classNames('filter-favorites__dropdown-head-value', { 'is-placeholder': !activeFilter })}
-            >
+          <DropdownToggle className="FilterSets__head" tag="div">
+            <div className="FilterSets__head-value">
               {activeFilterName}
             </div>
-            <i className="filter-favorites__dropdown-head-icon icon icon-arrow-down select-icon" />
+            <i className="FilterSets__head-icon icon icon-arrow-down" />
           </DropdownToggle>
 
-          <DropdownMenu className="filter-favorites__dropdown-drop" right>
-            <div className="filter-favorites__dropdown-search select-search-box">
-              <i className="icon icon-search select-search-box__icon-left" />
-              <input
-                type="text"
-                className="form-control"
-                placeholder={I18n.t('common.select.default_placeholder')}
-                onChange={this.handleSearchFilters}
-                value={searchInputValue}
-              />
-              <If condition={searchInputValue}>
-                <i
-                  className="icon icon-times select-search-box__icon-right"
-                  onClick={() => this.handleSearchFilters({ target: { value: '' } })}
-                />
-              </If>
-            </div>
+          <DropdownMenu className="FilterSets__dropdown" right>
+            <FilterSetsSearch
+              value={searchValue}
+              onChange={this.searchFilters}
+              reset={this.resetSearch}
+            />
             <Choose>
               <When condition={dropdownOptions.length}>
-                <div className="filter-favorites__dropdown-list">
+                <div className="FilterSets__dropdown-list">
                   <If condition={activeFilter}>
-                    <div className="filter-favorites__dropdown-list-top">
-                      <div className="filter-favorites__dropdown-list-title">
-                        Selected options
+                    <div className="FilterSets__dropdown-list-row">
+                      <div className="FilterSets__dropdown-list-title">
+                        {I18n.t('FILTER_SET.DROPDOWN.LIST.SELECTED')}
                       </div>
                     </div>
                     <FilterSetsOption
@@ -123,20 +121,20 @@ class FilterSets extends PureComponent {
                     />
                   </If>
 
-                  <div className="filter-favorites__dropdown-list-top">
-                    <div className="filter-favorites__dropdown-list-title">
+                  <div className="FilterSets__dropdown-list-row">
+                    <div className="FilterSets__dropdown-list-title">
                       {I18n.t('FILTER_SET.DROPDOWN.LIST.TITLE')}
                     </div>
                     <div
-                      className="filter-favorites__dropdown-list-sort"
-                      onClick={this.handleToogleSortFiltesListByFavorite}
+                      className="FilterSets__dropdown-list-sort"
+                      onClick={this.sortByFavorite}
                     >
                       {
                         sortedByFavorites
                           ? I18n.t('COMMON.ALL')
                           : (
                             <>
-                              <FavoriteStarIcon />
+                              <FavoriteStarIcon className="FilterSets__dropdown-list-sort-icon" />
                               {I18n.t('FILTER_SET.DROPDOWN.LIST.FAVORITE')}
                             </>
                           )
@@ -157,10 +155,8 @@ class FilterSets extends PureComponent {
                 </div>
               </When>
               <Otherwise>
-                <div className="filter-favorites__dropdown-list">
-                  <div className="filter-favorites__dropdown-not-found font-size-10 text-muted margin-10">
-                    {I18n.t('common.select.options_not_found', { query: searchInputValue })}
-                  </div>
+                <div className="FilterSets__dropdown-not-found">
+                  {I18n.t('common.select.options_not_found', { query: searchValue })}
                 </div>
               </Otherwise>
             </Choose>

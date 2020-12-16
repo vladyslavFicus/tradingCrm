@@ -1,0 +1,12 @@
+.FilterSetsDecorator {
+  &__control {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 20px 25px;
+
+    &--visible {
+      background-color: #f2f4f8;
+    }
+  }
+}

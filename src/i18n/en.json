@@ -3523,7 +3523,8 @@
       "LABEL": "Custom Filters Sets",
       "LIST": {
         "TITLE": "View",
-        "FAVORITE": "Favourite"
+        "FAVORITE": "Favourite",
+        "SELECTED": "Selected option"
       }
     },
     "CREATE_MODAL": {

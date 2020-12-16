@@ -16,6 +16,7 @@ import {
   DeleteFilterSetMutation,
   UpdateFavouriteFilterSetMutation,
 } from './graphql';
+import './FilterSetsDecorator.scss';
 
 class FilterSetsDecorator extends PureComponent {
   static propTypes = {
@@ -283,7 +284,13 @@ class FilterSetsDecorator extends PureComponent {
       <FilterSetsToggler>
         {({ filtersVisible, renderTrigger }) => (
           <>
-            <div className={classNames('filter-favorites', { 'is-filters-visible': filtersVisible })}>
+            <div
+              className={
+                classNames('FilterSetsDecorator__control', {
+                  'FilterSetsDecorator__control--visible': filtersVisible,
+                })
+              }
+            >
               <FilterSets
                 filtersList={filtersList}
                 selectedFilter={selectedFilter}

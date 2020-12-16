@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ReactComponent as SwitcherIcon } from './icons/switcher.svg';
+import './FilterSetsToggler.scss';
 
 class FilterSetsToggler extends PureComponent {
   static propTypes = {
@@ -20,10 +21,10 @@ class FilterSetsToggler extends PureComponent {
 
   renderTrigger = () => (
     <div
-      className={classNames('filter-switcher', { 'is-closed': !this.state.filtersVisible })}
+      className={classNames('FilterSetsToggler', { 'FilterSetsToggler--closed': !this.state.filtersVisible })}
       onClick={this.toggleVisibility}
     >
-      <SwitcherIcon />
+      <SwitcherIcon className="FilterSetsToggler__icon" />
     </div>
   );
 

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { ReactComponent as FavoriteStarIcon } from '../icons/favorites-star.svg';
+import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
 import './FilterSetsOption.scss';
 
 class FilterSetsOption extends PureComponent {
@@ -52,11 +52,14 @@ class FilterSetsOption extends PureComponent {
     } = this.props;
 
     return (
-      <div className="FilterSetsOption" onClick={this.handleOptionClick}>
+      <div
+        className={classNames(
+          'FilterSetsOption', { 'FilterSetsOption--favourite': favourite },
+        )}
+        onClick={this.handleOptionClick}
+      >
         <div
-          className={classNames(
-            'FilterSetsOption__icon', { 'FilterSetsOption__icon--active': favourite },
-          )}
+          className="FilterSetsOption__icon"
           onClick={this.handleIconClick}
         >
           <FavoriteStarIcon className="FilterSetsOption__icon-symbol" />
