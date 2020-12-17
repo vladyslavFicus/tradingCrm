@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { withRouter } from 'react-router-dom';
 import { NavLink } from 'components/Link';
 import './SubNavItem.scss';
 
-class SubNavItem extends Component {
+class SubNavItem extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     label: PropTypes.string.isRequired,
@@ -19,8 +19,8 @@ class SubNavItem extends Component {
     } = this.props;
 
     return (
-      <NavLink className="sub-nav-item" activeClassName="sub-nav-item sub-nav-item--active" to={url}>
-        <i className="icon-nav-arrow-v sub-nav-item__icon" />
+      <NavLink className="SubNavItem" activeClassName="SubNavItem SubNavItem--active" to={url}>
+        <i className="icon-nav-arrow-v SubNavItem__icon" />
         {I18n.t(label)}
       </NavLink>
     );

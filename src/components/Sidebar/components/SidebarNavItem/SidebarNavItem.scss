@@ -1,5 +1,6 @@
-.sidebar-nav-item {
+.SidebarNavItem {
   position: relative;
+
   &__link {
     display: flex;
     align-items: center;
@@ -24,32 +25,39 @@
       font-weight: 600;
     }
   }
+
   &__label {
     flex: 0 0 auto;
     display: inline-block;
     margin-right: auto;
     margin-left: 5px;
   }
+
   &__icon {
     flex: 0 0 55px;
     display: inline-block;
     width: 55px;
     text-align: center;
     font-size: 19px;
+
     &--operators {
       font-size: 22px;
     }
+
     &--payments {
       font-size: 15px;
     }
+
     &--leads {
       font-size: 24px;
     }
+
     &--trading-accounts {
       font-weight: 600;
       font-size: 20px;
     }
   }
+
   &__arrow {
     flex: 0 0 30px;
     display: inline-block;
