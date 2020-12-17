@@ -6,10 +6,10 @@ import I18n from 'i18n-js';
 import { NetworkStatus } from 'apollo-client';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { notificationCenterSubTypesLabels } from 'constants/notificationCenter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import { MAX_SELECTED_ROWS } from '../../constants';
 import './NotificationCenterTable.scss';
@@ -84,41 +84,6 @@ class NotificationCenterTable extends PureComponent {
     },
   );
 
-  renderCallbackDetails = (subtype, { callbackTime }) => (
-    <Fragment>
-      <div className="NotificationCenterTable__text-highlight">
-        {I18n.t(`NOTIFICATION_CENTER.DETAILS.${subtype || 'CALLBACK'}`)}
-      </div>
-      <div className="font-size-11">
-        {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
-          time: moment.utc(callbackTime).local().format('HH:mm'),
-        })}
-      </div>
-    </Fragment>
-  );
-
-  renderPaymentDetails = (subtype, { amount, currency }) => (
-    <Fragment>
-      <div className="NotificationCenterTable__text-highlight">
-        {I18n.t(notificationCenterSubTypesLabels[subtype])}
-      </div>
-      <div className="font-size-11">
-        {amount} {currency}
-      </div>
-    </Fragment>
-  );
-
-  renderAccountDetails = (subtype, { platformType, login }) => (
-    <Fragment>
-      <div className="NotificationCenterTable__text-highlight">
-        {I18n.t(notificationCenterSubTypesLabels[subtype])}
-      </div>
-      <div className="font-size-11">
-        {platformType} - {login}
-      </div>
-    </Fragment>
-  );
-
   render() {
     const {
       className,
@@ -173,34 +138,49 @@ class NotificationCenterTable extends PureComponent {
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
             render={({ type, subtype, details }) => (
-              <If condition={subtype || details}>
-                <Choose>
-                  <When condition={type === 'CALLBACK'}>
-                    {this.renderCallbackDetails(subtype, details)}
-                  </When>
-                  <When condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
-                    {this.renderPaymentDetails(subtype, details)}
-                  </When>
-                  <When condition={type === 'ACCOUNT'}>
-                    {this.renderAccountDetails(subtype, details)}
-                  </When>
-                  <Otherwise>
-                    <If condition={subtype}>
-                      <div className="NotificationCenterTable__text-highlight">
-                        {I18n.t(notificationCenterSubTypesLabels[subtype])}
-                      </div>
-                    </If>
-                  </Otherwise>
-                </Choose>
-              </If>
+              <Fragment>
+                <span className="NotificationCenterTable__text-highlight">
+                  {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
+                </span>
+
+                {/* Render custom details for individual type or subtype */}
+                <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
+                  <div className="NotificationCenterTable__text-subtype">{details.amount} {details.currency}</div>
+                </If>
+
+                <If condition={type === 'ACCOUNT'}>
+                  <PlatformTypeBadge center position="left" platformType={details.platformType}>
+                    <div className="NotificationCenterTable__text-subtype">{details.login}</div>
+                  </PlatformTypeBadge>
+                </If>
+
+                <If condition={type === 'CALLBACK'}>
+                  <div className="NotificationCenterTable__text-highlight">
+                    {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
+                      time: moment.utc(details.callbackTime).local().format('HH:mm'),
+                    })}
+                  </div>
+                </If>
+
+                <If condition={subtype === 'BULK_CLIENTS_ASSIGNED'}>
+                  <div className="NotificationCenterTable__text-subtype">
+                    {I18n.t('NOTIFICATION_CENTER.DETAILS.CLIENTS_COUNT', { clientsCount: details.clientsCount })}
+                  </div>
+                </If>
+              </Fragment>
             )}
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
             render={({ client }) => (
-              <If condition={client}>
-                <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />
-              </If>
+              <Choose>
+                <When condition={client}>
+                  <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />
+                </When>
+                <Otherwise>
+                  <div>&mdash;</div>
+                </Otherwise>
+              </Choose>
             )}
           />
           <GridColumn
