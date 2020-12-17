@@ -64,6 +64,16 @@
   &__one-fifth {
     width: 20%;
   }
+
+  &__button {
+    float: right;
+  }
+
+  &__date-picker {
+    & input {
+      font-size: 14px;
+    }
+  }
 }
 
 // # Modifiers

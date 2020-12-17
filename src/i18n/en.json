@@ -1907,7 +1907,8 @@
       "APPROVE_FAILED": "Failed to approve payment",
       "APPROVE_SUCCESS": "Payment successfully approved"
     },
-    "ORIGINAL_AGENT": "Original Agent"
+    "ORIGINAL_AGENT": "Original Agent",
+    "CREATION_TIME": "Creation time"
   },
   "TRADING_ACTIVITY_MODAL": {
     "TITLE": "Change agent",
