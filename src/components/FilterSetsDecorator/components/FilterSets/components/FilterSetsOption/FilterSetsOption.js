@@ -6,46 +6,46 @@ import './FilterSetsOption.scss';
 
 class FilterSetsOption extends PureComponent {
   static propTypes = {
-    filter: PropTypes.shape({
+    filterSet: PropTypes.shape({
       uuid: PropTypes.string,
       name: PropTypes.string,
       favourite: PropTypes.bool,
     }).isRequired,
-    selectFilter: PropTypes.func,
-    updateFavouriteFilter: PropTypes.func.isRequired,
+    selectFilterSet: PropTypes.func,
+    updateFavouriteFilterSet: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    selectFilter: null,
+    selectFilterSet: null,
   };
 
   handleOptionClick = () => {
     const {
-      filter,
-      selectFilter,
+      filterSet,
+      selectFilterSet,
     } = this.props;
 
-    if (selectFilter) {
-      selectFilter(filter.uuid);
+    if (selectFilterSet) {
+      selectFilterSet(filterSet.uuid);
     }
   };
 
   handleIconClick = (event) => {
     const {
-      filter: {
+      filterSet: {
         uuid,
         favourite,
       },
-      updateFavouriteFilter,
+      updateFavouriteFilterSet,
     } = this.props;
 
     event.stopPropagation();
-    updateFavouriteFilter(uuid, !favourite);
+    updateFavouriteFilterSet(uuid, !favourite);
   };
 
   render() {
     const {
-      filter: {
+      filterSet: {
         name,
         favourite,
       },

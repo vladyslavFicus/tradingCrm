@@ -10,15 +10,15 @@ import './FilterSets.scss';
 
 class FilterSets extends PureComponent {
   static propTypes = {
-    selectFilter: PropTypes.func.isRequired,
-    updateFavouriteFilter: PropTypes.func.isRequired,
-    filtersList: PropTypes.arrayOf(PropTypes.object).isRequired,
-    selectedFilter: PropTypes.string,
+    filterSetsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    selectedFilterSet: PropTypes.string,
     disabled: PropTypes.bool,
+    selectFilterSet: PropTypes.func.isRequired,
+    updateFavouriteFilterSet: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    selectedFilter: '',
+    selectedFilterSet: '',
     disabled: false,
   };
 
@@ -34,7 +34,12 @@ class FilterSets extends PureComponent {
     }));
   };
 
-  searchFilters = ({ target: { value } }) => {
+  selectFilterSet = (uuid) => {
+    this.toggleDropdown();
+    this.props.selectFilterSet(uuid);
+  };
+
+  searchFilterSet = ({ target: { value } }) => {
     this.setState({ searchValue: value });
   };
 
@@ -50,10 +55,9 @@ class FilterSets extends PureComponent {
 
   render() {
     const {
-      selectFilter,
-      updateFavouriteFilter,
-      filtersList,
-      selectedFilter,
+      updateFavouriteFilterSet,
+      filterSetsList,
+      selectedFilterSet,
       disabled,
     } = this.props;
 
@@ -64,15 +68,15 @@ class FilterSets extends PureComponent {
     } = this.state;
 
     const dropdownOptions = searchValue
-      ? filtersList.filter(({ name }) => name.toLowerCase().includes(searchValue.toLowerCase()))
-      : filtersList;
+      ? filterSetsList.filter(({ name }) => name.toLowerCase().includes(searchValue.toLowerCase()))
+      : filterSetsList;
 
     const sortedDropdownOptions = sortedByFavorites
       ? dropdownOptions.sort((a, b) => b.favourite - a.favourite)
       : dropdownOptions.sort((a, b) => a.name.localeCompare(b.name));
 
-    const activeFilter = filtersList.find(({ uuid }) => uuid === selectedFilter);
-    const activeFilterName = activeFilter?.name || I18n.t('COMMON.SELECT_OPTION.DEFAULT');
+    const activeFilterSet = filterSetsList.find(({ uuid }) => uuid === selectedFilterSet);
+    const activeFilterSetName = activeFilterSet?.name || I18n.t('COMMON.SELECT_OPTION.DEFAULT');
 
     return (
       <div
@@ -80,7 +84,7 @@ class FilterSets extends PureComponent {
           classNames('FilterSets', {
             'FilterSets--disabled': disabled,
             'FilterSets--unfolded': isOpen,
-            'FilterSets--inactive': !activeFilter,
+            'FilterSets--inactive': !activeFilterSet,
           })
         }
       >
@@ -95,7 +99,7 @@ class FilterSets extends PureComponent {
 
           <DropdownToggle className="FilterSets__head" tag="div">
             <div className="FilterSets__head-value">
-              {activeFilterName}
+              {activeFilterSetName}
             </div>
             <i className="FilterSets__head-icon icon icon-arrow-down" />
           </DropdownToggle>
@@ -103,21 +107,21 @@ class FilterSets extends PureComponent {
           <DropdownMenu className="FilterSets__dropdown" right>
             <FilterSetsSearch
               value={searchValue}
-              onChange={this.searchFilters}
+              onChange={this.searchFilterSet}
               reset={this.resetSearch}
             />
             <Choose>
               <When condition={dropdownOptions.length}>
                 <div className="FilterSets__dropdown-list">
-                  <If condition={activeFilter}>
+                  <If condition={activeFilterSet}>
                     <div className="FilterSets__dropdown-list-row">
                       <div className="FilterSets__dropdown-list-title">
                         {I18n.t('FILTER_SET.DROPDOWN.LIST.SELECTED')}
                       </div>
                     </div>
                     <FilterSetsOption
-                      filter={activeFilter}
-                      updateFavouriteFilter={updateFavouriteFilter}
+                      filterSet={activeFilterSet}
+                      updateFavouriteFilterSet={updateFavouriteFilterSet}
                     />
                   </If>
 
@@ -142,13 +146,13 @@ class FilterSets extends PureComponent {
                     </div>
                   </div>
                   {sortedDropdownOptions
-                    .filter(({ uuid }) => uuid !== selectedFilter)
-                    .map(filter => (
+                    .filter(({ uuid }) => uuid !== selectedFilterSet)
+                    .map(filterSet => (
                       <FilterSetsOption
-                        key={filter.uuid}
-                        filter={filter}
-                        selectFilter={selectFilter}
-                        updateFavouriteFilter={updateFavouriteFilter}
+                        key={filterSet.uuid}
+                        filterSet={filterSet}
+                        selectFilterSet={this.selectFilterSet}
+                        updateFavouriteFilterSet={updateFavouriteFilterSet}
                       />
                     ))
                   }

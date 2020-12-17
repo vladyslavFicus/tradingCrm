@@ -34,7 +34,7 @@ class ActionFilterModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     filterId: PropTypes.string,
-    fields: PropTypes.array.isRequired,
+    fields: PropTypes.object.isRequired,
     client: PropTypes.object.isRequired,
     filterSetType: PropTypes.string.isRequired,
     name: PropTypes.string,

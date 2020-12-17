@@ -27,6 +27,7 @@ class FilterSetsSearch extends PureComponent {
         <div className="FilterSetsSearch__field-wrapper">
           <Input
             type="text"
+            name="FilterSetsSearch"
             value={value}
             onChange={onChange}
             className="FilterSetsSearch__field"

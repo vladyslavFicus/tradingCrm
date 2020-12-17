@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
 import { withModals, withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
@@ -20,6 +21,7 @@ import './FilterSetsDecorator.scss';
 
 class FilterSetsDecorator extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     notify: PropTypes.func.isRequired,
     client: PropTypes.object.isRequired,
     modals: PropTypes.shape({
@@ -39,30 +41,63 @@ class FilterSetsDecorator extends PureComponent {
     currentValues: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
     submitFilters: PropTypes.func.isRequired,
-    resetFilters: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     disabled: false,
   };
 
+  static getDerivedStateFromProps({ location }) {
+    return {
+      selectedFilterSet: location?.state?.selectedFilterSet || '',
+    };
+  }
+
   state = {
-    selectedFilter: '',
+    selectedFilterSet: '',
     filterSetsLoading: false,
   };
 
-  selectFilter = uuid => this.setState({ selectedFilter: uuid });
+  setActiveFilterSet = (uuid) => {
+    const { history, location: { state } } = this.props;
 
-  createFilter = () => {
+    history.replace({
+      state: {
+        ...state,
+        selectedFilterSet: uuid,
+      },
+    });
+  };
+
+  removeActiveFilterSet = () => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        selectedFilterSet: null,
+      },
+    });
+  };
+
+  refetchFilterSets = () => {
     const {
       filterSetType,
-      currentValues,
-      modals: {
-        actionFilterModal,
-      },
       filterSetsQuery: {
         refetch,
       },
+    } = this.props;
+
+    return refetch({ type: filterSetType });
+  };
+
+  createFilterSet = () => {
+    const {
+      modals: {
+        actionFilterModal,
+      },
+      filterSetType,
+      currentValues,
     } = this.props;
 
     actionFilterModal.show({
@@ -70,49 +105,48 @@ class FilterSetsDecorator extends PureComponent {
       fields: currentValues,
       action: 'CREATE',
       onSuccess: async (_, { uuid }) => {
-        await refetch({ type: filterSetType });
+        await this.refetchFilterSets();
 
-        this.selectFilter(uuid);
+        this.setActiveFilterSet(uuid);
         actionFilterModal.hide();
       },
     });
   }
 
-  updateFilter = () => {
+  updateFilterSet = () => {
     const {
       modals: {
         actionFilterModal,
       },
-      currentValues,
       filterSetType,
-      filterSetsQuery: {
-        refetch,
-        data,
-      },
+      currentValues,
+      filterSetsQuery,
     } = this.props;
 
-    const { selectedFilter } = this.state;
+    const { selectedFilterSet } = this.state;
 
     const {
       common,
       favourite,
-    } = data?.filterSets || {};
+    } = filterSetsQuery.data?.filterSets || {};
 
     actionFilterModal.show({
+      filterSetType,
+      fields: currentValues,
+      action: 'UPDATE',
+      filterId: selectedFilterSet,
+      name: [...favourite, ...common].find(
+        ({ uuid }) => uuid === selectedFilterSet,
+      ).name,
       onSuccess: async () => {
-        await refetch({ type: filterSetType });
+        await this.refetchFilterSets();
+
         actionFilterModal.hide();
       },
-      action: 'UPDATE',
-      fields: currentValues,
-      filterId: selectedFilter,
-      name: [...favourite, ...common].find(
-        ({ uuid }) => uuid === selectedFilter,
-      ).name,
     });
   };
 
-  fetchFilterByUuid = async (uuid) => {
+  fetchFilterSetByUuid = async (uuid) => {
     const {
       notify,
       client,
@@ -129,7 +163,7 @@ class FilterSetsDecorator extends PureComponent {
 
       submitFilters(filterSet);
 
-      this.selectFilter(uuid);
+      this.setActiveFilterSet(uuid);
     } catch {
       notify({
         level: 'error',
@@ -141,22 +175,17 @@ class FilterSetsDecorator extends PureComponent {
     this.setState({ filterSetsLoading: false });
   };
 
-  updateFavouriteFilter = async (uuid, newValue) => {
+  updateFavouriteFilterSet = async (uuid, newValue) => {
     const {
       notify,
       updateFavouriteFilterSetMutation,
-      filterSetType,
-      filterSetsQuery: {
-        refetch,
-      },
     } = this.props;
 
     this.setState({ filterSetsLoading: true });
 
     try {
       await updateFavouriteFilterSetMutation({ variables: { uuid, favourite: newValue } });
-
-      refetch({ type: filterSetType });
+      await this.refetchFilterSets();
 
       notify({
         level: 'success',
@@ -174,33 +203,31 @@ class FilterSetsDecorator extends PureComponent {
     this.setState({ filterSetsLoading: false });
   };
 
-  deleteFilter = () => {
+  deleteFilterSet = () => {
     const {
       notify,
       modals: {
         confirmActionModal,
       },
-      filterSetType,
-      filterSetsQuery: {
-        data,
-        refetch,
-      },
+      filterSetsQuery,
       deleteFilterSetMutation,
-      resetFilters,
     } = this.props;
 
-    const { selectedFilter } = this.state;
+    const { selectedFilterSet } = this.state;
 
     const {
       common,
       favourite,
-    } = data?.filterSets || {};
+    } = filterSetsQuery.data?.filterSets || {};
 
     confirmActionModal.show({
-      uuid: selectedFilter,
+      uuid: selectedFilterSet,
       onSubmit: async () => {
         try {
-          await deleteFilterSetMutation({ variables: { uuid: selectedFilter } });
+          await deleteFilterSetMutation({ variables: { uuid: selectedFilterSet } });
+          await this.refetchFilterSets();
+
+          this.removeActiveFilterSet();
 
           notify({
             level: 'success',
@@ -209,10 +236,6 @@ class FilterSetsDecorator extends PureComponent {
           });
 
           confirmActionModal.hide();
-          await refetch({ type: filterSetType });
-
-          this.selectFilter('');
-          resetFilters();
         } catch (e) {
           const error = parseErrors(e);
 
@@ -227,7 +250,7 @@ class FilterSetsDecorator extends PureComponent {
       modalTitle: I18n.t('FILTER_SET.REMOVE_MODAL.TITLE'),
       actionText: I18n.t('FILTER_SET.REMOVE_MODAL.TEXT'),
       fullName: [...favourite, ...common].find(
-        ({ uuid }) => uuid === selectedFilter,
+        ({ uuid }) => uuid === selectedFilterSet,
       ).name,
       submitButtonLabel: I18n.t('FILTER_SET.REMOVE_MODAL.BUTTON_ACTION'),
     });
@@ -241,18 +264,18 @@ class FilterSetsDecorator extends PureComponent {
     } = this.props;
 
     const {
-      selectedFilter,
+      selectedFilterSet,
       filterSetsLoading,
     } = this.state;
 
     if (currentValues && Object.keys(currentValues).length > 0) {
       return (
         <FilterSetsButtons
-          hasSelectedFilter={!!selectedFilter}
+          hasSelectedFilterSet={!!selectedFilterSet}
           disabled={disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error}
-          createFilter={this.createFilter}
-          updateFilter={this.updateFilter}
-          deleteFilter={this.deleteFilter}
+          createFilterSet={this.createFilterSet}
+          updateFilterSet={this.updateFilterSet}
+          deleteFilterSet={this.deleteFilterSet}
         />
       );
     }
@@ -268,7 +291,7 @@ class FilterSetsDecorator extends PureComponent {
     } = this.props;
 
     const {
-      selectedFilter,
+      selectedFilterSet,
       filterSetsLoading,
     } = this.state;
 
@@ -277,8 +300,8 @@ class FilterSetsDecorator extends PureComponent {
       favourite,
     } = filterSetsQuery.data?.filterSets || {};
 
-    const filtersList = [...(favourite || []), ...(common || [])];
-    const filtersListDisabled = disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error;
+    const filterSetsList = [...(favourite || []), ...(common || [])];
+    const filterSetsListDisabled = disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error;
 
     return (
       <FilterSetsToggler>
@@ -292,11 +315,11 @@ class FilterSetsDecorator extends PureComponent {
               }
             >
               <FilterSets
-                filtersList={filtersList}
-                selectedFilter={selectedFilter}
-                disabled={filtersListDisabled}
-                selectFilter={this.fetchFilterByUuid}
-                updateFavouriteFilter={this.updateFavouriteFilter}
+                filterSetsList={filterSetsList}
+                selectedFilterSet={selectedFilterSet}
+                disabled={filterSetsListDisabled}
+                selectFilterSet={this.fetchFilterSetByUuid}
+                updateFavouriteFilterSet={this.updateFavouriteFilterSet}
               />
               {renderTrigger()}
             </div>
@@ -314,6 +337,7 @@ class FilterSetsDecorator extends PureComponent {
 
 export default compose(
   withApollo,
+  withRouter,
   withNotifications,
   withModals({
     actionFilterModal: ActionFilterModal,

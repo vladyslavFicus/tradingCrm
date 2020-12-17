@@ -105,12 +105,21 @@ class ClientsGridFilter extends PureComponent {
   };
 
   handleReset = () => {
-    const { history, location: { state } } = this.props;
+    const {
+      history,
+      location: {
+        state,
+      },
+      clientsLoading,
+    } = this.props;
+
+    if (clientsLoading) return;
 
     history.replace({
       state: {
         ...state,
         filters: null,
+        selectedFilterSet: null,
       },
     });
   };
@@ -135,8 +144,8 @@ class ClientsGridFilter extends PureComponent {
     return (
       <Formik
         enableReinitialize
-        handleSubmit={this.handleSubmit}
-        handleReset={this.handleReset}
+        onSubmit={this.handleSubmit}
+        onReset={this.handleReset}
         initialValues={state?.filters || {}}
         validate={createValidator({
           searchLimit: ['numeric', 'greater:0', `max:${MAX_SELECTED_CLIENTS}`],
@@ -158,7 +167,6 @@ class ClientsGridFilter extends PureComponent {
                 setValues(filterSetValues);
                 handleSubmit();
               }}
-              resetFilters={handleReset}
             >
               {({ renderFilterSetsButtons }) => (
                 <Form className="filter__form">
@@ -616,7 +624,7 @@ class ClientsGridFilter extends PureComponent {
 
                       <Button
                         onClick={handleReset}
-                        disabled={clientsLoading || isSubmitting || dirty}
+                        disabled={clientsLoading || isSubmitting || !Object.keys(values).length}
                         primary
                       >
                         {I18n.t('COMMON.RESET')}

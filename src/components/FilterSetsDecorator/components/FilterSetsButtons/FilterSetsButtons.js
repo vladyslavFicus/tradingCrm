@@ -7,11 +7,11 @@ import './FilterSetsButtons.scss';
 
 class FilterSetsButtons extends PureComponent {
   static propTypes = {
-    hasSelectedFilter: PropTypes.bool.isRequired,
+    hasSelectedFilterSet: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
-    createFilter: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    deleteFilter: PropTypes.func.isRequired,
+    createFilterSet: PropTypes.func.isRequired,
+    updateFilterSet: PropTypes.func.isRequired,
+    deleteFilterSet: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -20,37 +20,33 @@ class FilterSetsButtons extends PureComponent {
 
   render() {
     const {
-      hasSelectedFilter,
+      hasSelectedFilterSet,
       disabled,
-      createFilter,
-      updateFilter,
-      deleteFilter,
+      createFilterSet,
+      updateFilterSet,
+      deleteFilterSet,
     } = this.props;
 
     return (
       <div className={classNames('FilterSetsButtons', { 'FilterSetsButtons--disabled': disabled })}>
         <Button
           className="FilterSetsButtons__button FilterSetsButtons__button--primary"
-          onClick={createFilter}
+          onClick={createFilterSet}
         >
-          {
-            hasSelectedFilter
-              ? I18n.t('FILTER_SET.BUTTONS.SAVE_AS')
-              : I18n.t('FILTER_SET.BUTTONS.SAVE')
-          }
+          {I18n.t('FILTER_SET.BUTTONS.SAVE')}
         </Button>
 
-        <If condition={hasSelectedFilter}>
+        <If condition={hasSelectedFilterSet}>
           <Button
             className="FilterSetsButtons__button FilterSetsButtons__button--primary"
-            onClick={updateFilter}
+            onClick={updateFilterSet}
           >
-            {I18n.t('FILTER_SET.BUTTONS.SAVE')}
+            {I18n.t('FILTER_SET.BUTTONS.SAVE_AS')}
           </Button>
 
           <Button
             className="FilterSetsButtons__button FilterSetsButtons__button--danger"
-            onClick={deleteFilter}
+            onClick={deleteFilterSet}
           >
             {I18n.t('FILTER_SET.BUTTONS.DELETE')}
           </Button>
