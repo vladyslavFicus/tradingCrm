@@ -4,7 +4,6 @@ import PinnedNotes from 'components/PinnedNotes';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
-import AcquisitionStatus from './components/AcquisitionStatus';
 import Personal from './components/Personal';
 
 class Information extends PureComponent {
@@ -29,13 +28,6 @@ class Information extends PureComponent {
           {/* ClientPersonalInfo */}
           <div className="col-md-3">
             <Personal profile={profile} profileLoading={profileLoading} />
-          </div>
-          {/* ClientAcquisitionStatus */}
-          <div className="col-md-3">
-            <AcquisitionStatus
-              profile={profile}
-              profileLoading={profileLoading}
-            />
           </div>
           {/* ClientPinnedNotes */}
           <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>

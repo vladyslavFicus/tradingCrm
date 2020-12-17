@@ -24,6 +24,7 @@ import ClientLastActivity from './components/ClientLastActivity';
 import ClientRegistrationInfo from './components/ClientRegistrationInfo';
 import ClientReferrals from './components/ClientReferrals';
 
+import ClientAcquisitionStatus from './components/ClientAcquisitionStatus';
 import ClientLastIps from './components/ClientLastIps';
 import ClientPinnedNotes from './components/ClientPinnedNotes';
 
@@ -87,6 +88,7 @@ class Client extends PureComponent {
       status,
       lastName,
       firstName,
+      acquisition,
       profileView,
       registrationDetails,
     } = client || {};
@@ -137,7 +139,7 @@ class Client extends PureComponent {
           <HideDetails>
             <div className="Client__details">
               {/* ClientPersonalInfo */}
-              {/* ClientAcquisitionStatus */}
+              <ClientAcquisitionStatus clientUuid={uuid} clientAcquisition={acquisition} />
               <ClientLastIps lastSignInSessions={lastSignInSessions || []} />
               <ClientPinnedNotes clientUuid={uuid} />
             </div>
