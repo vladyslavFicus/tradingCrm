@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 import I18n from 'i18n-js';
+import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import { ReactComponent as AccountIcon } from './img/account.svg';
 import { ReactComponent as CallbackIcon } from './img/callback.svg';
 import { ReactComponent as ClientIcon } from './img/client.svg';
@@ -16,6 +18,11 @@ class NotificationItem extends PureComponent {
     type: PropTypes.string.isRequired,
     subtype: PropTypes.string.isRequired,
     priority: PropTypes.string.isRequired,
+    details: PropTypes.object,
+  };
+
+  static defaultProps = {
+    details: {},
   };
 
   renderIcon() {
@@ -55,6 +62,7 @@ class NotificationItem extends PureComponent {
       type,
       subtype,
       priority,
+      details,
     } = this.props;
 
     return (
@@ -84,6 +92,31 @@ class NotificationItem extends PureComponent {
           <div className="NotificationItem__body">
             {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
           </div>
+
+          {/* Render custom details for individual type or subtype */}
+          <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
+            <div className="NotificationItem__subtitle">{details.amount} {details.currency}</div>
+          </If>
+
+          <If condition={type === 'ACCOUNT'}>
+            <PlatformTypeBadge center position="left" platformType={details.platformType}>
+              <div className="NotificationItem__subtitle">{details.login}</div>
+            </PlatformTypeBadge>
+          </If>
+
+          <If condition={type === 'CALLBACK'}>
+            <div className="NotificationItem__subtitle">
+              {I18n.t('NOTIFICATION_CENTER.DETAILS.CALLBACK_TIME', {
+                time: moment.utc(details.callbackTime).local().format('HH:mm'),
+              })}
+            </div>
+          </If>
+
+          <If condition={subtype === 'BULK_CLIENTS_ASSIGNED'}>
+            <div className="NotificationItem__subtitle">
+              {I18n.t('NOTIFICATION_CENTER.DETAILS.CLIENTS_COUNT', { clientsCount: details.clientsCount })}
+            </div>
+          </If>
         </div>
       </div>
     );
