@@ -271,7 +271,7 @@ class CreateOperatorModal extends PureComponent {
                   <Field
                     name="branchId"
                     className="CreateOperatorModal__field"
-                    label={I18n.t(attributeLabels.branchType)}
+                    label={I18n.t(attributeLabels.branch)}
                     placeholder={
                       values.branchType
                         ? placeholderBranchType
