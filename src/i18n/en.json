@@ -2467,6 +2467,8 @@
   "CLIENT_PROFILE": {
     "TABS": {
       "PROFILE": "Profile",
+      "PAYMENTS": "Payments",
+      "TRADING_ACTIVITY": "Trading activity",
       "TRANSACTIONS": "Transactions",
       "ACCOUNTS": "Accounts",
       "CALLBACKS": "Callbacks",

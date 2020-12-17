@@ -1,45 +1,37 @@
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 
-export const userProfileTabs = [
+export const clientTabs = [
   {
-    label: 'CLIENT_PROFILE.TABS.PROFILE',
     url: '/clients/:id/profile',
+    label: 'CLIENT_PROFILE.TABS.PROFILE',
   }, {
     url: '/clients/:id/payments',
-    label: 'CONSTANTS.TRANSACTIONS.ROUTES.PAYMENTS',
+    label: 'CLIENT_PROFILE.TABS.PAYMENTS',
     permissions: new Permissions(permissions.PAYMENTS.PAYMENTS_LIST),
   }, {
     url: '/clients/:id/trading-activity',
-    label: 'CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY',
+    label: 'CLIENT_PROFILE.TABS.TRADING_ACTIVITY',
     permissions: new Permissions(permissions.TRADING_ACTIVITY.CLIENT_TRADING_ACTIVITY),
   }, {
-    label: 'CLIENT_PROFILE.TABS.ACCOUNTS',
     url: '/clients/:id/accounts',
+    label: 'CLIENT_PROFILE.TABS.ACCOUNTS',
   }, {
-    label: 'CLIENT_PROFILE.TABS.CALLBACKS',
     url: '/clients/:id/callbacks',
+    label: 'CLIENT_PROFILE.TABS.CALLBACKS',
   }, {
-    label: 'CLIENT_PROFILE.TABS.FILES',
     url: '/clients/:id/files',
+    label: 'CLIENT_PROFILE.TABS.FILES',
     permissions: new Permissions(permissions.USER_PROFILE.GET_FILES),
   }, {
-    label: 'CLIENT_PROFILE.TABS.NOTES',
     url: '/clients/:id/notes',
+    label: 'CLIENT_PROFILE.TABS.NOTES',
   }, {
-    label: 'CLIENT_PROFILE.TABS.FEED',
     url: '/clients/:id/feed',
+    label: 'CLIENT_PROFILE.TABS.FEED',
     permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
   }, {
-    label: 'CLIENT_PROFILE.TABS.REFERRALS',
     url: '/clients/:id/referrals',
+    label: 'CLIENT_PROFILE.TABS.REFERRALS',
   },
 ];
-
-export const moveField = type => ({
-  name: 'acquisitionStatus',
-  labelName: 'move',
-  component: 'select',
-  data: [aquisitionStatuses.find(({ value }) => type === value)],
-});

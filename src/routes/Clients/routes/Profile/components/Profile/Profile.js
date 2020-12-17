@@ -7,20 +7,8 @@ import Tabs from 'components/Tabs';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import Route from 'components/Route';
-import {
-  ClientView,
-  Payments,
-  TradingActivity,
-  Accounts,
-  Notes,
-  Files,
-  Feed,
-  ClientCallbacksTab,
-  Referrals,
-} from '../../routes';
 import ProfileHeader from '../ProfileHeader';
 import Information from '../Information';
-import { userProfileTabs } from './constants';
 
 class Profile extends PureComponent {
   static propTypes = {
@@ -46,8 +34,6 @@ class Profile extends PureComponent {
             <Information profile={profileData} profileLoading={loading} />
           </HideDetails>
         </div>
-
-        <Tabs items={userProfileTabs} />
 
         <div className="card no-borders">
           <Suspense fallback={null}>

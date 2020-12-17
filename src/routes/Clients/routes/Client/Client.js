@@ -27,6 +27,18 @@ import ClientReferrals from './components/ClientReferrals';
 import ClientLastIps from './components/ClientLastIps';
 import ClientPinnedNotes from './components/ClientPinnedNotes';
 
+import ClientProfileTab from './routes/ClientProfileTab';
+import ClientPaymentsTab from './routes/ClientPaymentsTab';
+import ClientTradingActivityTab from './routes/ClientTradingActivityTab';
+import ClientTradingAccountsTab from './routes/ClientTradingAccountsTab';
+import ClientCallbacksTab from './routes/ClientCallbacksTab';
+import ClientNotesTab from './routes/ClientNotesTab';
+import ClientFilesTab from './routes/ClientFilesTab';
+import ClientFeedsTab from './routes/ClientFeedsTab';
+import ClientReferralsTab from './routes/ClientReferralsTab';
+
+
+import { clientTabs } from './constants';
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
 
@@ -132,23 +144,23 @@ class Client extends PureComponent {
           </HideDetails>
         </div>
 
-        {/* <Tabs items={}/> */}
+        <Tabs items={clientTabs} />
 
         <div className="Client__tab-content">
-          {/* <Suspense fallback={null}>
+          <Suspense fallback={null}>
             <Switch>
-              <Route disableScroll path={`${path}/profile`} component={ClientView} />
-              <Route disableScroll path={`${path}/payments`} component={Payments} />
-              <Route disableScroll path={`${path}/trading-activity`} component={TradingActivity} />
-              <Route disableScroll path={`${path}/accounts`} component={Accounts} />
-              <Route disableScroll path={`${path}/callbacks`} component={ClientCallbacksTab} />
-              <Route disableScroll path={`${path}/notes`} component={Notes} />
-              <Route disableScroll path={`${path}/files`} component={Files} />
-              <Route disableScroll path={`${path}/feed`} component={Feed} />
-              <Route disableScroll path={`${path}/referrals`} component={Referrals} />
+              <Route path={`${path}/profile`} component={ClientProfileTab} />
+              <Route path={`${path}/payments`} component={ClientPaymentsTab} />
+              <Route path={`${path}/trading-activity`} component={ClientTradingActivityTab} />
+              <Route path={`${path}/accounts`} component={ClientTradingAccountsTab} />
+              <Route path={`${path}/callbacks`} component={ClientCallbacksTab} />
+              <Route path={`${path}/notes`} component={ClientNotesTab} />
+              <Route path={`${path}/files`} component={ClientFilesTab} />
+              <Route path={`${path}/feed`} component={ClientFeedsTab} />
+              <Route path={`${path}/referrals`} component={ClientReferralsTab} />
               <Redirect to={`${url}/profile`} />
             </Switch>
-          </Suspense> */}
+          </Suspense>
         </div>
         <BackToTop />
       </div>

@@ -14,7 +14,7 @@ import ClientTradingAccountsGridFilter from './ClientTradingAccountsGridFilter';
 import TradingAccountAddModal from './TradingAccountAddModal';
 import TradingAccountsGrid from './TradingAccountsGrid';
 import TradingAccountsQuery from './graphql/TradingAccountsQuery';
-import '../ClientTradingAccounts.scss';
+import '../ClientTradingAccountsTab.scss';
 
 class Accounts extends PureComponent {
   static propTypes = {
