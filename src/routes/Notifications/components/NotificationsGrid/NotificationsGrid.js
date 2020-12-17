@@ -44,12 +44,11 @@ class NotificationsGrid extends PureComponent {
     });
   };
 
-  renderNotificationUuid = ({ uuid }) => (
-    <Uuid uuid={uuid} className="NotificationsGrid__text-primary" />
-  );
-
-  renderNotificationType = ({ type }) => (
-    <span className="NotificationsGrid__text-primary">{type}</span>
+  renderNotificationType = ({ uuid, type }) => (
+    <div>
+      <div className="NotificationsGrid__text-primary">{type}</div>
+      <Uuid uuid={uuid} className="NotificationsGrid__text-secondary" />
+    </div>
   );
 
   renderNotificationTypeDetails = ({ type, details, subtype }) => (
@@ -177,12 +176,12 @@ class NotificationsGrid extends PureComponent {
           }
         >
           <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_ID')}
-            render={this.renderNotificationUuid}
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
+            render={this.renderNotificationType}
           />
           <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
-            render={this.renderPriority}
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
+            render={this.renderNotificationTypeDetails}
           />
           <GridColumn
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
@@ -197,12 +196,8 @@ class NotificationsGrid extends PureComponent {
             render={this.renderNotificationDate}
           />
           <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-            render={this.renderNotificationType}
-          />
-          <GridColumn
-            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
-            render={this.renderNotificationTypeDetails}
+            header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
+            render={this.renderPriority}
           />
         </Grid>
       </div>
