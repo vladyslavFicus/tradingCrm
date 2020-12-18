@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import classNames from 'classnames';
-import FilterSetsOption from './components/FilterSetsOption';
-import FilterSetsSearch from './components/FilterSetsSearch';
-import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
+import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
+import FilterSetsDropdown from './components/FilterSetsDropdown';
 import './FilterSets.scss';
 
 class FilterSets extends PureComponent {
@@ -24,8 +22,6 @@ class FilterSets extends PureComponent {
 
   state = {
     isOpen: false,
-    searchValue: '',
-    sortedByFavorites: false,
   };
 
   toggleDropdown = () => {
@@ -39,20 +35,6 @@ class FilterSets extends PureComponent {
     this.props.selectFilterSet(uuid);
   };
 
-  searchFilterSet = ({ target: { value } }) => {
-    this.setState({ searchValue: value });
-  };
-
-  resetSearch = () => {
-    this.setState({ searchValue: '' });
-  };
-
-  sortByFavorite = () => {
-    this.setState(({ sortedByFavorites }) => ({
-      sortedByFavorites: !sortedByFavorites,
-    }));
-  };
-
   render() {
     const {
       updateFavouriteFilterSet,
@@ -61,19 +43,7 @@ class FilterSets extends PureComponent {
       disabled,
     } = this.props;
 
-    const {
-      isOpen,
-      searchValue,
-      sortedByFavorites,
-    } = this.state;
-
-    const dropdownOptions = searchValue
-      ? filterSetsList.filter(({ name }) => name.toLowerCase().includes(searchValue.toLowerCase()))
-      : filterSetsList;
-
-    const sortedDropdownOptions = sortedByFavorites
-      ? dropdownOptions.sort((a, b) => b.favourite - a.favourite)
-      : dropdownOptions.sort((a, b) => a.name.localeCompare(b.name));
+    const { isOpen } = this.state;
 
     const activeFilterSet = filterSetsList.find(({ uuid }) => uuid === selectedFilterSet);
     const activeFilterSetName = activeFilterSet?.name || I18n.t('COMMON.SELECT_OPTION.DEFAULT');
@@ -105,65 +75,12 @@ class FilterSets extends PureComponent {
           </DropdownToggle>
 
           <DropdownMenu className="FilterSets__dropdown" right>
-            <FilterSetsSearch
-              value={searchValue}
-              onChange={this.searchFilterSet}
-              reset={this.resetSearch}
+            <FilterSetsDropdown
+              filterSetsList={filterSetsList}
+              activeFilterSet={activeFilterSet}
+              selectFilterSet={this.selectFilterSet}
+              updateFavouriteFilterSet={updateFavouriteFilterSet}
             />
-            <Choose>
-              <When condition={dropdownOptions.length}>
-                <div className="FilterSets__dropdown-list">
-                  <If condition={activeFilterSet}>
-                    <div className="FilterSets__dropdown-list-row">
-                      <div className="FilterSets__dropdown-list-title">
-                        {I18n.t('FILTER_SET.DROPDOWN.LIST.SELECTED')}
-                      </div>
-                    </div>
-                    <FilterSetsOption
-                      filterSet={activeFilterSet}
-                      updateFavouriteFilterSet={updateFavouriteFilterSet}
-                    />
-                  </If>
-
-                  <div className="FilterSets__dropdown-list-row">
-                    <div className="FilterSets__dropdown-list-title">
-                      {I18n.t('FILTER_SET.DROPDOWN.LIST.TITLE')}
-                    </div>
-                    <div
-                      className="FilterSets__dropdown-list-sort"
-                      onClick={this.sortByFavorite}
-                    >
-                      {
-                        sortedByFavorites
-                          ? I18n.t('COMMON.ALL')
-                          : (
-                            <>
-                              <FavoriteStarIcon className="FilterSets__dropdown-list-sort-icon" />
-                              {I18n.t('FILTER_SET.DROPDOWN.LIST.FAVORITE')}
-                            </>
-                          )
-                      }
-                    </div>
-                  </div>
-                  {sortedDropdownOptions
-                    .filter(({ uuid }) => uuid !== selectedFilterSet)
-                    .map(filterSet => (
-                      <FilterSetsOption
-                        key={filterSet.uuid}
-                        filterSet={filterSet}
-                        selectFilterSet={this.selectFilterSet}
-                        updateFavouriteFilterSet={updateFavouriteFilterSet}
-                      />
-                    ))
-                  }
-                </div>
-              </When>
-              <Otherwise>
-                <div className="FilterSets__dropdown-not-found">
-                  {I18n.t('common.select.options_not_found', { query: searchValue })}
-                </div>
-              </Otherwise>
-            </Choose>
           </DropdownMenu>
         </Dropdown>
       </div>
