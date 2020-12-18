@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import LeadsHeader from './components/LeadsHeader';
 import LeadsGridFilter from './components/LeadsGridFilter';
@@ -10,6 +11,7 @@ import './LeadsList.scss';
 
 class LeadsList extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     leadsQuery: PropTypes.query({
       leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
@@ -22,7 +24,10 @@ class LeadsList extends PureComponent {
 
   componentDidUpdate(prevProps) {
     // Clear selecting when filters or sorting changed
-    if (this.props.leadsQuery.loading && !prevProps.leadsQuery.loading) {
+    if (
+      this.props.location?.state?.filters !== prevProps.location?.state?.filters
+      || this.props.location?.state?.sortData !== prevProps.location?.state?.sortData
+    ) {
       this.updateLeadsListState();
     }
   }
@@ -64,4 +69,5 @@ export default compose(
   withRequests({
     leadsQuery: getLeadsQuery,
   }),
+  withRouter,
 )(LeadsList);

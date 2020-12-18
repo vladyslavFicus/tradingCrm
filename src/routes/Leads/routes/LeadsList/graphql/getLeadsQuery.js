@@ -82,7 +82,7 @@ const getLeadsQuery = ({ children, location: { state } }) => {
           },
         },
       }}
-      fetchPolicy="network-only"
+      fetchPolicy="cache-and-network"
       context={{ batch: false }}
     >
       {children}
