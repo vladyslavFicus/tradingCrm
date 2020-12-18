@@ -14,17 +14,16 @@
     border-radius: 5px;
     font-size: 13px;
     padding: 7px;
-    display: flex;
-    flex-direction: column;
     height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
 
     & > div {
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
   }
 
   &__phone {
-    margin-bottom: 1px;
     display: flex;
 
     & svg {

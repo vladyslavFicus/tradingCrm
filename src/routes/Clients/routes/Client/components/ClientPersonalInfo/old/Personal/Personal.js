@@ -9,16 +9,8 @@ import Click2Call from 'components/Click2Call';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
-import {
-  updateConfigurationMutation,
-} from 'graphql/mutations/profile';
-import {
-  PersonalInformationItem,
-  // uncomment when email history will be rdy
-  // PersonalInformationSentEmails
-} from 'components/Information';
-// uncomment when email history will be rdy
-// import EmailPreviewModal from 'components/EmailPreviewModal';
+import { updateConfigurationMutation } from 'graphql/mutations/profile';
+import { PersonalInformationItem } from 'components/Information';
 import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
@@ -135,8 +127,6 @@ class Personal extends PureComponent {
         affiliate,
         clientType,
         referrer,
-        // uncomment when email history will be rdy
-        // sentEmails,
       },
       profileLoading,
       permission,
@@ -196,14 +186,6 @@ class Personal extends PureComponent {
               verified={profileStatus === userStatuses.VERIFIED}
               className="Personal__contacts"
             />
-            {/* uncomment rows after email history will be rdy */}
-            {/* <PermissionContent permissions={permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES}> */}
-            {/*   <PersonalInformationSentEmails */}
-            {/*     label={I18n.t('CLIENT_PROFILE.DETAILS.SENT_EMAILS')} */}
-            {/*     emails={sentEmails} */}
-            {/*     onEmailClick={this.triggerEmailPreviewModal} */}
-            {/*   /> */}
-            {/* </PermissionContent> */}
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.FULL_ADDRESS')}
               value={fullAddress}
@@ -292,8 +274,6 @@ export default compose(
   withNotifications,
   withModals({
     emailSelectModal: EmailSelectModal,
-    // uncomment when email history will be rdy
-    // emailPreviewModal: EmailPreviewModal,
   }),
   graphql(updateConfigurationMutation, {
     name: 'updateConfiguration',

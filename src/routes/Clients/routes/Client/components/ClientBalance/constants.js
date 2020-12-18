@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-export const selectItems = [
+export const selectOptions = () => ([
   {
     label: 'CLIENT_PROFILE.CLIENT.BALANCES.PERIOD_PRESETS.ALL_TIME',
-    value: '',
+    value: null,
   },
   {
     label: 'CLIENT_PROFILE.CLIENT.BALANCES.PERIOD_PRESETS.LAST_7_DAYS',
@@ -28,6 +28,4 @@ export const selectItems = [
       .startOf('day')
       .format(),
   },
-];
-
-export const moneyObj = { totalAmount: 0, totalCount: 0 };
+]);

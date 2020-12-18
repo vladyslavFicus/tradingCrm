@@ -1,12 +1,8 @@
-/* eslint-disable */
-
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import Helmet from 'react-helmet';
-import { withRequests } from 'apollo'; // parseErrors ?
-import { withPermission } from 'providers/PermissionsProvider'; // ?
-import Permissions from 'utils/permissions'; // ?
+import { withRequests } from 'apollo';
 import EventEmitter, { CLIENT_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import Tabs from 'components/Tabs';
@@ -15,19 +11,17 @@ import HideDetails from 'components/HideDetails';
 import ShortLoader from 'components/ShortLoader';
 import Route from 'components/Route';
 import NotFound from 'routes/NotFound';
-
 import ClientHeader from './components/ClientHeader';
 import ClientAccountStatus from './components/ClientAccountStatus';
-
+import ClientBalance from './components/ClientBalance';
 import ClientLastLogin from './components/ClientLastLogin';
 import ClientLastActivity from './components/ClientLastActivity';
 import ClientRegistrationInfo from './components/ClientRegistrationInfo';
 import ClientReferrals from './components/ClientReferrals';
-
+import ClientPersonalInfo from './components/ClientPersonalInfo';
 import ClientAcquisitionStatus from './components/ClientAcquisitionStatus';
 import ClientLastIps from './components/ClientLastIps';
 import ClientPinnedNotes from './components/ClientPinnedNotes';
-
 import ClientProfileTab from './routes/ClientProfileTab';
 import ClientPaymentsTab from './routes/ClientPaymentsTab';
 import ClientTradingActivityTab from './routes/ClientTradingActivityTab';
@@ -37,12 +31,9 @@ import ClientNotesTab from './routes/ClientNotesTab';
 import ClientFilesTab from './routes/ClientFilesTab';
 import ClientFeedsTab from './routes/ClientFeedsTab';
 import ClientReferralsTab from './routes/ClientReferralsTab';
-
-
 import { clientTabs } from './constants';
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
-
 
 class Client extends PureComponent {
   static propTypes = {
@@ -90,11 +81,13 @@ class Client extends PureComponent {
       firstName,
       acquisition,
       profileView,
+      tradingAccounts,
       registrationDetails,
     } = client || {};
 
     const {
       online,
+      balance,
       lastActivity,
       lastSignInSessions,
     } = profileView || {};
@@ -120,10 +113,15 @@ class Client extends PureComponent {
               status={status}
             />
 
-            {/* ClientBalance */}
+            <ClientBalance
+              clientUuid={uuid}
+              registrationDate={registrationDetails?.registrationDate}
+              tradingAccounts={tradingAccounts || []}
+              balance={balance}
+            />
 
             <ClientLastLogin
-              lastSignInSession={lastSignInSessions && lastSignInSessions[lastSignInSessions.length -1]}
+              lastSignInSession={lastSignInSessions && lastSignInSessions[lastSignInSessions.length - 1]}
             />
 
             <ClientLastActivity
@@ -138,9 +136,15 @@ class Client extends PureComponent {
 
           <HideDetails>
             <div className="Client__details">
-              {/* ClientPersonalInfo */}
-              <ClientAcquisitionStatus clientUuid={uuid} clientAcquisition={acquisition} />
+              <ClientPersonalInfo client={client} />
+
+              <ClientAcquisitionStatus
+                clientUuid={uuid}
+                clientAcquisition={acquisition}
+              />
+
               <ClientLastIps lastSignInSessions={lastSignInSessions || []} />
+
               <ClientPinnedNotes clientUuid={uuid} />
             </div>
           </HideDetails>
