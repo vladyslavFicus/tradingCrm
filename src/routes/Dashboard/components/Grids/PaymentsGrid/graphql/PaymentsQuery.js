@@ -20,6 +20,8 @@ const REQUEST = gql`
         currency
         createdBy
         creationTime
+        bankName
+        maskedPan
         paymentMethod
         paymentAggregator
         amount
