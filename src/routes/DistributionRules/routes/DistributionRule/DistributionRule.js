@@ -199,7 +199,11 @@ class DistributionRule extends PureComponent {
     } = this.props;
 
     const {
-      generalSettings,
+      generalSettings: {
+        registrationPeriodInHours,
+        registrationDateRange,
+        ...generalSettings
+      },
       sourceBrandConfig,
       targetBrandConfig: {
         operatorEntity,
@@ -223,6 +227,9 @@ class DistributionRule extends PureComponent {
               operator: operatorEntity?.uuid,
             },
             ...generalSettings,
+            ...registrationPeriodInHours
+              ? { registrationPeriodInHours }
+              : { registrationDateRange },
           },
         },
       });
