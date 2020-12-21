@@ -36,7 +36,7 @@ class AddTargetBrandModal extends PureComponent {
   state = {
     operatorsByBrand: [],
     operatorsLoading: false,
-    sourceBrandQuantity: null,
+    sourceBrandQuantity: this.props.sourceBrandQuantity,
     availableClientsAmount: null,
   }
 
