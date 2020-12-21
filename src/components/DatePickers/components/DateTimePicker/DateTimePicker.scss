@@ -1,0 +1,71 @@
+.DateTimePicker {
+  display: inline-block;
+
+  &__label {
+    font-size: 15px;
+    margin-bottom: 6px;
+
+    &-prefix {
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    &-date {
+      color: #3391D8;
+    }
+  }
+
+  &__input {
+    & input {
+      border: solid 1px #cfcfcf;
+      border-radius: 3px;
+      box-sizing: border-box;
+      color: #000000;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 0 8px;
+      transition: border-color 0.2s ease;
+      display: block;
+      height: 40px;
+      width: 100%;
+
+      &:focus {
+        border-color: #4990e2;
+      }
+
+      &:disabled {
+        background-color: #f6f6f6;
+        border-color: #edeff5;
+      }
+
+      &::-webkit-input-placeholder {
+        color: #9b9b9b;
+      }
+
+      &::-moz-placeholder {
+        color: #9b9b9b;
+      }
+
+      &:-ms-input-placeholder {
+        color: #9b9b9b;
+      }
+
+      &:-moz-placeholder {
+        color: #9b9b9b;
+      }
+
+      &::-ms-clear {
+        display: none;
+      }
+
+      &::-webkit-clear-button {
+        display: none;
+      }
+
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+    }
+  }
+}

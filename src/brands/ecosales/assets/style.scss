@@ -103,16 +103,12 @@
 
 // ================ Redefine other styles ================ //
 .Header,
-.sidebar {
+.Sidebar {
   background-color: #154b98;
 
   &:hover {
     box-shadow: none;
   }
-}
-
-.sub-nav {
-  background-color: #0e2d5a;
 }
 
 .preloader {

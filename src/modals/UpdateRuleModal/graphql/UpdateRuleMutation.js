@@ -12,8 +12,6 @@ const REQUEST = gql`mutation UpdateRuleMutation(
   $sources: [String]
   $type: Rule__Type__Enum!
   $operatorSpreads: [RuleOperatorSpread__Input]
-  $parentBranch: String
-  $ruleType: Rule__ActionType__Enum
   $uuid: String
   $enableSchedule: Boolean
   $schedules: [RuleSchedule__Input]
@@ -28,8 +26,6 @@ const REQUEST = gql`mutation UpdateRuleMutation(
       sources: $sources
       type: $type
       operatorSpreads: $operatorSpreads
-      parentBranch: $parentBranch
-      ruleType: $ruleType
       uuid: $uuid
       enableSchedule: $enableSchedule
       schedules: $schedules

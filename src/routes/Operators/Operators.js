@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
-import List from './routes/List';
+import OperatorsList from './routes/OperatorsList';
 import Operator from './routes/Operator';
 
 class Operators extends PureComponent {
@@ -18,7 +18,7 @@ class Operators extends PureComponent {
 
     return (
       <Switch>
-        <Route path={`${path}/list`} component={List} />
+        <Route path={`${path}/list`} component={OperatorsList} />
         <Route path={`${path}/:id`} component={Operator} />
         <Redirect to={`${url}/list`} />
       </Switch>

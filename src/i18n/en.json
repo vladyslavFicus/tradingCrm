@@ -1120,7 +1120,8 @@
         "DIDLOGIC": "DID Logic",
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing",
-        "IB": "IB"
+        "IB": "IB",
+        "RBAC": "RBAC"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1133,7 +1134,8 @@
         "BI": "Business intelligence",
         "AFFILIATE": "Affiliate",
         "PLAYER": "Player",
-        "AGENT": "Agent"
+        "AGENT": "Agent",
+        "RBAC": "RBAC"
       }
     },
     "COUNTRIES": {
@@ -1905,7 +1907,8 @@
       "APPROVE_FAILED": "Failed to approve payment",
       "APPROVE_SUCCESS": "Payment successfully approved"
     },
-    "ORIGINAL_AGENT": "Original Agent"
+    "ORIGINAL_AGENT": "Original Agent",
+    "CREATION_TIME": "Creation time"
   },
   "TRADING_ACTIVITY_MODAL": {
     "TITLE": "Change agent",
@@ -1940,19 +1943,6 @@
   "OPERATORS": {
     "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",
-    "MODALS": {
-      "NEW_OPERATOR": {
-        "TITLE": "New operator",
-        "SEND_INVITATION": "Send invitation",
-        "NOTE": "Note",
-        "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
-      },
-      "EXISTING_OPERATOR": {
-        "TITLE": "Existing operator",
-        "MESSAGE": "Operator exits in another brand. Would you like to add permissions for this operator to have access to",
-        "BRAND": "%{brand}?"
-      }
-    },
     "STATUSES": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
@@ -1964,22 +1954,12 @@
       "REGISTERED": "Registered",
       "STATUS": "Status"
     },
-    "LIST": {
-      "FILTER_FORM": {
-        "LABEL": {
-          "KEYWORD": "Name, Phone, Email, UUID...",
-          "COUNTRY": "Country",
-          "STATUS": "Status",
-          "DEPARTMENT": "Department",
-          "ROLE": "Role",
-          "REGISTRATION_DATE_FROM": "Registration Date From",
-          "REGISTRATION_DATE_TO": "Registration Date To",
-          "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by",
-          "DATE_FROM": "Date From",
-          "DATE_TO": "Date To"
-        }
-      }
+    "GRID_FILTERS": {
+      "COUNTRY": "Country",
+      "REGISTRATION_DATE_RANGE": "Registration Date Range",
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
+      "STATUS": "Status"
     },
     "PROFILE": {
       "DEPARTMENTS": {
@@ -2050,10 +2030,6 @@
       "ADD_TO_HIERARCHY_ERROR": {
         "TITLE": "Failure on adding",
         "MESSAGE": "Adding operator to hierarchy has failed"
-      },
-      "EXISTING_OPERATOR_ERROR": {
-        "TITLE": "Failure on adding",
-        "MESSAGE": "Assign in the current brand is failed"
       }
     }
   },
@@ -2265,6 +2241,10 @@
     "NO_OPTIONS_AVAILABLE": "No options available"
   },
   "DATE_PICKER": {
+    "FROM": "From",
+    "TO": "To",
+    "START_DATE": "Start date",
+    "END_DATE": "End date",
     "PERIOD_RESETS": {
       "TODAY": "Today",
       "PREVIOUS_WEEK": "Previous week",
@@ -2296,6 +2276,23 @@
         "ERROR": "Failed to update trading account's name"
       },
       "UPDATE_BUTTON": "Update"
+    },
+    "CREATE_OPERATOR_MODAL": {
+      "TITLE": "New operator",
+      "SEND_INVITATION": "Send invitation",
+      "NOTE": "Note",
+      "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+    },
+    "EXISTING_OPERATOR_MODAL": {
+      "TITLE": "Existing operator",
+      "MESSAGE": "Operator exits in another brand. Would you like to add permissions for this operator to have access to",
+      "BRAND": "%{brand}?",
+      "NOTIFICATIONS": {
+        "ERROR": {
+          "TITLE": "Failure on adding",
+          "MESSAGE": "Assign in the current brand is failed"
+        }
+      }
     },
     "ADD_OFFICE_MODAL": {
       "TITLE": "New office",
@@ -3165,7 +3162,7 @@
         "MIGRATION_STATUS": "Migration Sales Status",
         "COUNTRY": "Country",
         "EXECUTION_TIME":"Time in Current Sales Status",
-        "REGISTRATION_DATE": "Registration date",
+        "REGISTRATION_DATE_RANGE": "Registration date range",
         "EXECUTION_TYPE": "Rule Execution Type",
         "LANGUAGE": "Language",
         "AFFILIATE": "Affiliate",
@@ -3183,11 +3180,15 @@
           "LAST_N_WEEKS": "Last %{value} weeks"
         },
         "REGISTRATION_TIME": {
-          "LAST_N_HOURS": "Last %{value} hours",
+          "LAST_TWO_HOURS": "Last 2 hours",
+          "LAST_SIX_HOURS": "Last 6 hours",
+          "LAST_TWELVE_HOURS": "Last 12 hours",
           "LAST_DAY": "Last day",
-          "LAST_N_DAYS": "Last %{value} days",
+          "LAST_THREE_DAYS": "Last 3 days",
           "LAST_WEEK": "Last week",
-          "LAST_N_WEEKS": "Last %{value} weeks"
+          "LAST_TWO_WEEKS": "Last 2 weeks",
+          "LAST_THREE_WEEKS": "Last 3 weeks",
+          "LAST_FOUR_WEEKS": "Last 4 weeks"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
@@ -3293,13 +3294,12 @@
       "CALLBACK_REMINDER": "Callback reminder",
       "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
-      "MARGIN_CALL": "Margin level under 100%"
+      "MARGIN_CALL": "Margin level under 100%",
+      "BULK_CLIENTS_ASSIGNED": "Bulk assigned"
     },
     "DETAILS": {
-      "CALLBACK": "Callback",
-      "CALLBACK_REMINDER": "Callback reminder",
-      "CALLBACK_REQUESTED": "Callback requested",
-      "CALLBACK_TIME": "Callback time: %{time}"
+      "CALLBACK_TIME": "Callback time: %{time}",
+      "CLIENTS_COUNT": "{{clientsCount}} clients"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3790,7 +3790,10 @@
       "ADD_TIME_INTERVAL_BUTTON": "Add Time Interval",
       "ERRORS": {
         "DAY_IS_REQUIRED": "At least one day is required",
-        "INVALID_TIME_RANGE": "The end time should be bigger than the begin"
+        "TIME_RANGE": {
+          "INVALID_VALUE": "Time from should be earlier time to",
+          "INTERSECTION": "Time intervals should not intersect"
+        }
       }
     }
   },

@@ -18,6 +18,10 @@ const REQUEST = gql`query DistributionRules__GetDistributionRules($args: Distrib
       salesStatuses
       targetSalesStatus
       registrationPeriodInHours
+      registrationDateRange {
+        from
+        to
+      }
       executionType
       executionPeriodInHours
       latestMigration {

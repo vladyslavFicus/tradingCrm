@@ -9,5 +9,9 @@
     display: grid;
     grid-gap: 30px;
     grid-template-columns: repeat(3, 1fr);
+
+    &-field {
+      margin-bottom: 0;
+    }
   }
 }
