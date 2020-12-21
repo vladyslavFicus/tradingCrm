@@ -23,7 +23,7 @@ import {
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
-import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
+import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/UI';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -615,7 +615,7 @@ class ClientsGridFilter extends PureComponent {
                   />
                 </div>
                 <div className="ClientsGridFilter__buttons">
-                  <FilterSetsButtons />
+                  <FilterSetsDecorator.Buttons />
                   <div className="ClientsGridFilter__buttons-group">
                     <RefreshButton
                       onClick={handleRefetch}

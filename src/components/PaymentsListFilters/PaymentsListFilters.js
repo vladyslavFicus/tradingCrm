@@ -31,7 +31,7 @@ import {
   FormikDateRangeGroup,
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
-import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
+import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/UI';
 import {
   DesksAndTeamsQuery,
@@ -504,7 +504,7 @@ class PaymentsListFilters extends PureComponent {
                   />
                 </div>
                 <div className="PaymentsListFilters__buttons">
-                  <FilterSetsButtons />
+                  <FilterSetsDecorator.Buttons />
                   <div className="PaymentsListFilters__buttons-group">
                     <RefreshButton
                       onClick={handleRefetch}

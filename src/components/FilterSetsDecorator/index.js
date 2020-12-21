@@ -1,2 +1,6 @@
-export { default } from './FilterSetsDecorator';
-export { default as FilterSetsButtons } from './components/FilterSetsButtons';
+import FilterSetsDecorator from './FilterSetsDecorator';
+import FilterSetsButtons from './components/FilterSetsButtons';
+
+FilterSetsDecorator.Buttons = FilterSetsButtons;
+
+export default FilterSetsDecorator;
