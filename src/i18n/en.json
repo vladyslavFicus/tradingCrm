@@ -3175,9 +3175,8 @@
         },
         "EXECUTION_TIME": {
           "N_HOURS": "%{value} hours",
-          "N_DAY": "%{value} Day",
-          "LAST_WEEK": "Last week",
-          "LAST_N_WEEKS": "Last %{value} weeks"
+          "DAY": "1 Day",
+          "N_DAYS": "%{value} Days"
         },
         "REGISTRATION_TIME": {
           "LAST_TWO_HOURS": "Last 2 hours",

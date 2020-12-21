@@ -67,7 +67,6 @@ class DistributionRuleSettings extends PureComponent {
               salesStatuses: ['required'],
               targetSalesStatus: ['required'],
               countries: ['required'],
-              executionPeriodInHours: ['required'],
               registrationDateRange: {
                 from: ['dateWithTime', `validDateTimeRange:${values?.registrationDateRange?.to}`],
                 to: ['dateWithTime'],
@@ -116,10 +115,11 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="executionPeriodInHours"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TIME')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
+                withAnyOption
               >
                 {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>
