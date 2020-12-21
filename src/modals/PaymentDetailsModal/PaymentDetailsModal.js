@@ -159,7 +159,7 @@ class PaymentDetailsModal extends PureComponent {
           {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
         </div>
         <Formik
-          initialValues={{ creationTime }}
+          initialValues={{ creationTime: moment(creationTime).local().format('YYYY-MM-DD HH:mm:ss') }}
           onSubmit={this.handleChangeCreationTime}
         >
           {({ isSubmitting, dirty }) => (
@@ -167,20 +167,21 @@ class PaymentDetailsModal extends PureComponent {
               <FormikDatePicker
                 name="creationTime"
                 className="PaymentDetailsModal__date-picker"
-                isValidDate={() => moment(creationTime, 'YYYY-MM-DD HH:mm').isValid()}
+                isValidDate={() => moment(creationTime, 'YYYY-MM-DD HH:mm:ss').isValid()}
                 closeOnSelect={false}
                 withTime
                 utc
               />
-              <Button
-                disabled={!dirty || isSubmitting}
-                className="PaymentDetailsModal__button"
-                type="submit"
-                primary
-                small
-              >
-                {I18n.t('COMMON.SAVE')}
-              </Button>
+              <div className="PaymentDetailsModal__button">
+                <Button
+                  disabled={!dirty || isSubmitting}
+                  type="submit"
+                  primary
+                  small
+                >
+                  {I18n.t('COMMON.SAVE')}
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>
