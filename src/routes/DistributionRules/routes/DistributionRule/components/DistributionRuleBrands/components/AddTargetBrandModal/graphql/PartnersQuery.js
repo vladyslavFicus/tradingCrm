@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query PartnersQuery($isCdeAffiliate: Boolean) {
+const REQUEST = gql`query AddTargetBrandModal_PartnersQuery($isCdeAffiliate: Boolean) {
   partners(isCdeAffiliate: $isCdeAffiliate) {
     content {
       uuid

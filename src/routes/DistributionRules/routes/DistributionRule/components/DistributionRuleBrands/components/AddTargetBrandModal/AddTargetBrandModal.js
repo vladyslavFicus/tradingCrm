@@ -256,7 +256,7 @@ class AddTargetBrandModal extends PureComponent {
                 </div>
                 <Field
                   name="migrationSource"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SOURCE')}
+                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MIGRATION_SOURCE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
                   disabled={!partners.length}
