@@ -64,7 +64,7 @@ class FilterSetsDropdown extends PureComponent {
       <>
         <FilterSetsSearch
           value={searchValue}
-          reset={this.resetSearch}
+          onReset={this.resetSearch}
           onChange={this.searchFilterSet}
         />
         <Choose>

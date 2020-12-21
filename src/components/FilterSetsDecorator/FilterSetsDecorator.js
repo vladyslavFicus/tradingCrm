@@ -9,7 +9,6 @@ import PropTypes from 'constants/propTypes';
 import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import FilterSetsToggler from './components/FilterSetsToggler';
-import FilterSetsButtons from './components/FilterSetsButtons';
 import FilterSets from './components/FilterSets';
 import {
   FilterSetsQuery,
@@ -18,6 +17,8 @@ import {
   UpdateFavouriteFilterSetMutation,
 } from './graphql';
 import './FilterSetsDecorator.scss';
+
+export const FilterSetsContext = React.createContext();
 
 class FilterSetsDecorator extends PureComponent {
   static propTypes = {
@@ -36,7 +37,7 @@ class FilterSetsDecorator extends PureComponent {
     }).isRequired,
     deleteFilterSetMutation: PropTypes.func.isRequired,
     updateFavouriteFilterSetMutation: PropTypes.func.isRequired,
-    children: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
     filterSetType: PropTypes.string.isRequired,
     currentValues: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
@@ -256,37 +257,11 @@ class FilterSetsDecorator extends PureComponent {
     });
   };
 
-  renderFilterSetsButtons = () => {
-    const {
-      disabled,
-      currentValues,
-      filterSetsQuery,
-    } = this.props;
-
-    const {
-      selectedFilterSet,
-      filterSetsLoading,
-    } = this.state;
-
-    if (currentValues && Object.keys(currentValues).length > 0) {
-      return (
-        <FilterSetsButtons
-          hasSelectedFilterSet={!!selectedFilterSet}
-          disabled={disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error}
-          createFilterSet={this.createFilterSet}
-          updateFilterSet={this.updateFilterSet}
-          deleteFilterSet={this.deleteFilterSet}
-        />
-      );
-    }
-
-    return null;
-  };
-
   render() {
     const {
       children,
       disabled,
+      currentValues,
       filterSetsQuery,
     } = this.props;
 
@@ -303,10 +278,21 @@ class FilterSetsDecorator extends PureComponent {
     const filterSetsList = [...(favourite || []), ...(common || [])];
     const filterSetsListDisabled = disabled || filterSetsLoading || filterSetsQuery.loading || filterSetsQuery.error;
 
+    const areButtonsVisible = currentValues && Object.keys(currentValues).length > 0;
+
     return (
       <FilterSetsToggler>
         {({ filtersVisible, renderTrigger }) => (
-          <>
+          <FilterSetsContext.Provider
+            value={{
+              visible: areButtonsVisible,
+              hasSelectedFilterSet: !!selectedFilterSet,
+              disabled: filterSetsListDisabled,
+              createFilterSet: this.createFilterSet,
+              updateFilterSet: this.updateFilterSet,
+              deleteFilterSet: this.deleteFilterSet,
+            }}
+          >
             <div
               className={
                 classNames('FilterSetsDecorator__control', {
@@ -323,12 +309,8 @@ class FilterSetsDecorator extends PureComponent {
               />
               {renderTrigger()}
             </div>
-            <If condition={filtersVisible}>
-              {children({
-                renderFilterSetsButtons: this.renderFilterSetsButtons,
-              })}
-            </If>
-          </>
+            <If condition={filtersVisible}>{children}</If>
+          </FilterSetsContext.Provider>
         )}
       </FilterSetsToggler>
     );

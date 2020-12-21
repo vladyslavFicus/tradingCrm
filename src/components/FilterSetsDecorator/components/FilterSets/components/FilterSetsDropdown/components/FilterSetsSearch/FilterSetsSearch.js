@@ -8,7 +8,7 @@ class FilterSetsSearch extends PureComponent {
   static propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -19,7 +19,7 @@ class FilterSetsSearch extends PureComponent {
     const {
       value,
       onChange,
-      reset,
+      onReset,
     } = this.props;
 
     return (
@@ -37,7 +37,7 @@ class FilterSetsSearch extends PureComponent {
           <If condition={value}>
             <i
               className="FilterSetsSearch__reset-icon icon icon-times"
-              onClick={reset}
+              onClick={onReset}
             />
           </If>
         </div>
