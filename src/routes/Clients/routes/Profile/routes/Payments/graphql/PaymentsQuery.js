@@ -98,6 +98,7 @@ const PaymentsQuery = ({
       },
     }}
     fetchPolicy="cache-and-network"
+    errorPolicy="all"
   >
     {children}
   </Query>

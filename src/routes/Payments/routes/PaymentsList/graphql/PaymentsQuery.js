@@ -93,6 +93,7 @@ const PaymentsQuery = ({ children, location: { state } }) => (
       },
     }}
     fetchPolicy="cache-and-network"
+    errorPolicy="all"
     context={{ batch: false }}
   >
     {children}
