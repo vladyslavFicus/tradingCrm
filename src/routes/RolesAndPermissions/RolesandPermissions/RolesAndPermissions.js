@@ -55,27 +55,30 @@ class RolesAndPermissions extends PureComponent {
             <Otherwise>
               <div className="RolesAndPermissions__authorities">
                 <Accordion allowZeroExpanded>
-                  {Object.entries(authorities).map(([department, roles]) => (
-                    <AccordionItem key={department}>
-                      <AccordionItemHeading>
-                        <AccordionItemButton className="RolesAndPermissions__authority-title">
-                          {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${department}`)}
-                        </AccordionItemButton>
-                      </AccordionItemHeading>
-                      {roles.map(role => (
-                        <AccordionItemPanel
-                          key={`${department}-${role}`}
-                          onClick={() => this.handleSelectAuthority(department, role)}
-                          className={classNames('RolesAndPermissions__authority', {
-                            'RolesAndPermissions__authority--active':
-                              department === activeDepartment && role === activeRole,
-                          })}
-                        >
-                          {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
-                        </AccordionItemPanel>
-                      ))}
-                    </AccordionItem>
-                  ))}
+                  {Object.entries(authorities)
+                    .filter(([department]) => department !== 'CASHIR')
+                    .map(([department, roles]) => (
+                      <AccordionItem key={department}>
+                        <AccordionItemHeading>
+                          <AccordionItemButton className="RolesAndPermissions__authority-title">
+                            {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${department}`)}
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        {roles.map(role => (
+                          <AccordionItemPanel
+                            key={`${department}-${role}`}
+                            onClick={() => this.handleSelectAuthority(department, role)}
+                            className={classNames('RolesAndPermissions__authority', {
+                              'RolesAndPermissions__authority--active':
+                                department === activeDepartment && role === activeRole,
+                            })}
+                          >
+                            {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
+                          </AccordionItemPanel>
+                        ))}
+                      </AccordionItem>
+                    ))
+                  }
                 </Accordion>
               </div>
               <div className="RolesAndPermissions__permissions">

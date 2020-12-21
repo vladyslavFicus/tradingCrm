@@ -1,0 +1,19 @@
+.OperatorsList {
+  border-radius: 5px;
+
+  &__header {
+    background-color: #fff;
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 48px;
+    z-index: 3;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+}

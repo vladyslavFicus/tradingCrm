@@ -1907,7 +1907,8 @@
       "APPROVE_FAILED": "Failed to approve payment",
       "APPROVE_SUCCESS": "Payment successfully approved"
     },
-    "ORIGINAL_AGENT": "Original Agent"
+    "ORIGINAL_AGENT": "Original Agent",
+    "CREATION_TIME": "Creation time"
   },
   "TRADING_ACTIVITY_MODAL": {
     "TITLE": "Change agent",
@@ -1942,19 +1943,6 @@
   "OPERATORS": {
     "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",
-    "MODALS": {
-      "NEW_OPERATOR": {
-        "TITLE": "New operator",
-        "SEND_INVITATION": "Send invitation",
-        "NOTE": "Note",
-        "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
-      },
-      "EXISTING_OPERATOR": {
-        "TITLE": "Existing operator",
-        "MESSAGE": "Operator exits in another brand. Would you like to add permissions for this operator to have access to",
-        "BRAND": "%{brand}?"
-      }
-    },
     "STATUSES": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
@@ -1966,22 +1954,12 @@
       "REGISTERED": "Registered",
       "STATUS": "Status"
     },
-    "LIST": {
-      "FILTER_FORM": {
-        "LABEL": {
-          "KEYWORD": "Name, Phone, Email, UUID...",
-          "COUNTRY": "Country",
-          "STATUS": "Status",
-          "DEPARTMENT": "Department",
-          "ROLE": "Role",
-          "REGISTRATION_DATE_FROM": "Registration Date From",
-          "REGISTRATION_DATE_TO": "Registration Date To",
-          "REGISTRATION_DATE_RANGE": "Registration Date Range",
-          "SEARCH_BY": "Search by",
-          "DATE_FROM": "Date From",
-          "DATE_TO": "Date To"
-        }
-      }
+    "GRID_FILTERS": {
+      "COUNTRY": "Country",
+      "REGISTRATION_DATE_RANGE": "Registration Date Range",
+      "SEARCH_BY": "Search by",
+      "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
+      "STATUS": "Status"
     },
     "PROFILE": {
       "DEPARTMENTS": {
@@ -2052,10 +2030,6 @@
       "ADD_TO_HIERARCHY_ERROR": {
         "TITLE": "Failure on adding",
         "MESSAGE": "Adding operator to hierarchy has failed"
-      },
-      "EXISTING_OPERATOR_ERROR": {
-        "TITLE": "Failure on adding",
-        "MESSAGE": "Assign in the current brand is failed"
       }
     }
   },
@@ -2302,6 +2276,23 @@
         "ERROR": "Failed to update trading account's name"
       },
       "UPDATE_BUTTON": "Update"
+    },
+    "CREATE_OPERATOR_MODAL": {
+      "TITLE": "New operator",
+      "SEND_INVITATION": "Send invitation",
+      "NOTE": "Note",
+      "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+    },
+    "EXISTING_OPERATOR_MODAL": {
+      "TITLE": "Existing operator",
+      "MESSAGE": "Operator exits in another brand. Would you like to add permissions for this operator to have access to",
+      "BRAND": "%{brand}?",
+      "NOTIFICATIONS": {
+        "ERROR": {
+          "TITLE": "Failure on adding",
+          "MESSAGE": "Assign in the current brand is failed"
+        }
+      }
     },
     "ADD_OFFICE_MODAL": {
       "TITLE": "New office",
@@ -3302,13 +3293,12 @@
       "CALLBACK_REMINDER": "Callback reminder",
       "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
-      "MARGIN_CALL": "Margin level under 100%"
+      "MARGIN_CALL": "Margin level under 100%",
+      "BULK_CLIENTS_ASSIGNED": "Bulk assigned"
     },
     "DETAILS": {
-      "CALLBACK": "Callback",
-      "CALLBACK_REMINDER": "Callback reminder",
-      "CALLBACK_REQUESTED": "Callback requested",
-      "CALLBACK_TIME": "Callback time: %{time}"
+      "CALLBACK_TIME": "Callback time: %{time}",
+      "CLIENTS_COUNT": "{{clientsCount}} clients"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
@@ -3799,7 +3789,10 @@
       "ADD_TIME_INTERVAL_BUTTON": "Add Time Interval",
       "ERRORS": {
         "DAY_IS_REQUIRED": "At least one day is required",
-        "INVALID_TIME_RANGE": "The end time should be bigger than the begin"
+        "TIME_RANGE": {
+          "INVALID_VALUE": "Time from should be earlier time to",
+          "INTERSECTION": "Time intervals should not intersect"
+        }
       }
     }
   },

@@ -13,40 +13,7 @@
     z-index: 3;
   }
 
-  &__placeholder {
-    &-title,
-    &-info {
-      animation-duration: 1s;
-      animation-fill-mode: forwards;
-      animation-iteration-count: infinite;
-      animation-name: placeholderAnimation;
-      animation-timing-function: linear;
-      background: #f6f7f8;
-      background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-      background-size: 800px 104px;
-      position: relative;
-      width: 220px;
-    }
-
-    &-title {
-      height: 20px;
-    }
-
-    &-info {
-      height: 12px;
-    }
-  }
-
-  &__total {
+  &__title {
     font-size: 20px;
-  }
-}
-
-@keyframes placeholderAnimation {
-  0% {
-    background-position: -468px 0
-  }
-  100% {
-    background-position: 468px 0
   }
 }
