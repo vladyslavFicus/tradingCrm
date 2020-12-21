@@ -3212,7 +3212,7 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "SOURCE": "Migration Source"
+        "MIGRATION_SOURCE": "Migration Source"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",

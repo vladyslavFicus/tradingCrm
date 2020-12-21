@@ -26,7 +26,7 @@ class AddTargetBrandModal extends PureComponent {
         quantity: PropTypes.number,
         baseUnit: PropTypes.string,
       }),
-      source: PropTypes.string,
+      migrationSource: PropTypes.string,
       operator: PropTypes.string,
     }).isRequired,
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
@@ -164,7 +164,7 @@ class AddTargetBrandModal extends PureComponent {
           quantity,
           baseUnit,
         },
-        source,
+        migrationSource,
         operator,
       },
     } = this.props;
@@ -188,7 +188,7 @@ class AddTargetBrandModal extends PureComponent {
             brand,
             quantity,
             baseUnit,
-            source,
+            migrationSource,
             operator,
           }}
           validate={values => (
@@ -197,7 +197,7 @@ class AddTargetBrandModal extends PureComponent {
               quantity: ['required', 'integer', 'min:1',
                 `max:${values.baseUnit === 'PERCENTAGE' ? 100 : availableClientsAmount}`,
               ],
-              source: 'required',
+              migrationSource: 'required',
             }, translateLabels({
               ...modalFieldsNames,
               quantity: values.baseUnit === 'PERCENTAGE'
@@ -255,7 +255,7 @@ class AddTargetBrandModal extends PureComponent {
                   />
                 </div>
                 <Field
-                  name="source"
+                  name="migrationSource"
                   label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SOURCE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}

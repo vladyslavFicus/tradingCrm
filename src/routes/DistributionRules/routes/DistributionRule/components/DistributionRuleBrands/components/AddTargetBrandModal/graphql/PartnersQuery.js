@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query PartnersQuery {
-  partners {
+const REQUEST = gql`query PartnersQuery($isCdeAffiliate: Boolean) {
+  partners(isCdeAffiliate: $isCdeAffiliate) {
     content {
       uuid
       fullName
@@ -13,7 +13,7 @@ const REQUEST = gql`query PartnersQuery {
 }`;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query query={REQUEST} variables={{ isCdeAffiliate: true }}>
     {children}
   </Query>
 );

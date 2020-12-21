@@ -44,7 +44,7 @@ const REQUEST = gql`
           quantity
           baseUnit
         }
-        source
+        migrationSource
         operatorEntity {
           uuid
           fullName
