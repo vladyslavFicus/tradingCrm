@@ -48,6 +48,8 @@ class DistributionRule extends PureComponent {
         targetSalesStatus,
         registrationPeriodInHours,
         registrationDateRange,
+        lastNotePeriodInHours,
+        lastNoteDateRange,
         executionType,
         executionPeriodInHours,
         sourceBrandConfigs,
@@ -71,6 +73,8 @@ class DistributionRule extends PureComponent {
           targetSalesStatus,
           registrationPeriodInHours,
           registrationDateRange,
+          lastNotePeriodInHours,
+          lastNoteDateRange,
           executionType: executionType || initialState.generalSettings.executionType,
           executionPeriodInHours,
           affiliateUuids,
@@ -202,6 +206,8 @@ class DistributionRule extends PureComponent {
       generalSettings: {
         registrationPeriodInHours,
         registrationDateRange,
+        lastNotePeriodInHours,
+        lastNoteDateRange,
         ...generalSettings
       },
       sourceBrandConfig,
@@ -230,6 +236,9 @@ class DistributionRule extends PureComponent {
             ...registrationPeriodInHours
               ? { registrationPeriodInHours }
               : { registrationDateRange },
+            ...lastNotePeriodInHours
+              ? { lastNotePeriodInHours }
+              : { lastNoteDateRange },
           },
         },
       });

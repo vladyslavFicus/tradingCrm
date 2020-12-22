@@ -37,6 +37,14 @@ class DistributionRuleBrands extends PureComponent {
         from: PropTypes.string,
         to: PropTypes.string,
       }),
+      lastNotePeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      lastNoteDateRange: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       executionType: PropTypes.string,
       executionPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
@@ -142,6 +150,8 @@ class DistributionRuleBrands extends PureComponent {
         affiliateUuids,
         registrationPeriodInHours,
         registrationDateRange,
+        lastNotePeriodInHours,
+        lastNoteDateRange,
         executionPeriodInHours,
         firstTimeDeposit,
       },
@@ -159,6 +169,8 @@ class DistributionRuleBrands extends PureComponent {
           affiliateUuids,
           registrationPeriodInHours,
           registrationDateRange,
+          lastNotePeriodInHours,
+          lastNoteDateRange,
           executionPeriodInHours,
           firstTimeDeposit,
         },

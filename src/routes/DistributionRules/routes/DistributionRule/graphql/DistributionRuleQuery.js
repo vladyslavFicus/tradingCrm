@@ -25,6 +25,11 @@ const REQUEST = gql`
         from
         to
       }
+      lastNotePeriodInHours
+      lastNoteDateRange {
+        from
+        to
+      }
       executionType
       executionPeriodInHours
       latestMigration {
