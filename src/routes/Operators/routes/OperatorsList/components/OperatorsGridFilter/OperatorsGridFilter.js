@@ -83,9 +83,13 @@ class OperatorsGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {Object.keys(countryList).map(key => (
-                  <option key={key} value={key}>{countryList[key]}</option>
-                ))}
+                {[
+                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                  ...Object.keys(countryList)
+                    .map(country => (
+                      <option key={country} value={country}>{countryList[country]}</option>
+                    )),
+                ]}
               </Field>
 
               <Field
