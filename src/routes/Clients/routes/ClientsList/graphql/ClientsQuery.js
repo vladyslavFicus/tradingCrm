@@ -116,7 +116,7 @@ const ClientsQuery = ({ children, location: { state } }) => {
           },
         },
       }}
-      fetchPolicy="cache-and-network"
+      fetchPolicy="network-only"
       context={{ batch: false }}
     >
       {children}
