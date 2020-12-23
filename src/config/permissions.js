@@ -91,6 +91,7 @@ export default {
     CHANGE_STATUS: 'payment.changePaymentStatus',
     CHANGE_METHOD: 'payment.changePaymentMethod',
     CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
+    CHANGE_CREATION_TIME: 'payment.utils.changeDatetime',
   },
   PAYMENTS: {
     PAYMENTS_LIST: 'payment.searchPayments',

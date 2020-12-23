@@ -151,7 +151,14 @@ class PaymentDetailsModal extends PureComponent {
   };
 
   renderDateAndTimeBlock = () => {
-    const { payment: { creationTime } } = this.props;
+    const {
+      payment: { creationTime },
+      permission: {
+        permissions: currentPermission,
+      },
+    } = this.props;
+
+    const canChangeCreationTime = new Permissions(permissions.PAYMENT.CHANGE_CREATION_TIME).check(currentPermission);
 
     return (
       <div className="PaymentDetailsModal__block">
@@ -164,24 +171,36 @@ class PaymentDetailsModal extends PureComponent {
         >
           {({ isSubmitting, dirty }) => (
             <Form>
-              <FormikDatePicker
-                name="creationTime"
-                className="PaymentDetailsModal__date-picker"
-                isValidDate={() => moment(creationTime, 'YYYY-MM-DD HH:mm:ss').isValid()}
-                closeOnSelect={false}
-                withTime
-                utc
-              />
-              <div className="PaymentDetailsModal__button">
-                <Button
-                  disabled={!dirty || isSubmitting}
-                  type="submit"
-                  primary
-                  small
-                >
-                  {I18n.t('COMMON.SAVE')}
-                </Button>
-              </div>
+              <Choose>
+                <When condition={canChangeCreationTime}>
+                  <FormikDatePicker
+                    name="creationTime"
+                    className="PaymentDetailsModal__date-picker"
+                    isValidDate={() => moment(creationTime, 'YYYY-MM-DD HH:mm:ss').isValid()}
+                    closeOnSelect={false}
+                    withTime
+                    utc
+                  />
+                  <div className="PaymentDetailsModal__button">
+                    <Button
+                      disabled={!dirty || isSubmitting}
+                      type="submit"
+                      primary
+                      small
+                    >
+                      {I18n.t('COMMON.SAVE')}
+                    </Button>
+                  </div>
+                </When>
+                <Otherwise>
+                  <div className="PaymentDetailsModal__block-label">
+                    {moment.utc(creationTime).local().format('DD.MM.YYYY')}
+                  </div>
+                  <div className="PaymentDetailsModal__block-secondary">
+                    {moment.utc(creationTime).local().format('HH:mm')}
+                  </div>
+                </Otherwise>
+              </Choose>
             </Form>
           )}
         </Formik>
