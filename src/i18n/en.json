@@ -3211,7 +3211,8 @@
         "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only 10000 clients for migration (%{percentage}%)",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
-        "QUANTITY_PERCENTAGE": "Percentage"
+        "QUANTITY_PERCENTAGE": "Percentage",
+        "MIGRATION_SOURCE": "Migration Source"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
