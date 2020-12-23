@@ -80,6 +80,10 @@ class DistributionRuleSettings extends PureComponent {
                 from: ['dateWithTime', `validDateTimeRange:${values?.registrationDateRange?.to}`],
                 to: ['dateWithTime'],
               },
+              lastNoteDateRange: {
+                from: ['dateWithTime', `validDateTimeRange:${values?.lastNoteDateRange?.to}`],
+                to: ['dateWithTime'],
+              },
               languages: ['required'],
             })(values);
 
