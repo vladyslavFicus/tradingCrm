@@ -24,6 +24,7 @@ import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import Permissions from 'utils/permissions';
 import formatLabel from 'utils/formatLabel';
+import { createValidator, translateLabels } from 'utils/validator';
 import ChangePaymentStatusForm from './components/ChangePaymentStatusForm';
 import ApprovePaymentForm from './components/ApprovePaymentForm';
 import RejectPaymentForm from './components/RejectPaymentForm';
@@ -125,7 +126,7 @@ class PaymentDetailsModal extends PureComponent {
     );
   };
 
-  handleChangeCreationTime = async ({ creationTime }) => {
+  handleChangeCreationTime = async ({ creationTime }, { resetForm }) => {
     const { payment: { paymentId }, notify, changeCreationTime } = this.props;
 
     try {
@@ -141,6 +142,8 @@ class PaymentDetailsModal extends PureComponent {
         title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
+
+      resetForm({ values: { creationTime } });
     } catch (e) {
       notify({
         level: 'error',
@@ -168,8 +171,13 @@ class PaymentDetailsModal extends PureComponent {
         <Formik
           initialValues={{ creationTime: moment(creationTime).local().format('YYYY-MM-DD HH:mm:ss') }}
           onSubmit={this.handleChangeCreationTime}
+          validate={
+            createValidator({
+              creationTime: ['required', 'dateWithTime'],
+            }, translateLabels({ creationTime: 'PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME' }), false)
+          }
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, isValid }) => (
             <Form>
               <Choose>
                 <When condition={canChangeCreationTime}>
@@ -183,7 +191,7 @@ class PaymentDetailsModal extends PureComponent {
                   />
                   <div className="PaymentDetailsModal__button">
                     <Button
-                      disabled={!dirty || isSubmitting}
+                      disabled={!dirty || !isValid || isSubmitting}
                       type="submit"
                       primary
                       small
