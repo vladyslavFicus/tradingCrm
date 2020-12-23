@@ -169,6 +169,7 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'lastNotePeriodInHours',
                 }}
                 additionalOptions={registrationPeriodInHours}
+                anchorDirection="right"
                 withAdditionalValue
                 withConfirmation
               />
