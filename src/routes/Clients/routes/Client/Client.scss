@@ -19,7 +19,9 @@
   }
 
   &__details {
-    display: flex;
+    display: grid;
+    grid-template-columns: 3fr 3fr 2fr 4fr;
+    grid-gap: 15px;
     padding: 10px 25px;
   }
 }

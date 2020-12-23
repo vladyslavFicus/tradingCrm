@@ -1,23 +1,17 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import PropTypes from 'constants/propTypes';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
+import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { Formik, Form, Field } from 'formik';
-import { FormikInputField, FormikSelectField, FormikTextEditorField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
-import EmailPreview from 'components/EmailPreview';
-import { get } from 'lodash';
 import { injectName } from 'utils/injectName';
+import PropTypes from 'constants/propTypes';
+import { FormikInputField, FormikSelectField, FormikTextEditorField } from 'components/Formik';
+import EmailPreview from 'components/EmailPreview';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailSendMutation from './graphql/EmailSendMutation';
-import './EmailSelectModalStyles.scss';
-
-const validator = createValidator({
-  subject: 'required|min:2',
-  text: 'required|min:20',
-});
 
 class EmailSelectModal extends PureComponent {
   static propTypes = {
@@ -30,11 +24,8 @@ class EmailSelectModal extends PureComponent {
       firstName: PropTypes.string,
       lastName: PropTypes.string,
     }).isRequired,
-    emailTemplatesData: PropTypes.shape({
-      loading: PropTypes.bool,
-      data: PropTypes.shape({
-        emailTemplates: PropTypes.arrayOf(PropTypes.email),
-      }),
+    emailTemplatesData: PropTypes.query({
+      emailTemplates: PropTypes.arrayOf(PropTypes.email),
     }).isRequired,
     emailSendMutation: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
@@ -103,7 +94,7 @@ class EmailSelectModal extends PureComponent {
       return null;
     }
 
-    const options = get(data, 'emailTemplates') || [];
+    const options = data?.emailTemplates || [];
     const optionsWithCustomEmail = [
       {
         id: -1,
@@ -124,7 +115,10 @@ class EmailSelectModal extends PureComponent {
             text: '',
           }}
           onSubmit={this.sendEmail}
-          validate={validator}
+          validate={createValidator({
+            subject: 'required|min:2',
+            text: 'required|min:20',
+          })}
           validateOnChange={false}
         >
           {({ values, setValues }) => (
@@ -186,8 +180,10 @@ class EmailSelectModal extends PureComponent {
     );
   }
 }
-
-export default withRequests({
-  emailTemplatesData: EmailTemplatesQuery,
-  emailSendMutation: EmailSendMutation,
-})(withNotifications(EmailSelectModal));
+export default compose(
+  withNotifications,
+  withRequests({
+    emailTemplatesData: EmailTemplatesQuery,
+    emailSendMutation: EmailSendMutation,
+  }),
+)(EmailSelectModal);

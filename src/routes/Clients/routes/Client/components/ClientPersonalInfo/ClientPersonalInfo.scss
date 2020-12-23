@@ -1,3 +1,31 @@
 .ClientPersonalInfo {
+  &__title {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #666;
+  }
 
+  &__content {
+    overflow-y: auto;
+    height: 200px;
+    padding: 7px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 5px;
+    font-size: 13px;
+  }
+
+  &__contacts {
+    display: flex;
+    svg {
+      margin-left: auto;
+      cursor: pointer;
+    }
+  }
+
+  &__value {
+    &--inactive {
+      color: #666;
+    }
+  }
 }
