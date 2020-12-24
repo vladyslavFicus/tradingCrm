@@ -12,7 +12,7 @@ import './LeadsUploadModal.scss';
 
 const fileConfig = {
   maxSize: 10,
-  types: ['.csv'],
+  types: ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
 };
 
 class LeadsUploadModal extends PureComponent {

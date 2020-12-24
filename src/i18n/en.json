@@ -2859,7 +2859,7 @@
     },
     "LEADS_UPLOAD_MODAL": {
       "TITLE": "Leads upload",
-      "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV file to import new Leads",
+      "UPLOAD_CSV_TO_IMPORT_LEADS": "Upload a CSV, XLS, XLSX file to import new Leads",
       "SAMPLE_CSV": "Sample CSV"
     }
   },
