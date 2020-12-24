@@ -1907,7 +1907,8 @@
       "APPROVE_FAILED": "Failed to approve payment",
       "APPROVE_SUCCESS": "Payment successfully approved"
     },
-    "ORIGINAL_AGENT": "Original Agent"
+    "ORIGINAL_AGENT": "Original Agent",
+    "CREATION_TIME": "Creation time"
   },
   "TRADING_ACTIVITY_MODAL": {
     "TITLE": "Change agent",
@@ -3210,7 +3211,8 @@
         "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only 10000 clients for migration (%{percentage}%)",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
-        "QUANTITY_PERCENTAGE": "Percentage"
+        "QUANTITY_PERCENTAGE": "Percentage",
+        "MIGRATION_SOURCE": "Migration Source"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
@@ -3292,13 +3294,12 @@
       "CALLBACK_REMINDER": "Callback reminder",
       "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
-      "MARGIN_CALL": "Margin level under 100%"
+      "MARGIN_CALL": "Margin level under 100%",
+      "BULK_CLIENTS_ASSIGNED": "Bulk assigned"
     },
     "DETAILS": {
-      "CALLBACK": "Callback",
-      "CALLBACK_REMINDER": "Callback reminder",
-      "CALLBACK_REQUESTED": "Callback requested",
-      "CALLBACK_TIME": "Callback time: %{time}"
+      "CALLBACK_TIME": "Callback time: %{time}",
+      "CLIENTS_COUNT": "{{clientsCount}} clients"
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
