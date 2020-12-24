@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { NetworkStatus } from 'apollo-client';
 import PropTypes from 'constants/propTypes';
 import ClientsGrid from './components/ClientsGrid';
 import ClientsGridFilter from './components/ClientsGridFilter';
@@ -22,7 +23,7 @@ class ClientsList extends PureComponent {
 
   componentDidUpdate(prevProps) {
     // Clear selecting when filters or sorting changed
-    if (this.props.clientsQuery.loading && !prevProps.clientsQuery.loading) {
+    if (this.props.clientsQuery.networkStatus === NetworkStatus.setVariables && !prevProps.clientsQuery.loading) {
       this.updateClientsListState();
     }
   }
