@@ -88,6 +88,7 @@ const PaymentsQuery = ({ children, paymentTypes, size }) => (
         paymentTypes,
       },
     }}
+    errorPolicy="all"
   >
     {children}
   </Query>
