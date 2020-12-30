@@ -1,12 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import PropTypes from '../../../../../constants/propTypes';
-import Placeholder from '../../../../../components/Placeholder';
 
 const HeaderPlayerPlaceholder = ({ children, ...rest }) => (
-  <Placeholder
+  <ReactPlaceholder
     {...rest}
-    className={null}
     customPlaceholder={(
       <div className="panel-heading-row__info">
         <div className="panel-heading-row__info-title">
@@ -19,7 +18,7 @@ const HeaderPlayerPlaceholder = ({ children, ...rest }) => (
     )}
   >
     {children}
-  </Placeholder>
+  </ReactPlaceholder>
 );
 HeaderPlayerPlaceholder.propTypes = {
   ready: PropTypes.bool,
