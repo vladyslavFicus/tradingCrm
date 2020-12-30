@@ -1,3 +1,1 @@
-import TabHeader from './TabHeader';
-
-export default TabHeader;
+export { default } from './TabHeader';
