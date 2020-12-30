@@ -1648,6 +1648,12 @@
     "FIELD_IS_REQUIRED": "Field is required"
   },
   "PROFILE": {
+    "LAST_ACTIVITY": {
+      "STATUS": {
+        "ONLINE": "Online",
+        "OFFLINE": "Offline"
+      }
+    },
     "LIST": {
       "FILTERS": {
         "SEARCH": "Search by",
