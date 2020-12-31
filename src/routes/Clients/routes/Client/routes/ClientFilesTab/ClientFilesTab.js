@@ -1,12 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { getGraphQLUrl, getVersion } from 'config';
-import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
-import TabHeader from 'components/TabHeader';
-import PermissionContent from 'components/PermissionContent';
+import { withNotifications, withModals } from 'hoc';
+import { getGraphQLUrl, getVersion } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
@@ -16,19 +13,24 @@ import EventEmitter, {
   FILE_CHANGED,
   FILE_UPLOADED,
 } from 'utils/EventEmitter';
+import { Button } from 'components/UI';
+import TabHeader from 'components/TabHeader';
+import PermissionContent from 'components/PermissionContent';
 import NotFoundContent from 'components/NotFoundContent';
-import KYCNote from './KYCNote';
-import FileGrid from './FileGrid';
-import TokenRefreshMutation from '../graphql/TokenRefreshMutation';
+import { UploadModal } from 'components/Files';
+import KYCNote from './components/KYCNote';
+import FileGrid from './components/FileGrid';
+import {
+  FilesCategoriesQuery,
+  FilesByProfileUuidQuery,
+  TokenRefreshMutation,
+  UpdateFileStatusMutation,
+  UpdateFileMetaMutation,
+} from './graphql';
 
-class Files extends PureComponent {
+class ClientFilesTab extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    clientFilesData: PropTypes.shape({
-      data: PropTypes.pageable(PropTypes.fileEntity),
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
-    filesCategoriesData: PropTypes.object.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -37,35 +39,38 @@ class Files extends PureComponent {
     modals: PropTypes.shape({
       uploadModal: PropTypes.modalType,
     }).isRequired,
-    updateFileStatus: PropTypes.func.isRequired,
+    filesByProfileUuidQuery: PropTypes.query({
+      clientFiles: PropTypes.pageable(PropTypes.fileEntity),
+    }).isRequired,
+    filesCategoriesQuery: PropTypes.query({
+      filesCategories: PropTypes.object.isRequired,
+    }).isRequired,
+    tokenRenew: PropTypes.func.isRequired,
     updateFileMeta: PropTypes.func.isRequired,
+    updateFileStatus: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
-    EventEmitter.on(FILE_UPLOADED, this.onFileEvent);
-    EventEmitter.on(FILE_REMOVED, this.onFileEvent);
-    EventEmitter.on(FILE_CHANGED, this.onFileEvent);
+    EventEmitter.on(PROFILE_RELOAD, this.refetchFiles);
+    EventEmitter.on(FILE_UPLOADED, this.refetchFiles);
+    EventEmitter.on(FILE_REMOVED, this.refetchFiles);
+    EventEmitter.on(FILE_CHANGED, this.refetchFiles);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
-    EventEmitter.off(FILE_UPLOADED, this.onFileEvent);
-    EventEmitter.off(FILE_REMOVED, this.onFileEvent);
-    EventEmitter.off(FILE_CHANGED, this.onFileEvent);
+    EventEmitter.off(PROFILE_RELOAD, this.refetchFiles);
+    EventEmitter.off(FILE_UPLOADED, this.refetchFiles);
+    EventEmitter.off(FILE_REMOVED, this.refetchFiles);
+    EventEmitter.off(FILE_CHANGED, this.refetchFiles);
   }
 
-  onProfileEvent = () => {
-    this.props.clientFilesData.refetch();
-  };
-
-  onFileEvent = () => {
-    this.props.clientFilesData.refetch();
+  refetchFiles = () => {
+    this.props.filesByProfileUuidQuery.refetch();
   };
 
   handlePageChanged = () => {
     const {
-      clientFilesData: {
+      filesByProfileUuidQuery: {
         loadMore,
         loading,
       },
@@ -83,7 +88,7 @@ class Files extends PureComponent {
     documentType,
     verificationStatus,
   ) => {
-    const { clientFilesData, notify, updateFileStatus } = this.props;
+    const { notify, updateFileStatus } = this.props;
 
     try {
       await updateFileStatus({
@@ -94,7 +99,7 @@ class Files extends PureComponent {
         },
       });
 
-      clientFilesData.refetch();
+      this.refetchFiles();
 
       notify({
         level: 'success',
@@ -111,7 +116,7 @@ class Files extends PureComponent {
   };
 
   handleVerificationTypeClick = async (uuid, verificationType, documentType) => {
-    const { clientFilesData, updateFileMeta, notify } = this.props;
+    const { updateFileMeta, notify } = this.props;
 
     try {
       await updateFileMeta({
@@ -122,7 +127,7 @@ class Files extends PureComponent {
         },
       });
 
-      clientFilesData.refetch();
+      this.refetchFiles();
 
       notify({
         level: 'success',
@@ -139,7 +144,7 @@ class Files extends PureComponent {
   };
 
   handleChangeFileStatusClick = async (status, uuid) => {
-    const { clientFilesData, updateFileMeta, notify } = this.props;
+    const { updateFileMeta, notify } = this.props;
 
     try {
       await updateFileMeta({
@@ -149,7 +154,7 @@ class Files extends PureComponent {
         },
       });
 
-      clientFilesData.refetch();
+      this.refetchFiles();
 
       notify({
         level: 'success',
@@ -204,17 +209,17 @@ class Files extends PureComponent {
 
   render() {
     const {
-      clientFilesData,
-      filesCategoriesData,
-      filesCategoriesData: { loading },
+      filesByProfileUuidQuery,
+      filesCategoriesQuery,
       match: { params: { id } },
       updateFileMeta,
+      tokenRenew,
     } = this.props;
 
-    const verificationData = get(clientFilesData, 'clientFiles') || [];
-    const { __typename, ...categories } = get(filesCategoriesData, 'filesCategories') || {};
+    const verificationData = filesByProfileUuidQuery.data?.clientFiles || [];
+    const { __typename, ...categories } = filesCategoriesQuery.data?.filesCategories || {};
 
-    if (loading) {
+    if (filesCategoriesQuery.loading) {
       return null;
     }
 
@@ -222,13 +227,13 @@ class Files extends PureComponent {
       <Fragment>
         <TabHeader title={I18n.t('FILES.TITLE')}>
           <PermissionContent permissions={permissions.FILES.UPLOAD_FILE}>
-            <button
-              type="button"
-              className="btn btn-sm btn-primary-outline"
+            <Button
               onClick={this.handleUploadFileClick}
+              primaryOutline
+              small
             >
               {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
-            </button>
+            </Button>
           </PermissionContent>
         </TabHeader>
         <KYCNote playerUUID={id} />
@@ -245,6 +250,7 @@ class Files extends PureComponent {
                     verificationStatus={verificationStatus}
                     updateFileMeta={updateFileMeta}
                     documentType={documentType}
+                    tokenRenew={tokenRenew}
                     handlePageChanged={this.handlePageChanged}
                     onStatusActionClick={this.handleStatusActionClick}
                     onVerificationTypeActionClick={this.handleVerificationTypeClick}
@@ -265,8 +271,15 @@ class Files extends PureComponent {
 }
 
 export default compose(
-  withRequests({
-    tokenRenew: TokenRefreshMutation,
-  }),
   withNotifications,
-)(Files);
+  withModals({
+    uploadModal: UploadModal,
+  }),
+  withRequests({
+    filesCategoriesQuery: FilesCategoriesQuery,
+    filesByProfileUuidQuery: FilesByProfileUuidQuery,
+    tokenRenew: TokenRefreshMutation,
+    updateFileMeta: UpdateFileMetaMutation,
+    updateFileStatus: UpdateFileStatusMutation,
+  }),
+)(ClientFilesTab);

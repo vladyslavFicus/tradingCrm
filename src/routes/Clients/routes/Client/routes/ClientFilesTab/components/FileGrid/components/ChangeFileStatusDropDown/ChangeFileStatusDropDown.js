@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import Select from 'components/Select';
+import './ChangeFileStatusDropDown.scss';
 
-class ChangeFileStatusDropDown extends Component {
+class ChangeFileStatusDropDown extends PureComponent {
   static propTypes = {
     onChangeStatus: PropTypes.func.isRequired,
     statusesFile: PropTypes.array.isRequired,
@@ -20,11 +21,15 @@ class ChangeFileStatusDropDown extends Component {
     currentValue: '',
   };
 
+  handleChange = (value) => {
+    this.setState({ currentValue: value });
+    this.props.onChangeStatus(value, uuid);
+  };
+
   render() {
     const {
       status,
       statusesFile,
-      onChangeStatus,
       uuid,
       disabled,
     } = this.props;
@@ -32,14 +37,11 @@ class ChangeFileStatusDropDown extends Component {
 
     return (
       <Select
-        disabled={disabled}
-        value={currentValue || status}
-        customClassName="filter-row__medium"
+        customClassName="ChangeFileStatusDropDown"
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        onChange={(value) => {
-          this.setState({ currentValue: value });
-          onChangeStatus(value, uuid);
-        }}
+        value={currentValue || status}
+        onChange={this.handleChange}
+        disabled={disabled}
       >
         {statusesFile.map(({ value, label }) => (
           <option key={`${uuid}-${value}`} value={value}>{I18n.t(label)}</option>
