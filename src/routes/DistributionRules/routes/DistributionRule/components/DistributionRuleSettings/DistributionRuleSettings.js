@@ -35,6 +35,14 @@ class DistributionRuleSettings extends PureComponent {
         from: PropTypes.string,
         to: PropTypes.string,
       }),
+      lastNotePeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      lastNoteDateRange: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       executionType: PropTypes.string,
       executionPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
@@ -69,6 +77,10 @@ class DistributionRuleSettings extends PureComponent {
               countries: ['required'],
               registrationDateRange: {
                 from: ['dateWithTime', `validDateTimeRange:${values?.registrationDateRange?.to}`],
+                to: ['dateWithTime'],
+              },
+              lastNoteDateRange: {
+                from: ['dateWithTime', `validDateTimeRange:${values?.lastNoteDateRange?.to}`],
                 to: ['dateWithTime'],
               },
               languages: ['required'],
@@ -148,6 +160,20 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'registrationPeriodInHours',
                 }}
                 additionalOptions={registrationPeriodInHours}
+                withAdditionalValue
+                withConfirmation
+              />
+              <Field
+                className="DistributionRuleSettings__form-field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LAST_NOTE_DATE_RANGE')}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'lastNoteDateRange.from',
+                  to: 'lastNoteDateRange.to',
+                  additional: 'lastNotePeriodInHours',
+                }}
+                additionalOptions={registrationPeriodInHours}
+                anchorDirection="right"
                 withAdditionalValue
                 withConfirmation
               />
