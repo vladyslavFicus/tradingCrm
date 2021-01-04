@@ -34,10 +34,11 @@ class AddTargetBrandModal extends PureComponent {
       query: PropTypes.func.isRequired,
     }).isRequired,
     partnersQuery: PropTypes.query({
-      partners: PropTypes.pageable(
+      cdePartners: PropTypes.arrayOf(
         PropTypes.shape({
           uuid: PropTypes.string,
           fullName: PropTypes.string,
+          brand: PropTypes.string,
         }),
       ),
     }).isRequired,
@@ -186,7 +187,7 @@ class AddTargetBrandModal extends PureComponent {
       availableClientsAmount,
     } = this.state;
 
-    const partners = partnersData?.partners?.content || [];
+    const partners = partnersData?.cdePartners || [];
 
     return (
       <Modal
@@ -220,92 +221,96 @@ class AddTargetBrandModal extends PureComponent {
           validateOnChange={false}
           onSubmit={this.handleSubmit}
         >
-          {({ values, setFieldValue }) => (
-            <Form>
-              <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}</ModalHeader>
-              <ModalBody>
-                <Field
-                  name="brand"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND')}
-                  component={FormikSelectField}
-                  customOnChange={this.handleBrandChange(setFieldValue)}
-                  searchable
-                >
-                  {brands
-                    .filter(_brand => _brand.brandId !== sourceBrandId)
-                    .map(_brand => (
-                      <option key={_brand.brandId} value={_brand.brandId}>
-                        {_brand.brandName}
-                      </option>
-                    ))
-                  }
-                </Field>
-                <If condition={values.brand}>
-                  <div
-                    className="AddTargetBrandModal__message"
-                    dangerouslySetInnerHTML={{
-                      __html: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
-                        value: typeof availableClientsAmount === 'number'
-                          ? availableClientsAmount
-                          : '<span class="AddTargetBrandModal__message-spinner">...</span>',
-                      }),
-                    }}
-                  />
-                </If>
-                <div className="AddTargetBrandModal__row">
+          {({ values, setFieldValue }) => {
+            const partnersByBrand = partners.filter(({ brand: partnerBrand }) => values.brand === partnerBrand);
+
+            return (
+              <Form>
+                <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}</ModalHeader>
+                <ModalBody>
                   <Field
-                    name="quantity"
-                    type="number"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
-                    step="1"
-                    addition={baseUnits[baseUnit]}
-                    additionPosition="right"
-                    className="AddTargetBrandModal__field AddTargetBrandModal__field--quantity"
-                    disabled={!availableClientsAmount}
-                    component={FormikInputField}
-                  />
-                </div>
-                <Field
-                  name="migrationSource"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MIGRATION_SOURCE')}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
-                  disabled={!partners.length}
-                  searchable
-                >
-                  {partners.map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>{fullName}</option>
-                  ))}
-                </Field>
-                <Field
-                  name="operator"
-                  label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
-                  placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
-                  component={FormikSelectField}
-                  disabled={operatorsLoading || !operatorsByBrand.length}
-                  searchable
-                >
-                  {operatorsByBrand.map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>{fullName}</option>
-                  ))}
-                </Field>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  commonOutline
-                  onClick={onCloseModal}
-                >
-                  {I18n.t('COMMON.CANCEL')}
-                </Button>
-                <Button
-                  type="submit"
-                  primary
-                >
-                  {I18n.t('COMMON.CONFIRM')}
-                </Button>
-              </ModalFooter>
-            </Form>
-          )}
+                    name="brand"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND')}
+                    component={FormikSelectField}
+                    customOnChange={this.handleBrandChange(setFieldValue)}
+                    searchable
+                  >
+                    {brands
+                      .filter(_brand => _brand.brandId !== sourceBrandId)
+                      .map(_brand => (
+                        <option key={_brand.brandId} value={_brand.brandId}>
+                          {_brand.brandName}
+                        </option>
+                      ))
+                    }
+                  </Field>
+                  <If condition={values.brand}>
+                    <div
+                      className="AddTargetBrandModal__message"
+                      dangerouslySetInnerHTML={{
+                        __html: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_AMOUNT', {
+                          value: typeof availableClientsAmount === 'number'
+                            ? availableClientsAmount
+                            : '<span class="AddTargetBrandModal__message-spinner">...</span>',
+                        }),
+                      }}
+                    />
+                  </If>
+                  <div className="AddTargetBrandModal__row">
+                    <Field
+                      name="quantity"
+                      type="number"
+                      label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
+                      step="1"
+                      addition={baseUnits[baseUnit]}
+                      additionPosition="right"
+                      className="AddTargetBrandModal__field AddTargetBrandModal__field--quantity"
+                      disabled={!availableClientsAmount}
+                      component={FormikInputField}
+                    />
+                  </div>
+                  <Field
+                    name="migrationSource"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MIGRATION_SOURCE')}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    component={FormikSelectField}
+                    disabled={!partnersByBrand.length}
+                    searchable
+                  >
+                    {partnersByBrand.map(({ uuid, fullName }) => (
+                      <option key={uuid} value={uuid}>{fullName}</option>
+                    ))}
+                  </Field>
+                  <Field
+                    name="operator"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
+                    placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
+                    component={FormikSelectField}
+                    disabled={operatorsLoading || !operatorsByBrand.length}
+                    searchable
+                  >
+                    {operatorsByBrand.map(({ uuid, fullName }) => (
+                      <option key={uuid} value={uuid}>{fullName}</option>
+                    ))}
+                  </Field>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    commonOutline
+                    onClick={onCloseModal}
+                  >
+                    {I18n.t('COMMON.CANCEL')}
+                  </Button>
+                  <Button
+                    type="submit"
+                    primary
+                  >
+                    {I18n.t('COMMON.CONFIRM')}
+                  </Button>
+                </ModalFooter>
+              </Form>
+            );
+          }}
         </Formik>
       </Modal>
     );
