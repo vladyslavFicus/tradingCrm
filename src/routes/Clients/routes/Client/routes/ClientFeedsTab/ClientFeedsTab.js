@@ -1,5 +1,4 @@
 import React, { PureComponent, Fragment } from 'react';
-import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -7,31 +6,27 @@ import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
-import FeedFilterForm from '../FeedFilterForm';
+import ClientFeedsFilterForm from './components/ClientFeedsFilterForm';
 import FeedsQuery from './graphql/FeedsQuery';
+import './ClientFeedsTab.scss';
 
-class Feed extends PureComponent {
+class ClientFeedsTab extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     feedsQuery: PropTypes.query({
-      feeds: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.feed),
-        last: PropTypes.bool,
-        page: PropTypes.number,
-        totalPages: PropTypes.number,
-      }),
+      feeds: PropTypes.pageable(PropTypes.feed),
     }).isRequired,
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(PROFILE_RELOAD, this.refetchFeeds);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(PROFILE_RELOAD, this.refetchFeeds);
   }
 
-  onProfileEvent = () => {
+  refetchFeeds = () => {
     this.props.feedsQuery.refetch();
   };
 
@@ -44,7 +39,7 @@ class Feed extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = get(data, 'feeds.page') || 0;
+    const currentPage = data?.feeds?.page || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
@@ -56,13 +51,13 @@ class Feed extends PureComponent {
       feedsQuery: { data, loading, refetch },
     } = this.props;
 
-    const { content, last, number, totalPages } = get(data, 'feeds') || {};
+    const { content, last, number, totalPages } = data?.feeds || {};
 
     return (
       <Fragment>
-        <FeedFilterForm handleRefetch={refetch} />
+        <ClientFeedsFilterForm handleRefetch={refetch} />
 
-        <div className="tab-wrapper">
+        <div className="ClientFeedsTab__grid">
           <ListView
             dataSource={content || []}
             activePage={number + 1}
@@ -83,4 +78,4 @@ export default compose(
   withRequests({
     feedsQuery: FeedsQuery,
   }),
-)(Feed);
+)(ClientFeedsTab);

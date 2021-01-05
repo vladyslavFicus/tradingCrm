@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
@@ -14,11 +13,12 @@ import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { attributeLabels } from './constants';
 import FeedTypesQuery from './graphql/FeedTypesQuery';
+import './ClientFeedsFilterForm.scss';
 
-class FeedFilterForm extends PureComponent {
+class ClientFeedsFilterForm extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    feedTypes: PropTypes.query({
+    feedTypesQuery: PropTypes.query({
       feedTypes: PropTypes.objectOf(PropTypes.string),
     }).isRequired,
     handleRefetch: PropTypes.func.isRequired,
@@ -50,12 +50,14 @@ class FeedFilterForm extends PureComponent {
 
   render() {
     const {
-      feedTypes,
+      feedTypesQuery: {
+        data: feedTypesData,
+      },
       handleRefetch,
       location: { state },
     } = this.props;
 
-    const feedTypesList = get(feedTypes, 'data.feedTypes') || [];
+    const feedTypesList = feedTypesData?.feedTypes || [];
     const availableTypes = Object.keys(feedTypesList)
       .filter(key => feedTypesList[key] && key !== '__typename')
       .map(type => ({
@@ -84,10 +86,10 @@ class FeedFilterForm extends PureComponent {
           values,
           dirty,
         }) => (
-          <Form className="filter-row">
+          <Form className="ClientFeedsFilterForm">
             <Field
               name="searchBy"
-              className="filter-row__medium"
+              className="ClientFeedsFilterForm__field"
               label={I18n.t(attributeLabels.searchBy)}
               placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -98,7 +100,7 @@ class FeedFilterForm extends PureComponent {
               name="auditLogType"
               label={I18n.t(attributeLabels.actionType)}
               component={FormikSelectField}
-              className="filter-row__medium"
+              className="ClientFeedsFilterForm__field"
               withAnyOption
               withFocus
             >
@@ -107,7 +109,7 @@ class FeedFilterForm extends PureComponent {
               ))}
             </Field>
             <FormikDateRangeGroup
-              className="filter-row__date-range"
+              className="ClientFeedsFilterForm__field ClientFeedsFilterForm__field--date-range"
               label={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
               periodKeys={{
                 start: 'creationDateFrom',
@@ -115,13 +117,13 @@ class FeedFilterForm extends PureComponent {
               }}
               withFocus
             />
-            <div className="filter-row__button-block">
+            <div className="ClientFeedsFilterForm__buttons-group">
               <RefreshButton
-                className="margin-right-15"
+                className="ClientFeedsFilterForm__button"
                 onClick={handleRefetch}
               />
               <Button
-                className="margin-right-15"
+                className="ClientFeedsFilterForm__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -129,6 +131,7 @@ class FeedFilterForm extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
+                className="ClientFeedsFilterForm__button"
                 disabled={isSubmitting || !dirty}
                 primary
                 type="submit"
@@ -146,6 +149,6 @@ class FeedFilterForm extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    feedTypes: FeedTypesQuery,
+    feedTypesQuery: FeedTypesQuery,
   }),
-)(FeedFilterForm);
+)(ClientFeedsFilterForm);
