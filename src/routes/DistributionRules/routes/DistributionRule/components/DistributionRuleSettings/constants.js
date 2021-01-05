@@ -12,7 +12,7 @@ export const countries = Object.keys(countryList).map(value => ({
   label: countryList[value],
 }));
 
-export const registrationPeriodInHours = [
+export const periodInHours = [
   {
     label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_TWO_HOURS',
     value: 2,

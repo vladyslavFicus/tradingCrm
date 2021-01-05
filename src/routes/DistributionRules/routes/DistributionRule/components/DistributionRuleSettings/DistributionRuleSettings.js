@@ -11,7 +11,7 @@ import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import {
   salesStatuses,
   countries,
-  registrationPeriodInHours,
+  periodInHours,
   executionTypes,
 } from './constants';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -159,7 +159,7 @@ class DistributionRuleSettings extends PureComponent {
                   to: 'registrationDateRange.to',
                   additional: 'registrationPeriodInHours',
                 }}
-                additionalValues={registrationPeriodInHours}
+                additionalValues={periodInHours}
                 withAdditionalValue
                 withConfirmation
               />
@@ -172,7 +172,7 @@ class DistributionRuleSettings extends PureComponent {
                   to: 'lastNoteDateRange.to',
                   additional: 'lastNotePeriodInHours',
                 }}
-                additionalOptions={registrationPeriodInHours}
+                additionalValues={periodInHours}
                 anchorDirection="right"
                 withAdditionalValue
                 withConfirmation
