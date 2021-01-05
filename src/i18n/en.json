@@ -3183,12 +3183,7 @@
           "LAST_TWO_HOURS": "Last 2 hours",
           "LAST_SIX_HOURS": "Last 6 hours",
           "LAST_TWELVE_HOURS": "Last 12 hours",
-          "LAST_DAY": "Last day",
-          "LAST_THREE_DAYS": "Last 3 days",
-          "LAST_WEEK": "Last week",
-          "LAST_TWO_WEEKS": "Last 2 weeks",
-          "LAST_THREE_WEEKS": "Last 3 weeks",
-          "LAST_FOUR_WEEKS": "Last 4 weeks"
+          "LAST_TWENTYFOUR_HOURS": "Last 24 hours"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",

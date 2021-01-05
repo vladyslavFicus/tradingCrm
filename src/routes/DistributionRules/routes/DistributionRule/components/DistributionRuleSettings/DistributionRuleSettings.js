@@ -159,7 +159,7 @@ class DistributionRuleSettings extends PureComponent {
                   to: 'registrationDateRange.to',
                   additional: 'registrationPeriodInHours',
                 }}
-                additionalOptions={registrationPeriodInHours}
+                additionalValues={registrationPeriodInHours}
                 withAdditionalValue
                 withConfirmation
               />

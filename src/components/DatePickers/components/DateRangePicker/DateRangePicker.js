@@ -9,7 +9,7 @@ import { isEqual } from 'lodash';
 import { Button } from 'components/UI';
 import DateCalendarPicker from '../DateCalendarPicker';
 import DateTimePicker from '../DateTimePicker';
-import DatePickerAdditionalOptions from '../DatePickerAdditionalOptions';
+import DatePickerAdditional from '../DatePickerAdditional';
 import {
   DATE_TIME_USER_STRING_FORMAT,
   DATE_TIME_BASE_FORMAT,
@@ -22,6 +22,10 @@ class DateRangePicker extends PureComponent {
   static propTypes = {
     additionalValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     additionalOptions: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    })),
+    additionalValues: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     })),
@@ -41,7 +45,7 @@ class DateRangePicker extends PureComponent {
     setValues: PropTypes.func.isRequired,
     showErrorMessage: PropTypes.bool,
     withAdditionalOptions: PropTypes.bool,
-    withAdditionalValue: PropTypes.bool, // # if we need to use additional option as value (example: options in hours)
+    withAdditionalValue: PropTypes.bool,
     withConfirmation: PropTypes.bool,
     withFocus: PropTypes.bool,
     withTime: PropTypes.bool,
@@ -50,6 +54,7 @@ class DateRangePicker extends PureComponent {
 
   static defaultProps = {
     additionalValue: undefined,
+    additionalValues: null,
     additionalOptions: defaultAdditionalOptions(),
     anchorDirection: 'left',
     className: null,
@@ -72,7 +77,7 @@ class DateRangePicker extends PureComponent {
 
   state = {
     dateKeyToSelect: 'from', // # used for detecting which date range point is selecting
-    selectedAdditionalOption: undefined,
+    selectedAdditional: undefined,
     selectedDateRange: undefined,
     showPopup: false,
   }
@@ -93,17 +98,17 @@ class DateRangePicker extends PureComponent {
     const {
       dateRange,
       additionalValue,
-      additionalOptions,
+      additionalValues,
       withAdditionalValue,
     } = this.props;
 
-    const selectedAdditionalOption = withAdditionalValue && additionalValue
-      ? additionalOptions?.filter(({ value }) => value === additionalValue)[0]
+    const selectedAdditional = withAdditionalValue && additionalValue
+      ? additionalValues?.filter(({ value }) => value === additionalValue)[0]
       : null;
 
     const newState = {
       ...this.state,
-      selectedAdditionalOption,
+      selectedAdditional,
       selectedDateRange: {
         from: this.formatDateToInputString(dateRange?.from),
         to: this.formatDateToInputString(dateRange?.to),
@@ -241,7 +246,7 @@ class DateRangePicker extends PureComponent {
     const setValuesAndNextKey = (nextKeyToSelect, fromDate, toDate) => {
       this.handleChange({
         dateKeyToSelect: nextKeyToSelect,
-        selectedAdditionalOption: null,
+        selectedAdditional: null,
         selectedDateRange: {
           from: this.formatDateToInputString(fromDate),
           to: this.formatDateToInputString(toDate),
@@ -316,25 +321,26 @@ class DateRangePicker extends PureComponent {
    * Choose additional option event
    *
    * @param option
+   * @param isAdditionalOption
    *
    * option = {
    *  label: String,
    *  value: Object of momentObjects || Number if option has hours as value
    * }
    *
+   * isAdditionalOption - flag that tells us "Selected option is a calendar tool"
+   *
    * If component must provide additionalValue
-   * then reset selectedDateRange and set new selectedAdditionalOption
-   * Otherwise set new selectedAdditionalOption and selectedDateRange (if option contains valid date)
+   * then reset selectedDateRange and set new selectedAdditional
+   * Otherwise set new selectedAdditional and selectedDateRange (if option contains valid date)
    *
   */
-  handleAdditionalClick = (option) => {
-    const { withAdditionalValue } = this.props;
-
+  handleAdditionalClick = (option, isAdditionalOption) => {
     this.handleChange({
-      selectedAdditionalOption: option,
+      selectedAdditional: isAdditionalOption ? null : option,
       selectedDateRange: {
-        from: withAdditionalValue ? null : this.formatDateToInputString(option?.value?.from),
-        to: withAdditionalValue ? null : this.formatDateToInputString(option?.value?.to),
+        from: isAdditionalOption ? this.formatDateToInputString(option?.value?.from) : null,
+        to: isAdditionalOption ? this.formatDateToInputString(option?.value?.to) : null,
       },
     });
   }
@@ -359,12 +365,12 @@ class DateRangePicker extends PureComponent {
     // # If user must submit changes, all the data will be provided on apply event
     // # Otherwise provide data each time on date change
     if (!withConfirmation || (withConfirmation && isConfirm)) {
-      const { selectedDateRange, selectedAdditionalOption } = newState;
+      const { selectedDateRange, selectedAdditional } = newState;
 
       setValues({
         from: this.getOutputDate(selectedDateRange?.from),
         to: this.getOutputDate(selectedDateRange?.to),
-        additional: withAdditionalValue ? selectedAdditionalOption?.value : undefined,
+        additional: withAdditionalValue ? selectedAdditional?.value : undefined,
       });
     }
   }
@@ -381,6 +387,7 @@ class DateRangePicker extends PureComponent {
   render() {
     const {
       additionalOptions,
+      additionalValues,
       anchorDirection,
       className,
       disabled,
@@ -400,13 +407,15 @@ class DateRangePicker extends PureComponent {
 
     const {
       dateKeyToSelect,
-      selectedAdditionalOption,
+      selectedAdditional,
       selectedDateRange,
       showPopup,
     } = this.state;
 
     const momentFrom = this.getValidMomentDate(selectedDateRange?.from);
     const momentTo = this.getValidMomentDate(selectedDateRange?.to);
+
+    const withAdditional = (withAdditionalOptions && additionalOptions) || (withAdditionalValue && additionalValues);
 
     return (
       <div className={classNames('DateRangePicker', className)}>
@@ -424,9 +433,9 @@ class DateRangePicker extends PureComponent {
         >
           <div className="DateRangePicker__input-left">
             <Choose>
-              <When condition={withAdditionalValue && selectedAdditionalOption}>
+              <When condition={withAdditionalValue && selectedAdditional}>
                 <div className="DateRangePicker__input-additional-value">
-                  {I18n.t(selectedAdditionalOption.label)}
+                  {I18n.t(selectedAdditional.label)}
                 </div>
               </When>
 
@@ -481,7 +490,7 @@ class DateRangePicker extends PureComponent {
         <If condition={showPopup}>
           <div
             className={classNames('DateRangePicker__popup', {
-              'DateRangePicker__popup--with-additional-options': withAdditionalOptions && additionalOptions,
+              'DateRangePicker__popup--with-additional': withAdditional,
               'DateRangePicker__popup--anchor-right': anchorDirection === 'right',
             })}
           >
@@ -518,11 +527,14 @@ class DateRangePicker extends PureComponent {
             </div>
 
             <div className="DateRangePicker__popup-column">
-              <If condition={withAdditionalOptions}>
-                <DatePickerAdditionalOptions
+              <If condition={withAdditional}>
+                <DatePickerAdditional
                   additionalOptions={additionalOptions}
-                  selectedAdditionalOption={selectedAdditionalOption}
+                  additionalValues={additionalValues}
+                  selectedAdditional={selectedAdditional}
                   handleAdditionalClick={this.handleAdditionalClick}
+                  withAdditionalOptions={withAdditionalOptions}
+                  withAdditionalValue={withAdditionalValue}
                 />
               </If>
 
