@@ -1,0 +1,29 @@
+.ClientNotesGridFilter {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 20px 25px;
+  background-color: #f2f4f8;
+
+  &__field {
+    margin-right: 15px;
+    min-width: 250px;
+
+    &--date-range {
+      min-width: 500px;
+    }
+  }
+
+  &__buttons-group {
+    margin-left: auto;
+    margin-bottom: 21px;
+    align-self: flex-end;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
