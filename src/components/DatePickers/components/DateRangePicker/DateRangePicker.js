@@ -45,7 +45,7 @@ class DateRangePicker extends PureComponent {
     setValues: PropTypes.func.isRequired,
     showErrorMessage: PropTypes.bool,
     withAdditionalOptions: PropTypes.bool,
-    withAdditionalValue: PropTypes.bool,
+    withAdditionalValues: PropTypes.bool,
     withConfirmation: PropTypes.bool,
     withFocus: PropTypes.bool,
     withTime: PropTypes.bool,
@@ -68,7 +68,7 @@ class DateRangePicker extends PureComponent {
     minTime: null,
     showErrorMessage: true,
     withAdditionalOptions: true,
-    withAdditionalValue: false,
+    withAdditionalValues: false,
     withConfirmation: false,
     withFocus: false,
     withTime: true,
@@ -99,10 +99,10 @@ class DateRangePicker extends PureComponent {
       dateRange,
       additionalValue,
       additionalValues,
-      withAdditionalValue,
+      withAdditionalValues,
     } = this.props;
 
-    const selectedAdditional = withAdditionalValue && additionalValue
+    const selectedAdditional = withAdditionalValues && additionalValue
       ? additionalValues?.filter(({ value }) => value === additionalValue)[0]
       : null;
 
@@ -349,7 +349,7 @@ class DateRangePicker extends PureComponent {
     const {
       disabled,
       setValues,
-      withAdditionalValue,
+      withAdditionalValues,
       withConfirmation,
     } = this.props;
 
@@ -370,7 +370,7 @@ class DateRangePicker extends PureComponent {
       setValues({
         from: this.getOutputDate(selectedDateRange?.from),
         to: this.getOutputDate(selectedDateRange?.to),
-        additional: withAdditionalValue ? selectedAdditional?.value : undefined,
+        additional: withAdditionalValues ? selectedAdditional?.value : undefined,
       });
     }
   }
@@ -399,7 +399,7 @@ class DateRangePicker extends PureComponent {
       minTime,
       showErrorMessage,
       withAdditionalOptions,
-      withAdditionalValue,
+      withAdditionalValues,
       withConfirmation,
       withFocus,
       withTime,
@@ -415,7 +415,7 @@ class DateRangePicker extends PureComponent {
     const momentFrom = this.getValidMomentDate(selectedDateRange?.from);
     const momentTo = this.getValidMomentDate(selectedDateRange?.to);
 
-    const withAdditional = (withAdditionalOptions && additionalOptions) || (withAdditionalValue && additionalValues);
+    const withAdditional = (withAdditionalOptions && additionalOptions) || (withAdditionalValues && additionalValues);
 
     return (
       <div className={classNames('DateRangePicker', className)}>
@@ -433,7 +433,7 @@ class DateRangePicker extends PureComponent {
         >
           <div className="DateRangePicker__input-left">
             <Choose>
-              <When condition={withAdditionalValue && selectedAdditional}>
+              <When condition={withAdditionalValues && selectedAdditional}>
                 <div className="DateRangePicker__input-additional-value">
                   {I18n.t(selectedAdditional.label)}
                 </div>
@@ -534,7 +534,7 @@ class DateRangePicker extends PureComponent {
                   selectedAdditional={selectedAdditional}
                   handleAdditionalClick={this.handleAdditionalClick}
                   withAdditionalOptions={withAdditionalOptions}
-                  withAdditionalValue={withAdditionalValue}
+                  withAdditionalValues={withAdditionalValues}
                 />
               </If>
 

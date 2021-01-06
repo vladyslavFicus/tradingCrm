@@ -160,7 +160,7 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'registrationPeriodInHours',
                 }}
                 additionalValues={periodInHours}
-                withAdditionalValue
+                withAdditionalValues
                 withConfirmation
               />
               <Field
@@ -174,7 +174,7 @@ class DistributionRuleSettings extends PureComponent {
                 }}
                 additionalValues={periodInHours}
                 anchorDirection="right"
-                withAdditionalValue
+                withAdditionalValues
                 withConfirmation
               />
               <Field

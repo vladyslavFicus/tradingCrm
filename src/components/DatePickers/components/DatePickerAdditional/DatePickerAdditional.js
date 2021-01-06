@@ -21,7 +21,7 @@ class DatePickerAdditional extends PureComponent {
     }),
     handleAdditionalClick: PropTypes.func.isRequired,
     withAdditionalOptions: PropTypes.bool.isRequired,
-    withAdditionalValue: PropTypes.bool.isRequired,
+    withAdditionalValues: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -51,14 +51,14 @@ class DatePickerAdditional extends PureComponent {
     const {
       additionalValues,
       additionalOptions,
-      withAdditionalValue,
+      withAdditionalValues,
       withAdditionalOptions,
     } = this.props;
 
     return (
       <div className="DatePickerAdditional">
         <div className="DatePickerAdditional__items">
-          <If condition={withAdditionalValue && additionalValues?.length}>
+          <If condition={withAdditionalValues && additionalValues?.length}>
             {this.renderAdditionalItems(additionalValues, false)}
           </If>
 
