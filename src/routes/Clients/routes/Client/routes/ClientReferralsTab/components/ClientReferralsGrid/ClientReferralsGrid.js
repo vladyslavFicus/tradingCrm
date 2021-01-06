@@ -1,5 +1,4 @@
 import React, { PureComponent, Fragment } from 'react';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -17,11 +16,11 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatus from 'components/GridStatus';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import { bonusTypes, bonusTypesColors } from '../../constants';
-import ReferralsQuery from '../../graphql/ReferralsQuery';
-import './ReferralsGrid.scss';
+import { bonusTypes, bonusTypesColors } from './constants';
+import ReferralsQuery from './graphql/ReferralsQuery';
+import './ClientReferralsGrid.scss';
 
-class ReferralsGrid extends PureComponent {
+class ClientReferralsGrid extends PureComponent {
   static propTypes = {
     referralsQuery: PropTypes.query({
       referrals: PropTypes.arrayOf(PropTypes.referral),
@@ -32,12 +31,14 @@ class ReferralsGrid extends PureComponent {
     window.open(`/clients/${profileUuid}/profile`, '_blank');
   };
 
-  setActiveRowClass = ({ bonusType }) => bonusType === 'FTD' && 'ReferralsGrid__row--active';
+  setActiveRowClass = ({ bonusType }) => bonusType === 'FTD' && 'ClientReferralsGrid__row--active';
 
   renderDate = date => (
     <Fragment>
-      <div className="font-weight-700">{moment.utc(date).local().format('DD.MM.YYYY')}</div>
-      <div className="font-size-11">
+      <div className="ClientReferralsGrid__col-text ClientReferralsGrid__col-text--bold">
+        {moment.utc(date).local().format('DD.MM.YYYY')}
+      </div>
+      <div className="ClientReferralsGrid__col-text ClientReferralsGrid__col-text--small">
         {moment.utc(date).local().format('HH:mm:ss')}
       </div>
     </Fragment>
@@ -45,10 +46,10 @@ class ReferralsGrid extends PureComponent {
 
   renderAmount = (amount, currency, normalizedAmount) => (
     <Fragment>
-      <div className="header-block-middle">
+      <div className="ClientReferralsGrid__col-text ClientReferralsGrid__col-text--bold">
         {Number(currency).toFixed(2)} {amount}
       </div>
-      <div className="font-size-11">
+      <div className="ClientReferralsGrid__col-text ClientReferralsGrid__col-text--small">
         {`(${getBrand().currencies.base} ${Number(
           normalizedAmount,
         ).toFixed(2)})`}
@@ -59,7 +60,7 @@ class ReferralsGrid extends PureComponent {
   renderBonusType = bonusType => (
     <div className={classNames(
       bonusTypesColors[bonusType],
-      'font-weight-700 text-uppercase',
+      'ClientReferralsGrid__col-text ClientReferralsGrid__col-text--bold ClientReferralsGrid__col-text--upper',
     )}
     >
       {I18n.t(renderLabel(bonusType, bonusTypes))}
@@ -99,11 +100,11 @@ class ReferralsGrid extends PureComponent {
       referralsQuery,
     } = this.props;
 
-    const content = get(referralsQuery, 'data.referrals') || [];
+    const content = referralsQuery.data?.referrals || [];
     const isLoading = referralsQuery.loading;
 
     return (
-      <div className="card card-body">
+      <div className="ClientReferralsGrid">
         <Grid
           data={content}
           rowsClassNames={this.setActiveRowClass}
@@ -189,7 +190,7 @@ class ReferralsGrid extends PureComponent {
                 salesStatus,
                 salesOperator,
                 acquisitionStatus,
-              } = get(data, 'acquisition') || {};
+              } = data?.acquisition || {};
               const colorClassName = salesStatusesColor[salesStatus];
 
               return this.renderAcquisitionStatus({
@@ -207,7 +208,7 @@ class ReferralsGrid extends PureComponent {
                 retentionStatus,
                 retentionOperator,
                 acquisitionStatus,
-              } = get(data, 'acquisition') || {};
+              } = data?.acquisition || {};
               const colorClassName = retentionStatusesColor[retentionStatus];
 
               return this.renderAcquisitionStatus({
@@ -229,4 +230,4 @@ export default compose(
   withRequests({
     referralsQuery: ReferralsQuery,
   }),
-)(ReferralsGrid);
+)(ClientReferralsGrid);
