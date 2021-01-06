@@ -1,4 +1,4 @@
-.DatePickerAdditionalOptions {
+.DatePickerAdditional {
   display: grid;
   padding: 10px 0 0 15px;
   border-left: 1px solid #eee;
@@ -19,7 +19,7 @@
     white-space: nowrap;
     height: 30px;
 
-    &:not(.DatePickerAdditionalOptions__item--selected) {
+    &:not(.DatePickerAdditional__item--selected) {
       cursor: pointer;
 
       &:hover {

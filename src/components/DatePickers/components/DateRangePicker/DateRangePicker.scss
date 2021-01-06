@@ -196,7 +196,7 @@
     grid-template-columns: 350px;
     z-index: 2;
 
-    &--with-additional-options {
+    &--with-additional {
       grid-template-columns: 350px 350px;
       grid-auto-flow: column;
     }
