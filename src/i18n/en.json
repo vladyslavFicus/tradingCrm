@@ -3207,7 +3207,9 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source"
+        "MIGRATION_SOURCE": "Migration Source",
+        "DESKS": "Desks",
+        "TEAMS": "Teams"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
