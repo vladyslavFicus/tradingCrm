@@ -10,7 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { createValidator } from 'utils/validator';
-import { filterSetByIdQuery } from 'graphql/queries/filterSet';
+import filterSetByIdQuery from './graphql/filterSetByIdQuery';
 import createFilterSetMutation from './graphql/createFilterSetMutation';
 import updateFilterSetMutation from './graphql/updateFilterSetMutation';
 import { actionTypes } from './attributes';
@@ -34,7 +34,7 @@ class ActionFilterModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     filterId: PropTypes.string,
-    fields: PropTypes.array.isRequired,
+    fields: PropTypes.object.isRequired,
     client: PropTypes.object.isRequired,
     filterSetType: PropTypes.string.isRequired,
     name: PropTypes.string,

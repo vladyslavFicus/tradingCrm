@@ -48,7 +48,7 @@ class ClientsHeader extends PureComponent {
       updateClientsListState,
     } = this.props;
 
-    const totalElements = clientsQuery.data.profiles?.totalElements;
+    const totalElements = clientsQuery.data?.profiles?.totalElements;
     const searchLimit = location.state?.filters?.searchLimit;
 
     const clientsListCount = (searchLimit && searchLimit < totalElements)
