@@ -10,8 +10,8 @@ export const defaultAdditionalOptions = () => ([
   {
     label: 'DATE_PICKER.PERIOD_RESETS.TODAY',
     value: {
-      from: moment(),
-      to: moment(),
+      from: moment().startOf('day'),
+      to: moment().endOf('day'),
     },
   },
   {
