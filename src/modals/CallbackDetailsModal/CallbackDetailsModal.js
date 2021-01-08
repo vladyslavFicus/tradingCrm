@@ -125,7 +125,7 @@ class CallbackDetailsModal extends Component {
           <Otherwise>
             <Formik
               initialValues={{
-                callbackTime: moment.utc(callbackTime).local().format(),
+                callbackTime,
                 operatorId,
                 status,
                 reminder,
@@ -184,6 +184,7 @@ class CallbackDetailsModal extends Component {
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                       component={FormikDatePickerNew}
                       withTime
+                      withUtc
                     />
 
                     <Field
