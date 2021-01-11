@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
+import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';

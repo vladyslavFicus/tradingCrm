@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import EventEmitter, { PROFILE_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
@@ -71,7 +71,7 @@ class ClientNotesTab extends PureComponent {
     }
 
     return (
-      <Fragment>
+      <div className="ClientNotesTab">
         <TabHeader title={I18n.t('PLAYER_PROFILE.NOTES.TITLE')} />
 
         <ClientNotesGridFilter handleRefetch={refetch} />
@@ -87,7 +87,7 @@ class ClientNotesTab extends PureComponent {
             showNoResults={!loading && !notes.content.length}
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
