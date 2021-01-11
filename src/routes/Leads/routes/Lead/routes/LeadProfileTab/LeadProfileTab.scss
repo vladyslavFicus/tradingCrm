@@ -1,10 +1,39 @@
-$color-danger: #fb434a;
-
 .LeadProfileTab {
-  &__error {
-    margin-bottom: .5rem;
-    font-weight: 700;
-    color: $color-danger;
-    text-align: center;
+  background-color: #fff;
+
+  & hr {
+    margin: 30px 0 25px 0;
+  }
+
+  &__content {
+    padding: 0 25px 25px;
+  }
+
+  &__form {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    padding: 25px;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-title {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    &-field {
+      margin-right: 30px;
+      width: calc(33.3% - 20px);
+      display: inline-block;
+      vertical-align: top;;
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
   }
 }
