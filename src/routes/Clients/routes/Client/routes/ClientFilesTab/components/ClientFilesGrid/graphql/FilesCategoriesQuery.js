@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query FilesCategoriesQuery {
+const REQUEST = gql`query ClientFilesTab_FilesCategoriesQuery {
   filesCategories {
     DOCUMENT_VERIFICATION
     ADDRESS_VERIFICATION

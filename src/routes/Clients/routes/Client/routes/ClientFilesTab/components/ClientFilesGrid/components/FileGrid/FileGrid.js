@@ -202,7 +202,7 @@ class FileGrid extends PureComponent {
     const uuidPrefix = clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
     return (
-      <div className="FileGrid__col">
+      <div className="FileGrid__col FileGrid__col--name">
         <div
           className={classNames('FileGrid__col-title', { 'FileGrid__col-title--clickable': isClickable })}
           onClick={onClick}

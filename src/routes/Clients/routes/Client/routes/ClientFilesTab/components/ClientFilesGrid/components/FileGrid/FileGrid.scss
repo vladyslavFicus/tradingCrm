@@ -79,6 +79,10 @@
   }
 
   &__col {
+    &--name {
+      width: 375px;
+    }
+
     &-title {
       font-weight: 700;
 

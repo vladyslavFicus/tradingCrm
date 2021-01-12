@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation UpdateFileStatusMutation(
+const REQUEST = gql`mutation ClientFilesTab_UpdateFileStatusMutation(
   $uuid: String!
   $verificationType: String
   $documentType: String
