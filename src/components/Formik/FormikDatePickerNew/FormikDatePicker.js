@@ -21,15 +21,6 @@ class FormikDatePicker extends PureComponent {
     withFocus: false,
   };
 
-  getFieldsError = () => {
-    const {
-      form: { errors },
-      field: { name },
-    } = this.props;
-
-    return errors[name] && errors[name][0];
-  }
-
   getPickerFocusState = () => {
     const {
       form: { initialValues },
@@ -42,7 +33,7 @@ class FormikDatePicker extends PureComponent {
 
   render() {
     const {
-      form: { setFieldValue },
+      form: { setFieldValue, errors },
       field: { name, value },
       withFocus,
       ...restProps
@@ -54,7 +45,7 @@ class FormikDatePicker extends PureComponent {
     return (
       <DatePicker
         {...datePickerProps}
-        error={this.getFieldsError()}
+        error={errors[name] && errors[name][0]}
         value={value}
         setValue={_value => setFieldValue(name, _value)}
         withFocus={this.getPickerFocusState()}

@@ -146,16 +146,7 @@
         display: block;
         width: 100%;
 
-        &::-webkit-input-placeholder {
-          color: #9b9b9b;
-        }
-        &::-moz-placeholder {
-          color: #9b9b9b;
-        }
-        &:-ms-input-placeholder {
-          color: #9b9b9b;
-        }
-        &:-moz-placeholder {
+        &::placeholder {
           color: #9b9b9b;
         }
       }
