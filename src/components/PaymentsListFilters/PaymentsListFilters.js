@@ -31,6 +31,7 @@ import {
   FormikDateRangeGroup,
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
+import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/UI';
 import {
@@ -169,375 +170,377 @@ class PaymentsListFilters extends PureComponent {
     const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
 
     return (
-      <Formik
-        enableReinitialize
-        onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
-        initialValues={state?.filters || {}}
-      >
-        {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
-          const desksUuids = values.desks || [];
-          const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
-          const teamsOptions = desksUuids.length ? teamsByDesks : teams;
-          const operatorsOptions = this.filterOperators(values);
+      <FiltersToggler>
+        <Formik
+          enableReinitialize
+          onSubmit={this.handleSubmit}
+          onReset={this.handleReset}
+          initialValues={state?.filters || {}}
+        >
+          {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
+            const desksUuids = values.desks || [];
+            const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
+            const teamsOptions = desksUuids.length ? teamsByDesks : teams;
+            const operatorsOptions = this.filterOperators(values);
 
-          return (
-            <FilterSetsDecorator
-              filterSetType={filterSetTypes.PAYMENT}
-              currentValues={values}
-              disabled={paymentsLoading}
-              submitFilters={(filterSetValues) => {
-                setValues(filterSetValues);
-                handleSubmit();
-              }}
-            >
-              <Form className="PaymentsListFilters__form">
-                <div className="PaymentsListFilters__fields">
-                  <Field
-                    name="searchParam"
-                    className="PaymentsListFilters__field PaymentsListFilters__search"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD')}
-                    placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
-                    addition={<i className="icon icon-search" />}
-                    component={FormikInputField}
-                    withFocus
-                  />
-                  <If condition={!clientView}>
+            return (
+              <FilterSetsDecorator
+                filterSetType={filterSetTypes.PAYMENT}
+                currentValues={values}
+                disabled={paymentsLoading}
+                submitFilters={(filterSetValues) => {
+                  setValues(filterSetValues);
+                  handleSubmit();
+                }}
+              >
+                <Form className="PaymentsListFilters__form">
+                  <div className="PaymentsListFilters__fields">
                     <Field
-                      name="countries"
+                      name="searchParam"
+                      className="PaymentsListFilters__field PaymentsListFilters__search"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD')}
+                      placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
+                      addition={<i className="icon icon-search" />}
+                      component={FormikInputField}
+                      withFocus
+                    />
+                    <If condition={!clientView}>
+                      <Field
+                        name="countries"
+                        className="PaymentsListFilters__field PaymentsListFilters__select"
+                        label={I18n.t('PROFILE.LIST.FILTERS.COUNTRY')}
+                        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                        component={FormikSelectField}
+                        searchable
+                        withFocus
+                        multiple
+                      >
+                        {[
+                          <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                          ...Object.keys(countries)
+                            .map(country => (
+                              <option key={country} value={country}>{countries[country]}</option>
+                            )),
+                        ]}
+                      </Field>
+                    </If>
+                    <Field
+                      name="paymentAggregator"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
-                      label={I18n.t('PROFILE.LIST.FILTERS.COUNTRY')}
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
-                      searchable
+                      withAnyOption
                       withFocus
-                      multiple
                     >
-                      {[
-                        <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                        ...Object.keys(countries)
-                          .map(country => (
-                            <option key={country} value={country}>{countries[country]}</option>
-                          )),
-                      ]}
-                    </Field>
-                  </If>
-                  <Field
-                    name="paymentAggregator"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {Object.keys(aggregators).map(value => (
-                      <option key={value} value={value}>
-                        {I18n.t(aggregatorsLabels[value])}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="paymentMethods"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    disabled={paymentMethodsLoading}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {paymentMethods.map(value => (
-                      <option key={value} value={value}>
-                        {formatLabel(value)}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="paymentTypes"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {Object.keys(tradingTypes)
-                      .filter(value => tradingTypesLabelsWithColor[value])
-                      .map(value => (
+                      {Object.keys(aggregators).map(value => (
                         <option key={value} value={value}>
-                          {I18n.t(tradingTypesLabelsWithColor[value].label)}
+                          {I18n.t(aggregatorsLabels[value])}
                         </option>
                       ))}
-                  </Field>
-                  <Field
-                    name="statuses"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {Object.keys(tradingStatuses).map(value => (
-                      <option key={value} value={value}>
-                        {I18n.t(renderLabel(value, tradingStatusesLabels))}
-                      </option>
-                    ))}
-                  </Field>
-                  <FormikDateRangeGroup
-                    className="PaymentsListFilters__field PaymentsListFilters__date-range"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
-                    periodKeys={{
-                      start: 'statusChangedTimeFrom',
-                      end: 'statusChangedTimeTo',
-                    }}
-                    withFocus
-                  />
-                  <Field
-                    name="desks"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
-                    placeholder={
-                      I18n.t(
-                        (!isDesksAndTeamsLoading && desks.length === 0)
-                          ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                          : 'COMMON.SELECT_OPTION.ANY',
-                      )
-                    }
-                    component={FormikSelectField}
-                    disabled={isDesksAndTeamsLoading || desks.length === 0}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {desks.map(({ uuid, name }) => (
-                      <option key={uuid} value={uuid}>
-                        {name}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="teams"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
-                    placeholder={
-                      I18n.t(
-                        (!isDesksAndTeamsLoading && teamsOptions.length === 0)
-                          ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                          : 'COMMON.SELECT_OPTION.ANY',
-                      )
-                    }
-                    component={FormikSelectField}
-                    disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {teamsOptions.map(({ uuid, name }) => (
-                      <option key={uuid} value={uuid}>
-                        {name}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="agentIds"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT')}
-                    placeholder={
-                      I18n.t(
-                        (!isOperatorsLoading && operatorsOptions.length === 0)
-                          ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                          : 'COMMON.SELECT_OPTION.ANY',
-                      )
-                    }
-                    component={FormikSelectField}
-                    disabled={isOperatorsLoading || operatorsOptions.length === 0}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        className={classNames({
-                          'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
-                        })}
-                      >
-                        {fullName}
-                      </option>
-                    ))}
-                  </Field>
-                  <If condition={!clientView}>
+                    </Field>
                     <Field
-                      name="affiliateUuids"
+                      name="paymentMethods"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
-                      label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      disabled={paymentMethodsLoading}
                       component={FormikSelectField}
-                      disabled={partnersLoading || !partners.length}
                       searchable
                       withFocus
                       multiple
                     >
-                      {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
+                      {paymentMethods.map(value => (
+                        <option key={value} value={value}>
+                          {formatLabel(value)}
+                        </option>
+                      ))}
+                    </Field>
+                    <Field
+                      name="paymentTypes"
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {Object.keys(tradingTypes)
+                        .filter(value => tradingTypesLabelsWithColor[value])
+                        .map(value => (
+                          <option key={value} value={value}>
+                            {I18n.t(tradingTypesLabelsWithColor[value].label)}
+                          </option>
+                        ))}
+                    </Field>
+                    <Field
+                      name="statuses"
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {Object.keys(tradingStatuses).map(value => (
+                        <option key={value} value={value}>
+                          {I18n.t(renderLabel(value, tradingStatusesLabels))}
+                        </option>
+                      ))}
+                    </Field>
+                    <FormikDateRangeGroup
+                      className="PaymentsListFilters__field PaymentsListFilters__date-range"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
+                      periodKeys={{
+                        start: 'statusChangedTimeFrom',
+                        end: 'statusChangedTimeTo',
+                      }}
+                      withFocus
+                    />
+                    <Field
+                      name="desks"
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
+                      placeholder={
+                        I18n.t(
+                          (!isDesksAndTeamsLoading && desks.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      component={FormikSelectField}
+                      disabled={isDesksAndTeamsLoading || desks.length === 0}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {desks.map(({ uuid, name }) => (
                         <option key={uuid} value={uuid}>
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+                    <Field
+                      name="teams"
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
+                      placeholder={
+                        I18n.t(
+                          (!isDesksAndTeamsLoading && teamsOptions.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      component={FormikSelectField}
+                      disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {teamsOptions.map(({ uuid, name }) => (
+                        <option key={uuid} value={uuid}>
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+                    <Field
+                      name="agentIds"
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT')}
+                      placeholder={
+                        I18n.t(
+                          (!isOperatorsLoading && operatorsOptions.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      component={FormikSelectField}
+                      disabled={isOperatorsLoading || operatorsOptions.length === 0}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
+                        <option
+                          key={uuid}
+                          value={uuid}
+                          className={classNames({
+                            'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                          })}
+                        >
                           {fullName}
                         </option>
                       ))}
                     </Field>
+                    <If condition={!clientView}>
+                      <Field
+                        name="affiliateUuids"
+                        className="PaymentsListFilters__field PaymentsListFilters__select"
+                        label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
+                        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                        component={FormikSelectField}
+                        disabled={partnersLoading || !partners.length}
+                        searchable
+                        withFocus
+                        multiple
+                      >
+                        {[{ uuid: 'NONE', fullName: I18n.t('COMMON.NONE') }, ...partners].map(({ uuid, fullName }) => (
+                          <option key={uuid} value={uuid}>
+                            {fullName}
+                          </option>
+                        ))}
+                      </Field>
+                      <Field
+                        name="currency"
+                        className="PaymentsListFilters__field PaymentsListFilters__select"
+                        label={I18n.t('COMMON.CURRENCY')}
+                        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                        component={FormikSelectField}
+                        withAnyOption
+                        withFocus
+                      >
+                        {currencies.map(value => (
+                          <option key={value} value={value}>
+                            {value}
+                          </option>
+                        ))}
+                      </Field>
+                    </If>
                     <Field
-                      name="currency"
+                      name="accountType"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
-                      label={I18n.t('COMMON.CURRENCY')}
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
                     >
-                      {currencies.map(value => (
+                      {accountTypes.map(({ value, label }) => (
                         <option key={value} value={value}>
-                          {value}
+                          {I18n.t(label)}
                         </option>
                       ))}
                     </Field>
-                  </If>
-                  <Field
-                    name="accountType"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {accountTypes.map(({ value, label }) => (
-                      <option key={value} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
-                  <If condition={platformTypes.length > 1}>
+                    <If condition={platformTypes.length > 1}>
+                      <Field
+                        name="platformType"
+                        label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
+                        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                        className="PaymentsListFilters__field PaymentsListFilters__select"
+                        component={FormikSelectField}
+                        withAnyOption
+                        withFocus
+                      >
+                        {platformTypes.map(({ value, label }) => (
+                          <option key={value} value={value}>{label}</option>
+                        ))}
+                      </Field>
+                    </If>
                     <Field
-                      name="platformType"
-                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      name="firstTimeDeposit"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
                     >
-                      {platformTypes.map(({ value, label }) => (
-                        <option key={value} value={value}>{label}</option>
+                      <option key={0} value={true}>{I18n.t('COMMON.YES')}</option> {/* eslint-disable-line */}
+                      <option key={1} value={false}>{I18n.t('COMMON.NO')}</option>
+                    </Field>
+                    <Field
+                      name="warnings"
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withAnyOption
+                      withFocus
+                    >
+                      {Object.keys(warningValues).map(value => (
+                        <option key={value} value={value}>
+                          {I18n.t(warningLabels[value])}
+                        </option>
                       ))}
                     </Field>
-                  </If>
-                  <Field
-                    name="firstTimeDeposit"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    <option key={0} value={true}>{I18n.t('COMMON.YES')}</option> {/* eslint-disable-line */}
-                    <option key={1} value={false}>{I18n.t('COMMON.NO')}</option>
-                  </Field>
-                  <Field
-                    name="warnings"
-                    className="PaymentsListFilters__field PaymentsListFilters__select"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {Object.keys(warningValues).map(value => (
-                      <option key={value} value={value}>
-                        {I18n.t(warningLabels[value])}
-                      </option>
-                    ))}
-                  </Field>
-                  <RangeGroup
-                    className="PaymentsListFilters__field PaymentsListFilters__range-inputs"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
-                  >
-                    <Field
-                      name="amountFrom"
-                      type="number"
-                      step="0.01"
-                      min={0}
-                      placeholder="0.0"
-                      component={FormikInputField}
+                    <RangeGroup
+                      className="PaymentsListFilters__field PaymentsListFilters__range-inputs"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
+                    >
+                      <Field
+                        name="amountFrom"
+                        type="number"
+                        step="0.01"
+                        min={0}
+                        placeholder="0.0"
+                        component={FormikInputField}
+                        withFocus
+                      />
+                      <Field
+                        name="amountTo"
+                        type="number"
+                        step="0.01"
+                        min={0}
+                        placeholder="0.0"
+                        component={FormikInputField}
+                        withFocus
+                      />
+                    </RangeGroup>
+                    <FormikDateRangeGroup
+                      className="PaymentsListFilters__field PaymentsListFilters__date-range"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
+                      periodKeys={{
+                        start: 'creationTimeFrom',
+                        end: 'creationTimeTo',
+                      }}
                       withFocus
                     />
-                    <Field
-                      name="amountTo"
-                      type="number"
-                      step="0.01"
-                      min={0}
-                      placeholder="0.0"
-                      component={FormikInputField}
+                    <FormikDateRangeGroup
+                      className="PaymentsListFilters__field PaymentsListFilters__date-range"
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
+                      periodKeys={{
+                        start: 'modificationTimeFrom',
+                        end: 'modificationTimeTo',
+                      }}
                       withFocus
                     />
-                  </RangeGroup>
-                  <FormikDateRangeGroup
-                    className="PaymentsListFilters__field PaymentsListFilters__date-range"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
-                    periodKeys={{
-                      start: 'creationTimeFrom',
-                      end: 'creationTimeTo',
-                    }}
-                    withFocus
-                  />
-                  <FormikDateRangeGroup
-                    className="PaymentsListFilters__field PaymentsListFilters__date-range"
-                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
-                    periodKeys={{
-                      start: 'modificationTimeFrom',
-                      end: 'modificationTimeTo',
-                    }}
-                    withFocus
-                  />
-                </div>
-                <div className="PaymentsListFilters__buttons">
-                  <FilterSetsDecorator.Buttons />
-                  <div className="PaymentsListFilters__buttons-group">
-                    <RefreshButton
-                      onClick={handleRefetch}
-                      className="PaymentsListFilters__button"
-                    />
-
-                    <Button
-                      onClick={handleReset}
-                      className="PaymentsListFilters__button"
-                      disabled={paymentsLoading || isSubmitting || !Object.keys(values).length}
-                      primary
-                    >
-                      {I18n.t('COMMON.RESET')}
-                    </Button>
-
-                    <Button
-                      type="submit"
-                      className="PaymentsListFilters__button"
-                      disabled={paymentsLoading || isSubmitting || !dirty}
-                      primary
-                    >
-                      {I18n.t('COMMON.APPLY')}
-                    </Button>
                   </div>
-                </div>
-              </Form>
-            </FilterSetsDecorator>
-          );
+                  <div className="PaymentsListFilters__buttons">
+                    <FilterSetsDecorator.Buttons />
+                    <div className="PaymentsListFilters__buttons-group">
+                      <RefreshButton
+                        onClick={handleRefetch}
+                        className="PaymentsListFilters__button"
+                      />
+
+                      <Button
+                        onClick={handleReset}
+                        className="PaymentsListFilters__button"
+                        disabled={paymentsLoading || isSubmitting || !Object.keys(values).length}
+                        primary
+                      >
+                        {I18n.t('COMMON.RESET')}
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        className="PaymentsListFilters__button"
+                        disabled={paymentsLoading || isSubmitting || !dirty}
+                        primary
+                      >
+                        {I18n.t('COMMON.APPLY')}
+                      </Button>
+                    </div>
+                  </div>
+                </Form>
+              </FilterSetsDecorator>
+            );
+          }
         }
-      }
-      </Formik>
+        </Formik>
+      </FiltersToggler>
     );
   }
 }
