@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
+import { withNotifications } from 'hoc';
+import customTimeout from 'utils/customTimeout';
 import './CopyToClipboard.scss';
 
 class CopyToClipboard extends PureComponent {
@@ -10,52 +12,37 @@ class CopyToClipboard extends PureComponent {
     className: PropTypes.string,
     text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
+    withNotification: PropTypes.bool,
     notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
     notificationTitle: PropTypes.string,
     notificationMessage: PropTypes.string,
-    notify: PropTypes.bool,
+    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     className: null,
-    notify: false,
+    withNotification: false,
     notificationLevel: 'info',
-    notificationTitle: '',
-    notificationMessage: '',
-  };
-
-  static contextTypes = {
-    addNotification: PropTypes.func.isRequired,
+    notificationTitle: null,
+    notificationMessage: null,
   };
 
   state = {
     highlight: false,
   };
 
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
   toggle = () => {
-    if (this.mounted) {
-      this.setState(({ highlight }) => ({
-        highlight: !highlight,
-      }));
-    }
+    this.setState(({ highlight }) => ({ highlight: !highlight }));
   };
 
   animate = () => {
     this.toggle();
-    setTimeout(this.toggle, 1000);
+    customTimeout(this.toggle, 1000);
   };
 
   handleCopy = () => {
-    const { addNotification } = this.context;
     const {
+      withNotification,
       notificationLevel,
       notificationTitle,
       notificationMessage,
@@ -64,8 +51,8 @@ class CopyToClipboard extends PureComponent {
 
     this.animate();
 
-    if (notify) {
-      addNotification({
+    if (withNotification) {
+      notify({
         level: notificationLevel,
         title: I18n.t(notificationTitle),
         message: I18n.t(notificationMessage),
@@ -81,11 +68,9 @@ class CopyToClipboard extends PureComponent {
     const { className, children, text } = this.props;
     const { highlight } = this.state;
 
-    const mainClassName = classNames(
-      'copy-clipboard-container',
-      className,
-      { highlight },
-    );
+    const mainClassName = classNames('CopyToClipboard', className, {
+      'CopyToClipboard--highlight': highlight,
+    });
 
     return (
       <span onClick={this.handleClick} className={mainClassName}>
@@ -97,4 +82,4 @@ class CopyToClipboard extends PureComponent {
   }
 }
 
-export default CopyToClipboard;
+export default withNotifications(CopyToClipboard);

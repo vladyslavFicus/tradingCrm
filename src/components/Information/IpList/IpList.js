@@ -33,7 +33,7 @@ const IpList = (props) => {
                   />
                   <CopyToClipboard
                     text={item.ip}
-                    notify={notify}
+                    withNotification={notify}
                     notificationLevel={notificationLevel}
                     notificationTitle={notificationTitle}
                     notificationMessage={notificationMessage}
