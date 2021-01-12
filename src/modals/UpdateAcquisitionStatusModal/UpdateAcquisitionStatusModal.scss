@@ -1,0 +1,12 @@
+.UpdateAcquisitionStatusModal {
+  &__selected-clients {
+    color: #ffff00;
+    font-size: 11px;
+  }
+
+  &__error {
+    color: #fb434a;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+}

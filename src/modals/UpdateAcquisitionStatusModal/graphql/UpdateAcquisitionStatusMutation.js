@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation BulkUpdateAcquisitionStatus(
+  mutation UpdateAcquisitionStatusModal_UpdateAcquisitionStatusMutation(
     $uuids: [String]!
     $acquisitionStatus: Desk__Types__Enum!
     $searchParams: ClientSearch__Input
@@ -23,12 +23,12 @@ const MUTATION = gql`
   }
 `;
 
-const BulkUpdateAcquisitionStatus = ({ children }) => (
+const UpdateAcquisitionStatusMutation = ({ children }) => (
   <Mutation mutation={MUTATION}>{children}</Mutation>
 );
 
-BulkUpdateAcquisitionStatus.propTypes = {
+UpdateAcquisitionStatusMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default BulkUpdateAcquisitionStatus;
+export default UpdateAcquisitionStatusMutation;
