@@ -4,7 +4,6 @@ import I18n from 'i18n-js';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
 import { withNotifications } from 'hoc';
-import customTimeout from 'utils/customTimeout';
 import './CopyToClipboard.scss';
 
 class CopyToClipboard extends PureComponent {
@@ -37,7 +36,7 @@ class CopyToClipboard extends PureComponent {
 
   animate = () => {
     this.toggle();
-    customTimeout(this.toggle, 1000);
+    setTimeout(this.toggle, 1000);
   };
 
   handleCopy = () => {
