@@ -239,9 +239,6 @@
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
       },
-      "STATUS_MODAL": {
-        "TITLE": "Change account status"
-      },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
         "BONUS_ABUSE": "Bonus abuse",
@@ -334,15 +331,6 @@
       },
       "SET_PLAYER_AS_TEST": "Set player as test",
       "UN_SET_PLAYER_AS_TEST": "Unset player as test"
-    },
-    "IP_LIST": {
-      "TITLE": "Last 10 ip's",
-      "NOTIFICATIONS": {
-        "COPY": {
-          "TITLE": "IP copied to your clipboard",
-          "MESSAGE": "IP has been copied to clipboard"
-        }
-      }
     },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
@@ -1428,9 +1416,6 @@
         }
       }
     },
-    "IP_LIST": {
-      "TITLE": "Last 10 ip's"
-    },
     "CLOSE_REASONS": {
       "PENDING_INVESTIGATION": "Pending investigation",
       "TERMINATED": "Terminated"
@@ -1663,14 +1648,7 @@
     "FIELD_IS_REQUIRED": "Field is required"
   },
   "PROFILE": {
-    "LAST_LOGIN": {
-      "TITLE": "Last login",
-      "FROM_COUNTRY": " from %{country}"
-    },
     "LAST_ACTIVITY": {
-      "TITLE": "Last activity",
-      "LOCATION": "Location",
-      "MODAL": "Modal",
       "STATUS": {
         "ONLINE": "Online",
         "OFFLINE": "Offline"
@@ -2486,6 +2464,8 @@
   "CLIENT_PROFILE": {
     "TABS": {
       "PROFILE": "Profile",
+      "PAYMENTS": "Payments",
+      "TRADING_ACTIVITY": "Trading activity",
       "TRANSACTIONS": "Transactions",
       "ACCOUNTS": "Accounts",
       "CALLBACKS": "Callbacks",
@@ -2577,10 +2557,23 @@
       }
     },
     "CLIENT": {
+      "ACCOUNT_STATUS": {
+        "NOTIFICATIONS": {
+          "SUCCESS": {
+            "TITLE": "Success",
+            "MESSAGE": "Account status changed successfully"
+          },
+          "ERROR": {
+            "TITLE": "Error",
+            "MESSAGE": "Failed to change account status"
+          }
+        }
+      },
       "BALANCES": {
         "TOTAL_BALANCE": "Total balance",
         "BALANCE": "Balance",
         "DEPOSIT": "Deposits",
+        "CREDIT": "Credit",
         "LAST": "last",
         "FIRST": "first",
         "NET": "Net deposit",
@@ -2594,9 +2587,18 @@
           "LAST_3_MONTHS": "Last 3 month"
         }
       },
-      "ACQUISITION": {
-        "TITLE": "Acquisition Status",
-        "SALES": "Sales"
+      "LAST_LOGIN": {
+        "TITLE": "Last login",
+        "FROM_COUNTRY": " from %{country}"
+      },
+      "LAST_ACTIVITY": {
+        "TITLE": "Last activity",
+        "LOCATION": "Location",
+        "MODAL": "Modal",
+        "STATUS": {
+          "ONLINE": "Online",
+          "OFFLINE": "Offline"
+        }
       },
       "REGISTERED": {
         "TITLE": "Registered"
@@ -2605,6 +2607,19 @@
         "TITLE": "REFERRALS",
         "FTD": "FTD: %{value}",
         "REMUNERATION": "Remuneration: %{currency} %{value}"
+      },
+      "ACQUISITION": {
+        "TITLE": "Acquisition Status",
+        "SALES": "Sales"
+      },
+      "LAST_IPS": {
+        "TITLE": "Last 10 ip's",
+        "NOTIFICATIONS": {
+          "COPY": {
+            "TITLE": "IP copied to your clipboard",
+            "MESSAGE": "IP has been copied to clipboard"
+          }
+        }
       }
     },
     "TRANSACTIONS": {

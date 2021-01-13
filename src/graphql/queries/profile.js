@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { ContactsFragment } from '../fragments/contacts';
 import { AddressFragment } from '../fragments/address';
 
+// # Remove after Client top bar will be refactored
 const profile = gql`query profile(
   $playerUUID: String!
 ){
@@ -143,13 +144,6 @@ ${ContactsFragment}
 ${AddressFragment}
 `;
 
-const getLoginLock = gql`query getLoginLock($uuid: String!) {
-  loginLock(uuid: $uuid) {
-    lock
-  }
-}`;
-
 export {
-  getLoginLock,
   profile,
 };

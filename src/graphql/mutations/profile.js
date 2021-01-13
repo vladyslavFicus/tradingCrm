@@ -60,22 +60,6 @@ const updateEmailMutation = gql`mutation updateEmail(
   }
 }`;
 
-const updateConfigurationMutation = gql`mutation updateConfiguration(
-  $playerUUID: String!,
-  $internalTransfer: Boolean,
-  $crs: Boolean,
-  $fatca: Boolean,
-) {
-  profile {
-    updateConfiguration(
-      playerUUID: $playerUUID,
-      internalTransfer: $internalTransfer,
-      crs: $crs,
-      fatca: $fatca,
-    )
-  }
-}`;
-
 const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
   profile {
     verifyEmail(playerUUID: $playerUUID) {
@@ -87,7 +71,6 @@ const verifyEmailMutation = gql`mutation verifyEmail($playerUUID: String!) {
 
 export {
   updatePersonalInformationMutation,
-  updateConfigurationMutation,
   verifyEmailMutation,
   updateEmailMutation,
 };
