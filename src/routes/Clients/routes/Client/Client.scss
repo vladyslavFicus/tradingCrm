@@ -1,0 +1,27 @@
+.Client {
+  background-color: #fff;
+  margin: 0 auto;
+  min-width: 960px;
+
+  &__content {
+    padding-bottom: 50px;
+    background: linear-gradient(180deg,#fff,#fff 0,#f8f8f8 100%,#f8f8f8 0);
+  }
+
+  &__info {
+    display: flex;
+    padding: 20px 25px 10px;
+
+    // # needs to add right border to all imported blocks in info section
+    & > *:not(:last-child) {
+      border-right: 1px solid #dfe4ed;
+    }
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: 3fr 3fr 2fr 4fr;
+    grid-gap: 15px;
+    padding: 10px 25px;
+  }
+}
