@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query CreateCallbackModal_getOperatorsQuery {
+  query CreateCallbackModal_OperatorsQuery {
     operators {
       content {
         uuid
@@ -15,14 +15,14 @@ const REQUEST = gql`
   }
 `;
 
-const getOperatorsQuery = ({ children }) => (
+const OperatorsQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="network-only">
     {children}
   </Query>
 );
 
-getOperatorsQuery.propTypes = {
+OperatorsQuery.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default getOperatorsQuery;
+export default OperatorsQuery;

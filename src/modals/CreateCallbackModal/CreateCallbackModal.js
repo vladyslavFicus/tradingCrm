@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -14,9 +13,9 @@ import { Button } from 'components/UI';
 import NoteButton from 'components/NoteButton';
 import { reminderValues } from 'constants/callbacks';
 import { createValidator, translateLabels } from 'utils/validator';
-import getOperatorsQuery from './graphql/getOperatorsQuery';
-import createCallbackMutation from './graphql/createCallbackMutation';
-import addNoteMutation from './graphql/addNoteMutation';
+import OperatorsQuery from './graphql/OperatorsQuery';
+import CreateCallbackMutation from './graphql/CreateCallbackMutation';
+import AddNoteMutation from './graphql/AddNoteMutation';
 import './CreateCallbackModal.scss';
 
 const attributeLabels = {
@@ -32,17 +31,8 @@ const validate = createValidator({
 
 class CreateCallbackModal extends PureComponent {
   static propTypes = {
-    operatorsData: PropTypes.query({
-      operators: PropTypes.shape({
-        data: PropTypes.shape({
-          content: PropTypes.arrayOf(
-            PropTypes.shape({
-              uuid: PropTypes.string,
-              fullName: PropTypes.string,
-            }),
-          ),
-        }),
-      }),
+    operatorsQuery: PropTypes.query({
+      operators: PropTypes.pageable(PropTypes.operatorsListEntity),
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -92,7 +82,7 @@ class CreateCallbackModal extends PureComponent {
         },
       });
 
-      const callbackId = get(responseData, 'data.callback.create.callbackId');
+      const callbackId = responseData.data?.callback?.create?.callbackId;
 
       if (callbackId) {
         await this.createNote(callbackId);
@@ -128,13 +118,13 @@ class CreateCallbackModal extends PureComponent {
           id,
         },
       },
-      operatorsData,
+      operatorsQuery,
       onCloseModal,
       isOpen,
     } = this.props;
 
-    const isOperatorsLoading = operatorsData.loading;
-    const operators = get(operatorsData, 'data.operators.content') || [];
+    const isOperatorsLoading = operatorsQuery.loading;
+    const operators = operatorsQuery.data?.operators?.content || [];
 
     return (
       <Modal className="CreateCallbackModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -227,8 +217,8 @@ export default compose(
   withRouter,
   withNotifications,
   withRequests({
-    addNote: addNoteMutation,
-    createCallback: createCallbackMutation,
-    operatorsData: getOperatorsQuery,
+    addNote: AddNoteMutation,
+    createCallback: CreateCallbackMutation,
+    operatorsQuery: OperatorsQuery,
   }),
 )(CreateCallbackModal);

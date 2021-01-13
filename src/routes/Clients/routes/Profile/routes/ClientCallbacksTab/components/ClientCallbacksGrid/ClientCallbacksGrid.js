@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
@@ -15,7 +14,7 @@ import './ClientCallbacksGrid.scss';
 
 class ClientCallbacksGrid extends PureComponent {
   static propTypes = {
-    clientCallbacksData: PropTypes.query({
+    clientCallbacksQuery: PropTypes.query({
       callbacks: PropTypes.pageable(PropTypes.callback),
     }).isRequired,
     modals: PropTypes.shape({
@@ -25,14 +24,14 @@ class ClientCallbacksGrid extends PureComponent {
 
   handlePageChanged = () => {
     const {
-      clientCallbacksData,
-      clientCallbacksData: {
+      clientCallbacksQuery,
+      clientCallbacksQuery: {
         loadMore,
         loading,
       },
     } = this.props;
 
-    const currentPage = get(clientCallbacksData, 'data.callbacks.page') || 0;
+    const currentPage = clientCallbacksQuery.data?.callbacks?.page || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
@@ -135,16 +134,16 @@ class ClientCallbacksGrid extends PureComponent {
       );
     }
 
-    return (<div>&mdash;</div>);
+    return <div>&mdash;</div>;
   }
 
   render() {
     const {
-      clientCallbacksData,
-      clientCallbacksData: { loading },
+      clientCallbacksQuery,
+      clientCallbacksQuery: { loading },
     } = this.props;
 
-    const callbacks = get(clientCallbacksData, 'data.callbacks') || { content: [] };
+    const callbacks = clientCallbacksQuery.data?.callbacks || { content: [] };
 
     return (
       <div className="ClientCallbacksGrid">

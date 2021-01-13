@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import { NoteFragment } from 'graphql/fragments/notes';
 
 const REQUEST = gql`
-  query ClientsCallbacksTab_getClientCallbacksQuery(
+  query ClientsCallbacksTab_ClientCallbacksQuery(
     $searchKeyword: String,
     $userId: String,
     $statuses: [Callback__Status__Enum],
@@ -53,7 +53,7 @@ const REQUEST = gql`
   ${NoteFragment}
 `;
 
-const getClientCallbacksQuery = ({
+const ClientCallbacksQuery = ({
   children,
   location: { state },
   match: { params: { id } },
@@ -71,7 +71,7 @@ const getClientCallbacksQuery = ({
   </Query>
 );
 
-getClientCallbacksQuery.propTypes = {
+ClientCallbacksQuery.propTypes = {
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -85,4 +85,4 @@ getClientCallbacksQuery.propTypes = {
   }).isRequired,
 };
 
-export default getClientCallbacksQuery;
+export default ClientCallbacksQuery;
