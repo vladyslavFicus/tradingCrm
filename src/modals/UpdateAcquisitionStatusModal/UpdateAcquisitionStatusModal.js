@@ -152,7 +152,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
           initialValues={{}}
           onSubmit={this.handleMoveSubmit}
           validate={createValidator({
-            acquisitionStatus: ['required', 'string'],
+            acquisitionStatus: ['required'],
           })}
         >
           {({ errors, isValid, isSubmitting, dirty }) => (

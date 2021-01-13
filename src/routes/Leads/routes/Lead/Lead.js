@@ -24,12 +24,10 @@ import './Lead.scss';
 
 class Lead extends PureComponent {
   static propTypes = {
-    location: PropTypes.object.isRequired,
     leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
     match: PropTypes.shape({
-      params: PropTypes.object,
       path: PropTypes.string,
       url: PropTypes.string,
     }).isRequired,
@@ -56,8 +54,7 @@ class Lead extends PureComponent {
   render() {
     const {
       leadQuery,
-      location,
-      match: { params, path, url },
+      match: { path, url },
     } = this.props;
 
     const lead = leadQuery.data?.lead || {};
@@ -74,9 +71,9 @@ class Lead extends PureComponent {
 
     return (
       <div className="Lead">
-        <div className="Lead__content">
-          <LeadHeader lead={lead} />
+        <LeadHeader lead={lead} />
 
+        <div className="Lead__content">
           <div className="Lead__info">
             <LeadAccountStatus lead={lead} />
             <LeadRegistrationInfo registrationDate={lead.registrationDate} />
@@ -92,7 +89,7 @@ class Lead extends PureComponent {
           </HideDetails>
         </div>
 
-        <Tabs items={leadTabs} location={location} params={params} />
+        <Tabs items={leadTabs} />
 
         <div className="Lead__tab-content">
           <Suspense fallback={null}>
