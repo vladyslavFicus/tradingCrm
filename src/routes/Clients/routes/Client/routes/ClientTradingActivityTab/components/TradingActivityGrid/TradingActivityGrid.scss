@@ -1,0 +1,17 @@
+.TradingActivityGrid {
+  &__cell-value {
+    font-weight: 700;
+
+    &--pointer {
+      cursor: pointer;
+    }
+
+    &--upper {
+      text-transform: uppercase;
+    }
+  }
+
+  &__cell-value-add {
+    font-size: 11px;
+  }
+}

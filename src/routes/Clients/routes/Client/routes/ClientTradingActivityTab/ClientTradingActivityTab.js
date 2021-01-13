@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
@@ -9,9 +8,9 @@ import TabHeader from 'components/TabHeader';
 import TradingActivityGridFilter from './components/TradingActivityGridFilter';
 import TradingActivityGrid from './components/TradingActivityGrid';
 import TradingActivityQuery from './graphql/TradingActivityQuery';
-import './ClientTradingActivity.scss';
+import './ClientTradingActivityTab.scss';
 
-class TradingActivity extends PureComponent {
+class ClientTradingActivityTab extends PureComponent {
   static propTypes = {
     tradingActivityQuery: PropTypes.query({
       tradingActivity: PropTypes.pageable(PropTypes.tradingActivity),
@@ -19,28 +18,26 @@ class TradingActivity extends PureComponent {
   }
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(PROFILE_RELOAD, this.refetchTradingActivity);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(PROFILE_RELOAD, this.refetchTradingActivity);
   }
 
-  onProfileEvent = () => {
-    this.props.tradingActivityQuery.refetch();
-  };
+  refetchTradingActivity = () => this.props.tradingActivityQuery.refetch();
 
   render() {
     const { tradingActivityQuery } = this.props;
 
     return (
-      <div className="ClientTradingActivity">
+      <div className="ClientTradingActivityTab">
         <TabHeader
           title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.TRADING_ACTIVITY')}
-          className="ClientTradingActivity__header"
+          className="ClientTradingActivityTab__header"
         />
 
-        <TradingActivityGridFilter handleRefetch={tradingActivityQuery.refetch} />
+        <TradingActivityGridFilter handleRefetch={this.refetchTradingActivity} />
         <TradingActivityGrid tradingActivityQuery={tradingActivityQuery} />
       </div>
     );
@@ -48,8 +45,7 @@ class TradingActivity extends PureComponent {
 }
 
 export default compose(
-  withRouter,
   withRequests({
     tradingActivityQuery: TradingActivityQuery,
   }),
-)(TradingActivity);
+)(ClientTradingActivityTab);
