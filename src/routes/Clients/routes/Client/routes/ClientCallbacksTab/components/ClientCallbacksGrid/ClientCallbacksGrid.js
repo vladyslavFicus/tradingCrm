@@ -24,18 +24,15 @@ class ClientCallbacksGrid extends PureComponent {
 
   handlePageChanged = () => {
     const {
-      clientCallbacksQuery,
       clientCallbacksQuery: {
+        data,
         loadMore,
-        loading,
       },
     } = this.props;
 
-    const currentPage = clientCallbacksQuery.data?.callbacks?.page || 0;
+    const currentPage = data?.callbacks?.page || 0;
 
-    if (!loading) {
-      loadMore(currentPage + 1);
-    }
+    loadMore(currentPage + 1);
   };
 
   handleOpenDetailsModal = ({ callbackId }) => {

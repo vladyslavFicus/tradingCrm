@@ -85,7 +85,11 @@ class CreateCallbackModal extends PureComponent {
       const callbackId = responseData.data?.callback?.create?.callbackId;
 
       if (callbackId) {
-        await this.createNote(callbackId);
+        try {
+          await this.createNote(callbackId);
+        } catch {
+          // # do nothing...
+        }
       }
 
       onCloseModal();
