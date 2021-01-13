@@ -52,9 +52,9 @@ class Partner extends PureComponent {
 
     return (
       <div className="Partner">
-        <div className="Partner__content">
-          <PartnerHeader partner={partner} />
+        <PartnerHeader partner={partner} />
 
+        <div className="Partner__content">
           <div className="Partner__info">
             <PartnerAccountStatus partner={partner} refetchPartner={partnerData.refetch} />
             <PartnerRegistrationInfo createdAt={partner.createdAt} />
