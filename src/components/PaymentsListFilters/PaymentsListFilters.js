@@ -28,7 +28,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import {
   FormikInputField,
   FormikSelectField,
-  FormikDateRangeGroup,
+  FormikDateRangePicker,
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import FiltersToggler from 'components/FiltersToggler';
@@ -290,13 +290,15 @@ class PaymentsListFilters extends PureComponent {
                         </option>
                       ))}
                     </Field>
-                    <FormikDateRangeGroup
+                    <Field
                       className="PaymentsListFilters__field PaymentsListFilters__date-range"
                       label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
-                      periodKeys={{
-                        start: 'statusChangedTimeFrom',
-                        end: 'statusChangedTimeTo',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'statusChangedTimeFrom',
+                        to: 'statusChangedTimeTo',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
                     <Field
@@ -488,22 +490,25 @@ class PaymentsListFilters extends PureComponent {
                         withFocus
                       />
                     </RangeGroup>
-                    <FormikDateRangeGroup
+                    <Field
                       className="PaymentsListFilters__field PaymentsListFilters__date-range"
                       label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
-                      periodKeys={{
-                        start: 'creationTimeFrom',
-                        end: 'creationTimeTo',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'creationTimeFrom',
+                        to: 'creationTimeTo',
                       }}
                       withFocus
                     />
-                    <FormikDateRangeGroup
+                    <Field
                       className="PaymentsListFilters__field PaymentsListFilters__date-range"
                       label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
-                      periodKeys={{
-                        start: 'modificationTimeFrom',
-                        end: 'modificationTimeTo',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'modificationTimeFrom',
+                        to: 'modificationTimeTo',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
                   </div>
