@@ -42,6 +42,8 @@ const REQUEST = gql`
           baseUnit
         }
         sortType
+        desks
+        teams
       }
       targetBrandConfigs {
         brand
