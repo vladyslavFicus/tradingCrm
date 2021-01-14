@@ -10133,32 +10133,6 @@ neo-async@^2.5.0, neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-newage-react-datetime-improved@^1.0.11:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/newage-react-datetime-improved/-/newage-react-datetime-improved-1.0.12.tgz#59b68d6f853170393715236095fc32a68569a9dd"
-  integrity sha512-AIFM/GEgMqlxmV+lvGxEb+J97lBKhHhcBvuYUvYVnrMvucZt3Gx+VeO+8n9Zldo0hXbGnFfyI9H6ihqA4DEexw==
-  dependencies:
-    classnames "^2.2.5"
-    moment "2.22.1"
-    object-assign "4.1.1"
-    prop-types "^15.6.0"
-    react "^17.0.1"
-    react-dom "^17.0.1"
-    react-onclickoutside "^6.8.0"
-
-newage-react-datetime@^1.0.7:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/newage-react-datetime/-/newage-react-datetime-1.0.9.tgz#0e09e0fb85b8f2d8ff9ea5e2c581403e74fbdc5c"
-  integrity sha512-BQjS54nHjCjJRn1AwlPw1RCDWUY8zCrVRZ9ipw/4oZE96y0GE2yZS0Ig7bjeiUEfaspqOS3NEiGn/Tu5KeMXNw==
-  dependencies:
-    classnames "^2.2.5"
-    moment "2.22.1"
-    object-assign "4.1.1"
-    prop-types "^15.6.0"
-    react "16.3.2"
-    react-dom "16.3.2"
-    react-onclickoutside "6.7.1"
-
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
