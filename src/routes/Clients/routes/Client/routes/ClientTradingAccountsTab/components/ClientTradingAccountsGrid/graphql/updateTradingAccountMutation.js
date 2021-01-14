@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation updateTradingAccount(
+  mutation UpdateTradingAccount(
     $name: String
     $mode: String
     $currency: String
@@ -26,14 +26,14 @@ const MUTATION = gql`
 `;
 
 
-const updateTradingAccount = ({ children }) => (
+const UpdateTradingAccount = ({ children }) => (
   <Mutation mutation={MUTATION}>
     {children}
   </Mutation>
 );
 
-updateTradingAccount.propTypes = {
+UpdateTradingAccount.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default updateTradingAccount;
+export default UpdateTradingAccount;

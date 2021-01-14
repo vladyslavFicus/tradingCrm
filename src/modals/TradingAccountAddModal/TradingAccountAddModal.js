@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
@@ -14,8 +13,7 @@ import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
 import { attributeLabels, amounts } from './constants';
-import { UpdateTradingAccountModalMutation } from './graphql';
-import './TradingAccountAddModal.scss';
+import UpdateTradingAccountModalMutation from './graphql/UpdateTradingAccountModalMutation';
 
 const validator = values => createValidator({
   name: ['required', 'string', 'max:50', 'min:4'],
@@ -26,20 +24,22 @@ const validator = values => createValidator({
 
 class TradingAccountAddModal extends PureComponent {
   static propTypes = {
-    profileId: PropTypes.string.isRequired,
-    onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    createTradingAccount: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func,
+    onCloseModal: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    onConfirm: () => { },
+    createTradingAccount: PropTypes.func.isRequired,
+    profileId: PropTypes.string.isRequired,
+    onSuccess: PropTypes.func.isRequired,
   };
 
   onSubmit = async (data) => {
-    const { profileId, createTradingAccount, notify, onCloseModal, onConfirm } = this.props;
+    const {
+      onCloseModal,
+      notify,
+      createTradingAccount,
+      profileId,
+      onSuccess,
+    } = this.props;
 
     try {
       await createTradingAccount({
@@ -55,8 +55,8 @@ class TradingAccountAddModal extends PureComponent {
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED'),
       });
 
+      onSuccess();
       onCloseModal();
-      onConfirm();
     } catch (e) {
       const error = parseErrors(e);
 
@@ -68,25 +68,29 @@ class TradingAccountAddModal extends PureComponent {
     }
   };
 
-  handleChangePlatformType = (value, accountType, setFieldValue) => {
-    setFieldValue('platformType', value);
-
-    const availableAccountTypes = getAvailableAccountTypes(value);
+  handleChangePlatformType = ({ accountType, ...values }, setValues, setFieldValue) => (platformType) => {
+    const availableAccountTypes = getAvailableAccountTypes(platformType);
 
     // If previous accountType not found for new chosen platformType --> choose first from list
-    if (!availableAccountTypes.find(type => get(type, 'value') === accountType)) {
-      setFieldValue('accountType', get(availableAccountTypes, '0.value'));
+    if (!availableAccountTypes.find(type => type?.value === accountType)) {
+      setValues({
+        ...values,
+        accountType: availableAccountTypes?.[0]?.value,
+        platformType,
+      });
+    } else {
+      setFieldValue('platformType', platformType);
     }
-  }
+  };
 
   render() {
     const {
-      onCloseModal,
       isOpen,
+      onCloseModal,
     } = this.props;
 
     const platformTypes = getAvailablePlatformTypes();
-    const platformType = get(getAvailablePlatformTypes(), '0.value');
+    const platformType = platformTypes?.[0]?.value;
     const accountTypes = getAvailableAccountTypes(platformType);
 
     return (
@@ -97,7 +101,7 @@ class TradingAccountAddModal extends PureComponent {
         <Formik
           initialValues={{
             platformType,
-            accountType: accountTypes.find(type => get(type, 'value') === 'LIVE') ? 'LIVE' : 'DEMO',
+            accountType: accountTypes.find(type => type?.value === 'LIVE') ? 'LIVE' : 'DEMO',
             name: '',
             currency: '',
             password: generate(),
@@ -107,7 +111,7 @@ class TradingAccountAddModal extends PureComponent {
           validateOnChange={false}
           onSubmit={this.onSubmit}
         >
-          {({ isSubmitting, setFieldValue, values: { accountType } }) => (
+          {({ isSubmitting, setFieldValue, setValues, values }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE')}
@@ -119,7 +123,7 @@ class TradingAccountAddModal extends PureComponent {
                     component={FormikSelectField}
                     label={I18n.t(attributeLabels.platformType)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    customOnChange={value => this.handleChangePlatformType(value, accountType, setFieldValue)}
+                    customOnChange={this.handleChangePlatformType(values, setValues, setFieldValue)}
                   >
                     {platformTypes.map(({ value, label }) => (
                       <option key={value} value={value}>{label}</option>
@@ -138,7 +142,7 @@ class TradingAccountAddModal extends PureComponent {
                     ))}
                   </Field>
                 </If>
-                <If condition={accountType === 'DEMO'}>
+                <If condition={values.accountType === 'DEMO'}>
                   <Field
                     name="amount"
                     component={FormikSelectField}

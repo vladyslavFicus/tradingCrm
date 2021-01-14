@@ -1,9 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get } from 'lodash';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { getBrand } from 'config';
@@ -21,53 +19,53 @@ import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import UpdateTradingAccountModal from 'modals/UpdateTradingAccountModal';
-import updateTradingAccountMutation from './graphql/updateTradingAccountMutation';
-import approveChangingLeverageMutation from './graphql/approveChangingLeverageMutation';
-import rejectChangingLeverageMutation from './graphql/rejectChangingLeverageMutation';
-import TradingAccountChangePasswordModal from './TradingAccountChangePasswordModal';
-import ChangeLeverageModal from './ChangeLeverageModal';
+import ChangeLeverageModal from 'modals/ChangeLeverageModal';
+import TradingAccountChangePasswordModal from 'modals/TradingAccountChangePasswordModal';
+import {
+  UpdateTradingAccountMutation,
+  ApproveChangingLeverageMutation,
+  RejectChangingLeverageMutation,
+} from './graphql';
+import './ClientTradingAccountsGrid.scss';
 
-class TradingAccountsGrid extends PureComponent {
+class ClientTradingAccountsGrid extends PureComponent {
   static propTypes = {
+    notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       tradingAccountChangePasswordModal: PropTypes.modalType,
       updateTradingAccountModal: PropTypes.modalType,
       changeLeverageModal: PropTypes.modalType,
     }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    }).isRequired,
-    tradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount).isRequired,
+    permission: PropTypes.permission.isRequired,
     updateTradingAccount: PropTypes.func.isRequired,
     approveChangingLeverage: PropTypes.func.isRequired,
     rejectChangingLeverage: PropTypes.func.isRequired,
-    refetchTradingAccountsList: PropTypes.func.isRequired,
-    permission: PropTypes.permission.isRequired,
-    profileUuid: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
+    profileUUID: PropTypes.string.isRequired,
+    clientTradingAccountsQuery: PropTypes.query({
+      clientTradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
+    }).isRequired,
   };
 
   handleSetTradingAccountReadonly = (accountUUID, readOnly) => async () => {
     const {
       notify,
-      profileUuid,
+      profileUUID,
       updateTradingAccount,
-      refetchTradingAccountsList,
+      clientTradingAccountsQuery: {
+        refetch,
+      },
     } = this.props;
 
     try {
       await updateTradingAccount({
         variables: {
           accountUUID,
-          profileId: profileUuid,
+          profileId: profileUUID,
           readOnly,
         },
       });
 
-      refetchTradingAccountsList();
+      refetch();
     } catch (e) {
       notify({
         level: 'error',
@@ -81,13 +79,15 @@ class TradingAccountsGrid extends PureComponent {
     const {
       notify,
       rejectChangingLeverage,
-      refetchTradingAccountsList,
+      clientTradingAccountsQuery: {
+        refetch,
+      },
     } = this.props;
 
     try {
       await rejectChangingLeverage({ variables: { accountUUID } });
 
-      refetchTradingAccountsList();
+      refetch();
 
       notify({
         level: 'success',
@@ -107,13 +107,15 @@ class TradingAccountsGrid extends PureComponent {
     const {
       notify,
       approveChangingLeverage,
-      refetchTradingAccountsList,
+      clientTradingAccountsQuery: {
+        refetch,
+      },
     } = this.props;
 
     try {
       await approveChangingLeverage({ variables: { accountUUID } });
 
-      refetchTradingAccountsList();
+      refetch();
 
       notify({
         level: 'success',
@@ -137,11 +139,11 @@ class TradingAccountsGrid extends PureComponent {
         success={accountType === 'LIVE' && !archived}
         danger={archived}
       >
-        <div className="font-weight-700">
+        <div className="ClientTradingAccountsGrid__cell-main-value">
           {name}
         </div>
       </Badge>
-      <div className="font-size-11">
+      <div className="ClientTradingAccountsGrid__cell-sub-value">
         <Uuid uuid={accountUUID} uuidPrefix={platformType} />
       </div>
     </Fragment>
@@ -149,12 +151,12 @@ class TradingAccountsGrid extends PureComponent {
 
   renderLoginColumn = ({ login, group, platformType }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div className="ClientTradingAccountsGrid__cell-main-value">
         <PlatformTypeBadge platformType={platformType}>
           {login}
         </PlatformTypeBadge>
       </div>
-      <div className="font-size-11">
+      <div className="ClientTradingAccountsGrid__cell-sub-value">
         {group}
       </div>
     </Fragment>
@@ -162,14 +164,14 @@ class TradingAccountsGrid extends PureComponent {
 
   renderBalanceColumn = ({ balance, symbol }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div className="ClientTradingAccountsGrid__cell-main-value">
         {symbol} {Number(balance).toFixed(2)}
       </div>
     </Fragment>
   );
 
   renderCreditColumn = ({ credit, symbol }) => (
-    <div className="font-weight-700">{symbol} {Number(credit).toFixed(2)}</div>
+    <div className="ClientTradingAccountsGrid__cell-main-value">{symbol} {Number(credit).toFixed(2)}</div>
   );
 
   renderLeverageColumn = (tradingAccount) => {
@@ -180,7 +182,7 @@ class TradingAccountsGrid extends PureComponent {
       changeLeverageTo,
       status,
       createDate,
-    } = get(tradingAccount, 'lastLeverageChangeRequest') || {};
+    } = tradingAccount?.lastLeverageChangeRequest || {};
 
     return (
       <Fragment>
@@ -189,16 +191,16 @@ class TradingAccountsGrid extends PureComponent {
             <Choose>
               <When condition={status === 'COMPLETED'}>
                 <div>
-                  <div className="font-weight-700">{changeLeverageTo}</div>
-                  <div className="font-size-11">
+                  <div className="ClientTradingAccountsGrid__cell-main-value">{changeLeverageTo}</div>
+                  <div className="ClientTradingAccountsGrid__cell-sub-value">
                     {I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.FROM')} {changeLeverageFrom}
                   </div>
                 </div>
               </When>
               <Otherwise>
                 <div>
-                  <div className="font-weight-700">{changeLeverageFrom}</div>
-                  <div className="font-size-11">
+                  <div className="ClientTradingAccountsGrid__cell-main-value">{changeLeverageFrom}</div>
+                  <div className="ClientTradingAccountsGrid__cell-sub-value">
                     {I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.TO')} {changeLeverageTo}
                   </div>
                 </div>
@@ -206,14 +208,29 @@ class TradingAccountsGrid extends PureComponent {
             </Choose>
           </When>
           <Otherwise>
-            <div className="font-weight-700">{leverage}</div>
+            <div className="ClientTradingAccountsGrid__cell-main-value">{leverage}</div>
           </Otherwise>
         </Choose>
-        <div className={classNames('font-weight-700 text-uppercase', leverageStatusesColor[status])}>
+        <div
+          className={
+            classNames(
+              'ClientTradingAccountsGrid__cell-main-value',
+              'ClientTradingAccountsGrid__cell-main-value--upper',
+              leverageStatusesColor[status],
+            )
+          }
+        >
           {status}
         </div>
         <If condition={createDate}>
-          <div className="font-size-11 margin-bottom-5">
+          <div
+            className={
+              classNames(
+                'ClientTradingAccountsGrid__cell-sub-value',
+                'ClientTradingAccountsGrid__cell-sub-value--mb-5',
+              )
+            }
+          >
             {`${I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.SINCE')} ${
               moment.utc(createDate).local().format('DD.MM.YYYY HH:mm')
               }`}
@@ -221,17 +238,18 @@ class TradingAccountsGrid extends PureComponent {
         </If>
         <If condition={status === 'PENDING'}>
           <Button
-            small
-            commonOutline
-            className="margin-right-10"
+            className="ClientTradingAccountsGrid__cell-button"
             onClick={this.handleRejectChangeLeverage(accountUUID)}
+            commonOutline
+            small
           >
             {I18n.t('COMMON.REJECT')}
           </Button>
           <Button
-            small
-            primaryOutline
+            className="ClientTradingAccountsGrid__cell-button"
             onClick={this.handleApproveChangeLeverage(accountUUID)}
+            primaryOutline
+            small
           >
             {I18n.t('COMMON.APPROVE')}
           </Button>
@@ -242,22 +260,35 @@ class TradingAccountsGrid extends PureComponent {
 
   renderTradingStatusColumn = ({ readOnly, readOnlyUpdateTime, readOnlyUpdatedBy, operator }) => (
     <Fragment>
-      <div className={classNames('font-weight-700 text-uppercase', {
-        'color-danger': readOnly,
-        'color-success': !readOnly,
-      })}
+      <div className={
+        classNames(
+          'ClientTradingAccountsGrid__cell-main-value',
+          'ClientTradingAccountsGrid__cell-main-value--upper',
+          {
+            'color-danger': readOnly,
+            'color-success': !readOnly,
+          },
+        )
+      }
       >
         {I18n.t(`CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.${!readOnly ? 'ENABLED' : 'DISABLED'}`)}
       </div>
       <If condition={readOnlyUpdatedBy}>
         <Link to={`/operators/${readOnlyUpdatedBy}`}>
-          <div className="font-size-11 font-weight-700">
+          <div
+            className={
+              classNames(
+                'ClientTradingAccountsGrid__cell-main-value',
+                'ClientTradingAccountsGrid__cell-main-value--small',
+              )
+            }
+          >
             {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_BY', { updatedBy: operator.fullName })}
           </div>
         </Link>
       </If>
       <If condition={readOnlyUpdateTime}>
-        <div className="font-size-11">
+        <div className="ClientTradingAccountsGrid__cell-sub-value">
           {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_AT', {
             updatedAt: moment(readOnlyUpdateTime).format('DD.MM.YYYY HH:mm'),
           })}
@@ -267,7 +298,7 @@ class TradingAccountsGrid extends PureComponent {
   );
 
   renderServerColumn = ({ accountType, platformType }) => (
-    <div className="font-weight-700">{platformType} {accountType}</div>
+    <div className="ClientTradingAccountsGrid__cell-main-value">{platformType} {accountType}</div>
   );
 
   renderActionsColumn = (
@@ -284,31 +315,30 @@ class TradingAccountsGrid extends PureComponent {
     },
   ) => {
     const {
-      refetchTradingAccountsList,
       modals: {
         tradingAccountChangePasswordModal,
         updateTradingAccountModal,
         changeLeverageModal,
       },
-      match: {
-        params: {
-          id,
-        },
+      profileUUID,
+      clientTradingAccountsQuery: {
+        refetch,
       },
     } = this.props;
+
     const brand = getBrand();
 
     const dropDownActions = [
       {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-        onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID: id, login }),
+        onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
       },
       {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.RENAME'),
         onClick: () => updateTradingAccountModal.show({
           accountUUID,
-          profileUUID: id,
-          onSuccess: refetchTradingAccountsList,
+          profileUUID,
+          onSuccess: refetch,
         }),
       },
     ];
@@ -325,7 +355,7 @@ class TradingAccountsGrid extends PureComponent {
           platformType,
           archived,
           accountUUID,
-          refetchTradingAccountsList,
+          onSuccess: refetch,
         }),
       });
     }
@@ -346,69 +376,59 @@ class TradingAccountsGrid extends PureComponent {
 
   render() {
     const {
-      isLoading,
-      tradingAccounts,
-      permission: { permissions: currentPermissions },
+      permission: {
+        permissions: currentPermissions,
+      },
+      clientTradingAccountsQuery: {
+        data,
+        loading,
+      },
     } = this.props;
 
     const updatePasswordPermission = (new Permissions(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD))
       .check(currentPermissions);
 
+    const tradingAccounts = data?.clientTradingAccounts || [];
+
     return (
-      <div className="tab-wrapper">
+      <div className="ClientTradingAccountsGrid">
         <Grid
-          isLoading={isLoading}
+          isLoading={loading}
           data={tradingAccounts}
           headerStickyFromTop={189}
           withRowsHover
-          withNoResults={!isLoading && tradingAccounts.length === 0}
+          withNoResults={!loading && tradingAccounts.length === 0}
         >
           <GridColumn
-            key="tradingAcc"
-            name="tradingAcc"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC')}
             render={this.renderTradingAccountColumn}
           />
           <GridColumn
-            key="login"
-            name="login"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LOGIN')}
             render={this.renderLoginColumn}
           />
           <GridColumn
-            key="balance"
-            name="balance"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.BALANCE/EQUITY')}
             render={this.renderBalanceColumn}
           />
           <GridColumn
-            key="credit"
-            name="credit"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT')}
             render={this.renderCreditColumn}
           />
           <GridColumn
-            key="leverage"
-            name="leverage"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LEVERAGE')}
             render={this.renderLeverageColumn}
           />
           <GridColumn
-            key="tradingStatus"
-            name="tradingStatus"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS')}
             render={this.renderTradingStatusColumn}
           />
           <GridColumn
-            key="server"
-            name="server"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER')}
             render={this.renderServerColumn}
           />
           <If condition={updatePasswordPermission}>
             <GridColumn
-              key="actions"
-              name="actions"
               headerStyle={{ width: '5%' }}
               render={this.renderActionsColumn}
             />
@@ -420,7 +440,6 @@ class TradingAccountsGrid extends PureComponent {
 }
 
 export default compose(
-  withRouter,
   withPermission,
   withNotifications,
   withModals({
@@ -429,8 +448,8 @@ export default compose(
     changeLeverageModal: ChangeLeverageModal,
   }),
   withRequests({
-    updateTradingAccount: updateTradingAccountMutation,
-    approveChangingLeverage: approveChangingLeverageMutation,
-    rejectChangingLeverage: rejectChangingLeverageMutation,
+    updateTradingAccount: UpdateTradingAccountMutation,
+    approveChangingLeverage: ApproveChangingLeverageMutation,
+    rejectChangingLeverage: RejectChangingLeverageMutation,
   }),
-)(TradingAccountsGrid);
+)(ClientTradingAccountsGrid);

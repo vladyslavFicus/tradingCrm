@@ -43,7 +43,7 @@ const REQUEST = gql`
 }
 `;
 
-const ProfileQuery = ({
+const TradingAccountsQuery = ({
   children,
   match: {
     params: { id: profileUUID },
@@ -63,7 +63,7 @@ const ProfileQuery = ({
   </Query>
 );
 
-ProfileQuery.propTypes = {
+TradingAccountsQuery.propTypes = {
   ...PropTypes.router,
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -73,4 +73,4 @@ ProfileQuery.propTypes = {
   }).isRequired,
 };
 
-export default ProfileQuery;
+export default TradingAccountsQuery;

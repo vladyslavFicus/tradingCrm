@@ -1,9 +1,9 @@
 .UpdateTradingAccountModal {
   &__button {
-    margin: 0;
+    margin-right: 15px;
 
-    &:first-child {
-      margin-right: 15px;
+    &:last-child {
+      margin-right: 0;
     }
   }
 }

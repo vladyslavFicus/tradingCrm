@@ -1,22 +1,21 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withModals } from 'hoc';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
+import TradingAccountAddModal from 'modals/TradingAccountAddModal';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/UI';
-import ClientTradingAccountsGridFilter from './ClientTradingAccountsGridFilter';
-import TradingAccountAddModal from './TradingAccountAddModal';
-import TradingAccountsGrid from './TradingAccountsGrid';
+import ClientTradingAccountsGridFilter from './components/ClientTradingAccountsGridFilter';
+import ClientTradingAccountsGrid from './components/ClientTradingAccountsGrid';
 import TradingAccountsQuery from './graphql/TradingAccountsQuery';
-import '../ClientTradingAccountsTab.scss';
+import './ClientTradingAccountsTab.scss';
 
-class Accounts extends PureComponent {
+class ClientTradingAccountsTab extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     match: PropTypes.shape({
@@ -27,23 +26,20 @@ class Accounts extends PureComponent {
     modals: PropTypes.shape({
       tradingAccountAddModal: PropTypes.modalType,
     }).isRequired,
-    clientTradingAccountsQuery: PropTypes.shape({
+    clientTradingAccountsQuery: PropTypes.query({
       clientTradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
-      refetch: PropTypes.func.isRequired,
     }).isRequired,
   };
 
   componentDidMount() {
-    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.refetchTradingAccounts);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.refetchTradingAccounts);
   }
 
-  onProfileEvent = () => {
-    this.props.clientTradingAccountsQuery.refetch();
-  };
+  refetchTradingAccounts = () => this.props.clientTradingAccountsQuery.refetch();
 
   showTradingAccountAddModal = () => {
     const {
@@ -52,13 +48,14 @@ class Accounts extends PureComponent {
           id,
         },
       },
-      modals: { tradingAccountAddModal },
-      clientTradingAccountsQuery,
+      modals: {
+        tradingAccountAddModal,
+      },
     } = this.props;
 
     tradingAccountAddModal.show({
       profileId: id,
-      onConfirm: clientTradingAccountsQuery.refetch,
+      onSuccess: this.refetchTradingAccounts,
     });
   };
 
@@ -70,25 +67,20 @@ class Accounts extends PureComponent {
         },
       },
       clientTradingAccountsQuery,
-      clientTradingAccountsQuery: {
-        refetch,
-        loading,
-      },
     } = this.props;
 
-    const tradingAccounts = get(clientTradingAccountsQuery, 'data.clientTradingAccounts') || [];
 
     return (
-      <div className="ClientTradingAccounts">
+      <div className="ClientTradingAccountsTab">
         <TabHeader
           title={I18n.t('CLIENT_PROFILE.ACCOUNTS.ROUTES.TRADING_ACC')}
-          className="ClientTradingAccounts__header"
+          className="ClientTradingAccountsTab__header"
         >
           <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
             <Button
-              small
-              commonOutline
               onClick={this.showTradingAccountAddModal}
+              commonOutline
+              small
             >
               {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}
             </Button>
@@ -96,14 +88,12 @@ class Accounts extends PureComponent {
         </TabHeader>
 
         <ClientTradingAccountsGridFilter
-          handleRefetch={refetch}
+          handleRefetch={this.refetchTradingAccounts}
         />
 
-        <TradingAccountsGrid
-          tradingAccounts={tradingAccounts}
-          refetchTradingAccountsList={refetch}
-          profileUuid={id}
-          isLoading={loading}
+        <ClientTradingAccountsGrid
+          profileUUID={id}
+          clientTradingAccountsQuery={clientTradingAccountsQuery}
         />
       </div>
     );
@@ -117,4 +107,4 @@ export default compose(
   withRequests({
     clientTradingAccountsQuery: TradingAccountsQuery,
   }),
-)(Accounts);
+)(ClientTradingAccountsTab);

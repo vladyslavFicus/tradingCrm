@@ -1,0 +1,33 @@
+.ClientTradingAccountsGrid {
+  padding: 5px 25px 10px;
+
+  &__cell {
+    &-main-value {
+      font-weight: 700;
+
+      &--upper {
+        text-transform: uppercase;
+      }
+
+      &--small {
+        font-size: 11px;
+      }
+    }
+
+    &-sub-value {
+      font-size: 11px;
+
+      &--mb-5 {
+        margin-bottom: 5px;
+      }
+    }
+
+    &-button {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
