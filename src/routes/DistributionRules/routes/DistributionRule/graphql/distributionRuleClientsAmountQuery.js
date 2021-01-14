@@ -13,6 +13,8 @@ export default gql`query DistributionRuleClientsAmountQuery(
   $lastNoteDateRange: DistributionRule__DateRange__Input
   $executionPeriodInHours: Int!
   $affiliateUuids: [String]
+  $desks: [String]
+  $teams: [String]
 ) {
   distributionRuleClientsAmount(
     salesStatuses: $salesStatuses
@@ -27,5 +29,7 @@ export default gql`query DistributionRuleClientsAmountQuery(
     lastNoteDateRange: $lastNoteDateRange
     executionPeriodInHours: $executionPeriodInHours
     affiliateUuids: $affiliateUuids
+    desks: $desks
+    teams: $teams
   )
 }`;

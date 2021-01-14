@@ -18,7 +18,7 @@ class AddTargetBrandModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    sourceBrandId: PropTypes.string.isRequired,
+    sourceBrand: PropTypes.string.isRequired,
     sourceBrandQuantity: PropTypes.number.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
@@ -165,7 +165,7 @@ class AddTargetBrandModal extends PureComponent {
     const {
       onCloseModal,
       isOpen,
-      sourceBrandId,
+      sourceBrand,
       brands,
       partnersQuery: {
         data: partnersData,
@@ -236,7 +236,7 @@ class AddTargetBrandModal extends PureComponent {
                     searchable
                   >
                     {brands
-                      .filter(_brand => _brand.brandId !== sourceBrandId)
+                      .filter(_brand => _brand.brandId !== sourceBrand)
                       .map(_brand => (
                         <option key={_brand.brandId} value={_brand.brandId}>
                           {_brand.brandName}
