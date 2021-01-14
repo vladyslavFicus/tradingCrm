@@ -2219,8 +2219,10 @@
     "NO_OPTIONS_AVAILABLE": "No options available"
   },
   "DATE_PICKER": {
+    "TIME_FOR": "Time for",
     "FROM": "From",
     "TO": "To",
+    "DATE": "Date",
     "START_DATE": "Start date",
     "END_DATE": "End date",
     "PERIOD_RESETS": {
