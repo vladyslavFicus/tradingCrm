@@ -518,7 +518,6 @@ PropTypes.ruleType = PropTypes.shape({
     }),
   ),
   parentBranch: PropTypes.string,
-  ruleType: PropTypes.string,
   brandId: PropTypes.string,
   countries: PropTypes.arrayOf(PropTypes.string),
   createdAt: PropTypes.string,
@@ -533,6 +532,7 @@ PropTypes.ruleType = PropTypes.shape({
 PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
   brand: PropTypes.string,
   sortType: PropTypes.string,
+  migrationSource: PropTypes.string,
   operator: PropTypes.string,
   operatorEntity: PropTypes.operatorsListEntity,
   country: PropTypes.string,
@@ -540,6 +540,8 @@ PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
     quantity: PropTypes.number,
     baseUnit: PropTypes.string,
   }),
+  desks: PropTypes.arrayOf(PropTypes.string),
+  teams: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.ruleClientsDistributionType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
@@ -558,6 +560,11 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
     to: PropTypes.string,
   }),
   registrationPeriodInHours: PropTypes.number,
+  lastNoteDateRange: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
+  lastNotePeriodInHours: PropTypes.number,
   executionPeriodInHours: PropTypes.number,
   latestMigration: PropTypes.shape({
     uuid: PropTypes.string,

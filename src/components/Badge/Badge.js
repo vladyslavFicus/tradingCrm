@@ -14,6 +14,7 @@ class Badge extends PureComponent {
     info: PropTypes.bool,
     color: PropTypes.string,
     backgroundColor: PropTypes.string,
+    position: PropTypes.oneOf(['left', 'right']),
   };
 
   static defaultProps = {
@@ -24,6 +25,7 @@ class Badge extends PureComponent {
     info: false,
     color: null,
     backgroundColor: null,
+    position: 'right',
   };
 
   render() {
@@ -37,11 +39,16 @@ class Badge extends PureComponent {
       info,
       color,
       backgroundColor,
+      position,
     } = this.props;
 
     return (
-      <div className="Badge">
-        <div className="Badge__children">{children}</div>
+      <div className={classNames('Badge', { 'Badge--center': center })}>
+
+        <If condition={position === 'right'}>
+          <div className="Badge__children">{children}</div>
+        </If>
+
         <div
           className={classNames('Badge__item', {
             'Badge__item--info': info,
@@ -54,6 +61,11 @@ class Badge extends PureComponent {
         >
           {text}
         </div>
+
+        <If condition={position === 'left'}>
+          <div className="Badge__children">{children}</div>
+        </If>
+
       </div>
     );
   }

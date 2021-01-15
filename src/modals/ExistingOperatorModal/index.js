@@ -1,3 +1,1 @@
-import ExistingOperatorModalContainer from './ExistingOperatorModalContainer';
-
-export default ExistingOperatorModalContainer;
+export { default } from './ExistingOperatorModal';

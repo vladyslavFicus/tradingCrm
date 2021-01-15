@@ -62,24 +62,13 @@ class UpdateRuleModal extends PureComponent {
       updateRuleMutation,
       onSuccess,
       uuid,
-      rulesQuery: {
-        data: rulesQueryData,
-      },
     } = this.props;
-
-    // most likely, [parentBranch, ruleType] params will be removed in the near future
-    const {
-      parentBranch,
-      ruleType,
-    } = rulesQueryData?.rules?.['0'] || {};
 
     try {
       await updateRuleMutation(
         {
           variables: {
             uuid,
-            parentBranch,
-            ruleType,
             ...operatorSpreads && {
               operatorSpreads: [
                 // the filter needs to delete an empty value in array

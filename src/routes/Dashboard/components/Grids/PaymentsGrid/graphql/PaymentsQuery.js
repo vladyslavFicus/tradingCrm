@@ -20,6 +20,8 @@ const REQUEST = gql`
         currency
         createdBy
         creationTime
+        bankName
+        maskedPan
         paymentMethod
         paymentAggregator
         amount
@@ -86,6 +88,7 @@ const PaymentsQuery = ({ children, paymentTypes, size }) => (
         paymentTypes,
       },
     }}
+    errorPolicy="all"
   >
     {children}
   </Query>

@@ -1,0 +1,45 @@
+.OperatorsGrid {
+  background-color: #fff;
+  padding: 0 25px 25px;
+
+  &__name {
+    font-weight: 700;
+  }
+
+  &__uuid {
+    font-size: 12px;
+  }
+
+  &__registration {
+    &-date {
+      font-weight: 700;
+    }
+
+    &-time {
+      font-size: 12px;
+    }
+  }
+
+  &__status {
+    &-name {
+      font-weight: 700;
+      text-transform: uppercase;
+
+      &--active {
+        color: #46be8a;
+      }
+
+      &--inactive {
+        color: #666;
+      }
+
+      &--closed {
+        color: #fb434a;
+      }
+    }
+
+    &-date {
+      font-size: 12px;
+    }
+  }
+}

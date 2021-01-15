@@ -39,13 +39,13 @@ class PartnersList extends PureComponent {
           <div className="PartnersList__header-left">
             <Choose>
               <When condition={totalElements}>
-                <div className="PartnersList__total">
+                <div className="PartnersList__title">
                   <strong>{totalElements} </strong>
                   {I18n.t('COMMON.PARTNERS_FOUND')}
                 </div>
               </When>
               <Otherwise>
-                <div className="PartnersList__total">{I18n.t('PARTNERS.HEADING')}</div>
+                <div className="PartnersList__title">{I18n.t('PARTNERS.HEADING')}</div>
               </Otherwise>
             </Choose>
           </div>

@@ -78,7 +78,7 @@ class LeadPersonalInfo extends PureComponent {
             className="LeadPersonalInfo__country"
             value={(
               <Choose>
-                <When condition={country}>
+                <When condition={getCountryCode(country)}>
                   <Flag
                     svg
                     style={{
@@ -90,7 +90,7 @@ class LeadPersonalInfo extends PureComponent {
                   {countryList[getCountryCode(country)]}
                 </When>
                 <Otherwise>
-                  <span>&mdash;</span>
+                  <img src="/img/unknown-country-flag.svg" alt="" />
                 </Otherwise>
               </Choose>
             )}

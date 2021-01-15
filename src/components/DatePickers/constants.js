@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+export const DATE_USER_STRING_FORMAT = 'DD.MM.YYYY';
+export const DATE_BASE_FORMAT = 'YYYY-MM-DD';
 export const DATE_TIME_USER_STRING_FORMAT = 'DD.MM.YYYY HH:mm';
 export const DATE_TIME_BASE_FORMAT = 'YYYY-MM-DDTHH:mm:ss[Z]';
 
@@ -10,8 +12,8 @@ export const defaultAdditionalOptions = () => ([
   {
     label: 'DATE_PICKER.PERIOD_RESETS.TODAY',
     value: {
-      from: moment(),
-      to: moment(),
+      from: moment().startOf('day'),
+      to: moment().endOf('day'),
     },
   },
   {
