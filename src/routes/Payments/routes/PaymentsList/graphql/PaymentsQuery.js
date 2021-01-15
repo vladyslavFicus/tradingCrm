@@ -24,6 +24,8 @@ const REQUEST = gql`
         currency
         createdBy
         creationTime
+        bankName
+        maskedPan
         paymentMethod
         paymentAggregator
         amount
@@ -93,6 +95,7 @@ const PaymentsQuery = ({ children, location: { state } }) => (
       },
     }}
     fetchPolicy="cache-and-network"
+    errorPolicy="all"
     context={{ batch: false }}
   >
     {children}

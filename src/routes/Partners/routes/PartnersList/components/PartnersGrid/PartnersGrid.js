@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Grid, { GridColumn } from 'components/Grid';
@@ -29,7 +28,7 @@ class PartnersGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(data, 'partners.number') || 0;
+    const page = data?.partners?.number || 0;
 
     loadMore({
       page: {
@@ -42,34 +41,10 @@ class PartnersGrid extends PureComponent {
   handleSort = (sortData, sorts) => {
     const { history, location: { state } } = this.props;
 
-    let sortsWithName = null;
-
-    if (sorts) {
-      const nameDirection = sortData.name;
-      sortsWithName = [...sorts];
-
-      if (nameDirection) {
-        sortsWithName = sortsWithName
-          .filter(({ column }) => column !== 'name')
-          .concat([
-            {
-              column: 'firstName',
-              direction: nameDirection,
-            },
-            {
-              column: 'lastName',
-              direction: nameDirection,
-            },
-          ]);
-      } else {
-        sortsWithName = sortsWithName.filter(({ column }) => column !== 'firstName' && column !== 'lastName');
-      }
-    }
-
     history.replace({
       state: {
         ...state,
-        sorts: sortsWithName,
+        sorts,
         sortData,
       },
     });
@@ -143,12 +118,12 @@ class PartnersGrid extends PureComponent {
       location: { state },
     } = this.props;
 
-    const { last, content } = get(partnersData, 'partners') || { content: [] };
+    const { last, content } = partnersData?.partners || {};
 
     return (
       <div className="PartnersGrid">
         <Grid
-          data={content}
+          data={content || []}
           sorts={state?.sortData}
           handleSort={this.handleSort}
           handlePageChanged={this.handlePageChanged}
@@ -158,7 +133,7 @@ class PartnersGrid extends PureComponent {
           withLazyLoad
         >
           <GridColumn
-            sortBy="name"
+            sortBy="firstName"
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}
           />

@@ -25,6 +25,11 @@ const REQUEST = gql`
         from
         to
       }
+      lastNotePeriodInHours
+      lastNoteDateRange {
+        from
+        to
+      }
       executionType
       executionPeriodInHours
       latestMigration {
@@ -37,6 +42,8 @@ const REQUEST = gql`
           baseUnit
         }
         sortType
+        desks
+        teams
       }
       targetBrandConfigs {
         brand
@@ -44,6 +51,7 @@ const REQUEST = gql`
           quantity
           baseUnit
         }
+        migrationSource
         operatorEntity {
           uuid
           fullName

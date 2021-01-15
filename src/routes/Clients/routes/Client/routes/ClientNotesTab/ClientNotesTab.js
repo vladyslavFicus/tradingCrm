@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import EventEmitter, { PROFILE_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import ListView from 'components/ListView';
@@ -18,13 +18,13 @@ class ClientNotesTab extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.refetchNotes);
+    EventEmitter.on(CLIENT_RELOAD, this.refetchNotes);
     EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.refetchNotes);
+    EventEmitter.off(CLIENT_RELOAD, this.refetchNotes);
     EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
   }

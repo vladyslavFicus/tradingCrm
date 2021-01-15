@@ -66,7 +66,6 @@
   &__day {
     color: #000;
     cursor: pointer;
-    padding: 0 5px;
     margin-top: 5px;
     text-align: center;
 
@@ -108,10 +107,10 @@
 
     &--selected {
       & .DateCalendarPicker__day-inner {
-        background-color: #3391D8;
-        border-radius: 50%;
+        background: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%);;
+        border-radius: 15px;
         color: #fff;
-        width: 30px;
+        width: 100%;
       }
 
       &:hover {
@@ -148,11 +147,19 @@
       &:after {
         right: 0;
       }
+
+      & .DateCalendarPicker__day-inner {
+        border-radius: 15px 0 0 15px;
+      }
     }
 
     &--range-end {
       &:after {
         left: 0;
+      }
+
+      & .DateCalendarPicker__day-inner {
+        border-radius: 0 15px 15px 0;
       }
     }
 

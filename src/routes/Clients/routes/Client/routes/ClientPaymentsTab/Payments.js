@@ -12,7 +12,7 @@ import PaymentsListGrid from 'components/PaymentsListGrid';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
 import { CONDITIONS } from 'utils/permissions';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import PaymentAddModal from './components/PaymentAddModal';
 import {
   PaymentsQuery,
@@ -34,11 +34,11 @@ class Payments extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.handleRefresh);
+    EventEmitter.on(CLIENT_RELOAD, this.handleRefresh);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.handleRefresh);
+    EventEmitter.off(CLIENT_RELOAD, this.handleRefresh);
   }
 
   handleRefresh = () => this.props.paymentsQuery.refetch();

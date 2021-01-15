@@ -284,22 +284,23 @@ class PaymentsListGrid extends PureComponent {
           />
           <GridColumn
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_METHOD')}
-            render={({ paymentMethod }) => (
-              <Choose>
-                <When condition={!paymentMethod}>
-                  <div>&mdash;</div>
-                </When>
-                <Otherwise>
-                  <div className="font-weight-700">
-                    <Choose>
-                      <When condition={paymentMethod}>
-                        {formatLabel(paymentMethod)}
-                      </When>
-                      <Otherwise>{paymentMethod}</Otherwise>
-                    </Choose>
-                  </div>
-                </Otherwise>
-              </Choose>
+            render={({ paymentMethod, bankName, maskedPan }) => (
+              <>
+                <If condition={bankName}>
+                  <div className="font-weight-700 color-warning">{bankName}</div>
+                </If>
+                <Choose>
+                  <When condition={paymentMethod}>
+                    <div className="font-weight-700">{formatLabel(paymentMethod)}</div>
+                    <If condition={maskedPan && paymentMethod === 'CREDIT_CARD'}>
+                      <div className="font-weight-700 color-warning">{maskedPan}</div>
+                    </If>
+                  </When>
+                  <Otherwise>
+                    <div>&mdash;</div>
+                  </Otherwise>
+                </Choose>
+              </>
             )}
           />
           <GridColumn

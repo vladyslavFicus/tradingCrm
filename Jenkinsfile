@@ -1,3 +1,3 @@
 @Library("orchestra") _
 
-staticFrontendPipeline promoteTo: 'dev01'
+cdnServiceBuild(promoteTo: 'dev01', promoteStack: 'cdn')

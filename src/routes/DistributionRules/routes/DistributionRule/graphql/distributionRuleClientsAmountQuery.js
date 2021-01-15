@@ -8,9 +8,13 @@ export default gql`query DistributionRuleClientsAmountQuery(
   $targetBrand: String
   $firstTimeDeposit: Boolean
   $registrationPeriodInHours: Int
-  $registrationDateRange: DistributionRule__RegistrationDateRange__Input
-  $executionPeriodInHours: Int!
+  $registrationDateRange: DistributionRule__DateRange__Input
+  $lastNotePeriodInHours: Int
+  $lastNoteDateRange: DistributionRule__DateRange__Input
+  $executionPeriodInHours: Int
   $affiliateUuids: [String]
+  $desks: [String]
+  $teams: [String]
 ) {
   distributionRuleClientsAmount(
     salesStatuses: $salesStatuses
@@ -21,7 +25,11 @@ export default gql`query DistributionRuleClientsAmountQuery(
     firstTimeDeposit: $firstTimeDeposit
     registrationPeriodInHours: $registrationPeriodInHours
     registrationDateRange: $registrationDateRange
+    lastNotePeriodInHours: $lastNotePeriodInHours
+    lastNoteDateRange: $lastNoteDateRange
     executionPeriodInHours: $executionPeriodInHours
     affiliateUuids: $affiliateUuids
+    desks: $desks
+    teams: $teams
   )
 }`;

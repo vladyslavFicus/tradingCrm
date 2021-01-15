@@ -71,7 +71,7 @@ class Operator extends PureComponent {
         <div className="Operator__content">
           <div className="Operator__info">
             <OperatorAccountStatus operator={operator} />
-            <OperatorRegistrationInfo registrationDate={operator.registrationDate} />
+            <OperatorRegistrationInfo registrationDate={operator?.registrationDate} />
           </div>
 
           <HideDetails>

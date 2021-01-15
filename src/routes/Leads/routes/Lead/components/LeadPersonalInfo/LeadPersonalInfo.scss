@@ -31,4 +31,10 @@
       margin-left: auto;
     }
   }
+
+  &__country {
+    & img {
+      height: 10px;
+    }
+  }
 }

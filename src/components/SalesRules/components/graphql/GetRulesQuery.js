@@ -27,7 +27,6 @@ const REQUEST = gql`query getRules(
     affiliateId: $affiliateId
 
   ) {
-    ruleType
     parentBranch
     operatorSpreads {
       operator {

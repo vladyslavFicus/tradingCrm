@@ -265,7 +265,7 @@ class OperatorHierarchyBranches extends PureComponent {
                 onSubmit={this.handleAddBranch}
               >
                 {({ isSubmitting, values }) => {
-                  const availableBranches = values?.branchType
+                  const availableBranches = values.branchType
                     ? branchesByType[values.branchType].filter(({ uuid }) => !operatorBranchesUuids.includes(uuid))
                     : [];
 

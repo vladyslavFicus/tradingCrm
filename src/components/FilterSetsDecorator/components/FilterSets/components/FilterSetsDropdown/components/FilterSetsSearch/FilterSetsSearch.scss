@@ -1,0 +1,22 @@
+.FilterSetsSearch {
+  padding: 10px 5px;
+  background-color: #eeeeee;
+
+  &__field-wrapper {
+    position: relative;
+  }
+
+  &__field {
+    margin-bottom: 0;
+  }
+
+  &__reset-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+    font-size: 14px;
+    color: #cfcfcf;
+    cursor: pointer;
+  }
+}
