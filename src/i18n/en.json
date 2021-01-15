@@ -239,9 +239,6 @@
         "TITLE": "Transfer Availability",
         "LABEL": "Transfer"
       },
-      "STATUS_MODAL": {
-        "TITLE": "Change account status"
-      },
       "BLOCK_REASONS": {
         "USER_REQUEST": "User request",
         "BONUS_ABUSE": "Bonus abuse",
@@ -334,15 +331,6 @@
       },
       "SET_PLAYER_AS_TEST": "Set player as test",
       "UN_SET_PLAYER_AS_TEST": "Unset player as test"
-    },
-    "IP_LIST": {
-      "TITLE": "Last 10 ip's",
-      "NOTIFICATIONS": {
-        "COPY": {
-          "TITLE": "IP copied to your clipboard",
-          "MESSAGE": "IP has been copied to clipboard"
-        }
-      }
     },
     "PINNED_NOTES": {
       "TITLE": "Pinned notes"
@@ -1428,9 +1416,6 @@
         }
       }
     },
-    "IP_LIST": {
-      "TITLE": "Last 10 ip's"
-    },
     "CLOSE_REASONS": {
       "PENDING_INVESTIGATION": "Pending investigation",
       "TERMINATED": "Terminated"
@@ -1663,14 +1648,7 @@
     "FIELD_IS_REQUIRED": "Field is required"
   },
   "PROFILE": {
-    "LAST_LOGIN": {
-      "TITLE": "Last login",
-      "FROM_COUNTRY": " from %{country}"
-    },
     "LAST_ACTIVITY": {
-      "TITLE": "Last activity",
-      "LOCATION": "Location",
-      "MODAL": "Modal",
       "STATUS": {
         "ONLINE": "Online",
         "OFFLINE": "Offline"
@@ -2241,8 +2219,10 @@
     "NO_OPTIONS_AVAILABLE": "No options available"
   },
   "DATE_PICKER": {
+    "TIME_FOR": "Time for",
     "FROM": "From",
     "TO": "To",
+    "DATE": "Date",
     "START_DATE": "Start date",
     "END_DATE": "End date",
     "PERIOD_RESETS": {
@@ -2486,6 +2466,8 @@
   "CLIENT_PROFILE": {
     "TABS": {
       "PROFILE": "Profile",
+      "PAYMENTS": "Payments",
+      "TRADING_ACTIVITY": "Trading activity",
       "TRANSACTIONS": "Transactions",
       "ACCOUNTS": "Accounts",
       "CALLBACKS": "Callbacks",
@@ -2577,10 +2559,23 @@
       }
     },
     "CLIENT": {
+      "ACCOUNT_STATUS": {
+        "NOTIFICATIONS": {
+          "SUCCESS": {
+            "TITLE": "Success",
+            "MESSAGE": "Account status changed successfully"
+          },
+          "ERROR": {
+            "TITLE": "Error",
+            "MESSAGE": "Failed to change account status"
+          }
+        }
+      },
       "BALANCES": {
         "TOTAL_BALANCE": "Total balance",
         "BALANCE": "Balance",
         "DEPOSIT": "Deposits",
+        "CREDIT": "Credit",
         "LAST": "last",
         "FIRST": "first",
         "NET": "Net deposit",
@@ -2594,9 +2589,18 @@
           "LAST_3_MONTHS": "Last 3 month"
         }
       },
-      "ACQUISITION": {
-        "TITLE": "Acquisition Status",
-        "SALES": "Sales"
+      "LAST_LOGIN": {
+        "TITLE": "Last login",
+        "FROM_COUNTRY": " from %{country}"
+      },
+      "LAST_ACTIVITY": {
+        "TITLE": "Last activity",
+        "LOCATION": "Location",
+        "MODAL": "Modal",
+        "STATUS": {
+          "ONLINE": "Online",
+          "OFFLINE": "Offline"
+        }
       },
       "REGISTERED": {
         "TITLE": "Registered"
@@ -2605,6 +2609,19 @@
         "TITLE": "REFERRALS",
         "FTD": "FTD: %{value}",
         "REMUNERATION": "Remuneration: %{currency} %{value}"
+      },
+      "ACQUISITION": {
+        "TITLE": "Acquisition Status",
+        "SALES": "Sales"
+      },
+      "LAST_IPS": {
+        "TITLE": "Last 10 ip's",
+        "NOTIFICATIONS": {
+          "COPY": {
+            "TITLE": "IP copied to your clipboard",
+            "MESSAGE": "IP has been copied to clipboard"
+          }
+        }
       }
     },
     "TRANSACTIONS": {
@@ -3162,7 +3179,8 @@
         "MIGRATION_STATUS": "Migration Sales Status",
         "COUNTRY": "Country",
         "EXECUTION_TIME":"Time in Current Sales Status",
-        "REGISTRATION_DATE_RANGE": "Registration date range",
+        "REGISTRATION_DATE_RANGE": "Registration date",
+        "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type",
         "LANGUAGE": "Language",
         "AFFILIATE": "Affiliate",
@@ -3175,20 +3193,14 @@
         },
         "EXECUTION_TIME": {
           "N_HOURS": "%{value} hours",
-          "N_DAY": "%{value} Day",
-          "LAST_WEEK": "Last week",
-          "LAST_N_WEEKS": "Last %{value} weeks"
+          "DAY": "1 Day",
+          "N_DAYS": "%{value} Days"
         },
         "REGISTRATION_TIME": {
           "LAST_TWO_HOURS": "Last 2 hours",
           "LAST_SIX_HOURS": "Last 6 hours",
           "LAST_TWELVE_HOURS": "Last 12 hours",
-          "LAST_DAY": "Last day",
-          "LAST_THREE_DAYS": "Last 3 days",
-          "LAST_WEEK": "Last week",
-          "LAST_TWO_WEEKS": "Last 2 weeks",
-          "LAST_THREE_WEEKS": "Last 3 weeks",
-          "LAST_FOUR_WEEKS": "Last 4 weeks"
+          "LAST_TWENTYFOUR_HOURS": "Last 24 hours"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
@@ -3212,7 +3224,9 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source"
+        "MIGRATION_SOURCE": "Migration Source",
+        "DESKS": "Desks",
+        "TEAMS": "Teams"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",
@@ -3514,7 +3528,8 @@
       "LABEL": "Custom Filters Sets",
       "LIST": {
         "TITLE": "View",
-        "FAVORITE": "Favourite"
+        "FAVORITE": "Favourite",
+        "SELECTED": "Selected option"
       }
     },
     "CREATE_MODAL": {

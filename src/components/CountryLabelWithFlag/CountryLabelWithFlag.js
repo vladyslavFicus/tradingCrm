@@ -24,14 +24,21 @@ class CountryLabelWithFlag extends PureComponent {
     return (
       <div className="CountryLabelWithFlag">
         <div className="CountryLabelWithFlag__flag">
-          <Flag
-            svg
-            style={{
-              height,
-              width,
-            }}
-            countryCode={getCountryCode(code)}
-          />
+          <Choose>
+            <When condition={getCountryCode(code)}>
+              <Flag
+                svg
+                style={{
+                  height,
+                  width,
+                }}
+                countryCode={getCountryCode(code)}
+              />
+            </When>
+            <Otherwise>
+              <img src="/img/unknown-country-flag.svg" alt="" />
+            </Otherwise>
+          </Choose>
         </div>
         <div className="CountryLabelWithFlag__codes">
           <div className="CountryLabelWithFlag__country-code">{code}</div>

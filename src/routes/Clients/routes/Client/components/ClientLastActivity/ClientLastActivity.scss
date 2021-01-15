@@ -1,0 +1,34 @@
+.ClientLastActivity {
+  padding: 5px 0 5px 15px;
+  flex: 1;
+  min-height: 60px;
+
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__status {
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &--online {
+      color: #46be8a;
+    }
+
+    &--offline {
+      color: #6c757d;
+    }
+  }
+
+  &__text-primary {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  &__text-secondary {
+    color: #333;
+    font-size: 11px;
+  }
+}

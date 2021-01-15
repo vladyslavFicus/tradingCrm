@@ -37,6 +37,14 @@ class DistributionRuleBrands extends PureComponent {
         from: PropTypes.string,
         to: PropTypes.string,
       }),
+      lastNotePeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      lastNoteDateRange: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
       executionType: PropTypes.string,
       executionPeriodInHours: PropTypes.oneOfType([
         PropTypes.number,
@@ -98,11 +106,13 @@ class DistributionRuleBrands extends PureComponent {
       },
       handleTargetBrandConfig,
       sourceBrandConfig: {
-        brand: sourceBrandId,
+        brand: sourceBrand,
         distributionUnit: {
           quantity: sourceBrandQuantity,
           baseUnit: sourceBrandBaseUnit,
         },
+        desks,
+        teams,
       },
       targetBrandConfig,
       brandsQuery,
@@ -112,7 +122,7 @@ class DistributionRuleBrands extends PureComponent {
 
     addTargetBrandModal.show({
       brands,
-      sourceBrandId,
+      sourceBrand,
       sourceBrandQuantity,
       initialValues: {
         ...targetBrandConfig,
@@ -123,7 +133,7 @@ class DistributionRuleBrands extends PureComponent {
         operator: targetBrandConfig?.operatorEntity?.uuid,
       },
       fetchAvailableClientsAmount: targetBrandId => (
-        this.fetchAvailableClientsAmount(sourceBrandId, targetBrandId)
+        this.fetchAvailableClientsAmount({ sourceBrand, desks, teams }, targetBrandId)
       ),
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);
@@ -132,7 +142,7 @@ class DistributionRuleBrands extends PureComponent {
     });
   };
 
-  fetchAvailableClientsAmount = async (sourceBrand, targetBrand) => {
+  fetchAvailableClientsAmount = async ({ sourceBrand, desks, teams }, targetBrand) => {
     const {
       client,
       generalSettings: {
@@ -142,6 +152,8 @@ class DistributionRuleBrands extends PureComponent {
         affiliateUuids,
         registrationPeriodInHours,
         registrationDateRange,
+        lastNotePeriodInHours,
+        lastNoteDateRange,
         executionPeriodInHours,
         firstTimeDeposit,
       },
@@ -159,8 +171,12 @@ class DistributionRuleBrands extends PureComponent {
           affiliateUuids,
           registrationPeriodInHours,
           registrationDateRange,
+          lastNotePeriodInHours,
+          lastNoteDateRange,
           executionPeriodInHours,
           firstTimeDeposit,
+          desks,
+          teams,
         },
       });
 

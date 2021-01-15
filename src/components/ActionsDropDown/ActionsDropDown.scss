@@ -1,0 +1,15 @@
+.ActionDropDown {
+  display: inline-block;
+  vertical-align: top;
+
+  &__toggle {
+    background-color: #fff;
+    border: 1px solid #9b9b9b;
+    border-radius: 3px;
+    color: #9b9b9b;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 16px;
+    transition: all 0.1s ease-in-out;
+  }
+}

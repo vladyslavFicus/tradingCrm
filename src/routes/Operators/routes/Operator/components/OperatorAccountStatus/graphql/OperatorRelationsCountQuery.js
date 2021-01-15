@@ -14,7 +14,11 @@ const REQUEST = gql`
 `;
 
 const OperatorRelationsCountQuery = ({ children, operator }) => (
-  <Query query={REQUEST} variables={{ uuid: operator.uuid }}>
+  <Query
+    query={REQUEST}
+    variables={{ uuid: operator.uuid }}
+    fetchPolicy="cache-and-network"
+  >
     {children}
   </Query>
 );

@@ -146,16 +146,7 @@
         display: block;
         width: 100%;
 
-        &::-webkit-input-placeholder {
-          color: #9b9b9b;
-        }
-        &::-moz-placeholder {
-          color: #9b9b9b;
-        }
-        &:-ms-input-placeholder {
-          color: #9b9b9b;
-        }
-        &:-moz-placeholder {
+        &::placeholder {
           color: #9b9b9b;
         }
       }
@@ -196,7 +187,7 @@
     grid-template-columns: 350px;
     z-index: 2;
 
-    &--with-additional-options {
+    &--with-additional {
       grid-template-columns: 350px 350px;
       grid-auto-flow: column;
     }

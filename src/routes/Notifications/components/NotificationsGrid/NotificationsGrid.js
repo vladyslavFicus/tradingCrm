@@ -62,7 +62,7 @@ class NotificationsGrid extends PureComponent {
         <div className="NotificationsGrid__text-subtype">{details.amount} {details.currency}</div>
       </If>
 
-      <If condition={type === 'ACCOUNT'}>
+      <If condition={type === 'ACCOUNT' || subtype === 'MARGIN_CALL'}>
         <PlatformTypeBadge center position="left" platformType={details.platformType}>
           <div className="NotificationsGrid__text-subtype">{details.login}</div>
         </PlatformTypeBadge>

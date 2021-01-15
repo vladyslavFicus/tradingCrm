@@ -1,4 +1,9 @@
 .PaymentsListFilters {
+  &__form {
+    padding: 20px 25px 40px;
+    background-color: #f2f4f8;
+  }
+
   &__fields {
     width: 100%;
     display: grid;
@@ -34,5 +39,24 @@
 
   &__date-range {
     grid-column: span 4;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 10px 15px 0;
+  }
+
+  &__buttons-group {
+    display: flex;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }

@@ -7,9 +7,13 @@ const countryCodeSource = {
   ZH: 'CN',
 };
 
+const unknownCountryCodeSource = [
+  'UNDEFINED',
+];
+
 export const getCountryCode = (value) => {
   const code = value && value.toUpperCase();
-  return countryCodeSource[code] || code;
+  return countryCodeSource[code] || unknownCountryCodeSource.includes(code) ? undefined : code;
 };
 
 export default countryList().getData().reduce((result, item) => ({
