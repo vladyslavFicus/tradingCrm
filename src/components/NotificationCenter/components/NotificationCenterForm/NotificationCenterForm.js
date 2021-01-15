@@ -5,8 +5,6 @@ import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { notificationCenterTypesLabels } from 'constants/notificationCenter';
-import renderLabel from 'utils/renderLabel';
 import './NotificationCenterForm.scss';
 
 class NotificationCenterForm extends PureComponent {
@@ -48,7 +46,7 @@ class NotificationCenterForm extends PureComponent {
               >
                 {notificationsTypes.map(value => (
                   <option key={value} value={value}>
-                    {I18n.t(renderLabel(value, notificationCenterTypesLabels))}
+                    {I18n.t(`NOTIFICATION_CENTER.TYPES.${value}`)}
                   </option>
                 ))}
               </Field>

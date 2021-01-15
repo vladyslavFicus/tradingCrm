@@ -13,7 +13,6 @@ const REQUEST = gql`mutation CreateRuleMutation(
   $type: Rule__Type__Enum!
   $operatorSpreads: [RuleOperatorSpread__Input]
   $parentBranch: String
-  $ruleType: Rule__ActionType__Enum
 ) {
   rule {
     createRule (
@@ -26,7 +25,6 @@ const REQUEST = gql`mutation CreateRuleMutation(
       type: $type
       operatorSpreads: $operatorSpreads
       parentBranch: $parentBranch
-      ruleType: $ruleType
     )
   }
 }

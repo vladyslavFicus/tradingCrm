@@ -8,7 +8,7 @@ import { getGraphQLUrl, getVersion } from 'config';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
 import EventEmitter, {
-  PROFILE_RELOAD,
+  CLIENT_RELOAD,
   FILE_REMOVED,
   FILE_CHANGED,
   FILE_UPLOADED,
@@ -43,14 +43,14 @@ class ClientFilesGrid extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.refetchFiles);
+    EventEmitter.on(CLIENT_RELOAD, this.refetchFiles);
     EventEmitter.on(FILE_UPLOADED, this.refetchFiles);
     EventEmitter.on(FILE_REMOVED, this.refetchFiles);
     EventEmitter.on(FILE_CHANGED, this.refetchFiles);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.refetchFiles);
+    EventEmitter.off(CLIENT_RELOAD, this.refetchFiles);
     EventEmitter.off(FILE_UPLOADED, this.refetchFiles);
     EventEmitter.off(FILE_REMOVED, this.refetchFiles);
     EventEmitter.off(FILE_CHANGED, this.refetchFiles);

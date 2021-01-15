@@ -19,6 +19,10 @@
     font-weight: bold;
   }
 
+  &__text-subtype {
+    font-size: 12px;
+  }
+
   &__row--read &__text-highlight {
     font-weight: normal;
   }

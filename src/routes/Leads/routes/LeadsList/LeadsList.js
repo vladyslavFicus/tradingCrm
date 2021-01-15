@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { NetworkStatus } from 'apollo-client';
 import PropTypes from 'constants/propTypes';
 import LeadsHeader from './components/LeadsHeader';
 import LeadsGridFilter from './components/LeadsGridFilter';
@@ -22,7 +23,7 @@ class LeadsList extends PureComponent {
 
   componentDidUpdate(prevProps) {
     // Clear selecting when filters or sorting changed
-    if (this.props.leadsQuery.loading && !prevProps.leadsQuery.loading) {
+    if (this.props.leadsQuery.networkStatus === NetworkStatus.setVariables && !prevProps.leadsQuery.loading) {
       this.updateLeadsListState();
     }
   }

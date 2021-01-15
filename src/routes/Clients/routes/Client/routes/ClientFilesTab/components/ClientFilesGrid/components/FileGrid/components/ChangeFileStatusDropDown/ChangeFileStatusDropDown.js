@@ -22,8 +22,14 @@ class ChangeFileStatusDropDown extends PureComponent {
   };
 
   handleChange = (value) => {
+    const {
+      uuid,
+      onChangeStatus,
+    } = this.props;
+
+    onChangeStatus(value, uuid);
+
     this.setState({ currentValue: value });
-    this.props.onChangeStatus(value, uuid);
   };
 
   render() {

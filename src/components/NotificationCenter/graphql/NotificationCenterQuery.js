@@ -19,13 +19,7 @@ const REQUEST = gql`
         createdAt
         type
         subtype
-        details {
-          amount
-          currency
-          login
-          platformType
-          callbackTime
-        }
+        details
       }
       last
       size

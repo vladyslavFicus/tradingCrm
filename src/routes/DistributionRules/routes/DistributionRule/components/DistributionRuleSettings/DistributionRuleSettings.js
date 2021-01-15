@@ -11,7 +11,7 @@ import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import {
   salesStatuses,
   countries,
-  registrationPeriodInHours,
+  periodInHours,
   executionTypes,
 } from './constants';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -32,6 +32,14 @@ class DistributionRuleSettings extends PureComponent {
         PropTypes.string,
       ]),
       registrationDateRange: PropTypes.shape({
+        from: PropTypes.string,
+        to: PropTypes.string,
+      }),
+      lastNotePeriodInHours: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+      ]),
+      lastNoteDateRange: PropTypes.shape({
         from: PropTypes.string,
         to: PropTypes.string,
       }),
@@ -67,9 +75,12 @@ class DistributionRuleSettings extends PureComponent {
               salesStatuses: ['required'],
               targetSalesStatus: ['required'],
               countries: ['required'],
-              executionPeriodInHours: ['required'],
               registrationDateRange: {
                 from: ['dateWithTime', `validDateTimeRange:${values?.registrationDateRange?.to}`],
+                to: ['dateWithTime'],
+              },
+              lastNoteDateRange: {
+                from: ['dateWithTime', `validDateTimeRange:${values?.lastNoteDateRange?.to}`],
                 to: ['dateWithTime'],
               },
               languages: ['required'],
@@ -116,10 +127,11 @@ class DistributionRuleSettings extends PureComponent {
               <Field
                 name="executionPeriodInHours"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TIME')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="DistributionRuleSettings__form-field"
                 component={FormikSelectField}
                 showErrorMessage={false}
+                withAnyOption
               >
                 {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>
@@ -147,8 +159,22 @@ class DistributionRuleSettings extends PureComponent {
                   to: 'registrationDateRange.to',
                   additional: 'registrationPeriodInHours',
                 }}
-                additionalOptions={registrationPeriodInHours}
-                withAdditionalValue
+                additionalValues={periodInHours}
+                withAdditionalValues
+                withConfirmation
+              />
+              <Field
+                className="DistributionRuleSettings__form-field"
+                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LAST_NOTE_DATE_RANGE')}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'lastNoteDateRange.from',
+                  to: 'lastNoteDateRange.to',
+                  additional: 'lastNotePeriodInHours',
+                }}
+                additionalValues={periodInHours}
+                anchorDirection="right"
+                withAdditionalValues
                 withConfirmation
               />
               <Field

@@ -1,7 +1,4 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -56,7 +53,7 @@ class ClientHeader extends PureComponent {
         customTimeout(() => {
           this.setState({ isRunningReloadAnimation: false });
         }, 1000);
-      }
+      },
     );
 
     EventEmitter.emit(CLIENT_RELOAD);
@@ -244,7 +241,7 @@ class ClientHeader extends PureComponent {
             <NotePopover
               playerUUID={uuid}
               targetUUID={uuid}
-              targetType={'PLAYER'}
+              targetType="PLAYER"
             >
               <Button
                 className="ClientHeader__action"

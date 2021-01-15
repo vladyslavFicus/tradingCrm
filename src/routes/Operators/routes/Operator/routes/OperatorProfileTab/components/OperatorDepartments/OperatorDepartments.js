@@ -120,7 +120,7 @@ class OperatorDepartments extends PureComponent {
 
     const operatorUuid = operatorQuery.data?.operator?.uuid;
     const operatorAuthorities = operatorQuery.data?.operator?.authorities || [];
-    const authorities = authoritiesQuery?.data?.authoritiesOptions || {};
+    const authorities = authoritiesQuery.data?.authoritiesOptions || {};
 
     const operatorDepartments = operatorAuthorities.map(({ department }) => department);
 
@@ -186,7 +186,7 @@ class OperatorDepartments extends PureComponent {
                   onSubmit={this.handleAddAuthority}
                 >
                   {({ isSubmitting, values }) => {
-                    const availableRoles = values?.department
+                    const availableRoles = values.department
                       ? authorities[values.department]
                       : [];
 

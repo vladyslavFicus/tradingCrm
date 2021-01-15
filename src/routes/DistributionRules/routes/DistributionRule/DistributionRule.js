@@ -48,6 +48,8 @@ class DistributionRule extends PureComponent {
         targetSalesStatus,
         registrationPeriodInHours,
         registrationDateRange,
+        lastNotePeriodInHours,
+        lastNoteDateRange,
         executionType,
         executionPeriodInHours,
         sourceBrandConfigs,
@@ -71,6 +73,8 @@ class DistributionRule extends PureComponent {
           targetSalesStatus,
           registrationPeriodInHours,
           registrationDateRange,
+          lastNotePeriodInHours,
+          lastNoteDateRange,
           executionType: executionType || initialState.generalSettings.executionType,
           executionPeriodInHours,
           affiliateUuids,
@@ -199,7 +203,13 @@ class DistributionRule extends PureComponent {
     } = this.props;
 
     const {
-      generalSettings,
+      generalSettings: {
+        registrationPeriodInHours,
+        registrationDateRange,
+        lastNotePeriodInHours,
+        lastNoteDateRange,
+        ...generalSettings
+      },
       sourceBrandConfig,
       targetBrandConfig: {
         operatorEntity,
@@ -223,6 +233,12 @@ class DistributionRule extends PureComponent {
               operator: operatorEntity?.uuid,
             },
             ...generalSettings,
+            ...registrationPeriodInHours
+              ? { registrationPeriodInHours }
+              : { registrationDateRange },
+            ...lastNotePeriodInHours
+              ? { lastNotePeriodInHours }
+              : { lastNoteDateRange },
           },
         },
       });
