@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/UI';
@@ -24,11 +24,11 @@ class ClientCallbacksTab extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
   }
 
   onProfileEvent = () => {

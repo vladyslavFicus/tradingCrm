@@ -5,7 +5,7 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import FeedFilterForm from '../FeedFilterForm';
 import FeedsQuery from './graphql/FeedsQuery';
@@ -24,11 +24,11 @@ class Feed extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
   }
 
   onProfileEvent = () => {
