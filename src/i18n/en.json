@@ -1290,7 +1290,10 @@
       "DIALER_ASSIGNED": "Dialer Assigned",
       "DIALER_FAILED": "Dialer Failed",
       "DIALER_DROP": "Dialer Drop",
-      "WIRE_SENT": "Wire Sent"
+      "WIRE_SENT": "Wire Sent",
+      "HUNG_UP": "Hung Up",
+      "LONG_TERM_CALL_BACK": "Long Term Call Back",
+      "APPOINTMENT_24HR": "Appointment 24hr"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",

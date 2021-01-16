@@ -31,6 +31,9 @@ export const salesStatuses = {
   DIALER_FAILED: 'CONSTANTS.SALES_STATUSES.DIALER_FAILED',
   DIALER_DROP: 'CONSTANTS.SALES_STATUSES.DIALER_DROP',
   WIRE_SENT: 'CONSTANTS.SALES_STATUSES.WIRE_SENT',
+  HUNG_UP: 'CONSTANTS.SALES_STATUSES.HUNG_UP',
+  LONG_TERM_CALL_BACK: 'CONSTANTS.SALES_STATUSES.LONG_TERM_CALL_BACK',
+  APPOINTMENT_24HR: 'CONSTANTS.SALES_STATUSES.APPOINTMENT_24HR',
 };
 
 export const salesStatusesColor = {
@@ -65,4 +68,7 @@ export const salesStatusesColor = {
   DIALER_FAILED: 'color-danger',
   DIALER_DROP: 'color-danger',
   WIRE_SENT: 'color-info',
+  HUNG_UP: 'color-warning',
+  LONG_TERM_CALL_BACK: 'color-warning',
+  APPOINTMENT_24HR: 'color-warning',
 };
