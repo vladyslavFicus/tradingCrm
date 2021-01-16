@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
-import { FormikDateRangeGroup } from 'components/Formik';
+import { FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import './LeadNotesTabFilter.scss';
@@ -57,12 +57,13 @@ class LeadNotesTabFilter extends PureComponent {
           dirty,
         }) => (
           <Form className="LeadNotesTabFilter">
-            <FormikDateRangeGroup
+            <Field
               className="LeadNotesTabFilter__field LeadNotesTabFilter__date-range"
               label={I18n.t('LEAD_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
-              periodKeys={{
-                start: 'changedAtFrom',
-                end: 'changedAtTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'changedAtFrom',
+                to: 'changedAtTo',
               }}
               withFocus
             />

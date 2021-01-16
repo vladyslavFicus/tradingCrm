@@ -63,12 +63,6 @@ class PersonalInformationForm extends PureComponent {
     disabled: false,
   };
 
-  ageValidator = (current) => {
-    const requireAge = moment().subtract(AGE_YEARS_CONSTRAINT, 'year');
-
-    return current.isBefore(requireAge);
-  };
-
   render() {
     const {
       initialValues,
@@ -133,14 +127,16 @@ class PersonalInformationForm extends PureComponent {
                   </option>
                 ))}
               </Field>
-              <FormikDatePicker
+              <Field
                 name="birthDate"
+                className="col-lg-3"
                 label={attributeLabels.birthDate}
                 placeholder={attributeLabels.birthDate}
+                component={FormikDatePicker}
+                maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                 disabled={disabled}
-                timeFormat={null}
-                isValidDate={this.ageValidator}
-                className="col-lg-3"
+                withTime={false}
+                closeOnSelect
               />
               <Field
                 name="gender"
@@ -187,14 +183,14 @@ class PersonalInformationForm extends PureComponent {
                 disabled={disabled}
                 className="col-lg-6"
               />
-              <FormikDatePicker
+              <Field
                 name="passport.expirationDate"
+                className="col-lg-3"
                 label={attributeLabels.expirationDate}
                 placeholder={attributeLabels.expirationDate}
+                component={FormikDatePicker}
                 disabled={disabled}
-                timeFormat={null}
-                isValidDate={() => true}
-                className="col-lg-3"
+                closeOnSelect
               />
             </div>
             <div className="row">
@@ -212,14 +208,14 @@ class PersonalInformationForm extends PureComponent {
                   </option>
                 ))}
               </Field>
-              <FormikDatePicker
+              <Field
                 name="passport.issueDate"
+                className="col-lg-3"
                 label={attributeLabels.passportIssueDate}
                 placeholder={attributeLabels.passportIssueDate}
+                component={FormikDatePicker}
                 disabled={disabled}
-                timeFormat={null}
-                isValidDate={() => true}
-                className="col-lg-3"
+                closeOnSelect
               />
             </div>
             <div className="row">

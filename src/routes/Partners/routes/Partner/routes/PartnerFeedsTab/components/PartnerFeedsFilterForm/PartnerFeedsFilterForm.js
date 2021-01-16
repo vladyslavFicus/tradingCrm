@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import { Button, RefreshButton } from 'components/UI';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
 import './PartnerFeedsFilterForm.scss';
@@ -86,12 +86,13 @@ class PartnerFeedsFilterForm extends PureComponent {
               ))}
             </Field>
 
-            <FormikDateRangeGroup
+            <Field
               className="PartnerFeedsFilterForm__field PartnerFeedsFilterForm__date-range"
               label={I18n.t('PARTNER_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-              periodKeys={{
-                start: 'creationDateFrom',
-                end: 'creationDateTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'creationDateFrom',
+                to: 'creationDateTo',
               }}
               withFocus
             />

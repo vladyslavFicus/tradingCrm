@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import {
   FormikInputField,
   FormikSelectField,
-  FormikDatePickerNew,
+  FormikDatePicker,
 } from 'components/Formik';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from '../constants';
 
@@ -54,9 +54,10 @@ class PersonalForm extends PureComponent {
             <Field
               name="birthDate"
               label={I18n.t(attributeLabels.birthDate)}
-              component={FormikDatePickerNew}
+              component={FormikDatePicker}
               maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
               disabled={disabled}
+              closeOnSelect
             />
           </div>
 

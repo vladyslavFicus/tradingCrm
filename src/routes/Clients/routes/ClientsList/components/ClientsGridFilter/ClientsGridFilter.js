@@ -19,7 +19,7 @@ import { withStorage } from 'providers/StorageProvider';
 import {
   FormikInputField,
   FormikSelectField,
-  FormikDateRangeGroup,
+  FormikDateRangePicker,
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -538,73 +538,83 @@ class ClientsGridFilter extends PureComponent {
                       />
                     </RangeGroup>
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.registrationDate)}
-                      periodKeys={{
-                        start: 'registrationDateRange.from',
-                        end: 'registrationDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'registrationDateRange.from',
+                        to: 'registrationDateRange.to',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.firstDepositDateRange)}
-                      periodKeys={{
-                        start: 'firstDepositDateRange.from',
-                        end: 'firstDepositDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'firstDepositDateRange.from',
+                        to: 'firstDepositDateRange.to',
                       }}
                       withFocus
                     />
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.firstNoteDateRange)}
-                      periodKeys={{
-                        start: 'firstNoteDateRange.from',
-                        end: 'firstNoteDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'firstNoteDateRange.from',
+                        to: 'firstNoteDateRange.to',
                       }}
                       withFocus
                     />
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastNoteDateRange)}
-                      periodKeys={{
-                        start: 'lastNoteDateRange.from',
-                        end: 'lastNoteDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'lastNoteDateRange.from',
+                        to: 'lastNoteDateRange.to',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastTradeDateRange)}
-                      periodKeys={{
-                        start: 'lastTradeDateRange.from',
-                        end: 'lastTradeDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'lastTradeDateRange.from',
+                        to: 'lastTradeDateRange.to',
                       }}
                       withFocus
                     />
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastLoginDateRange)}
-                      periodKeys={{
-                        start: 'lastLoginDateRange.from',
-                        end: 'lastLoginDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'lastLoginDateRange.from',
+                        to: 'lastLoginDateRange.to',
                       }}
                       withFocus
                     />
 
-                    <FormikDateRangeGroup
+                    <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastModificationDateRange)}
-                      periodKeys={{
-                        start: 'lastModificationDateRange.from',
-                        end: 'lastModificationDateRange.to',
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'lastModificationDateRange.from',
+                        to: 'lastModificationDateRange.to',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
 

@@ -10,7 +10,7 @@ import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import { callbacksStatuses, reminderValues } from 'constants/callbacks';
 import { targetTypes } from 'constants/note';
-import { FormikSelectField, FormikDatePickerNew } from 'components/Formik';
+import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import ShortLoader from 'components/ShortLoader';
 import NoteButton from 'components/NoteButton';
@@ -182,7 +182,7 @@ class CallbackDetailsModal extends Component {
                       name="callbackTime"
                       className="CallbackDetailsModal__field"
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
-                      component={FormikDatePickerNew}
+                      component={FormikDatePicker}
                       withTime
                       withUtc
                     />

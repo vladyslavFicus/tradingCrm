@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { getBrand } from 'config';
@@ -181,13 +181,13 @@ class PaymentDetailsModal extends PureComponent {
             <Form>
               <Choose>
                 <When condition={canChangeCreationTime}>
-                  <FormikDatePicker
+                  <Field
                     name="creationTime"
                     className="PaymentDetailsModal__date-picker"
-                    isValidDate={() => moment(creationTime, 'YYYY-MM-DD HH:mm:ss').isValid()}
-                    closeOnSelect={false}
+                    label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
+                    component={FormikDatePicker}
                     withTime
-                    utc
+                    withUtc
                   />
                   <div className="PaymentDetailsModal__button">
                     <Button
