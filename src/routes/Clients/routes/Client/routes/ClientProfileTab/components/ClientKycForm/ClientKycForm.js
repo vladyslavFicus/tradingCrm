@@ -1,0 +1,122 @@
+import React, { PureComponent } from 'react';
+import { compose } from 'react-apollo';
+import I18n from 'i18n-js';
+import { Formik, Form, Field } from 'formik';
+import { withNotifications } from 'hoc';
+import { parseErrors, withRequests } from 'apollo';
+import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
+import Permissions from 'utils/permissions';
+import PropTypes from 'constants/propTypes';
+import { kycStatusesLabels } from 'constants/kycStatuses';
+import { FormikSelectField } from 'components/Formik';
+import { Button } from 'components/UI';
+import UpdateClientKycMutation from './graphql/UpdateClientKycMutation';
+import './ClientKycForm.scss';
+
+class ClientKycForm extends PureComponent {
+  static propTypes = {
+    clientData: PropTypes.profile.isRequired,
+    permission: PropTypes.permission.isRequired,
+    updateClientKyc: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+  };
+
+  handleSubmit = async ({ kycStatus }, { resetForm }) => {
+    const {
+      updateClientKyc,
+      clientData,
+      notify,
+    } = this.props;
+
+    try {
+      await updateClientKyc({
+        variables: {
+          playerUUID: clientData.uuid,
+          kycStatus,
+        },
+      });
+
+      notify({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.SUCCESS_RESPONSE'),
+      });
+
+      resetForm({ values: { kycStatus } });
+    } catch (e) {
+      const { error } = parseErrors(e);
+
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.TITLE'),
+        message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  render() {
+    const {
+      clientData,
+      permission: { permissions: currentPermissions },
+    } = this.props;
+
+    const kycStatus = clientData.kyc?.status;
+
+    const isAvailableToUpdate = new Permissions(permissions.USER_PROFILE.KYC_UPDATE).check(currentPermissions);
+
+    return (
+      <div className="ClientKycForm">
+        <Formik
+          initialValues={{ kycStatus }}
+          onSubmit={this.handleSubmit}
+          enableReinitialize
+        >
+          {({ isSubmitting, dirty }) => (
+            <Form>
+              <div className="ClientKycForm__header">
+                <div className="ClientKycForm__title">
+                  {I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.TITLE')}
+                </div>
+
+                <If condition={dirty && !isSubmitting && isAvailableToUpdate}>
+                  <div className="ClientKycForm__actions">
+                    <Button
+                      small
+                      primary
+                      type="submit"
+                    >
+                      {I18n.t('COMMON.SAVE_CHANGES')}
+                    </Button>
+                  </div>
+                </If>
+              </div>
+
+              <Field
+                name="kycStatus"
+                label={I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.CURRENT_STATUS')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                component={FormikSelectField}
+                disabled={isSubmitting || !isAvailableToUpdate}
+              >
+                {Object.keys(kycStatusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {I18n.t(kycStatusesLabels[status])}
+                  </option>
+                ))}
+              </Field>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    );
+  }
+}
+
+export default compose(
+  withPermission,
+  withNotifications,
+  withRequests({
+    updateClientKyc: UpdateClientKycMutation,
+  }),
+)(ClientKycForm);

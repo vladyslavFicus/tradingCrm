@@ -1,0 +1,25 @@
+.ClientProfileTab {
+  background-color: #fff;
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 25px 25px;
+  }
+
+  &__column {
+    & > div:not(:last-child) {
+      margin-bottom: 25px;
+    }
+
+    &--large {
+      padding-right: 30px;
+      width: 65%;
+    }
+
+    &--thin {
+      width: 35%;
+    }
+  }
+}

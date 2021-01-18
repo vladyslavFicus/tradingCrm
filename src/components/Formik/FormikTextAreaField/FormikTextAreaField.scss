@@ -14,8 +14,12 @@
     font-weight: 600;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
     border-radius: inherit;
+
+    &:focus {
+      border-color: #4990e2;
+    }
 
     &-resize {
       &--none {

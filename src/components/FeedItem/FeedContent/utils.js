@@ -2,12 +2,16 @@ import i18n from 'i18n-js';
 import moment from 'moment';
 import { toNumber } from 'lodash';
 import humanizeDuration from 'humanize-duration';
-// # need to move constant to global constants file not to local constants of the component
-import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, genders } from
-  'routes/Clients/routes/Client/routes/ClientProfileTab/components/PersonalInformationForm/constants';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
-import { statuses, attributeLabels, reasons as blockReasons, unblockReasons } from 'constants/user';
+import {
+  genders,
+  statuses,
+  unblockReasons,
+  attributeLabels,
+  reasons as blockReasons,
+  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
+} from 'constants/user';
 import { documentsType, categories } from 'constants/files';
 import {
   methodsLabels as paymentMethodsLabels,
