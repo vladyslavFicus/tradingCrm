@@ -4,7 +4,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import EventEmitter, { PROFILE_RELOAD } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import TabHeader from 'components/TabHeader';
 import TradingActivityGridFilter from './components/TradingActivityGridFilter';
 import TradingActivityGrid from './components/TradingActivityGrid';
@@ -19,11 +19,11 @@ class TradingActivity extends PureComponent {
   }
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
   }
 
   onProfileEvent = () => {

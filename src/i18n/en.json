@@ -1288,7 +1288,10 @@
       "DIALER_ASSIGNED": "Dialer Assigned",
       "DIALER_FAILED": "Dialer Failed",
       "DIALER_DROP": "Dialer Drop",
-      "WIRE_SENT": "Wire Sent"
+      "WIRE_SENT": "Wire Sent",
+      "HUNG_UP": "Hung Up",
+      "LONG_TERM_CALL_BACK": "Long Term Call Back",
+      "APPOINTMENT_24HR": "Appointment 24hr"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -3225,7 +3228,9 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source"
+        "MIGRATION_SOURCE": "Migration Source",
+        "DESKS": "Desks",
+        "TEAMS": "Teams"
       },
       "SORT_METHOD": {
         "RANDOM": "Random",

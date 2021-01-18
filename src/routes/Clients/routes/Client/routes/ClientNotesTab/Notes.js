@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import EventEmitter, { PROFILE_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import ListView from 'components/ListView';
@@ -18,13 +18,13 @@ class Notes extends Component {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
     EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
     EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
   }

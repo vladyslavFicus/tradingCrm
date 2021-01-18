@@ -2,7 +2,6 @@ import EventEmitter from 'events';
 
 // ---- Client events ---- //
 export const CLIENT_RELOAD = 'CLIENT_RELOAD';
-export const PROFILE_RELOAD = 'PROFILE_RELOAD'; // will be removed after client profile refactoring
 
 // ---- Note events ---- //
 export const NOTE_ADDED = 'NOTE_ADDED';

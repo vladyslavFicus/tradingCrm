@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
 import EventEmitter, {
-  PROFILE_RELOAD,
+  CLIENT_RELOAD,
   FILE_REMOVED,
   FILE_CHANGED,
   FILE_UPLOADED,
@@ -42,14 +42,14 @@ class Files extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
     EventEmitter.on(FILE_UPLOADED, this.onFileEvent);
     EventEmitter.on(FILE_REMOVED, this.onFileEvent);
     EventEmitter.on(FILE_CHANGED, this.onFileEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(PROFILE_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
     EventEmitter.off(FILE_UPLOADED, this.onFileEvent);
     EventEmitter.off(FILE_REMOVED, this.onFileEvent);
     EventEmitter.off(FILE_CHANGED, this.onFileEvent);

@@ -15,7 +15,7 @@ class FiltersToggler extends PureComponent {
   }
 
   state = {
-    collapsed: true,
+    collapsed: false,
   };
 
   handleCollapse = () => {
