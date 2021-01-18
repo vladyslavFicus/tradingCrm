@@ -303,7 +303,7 @@ class DatePicker extends PureComponent {
           <div className="DatePicker__label">{label}</div>
         </If>
 
-        <div>
+        <div className="DatePicker__input-container">
           <div
             className={classNames('DatePicker__input', {
               'DatePicker__input--in-focus': withFocus,
@@ -325,13 +325,6 @@ class DatePicker extends PureComponent {
             <div className="DatePicker__input-right">
               <i className="DatePicker__input-calendar icon icon-calendar" />
             </div>
-
-            <If condition={error && showErrorMessage}>
-              <div className="DatePicker__input-error">
-                <i className="DatePicker__input-error-icon icon-alert" />
-                {error}
-              </div>
-            </If>
           </div>
 
           <If condition={showPopup}>
@@ -385,6 +378,13 @@ class DatePicker extends PureComponent {
             </div>
           </If>
         </div>
+
+        <If condition={error && showErrorMessage}>
+          <div className="DatePicker__input-error">
+            <i className="DatePicker__input-error-icon icon-alert" />
+            {error}
+          </div>
+        </If>
       </div>
     );
   }

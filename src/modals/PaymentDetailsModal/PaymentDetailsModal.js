@@ -184,7 +184,6 @@ class PaymentDetailsModal extends PureComponent {
                   <Field
                     name="creationTime"
                     className="PaymentDetailsModal__date-picker"
-                    label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                     component={FormikDatePicker}
                     withTime
                     withUtc

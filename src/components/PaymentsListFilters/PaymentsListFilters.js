@@ -508,7 +508,6 @@ class PaymentsListFilters extends PureComponent {
                         from: 'modificationTimeFrom',
                         to: 'modificationTimeTo',
                       }}
-                      anchorDirection="right"
                       withFocus
                     />
                   </div>
