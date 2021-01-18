@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/operators';
 import countryList from 'utils/countryList';
 import { decodeNullValues } from 'components/Formik/utils';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import './OperatorsGridFilter.scss';
 
@@ -107,13 +107,15 @@ class OperatorsGridFilter extends PureComponent {
                 ))}
               </Field>
 
-              <FormikDateRangeGroup
+              <Field
                 className="OperatorsGridFilter__field OperatorsGridFilter__date-range"
                 label={I18n.t('OPERATORS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
-                periodKeys={{
-                  start: 'registrationDateFrom',
-                  end: 'registrationDateTo',
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'registrationDateFrom',
+                  to: 'registrationDateTo',
                 }}
+                anchorDirection="right"
                 withFocus
               />
             </div>

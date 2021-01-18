@@ -303,84 +303,86 @@ class DatePicker extends PureComponent {
           <div className="DatePicker__label">{label}</div>
         </If>
 
-        <div
-          className={classNames('DatePicker__input', {
-            'DatePicker__input--in-focus': withFocus,
-            'DatePicker__input--has-error': error && showErrorMessage,
-            'DatePicker__input--is-disable': disabled,
-          })}
-          onClick={this.handleShowPopup}
-        >
-          <div className="DatePicker__input-left">
-            <input
-              type="text"
-              placeholder={placeholder}
-              onChange={this.handleInputDateChange}
-              value={selectedDate || ''}
-              disabled={disabled}
-            />
+        <div className="DatePicker__input-container">
+          <div
+            className={classNames('DatePicker__input', {
+              'DatePicker__input--in-focus': withFocus,
+              'DatePicker__input--has-error': error && showErrorMessage,
+              'DatePicker__input--is-disable': disabled,
+            })}
+            onClick={this.handleShowPopup}
+          >
+            <div className="DatePicker__input-left">
+              <input
+                type="text"
+                placeholder={placeholder}
+                onChange={this.handleInputDateChange}
+                value={selectedDate || ''}
+                disabled={disabled}
+              />
+            </div>
+
+            <div className="DatePicker__input-right">
+              <i className="DatePicker__input-calendar icon icon-calendar" />
+            </div>
           </div>
 
-          <div className="DatePicker__input-right">
-            <i className="DatePicker__input-calendar icon icon-calendar" />
-          </div>
+          <If condition={showPopup}>
+            <div
+              className={classNames('DatePicker__popup', {
+                'DatePicker__popup--anchor-right': anchorDirection === 'right',
+              })}
+            >
+              <DateCalendarPicker
+                selectedDate={momentDate}
+                handleCalendarDayClick={this.handleCalendarDayClick}
+                minDate={minDate}
+                maxDate={maxDate}
+              />
 
-          <If condition={error && showErrorMessage}>
-            <div className="DatePicker__input-error">
-              <i className="DatePicker__input-error-icon icon-alert" />
-              {error}
+              <If condition={withTime || withConfirmation}>
+                <div className="DatePicker__popup-footer">
+                  <If condition={withTime}>
+                    <div className="DatePicker__popup-time">
+                      <DateTimePicker
+                        labelPrefix={I18n.t('DATE_PICKER.TIME_FOR')}
+                        selectedDate={momentDate}
+                        handleTimeChange={this.handleTimeChange}
+                        minTime={minTime}
+                        maxTime={maxTime}
+                      />
+                    </div>
+                  </If>
+
+                  <div className="DatePicker__popup-buttons">
+                    <If condition={withConfirmation}>
+                      <Button
+                        commonOutline
+                        className="DatePicker__popup-button"
+                        onClick={this.handleCancel}
+                      >
+                        {I18n.t('COMMON.CANCEL')}
+                      </Button>
+                    </If>
+
+                    <Button
+                      primary
+                      className="DatePicker__popup-button"
+                      onClick={this.handleApply}
+                    >
+                      {I18n.t('COMMON.APPLY')}
+                    </Button>
+                  </div>
+                </div>
+              </If>
             </div>
           </If>
         </div>
 
-        <If condition={showPopup}>
-          <div
-            className={classNames('DatePicker__popup', {
-              'DatePicker__popup--anchor-right': anchorDirection === 'right',
-            })}
-          >
-            <DateCalendarPicker
-              selectedDate={momentDate}
-              handleCalendarDayClick={this.handleCalendarDayClick}
-              minDate={minDate}
-              maxDate={maxDate}
-            />
-
-            <If condition={withTime || withConfirmation}>
-              <div className="DatePicker__popup-footer">
-                <If condition={withTime}>
-                  <div className="DatePicker__popup-time">
-                    <DateTimePicker
-                      labelPrefix={I18n.t('DATE_PICKER.TIME_FOR')}
-                      selectedDate={momentDate}
-                      handleTimeChange={this.handleTimeChange}
-                      minTime={minTime}
-                      maxTime={maxTime}
-                    />
-                  </div>
-                </If>
-
-                <div className="DatePicker__popup-buttons">
-                  <If condition={withConfirmation}>
-                    <Button
-                      commonOutline
-                      className="DatePicker__popup-button"
-                      onClick={this.handleCancel}
-                    >
-                      {I18n.t('COMMON.CANCEL')}
-                    </Button>
-                  </If>
-
-                  <Button
-                    primary
-                    className="DatePicker__popup-button"
-                    onClick={this.handleApply}
-                  >
-                    {I18n.t('COMMON.APPLY')}
-                  </Button>
-                </div>
-              </div>
-            </If>
+        <If condition={error && showErrorMessage}>
+          <div className="DatePicker__input-error">
+            <i className="DatePicker__input-error-icon icon-alert" />
+            {error}
           </div>
         </If>
       </div>

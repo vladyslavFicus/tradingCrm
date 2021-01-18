@@ -14,7 +14,7 @@ class DatePickerAdditional extends PureComponent {
     additionalValues: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-    })).isRequired,
+    })),
     selectedAdditional: PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
@@ -26,6 +26,7 @@ class DatePickerAdditional extends PureComponent {
 
   static defaultProps = {
     selectedAdditional: null,
+    additionalValues: null,
   };
 
   renderAdditionalItems = (additionalItems, isAdditionalOption) => {

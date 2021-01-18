@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
-import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
@@ -99,12 +99,13 @@ class ClientNotesGridFilter extends PureComponent {
                 </option>
               ))}
             </Field>
-            <FormikDateRangeGroup
+            <Field
               className="ClientNotesGridFilter__field ClientNotesGridFilter__field--date-range"
               label={I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
-              periodKeys={{
-                start: 'changedAtFrom',
-                end: 'changedAtTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'changedAtFrom',
+                to: 'changedAtTo',
               }}
               withFocus
             />

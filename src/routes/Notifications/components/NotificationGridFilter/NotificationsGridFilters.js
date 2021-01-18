@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import formatLabel from 'utils/formatLabel';
 import { decodeNullValues } from 'components/Formik/utils';
-import { FormikDateRangeGroup, FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import NotificationTypesQuery from './graphql/NotificationTypesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
@@ -253,12 +253,13 @@ class NotificationsFilters extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                <FormikDateRangeGroup
+                <Field
                   className="NotificationsGridFilter__field NotificationsGridFilter__date-range"
                   label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
-                  periodKeys={{
-                    start: 'creationDateRange.from',
-                    end: 'creationDateRange.to',
+                  component={FormikDateRangePicker}
+                  fieldsNames={{
+                    from: 'creationDateRange.from',
+                    to: 'creationDateRange.to',
                   }}
                   withFocus
                 />
