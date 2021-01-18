@@ -135,7 +135,7 @@ class DatePicker extends PureComponent {
     // or DATE_USER_STRING_FORMAT if time is not expected
     const momentDateInBaseFormat = moment(date, momentBaseFormat);
 
-    if (momentDateInBaseFormat.isValid()) {
+    if (momentDateInBaseFormat.isValid() && date === momentDateInBaseFormat.format(momentBaseFormat)) {
       if (!withTime) {
         return momentDateInBaseFormat.format(momentUserFormat);
       }
