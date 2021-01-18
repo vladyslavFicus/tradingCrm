@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 
 const attributeLabels = {
   reason: 'COMMON.REASON',
+  comment: 'COMMON.COMMENT',
 };
 
 class ChangeAccountStatusModal extends PureComponent {
@@ -19,10 +20,12 @@ class ChangeAccountStatusModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     reasons: PropTypes.objectOf(PropTypes.string).isRequired,
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    withComment: PropTypes.bool,
   };
 
   static defaultProps = {
     message: null,
+    withComment: false,
   };
 
   handleSubmit = (values, { setSubmitting }) => {
@@ -37,6 +40,7 @@ class ChangeAccountStatusModal extends PureComponent {
       isOpen,
       message,
       reasons,
+      withComment,
       onCloseModal,
     } = this.props;
 
@@ -84,6 +88,16 @@ class ChangeAccountStatusModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
+
+                <If condition={withComment}>
+                  <Field
+                    name="comment"
+                    placeholder={`${I18n.t('COMMON.COMMENT')}...`}
+                    label={I18n.t(attributeLabels.comment)}
+                    component={FormikTextAreaField}
+                  />
+                </If>
+
                 <If condition={message}>
                   {message}
                 </If>

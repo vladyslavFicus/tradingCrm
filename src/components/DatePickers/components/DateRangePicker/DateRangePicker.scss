@@ -128,11 +128,8 @@
     }
 
     &-date {
-      width: 140px;
-
-      &:last-child {
-        width: calc(100% - 150px); // 140px - first data input, 10px - devider
-      }
+      width: calc(50% - 5px); // 5px is a half of devider width
+      min-width: 140px;
 
       &--in-focus {
         background-color: rgba(lightskyblue, .2);
@@ -146,16 +143,7 @@
         display: block;
         width: 100%;
 
-        &::-webkit-input-placeholder {
-          color: #9b9b9b;
-        }
-        &::-moz-placeholder {
-          color: #9b9b9b;
-        }
-        &:-ms-input-placeholder {
-          color: #9b9b9b;
-        }
-        &:-moz-placeholder {
+        &::placeholder {
           color: #9b9b9b;
         }
       }

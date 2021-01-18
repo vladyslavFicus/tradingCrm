@@ -3,7 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
 import Files from './routes/Files';
-import Profile from './routes/Profile';
+import Client from './routes/Client';
 import ClientsList from './routes/ClientsList';
 
 class Clients extends PureComponent {
@@ -21,7 +21,7 @@ class Clients extends PureComponent {
       <Switch>
         <Route path={`${path}/list`} component={ClientsList} />
         <Route path={`${path}/kyc-documents`} component={Files} />
-        <Route path={`${path}/:id`} component={Profile} />
+        <Route path={`${path}/:id`} component={Client} />
         <Redirect to={`${url}/list`} />
       </Switch>
     );

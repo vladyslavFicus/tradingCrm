@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
 import { withModals, withNotifications } from 'hoc';
@@ -8,7 +7,6 @@ import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import FilterSetsToggler from './components/FilterSetsToggler';
 import FilterSets from './components/FilterSets';
 import {
   FilterSetsQuery,
@@ -281,38 +279,27 @@ class FilterSetsDecorator extends PureComponent {
     const areButtonsVisible = currentValues && Object.keys(currentValues).length > 0;
 
     return (
-      <FilterSetsToggler>
-        {({ filtersVisible, renderTrigger }) => (
-          <FilterSetsContext.Provider
-            value={{
-              visible: areButtonsVisible,
-              hasSelectedFilterSet: !!selectedFilterSet,
-              disabled: filterSetsListDisabled,
-              createFilterSet: this.createFilterSet,
-              updateFilterSet: this.updateFilterSet,
-              deleteFilterSet: this.deleteFilterSet,
-            }}
-          >
-            <div
-              className={
-                classNames('FilterSetsDecorator__control', {
-                  'FilterSetsDecorator__control--visible': filtersVisible,
-                })
-              }
-            >
-              <FilterSets
-                filterSetsList={filterSetsList}
-                selectedFilterSet={selectedFilterSet}
-                disabled={filterSetsListDisabled}
-                selectFilterSet={this.fetchFilterSetByUuid}
-                updateFavouriteFilterSet={this.updateFavouriteFilterSet}
-              />
-              {renderTrigger()}
-            </div>
-            <If condition={filtersVisible}>{children}</If>
-          </FilterSetsContext.Provider>
-        )}
-      </FilterSetsToggler>
+      <FilterSetsContext.Provider
+        value={{
+          visible: areButtonsVisible,
+          hasSelectedFilterSet: !!selectedFilterSet,
+          disabled: filterSetsListDisabled,
+          createFilterSet: this.createFilterSet,
+          updateFilterSet: this.updateFilterSet,
+          deleteFilterSet: this.deleteFilterSet,
+        }}
+      >
+        <div className="FilterSetsDecorator__control">
+          <FilterSets
+            filterSetsList={filterSetsList}
+            selectedFilterSet={selectedFilterSet}
+            disabled={filterSetsListDisabled}
+            selectFilterSet={this.fetchFilterSetByUuid}
+            updateFavouriteFilterSet={this.updateFavouriteFilterSet}
+          />
+        </div>
+        {children}
+      </FilterSetsContext.Provider>
     );
   }
 }

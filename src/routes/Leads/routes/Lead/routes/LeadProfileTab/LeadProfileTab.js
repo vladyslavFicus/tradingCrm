@@ -29,13 +29,6 @@ class LeadProfileTab extends PureComponent {
     notify: PropTypes.func.isRequired,
   };
 
-  // # Remove after DatePicker will be switched to new one
-  ageValidator = (current) => {
-    const requireAge = moment().subtract(AGE_YEARS_CONSTRAINT, 'year');
-
-    return current.isBefore(requireAge);
-  };
-
   handleSubmit = async (values, { setSubmitting }) => {
     const { leadQuery, updateLead, notify } = this.props;
 
@@ -155,14 +148,14 @@ class LeadProfileTab extends PureComponent {
                       disabled={isSubmitting}
                     />
 
-                    {/* Change to new DatePicker in future */}
-                    <FormikDatePicker
+                    <Field
                       name="birthDate"
                       className="LeadProfileTab__form-field"
                       label={I18n.t(attributeLabels.birthDate)}
+                      component={FormikDatePicker}
+                      maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                       disabled={isSubmitting}
-                      timeFormat={null}
-                      isValidDate={this.ageValidator}
+                      closeOnSelect
                     />
 
                     <Field
