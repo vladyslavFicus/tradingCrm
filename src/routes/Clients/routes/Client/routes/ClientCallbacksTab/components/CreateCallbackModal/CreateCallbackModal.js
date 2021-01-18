@@ -151,6 +151,7 @@ class CreateCallbackModal extends PureComponent {
               <ModalBody>
                 <Field
                   name="operatorId"
+                  className="CreateCallbackModal__field"
                   component={FormikSelectField}
                   label={I18n.t(attributeLabels.operatorId)}
                   placeholder={
@@ -166,16 +167,18 @@ class CreateCallbackModal extends PureComponent {
                   ))}
                 </Field>
 
-                <FormikDatePicker
+                <Field
                   name="callbackTime"
+                  className="CreateCallbackModal__field"
                   label={I18n.t(attributeLabels.callbackTime)}
-                  closeOnSelect={false}
+                  component={FormikDatePicker}
                   withTime
-                  utc
+                  withUtc
                 />
 
                 <Field
                   name="reminder"
+                  className="CreateCallbackModal__field"
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   label={I18n.t(attributeLabels.reminder)}
                   component={FormikSelectField}

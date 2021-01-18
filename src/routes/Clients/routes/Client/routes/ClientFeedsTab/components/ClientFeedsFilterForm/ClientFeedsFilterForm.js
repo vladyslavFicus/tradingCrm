@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -108,12 +108,13 @@ class ClientFeedsFilterForm extends PureComponent {
                 <option key={key} value={key}>{value}</option>
               ))}
             </Field>
-            <FormikDateRangeGroup
+            <Field
               className="ClientFeedsFilterForm__field ClientFeedsFilterForm__field--date-range"
               label={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
-              periodKeys={{
-                start: 'creationDateFrom',
-                end: 'creationDateTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'creationDateFrom',
+                to: 'creationDateTo',
               }}
               withFocus
             />

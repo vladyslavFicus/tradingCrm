@@ -94,15 +94,31 @@ class AddSourceBrandModal extends PureComponent {
   };
 
   handleDesksChange = (setValues, values) => (desks) => {
+    const {
+      branchesQuery: {
+        data: branchesData,
+      },
+    } = this.props;
+
+    const availableTeams = branchesData?.userBranches?.TEAM || [];
+
+    // if there are selected teams and desks, need to keep selected teams related to selected desks
+    const teams = values.teams && desks
+      ? availableTeams
+        .filter(({ uuid, parentBranch }) => values.teams.includes(uuid) && desks.includes(parentBranch?.uuid))
+        .map(({ uuid }) => uuid)
+      : null;
+
     setValues({
       ...values,
       desks,
-      teams: null,
+      teams,
     });
 
     this.fetchAvailableClientsAmount({
       brand: values.brand,
       desks,
+      teams,
     });
   };
 

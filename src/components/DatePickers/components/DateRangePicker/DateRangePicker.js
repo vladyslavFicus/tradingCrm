@@ -423,143 +423,145 @@ class DateRangePicker extends PureComponent {
           <div className="DateRangePicker__label">{label}</div>
         </If>
 
-        <div
-          className={classNames('DateRangePicker__input', {
-            'DateRangePicker__input--in-focus': withFocus,
-            'DateRangePicker__input--has-error': error && showErrorMessage,
-            'DateRangePicker__input--is-disable': disabled,
-          })}
-          onClick={this.handleShowPopup}
-        >
-          <div className="DateRangePicker__input-left">
-            <Choose>
-              <When condition={withAdditionalValues && selectedAdditional}>
-                <div className="DateRangePicker__input-additional-value">
-                  {I18n.t(selectedAdditional.label)}
-                </div>
-              </When>
+        <div>
+          <div
+            className={classNames('DateRangePicker__input', {
+              'DateRangePicker__input--in-focus': withFocus,
+              'DateRangePicker__input--has-error': error && showErrorMessage,
+              'DateRangePicker__input--is-disable': disabled,
+            })}
+            onClick={this.handleShowPopup}
+          >
+            <div className="DateRangePicker__input-left">
+              <Choose>
+                <When condition={withAdditionalValues && selectedAdditional}>
+                  <div className="DateRangePicker__input-additional-value">
+                    {I18n.t(selectedAdditional.label)}
+                  </div>
+                </When>
 
-              <Otherwise>
-                <div
-                  className={classNames('DateRangePicker__input-date', {
-                    'DateRangePicker__input-date--in-focus': dateKeyToSelect === 'from' && showPopup,
-                  })}
-                >
-                  <input
-                    type="text"
-                    placeholder={I18n.t('DATE_PICKER.START_DATE')}
-                    onClick={() => this.setState({ dateKeyToSelect: 'from' })}
-                    onChange={event => this.handleInputDateChange(event, 'from')}
-                    value={selectedDateRange?.from || ''}
-                    disabled={disabled}
-                  />
-                </div>
+                <Otherwise>
+                  <div
+                    className={classNames('DateRangePicker__input-date', {
+                      'DateRangePicker__input-date--in-focus': dateKeyToSelect === 'from' && showPopup,
+                    })}
+                  >
+                    <input
+                      type="text"
+                      placeholder={I18n.t('DATE_PICKER.START_DATE')}
+                      onClick={() => this.setState({ dateKeyToSelect: 'from' })}
+                      onChange={event => this.handleInputDateChange(event, 'from')}
+                      value={selectedDateRange?.from || ''}
+                      disabled={disabled}
+                    />
+                  </div>
 
-                <div className="DateRangePicker__input-devider">-</div>
+                  <div className="DateRangePicker__input-devider">-</div>
 
-                <div
-                  className={classNames('DateRangePicker__input-date', {
-                    'DateRangePicker__input-date--in-focus': dateKeyToSelect === 'to' && showPopup,
-                  })}
-                >
-                  <input
-                    type="text"
-                    placeholder={I18n.t('DATE_PICKER.END_DATE')}
-                    onClick={() => this.setState({ dateKeyToSelect: 'to' })}
-                    onChange={event => this.handleInputDateChange(event, 'to')}
-                    value={selectedDateRange?.to || ''}
-                    disabled={disabled}
-                  />
-                </div>
-              </Otherwise>
-            </Choose>
+                  <div
+                    className={classNames('DateRangePicker__input-date', {
+                      'DateRangePicker__input-date--in-focus': dateKeyToSelect === 'to' && showPopup,
+                    })}
+                  >
+                    <input
+                      type="text"
+                      placeholder={I18n.t('DATE_PICKER.END_DATE')}
+                      onClick={() => this.setState({ dateKeyToSelect: 'to' })}
+                      onChange={event => this.handleInputDateChange(event, 'to')}
+                      value={selectedDateRange?.to || ''}
+                      disabled={disabled}
+                    />
+                  </div>
+                </Otherwise>
+              </Choose>
+            </div>
+
+            <div className="DateRangePicker__input-right">
+              <i className="DateRangePicker__input-calendar icon icon-calendar" />
+            </div>
+
+            <If condition={error && showErrorMessage}>
+              <div className="DateRangePicker__input-error">
+                <i className="DateRangePicker__input-error-icon icon-alert" />
+                {error}
+              </div>
+            </If>
           </div>
 
-          <div className="DateRangePicker__input-right">
-            <i className="DateRangePicker__input-calendar icon icon-calendar" />
-          </div>
+          <If condition={showPopup}>
+            <div
+              className={classNames('DateRangePicker__popup', {
+                'DateRangePicker__popup--with-additional': withAdditional,
+                'DateRangePicker__popup--anchor-right': anchorDirection === 'right',
+              })}
+            >
+              <div className="DateRangePicker__popup-column">
+                <DateCalendarPicker
+                  selectedDateRange={{
+                    from: momentFrom,
+                    to: momentTo,
+                  }}
+                  handleCalendarDayClick={this.handleCalendarDayClick}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                />
 
-          <If condition={error && showErrorMessage}>
-            <div className="DateRangePicker__input-error">
-              <i className="DateRangePicker__input-error-icon icon-alert" />
-              {error}
+                <If condition={withTime}>
+                  <div className="DateRangePicker__popup-times">
+                    <DateTimePicker
+                      labelPrefix={I18n.t('DATE_PICKER.FROM')}
+                      selectedDate={momentFrom}
+                      handleTimeChange={value => this.handleTimeChange('from', value)}
+                      minTime={minTime}
+                      maxTime={momentTo ? momentTo.format('HH:mm') : maxTime}
+                    />
+
+                    <DateTimePicker
+                      labelPrefix={I18n.t('DATE_PICKER.TO')}
+                      selectedDate={momentTo}
+                      handleTimeChange={value => this.handleTimeChange('to', value)}
+                      minTime={momentFrom ? momentFrom.format('HH:mm') : minTime}
+                      maxTime={maxTime}
+                    />
+                  </div>
+                </If>
+              </div>
+
+              <div className="DateRangePicker__popup-column">
+                <If condition={withAdditional}>
+                  <DatePickerAdditional
+                    additionalOptions={additionalOptions}
+                    additionalValues={additionalValues}
+                    selectedAdditional={selectedAdditional}
+                    handleAdditionalClick={this.handleAdditionalClick}
+                    withAdditionalOptions={withAdditionalOptions}
+                    withAdditionalValues={withAdditionalValues}
+                  />
+                </If>
+
+                <If condition={withConfirmation}>
+                  <div className="DateRangePicker__popup-buttons">
+                    <Button
+                      commonOutline
+                      className="DateRangePicker__popup-button"
+                      onClick={this.handleCancel}
+                    >
+                      {I18n.t('COMMON.CANCEL')}
+                    </Button>
+
+                    <Button
+                      primary
+                      className="DateRangePicker__popup-button"
+                      onClick={this.handleApply}
+                    >
+                      {I18n.t('COMMON.APPLY')}
+                    </Button>
+                  </div>
+                </If>
+              </div>
             </div>
           </If>
         </div>
-
-        <If condition={showPopup}>
-          <div
-            className={classNames('DateRangePicker__popup', {
-              'DateRangePicker__popup--with-additional': withAdditional,
-              'DateRangePicker__popup--anchor-right': anchorDirection === 'right',
-            })}
-          >
-            <div className="DateRangePicker__popup-column">
-              <DateCalendarPicker
-                selectedDateRange={{
-                  from: momentFrom,
-                  to: momentTo,
-                }}
-                handleCalendarDayClick={this.handleCalendarDayClick}
-                minDate={minDate}
-                maxDate={maxDate}
-              />
-
-              <If condition={withTime}>
-                <div className="DateRangePicker__popup-times">
-                  <DateTimePicker
-                    labelPrefix={I18n.t('DATE_PICKER.FROM')}
-                    selectedDate={momentFrom}
-                    handleTimeChange={value => this.handleTimeChange('from', value)}
-                    minTime={minTime}
-                    maxTime={momentTo ? momentTo.format('HH:mm') : maxTime}
-                  />
-
-                  <DateTimePicker
-                    labelPrefix={I18n.t('DATE_PICKER.TO')}
-                    selectedDate={momentTo}
-                    handleTimeChange={value => this.handleTimeChange('to', value)}
-                    minTime={momentFrom ? momentFrom.format('HH:mm') : minTime}
-                    maxTime={maxTime}
-                  />
-                </div>
-              </If>
-            </div>
-
-            <div className="DateRangePicker__popup-column">
-              <If condition={withAdditional}>
-                <DatePickerAdditional
-                  additionalOptions={additionalOptions}
-                  additionalValues={additionalValues}
-                  selectedAdditional={selectedAdditional}
-                  handleAdditionalClick={this.handleAdditionalClick}
-                  withAdditionalOptions={withAdditionalOptions}
-                  withAdditionalValues={withAdditionalValues}
-                />
-              </If>
-
-              <If condition={withConfirmation}>
-                <div className="DateRangePicker__popup-buttons">
-                  <Button
-                    commonOutline
-                    className="DateRangePicker__popup-button"
-                    onClick={this.handleCancel}
-                  >
-                    {I18n.t('COMMON.CANCEL')}
-                  </Button>
-
-                  <Button
-                    primary
-                    className="DateRangePicker__popup-button"
-                    onClick={this.handleApply}
-                  >
-                    {I18n.t('COMMON.APPLY')}
-                  </Button>
-                </div>
-              </If>
-            </div>
-          </div>
-        </If>
       </div>
     );
   }

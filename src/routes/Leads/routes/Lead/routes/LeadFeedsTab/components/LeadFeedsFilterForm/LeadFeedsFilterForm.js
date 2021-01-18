@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import { Button, RefreshButton } from 'components/UI';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';
 import './LeadFeedsFilterForm.scss';
@@ -98,15 +98,15 @@ class LeadFeedsFilterForm extends PureComponent {
               ))}
             </Field>
 
-            <FormikDateRangeGroup
+            <Field
               className="LeadFeedsFilterForm__field LeadFeedsFilterForm__date-range"
               label={I18n.t('LEAD_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
-              periodKeys={{
-                start: 'creationDateFrom',
-                end: 'creationDateTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'creationDateFrom',
+                to: 'creationDateTo',
               }}
               withFocus
-              withTime
             />
 
             <div className="LeadFeedsFilterForm__buttons">
