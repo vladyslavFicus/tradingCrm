@@ -13,27 +13,27 @@
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 5px;
     padding: 25px;
+  }
 
-    &-header {
-      display: flex;
-      justify-content: space-between;
-    }
+  &__form-header {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    &-title {
-      color: #333;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+  &__form-title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
 
-    &-field {
-      margin-right: 30px;
-      width: calc(33.3% - 20px);
-      display: inline-block;
-      vertical-align: top;;
+  &__form-field {
+    margin-right: 30px;
+    width: calc(33.3% - 20px);
+    display: inline-block;
+    vertical-align: top;
 
-      &:nth-child(3n) {
-        margin-right: 0;
-      }
+    &:nth-child(3n) {
+      margin-right: 0;
     }
   }
 }
