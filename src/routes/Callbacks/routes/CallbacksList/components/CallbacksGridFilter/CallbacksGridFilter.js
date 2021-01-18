@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { callbacksStatuses } from 'constants/callbacks';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './CallbacksGridFilter.scss';
@@ -89,10 +89,10 @@ class CallbacksGridFilter extends PureComponent {
             <Field
               className="CallbacksGridFilter__field CallbacksGridFilter__date-range"
               label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
-              component={FormikDateRangeGroup}
-              periodKeys={{
-                start: 'callbackTimeFrom',
-                end: 'callbackTimeTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'callbackTimeFrom',
+                to: 'callbackTimeTo',
               }}
               withFocus
             />

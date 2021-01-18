@@ -5,6 +5,10 @@ const countryCodeSource = {
   UK: 'GB',
   ENG: 'GB_ENG',
   ZH: 'CN',
+  ZR: 'CD',
+  SF: 'FI',
+  BU: 'MM',
+  TP: 'TL',
 };
 
 const unknownCountryCodeSource = [
@@ -13,7 +17,8 @@ const unknownCountryCodeSource = [
 
 export const getCountryCode = (value) => {
   const code = value && value.toUpperCase();
-  return countryCodeSource[code] || unknownCountryCodeSource.includes(code) ? undefined : code;
+
+  return unknownCountryCodeSource.includes(code) ? undefined : countryCodeSource[code] || code;
 };
 
 export default countryList().getData().reduce((result, item) => ({

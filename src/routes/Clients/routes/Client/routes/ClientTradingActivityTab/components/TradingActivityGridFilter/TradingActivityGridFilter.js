@@ -11,7 +11,7 @@ import { statuses as operatorsStasuses } from 'constants/operators';
 import {
   FormikInputField,
   FormikSelectField,
-  FormikDateRangeGroup,
+  FormikDateRangePicker,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
@@ -250,22 +250,26 @@ class TradingActivityGridFilter extends PureComponent {
                   ))}
                 </Field>
               </If>
-              <FormikDateRangeGroup
+              <Field
                 className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
-                periodKeys={{
-                  start: 'openTimeStart',
-                  end: 'openTimeEnd',
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'openTimeStart',
+                  to: 'openTimeEnd',
                 }}
+                anchorDirection="right"
                 withFocus
               />
-              <FormikDateRangeGroup
+              <Field
                 className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
-                periodKeys={{
-                  start: 'closeTimeStart',
-                  end: 'closeTimeEnd',
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'closeTimeStart',
+                  to: 'closeTimeEnd',
                 }}
+                anchorDirection="right"
                 withFocus
               />
             </div>

@@ -392,13 +392,14 @@ class PaymentAddModal extends PureComponent {
                         />
                       </If>
                       <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
-                        <FormikDatePicker
-                          className="col-5"
+                        <Field
                           name="expirationDate"
+                          className="col-5"
                           label={attributeLabels.expirationDate}
-                          closeOnSelect={false}
+                          component={FormikDatePicker}
                           showErrorMessage={false}
                           withTime
+                          withUtc
                         />
                       </If>
                     </div>

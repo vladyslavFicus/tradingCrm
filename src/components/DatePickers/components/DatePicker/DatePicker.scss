@@ -1,4 +1,4 @@
-.DateRangePicker {
+.DatePicker {
   position: relative;
 
   &__label {
@@ -17,7 +17,7 @@
     &:hover {
       cursor: pointer;
 
-      & .DateRangePicker__input {
+      & .DatePicker__input {
         &-left,
         &-right {
           border-color: #4990e2;
@@ -31,7 +31,7 @@
 
     &--in-focus,
     &--in-focus:hover {
-      & .DateRangePicker__input {
+      & .DatePicker__input {
         &-left,
         &-right {
           border-color: #4990e2;
@@ -45,7 +45,7 @@
 
     &--has-error,
     &--has-error:hover {
-      & .DateRangePicker__input {
+      & .DatePicker__input {
         &-left,
         &-right {
           border-color: #d0011b;
@@ -57,15 +57,13 @@
     &--is-disable:hover {
       cursor: default;
 
-      & .DateRangePicker__input {
+      & .DatePicker__input {
         &-left,
         &-right {
           border-color: #cfcfcf;
           background-color: #f6f6f6;
         }
 
-        &-additional-value,
-        &-devider,
         &-date,
         &-calendar {
           color: #bec2d5;
@@ -83,6 +81,23 @@
       border-radius: 3px 0 0 3px;
       border: 1px solid  #cfcfcf;
       width: calc(100% - 40px);
+
+      & input {
+        background-color: transparent;
+        color: #4a4a4a;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 38px;
+        padding: 0 6px 0 8px;
+
+        display: block;
+        width: 100%;
+
+        &::placeholder {
+          color: #9b9b9b;
+        }
+      }
     }
 
     &-right {
@@ -102,53 +117,6 @@
       }
     }
 
-    &-additional-value,
-    &-devider,
-    &-date input {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      line-height: 38px;
-    }
-
-    &-additional-value {
-      color: #4a4a4a;
-      padding: 0 8px;
-    }
-
-    &-devider,
-    &-date {
-      display: inline-block;
-      vertical-align: top;
-    }
-
-    &-devider {
-      color: #9b9b9b;
-      margin: 0 2px;
-    }
-
-    &-date {
-      width: calc(50% - 5px); // 5px is a half of devider width
-      min-width: 140px;
-
-      &--in-focus {
-        background-color: rgba(lightskyblue, .2);
-      }
-
-      & input {
-        background-color: transparent;
-        color: #4a4a4a;
-        padding: 0 6px 0 8px;
-
-        display: block;
-        width: 100%;
-
-        &::placeholder {
-          color: #9b9b9b;
-        }
-      }
-    }
-
     &-calendar {
       font-size: 18px;
     }
@@ -156,8 +124,7 @@
     &-error {
       color: #d0021b;
       font-size: 12px;
-      position: absolute;
-      top: calc(100% + 4px);
+      margin-top: 3px;
 
       &-icon {
         font-size: 14px;
@@ -171,50 +138,29 @@
 
   &__popup {
     background-color: #fff;
-    border: 1px solid #cfcfcf;
     border-radius: 5px;
-    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     position: absolute;
     top: calc(100% + 7px);
     left: 0;
-
-    display: grid;
-    grid-gap: 25px;
-    grid-template-columns: 350px;
     z-index: 2;
-
-    &--with-additional {
-      grid-template-columns: 350px 350px;
-      grid-auto-flow: column;
-    }
 
     &--anchor-right {
       left: auto;
       right: 0;
     }
 
-    &-column {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    &-times {
-      & > div {
-        margin-right: 20px;
-      }
-    }
-
-    &-buttons {
+    &-footer {
       display: flex;
       align-items: flex-end;
-      justify-content: flex-end;
+      justify-content: space-between;
+      padding: 15px;
     }
 
     &-button {
       &:not(:last-child) {
-        margin-right: 15px;
+        margin-right: 8px;
       }
     }
   }

@@ -35,9 +35,6 @@ class CallbackDetailsModal extends Component {
     notify: PropTypes.func.isRequired,
     updateCallback: PropTypes.func.isRequired,
     operatorsData: PropTypes.object.isRequired,
-
-    // data: operators: data: loading, content: operator
-    // data: callback: data: loading, content: callback
     callbackData: PropTypes.object.isRequired,
   }
 
@@ -128,7 +125,7 @@ class CallbackDetailsModal extends Component {
           <Otherwise>
             <Formik
               initialValues={{
-                callbackTime: moment.utc(callbackTime).local().format('YYYY-MM-DD HH:mm'),
+                callbackTime,
                 operatorId,
                 status,
                 reminder,
@@ -136,7 +133,7 @@ class CallbackDetailsModal extends Component {
               validate={
                 createValidator({
                   operatorId: ['required'],
-                  callbackTime: ['required'],
+                  callbackTime: ['required', 'dateWithTime'],
                   status: ['required'],
                 }, attributeLabels, false)
               }
@@ -144,7 +141,7 @@ class CallbackDetailsModal extends Component {
               validateOnChange={false}
               onSubmit={this.handleSubmit}
             >
-              {({ values, isSubmitting }) => (
+              {({ isSubmitting }) => (
                 <Form>
                   <ModalBody>
                     <div className="CallbackDetailsModal__client">
@@ -181,12 +178,13 @@ class CallbackDetailsModal extends Component {
                       ))}
                     </Field>
 
-                    <FormikDatePicker
+                    <Field
                       name="callbackTime"
+                      className="CallbackDetailsModal__field"
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
-                      isValidDate={() => moment(values.callbackTime, 'YYYY-MM-DD HH:mm').isValid()}
-                      closeOnSelect={false}
+                      component={FormikDatePicker}
                       withTime
+                      withUtc
                     />
 
                     <Field

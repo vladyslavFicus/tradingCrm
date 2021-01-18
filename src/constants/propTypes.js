@@ -540,6 +540,8 @@ PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
     quantity: PropTypes.number,
     baseUnit: PropTypes.string,
   }),
+  desks: PropTypes.arrayOf(PropTypes.string),
+  teams: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.ruleClientsDistributionType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,

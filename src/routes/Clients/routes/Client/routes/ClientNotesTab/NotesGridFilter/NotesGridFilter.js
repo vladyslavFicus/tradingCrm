@@ -8,7 +8,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
-import { FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
@@ -101,12 +101,13 @@ class NotesGridFilter extends PureComponent {
                 </option>
               ))}
             </Field>
-            <FormikDateRangeGroup
+            <Field
               className="filter-row__date-range"
               label={I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
-              periodKeys={{
-                start: 'changedAtFrom',
-                end: 'changedAtTo',
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'changedAtFrom',
+                to: 'changedAtTo',
               }}
               withFocus
             />
