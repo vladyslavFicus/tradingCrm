@@ -193,27 +193,41 @@ class ClientPersonalInfo extends PureComponent {
                 value={affiliate.partner.fullName}
               />
             </If>
-            <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
-            <PersonalInformationItem
-              label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
-              value={affiliate.source || (
-                <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
-                  {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
-                </span>
-              )}
-            />
-            <PersonalInformationItem
-              label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
-              value={affiliate.referral || (
-                <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
-                  {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
-                </span>
-              )}
-            />
-            <PersonalInformationItem
-              label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
-              value={affiliate.campaignId}
-            />
+            <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_UUID}>
+              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_SOURCE}>
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
+                value={affiliate.source || (
+                  <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
+                    {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
+                  </span>
+                )}
+              />
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_REFERRAL}>
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
+                value={affiliate.referral || (
+                  <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
+                    {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
+                  </span>
+                )}
+              />
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_CAMPAIGN_ID}>
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
+                value={affiliate.campaignId}
+              />
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_SMS}>
+              <PersonalInformationItem
+                label="SMS"
+                value={affiliate.sms}
+              />
+            </PermissionContent>
           </If>
           <If condition={convertedFromLeadUuid}>
             <div>
@@ -238,10 +252,6 @@ class ClientPersonalInfo extends PureComponent {
               }}
             />
           </PermissionContent>
-          <PersonalInformationItem
-            label="SMS"
-            value={affiliate && affiliate.sms}
-          />
           <If condition={referrer?.fullName}>
             <PersonalInformationItem
               label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRER')}

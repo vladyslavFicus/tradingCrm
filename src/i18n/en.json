@@ -3874,7 +3874,16 @@
           "email": "Client's email",
           "additionalEmail": "Additional email",
           "bulkUpdate": "Select several clients on grid",
-          "trades-list": "List of trades"
+          "trades-list": "List of trades",
+          "affiliate-uuid": "Partner UUID",
+          "affiliate-campaignId": "Partner Campaign ID",
+          "affiliate-referral": "Partner referral",
+          "affiliate-source": "Partner source",
+          "affiliate-sms": "Partner sms",
+          "referrer-statistics": "Referrer statistics",
+          "referrals-history": "Show referrals tab",
+          "referrer-uuid": "Referrer UUID",
+          "referrer-fullName": "Referrer full name"
         }
       },
       "leads": {

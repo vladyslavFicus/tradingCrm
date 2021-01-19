@@ -33,5 +33,6 @@ export const clientTabs = [
   }, {
     url: '/clients/:id/referrals',
     label: 'CLIENT_PROFILE.TABS.REFERRALS',
+    permissions: new Permissions(permissions.USER_PROFILE.REFERRALS_HISTORY),
   },
 ];

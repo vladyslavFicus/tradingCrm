@@ -339,6 +339,96 @@ export default [
           },
         },
       },
+      // Affiliate uuid
+      {
+        id: 'affiliate-uuid',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.uuid',
+            state: false,
+          },
+        },
+      },
+      // Affiliate campaignId
+      {
+        id: 'affiliate-campaignId',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.campaignId',
+            state: false,
+          },
+        },
+      },
+      // Affiliate referral
+      {
+        id: 'affiliate-referral',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.referral',
+            state: false,
+          },
+        },
+      },
+      // Affiliate source
+      {
+        id: 'affiliate-source',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.source',
+            state: false,
+          },
+        },
+      },
+      // Affiliate sms
+      {
+        id: 'affiliate-sms',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.sms',
+            state: false,
+          },
+        },
+      },
+      // Referrer statistics
+      {
+        id: 'referrer-statistics',
+        actions: {
+          view: {
+            action: 'referral.getReferrerStatistics',
+            state: false,
+          },
+        },
+      },
+      // Referrals history
+      {
+        id: 'referrals-history',
+        actions: {
+          view: {
+            action: 'referral.getReferrerIntroducedReferrals',
+            state: false,
+          },
+        },
+      },
+      // Referrer uuid
+      {
+        id: 'referrer-uuid',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.referrer.field.uuid',
+            state: false,
+          },
+        },
+      },
+      // Referrer full name
+      {
+        id: 'referrer-fullName',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.referrer.field.fullName',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
