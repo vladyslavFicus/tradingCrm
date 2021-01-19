@@ -6,7 +6,6 @@ import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from 'utils/permissions';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
@@ -66,10 +65,10 @@ class ClientAddressForm extends PureComponent {
   render() {
     const {
       clientData,
-      permission: { permissions: currentPermissions },
+      permission: { allows },
     } = this.props;
 
-    const isAvailableToUpdate = new Permissions(permissions.USER_PROFILE.UPDATE_ADDRESS).check(currentPermissions);
+    const isAvailableToUpdate = allows(permissions.USER_PROFILE.UPDATE_ADDRESS);
 
     return (
       <div className="ClientAddressForm">

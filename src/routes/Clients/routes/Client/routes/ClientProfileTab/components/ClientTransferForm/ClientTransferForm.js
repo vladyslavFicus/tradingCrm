@@ -6,7 +6,6 @@ import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -57,11 +56,10 @@ class ClientTransferForm extends PureComponent {
   render() {
     const {
       clientData,
-      permission: { permissions: currentPermissions },
+      permission: { allows },
     } = this.props;
 
-    const isAvailableToUpdate = new Permissions(permissions.USER_PROFILE.CHANGE_CONFIGURATION)
-      .check(currentPermissions);
+    const isAvailableToUpdate = allows(permissions.USER_PROFILE.CHANGE_CONFIGURATION);
 
     const internalTransfer = Number(clientData.configuration?.internalTransfer);
 

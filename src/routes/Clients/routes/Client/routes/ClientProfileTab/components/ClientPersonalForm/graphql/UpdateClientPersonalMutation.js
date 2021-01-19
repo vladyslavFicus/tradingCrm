@@ -6,9 +6,9 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`
   mutation ClientPersonalForm_UpdateClientPersonalMutation(
     $playerUUID: String!
-    $firstName: String!
-    $lastName: String!
-    $languageCode: String!
+    $firstName: String
+    $lastName: String
+    $languageCode: String
     $gender: String
     $birthDate: String
     $passport: Passport__Input

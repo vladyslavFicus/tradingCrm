@@ -8,7 +8,6 @@ import { parseErrors, withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from 'utils/permissions';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
@@ -62,7 +61,7 @@ class ClientPersonalForm extends PureComponent {
   render() {
     const {
       clientData,
-      permission: { permissions: currentPermissions },
+      permission: { allows },
     } = this.props;
 
     const {
@@ -76,8 +75,7 @@ class ClientPersonalForm extends PureComponent {
       identificationNumber,
     } = clientData;
 
-    const isAvailableToUpdate = new Permissions(permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION)
-      .check(currentPermissions);
+    const isAvailableToUpdate = allows(permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION);
 
     return (
       <div className="ClientPersonalForm">

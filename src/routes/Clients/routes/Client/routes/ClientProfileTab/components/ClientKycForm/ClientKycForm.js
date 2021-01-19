@@ -6,7 +6,6 @@ import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import { FormikSelectField } from 'components/Formik';
@@ -58,12 +57,12 @@ class ClientKycForm extends PureComponent {
   render() {
     const {
       clientData,
-      permission: { permissions: currentPermissions },
+      permission: { allows },
     } = this.props;
 
     const kycStatus = clientData.kyc?.status;
 
-    const isAvailableToUpdate = new Permissions(permissions.USER_PROFILE.KYC_UPDATE).check(currentPermissions);
+    const isAvailableToUpdate = allows(permissions.USER_PROFILE.KYC_UPDATE);
 
     return (
       <div className="ClientKycForm">
