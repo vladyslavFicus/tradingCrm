@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query PromoteLeadModalQuery(
+  query PromoteLeadModal_LeadQuery(
     $uuid: String!
   ) {
     lead (uuid: $uuid) {
@@ -23,7 +23,7 @@ const REQUEST = gql`
   }
 `;
 
-const PromoteLeadModalQuery = ({ children, uuid }) => (
+const LeadQuery = ({ children, uuid }) => (
   <Query
     query={REQUEST}
     variables={{ uuid }}
@@ -33,9 +33,9 @@ const PromoteLeadModalQuery = ({ children, uuid }) => (
   </Query>
 );
 
-PromoteLeadModalQuery.propTypes = {
+LeadQuery.propTypes = {
   children: PropTypes.func.isRequired,
   uuid: PropTypes.string.isRequired,
 };
 
-export default PromoteLeadModalQuery;
+export default LeadQuery;
