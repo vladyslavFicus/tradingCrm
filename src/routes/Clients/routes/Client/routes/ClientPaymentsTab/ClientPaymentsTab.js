@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import AddPaymentModal from 'modals/AddPaymentModal';
 import { Button } from 'components/UI';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
@@ -13,14 +13,13 @@ import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
 import { CONDITIONS } from 'utils/permissions';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
-import PaymentAddModal from './components/PaymentAddModal';
 import {
   PaymentsQuery,
   ProfileQuery,
 } from './graphql';
-import './ClientPayments.scss';
+import './ClientPaymentsTab.scss';
 
-class Payments extends PureComponent {
+class ClientPaymentsTab extends PureComponent {
   static propTypes = {
     paymentsQuery: PropTypes.query({
       clientPayments: PropTypes.pageable(PropTypes.paymentEntity),
@@ -55,13 +54,13 @@ class Payments extends PureComponent {
 
   handleOpenAddPaymentModal = () => {
     const {
-      profileQuery,
+      profileQuery: { data },
       modals: { addPaymentModal },
     } = this.props;
 
     addPaymentModal.show({
       onSuccess: this.refetchQueries,
-      profile: get(profileQuery, 'data.profile') || {},
+      profile: data?.profile || {},
     });
   };
 
@@ -77,15 +76,15 @@ class Payments extends PureComponent {
     const clientPaymentsQuery = {
       ...paymentsQuery,
       data: {
-        payments: get(data, 'clientPayments') || { content: [] },
+        payments: data?.clientPayments || { content: [] },
       },
     };
 
     return (
-      <div className="ClientPayments">
+      <div className="ClientPaymentsTab">
         <TabHeader
           title={I18n.t('CONSTANTS.TRANSACTIONS.ROUTES.PAYMENTS')}
-          className="ClientPayments__header"
+          className="ClientPaymentsTab__header"
         >
           <PermissionContent
             permissions={[
@@ -126,10 +125,10 @@ class Payments extends PureComponent {
 
 export default compose(
   withModals({
-    addPaymentModal: PaymentAddModal,
+    addPaymentModal: AddPaymentModal,
   }),
   withRequests({
     paymentsQuery: PaymentsQuery,
     profileQuery: ProfileQuery,
   }),
-)(Payments);
+)(ClientPaymentsTab);

@@ -1,0 +1,22 @@
+.AccountsSelectField {
+  &__option {
+    padding: 5px 0;
+    border-bottom: 1px solid grey;
+    cursor: pointer;
+
+    &:last-child {
+      border: none;
+    }
+
+    &-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    &-content {
+      font-size: 11px;
+      color: #333;
+    }
+  }
+}
