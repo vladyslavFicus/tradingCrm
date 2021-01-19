@@ -3,27 +3,26 @@ import { compose } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { getGraphQLUrl, getVersion } from 'config';
-import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
+import { getGraphQLUrl, getVersion } from 'config';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { shortifyInMiddle } from 'utils/stringFormat';
 import { targetTypes } from 'constants/note';
+import { shortifyInMiddle } from 'utils/stringFormat';
 import PermissionContent from 'components/PermissionContent';
 import Grid, { GridColumn } from 'components/Grid';
 import NoteButton from 'components/NoteButton';
-import { EditButton } from 'components/UI';
+import { EditButton, DownloadButton, TrashButton } from 'components/UI';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
 import { DeleteModal, RenameModal } from 'components/Files';
 import ShortLoader from 'components/ShortLoader';
-import permissions from 'config/permissions';
-import { statusesCategory, statusesFile } from '../constants';
-import MoveFileDropDown from './MoveFileDropDown';
-import ChangeFileStatusDropDown from './ChangeFileStatusDropDown';
-import TokenRefreshMutation from '../graphql/TokenRefreshMutation';
+import { statusesCategory, statusesFile } from './constants';
+import MoveFileDropDown from './components/MoveFileDropDown';
+import ChangeFileStatusDropDown from './components/ChangeFileStatusDropDown';
+import './FileGrid.scss';
 
 class FileGrid extends PureComponent {
   static propTypes = {
@@ -43,6 +42,7 @@ class FileGrid extends PureComponent {
       renameFileModal: PropTypes.modalType,
     }).isRequired,
     updateFileMeta: PropTypes.func.isRequired,
+    tokenRenew: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -128,21 +128,21 @@ class FileGrid extends PureComponent {
     const { selectedVerificationStatusValue } = this.state;
 
     return (
-      <div className="files-grid__header">
-        <div className="files-grid__header-left">
-          <div className="files-grid__header-category">{ I18n.t(`FILES.CATEGORY.${verificationType}`) }</div>
+      <div className="FileGrid__header">
+        <div className="FileGrid__header-left">
+          <div className="FileGrid__header-category">{ I18n.t(`FILES.CATEGORY.${verificationType}`) }</div>
           <If condition={verificationType !== 'OTHER'}>
-            <div className="files-grid__header-separator" />
-            <div className="files-grid__header-document-type">{ I18n.t(`FILES.DOCUMENTS_TYPE.${documentType}`) }</div>
+            <div className="FileGrid__header-separator" />
+            <div className="FileGrid__header-document-type">{ I18n.t(`FILES.DOCUMENTS_TYPE.${documentType}`) }</div>
           </If>
         </div>
         <If condition={verificationType !== 'OTHER'}>
-          <div className="files-grid__header-right">
-            <div className="files-grid__header-status">
-              <span className="files-grid__header-status-label">{ I18n.t('FILES.CHANGE_VERIFICATION_STATUS') }:</span>
+          <div className="FileGrid__header-right">
+            <div className="FileGrid__header-status">
+              <span className="FileGrid__header-status-label">{ I18n.t('FILES.CHANGE_VERIFICATION_STATUS') }:</span>
               <Select
                 value={selectedVerificationStatusValue || verificationStatus || ''}
-                customClassName="files-grid__header-status-dropdown"
+                customClassName="FileGrid__header-status-dropdown"
                 onChange={(value) => {
                   this.setState({ selectedVerificationStatusValue: value });
                   this.onVerificationStatusChange(value);
@@ -185,31 +185,41 @@ class FileGrid extends PureComponent {
   )
 
   renderFileName = (data) => {
+    const {
+      uuid,
+      clientUuid,
+      title,
+      mediaType,
+      realName,
+      fileName,
+      uploadBy,
+    } = data;
+
     const availableToFullScreenFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-    const isClickable = availableToFullScreenFileTypes.some(fileType => fileType === data.mediaType);
+    const isClickable = availableToFullScreenFileTypes.some(fileType => fileType === mediaType);
     const onClick = isClickable ? () => this.onPreviewClick(data) : null;
-    const playerPrefix = data.clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
-    const uuidPrefix = data.clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
+    const playerPrefix = clientUuid.indexOf('PLAYER') === -1 ? 'PL' : null;
+    const uuidPrefix = clientUuid.indexOf('OPERATOR') === -1 ? playerPrefix : null;
 
     return (
-      <div className="files-grid__col-name">
+      <div className="FileGrid__col FileGrid__col--name">
         <div
-          className={classNames('files-grid__col-title', { 'cursor-pointer': isClickable })}
+          className={classNames('FileGrid__col-title', { 'FileGrid__col-title--clickable': isClickable })}
           onClick={onClick}
         >
-          {data.title}
-          <If condition={this.state.previewFileLoadingUuid === data.uuid}>
+          {title}
+          <If condition={this.state.previewFileLoadingUuid === uuid}>
             &nbsp;<ShortLoader height={15} />
           </If>
         </div>
-        <div title={data.realName} className="font-size-11">
-          {data.fileName === data.title ? null : `${shortifyInMiddle(data.fileName, 40)} - `}
-          <Uuid uuid={data.uuid} />
+        <div title={realName} className="FileGrid__col-text">
+          {fileName === title ? null : `${shortifyInMiddle(fileName, 40)} - `}
+          <Uuid uuid={uuid} />
         </div>
-        <div className="font-size-11">
+        <div className="FileGrid__col-text">
           {'by '}
           <Uuid
-            uuid={data.uploadBy}
+            uuid={uploadBy}
             uuidPrefix={uuidPrefix}
           />
         </div>
@@ -218,39 +228,27 @@ class FileGrid extends PureComponent {
   };
 
   renderActions = data => (
-    <span className="margin-left-5">
+    <>
       <EditButton onClick={() => this.handleRenameFile(data)} />
       {' '}
-      <button type="button" className="btn-transparent" onClick={() => this.props.onDownloadFileClick(data)}>
-        <i className="fa fa-download" />
-      </button>
+      <DownloadButton onClick={() => this.props.onDownloadFileClick(data)} />
       {' '}
       <PermissionContent permissions={permissions.USER_PROFILE.DELETE_FILE}>
-        <button
-          type="button"
-          className="btn-transparent color-danger"
-          disabled={data.uploadBy.indexOf('OPERATOR') === -1}
+        <TrashButton
           onClick={() => this.onDeleteClick(data)}
-        >
-          <i className={
-            classNames(
-              'fa fa-trash ',
-              { 'files-grid__delete-button is-disabled': data.uploadBy.indexOf('OPERATOR') === -1 },
-            )
-          }
-          />
-        </button>
+          disabled={data.uploadBy.indexOf('OPERATOR') === -1}
+        />
       </PermissionContent>
-    </span>
+    </>
   );
 
   renderDate = (column, withTime = true) => data => (
     <Choose>
       <When condition={data[column]}>
         <div>
-          <div className="font-weight-700">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
+          <div className="FileGrid__col-title">{moment.utc(data[column]).local().format('DD.MM.YYYY')}</div>
           <If condition={withTime}>
-            <div className="font-size-11">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
+            <div className="FileGrid__col-text">{moment.utc(data[column]).local().format('HH:mm:ss')}</div>
           </If>
         </div>
       </When>
@@ -271,10 +269,14 @@ class FileGrid extends PureComponent {
   );
 
   render() {
-    const { data, handlePageChanged } = this.props;
+    const {
+      data,
+      verificationType,
+      handlePageChanged,
+    } = this.props;
 
     return (
-      <div className="files-grid">
+      <div className="FileGrid">
         {this.renderGridHeader()}
 
         <Grid
@@ -282,40 +284,32 @@ class FileGrid extends PureComponent {
           handlePageChanged={handlePageChanged}
         >
           <GridColumn
-            name="fileName"
             header={I18n.t('FILES.GRID.COLUMN.NAME')}
             render={this.renderFileName}
           />
           <GridColumn
-            name="actions"
             header=""
-            headerClassName="width-60"
             render={this.renderActions}
           />
           <GridColumn
-            name="expirationTime"
             header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
             render={this.renderDate('expirationTime', false)}
           />
-          <If condition={this.props.verificationType !== 'OTHER'}>
+          <If condition={verificationType !== 'OTHER'}>
             <GridColumn
-              name="status"
               header={I18n.t('FILES.MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE')}
               render={this.renderMoveFileDropdown}
             />
           </If>
           <GridColumn
-            name="statusFile"
             header={I18n.t('FILES.CHANGE_FILE_STATUS')}
             render={this.renderChangeStatusFile}
           />
           <GridColumn
-            name="date"
             header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
             render={this.renderDate('uploadDate')}
           />
           <GridColumn
-            name="note"
             header={I18n.t('FILES.GRID.COLUMN.NOTE')}
             render={this.renderNote}
           />
@@ -327,9 +321,6 @@ class FileGrid extends PureComponent {
 
 export default compose(
   withImages,
-  withRequests({
-    tokenRenew: TokenRefreshMutation,
-  }),
   withModals({
     deleteFileModal: DeleteModal,
     renameFileModal: RenameModal,
