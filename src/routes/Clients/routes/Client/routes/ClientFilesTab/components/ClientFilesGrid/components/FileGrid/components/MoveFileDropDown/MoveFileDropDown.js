@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import Select from 'components/Select';
+import './MoveFileDropDown.scss';
 
-class MoveFileDropDown extends Component {
+class MoveFileDropDown extends PureComponent {
   static propTypes = {
     onMoveChange: PropTypes.func.isRequired,
     categories: PropTypes.object.isRequired,
@@ -24,10 +25,14 @@ class MoveFileDropDown extends Component {
     }),
   };
 
+  handleChange = (value) => {
+    this.setState({ currentValue: value });
+    this.props.onMoveChange(JSON.parse(value));
+  };
+
   render() {
     const {
       categories,
-      onMoveChange,
       uuid,
       disabled,
     } = this.props;
@@ -35,14 +40,11 @@ class MoveFileDropDown extends Component {
 
     return (
       <Select
-        value={currentValue}
-        disabled={disabled}
-        customClassName="files-grid__status-dropdown"
-        onChange={(value) => {
-          this.setState({ currentValue: value });
-          onMoveChange(JSON.parse(value));
-        }}
+        customClassName="MoveFileDropDown"
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+        value={currentValue}
+        onChange={this.handleChange}
+        disabled={disabled}
       >
         {Object.entries(categories)
           .filter(([category]) => category !== 'OTHER')

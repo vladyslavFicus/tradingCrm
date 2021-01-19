@@ -79,7 +79,10 @@ class FormikDateRangePicker extends PureComponent {
 
           set(newValues, fieldsNames.from, _values.from);
           set(newValues, fieldsNames.to, _values.to);
-          set(newValues, fieldsNames.additional, _values.additional);
+
+          if (fieldsNames.additional) {
+            set(newValues, fieldsNames.additional, _values.additional);
+          }
 
           setValues(newValues);
         }}
