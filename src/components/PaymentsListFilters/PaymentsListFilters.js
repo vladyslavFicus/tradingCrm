@@ -498,6 +498,7 @@ class PaymentsListFilters extends PureComponent {
                         from: 'creationTimeFrom',
                         to: 'creationTimeTo',
                       }}
+                      anchorDirection={clientView ? 'right' : 'left'}
                       withFocus
                     />
                     <Field
