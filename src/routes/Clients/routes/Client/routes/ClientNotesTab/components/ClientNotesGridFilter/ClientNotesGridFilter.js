@@ -1,28 +1,26 @@
 import React, { PureComponent } from 'react';
+import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import { get, omit } from 'lodash';
-import PropTypes from 'prop-types';
+import { omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
+import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { departmentsLabels } from 'constants/operators';
-import { attributeLabels } from '../constants';
+import { attributeLabels } from './constants';
 import AuthoritiesOptionsQuery from './graphql/AuthorityOptionsQuery';
+import './ClientNotesGridFilter.scss';
 
-class NotesGridFilter extends PureComponent {
+class ClientNotesGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    authoritiesOptions: PropTypes.shape({
-      data: PropTypes.shape({
-        authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-      }),
-      loading: PropTypes.bool.isRequired,
+    authoritiesOptionsQuery: PropTypes.query({
+      authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     }).isRequired,
     handleRefetch: PropTypes.func.isRequired,
   };
@@ -55,13 +53,13 @@ class NotesGridFilter extends PureComponent {
     const {
       handleRefetch,
       location: { state },
-      authoritiesOptions: {
+      authoritiesOptionsQuery: {
         data,
         loading,
       },
     } = this.props;
 
-    const allDepartmentRoles = get(data, 'authoritiesOptions') || {};
+    const allDepartmentRoles = data?.authoritiesOptions || {};
     const departmentRoles = omit(allDepartmentRoles, ['PLAYER', 'AFFILIATE']);
 
     return (
@@ -83,13 +81,13 @@ class NotesGridFilter extends PureComponent {
           values,
           dirty,
         }) => (
-          <Form className="filter-row">
+          <Form className="ClientNotesGridFilter">
             <Field
               name="department"
               label={I18n.t(attributeLabels.department)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               component={FormikSelectField}
-              className="filter-row__medium"
+              className="ClientNotesGridFilter__field"
               disabled={loading}
               withAnyOption
               searchable
@@ -102,7 +100,7 @@ class NotesGridFilter extends PureComponent {
               ))}
             </Field>
             <Field
-              className="filter-row__date-range"
+              className="ClientNotesGridFilter__field ClientNotesGridFilter__field--date-range"
               label={I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -111,13 +109,13 @@ class NotesGridFilter extends PureComponent {
               }}
               withFocus
             />
-            <div className="filter-row__button-block">
+            <div className="ClientNotesGridFilter__buttons-group">
               <RefreshButton
-                className="margin-right-15"
+                className="ClientNotesGridFilter__button"
                 onClick={handleRefetch}
               />
               <Button
-                className="margin-right-15"
+                className="ClientNotesGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -125,6 +123,7 @@ class NotesGridFilter extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
+                className="ClientNotesGridFilter__button"
                 type="submit"
                 disabled={isSubmitting || !dirty}
                 primary
@@ -142,6 +141,6 @@ class NotesGridFilter extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    authoritiesOptions: AuthoritiesOptionsQuery,
+    authoritiesOptionsQuery: AuthoritiesOptionsQuery,
   }),
-)(NotesGridFilter);
+)(ClientNotesGridFilter);

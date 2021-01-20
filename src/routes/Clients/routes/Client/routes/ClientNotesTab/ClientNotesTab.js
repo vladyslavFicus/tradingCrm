@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import { get } from 'lodash';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import EventEmitter, { CLIENT_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
@@ -8,33 +7,29 @@ import { targetTypes } from 'constants/note';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
 import NoteItem from 'components/NoteItem';
+import ClientNotesGridFilter from './components/ClientNotesGridFilter';
 import ClientNotesQuery from './graphql/ClientNotesQuery';
-import NotesGridFilter from './NotesGridFilter';
+import './ClientNotesTab.scss';
 
-class Notes extends Component {
+class ClientNotesTab extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    notes: PropTypes.query(PropTypes.pageable(PropTypes.noteEntity)).isRequired,
+    notesQuery: PropTypes.query(PropTypes.pageable(PropTypes.noteEntity)).isRequired,
   };
 
   componentDidMount() {
-    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.refetchNotes);
     EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.refetchNotes);
     EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
     EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
   }
 
-  /**
-   * Refetch list of notes
-   */
-  onProfileEvent = () => {
-    this.props.notes.refetch();
-  };
+  refetchNotes = () => this.props.notesQuery.refetch();
 
   /**
    * Refetch list of notes only if targetType is PLAYER
@@ -43,42 +38,45 @@ class Notes extends Component {
    */
   onNoteEvent = ({ targetType }) => {
     if (targetType === targetTypes.PLAYER) {
-      this.props.notes.refetch();
+      this.refetchNotes();
     }
   };
 
   loadMore = () => {
-    const { notes } = this.props;
+    const {
+      notesQuery: {
+        data,
+        loadMore,
+      },
+    } = this.props;
 
-    const page = notes.data.notes.number + 1;
-
-    notes.loadMore(page);
+    loadMore(data.notes.number + 1);
   };
 
   renderItem = note => <NoteItem note={note} />;
 
   render() {
     const {
-      notes: {
+      notesQuery: {
         data,
         loading,
         refetch,
       },
     } = this.props;
 
-    const notes = get(data, 'notes');
+    const notes = data?.notes;
 
     if (!notes && loading) {
       return null;
     }
 
     return (
-      <Fragment>
+      <div className="ClientNotesTab">
         <TabHeader title={I18n.t('PLAYER_PROFILE.NOTES.TITLE')} />
 
-        <NotesGridFilter handleRefetch={refetch} />
+        <ClientNotesGridFilter handleRefetch={refetch} />
 
-        <div className="tab-wrapper">
+        <div className="ClientNotesTab__grid">
           <ListView
             dataSource={notes.content}
             onPageChange={this.loadMore}
@@ -89,11 +87,11 @@ class Notes extends Component {
             showNoResults={!loading && !notes.content.length}
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
 
 export default withRequests({
-  notes: ClientNotesQuery,
-})(Notes);
+  notesQuery: ClientNotesQuery,
+})(ClientNotesTab);
