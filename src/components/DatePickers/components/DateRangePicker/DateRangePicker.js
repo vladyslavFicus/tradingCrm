@@ -381,7 +381,13 @@ class DateRangePicker extends PureComponent {
   }
 
   handleApply = () => {
-    this.handleChange({ showPopup: false }, true);
+    const { withConfirmation } = this.props;
+
+    if (withConfirmation) {
+      this.handleChange({ showPopup: false }, true);
+    } else {
+      this.handleShowPopup(false);
+    }
   }
 
   render() {
@@ -539,8 +545,8 @@ class DateRangePicker extends PureComponent {
                   />
                 </If>
 
-                <If condition={withConfirmation}>
-                  <div className="DateRangePicker__popup-buttons">
+                <div className="DateRangePicker__popup-buttons">
+                  <If condition={withConfirmation}>
                     <Button
                       commonOutline
                       className="DateRangePicker__popup-button"
@@ -548,16 +554,16 @@ class DateRangePicker extends PureComponent {
                     >
                       {I18n.t('COMMON.CANCEL')}
                     </Button>
+                  </If>
 
-                    <Button
-                      primary
-                      className="DateRangePicker__popup-button"
-                      onClick={this.handleApply}
-                    >
-                      {I18n.t('COMMON.APPLY')}
-                    </Button>
-                  </div>
-                </If>
+                  <Button
+                    primary
+                    className="DateRangePicker__popup-button"
+                    onClick={this.handleApply}
+                  >
+                    {I18n.t('COMMON.APPLY')}
+                  </Button>
+                </div>
               </div>
             </div>
           </If>

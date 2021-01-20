@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation TokenRefreshMutation {
+  mutation ClientFilesTab_TokenRefreshMutation {
     auth {
       tokenRenew {
         token

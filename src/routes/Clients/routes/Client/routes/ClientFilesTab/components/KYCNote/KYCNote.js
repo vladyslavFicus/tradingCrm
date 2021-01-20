@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
-import { withRequests } from 'apollo';
+import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { Field, Form, Formik } from 'formik';
-import { get } from 'lodash';
-import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -121,7 +120,7 @@ class KYCNote extends PureComponent {
       return null;
     }
 
-    const KYCNoteContent = get(data, 'profile.kycNote.content') || '';
+    const KYCNoteContent = data?.profile?.kycNote?.content || '';
     const updateAllowed = updateNotePermissions.check(currentPermissions);
     const isFormDisabled = !!(KYCNoteContent && !updateAllowed);
 

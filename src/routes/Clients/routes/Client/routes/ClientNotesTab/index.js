@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./Notes'));
+export default lazy(() => import('./ClientNotesTab'));

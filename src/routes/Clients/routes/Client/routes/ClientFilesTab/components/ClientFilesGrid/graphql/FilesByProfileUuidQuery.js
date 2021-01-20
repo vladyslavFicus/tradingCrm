@@ -1,7 +1,10 @@
+import React from 'react';
 import gql from 'graphql-tag';
-import { NoteFragment } from '../fragments/notes';
+import { Query } from 'react-apollo';
+import { NoteFragment } from 'graphql/fragments/notes';
+import PropTypes from 'constants/propTypes';
 
-const getFilesByProfileUUID = gql`query clientFiles(
+const REQUEST = gql`query ClientFilesTab_FilesByProfileUuidQuery(
   $size: Int,
   $page: Int,
   $clientUuid: String!,
@@ -52,15 +55,33 @@ const getFilesByProfileUUID = gql`query clientFiles(
 }
 ${NoteFragment}`;
 
-const getFilesCategories = gql`query FilesCategories {
-  filesCategories {
-    DOCUMENT_VERIFICATION
-    ADDRESS_VERIFICATION
-    OTHER
-  }
-}`;
+const FilesByProfileUuidQuery = ({
+  children,
+  location: { query },
+  match: { params: { id: clientUuid } },
+}) => (
+  <Query
+    query={REQUEST}
+    variables={{
+      ...query?.filters,
+      clientUuid,
+      page: 0,
+      size: 20,
+    }}
+    fetchPolicy="network-only"
+  >
+    {children}
+  </Query>
+);
 
-export {
-  getFilesByProfileUUID,
-  getFilesCategories,
+FilesByProfileUuidQuery.propTypes = {
+  ...PropTypes.router,
+  children: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
+
+export default FilesByProfileUuidQuery;

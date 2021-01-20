@@ -14,6 +14,7 @@ import {
   DATE_BASE_FORMAT,
   DATE_TIME_USER_STRING_FORMAT,
   DATE_TIME_BASE_FORMAT,
+  DATE_TIME_OLD_BASE_FORMAT,
 } from '../../constants';
 import './DatePicker.scss';
 
@@ -122,7 +123,8 @@ class DatePicker extends PureComponent {
     const { withUtc, withTime } = this.props;
 
     const momentUserFormat = withTime ? DATE_TIME_USER_STRING_FORMAT : DATE_USER_STRING_FORMAT;
-    const momentBaseFormat = withTime ? DATE_TIME_BASE_FORMAT : DATE_BASE_FORMAT; // # Check this out
+    const momentBaseFormat = withTime ? DATE_TIME_BASE_FORMAT : DATE_BASE_FORMAT;
+    const momentOldBaseFormat = withTime ? DATE_TIME_OLD_BASE_FORMAT : DATE_BASE_FORMAT;
 
     // # if user change date using calendar or time picker
     // # the function will get MomentObject as value
@@ -135,7 +137,13 @@ class DatePicker extends PureComponent {
     // or DATE_USER_STRING_FORMAT if time is not expected
     const momentDateInBaseFormat = moment(date, momentBaseFormat);
 
-    if (momentDateInBaseFormat.isValid()) {
+    if (
+      momentDateInBaseFormat.isValid()
+      && (
+        date === momentDateInBaseFormat.format(momentBaseFormat)
+        || date === momentDateInBaseFormat.format(momentOldBaseFormat)
+      )
+    ) {
       if (!withTime) {
         return momentDateInBaseFormat.format(momentUserFormat);
       }
