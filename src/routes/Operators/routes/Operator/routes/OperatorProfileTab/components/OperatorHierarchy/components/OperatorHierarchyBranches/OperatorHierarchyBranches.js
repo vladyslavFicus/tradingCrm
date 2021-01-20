@@ -63,7 +63,7 @@ class OperatorHierarchyBranches extends PureComponent {
     }));
   }
 
-  handleConfirmAction = (branch, action) => {
+  handleConfirmAction = (branch, action, actionType) => {
     const {
       operatorQuery,
       operatorHierarchyQuery,
@@ -73,10 +73,12 @@ class OperatorHierarchyBranches extends PureComponent {
     const operator = operatorQuery.data?.operator || {};
     const totalSubordinatesCount = operatorHierarchyQuery.data?.userHierarchyById?.statistics?.totalSubordinatesCount;
 
+    const actionKey = actionType === 'ASSIGN' ? 'ASSIGN_BRANCH' : 'UNASSIGN_BRANCH';
+
     if (totalSubordinatesCount >= 10000) {
       confirmActionModal.show({
-        modalTitle: I18n.t('MODALS.ASSIGN_BRANCH.TITLE'),
-        actionText: I18n.t('MODALS.ASSIGN_BRANCH.DESCRIPTION', {
+        modalTitle: I18n.t(`MODALS.${actionKey}.TITLE`),
+        actionText: I18n.t(`MODALS.${actionKey}.DESCRIPTION`, {
           operator: operator.fullName,
           clients: totalSubordinatesCount,
           branch: `${this.buildParentsBranchChain(branch)} ${branch.name}`,
@@ -133,7 +135,7 @@ class OperatorHierarchyBranches extends PureComponent {
           message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
         });
       }
-    });
+    }, 'ASSIGN');
   }
 
   handleRemoveBranch = (branch) => {
