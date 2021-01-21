@@ -1,94 +1,97 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import Uuid from '../Uuid';
+import Uuid from 'components/Uuid';
 import './FailureReasonIcon.scss';
 
-class FailureReasonIcon extends Component {
+class FailureReasonIcon extends PureComponent {
   static propTypes = {
+    id: PropTypes.string,
     reason: PropTypes.string,
     statusDate: PropTypes.string,
     statusAuthor: PropTypes.string,
-    id: PropTypes.string,
     profileStatusComment: PropTypes.string,
   };
 
   static defaultProps = {
+    id: 'failure-reason-id',
     reason: null,
     statusDate: null,
     statusAuthor: null,
-    id: 'failure-reason-icon',
     profileStatusComment: '',
   };
 
   state = {
-    popoverOpen: false,
-  };
-
-  togglePopoverOpen = () => {
-    this.setState(({ popoverOpen }) => ({ popoverOpen: !popoverOpen }));
-  };
-
-  renderPopoverContent(id) {
-    const {
-      statusAuthor,
-      statusDate,
-      reason,
-      profileStatusComment,
-    } = this.props;
-    const { popoverOpen } = this.state;
-
-    return (
-      <Popover
-        className="failure-reason-popover"
-        placement="right"
-        isOpen={popoverOpen}
-        target={id}
-        toggle={this.togglePopoverOpen}
-        trigger="legacy"
-      >
-        <PopoverHeader tag="div" className="failure-reason-popover__header">
-          <div className="failure-reason-popover__title">
-            {I18n.t('COMMON.AUTHOR_BY')}
-            {' '}
-            <If condition={!!statusAuthor}>
-              <Uuid
-                uuid={statusAuthor}
-                uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
-                className="font-weight-700"
-              />
-            </If>
-          </div>
-          <div className="failure-reason-popover__date">
-            {statusDate}
-          </div>
-        </PopoverHeader>
-        <PopoverBody className="failure-reason-popover__body">
-          <span className="font-weight-700">{I18n.t('COMMON.REASON')}:</span> {I18n.t(reason)}
-          <If condition={profileStatusComment}>
-            <div>
-              <span className="font-weight-700">{I18n.t('COMMON.COMMENT')}:</span> {profileStatusComment}
-            </div>
-          </If>
-        </PopoverBody>
-      </Popover>
-    );
+    isOpenPopover: false,
   }
 
+  handleTogglePopover = () => {
+    this.setState(({ isOpenPopover }) => ({ isOpenPopover: !isOpenPopover }));
+  };
+
   render() {
-    const { id } = this.props;
+    const {
+      id,
+      reason,
+      statusDate,
+      statusAuthor,
+      profileStatusComment,
+    } = this.props;
+
+    const { isOpenPopover } = this.state;
 
     return (
-      <Fragment>
+      <>
         <button
           id={id}
           type="button"
-          className="failure-reason-icon"
-          onClick={this.togglePopoverOpen}
+          className="FailureReasonIcon"
+          onClick={this.handleTogglePopover}
         />
-        {this.renderPopoverContent(id)}
-      </Fragment>
+
+        <Popover
+          className="FailureReasonIcon__popover"
+          placement="right"
+          isOpen={isOpenPopover}
+          target={id}
+          toggle={this.handleTogglePopover}
+          trigger="legacy"
+        >
+          <PopoverHeader tag="div" className="FailureReasonIcon__popover-header">
+            <div className="FailureReasonIcon__popover-title">
+              {I18n.t('COMMON.AUTHOR_BY')}
+
+              <If condition={statusAuthor}>
+                {' '}
+                <Uuid
+                  uuid={statusAuthor}
+                  uuidPrefix="OP"
+                  className="FailureReasonIcon__popover-primary-text"
+                />
+              </If>
+            </div>
+
+            <div className="FailureReasonIcon__popover-date">
+              {statusDate}
+            </div>
+          </PopoverHeader>
+
+          <PopoverBody className="FailureReasonIcon__popover-body">
+            <div>
+              <span className="FailureReasonIcon__popover-primary-text">{I18n.t('COMMON.REASON')}: </span>
+              {I18n.t(reason)}
+            </div>
+
+            <If condition={profileStatusComment}>
+              <div>
+                <span className="FailureReasonIcon__popover-primary-text">{I18n.t('COMMON.COMMENT')}: </span>
+                {profileStatusComment}
+              </div>
+            </If>
+          </PopoverBody>
+        </Popover>
+      </>
     );
   }
 }
