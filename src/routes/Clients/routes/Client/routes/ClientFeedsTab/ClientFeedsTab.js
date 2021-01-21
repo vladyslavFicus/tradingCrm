@@ -1,39 +1,29 @@
-import React, { PureComponent, Fragment } from 'react';
-import { get } from 'lodash';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import React, { PureComponent } from 'react';
 import { withRequests } from 'apollo';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
-import FeedFilterForm from '../FeedFilterForm';
+import ClientFeedsFilterForm from './components/ClientFeedsFilterForm';
 import FeedsQuery from './graphql/FeedsQuery';
+import './ClientFeedsTab.scss';
 
-class Feed extends PureComponent {
+class ClientFeedsTab extends PureComponent {
   static propTypes = {
-    ...PropTypes.router,
     feedsQuery: PropTypes.query({
-      feeds: PropTypes.shape({
-        content: PropTypes.arrayOf(PropTypes.feed),
-        last: PropTypes.bool,
-        page: PropTypes.number,
-        totalPages: PropTypes.number,
-      }),
+      feeds: PropTypes.pageable(PropTypes.feed),
     }).isRequired,
   };
 
   componentDidMount() {
-    EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.refetchFeeds);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.refetchFeeds);
   }
 
-  onProfileEvent = () => {
-    this.props.feedsQuery.refetch();
-  };
+  refetchFeeds = () => this.props.feedsQuery.refetch();
 
   handlePageChange = () => {
     const {
@@ -44,7 +34,7 @@ class Feed extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = get(data, 'feeds.page') || 0;
+    const currentPage = data?.feeds?.page || 0;
 
     if (!loading) {
       loadMore(currentPage + 1);
@@ -53,16 +43,20 @@ class Feed extends PureComponent {
 
   render() {
     const {
-      feedsQuery: { data, loading, refetch },
+      feedsQuery: {
+        data,
+        loading,
+        refetch,
+      },
     } = this.props;
 
-    const { content, last, number, totalPages } = get(data, 'feeds') || {};
+    const { content, last, number, totalPages } = data?.feeds || {};
 
     return (
-      <Fragment>
-        <FeedFilterForm handleRefetch={refetch} />
+      <div className="ClientFeedsTab">
+        <ClientFeedsFilterForm handleRefetch={refetch} />
 
-        <div className="tab-wrapper">
+        <div className="ClientFeedsTab__grid">
           <ListView
             dataSource={content || []}
             activePage={number + 1}
@@ -73,14 +67,11 @@ class Feed extends PureComponent {
             showNoResults={!loading && !content?.length}
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
 
-export default compose(
-  withRouter,
-  withRequests({
-    feedsQuery: FeedsQuery,
-  }),
-)(Feed);
+export default withRequests({
+  feedsQuery: FeedsQuery,
+})(ClientFeedsTab);
