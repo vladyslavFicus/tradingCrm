@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query ProfileQuery($playerUUID: String!) {
+  query ClientPaymentsTab_ProfileQuery($playerUUID: String!) {
     profile(playerUUID: $playerUUID) {
       _id
       uuid

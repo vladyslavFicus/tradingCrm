@@ -1,0 +1,76 @@
+.AddPaymentModal {
+  &__error-message {
+    margin-bottom: 15px;
+    display: block;
+    text-align: center;
+    color: #fb434a;
+  }
+
+  &__payment-fields {
+    visibility: hidden;
+
+    &--visible {
+      visibility: visible;
+    }
+  }
+
+  &__row {
+    display: flex;
+
+    &--h-align-center {
+      justify-content: center;
+    }
+
+    &--v-align-center {
+      align-items: center;
+    }
+  }
+
+  &__field {
+    flex: 2;
+
+    &--small {
+      flex: 1;
+    }
+
+    &+& {
+      margin-left: 15px;
+    }
+  }
+
+  &__direction-icon {
+    display: flex;
+    align-items: center;
+    margin: 7px 10px 0;
+
+    .icon-arrow-down {
+      display: block;
+      transform: rotate(-90deg);
+      font-size: 20px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &-message {
+      padding-right: 20px;
+      font-size: 12px;
+      color: #6c757d;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

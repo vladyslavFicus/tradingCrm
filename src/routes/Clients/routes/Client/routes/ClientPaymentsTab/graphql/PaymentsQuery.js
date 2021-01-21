@@ -5,7 +5,7 @@ import PropTypes from 'constants/propTypes';
 import { statusMapper } from 'constants/payment';
 
 const REQUEST = gql`
-  query PaymentsQuery($args: PaymentSearch__Input) {
+  query ClientPaymentsTab_PaymentsQuery($args: PaymentSearch__Input) {
     clientPayments(args: $args) {
       page
       number
