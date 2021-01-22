@@ -381,7 +381,7 @@ class Table extends PureComponent {
           next={onMore}
           hasMore={hasMore}
           scrollableTarget={scrollableTarget}
-          loader={<ShortPreloader />}
+          loader={<ShortPreloader className="Table--loader" />}
           style={{ overflow: 'unset' }}
         >
           <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>

@@ -1,4 +1,9 @@
 .Table {
+  &--loader {
+    padding-top: 7px;
+    padding-bottom: 20px;
+  }
+
   &__table {
     width: 100%;
   }
@@ -12,12 +17,10 @@
   }
 
   &__body-row {
+    border-bottom: 1px solid #dfe4ed;
+
     &:hover {
       background: #f8f8f8;
-    }
-
-    &:not(:last-child) {
-      border-bottom: 1px solid #dfe4ed;
     }
 
     &--selected {
