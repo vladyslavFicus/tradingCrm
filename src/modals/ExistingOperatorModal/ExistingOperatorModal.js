@@ -1,26 +1,29 @@
-import React, { Component } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'constants/propTypes';
+import { compose } from 'react-apollo';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
-import { parseErrors } from 'apollo';
+import { withNotifications } from 'hoc';
+import { withRequests, parseErrors } from 'apollo';
+import PropTypes from 'constants/propTypes';
+import { Button } from 'components/UI';
+import AddExistingOperatorMutation from './graphql/AddExistingOperatorMutation';
+import './ExistingOperatorModal.scss';
 
-class ExistingOperatorModal extends Component {
+class ExistingOperatorModal extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    addExistingOperator: PropTypes.func.isRequired,
-    email: PropTypes.string.isRequired,
-    department: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
     branchId: PropTypes.string.isRequired,
+    department: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    addExistingOperator: PropTypes.func.isRequired,
   };
 
-  handleSubmitExistingOperator = async (event) => {
-    event.preventDefault();
-
+  handleSubmitExistingOperator = async () => {
     const {
       addExistingOperator,
       email,
@@ -33,15 +36,7 @@ class ExistingOperatorModal extends Component {
     } = this.props;
 
     try {
-      const {
-        data: {
-          operator: {
-            addExistingOperator: {
-              uuid,
-            },
-          },
-        },
-      } = await addExistingOperator({
+      const response = await addExistingOperator({
         variables: {
           email,
           department,
@@ -50,16 +45,20 @@ class ExistingOperatorModal extends Component {
         },
       });
 
-      onCloseModal();
+      const uuid = response.data?.operator?.addExistingOperator?.uuid;
 
-      history.replace(`${uuid}/profile`);
+      if (uuid) {
+        history.push(`/operators/${uuid}/profile`);
+      }
+
+      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
 
       notify({
         level: 'error',
-        title: I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.TITLE'),
-        message: error.message || I18n.t('OPERATORS.NOTIFICATIONS.EXISTING_OPERATOR_ERROR.MESSAGE'),
+        title: I18n.t('MODALS.EXISTING_OPERATOR_MODAL.NOTIFICATIONS.ERROR.TITLE'),
+        message: error.message || I18n.t('MODALS.EXISTING_OPERATOR_MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
       });
     }
   };
@@ -71,38 +70,39 @@ class ExistingOperatorModal extends Component {
     } = this.props;
 
     return (
-      <Modal className="existing-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
-        <ModalHeader toggle={onCloseModal}>{I18n.t('OPERATORS.MODALS.EXISTING_OPERATOR.TITLE')}</ModalHeader>
-        <ModalBody id="existing-operator-modal-form" tag="form" onSubmit={this.handleSubmitExistingOperator}>
-          {I18n.t('OPERATORS.MODALS.EXISTING_OPERATOR.MESSAGE')}
-          <span className="font-weight-700">
-            &nbsp;
-            {I18n.t('OPERATORS.MODALS.EXISTING_OPERATOR.BRAND', { brand: getBrand().id })}
-          </span>
+      <Modal className="ExistingOperatorModal" toggle={onCloseModal} isOpen={isOpen}>
+        <ModalHeader toggle={onCloseModal}>{I18n.t('MODALS.EXISTING_OPERATOR_MODAL.TITLE')}</ModalHeader>
+        <ModalBody>
+          {I18n.t('MODALS.EXISTING_OPERATOR_MODAL.MESSAGE')}
+          {' '}
+          <b>{I18n.t('MODALS.EXISTING_OPERATOR_MODAL.BRAND', { brand: getBrand().id })}</b>
         </ModalBody>
         <ModalFooter>
-          <div className="row">
-            <div className="col-12">
-              <button
-                type="button"
-                className="btn btn-default-outline"
-                onClick={onCloseModal}
-              >
-                {I18n.t('COMMON.BUTTONS.CANCEL')}
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary ml-2"
-                form="existing-operator-modal-form"
-              >
-                {I18n.t('COMMON.BUTTONS.YES')}
-              </button>
-            </div>
-          </div>
+          <Button
+            onClick={onCloseModal}
+            className="ExistingOperatorModal__button"
+            commonOutline
+          >
+            {I18n.t('COMMON.BUTTONS.CANCEL')}
+          </Button>
+
+          <Button
+            className="ExistingOperatorModal__button"
+            onClick={this.handleSubmitExistingOperator}
+            primary
+          >
+            {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+          </Button>
         </ModalFooter>
       </Modal>
     );
   }
 }
 
-export default withRouter(ExistingOperatorModal);
+export default compose(
+  withRouter,
+  withNotifications,
+  withRequests({
+    addExistingOperator: AddExistingOperatorMutation,
+  }),
+)(ExistingOperatorModal);

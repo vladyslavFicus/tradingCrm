@@ -104,11 +104,6 @@ class SalesRules extends PureComponent {
       modals: {
         updateRuleModal,
       },
-      match: {
-        params: {
-          id: parentBranch,
-        },
-      },
       rulesQuery: {
         refetch,
       },
@@ -116,8 +111,6 @@ class SalesRules extends PureComponent {
 
     updateRuleModal.show({
       uuid,
-      parentBranch,
-      withOperatorSpreads: true,
       onSuccess: async () => {
         await refetch();
         updateRuleModal.hide();

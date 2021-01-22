@@ -1,0 +1,50 @@
+.ClientHeader {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 48px;
+  z-index: 3;
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+
+    &-verified {
+      color: #28a745;
+    }
+  }
+
+  &__uuid {
+    color: #827ca1;
+  }
+
+  &__action {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+
+  &__icon {
+    display: inline-block;
+
+    &--spin {
+      animation-name: spinAround;
+      animation-duration: 1s;
+      animation-timing-function: linear;
+    }
+  }
+}
+
+@keyframes spinAround {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

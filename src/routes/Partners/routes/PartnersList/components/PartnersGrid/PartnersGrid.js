@@ -40,38 +40,13 @@ class PartnersGrid extends PureComponent {
     });
   };
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
-
-    let sortsWithName = null;
-
-    if (sorts) {
-      const nameDirection = sortData.name;
-      sortsWithName = [...sorts];
-
-      if (nameDirection) {
-        sortsWithName = sortsWithName
-          .filter(({ column }) => column !== 'name')
-          .concat([
-            {
-              column: 'firstName',
-              direction: nameDirection,
-            },
-            {
-              column: 'lastName',
-              direction: nameDirection,
-            },
-          ]);
-      } else {
-        sortsWithName = sortsWithName.filter(({ column }) => column !== 'firstName' && column !== 'lastName');
-      }
-    }
 
     history.replace({
       state: {
         ...state,
-        sorts: sortsWithName,
-        sortData,
+        sorts,
       },
     });
   };
@@ -152,67 +127,14 @@ class PartnersGrid extends PureComponent {
           stickyFirstColumn
           stickyFromTop={138}
           items={content}
+          sorts={state?.sorts}
           loading={loading}
           hasMore={!last}
           onMore={this.handlePageChanged}
+          onSort={this.handleSort}
         >
           <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
-            header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
-            render={this.renderPartnerColumn}
-          />
-          <Column
+            sortBy="firstName"
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}
           />
@@ -221,14 +143,17 @@ class PartnersGrid extends PureComponent {
             render={this.renderExternalAffiliateIdColumn}
           />
           <Column
+            sortBy="country"
             header={I18n.t('PARTNERS.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
           <Column
+            sortBy="createdAt"
             header={I18n.t('PARTNERS.GRID_HEADER.REGISTERED')}
             render={this.renderRegisteredColumn}
           />
           <Column
+            sortBy="status"
             header={I18n.t('PARTNERS.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />

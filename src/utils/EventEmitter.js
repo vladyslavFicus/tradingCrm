@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 
-// ---- Profile events ---- //
-export const PROFILE_RELOAD = 'PROFILE_RELOAD';
+// ---- Client events ---- //
+export const CLIENT_RELOAD = 'CLIENT_RELOAD';
 
 // ---- Note events ---- //
 export const NOTE_ADDED = 'NOTE_ADDED';

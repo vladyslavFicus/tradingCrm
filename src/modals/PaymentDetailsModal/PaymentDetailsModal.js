@@ -5,12 +5,15 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { get } from 'lodash';
+import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
+import { withNotifications } from 'hoc';
 import { getBrand } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { tradingTypes, statusMapper } from 'constants/payment';
 import { withPermission } from 'providers/PermissionsProvider';
+import { FormikDatePicker } from 'components/Formik';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
 import PaymentStatus from 'components/PaymentStatus';
@@ -21,10 +24,12 @@ import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import Permissions from 'utils/permissions';
 import formatLabel from 'utils/formatLabel';
+import { createValidator, translateLabels } from 'utils/validator';
 import ChangePaymentStatusForm from './components/ChangePaymentStatusForm';
 import ApprovePaymentForm from './components/ApprovePaymentForm';
 import RejectPaymentForm from './components/RejectPaymentForm';
 import getProfileQuery from './graphql/getProfileQuery';
+import ChangeCreationTimeMutation from './graphql/ChangeCreationTimeMutation';
 import './PaymentDetailsModal.scss';
 
 class PaymentDetailsModal extends PureComponent {
@@ -40,6 +45,8 @@ class PaymentDetailsModal extends PureComponent {
       }),
       loading: PropTypes.bool,
     }).isRequired,
+    changeCreationTime: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   };
 
   onAcceptSuccess = () => {
@@ -119,20 +126,91 @@ class PaymentDetailsModal extends PureComponent {
     );
   };
 
+  handleChangeCreationTime = async ({ creationTime }, { resetForm }) => {
+    const { payment: { paymentId }, notify, changeCreationTime } = this.props;
+
+    try {
+      await changeCreationTime({
+        variables: {
+          paymentId,
+          creationTime,
+        },
+      });
+
+      notify({
+        level: 'success',
+        title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
+        message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
+      });
+
+      resetForm({ values: { creationTime } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  };
+
   renderDateAndTimeBlock = () => {
-    const { payment: { creationTime } } = this.props;
+    const {
+      payment: { creationTime },
+      permission: {
+        permissions: currentPermission,
+      },
+    } = this.props;
+
+    const canChangeCreationTime = new Permissions(permissions.PAYMENT.CHANGE_CREATION_TIME).check(currentPermission);
 
     return (
-      <div className="PaymentDetailsModal__block PaymentDetailsModal__one-fifth">
+      <div className="PaymentDetailsModal__block">
         <div className="PaymentDetailsModal__block-title">
           {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
         </div>
-        <div className="PaymentDetailsModal__block-label">
-          {moment.utc(creationTime).local().format('DD.MM.YYYY')}
-        </div>
-        <div className="PaymentDetailsModal__block-secondary">
-          {moment.utc(creationTime).local().format('HH:mm')}
-        </div>
+        <Formik
+          initialValues={{ creationTime: moment(creationTime).local().format('YYYY-MM-DD HH:mm:ss') }}
+          onSubmit={this.handleChangeCreationTime}
+          validate={
+            createValidator({
+              creationTime: ['required', 'dateWithTime'],
+            }, translateLabels({ creationTime: 'PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME' }), false)
+          }
+        >
+          {({ isSubmitting, dirty, isValid }) => (
+            <Form>
+              <Choose>
+                <When condition={canChangeCreationTime}>
+                  <Field
+                    name="creationTime"
+                    className="PaymentDetailsModal__date-picker"
+                    component={FormikDatePicker}
+                    withTime
+                    withUtc
+                  />
+                  <div className="PaymentDetailsModal__button">
+                    <Button
+                      disabled={!dirty || !isValid || isSubmitting}
+                      type="submit"
+                      primary
+                      small
+                    >
+                      {I18n.t('COMMON.SAVE')}
+                    </Button>
+                  </div>
+                </When>
+                <Otherwise>
+                  <div className="PaymentDetailsModal__block-label">
+                    {moment.utc(creationTime).local().format('DD.MM.YYYY')}
+                  </div>
+                  <div className="PaymentDetailsModal__block-secondary">
+                    {moment.utc(creationTime).local().format('HH:mm')}
+                  </div>
+                </Otherwise>
+              </Choose>
+            </Form>
+          )}
+        </Formik>
       </div>
     );
   };
@@ -376,7 +454,9 @@ class PaymentDetailsModal extends PureComponent {
 
 export default compose(
   withPermission,
+  withNotifications,
   withRequests({
     profile: getProfileQuery,
+    changeCreationTime: ChangeCreationTimeMutation,
   }),
 )(PaymentDetailsModal);

@@ -1,20 +1,6 @@
 .Table {
-  // Shadows for horizontal scrollable tables
-  background:
-    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
-    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 100% 0;
-  background-repeat: no-repeat;
-  background-size: 10px 100%;
-
   &__table {
     width: 100%;
-
-    // Hide shadow for horizontal scrollable tables when scroll at the end of table
-    background:
-      linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-      linear-gradient(to left, white 30%, rgba(255,255,255,0)) 100% 0;
-    background-size: 50px 100%;
-    background-repeat: no-repeat;
   }
 
   &__head {
@@ -23,99 +9,31 @@
     line-height: 1.4em;
     text-transform: uppercase;
     z-index: 2;
-
-    &--sticky {
-      position: sticky;
-      overflow-y: hidden;
-      left: 125px;
-      right: 40px;
-      z-index: 2;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    &--hidden {
-      visibility: collapse;
-
-      th {
-        line-height: 0;
-        height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        vertical-align: bottom;
-      }
-    }
-  }
-
-  &__body {
-    &--scrollable {
-      overflow: auto;
-    }
-
-    &--hidden {
-      visibility: collapse;
-
-      tr * {
-        line-height: 0;
-        height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        vertical-align: bottom;
-      }
-    }
   }
 
   &__body-row {
     &:hover {
       background: #f8f8f8;
-
-      .Table__cell--sticky {
-        background: #f8f8f8;
-      }
     }
 
     &:not(:last-child) {
-      border-bottom: 1px solid #eff1f3;
+      border-bottom: 1px solid #dfe4ed;
+    }
+
+    &--selected {
+      background-color: #eef3f8;
+
+      &:hover {
+        background-color: #e9eff7;
+      }
     }
   }
 
   &__cell {
-    box-sizing: border-box;
-    white-space: nowrap;
     padding: 15px 10px;
     font-weight: 400;
-
-    &--sticky {
-      position: sticky;
-      left: 0;
-      z-index: 1;
-      background: #ffffff;
-      background-clip: padding-box;
-      border-right: 1px solid #eeeeee;
-
-      // Adding shadow on end of sticky column to visual showing that table can scroll under the first column
-      &:after {
-        position: absolute;
-        content: "";
-        top: 0;
-        height: 100%;
-        width: 15px;
-        box-shadow: 15px 0 7px -15px inset #dcdcdc;
-        right: -15px;
-      }
-
-      & + .Table__cell {
-        padding-left: 25px;
-      }
-    }
-
-    &--max-width {
-      white-space: normal;
-    }
+    word-break: break-word;
+    vertical-align: top;
 
     &:last-child {
       padding-right: 20px;
@@ -123,32 +41,131 @@
   }
 
   &__head-cell {
-    padding-top: 32px;
-    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 12px;
+    height: 52px;
     text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
     background: #ffffff;
 
-    &:hover {
-      background: #f0f0f0;
+    &:not(:last-child):after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      top: 0;
+      right: 0;
+      border-right: 1px solid #dfe4ed;
     }
 
-    // Need to fix border-bottom while applied visibility: collapsed
     &:before {
+      content: "";
       position: absolute;
-      content: '';
-      height: 1px;
-      width: 100%;
+      height: 100%;
+      left: -2px;
+      right: -2px;
       bottom: 0;
-      left: 0;
-      background: #eff1f3;
-      z-index: 2;
+      box-shadow: 0 4px 2px -2px #bcbcbc;
+    }
+
+    &--sticky {
+      position: sticky;
+    }
+
+    &--with-sorting {
+      cursor: pointer;
+
+      &:hover {
+        background: #f5f5f5;
+
+        & path {
+          fill: #555;
+        }
+      }
+    }
+
+    &--sorted-by-asc,
+    &--sorted-by-desc {
+      color: #0190DA;
+      font-weight: 600;
+
+      .Table__head-cell-sort {
+        & path {
+          fill: #0190DA;
+        }
+
+        &:hover {
+          color: #0190DA;
+
+          & path {
+            fill: #0190DA;
+          }
+        }
+      }
+    }
+
+    &--sorted-by-asc {
+      & svg {
+        transform: translateY(-3px);
+      }
+
+      & path {
+        &:first-child {
+          fill: transparent;
+        }
+      }
+    }
+
+    &--sorted-by-desc {
+      & svg {
+        transform: translateY(3px);
+      }
+
+      & path {
+        &:last-child {
+          fill: transparent;
+        }
+      }
+    }
+  }
+
+  &__head-cell-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__head-cell-sort {
+    margin-left: 10px;
+
+    & svg {
+      transition: transform 0.2s ease;
+      display: block;
+      height: 10px;
+      width: 5px;
+    }
+
+    & path {
+      fill: #cfcfcf;
+      transition: fill 0.2s ease;
+    }
+  }
+
+  &__body-cell {
+    &--checkbox {
+      &:after {
+        content: "";
+        position: absolute;
+        height: 100%;
+        top: 0;
+        right: 0;
+        border-right: 1px solid #dfe4ed;
+      }
     }
   }
 
   &--no-content {
     .Table__head-cell {
-      max-width: 0;
-      overflow: hidden;
       text-overflow: ellipsis;
     }
 
@@ -157,6 +174,76 @@
       text-align: center;
       font-size: 16px;
       font-weight: 300;
+    }
+
+    // Hide hovering for row if no content available
+    .Table__body-row {
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+
+  // Table checkbox
+  &__checkbox {
+    width: 25px;
+    height: 25px;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    background-color: #fff;
+    transition: 0.1s ease;
+    cursor: pointer;
+    color: #ccc;
+
+    &:hover {
+      color: #9b9b9b;
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      width: 2px;
+      border-radius: 1px;
+      background-color: currentColor;
+    }
+
+    &:before {
+      transform: rotate(35deg);
+      height: 15px;
+      left: 12px;
+    }
+
+    &:after {
+      transform: rotate(-35deg);
+      height: 7px;
+      left: 6px;
+    }
+
+    &--is-active {
+      color: #5287bd;
+
+      &:hover {
+        color: #3f8edd;
+      }
+    }
+
+    &--without-check {
+      &:before {
+        transform: rotate(90deg) translateY(2px);
+      }
+
+      &:after {
+        background-color: transparent;
+        transform: rotate(90deg);
+      }
+
+      &:hover {
+        &:after {
+          background-color: transparent;
+        }
+      }
     }
   }
 }

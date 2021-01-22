@@ -17,9 +17,7 @@ import './ClientsBulkActions.scss';
 class ClientsBulkActions extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
-    updateClientsListState: PropTypes.func.isRequired,
+    select: PropTypes.TableSelection,
     selectedRowsLength: PropTypes.number.isRequired,
     auth: PropTypes.auth.isRequired,
     modals: PropTypes.shape({
@@ -31,11 +29,14 @@ class ClientsBulkActions extends PureComponent {
     }).isRequired,
   };
 
+  static defaultProps = {
+    select: null,
+  };
+
   handleTriggerRepModal = type => () => {
     const {
       clientsQuery,
-      touchedRowsIds,
-      allRowsSelected,
+      select,
       selectedRowsLength,
       location: { state },
       modals: { representativeUpdateModal },
@@ -45,9 +46,9 @@ class ClientsBulkActions extends PureComponent {
 
     representativeUpdateModal.show({
       type,
-      uuids: touchedRowsIds.map(index => clients[index].uuid),
+      uuids: select.touched.map(index => clients[index].uuid),
       configs: {
-        allRowsSelected,
+        allRowsSelected: select.all,
         selectedRowsLength,
         multiAssign: true,
         ...(state && {
@@ -70,8 +71,7 @@ class ClientsBulkActions extends PureComponent {
   handleTriggerUpdateAcquisitionStatusModal = () => {
     const {
       clientsQuery,
-      touchedRowsIds,
-      allRowsSelected,
+      select,
       selectedRowsLength,
       location: { state },
       modals: { updateAcquisitionStatusModal },
@@ -84,8 +84,8 @@ class ClientsBulkActions extends PureComponent {
       content: clients,
       configs: {
         totalElements,
-        touchedRowsIds,
-        allRowsSelected,
+        touchedRowsIds: select.touched,
+        allRowsSelected: select.all,
         selectedRowsLength,
         ...(state && {
           searchParams: state.filters,
@@ -99,11 +99,11 @@ class ClientsBulkActions extends PureComponent {
   onSubmitSuccess = async () => {
     const {
       clientsQuery,
-      updateClientsListState,
+      select,
     } = this.props;
 
     clientsQuery.refetch();
-    updateClientsListState();
+    select.reset();
   };
 
   render() {

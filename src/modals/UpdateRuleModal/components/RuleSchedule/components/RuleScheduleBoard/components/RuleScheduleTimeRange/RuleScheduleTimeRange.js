@@ -49,7 +49,7 @@ class RuleScheduleTimeRange extends PureComponent {
         <If condition={error}>
           <div className="RuleScheduleTimeRange__error">
             <i className="RuleScheduleTimeRange__error-icon icon icon-alert" />
-            {I18n.t('RULE_MODAL.SCHEDULE.ERRORS.INVALID_TIME_RANGE')}
+            {I18n.t(`RULE_MODAL.SCHEDULE.ERRORS.TIME_RANGE.${error}`)}
           </div>
         </If>
       </div>

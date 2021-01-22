@@ -66,12 +66,12 @@ class Operator extends PureComponent {
 
     return (
       <div className="Operator">
-        <div className="Operator__content">
-          <OperatorHeader operator={operator} />
+        <OperatorHeader operator={operator} />
 
+        <div className="Operator__content">
           <div className="Operator__info">
             <OperatorAccountStatus operator={operator} />
-            <OperatorRegistrationInfo registrationDate={operator.registrationDate} />
+            <OperatorRegistrationInfo registrationDate={operator?.registrationDate} />
           </div>
 
           <HideDetails>

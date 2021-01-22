@@ -44,6 +44,7 @@
     &-label {
       color: #333;
       font-weight: 700;
+      word-break: break-all;
     }
 
     &-secondary {
@@ -63,6 +64,19 @@
 
   &__one-fifth {
     width: 20%;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__date-picker {
+    margin-bottom: 10px;
+
+    & input {
+      font-size: 14px;
+    }
   }
 }
 

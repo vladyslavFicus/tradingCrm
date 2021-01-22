@@ -1,0 +1,170 @@
+.DateCalendarPicker {
+  width: 350px;
+
+  &__nav {
+    background: linear-gradient(to right, #4A90E2, #24BDEE);
+    color: #fff;
+    display: grid;
+    grid-template-columns: 40px 40px 1fr 40px 40px;
+    height: 40px;
+    width: 100%;
+
+    &-title {
+      font-size: 18px;
+      line-height: 40px;
+      text-align: center;
+      user-select: none;
+    }
+
+    &-button {
+      color: #fff;
+      cursor: pointer;
+      line-height: 42px;
+      text-align: center;
+      height: 100%;
+      width: 40px;
+
+      transition: color 0.2s;
+
+      &:hover {
+        color: #dfdfdf;
+      }
+    }
+
+    &-year {
+      font-size: 21px;
+    }
+
+    &-month {
+      font-size: 24px;
+    }
+  }
+
+  &__body {
+    padding: 5px 0;
+  }
+
+  &__weekdays,
+  &__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  &__weekday,
+  &__day {
+    height: 30px;
+    user-select: none;
+  }
+
+  &__weekday {
+    color: #3391D8;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  &__day {
+    color: #000;
+    cursor: pointer;
+    margin-top: 5px;
+    text-align: center;
+
+    // # hack to make border in select state with no glitch on selected elements
+    &:before {
+      content: '';
+      border: 1px solid transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+    }
+
+    &:hover {
+      &:before {
+        border-color: #4A90E2;
+      }
+    }
+
+    &-inner {
+      border-radius: 3px;
+      font-weight: 600;;
+      line-height: 30px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    &--today {
+      & .DateCalendarPicker__day-inner {
+        background-color: #E9FBE4;
+      }
+    }
+
+    &--out-of-month {
+      color: #B7B7B7;
+    }
+
+    &--selected {
+      & .DateCalendarPicker__day-inner {
+        background: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%);;
+        border-radius: 15px;
+        color: #fff;
+        width: 100%;
+      }
+
+      &:hover {
+        background: none;
+
+        & .DateCalendarPicker__day-inner {
+          background-color: #3480bb;
+        }
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      color: #B7B7B7;
+    }
+
+    &--range-start,
+    &--range-end {
+      &:before {
+        display: none;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 30px;
+        background-color: rgba(74, 144, 226, 0.1);
+      }
+    }
+
+    &--range-start {
+      &:after {
+        right: 0;
+      }
+
+      & .DateCalendarPicker__day-inner {
+        border-radius: 15px 0 0 15px;
+      }
+    }
+
+    &--range-end {
+      &:after {
+        left: 0;
+      }
+
+      & .DateCalendarPicker__day-inner {
+        border-radius: 0 15px 15px 0;
+      }
+    }
+
+    &--range-between {
+      background-color: rgba(74, 144, 226, 0.1);
+    }
+  }
+}

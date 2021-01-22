@@ -12,39 +12,22 @@ export const countries = Object.keys(countryList).map(value => ({
   label: countryList[value],
 }));
 
-export const registrationPeriodInHours = [
+export const periodInHours = [
   {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_HOURS',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_TWO_HOURS',
     value: 2,
-    i18nValue: 2,
   },
   {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_HOURS',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_SIX_HOURS',
     value: 6,
-    i18nValue: 6,
   },
   {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_HOURS',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_TWELVE_HOURS',
     value: 12,
-    i18nValue: 12,
   },
   {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_DAY',
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_TWENTYFOUR_HOURS',
     value: 24,
-  },
-  {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_DAYS',
-    value: 72,
-    i18nValue: 3,
-  },
-  {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_WEEK',
-    value: 168,
-  },
-  {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_N_WEEKS',
-    value: 336,
-    i18nValue: 2,
   },
 ];
 

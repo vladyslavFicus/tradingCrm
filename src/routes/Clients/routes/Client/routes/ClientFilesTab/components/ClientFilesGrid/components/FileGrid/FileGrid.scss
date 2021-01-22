@@ -1,0 +1,98 @@
+.FileGrid {
+  padding: 5px 25px 10px;
+  margin-top: 30px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    &-left,
+    &-right {
+      width: 50%;
+    }
+
+    &-left {
+      display: flex;
+      align-items: center;
+    }
+
+    &-category,
+    &-document-type {
+      display: inline-block;
+    }
+
+    &-category {
+      font-size: 16px;
+    }
+
+    &-separator {
+      margin: 0 15px;
+
+      &:before {
+        content: '>';
+        font-size: 20px;
+      }
+    }
+
+    &-document-type {
+      font-size: 16px;
+    }
+
+    &-status {
+      line-height: 2em;
+      text-align: right;
+
+      &-label,
+      &-value,
+      &-dropdown {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      &-label {
+        margin-right: 6px;
+      }
+
+      &-value {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      &-dropdown {
+        margin-left: 5px;
+        height: 29px;
+        width: 114px;
+
+        & .form-control {
+          font-size: 13px;
+          line-height: 14px;
+          height: 100%;
+        }
+
+        .select-icon {
+          font-size: 11px;
+          top: 10px;
+        }
+      }
+    }
+  }
+
+  &__col {
+    &--name {
+      width: 375px;
+    }
+
+    &-title {
+      font-weight: 700;
+
+      &--clickable {
+        cursor: pointer;
+      }
+    }
+
+    &-text {
+      font-size: 11px;
+    }
+  }
+}

@@ -1,0 +1,63 @@
+.ClientAcquisitionStatus {
+  &__title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+  }
+
+  &__item {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 5px 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__branch {
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  &__right {
+    max-width: 60%;
+
+    & > div {
+      text-align: right;
+    }
+  }
+
+  &__representative,
+  &__status {
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &__status {
+    font-size: 15px;
+  }
+
+  &__operator {
+    font-weight: 700;
+  }
+}

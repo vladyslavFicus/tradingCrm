@@ -53,21 +53,6 @@ PropTypes.pageableState = content => PropTypes.shape({
   receivedAt: PropTypes.number,
   error: PropTypes.object,
 });
-PropTypes.ipEntity = PropTypes.shape({
-  browserAgent: PropTypes.string,
-  sessionId: PropTypes.string,
-  sessionStart: PropTypes.string,
-  country: PropTypes.string,
-  ip: PropTypes.string,
-  uuid: PropTypes.string,
-});
-PropTypes.operatorIpEntity = PropTypes.shape({
-  agent: PropTypes.string.isRequired,
-  signInDate: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  ipAddress: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
-});
 PropTypes.noteEntity = PropTypes.shape({
   tagId: PropTypes.string,
   content: PropTypes.string,
@@ -533,7 +518,6 @@ PropTypes.ruleType = PropTypes.shape({
     }),
   ),
   parentBranch: PropTypes.string,
-  ruleType: PropTypes.string,
   brandId: PropTypes.string,
   countries: PropTypes.arrayOf(PropTypes.string),
   createdAt: PropTypes.string,
@@ -548,6 +532,7 @@ PropTypes.ruleType = PropTypes.shape({
 PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
   brand: PropTypes.string,
   sortType: PropTypes.string,
+  migrationSource: PropTypes.string,
   operator: PropTypes.string,
   operatorEntity: PropTypes.operatorsListEntity,
   country: PropTypes.string,
@@ -555,6 +540,8 @@ PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
     quantity: PropTypes.number,
     baseUnit: PropTypes.string,
   }),
+  desks: PropTypes.arrayOf(PropTypes.string),
+  teams: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.ruleClientsDistributionType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
@@ -568,7 +555,16 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   salesStatuses: PropTypes.arrayOf(PropTypes.string),
   targetSalesStatus: PropTypes.string,
   executionType: PropTypes.string,
+  registrationDateRange: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
   registrationPeriodInHours: PropTypes.number,
+  lastNoteDateRange: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
+  lastNotePeriodInHours: PropTypes.number,
   executionPeriodInHours: PropTypes.number,
   latestMigration: PropTypes.shape({
     uuid: PropTypes.string,
@@ -1027,6 +1023,14 @@ PropTypes.brandConfig = PropTypes.shape({
   brandId: PropTypes.string,
   brandName: PropTypes.string,
   config: PropTypes.object,
+});
+
+PropTypes.TableSelection = PropTypes.shape({
+  all: PropTypes.bool.isRequired,
+  touched: PropTypes.array.isRequired,
+  max: PropTypes.number.isRequired,
+  selected: PropTypes.number.isRequired,
+  reset: PropTypes.func.isRequired,
 });
 
 export default PropTypes;

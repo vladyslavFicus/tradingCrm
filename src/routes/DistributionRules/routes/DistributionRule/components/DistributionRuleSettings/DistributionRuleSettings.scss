@@ -1,4 +1,6 @@
 .DistributionRuleSettings {
+  margin-bottom: 40px;
+
   &__headline {
     margin-bottom: 15px;
     font-size: 17px;
@@ -9,5 +11,9 @@
     display: grid;
     grid-gap: 30px;
     grid-template-columns: repeat(3, 1fr);
+
+    &-field {
+      margin-bottom: 0;
+    }
   }
 }

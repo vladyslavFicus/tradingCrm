@@ -10,7 +10,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -74,7 +74,7 @@ class LeadsGridFilter extends PureComponent {
       desksAndTeamsQuery,
     } = this.props;
 
-    const operators = operatorsQuery.data.operators?.content || [];
+    const operators = operatorsQuery.data?.operators?.content || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });
@@ -190,10 +190,13 @@ class LeadsGridFilter extends PureComponent {
                   withFocus
                   multiple
                 >
-                  {Object.keys(countries)
-                    .map(country => (
-                      <option key={country} value={country}>{countries[country]}</option>
-                    ))}
+                  {[
+                    <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                    ...Object.keys(countries)
+                      .map(country => (
+                        <option key={country} value={country}>{countries[country]}</option>
+                      )),
+                  ]}
                 </Field>
 
                 <Field
@@ -311,23 +314,26 @@ class LeadsGridFilter extends PureComponent {
                     ))}
                 </Field>
 
-                <FormikDateRangeGroup
+                <Field
                   className="LeadsGridFilter__field LeadsGridFilter__date-range"
                   label={I18n.t(attributeLabels.registrationDateRange)}
-                  periodKeys={{
-                    start: 'registrationDateStart',
-                    end: 'registrationDateEnd',
+                  component={FormikDateRangePicker}
+                  fieldsNames={{
+                    from: 'registrationDateStart',
+                    to: 'registrationDateEnd',
                   }}
                   withFocus
                 />
 
-                <FormikDateRangeGroup
+                <Field
                   className="LeadsGridFilter__field LeadsGridFilter__date-range"
                   label={I18n.t(attributeLabels.lastNoteDateRange)}
-                  periodKeys={{
-                    start: 'lastNoteDateFrom',
-                    end: 'lastNoteDateTo',
+                  component={FormikDateRangePicker}
+                  fieldsNames={{
+                    from: 'lastNoteDateFrom',
+                    to: 'lastNoteDateTo',
                   }}
+                  anchorDirection="right"
                   withFocus
                 />
 

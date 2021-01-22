@@ -1,0 +1,167 @@
+.DatePicker {
+  position: relative;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+
+      & .DatePicker__input {
+        &-left,
+        &-right {
+          border-color: #4990e2;
+        }
+
+        &-calendar {
+          color: #aaa;
+        }
+      }
+    }
+
+    &--in-focus,
+    &--in-focus:hover {
+      & .DatePicker__input {
+        &-left,
+        &-right {
+          border-color: #4990e2;
+        }
+
+        &-calendar {
+          color: #aaa;
+        }
+      }
+    }
+
+    &--has-error,
+    &--has-error:hover {
+      & .DatePicker__input {
+        &-left,
+        &-right {
+          border-color: #d0011b;
+        }
+      }
+    }
+
+    &--is-disable,
+    &--is-disable:hover {
+      cursor: default;
+
+      & .DatePicker__input {
+        &-left,
+        &-right {
+          border-color: #cfcfcf;
+          background-color: #f6f6f6;
+        }
+
+        &-date,
+        &-calendar {
+          color: #bec2d5;
+        }
+      }
+    }
+
+    &-left,
+    &-right {
+      transition: border-color 0.2s ease;
+      height: 100%;
+    }
+
+    &-left {
+      border-radius: 3px 0 0 3px;
+      border: 1px solid  #cfcfcf;
+      width: calc(100% - 40px);
+
+      & input {
+        background-color: transparent;
+        color: #4a4a4a;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 38px;
+        padding: 0 6px 0 8px;
+
+        display: block;
+        width: 100%;
+
+        &::placeholder {
+          color: #9b9b9b;
+        }
+      }
+    }
+
+    &-right {
+      border-radius: 0 3px 3px 0;
+      border: 1px solid #cfcfcf;
+      border-left: none;
+      color: #cfcfcf;
+      line-height: 42px;
+      padding: 0 8px;
+      text-align: center;
+      transition: border-color 0.1s ease, color 0.1s ease;
+      user-select: none;
+      width: 40px;
+
+      &:hover {
+        color: #9b9b9b;
+      }
+    }
+
+    &-calendar {
+      font-size: 18px;
+    }
+
+    &-error {
+      color: #d0021b;
+      font-size: 12px;
+      margin-top: 3px;
+
+      &-icon {
+        font-size: 14px;
+        margin-right: 5px;
+        top: -3px;
+        display: inline-block;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  &__popup {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+    z-index: 2;
+
+    &--anchor-right {
+      left: auto;
+      right: 0;
+    }
+
+    &-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 15px;
+    }
+
+    &-button {
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
-import { FormikInputField, FormikSelectField, FormikDateRangeGroup } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { statusLabels } from '../../../../constants';
@@ -83,9 +83,13 @@ class PartnersGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {Object.keys(countryList).map(key => (
-                  <option key={key} value={key}>{countryList[key]}</option>
-                ))}
+                {[
+                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                  ...Object.keys(countryList)
+                    .map(country => (
+                      <option key={country} value={country}>{countryList[country]}</option>
+                    )),
+                ]}
               </Field>
 
               <Field
@@ -103,13 +107,15 @@ class PartnersGridFilter extends PureComponent {
                 ))}
               </Field>
 
-              <FormikDateRangeGroup
+              <Field
                 className="PartnersGridFilter__field PartnersGridFilter__date-range"
                 label={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
-                periodKeys={{
-                  start: 'registrationDateFrom',
-                  end: 'registrationDateTo',
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'registrationDateFrom',
+                  to: 'registrationDateTo',
                 }}
+                anchorDirection="right"
                 withFocus
               />
             </div>

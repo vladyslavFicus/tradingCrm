@@ -38,9 +38,7 @@ const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFI
 class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    updateClientsListState: PropTypes.func.isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
@@ -49,14 +47,13 @@ class ClientsGrid extends PureComponent {
     }).isRequired,
   }
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
         sorts,
-        sortData,
       },
     });
   };
@@ -95,39 +92,18 @@ class ClientsGrid extends PureComponent {
     window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
-  handleSelectRow = (allRowsSelected, touchedRowsIds) => {
-    this.props.updateClientsListState(allRowsSelected, touchedRowsIds);
+  handleSelectError = (select) => {
+    const {
+      modals: { confirmationModal },
+    } = this.props;
+
+    confirmationModal.show({
+      onSubmit: confirmationModal.hide,
+      modalTitle: `${select.max} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
+      actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: select.max }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
   };
-
-  handleAllRowsSelect = (allRowsSelected) => {
-    const { updateClientsListState } = this.props;
-
-    updateClientsListState(allRowsSelected, []);
-
-    if (allRowsSelected) {
-      const {
-        location,
-        clientsQuery,
-        modals: { confirmationModal },
-      } = this.props;
-
-      const totalElements = clientsQuery.data?.profiles?.totalElements || 0;
-      const searchLimit = location?.state?.filters?.searchLimit || null;
-
-      const selectedLimit = (searchLimit && searchLimit < totalElements)
-        ? searchLimit > MAX_SELECTED_CLIENTS
-        : totalElements > MAX_SELECTED_CLIENTS;
-
-      if (selectedLimit) {
-        confirmationModal.show({
-          onSubmit: confirmationModal.hide,
-          modalTitle: `${MAX_SELECTED_CLIENTS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
-          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_CLIENTS }),
-          submitButtonLabel: I18n.t('COMMON.OK'),
-        });
-      }
-    }
-  }
 
   renderClientColumn = data => (
     <GridPlayerInfo profile={data} />
@@ -408,14 +384,13 @@ class ClientsGrid extends PureComponent {
     const {
       location,
       clientsQuery,
-      touchedRowsIds,
-      allRowsSelected,
       permission: {
         permissions: currentPermissions,
       },
+      onSelect,
     } = this.props;
 
-    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
+    const isAvailableMultiSelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
     const clients = clientsQuery?.data?.profiles;
     const searchLimit = location?.state?.filters?.searchLimit || null;
@@ -431,12 +406,19 @@ class ClientsGrid extends PureComponent {
         <Table
           stickyFromTop={154}
           items={content}
+          totalCount={searchLimit || clients?.totalElements}
           loading={isLoading}
           hasMore={!last}
           onMore={this.handlePageChanged}
+          sorts={location?.state?.sorts}
+          onSort={this.handleSort}
+          withMultiSelect={isAvailableMultiSelect}
+          maxSelectCount={MAX_SELECTED_CLIENTS}
+          onSelect={onSelect}
+          onSelectError={this.handleSelectError}
         >
           <Column
-            maxWidth={200}
+            sortBy="firstName"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
             render={this.renderClientColumn}
           />
@@ -449,14 +431,17 @@ class ClientsGrid extends PureComponent {
             render={this.renderLastActivityColumn}
           />
           <Column
+            sortBy="address.countryCode"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
           <Column
+            sortBy="balance.amount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
             render={this.renderBalanceColumn}
           />
           <Column
+            sortBy="paymentDetails.depositsCount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
             render={this.renderDepositColumn}
           />
@@ -473,10 +458,12 @@ class ClientsGrid extends PureComponent {
             render={this.renderRetentionColumn}
           />
           <Column
+            sortBy="registrationDetails.registrationDate"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDateColumn}
           />
           <Column
+            sortBy="lastNote.changedAt"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
             render={this.renderLastNoteColumn}
           />
@@ -500,7 +487,7 @@ class ClientsGrid extends PureComponent {
         {/*  isLastPage={last}*/}
         {/*  withLazyLoad={!searchLimit || searchLimit !== content.length}*/}
         {/*  withRowsHover*/}
-        {/*  withMultiSelect={isAvailableMultySelect}*/}
+        {/*  withMultiSelect={isAvailableMultiSelect}*/}
         {/*  withNoResults={!isLoading && content.length === 0}*/}
         {/*>*/}
         {/*  <GridColumn*/}

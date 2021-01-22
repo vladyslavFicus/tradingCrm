@@ -19,12 +19,6 @@ class PersonalForm extends PureComponent {
     disabled: false,
   };
 
-  ageValidator = (current) => {
-    const requireAge = moment().subtract(AGE_YEARS_CONSTRAINT, 'year');
-
-    return current.isBefore(requireAge);
-  };
-
   render() {
     const { disabled } = this.props;
 
@@ -36,46 +30,52 @@ class PersonalForm extends PureComponent {
           </div>
         </div>
         <div className="row">
-          <Field
-            name="name"
-            label={I18n.t(attributeLabels.name)}
-            type="text"
-            component={FormikInputField}
-            disabled={disabled}
-            className="col-lg"
-          />
-          <Field
-            name="surname"
-            label={I18n.t(attributeLabels.surname)}
-            type="text"
-            component={FormikInputField}
-            disabled={disabled}
-            className="col-lg"
-          />
+          <div className="col-lg">
+            <Field
+              name="name"
+              label={I18n.t(attributeLabels.name)}
+              type="text"
+              component={FormikInputField}
+              disabled={disabled}
+            />
+          </div>
+          <div className="col-lg">
+            <Field
+              name="surname"
+              label={I18n.t(attributeLabels.surname)}
+              type="text"
+              component={FormikInputField}
+              disabled={disabled}
+            />
+          </div>
         </div>
         <div className="row">
-          <FormikDatePicker
-            name="birthDate"
-            label={I18n.t(attributeLabels.birthDate)}
-            disabled={disabled}
-            timeFormat={null}
-            isValidDate={this.ageValidator}
-            className="col-lg"
-          />
-          <Field
-            name="gender"
-            label={I18n.t(attributeLabels.gender)}
-            component={FormikSelectField}
-            disabled={disabled}
-            placeholder="UNDEFINED"
-            className="col-lg"
-          >
-            {genders.map(item => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </Field>
+          <div className="col-lg">
+            <Field
+              name="birthDate"
+              label={I18n.t(attributeLabels.birthDate)}
+              component={FormikDatePicker}
+              maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
+              disabled={disabled}
+              closeOnSelect
+            />
+          </div>
+
+          <div className="col-lg">
+            <Field
+              name="gender"
+              label={I18n.t(attributeLabels.gender)}
+              component={FormikSelectField}
+              disabled={disabled}
+              placeholder="UNDEFINED"
+            >
+              {genders.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+          </div>
         </div>
       </Fragment>
     );

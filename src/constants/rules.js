@@ -1,5 +1,3 @@
-import keyMirror from 'keymirror';
-
 const maxPriority = 10;
 export const priorities = [...Array.from(Array(maxPriority), (_, i) => i + 1)];
 
@@ -26,8 +24,3 @@ export const clientDistribution = [{
   label: 'DESKS.RULES.MODAL.DISTRIBUTION.ROUND_ROBIN',
   value: 'ROUND_ROBIN',
 }];
-
-export const actionRuleTypes = keyMirror({
-  DEFAULT: null,
-  ROUND_ROBIN: null,
-});

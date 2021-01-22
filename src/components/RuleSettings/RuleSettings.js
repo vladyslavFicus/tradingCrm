@@ -18,14 +18,12 @@ class RuleSettings extends PureComponent {
   static propTypes = {
     operators: PropTypes.arrayOf(PropTypes.operatorsListEntity).isRequired,
     partners: PropTypes.arrayOf(PropTypes.partnersListEntity).isRequired,
-    withOperatorSpreads: PropTypes.bool,
     operatorSpreads: PropTypes.array,
     formikBag: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
-    withOperatorSpreads: false,
-    operatorSpreads: [],
+    operatorSpreads: null,
   };
 
   removeOperatorSpread = (index) => {
@@ -45,7 +43,6 @@ class RuleSettings extends PureComponent {
     const {
       operators,
       partners,
-      withOperatorSpreads,
       operatorSpreads,
       formikBag: {
         isSubmitting,
@@ -147,7 +144,7 @@ class RuleSettings extends PureComponent {
           placeholder={I18n.t(attributeLabels.source)}
           component={FormikMultiInputField}
         />
-        <If condition={withOperatorSpreads}>
+        <If condition={operatorSpreads}>
           <RuleOperatorSpreads
             operators={operators}
             operatorSpreads={operatorSpreads}

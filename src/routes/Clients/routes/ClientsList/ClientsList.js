@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { NetworkStatus } from 'apollo-client';
 import PropTypes from 'constants/propTypes';
 import ClientsGrid from './components/ClientsGrid';
 import ClientsGridFilter from './components/ClientsGridFilter';
@@ -16,35 +17,32 @@ class ClientsList extends PureComponent {
   };
 
   state = {
-    allRowsSelected: false,
-    touchedRowsIds: [],
+    select: null,
   };
 
   componentDidUpdate(prevProps) {
+    const { clientsQuery } = this.props;
+    const { select } = this.state;
+
     // Clear selecting when filters or sorting changed
-    if (this.props.clientsQuery.loading && !prevProps.clientsQuery.loading) {
-      this.updateClientsListState();
+    if (clientsQuery.networkStatus === NetworkStatus.setVariables && !prevProps.clientsQuery.loading && select) {
+      select.reset();
     }
   }
 
-  updateClientsListState = (
-    allRowsSelected = false,
-    touchedRowsIds = [],
-  ) => {
-    this.setState({ allRowsSelected, touchedRowsIds });
+  onSelect = (select) => {
+    this.setState({ select });
   };
 
   render() {
     const { clientsQuery } = this.props;
-    const { allRowsSelected, touchedRowsIds } = this.state;
+    const { select } = this.state;
 
     return (
       <div className="ClientsList">
         <ClientsHeader
           clientsQuery={clientsQuery}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          updateClientsListState={this.updateClientsListState}
+          select={select}
         />
 
         <ClientsGridFilter
@@ -54,9 +52,7 @@ class ClientsList extends PureComponent {
 
         <ClientsGrid
           clientsQuery={clientsQuery}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          updateClientsListState={this.updateClientsListState}
+          onSelect={this.onSelect}
         />
       </div>
     );
