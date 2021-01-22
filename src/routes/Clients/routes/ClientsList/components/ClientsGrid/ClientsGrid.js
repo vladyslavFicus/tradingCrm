@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
@@ -19,19 +18,18 @@ import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import GridStatus from 'components/GridStatus';
-import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { Column, Table } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Permissions from 'utils/permissions';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
 import { MAX_SELECTED_CLIENTS } from '../../constants';
 import './ClientsGrid.scss';
-import { Column, Table } from 'components/Table';
 
 const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
 
@@ -472,79 +470,6 @@ class ClientsGrid extends PureComponent {
             render={this.renderStatusColumn}
           />
         </Table>
-        {/*<Grid*/}
-        {/*  data={content}*/}
-        {/*  touchedRowsIds={touchedRowsIds}*/}
-        {/*  handleSort={this.handleSort}*/}
-        {/*  sorts={location?.state?.sortData}*/}
-        {/*  allRowsSelected={allRowsSelected}*/}
-        {/*  handleSelectRow={this.handleSelectRow}*/}
-        {/*  handleRowClick={this.handleRowClick}*/}
-        {/*  handleAllRowsSelect={this.handleAllRowsSelect}*/}
-        {/*  handlePageChanged={this.handlePageChanged}*/}
-        {/*  headerStickyFromTop={154}*/}
-        {/*  isLoading={isLoading}*/}
-        {/*  isLastPage={last}*/}
-        {/*  withLazyLoad={!searchLimit || searchLimit !== content.length}*/}
-        {/*  withRowsHover*/}
-        {/*  withMultiSelect={isAvailableMultiSelect}*/}
-        {/*  withNoResults={!isLoading && content.length === 0}*/}
-        {/*>*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="firstName"*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}*/}
-        {/*    render={this.renderClientColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}*/}
-        {/*    render={this.renderWarningColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}*/}
-        {/*    render={this.renderLastActivityColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="address.countryCode"*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}*/}
-        {/*    render={this.renderCountryColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="balance.amount"*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}*/}
-        {/*    render={this.renderBalanceColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="paymentDetails.depositsCount"*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}*/}
-        {/*    render={this.renderDepositColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}*/}
-        {/*    render={this.renderAffiliateOrReferrerColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}*/}
-        {/*    render={this.renderSalesColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}*/}
-        {/*    render={this.renderRetentionColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="registrationDetails.registrationDate"*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}*/}
-        {/*    render={this.renderRegistrationDateColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="lastNote.changedAt"*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}*/}
-        {/*    render={this.renderLastNoteColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}*/}
-        {/*    render={this.renderStatusColumn}*/}
-        {/*  />*/}
-        {/*</Grid>*/}
       </div>
     );
   }

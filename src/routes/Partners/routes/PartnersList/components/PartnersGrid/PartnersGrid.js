@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
@@ -6,7 +5,6 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
-import Grid, { GridColumn } from 'components/Grid';
 import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
@@ -158,41 +156,6 @@ class PartnersGrid extends PureComponent {
             render={this.renderStatusColumn}
           />
         </Table>
-        {/*<Grid*/}
-        {/*  data={content}*/}
-        {/*  sorts={state?.sortData}*/}
-        {/*  handleSort={this.handleSort}*/}
-        {/*  handlePageChanged={this.handlePageChanged}*/}
-        {/*  headerStickyFromTop={138}*/}
-        {/*  isLoading={loading}*/}
-        {/*  isLastPage={last}*/}
-        {/*  withLazyLoad*/}
-        {/*>*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="name"*/}
-        {/*    header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}*/}
-        {/*    render={this.renderPartnerColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    header={I18n.t('PARTNERS.GRID_HEADER.EXTERNAL_ID')}*/}
-        {/*    render={this.renderExternalAffiliateIdColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="country"*/}
-        {/*    header={I18n.t('PARTNERS.GRID_HEADER.COUNTRY')}*/}
-        {/*    render={this.renderCountryColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="createdAt"*/}
-        {/*    header={I18n.t('PARTNERS.GRID_HEADER.REGISTERED')}*/}
-        {/*    render={this.renderRegisteredColumn}*/}
-        {/*  />*/}
-        {/*  <GridColumn*/}
-        {/*    sortBy="status"*/}
-        {/*    header={I18n.t('PARTNERS.GRID_HEADER.STATUS')}*/}
-        {/*    render={this.renderStatusColumn}*/}
-        {/*  />*/}
-        {/*</Grid>*/}
       </div>
     );
   }
