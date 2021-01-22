@@ -10,12 +10,9 @@ import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
-import BulkUpdateAcquisitionStatus from './graphql/BulkUpdateAcquisitionStatus';
+import UpdateAcquisitionStatusMutation from './graphql/UpdateAcquisitionStatusMutation';
 import { checkMovePermission } from './utils';
-
-const validate = createValidator({
-  acquisitionStatus: ['required', 'string'],
-});
+import './UpdateAcquisitionStatusModal.scss';
 
 class UpdateAcquisitionStatusModal extends PureComponent {
   static propTypes = {
@@ -32,7 +29,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     content: PropTypes.arrayOf(PropTypes.object).isRequired,
-    bulkUpdateAcquisitionStatus: PropTypes.func.isRequired,
+    updateAcquisitionStatus: PropTypes.func.isRequired,
   };
 
   handleMoveSubmit = async ({ acquisitionStatus }, { setSubmitting, setErrors }) => {
@@ -49,22 +46,26 @@ class UpdateAcquisitionStatusModal extends PureComponent {
       content,
       onSuccess,
       onCloseModal,
-      bulkUpdateAcquisitionStatus,
+      updateAcquisitionStatus,
     } = this.props;
 
     const actionForbidden = checkMovePermission({ ...configs, content, acquisitionStatus });
 
     if (actionForbidden) {
       const typeLowercased = acquisitionStatus.toLowerCase();
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: I18n.t('clients.bulkUpdate.moveForbidden', { type: typeLowercased }),
       });
+
       setErrors({
         submit: I18n.t('clients.bulkUpdate.detailedTypeError', { type: typeLowercased }),
       });
+
       setSubmitting(false);
+
       return;
     }
 
@@ -90,7 +91,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
     }
 
     try {
-      await bulkUpdateAcquisitionStatus({
+      await updateAcquisitionStatus({
         variables: {
           uuids: selectedClients.map(({ uuid }) => uuid),
           acquisitionStatus,
@@ -143,33 +144,38 @@ class UpdateAcquisitionStatusModal extends PureComponent {
 
     return (
       <Modal
+        className="UpdateAcquisitionStatusModal"
         toggle={onCloseModal}
         isOpen={isOpen}
       >
         <Formik
-          initialValues={{ acquisitionStatus: '' }}
+          initialValues={{}}
           onSubmit={this.handleMoveSubmit}
-          validate={validate}
+          validate={createValidator({
+            acquisitionStatus: ['required'],
+          })}
         >
           {({ errors, isValid, isSubmitting, dirty }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 <div>{I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_HEADER')}</div>
-                <div className="font-size-11 color-yellow">
+
+                <div className="UpdateAcquisitionStatusModal__selected-clients">
                   {selectedRowsLength}{' '}{I18n.t('COMMON.CLIENTS_SELECTED')}
                 </div>
               </ModalHeader>
               <ModalBody>
                 <If condition={errors && errors.submit}>
-                  <div className="mb-2 text-center color-danger">
+                  <div className="UpdateAcquisitionStatusModal__error">
                     {errors.submit}
                   </div>
                 </If>
+
                 <Field
                   name="acquisitionStatus"
                   label={I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL')}
-                  component={FormikSelectField}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  component={FormikSelectField}
                   disabled={isSubmitting}
                 >
                   {aquisitionStatuses.map(({ value, label }) => (
@@ -179,6 +185,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
                   ))}
                 </Field>
               </ModalBody>
+
               <ModalFooter>
                 <Button
                   default
@@ -206,6 +213,6 @@ class UpdateAcquisitionStatusModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    bulkUpdateAcquisitionStatus: BulkUpdateAcquisitionStatus,
+    updateAcquisitionStatus: UpdateAcquisitionStatusMutation,
   }),
 )(UpdateAcquisitionStatusModal);
