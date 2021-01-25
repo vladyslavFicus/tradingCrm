@@ -5,8 +5,8 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { accountTypes } from 'constants/accountTypes';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
-import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
+import { FormikSelectField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import './ClientTradingAccountsGridFilter.scss';
 
@@ -43,8 +43,11 @@ class ClientTradingAccountsGridFilter extends PureComponent {
   render() {
     const {
       handleRefetch,
-      location: { state },
+      location: {
+        state,
+      },
     } = this.props;
+
     const platformTypes = getAvailablePlatformTypes();
 
     return (
@@ -63,7 +66,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
           <Form className="ClientTradingAccountsGridFilter__form">
             <Field
               name="accountType"
-              className="ClientTradingAccountsGridFilter__field ClientTradingAccountsGridFilter__select"
+              className="ClientTradingAccountsGridFilter__field"
               label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
@@ -78,7 +81,7 @@ class ClientTradingAccountsGridFilter extends PureComponent {
             <If condition={platformTypes.length > 0}>
               <Field
                 name="platformType"
-                className="ClientTradingAccountsGridFilter__field ClientTradingAccountsGridFilter__select"
+                className="ClientTradingAccountsGridFilter__field"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}

@@ -1,25 +1,26 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import { withRequests } from 'apollo';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
+import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
+import PropTypes from 'constants/propTypes';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { Button } from 'components/UI';
 import Badge from 'components/Badge';
 import { FormikSelectField } from 'components/Formik';
-import { accountTypesLabels } from 'constants/accountTypes';
-import PropTypes from 'constants/propTypes';
-import changeLeverageMutation from './graphql/ChangeLeverageMutation';
+import ChangeLeverageMutation from './graphql/ChangeLeverageMutation';
 import './ChangeLeverageModal.scss';
 
 class ChangeLeverageModal extends PureComponent {
   static propTypes = {
-    onCloseModal: PropTypes.func.isRequired,
-    changeLeverage: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
-    refetchTradingAccountsList: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    changeLeverage: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     accountType: PropTypes.string,
     name: PropTypes.string,
     login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -41,11 +42,11 @@ class ChangeLeverageModal extends PureComponent {
 
   onSubmit = async (data) => {
     const {
-      refetchTradingAccountsList,
-      changeLeverage,
       onCloseModal,
-      accountUUID,
       notify,
+      changeLeverage,
+      onSuccess,
+      accountUUID,
     } = this.props;
 
     try {
@@ -62,7 +63,7 @@ class ChangeLeverageModal extends PureComponent {
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.LEVERAGE_CHANGED'),
       });
 
-      refetchTradingAccountsList();
+      onSuccess();
       onCloseModal();
     } catch {
       notify({
@@ -109,53 +110,50 @@ class ChangeLeverageModal extends PureComponent {
                   success={accountType === 'LIVE' && !archived}
                   danger={archived}
                 >
-                  <div className="font-weight-700">
+                  <div className="ChangeLeverageModal__account-name">
                     {name}
                   </div>
                 </Badge>
-                <div className="font-size-11">
+                <div className="ChangeLeverageModal__account-details">
                   {platformType}ID - {login}
                 </div>
-                <div className="font-size-11">
+                <div className="ChangeLeverageModal__account-details">
                   {group}
                 </div>
                 <p className="ChangeLeverageModal__message">
                   {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.MESSAGE')}
                 </p>
-                <div className="ChangeLeverageModal__inputs">
-                  <Field
-                    name="leverage"
-                    className="ChangeLeverageModal__input ChangeLeverageModal__select"
-                    placeholder={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
-                    label={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
-                    component={FormikSelectField}
-                  >
-                    {brand[platformType.toLowerCase()].leveragesChangingRequest
-                      .filter(item => leverage !== item)
-                      .map(value => <option key={value} value={value}>1:{value}</option>)}
-                  </Field>
-                </div>
+
+                <Field
+                  name="leverage"
+                  label={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
+                  placeholder={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
+                  component={FormikSelectField}
+                >
+                  {brand[platformType.toLowerCase()].leveragesChangingRequest
+                    .filter(item => leverage !== item)
+                    .map(value => (
+                      <option key={value} value={value}>1:{value}</option>
+                    ))}
+                </Field>
               </ModalBody>
               <ModalFooter>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col">
-                      <Button
-                        className="ChangeLeverageModal__button"
-                        commonOutline
-                        onClick={onCloseModal}
-                      >
-                        {I18n.t('COMMON.CANCEL')}
-                      </Button>
-                      <Button
-                        primary
-                        disabled={!dirty || isSubmitting}
-                        type="submit"
-                      >
-                        {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
-                      </Button>
-                    </div>
-                  </div>
+                <div className="ChangeLeverageModal__buttons">
+                  <Button
+                    className="ChangeLeverageModal__button"
+                    onClick={onCloseModal}
+                    commonOutline
+                  >
+                    {I18n.t('COMMON.CANCEL')}
+                  </Button>
+                  <Button
+                    className="ChangeLeverageModal__button"
+                    disabled={!dirty || isSubmitting}
+                    type="submit"
+                    primary
+                  >
+                    {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
+                  </Button>
                 </div>
               </ModalFooter>
             </Form>
@@ -166,6 +164,9 @@ class ChangeLeverageModal extends PureComponent {
   }
 }
 
-export default withRequests({
-  changeLeverage: changeLeverageMutation,
-})(withNotifications(ChangeLeverageModal));
+export default compose(
+  withNotifications,
+  withRequests({
+    changeLeverage: ChangeLeverageMutation,
+  }),
+)(ChangeLeverageModal);

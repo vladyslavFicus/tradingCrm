@@ -17,32 +17,25 @@ const attributeLabels = {
   repeatPassword: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.REPEAT_PASSWORD'),
 };
 
-const validate = createValidator({
-  password: ['required', `regex:${getBrand().password.mt4_pattern}`],
-  repeatPassword: ['required', 'same:password'],
-}, translateLabels(attributeLabels), false);
-
 class TradingAccountChangePasswordModal extends PureComponent {
   static propTypes = {
-    login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    notify: PropTypes.func.isRequired,
     tradingAccountChangePassword: PropTypes.func.isRequired,
+    login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     accountUUID: PropTypes.string.isRequired,
     profileUUID: PropTypes.string.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   onSubmit = async ({ password }, { setSubmitting }) => {
-    setSubmitting(false);
-
     const {
+      onCloseModal,
+      notify,
+      tradingAccountChangePassword,
+      login,
       accountUUID,
       profileUUID,
-      notify,
-      login,
-      onCloseModal,
-      tradingAccountChangePassword,
     } = this.props;
 
     try {
@@ -68,6 +61,8 @@ class TradingAccountChangePasswordModal extends PureComponent {
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
+
+    setSubmitting(false);
   };
 
   render() {
@@ -80,8 +75,14 @@ class TradingAccountChangePasswordModal extends PureComponent {
     return (
       <Modal className="modal-danger" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
-          initialValues={{ password: '', repeatPassword: '' }}
-          validate={validate}
+          initialValues={{
+            password: '',
+            repeatPassword: '',
+          }}
+          validate={createValidator({
+            password: ['required', `regex:${getBrand().password.mt4_pattern}`],
+            repeatPassword: ['required', 'same:password'],
+          }, translateLabels(attributeLabels), false)}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={this.onSubmit}
@@ -109,15 +110,15 @@ class TradingAccountChangePasswordModal extends PureComponent {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  commonOutline
                   onClick={onCloseModal}
+                  commonOutline
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
                 <Button
-                  danger
                   disabled={isSubmitting}
                   type="submit"
+                  danger
                 >
                   {I18n.t('COMMON.BUTTONS.SAVE_NEW_PASSWORD')}
                 </Button>
@@ -131,8 +132,8 @@ class TradingAccountChangePasswordModal extends PureComponent {
 }
 
 export default compose(
+  withNotifications,
   withRequests({
     tradingAccountChangePassword: TradingAccountChangePasswordMutation,
   }),
-  withNotifications,
 )(TradingAccountChangePasswordModal);
