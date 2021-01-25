@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation CreateCallbackModal_createCallbackMutation(
+  mutation CreateCallbackModal_CreateCallbackMutation(
     $userId: String!,
     $reminder: String,
     $operatorId: String!,
@@ -23,14 +23,14 @@ const REQUEST = gql`
   }
 `;
 
-const createCallbackMutation = ({ children }) => (
+const CreateCallbackMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-createCallbackMutation.propTypes = {
+CreateCallbackMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default createCallbackMutation;
+export default CreateCallbackMutation;

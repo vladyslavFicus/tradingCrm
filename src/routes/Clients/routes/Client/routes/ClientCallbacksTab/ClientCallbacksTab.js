@@ -5,17 +5,17 @@ import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
+import CreateCallbackModal from 'modals/CreateCallbackModal';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/UI';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';
-import CreateCallbackModal from './components/CreateCallbackModal';
-import getClientCallbacksQuery from './graphql/getClientCallbacksQuery';
+import ClientCallbacksQuery from './graphql/ClientCallbacksQuery';
 import './ClientCallbacksTab.scss';
 
 class ClientCallbacksTab extends PureComponent {
   static propTypes = {
-    clientCallbacksData: PropTypes.query({
+    clientCallbacksQuery: PropTypes.query({
       callbacks: PropTypes.pageable(PropTypes.callback),
     }).isRequired,
     modals: PropTypes.shape({
@@ -32,12 +32,12 @@ class ClientCallbacksTab extends PureComponent {
   }
 
   onProfileEvent = () => {
-    this.props.clientCallbacksData.refetch();
+    this.props.clientCallbacksQuery.refetch();
   };
 
   handleOpenAddCallbackModal = () => {
     const {
-      clientCallbacksData: { refetch },
+      clientCallbacksQuery: { refetch },
       modals: { createCallbackModal },
     } = this.props;
 
@@ -47,7 +47,7 @@ class ClientCallbacksTab extends PureComponent {
   };
 
   render() {
-    const { clientCallbacksData } = this.props;
+    const { clientCallbacksQuery } = this.props;
 
     return (
       <div className="ClientCallbacksTab">
@@ -64,8 +64,8 @@ class ClientCallbacksTab extends PureComponent {
           </Button>
         </TabHeader>
 
-        <ClientCallbacksGridFilter handleRefetch={clientCallbacksData.refetch} />
-        <ClientCallbacksGrid clientCallbacksData={clientCallbacksData} />
+        <ClientCallbacksGridFilter handleRefetch={clientCallbacksQuery.refetch} />
+        <ClientCallbacksGrid clientCallbacksQuery={clientCallbacksQuery} />
       </div>
     );
   }
@@ -76,6 +76,6 @@ export default compose(
     createCallbackModal: CreateCallbackModal,
   }),
   withRequests({
-    clientCallbacksData: getClientCallbacksQuery,
+    clientCallbacksQuery: ClientCallbacksQuery,
   }),
 )(ClientCallbacksTab);
