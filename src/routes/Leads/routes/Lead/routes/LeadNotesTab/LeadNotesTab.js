@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
@@ -9,6 +9,7 @@ import TabHeader from 'components/TabHeader';
 import NoteItem from 'components/NoteItem';
 import LeadNotesTabQuery from './graphql/LeadNotesTabQuery';
 import LeadNotesTabFilter from './components/LeadNotesTabFilter';
+import './LeadNotesTab.scss';
 
 class LeadNotesTab extends PureComponent {
   static propTypes = {
@@ -52,10 +53,10 @@ class LeadNotesTab extends PureComponent {
     };
 
     return (
-      <Fragment>
+      <div className="LeadNotesTab">
         <TabHeader title={I18n.t('LEAD_PROFILE.NOTES.TITLE')} />
         <LeadNotesTabFilter handleRefetch={refetch} />
-        <div className="tab-wrapper">
+        <div className="LeadNotesTab__list">
           <ListView
             dataSource={content}
             onPageChange={this.loadMore}
@@ -67,7 +68,7 @@ class LeadNotesTab extends PureComponent {
             showNoResults={!loading && !content.length}
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
