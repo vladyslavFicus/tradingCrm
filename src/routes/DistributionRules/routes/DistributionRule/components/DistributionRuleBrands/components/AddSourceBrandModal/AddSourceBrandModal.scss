@@ -34,12 +34,13 @@
   }
 
   &__field {
-    &--quantity {
-      flex: 1;
-      margin-right: 15px;
+    flex: 1;
+
+    &+& {
+      margin-left: 15px;
     }
 
-    &--unit {
+    &--small {
       flex: 0 90px;
     }
   }
