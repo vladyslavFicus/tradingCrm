@@ -209,8 +209,9 @@ class ClientsGrid extends PureComponent {
 
     return (
       <Choose>
-        <When condition={affiliateUuid}>
-          <If condition={partner}>
+        {/* Affiliate */}
+        <When condition={affiliate}>
+          <If condition={affiliateUuid}>
             <div>
               <Link
                 className="ClientsGrid__affiliate"
@@ -256,14 +257,20 @@ class ClientsGrid extends PureComponent {
             </UncontrolledTooltip>
           </If>
         </When>
-        <When condition={referrerUuid}>
-          <div className="ClientsGrid__referrer">{referrerName}</div>
-          <Uuid
-            className="ClientsGrid__text-secondary"
-            uuidPostfix="..."
-            length={12}
-            uuid={referrerUuid}
-          />
+
+        {/* Referrer */}
+        <When condition={referrer}>
+          <If condition={referrerName}>
+            <div className="ClientsGrid__referrer">{referrerName}</div>
+          </If>
+          <If condition={referrerUuid}>
+            <Uuid
+              className="ClientsGrid__text-secondary"
+              uuidPostfix="..."
+              length={12}
+              uuid={referrerUuid}
+            />
+          </If>
         </When>
         <Otherwise>
           <GridEmptyValue />
