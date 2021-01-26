@@ -95,7 +95,7 @@ const isValueMomentValid = (value) => {
 
 const handleDate = (date) => {
   if (moment(date, ['YYYY-MM-DDTHH:mm:ss.SSS', 'YYYY-MM-DDTHH:mm:ss'], true).isValid()) {
-    return moment.utc(new Date(date)).local().format('DD.MM.YYYY \\a\\t HH:mm:ss');
+    return moment.utc(date).local().format('DD.MM.YYYY \\a\\t HH:mm:ss');
   }
 
   return 'Invalid date';

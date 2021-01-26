@@ -132,16 +132,19 @@ class DatePicker extends PureComponent {
       return date.format(momentUserFormat);
     }
 
+    // Remove millisecond 2021-01-28T21:45:00.675 to 2021-01-28T21:45:00
+    const _date = date ? date.split('.')[0] : date;
+
     // # valid input date format must have 'YYYY-MM-DDTHH:mm:ss[Z]', 'YYYY-MM-DDTHH:mm:ss' or 'YYYY-MM-DD'
     // # if date is valid return userfriendly string in DATE_TIME_USER_STRING_FORMAT
     // or DATE_USER_STRING_FORMAT if time is not expected
-    const momentDateInBaseFormat = moment(date, momentBaseFormat);
+    const momentDateInBaseFormat = moment(_date, momentBaseFormat);
 
     if (
       momentDateInBaseFormat.isValid()
       && (
-        date === momentDateInBaseFormat.format(momentBaseFormat)
-        || date === momentDateInBaseFormat.format(momentOldBaseFormat)
+        _date === momentDateInBaseFormat.format(momentBaseFormat)
+        || _date === momentDateInBaseFormat.format(momentOldBaseFormat)
       )
     ) {
       if (!withTime) {
@@ -149,13 +152,13 @@ class DatePicker extends PureComponent {
       }
 
       return withUtc
-        ? moment.utc(date, momentBaseFormat).local().format(momentUserFormat)
+        ? moment.utc(_date, momentBaseFormat).local().format(momentUserFormat)
         : momentDateInBaseFormat.local().format(momentUserFormat);
     }
 
     // # if date is invalid by dateFormat and date is not MomentObject
     // # return provided value
-    return date;
+    return _date;
   }
 
   /**

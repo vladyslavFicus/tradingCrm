@@ -169,7 +169,7 @@ class PaymentDetailsModal extends PureComponent {
           {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
         </div>
         <Formik
-          initialValues={{ creationTime: moment(creationTime).local().format('YYYY-MM-DD HH:mm:ss') }}
+          initialValues={{ creationTime }}
           onSubmit={this.handleChangeCreationTime}
           validate={
             createValidator({
