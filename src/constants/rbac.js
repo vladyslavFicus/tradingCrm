@@ -11,7 +11,6 @@ export default [
       },
     },
     additional: {
-      departments: ['FINANCE'],
       permissions: [
         // filter-set
         'filter-sets.getFilterSet',
@@ -372,7 +371,6 @@ export default [
       },
     },
     additional: {
-      departments: ['FINANCE'],
       permissions: [
         // operator
         'operator.searchOperators',

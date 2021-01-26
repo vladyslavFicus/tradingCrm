@@ -190,18 +190,14 @@ class PermissionsSetting extends PureComponent {
       async () => {
         // Checks if there are additional permissions
         const getActions = () => {
-          const { departments, permissions } = currentSection?.additional || {};
+          const { permissions } = currentSection?.additional || {};
 
           if (switchedOffActions.length) {
-            return currentSection?.additional && departments.includes(department)
-              ? [...switchedOffActions, ...permissions]
-              : switchedOffActions;
+            return currentSection?.additional ? [...switchedOffActions, ...permissions] : switchedOffActions;
           }
 
           if (isSectionSwitcher) {
-            return currentSection?.additional && departments.includes(department)
-              ? [action, ...permissions]
-              : [action];
+            return currentSection?.additional ? [action, ...permissions] : [action];
           }
 
           return [action];
