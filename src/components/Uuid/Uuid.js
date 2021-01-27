@@ -22,8 +22,8 @@ const Uuid = ({
 
   return (
     <CopyToClipboard
-      notify={notify}
       text={inputUUID}
+      withNotification={notify}
       notificationLevel={notificationLevel}
       notificationTitle={notificationTitle}
       notificationMessage={notificationMessage}
