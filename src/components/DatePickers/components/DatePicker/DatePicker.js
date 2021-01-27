@@ -133,7 +133,7 @@ class DatePicker extends PureComponent {
     }
 
     // Remove millisecond 2021-01-28T21:45:00.675 to 2021-01-28T21:45:00
-    const _date = date ? date.split('.')[0] : date;
+    const _date = date && new Date(date).getMilliseconds() ? date.split('.')[0] : date;
 
     // # valid input date format must have 'YYYY-MM-DDTHH:mm:ss[Z]', 'YYYY-MM-DDTHH:mm:ss' or 'YYYY-MM-DD'
     // # if date is valid return userfriendly string in DATE_TIME_USER_STRING_FORMAT
