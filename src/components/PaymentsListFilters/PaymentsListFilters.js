@@ -175,7 +175,7 @@ class PaymentsListFilters extends PureComponent {
           enableReinitialize
           onSubmit={this.handleSubmit}
           onReset={this.handleReset}
-          initialValues={state?.filters || {}}
+          initialValues={state?.filters || { ...state?.filters === undefined && { accountType: 'LIVE' } }}
         >
           {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
@@ -413,7 +413,7 @@ class PaymentsListFilters extends PureComponent {
                     <Field
                       name="accountType"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
-                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
                       withAnyOption
