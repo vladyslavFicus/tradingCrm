@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import { get } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
+import ChangeOriginalAgentModal from 'modals/ChangeOriginalAgentModal';
 import PropTypes from 'constants/propTypes';
 import Grid, { GridColumn } from 'components/Grid';
 import Badge from 'components/Badge';
@@ -11,7 +11,7 @@ import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
-import ChangeOriginalAgentModal from '../ChangeOriginalAgentModal';
+import './TradingActivityGrid.scss';
 
 class TradingActivityGrid extends PureComponent {
   static propTypes = {
@@ -31,7 +31,7 @@ class TradingActivityGrid extends PureComponent {
       },
     } = this.props;
 
-    const page = get(data, 'tradingActivity.number') || 0;
+    const page = data?.tradingActivity?.number || 0;
 
     loadMore(page + 1);
   };
@@ -45,7 +45,7 @@ class TradingActivityGrid extends PureComponent {
       platformType,
       onSuccess: tradingActivityQuery.refetch,
     });
-  }
+  };
 
   render() {
     const {
@@ -55,10 +55,10 @@ class TradingActivityGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content, last } = get(data, 'tradingActivity') || { content: [] };
+    const { content, last } = data?.tradingActivity || { content: [] };
 
     return (
-      <div className="tab-wrapper">
+      <div className="TradingActivityGrid">
         <Grid
           data={content}
           handlePageChanged={this.handlePageChanged}
@@ -77,7 +77,7 @@ class TradingActivityGrid extends PureComponent {
                   success={tradeType === 'LIVE'}
                 >
                   <div
-                    className="btn-transparent-text font-weight-700 cursor-pointer"
+                    className="TradingActivityGrid__cell-value TradingActivityGrid__cell-value--pointer"
                     onClick={() => (
                       this.showChangeOriginalAgentModal(tradeId, originalAgent, platformType)
                     )}
@@ -85,7 +85,7 @@ class TradingActivityGrid extends PureComponent {
                     TR-{tradeId}
                   </div>
                 </Badge>
-                <div className="font-size-11">
+                <div className="TradingActivityGrid__cell-value-add">
                   <Uuid
                     uuid={`${tradeId}`}
                     uuidPrefix="TR"
@@ -100,7 +100,7 @@ class TradingActivityGrid extends PureComponent {
               <div
                 className={classNames(
                   getTypeColor(types.find(item => item.value === operationType).value),
-                  'font-weight-700',
+                  'TradingActivityGrid__cell-value',
                 )}
               >
                 {I18n.t(types.find(item => item.value === operationType).label)}
@@ -112,9 +112,9 @@ class TradingActivityGrid extends PureComponent {
             render={({ login, symbol, platformType }) => (
               <Fragment>
                 <PlatformTypeBadge platformType={platformType}>
-                  <div className="font-weight-700">{login}</div>
+                  <div className="TradingActivityGrid__cell-value">{login}</div>
                 </PlatformTypeBadge>
-                <div className="font-size-11">{symbol}</div>
+                <div className="TradingActivityGrid__cell-value-add">{symbol}</div>
               </Fragment>
             )}
           />
@@ -123,10 +123,10 @@ class TradingActivityGrid extends PureComponent {
             render={({ originalAgent }) => (
               <Choose>
                 <When condition={originalAgent}>
-                  <div className="font-weight-700">
+                  <div className="TradingActivityGrid__cell-value">
                     {originalAgent.fullName}
                   </div>
-                  <div className="font-size-11">
+                  <div className="TradingActivityGrid__cell-value-add">
                     <Uuid uuid={originalAgent.uuid} />
                   </div>
                 </When>
@@ -140,14 +140,14 @@ class TradingActivityGrid extends PureComponent {
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_PRICE')}
             render={({ openPrice, stopLoss, takeProfit }) => (
               <Fragment>
-                <div className="font-weight-700">{openPrice}</div>
+                <div className="TradingActivityGrid__cell-value">{openPrice}</div>
                 <If condition={stopLoss}>
-                  <div className="font-size-11">
+                  <div className="TradingActivityGrid__cell-value-add">
                     S/L {parseFloat(stopLoss).toLocaleString('en-EN', { minimumFractionDigits: 5 })}
                   </div>
                 </If>
                 <If condition={takeProfit}>
-                  <div className="font-size-11">
+                  <div className="TradingActivityGrid__cell-value-add">
                     T/P {parseFloat(takeProfit).toLocaleString('en-EN', { minimumFractionDigits: 5 })}
                   </div>
                 </If>
@@ -157,39 +157,43 @@ class TradingActivityGrid extends PureComponent {
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.CLOSE_PRICE')}
             render={({ closePrice, closeTime }) => (
-              <div className="font-weight-700">{closeTime ? closePrice : '-'}</div>
+              <div className="TradingActivityGrid__cell-value">{closeTime ? closePrice : '-'}</div>
             )}
           />
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.VOLUME')}
             render={({ volume }) => (
-              <div className="font-weight-700">{volume}</div>
+              <div className="TradingActivityGrid__cell-value">{volume}</div>
             )}
           />
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.COMISSION')}
             render={({ commission }) => (
-              <div className="font-weight-700">{Number(commission).toFixed(2)}</div>
+              <div className="TradingActivityGrid__cell-value">{Number(commission).toFixed(2)}</div>
             )}
           />
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.SWAP')}
             render={({ swap }) => (
-              <div className="font-weight-700">{swap}</div>
+              <div className="TradingActivityGrid__cell-value">{swap}</div>
             )}
           />
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.P&L')}
             render={({ profit }) => (
-              <div className="font-weight-700">{profit}</div>
+              <div className="TradingActivityGrid__cell-value">{profit}</div>
             )}
           />
           <GridColumn
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_TIME')}
             render={({ openTime }) => (
               <Fragment>
-                <div className="font-weight-700">{moment(moment.unix(openTime)).format('DD.MM.YYYY')}</div>
-                <div className="font-size-11">{moment(moment.unix(openTime)).format('HH:mm:ss')}</div>
+                <div className="TradingActivityGrid__cell-value">
+                  {moment(moment.unix(openTime)).format('DD.MM.YYYY')}
+                </div>
+                <div className="TradingActivityGrid__cell-value-add">
+                  {moment(moment.unix(openTime)).format('HH:mm:ss')}
+                </div>
               </Fragment>
             )}
           />
@@ -197,7 +201,7 @@ class TradingActivityGrid extends PureComponent {
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.CLOSE_TIME')}
             render={({ closeTime }) => (
               <Fragment>
-                <div className="font-weight-700">
+                <div className="TradingActivityGrid__cell-value">
                   <Choose>
                     <When condition={closeTime}>
                       {moment(moment.unix(closeTime)).format('DD.MM.YYYY')}
@@ -208,7 +212,9 @@ class TradingActivityGrid extends PureComponent {
                   </Choose>
                 </div>
                 <If condition={closeTime}>
-                  <div className="font-size-11">{moment(moment.unix(closeTime)).format('HH:mm:ss')}</div>
+                  <div className="TradingActivityGrid__cell-value-add">
+                    {moment(moment.unix(closeTime)).format('HH:mm:ss')}
+                  </div>
                 </If>
               </Fragment>
             )}
@@ -219,7 +225,7 @@ class TradingActivityGrid extends PureComponent {
               <div
                 className={classNames(
                   tradeStatusesColor[`${tradeStatus}`],
-                  'font-weight-700 text-uppercase',
+                  'TradingActivityGrid__cell-value TradingActivityGrid__cell-value--upper',
                 )}
               >
                 {I18n.t(`CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.${tradeStatus}`)}
