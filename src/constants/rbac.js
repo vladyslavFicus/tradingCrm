@@ -1163,4 +1163,111 @@ export default [
       },
     ],
   },
+  // ============================================= //
+  // ============== Payment methods ============== //
+  // ============================================= //
+  {
+    id: 'payments-methods',
+    permissions: [
+      {
+        id: 'BONUS',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.BONUS',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'CHARGEBACK',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.CHARGEBACK',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'CREDIT_CARD',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.CREDIT_CARD',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'ELECTRONIC',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.ELECTRONIC',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'EXTERNAL',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.EXTERNAL',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'INTERNAL_TRANSFER',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.INTERNAL_TRANSFER',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'MIGRATION',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.MIGRATION',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'PAYRETAILERS',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.PAYRETAILERS',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'RECALL',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.RECALL',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'SYSTEM',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.SYSTEM',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'WIRE',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.WIRE',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
 ];
