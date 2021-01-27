@@ -1,20 +1,20 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import AddBranchManagerModal from 'modals/AddBranchManagerModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
-import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
 import getBranchManagerQuery from './graphql/getBranchManagerQuery';
 import removeBranchManagerMutation from './graphql/removeBranchManagerMutation';
+import Placeholder from '../Placeholder';
 import './BranchHeader.scss';
 
 const branchUuidPrefixes = {
@@ -116,18 +116,35 @@ class BranchHeader extends PureComponent {
 
   render() {
     const {
-      branchData: { name, country, branchType },
+      branchData: {
+        name,
+        country,
+        branchType,
+      },
       branchManager,
       branchId,
       loading,
     } = this.props;
 
-    const managerData = get(branchManager, 'data.branchInfo') || {};
+    const managerData = branchManager?.data?.branchInfo || {};
 
     return (
       <div className="BranchHeader">
         <div className="BranchHeader__left">
-          <ProfileHeaderPlaceholder ready={!loading}>
+          <Placeholder
+            ready={!loading}
+            className={null}
+            customPlaceholder={(
+              <div className="panel-heading-row__info">
+                <div className="panel-heading-row__info-title">
+                  <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
+                </div>
+                <div className="panel-heading-row__info-ids">
+                  <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
+                </div>
+              </div>
+            )}
+          >
             <div className="BranchHeader__branch">
               <div className="BranchHeader__branch-name">{name}</div>
               <div className="BranchHeader__branch-uuid">
@@ -153,7 +170,7 @@ class BranchHeader extends PureComponent {
                 </Otherwise>
               </Choose>
             </div>
-          </ProfileHeaderPlaceholder>
+          </Placeholder>
         </div>
 
         <If condition={!loading}>
