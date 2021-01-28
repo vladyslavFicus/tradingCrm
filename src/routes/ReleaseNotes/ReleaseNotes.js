@@ -13,19 +13,7 @@ class ReleaseNotes extends PureComponent {
   componentDidMount() {
     fetch('/cloud-static/RELEASE-NOTES.html')
       .then(response => response.text())
-      .then((content) => {
-        const newContent = content
-          .replace(/<h2>[^]+?(?=<h2>)|<h2>[^]+/gmi, replacement => (
-            `<div class="ReleaseNotes__item">
-              ${replacement
-              .replace(/((?<=<\/h2>)[^]+)/gmi, '<div class="ReleaseNotes__item-content">$1</div>')
-              .replace(/(<h2>[^]+<\/h2>)/gmi, '<div class="ReleaseNotes__item-headline">$1</div>')
-              }
-            </div>`
-          ));
-
-        this.setState({ content: newContent, loading: false });
-      });
+      .then(content => this.setState({ content, loading: false }));
   }
 
   componentDidUpdate() {
