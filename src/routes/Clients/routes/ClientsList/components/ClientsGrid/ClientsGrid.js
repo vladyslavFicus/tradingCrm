@@ -211,7 +211,7 @@ class ClientsGrid extends PureComponent {
       <Choose>
         {/* Affiliate */}
         <When condition={affiliate}>
-          <If condition={affiliateUuid}>
+          <If condition={affiliateUuid && partner}>
             <div>
               <Link
                 className="ClientsGrid__affiliate"

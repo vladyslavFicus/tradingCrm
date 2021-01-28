@@ -191,6 +191,7 @@ const ClientQuery = ({ children, match: { params: { id } } }) => (
     query={REQUEST}
     variables={{ playerUUID: id }}
     fetchPolicy="cache-and-network"
+    errorPolicy="all"
   >
     {children}
   </Query>
