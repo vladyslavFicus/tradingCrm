@@ -269,7 +269,6 @@ class TradingActivityGridFilter extends PureComponent {
                   from: 'closeTimeStart',
                   to: 'closeTimeEnd',
                 }}
-                anchorDirection="right"
                 withFocus
               />
             </div>
