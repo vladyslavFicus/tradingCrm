@@ -119,7 +119,8 @@ class PermissionsSetting extends PureComponent {
       },
       updateAuthorityActions,
     } = this.props;
-    const disabledSection = [];
+    const switchedOffActions = [];
+    let isSectionSwitcher = false;
 
     // Set actual list of actions to state
     this.setState(
@@ -127,6 +128,7 @@ class PermissionsSetting extends PureComponent {
         shouldUpdate: false,
         shadowActions: shadowActions.map((section) => {
           if (currentSection && section.id === currentSection.id) {
+            isSectionSwitcher = true;
             const [sectionKey] = Object.keys(section?.actions || {});
             const _section = { ...section };
 
@@ -147,7 +149,7 @@ class PermissionsSetting extends PureComponent {
                   };
 
                   if (!enabled) {
-                    disabledSection.push(_permission.actions[value].action);
+                    switchedOffActions.push(_permission.actions[value].action);
                   }
 
                   _permission.actions[value].state = state;
@@ -175,7 +177,7 @@ class PermissionsSetting extends PureComponent {
                   if (key === 'view' && !enabled && ['view', 'edit'].every(i => permissionKeys.includes(i))) {
                     _permission.actions.edit.state = false;
 
-                    disabledSection.push(_permission.actions.view.action, _permission.actions.edit.action);
+                    switchedOffActions.push(_permission.actions.view.action, _permission.actions.edit.action);
                   }
                 }
               });
@@ -186,13 +188,28 @@ class PermissionsSetting extends PureComponent {
         }),
       }),
       async () => {
+        // Checks if there are additional permissions
+        const getActions = () => {
+          const { permissions } = currentSection?.additional || {};
+
+          if (switchedOffActions.length) {
+            return currentSection?.additional ? [...switchedOffActions, ...permissions] : switchedOffActions;
+          }
+
+          if (isSectionSwitcher) {
+            return currentSection?.additional ? [action, ...permissions] : [action];
+          }
+
+          return [action];
+        };
+
         try {
           // Update actions for authority remotely when state was saved
           await updateAuthorityActions({
             variables: {
               department,
               role,
-              actions: disabledSection.length ? disabledSection : [action],
+              actions: getActions(),
               isPermitted: enabled,
             },
           });

@@ -10,6 +10,24 @@ export default [
         state: false,
       },
     },
+    additional: {
+      permissions: [
+        // filter-set
+        'filter-sets.getFilterSet',
+        'filter-sets.updateFilterSet',
+        'filter-sets.deleteFilterSet',
+        'filter-sets.getFilterSetsList',
+        'filter-sets.createFilterSet',
+        'filter-sets.changeFilterSetFavouriteStatus',
+        // affiliate
+        'affiliate.searchAffiliate',
+        // operator
+        'operator.searchOperators',
+        // hierarchy
+        'hierarchy.user.getSubordinateOperators',
+        'hierarchy.branch.getUserBranches',
+      ],
+    },
     permissions: [
       // List of clients
       {
@@ -441,6 +459,15 @@ export default [
         action: 'lead.searchLeads',
         state: false,
       },
+    },
+    additional: {
+      permissions: [
+        // operator
+        'operator.searchOperators',
+        // hierarchy
+        'hierarchy.user.getSubordinateOperators',
+        'hierarchy.branch.getUserBranches',
+      ],
     },
     permissions: [
       // List of leads
