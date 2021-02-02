@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
-import formatLabel from 'utils/formatLabel';
 import './DepartmentItem.scss';
 
 class DepartmentItem extends PureComponent {
   static propTypes = {
     department: PropTypes.shape({
-      name: PropTypes.string,
+      department: PropTypes.string,
       role: PropTypes.string,
       image: PropTypes.string,
     }).isRequired,
@@ -15,20 +14,25 @@ class DepartmentItem extends PureComponent {
   };
 
   render() {
-    const { department, onClick } = this.props;
-    const { name, role, image } = department || {};
+    const { onClick } = this.props;
+    const { department, role } = this.props.department || {};
 
     return (
       <div className="DepartmentItem" onClick={onClick}>
         <img
-          src={image}
+          src={`/img/departments/${department}.svg`}
+          onError={(e) => { e.target.src = '/img/image-placeholder.svg'; }}
           className="DepartmentItem__image"
-          alt={`${I18n.t(name)} / ${I18n.t(role)}`}
+          alt={`${department} / ${role}`}
         />
 
         <div className="DepartmentItem__head">
-          <div className="DepartmentItem__title">{I18n.t(name)}</div>
-          <div className="DepartmentItem__role">{formatLabel(role)}</div>
+          <div className="DepartmentItem__title">
+            {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${department}`, { defaultValue: department })}
+          </div>
+          <div className="DepartmentItem__role">
+            {I18n.t(`CONSTANTS.OPERATORS.ROLES.${role}`, { defaultValue: role })}
+          </div>
         </div>
       </div>
     );
