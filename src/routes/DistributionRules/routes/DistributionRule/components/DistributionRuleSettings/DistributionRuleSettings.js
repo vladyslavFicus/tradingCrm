@@ -223,9 +223,12 @@ class DistributionRuleSettings extends PureComponent {
                 searchable
                 multiple
               >
-                {countries.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
+                {[
+                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                  ...countries.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  )),
+                ]}
               </Field>
               <Field
                 name="languages"
