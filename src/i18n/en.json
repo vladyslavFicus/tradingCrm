@@ -1136,21 +1136,6 @@
         "ALLOW": "Allow"
       }
     },
-    "SIGN_IN": {
-      "DEPARTMENTS": {
-        "CS": "Customer service",
-        "RFP": "Risk Fraud & Payment",
-        "MARKETING": "Marketing",
-        "ADMINISTRATION": "Administration",
-        "BI": "Business intelligence",
-        "E2E": "E2E",
-        "IGROMAT": "Igromat",
-        "SALES": "Sales",
-        "RETENTION": "Retention",
-        "DEALING": "Dealing",
-        "COMPLIANCE": "Compliance"
-      }
-    },
     "PAYMENT": {
       "PAYMENT_METHODS": {
         "SKRILL": "Skrill",

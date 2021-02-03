@@ -103,7 +103,7 @@ class ChooseDepartments extends PureComponent {
           <div className="ChooseDepartments__list">
             {brand.departments.map(department => (
               <DepartmentItem
-                key={department.name}
+                key={department.department}
                 department={department}
                 onClick={() => this.handleSelectDepartment(department)}
               />

@@ -5,20 +5,34 @@
     border: none;
     border-radius: 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    padding: 4px 0;
+    padding: 0;
     top: 100% !important;
-    min-width: 100%;
+    min-width: 250px;
     width: auto;
   }
 
   &-item {
-    padding: 9px 25px;
+    display: flex;
+    align-items: center;
+    padding: 9px 15px;
+    width: 100%;
+
+    &:hover {
+      background: #eeeeee;
+    }
 
     &:hover:not(.HeaderDepartments-item--current) &__title {
       color: #000;
     }
 
     &--current {
+      display: block;
+      padding-right: 30px; // Need to positioning caret
+
+      &:hover {
+        background: initial;
+      }
+
       & .HeaderDepartments-item {
         &__title {
           color: #fff;
@@ -52,6 +66,11 @@
       }
     }
 
+    &__image {
+      width: 30px;
+      margin-right: 15px;
+    }
+
     &__title,
     &__role {
       font-weight: 600;
@@ -76,8 +95,8 @@
       opacity: 0.5;
       transition: opacity 0.2s ease, transform 0.2s ease;
       position: absolute;
-      top: 19px;
-      right: 4px;
+      top: 18px;
+      right: 0;
     }
   }
 }
