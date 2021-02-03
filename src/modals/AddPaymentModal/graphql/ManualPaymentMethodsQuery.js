@@ -8,7 +8,7 @@ const REQUEST = gql`query ManualPaymentMethodsQuery {
 }`;
 
 const ManualPaymentMethodsQuery = ({ children }) => (
-  <Query query={REQUEST}>
+  <Query query={REQUEST} fetchPolicy="network-only">
     {children}
   </Query>
 );

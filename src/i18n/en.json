@@ -3999,6 +3999,22 @@
           "list": "List of distribution rules",
           "create": "Create rule"
         }
+      },
+      "payments-methods": {
+        "TITLE": "Manual payment methods",
+        "PERMISSIONS": {
+          "BONUS": "Bonus",
+          "CHARGEBACK": "Chargeback",
+          "CREDIT_CARD": "Credit card",
+          "ELECTRONIC": "Electronic",
+          "EXTERNAL": "External",
+          "INTERNAL_TRANSFER": "Internal Transfer",
+          "MIGRATION": "Migration",
+          "PAYRETAILERS": "Pay Retailers",
+          "RECALL": "Recall",
+          "SYSTEM": "System",
+          "WIRE": "Wire"
+        }
       }
     }
   }

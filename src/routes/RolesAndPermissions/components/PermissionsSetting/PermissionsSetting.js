@@ -72,7 +72,9 @@ class PermissionsSetting extends PureComponent {
         const [sectionKey] = Object.keys(section?.actions || {});
         const _section = { ...section };
 
-        _section.actions[sectionKey].state = authorityActions.includes(section.actions[sectionKey].action);
+        if (_section.actions) {
+          _section.actions[sectionKey].state = authorityActions.includes(section.actions[sectionKey].action);
+        }
 
         return {
           ..._section,
@@ -313,9 +315,11 @@ class PermissionsSetting extends PureComponent {
             </If>
           </div>
         </div>
-        <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
-          <PreviewIcon />
-        </div>
+        <If condition={actions}>
+          <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
+            <PreviewIcon />
+          </div>
+        </If>
       </>
     );
   }
