@@ -79,6 +79,10 @@ class PaymentsListFilters extends PureComponent {
     handleRefetch: null,
   };
 
+  checkIsDirty = values => (
+    !(Object.keys(values).length === 1 && values.accountType === 'LIVE')
+  );
+
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
       const partnerBranches = operator.hierarchy?.parentBranches || [];
@@ -175,7 +179,7 @@ class PaymentsListFilters extends PureComponent {
           enableReinitialize
           onSubmit={this.handleSubmit}
           onReset={this.handleReset}
-          initialValues={state?.filters || { ...state?.filters === undefined && { accountType: 'LIVE' } }}
+          initialValues={state?.filters || { accountType: 'LIVE' }}
         >
           {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
@@ -523,7 +527,7 @@ class PaymentsListFilters extends PureComponent {
                       <Button
                         onClick={handleReset}
                         className="PaymentsListFilters__button"
-                        disabled={paymentsLoading || isSubmitting || !Object.keys(values).length}
+                        disabled={paymentsLoading || isSubmitting || !this.checkIsDirty(values)}
                         primary
                       >
                         {I18n.t('COMMON.RESET')}
