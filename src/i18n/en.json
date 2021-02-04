@@ -3895,7 +3895,7 @@
           "changeStatus": "Operator's status",
           "changePassword": "Change password for other operator",
           "getAuthorities": "Get authorities on edit profile",
-          "list2": "List of operators",
+          "list2": "Show subordinate operators",
           "updateBranch": "User branch",
           "createSalesRule": "Create sales rule",
           "deleteSalesRule": "Delete sales rule"
