@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { get, intersection } from 'lodash';
+import { intersection } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -22,7 +22,6 @@ import { statuses as operatorsStasuses } from 'constants/operators';
 import { filterSetTypes } from 'constants/filterSet';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import formatLabel from 'utils/formatLabel';
-import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
 import { decodeNullValues } from 'components/Formik/utils';
 import {
@@ -160,7 +159,7 @@ class PaymentsListFilters extends PureComponent {
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
     } = this.props;
 
-    const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
+    const paymentMethods = paymentMethodsData?.paymentMethods || [];
 
     const currencies = getBrand().currencies.supported;
 
@@ -286,7 +285,7 @@ class PaymentsListFilters extends PureComponent {
                     >
                       {Object.keys(tradingStatuses).map(value => (
                         <option key={value} value={value}>
-                          {I18n.t(renderLabel(value, tradingStatusesLabels))}
+                          {I18n.t(tradingStatusesLabels[value])}
                         </option>
                       ))}
                     </Field>
