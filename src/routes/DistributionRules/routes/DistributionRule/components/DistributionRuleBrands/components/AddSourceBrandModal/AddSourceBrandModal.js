@@ -237,18 +237,66 @@ class AddSourceBrandModal extends PureComponent {
                   </If>
                   <div className="AddSourceBrandModal__row">
                     <Field
+                      name="desks"
+                      label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.DESKS')}
+                      placeholder={
+                        I18n.t(
+                          (!branchesLoading && availableDesks.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      className="AddSourceBrandModal__field"
+                      component={FormikSelectField}
+                      customOnChange={this.handleDesksChange(setValues, values)}
+                      disabled={branchesLoading || availableDesks.length === 0}
+                      searchable
+                      multiple
+                    >
+                      {availableDesks.map(({ uuid, name }) => (
+                        <option key={uuid} value={uuid}>
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+                    <Field
+                      name="teams"
+                      label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TEAMS')}
+                      placeholder={
+                        I18n.t(
+                          (!branchesLoading && filteredTeams.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      className="AddSourceBrandModal__field"
+                      component={FormikSelectField}
+                      customOnChange={this.handleTeamsChange(setFieldValue, values)}
+                      disabled={branchesLoading || filteredTeams.length === 0}
+                      searchable
+                      multiple
+                    >
+                      {filteredTeams.map(({ uuid, name }) => (
+                        <option key={uuid} value={uuid}>
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                  <div className="AddSourceBrandModal__row">
+                    <Field
                       name="quantity"
                       type="number"
                       label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
                       step="1"
-                      className="AddSourceBrandModal__field AddSourceBrandModal__field--quantity"
+                      className="AddSourceBrandModal__field"
                       disabled={!availableClientsAmount}
                       component={FormikInputField}
                     />
                     <Field
                       name="baseUnit"
                       label="&nbsp;"
-                      className="AddSourceBrandModal__field AddSourceBrandModal__field--unit"
+                      className="AddSourceBrandModal__field AddSourceBrandModal__field--small"
                       component={FormikSelectField}
                       disabled={allowedBaseUnits.length === 1}
                     >
@@ -257,50 +305,6 @@ class AddSourceBrandModal extends PureComponent {
                       ))}
                     </Field>
                   </div>
-                  <Field
-                    name="desks"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.DESKS')}
-                    placeholder={
-                      I18n.t(
-                        (!branchesLoading && availableDesks.length === 0)
-                          ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                          : 'COMMON.SELECT_OPTION.ANY',
-                      )
-                    }
-                    component={FormikSelectField}
-                    customOnChange={this.handleDesksChange(setValues, values)}
-                    disabled={branchesLoading || availableDesks.length === 0}
-                    searchable
-                    multiple
-                  >
-                    {availableDesks.map(({ uuid, name }) => (
-                      <option key={uuid} value={uuid}>
-                        {name}
-                      </option>
-                    ))}
-                  </Field>
-                  <Field
-                    name="teams"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TEAMS')}
-                    placeholder={
-                      I18n.t(
-                        (!branchesLoading && filteredTeams.length === 0)
-                          ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                          : 'COMMON.SELECT_OPTION.ANY',
-                      )
-                    }
-                    component={FormikSelectField}
-                    customOnChange={this.handleTeamsChange(setFieldValue, values)}
-                    disabled={branchesLoading || filteredTeams.length === 0}
-                    searchable
-                    multiple
-                  >
-                    {filteredTeams.map(({ uuid, name }) => (
-                      <option key={uuid} value={uuid}>
-                        {name}
-                      </option>
-                    ))}
-                  </Field>
                   <Field
                     name="sortType"
                     label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SORT_METHOD')}
