@@ -1702,7 +1702,7 @@
         "exists": "Email already exists"
       },
       "phone": {
-        "exists": "Phone already exists"
+        "exists": "Client with such phone number already exists in the system"
       },
       "externalId": {
         "exists": "This External ID already exists"
