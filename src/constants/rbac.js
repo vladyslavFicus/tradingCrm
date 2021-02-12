@@ -1285,6 +1285,13 @@ export default [
   // ============================================= //
   {
     id: 'payments-methods',
+    image: false,
+    actions: {
+      view: {
+        action: 'payment.getManualPaymentMethods',
+        state: false,
+      },
+    },
     permissions: [
       {
         id: 'BONUS',
