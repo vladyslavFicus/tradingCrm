@@ -1,6 +1,5 @@
 .PaymentsListGrid {
   padding: 0 25px 25px;
-  background-clip: border-box;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 5px;
@@ -29,6 +28,10 @@
     color: #333;
   }
 
+  &__payment-method {
+    color: #f39834;
+  }
+
   &__text-primary {
     font-weight: 700;
   }
@@ -39,9 +42,5 @@
 
   &__upper {
     text-transform: uppercase
-  }
-
-  &__color-warning {
-    color: #f39834;
   }
 }

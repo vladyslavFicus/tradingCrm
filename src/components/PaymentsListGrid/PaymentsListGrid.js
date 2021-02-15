@@ -287,13 +287,13 @@ class PaymentsListGrid extends PureComponent {
             render={({ paymentMethod, bankName, maskedPan }) => (
               <>
                 <If condition={bankName}>
-                  <div className="PaymentsListGrid__text-primary PaymentsListGrid__color-warning">{bankName}</div>
+                  <div className="PaymentsListGrid__text-primary PaymentsListGrid__payment-method">{bankName}</div>
                 </If>
                 <Choose>
                   <When condition={paymentMethod}>
                     <div className="PaymentsListGrid__text-primary">{formatLabel(paymentMethod)}</div>
                     <If condition={maskedPan && paymentMethod === 'CREDIT_CARD'}>
-                      <div className="PaymentsListGrid__text-primary PaymentsListGrid__color-warning">{maskedPan}</div>
+                      <div className="PaymentsListGrid__text-primary PaymentsListGrid__payment-method">{maskedPan}</div>
                     </If>
                   </When>
                   <Otherwise>
