@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
-import { compose } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
@@ -46,9 +43,9 @@ class PaymentsList extends PureComponent {
       partnersQuery: { data: partnersData, loading: partnersLoading },
     } = this.props;
 
-    const partners = get(partnersData, 'partners.content') || [];
-    const payments = get(paymentsData, 'payments') || {};
-    const totalPayments = get(payments, 'totalElements');
+    const partners = partnersData?.partners?.content || [];
+    const payments = paymentsData?.payments || {};
+    const totalPayments = payments?.totalElements;
 
     return (
       <div className="card">
@@ -96,10 +93,7 @@ class PaymentsList extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withRequests({
-    partnersQuery: PartnersQuery,
-    paymentsQuery: PaymentsQuery,
-  }),
-)(PaymentsList);
+export default withRequests({
+  partnersQuery: PartnersQuery,
+  paymentsQuery: PaymentsQuery,
+})(PaymentsList);
