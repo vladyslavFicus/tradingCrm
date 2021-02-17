@@ -1025,4 +1025,12 @@ PropTypes.brandConfig = PropTypes.shape({
   config: PropTypes.object,
 });
 
+PropTypes.TableSelection = PropTypes.shape({
+  all: PropTypes.bool.isRequired,
+  touched: PropTypes.array.isRequired,
+  max: PropTypes.number.isRequired,
+  selected: PropTypes.number.isRequired,
+  reset: PropTypes.func.isRequired,
+});
+
 export default PropTypes;

@@ -469,6 +469,7 @@
     "PARTNER_TYPE": "Partner Type",
     "EXTERNAL_AFILIATE_ID": "External ID",
     "OK": "Ok",
+    "NO_ITEMS": "No items",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
