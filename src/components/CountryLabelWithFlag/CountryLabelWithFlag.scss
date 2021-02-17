@@ -1,6 +1,7 @@
 .CountryLabelWithFlag {
   display: flex;
   align-items: center;
+  white-space: nowrap;
 
   &__flag {
     display: flex;
