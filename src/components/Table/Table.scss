@@ -17,6 +17,7 @@
   }
 
   &__body-row {
+    background: #ffffff;
     border-bottom: 1px solid #dfe4ed;
 
     &:hover {
@@ -37,7 +38,6 @@
     font-weight: 400;
     word-wrap: break-word;
     vertical-align: top;
-    background: #ffffff;
 
     &:last-child {
       padding-right: 20px;
