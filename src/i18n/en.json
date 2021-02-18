@@ -1668,6 +1668,7 @@
         "BALANCE": "Balance",
         "BALANCE_FROM": "Balance From",
         "BALANCE_TO": "Balance To",
+        "DEPOSIT": "Number of deposits",
         "ACQUISITION_STATUS": "Acquisition Status",
         "ACCOUNT_STATUS": "Account Status",
         "DESKS": "Desks",

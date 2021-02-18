@@ -542,6 +542,28 @@ class ClientsGridFilter extends PureComponent {
                       />
                     </RangeGroup>
 
+                    <RangeGroup
+                      className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
+                      label={I18n.t(attributeLabels.deposit)}
+                    >
+                      <Field
+                        name="depositsCountRange.from"
+                        type="number"
+                        placeholder="0"
+                        min={0}
+                        component={FormikInputField}
+                        withFocus
+                      />
+                      <Field
+                        name="depositsCountRange.to"
+                        type="number"
+                        min={0}
+                        placeholder="0"
+                        component={FormikInputField}
+                        withFocus
+                      />
+                    </RangeGroup>
+
                     <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.registrationDate)}
