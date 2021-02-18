@@ -7,6 +7,12 @@
     text-align: center;
   }
 
+  &__error {
+    font-weight: 700;
+    text-align: center;
+    color: #ff0000;
+  }
+
   &__field {
     display: inline-block;
     vertical-align: top;
