@@ -491,7 +491,7 @@ class Select extends PureComponent {
               'fa fa-check-square': options.length !== toSelectOptions.length,
               'icon icon-times': options.length === toSelectOptions.length,
             })}
-            headerButtonText={options.length === toSelectOptions.length ? 'Clear' : I18n.t('COMMON.ALL')}
+            headerButtonText={options.length === toSelectOptions.length ? I18n.t('COMMON.CLEAR') : I18n.t('COMMON.ALL')}
             headerButtonOnClick={this.toggleSelectAllOptions}
             options={options}
             selectedOptions={toSelectOptions}
@@ -525,7 +525,6 @@ class Select extends PureComponent {
 
     const {
       id,
-      multiple,
       searchPlaceholder,
       optionsHeader: OptionsHeaderComponent,
       disabled,
@@ -538,22 +537,17 @@ class Select extends PureComponent {
     return (
       <div
         className={classNames('Select', {
-          'is-opened': opened,
-          'with-option': !!selectedOptions.length > 0,
-          'is-disabled': disabled,
-          'is-focused': isFocused,
+          'Select__is-opened': opened,
+          'Select__with-option': !!selectedOptions.length > 0,
+          'Select__is-disabled': disabled,
+          'Select__is-focused': isFocused,
           [customClassName]: customClassName,
         })}
         id={id}
       >
         {this.renderLabel()}
 
-        <div
-          className={classNames('Select__content', {
-            'with-search-bar': showSearchBar,
-            'with-multiselect': multiple,
-          })}
-        >
+        <div className="Select__content">
           <If condition={showSearchBar}>
             <SelectSearchBox
               query={query}

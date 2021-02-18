@@ -1,3 +1,3 @@
-import Select from './components/Select/Select';
+import Select from './components/Select';
 
 export default Select;

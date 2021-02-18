@@ -2,7 +2,7 @@
   position: relative;
   cursor: pointer;
 
-  &.is-opened {
+  &__is-opened {
     .Select__icon {
       transform: rotate(180deg);
     }
@@ -13,13 +13,13 @@
     }
   }
 
-  &.is-focused {
+  &__is-focused {
     .Select__label {
       border: 1px solid #4990e2;
     }
   }
 
-  &.with-option {
+  &__with-option {
     font-weight: 600;
     color: #4a4a4a;
 
@@ -28,7 +28,7 @@
     }
   }
 
-  &.is-disabled {
+  &__is-disabled {
     pointer-events: none;
 
     .Select__label {
@@ -74,38 +74,6 @@
     border-left: 1px solid #9b9b9b;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-  }
-  &__options {
-    &-item {
-      margin-bottom: 1px;
-      padding: 3px 5px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 600;
-      color: #4a4a4a;
-      &:hover:not(.is-disabled) {
-        border-radius: 5px;
-        border-color: #e1e1e1;
-        color: #000;
-      }
-      &.is-selected {
-        padding: 4px 7px 5px;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        background-image: linear-gradient(to left, #24bdee, #4a90e2);
-      }
-      &.is-selected:hover {
-        border: none;
-        border-radius: 3px;
-        color: #fff;
-      }
-      &.is-disabled {
-        cursor: default;
-        color: #d6d6d6;
-      }
-    }
   }
 
   &__heading {
