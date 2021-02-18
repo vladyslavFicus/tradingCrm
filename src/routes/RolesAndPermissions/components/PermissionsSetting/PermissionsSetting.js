@@ -192,14 +192,14 @@ class PermissionsSetting extends PureComponent {
       async () => {
         // Checks if there are additional permissions
         const getActions = () => {
-          const { permissions } = currentSection?.additional || {};
+          const { permissions = [] } = currentSection?.additional || {};
 
           if (switchedOffActions.length) {
-            return currentSection?.additional ? [...switchedOffActions, ...permissions] : switchedOffActions;
+            return [...switchedOffActions, ...permissions, action];
           }
 
           if (isSectionSwitcher) {
-            return currentSection?.additional ? [action, ...permissions] : [action];
+            return [action, ...permissions];
           }
 
           return [action];
@@ -315,7 +315,7 @@ class PermissionsSetting extends PureComponent {
             </If>
           </div>
         </div>
-        <If condition={actions}>
+        <If condition={actions && section?.image !== false}>
           <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
             <PreviewIcon />
           </div>
