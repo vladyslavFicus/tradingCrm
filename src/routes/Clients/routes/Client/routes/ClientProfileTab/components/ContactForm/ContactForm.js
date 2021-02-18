@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Field, Form } from 'formik';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -80,12 +80,22 @@ class ContactForm extends PureComponent {
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
-    } catch {
-      notify({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
-      });
+    } catch (e) {
+      const { error } = parseErrors(e);
+
+      if (error === 'error.phone.already.exist') {
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.PHONE'),
+          message: I18n.t('error.validation.phone.exists'),
+        });
+      } else {
+        notify({
+          level: 'error',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+          message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY')}`,
+        });
+      }
     }
   };
 
