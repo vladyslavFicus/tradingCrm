@@ -3983,6 +3983,8 @@
           "listOperators": "List of Operators",
           "branchPage": "Branch page",
           "branchCreate": "Create new branch",
+          "branchUpdate": "Update branch",
+          "branchDelete": "Delete branch",
           "branchAddManager": "Add branch manager",
           "removeAddManager": "Remove branch manager"
         }
