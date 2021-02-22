@@ -2278,6 +2278,29 @@
         "ERROR": "Failed to create new office"
       }
     },
+    "UPDATE_OFFICE_MODAL": {
+      "TITLE": "Update office",
+      "CREATE_BUTTON": "Update office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country"
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Office was successfully updated",
+        "ERROR": "Failed to update an office"
+      }
+    },
+    "DELETE_BRANCH_MODAL": {
+      "TITLE": "Delete branch",
+      "DESCRIPTION": "Do you really want to delete {{name}}?",
+      "SUCCESS": "Branch {{name}} deleted successfully.",
+      "ERRORS": {
+        "COMMON": "Unable to delete {{name}}, there are:",
+        "OPERATORS": "{{count}} operators assigned to it. Please, re-assign operators from this branch and try again.",
+        "SUBBRANCHES": "{{count}} subbranches assigned to it. Please, delete subbranches and try again.",
+        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again."
+      }
+    },
     "ADD_BRANCH_MANAGER_MODAL": {
       "ADD_TITLE": "Add manager",
       "CHANGE_TITLE": "Change manager",
@@ -2973,7 +2996,8 @@
     "ADD_OFFICE": "+ Add office",
     "GRID_HEADER": {
       "OFFICE": "Office",
-      "COUNTRY": "Country"
+      "COUNTRY": "Country",
+      "ACTIONS": "Actions"
     },
     "TABS": {
       "RULES": {
@@ -2993,7 +3017,8 @@
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type"
+      "DESK_TYPE": "Desk type",
+      "ACTIONS": "Actions"
     },
     "GRID_FILTERS": {
       "SEARCH_BY": "Search by",
@@ -3017,6 +3042,19 @@
       "NOTIFICATIONS": {
         "SUCCESS": "Desk was successfully created",
         "ERROR": "Desk creation failed"
+      }
+    },
+    "UPDATE_MODAL": {
+      "HEADER": "Update desk",
+      "UPDATE_BUTTON": "Update desk",
+      "LABELS": {
+        "DESK_NAME": "Desk name",
+        "DESK_TYPE": "Desk type",
+        "LANGUAGE": "Language"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully updated",
+        "ERROR": "Desk update failed"
       }
     },
     "FILTERS": {
@@ -3051,7 +3089,8 @@
     "GRID_HEADER": {
       "TEAM": "Team",
       "OFFICE": "Office",
-      "DESK": "Desk"
+      "DESK": "Desk",
+      "ACTIONS": "Actions"
     },
     "MODAL": {
       "HEADER": "New team",
@@ -3065,16 +3104,30 @@
         "TYPE_IN_TEAM_NAME": "Type in team name",
         "NO_OFFICE_DESK": "-- No desk for current office --",
         "SELECT_OFFICE_FIRST": "-- Select office first --"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": {
+          "TITLE": "Creating succeed",
+          "MESSAGE": "The team was successfully created"
+        },
+        "ERROR": {
+          "TITLE": "Failure on creating",
+          "MESSAGE": "Creating of team has failed"
+        }
       }
     },
-    "NOTIFICATIONS": {
-      "SUCCESS": {
-        "TITLE": "Creating succeed",
-        "MESSAGE": "The team was successfully created"
+    "UPDATE_MODAL": {
+      "HEADER": "Update team",
+      "UPDATE_BUTTON": "Update team",
+      "LABELS": {
+        "TEAM_NAME": "Team name"
       },
-      "ERROR": {
-        "TITLE": "Failure on creating",
-        "MESSAGE": "Creating of team has failed"
+      "PLACEHOLDERS": {
+        "TYPE_IN_TEAM_NAME": "Type in team name"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Team was successfully updated",
+        "ERROR": "Team update failed"
       }
     },
     "TABS": {
