@@ -1,9 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { compose } from 'react-apollo';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
+import Permissions from 'utils/permissions';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
@@ -20,6 +23,9 @@ class DesksGrid extends PureComponent {
       updateDeskModal: PropTypes.modalType.isRequired,
     }).isRequired,
     desksData: PropTypes.branchHierarchyResponse.isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   handleEditClick = (data) => {
@@ -93,10 +99,19 @@ class DesksGrid extends PureComponent {
   );
 
   render() {
-    const { desksData } = this.props;
+    const {
+      desksData,
+      permission: {
+        permissions: currentPermissions,
+      },
+    } = this.props;
 
     const isLoading = desksData.loading;
     const desks = get(desksData, 'data.branch') || [];
+
+    const updateBranchPermissions = new Permissions(permissions.HIERARCHY.UPDATE_BRANCH).check(currentPermissions);
+    const updateDeleteBranchPermissions = new Permissions(permissions.HIERARCHY.DELETE_BRANCH)
+      .check(currentPermissions);
 
     return (
       <div className="DesksGrid">
@@ -117,17 +132,22 @@ class DesksGrid extends PureComponent {
             header={I18n.t('DESKS.GRID_HEADER.DESK_TYPE')}
             render={this.renderDeskTypesCell}
           />
-          <GridColumn
-            header={I18n.t('DESKS.GRID_HEADER.ACTIONS')}
-            render={this.renderActions}
-          />
+          <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
+            <GridColumn
+              header={I18n.t('DESKS.GRID_HEADER.ACTIONS')}
+              render={this.renderActions}
+            />
+          </If>
         </Grid>
       </div>
     );
   }
 }
 
-export default withModals({
-  updateDeskModal: UpdateDeskModal,
-  deleteBranchModal: DeleteBranchModal,
-})(DesksGrid);
+export default compose(
+  withPermission,
+  withModals({
+    updateDeskModal: UpdateDeskModal,
+    deleteBranchModal: DeleteBranchModal,
+  }),
+)(DesksGrid);

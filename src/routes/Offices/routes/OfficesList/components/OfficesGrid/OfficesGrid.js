@@ -4,8 +4,10 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { compose } from 'react-apollo';
 import { withModals } from 'hoc';
+import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import Permissions from 'utils/permissions';
 import { EditButton, RemoveButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { Link } from 'components/Link';
@@ -24,6 +26,9 @@ class OfficesGrid extends PureComponent {
       deleteBranchModal: PropTypes.modalType.isRequired,
     }).isRequired,
     officesData: PropTypes.branchHierarchyResponse.isRequired,
+    permission: PropTypes.shape({
+      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   handleEditClick = (data) => {
@@ -94,10 +99,19 @@ class OfficesGrid extends PureComponent {
   );
 
   render() {
-    const { officesData } = this.props;
+    const {
+      officesData,
+      permission: {
+        permissions: currentPermissions,
+      },
+    } = this.props;
 
     const officesList = get(officesData, 'data.branch') || [];
     const isLoading = officesData.loading;
+
+    const updateBranchPermissions = new Permissions(permissions.HIERARCHY.UPDATE_BRANCH).check(currentPermissions);
+    const updateDeleteBranchPermissions = new Permissions(permissions.HIERARCHY.DELETE_BRANCH)
+      .check(currentPermissions);
 
     return (
       <div className="OfficesGrid">
@@ -117,10 +131,12 @@ class OfficesGrid extends PureComponent {
             header={I18n.t('OFFICES.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <GridColumn
-            header={I18n.t('OFFICES.GRID_HEADER.ACTIONS')}
-            render={this.renderActions}
-          />
+          <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
+            <GridColumn
+              header={I18n.t('OFFICES.GRID_HEADER.ACTIONS')}
+              render={this.renderActions}
+            />
+          </If>
         </Grid>
       </div>
     );
@@ -129,6 +145,7 @@ class OfficesGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withPermission,
   withModals({
     updateOfficeModal: UpdateOfficeModal,
     deleteBranchModal: DeleteBranchModal,
