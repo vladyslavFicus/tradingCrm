@@ -487,7 +487,8 @@
       "DELETE": "Delete",
       "PROMOTE": "Promote",
       "UPDATE_NOW": "Update now",
-      "YES": "YES"
+      "YES": "YES",
+      "ADD_FILTER": "+ Filter"
     },
     "ACTIONS": {
       "ON": "Turn on",

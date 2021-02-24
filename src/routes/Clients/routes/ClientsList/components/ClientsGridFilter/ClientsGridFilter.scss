@@ -1,6 +1,6 @@
 .ClientsGridFilter {
   &__form {
-    padding: 10px 25px 40px;
+    padding: 10px 25px 20px;
     background-color: #f2f4f8;
   }
 
@@ -66,5 +66,10 @@
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  &__add-filter-button {
+    margin-right: 20px;
+    text-align: right;
   }
 }

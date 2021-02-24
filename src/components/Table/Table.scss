@@ -52,6 +52,7 @@
     vertical-align: middle;
     white-space: nowrap;
     background: #ffffff;
+    border-top: 1px solid #dfe4ed;
 
     &:not(:last-child):after {
       content: "";

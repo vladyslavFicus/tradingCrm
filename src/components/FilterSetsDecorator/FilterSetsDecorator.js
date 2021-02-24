@@ -40,10 +40,12 @@ class FilterSetsDecorator extends PureComponent {
     currentValues: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
     submitFilters: PropTypes.func.isRequired,
+    renderBefore: PropTypes.element,
   };
 
   static defaultProps = {
     disabled: false,
+    renderBefore: null,
   };
 
   static getDerivedStateFromProps({ location }) {
@@ -57,12 +59,13 @@ class FilterSetsDecorator extends PureComponent {
     filterSetsLoading: false,
   };
 
-  setActiveFilterSet = (uuid) => {
+  setActiveFilterSet = (uuid, filtersFields) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
+        filtersFields,
         selectedFilterSet: uuid,
       },
     });
@@ -106,7 +109,7 @@ class FilterSetsDecorator extends PureComponent {
       onSuccess: async (_, { uuid }) => {
         await this.refetchFilterSets();
 
-        this.setActiveFilterSet(uuid);
+        this.setActiveFilterSet(uuid, Object.keys(currentValues));
         actionFilterModal.hide();
       },
     });
@@ -162,7 +165,7 @@ class FilterSetsDecorator extends PureComponent {
 
       submitFilters(filterSet);
 
-      this.setActiveFilterSet(uuid);
+      this.setActiveFilterSet(uuid, Object.keys(filterSet));
     } catch {
       notify({
         level: 'error',
@@ -261,6 +264,7 @@ class FilterSetsDecorator extends PureComponent {
       disabled,
       currentValues,
       filterSetsQuery,
+      renderBefore,
     } = this.props;
 
     const {
@@ -290,6 +294,7 @@ class FilterSetsDecorator extends PureComponent {
         }}
       >
         <div className="FilterSetsDecorator__control">
+          {renderBefore}
           <FilterSets
             filterSetsList={filterSetsList}
             selectedFilterSet={selectedFilterSet}

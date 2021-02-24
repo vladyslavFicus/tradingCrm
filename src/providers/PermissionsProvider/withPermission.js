@@ -13,7 +13,7 @@ const withPermission = Component => (
 );
 
 withPermission.propTypes = {
-  permissions: PropTypes.shape(PermissionPropTypes).isRequired,
+  permission: PropTypes.shape(PermissionPropTypes).isRequired,
 };
 
 export default withPermission;

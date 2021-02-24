@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
-import { isObject } from 'lodash';
+import { isObject, difference } from 'lodash';
 import shallowEqual from '../../utils/shallowEqual';
 import SelectSearchBox, { filterOptionsByQuery, filterOptionsByQueryWithMultiple } from './SelectSearchBox';
 import SelectSingleOptions from './SelectSingleOptions';
@@ -15,6 +15,7 @@ class Select extends PureComponent {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.node]).isRequired,
     onChange: PropTypes.func,
+    onRealtimeChange: PropTypes.func,
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     multiple: PropTypes.bool,
     multipleLabel: PropTypes.bool,
@@ -26,6 +27,8 @@ class Select extends PureComponent {
     singleOptionComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     disabled: PropTypes.bool,
     customClassName: PropTypes.string,
+    customSelectBlockClassName: PropTypes.string,
+    customSelectBlockContainerClassName: PropTypes.string,
     id: PropTypes.string,
     isFocused: PropTypes.bool,
     withArrowDown: PropTypes.bool,
@@ -34,7 +37,8 @@ class Select extends PureComponent {
 
   static defaultProps = {
     name: undefined,
-    onChange: null,
+    onChange: () => {},
+    onRealtimeChange: () => {},
     showSearch: null,
     placeholder: 'Any',
     multiple: false,
@@ -45,6 +49,8 @@ class Select extends PureComponent {
     singleOptionComponent: null,
     disabled: false,
     customClassName: null,
+    customSelectBlockClassName: null,
+    customSelectBlockContainerClassName: null,
     id: null,
     withArrowDown: true,
     customArrowComponent: null,
@@ -96,6 +102,7 @@ class Select extends PureComponent {
         options: this.filterSelectedOptions(filterOptionsByQuery(query, [...options]), selectedOptions, multiple),
         selectedOptions,
         originalSelectedOptions: selectedOptions,
+        toSelectOptions: [],
       });
     }
 
@@ -171,6 +178,8 @@ class Select extends PureComponent {
 
   handleSelectMultipleOptions = (options) => {
     this.updateState({ toSelectOptions: options });
+
+    this.props.onRealtimeChange(options.map(item => item.value));
   };
 
   handleResetSelectedOptions = () => {
@@ -180,6 +189,8 @@ class Select extends PureComponent {
       selectedOptions: [],
       originalSelectedOptions: [],
     });
+
+    this.props.onRealtimeChange([]);
   };
 
   toggleSelectAllOptions = () => {
@@ -189,8 +200,12 @@ class Select extends PureComponent {
     // If not all options selected --> select all
     if (toSelectOptions.length !== notDisabledOptions.length) {
       this.updateState({ toSelectOptions: notDisabledOptions });
+
+      this.props.onRealtimeChange([...this.state.selectedOptions, ...notDisabledOptions].map(item => item.value));
     } else {
       this.updateState({ toSelectOptions: [] });
+
+      this.props.onRealtimeChange([]);
     }
   };
 
@@ -206,6 +221,8 @@ class Select extends PureComponent {
         originalSelectedOptions: newOriginalSelectedOptions,
         selectedOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
       });
+
+      this.props.onRealtimeChange(newOriginalSelectedOptions.map(item => item.value));
     }
   };
 
@@ -226,6 +243,10 @@ class Select extends PureComponent {
 
             this.optionsContainerRef.scrollTop = Math.max(offset, 0);
           }
+        }
+
+        if (this.searchBarRef) {
+          setTimeout(() => this.searchBarRef.focus(), 100);
         }
       });
     }
@@ -387,15 +408,13 @@ class Select extends PureComponent {
     let isMultipleLabel = false;
 
     if (multiple) {
-      const mergedOptions = [...originalSelectedOptions, ...toSelectOptions];
-
-      if (mergedOptions.length) {
+      if (originalSelectedOptions.length) {
         if (multipleLabel) {
           isMultipleLabel = true;
 
           placeholder = (
             <div className="select-block__placeholder-options">
-              {mergedOptions.slice(0, 3).map(option => (
+              {originalSelectedOptions.slice(0, 3).map(option => (
                 <div key={option.value} className="select-block__placeholder-option">
                   {option.label}
                   <i
@@ -404,15 +423,15 @@ class Select extends PureComponent {
                   />
                 </div>
               ))}
-              {mergedOptions.length > 3 && I18n.t('common.select.label_more', {
-                value: mergedOptions.length - 3,
+              {originalSelectedOptions.length > 3 && I18n.t('common.select.label_more', {
+                value: originalSelectedOptions.length - 3,
               })}
             </div>
           );
         } else {
-          placeholder = mergedOptions.length === 1
-            ? mergedOptions[0].label
-            : `${mergedOptions.length} ${I18n.t('common.select.options_selected')}`;
+          placeholder = originalSelectedOptions.length === 1
+            ? originalSelectedOptions[0].label
+            : `${originalSelectedOptions.length} ${I18n.t('common.select.options_selected')}`;
         }
       }
     } else {
@@ -439,24 +458,26 @@ class Select extends PureComponent {
     }
 
     return (
-      <div
-        className={classNames('form-control', 'select-block__label', {
-          'select-block__label--multipleLabel': isMultipleLabel,
-        })}
-        onClick={this.handleInputClick}
-      >
-        <Choose>
-          <When condition={customArrowComponent}>
+      <Choose>
+        <When condition={customArrowComponent}>
+          <span onClick={this.handleInputClick}>
             {customArrowComponent}
-          </When>
-          <Otherwise>
+          </span>
+        </When>
+        <Otherwise>
+          <div
+            className={classNames('form-control', 'select-block__label', {
+              'select-block__label--multipleLabel': isMultipleLabel,
+            })}
+            onClick={this.handleInputClick}
+          >
             <If condition={withArrowDown}>
               <i className="icon icon-arrow-down select-icon" />
             </If>
-          </Otherwise>
-        </Choose>
-        {placeholder}
-      </div>
+            {placeholder}
+          </div>
+        </Otherwise>
+      </Choose>
     );
   };
 
@@ -485,8 +506,8 @@ class Select extends PureComponent {
           })}
           headerButtonText={options.length === toSelectOptions.length ? 'Clear' : I18n.t('COMMON.ALL')}
           headerButtonOnClick={this.toggleSelectAllOptions}
-          options={options}
-          selectedOptions={toSelectOptions}
+          options={difference(options, originalSelectedOptions)}
+          selectedOptions={[...originalSelectedOptions, ...toSelectOptions]}
           onChange={this.handleSelectMultipleOptions}
           name={name}
         />
@@ -521,6 +542,8 @@ class Select extends PureComponent {
       singleOptionComponent,
       disabled,
       customClassName,
+      customSelectBlockClassName,
+      customSelectBlockContainerClassName,
       isFocused,
       id,
       name,
@@ -538,6 +561,7 @@ class Select extends PureComponent {
     const selectBlockClassName = classNames('select-block__content', {
       'with-search-bar': showSearchBar,
       'with-multiselect': multiple,
+      [customSelectBlockClassName]: customSelectBlockClassName,
     });
 
     return (
@@ -556,7 +580,10 @@ class Select extends PureComponent {
               />
             )
           }
-          <div className="select-block__container" ref={this.bindContainerRef}>
+          <div
+            className={classNames('select-block__container', customSelectBlockContainerClassName)}
+            ref={this.bindContainerRef}
+          >
             {OptionsHeaderComponent && <OptionsHeaderComponent />}
             {multiple && this.renderSelectedOptions(originalSelectedOptions)}
             {
