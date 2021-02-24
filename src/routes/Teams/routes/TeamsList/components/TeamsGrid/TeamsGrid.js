@@ -6,7 +6,6 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
-import Permissions from 'utils/permissions';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
@@ -23,9 +22,7 @@ class TeamsGrid extends PureComponent {
       deleteBranchModal: PropTypes.modalType.isRequired,
     }).isRequired,
     teamsData: PropTypes.branchHierarchyResponse.isRequired,
-    permission: PropTypes.shape({
-      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   handleEditClick = (data) => {
@@ -113,17 +110,14 @@ class TeamsGrid extends PureComponent {
   render() {
     const {
       teamsData,
-      permission: {
-        permissions: currentPermissions,
-      },
+      permission,
     } = this.props;
 
     const isLoading = teamsData.loading;
     const teams = get(teamsData, 'data.branch') || [];
 
-    const updateBranchPermissions = new Permissions(permissions.HIERARCHY.UPDATE_BRANCH).check(currentPermissions);
-    const updateDeleteBranchPermissions = new Permissions(permissions.HIERARCHY.DELETE_BRANCH)
-      .check(currentPermissions);
+    const updateBranchPermissions = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
+    const updateDeleteBranchPermissions = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
 
     return (
       <div className="TeamsGrid">

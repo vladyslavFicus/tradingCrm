@@ -7,7 +7,6 @@ import { withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import Permissions from 'utils/permissions';
 import { EditButton, RemoveButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { Link } from 'components/Link';
@@ -26,9 +25,7 @@ class OfficesGrid extends PureComponent {
       deleteBranchModal: PropTypes.modalType.isRequired,
     }).isRequired,
     officesData: PropTypes.branchHierarchyResponse.isRequired,
-    permission: PropTypes.shape({
-      permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   handleEditClick = (data) => {
@@ -101,17 +98,14 @@ class OfficesGrid extends PureComponent {
   render() {
     const {
       officesData,
-      permission: {
-        permissions: currentPermissions,
-      },
+      permission,
     } = this.props;
 
     const officesList = get(officesData, 'data.branch') || [];
     const isLoading = officesData.loading;
 
-    const updateBranchPermissions = new Permissions(permissions.HIERARCHY.UPDATE_BRANCH).check(currentPermissions);
-    const updateDeleteBranchPermissions = new Permissions(permissions.HIERARCHY.DELETE_BRANCH)
-      .check(currentPermissions);
+    const updateBranchPermissions = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
+    const updateDeleteBranchPermissions = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
 
     return (
       <div className="OfficesGrid">
