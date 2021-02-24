@@ -49,7 +49,7 @@ class ClientAcquisitionStatus extends PureComponent {
         statusTitle: salesStatuses[salesStatus],
         statusColor: salesStatusesColor[salesStatus],
         operator: salesOperator,
-        availableToUpdate: department !== 'SALES',
+        availableToUpdate: department !== 'RETENTION',
         isActive: acquisitionStatus === 'SALES',
       },
       RETENTION: {
@@ -57,7 +57,7 @@ class ClientAcquisitionStatus extends PureComponent {
         statusTitle: retentionStatuses[retentionStatus],
         statusColor: retentionStatusesColor[retentionStatus],
         operator: retentionOperator,
-        availableToUpdate: department !== 'RETENTION',
+        availableToUpdate: department !== 'SALES',
         isActive: acquisitionStatus === 'RETENTION',
       },
     };

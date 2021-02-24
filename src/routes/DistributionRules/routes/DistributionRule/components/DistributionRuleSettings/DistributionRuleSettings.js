@@ -223,9 +223,12 @@ class DistributionRuleSettings extends PureComponent {
                 searchable
                 multiple
               >
-                {countries.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
+                {[
+                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                  ...countries.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  )),
+                ]}
               </Field>
               <Field
                 name="languages"
@@ -238,11 +241,14 @@ class DistributionRuleSettings extends PureComponent {
                 searchable
                 multiple
               >
-                {getAvailableLanguages().map(locale => (
-                  <option key={locale} value={locale}>
-                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                  </option>
-                ))}
+                {[
+                  <option key="undefined" value="undefined">{I18n.t('COMMON.OTHER')}</option>,
+                  ...getAvailableLanguages().map(locale => (
+                    <option key={locale} value={locale}>
+                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                    </option>
+                  )),
+                ]}
               </Field>
             </Form>
           )}

@@ -37,6 +37,8 @@ export default {
     GET_OPERATORS: 'hierarchy.user.getSubordinateOperators',
     GET_BRANCH_BY_ID: 'hierarchy.branch.getBranchByUuid',
     CREATE_BRANCH: 'hierarchy-updater.branch.createBranch',
+    UPDATE_BRANCH: 'hierarchy-updater.branch.updateBranch',
+    DELETE_BRANCH: 'hierarchy-updater.branch.deleteBranch',
     ADD_BRAND_MANAGER: 'hierarchy-updater.branch.addBranchManager',
     REMOVE_BRAND_MANAGER: 'hierarchy-updater.branch.removeBranchManager',
     UPDATE_USER_BRANCH: 'hierarchy-updater.user.updateUserBranch',

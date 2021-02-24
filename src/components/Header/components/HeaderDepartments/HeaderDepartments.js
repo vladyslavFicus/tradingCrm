@@ -6,7 +6,6 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
-import formatLabel from 'utils/formatLabel';
 import HeaderDepartmentsMutation from './graphql/HeaderDepartmentsMutation';
 import './HeaderDepartments.scss';
 
@@ -66,10 +65,16 @@ class HeaderDepartments extends Component {
           <div className="HeaderDepartments">
             <div className="HeaderDepartments-item HeaderDepartments-item--current">
               <div className="HeaderDepartments-item__title">
-                {I18n.t(currentDepartment.name || `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`)}
+                {I18n.t(
+                  `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`,
+                  { defaultValue: currentDepartment.department },
+                )}
               </div>
               <div className="HeaderDepartments-item__role">
-                {formatLabel(currentDepartment.role)}
+                {I18n.t(
+                  `CONSTANTS.OPERATORS.ROLES.${currentDepartment.role}`,
+                  { defaultValue: currentDepartment.role },
+                )}
               </div>
             </div>
           </div>
@@ -85,10 +90,16 @@ class HeaderDepartments extends Component {
               tag="div"
             >
               <div className="HeaderDepartments-item__title">
-                {I18n.t(currentDepartment.name)}
+                {I18n.t(
+                  `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`,
+                  { defaultValue: currentDepartment.department },
+                )}
               </div>
               <div className="HeaderDepartments-item__role">
-                {formatLabel(currentDepartment.role)}
+                {I18n.t(
+                  `CONSTANTS.OPERATORS.ROLES.${currentDepartment.role}`,
+                  { defaultValue: currentDepartment.role },
+                )}
               </div>
               <i className="HeaderDepartments-item__caret fa fa-angle-down" />
             </DropdownToggle>
@@ -99,11 +110,22 @@ class HeaderDepartments extends Component {
                   className="HeaderDepartments-item"
                   onClick={this.changeDepartment(department)}
                 >
-                  <div className="HeaderDepartments-item__title">
-                    {I18n.t(department.name)}
-                  </div>
-                  <div className="HeaderDepartments-item__role">
-                    {formatLabel(department.role)}
+                  <img
+                    src={`/img/departments/${department.department}.svg`}
+                    onError={(e) => { e.target.src = '/img/image-placeholder.svg'; }}
+                    className="HeaderDepartments-item__image"
+                    alt={`${department.department} / ${department.role}`}
+                  />
+                  <div>
+                    <div className="HeaderDepartments-item__title">
+                      {I18n.t(
+                        `CONSTANTS.OPERATORS.DEPARTMENTS.${department.department}`,
+                        { defaultValue: department.department },
+                      )}
+                    </div>
+                    <div className="HeaderDepartments-item__role">
+                      {I18n.t(`CONSTANTS.OPERATORS.ROLES.${department.role}`, { defaultValue: department.role })}
+                    </div>
                   </div>
                 </DropdownItem>
               ))}

@@ -79,10 +79,16 @@ class PromoteLeadModal extends PureComponent {
     } catch (e) {
       const { error } = parseErrors(e);
 
-      if (error === 'error.entity.already.exist') {
-        setErrors({ submit: I18n.t(`lead.${error}`, { email: leadQuery.data?.lead?.email }) });
-      } else {
-        setErrors({ submit: I18n.t(`lead.${error}`) });
+      switch (error) {
+        case 'error.entity.already.exist':
+          setErrors({ submit: I18n.t(`lead.${error}`, { email: leadQuery.data?.lead?.email }) });
+          break;
+        case 'error.phone.already.exist':
+          setErrors({ submit: I18n.t('error.validation.phone.exists') });
+          break;
+        default:
+          setErrors({ submit: I18n.t(`lead.${error}`) });
+          break;
       }
     }
 
@@ -133,7 +139,7 @@ class PromoteLeadModal extends PureComponent {
           validateOnChange={false}
           onSubmit={this.handlePromoteLead}
         >
-          {({ isSubmitting, setFieldValue }) => (
+          {({ isSubmitting, errors, setFieldValue }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>{I18n.t('LEAD_PROFILE.PROMOTE_MODAL.HEADER')}</ModalHeader>
               <ModalBody>
@@ -210,6 +216,12 @@ class PromoteLeadModal extends PureComponent {
                     ))}
                   </Field>
                 </div>
+
+                <If condition={errors && errors.submit}>
+                  <div className="PromoteLeadModal__error">
+                    {errors.submit}
+                  </div>
+                </If>
               </ModalBody>
               <ModalFooter>
                 <Button

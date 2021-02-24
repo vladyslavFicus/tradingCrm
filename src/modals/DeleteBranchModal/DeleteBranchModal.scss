@@ -1,0 +1,48 @@
+.DeleteBranchModal {
+  &__description {
+    text-align: center;
+  }
+
+  &__row {
+    text-align: center;
+  }
+
+  &__action-text {
+    font-weight: 700;
+    line-height: 1.3em;
+  }
+
+  &__additional-text {
+    margin-left: 5px;
+  }
+
+  &__action-text,
+  &__additional-text,
+  &__fullname {
+    font-weight: 700;
+  }
+
+  &__errors {
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3em;
+    color: #ff0000;
+  }
+
+  &__errors-list {
+    margin-top: 5px;
+
+    li {
+      font-size: 14px;
+      font-weight: normal;
+      list-style: inside;
+      list-style-type: circle;
+      color: black;
+    }
+  }
+
+  .modal-header {
+    background-color: #ff8041;
+  }
+}

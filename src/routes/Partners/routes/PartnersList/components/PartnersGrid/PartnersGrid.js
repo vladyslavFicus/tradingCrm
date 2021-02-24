@@ -5,7 +5,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
 import './PartnersGrid.scss';
@@ -38,14 +38,13 @@ class PartnersGrid extends PureComponent {
     });
   };
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
         sorts,
-        sortData,
       },
     });
   };
@@ -118,45 +117,45 @@ class PartnersGrid extends PureComponent {
       location: { state },
     } = this.props;
 
-    const { last, content } = partnersData?.partners || {};
+    const { content, last } = partnersData?.partners || { content: [], last: true };
 
     return (
       <div className="PartnersGrid">
-        <Grid
-          data={content || []}
-          sorts={state?.sortData}
-          handleSort={this.handleSort}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={138}
-          isLoading={loading}
-          isLastPage={last}
-          withLazyLoad
+        <Table
+          stickyFirstColumn
+          stickyFromTop={138}
+          items={content}
+          sorts={state?.sorts}
+          loading={loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
+          onSort={this.handleSort}
         >
-          <GridColumn
+          <Column
             sortBy="firstName"
             header={I18n.t('PARTNERS.GRID_HEADER.PARTNER')}
             render={this.renderPartnerColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('PARTNERS.GRID_HEADER.EXTERNAL_ID')}
             render={this.renderExternalAffiliateIdColumn}
           />
-          <GridColumn
+          <Column
             sortBy="country"
             header={I18n.t('PARTNERS.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <GridColumn
+          <Column
             sortBy="createdAt"
             header={I18n.t('PARTNERS.GRID_HEADER.REGISTERED')}
             render={this.renderRegisteredColumn}
           />
-          <GridColumn
+          <Column
             sortBy="status"
             header={I18n.t('PARTNERS.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

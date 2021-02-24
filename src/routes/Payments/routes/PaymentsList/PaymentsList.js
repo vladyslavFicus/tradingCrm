@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
+import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
-import Placeholder from 'components/Placeholder';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import { PartnersQuery, PaymentsQuery } from './graphql';
@@ -51,7 +51,7 @@ class PaymentsList extends PureComponent {
     return (
       <div className="PaymentList">
         <div className="PaymentList__header">
-          <Placeholder
+          <ReactPlaceholder
             ready={!paymentsLoading}
             customPlaceholder={(
               <TextRow
@@ -73,7 +73,7 @@ class PaymentsList extends PureComponent {
                 </span>
               </Otherwise>
             </Choose>
-          </Placeholder>
+          </ReactPlaceholder>
         </div>
 
         <PaymentsListFilters

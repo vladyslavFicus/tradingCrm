@@ -84,9 +84,8 @@ const PaymentsQuery = ({ children, location: { state } }) => (
     query={REQUEST}
     variables={{
       args: {
-        accountType: 'LIVE',
-        ...state?.filters,
-        statuses: state?.filters?.statuses && state.filters.statuses.map(item => statusMapper[item]).flat(Infinity),
+        ...state?.filters ? state.filters : { accountType: 'LIVE' },
+        statuses: state?.filters?.statuses?.map(item => statusMapper[item]).flat(Infinity),
         page: {
           from: 0,
           size: 20,

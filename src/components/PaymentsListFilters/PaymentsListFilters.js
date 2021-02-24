@@ -78,6 +78,10 @@ class PaymentsListFilters extends PureComponent {
     handleRefetch: null,
   };
 
+  checkIsDirty = values => (
+    !(Object.keys(values).length === 1 && values.accountType === 'LIVE')
+  );
+
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
       const partnerBranches = operator.hierarchy?.parentBranches || [];
@@ -174,7 +178,7 @@ class PaymentsListFilters extends PureComponent {
           enableReinitialize
           onSubmit={this.handleSubmit}
           onReset={this.handleReset}
-          initialValues={state?.filters || {}}
+          initialValues={state?.filters || { accountType: 'LIVE' }}
         >
           {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
@@ -412,7 +416,7 @@ class PaymentsListFilters extends PureComponent {
                     <Field
                       name="accountType"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
-                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
                       withAnyOption
@@ -522,7 +526,7 @@ class PaymentsListFilters extends PureComponent {
                       <Button
                         onClick={handleReset}
                         className="PaymentsListFilters__button"
-                        disabled={paymentsLoading || isSubmitting || !Object.keys(values).length}
+                        disabled={paymentsLoading || isSubmitting || !this.checkIsDirty(values)}
                         primary
                       >
                         {I18n.t('COMMON.RESET')}
