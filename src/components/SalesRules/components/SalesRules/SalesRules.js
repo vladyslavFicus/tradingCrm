@@ -4,9 +4,10 @@ import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
+import ReactPlaceholder from 'react-placeholder';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import countries from 'utils/countryList';
@@ -16,7 +17,6 @@ import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import { Button, EditButton } from 'components/UI';
 import Grid, { GridColumn } from 'components/Grid';
-import Placeholder from 'components/Placeholder';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
@@ -347,9 +347,8 @@ class SalesRules extends PureComponent {
     return (
       <div className={classNames('SalesRules card', { 'no-borders': isTab })}>
         <div className="card-heading card-heading--is-sticky">
-          <Placeholder
+          <ReactPlaceholder
             ready={!isLoadingRules}
-            className={null}
             customPlaceholder={(
               <div>
                 <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
@@ -359,7 +358,7 @@ class SalesRules extends PureComponent {
             <span className="font-size-20">
               {entities.length} {I18n.t('SALES_RULES.TITLE')}
             </span>
-          </Placeholder>
+          </ReactPlaceholder>
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
             <div className="ml-auto">
               <Button
