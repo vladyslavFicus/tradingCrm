@@ -5,8 +5,8 @@ import I18n from 'i18n-js';
 import Select from 'components/Select';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
-import './DynamicFiltersButton.scss';
 import { withStorage } from 'providers/StorageProvider';
+import './DynamicFiltersButton.scss';
 
 /**
  * Button to render filters list and save rendered filters to persistent storage to render same list in the future

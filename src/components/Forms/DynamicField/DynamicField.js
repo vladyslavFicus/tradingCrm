@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Field as OriginalField } from 'formik';
+import { Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 
 class DynamicField extends PureComponent {
@@ -31,7 +31,7 @@ class DynamicField extends PureComponent {
 
     return (
       <If condition={this.shouldFieldRender()}>
-        <OriginalField {...props} />
+        <Field {...props} />
       </If>
     );
   }
