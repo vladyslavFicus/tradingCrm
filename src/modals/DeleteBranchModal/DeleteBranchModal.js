@@ -103,7 +103,7 @@ class DeleteBranchModal extends PureComponent {
           <Button
             type="submit"
             dangerOutline
-            disabled={isSubmitting}
+            disabled={isSubmitting || errors}
             onClick={this.handleSubmit}
           >
             {I18n.t('COMMON.BUTTONS.DELETE')}
