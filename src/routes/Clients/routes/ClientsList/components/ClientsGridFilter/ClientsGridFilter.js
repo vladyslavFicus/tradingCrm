@@ -572,7 +572,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'registrationDateRange.from',
                         to: 'registrationDateRange.to',
                       }}
-                      anchorDirection="right"
+                      anchorDirection="left"
                       withFocus
                     />
 
@@ -606,7 +606,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastNoteDateRange.from',
                         to: 'lastNoteDateRange.to',
                       }}
-                      anchorDirection="right"
+                      anchorDirection="left"
                       withFocus
                     />
 
@@ -640,7 +640,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastModificationDateRange.from',
                         to: 'lastModificationDateRange.to',
                       }}
-                      anchorDirection="right"
+                      anchorDirection="left"
                       withFocus
                     />
 
