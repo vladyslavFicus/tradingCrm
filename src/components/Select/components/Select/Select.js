@@ -3,13 +3,18 @@ import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { compose } from 'react-apollo';
 import onClickOutside from 'react-onclickoutside';
 import { isObject } from 'lodash';
-import shallowEqual from '../../utils/shallowEqual';
-import SelectSearchBox, { filterOptionsByQuery, filterOptionsByQueryWithMultiple } from './SelectSearchBox';
-import SelectSingleOptions from './SelectSingleOptions';
-import SelectMultipleOptions from './SelectMultipleOptions';
-import deleteFromArray from '../../utils/deleteFromArray';
+import shallowEqual from 'utils/shallowEqual';
+import deleteFromArray from 'utils/deleteFromArray';
+import SelectSearchBox, {
+  filterOptionsByQuery,
+  filterOptionsByQueryWithMultiple,
+} from '../SelectSearchBox/SelectSearchBox';
+import SelectSingleOptions from '../SelectSingleOptions/SelectSingleOptions';
+import SelectMultipleOptions from '../SelectMultipleOptions/SelectMultipleOptions';
+import './Select.scss';
 
 class Select extends PureComponent {
   static propTypes = {
@@ -58,7 +63,7 @@ class Select extends PureComponent {
 
     const originalOptions = this.filterOptions(props.children);
     const selectedOptions = props.multiple
-      ? originalOptions.filter(option => props.value.indexOf(option.value) > -1)
+      ? originalOptions.filter(option => props.value.includes(option.value))
       : [originalOptions.find(option => option.value === props.value)].filter(option => option);
 
     this.state = {
@@ -70,6 +75,7 @@ class Select extends PureComponent {
       selectedOptions,
       toSelectOptions: [],
     };
+
     this.activeOptionRef = null;
     this.optionsContainerRef = null;
     this.searchBarRef = null;
@@ -88,7 +94,7 @@ class Select extends PureComponent {
       options = [...this.filterOptions(nextProps.children)];
 
       const selectedOptions = multiple
-        ? options.filter(option => value.indexOf(option.value) > -1)
+        ? options.filter(option => value.includes(option.value))
         : [options.find(option => option.value === value)].filter(option => option);
 
       this.updateState({
@@ -107,7 +113,7 @@ class Select extends PureComponent {
       }
 
       const originalSelectedOptions = nextProps.multiple
-        ? options.filter(option => nextProps.value.indexOf(option.value) > -1)
+        ? options.filter(option => nextProps.value.includes(option.value))
         : [options.find(option => option.value === nextProps.value)].filter(option => option);
 
       this.updateState({
@@ -196,7 +202,7 @@ class Select extends PureComponent {
 
   handleDeleteSelectedOption = (options) => {
     const { query, originalSelectedOptions } = this.state;
-    const deletedOptions = originalSelectedOptions.filter(option => options.indexOf(option) === -1);
+    const deletedOptions = originalSelectedOptions.filter(option => !options.includes(option));
     const newOriginalSelectedOptions = deletedOptions
       .reduce((res, option) => deleteFromArray(res, option), originalSelectedOptions);
 
@@ -233,13 +239,10 @@ class Select extends PureComponent {
 
   handleClose = () => {
     const { toSelectOptions, originalOptions, originalSelectedOptions } = this.state;
-
     const { multiple, value } = this.props;
-    const previousValue = multiple ? value : [value];
-    let newValue = multiple
+    let newValue = (multiple
       ? [...originalSelectedOptions, ...toSelectOptions]
-      : [...toSelectOptions];
-    newValue = newValue.map(option => option.value);
+      : [...toSelectOptions]).map(option => option.value);
 
     this.updateState({ opened: false }, () => {
       window.requestAnimationFrame(() => {
@@ -249,7 +252,7 @@ class Select extends PureComponent {
           toSelectOptions: [],
           selectedOptions: [...originalSelectedOptions],
         }, () => {
-          if (!shallowEqual(previousValue, newValue)) {
+          if (!shallowEqual(multiple ? value : [value], newValue)) {
             newValue = Array.isArray(newValue) && !newValue.length ? undefined : newValue;
 
             if (multiple) {
@@ -349,28 +352,9 @@ class Select extends PureComponent {
 
   filterSelectedOptions = (options, selectedOptions, multiple) => (
     multiple
-      ? options.filter(option => selectedOptions.indexOf(option) === -1)
+      ? options.filter(option => !selectedOptions.includes(option))
       : options
   );
-
-  renderSelectedOptions = (originalSelectedOptions) => {
-    const { query } = this.state;
-    const options = filterOptionsByQuery(query, originalSelectedOptions);
-
-    return (
-      <SelectMultipleOptions
-        className="select-block__selected-options"
-        headerText={I18n.t('common.select.selected_options')}
-        headerButtonClassName="clear-selected-options"
-        headerButtonIconClassName="icon icon-times"
-        headerButtonText={I18n.t('common.select.clear')}
-        headerButtonOnClick={this.handleResetSelectedOptions}
-        options={options}
-        selectedOptions={originalSelectedOptions}
-        onChange={this.handleDeleteSelectedOption}
-      />
-    );
-  }
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
@@ -394,12 +378,12 @@ class Select extends PureComponent {
           isMultipleLabel = true;
 
           placeholder = (
-            <div className="select-block__placeholder-options">
+            <div className="Select__placeholder-options">
               {mergedOptions.slice(0, 3).map(option => (
-                <div key={option.value} className="select-block__placeholder-option">
+                <div key={option.value} className="Select__placeholder-options">
                   {option.label}
                   <i
-                    className="icon icon-times select-block__placeholder-option-delete"
+                    className="icon icon-times Select__placeholder-option-delete"
                     onClick={this.handleMultiInputOptionDeleteClick(option)}
                   />
                 </div>
@@ -440,8 +424,8 @@ class Select extends PureComponent {
 
     return (
       <div
-        className={classNames('form-control', 'select-block__label', {
-          'select-block__label--multipleLabel': isMultipleLabel,
+        className={classNames('Select__form-control', 'Select__label', {
+          'Select__label--multipleLabel': isMultipleLabel,
         })}
         onClick={this.handleInputClick}
       >
@@ -451,7 +435,7 @@ class Select extends PureComponent {
           </When>
           <Otherwise>
             <If condition={withArrowDown}>
-              <i className="icon icon-arrow-down select-icon" />
+              <i className="icon icon-arrow-down Select__icon" />
             </If>
           </Otherwise>
         </Choose>
@@ -460,49 +444,76 @@ class Select extends PureComponent {
     );
   };
 
-  renderOptions = (
-    {
+  renderOptions = () => {
+    const {
+      query,
       options,
       originalSelectedOptions,
       toSelectOptions,
+    } = this.state;
+
+    const {
       multiple,
       singleOptionComponent,
       name,
-    },
-  ) => (
-    <Choose>
-      <When condition={multiple}>
-        <SelectMultipleOptions
-          className="select-block__selected-options"
-          headerText={I18n.t('common.select.available_options')}
-          headerButtonClassName={classNames({
-            'select-all-options': options.length !== toSelectOptions.length,
-            'clear-selected-options': options.length === toSelectOptions.length,
-          })}
-          headerButtonIconClassName={classNames({
-            'fa fa-check-square': options.length !== toSelectOptions.length,
-            'icon icon-times': options.length === toSelectOptions.length,
-          })}
-          headerButtonText={options.length === toSelectOptions.length ? 'Clear' : I18n.t('COMMON.ALL')}
-          headerButtonOnClick={this.toggleSelectAllOptions}
-          options={options}
-          selectedOptions={toSelectOptions}
-          onChange={this.handleSelectMultipleOptions}
-          name={name}
-        />
-      </When>
-      <Otherwise>
-        <SelectSingleOptions
-          options={options}
-          selectedOption={originalSelectedOptions[0]}
-          onChange={this.handleSelectSingleOption}
-          bindActiveOption={this.bindActiveOptionRef}
-          handleSelectHide={this.handleHideSelect}
-          optionComponent={singleOptionComponent}
-        />
-      </Otherwise>
-    </Choose>
-  );
+    } = this.props;
+
+    const filteredOptions = filterOptionsByQuery(query, originalSelectedOptions);
+
+    return (
+      <Choose>
+        <When condition={multiple}>
+          <If condition={originalSelectedOptions}>
+
+            {/* Selected options */}
+            <SelectMultipleOptions
+              className="Select__selected-options"
+              headerText={I18n.t('common.select.selected_options')}
+              headerButtonClassName="Select__clear-selected-options"
+              headerButtonIconClassName="icon icon-times"
+              headerButtonText={I18n.t('common.select.clear')}
+              headerButtonOnClick={this.handleResetSelectedOptions}
+              options={filteredOptions}
+              selectedOptions={originalSelectedOptions}
+              onChange={this.handleDeleteSelectedOption}
+            />
+          </If>
+
+          {/* Available options */}
+          <SelectMultipleOptions
+            className="Select__selected-options"
+            headerText={I18n.t('common.select.available_options')}
+            headerButtonClassName={classNames({
+              'Select__select-all-options': options.length !== toSelectOptions.length,
+              'Select__clear-selected-options': options.length === toSelectOptions.length,
+            })}
+            headerButtonIconClassName={classNames({
+              'fa fa-check-square': options.length !== toSelectOptions.length,
+              'icon icon-times': options.length === toSelectOptions.length,
+            })}
+            headerButtonText={options.length === toSelectOptions.length ? I18n.t('COMMON.CLEAR') : I18n.t('COMMON.ALL')}
+            headerButtonOnClick={this.toggleSelectAllOptions}
+            options={options}
+            selectedOptions={toSelectOptions}
+            onChange={this.handleSelectMultipleOptions}
+            name={name}
+          />
+        </When>
+        <Otherwise>
+
+          {/* Single option */}
+          <SelectSingleOptions
+            options={options}
+            selectedOption={originalSelectedOptions[0]}
+            onChange={this.handleSelectSingleOption}
+            bindActiveOption={this.bindActiveOptionRef}
+            handleSelectHide={this.handleHideSelect}
+            optionComponent={singleOptionComponent}
+          />
+        </Otherwise>
+      </Choose>
+    );
+  };
 
   render() {
     const {
@@ -510,74 +521,51 @@ class Select extends PureComponent {
       opened,
       options,
       selectedOptions,
-      originalSelectedOptions,
-      toSelectOptions,
     } = this.state;
 
     const {
-      multiple,
+      id,
       searchPlaceholder,
-      optionsHeader,
-      singleOptionComponent,
+      optionsHeader: OptionsHeaderComponent,
       disabled,
       customClassName,
       isFocused,
-      id,
-      name,
     } = this.props;
 
-    const OptionsHeaderComponent = optionsHeader;
     const showSearchBar = this.hasSearchBar();
-    const className = classNames('select-block', {
-      'is-opened': opened,
-      'with-option': !!selectedOptions.length > 0,
-      'is-disabled': disabled,
-      'is-focused': isFocused,
-      [customClassName]: customClassName,
-    });
-    const selectBlockClassName = classNames('select-block__content', {
-      'with-search-bar': showSearchBar,
-      'with-multiselect': multiple,
-    });
 
     return (
-      <div className={className} id={id}>
+      <div
+        className={classNames('Select', {
+          'Select__is-opened': opened,
+          'Select__with-option': !!selectedOptions.length > 0,
+          'Select__is-disabled': disabled,
+          'Select__is-focused': isFocused,
+          [customClassName]: customClassName,
+        })}
+        id={id}
+      >
         {this.renderLabel()}
 
-        <div className={selectBlockClassName}>
-          {
-            showSearchBar
-            && (
-              <SelectSearchBox
-                query={query}
-                placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
-                onChange={this.handleSearch}
-                ref={this.bindSearchBarRef}
-              />
-            )
-          }
-          <div className="select-block__container" ref={this.bindContainerRef}>
-            {OptionsHeaderComponent && <OptionsHeaderComponent />}
-            {multiple && this.renderSelectedOptions(originalSelectedOptions)}
-            {
-              !!query
-              && options.length === 0
-              && (
-                <div className="text-muted font-size-10 margin-10">
-                  {I18n.t('common.select.options_not_found', { query })}
-                </div>
-              )
-            }
-            {this.renderOptions(
-              {
-                options,
-                originalSelectedOptions,
-                toSelectOptions,
-                multiple,
-                singleOptionComponent,
-                name,
-              },
-            )}
+        <div className="Select__content">
+          <If condition={showSearchBar}>
+            <SelectSearchBox
+              query={query}
+              placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
+              onChange={this.handleSearch}
+              ref={this.bindSearchBarRef}
+            />
+          </If>
+          <div className="Select__container" ref={this.bindContainerRef}>
+            <If condition={OptionsHeaderComponent}>
+              <OptionsHeaderComponent />
+            </If>
+            <If condition={query && options.length === 0}>
+              <div className="Select__not-found">
+                {I18n.t('common.select.options_not_found', { query })}
+              </div>
+            </If>
+            {this.renderOptions()}
           </div>
         </div>
       </div>
@@ -585,4 +573,7 @@ class Select extends PureComponent {
   }
 }
 
-export default withRouter(onClickOutside(Select));
+export default compose(
+  withRouter,
+  onClickOutside,
+)(Select);

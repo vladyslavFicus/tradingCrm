@@ -609,6 +609,7 @@
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
     "ALL": "All",
+    "CLEAR": "Clear",
     "PLAYERS": "Players",
     "CLIENTS": "Clients",
     "TRANSACTIONS": "Transactions",
