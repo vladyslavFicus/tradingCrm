@@ -162,14 +162,14 @@ export default compose(
 
         notify({
           level: 'success',
-          title: I18n.t('TEAMS.NOTIFICATIONS.SUCCESS.TITLE'),
-          message: I18n.t('TEAMS.NOTIFICATIONS.SUCCESS.MESSAGE'),
+          title: I18n.t('TEAMS.MODAL.NOTIFICATIONS.SUCCESS.TITLE'),
+          message: I18n.t('TEAMS.MODAL.NOTIFICATIONS.SUCCESS.MESSAGE'),
         });
       } catch {
         notify({
           level: 'error',
-          title: I18n.t('TEAMS.NOTIFICATIONS.ERROR.TITLE'),
-          message: I18n.t('TEAMS.NOTIFICATIONS.ERROR.MESSAGE'),
+          title: I18n.t('TEAMS.MODAL.NOTIFICATIONS.ERROR.TITLE'),
+          message: I18n.t('TEAMS.MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
         });
       }
     },

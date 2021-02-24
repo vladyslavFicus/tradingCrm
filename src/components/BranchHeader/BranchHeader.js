@@ -10,9 +10,9 @@ import AddBranchManagerModal from 'modals/AddBranchManagerModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
-import ProfileHeaderPlaceholder from 'components/ProfileHeaderPlaceholder';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
+import BranchHeaderPlaceholder from './components/BranchHeaderPlaceholder';
 import getBranchManagerQuery from './graphql/getBranchManagerQuery';
 import removeBranchManagerMutation from './graphql/removeBranchManagerMutation';
 import './BranchHeader.scss';
@@ -127,7 +127,7 @@ class BranchHeader extends PureComponent {
     return (
       <div className="BranchHeader">
         <div className="BranchHeader__left">
-          <ProfileHeaderPlaceholder ready={!loading}>
+          <BranchHeaderPlaceholder ready={!loading}>
             <div className="BranchHeader__branch">
               <div className="BranchHeader__branch-name">{name}</div>
               <div className="BranchHeader__branch-uuid">
@@ -153,7 +153,7 @@ class BranchHeader extends PureComponent {
                 </Otherwise>
               </Choose>
             </div>
-          </ProfileHeaderPlaceholder>
+          </BranchHeaderPlaceholder>
         </div>
 
         <If condition={!loading}>

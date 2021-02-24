@@ -882,6 +882,26 @@ export default [
           },
         },
       },
+      // Update branch
+      {
+        id: 'branchUpdate',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.branch.updateBranch',
+            state: false,
+          },
+        },
+      },
+      // Delete branch
+      {
+        id: 'branchDelete',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.branch.deleteBranch',
+            state: false,
+          },
+        },
+      },
       // Add branch manager
       {
         id: 'branchAddManager',

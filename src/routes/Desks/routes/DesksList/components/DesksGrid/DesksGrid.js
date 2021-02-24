@@ -1,15 +1,50 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { withModals } from 'hoc';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
+import PermissionContent from 'components/PermissionContent';
+import { EditButton, RemoveButton } from 'components/UI';
+import DeleteBranchModal from 'modals/DeleteBranchModal';
+import UpdateDeskModal from '../UpdateDeskModal';
 import './DesksGrid.scss';
 
 class DesksGrid extends PureComponent {
   static propTypes = {
+    modals: PropTypes.shape({
+      deleteBranchModal: PropTypes.modalType.isRequired,
+      updateDeskModal: PropTypes.modalType.isRequired,
+    }).isRequired,
     desksData: PropTypes.branchHierarchyResponse.isRequired,
+  };
+
+  handleEditClick = (data) => {
+    const {
+      desksData,
+      modals: { updateDeskModal },
+    } = this.props;
+
+    updateDeskModal.show({
+      data,
+      onSuccess: desksData.refetch,
+    });
+  };
+
+  handleDeleteClick = ({ uuid, name }) => {
+    const {
+      desksData,
+      modals: { deleteBranchModal },
+    } = this.props;
+
+    deleteBranchModal.show({
+      uuid,
+      name,
+      onSuccess: desksData.refetch,
+    });
   };
 
   renderDeskCell = ({ name, uuid }) => (
@@ -43,6 +78,20 @@ class DesksGrid extends PureComponent {
     </div>
   );
 
+  renderActions = data => (
+    <>
+      <PermissionContent permissions={permissions.HIERARCHY.UPDATE_BRANCH}>
+        <EditButton
+          onClick={() => this.handleEditClick(data)}
+          className="DesksGrid__edit-button"
+        />
+      </PermissionContent>
+      <PermissionContent permissions={permissions.HIERARCHY.DELETE_BRANCH}>
+        <RemoveButton onClick={() => this.handleDeleteClick(data)} />
+      </PermissionContent>
+    </>
+  );
+
   render() {
     const { desksData } = this.props;
 
@@ -68,10 +117,17 @@ class DesksGrid extends PureComponent {
             header={I18n.t('DESKS.GRID_HEADER.DESK_TYPE')}
             render={this.renderDeskTypesCell}
           />
+          <GridColumn
+            header={I18n.t('DESKS.GRID_HEADER.ACTIONS')}
+            render={this.renderActions}
+          />
         </Grid>
       </div>
     );
   }
 }
 
-export default DesksGrid;
+export default withModals({
+  updateDeskModal: UpdateDeskModal,
+  deleteBranchModal: DeleteBranchModal,
+})(DesksGrid);

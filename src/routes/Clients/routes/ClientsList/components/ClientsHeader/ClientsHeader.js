@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
+import ReactPlaceholder from 'react-placeholder';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
-import Placeholder from 'components/Placeholder';
 import { FiltersTogglerButton } from 'components/FiltersToggler';
 import ClientsBulkActions from '../ClientsBulkActions';
 import './ClientsHeader.scss';
@@ -40,9 +40,8 @@ class ClientsHeader extends PureComponent {
     return (
       <div className="ClientsHeader">
         <div className="ClientsHeader__left">
-          <Placeholder
+          <ReactPlaceholder
             ready={!clientsQuery.loading}
-            className={null}
             customPlaceholder={(
               <div>
                 <TextRow
@@ -74,7 +73,7 @@ class ClientsHeader extends PureComponent {
                 </div>
               </Otherwise>
             </Choose>
-          </Placeholder>
+          </ReactPlaceholder>
         </div>
 
         <div className="ClientsHeader__right">

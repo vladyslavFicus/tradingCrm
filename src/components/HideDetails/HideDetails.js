@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 import I18n from 'i18n-js';
 import './HideDetails.scss';
 
-class HideDetails extends Component {
+class HideDetails extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
   };
@@ -23,11 +23,11 @@ class HideDetails extends Component {
 
     return (
       <Fragment>
-        <div className="row no-gutters hide-details">
-          <div className="col hide-details__divider" />
+        <div className="HideDetails">
+          <div className="HideDetails__divider" />
           <button
             type="button"
-            className="col-auto px-3 btn-transparent hide-details__action"
+            className="HideDetails__trigger"
             onClick={this.handleCollapseBlock}
           >
             <Choose>
@@ -39,7 +39,7 @@ class HideDetails extends Component {
               </Otherwise>
             </Choose>
           </button>
-          <div className="col hide-details__divider" />
+          <div className="HideDetails__divider" />
         </div>
         <Collapse isOpen={!collapsed}>
           {children}

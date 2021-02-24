@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get, set } from 'lodash';
+import { set } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -81,13 +81,13 @@ class PaymentsListGrid extends PureComponent {
       headerStickyFromTop,
     } = this.props;
 
-    const { content, last } = get(paymentsQuery, 'data.payments') || { content: [] };
+    const { content, last } = paymentsQuery.data?.payments || { content: [] };
     const isLoading = paymentsQuery.loading;
 
     return (
-      <div className="PaymentsListGrid card">
+      <div className="PaymentsListGrid">
         <Grid
-          data={content || []}
+          data={content}
           handleSort={this.handleSort}
           sorts={state?.sortData}
           handlePageChanged={this.handlePageChanged}
@@ -105,7 +105,7 @@ class PaymentsListGrid extends PureComponent {
                 <If condition={data.userMigrationId}>
                   <div>
                     <Uuid
-                      className="header-block-small"
+                      className="PaymentsListGrid__header-block-small"
                       uuidPostfix="..."
                       length={15}
                       uuid={data.userMigrationId}
@@ -115,7 +115,7 @@ class PaymentsListGrid extends PureComponent {
                 <If condition={data.paymentMigrationId}>
                   <div>
                     <Uuid
-                      className="header-block-small"
+                      className="PaymentsListGrid__header-block-small"
                       uuidPostfix="..."
                       length={15}
                       uuid={data.paymentMigrationId}
@@ -161,7 +161,7 @@ class PaymentsListGrid extends PureComponent {
                 <When condition={partner}>
                   <div>
                     <a
-                      className="header-block-middle"
+                      className="PaymentsListGrid__partner"
                       target="_blank"
                       rel="noopener noreferrer"
                       href={`/partners/${affiliateUuid}/profile`}
@@ -169,7 +169,7 @@ class PaymentsListGrid extends PureComponent {
                       {partner.fullName}
                     </a>
                   </div>
-                  <div className="font-size-11">
+                  <div className="PaymentsListGrid__text-secondary">
                     <Uuid uuid={affiliateUuid} />
                   </div>
                 </When>
@@ -185,10 +185,10 @@ class PaymentsListGrid extends PureComponent {
             render={({ originalAgent }) => (
               <Choose>
                 <When condition={originalAgent}>
-                  <div className="font-weight-700">
+                  <div className="PaymentsListGrid__text-primary">
                     {originalAgent.fullName}
                   </div>
-                  <div className="font-size-11">
+                  <div className="PaymentsListGrid__text-secondary">
                     <Uuid uuid={originalAgent.uuid} />
                   </div>
                 </When>
@@ -220,11 +220,11 @@ class PaymentsListGrid extends PureComponent {
               const { label, color } = tradingTypesLabelsWithColor[paymentType];
               return (
                 <Fragment>
-                  <div className={`text-uppercase font-weight-700 ${color}`}>
+                  <div className={`PaymentsListGrid__upper PaymentsListGrid__text-primary ${color}`}>
                     {I18n.t(label)}
                   </div>
                   <If condition={externalReference}>
-                    <div className="font-size-11 text-uppercase">
+                    <div className="PaymentsListGrid__text-secondary PaymentsListGrid__upper">
                       <Uuid
                         uuid={externalReference}
                         length={10}
@@ -242,10 +242,10 @@ class PaymentsListGrid extends PureComponent {
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT')}
             render={({ currency, amount, normalizedAmount }) => (
               <Fragment>
-                <div className="header-block-middle">
+                <div className="PaymentsListGrid__header-block-middle">
                   {currency} {Number(amount).toFixed(2)}
                 </div>
-                <div className="font-size-11">
+                <div className="PaymentsListGrid__text-secondary">
                   {`(${getBrand().currencies.base} ${Number(
                     normalizedAmount,
                   ).toFixed(2)})`}
@@ -258,12 +258,12 @@ class PaymentsListGrid extends PureComponent {
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC')}
             render={({ login, platformType, currency }) => (
               <>
-                <div className="font-weight-700">
+                <div className="PaymentsListGrid__text-primary">
                   <PlatformTypeBadge platformType={platformType}>
                     {login}
                   </PlatformTypeBadge>
                 </div>
-                <div className="font-size-11">{currency}</div>
+                <div className="PaymentsListGrid__text-secondary">{currency}</div>
               </>
             )}
           />
@@ -272,7 +272,7 @@ class PaymentsListGrid extends PureComponent {
             render={({ paymentAggregator }) => (
               <Choose>
                 <When condition={aggregatorsLabels[paymentAggregator]}>
-                  <div className="font-weight-700">
+                  <div className="PaymentsListGrid__text-primary">
                     {I18n.t(aggregatorsLabels[paymentAggregator])}
                   </div>
                 </When>
@@ -287,13 +287,13 @@ class PaymentsListGrid extends PureComponent {
             render={({ paymentMethod, bankName, maskedPan }) => (
               <>
                 <If condition={bankName}>
-                  <div className="font-weight-700 color-warning">{bankName}</div>
+                  <div className="PaymentsListGrid__text-primary PaymentsListGrid__payment-method">{bankName}</div>
                 </If>
                 <Choose>
                   <When condition={paymentMethod}>
-                    <div className="font-weight-700">{formatLabel(paymentMethod)}</div>
+                    <div className="PaymentsListGrid__text-primary">{formatLabel(paymentMethod)}</div>
                     <If condition={maskedPan && paymentMethod === 'CREDIT_CARD'}>
-                      <div className="font-weight-700 color-warning">{maskedPan}</div>
+                      <div className="PaymentsListGrid__text-primary PaymentsListGrid__payment-method">{maskedPan}</div>
                     </If>
                   </When>
                   <Otherwise>
@@ -308,10 +308,10 @@ class PaymentsListGrid extends PureComponent {
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.DATE_TIME')}
             render={({ creationTime }) => (
               <Fragment>
-                <div className="font-weight-700">
+                <div className="PaymentsListGrid__text-primary">
                   {moment.utc(creationTime).local().format('DD.MM.YYYY')}
                 </div>
-                <div className="font-size-11">
+                <div className="PaymentsListGrid__text-secondary">
                   {moment.utc(creationTime).local().format('HH:mm:ss')}
                 </div>
               </Fragment>
