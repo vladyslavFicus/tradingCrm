@@ -55,6 +55,13 @@ class Root extends PureComponent {
     return null;
   }
 
+  componentDidUpdate(prevProps) {
+    // Force reload page in hidden tabs when brand was changed in another tab
+    if (prevProps.brand?.id !== this.props.brand?.id && document.hidden) {
+      window.location.reload(true);
+    }
+  }
+
   /**
    * Set locale from storage or if it's undefined -> from brand config
    */
