@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { intersection } from 'lodash';
 import classNames from 'classnames';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
@@ -17,19 +17,17 @@ import { kycStatusesLabels } from 'constants/kycStatuses';
 import { warningLabels } from 'constants/warnings';
 import { filterSetTypes } from 'constants/filterSet';
 import { withStorage } from 'providers/StorageProvider';
-import { withPermission } from 'providers/PermissionsProvider';
 import {
   FormikInputField,
   FormikSelectField,
   FormikDateRangePicker,
 } from 'components/Formik';
-import { DynamicField as Field, DynamicRangeGroup as RangeGroup } from 'components/Forms';
+import { RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
-import DynamicFiltersButton from 'components/DynamicFiltersButton';
 import ReactSwitch from 'components/ReactSwitch';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -44,12 +42,11 @@ import {
   assignStatuses,
   radioSelect,
 } from '../../constants';
-import './ClientsGridFilter.scss';
+import './ClientsGridOldFilter.scss';
 
-class ClientsGridFilter extends PureComponent {
+class ClientsGridOldFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    ...withPermission.propTypes,
     ...withStorage.propTypes,
     auth: PropTypes.auth.isRequired,
     clientsLoading: PropTypes.bool.isRequired,
@@ -102,14 +99,21 @@ class ClientsGridFilter extends PureComponent {
   }
 
   handleSubmit = (values) => {
-    const { history, location: { state } } = this.props;
+    const { history, location: { state }, storage } = this.props;
+
+    // Need here to store filters fields in browser history and persistent storage if user switched to new filter panel
+    // all applied filters fields should be rendered in new filter panel
+    const filtersFields = Object.keys(values);
 
     history.replace({
       state: {
         ...state,
         filters: decodeNullValues(values),
+        filtersFields,
       },
     });
+
+    storage.set('clientsGridFilterFields', filtersFields);
   };
 
   handleReset = () => {
@@ -149,7 +153,6 @@ class ClientsGridFilter extends PureComponent {
       partnersQuery,
       handleRefetch,
       desksAndTeamsQuery,
-      permission,
       partnersQuery: { loading: isPartnersLoading },
       operatorsQuery: { loading: isOperatorsLoading },
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
@@ -187,72 +190,21 @@ class ClientsGridFilter extends PureComponent {
                   handleSubmit();
                 }}
                 renderBefore={(
-                  <>
-                    <ReactSwitch
-                      stopPropagation
-                      className="ClientsGridFilter__old-filters"
-                      label={I18n.t('COMMON.BUTTONS.OLD_FILTERS')}
-                      labelPosition="bottom"
-                      onClick={this.handleToggleFilterPanel}
-                    />
-                    <DynamicFiltersButton
-                      className="ClientsGridFilter__add-filter-button"
-                      storageKey="clientsGridFilterFields"
-                      defaultFilters={[
-                        'searchByIdentifiers',
-                        'activityStatus',
-                        'registrationDateRange',
-                        'searchLimit',
-                      ]}
-                      filters={{
-                        searchByIdentifiers: I18n.t('COMMON.SEARCH_BY.CLIENT'),
-                        searchByAffiliateIdentifiers: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
-                        migrationId: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
-                        activityStatus: I18n.t(attributeLabels.activityStatus),
-                        languages: I18n.t(attributeLabels.languages),
-                        countries: I18n.t(attributeLabels.countries),
-                        desks: I18n.t(attributeLabels.desks),
-                        teams: I18n.t(attributeLabels.teams),
-                        operators: I18n.t(attributeLabels.operators),
-                        ...(
-                          permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
-                          && { affiliateUuids: I18n.t(attributeLabels.affiliateUuids) }
-                        ),
-                        isReferrered: I18n.t(attributeLabels.isReferrered),
-                        statuses: I18n.t(attributeLabels.statuses),
-                        acquisitionStatus: I18n.t(attributeLabels.acquisitionStatus),
-                        salesStatuses: I18n.t(attributeLabels.salesStatuses),
-                        retentionStatuses: I18n.t(attributeLabels.retentionStatuses),
-
-                        /* Only Admin and CS Head of department can see unassigned clients */
-                        ...(
-                          ['ADMINISTRATION', 'CS'].includes(department)
-                          && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
-                          && { assignStatus: I18n.t(attributeLabels.assignStatus) }
-                        ),
-                        kycStatuses: I18n.t(attributeLabels.kycStatuses),
-                        firstTimeDeposit: I18n.t(attributeLabels.firstTimeDeposit),
-                        warnings: I18n.t(attributeLabels.warnings),
-                        balanceRange: I18n.t(attributeLabels.balance),
-                        depositsCountRange: I18n.t(attributeLabels.deposit),
-                        registrationDateRange: I18n.t(attributeLabels.registrationDate),
-                        firstDepositDateRange: I18n.t(attributeLabels.firstDepositDateRange),
-                        firstNoteDateRange: I18n.t(attributeLabels.firstNoteDateRange),
-                        lastNoteDateRange: I18n.t(attributeLabels.lastNoteDateRange),
-                        lastTradeDateRange: I18n.t(attributeLabels.lastTradeDateRange),
-                        lastLoginDateRange: I18n.t(attributeLabels.lastLoginDateRange),
-                        lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
-                        searchLimit: I18n.t(attributeLabels.searchLimit),
-                      }}
-                    />
-                  </>
+                  <ReactSwitch
+                    on
+                    stopPropagation
+                    className="ClientsGridOldFilter__old-filters"
+                    label={I18n.t('COMMON.BUTTONS.OLD_FILTERS')}
+                    labelPosition="bottom"
+                    onClick={this.handleToggleFilterPanel}
+                  />
                 )}
               >
-                <Form className="ClientsGridFilter__form">
-                  <div className="ClientsGridFilter__fields">
+                <Form className="ClientsGridOldFilter__form">
+                  <div className="ClientsGridOldFilter__fields">
                     <Field
                       name="searchByIdentifiers"
-                      className="ClientsGridFilter__field ClientsGridFilter__search"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__search"
                       label={I18n.t(attributeLabels.searchByIdentifiers)}
                       placeholder={I18n.t('COMMON.SEARCH_BY.CLIENT')}
                       addition={<i className="icon icon-search" />}
@@ -263,7 +215,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="searchByAffiliateIdentifiers"
-                      className="ClientsGridFilter__field ClientsGridFilter__search"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__search"
                       label={I18n.t(attributeLabels.searchByAffiliateIdentifiers)}
                       placeholder={I18n.t('COMMON.SEARCH_BY.AFFILIATE')}
                       addition={<i className="icon icon-search" />}
@@ -274,7 +226,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="migrationId"
-                      className="ClientsGridFilter__field ClientsGridFilter__migration-id"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__migration-id"
                       label={I18n.t(attributeLabels.migrationId)}
                       placeholder={I18n.t('COMMON.SEARCH_BY.MIGRATION_ID')}
                       addition={<i className="icon icon-search" />}
@@ -285,7 +237,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="activityStatus"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.activityStatus)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -299,7 +251,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="languages"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.languages)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -319,7 +271,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="countries"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.countries)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -338,7 +290,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="desks"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.desks)}
                       placeholder={
                         I18n.t(
@@ -360,7 +312,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="teams"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.teams)}
                       placeholder={
                         I18n.t(
@@ -382,7 +334,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="operators"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.operators)}
                       placeholder={
                         I18n.t(
@@ -414,7 +366,7 @@ class ClientsGridFilter extends PureComponent {
                     <PermissionContent permissions={permissions.PARTNERS.PARTNERS_LIST_VIEW}>
                       <Field
                         name="affiliateUuids"
-                        className="ClientsGridFilter__field ClientsGridFilter__select"
+                        className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                         label={I18n.t(attributeLabels.affiliateUuids)}
                         placeholder={
                           I18n.t(
@@ -439,7 +391,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="isReferrered"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.isReferrered)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -456,7 +408,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="statuses"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.statuses)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -472,7 +424,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="acquisitionStatus"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.acquisitionStatus)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -488,7 +440,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="salesStatuses"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.salesStatuses)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -505,7 +457,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="retentionStatuses"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.retentionStatuses)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -529,7 +481,7 @@ class ClientsGridFilter extends PureComponent {
                     >
                       <Field
                         name="assignStatus"
-                        className="ClientsGridFilter__field ClientsGridFilter__select"
+                        className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                         label={I18n.t(attributeLabels.assignStatus)}
                         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                         component={FormikSelectField}
@@ -546,7 +498,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="kycStatuses"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.kycStatuses)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -563,7 +515,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="firstTimeDeposit"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.firstTimeDeposit)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -580,7 +532,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="warnings"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.warnings)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -596,7 +548,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <RangeGroup
                       name="balanceRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__range-inputs"
                       label={I18n.t(attributeLabels.balance)}
                     >
                       <Field
@@ -621,7 +573,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <RangeGroup
                       name="depositsCountRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__range-inputs"
                       label={I18n.t(attributeLabels.deposit)}
                     >
                       <Field
@@ -644,7 +596,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="registrationDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.registrationDate)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -657,7 +609,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="firstDepositDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.firstDepositDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -669,7 +621,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="firstNoteDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.firstNoteDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -682,7 +634,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="lastNoteDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.lastNoteDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -695,7 +647,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="lastTradeDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.lastTradeDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -707,7 +659,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="lastLoginDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.lastLoginDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -720,7 +672,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="lastModificationDateRange"
-                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.lastModificationDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{
@@ -734,7 +686,7 @@ class ClientsGridFilter extends PureComponent {
                     <Field
                       name="searchLimit"
                       type="number"
-                      className="ClientsGridFilter__field ClientsGridFilter__search-limit"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__search-limit"
                       label={I18n.t(attributeLabels.searchLimit)}
                       placeholder={I18n.t('COMMON.UNLIMITED')}
                       component={FormikInputField}
@@ -742,17 +694,17 @@ class ClientsGridFilter extends PureComponent {
                       withFocus
                     />
                   </div>
-                  <div className="ClientsGridFilter__buttons">
+                  <div className="ClientsGridOldFilter__buttons">
                     <FilterSetsDecorator.Buttons />
-                    <div className="ClientsGridFilter__buttons-group">
+                    <div className="ClientsGridOldFilter__buttons-group">
                       <RefreshButton
                         onClick={handleRefetch}
-                        className="ClientsGridFilter__button"
+                        className="ClientsGridOldFilter__button"
                       />
 
                       <Button
                         onClick={handleReset}
-                        className="ClientsGridFilter__button"
+                        className="ClientsGridOldFilter__button"
                         disabled={clientsLoading || isSubmitting || !Object.keys(values).length}
                         primary
                       >
@@ -761,7 +713,7 @@ class ClientsGridFilter extends PureComponent {
 
                       <Button
                         type="submit"
-                        className="ClientsGridFilter__button"
+                        className="ClientsGridOldFilter__button"
                         disabled={clientsLoading || isSubmitting || !dirty}
                         primary
                       >
@@ -782,10 +734,9 @@ class ClientsGridFilter extends PureComponent {
 export default compose(
   withStorage(['auth']),
   withRouter,
-  withPermission,
   withRequests({
     desksAndTeamsQuery: DesksAndTeamsQuery,
     operatorsQuery: OperatorsQuery,
     partnersQuery: PartnersQuery,
   }),
-)(ClientsGridFilter);
+)(ClientsGridOldFilter);
