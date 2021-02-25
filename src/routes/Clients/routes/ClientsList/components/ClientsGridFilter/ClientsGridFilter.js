@@ -599,6 +599,7 @@ class ClientsGridFilter extends PureComponent {
                     </RangeGroup>
 
                     <RangeGroup
+                      name="depositsCountRange"
                       className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
                       label={I18n.t(attributeLabels.deposit)}
                     >
