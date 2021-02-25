@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { get, intersection } from 'lodash';
+import { intersection } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -22,7 +22,6 @@ import { statuses as operatorsStasuses } from 'constants/operators';
 import { filterSetTypes } from 'constants/filterSet';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import formatLabel from 'utils/formatLabel';
-import renderLabel from 'utils/renderLabel';
 import countries from 'utils/countryList';
 import { decodeNullValues } from 'components/Formik/utils';
 import {
@@ -78,6 +77,10 @@ class PaymentsListFilters extends PureComponent {
     clientView: false,
     handleRefetch: null,
   };
+
+  checkIsDirty = values => (
+    !(Object.keys(values).length === 1 && values.accountType === 'LIVE')
+  );
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
@@ -160,7 +163,7 @@ class PaymentsListFilters extends PureComponent {
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
     } = this.props;
 
-    const paymentMethods = get(paymentMethodsData, 'paymentMethods') || [];
+    const paymentMethods = paymentMethodsData?.paymentMethods || [];
 
     const currencies = getBrand().currencies.supported;
 
@@ -175,7 +178,7 @@ class PaymentsListFilters extends PureComponent {
           enableReinitialize
           onSubmit={this.handleSubmit}
           onReset={this.handleReset}
-          initialValues={state?.filters || {}}
+          initialValues={state?.filters || { accountType: 'LIVE' }}
         >
           {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
@@ -286,7 +289,7 @@ class PaymentsListFilters extends PureComponent {
                     >
                       {Object.keys(tradingStatuses).map(value => (
                         <option key={value} value={value}>
-                          {I18n.t(renderLabel(value, tradingStatusesLabels))}
+                          {I18n.t(tradingStatusesLabels[value])}
                         </option>
                       ))}
                     </Field>
@@ -413,7 +416,7 @@ class PaymentsListFilters extends PureComponent {
                     <Field
                       name="accountType"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
-                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
+                      label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
                       withAnyOption
@@ -523,7 +526,7 @@ class PaymentsListFilters extends PureComponent {
                       <Button
                         onClick={handleReset}
                         className="PaymentsListFilters__button"
-                        disabled={paymentsLoading || isSubmitting || !Object.keys(values).length}
+                        disabled={paymentsLoading || isSubmitting || !this.checkIsDirty(values)}
                         primary
                       >
                         {I18n.t('COMMON.RESET')}

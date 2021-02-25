@@ -222,7 +222,7 @@ class PartnerPersonalInfoForm extends PureComponent {
                   <div className="PartnerPersonalInfoForm__ib-link-container">
                     (&nbsp;
                     <CopyToClipboard
-                      notify
+                      withNotification
                       notificationLevel="success"
                       notificationTitle={I18n.t('COMMON.NOTIFICATIONS.COPIED')}
                       notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_LINK')}

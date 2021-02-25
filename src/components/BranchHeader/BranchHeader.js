@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import AddBranchManagerModal from 'modals/AddBranchManagerModal';
@@ -12,9 +11,9 @@ import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
+import BranchHeaderPlaceholder from './components/BranchHeaderPlaceholder';
 import getBranchManagerQuery from './graphql/getBranchManagerQuery';
 import removeBranchManagerMutation from './graphql/removeBranchManagerMutation';
-import Placeholder from '../Placeholder';
 import './BranchHeader.scss';
 
 const branchUuidPrefixes = {
@@ -131,20 +130,7 @@ class BranchHeader extends PureComponent {
     return (
       <div className="BranchHeader">
         <div className="BranchHeader__left">
-          <Placeholder
-            ready={!loading}
-            className={null}
-            customPlaceholder={(
-              <div className="panel-heading-row__info">
-                <div className="panel-heading-row__info-title">
-                  <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-                </div>
-                <div className="panel-heading-row__info-ids">
-                  <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
-                </div>
-              </div>
-            )}
-          >
+          <BranchHeaderPlaceholder ready={!loading}>
             <div className="BranchHeader__branch">
               <div className="BranchHeader__branch-name">{name}</div>
               <div className="BranchHeader__branch-uuid">
@@ -170,7 +156,7 @@ class BranchHeader extends PureComponent {
                 </Otherwise>
               </Choose>
             </div>
-          </Placeholder>
+          </BranchHeaderPlaceholder>
         </div>
 
         <If condition={!loading}>

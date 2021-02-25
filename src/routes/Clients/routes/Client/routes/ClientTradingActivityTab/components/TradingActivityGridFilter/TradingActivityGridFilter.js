@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
@@ -28,6 +27,7 @@ import {
   TradingAccountsQuery,
   OperatorsQuery,
 } from './graphql';
+import './TradingActivityGridFilter.scss';
 
 class TradingActivityGridFilter extends PureComponent {
   static propTypes = {
@@ -79,8 +79,8 @@ class TradingActivityGridFilter extends PureComponent {
       handleRefetch,
     } = this.props;
 
-    const accounts = get(tradingAccountsData, 'clientTradingAccounts') || [];
-    const originalAgents = get(operatorsData, 'operators.content') || [];
+    const accounts = tradingAccountsData?.clientTradingAccounts || [];
+    const originalAgents = operatorsData?.operators?.content || [];
     const disabledOriginalAgentField = operatorsLoading;
 
     const platformTypes = getAvailablePlatformTypes();
@@ -97,14 +97,14 @@ class TradingActivityGridFilter extends PureComponent {
           values,
           dirty,
         }) => (
-          <Form className="filter__form">
-            <div className="filter__form-inputs">
+          <Form className="TradingActivityGridFilter">
+            <div className="TradingActivityGridFilter__fields">
               <Field
                 name="tradeId"
                 type="number"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_LABEL')}
                 placeholder={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER')}
-                className="filter-row__big"
+                className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
                 component={FormikInputField}
                 addition={<i className="icon icon-search" />}
                 withFocus
@@ -113,7 +113,7 @@ class TradingActivityGridFilter extends PureComponent {
                 name="loginIds"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.LOGIN_IDS')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ALL')}
-                className="filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 component={FormikSelectField}
                 disabled={accounts.length === 0}
                 withFocus
@@ -131,7 +131,7 @@ class TradingActivityGridFilter extends PureComponent {
                 name="operationType"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 component={FormikSelectField}
                 withAnyOption
                 searchable
@@ -147,7 +147,7 @@ class TradingActivityGridFilter extends PureComponent {
                 name="symbol"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOL_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 component={FormikSelectField}
                 withAnyOption
                 searchable
@@ -163,7 +163,7 @@ class TradingActivityGridFilter extends PureComponent {
                 name="agentIds"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.ORIGINAL_AGENT_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 component={FormikSelectField}
                 disabled={disabledOriginalAgentField}
                 searchable
@@ -175,7 +175,7 @@ class TradingActivityGridFilter extends PureComponent {
                     key={uuid}
                     value={uuid}
                     className={classNames({
-                      'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                      'TradingActivityGridFilter__field-inactive-option': operatorStatus !== operatorsStasuses.ACTIVE,
                     })}
                   >
                     {fullName}
@@ -183,7 +183,7 @@ class TradingActivityGridFilter extends PureComponent {
                 ))}
               </Field>
               <RangeGroup
-                className="form-group filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.VOLUME_LABEL')}
               >
                 <Field
@@ -209,7 +209,7 @@ class TradingActivityGridFilter extends PureComponent {
                 name="status"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 component={FormikSelectField}
                 withAnyOption
                 withFocus
@@ -224,7 +224,7 @@ class TradingActivityGridFilter extends PureComponent {
                 name="tradeType"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="filter-row__medium"
+                className="TradingActivityGridFilter__field"
                 component={FormikSelectField}
                 withAnyOption
                 withFocus
@@ -240,7 +240,7 @@ class TradingActivityGridFilter extends PureComponent {
                   name="platformType"
                   label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  className="form-group filter-row__medium"
+                  className="TradingActivityGridFilter__field"
                   component={FormikSelectField}
                   withAnyOption
                   withFocus
@@ -251,7 +251,7 @@ class TradingActivityGridFilter extends PureComponent {
                 </Field>
               </If>
               <Field
-                className="form-group filter-row__date-range"
+                className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -262,24 +262,23 @@ class TradingActivityGridFilter extends PureComponent {
                 withFocus
               />
               <Field
-                className="form-group filter-row__date-range"
+                className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
                 label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
                   from: 'closeTimeStart',
                   to: 'closeTimeEnd',
                 }}
-                anchorDirection="right"
                 withFocus
               />
             </div>
-            <div className="filter__form-buttons">
+            <div className="TradingActivityGridFilter__buttons">
               <RefreshButton
-                className="margin-right-15"
+                className="TradingActivityGridFilter__button"
                 onClick={handleRefetch}
               />
               <Button
-                className="margin-right-15"
+                className="TradingActivityGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -287,6 +286,7 @@ class TradingActivityGridFilter extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
+                className="TradingActivityGridFilter__button"
                 type="submit"
                 disabled={!dirty || isSubmitting || tradingAccountsLoading}
                 primary

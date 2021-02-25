@@ -1,10 +1,16 @@
-.copy-clipboard-container {
-  > span:hover {
+.CopyToClipboard {
+  border-bottom: 1px dashed transparent;
+
+  &:hover {
     border-bottom: 1px dashed rgba(187, 184, 203, 0.5);
     cursor: pointer;
   }
-  &.highlight > span {
-    animation: highlights 0.4s 2 forwards;
+
+  &--highlight {
+    animation-name: highlights;
+    animation-duration: 0.4s;
+    animation-iteration-count: 2;
+    animation-fill-mode: forwards;
   }
 }
 

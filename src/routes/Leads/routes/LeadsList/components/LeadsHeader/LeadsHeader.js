@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -9,7 +10,6 @@ import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
-import Placeholder from 'components/Placeholder';
 import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
@@ -120,9 +120,8 @@ class LeadsHeader extends PureComponent {
     return (
       <div className="LeadsHeader">
         <div className="LeadsHeader__left">
-          <Placeholder
+          <ReactPlaceholder
             ready={!leadsQuery.loading}
-            className={null}
             customPlaceholder={(
               <div>
                 <TextRow
@@ -154,7 +153,7 @@ class LeadsHeader extends PureComponent {
                 </div>
               </Otherwise>
             </Choose>
-          </Placeholder>
+          </ReactPlaceholder>
         </div>
 
         <div className="LeadsHeader__right">

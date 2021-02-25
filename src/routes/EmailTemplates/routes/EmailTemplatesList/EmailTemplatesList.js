@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { get } from 'lodash';
+import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import Grid, { GridColumn } from 'components/Grid';
-import Placeholder from 'components/Placeholder';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailTemplateDeleteMutation from './graphql/EmailTemplateDeleteMutation';
 import './EmailTemplatesList.scss';
@@ -80,9 +80,8 @@ class EmailTemplatesList extends PureComponent {
     return (
       <div className="EmailTemplatesList">
         <div className="EmailTemplatesList__header">
-          <Placeholder
+          <ReactPlaceholder
             ready={!loading}
-            className={null}
             customPlaceholder={(
               <div>
                 <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
@@ -93,7 +92,7 @@ class EmailTemplatesList extends PureComponent {
             <span className="EmailTemplatesList__header-title">
               <b>{entities.length}</b> {I18n.t('EMAILS.EMAIL_TEMPLATES.PLACEHOLDER')}
             </span>
-          </Placeholder>
+          </ReactPlaceholder>
           <PermissionContent permissions={permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE}>
             <button
               className="EmailTemplatesList__header-button"

@@ -36,10 +36,12 @@ class OfficesList extends PureComponent {
   render() {
     const { officesData } = this.props;
 
+    const totalCount = officesData?.data?.branch?.length;
+
     return (
       <div className="OfficesList">
         <div className="OfficesList__header">
-          <div className="OfficesList__title">{I18n.t('OFFICES.OFFICES')}</div>
+          <div className="OfficesList__title">{totalCount} {I18n.t('OFFICES.OFFICES')}</div>
 
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <div className="OfficesList__actions">

@@ -1,51 +1,30 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
+import ReactPlaceholder from 'react-placeholder';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
-import Placeholder from 'components/Placeholder';
 import ClientsBulkActions from '../ClientsBulkActions';
-import { MAX_SELECTED_CLIENTS } from '../../constants';
 import './ClientsHeader.scss';
 
 class ClientsHeader extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    updateClientsListState: PropTypes.func.isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
+    select: PropTypes.TableSelection,
     clientsQuery: PropTypes.query({
       profiles: PropTypes.pageable(PropTypes.profileView),
     }).isRequired,
   };
 
-  get selectedRowsLength() {
-    const {
-      location,
-      clientsQuery,
-      touchedRowsIds,
-      allRowsSelected,
-    } = this.props;
-
-    let rowsLength = touchedRowsIds.length;
-
-    if (allRowsSelected) {
-      const totalElements = clientsQuery.data?.profiles?.totalElements;
-      const searchLimit = location.state?.filters?.searchLimit || Infinity;
-
-      rowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_CLIENTS) - rowsLength;
-    }
-
-    return rowsLength;
-  }
+  static defaultProps = {
+    select: null,
+  };
 
   render() {
     const {
       location,
       clientsQuery,
-      touchedRowsIds,
-      allRowsSelected,
-      updateClientsListState,
+      select,
     } = this.props;
 
     const totalElements = clientsQuery.data?.profiles?.totalElements;
@@ -55,12 +34,13 @@ class ClientsHeader extends PureComponent {
       ? searchLimit
       : totalElements;
 
+    const selectedCount = this.props.select?.selected || 0;
+
     return (
       <div className="ClientsHeader">
         <div className="ClientsHeader__left">
-          <Placeholder
+          <ReactPlaceholder
             ready={!clientsQuery.loading}
-            className={null}
             customPlaceholder={(
               <div>
                 <TextRow
@@ -82,7 +62,7 @@ class ClientsHeader extends PureComponent {
                   </div>
 
                   <div className="ClientsHeader__selected">
-                    <b>{this.selectedRowsLength}</b> {I18n.t('COMMON.CLIENTS_SELECTED')}
+                    <b>{selectedCount}</b> {I18n.t('COMMON.CLIENTS_SELECTED')}
                   </div>
                 </div>
               </When>
@@ -92,16 +72,14 @@ class ClientsHeader extends PureComponent {
                 </div>
               </Otherwise>
             </Choose>
-          </Placeholder>
+          </ReactPlaceholder>
         </div>
 
-        <If condition={totalElements && this.selectedRowsLength}>
+        <If condition={totalElements && selectedCount}>
           <div className="ClientsHeader__right">
             <ClientsBulkActions
-              touchedRowsIds={touchedRowsIds}
-              allRowsSelected={allRowsSelected}
-              updateClientsListState={updateClientsListState}
-              selectedRowsLength={this.selectedRowsLength}
+              select={select}
+              selectedRowsLength={selectedCount}
               clientsQuery={clientsQuery}
             />
           </div>

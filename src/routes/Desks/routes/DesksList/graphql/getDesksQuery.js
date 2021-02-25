@@ -23,6 +23,7 @@ const REQUEST = gql`
     ) {
       ...Branch
       deskType
+      language
       parentBranch {
         ...Branch
       }
