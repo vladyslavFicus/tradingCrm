@@ -1,8 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { compose } from 'react-apollo';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
@@ -20,6 +22,7 @@ class TeamsGrid extends PureComponent {
       deleteBranchModal: PropTypes.modalType.isRequired,
     }).isRequired,
     teamsData: PropTypes.branchHierarchyResponse.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   handleEditClick = (data) => {
@@ -105,10 +108,16 @@ class TeamsGrid extends PureComponent {
   );
 
   render() {
-    const { teamsData } = this.props;
+    const {
+      teamsData,
+      permission,
+    } = this.props;
 
     const isLoading = teamsData.loading;
     const teams = get(teamsData, 'data.branch') || [];
+
+    const updateBranchPermissions = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
+    const updateDeleteBranchPermissions = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
 
     return (
       <div className="TeamsGrid">
@@ -130,17 +139,22 @@ class TeamsGrid extends PureComponent {
             header={I18n.t('TEAMS.GRID_HEADER.DESK')}
             render={this.renderDeskCell}
           />
-          <GridColumn
-            header={I18n.t('TEAMS.GRID_HEADER.ACTIONS')}
-            render={this.renderActions}
-          />
+          <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
+            <GridColumn
+              header={I18n.t('TEAMS.GRID_HEADER.ACTIONS')}
+              render={this.renderActions}
+            />
+          </If>
         </Grid>
       </div>
     );
   }
 }
 
-export default withModals({
-  updateTeamModal: UpdateTeamModal,
-  deleteBranchModal: DeleteBranchModal,
-})(TeamsGrid);
+export default compose(
+  withPermission,
+  withModals({
+    updateTeamModal: UpdateTeamModal,
+    deleteBranchModal: DeleteBranchModal,
+  }),
+)(TeamsGrid);
