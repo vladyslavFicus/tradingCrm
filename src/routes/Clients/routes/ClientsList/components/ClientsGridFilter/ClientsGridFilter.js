@@ -5,6 +5,7 @@ import { intersection } from 'lodash';
 import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
+import Trackify from '@hrzn/trackify';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
@@ -138,6 +139,8 @@ class ClientsGridFilter extends PureComponent {
    * @param enabled
    */
   handleToggleFilterPanel = (enabled) => {
+    Trackify.click('CLIENTS_GRID_SWITCH_TO_OLD_FILTER_PANEL', { eventValue: enabled.toString() });
+
     this.props.storage.set('isOldClientsGridFilterPanel', enabled);
   };
 
