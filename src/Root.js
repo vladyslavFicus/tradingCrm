@@ -57,7 +57,7 @@ class Root extends PureComponent {
 
   componentDidUpdate(prevProps) {
     // Force reload page in hidden tabs when brand was changed in another tab
-    if (prevProps.brand?.id !== this.props.brand?.id && document.hidden) {
+    if (document.hidden && prevProps.brand?.id !== this.props.brand?.id) {
       window.location.reload(true);
     }
   }
