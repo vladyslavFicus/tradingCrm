@@ -42,9 +42,11 @@ class DynamicFiltersButton extends PureComponent {
       storageKey,
     } = this.props;
 
+    const currentFilters = state?.filtersFields || [];
+
     // Set default filters fields list if no filters fields list was applied before and the current history operation
     // isn't "replace" state to prevent set default filters list if user cleared select with filters list
-    if (!state?.filtersFields?.length && history.action !== 'REPLACE') {
+    if (!currentFilters.length && history.action !== 'REPLACE') {
       const storedFilters = storage.get(storageKey) || [];
       const filtersFields = storedFilters.length ? storedFilters : defaultFilters;
 
@@ -57,8 +59,8 @@ class DynamicFiltersButton extends PureComponent {
     }
 
     // Save to persistent storage if list with filters fields was changed
-    if (prevProps.location.state?.filtersFields !== state?.filtersFields && storageKey) {
-      storage.set(storageKey, state?.filtersFields);
+    if (storageKey && prevProps.location.state?.filtersFields !== currentFilters) {
+      storage.set(storageKey, currentFilters);
     }
   }
 
