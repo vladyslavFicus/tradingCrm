@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
-import { EditButton, RemoveButton } from 'components/UI';
+import { EditButton, Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import UpdateTeamModal from '../UpdateTeamModal';
@@ -102,7 +102,12 @@ class TeamsGrid extends PureComponent {
         />
       </PermissionContent>
       <PermissionContent permissions={permissions.HIERARCHY.DELETE_BRANCH}>
-        <RemoveButton onClick={() => this.handleDeleteClick(data)} />
+        <Button
+          transparent
+          onClick={() => this.handleDeleteClick(data)}
+        >
+          <i className="fa fa-trash btn-transparent color-danger" />
+        </Button>
       </PermissionContent>
     </>
   );
