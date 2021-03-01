@@ -161,7 +161,6 @@ class DistributionRuleSettings extends PureComponent {
                 }}
                 additionalValues={periodInHours}
                 withAdditionalValues
-                withConfirmation
               />
               <Field
                 className="DistributionRuleSettings__form-field"
@@ -175,7 +174,6 @@ class DistributionRuleSettings extends PureComponent {
                 additionalValues={periodInHours}
                 anchorDirection="right"
                 withAdditionalValues
-                withConfirmation
               />
               <Field
                 name="affiliateUuids"
