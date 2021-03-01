@@ -2299,8 +2299,11 @@
       "ERRORS": {
         "COMMON": "Unable to delete {{name}}, there are:",
         "OPERATORS": "{{count}} operators assigned to it. Please, re-assign operators from this branch and try again.",
+        "OPERATOR": "{{count}} operator assigned to it. Please, re-assign operator from this branch and try again.",
         "SUBBRANCHES": "{{count}} subbranches assigned to it. Please, delete subbranches and try again.",
-        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again."
+        "SUBBRANCH": "{{count}} subbranch assigned to it. Please, delete subbranch and try again.",
+        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again.",
+        "RULE": "{{count}} sales rule assigned to it. Please, delete rule and try again."
       }
     },
     "ADD_BRANCH_MANAGER_MODAL": {
