@@ -10,7 +10,7 @@ import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import PermissionContent from 'components/PermissionContent';
-import { EditButton, RemoveButton } from 'components/UI';
+import { EditButton, Button } from 'components/UI';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import UpdateDeskModal from '../UpdateDeskModal';
 import './DesksGrid.scss';
@@ -90,7 +90,12 @@ class DesksGrid extends PureComponent {
         />
       </PermissionContent>
       <PermissionContent permissions={permissions.HIERARCHY.DELETE_BRANCH}>
-        <RemoveButton onClick={() => this.handleDeleteClick(data)} />
+        <Button
+          transparent
+          onClick={() => this.handleDeleteClick(data)}
+        >
+          <i className="fa fa-trash btn-transparent color-danger" />
+        </Button>
       </PermissionContent>
     </>
   );
