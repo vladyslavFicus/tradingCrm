@@ -380,7 +380,7 @@ class Select extends PureComponent {
           placeholder = (
             <div className="Select__placeholder-options">
               {mergedOptions.slice(0, 3).map(option => (
-                <div key={option.value} className="Select__placeholder-options">
+                <div key={option.value} className="Select__placeholder-option">
                   {option.label}
                   <i
                     className="icon icon-times Select__placeholder-option-delete"
