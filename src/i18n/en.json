@@ -3226,14 +3226,14 @@
       },
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
-        "SALES_STATUS": "Current Sales Status",
-        "MIGRATION_STATUS": "Migration Sales Status",
-        "COUNTRY": "Country",
+        "SALES_STATUS": "Current Sales Status*",
+        "MIGRATION_STATUS": "Migration Sales Status*",
+        "COUNTRY": "Country*",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE_RANGE": "Registration date",
         "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "LANGUAGE": "Language",
+        "LANGUAGE": "Language*",
         "AFFILIATE": "Affiliate",
         "FIRST_TIME_DEPOSIT": "First time deposit"
       },
@@ -3265,9 +3265,9 @@
         "CLIENTS_TO_MIGRATION": "clients to migration"
       },
       "MODAL": {
-        "SOURCE_BRAND": "Brand",
-        "TARGET_BRAND": "Migration to brand",
-        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "SOURCE_BRAND": "Brand*",
+        "TARGET_BRAND": "Migration to brand*",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration*",
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
@@ -3276,7 +3276,7 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source",
+        "MIGRATION_SOURCE": "Migration Source*",
         "DESKS": "Desks",
         "TEAMS": "Teams"
       },
