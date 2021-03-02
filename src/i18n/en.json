@@ -1828,6 +1828,7 @@
       "AWAITING_REVIEW": "Awaiting review",
       "PARTIAL": "Partial",
       "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
+      "FAKE_DEPOSIT": "Fake deposit",
       "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
       "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
       "PRIOR_TO_REFUND": "Prior to refund",
