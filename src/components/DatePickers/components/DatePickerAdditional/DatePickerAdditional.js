@@ -60,12 +60,19 @@ class DatePickerAdditional extends PureComponent {
     return (
       <div className="DatePickerAdditional">
         <div className="DatePickerAdditional__items">
-          <If condition={withAdditionalValues && additionalValues?.length}>
-            {this.renderAdditionalItems(additionalValues, false)}
-          </If>
-
           <If condition={withAdditionalOptions && additionalOptions?.length}>
             {this.renderAdditionalItems(additionalOptions, true)}
+          </If>
+        </div>
+        <If condition={
+            (withAdditionalOptions && additionalOptions?.length) && (withAdditionalValues && additionalValues?.length)
+          }
+        >
+          <hr />
+        </If>
+        <div className="DatePickerAdditional__items">
+          <If condition={withAdditionalValues && additionalValues?.length}>
+            {this.renderAdditionalItems(additionalValues, false)}
           </If>
         </div>
       </div>
