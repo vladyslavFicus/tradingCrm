@@ -1829,6 +1829,7 @@
       "AWAITING_REVIEW": "Awaiting review",
       "PARTIAL": "Partial",
       "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
+      "FAKE_DEPOSIT": "Fake deposit",
       "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
       "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
       "PRIOR_TO_REFUND": "Prior to refund",
@@ -2300,8 +2301,11 @@
       "ERRORS": {
         "COMMON": "Unable to delete {{name}}, there are:",
         "OPERATORS": "{{count}} operators assigned to it. Please, re-assign operators from this branch and try again.",
+        "OPERATOR": "{{count}} operator assigned to it. Please, re-assign operator from this branch and try again.",
         "SUBBRANCHES": "{{count}} subbranches assigned to it. Please, delete subbranches and try again.",
-        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again."
+        "SUBBRANCH": "{{count}} subbranch assigned to it. Please, delete subbranch and try again.",
+        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again.",
+        "RULE": "{{count}} sales rule assigned to it. Please, delete rule and try again."
       }
     },
     "ADD_BRANCH_MANAGER_MODAL": {
@@ -3223,14 +3227,14 @@
       },
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
-        "SALES_STATUS": "Current Sales Status",
-        "MIGRATION_STATUS": "Migration Sales Status",
-        "COUNTRY": "Country",
+        "SALES_STATUS": "Current Sales Status*",
+        "MIGRATION_STATUS": "Migration Sales Status*",
+        "COUNTRY": "Country*",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE_RANGE": "Registration date",
         "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "LANGUAGE": "Language",
+        "LANGUAGE": "Language*",
         "AFFILIATE": "Affiliate",
         "FIRST_TIME_DEPOSIT": "First time deposit"
       },
@@ -3248,7 +3252,8 @@
           "LAST_TWO_HOURS": "Last 2 hours",
           "LAST_SIX_HOURS": "Last 6 hours",
           "LAST_TWELVE_HOURS": "Last 12 hours",
-          "LAST_TWENTYFOUR_HOURS": "Last 24 hours"
+          "LAST_TWENTYFOUR_HOURS": "Last 24 hours",
+          "3_DAYS_AGO": "3 days ago"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
@@ -3261,9 +3266,9 @@
         "CLIENTS_TO_MIGRATION": "clients to migration"
       },
       "MODAL": {
-        "SOURCE_BRAND": "Brand",
-        "TARGET_BRAND": "Migration to brand",
-        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "SOURCE_BRAND": "Brand*",
+        "TARGET_BRAND": "Migration to brand*",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration*",
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
@@ -3272,7 +3277,7 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source",
+        "MIGRATION_SOURCE": "Migration Source*",
         "DESKS": "Desks",
         "TEAMS": "Teams"
       },

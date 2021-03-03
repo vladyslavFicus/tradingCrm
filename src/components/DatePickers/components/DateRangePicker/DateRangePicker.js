@@ -55,7 +55,7 @@ class DateRangePicker extends PureComponent {
   static defaultProps = {
     additionalValue: undefined,
     additionalValues: null,
-    additionalOptions: defaultAdditionalOptions(),
+    additionalOptions: [],
     anchorDirection: 'left',
     className: null,
     dateRange: undefined,
@@ -536,7 +536,7 @@ class DateRangePicker extends PureComponent {
               <div className="DateRangePicker__popup-column">
                 <If condition={withAdditional}>
                   <DatePickerAdditional
-                    additionalOptions={additionalOptions}
+                    additionalOptions={[...additionalOptions, ...defaultAdditionalOptions()]}
                     additionalValues={additionalValues}
                     selectedAdditional={selectedAdditional}
                     handleAdditionalClick={this.handleAdditionalClick}

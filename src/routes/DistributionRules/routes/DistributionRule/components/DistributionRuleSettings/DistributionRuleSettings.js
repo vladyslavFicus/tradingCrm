@@ -12,6 +12,7 @@ import {
   salesStatuses,
   countries,
   periodInHours,
+  periodInDays,
   executionTypes,
 } from './constants';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -160,8 +161,8 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'registrationPeriodInHours',
                 }}
                 additionalValues={periodInHours}
+                additionalOptions={periodInDays}
                 withAdditionalValues
-                withConfirmation
               />
               <Field
                 className="DistributionRuleSettings__form-field"
@@ -175,7 +176,6 @@ class DistributionRuleSettings extends PureComponent {
                 additionalValues={periodInHours}
                 anchorDirection="right"
                 withAdditionalValues
-                withConfirmation
               />
               <Field
                 name="affiliateUuids"

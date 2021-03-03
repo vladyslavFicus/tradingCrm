@@ -1,14 +1,16 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import { compose } from 'react-apollo';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Grid, { GridColumn } from 'components/Grid';
 import PermissionContent from 'components/PermissionContent';
-import { EditButton, RemoveButton } from 'components/UI';
+import { EditButton, Button } from 'components/UI';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import UpdateDeskModal from '../UpdateDeskModal';
 import './DesksGrid.scss';
@@ -20,6 +22,7 @@ class DesksGrid extends PureComponent {
       updateDeskModal: PropTypes.modalType.isRequired,
     }).isRequired,
     desksData: PropTypes.branchHierarchyResponse.isRequired,
+    permission: PropTypes.permission.isRequired,
   };
 
   handleEditClick = (data) => {
@@ -87,16 +90,27 @@ class DesksGrid extends PureComponent {
         />
       </PermissionContent>
       <PermissionContent permissions={permissions.HIERARCHY.DELETE_BRANCH}>
-        <RemoveButton onClick={() => this.handleDeleteClick(data)} />
+        <Button
+          transparent
+          onClick={() => this.handleDeleteClick(data)}
+        >
+          <i className="fa fa-trash btn-transparent color-danger" />
+        </Button>
       </PermissionContent>
     </>
   );
 
   render() {
-    const { desksData } = this.props;
+    const {
+      desksData,
+      permission,
+    } = this.props;
 
     const isLoading = desksData.loading;
     const desks = get(desksData, 'data.branch') || [];
+
+    const updateBranchPermissions = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
+    const updateDeleteBranchPermissions = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
 
     return (
       <div className="DesksGrid">
@@ -117,17 +131,22 @@ class DesksGrid extends PureComponent {
             header={I18n.t('DESKS.GRID_HEADER.DESK_TYPE')}
             render={this.renderDeskTypesCell}
           />
-          <GridColumn
-            header={I18n.t('DESKS.GRID_HEADER.ACTIONS')}
-            render={this.renderActions}
-          />
+          <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
+            <GridColumn
+              header={I18n.t('DESKS.GRID_HEADER.ACTIONS')}
+              render={this.renderActions}
+            />
+          </If>
         </Grid>
       </div>
     );
   }
 }
 
-export default withModals({
-  updateDeskModal: UpdateDeskModal,
-  deleteBranchModal: DeleteBranchModal,
-})(DesksGrid);
+export default compose(
+  withPermission,
+  withModals({
+    updateDeskModal: UpdateDeskModal,
+    deleteBranchModal: DeleteBranchModal,
+  }),
+)(DesksGrid);
