@@ -82,8 +82,6 @@
         "TITLE": "Contacts",
         "VERIFIED": "Verified",
         "VERIFY": "Verify",
-        "VERIFY_PHONE": "Verify phone",
-        "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
           "ALT_PHONE": "Alt phone"
@@ -1744,7 +1742,10 @@
     },
     "profile": {
       "blocked": "Profile is blocked",
-      "duplicated": "Profile is duplicated"
+      "duplicated": "Profile is duplicated",
+      "status": {
+        "is-blocked": "Can't make an operation because profile is blocked"
+      }
     },
     "user": {
       "account": {
