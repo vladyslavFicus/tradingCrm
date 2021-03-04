@@ -1,0 +1,16 @@
+.ClientKycForm {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 25px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+}
