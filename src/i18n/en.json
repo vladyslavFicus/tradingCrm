@@ -106,8 +106,8 @@
           "PASSPORT_EXPARATION_DATE": "Passport/ID expiration date",
           "PASSPORT_ISSUE_COUNTRY": "Passport/ID country of issue",
           "PASSPORT_ISSUE_DATE": "Passport/ID issue date",
-          "COUNTRY_SPECIFIC_IDENTIFIER": "County specific identifier",
-          "COUNTRY_SPECIFIC_IDENTIFIER_TYPE": "County specific identifier type",
+          "COUNTRY_SPECIFIC_IDENTIFIER": "Country specific identifier",
+          "COUNTRY_SPECIFIC_IDENTIFIER_TYPE": "Country specific identifier type",
           "COUNTRY_SPECIFIC_IDENTIFIER_TYPES": {
             "TEN_DSS_DIGIT_INVESTOR_SHARE": "10 DSS digit investor share",
             "ELEVEN_DIGIT_PERSONAL_ID": "11 digit personal id",
