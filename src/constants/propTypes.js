@@ -13,23 +13,7 @@ PropTypes.router = {
     state: PropTypes.object,
   }).isRequired,
 };
-PropTypes.price = PropTypes.shape({
-  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  currency: PropTypes.string,
-});
-PropTypes.status = PropTypes.shape({
-  author: PropTypes.string,
-  comment: PropTypes.string,
-  editDate: PropTypes.string,
-  reason: PropTypes.string,
-  value: PropTypes.string,
-});
-PropTypes.kycStatus = PropTypes.shape({
-  authorUUID: PropTypes.string,
-  statusDate: PropTypes.string,
-  reason: PropTypes.string,
-  status: PropTypes.string,
-});
+
 PropTypes.pageable = content => PropTypes.shape({
   first: PropTypes.bool,
   last: PropTypes.bool,
@@ -47,12 +31,7 @@ PropTypes.pageable = content => PropTypes.shape({
   totalPages: PropTypes.number,
   content: PropTypes.arrayOf(content).isRequired,
 });
-PropTypes.pageableState = content => PropTypes.shape({
-  entities: PropTypes.pageable(content).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  receivedAt: PropTypes.number,
-  error: PropTypes.object,
-});
+
 PropTypes.noteEntity = PropTypes.shape({
   tagId: PropTypes.string,
   content: PropTypes.string,
@@ -61,6 +40,7 @@ PropTypes.noteEntity = PropTypes.shape({
   pinned: PropTypes.bool,
   targetUUID: PropTypes.string,
 });
+
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string,
   category: PropTypes.string,
@@ -72,51 +52,18 @@ PropTypes.fileEntity = PropTypes.shape({
   uploadDate: PropTypes.string,
   uuid: PropTypes.string,
 });
+
 PropTypes.uploadingFile = PropTypes.shape({
   fileUuid: PropTypes.string.isRequired,
   error: PropTypes.string,
 });
-PropTypes.userProfile = PropTypes.shape({
-  acquisition: PropTypes.acquisition,
-  address: PropTypes.shape({
-    countryCode: PropTypes.string,
-  }),
-  affiliate: PropTypes.shape({
-    firstName: PropTypes.string,
-    source: PropTypes.string,
-    uuid: PropTypes.string.isRequired,
-  }),
-  balance: PropTypes.shape({
-    amount: PropTypes.string,
-    currency: PropTypes.string,
-  }),
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  lastNote: PropTypes.shape({
-    changedAt: PropTypes.string,
-    content: PropTypes.string,
-    uuid: PropTypes.string.isRequired,
-  }),
-  languageCode: PropTypes.string.isRequired,
-  paymentDetails: PropTypes.shape({
-    depositsCount: PropTypes.number,
-    lastDepositTime: PropTypes.string,
-  }),
-  status: PropTypes.shape({
-    changedAt: PropTypes.string,
-    type: PropTypes.string,
-  }),
-  uuid: PropTypes.string.isRequired,
-});
+
 PropTypes.authorityEntity = PropTypes.shape({
   id: PropTypes.number,
   department: PropTypes.string,
   role: PropTypes.string,
 });
-PropTypes.dropDownOption = PropTypes.shape({
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-});
+
 PropTypes.operator = PropTypes.shape({
   country: PropTypes.any,
   email: PropTypes.string,
@@ -135,19 +82,7 @@ PropTypes.operator = PropTypes.shape({
     uuid: PropTypes.string,
   }),
 });
-// # This one can be removed after PartnerProfile page will be refactored
-PropTypes.partnerProfile = PropTypes.shape({
-  country: PropTypes.string,
-  email: PropTypes.string,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  status: PropTypes.string,
-  phone: PropTypes.string,
-  createdAt: PropTypes.string,
-  statusChangeAuthor: PropTypes.string,
-  statusChangeDate: PropTypes.string,
-  uuid: PropTypes.string,
-});
+
 PropTypes.partner = PropTypes.shape({
   affiliateType: PropTypes.string,
   authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
@@ -186,16 +121,19 @@ PropTypes.partner = PropTypes.shape({
     workingHoursTo: PropTypes.string,
   })),
 });
+
 PropTypes.navSubItem = PropTypes.shape({
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 });
+
 PropTypes.navItem = PropTypes.shape({
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
   url: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.navSubItem),
 });
+
 PropTypes.auditEntity = PropTypes.shape({
   authorFullName: PropTypes.string.isRequired,
   authorUuid: PropTypes.string.isRequired,
@@ -208,21 +146,7 @@ PropTypes.auditEntity = PropTypes.shape({
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
-PropTypes.changedAsquissitionStatusEntity = PropTypes.shape({
-  acquisitionStatus: PropTypes.string,
-  retentionRep: PropTypes.string,
-  retentionStatus: PropTypes.string,
-  salesRep: PropTypes.string,
-  salesStatus: PropTypes.string,
-});
-PropTypes.paymentEntityStatus = PropTypes.shape({
-  creationTime: PropTypes.string.isRequired,
-  initiatorId: PropTypes.string.isRequired,
-  initiatorType: PropTypes.string.isRequired,
-  paymentStatus: PropTypes.string.isRequired,
-  reason: PropTypes.any,
-  reference: PropTypes.string.isRequired,
-});
+
 PropTypes.paymentEntity = PropTypes.shape({
   login: PropTypes.string.isRequired,
   paymentId: PropTypes.string.isRequired,
@@ -241,40 +165,30 @@ PropTypes.paymentEntity = PropTypes.shape({
   language: PropTypes.string,
   brandId: PropTypes.string,
   externalReference: PropTypes.string,
-  playerProfile: PropTypes.paymentPlayer,
-  paymentMetadata: PropTypes.paymentMetadata,
-  originalAgent: PropTypes.paymentOriginalAgent,
+  playerProfile: PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    fullName: PropTypes.string,
+  }),
+  paymentMetadata: PropTypes.shape({
+    clientIp: PropTypes.string,
+    mobile: PropTypes.bool,
+    userAgent: PropTypes.string.isRequired,
+    country: PropTypes.string,
+  }),
+  originalAgent: PropTypes.shape({
+    uuid: PropTypes.string,
+    fullName: PropTypes.string,
+  }),
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
-PropTypes.paymentPlayer = PropTypes.shape({
-  uuid: PropTypes.string.isRequired,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  fullName: PropTypes.string,
-});
-PropTypes.paymentMetadata = PropTypes.shape({
-  clientIp: PropTypes.string,
-  mobile: PropTypes.bool,
-  userAgent: PropTypes.string.isRequired,
-  country: PropTypes.string,
-});
-PropTypes.paymentOriginalAgent = PropTypes.shape({
-  uuid: PropTypes.string,
-  fullName: PropTypes.string,
-});
+
 PropTypes.tradingActivityOriginalAgent = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
 });
-PropTypes.userPaymentAccountEntity = PropTypes.shape({
-  creationDate: PropTypes.string.isRequired,
-  details: PropTypes.string.isRequired,
-  lastActivityDate: PropTypes.string.isRequired,
-  lastPayment: PropTypes.paymentEntity,
-  paymentMethod: PropTypes.string.isRequired,
-  playerUUID: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
-});
+
 PropTypes.paymentMethodLimit = PropTypes.shape({
   currencyCode: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
@@ -282,6 +196,7 @@ PropTypes.paymentMethodLimit = PropTypes.shape({
   min: PropTypes.number,
   uuid: PropTypes.string.isRequired,
 });
+
 PropTypes.paymentMethod = PropTypes.shape({
   depositLimit: PropTypes.paymentMethodLimit.isRequired,
   methodName: PropTypes.string.isRequired,
@@ -290,105 +205,26 @@ PropTypes.paymentMethod = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
 });
-PropTypes.paymentActionReasons = PropTypes.shape({
-  reject: PropTypes.object,
-  chargeback: PropTypes.object,
-});
-PropTypes.countryAccessEntity = PropTypes.shape({
-  allowed: PropTypes.bool.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  countryName: PropTypes.string.isRequired,
-});
-PropTypes.customValue = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-});
-PropTypes.userDeviceEntity = PropTypes.shape({
-  deviceType: PropTypes.string.isRequired,
-  hash: PropTypes.string.isRequired,
-  lastSignInCountryCode: PropTypes.string.isRequired,
-  lastSignInDate: PropTypes.string.isRequired,
-  lastSignInIP: PropTypes.string.isRequired,
-  operatingSystem: PropTypes.string.isRequired,
-  totalSignIn: PropTypes.number.isRequired,
-});
-PropTypes.kycRequestStatusEntity = PropTypes.shape({
-  authorUUID: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  reason: PropTypes.string.isRequired,
-  statusDate: PropTypes.string.isRequired,
-});
-PropTypes.kycRequestEntity = PropTypes.shape({
-  birthDate: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  languageCode: PropTypes.string.isRequired,
-  kycAddressStatus: PropTypes.kycRequestStatusEntity.isRequired,
-  kycPersonalStatus: PropTypes.kycRequestStatusEntity.isRequired,
-  kycRequest: {
-    requestDate: PropTypes.string.isRequired,
-    reason: PropTypes.string.isRequired,
-    authorUUID: PropTypes.string.isRequired,
-  },
-  playerUUID: PropTypes.string.isRequired,
-});
-PropTypes.meta = PropTypes.shape({
-  data: PropTypes.shape({
-    countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    currencyCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    countries: PropTypes.arrayOf(PropTypes.object).isRequired,
-    passwordPattern: PropTypes.string.isRequired,
-  }).isRequired,
-  source: PropTypes.shape({
-    post: PropTypes.shape({
-      country: PropTypes.shape({
-        list: PropTypes.arrayOf(PropTypes.shape({
-          countryCode: PropTypes.string,
-          phoneCode: PropTypes.string,
-        })),
-      }),
-      currency: PropTypes.shape({
-        base: PropTypes.string,
-        list: PropTypes.arrayOf(PropTypes.string),
-      }),
-      password: PropTypes.shape({
-        pattern: PropTypes.string,
-      }),
-      phoneCode: PropTypes.shape({
-        list: PropTypes.arrayOf(PropTypes.string),
-      }),
-    }),
-    geolocation: PropTypes.shape({
-      country: PropTypes.string.isRequired,
-      currencyCode: PropTypes.string.isRequired,
-      ip: PropTypes.string.isRequired,
-      phoneCode: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
-  playerMeta: PropTypes.shape({
-    countryCode: PropTypes.string,
-    phoneCode: PropTypes.string,
-    currencyCode: PropTypes.string,
-  }).isRequired,
-});
+
 PropTypes.department = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string,
   role: PropTypes.string,
   image: PropTypes.string,
 });
+
 PropTypes.brand = PropTypes.shape({
   id: PropTypes.string,
   name: PropTypes.string,
   image: PropTypes.string,
   departments: PropTypes.arrayOf(PropTypes.department),
 });
+
 PropTypes.modalType = PropTypes.shape({
   show: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired,
 });
+
 PropTypes.tradingAccount = PropTypes.shape({
   login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   balance: PropTypes.number,
@@ -404,6 +240,7 @@ PropTypes.tradingAccount = PropTypes.shape({
   readOnlyUpdateTime: PropTypes.string,
   readOnlyUpdatedBy: PropTypes.string,
 });
+
 PropTypes.tradingAccountsItem = PropTypes.shape({
   uuid: PropTypes.string,
   platformType: PropTypes.string,
@@ -420,36 +257,21 @@ PropTypes.tradingAccountsItem = PropTypes.shape({
   archived: PropTypes.bool,
   accountType: PropTypes.string,
 });
-PropTypes.tradingRepresentative = PropTypes.shape({
-  country: PropTypes.string,
-  email: PropTypes.string,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  operatorStatus: PropTypes.string,
-  phoneNumber: PropTypes.string,
-  registeredBy: PropTypes.string,
-  registrationDate: PropTypes.string,
-  statusChangeAuthor: PropTypes.string,
-  statusChangeDate: PropTypes.string,
-  statusReason: PropTypes.string,
-  uuid: PropTypes.string,
-});
+
 PropTypes.chartEntity = PropTypes.shape({
   entries: PropTypes.number.isRequired,
   entryDate: PropTypes.string.isRequired,
 });
+
 PropTypes.chartTotal = PropTypes.shape({
   count: PropTypes.number,
   error: PropTypes.string,
 });
-PropTypes.paymentEntry = PropTypes.shape({
-  amount: PropTypes.number.isRequired,
-  count: PropTypes.number.isRequired,
-  entryDate: PropTypes.string.isRequired,
-});
+
 PropTypes.RegisteredUsersAdditionalStatField = PropTypes.shape({
   value: PropTypes.number.isRequired,
 });
+
 PropTypes.lead = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   brandId: PropTypes.string,
@@ -473,6 +295,7 @@ PropTypes.lead = PropTypes.shape({
   statusChangeDate: PropTypes.string,
   acquisition: PropTypes.acquisition,
 });
+
 PropTypes.branchHierarchyType = PropTypes.shape({
   name: PropTypes.string,
   brandId: PropTypes.string,
@@ -484,6 +307,7 @@ PropTypes.branchHierarchyType = PropTypes.shape({
   defaultBranch: PropTypes.string,
   defaultUser: PropTypes.string,
 });
+
 PropTypes.userHierarchyType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
@@ -496,6 +320,7 @@ PropTypes.userHierarchyType = PropTypes.shape({
   fullName: PropTypes.string,
   operator: PropTypes.operator,
 });
+
 PropTypes.hierarchyBranch = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   branchType: PropTypes.string,
@@ -529,6 +354,7 @@ PropTypes.ruleType = PropTypes.shape({
   type: PropTypes.string,
   updatedBy: PropTypes.string,
 });
+
 PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
   brand: PropTypes.string,
   sortType: PropTypes.string,
@@ -543,6 +369,7 @@ PropTypes.ruleSourceBrandConfigsType = PropTypes.shape({
   desks: PropTypes.arrayOf(PropTypes.string),
   teams: PropTypes.arrayOf(PropTypes.string),
 });
+
 PropTypes.ruleClientsDistributionType = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   name: PropTypes.string,
@@ -576,6 +403,7 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   sourceBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
   targetBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
 });
+
 PropTypes.tradingActivity = PropTypes.shape({
   id: PropTypes.number.isRequired,
   tradeId: PropTypes.number.isRequired,
@@ -603,6 +431,7 @@ PropTypes.tradingActivity = PropTypes.shape({
   comment: PropTypes.string,
   timestamp: PropTypes.number,
 });
+
 PropTypes.callback = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   callbackId: PropTypes.string,
@@ -630,8 +459,8 @@ PropTypes.operatorsListEntity = PropTypes.shape({
     userType: PropTypes.string,
   }),
 });
+
 PropTypes.operatorsList = PropTypes.arrayOf(PropTypes.operatorsListEntity);
-// # This one can be removed after ClientProfile page will be refactored
 PropTypes.partnersListEntity = PropTypes.shape({
   uuid: PropTypes.string,
   fullName: PropTypes.string,
@@ -641,6 +470,7 @@ PropTypes.partnersListEntity = PropTypes.shape({
   statusChangeDate: PropTypes.string,
   country: PropTypes.string,
 });
+
 PropTypes.partnersList = PropTypes.arrayOf(PropTypes.partnersListEntity);
 PropTypes.feed = PropTypes.shape({
   authorFullName: PropTypes.string,
@@ -654,21 +484,25 @@ PropTypes.feed = PropTypes.shape({
   tragetUuid: PropTypes.string,
   uuid: PropTypes.string,
 });
+
 PropTypes.auth = PropTypes.shape({
   department: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+
 PropTypes.permission = PropTypes.shape({
   permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   allows: PropTypes.func.isRequired,
   denies: PropTypes.func.isRequired,
 });
+
 PropTypes.storage = PropTypes.shape({
   get: PropTypes.func.isRequired,
   set: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 });
+
 PropTypes.paymentsStatistic = PropTypes.shape({
   data: PropTypes.shape({
     paymentsStatistic: PropTypes.shape({
@@ -696,6 +530,7 @@ PropTypes.paymentsStatistic = PropTypes.shape({
   refetch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 });
+
 PropTypes.profileView = PropTypes.shape({
   balance: PropTypes.shape({
     amount: PropTypes.string,
@@ -739,6 +574,7 @@ PropTypes.profileView = PropTypes.shape({
   }),
   warnings: PropTypes.arrayOf(PropTypes.string),
 });
+
 PropTypes.profile = PropTypes.shape({
   acquisition: PropTypes.acquisition,
   address: PropTypes.shape({
@@ -841,6 +677,7 @@ PropTypes.profile = PropTypes.shape({
   }),
   uuid: PropTypes.string,
 });
+
 PropTypes.paymentMethods = PropTypes.arrayOf(PropTypes.string);
 PropTypes.email = PropTypes.shape({
   id: PropTypes.string,
@@ -848,16 +685,19 @@ PropTypes.email = PropTypes.shape({
   subject: PropTypes.string,
   name: PropTypes.string,
 });
+
 PropTypes.manualPaymentMethods = PropTypes.shape({
   data: PropTypes.shape({
     manualPaymentMethods: PropTypes.arrayOf(PropTypes.string),
   }),
   loading: PropTypes.bool.isRequired,
 });
+
 PropTypes.response = content => PropTypes.shape({
   data: PropTypes.shape(content),
   error: PropTypes.object,
 });
+
 PropTypes.query = content => PropTypes.shape({
   data: PropTypes.oneOfType([PropTypes.shape(content), PropTypes.object]),
   loading: PropTypes.bool,
@@ -883,6 +723,7 @@ PropTypes.branchHierarchyResponse = PropTypes.query({
     },
   }),
 });
+
 PropTypes.userBranchHierarchyResponse = PropTypes.query({
   userBranches: PropTypes.shape({
     OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
@@ -891,6 +732,7 @@ PropTypes.userBranchHierarchyResponse = PropTypes.query({
     BRAND: PropTypes.arrayOf(PropTypes.hierarchyBranch),
   }),
 });
+
 PropTypes.notificationCenter = PropTypes.shape({
   read: PropTypes.bool,
   uuid: PropTypes.string,
@@ -909,6 +751,7 @@ PropTypes.notificationCenter = PropTypes.shape({
     currency: PropTypes.string,
   }),
 });
+
 PropTypes.treeBranch = PropTypes.shape({
   uuid: PropTypes.string,
   name: PropTypes.string,
@@ -917,10 +760,6 @@ PropTypes.treeBranch = PropTypes.shape({
   manager: PropTypes.operator,
   usersCount: PropTypes.number,
   childrenCount: PropTypes.number,
-});
-PropTypes.treeUser = PropTypes.shape({
-  uuid: PropTypes.string,
-  operator: PropTypes.operator,
 });
 
 PropTypes.referral = PropTypes.shape({
