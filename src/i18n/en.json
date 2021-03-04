@@ -467,6 +467,7 @@
     "PARTNER_TYPE": "Partner Type",
     "EXTERNAL_AFILIATE_ID": "External ID",
     "OK": "Ok",
+    "NO_ITEMS": "No items",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
@@ -606,6 +607,7 @@
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
     "ALL": "All",
+    "CLEAR": "Clear",
     "PLAYERS": "Players",
     "CLIENTS": "Clients",
     "TRANSACTIONS": "Transactions",
@@ -1132,21 +1134,6 @@
       "TYPES_ACTION": {
         "FORBID": "Forbid",
         "ALLOW": "Allow"
-      }
-    },
-    "SIGN_IN": {
-      "DEPARTMENTS": {
-        "CS": "Customer service",
-        "RFP": "Risk Fraud & Payment",
-        "MARKETING": "Marketing",
-        "ADMINISTRATION": "Administration",
-        "BI": "Business intelligence",
-        "E2E": "E2E",
-        "IGROMAT": "Igromat",
-        "SALES": "Sales",
-        "RETENTION": "Retention",
-        "DEALING": "Dealing",
-        "COMPLIANCE": "Compliance"
       }
     },
     "PAYMENT": {
@@ -1681,6 +1668,7 @@
         "BALANCE": "Balance",
         "BALANCE_FROM": "Balance From",
         "BALANCE_TO": "Balance To",
+        "DEPOSIT": "Number of deposits",
         "ACQUISITION_STATUS": "Acquisition Status",
         "ACCOUNT_STATUS": "Account Status",
         "DESKS": "Desks",
@@ -1713,6 +1701,9 @@
       },
       "email": {
         "exists": "Email already exists"
+      },
+      "phone": {
+        "exists": "Client with such phone number already exists in the system"
       },
       "externalId": {
         "exists": "This External ID already exists"
@@ -1838,6 +1829,7 @@
       "AWAITING_REVIEW": "Awaiting review",
       "PARTIAL": "Partial",
       "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
+      "FAKE_DEPOSIT": "Fake deposit",
       "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
       "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
       "PRIOR_TO_REFUND": "Prior to refund",
@@ -2288,6 +2280,32 @@
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully created",
         "ERROR": "Failed to create new office"
+      }
+    },
+    "UPDATE_OFFICE_MODAL": {
+      "TITLE": "Update office",
+      "CREATE_BUTTON": "Update office",
+      "LABELS": {
+        "OFFICE_NAME": "Office name",
+        "COUNTRY": "Country"
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Office was successfully updated",
+        "ERROR": "Failed to update an office"
+      }
+    },
+    "DELETE_BRANCH_MODAL": {
+      "TITLE": "Delete branch",
+      "DESCRIPTION": "Do you really want to delete {{name}}?",
+      "SUCCESS": "Branch {{name}} deleted successfully.",
+      "ERRORS": {
+        "COMMON": "Unable to delete {{name}}, there are:",
+        "OPERATORS": "{{count}} operators assigned to it. Please, re-assign operators from this branch and try again.",
+        "OPERATOR": "{{count}} operator assigned to it. Please, re-assign operator from this branch and try again.",
+        "SUBBRANCHES": "{{count}} subbranches assigned to it. Please, delete subbranches and try again.",
+        "SUBBRANCH": "{{count}} subbranch assigned to it. Please, delete subbranch and try again.",
+        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again.",
+        "RULE": "{{count}} sales rule assigned to it. Please, delete rule and try again."
       }
     },
     "ADD_BRANCH_MANAGER_MODAL": {
@@ -2985,7 +3003,8 @@
     "ADD_OFFICE": "+ Add office",
     "GRID_HEADER": {
       "OFFICE": "Office",
-      "COUNTRY": "Country"
+      "COUNTRY": "Country",
+      "ACTIONS": "Actions"
     },
     "TABS": {
       "RULES": {
@@ -3005,7 +3024,8 @@
     "GRID_HEADER": {
       "DESK": "Desk",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type"
+      "DESK_TYPE": "Desk type",
+      "ACTIONS": "Actions"
     },
     "GRID_FILTERS": {
       "SEARCH_BY": "Search by",
@@ -3029,6 +3049,19 @@
       "NOTIFICATIONS": {
         "SUCCESS": "Desk was successfully created",
         "ERROR": "Desk creation failed"
+      }
+    },
+    "UPDATE_MODAL": {
+      "HEADER": "Update desk",
+      "UPDATE_BUTTON": "Update desk",
+      "LABELS": {
+        "DESK_NAME": "Desk name",
+        "DESK_TYPE": "Desk type",
+        "LANGUAGE": "Language"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully updated",
+        "ERROR": "Desk update failed"
       }
     },
     "FILTERS": {
@@ -3063,7 +3096,8 @@
     "GRID_HEADER": {
       "TEAM": "Team",
       "OFFICE": "Office",
-      "DESK": "Desk"
+      "DESK": "Desk",
+      "ACTIONS": "Actions"
     },
     "MODAL": {
       "HEADER": "New team",
@@ -3077,16 +3111,30 @@
         "TYPE_IN_TEAM_NAME": "Type in team name",
         "NO_OFFICE_DESK": "-- No desk for current office --",
         "SELECT_OFFICE_FIRST": "-- Select office first --"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": {
+          "TITLE": "Creating succeed",
+          "MESSAGE": "The team was successfully created"
+        },
+        "ERROR": {
+          "TITLE": "Failure on creating",
+          "MESSAGE": "Creating of team has failed"
+        }
       }
     },
-    "NOTIFICATIONS": {
-      "SUCCESS": {
-        "TITLE": "Creating succeed",
-        "MESSAGE": "The team was successfully created"
+    "UPDATE_MODAL": {
+      "HEADER": "Update team",
+      "UPDATE_BUTTON": "Update team",
+      "LABELS": {
+        "TEAM_NAME": "Team name"
       },
-      "ERROR": {
-        "TITLE": "Failure on creating",
-        "MESSAGE": "Creating of team has failed"
+      "PLACEHOLDERS": {
+        "TYPE_IN_TEAM_NAME": "Type in team name"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Team was successfully updated",
+        "ERROR": "Team update failed"
       }
     },
     "TABS": {
@@ -3179,14 +3227,14 @@
       },
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
-        "SALES_STATUS": "Current Sales Status",
-        "MIGRATION_STATUS": "Migration Sales Status",
-        "COUNTRY": "Country",
+        "SALES_STATUS": "Current Sales Status*",
+        "MIGRATION_STATUS": "Migration Sales Status*",
+        "COUNTRY": "Country*",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE_RANGE": "Registration date",
         "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "LANGUAGE": "Language",
+        "LANGUAGE": "Language*",
         "AFFILIATE": "Affiliate",
         "FIRST_TIME_DEPOSIT": "First time deposit"
       },
@@ -3204,7 +3252,8 @@
           "LAST_TWO_HOURS": "Last 2 hours",
           "LAST_SIX_HOURS": "Last 6 hours",
           "LAST_TWELVE_HOURS": "Last 12 hours",
-          "LAST_TWENTYFOUR_HOURS": "Last 24 hours"
+          "LAST_TWENTYFOUR_HOURS": "Last 24 hours",
+          "3_DAYS_AGO": "3 days ago"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
@@ -3217,9 +3266,9 @@
         "CLIENTS_TO_MIGRATION": "clients to migration"
       },
       "MODAL": {
-        "SOURCE_BRAND": "Brand",
-        "TARGET_BRAND": "Migration to brand",
-        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "SOURCE_BRAND": "Brand*",
+        "TARGET_BRAND": "Migration to brand*",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration*",
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
@@ -3228,7 +3277,7 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source",
+        "MIGRATION_SOURCE": "Migration Source*",
         "DESKS": "Desks",
         "TEAMS": "Teams"
       },
@@ -3875,7 +3924,16 @@
           "email": "Client's email",
           "additionalEmail": "Additional email",
           "bulkUpdate": "Select several clients on grid",
-          "trades-list": "List of trades"
+          "trades-list": "List of trades",
+          "affiliate-uuid": "Partner UUID",
+          "affiliate-campaignId": "Partner Campaign ID",
+          "affiliate-referral": "Partner referral",
+          "affiliate-source": "Partner source",
+          "affiliate-sms": "Partner sms",
+          "referrer-statistics": "Referrer statistics",
+          "referrals-history": "Show referrals tab",
+          "referrer-uuid": "Referrer UUID",
+          "referrer-fullName": "Referrer full name"
         }
       },
       "leads": {
@@ -3902,7 +3960,7 @@
           "changeStatus": "Operator's status",
           "changePassword": "Change password for other operator",
           "getAuthorities": "Get authorities on edit profile",
-          "list2": "List of operators",
+          "list2": "Show subordinate operators",
           "updateBranch": "User branch",
           "createSalesRule": "Create sales rule",
           "deleteSalesRule": "Delete sales rule"
@@ -3933,6 +3991,8 @@
           "listOperators": "List of Operators",
           "branchPage": "Branch page",
           "branchCreate": "Create new branch",
+          "branchUpdate": "Update branch",
+          "branchDelete": "Delete branch",
           "branchAddManager": "Add branch manager",
           "removeAddManager": "Remove branch manager"
         }
@@ -4005,6 +4065,22 @@
         "PERMISSIONS": {
           "list": "List of distribution rules",
           "create": "Create rule"
+        }
+      },
+      "payments-methods": {
+        "TITLE": "Manual payment methods",
+        "PERMISSIONS": {
+          "BONUS": "Bonus",
+          "CHARGEBACK": "Chargeback",
+          "CREDIT_CARD": "Credit card",
+          "ELECTRONIC": "Electronic",
+          "EXTERNAL": "External",
+          "INTERNAL_TRANSFER": "Internal Transfer",
+          "MIGRATION": "Migration",
+          "PAYRETAILERS": "Pay Retailers",
+          "RECALL": "Recall",
+          "SYSTEM": "System",
+          "WIRE": "Wire"
         }
       }
     }

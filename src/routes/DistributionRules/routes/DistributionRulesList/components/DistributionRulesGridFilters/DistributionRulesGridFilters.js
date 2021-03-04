@@ -137,11 +137,14 @@ class DistributionRulesFilters extends PureComponent {
                   searchable
                   multiple
                 >
-                  {getAvailableLanguages().map(locale => (
-                    <option key={locale} value={locale}>
-                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                    </option>
-                  ))}
+                  {[
+                    <option key="undefined" value="undefined">{I18n.t('COMMON.OTHER')}</option>,
+                    ...getAvailableLanguages().map(locale => (
+                      <option key={locale} value={locale}>
+                        {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                      </option>
+                    )),
+                  ]}
                 </Field>
                 <Field
                   name="countries"

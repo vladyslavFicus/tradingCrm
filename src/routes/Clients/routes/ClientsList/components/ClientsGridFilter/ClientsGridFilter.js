@@ -7,6 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/user';
 import { statuses as operatorsStasuses } from 'constants/operators';
@@ -26,6 +27,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/UI';
+import PermissionContent from 'components/PermissionContent';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
@@ -333,29 +335,31 @@ class ClientsGridFilter extends PureComponent {
                       ))}
                     </Field>
 
-                    <Field
-                      name="affiliateUuids"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
-                      label={I18n.t(attributeLabels.affiliateUuids)}
-                      placeholder={
-                        I18n.t(
-                          (!isPartnersLoading && partners.length === 0)
-                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                            : 'COMMON.SELECT_OPTION.ANY',
-                        )
-                      }
-                      component={FormikSelectField}
-                      disabled={isPartnersLoading || partners.length === 0}
-                      searchable
-                      withFocus
-                      multiple
-                    >
-                      {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
-                        <option key={uuid} value={uuid}>
-                          {fullName}
-                        </option>
-                      ))}
-                    </Field>
+                    <PermissionContent permissions={permissions.PARTNERS.PARTNERS_LIST_VIEW}>
+                      <Field
+                        name="affiliateUuids"
+                        className="ClientsGridFilter__field ClientsGridFilter__select"
+                        label={I18n.t(attributeLabels.affiliateUuids)}
+                        placeholder={
+                          I18n.t(
+                            (!isPartnersLoading && partners.length === 0)
+                              ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                              : 'COMMON.SELECT_OPTION.ANY',
+                          )
+                        }
+                        component={FormikSelectField}
+                        disabled={isPartnersLoading || partners.length === 0}
+                        searchable
+                        withFocus
+                        multiple
+                      >
+                        {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
+                          <option key={uuid} value={uuid}>
+                            {fullName}
+                          </option>
+                        ))}
+                      </Field>
+                    </PermissionContent>
 
                     <Field
                       name="isReferrered"
@@ -538,6 +542,28 @@ class ClientsGridFilter extends PureComponent {
                       />
                     </RangeGroup>
 
+                    <RangeGroup
+                      className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
+                      label={I18n.t(attributeLabels.deposit)}
+                    >
+                      <Field
+                        name="depositsCountRange.from"
+                        type="number"
+                        placeholder="0"
+                        min={0}
+                        component={FormikInputField}
+                        withFocus
+                      />
+                      <Field
+                        name="depositsCountRange.to"
+                        type="number"
+                        min={0}
+                        placeholder="0"
+                        component={FormikInputField}
+                        withFocus
+                      />
+                    </RangeGroup>
+
                     <Field
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.registrationDate)}
@@ -546,7 +572,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'registrationDateRange.from',
                         to: 'registrationDateRange.to',
                       }}
-                      anchorDirection="right"
+                      anchorDirection="left"
                       withFocus
                     />
 
@@ -569,6 +595,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'firstNoteDateRange.from',
                         to: 'firstNoteDateRange.to',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
 
@@ -580,7 +607,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastNoteDateRange.from',
                         to: 'lastNoteDateRange.to',
                       }}
-                      anchorDirection="right"
+                      anchorDirection="left"
                       withFocus
                     />
 
@@ -603,6 +630,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastLoginDateRange.from',
                         to: 'lastLoginDateRange.to',
                       }}
+                      anchorDirection="right"
                       withFocus
                     />
 
@@ -614,7 +642,7 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastModificationDateRange.from',
                         to: 'lastModificationDateRange.to',
                       }}
-                      anchorDirection="right"
+                      anchorDirection="left"
                       withFocus
                     />
 

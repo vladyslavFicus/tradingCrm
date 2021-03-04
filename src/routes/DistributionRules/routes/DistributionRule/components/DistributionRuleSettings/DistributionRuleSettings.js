@@ -12,6 +12,7 @@ import {
   salesStatuses,
   countries,
   periodInHours,
+  periodInDays,
   executionTypes,
 } from './constants';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -160,8 +161,8 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'registrationPeriodInHours',
                 }}
                 additionalValues={periodInHours}
+                additionalOptions={periodInDays}
                 withAdditionalValues
-                withConfirmation
               />
               <Field
                 className="DistributionRuleSettings__form-field"
@@ -175,7 +176,6 @@ class DistributionRuleSettings extends PureComponent {
                 additionalValues={periodInHours}
                 anchorDirection="right"
                 withAdditionalValues
-                withConfirmation
               />
               <Field
                 name="affiliateUuids"
@@ -223,9 +223,12 @@ class DistributionRuleSettings extends PureComponent {
                 searchable
                 multiple
               >
-                {countries.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
+                {[
+                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                  ...countries.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  )),
+                ]}
               </Field>
               <Field
                 name="languages"
@@ -238,11 +241,14 @@ class DistributionRuleSettings extends PureComponent {
                 searchable
                 multiple
               >
-                {getAvailableLanguages().map(locale => (
-                  <option key={locale} value={locale}>
-                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                  </option>
-                ))}
+                {[
+                  <option key="undefined" value="undefined">{I18n.t('COMMON.OTHER')}</option>,
+                  ...getAvailableLanguages().map(locale => (
+                    <option key={locale} value={locale}>
+                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+                    </option>
+                  )),
+                ]}
               </Field>
             </Form>
           )}

@@ -5,9 +5,9 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { types, typesLabels, typesClassNames } from 'constants/audit';
-import LetterIcon from 'components/LetterIcon';
 import formatLabel from 'utils/formatLabel';
 import parseJson from 'utils/parseJson';
+import { Button } from 'components/UI';
 import FeedContent from './FeedContent';
 import Uuid from '../Uuid';
 import './FeedItem.scss';
@@ -48,16 +48,18 @@ class FeedItem extends PureComponent {
 
     if (authorUuid && authorFullName) {
       color = authorUuid === targetUuid ? 'blue' : 'orange';
-      letter = authorFullName.split(' ').splice(0, 2).map(word => word[0]).join('');
+      letter = authorFullName.split(' ').splice(0, 2).map(([word]) => word).join('');
     }
 
     return (
       <div className="FeedItem">
-        <LetterIcon color={color} letter={letter} />
+        <div className={classNames('FeedItem__letters-icon', color)}>
+          {letter}
+        </div>
         <div className="FeedItem__content-wrapper">
           <div className="FeedItem__heading">
-            <div className="row no-gutters">
-              <div className={classNames('col FeedItem__status', typesClassNames[type])}>
+            <div className="FeedItem__title">
+              <div className={classNames('FeedItem__status', typesClassNames[type])}>
                 <Choose>
                   <When condition={type && typesLabels[type]}>
                     {I18n.t(typesLabels[type])}
@@ -67,7 +69,7 @@ class FeedItem extends PureComponent {
                   </Otherwise>
                 </Choose>
               </div>
-              <div className="col-auto pl-1 FeedItem__uuid">
+              <div className="FeedItem__uuid">
                 <Uuid uuid={uuid} />
               </div>
             </div>
@@ -76,22 +78,25 @@ class FeedItem extends PureComponent {
                 {authorFullName}
               </span>
               <If condition={authorUuid}>
-                <span className="mx-1">-</span>
+                <span className="FeedItem__dash">-</span>
                 <Uuid uuid={authorUuid} />
               </If>
             </div>
             <span className="FeedItem__creation-date">
               {moment.utc(creationDate).local().format('DD.MM.YYYY HH:mm:ss')}
-              <If condition={[types.LOG_IN, types.LOG_OUT].indexOf(type) === -1 && ip}>
-                <span className="mx-1">{I18n.t('COMMON.FROM')}</span>
+              <If condition={[types.LOG_IN, types.LOG_OUT].includes(type) && ip}>
+                <span className="FeedItem__creation-date-from">{I18n.t('COMMON.FROM')}</span>
                 {ip}
               </If>
             </span>
             <If condition={hasInformation}>
-              <button type="button" className="FeedItem__collapse" onClick={this.handleToggleClick}>
+              <Button
+                className="FeedItem__collapse"
+                onClick={this.handleToggleClick}
+              >
                 {I18n.t(`COMMON.DETAILS_COLLAPSE.${opened ? 'HIDE' : 'SHOW'}`)}
                 <i className={`fa fa-caret-${opened ? 'up' : 'down'}`} />
-              </button>
+              </Button>
             </If>
           </div>
           <If condition={hasInformation && opened}>

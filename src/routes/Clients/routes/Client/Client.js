@@ -2,14 +2,16 @@ import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import Helmet from 'react-helmet';
-import { withRequests } from 'apollo';
+import { withRequests, hasErrorPath } from 'apollo';
 import EventEmitter, { CLIENT_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
 import Tabs from 'components/Tabs';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import ShortLoader from 'components/ShortLoader';
 import Route from 'components/Route';
+import PermissionContent from 'components/PermissionContent';
 import NotFound from 'routes/NotFound';
 import ClientHeader from './components/ClientHeader';
 import ClientAccountStatus from './components/ClientAccountStatus';
@@ -71,7 +73,7 @@ class Client extends PureComponent {
     } = this.props;
 
     const client = clientQuery.data?.profile;
-    const clientError = clientQuery.error || false;
+    const clientError = hasErrorPath(clientQuery.error, 'profile');
     const isLoading = clientQuery.loading;
 
     const {
@@ -131,7 +133,9 @@ class Client extends PureComponent {
 
             <ClientRegistrationInfo registrationDate={registrationDetails?.registrationDate} />
 
-            <ClientReferrals clientUuid={uuid} />
+            <PermissionContent permissions={permissions.USER_PROFILE.REFERRER_STATISTICS}>
+              <ClientReferrals clientUuid={uuid} />
+            </PermissionContent>
           </div>
 
           <HideDetails>

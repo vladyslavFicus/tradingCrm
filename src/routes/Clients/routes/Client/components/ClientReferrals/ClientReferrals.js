@@ -32,18 +32,20 @@ class ClientReferrals extends PureComponent {
       <div className="ClientReferrals">
         <div className="ClientReferrals__title">{I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.TITLE')}</div>
 
-        <div className="ClientReferrals__text-primary">{referralsCount}</div>
+        <If condition={!clientReferralStatisticQuery.loading}>
+          <div className="ClientReferrals__text-primary">{referralsCount}</div>
 
-        <div className="ClientReferrals__text-secondary">
-          {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.FTD', { value: ftdCount })}
-        </div>
+          <div className="ClientReferrals__text-secondary">
+            {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.FTD', { value: ftdCount })}
+          </div>
 
-        <div className="ClientReferrals__text-secondary">
-          {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.REMUNERATION', {
-            value: remunerationTotalAmount,
-            currency: baseCurrency,
-          })}
-        </div>
+          <div className="ClientReferrals__text-secondary">
+            {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.REMUNERATION', {
+              value: remunerationTotalAmount,
+              currency: baseCurrency,
+            })}
+          </div>
+        </If>
       </div>
     );
   }

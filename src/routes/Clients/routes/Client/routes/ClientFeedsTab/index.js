@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./Feeds'));
+export default lazy(() => import('./ClientFeedsTab'));

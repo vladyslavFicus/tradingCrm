@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./components/Accounts'));
+export default lazy(() => import('./ClientTradingAccountsTab'));

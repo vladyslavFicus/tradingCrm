@@ -84,18 +84,34 @@ class ClientContactsForm extends PureComponent {
     } catch (e) {
       const { error } = parseErrors(e);
 
-      if (error === 'error.entity.already.exist') {
-        notify({
-          level: 'error',
-          title: I18n.t('COMMON.EMAIL'),
-          message: I18n.t('error.validation.email.exists'),
-        });
-      } else {
-        notify({
-          level: 'error',
-          title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
-          message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
-        });
+      switch (error) {
+        case 'error.entity.already.exist': {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.EMAIL'),
+            message: I18n.t('error.validation.email.exists'),
+          });
+
+          break;
+        }
+
+        case 'error.phone.already.exist': {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.PHONE'),
+            message: I18n.t('error.validation.phone.exists'),
+          });
+
+          break;
+        }
+
+        default: {
+          notify({
+            level: 'error',
+            title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+            message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
+          });
+        }
       }
     }
   }

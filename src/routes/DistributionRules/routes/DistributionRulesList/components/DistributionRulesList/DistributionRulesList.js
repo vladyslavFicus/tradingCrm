@@ -5,9 +5,10 @@ import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
 import classNames from 'classnames';
+import ReactPlaceholder from 'react-placeholder';
+import { TextRow } from 'react-placeholder/lib/placeholders';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { clientDistributionStatuses } from 'constants/clientsDistribution';
@@ -17,7 +18,6 @@ import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Grid, { GridColumn } from 'components/Grid';
-import Placeholder from 'components/Placeholder';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ClientsDistributionModal from 'modals/ClientsDistributionModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
@@ -366,9 +366,8 @@ class DistributionRules extends PureComponent {
     return (
       <div className="DistributionRulesList card">
         <div className="card-heading card-heading--is-sticky">
-          <Placeholder
+          <ReactPlaceholder
             ready={!loading}
-            className={null}
             customPlaceholder={(
               <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
             )}
@@ -376,7 +375,7 @@ class DistributionRules extends PureComponent {
             <span className="font-size-20">
               {totalElements} {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
             </span>
-          </Placeholder>
+          </ReactPlaceholder>
           <PermissionContent permissions={permissions.CLIENTS_DISTRIBUTION.CREATE_RULE}>
             <div className="ml-auto">
               <Button

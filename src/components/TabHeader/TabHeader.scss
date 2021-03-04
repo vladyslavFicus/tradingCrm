@@ -1,0 +1,14 @@
+.TabHeader {
+  padding: 20px 25px 15px;
+  background-color: #fff;
+
+  &--has-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+}

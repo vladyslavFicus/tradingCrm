@@ -169,7 +169,7 @@ class PaymentDetailsModal extends PureComponent {
           {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
         </div>
         <Formik
-          initialValues={{ creationTime: moment(creationTime).local().format('YYYY-MM-DD HH:mm:ss') }}
+          initialValues={{ creationTime }}
           onSubmit={this.handleChangeCreationTime}
           validate={
             createValidator({
@@ -184,7 +184,6 @@ class PaymentDetailsModal extends PureComponent {
                   <Field
                     name="creationTime"
                     className="PaymentDetailsModal__date-picker"
-                    label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                     component={FormikDatePicker}
                     withTime
                     withUtc

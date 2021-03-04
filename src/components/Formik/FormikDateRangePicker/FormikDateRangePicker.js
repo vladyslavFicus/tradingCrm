@@ -46,7 +46,11 @@ class FormikDateRangePicker extends PureComponent {
 
     const fieldsKeys = Object.values(fieldsNames);
 
-    const getValuesEqualsToInitial = fieldsKeys.filter(key => initialValues[key] && initialValues[key] === values[key]);
+    const getValuesEqualsToInitial = fieldsKeys.filter((key) => {
+      const initialValueByKey = get(initialValues, key);
+
+      return initialValueByKey && initialValueByKey === get(values, key);
+    });
 
     return withFocus && getValuesEqualsToInitial.length > 0;
   }
@@ -75,13 +79,13 @@ class FormikDateRangePicker extends PureComponent {
           to: get(values, fieldsNames.to),
         }}
         setValues={(_values) => {
-          const newValues = { ...values };
+          const newValues = {};
 
           set(newValues, fieldsNames.from, _values.from);
           set(newValues, fieldsNames.to, _values.to);
           set(newValues, fieldsNames.additional, _values.additional);
 
-          setValues(newValues);
+          setValues({ ...values, ...newValues });
         }}
         withFocus={this.getPickerFocusState()}
       />

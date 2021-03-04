@@ -10,6 +10,24 @@ export default [
         state: false,
       },
     },
+    additional: {
+      permissions: [
+        // filter-set
+        'filter-sets.getFilterSet',
+        'filter-sets.updateFilterSet',
+        'filter-sets.deleteFilterSet',
+        'filter-sets.getFilterSetsList',
+        'filter-sets.createFilterSet',
+        'filter-sets.changeFilterSetFavouriteStatus',
+        // affiliate
+        'affiliate.searchAffiliate',
+        // operator
+        'operator.searchOperators',
+        // hierarchy
+        'hierarchy.user.getSubordinateOperators',
+        'hierarchy.branch.getUserBranches',
+      ],
+    },
     permissions: [
       // List of clients
       {
@@ -339,6 +357,96 @@ export default [
           },
         },
       },
+      // Affiliate uuid
+      {
+        id: 'affiliate-uuid',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.uuid',
+            state: false,
+          },
+        },
+      },
+      // Affiliate campaignId
+      {
+        id: 'affiliate-campaignId',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.campaignId',
+            state: false,
+          },
+        },
+      },
+      // Affiliate referral
+      {
+        id: 'affiliate-referral',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.referral',
+            state: false,
+          },
+        },
+      },
+      // Affiliate source
+      {
+        id: 'affiliate-source',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.source',
+            state: false,
+          },
+        },
+      },
+      // Affiliate sms
+      {
+        id: 'affiliate-sms',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.affiliate.field.sms',
+            state: false,
+          },
+        },
+      },
+      // Referrer statistics
+      {
+        id: 'referrer-statistics',
+        actions: {
+          view: {
+            action: 'referral.getReferrerStatistics',
+            state: false,
+          },
+        },
+      },
+      // Referrals history
+      {
+        id: 'referrals-history',
+        actions: {
+          view: {
+            action: 'referral.getReferrerIntroducedReferrals',
+            state: false,
+          },
+        },
+      },
+      // Referrer uuid
+      {
+        id: 'referrer-uuid',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.referrer.field.uuid',
+            state: false,
+          },
+        },
+      },
+      // Referrer full name
+      {
+        id: 'referrer-fullName',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.referrer.field.fullName',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
@@ -351,6 +459,15 @@ export default [
         action: 'lead.searchLeads',
         state: false,
       },
+    },
+    additional: {
+      permissions: [
+        // operator
+        'operator.searchOperators',
+        // hierarchy
+        'hierarchy.user.getSubordinateOperators',
+        'hierarchy.branch.getUserBranches',
+      ],
     },
     permissions: [
       // List of leads
@@ -765,6 +882,26 @@ export default [
           },
         },
       },
+      // Update branch
+      {
+        id: 'branchUpdate',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.branch.updateBranch',
+            state: false,
+          },
+        },
+      },
+      // Delete branch
+      {
+        id: 'branchDelete',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.branch.deleteBranch',
+            state: false,
+          },
+        },
+      },
       // Add branch manager
       {
         id: 'branchAddManager',
@@ -1157,6 +1294,120 @@ export default [
         actions: {
           edit: {
             action: 'clients-distributor.createRule',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
+  // ============== Payment methods ============== //
+  // ============================================= //
+  {
+    id: 'payments-methods',
+    image: false,
+    actions: {
+      view: {
+        action: 'payment.getManualPaymentMethods',
+        state: false,
+      },
+    },
+    permissions: [
+      {
+        id: 'BONUS',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.BONUS',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'CHARGEBACK',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.CHARGEBACK',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'CREDIT_CARD',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.CREDIT_CARD',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'ELECTRONIC',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.ELECTRONIC',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'EXTERNAL',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.EXTERNAL',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'INTERNAL_TRANSFER',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.INTERNAL_TRANSFER',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'MIGRATION',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.MIGRATION',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'PAYRETAILERS',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.PAYRETAILERS',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'RECALL',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.RECALL',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'SYSTEM',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.SYSTEM',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'WIRE',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.WIRE',
             state: false,
           },
         },

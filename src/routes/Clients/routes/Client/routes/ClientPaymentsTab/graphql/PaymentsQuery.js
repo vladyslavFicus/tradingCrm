@@ -5,7 +5,7 @@ import PropTypes from 'constants/propTypes';
 import { statusMapper } from 'constants/payment';
 
 const REQUEST = gql`
-  query PaymentsQuery($args: PaymentSearch__Input) {
+  query ClientPaymentsTab_PaymentsQuery($args: PaymentSearch__Input) {
     clientPayments(args: $args) {
       page
       number
@@ -88,9 +88,8 @@ const PaymentsQuery = ({
     query={REQUEST}
     variables={{
       args: {
-        accountType: 'LIVE',
-        ...state?.filters,
-        statuses: state?.filters?.statuses && state.filters.statuses.map(item => statusMapper[item]).flat(Infinity),
+        ...state?.filters ? state.filters : { accountType: 'LIVE' },
+        statuses: state?.filters?.statuses?.map(item => statusMapper[item]).flat(Infinity),
         profileId,
         page: {
           from: 0,

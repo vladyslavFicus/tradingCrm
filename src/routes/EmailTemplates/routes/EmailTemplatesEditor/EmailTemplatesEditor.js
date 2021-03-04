@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
-import Placeholder from 'components/Placeholder';
 import { Button } from 'reactstrap';
 import { withRequests } from 'apollo';
 import { Field, Form, Formik } from 'formik';
@@ -81,9 +81,8 @@ class EmailTemplatesEditor extends PureComponent {
     return (
       <div className="EmailTemplatesEditor">
         <div className="EmailTemplatesEditor__header">
-          <Placeholder
+          <ReactPlaceholder
             ready={!loading}
-            className={null}
             customPlaceholder={(
               <div>
                 <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
@@ -94,7 +93,7 @@ class EmailTemplatesEditor extends PureComponent {
             <span className="EmailTemplatesEditor__header-title">
               {I18n.t('EMAILS.EMAIL_TEMPLATES.EDITOR.TITLE')}
             </span>
-          </Placeholder>
+          </ReactPlaceholder>
           <Link to="/email-templates/list" className="EmailTemplatesEditor__header-link">
             {I18n.t('EMAILS.EMAIL_TEMPLATES.LINK_GO_TO_EMAIL_TEMPLATES')}
           </Link>

@@ -45,7 +45,7 @@ class FormikDatePicker extends PureComponent {
     return (
       <DatePicker
         {...datePickerProps}
-        error={errors[name] && errors[name][0]}
+        error={errors[name]}
         value={value}
         setValue={_value => setFieldValue(name, _value)}
         withFocus={this.getPickerFocusState()}

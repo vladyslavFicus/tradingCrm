@@ -72,7 +72,9 @@ class PermissionsSetting extends PureComponent {
         const [sectionKey] = Object.keys(section?.actions || {});
         const _section = { ...section };
 
-        _section.actions[sectionKey].state = authorityActions.includes(section.actions[sectionKey].action);
+        if (_section.actions) {
+          _section.actions[sectionKey].state = authorityActions.includes(section.actions[sectionKey].action);
+        }
 
         return {
           ..._section,
@@ -119,7 +121,8 @@ class PermissionsSetting extends PureComponent {
       },
       updateAuthorityActions,
     } = this.props;
-    const disabledSection = [];
+    const switchedOffActions = [];
+    let isSectionSwitcher = false;
 
     // Set actual list of actions to state
     this.setState(
@@ -127,6 +130,7 @@ class PermissionsSetting extends PureComponent {
         shouldUpdate: false,
         shadowActions: shadowActions.map((section) => {
           if (currentSection && section.id === currentSection.id) {
+            isSectionSwitcher = true;
             const [sectionKey] = Object.keys(section?.actions || {});
             const _section = { ...section };
 
@@ -147,7 +151,7 @@ class PermissionsSetting extends PureComponent {
                   };
 
                   if (!enabled) {
-                    disabledSection.push(_permission.actions[value].action);
+                    switchedOffActions.push(_permission.actions[value].action);
                   }
 
                   _permission.actions[value].state = state;
@@ -175,7 +179,7 @@ class PermissionsSetting extends PureComponent {
                   if (key === 'view' && !enabled && ['view', 'edit'].every(i => permissionKeys.includes(i))) {
                     _permission.actions.edit.state = false;
 
-                    disabledSection.push(_permission.actions.view.action, _permission.actions.edit.action);
+                    switchedOffActions.push(_permission.actions.view.action, _permission.actions.edit.action);
                   }
                 }
               });
@@ -186,13 +190,28 @@ class PermissionsSetting extends PureComponent {
         }),
       }),
       async () => {
+        // Checks if there are additional permissions
+        const getActions = () => {
+          const { permissions = [] } = currentSection?.additional || {};
+
+          if (switchedOffActions.length) {
+            return [...switchedOffActions, ...permissions, action];
+          }
+
+          if (isSectionSwitcher) {
+            return [action, ...permissions];
+          }
+
+          return [action];
+        };
+
         try {
           // Update actions for authority remotely when state was saved
           await updateAuthorityActions({
             variables: {
               department,
               role,
-              actions: disabledSection.length ? disabledSection : [action],
+              actions: getActions(),
               isPermitted: enabled,
             },
           });
@@ -296,9 +315,11 @@ class PermissionsSetting extends PureComponent {
             </If>
           </div>
         </div>
-        <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
-          <PreviewIcon />
-        </div>
+        <If condition={actions && section?.image !== false}>
+          <div className="PermissionsSetting__preview" onClick={e => this.onPreviewClick(e, actions)}>
+            <PreviewIcon />
+          </div>
+        </If>
       </>
     );
   }

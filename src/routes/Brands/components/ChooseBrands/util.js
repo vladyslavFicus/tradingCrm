@@ -1,5 +1,3 @@
-import { departmentsConfig, rolesConfig } from 'constants/brands';
-
 const getMappedBrands = (brandToAuthorities, brands) => {
   const userBrands = Object.keys(brandToAuthorities).sort();
 
@@ -9,9 +7,7 @@ const getMappedBrands = (brandToAuthorities, brands) => {
     departments: brandToAuthorities[brand].map(({ id, department, role }) => ({
       id,
       department,
-      role: rolesConfig[role] || role,
-      name: departmentsConfig[department]?.name || department,
-      image: departmentsConfig[department]?.image || '/img/image-placeholder.svg',
+      role,
     })),
   }));
 };

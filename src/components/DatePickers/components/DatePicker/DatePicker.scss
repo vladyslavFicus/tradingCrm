@@ -124,8 +124,7 @@
     &-error {
       color: #d0021b;
       font-size: 12px;
-      position: absolute;
-      top: calc(100% + 4px);
+      margin-top: 3px;
 
       &-icon {
         font-size: 14px;

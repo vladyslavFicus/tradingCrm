@@ -1,0 +1,17 @@
+.ClientReferralsGrid {
+  padding: 0 25px 25px;
+
+  &__col-text {
+    &--small {
+      font-size: 11px;
+    }
+
+    &--upper {
+      text-transform: uppercase;
+    }
+
+    &--bold {
+      font-weight: 700;
+    }
+  }
+}

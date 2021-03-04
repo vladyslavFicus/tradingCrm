@@ -1,4 +1,4 @@
-.failure-reason-icon {
+.FailureReasonIcon {
   position: absolute;
   top: 12px;
   right: 35px;
@@ -9,35 +9,41 @@
   border: none;
   background-image: url("./img/failure-reason-icon.png");
   background-repeat: no-repeat;
-}
 
-.failure-reason-popover {
-  max-width: 310px;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.09);
-  z-index: 10;
-  &__header {
-    margin-bottom: 5px;
-    padding: 0;
-    border-bottom: none;
-    background-color: transparent;
-    line-height: 1.2;
-    color: #666;
-  }
-  &__title {
-    font-size: 13px;
-  }
-  &__date {
-    font-size: 11px;
-  }
-  &__body {
-    padding: 0;
-    background-attachment: local;
-    background-image: linear-gradient(90deg,#fff 0,transparent 0),linear-gradient(270deg,#fff 0,transparent 0),repeating-linear-gradient(#fff,#fff 17px,#dfe4ed 0,#dfe4ed 18px,#fff 0);
-    text-align: justify;
-    font-size: 13px;
-    line-height: 18px;
-    color: #000;
+  &__popover {
+    max-width: 310px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.09);
+    z-index: 10;
+
+    &-header {
+      margin-bottom: 5px;
+      padding: 0;
+      border-bottom: none;
+      background-color: transparent;
+      line-height: 1.2;
+      color: #666;
+    }
+
+    &-title {
+      font-size: 13px;
+    }
+
+    &-primary-text {
+      font-weight: 700;
+    }
+
+    &-date {
+      font-size: 11px;
+    }
+
+    &-body {
+      padding: 0;
+      text-align: justify;
+      font-size: 13px;
+      line-height: 18px;
+      color: #000;
+    }
   }
 }

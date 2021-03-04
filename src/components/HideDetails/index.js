@@ -1,3 +1,1 @@
-import HideDetails from './HideDetails';
-
-export default HideDetails;
+export { default } from './HideDetails';

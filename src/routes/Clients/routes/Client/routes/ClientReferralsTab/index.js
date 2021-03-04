@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import('./Referrals.js'));
+export default lazy(() => import('./ClientReferralsTab.js'));

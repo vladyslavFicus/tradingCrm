@@ -14,6 +14,7 @@ import {
   DATE_BASE_FORMAT,
   DATE_TIME_USER_STRING_FORMAT,
   DATE_TIME_BASE_FORMAT,
+  DATE_TIME_OLD_BASE_FORMAT,
 } from '../../constants';
 import './DatePicker.scss';
 
@@ -122,7 +123,8 @@ class DatePicker extends PureComponent {
     const { withUtc, withTime } = this.props;
 
     const momentUserFormat = withTime ? DATE_TIME_USER_STRING_FORMAT : DATE_USER_STRING_FORMAT;
-    const momentBaseFormat = withTime ? DATE_TIME_BASE_FORMAT : DATE_BASE_FORMAT; // # Check this out
+    const momentBaseFormat = withTime ? DATE_TIME_BASE_FORMAT : DATE_BASE_FORMAT;
+    const momentOldBaseFormat = withTime ? DATE_TIME_OLD_BASE_FORMAT : DATE_BASE_FORMAT;
 
     // # if user change date using calendar or time picker
     // # the function will get MomentObject as value
@@ -130,24 +132,33 @@ class DatePicker extends PureComponent {
       return date.format(momentUserFormat);
     }
 
+    // Remove millisecond 2021-01-28T21:45:00.675 to 2021-01-28T21:45:00
+    const _date = date && new Date(date).getMilliseconds() ? date.split('.')[0] : date;
+
     // # valid input date format must have 'YYYY-MM-DDTHH:mm:ss[Z]', 'YYYY-MM-DDTHH:mm:ss' or 'YYYY-MM-DD'
     // # if date is valid return userfriendly string in DATE_TIME_USER_STRING_FORMAT
     // or DATE_USER_STRING_FORMAT if time is not expected
-    const momentDateInBaseFormat = moment(date, momentBaseFormat);
+    const momentDateInBaseFormat = moment(_date, momentBaseFormat);
 
-    if (momentDateInBaseFormat.isValid()) {
+    if (
+      momentDateInBaseFormat.isValid()
+      && (
+        _date === momentDateInBaseFormat.format(momentBaseFormat)
+        || _date === momentDateInBaseFormat.format(momentOldBaseFormat)
+      )
+    ) {
       if (!withTime) {
         return momentDateInBaseFormat.format(momentUserFormat);
       }
 
       return withUtc
-        ? moment.utc(date, momentBaseFormat).local().format(momentUserFormat)
+        ? moment.utc(_date, momentBaseFormat).local().format(momentUserFormat)
         : momentDateInBaseFormat.local().format(momentUserFormat);
     }
 
     // # if date is invalid by dateFormat and date is not MomentObject
     // # return provided value
-    return date;
+    return _date;
   }
 
   /**
@@ -303,7 +314,7 @@ class DatePicker extends PureComponent {
           <div className="DatePicker__label">{label}</div>
         </If>
 
-        <div>
+        <div className="DatePicker__input-container">
           <div
             className={classNames('DatePicker__input', {
               'DatePicker__input--in-focus': withFocus,
@@ -325,13 +336,6 @@ class DatePicker extends PureComponent {
             <div className="DatePicker__input-right">
               <i className="DatePicker__input-calendar icon icon-calendar" />
             </div>
-
-            <If condition={error && showErrorMessage}>
-              <div className="DatePicker__input-error">
-                <i className="DatePicker__input-error-icon icon-alert" />
-                {error}
-              </div>
-            </If>
           </div>
 
           <If condition={showPopup}>
@@ -385,6 +389,13 @@ class DatePicker extends PureComponent {
             </div>
           </If>
         </div>
+
+        <If condition={error && showErrorMessage}>
+          <div className="DatePicker__input-error">
+            <i className="DatePicker__input-error-icon icon-alert" />
+            {error}
+          </div>
+        </If>
       </div>
     );
   }

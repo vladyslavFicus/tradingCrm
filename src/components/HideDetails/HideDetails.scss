@@ -1,9 +1,14 @@
-.hide-details {
+.HideDetails {
+  display: flex;
   align-items: center;
+
   &__divider {
+    flex: 1;
     border-top: 1px solid #eee;
   }
-  &__action {
+
+  &__trigger {
+    padding: 0 15px;
     text-decoration: underline;
     font-size: 11px;
     color: #999;

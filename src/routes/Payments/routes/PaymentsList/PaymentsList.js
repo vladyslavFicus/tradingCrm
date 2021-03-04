@@ -1,15 +1,13 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
-import { compose } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
+import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
-import Placeholder from 'components/Placeholder';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import { PartnersQuery, PaymentsQuery } from './graphql';
+import './PaymentsList.scss';
 
 class PaymentsList extends PureComponent {
   static propTypes = {
@@ -46,14 +44,14 @@ class PaymentsList extends PureComponent {
       partnersQuery: { data: partnersData, loading: partnersLoading },
     } = this.props;
 
-    const partners = get(partnersData, 'partners.content') || [];
-    const payments = get(paymentsData, 'payments') || {};
-    const totalPayments = get(payments, 'totalElements');
+    const partners = partnersData?.partners?.content || [];
+    const payments = paymentsData?.payments || {};
+    const totalPayments = payments?.totalElements;
 
     return (
-      <div className="card">
-        <div className="card-heading card-heading--is-sticky">
-          <Placeholder
+      <div className="PaymentList">
+        <div className="PaymentList__header">
+          <ReactPlaceholder
             ready={!paymentsLoading}
             customPlaceholder={(
               <TextRow
@@ -64,18 +62,18 @@ class PaymentsList extends PureComponent {
           >
             <Choose>
               <When condition={totalPayments}>
-                <span className="font-size-20">
+                <span className="PaymentList__title">
                   <strong>{totalPayments} </strong>
                   {I18n.t('COMMON.PAYMENTS')}
                 </span>
               </When>
               <Otherwise>
-                <span className="font-size-20">
+                <span className="PaymentList__title">
                   {I18n.t('COMMON.PAYMENTS')}
                 </span>
               </Otherwise>
             </Choose>
-          </Placeholder>
+          </ReactPlaceholder>
         </div>
 
         <PaymentsListFilters
@@ -96,10 +94,7 @@ class PaymentsList extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-  withRequests({
-    partnersQuery: PartnersQuery,
-    paymentsQuery: PaymentsQuery,
-  }),
-)(PaymentsList);
+export default withRequests({
+  partnersQuery: PartnersQuery,
+  paymentsQuery: PaymentsQuery,
+})(PaymentsList);

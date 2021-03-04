@@ -74,7 +74,7 @@ class LeadsGridFilter extends PureComponent {
       desksAndTeamsQuery,
     } = this.props;
 
-    const operators = operatorsQuery.data.operators?.content || [];
+    const operators = operatorsQuery.data?.operators?.content || [];
 
     if (teams && teams.length) {
       return this.filterOperatorsByBranch({ operators, uuids: teams });

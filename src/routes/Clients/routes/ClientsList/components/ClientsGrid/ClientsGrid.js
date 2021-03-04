@@ -18,12 +18,12 @@ import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import GridStatus from 'components/GridStatus';
-import Grid, { GridColumn } from 'components/Grid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { Column, Table } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Permissions from 'utils/permissions';
 import renderLabel from 'utils/renderLabel';
@@ -36,9 +36,7 @@ const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFI
 class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    updateClientsListState: PropTypes.func.isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
@@ -47,14 +45,13 @@ class ClientsGrid extends PureComponent {
     }).isRequired,
   }
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
         sorts,
-        sortData,
       },
     });
   };
@@ -93,39 +90,18 @@ class ClientsGrid extends PureComponent {
     window.open(`/clients/${uuid}/profile`, '_blank');
   };
 
-  handleSelectRow = (allRowsSelected, touchedRowsIds) => {
-    this.props.updateClientsListState(allRowsSelected, touchedRowsIds);
+  handleSelectError = (select) => {
+    const {
+      modals: { confirmationModal },
+    } = this.props;
+
+    confirmationModal.show({
+      onSubmit: confirmationModal.hide,
+      modalTitle: `${select.max} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
+      actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: select.max }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
   };
-
-  handleAllRowsSelect = (allRowsSelected) => {
-    const { updateClientsListState } = this.props;
-
-    updateClientsListState(allRowsSelected, []);
-
-    if (allRowsSelected) {
-      const {
-        location,
-        clientsQuery,
-        modals: { confirmationModal },
-      } = this.props;
-
-      const totalElements = clientsQuery.data?.profiles?.totalElements || 0;
-      const searchLimit = location?.state?.filters?.searchLimit || null;
-
-      const selectedLimit = (searchLimit && searchLimit < totalElements)
-        ? searchLimit > MAX_SELECTED_CLIENTS
-        : totalElements > MAX_SELECTED_CLIENTS;
-
-      if (selectedLimit) {
-        confirmationModal.show({
-          onSubmit: confirmationModal.hide,
-          modalTitle: `${MAX_SELECTED_CLIENTS} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
-          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_CLIENTS }),
-          submitButtonLabel: I18n.t('COMMON.OK'),
-        });
-      }
-    }
-  }
 
   renderClientColumn = data => (
     <GridPlayerInfo profile={data} />
@@ -209,8 +185,9 @@ class ClientsGrid extends PureComponent {
 
     return (
       <Choose>
-        <When condition={affiliateUuid}>
-          <If condition={partner}>
+        {/* Affiliate */}
+        <When condition={affiliate}>
+          <If condition={affiliateUuid && partner}>
             <div>
               <Link
                 className="ClientsGrid__affiliate"
@@ -256,14 +233,20 @@ class ClientsGrid extends PureComponent {
             </UncontrolledTooltip>
           </If>
         </When>
-        <When condition={referrerUuid}>
-          <div className="ClientsGrid__referrer">{referrerName}</div>
-          <Uuid
-            className="ClientsGrid__text-secondary"
-            uuidPostfix="..."
-            length={12}
-            uuid={referrerUuid}
-          />
+
+        {/* Referrer */}
+        <When condition={referrer}>
+          <If condition={referrerName}>
+            <div className="ClientsGrid__referrer">{referrerName}</div>
+          </If>
+          <If condition={referrerUuid}>
+            <Uuid
+              className="ClientsGrid__text-secondary"
+              uuidPostfix="..."
+              length={12}
+              uuid={referrerUuid}
+            />
+          </If>
         </When>
         <Otherwise>
           <GridEmptyValue />
@@ -406,99 +389,91 @@ class ClientsGrid extends PureComponent {
     const {
       location,
       clientsQuery,
-      touchedRowsIds,
-      allRowsSelected,
       permission: {
         permissions: currentPermissions,
       },
+      onSelect,
     } = this.props;
 
-    const isAvailableMultySelect = changeAsquisitionStatusPermission.check(currentPermissions);
+    const isAvailableMultiSelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
-    const clients = clientsQuery?.data?.profiles;
-    const searchLimit = location?.state?.filters?.searchLimit || null;
-
-    const { response } = limitItems(clients, location);
-    const { content, last } = response || { content: [] };
+    const { response } = limitItems(clientsQuery?.data?.profiles, location);
+    const clients = response || { content: [], last: true };
 
     // Show loader only if initial load or new variables was applied
     const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(clientsQuery.networkStatus);
 
     return (
       <div className="ClientsGrid">
-        <Grid
-          data={content}
-          touchedRowsIds={touchedRowsIds}
-          handleSort={this.handleSort}
-          sorts={location?.state?.sortData}
-          allRowsSelected={allRowsSelected}
-          handleSelectRow={this.handleSelectRow}
-          handleRowClick={this.handleRowClick}
-          handleAllRowsSelect={this.handleAllRowsSelect}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={154}
-          isLoading={isLoading}
-          isLastPage={last}
-          withLazyLoad={!searchLimit || searchLimit !== content.length}
-          withRowsHover
-          withMultiSelect={isAvailableMultySelect}
-          withNoResults={!isLoading && content.length === 0}
+        <Table
+          stickyFromTop={158}
+          items={clients.content}
+          totalCount={clients.totalElements}
+          loading={isLoading}
+          hasMore={!clients.last}
+          onMore={this.handlePageChanged}
+          sorts={location?.state?.sorts}
+          onSort={this.handleSort}
+          withMultiSelect={isAvailableMultiSelect}
+          maxSelectCount={MAX_SELECTED_CLIENTS}
+          onSelect={onSelect}
+          onSelectError={this.handleSelectError}
         >
-          <GridColumn
+          <Column
             sortBy="firstName"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
             render={this.renderClientColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}
             render={this.renderWarningColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
             render={this.renderLastActivityColumn}
           />
-          <GridColumn
+          <Column
             sortBy="address.countryCode"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <GridColumn
+          <Column
             sortBy="balance.amount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
             render={this.renderBalanceColumn}
           />
-          <GridColumn
+          <Column
             sortBy="paymentDetails.depositsCount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
             render={this.renderDepositColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
             render={this.renderAffiliateOrReferrerColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
             render={this.renderSalesColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
             render={this.renderRetentionColumn}
           />
-          <GridColumn
+          <Column
             sortBy="registrationDetails.registrationDate"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDateColumn}
           />
-          <GridColumn
+          <Column
             sortBy="lastNote.changedAt"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
             render={this.renderLastNoteColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

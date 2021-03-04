@@ -17,12 +17,7 @@
 
   &__status {
     text-transform: uppercase;
-  }
-}
 
-// # Modifiers
-.ClientCallbacksGrid {
-  &__status {
     &--pending {
       color: #0190da;
     }

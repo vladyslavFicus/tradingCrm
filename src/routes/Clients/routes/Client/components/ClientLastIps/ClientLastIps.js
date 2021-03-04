@@ -32,7 +32,7 @@ class ClientLastIps extends PureComponent {
                 <i className={`ClientLastIps__ip-flag fs-icon fs-${countryCode.toLowerCase()}`} />
                 <CopyToClipboard
                   text={ip}
-                  notify
+                  withNotification
                   notificationTitle="CLIENT_PROFILE.CLIENT.LAST_IPS.NOTIFICATIONS.COPY.TITLE"
                   notificationMessage="CLIENT_PROFILE.CLIENT.LAST_IPS.NOTIFICATIONS.COPY.MESSAGE"
                 >
