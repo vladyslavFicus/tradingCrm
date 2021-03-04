@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { ContactsFragment } from 'graphql/fragments/contacts';
+import { ContactsFragment } from 'apollo/fragments/contacts';
 
 const REQUEST = gql`
   mutation ClientContactsForm_UpdateClientContactsMutation(

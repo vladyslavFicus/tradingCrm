@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Link } from 'components/Link';
 import CallbacksCalendarComponent from 'components/CallbacksCalendar';
 import './CallbacksCalendar.scss';
 
 class CallbacksCalendar extends PureComponent {
-  renderTopContent = ({ callbacks }) => {
-    const totalElements = get(callbacks, 'callbacks.data.totalElements', 0);
+  renderTopContent = ({ callbacksQuery }) => {
+    const totalElements = callbacksQuery.data?.callbacks?.totalElements || 0;
 
     return (
       <div className="CallbacksCalendar__header">

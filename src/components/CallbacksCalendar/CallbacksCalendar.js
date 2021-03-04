@@ -1,19 +1,17 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
 import moment from 'moment';
-import PropTypes from '../../constants/propTypes';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
+import { withModals } from 'hoc';
+import PropTypes from 'constants/propTypes';
+import CallbackDetailsModal from 'modals/CallbackDetailsModal';
 import Calendar from '../Calendar';
+import CallbacksCalendarQuery from './graphql/CallbacksCalendarQuery';
 import './CallbacksCalendar.scss';
 
 class CallbacksCalendar extends PureComponent {
   static propTypes = {
-    callbacks: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-      loading: PropTypes.bool.isRequired,
-      callbacks: PropTypes.shape({
-        data: PropTypes.pageable(PropTypes.callback),
-      }),
-    }).isRequired,
+    callbacksQuery: PropTypes.query(PropTypes.pageable(PropTypes.callback)).isRequired,
     modals: PropTypes.shape({
       callbackDetails: PropTypes.modalType,
     }).isRequired,
@@ -41,7 +39,7 @@ class CallbacksCalendar extends PureComponent {
   }));
 
   handleRangeChanged = ({ start: callbackTimeFrom, end: callbackTimeTo }) => {
-    this.props.callbacks.refetch({ callbackTimeFrom, callbackTimeTo });
+    this.props.callbacksQuery.refetch({ callbackTimeFrom, callbackTimeTo });
   };
 
   handleOpenDetailModal = ({ callbackId }) => {
@@ -51,18 +49,18 @@ class CallbacksCalendar extends PureComponent {
   render() {
     const {
       calendarClassName,
-      callbacks,
+      callbacksQuery,
       renderTopContent,
     } = this.props;
 
-    const entities = get(callbacks, 'callbacks') || { content: [] };
+    const callbacks = callbacksQuery.data?.callbacks?.content || [];
 
     return (
       <div className="CallbacksCalendar">
         {renderTopContent && renderTopContent(this.props)}
         <Calendar
           className={calendarClassName}
-          events={this.getCalendarEvents(entities.content)}
+          events={this.getCalendarEvents(callbacks)}
           onSelectEvent={({ callback }) => this.handleOpenDetailModal(callback)}
           onRangeChange={this.handleRangeChanged}
         />
@@ -71,4 +69,11 @@ class CallbacksCalendar extends PureComponent {
   }
 }
 
-export default CallbacksCalendar;
+export default compose(
+  withRequests({
+    callbacksQuery: CallbacksCalendarQuery,
+  }),
+  withModals({
+    callbackDetails: CallbackDetailsModal,
+  }),
+)(CallbacksCalendar);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { AddressFragment } from 'graphql/fragments/address';
+import { AddressFragment } from 'apollo/fragments/address';
 
 const REQUEST = gql`
   mutation ClientAddressForm_UpdateClientAddressMutation(

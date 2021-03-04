@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { NoteFragment } from 'graphql/fragments/notes';
+import { NoteFragment } from 'apollo/fragments/notes';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query ClientFilesTab_FilesByProfileUuidQuery(

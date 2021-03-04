@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { NoteFragment } from 'graphql/fragments/notes';
+import { NoteFragment } from 'apollo/fragments/notes';
 
 const REQUEST = gql`
   query ClientNotesQuery(

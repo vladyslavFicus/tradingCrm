@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { getClickToCall } from 'config';
 import I18n from 'i18n-js';
-import { compose, graphql } from 'react-apollo';
+import { compose } from 'react-apollo';
 import ToolTip from 'react-portal-tooltip';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
-import { createCall as DidLogicCreateCallMutation } from 'graphql/mutations/didlogic';
-import { createCall as AsteriskCreateCallMutation } from 'graphql/mutations/asterisk';
+import DidlogicCreateCall from './graphql/DidlogicCreateCall';
+import AsteriskCreateCall from './graphql/AsteriskCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import didlogicIcon from './icons/didlogic.png';
 import asteriskIcon from './icons/asterisk.png';
@@ -153,6 +154,8 @@ class Click2Call extends PureComponent {
 
 export default compose(
   withNotifications,
-  graphql(DidLogicCreateCallMutation, { name: 'clickToCall' }),
-  graphql(AsteriskCreateCallMutation, { name: 'asteriskCreateCall' }),
+  withRequests({
+    clickToCall: DidlogicCreateCall,
+    asteriskCreateCall: AsteriskCreateCall,
+  }),
 )(Click2Call);
