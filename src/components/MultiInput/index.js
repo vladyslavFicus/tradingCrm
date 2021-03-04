@@ -1,3 +1,1 @@
-import MultiInput from './MultiInput';
-
-export default MultiInput;
+export { default } from './MultiInput';

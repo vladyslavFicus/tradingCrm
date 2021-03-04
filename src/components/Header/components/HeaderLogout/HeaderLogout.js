@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import './HeaderLogout.scss';
 
-class HeaderLogout extends Component {
+class HeaderLogout extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
   };

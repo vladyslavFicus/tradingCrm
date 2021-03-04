@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { includes, difference } from 'lodash';
 import { components } from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
@@ -9,7 +9,7 @@ import './MultiInput.scss';
 const getValues = value => (Array.isArray(value) ? value.map(v => v.value) : []);
 const getLabels = value => (Array.isArray(value) ? value.map(v => v.label) : []);
 
-class MultiInput extends Component {
+class MultiInput extends PureComponent {
   static propTypes = {
     async: PropTypes.bool,
     placeholder: PropTypes.string,

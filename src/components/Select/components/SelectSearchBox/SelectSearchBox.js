@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { differenceWith, isEqual } from 'lodash';
 import './SelectSearchBox.scss';
 
-class SelectSearchBox extends Component {
+class SelectSearchBox extends PureComponent {
   static propTypes = {
     placeholder: PropTypes.string,
     query: PropTypes.string,

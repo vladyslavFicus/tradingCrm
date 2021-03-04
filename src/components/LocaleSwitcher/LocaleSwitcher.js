@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
 
-class LocaleSwitcher extends Component {
+class LocaleSwitcher extends PureComponent {
   static propTypes = {
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string.isRequired,

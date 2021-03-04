@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -18,7 +18,7 @@ const updatePersonalInformationPermissions = new Permissions(permissions.USER_PR
 const updateAddressPermissions = new Permissions(permissions.USER_PROFILE.UPDATE_ADDRESS);
 const updateContactsPermissions = new Permissions(permissions.USER_PROFILE.UPDATE_CONTACTS);
 
-class View extends Component {
+class View extends PureComponent {
   static propTypes = {
     verifyEmail: PropTypes.func.isRequired,
     updateEmail: PropTypes.func.isRequired,

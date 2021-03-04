@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Transition from 'react-transition-group/Transition';
 
 const DEFAULT_MODAL_TIMEOUT = 100;
 
-export default modals => WrappedComponent => class Modals extends Component {
+export default modals => WrappedComponent => class Modals extends PureComponent {
   state = Object.keys(modals).reduce((acc, curr) => ({ ...acc, [curr]: { isOpen: false, data: {} } }), {});
 
   get modalProps() {

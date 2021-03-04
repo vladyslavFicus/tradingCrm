@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './ReactSwitch.scss';
 
-class ReactSwitch extends Component {
+class ReactSwitch extends PureComponent {
   static propTypes = {
     on: PropTypes.bool,
     onClick: PropTypes.func,

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -10,7 +10,7 @@ import Uuid from '../Uuid';
 import FailedStatusIcon from '../FailedStatusIcon';
 import renderLabel from '../../utils/renderLabel';
 
-class TransactionStatus extends Component {
+class TransactionStatus extends PureComponent {
   static propTypes = {
     transaction: PropTypes.paymentEntity.isRequired,
     onLoadStatusHistory: PropTypes.func,

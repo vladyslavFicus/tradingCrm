@@ -1,3 +1,1 @@
-import PaymentStatus from './PaymentStatus';
-
-export default PaymentStatus;
+export { default } from './PaymentStatus';

@@ -1,10 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
-import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../NotFoundContent';
 
-class ListView extends Component {
+class ListView extends PureComponent {
   static propTypes = {
     render: PropTypes.func.isRequired,
     dataSource: PropTypes.array.isRequired,
@@ -28,16 +27,6 @@ class ListView extends Component {
   state = {
     filters: this.props.defaultFilters || {},
   };
-
-  shouldComponentUpdate(nextProps) {
-    const {
-      dataSource,
-      showNoResults,
-    } = this.props;
-
-    return !shallowEqual(nextProps.dataSource, dataSource)
-      || nextProps.showNoResults !== showNoResults;
-  }
 
   handlePageChange = (eventKey) => {
     const {
