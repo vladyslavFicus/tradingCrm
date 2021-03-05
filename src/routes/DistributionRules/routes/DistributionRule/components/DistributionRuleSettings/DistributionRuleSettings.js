@@ -174,7 +174,6 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'lastNotePeriodInHours',
                 }}
                 additionalValues={periodInHours}
-                anchorDirection="right"
                 withAdditionalValues
               />
               <Field
