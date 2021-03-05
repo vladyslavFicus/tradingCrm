@@ -333,7 +333,6 @@ class LeadsGridFilter extends PureComponent {
                     from: 'lastNoteDateFrom',
                     to: 'lastNoteDateTo',
                   }}
-                  anchorDirection="right"
                   withFocus
                 />
 
