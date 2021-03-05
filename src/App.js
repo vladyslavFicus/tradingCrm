@@ -1,6 +1,7 @@
 import React, { Suspense, PureComponent } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ApolloProvider from 'apollo/ApolloProvider';
+import TrackifyProvider from 'providers/TrackifyProvider';
 import StorageProvider from 'providers/StorageProvider';
 import Root from './Root';
 
@@ -11,7 +12,9 @@ class App extends PureComponent {
         <BrowserRouter>
           <StorageProvider>
             <ApolloProvider>
-              <Root />
+              <TrackifyProvider>
+                <Root />
+              </TrackifyProvider>
             </ApolloProvider>
           </StorageProvider>
         </BrowserRouter>
