@@ -69,7 +69,8 @@ class PermissionProvider extends PureComponent {
 export const PermissionConsumer = PermissionContext.Consumer;
 
 export const PermissionPropTypes = {
-  set: PropTypes.func.isRequired,
+  allows: PropTypes.func.isRequired,
+  denies: PropTypes.func.isRequired,
 };
 
 export default withRequests({

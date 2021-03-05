@@ -130,12 +130,14 @@
     position: static;
 
     &-switcher {
-      width: 45px;
-      height: 25px;
-      margin: 0;
-      border-radius: 14px;
+      .ReactSwitch__button {
+        width: 45px;
+        height: 25px;
+        margin: 0;
+        border-radius: 14px;
+      }
 
-      .switch-toggle {
+      .ReactSwitch__switch-toggle {
         top: 48%;
         width: 19px;
         height: 19px;
@@ -143,15 +145,15 @@
         transition: left .15s ease-in-out;
       }
 
-      &.on {
+      .ReactSwitch__button--on {
         background: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%), #FFF;
 
-        .switch-toggle {
+        .ReactSwitch__switch-toggle {
           left: 23px;
         }
       }
 
-      &.is-disabled {
+      .ReactSwitch__button--disabled {
         opacity: 0.5;
         cursor: not-allowed
       }

@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
+import { FiltersTogglerButton } from 'components/FiltersToggler';
 import ClientsBulkActions from '../ClientsBulkActions';
 import './ClientsHeader.scss';
 
@@ -75,15 +76,17 @@ class ClientsHeader extends PureComponent {
           </ReactPlaceholder>
         </div>
 
-        <If condition={totalElements && selectedCount}>
-          <div className="ClientsHeader__right">
+        <div className="ClientsHeader__right">
+          <If condition={totalElements && selectedCount}>
             <ClientsBulkActions
               select={select}
               selectedRowsLength={selectedCount}
               clientsQuery={clientsQuery}
             />
-          </div>
-        </If>
+          </If>
+
+          <FiltersTogglerButton className="ClientsHeader__filters-toggler-button" />
+        </div>
       </div>
     );
   }

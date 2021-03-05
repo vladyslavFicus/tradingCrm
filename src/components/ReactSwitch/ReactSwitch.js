@@ -11,6 +11,8 @@ class ReactSwitch extends Component {
     disabled: PropTypes.bool,
     stopPropagation: PropTypes.bool,
     id: PropTypes.string,
+    label: PropTypes.string,
+    labelPosition: PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   };
 
   static defaultProps = {
@@ -20,6 +22,8 @@ class ReactSwitch extends Component {
     disabled: false,
     stopPropagation: false,
     onClick: () => {},
+    label: null,
+    labelPosition: 'right',
   };
 
   state = {
@@ -56,20 +60,44 @@ class ReactSwitch extends Component {
       id,
       disabled,
       className,
+      label,
+      labelPosition,
     } = this.props;
 
     const { on } = this.state;
 
     return (
-      <button
-        type="button"
-        disabled={disabled}
-        className={classNames('react-switch', className, { 'is-disabled': disabled, on })}
-        onClick={this.handleClick}
-        id={id}
+      <label className={classNames(
+        'ReactSwitch',
+        className,
+        {
+          'ReactSwitch--label-top': labelPosition === 'top',
+          'ReactSwitch--label-bottom': labelPosition === 'bottom',
+          'ReactSwitch--label-right': labelPosition === 'right',
+          'ReactSwitch--label-left': labelPosition === 'left',
+        },
+      )}
       >
-        <div className="switch-toggle" />
-      </button>
+        <button
+          type="button"
+          disabled={disabled}
+          className={classNames(
+            'ReactSwitch__button',
+            {
+              'ReactSwitch__button--disabled': disabled,
+              'ReactSwitch__button--on': on,
+            },
+          )}
+          onClick={this.handleClick}
+          id={id}
+        >
+          <div className="ReactSwitch__switch-toggle" />
+        </button>
+
+        <If condition={label}>
+          <span className="ReactSwitch__label">{label}</span>
+        </If>
+      </label>
     );
   }
 }

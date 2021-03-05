@@ -12,7 +12,6 @@ const SwitchField = (props) => {
     label,
     wrapperClassName,
     id,
-    position,
   } = props;
 
   const onClick = () => {
@@ -21,21 +20,14 @@ const SwitchField = (props) => {
   };
 
   return (
-    <div
-      className={classNames('FormikSwitchField', {
-        'FormikSwitchField--label-left': position === 'LABEL_LEFT',
-      }, wrapperClassName)}
-    >
+    <div className={classNames('FormikSwitchField', wrapperClassName)}>
       <div className="FormikSwitchField__inner">
         <ReactSwitch
           on={!!field.value}
           onClick={onClick}
           id={id}
-          className="FormikSwitchField__trigger"
+          label={label}
         />
-        <button type="button" onClick={onClick}>
-          {label}
-        </button>
       </div>
     </div>
   );
@@ -56,14 +48,12 @@ SwitchField.propTypes = {
   ]),
   id: PropTypes.string,
   onChange: PropTypes.func,
-  position: PropTypes.oneOf(['LABEL_LEFT', 'LABEL_RIGHT']),
 };
 SwitchField.defaultProps = {
   wrapperClassName: null,
   label: null,
   id: null,
   onChange: () => {},
-  position: 'LABEL_RIGHT',
 };
 
 export default SwitchField;

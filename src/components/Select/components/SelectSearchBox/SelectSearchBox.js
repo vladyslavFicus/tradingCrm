@@ -16,6 +16,10 @@ class SelectSearchBox extends Component {
     query: '',
   };
 
+  focus() {
+    this.input.focus();
+  }
+
   render() {
     const { placeholder, query, onChange } = this.props;
 
@@ -28,6 +32,7 @@ class SelectSearchBox extends Component {
           placeholder={placeholder || I18n.t('common.select.default_placeholder')}
           onChange={onChange}
           value={query}
+          ref={(input) => { this.input = input; }}
         />
         <If condition={!!query}>
           <i className="icon icon-times select-search-box__icon-right" onClick={() => onChange(null)} />
