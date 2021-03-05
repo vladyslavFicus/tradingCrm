@@ -90,7 +90,11 @@ class DateRangePicker extends PureComponent {
 
     // Auto detect anchor direction depends on screen width
     if (this.state.showPopup && !prevState.showPopup) {
-      const { right } = this.popupRef.current.getBoundingClientRect();
+      const { left, right } = this.popupRef.current.getBoundingClientRect();
+
+      if (left < 0) {
+        this.setState({ anchorDirection: 'left' }); // eslint-disable-line
+      }
 
       if (right > window.innerWidth) {
         this.setState({ anchorDirection: 'right' }); // eslint-disable-line
