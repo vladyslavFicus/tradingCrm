@@ -162,6 +162,7 @@ class DistributionRuleBrands extends PureComponent {
     try {
       const { data: { distributionRuleClientsAmount } } = await client.query({
         query: distributionRuleClientsAmountQuery,
+        fetchPolicy: 'network-only',
         variables: {
           sourceBrand,
           targetBrand,
