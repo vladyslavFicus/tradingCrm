@@ -42,7 +42,7 @@ class ClientsGrid extends PureComponent {
     const profiles = get(clientsQuery, 'data.profiles.content') || [];
 
     return (
-      <div className="ClientsGrid card">
+      <div className="DashboardClientsGrid card">
         <Grid
           data={profiles}
           isLoading={loading}
