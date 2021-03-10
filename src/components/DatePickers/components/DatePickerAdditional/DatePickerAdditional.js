@@ -47,7 +47,7 @@ class DatePickerAdditional extends PureComponent {
     } = this.props;
 
     return additionalItems.map((item) => {
-      const coincidentRange = isAdditionalOption
+      const isMatchedRange = isAdditionalOption
         && moment(item?.value?.from).isSame(from, 'minute')
         && moment(item?.value?.to).isSame(to, 'minute');
 
@@ -55,7 +55,7 @@ class DatePickerAdditional extends PureComponent {
         <div
           key={item.label}
           className={classNames('DatePickerAdditional__item', {
-            'DatePickerAdditional__item--selected': isEqual(item, selectedAdditional) || coincidentRange,
+            'DatePickerAdditional__item--selected': isEqual(item, selectedAdditional) || isMatchedRange,
           })}
           onClick={() => handleAdditionalClick(item, isAdditionalOption)}
         >
