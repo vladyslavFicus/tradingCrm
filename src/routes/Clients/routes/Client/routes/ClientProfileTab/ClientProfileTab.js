@@ -26,7 +26,7 @@ class ClientProfileTab extends PureComponent {
     return (
       <div className="ClientProfileTab">
         <TabHeader
-          title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}
+          title={I18n.t('CLIENT_PROFILE.TABS.PROFILE')}
           className="ClientProfileTab__header"
         />
 
