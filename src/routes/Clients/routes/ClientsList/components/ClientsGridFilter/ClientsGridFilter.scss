@@ -1,6 +1,6 @@
 .ClientsGridFilter {
   &__form {
-    padding: 10px 25px 40px;
+    padding: 10px 25px 20px;
     background-color: #f2f4f8;
   }
 
@@ -65,6 +65,25 @@
 
     &:last-child {
       margin-right: 0;
+    }
+  }
+
+  &__add-filter-button {
+    margin-right: 20px;
+    text-align: right;
+  }
+
+  &__old-filters {
+    margin-right: 20px;
+
+    .ReactSwitch__label {
+      color: #4990e2;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .ReactSwitch__button--on {
+      background-image: linear-gradient(to left, #24bdee, #4a90e2);
     }
   }
 }

@@ -1,4 +1,5 @@
 import I18n from 'i18n-js';
+import moment from 'moment';
 import { salesStatuses as originalSalesStatuses } from 'constants/salesStatuses';
 import countryList from 'utils/countryList';
 
@@ -28,6 +29,30 @@ export const periodInHours = [
   {
     label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_TWENTYFOUR_HOURS',
     value: 24,
+  },
+];
+
+export const periodInDays = [
+  {
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.3_DAYS_AGO',
+    value: {
+      from: moment().subtract(3, 'days').startOf('days'),
+      to: moment().subtract(3, 'days').endOf('days'),
+    },
+  },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.LAST_7_DAYS',
+    value: {
+      from: moment().subtract(7, 'days'),
+      to: moment(),
+    },
+  },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.LAST_14_DAYS',
+    value: {
+      from: moment().subtract(14, 'days'),
+      to: moment(),
+    },
   },
 ];
 

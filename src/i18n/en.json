@@ -82,8 +82,6 @@
         "TITLE": "Contacts",
         "VERIFIED": "Verified",
         "VERIFY": "Verify",
-        "VERIFY_PHONE": "Verify phone",
-        "VERIFY_EMAIL": "Verify email",
         "LABEL": {
           "PHONE": "Phone",
           "ALT_PHONE": "Alt phone"
@@ -108,8 +106,8 @@
           "PASSPORT_EXPARATION_DATE": "Passport/ID expiration date",
           "PASSPORT_ISSUE_COUNTRY": "Passport/ID country of issue",
           "PASSPORT_ISSUE_DATE": "Passport/ID issue date",
-          "COUNTRY_SPECIFIC_IDENTIFIER": "County specific identifier",
-          "COUNTRY_SPECIFIC_IDENTIFIER_TYPE": "County specific identifier type",
+          "COUNTRY_SPECIFIC_IDENTIFIER": "Country specific identifier",
+          "COUNTRY_SPECIFIC_IDENTIFIER_TYPE": "Country specific identifier type",
           "COUNTRY_SPECIFIC_IDENTIFIER_TYPES": {
             "TEN_DSS_DIGIT_INVESTOR_SHARE": "10 DSS digit investor share",
             "ELEVEN_DIGIT_PERSONAL_ID": "11 digit personal id",
@@ -487,7 +485,9 @@
       "DELETE": "Delete",
       "PROMOTE": "Promote",
       "UPDATE_NOW": "Update now",
-      "YES": "YES"
+      "YES": "YES",
+      "ADD_FILTER": "+ Filter",
+      "OLD_FILTERS": "Old filters"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -1743,7 +1743,10 @@
     },
     "profile": {
       "blocked": "Profile is blocked",
-      "duplicated": "Profile is duplicated"
+      "duplicated": "Profile is duplicated",
+      "status": {
+        "is-blocked": "Can't make an operation because profile is blocked"
+      }
     },
     "user": {
       "account": {
@@ -1828,6 +1831,7 @@
       "AWAITING_REVIEW": "Awaiting review",
       "PARTIAL": "Partial",
       "PARTIAL_KYC_CAN_TRADE": "Partial KYC can trade",
+      "FAKE_DEPOSIT": "Fake deposit",
       "FLAGGED_NON_COMPLIANT": "Flagged non compliant",
       "REFUNDED_NON_COMPLIANT": "Refunded non compliant",
       "PRIOR_TO_REFUND": "Prior to refund",
@@ -2220,15 +2224,17 @@
     "START_DATE": "Start date",
     "END_DATE": "End date",
     "PERIOD_RESETS": {
-      "TODAY": "Today",
+      "CURRENT_DAY": "Current day",
       "PREVIOUS_WEEK": "Previous week",
-      "THIS_WEEK": "This week",
+      "CURRENT_WEEK": "Current week",
       "PREVIOUS_MONTH": "Previous month",
-      "THIS_MONTH": "This month",
+      "CURRENT_MONTH": "Current month",
       "LAST_7_DAYS": "Last 7 days",
       "LAST_14_DAYS": "Last 14 days",
-      "THIS_YEAR": "This year",
-      "TITLE": "Range presets"
+      "CURRENT_YEAR": "Current year",
+      "TITLE": "Range presets",
+      "PREVIOUS_DAY": "Previous day",
+      "PREVIOUS_YEAR": "Previous year"
     }
   },
   "MODALS": {
@@ -2299,8 +2305,11 @@
       "ERRORS": {
         "COMMON": "Unable to delete {{name}}, there are:",
         "OPERATORS": "{{count}} operators assigned to it. Please, re-assign operators from this branch and try again.",
+        "OPERATOR": "{{count}} operator assigned to it. Please, re-assign operator from this branch and try again.",
         "SUBBRANCHES": "{{count}} subbranches assigned to it. Please, delete subbranches and try again.",
-        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again."
+        "SUBBRANCH": "{{count}} subbranch assigned to it. Please, delete subbranch and try again.",
+        "RULES": "{{count}} sales rules assigned to it. Please, re-assign rules and try again.",
+        "RULE": "{{count}} sales rule assigned to it. Please, delete rule and try again."
       }
     },
     "ADD_BRANCH_MANAGER_MODAL": {
@@ -3222,14 +3231,14 @@
       },
       "GENERAL_INFO": "General information",
       "FILTERS_LABELS": {
-        "SALES_STATUS": "Current Sales Status",
-        "MIGRATION_STATUS": "Migration Sales Status",
-        "COUNTRY": "Country",
+        "SALES_STATUS": "Current Sales Status*",
+        "MIGRATION_STATUS": "Migration Sales Status*",
+        "COUNTRY": "Country*",
         "EXECUTION_TIME":"Time in Current Sales Status",
         "REGISTRATION_DATE_RANGE": "Registration date",
         "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type",
-        "LANGUAGE": "Language",
+        "LANGUAGE": "Language*",
         "AFFILIATE": "Affiliate",
         "FIRST_TIME_DEPOSIT": "First time deposit"
       },
@@ -3247,7 +3256,8 @@
           "LAST_TWO_HOURS": "Last 2 hours",
           "LAST_SIX_HOURS": "Last 6 hours",
           "LAST_TWELVE_HOURS": "Last 12 hours",
-          "LAST_TWENTYFOUR_HOURS": "Last 24 hours"
+          "LAST_TWENTYFOUR_HOURS": "Last 24 hours",
+          "3_DAYS_AGO": "3 days ago"
         }
       },
       "BRANDS_FOR_MIGRATION": "Brands for migration",
@@ -3260,9 +3270,9 @@
         "CLIENTS_TO_MIGRATION": "clients to migration"
       },
       "MODAL": {
-        "SOURCE_BRAND": "Brand",
-        "TARGET_BRAND": "Migration to brand",
-        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration",
+        "SOURCE_BRAND": "Brand*",
+        "TARGET_BRAND": "Migration to brand*",
+        "AMOUNT_MIGRATED_CLIENTS": "Amount of clients for migration*",
         "OPERATOR": "Operator",
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
@@ -3271,7 +3281,7 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source",
+        "MIGRATION_SOURCE": "Migration Source*",
         "DESKS": "Desks",
         "TEAMS": "Teams"
       },

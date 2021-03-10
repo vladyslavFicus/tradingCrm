@@ -29,7 +29,6 @@ class DateRangePicker extends PureComponent {
       label: PropTypes.string,
       value: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
     })),
-    anchorDirection: PropTypes.oneOf(['left', 'right']),
     className: PropTypes.string,
     dateRange: PropTypes.shape({
       from: PropTypes.string,
@@ -55,8 +54,7 @@ class DateRangePicker extends PureComponent {
   static defaultProps = {
     additionalValue: undefined,
     additionalValues: null,
-    additionalOptions: defaultAdditionalOptions(),
-    anchorDirection: 'left',
+    additionalOptions: [],
     className: null,
     dateRange: undefined,
     disabled: false,
@@ -75,16 +73,32 @@ class DateRangePicker extends PureComponent {
     withUtc: true,
   };
 
+  popupRef = React.createRef();
+
   state = {
     dateKeyToSelect: 'from', // # used for detecting which date range point is selecting
     selectedAdditional: undefined,
     selectedDateRange: undefined,
     showPopup: false,
+    anchorDirection: 'left',
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (!isEqual(this.props, prevProps)) {
       this.setInitialState();
+    }
+
+    // Auto detect anchor direction depends on screen width
+    if (this.state.showPopup && !prevState.showPopup) {
+      const { left, right } = this.popupRef.current.getBoundingClientRect();
+
+      if (left < 0) {
+        this.setState({ anchorDirection: 'left' }); // eslint-disable-line
+      }
+
+      if (right > window.innerWidth) {
+        this.setState({ anchorDirection: 'right' }); // eslint-disable-line
+      }
     }
   }
 
@@ -394,7 +408,6 @@ class DateRangePicker extends PureComponent {
     const {
       additionalOptions,
       additionalValues,
-      anchorDirection,
       className,
       disabled,
       error,
@@ -416,6 +429,7 @@ class DateRangePicker extends PureComponent {
       selectedAdditional,
       selectedDateRange,
       showPopup,
+      anchorDirection,
     } = this.state;
 
     const momentFrom = this.getValidMomentDate(selectedDateRange?.from);
@@ -496,6 +510,7 @@ class DateRangePicker extends PureComponent {
 
           <If condition={showPopup}>
             <div
+              ref={this.popupRef}
               className={classNames('DateRangePicker__popup', {
                 'DateRangePicker__popup--with-additional': withAdditional,
                 'DateRangePicker__popup--anchor-right': anchorDirection === 'right',
@@ -536,7 +551,7 @@ class DateRangePicker extends PureComponent {
               <div className="DateRangePicker__popup-column">
                 <If condition={withAdditional}>
                   <DatePickerAdditional
-                    additionalOptions={additionalOptions}
+                    additionalOptions={[...defaultAdditionalOptions(), ...additionalOptions]}
                     additionalValues={additionalValues}
                     selectedAdditional={selectedAdditional}
                     handleAdditionalClick={this.handleAdditionalClick}

@@ -115,7 +115,6 @@ class PartnersGridFilter extends PureComponent {
                   from: 'registrationDateFrom',
                   to: 'registrationDateTo',
                 }}
-                anchorDirection="right"
                 withFocus
               />
             </div>

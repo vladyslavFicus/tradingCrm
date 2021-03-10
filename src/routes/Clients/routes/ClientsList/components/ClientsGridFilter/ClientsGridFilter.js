@@ -3,8 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { intersection } from 'lodash';
 import classNames from 'classnames';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
+import Trackify from '@hrzn/trackify';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
@@ -17,17 +18,20 @@ import { kycStatusesLabels } from 'constants/kycStatuses';
 import { warningLabels } from 'constants/warnings';
 import { filterSetTypes } from 'constants/filterSet';
 import { withStorage } from 'providers/StorageProvider';
+import { withPermission } from 'providers/PermissionsProvider';
 import {
   FormikInputField,
   FormikSelectField,
   FormikDateRangePicker,
 } from 'components/Formik';
-import { RangeGroup } from 'components/Forms';
+import { DynamicField as Field, DynamicRangeGroup as RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
+import DynamicFiltersButton from 'components/DynamicFiltersButton';
+import ReactSwitch from 'components/ReactSwitch';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
@@ -46,6 +50,8 @@ import './ClientsGridFilter.scss';
 class ClientsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withPermission.propTypes,
+    ...withStorage.propTypes,
     auth: PropTypes.auth.isRequired,
     clientsLoading: PropTypes.bool.isRequired,
     desksAndTeamsQuery: PropTypes.query({
@@ -127,6 +133,17 @@ class ClientsGridFilter extends PureComponent {
     });
   };
 
+  /**
+   * Handle showing filters new or old implementation
+   *
+   * @param enabled
+   */
+  handleToggleFilterPanel = (enabled) => {
+    Trackify.click('CLIENTS_GRID_SWITCH_TO_OLD_FILTER_PANEL', { eventValue: enabled.toString() });
+
+    this.props.storage.set('isOldClientsGridFilterPanel', enabled);
+  };
+
   render() {
     const {
       location: { state },
@@ -135,6 +152,7 @@ class ClientsGridFilter extends PureComponent {
       partnersQuery,
       handleRefetch,
       desksAndTeamsQuery,
+      permission,
       partnersQuery: { loading: isPartnersLoading },
       operatorsQuery: { loading: isOperatorsLoading },
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
@@ -145,7 +163,7 @@ class ClientsGridFilter extends PureComponent {
     const partners = partnersQuery.data?.partners?.content || [];
 
     return (
-      <FiltersToggler>
+      <FiltersToggler hideButton viewPortMarginTop={156}>
         <Formik
           enableReinitialize
           onSubmit={this.handleSubmit}
@@ -171,6 +189,67 @@ class ClientsGridFilter extends PureComponent {
                   setValues(filterSetValues);
                   handleSubmit();
                 }}
+                renderBefore={(
+                  <>
+                    <ReactSwitch
+                      stopPropagation
+                      className="ClientsGridFilter__old-filters"
+                      label={I18n.t('COMMON.BUTTONS.OLD_FILTERS')}
+                      labelPosition="bottom"
+                      onClick={this.handleToggleFilterPanel}
+                    />
+                    <DynamicFiltersButton
+                      className="ClientsGridFilter__add-filter-button"
+                      storageKey="clientsGridFilterFields"
+                      defaultFilters={[
+                        'searchByIdentifiers',
+                        'activityStatus',
+                        'registrationDateRange',
+                        'searchLimit',
+                      ]}
+                      filters={{
+                        searchByIdentifiers: I18n.t('COMMON.SEARCH_BY.CLIENT'),
+                        searchByAffiliateIdentifiers: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
+                        migrationId: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
+                        activityStatus: I18n.t(attributeLabels.activityStatus),
+                        languages: I18n.t(attributeLabels.languages),
+                        countries: I18n.t(attributeLabels.countries),
+                        desks: I18n.t(attributeLabels.desks),
+                        teams: I18n.t(attributeLabels.teams),
+                        operators: I18n.t(attributeLabels.operators),
+                        ...(
+                          permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
+                          && { affiliateUuids: I18n.t(attributeLabels.affiliateUuids) }
+                        ),
+                        isReferrered: I18n.t(attributeLabels.isReferrered),
+                        statuses: I18n.t(attributeLabels.statuses),
+                        acquisitionStatus: I18n.t(attributeLabels.acquisitionStatus),
+                        salesStatuses: I18n.t(attributeLabels.salesStatuses),
+                        retentionStatuses: I18n.t(attributeLabels.retentionStatuses),
+
+                        /* Only Admin and CS Head of department can see unassigned clients */
+                        ...(
+                          ['ADMINISTRATION', 'CS'].includes(department)
+                          && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
+                          && { assignStatus: I18n.t(attributeLabels.assignStatus) }
+                        ),
+                        kycStatuses: I18n.t(attributeLabels.kycStatuses),
+                        firstTimeDeposit: I18n.t(attributeLabels.firstTimeDeposit),
+                        warnings: I18n.t(attributeLabels.warnings),
+                        balanceRange: I18n.t(attributeLabels.balance),
+                        depositsCountRange: I18n.t(attributeLabels.deposit),
+                        registrationDateRange: I18n.t(attributeLabels.registrationDate),
+                        firstDepositDateRange: I18n.t(attributeLabels.firstDepositDateRange),
+                        firstNoteDateRange: I18n.t(attributeLabels.firstNoteDateRange),
+                        lastNoteDateRange: I18n.t(attributeLabels.lastNoteDateRange),
+                        lastTradeDateRange: I18n.t(attributeLabels.lastTradeDateRange),
+                        lastLoginDateRange: I18n.t(attributeLabels.lastLoginDateRange),
+                        lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
+                        searchLimit: I18n.t(attributeLabels.searchLimit),
+                      }}
+                    />
+                  </>
+                )}
               >
                 <Form className="ClientsGridFilter__form">
                   <div className="ClientsGridFilter__fields">
@@ -519,6 +598,7 @@ class ClientsGridFilter extends PureComponent {
                     </Field>
 
                     <RangeGroup
+                      name="balanceRange"
                       className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
                       label={I18n.t(attributeLabels.balance)}
                     >
@@ -543,6 +623,7 @@ class ClientsGridFilter extends PureComponent {
                     </RangeGroup>
 
                     <RangeGroup
+                      name="depositsCountRange"
                       className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
                       label={I18n.t(attributeLabels.deposit)}
                     >
@@ -565,6 +646,7 @@ class ClientsGridFilter extends PureComponent {
                     </RangeGroup>
 
                     <Field
+                      name="registrationDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.registrationDate)}
                       component={FormikDateRangePicker}
@@ -572,11 +654,11 @@ class ClientsGridFilter extends PureComponent {
                         from: 'registrationDateRange.from',
                         to: 'registrationDateRange.to',
                       }}
-                      anchorDirection="left"
                       withFocus
                     />
 
                     <Field
+                      name="firstDepositDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.firstDepositDateRange)}
                       component={FormikDateRangePicker}
@@ -588,6 +670,7 @@ class ClientsGridFilter extends PureComponent {
                     />
 
                     <Field
+                      name="firstNoteDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.firstNoteDateRange)}
                       component={FormikDateRangePicker}
@@ -600,6 +683,7 @@ class ClientsGridFilter extends PureComponent {
                     />
 
                     <Field
+                      name="lastNoteDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastNoteDateRange)}
                       component={FormikDateRangePicker}
@@ -607,11 +691,11 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastNoteDateRange.from',
                         to: 'lastNoteDateRange.to',
                       }}
-                      anchorDirection="left"
                       withFocus
                     />
 
                     <Field
+                      name="lastTradeDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastTradeDateRange)}
                       component={FormikDateRangePicker}
@@ -623,6 +707,7 @@ class ClientsGridFilter extends PureComponent {
                     />
 
                     <Field
+                      name="lastLoginDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastLoginDateRange)}
                       component={FormikDateRangePicker}
@@ -635,6 +720,7 @@ class ClientsGridFilter extends PureComponent {
                     />
 
                     <Field
+                      name="lastModificationDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastModificationDateRange)}
                       component={FormikDateRangePicker}
@@ -642,7 +728,6 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastModificationDateRange.from',
                         to: 'lastModificationDateRange.to',
                       }}
-                      anchorDirection="left"
                       withFocus
                     />
 
@@ -697,6 +782,7 @@ class ClientsGridFilter extends PureComponent {
 export default compose(
   withStorage(['auth']),
   withRouter,
+  withPermission,
   withRequests({
     desksAndTeamsQuery: DesksAndTeamsQuery,
     operatorsQuery: OperatorsQuery,

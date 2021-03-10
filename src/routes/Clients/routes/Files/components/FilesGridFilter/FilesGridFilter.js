@@ -131,7 +131,6 @@ class FilesGridFilter extends PureComponent {
                   from: 'uploadedDateFrom',
                   to: 'uploadedDateTo',
                 }}
-                anchorDirection="right"
                 withFocus
               />
             </div>

@@ -191,7 +191,6 @@ class DistributionRulesFilters extends PureComponent {
                     from: 'createdDateFrom',
                     to: 'createdDateTo',
                   }}
-                  anchorDirection="right"
                   withFocus
                 />
                 <Field

@@ -123,7 +123,7 @@ class PartnersGrid extends PureComponent {
       <div className="PartnersGrid">
         <Table
           stickyFirstColumn
-          stickyFromTop={138}
+          stickyFromTop={136}
           items={content}
           sorts={state?.sorts}
           loading={loading}

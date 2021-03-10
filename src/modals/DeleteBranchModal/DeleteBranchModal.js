@@ -80,13 +80,22 @@ class DeleteBranchModal extends PureComponent {
               <div>{I18n.t('MODALS.DELETE_BRANCH_MODAL.ERRORS.COMMON', { name })}</div>
               <ul className="DeleteBranchModal__errors-list">
                 <If condition={errors.subbranches > 0}>
-                  <li>{I18n.t('MODALS.DELETE_BRANCH_MODAL.ERRORS.SUBBRANCHES', { count: errors.subbranches })}</li>
+                  <li>
+                    {I18n.t(`MODALS.DELETE_BRANCH_MODAL.ERRORS.${errors.subbranches > 1 ? 'SUBBRANCHES' : 'SUBBRANCH'}`,
+                      { count: errors.subbranches })}
+                  </li>
                 </If>
                 <If condition={errors.operators > 0}>
-                  <li>{I18n.t('MODALS.DELETE_BRANCH_MODAL.ERRORS.OPERATORS', { count: errors.operators })}</li>
+                  <li>
+                    {I18n.t(`MODALS.DELETE_BRANCH_MODAL.ERRORS.${errors.operators > 1 ? 'OPERATORS' : 'OPERATOR'}`,
+                      { count: errors.operators })}
+                  </li>
                 </If>
                 <If condition={errors.rules > 0}>
-                  <li>{I18n.t('MODALS.DELETE_BRANCH_MODAL.ERRORS.RULES', { count: errors.rules })}</li>
+                  <li>
+                    {I18n.t(`MODALS.DELETE_BRANCH_MODAL.ERRORS.${errors.rules > 1 ? 'RULES' : 'RULE'}`,
+                      { count: errors.rules })}
+                  </li>
                 </If>
               </ul>
             </div>

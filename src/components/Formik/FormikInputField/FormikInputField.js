@@ -23,6 +23,12 @@ class FormikInputField extends PureComponent {
     withFocus: false,
   };
 
+  isValueExist = () => {
+    const { field: { value } } = this.props;
+
+    return value !== undefined && value !== null;
+  };
+
   render() {
     const {
       field: {
@@ -44,7 +50,7 @@ class FormikInputField extends PureComponent {
         value={value !== null ? value : ''}
         onChange={onChange}
         error={get(errors, name)}
-        isFocused={withFocus && !!value && eq(initialValues[name], value)}
+        isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
         {...omit(input, ['staticContext'])}
       />
     );

@@ -397,11 +397,8 @@ class ClientsGrid extends PureComponent {
 
     const isAvailableMultiSelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
-    const clients = clientsQuery?.data?.profiles;
-    const searchLimit = location?.state?.filters?.searchLimit || null;
-
-    const { response } = limitItems(clients, location);
-    const { content, last } = response || { content: [], last: true };
+    const { response } = limitItems(clientsQuery?.data?.profiles, location);
+    const clients = response || { content: [], last: true };
 
     // Show loader only if initial load or new variables was applied
     const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(clientsQuery.networkStatus);
@@ -409,11 +406,11 @@ class ClientsGrid extends PureComponent {
     return (
       <div className="ClientsGrid">
         <Table
-          stickyFromTop={158}
-          items={content}
-          totalCount={searchLimit || clients?.totalElements}
+          stickyFromTop={156}
+          items={clients.content}
+          totalCount={clients.totalElements}
           loading={isLoading}
-          hasMore={!last}
+          hasMore={!clients.last}
           onMore={this.handlePageChanged}
           sorts={location?.state?.sorts}
           onSort={this.handleSort}

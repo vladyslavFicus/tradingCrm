@@ -48,7 +48,6 @@ class AddTargetBrandModal extends PureComponent {
   state = {
     operatorsByBrand: [],
     operatorsLoading: false,
-    sourceBrandQuantity: null,
     availableClientsAmount: null,
   }
 
@@ -59,9 +58,8 @@ class AddTargetBrandModal extends PureComponent {
 
     if (targetBrandId) {
       this.fetchOperatorsByBrand(targetBrandId);
+      this.fetchAvailableClientsAmount(targetBrandId);
     }
-
-    this.fetchAvailableClientsAmount();
   }
 
   fetchOperatorsByBrand = async (brandId) => {
@@ -95,7 +93,7 @@ class AddTargetBrandModal extends PureComponent {
    * #1 fetch and compute source brand available amount and cache it
    * #2 then, if targetBrand is available, fetch and compute target brand available amount
    */
-  fetchAvailableClientsAmount = async () => {
+  fetchAvailableClientsAmount = async (targetBrand) => {
     const {
       sourceBrandQuantity,
       fetchAvailableClientsAmount,
@@ -103,40 +101,21 @@ class AddTargetBrandModal extends PureComponent {
         distributionUnit: {
           baseUnit,
         },
-        brand: targetBrand,
       },
     } = this.props;
 
     try {
-      let computedSourceBrandQuantity = sourceBrandQuantity;
+      this.setState({ availableClientsAmount: null });
+
+      const totalAvailableTargetClientsAmount = await fetchAvailableClientsAmount(targetBrand);
+
+      let availableClientsAmount = Math.min(sourceBrandQuantity, totalAvailableTargetClientsAmount);
 
       if (baseUnit === 'PERCENTAGE') {
-        const availableSourceClientsAmount = await fetchAvailableClientsAmount();
-        computedSourceBrandQuantity = Math.floor(availableSourceClientsAmount * sourceBrandQuantity / 100);
+        availableClientsAmount = Math.floor(totalAvailableTargetClientsAmount / 100 * sourceBrandQuantity);
       }
 
-      this.setState({
-        sourceBrandQuantity: computedSourceBrandQuantity,
-      }, () => targetBrand && this.fetchAvailableTargetClientsAmount(targetBrand));
-    } catch {
-      // ...
-    }
-  };
-
-  fetchAvailableTargetClientsAmount = async (targetBrand) => {
-    const { fetchAvailableClientsAmount } = this.props;
-    const { sourceBrandQuantity } = this.state;
-
-    if (!sourceBrandQuantity) {
-      this.setState({ availableClientsAmount: 0 });
-      return;
-    }
-
-    this.setState({ availableClientsAmount: null });
-
-    try {
-      const availableClientsAmount = await fetchAvailableClientsAmount(targetBrand);
-      this.setState({ availableClientsAmount: Math.min(availableClientsAmount, sourceBrandQuantity) });
+      this.setState({ availableClientsAmount });
     } catch {
       // ...
     }
@@ -144,7 +123,7 @@ class AddTargetBrandModal extends PureComponent {
 
   handleBrandChange = setFieldValue => (targetBrandId) => {
     this.fetchOperatorsByBrand(targetBrandId);
-    this.fetchAvailableTargetClientsAmount(targetBrandId);
+    this.fetchAvailableClientsAmount(targetBrandId);
 
     setFieldValue('brand', targetBrandId);
   };

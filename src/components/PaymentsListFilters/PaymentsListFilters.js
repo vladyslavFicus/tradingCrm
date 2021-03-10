@@ -301,7 +301,6 @@ class PaymentsListFilters extends PureComponent {
                         from: 'statusChangedTimeFrom',
                         to: 'statusChangedTimeTo',
                       }}
-                      anchorDirection="left"
                       withFocus
                     />
                     <Field

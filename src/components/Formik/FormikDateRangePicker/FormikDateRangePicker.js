@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { omit, get } from 'lodash';
+import { omit, get, set } from 'lodash';
 import { DateRangePicker } from 'components/DatePickers';
 
 class FormikDateRangePicker extends PureComponent {
@@ -9,7 +9,7 @@ class FormikDateRangePicker extends PureComponent {
       initialValues: PropTypes.object.isRequired,
       values: PropTypes.object.isRequired,
       errors: PropTypes.object.isRequired,
-      setFieldValue: PropTypes.func.isRequired,
+      setValues: PropTypes.func.isRequired,
     }).isRequired,
     fieldsNames: PropTypes.shape({
       from: PropTypes.string,
@@ -59,7 +59,7 @@ class FormikDateRangePicker extends PureComponent {
     const {
       form: {
         values,
-        setFieldValue,
+        setValues,
       },
       fieldsNames,
       withFocus,
@@ -79,17 +79,13 @@ class FormikDateRangePicker extends PureComponent {
           to: get(values, fieldsNames.to),
         }}
         setValues={(_values) => {
-          if (_values.from) {
-            setFieldValue(fieldsNames.from, _values.from);
-          }
+          const newValues = {};
 
-          if (_values.to) {
-            setFieldValue(fieldsNames.to, _values.to);
-          }
+          set(newValues, fieldsNames.from, _values.from);
+          set(newValues, fieldsNames.to, _values.to);
+          set(newValues, fieldsNames.additional, _values.additional);
 
-          if (_values.additional) {
-            setFieldValue(fieldsNames.additional, _values.additional);
-          }
+          setValues({ ...values, ...newValues });
         }}
         withFocus={this.getPickerFocusState()}
       />

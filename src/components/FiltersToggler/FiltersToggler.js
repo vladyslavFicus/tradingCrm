@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { InView } from 'react-intersection-observer';
+import EventEmitter, {
+  FILTERS_TOGGLER_COLLAPSED,
+  FILTERS_TOGGLER_IN_VIEWPORT,
+} from 'utils/EventEmitter';
 import { ReactComponent as SwitcherIcon } from './icons/switcher.svg';
 import './FiltersToggler.scss';
 
@@ -8,14 +13,44 @@ class FiltersToggler extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
+    hideButton: PropTypes.bool,
+    viewPortMarginTop: PropTypes.number,
   };
 
   static defaultProps = {
     className: '',
+    hideButton: false,
+    viewPortMarginTop: 0,
   }
 
   state = {
     collapsed: false,
+  };
+
+  componentDidMount() {
+    EventEmitter.on(FILTERS_TOGGLER_COLLAPSED, this.onFiltersTogglerCollapsed);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.off(FILTERS_TOGGLER_COLLAPSED, this.onFiltersTogglerCollapsed);
+  }
+
+  /**
+   * Listener when collapse event was fired
+   *
+   * @param collapsed
+   */
+  onFiltersTogglerCollapsed = (collapsed) => {
+    this.setState({ collapsed });
+  };
+
+  /**
+   * Listener when filters toggler content changed state in viewport
+   *
+   * @param inViewport
+   */
+  onChangeViewport = (inViewport) => {
+    EventEmitter.emit(FILTERS_TOGGLER_IN_VIEWPORT, inViewport);
   };
 
   handleCollapse = () => {
@@ -23,7 +58,12 @@ class FiltersToggler extends PureComponent {
   };
 
   render() {
-    const { children, className } = this.props;
+    const {
+      children,
+      className,
+      hideButton,
+      viewPortMarginTop,
+    } = this.props;
     const { collapsed } = this.state;
 
     return (
@@ -35,17 +75,24 @@ class FiltersToggler extends PureComponent {
           })
         }
       >
-        <div className="FiltersToggler__actions">
-          <div
-            className="FiltersToggler__button"
-            onClick={this.handleCollapse}
-          >
-            <SwitcherIcon className="FiltersToggler__icon" />
+        <If condition={!hideButton}>
+          <div className="FiltersToggler__actions">
+            <div
+              className="FiltersToggler__button"
+              onClick={this.handleCollapse}
+            >
+              <SwitcherIcon className="FiltersToggler__icon" />
+            </div>
           </div>
-        </div>
+        </If>
 
         <If condition={children && !collapsed}>
-          {children}
+          <InView
+            onChange={this.onChangeViewport}
+            rootMargin={`-${viewPortMarginTop}px 0px 0px 0px`}
+          >
+            {children}
+          </InView>
         </If>
       </div>
     );

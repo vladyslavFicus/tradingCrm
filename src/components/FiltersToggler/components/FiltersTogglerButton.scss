@@ -1,0 +1,31 @@
+.FiltersTogglerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  background-color: #ffffff;
+  border: 1px solid #cfcfcf;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 2;
+
+  &:hover {
+    & .FiltersTogglerButton__icon {
+      fill: #5187bd;
+    }
+  }
+
+  &--collapsed {
+    & .FiltersTogglerButton__icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__icon {
+    fill: #cfcfcf;
+    transition: color .2s ease;
+    height: 17px;
+    width: 8px;
+  }
+}

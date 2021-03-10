@@ -3,13 +3,13 @@
   border-left: 1px solid #eee;
 
   &__items {
-    grid-column: span 2;
-    column-count: 2;
-    grid-gap: 30px;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   &__item {
     color: #000;
+    width: 50%;
     font-size: 15px;
     line-height: 30px;
     margin-bottom: 5px;
