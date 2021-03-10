@@ -39,6 +39,16 @@ export default [
           },
         },
       },
+      // Client's profile
+      {
+        id: 'profile',
+        actions: {
+          view: {
+            action: 'profile.admin.getProfile',
+            state: false,
+          },
+        },
+      },
       // Make deposit transaction
       {
         id: 'payment-deposit',
