@@ -10,7 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
 import renderLabel from 'utils/renderLabel';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatus from 'components/GridStatus';
@@ -105,20 +105,19 @@ class ClientReferralsGrid extends PureComponent {
 
     return (
       <div className="ClientReferralsGrid">
-        <Grid
-          data={content}
-          rowsClassNames={this.setActiveRowClass}
-          handleRowClick={this.handleRowClick}
-          isLoading={isLoading}
-          withLazyLoad={false}
+        <Table
+          stickyFromTop={123}
+          items={content}
+          loading={isLoading}
+          customClassNameRow={this.setActiveRowClass}
         >
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.NAME')}
             render={({ referralInfo, referralInfo: { name: fullName, profileUuid: uuid } }) => (
               <GridPlayerInfo profile={{ ...referralInfo, fullName, uuid }} />
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.COUNTRY')}
             render={({ referralInfo: { languageCode, countryCode } }) => (
               <Choose>
@@ -135,15 +134,15 @@ class ClientReferralsGrid extends PureComponent {
               </Choose>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.BONUS_TYPE')}
             render={({ bonusType }) => this.renderBonusType(bonusType)}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.REGISTRATION')}
             render={({ referralInfo: { registrationDate } }) => this.renderDate(registrationDate)}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.FTD_AMOUNT')}
             render={({ ftdInfo }) => {
               const { currency, amount, normalizedAmount } = ftdInfo || {};
@@ -153,7 +152,7 @@ class ClientReferralsGrid extends PureComponent {
               return this.renderAmount(currency, amount, normalizedAmount);
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.FTD_DATE')}
             render={({ ftdInfo }) => {
               const { date } = ftdInfo || {};
@@ -163,7 +162,7 @@ class ClientReferralsGrid extends PureComponent {
               return this.renderDate(date);
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.REMUNERATION')}
             render={({ remuneration }) => {
               const { currency, amount, normalizedAmount } = remuneration || {};
@@ -173,7 +172,7 @@ class ClientReferralsGrid extends PureComponent {
               return this.renderAmount(currency, amount, normalizedAmount);
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.REMUNERATION_DATE')}
             render={({ remuneration }) => {
               const { date } = remuneration || {};
@@ -183,7 +182,7 @@ class ClientReferralsGrid extends PureComponent {
               return this.renderDate(date);
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.SALES')}
             render={(data) => {
               const {
@@ -201,7 +200,7 @@ class ClientReferralsGrid extends PureComponent {
               });
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('REFERRALS.GRID.RETENTION')}
             render={(data) => {
               const {
@@ -219,7 +218,7 @@ class ClientReferralsGrid extends PureComponent {
               });
             }}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

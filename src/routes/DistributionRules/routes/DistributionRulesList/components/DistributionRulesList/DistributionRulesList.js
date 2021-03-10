@@ -17,7 +17,7 @@ import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ClientsDistributionModal from 'modals/ClientsDistributionModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
@@ -148,7 +148,10 @@ class DistributionRules extends PureComponent {
 
   renderRule = ({ uuid, name, createdBy }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div
+        className="font-weight-700 DistributionRulesList__rule-name"
+        onClick={() => this.handleRowClick(uuid)}
+      >
         {name}
       </div>
       <If condition={uuid}>
@@ -348,7 +351,7 @@ class DistributionRules extends PureComponent {
     </Choose>
   );
 
-  handleRowClick = ({ uuid }) => {
+  handleRowClick = (uuid) => {
     this.props.history.push(`/distribution/${uuid}/rule`);
   };
 
@@ -361,10 +364,10 @@ class DistributionRules extends PureComponent {
       },
     } = this.props;
 
-    const { last, totalElements, content } = data?.distributionRules || { content: [] };
+    const { last = true, content = [], totalElements } = data?.distributionRules || {};
 
     return (
-      <div className="DistributionRulesList card">
+      <div className="DistributionRulesList">
         <div className="card-heading card-heading--is-sticky">
           <ReactPlaceholder
             ready={!loading}
@@ -373,7 +376,8 @@ class DistributionRules extends PureComponent {
             )}
           >
             <span className="font-size-20">
-              {totalElements} {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
+              <strong>{totalElements} </strong>
+              {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
             </span>
           </ReactPlaceholder>
           <PermissionContent permissions={permissions.CLIENTS_DISTRIBUTION.CREATE_RULE}>
@@ -391,72 +395,66 @@ class DistributionRules extends PureComponent {
 
         <DistributionRulesFilters handleRefetch={refetch} />
 
-        <div className="card-body--table">
-          <Grid
-            data={content}
-            isLoading={loading}
-            isLastPage={last}
-            withLazyLoad
-            withRowsHover
-            headerStickyFromTop={127}
-            handleRowClick={this.handleRowClick}
-            handlePageChanged={this.handlePageChanged}
-            withNoResults={!loading && content.length === 0}
-          >
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE')}
-              render={this.renderRule}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULER_ORDER')}
-              render={this.renderOrder}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE_STATUS')}
-              render={this.renderStatus}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SOURCE_BRAND')}
-              render={this.renderFromBrands}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TARGET_BRAND')}
-              render={this.renderToBrands}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.COUNTRY')}
-              render={this.renderCountry}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LANGUAGES')}
-              render={this.renderLanguages}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SALES_STATUS')}
-              render={this.renderSalesStatus}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.CREATED_TIME')}
-              render={this.renderCreatedTime}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TIME_IN_STATUS')}
-              render={this.renderExecutionTime}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LAST_TIME_EXECUTED')}
-              render={this.renderLastTimeExecuted}
-            />
-            <GridColumn
-              header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.ACTION')}
-              render={value => (
-                <If condition={value.sourceBrandConfigs && value.targetBrandConfigs}>
-                  {this.renderActions(value)}
-                </If>
-              )}
-            />
-          </Grid>
-        </div>
+        <Table
+          stickyFromTop={126}
+          items={content}
+          onMore={this.handlePageChanged}
+          loading={loading}
+          hasMore={!last}
+        >
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE')}
+            render={this.renderRule}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULER_ORDER')}
+            render={this.renderOrder}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.RULE_STATUS')}
+            render={this.renderStatus}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SOURCE_BRAND')}
+            render={this.renderFromBrands}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TARGET_BRAND')}
+            render={this.renderToBrands}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.COUNTRY')}
+            render={this.renderCountry}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LANGUAGES')}
+            render={this.renderLanguages}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.SALES_STATUS')}
+            render={this.renderSalesStatus}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.CREATED_TIME')}
+            render={this.renderCreatedTime}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TIME_IN_STATUS')}
+            render={this.renderExecutionTime}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LAST_TIME_EXECUTED')}
+            render={this.renderLastTimeExecuted}
+          />
+          <Column
+            header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.ACTION')}
+            render={value => (
+              <If condition={value.sourceBrandConfigs && value.targetBrandConfigs}>
+                {this.renderActions(value)}
+              </If>
+            )}
+          />
+        </Table>
       </div>
     );
   }

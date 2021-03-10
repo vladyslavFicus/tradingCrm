@@ -1,6 +1,4 @@
 .CallbacksGrid {
-  padding: 0 25px 25px;
-
   &__info {
     &-main {
       font-weight: 700;
@@ -11,8 +9,13 @@
     }
   }
 
+  &__callback-id {
+    cursor: pointer;
+  }
+
   &__client {
     max-width: 250px;
+    cursor: pointer;
   }
 
   &__status {

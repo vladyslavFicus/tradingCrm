@@ -14,7 +14,6 @@
     align-items: center;
     padding: 25px;
     background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
     position: sticky;
     top: 48px;
     z-index: 2;
@@ -35,10 +34,5 @@
       transition: all 0.1s ease-in-out;
       cursor: pointer;
     }
-  }
-
-  &__body {
-    flex: 1 1 auto;
-    padding: 0 25px 25px;
   }
 }

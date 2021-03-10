@@ -22,6 +22,7 @@ import {
   UpdateFileStatusMutation,
   UpdateFileMetaMutation,
 } from './graphql';
+import './ClientFilesGrid.scss';
 
 class ClientFilesGrid extends PureComponent {
   static propTypes = {
@@ -208,27 +209,29 @@ class ClientFilesGrid extends PureComponent {
     return (
       <Choose>
         <When condition={verificationData.length}>
-          {
-            verificationData.map(({ documents, verificationType }) => (
-              documents.map(({ documentType, files, verificationStatus, verificationTime }) => (
-                <FileGrid
-                  key={`${verificationType}-${documentType}-${verificationTime}`}
-                  data={files}
-                  categories={categories}
-                  verificationType={verificationType}
-                  verificationStatus={verificationStatus}
-                  updateFileMeta={updateFileMeta}
-                  documentType={documentType}
-                  tokenRenew={tokenRenew}
-                  handlePageChanged={this.handlePageChanged}
-                  onStatusActionClick={this.handleStatusActionClick}
-                  onVerificationTypeActionClick={this.handleVerificationTypeClick}
-                  onChangeFileStatusActionClick={this.handleChangeFileStatusClick}
-                  onDownloadFileClick={this.handleDownloadFileClick}
-                />
+          <div className="ClientFilesGrid">
+            {
+              verificationData.map(({ documents, verificationType }) => (
+                documents.map(({ documentType, files, verificationStatus, verificationTime }) => (
+                  <FileGrid
+                    key={`${verificationType}-${documentType}-${verificationTime}`}
+                    data={files}
+                    categories={categories}
+                    verificationType={verificationType}
+                    verificationStatus={verificationStatus}
+                    updateFileMeta={updateFileMeta}
+                    documentType={documentType}
+                    tokenRenew={tokenRenew}
+                    handlePageChanged={this.handlePageChanged}
+                    onStatusActionClick={this.handleStatusActionClick}
+                    onVerificationTypeActionClick={this.handleVerificationTypeClick}
+                    onChangeFileStatusActionClick={this.handleChangeFileStatusClick}
+                    onDownloadFileClick={this.handleDownloadFileClick}
+                  />
+                ))
               ))
-            ))
-          }
+            }
+          </div>
         </When>
         <Otherwise>
           <NotFoundContent />

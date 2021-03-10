@@ -3527,6 +3527,7 @@
     "MODAL": {
       "TITLE": "Callback details",
       "OPERATOR": "Operator",
+      "CALLBACK_ID": "Callback ID",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
       "STATUS": "Status",

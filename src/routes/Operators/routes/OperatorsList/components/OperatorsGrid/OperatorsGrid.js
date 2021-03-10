@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/operators';
 import { Link } from 'components/Link';
 import MiniProfile from 'components/MiniProfile';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
 import './OperatorsGrid.scss';
@@ -39,14 +39,13 @@ class OperatorsGrid extends PureComponent {
     });
   };
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
         sorts,
-        sortData,
       },
     });
   };
@@ -112,41 +111,40 @@ class OperatorsGrid extends PureComponent {
       location: { state },
     } = this.props;
 
-    const { last, content } = operatorsQuery.data?.operators || {};
+    const { last = true, content = [] } = operatorsQuery.data?.operators || {};
 
     return (
       <div className="OperatorsGrid">
-        <Grid
-          data={content || []}
-          sorts={state?.sortData}
-          handleSort={this.handleSort}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={138}
-          isLoading={operatorsQuery.loading}
-          isLastPage={last}
-          withLazyLoad
+        <Table
+          stickyFromTop={137}
+          items={content}
+          sorts={state?.sorts}
+          loading={operatorsQuery.loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
+          onSort={this.handleSort}
         >
-          <GridColumn
+          <Column
             sortBy="firstName"
             header={I18n.t('OPERATORS.GRID_HEADER.OPERATOR')}
             render={this.renderOperator}
           />
-          <GridColumn
+          <Column
             sortBy="country"
             header={I18n.t('OPERATORS.GRID_HEADER.COUNTRY')}
             render={this.renderCountry}
           />
-          <GridColumn
+          <Column
             sortBy="registrationDate"
             header={I18n.t('OPERATORS.GRID_HEADER.REGISTERED')}
             render={this.renderRegistered}
           />
-          <GridColumn
+          <Column
             sortBy="operatorStatus"
             header={I18n.t('OPERATORS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

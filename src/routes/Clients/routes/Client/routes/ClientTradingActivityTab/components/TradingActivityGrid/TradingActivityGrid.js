@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import ChangeOriginalAgentModal from 'modals/ChangeOriginalAgentModal';
 import PropTypes from 'constants/propTypes';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
@@ -55,19 +55,18 @@ class TradingActivityGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content, last } = data?.tradingActivity || { content: [] };
+    const { content = [], last = true } = data?.tradingActivity || {};
 
     return (
       <div className="TradingActivityGrid">
-        <Grid
-          data={content}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={189}
-          isLoading={loading}
-          isLastPage={last}
-          withNoResults={!loading && !content.length}
+        <Table
+          stickyFromTop={189}
+          items={content}
+          loading={loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
         >
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADE')}
             render={({ tradeId, tradeType, originalAgent, platformType }) => (
               <Fragment>
@@ -94,7 +93,7 @@ class TradingActivityGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TYPE')}
             render={({ operationType }) => (
               <div
@@ -107,7 +106,7 @@ class TradingActivityGrid extends PureComponent {
               </div>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.TRADING_ACC')}
             render={({ login, symbol, platformType }) => (
               <Fragment>
@@ -118,7 +117,7 @@ class TradingActivityGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.ORIGINAL_AGENT')}
             render={({ originalAgent }) => (
               <Choose>
@@ -136,7 +135,7 @@ class TradingActivityGrid extends PureComponent {
               </Choose>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_PRICE')}
             render={({ openPrice, stopLoss, takeProfit }) => (
               <Fragment>
@@ -154,37 +153,37 @@ class TradingActivityGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.CLOSE_PRICE')}
             render={({ closePrice, closeTime }) => (
               <div className="TradingActivityGrid__cell-value">{closeTime ? closePrice : '-'}</div>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.VOLUME')}
             render={({ volume }) => (
               <div className="TradingActivityGrid__cell-value">{volume}</div>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.COMISSION')}
             render={({ commission }) => (
               <div className="TradingActivityGrid__cell-value">{Number(commission).toFixed(2)}</div>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.SWAP')}
             render={({ swap }) => (
               <div className="TradingActivityGrid__cell-value">{swap}</div>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.P&L')}
             render={({ profit }) => (
               <div className="TradingActivityGrid__cell-value">{profit}</div>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.OPEN_TIME')}
             render={({ openTime }) => (
               <Fragment>
@@ -197,7 +196,7 @@ class TradingActivityGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.CLOSE_TIME')}
             render={({ closeTime }) => (
               <Fragment>
@@ -219,7 +218,7 @@ class TradingActivityGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.GRID_VIEW.STATUS')}
             render={({ tradeStatus }) => (
               <div
@@ -232,7 +231,7 @@ class TradingActivityGrid extends PureComponent {
               </div>
             )}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

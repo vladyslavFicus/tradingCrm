@@ -4,9 +4,10 @@ import { compose } from 'react-apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
+import Uuid from 'components/Uuid';
 import { shortify } from 'utils/uuid';
 import PaymentDetailsModal from 'modals/PaymentDetailsModal';
-import Uuid from '../Uuid';
+import './GridPaymentInfo.scss';
 
 class GridPaymentInfo extends PureComponent {
   static propTypes = {
@@ -38,20 +39,19 @@ class GridPaymentInfo extends PureComponent {
 
     return (
       <div id={`payment-${paymentId}`}>
-        <Badge
-          text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${accountType}`)}
-          info={accountType === 'DEMO'}
-          success={accountType === 'LIVE'}
+        <div
+          id={`transaction-${paymentId}`}
+          className="GridPaymentInfo__transaction-id"
+          onClick={this.handleOpenDetailModal}
         >
-          <button
-            type="button"
-            className="btn-transparent-text font-weight-700"
-            onClick={this.handleOpenDetailModal}
-            id={`transaction-${paymentId}`}
+          <Badge
+            text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${accountType}`)}
+            info={accountType === 'DEMO'}
+            success={accountType === 'LIVE'}
           >
             {shortify(paymentId, 'TA')}
-          </button>
-        </Badge>
+          </Badge>
+        </div>
         <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={createdBy || paymentId} />

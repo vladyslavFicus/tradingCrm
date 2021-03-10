@@ -12,11 +12,17 @@
     justify-content: space-between;
   }
 
+  &__header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    min-height: 39px;
+  }
+
   &__heading {
-    height: 29px;
     font-size: 18px;
     font-weight: normal;
     color: #333;
-    margin-bottom: 20px;
   }
 }

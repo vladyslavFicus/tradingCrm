@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withModals } from 'hoc';
+import { shortify } from 'utils/uuid';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { callbacksStatuses } from 'constants/callbacks';
 import CallbackDetailsModal from 'modals/CallbackDetailsModal';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import './CallbacksGrid.scss';
@@ -39,7 +40,7 @@ class CallbacksGrid extends PureComponent {
     }
   };
 
-  handleOpenDetailsModal = ({ callbackId }) => {
+  handleOpenDetailsModal = (callbackId) => {
     this.props.modals.callbackDetailsModal.show({ callbackId });
   };
 
@@ -52,8 +53,11 @@ class CallbacksGrid extends PureComponent {
 
   renderId = ({ callbackId, operatorId }) => (
     <Fragment>
-      <div className="CallbacksGrid__info-main">
-        <Uuid uuid={callbackId} uuidPrefix="CB" />
+      <div
+        className="CallbacksGrid__info-main CallbacksGrid__callback-id"
+        onClick={() => this.handleOpenDetailsModal(callbackId)}
+      >
+        {shortify(callbackId, 'CB')}
       </div>
       <div className="CallbacksGrid__info-secondary">
         {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
@@ -151,67 +155,54 @@ class CallbacksGrid extends PureComponent {
       callbacksData: { loading },
     } = this.props;
 
-    const callbacks = get(callbacksData, 'data.callbacks') || { content: [] };
+    const { content = [], last = true } = callbacksData.data?.callbacks || {};
 
     return (
       <div className="CallbacksGrid">
-        <Grid
-          data={callbacks.content}
-          handleRowClick={this.handleOpenDetailsModal}
-          handlePageChanged={this.handlePageChanged}
-          isLoading={loading}
-          isLastPage={callbacks.last}
-          withRowsHover
-          withLazyLoad
-          lazyLoad
-          headerStickyFromTop={129}
-          withNoResults={callbacks.content.length === 0 && !loading}
+        <Table
+          stickyFromTop={128}
+          items={content}
+          loading={loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
         >
-          <GridColumn
-            name="id"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
             render={this.renderId}
           />
-          <GridColumn
-            name="operatorId"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.OPERATOR')}
             render={this.renderOperator}
           />
-          <GridColumn
-            name="userId"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.CLIENT')}
             render={this.renderUser}
           />
-          <GridColumn
-            name="callbackTime"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.TIME')}
             render={callback => this.renderDateTime(callback, 'callbackTime')}
           />
-          <GridColumn
-            name="creationTime"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.CREATED')}
             render={callback => this.renderDateTime(callback, 'creationTime')}
           />
-          <GridColumn
-            name="updateTime"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.MODIFIED')}
             render={callback => this.renderDateTime(callback, 'updateTime')}
           />
-          <GridColumn
-            name="status"
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.REMINDER')}
             render={this.renderReminder}
           />
-          <GridColumn
-            name="actions"
+          <Column
             header=""
             render={this.renderActions}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

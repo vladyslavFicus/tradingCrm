@@ -16,7 +16,7 @@ import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import { Button, EditButton } from 'components/UI';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
@@ -356,7 +356,8 @@ class SalesRules extends PureComponent {
             )}
           >
             <span className="font-size-20">
-              {entities.length} {I18n.t('SALES_RULES.TITLE')}
+              <strong>{entities.length} </strong>
+              {I18n.t('SALES_RULES.TITLE')}
             </span>
           </ReactPlaceholder>
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
@@ -383,63 +384,50 @@ class SalesRules extends PureComponent {
           type={type}
         />
 
-        <div className="SalesRules__grid">
-          <Grid
-            data={entities}
-            isLoading={isLoadingRules}
-            isLastPage
-            headerStickyFromTop={127}
-            withNoResults={!isLoadingRules && entities.length === 0}
-          >
-            <GridColumn
-              name="rule"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}
-              render={this.renderRule}
+        <Table
+          stickyFromTop={126}
+          items={entities}
+          loading={isLoadingRules}
+        >
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}
+            render={this.renderRule}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.COUNTRY')}
+            render={this.renderRuleInfo(infoConfig.countries)}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
+            render={this.renderPriority}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
+            render={this.renderRuleInfo(infoConfig.languages)}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
+            render={this.renderPartner}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.OPERATOR')}
+            render={this.renderOperator}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RATIO')}
+            render={this.renderRatio}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
+            render={this.renderRuleInfo(infoConfig.sources)}
+          />
+          <If condition={isDeleteRuleAvailable}>
+            <Column
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
+              render={this.renderActions}
             />
-            <GridColumn
-              name="countries"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.COUNTRY')}
-              render={this.renderRuleInfo(infoConfig.countries)}
-            />
-            <GridColumn
-              name="priority"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
-              render={this.renderPriority}
-            />
-            <GridColumn
-              name="languages"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
-              render={this.renderRuleInfo(infoConfig.languages)}
-            />
-            <GridColumn
-              name="partners"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
-              render={this.renderPartner}
-            />
-            <GridColumn
-              name="operators"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.OPERATOR')}
-              render={this.renderOperator}
-            />
-            <GridColumn
-              name="ratio"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RATIO')}
-              render={this.renderRatio}
-            />
-            <GridColumn
-              name="sources"
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
-              render={this.renderRuleInfo(infoConfig.sources)}
-            />
-            <If condition={isDeleteRuleAvailable}>
-              <GridColumn
-                name="delete"
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-                render={this.renderActions}
-              />
-            </If>
-          </Grid>
-        </div>
+          </If>
+        </Table>
       </div>
     );
   }

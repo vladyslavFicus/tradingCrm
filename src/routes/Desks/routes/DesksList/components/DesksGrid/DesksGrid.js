@@ -8,7 +8,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
 import { EditButton, Button } from 'components/UI';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
@@ -114,30 +114,30 @@ class DesksGrid extends PureComponent {
 
     return (
       <div className="DesksGrid">
-        <Grid
-          data={desks}
-          isLoading={isLoading}
-          headerStickyFromTop={138}
+        <Table
+          stickyFromTop={137}
+          items={desks}
+          loading={isLoading}
         >
-          <GridColumn
+          <Column
             header={I18n.t('DESKS.GRID_HEADER.DESK')}
             render={this.renderDeskCell}
           />
-          <GridColumn
+          <Column
             header={I18n.t('DESKS.GRID_HEADER.OFFICE')}
             render={this.renderOfficeCell}
           />
-          <GridColumn
+          <Column
             header={I18n.t('DESKS.GRID_HEADER.DESK_TYPE')}
             render={this.renderDeskTypesCell}
           />
           <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
-            <GridColumn
+            <Column
               header={I18n.t('DESKS.GRID_HEADER.ACTIONS')}
               render={this.renderActions}
             />
           </If>
-        </Grid>
+        </Table>
       </div>
     );
   }

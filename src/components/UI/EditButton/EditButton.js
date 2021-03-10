@@ -19,6 +19,7 @@ class EditButton extends PureComponent {
 
     return (
       <Button
+        transparent
         className={classNames('EditButton', className)}
         {...props}
       >

@@ -2,11 +2,16 @@
   &__action {
     background: transparent;
     border: none;
+    padding: 0;
   }
 
   &__actions-icon {
     &:hover {
       fill: #4990e2;
     }
+  }
+
+  &__rule-name {
+    cursor: pointer;
   }
 }

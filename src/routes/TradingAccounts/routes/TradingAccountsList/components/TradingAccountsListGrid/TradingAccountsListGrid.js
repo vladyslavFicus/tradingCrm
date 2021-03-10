@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
 import { accountTypesLabels } from 'constants/accountTypes';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
@@ -62,8 +62,8 @@ class TradingAccountsListGrid extends PureComponent {
     </Fragment>
   );
 
-  renderCreditColumn = ({ credit }) => (
-    <div className="font-weight-700">{Number(credit).toFixed(2)}</div>
+  renderCreditColumn = ({ credit, currency }) => (
+    <div className="font-weight-700">{currency} {Number(credit).toFixed(2)}</div>
   );
 
   render() {
@@ -74,28 +74,26 @@ class TradingAccountsListGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content, last } = get(tradingAccountsData, 'data.tradingAccounts') || { content: [] };
+    const { content = [], last = true } = tradingAccountsData.data?.tradingAccounts || {};
 
     return (
       <div className="TradingAccountsListGrid">
-        <Grid
-          data={content}
-          handlePageChanged={this.handlePageChanged}
-          isLoading={loading}
-          isLastPage={last}
-          headerStickyFromTop={126}
-          withNoResults={!loading && content.length === 0}
-          withLazyLoad
+        <Table
+          stickyFromTop={125}
+          items={content}
+          loading={loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
         >
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.LOGIN')}
             render={this.renderLoginColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.ACCOUNT_ID')}
             render={this.renderTradingAccountColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.PROFILE')}
             render={({ profile }) => (
               <If condition={profile}>
@@ -103,15 +101,20 @@ class TradingAccountsListGrid extends PureComponent {
               </If>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.SOURCE_NAME')}
             render={({ affiliate }) => (
-              <If condition={affiliate && affiliate.source}>
-                <div>{affiliate.source}</div>
-              </If>
+              <Choose>
+                <When condition={affiliate && affiliate.source}>
+                  <div>{affiliate.source}</div>
+                </When>
+                <Otherwise>
+                  <span>&mdash;</span>
+                </Otherwise>
+              </Choose>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.DATE')}
             render={({ createdAt }) => (
               <If condition={createdAt}>
@@ -124,27 +127,25 @@ class TradingAccountsListGrid extends PureComponent {
               </If>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.CREDIT')}
             render={this.renderCreditColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.LEVERAGE')}
             render={({ leverage }) => (
               <If condition={leverage}>
-                <div>{leverage}</div>
+                <div className="font-weight-700">{leverage}</div>
               </If>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.BALANCE')}
             render={({ balance, currency }) => (
-              <If condition={balance && currency}>
-                <div>{currency} {balance}</div>
-              </If>
+              <div className="font-weight-700">{currency} {Number(balance).toFixed(2)}</div>
             )}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

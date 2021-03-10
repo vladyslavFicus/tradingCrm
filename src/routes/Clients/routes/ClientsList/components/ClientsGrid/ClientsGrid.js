@@ -406,7 +406,7 @@ class ClientsGrid extends PureComponent {
     return (
       <div className="ClientsGrid">
         <Table
-          stickyFromTop={156}
+          stickyFromTop={157}
           items={clients.content}
           totalCount={clients.totalElements}
           loading={isLoading}

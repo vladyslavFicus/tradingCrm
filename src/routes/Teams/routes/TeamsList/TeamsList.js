@@ -48,7 +48,10 @@ class TeamsList extends PureComponent {
     return (
       <div className="TeamsList">
         <div className="TeamsList__header">
-          <div className="TeamsList__title">{totalCount} {I18n.t('TEAMS.TEAMS')}</div>
+          <div className="TeamsList__title">
+            <strong>{totalCount} </strong>
+            {I18n.t('TEAMS.TEAMS')}
+          </div>
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <Button
               onClick={this.handleOpenAddTeamModal}

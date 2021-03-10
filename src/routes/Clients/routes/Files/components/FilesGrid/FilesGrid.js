@@ -5,8 +5,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { categoriesLabels, documentsTypeLabels } from 'constants/files';
 import { Link } from 'components/Link';
-import Grid, { GridColumn } from 'components/Grid';
-import GridEmptyValue from 'components/GridEmptyValue';
+import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import './FilesGrid.scss';
 
@@ -81,7 +80,7 @@ class FilesGrid extends PureComponent {
         <div className="FilesGrid__date">{moment.utc(expirationDate).local().format('DD.MM.YYYY')}</div>
       </When>
       <Otherwise>
-        <GridEmptyValue />
+        <span>&mdash;</span>
       </Otherwise>
     </Choose>
   );
@@ -117,50 +116,48 @@ class FilesGrid extends PureComponent {
     const { filesQuery } = this.props;
 
     const isLoading = filesQuery.loading;
-    const isLastPage = get(filesQuery, 'data.files.last');
-    const files = get(filesQuery, 'data.files.content') || [];
+    const { content = [], last = true } = filesQuery.data?.files || {};
 
     return (
       <div className="FilesGrid">
-        <Grid
-          data={files}
-          isLoading={isLoading}
-          isLastPage={isLastPage}
-          headerStickyFromTop={129}
-          handlePageChanged={this.handlePageChanged}
-          withNoResults={!isLoading && files.length === 0}
+        <Table
+          stickyFromTop={128}
+          items={content}
+          loading={isLoading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
         >
-          <GridColumn
+          <Column
             name="fullName"
             header={I18n.t('FILES.GRID.COLUMN.CLIENT')}
             render={this.renderFullName}
           />
-          <GridColumn
+          <Column
             name="fileName"
             header={I18n.t('FILES.GRID.COLUMN.NAME')}
             render={this.renderFileName}
           />
-          <GridColumn
+          <Column
             name="expirationTime"
             header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
             render={this.renderExpirationTime}
           />
-          <GridColumn
+          <Column
             name="date"
             header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
             render={this.renderDate}
           />
-          <GridColumn
+          <Column
             name="category"
             header={I18n.t('FILES.GRID.COLUMN.CATEGORY')}
             render={this.renderCategory}
           />
-          <GridColumn
+          <Column
             name="documentType"
             header={I18n.t('FILES.GRID.COLUMN.DOCUMENT_TYPE')}
             render={this.renderDocumentType}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

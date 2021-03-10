@@ -3,11 +3,12 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
+import { shortify } from 'utils/uuid';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { callbacksStatuses } from 'constants/callbacks';
 import CallbackDetailsModal from 'modals/CallbackDetailsModal';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import './ClientCallbacksGrid.scss';
@@ -35,14 +36,17 @@ class ClientCallbacksGrid extends PureComponent {
     loadMore(currentPage + 1);
   };
 
-  handleOpenDetailsModal = ({ callbackId }) => {
+  handleOpenDetailsModal = (callbackId) => {
     this.props.modals.callbackDetailsModal.show({ callbackId });
   };
 
   renderId = ({ callbackId, operatorId }) => (
     <Fragment>
-      <div className="ClientCallbacksGrid__info-main">
-        <Uuid uuid={callbackId} uuidPrefix="CB" />
+      <div
+        className="ClientCallbacksGrid__info-main ClientCallbacksGrid__callback-id"
+        onClick={() => this.handleOpenDetailsModal(callbackId)}
+      >
+        {shortify(callbackId, 'CB')}
       </div>
       <div className="ClientCallbacksGrid__info-secondary">
         {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
@@ -140,55 +144,50 @@ class ClientCallbacksGrid extends PureComponent {
       clientCallbacksQuery: { loading },
     } = this.props;
 
-    const callbacks = clientCallbacksQuery.data?.callbacks || { content: [] };
+    const { content = [], last = true } = clientCallbacksQuery.data?.callbacks || {};
 
     return (
       <div className="ClientCallbacksGrid">
-        <Grid
-          data={callbacks.content}
-          handleRowClick={this.handleOpenDetailsModal}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={189}
-          isLoading={loading}
-          isLastPage={callbacks.last}
-          withRowsHover
-          withLazyLoad
-          lazyLoad
-          withNoResults={callbacks.content.length === 0 && !loading}
+        <Table
+          stickyFromTop={189}
+          items={content}
+          loading={loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
         >
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
             render={this.renderId}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.OPERATOR')}
             render={this.renderOperator}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.TIME')}
             render={callback => this.renderDateTime(callback, 'callbackTime')}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.CREATED')}
             render={callback => this.renderDateTime(callback, 'creationTime')}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.MODIFIED')}
             render={callback => this.renderDateTime(callback, 'updateTime')}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CALLBACKS.GRID_HEADER.REMINDER')}
             render={this.renderReminder}
           />
-          <GridColumn
+          <Column
             header=""
             render={this.renderActions}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

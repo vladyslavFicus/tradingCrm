@@ -11,7 +11,7 @@ import {
 } from 'constants/user';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -42,21 +42,18 @@ class ClientsGrid extends PureComponent {
     const profiles = get(clientsQuery, 'data.profiles.content') || [];
 
     return (
-      <div className="DashboardClientsGrid card">
-        <Grid
-          data={profiles}
-          isLoading={loading}
-          handleRowClick={this.handleRowClick}
-          withLazyLoad={false}
-          withRowsHover
+      <div className="DashboardClientsGrid">
+        <Table
+          items={profiles}
+          loading={loading}
         >
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
             render={data => (
               <GridPlayerInfo profile={data} />
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={({ address: { countryCode }, languageCode }) => (
               <Choose>
@@ -73,7 +70,7 @@ class ClientsGrid extends PureComponent {
               </Choose>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
             render={(data) => {
               const currency = getBrand().currencies.base;
@@ -93,7 +90,7 @@ class ClientsGrid extends PureComponent {
               );
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
             render={(data) => {
               const paymentDetails = get(data, 'paymentDetails') || {};
@@ -114,7 +111,7 @@ class ClientsGrid extends PureComponent {
               );
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE')}
             render={(data) => {
               const { uuid, partner } = get(data, 'affiliate') || {};
@@ -134,7 +131,7 @@ class ClientsGrid extends PureComponent {
               );
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
             render={(data) => {
               const {
@@ -168,7 +165,7 @@ class ClientsGrid extends PureComponent {
               );
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
             render={(data) => {
               const {
@@ -202,7 +199,7 @@ class ClientsGrid extends PureComponent {
               );
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={({ registrationDetails: { registrationDate } }) => (
               <Fragment>
@@ -213,7 +210,7 @@ class ClientsGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={({ status: { type, changedAt } }) => (
               <GridStatus
@@ -226,7 +223,7 @@ class ClientsGrid extends PureComponent {
               />
             )}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

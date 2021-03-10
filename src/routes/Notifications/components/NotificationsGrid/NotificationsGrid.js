@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import MiniProfile from 'components/MiniProfile';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import './NotificationsGrid.scss';
@@ -155,19 +155,18 @@ class NotificationsGrid extends PureComponent {
   render() {
     const { notificationCenterQuery } = this.props;
 
-    const { content, last } = notificationCenterQuery.data?.notificationCenter || { content: [] };
+    const { content = [], last = true } = notificationCenterQuery.data?.notificationCenter || {};
     const isLoadingNotifications = notificationCenterQuery.loading;
 
     return (
       <div className="NotificationsGrid">
-        <Grid
-          data={content}
-          isLoading={isLoadingNotifications}
-          isLastPage={last}
-          withNoResults={!isLoadingNotifications && content.length === 0}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={126}
-          rowsClassNames={
+        <Table
+          stickyFromTop={126}
+          items={content}
+          onMore={this.handlePageChanged}
+          loading={isLoadingNotifications}
+          hasMore={!last}
+          customClassNameRow={
             ({ priority }) => classNames({
               'NotificationsGrid__row-color--high': priority === 'HIGH',
               'NotificationsGrid__row-color--medium': priority === 'MEDIUM',
@@ -175,31 +174,31 @@ class NotificationsGrid extends PureComponent {
             })
           }
         >
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
             render={this.renderNotificationType}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
             render={this.renderNotificationTypeDetails}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.AGENT')}
             render={this.renderAgent}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
             render={this.renderClient}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
             render={this.renderNotificationDate}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
             render={this.renderPriority}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }
