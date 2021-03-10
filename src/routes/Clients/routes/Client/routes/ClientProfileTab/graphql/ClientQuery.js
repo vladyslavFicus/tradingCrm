@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'constants/propTypes';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { ContactsFragment } from 'graphql/fragments/contacts';
-import { AddressFragment } from 'graphql/fragments/address';
+import { ContactsFragment } from 'apollo/fragments/contacts';
+import { AddressFragment } from 'apollo/fragments/address';
 
 const REQUEST = gql`
   query ClientPersonalForm_ClientQuery(

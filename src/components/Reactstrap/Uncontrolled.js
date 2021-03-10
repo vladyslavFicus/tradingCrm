@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Tooltip } from 'reactstrap';
 
 const components = {
@@ -8,7 +8,7 @@ const components = {
 Object.keys(components).forEach((key) => {
   const Tag = components[key];
 
-  class Uncontrolled extends Component {
+  class Uncontrolled extends PureComponent {
     state = {
       isOpen: false,
     };

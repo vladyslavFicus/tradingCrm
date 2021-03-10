@@ -1,11 +1,10 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import { withPermission } from 'providers/PermissionsProvider';
-import shallowEqual from 'utils/shallowEqual';
 import Permissions, { CONDITIONS } from 'utils/permissions';
 import PermissionElse from './PermissionElse';
 
-class PermissionContent extends Component {
+class PermissionContent extends PureComponent {
   static propTypes = {
     children: PropTypes.any.isRequired,
     permissions: PropTypes.oneOfType([
@@ -20,31 +19,16 @@ class PermissionContent extends Component {
     permissionsCondition: CONDITIONS.AND,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
+  static getDerivedStateFromProps(props) {
+    return {
       visible: (new Permissions(props.permissions, props.permissionsCondition)).check(props.permission.permissions),
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      !shallowEqual(nextProps.permissions, this.props.permissions)
-      || !shallowEqual(nextProps.permissionsCondition, this.props.permissionsCondition)
-    ) {
-      const { permissions: currentPermissions } = this.context;
-
-      this.setState({
-        visible: (new Permissions(nextProps.permissions, nextProps.permissionsCondition)).check(currentPermissions),
-      });
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.visible !== this.state.visible
-      || !shallowEqual(nextProps.children, this.props.children);
-  }
+  state = {
+    visible: (new Permissions(this.props.permissions, this.props.permissionsCondition))
+      .check(this.props.permission.permissions),
+  };
 
   render() {
     const { visible } = this.state;

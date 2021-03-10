@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import FileButton from '../FileButton';
 
-class FileUpload extends Component {
+class FileUpload extends PureComponent {
   static propTypes = {
     onChosen: PropTypes.func.isRequired,
     allowedSize: PropTypes.number,

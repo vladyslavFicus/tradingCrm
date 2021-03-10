@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import HeaderDepartmentsMutation from './graphql/HeaderDepartmentsMutation';
 import './HeaderDepartments.scss';
 
-class HeaderDepartments extends Component {
+class HeaderDepartments extends PureComponent {
   static propTypes = {
     chooseDepartmentMutation: PropTypes.func.isRequired,
     storage: PropTypes.storage.isRequired,

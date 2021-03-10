@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import PropTypes from 'prop-types';
@@ -28,7 +28,7 @@ const attributeLabels = {
   reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
-class CallbackDetailsModal extends Component {
+class CallbackDetailsModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,

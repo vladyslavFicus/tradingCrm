@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import ReactSwitch from '../../ReactSwitch';
 
-class Switch extends Component {
+class Switch extends PureComponent {
   static propTypes = {
     active: PropTypes.bool.isRequired,
     handleSwitch: PropTypes.func.isRequired,

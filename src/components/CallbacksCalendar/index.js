@@ -1,1 +1,1 @@
-export { default } from './CallbacksCalendarContainer';
+export { default } from './CallbacksCalendar';

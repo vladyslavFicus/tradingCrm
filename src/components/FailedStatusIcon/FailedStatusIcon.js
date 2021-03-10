@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'reactstrap';
 
-class FailedStatusIcon extends Component {
+class FailedStatusIcon extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,

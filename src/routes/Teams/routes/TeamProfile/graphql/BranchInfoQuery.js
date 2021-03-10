@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { HierarchyBranchFragment } from 'graphql/fragments/hierarchy';
+import { HierarchyBranchFragment } from 'apollo/fragments/hierarchy';
 
 const REQUEST = gql`
   query BranchInfoQuery($branchId: String!) {

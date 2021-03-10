@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { NoteFragment } from 'graphql/fragments/notes';
+import { NoteFragment } from 'apollo/fragments/notes';
 
 const MUTATION = gql`mutation updateNote(
   $subject: String

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import I18n from 'i18n-js';
@@ -9,7 +9,7 @@ import {
 } from '../../constants/files';
 import renderLabel from '../../utils/renderLabel';
 
-class FileStatusDropDown extends Component {
+class FileStatusDropDown extends PureComponent {
   static propTypes = {
     status: PropTypes.object.isRequired,
     onStatusChange: PropTypes.func.isRequired,

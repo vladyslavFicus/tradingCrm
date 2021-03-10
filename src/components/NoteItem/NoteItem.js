@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
@@ -15,7 +15,7 @@ import ActionsDropDown from '../ActionsDropDown';
 import RemoveNoteMutation from './graphql/RemoveNoteMutation';
 import './NoteItem.scss';
 
-class NoteItem extends Component {
+class NoteItem extends PureComponent {
   static propTypes = {
     note: PropTypes.noteEntity.isRequired,
     removeNote: PropTypes.func.isRequired,

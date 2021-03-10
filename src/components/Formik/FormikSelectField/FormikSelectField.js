@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { getIn } from 'formik';
 import { eq, isNil } from 'lodash';
@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
 
-class FormikSelectField extends Component {
+class FormikSelectField extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,

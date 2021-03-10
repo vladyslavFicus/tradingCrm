@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'constants/propTypes';
 import RichTextEditor from 'react-rte';
 import cn from 'classnames';
 import { toolbarConfig as defaultToolbarConfig } from './toolbarConfig';
 import './FormikTextEditor.scss';
 
-class FormikTextEditorField extends Component {
+class FormikTextEditorField extends PureComponent {
   static propTypes = {
     toolbarConfig: PropTypes.shape({
       INLINE_STYLE_BUTTONS: PropTypes.arrayOf(PropTypes.object),

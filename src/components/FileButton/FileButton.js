@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './FileButton.scss';
 
-class FileUpload extends Component {
+class FileUpload extends PureComponent {
   static propTypes = {
     label: PropTypes.any,
     onChosen: PropTypes.func.isRequired,

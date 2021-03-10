@@ -1,3 +1,1 @@
-import NoteIcon from './NoteIcon';
-
-export default NoteIcon;
+export { default } from './NoteIcon';
