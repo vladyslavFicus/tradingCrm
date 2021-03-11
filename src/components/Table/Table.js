@@ -238,7 +238,7 @@ class Table extends PureComponent {
               'Table__head-cell',
               {
                 'Table__cell--multiselect': withMultiSelect,
-                'Table__head-cell--sticky': stickyFromTop,
+                'Table__head-cell--sticky': stickyFromTop || stickyFromTop === 0,
               },
             )}
             style={{ top: `${stickyFromTop}px`, width: '46px' }}
@@ -267,7 +267,7 @@ class Table extends PureComponent {
                 'Table__cell',
                 'Table__head-cell',
                 {
-                  'Table__head-cell--sticky': stickyFromTop,
+                  'Table__head-cell--sticky': stickyFromTop || stickyFromTop === 0,
                   'Table__head-cell--with-sorting': sortBy,
                   'Table__head-cell--sorted-by-asc': sortColumn?.direction === 'ASC',
                   'Table__head-cell--sorted-by-desc': sortColumn?.direction === 'DESC',

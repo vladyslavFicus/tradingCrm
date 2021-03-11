@@ -3,14 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { get } from 'lodash';
 import classNames from 'classnames';
+import { NetworkStatus } from 'apollo-client';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatus from 'components/GridStatus';
@@ -26,9 +26,7 @@ import './LeadsGrid.scss';
 class LeadsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    updateLeadsListState: PropTypes.func.isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
@@ -67,59 +65,40 @@ class LeadsGrid extends PureComponent {
     });
   };
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
         sorts,
-        sortData,
       },
     });
   };
 
-  handleRowClick = ({ uuid }) => {
+  handleRowClick = (uuid) => {
     window.open(`/leads/${uuid}`, '_blank');
   };
 
-  handleSelectRow = (allRowsSelected, touchedRowsIds) => {
-    this.props.updateLeadsListState(allRowsSelected, touchedRowsIds);
+  handleSelectError = (select) => {
+    const {
+      modals: { confirmationModal },
+    } = this.props;
+
+    confirmationModal.show({
+      onSubmit: confirmationModal.hide,
+      modalTitle: `${select.max} ${I18n.t('LEADS.LEADS_SELECTED')}`,
+      actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: select.max }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
   };
-
-  handleAllRowsSelect = (allRowsSelected) => {
-    const { updateLeadsListState } = this.props;
-
-    updateLeadsListState(allRowsSelected, []);
-
-    if (allRowsSelected) {
-      const {
-        location,
-        leadsQuery,
-        modals: { confirmationModal },
-      } = this.props;
-
-      const totalElements = get(leadsQuery, 'data.leads.totalElements') || 0;
-      const searchLimit = get(location, 'state.filters.searchLimit') || null;
-
-      const selectedLimit = (searchLimit && searchLimit < totalElements)
-        ? searchLimit > MAX_SELECTED_LEADS
-        : totalElements > MAX_SELECTED_LEADS;
-
-      if (selectedLimit) {
-        confirmationModal.show({
-          onSubmit: confirmationModal.hide,
-          modalTitle: `${MAX_SELECTED_LEADS} ${I18n.t('LEADS.LEADS_SELECTED')}`,
-          actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: MAX_SELECTED_LEADS }),
-          submitButtonLabel: I18n.t('COMMON.OK'),
-        });
-      }
-    }
-  }
 
   renderLead = ({ uuid, name, surname }) => (
     <>
-      <div className="LeadsGrid__primary">
+      <div
+        className="LeadsGrid__primary LeadsGrid__name"
+        onClick={() => this.handleRowClick(uuid)}
+      >
         {name} {surname}
       </div>
 
@@ -249,66 +228,64 @@ class LeadsGrid extends PureComponent {
     const {
       location,
       leadsQuery,
-      touchedRowsIds,
-      allRowsSelected,
+      onSelect,
     } = this.props;
 
-    const leads = get(leadsQuery, 'data.leads') || [];
-    const searchLimit = get(location, 'state.filters.searchLimit') || null;
+    const { response } = limitItems(leadsQuery?.data?.leads, location);
 
-    const { response } = limitItems(leads, location);
-    const { content = [], last = true } = response;
+    const {
+      content = [],
+      totalElements = 0,
+      last = true,
+    } = response || {};
 
-    const isLoading = leadsQuery.loading;
+    // Show loader only if initial load or new variables was applied
+    const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(leadsQuery.networkStatus);
 
     return (
       <div className="LeadsGrid">
-        <Grid
-          data={content || []}
-          touchedRowsIds={touchedRowsIds}
-          sorts={location?.state?.sortData}
-          handleSort={this.handleSort}
-          allRowsSelected={allRowsSelected}
-          handleSelectRow={this.handleSelectRow}
-          handleRowClick={this.handleRowClick}
-          handleAllRowsSelect={this.handleAllRowsSelect}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={156}
-          isLoading={isLoading}
-          isLastPage={last}
-          withLazyLoad={!searchLimit || searchLimit !== content.length}
-          withRowsHover
+        <Table
           withMultiSelect
-          withNoResults={!isLoading && (!content || content.length === 0)}
+          stickyFromTop={157}
+          items={content}
+          totalCount={totalElements}
+          loading={isLoading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
+          sorts={location?.state?.sorts}
+          onSort={this.handleSort}
+          maxSelectCount={MAX_SELECTED_LEADS}
+          onSelect={onSelect}
+          onSelectError={this.handleSelectError}
         >
-          <GridColumn
+          <Column
             header={I18n.t('LEADS.GRID_HEADER.LEAD')}
             render={this.renderLead}
           />
-          <GridColumn
+          <Column
             sortBy="country"
             header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
             render={this.renderCountry}
           />
-          <GridColumn
+          <Column
             header={I18n.t('LEADS.GRID_HEADER.SALES')}
             render={this.renderSales}
           />
-          <GridColumn
+          <Column
             sortBy="registrationDate"
             header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDate}
           />
-          <GridColumn
+          <Column
             header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
             sortBy="lastNote.changedAt"
             render={this.renderLastNote}
           />
-          <GridColumn
+          <Column
             header={I18n.t('LEADS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

@@ -2,10 +2,10 @@ import { get, isEmpty } from 'lodash';
 import update from 'immutability-helper';
 
 export default (data, location) => {
-  let response = data ? { ...data } : null;
+  let response = data ? { ...data } : {};
   const currentPage = get(response, 'number') || 0;
 
-  if (response && !isEmpty(response.content)) {
+  if (!isEmpty(response.content)) {
     const { totalElements, content, size: responseSize } = response;
     const size = get(location, 'state.filters.searchLimit');
 

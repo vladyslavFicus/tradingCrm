@@ -398,7 +398,12 @@ class ClientsGrid extends PureComponent {
     const isAvailableMultiSelect = changeAsquisitionStatusPermission.check(currentPermissions);
 
     const { response } = limitItems(clientsQuery?.data?.profiles, location);
-    const clients = response || { content: [], last: true };
+
+    const {
+      content = [],
+      totalElements = 0,
+      last = true,
+    } = response;
 
     // Show loader only if initial load or new variables was applied
     const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(clientsQuery.networkStatus);
@@ -407,10 +412,10 @@ class ClientsGrid extends PureComponent {
       <div className="ClientsGrid">
         <Table
           stickyFromTop={157}
-          items={clients.content}
-          totalCount={clients.totalElements}
+          items={content}
+          totalCount={totalElements}
           loading={isLoading}
-          hasMore={!clients.last}
+          hasMore={!last}
           onMore={this.handlePageChanged}
           sorts={location?.state?.sorts}
           onSort={this.handleSort}

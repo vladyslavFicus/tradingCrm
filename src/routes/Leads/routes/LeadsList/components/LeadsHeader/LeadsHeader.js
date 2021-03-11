@@ -4,70 +4,48 @@ import { compose } from 'react-apollo';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withNotifications, withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
-import { MAX_SELECTED_LEADS } from '../../constants';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
 
 class LeadsHeader extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    select: PropTypes.TableSelection,
     leadsQuery: PropTypes.query({
       leads: PropTypes.pageable(PropTypes.lead),
     }).isRequired,
-    allRowsSelected: PropTypes.bool.isRequired,
-    touchedRowsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-    updateLeadsListState: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       representativeUpdateModal: PropTypes.modalType,
       leadsUploadModal: PropTypes.modalType,
     }).isRequired,
   };
 
-  get selectedRowsLength() {
-    const {
-      location,
-      leadsQuery,
-      touchedRowsIds,
-      allRowsSelected,
-    } = this.props;
-
-    let rowsLength = touchedRowsIds.length;
-
-    if (allRowsSelected) {
-      const totalElements = get(leadsQuery, 'data.leads.totalElements');
-      const searchLimit = get(location, 'state.filters.searchLimit') || Infinity;
-
-      rowsLength = Math.min(searchLimit, totalElements, MAX_SELECTED_LEADS) - rowsLength;
-    }
-
-    return rowsLength;
-  }
+  static defaultProps = {
+    select: null,
+  };
 
   handleOpenRepresentativeModal = () => {
     const {
       leadsQuery,
-      touchedRowsIds,
-      allRowsSelected,
+      select,
       location: { state },
-      updateLeadsListState,
       modals: { representativeUpdateModal },
     } = this.props;
 
-    const leads = get(leadsQuery, 'data.leads.content') || [];
+    const leads = leadsQuery.data?.leads?.content || [];
 
     representativeUpdateModal.show({
-      uuids: touchedRowsIds.map(index => leads[index].uuid),
+      uuids: select.touched.map(index => leads[index].uuid),
       userType: userTypes.LEAD_CUSTOMER,
       type: deskTypes.SALES,
       configs: {
-        allRowsSelected,
-        selectedRowsLength: this.selectedRowsLength,
+        allRowsSelected: select.all,
+        selectedRowsLength: select.selected,
         multiAssign: true,
         ...state && {
           searchParams: state.filters,
@@ -76,13 +54,13 @@ class LeadsHeader extends PureComponent {
       },
       onSuccess: () => {
         leadsQuery.refetch();
-        updateLeadsListState();
+        select.reset();
       },
       header: (
         <>
           <div>{I18n.t('LEADS.LEADS_BULK_MODAL.HEADER')}</div>
           <div className="font-size-11 color-yellow">
-            {this.selectedRowsLength} {I18n.t('LEADS.LEADS_SELECTED')}
+            {select.selected} {I18n.t('LEADS.LEADS_SELECTED')}
           </div>
         </>
       ),
@@ -105,17 +83,18 @@ class LeadsHeader extends PureComponent {
   render() {
     const {
       leadsQuery,
-      location: {
-        state,
-      },
+      location,
+      select,
     } = this.props;
 
-    const totalElements = get(leadsQuery, 'data.leads.totalElements') || null;
-    const searchLimit = get(state, 'filters.searchLimit');
+    const totalElements = leadsQuery.data?.leads?.totalElements;
+    const searchLimit = location.state?.filters?.searchLimit;
 
     const leadsListCount = (searchLimit && searchLimit < totalElements)
       ? searchLimit
       : totalElements;
+
+    const selectedCount = select?.selected || 0;
 
     return (
       <div className="LeadsHeader">
@@ -143,7 +122,7 @@ class LeadsHeader extends PureComponent {
                   </div>
 
                   <div className="LeadsHeader__selected">
-                    <b>{this.selectedRowsLength}</b> {I18n.t('LEADS.LEADS_SELECTED')}
+                    <b>{selectedCount}</b> {I18n.t('LEADS.LEADS_SELECTED')}
                   </div>
                 </div>
               </When>
@@ -157,7 +136,7 @@ class LeadsHeader extends PureComponent {
         </div>
 
         <div className="LeadsHeader__right">
-          <If condition={totalElements !== 0 && this.selectedRowsLength !== 0}>
+          <If condition={totalElements !== 0 && selectedCount !== 0}>
             <div className="LeadsHeader__bulk">
               <div className="LeadsHeader__bulk-title">
                 {I18n.t('LEADS.BULK_ACTIONS')}
@@ -171,7 +150,7 @@ class LeadsHeader extends PureComponent {
               </Button>
             </div>
           </If>
-          <If condition={this.selectedRowsLength === 0}>
+          <If condition={selectedCount === 0}>
             <Button
               commonOutline
               onClick={this.handleOpenLeadsUploadModal}
