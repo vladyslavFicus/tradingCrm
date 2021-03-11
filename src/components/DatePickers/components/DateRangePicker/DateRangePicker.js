@@ -422,6 +422,7 @@ class DateRangePicker extends PureComponent {
       withConfirmation,
       withFocus,
       withTime,
+      dateRange,
     } = this.props;
 
     const {
@@ -554,6 +555,7 @@ class DateRangePicker extends PureComponent {
                     additionalOptions={[...additionalOptions, ...defaultAdditionalOptions()]}
                     additionalValues={additionalValues}
                     selectedAdditional={selectedAdditional}
+                    selectedDateRange={dateRange}
                     handleAdditionalClick={this.handleAdditionalClick}
                     withAdditionalOptions={withAdditionalOptions}
                     withAdditionalValues={withAdditionalValues}
