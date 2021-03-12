@@ -1,38 +1,38 @@
 .Click2Call {
   &__submenu-item {
     padding: 5px;
-    cursor: pointer;
+    text-align: center;
 
     &:hover {
+      cursor: pointer;
       background-color: #eee;
     }
 
     &:not(:last-child) {
       border-bottom: 1px solid #dfe4ed;
     }
+
+    &--no-hover {
+      &:hover {
+        cursor: initial;
+        background-color: initial;
+      }
+    }
   }
 
-  &__didlogic {
-    text-align: center;
-  }
-
-  &__asterisk {
-    text-align: center;
-  }
-
-  &__asterisk-image {
+  &__submenu-item-image {
     display: block;
-    width: 60px;
+    height: 25px;
     margin: 5px auto;
   }
 
-  &__asterisk-prefixes {
+  &__submenu-item-prefixes {
     width: 200px;
     display: flex;
     flex-wrap: wrap;
   }
 
-  &__asterisk-prefix {
+  &__submenu-item-prefix {
     padding: 6px 0;
     margin: 5px 0;
     width: 33%;

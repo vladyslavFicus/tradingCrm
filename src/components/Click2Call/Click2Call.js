@@ -8,9 +8,11 @@ import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
 import DidlogicCreateCall from './graphql/DidlogicCreateCall';
 import AsteriskCreateCall from './graphql/AsteriskCreateCall';
+import CommpeakCreateCall from './graphql/CommpeakCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import didlogicIcon from './icons/didlogic.png';
 import asteriskIcon from './icons/asterisk.png';
+import commpeakIcon from './icons/commpeak.png';
 import './Click2Call.scss';
 
 const TOOLTIP_STYLE = {
@@ -27,6 +29,7 @@ class Click2Call extends PureComponent {
     notify: PropTypes.func.isRequired,
     clickToCall: PropTypes.func.isRequired,
     asteriskCreateCall: PropTypes.func.isRequired,
+    commpeakCreateCall: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['PROFILE', 'LEAD']).isRequired,
@@ -46,7 +49,7 @@ class Click2Call extends PureComponent {
   isDidlogicOnly = () => {
     const _clickToCall = getClickToCall();
 
-    return _clickToCall.isActive && !_clickToCall.asterisk.isActive;
+    return _clickToCall.isActive && !_clickToCall.asterisk.isActive && !_clickToCall.commpeak.isActive;
   };
 
   handleDidLogicCall = async () => {
@@ -68,6 +71,20 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.asteriskCreateCall({ variables: { uuid, field, type, prefix } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
+      });
+    }
+  };
+
+  handleCommpeakCall = prefix => async () => {
+    const { notify, uuid, field, type } = this.props;
+
+    try {
+      await this.props.commpeakCreateCall({ variables: { uuid, field, type, prefix } });
     } catch (e) {
       notify({
         level: 'error',
@@ -102,7 +119,12 @@ class Click2Call extends PureComponent {
     const { isOpen } = this.state;
 
     const _clickToCall = getClickToCall();
-    const isActive = _clickToCall.isActive || _clickToCall.asterisk.isActive;
+
+    const isActive = [
+      _clickToCall.isActive,
+      _clickToCall.asterisk.isActive,
+      _clickToCall.commpeak.isActive,
+    ].includes(true);
 
     return (
       <If condition={isActive}>
@@ -122,7 +144,7 @@ class Click2Call extends PureComponent {
           <div className="Click2Call__submenu">
             <If condition={_clickToCall.isActive}>
               <div
-                className="Click2Call__submenu-item Click2Call__didlogic"
+                className="Click2Call__submenu-item"
                 onClick={this.handleDidLogicCall}
               >
                 <img src={didlogicIcon} alt="" />
@@ -130,14 +152,31 @@ class Click2Call extends PureComponent {
             </If>
 
             <If condition={_clickToCall.asterisk.isActive}>
-              <div className="Click2Call__asterisk">
-                <img className="Click2Call__asterisk-image" src={asteriskIcon} alt="" />
-                <div className="Click2Call__asterisk-prefixes">
+              <div className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
+                <img className="Click2Call__submenu-item-image" src={asteriskIcon} alt="" />
+                <div className="Click2Call__submenu-item-prefixes">
                   {Object.keys(_clickToCall.asterisk.prefixes).map(prefix => (
                     <span
                       key={prefix}
-                      className="Click2Call__asterisk-prefix"
+                      className="Click2Call__submenu-item-prefix"
                       onClick={this.handleAsteriskCall(_clickToCall.asterisk.prefixes[prefix])}
+                    >
+                      {prefix}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </If>
+
+            <If condition={_clickToCall.commpeak.isActive}>
+              <div className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
+                <img className="Click2Call__submenu-item-image" src={commpeakIcon} alt="" />
+                <div className="Click2Call__submenu-item-prefixes">
+                  {Object.keys(_clickToCall.commpeak.prefixes).map(prefix => (
+                    <span
+                      key={prefix}
+                      className="Click2Call__submenu-item-prefix"
+                      onClick={this.handleCommpeakCall(_clickToCall.commpeak.prefixes[prefix])}
                     >
                       {prefix}
                     </span>
@@ -157,5 +196,6 @@ export default compose(
   withRequests({
     clickToCall: DidlogicCreateCall,
     asteriskCreateCall: AsteriskCreateCall,
+    commpeakCreateCall: CommpeakCreateCall,
   }),
 )(Click2Call);
