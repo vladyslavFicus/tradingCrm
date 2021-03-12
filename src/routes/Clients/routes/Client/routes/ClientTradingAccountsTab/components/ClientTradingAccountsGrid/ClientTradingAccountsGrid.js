@@ -13,7 +13,7 @@ import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import { Button } from 'components/UI';
 import { accountTypesLabels, leverageStatusesColor } from 'constants/accountTypes';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -162,16 +162,16 @@ class ClientTradingAccountsGrid extends PureComponent {
     </Fragment>
   );
 
-  renderBalanceColumn = ({ balance, symbol }) => (
+  renderBalanceColumn = ({ balance, currency }) => (
     <Fragment>
       <div className="ClientTradingAccountsGrid__cell-main-value">
-        {symbol} {Number(balance).toFixed(2)}
+        {currency} {Number(balance).toFixed(2)}
       </div>
     </Fragment>
   );
 
-  renderCreditColumn = ({ credit, symbol }) => (
-    <div className="ClientTradingAccountsGrid__cell-main-value">{symbol} {Number(credit).toFixed(2)}</div>
+  renderCreditColumn = ({ credit, currency }) => (
+    <div className="ClientTradingAccountsGrid__cell-main-value">{currency} {Number(credit).toFixed(2)}</div>
   );
 
   renderLeverageColumn = (tradingAccount) => {
@@ -392,48 +392,43 @@ class ClientTradingAccountsGrid extends PureComponent {
 
     return (
       <div className="ClientTradingAccountsGrid">
-        <Grid
-          isLoading={loading}
-          data={tradingAccounts}
-          headerStickyFromTop={189}
-          withRowsHover
-          withNoResults={!loading && tradingAccounts.length === 0}
+        <Table
+          stickyFromTop={189}
+          items={tradingAccounts}
+          loading={loading}
         >
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC')}
             render={this.renderTradingAccountColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LOGIN')}
             render={this.renderLoginColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.BALANCE/EQUITY')}
             render={this.renderBalanceColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT')}
             render={this.renderCreditColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LEVERAGE')}
             render={this.renderLeverageColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS')}
             render={this.renderTradingStatusColumn}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER')}
             render={this.renderServerColumn}
           />
           <If condition={updatePasswordPermission}>
-            <GridColumn
-              headerStyle={{ width: '5%' }}
-              render={this.renderActionsColumn}
-            />
+            <Column width={60} render={this.renderActionsColumn} />
           </If>
-        </Grid>
+        </Table>
       </div>
     );
   }

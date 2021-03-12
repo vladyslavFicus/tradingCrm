@@ -8,7 +8,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
@@ -126,31 +126,30 @@ class TeamsGrid extends PureComponent {
 
     return (
       <div className="TeamsGrid">
-        <Grid
-          data={teams}
-          isLoading={isLoading}
-          headerStickyFromTop={138}
-          withNoResults={!isLoading && teams.length === 0}
+        <Table
+          stickyFromTop={137}
+          items={teams}
+          loading={isLoading}
         >
-          <GridColumn
+          <Column
             header={I18n.t('TEAMS.GRID_HEADER.TEAM')}
             render={this.renderTeamCell}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TEAMS.GRID_HEADER.OFFICE')}
             render={this.renderOfficeCell}
           />
-          <GridColumn
+          <Column
             header={I18n.t('TEAMS.GRID_HEADER.DESK')}
             render={this.renderDeskCell}
           />
           <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
-            <GridColumn
+            <Column
               header={I18n.t('TEAMS.GRID_HEADER.ACTIONS')}
               render={this.renderActions}
             />
           </If>
-        </Grid>
+        </Table>
       </div>
     );
   }

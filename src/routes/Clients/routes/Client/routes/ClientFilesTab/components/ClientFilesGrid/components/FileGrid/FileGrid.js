@@ -10,7 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import PermissionContent from 'components/PermissionContent';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import NoteButton from 'components/NoteButton';
 import { EditButton, DownloadButton, TrashButton } from 'components/UI';
 import GridEmptyValue from 'components/GridEmptyValue';
@@ -209,7 +209,7 @@ class FileGrid extends PureComponent {
         >
           {title}
           <If condition={this.state.previewFileLoadingUuid === uuid}>
-            &nbsp;<ShortLoader height={15} />
+            &nbsp;<ShortLoader className="FileGrid__loader" height={15} />
           </If>
         </div>
         <div title={realName} className="FileGrid__col-text">
@@ -272,48 +272,53 @@ class FileGrid extends PureComponent {
     const {
       data,
       verificationType,
+      verificationStatus,
       handlePageChanged,
     } = this.props;
 
     return (
-      <div className="FileGrid">
+      <div className={classNames(
+        'FileGrid',
+        {
+          'FileGrid--approved': verificationStatus === 'APPROVED',
+          'FileGrid--rejected': verificationStatus === 'REJECTED',
+        },
+      )}
+      >
         {this.renderGridHeader()}
 
-        <Grid
-          data={data}
+        <Table
+          items={data}
           handlePageChanged={handlePageChanged}
         >
-          <GridColumn
+          <Column
             header={I18n.t('FILES.GRID.COLUMN.NAME')}
             render={this.renderFileName}
           />
-          <GridColumn
-            header=""
-            render={this.renderActions}
-          />
-          <GridColumn
+          <Column render={this.renderActions} />
+          <Column
             header={I18n.t('FILES.GRID.COLUMN.EXPIRATION_DATE')}
             render={this.renderDate('expirationTime', false)}
           />
           <If condition={verificationType !== 'OTHER'}>
-            <GridColumn
+            <Column
               header={I18n.t('FILES.MOVE_FILE_TO_VERIFICATION_DOCUMENT_TYPE')}
               render={this.renderMoveFileDropdown}
             />
           </If>
-          <GridColumn
+          <Column
             header={I18n.t('FILES.CHANGE_FILE_STATUS')}
             render={this.renderChangeStatusFile}
           />
-          <GridColumn
+          <Column
             header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
             render={this.renderDate('uploadDate')}
           />
-          <GridColumn
+          <Column
             header={I18n.t('FILES.GRID.COLUMN.NOTE')}
             render={this.renderNote}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

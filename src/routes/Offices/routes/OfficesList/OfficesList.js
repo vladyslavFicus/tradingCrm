@@ -41,7 +41,10 @@ class OfficesList extends PureComponent {
     return (
       <div className="OfficesList">
         <div className="OfficesList__header">
-          <div className="OfficesList__title">{totalCount} {I18n.t('OFFICES.OFFICES')}</div>
+          <div className="OfficesList__title">
+            <strong>{totalCount} </strong>
+            {I18n.t('OFFICES.OFFICES')}
+          </div>
 
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <div className="OfficesList__actions">

@@ -48,7 +48,10 @@ class DesksList extends PureComponent {
     return (
       <div className="DesksList">
         <div className="DesksList__header">
-          <div className="DesksList__title">{totalCount} {I18n.t('DESKS.DESKS')}</div>
+          <div className="DesksList__title">
+            <strong>{totalCount} </strong>
+            {I18n.t('DESKS.DESKS')}
+          </div>
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <Button
               onClick={this.handleOpenAddDeskModal}

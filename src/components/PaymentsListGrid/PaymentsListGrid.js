@@ -10,7 +10,7 @@ import {
   aggregatorsLabels,
   tradingTypesLabelsWithColor,
 } from 'constants/payment';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -34,13 +34,15 @@ class PaymentsListGrid extends PureComponent {
     }).isRequired,
     handleRefresh: PropTypes.func.isRequired,
     clientView: PropTypes.bool,
-    withLazyLoad: PropTypes.bool,
+    withLazyload: PropTypes.bool,
+    withSort: PropTypes.bool,
     headerStickyFromTop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
     clientView: false,
-    withLazyLoad: true,
+    withLazyload: true,
+    withSort: true,
     headerStickyFromTop: null,
   };
 
@@ -57,14 +59,13 @@ class PaymentsListGrid extends PureComponent {
     loadMore(variables => set(variables, 'args.page.from', page + 1));
   };
 
-  handleSort = (sortData, sorts) => {
+  handleSort = (sorts) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
       state: {
         ...state,
         sorts,
-        sortData,
       },
     });
   };
@@ -77,27 +78,26 @@ class PaymentsListGrid extends PureComponent {
       clientView,
       handleRefresh,
       paymentsQuery,
-      withLazyLoad,
+      withLazyload,
+      withSort,
       headerStickyFromTop,
     } = this.props;
 
-    const { content, last } = paymentsQuery.data?.payments || { content: [] };
+    const { content = [], last = true } = paymentsQuery.data?.payments || {};
     const isLoading = paymentsQuery.loading;
 
     return (
       <div className="PaymentsListGrid">
-        <Grid
-          data={content}
-          handleSort={this.handleSort}
-          sorts={state?.sortData}
-          handlePageChanged={this.handlePageChanged}
-          headerStickyFromTop={headerStickyFromTop}
-          isLoading={isLoading}
-          isLastPage={last}
-          withLazyLoad={withLazyLoad}
-          withNoResults={!isLoading && !content.length}
+        <Table
+          stickyFromTop={headerStickyFromTop}
+          items={content}
+          sorts={state?.sorts}
+          loading={isLoading}
+          hasMore={withLazyload && !last}
+          onMore={this.handlePageChanged}
+          onSort={this.handleSort}
         >
-          <GridColumn
+          <Column
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS')}
             render={data => (
               <Fragment>
@@ -126,7 +126,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <If condition={!clientView}>
-            <GridColumn
+            <Column
               header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.CLIENT')}
               render={({ playerProfile, language, paymentId }) => (
                 <Choose>
@@ -154,7 +154,7 @@ class PaymentsListGrid extends PureComponent {
               )}
             />
           </If>
-          <GridColumn
+          <Column
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AFFILIATE')}
             render={({ partner, playerProfile: { affiliateUuid } }) => (
               <Choose>
@@ -179,8 +179,8 @@ class PaymentsListGrid extends PureComponent {
               </Choose>
             )}
           />
-          <GridColumn
-            sortBy="agentName"
+          <Column
+            sortBy={withSort && 'agentName'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT')}
             render={({ originalAgent }) => (
               <Choose>
@@ -199,8 +199,8 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <If condition={!clientView}>
-            <GridColumn
-              sortBy="playerProfileDocument.country"
+            <Column
+              sortBy={withSort && 'playerProfileDocument.country'}
               header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY')}
               render={({ playerProfile: { country } }) => (
                 <Choose>
@@ -214,7 +214,7 @@ class PaymentsListGrid extends PureComponent {
               )}
             />
           </If>
-          <GridColumn
+          <Column
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE')}
             render={({ paymentType, externalReference }) => {
               const { label, color } = tradingTypesLabelsWithColor[paymentType];
@@ -237,8 +237,8 @@ class PaymentsListGrid extends PureComponent {
               );
             }}
           />
-          <GridColumn
-            sortBy="amount"
+          <Column
+            sortBy={withSort && 'amount'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT')}
             render={({ currency, amount, normalizedAmount }) => (
               <Fragment>
@@ -253,8 +253,8 @@ class PaymentsListGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
-            sortBy="login"
+          <Column
+            sortBy={withSort && 'login'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC')}
             render={({ login, platformType, currency }) => (
               <>
@@ -267,7 +267,7 @@ class PaymentsListGrid extends PureComponent {
               </>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_AGGREGATOR')}
             render={({ paymentAggregator }) => (
               <Choose>
@@ -282,7 +282,7 @@ class PaymentsListGrid extends PureComponent {
               </Choose>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_METHOD')}
             render={({ paymentMethod, bankName, maskedPan }) => (
               <>
@@ -303,8 +303,8 @@ class PaymentsListGrid extends PureComponent {
               </>
             )}
           />
-          <GridColumn
-            sortBy="creationTime"
+          <Column
+            sortBy={withSort && 'creationTime'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.DATE_TIME')}
             render={({ creationTime }) => (
               <Fragment>
@@ -317,7 +317,7 @@ class PaymentsListGrid extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS')}
             render={({
               status,
@@ -341,7 +341,8 @@ class PaymentsListGrid extends PureComponent {
               />
             )}
           />
-          <GridColumn
+          <Column
+            width={50}
             render={({
               paymentId: targetUUID,
               playerProfile: { uuid: playerUUID },
@@ -356,7 +357,7 @@ class PaymentsListGrid extends PureComponent {
               />
             )}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

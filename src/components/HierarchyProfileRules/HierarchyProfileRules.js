@@ -11,7 +11,7 @@ import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
@@ -333,44 +333,42 @@ class HierarchyProfileRules extends PureComponent {
           handleRefetch={refetch}
         />
 
-        <div className="HierarchyProfileRules__grid">
-          <Grid
-            data={data?.rules || []}
-            isLoading={loading}
-            headerStickyFromTop={113}
-          >
-            <GridColumn
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}
-              render={this.renderRule}
+        <Table
+          stickyFromTop={112}
+          items={data?.rules || []}
+          loading={loading}
+        >
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.RULE')}
+            render={this.renderRule}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.COUNTRY')}
+            render={this.renderRuleInfo(infoConfig.countries)}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
+            render={this.renderRuleInfo(infoConfig.languages)}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
+            render={this.renderPartner}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
+            render={this.renderRuleInfo(infoConfig.sources)}
+          />
+          <Column
+            header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
+            render={this.renderPriority}
+          />
+          <If condition={isDeleteRuleAvailable}>
+            <Column
+              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
+              render={this.renderActions}
             />
-            <GridColumn
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.COUNTRY')}
-              render={this.renderRuleInfo(infoConfig.countries)}
-            />
-            <GridColumn
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.LANGUAGE')}
-              render={this.renderRuleInfo(infoConfig.languages)}
-            />
-            <GridColumn
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PARTNER')}
-              render={this.renderPartner}
-            />
-            <GridColumn
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.SOURCE')}
-              render={this.renderRuleInfo(infoConfig.sources)}
-            />
-            <GridColumn
-              header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.PRIORITY')}
-              render={this.renderPriority}
-            />
-            <If condition={isDeleteRuleAvailable}>
-              <GridColumn
-                header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
-                render={this.renderActions}
-              />
-            </If>
-          </Grid>
-        </div>
+          </If>
+        </Table>
       </div>
     );
   }

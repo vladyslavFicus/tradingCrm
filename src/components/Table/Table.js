@@ -18,7 +18,7 @@ class Table extends PureComponent {
     loading: PropTypes.bool, // Flag to render loader while data loading from server, etc...
     notFound: PropTypes.node, // Custom not found react element
     scrollableTarget: PropTypes.string, // Selector to right working infinite scroll inside custom div or modal
-    customClassNameRow: PropTypes.string, // Custom class for row in table body
+    customClassNameRow: PropTypes.oneOfType(PropTypes.string, PropTypes.func), // Custom class for row in table body
     stickyFromTop: PropTypes.number, // Number of pixels from top to stick header
     onSort: PropTypes.func, // Callback when sorting changed inside table
     onSelect: PropTypes.func, // Callback when select rows changed inside table
@@ -237,7 +237,8 @@ class Table extends PureComponent {
               'Table__cell',
               'Table__head-cell',
               {
-                'Table__head-cell--sticky': stickyFromTop,
+                'Table__cell--multiselect': withMultiSelect,
+                'Table__head-cell--sticky': stickyFromTop || stickyFromTop === 0,
               },
             )}
             style={{ top: `${stickyFromTop}px`, width: '46px' }}
@@ -266,7 +267,7 @@ class Table extends PureComponent {
                 'Table__cell',
                 'Table__head-cell',
                 {
-                  'Table__head-cell--sticky': stickyFromTop,
+                  'Table__head-cell--sticky': stickyFromTop || stickyFromTop === 0,
                   'Table__head-cell--with-sorting': sortBy,
                   'Table__head-cell--sorted-by-asc': sortColumn?.direction === 'ASC',
                   'Table__head-cell--sorted-by-desc': sortColumn?.direction === 'DESC',
@@ -333,14 +334,24 @@ class Table extends PureComponent {
     return items.map((item, rowIndex) => {
       const isSelected = this.isRowSelected(rowIndex);
 
+      const customClassName = typeof customClassNameRow === 'function' ? customClassNameRow(item) : customClassNameRow;
+
       return (
         <tr
           key={rowIndex}
-          className={classNames('Table__body-row', customClassNameRow, { 'Table__body-row--selected': isSelected })}
+          className={classNames('Table__body-row', customClassName, { 'Table__body-row--selected': isSelected })}
         >
           {/* Adding multi select column if it's available */}
           <If condition={withMultiSelect && items.length}>
-            <td className="Table__cell Table__body-cell Table__body-cell--checkbox">
+            <td className={classNames(
+              'Table__cell',
+              'Table__body-cell',
+              'Table__body-cell--checkbox',
+              {
+                'Table__cell--multiselect': withMultiSelect,
+              },
+            )}
+            >
               <div
                 className={
                   classNames(

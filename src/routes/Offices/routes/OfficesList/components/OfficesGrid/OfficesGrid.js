@@ -10,7 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { EditButton, Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { Link } from 'components/Link';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import UpdateOfficeModal from 'modals/UpdateOfficeModal';
@@ -114,29 +114,26 @@ class OfficesGrid extends PureComponent {
 
     return (
       <div className="OfficesGrid">
-        <Grid
-          data={officesList}
-          isLoading={isLoading}
-          headerStickyFromTop={138}
-          withNoResults={!isLoading && officesList.length === 0}
+        <Table
+          stickyFromTop={137}
+          items={officesList}
+          loading={isLoading}
         >
-          <GridColumn
-            name="office"
+          <Column
             header={I18n.t('OFFICES.GRID_HEADER.OFFICE')}
             render={this.renderOfficeColumn}
           />
-          <GridColumn
-            name="country"
+          <Column
             header={I18n.t('OFFICES.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
           <If condition={updateBranchPermissions || updateDeleteBranchPermissions}>
-            <GridColumn
+            <Column
               header={I18n.t('OFFICES.GRID_HEADER.ACTIONS')}
               render={this.renderActions}
             />
           </If>
-        </Grid>
+        </Table>
       </div>
     );
   }

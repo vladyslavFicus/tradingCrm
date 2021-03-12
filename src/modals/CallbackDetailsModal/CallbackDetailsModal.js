@@ -145,6 +145,10 @@ class CallbackDetailsModal extends PureComponent {
                 <Form>
                   <ModalBody>
                     <div className="CallbackDetailsModal__client">
+                      <div className="CallbackDetailsModal__callback-id">
+                        {I18n.t('CALLBACKS.MODAL.CALLBACK_ID')}: <Uuid uuid={callbackId} uuidPrefix="CB" />
+                      </div>
+
                       <If condition={client}>
                         <div className="CallbackDetailsModal__client-name">
                           {client.fullName}

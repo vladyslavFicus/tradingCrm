@@ -134,7 +134,8 @@
   }
 
   &--transparent {
-    border-color: #fff;
+    border-color: transparent;
+    background-color: transparent;
   }
 
   &--small {

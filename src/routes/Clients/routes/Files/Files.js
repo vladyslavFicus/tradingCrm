@@ -19,10 +19,15 @@ class Files extends PureComponent {
   render() {
     const { filesQuery } = this.props;
 
+    const totalElements = filesQuery.data?.files?.totalElements;
+
     return (
       <div className="Files">
         <div className="Files__header">
-          <div className="Files__title">{I18n.t('COMMON.KYC_DOCUMENTS')}</div>
+          <div className="Files__title">
+            <strong>{totalElements} </strong>
+            {I18n.t('COMMON.KYC_DOCUMENTS')}
+          </div>
         </div>
 
         <FilesGridFilter handleRefetch={filesQuery.refetch} />

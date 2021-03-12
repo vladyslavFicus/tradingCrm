@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
+import { NetworkStatus } from 'apollo-client';
 import { compose } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
@@ -37,8 +38,7 @@ class NotificationCenterContent extends PureComponent {
   };
 
   state = {
-    allRowsSelected: false,
-    touchedRowsIds: [],
+    select: null,
   };
 
   componentDidMount() {
@@ -48,6 +48,20 @@ class NotificationCenterContent extends PureComponent {
   componentWillUnmount() {
     document.removeEventListener('click', this.onCloseHandler);
   }
+
+  componentDidUpdate(prevProps) {
+    const { notifications } = this.props;
+    const { select } = this.state;
+
+    // Clear selecting when filters or sorting changed
+    if (notifications.networkStatus === NetworkStatus.setVariables && !prevProps.notifications.loading && select) {
+      select.reset();
+    }
+  }
+
+  onSelect = (select) => {
+    this.setState({ select });
+  };
 
   /**
    * Manual control closing of popover with notifications to prevent close when clicked
@@ -74,10 +88,6 @@ class NotificationCenterContent extends PureComponent {
     }
   };
 
-  selectItems = (allRowsSelected, touchedRowsIds) => {
-    this.setState({ allRowsSelected, touchedRowsIds });
-  };
-
   onSubmit = (notificationTypes, read) => {
     const {
       notifications,
@@ -98,7 +108,7 @@ class NotificationCenterContent extends PureComponent {
       },
     });
 
-    this.resetSelection();
+    this.state.select.reset();
   };
 
   bulkUpdate = async () => {
@@ -112,11 +122,12 @@ class NotificationCenterContent extends PureComponent {
       notify,
     } = this.props;
 
-    const { allRowsSelected, touchedRowsIds } = this.state;
+    const { select } = this.state;
+
     const { totalElements, content } = notificationsData?.notificationCenter || {};
 
     const uuids = content
-      .map(({ uuid }, index) => touchedRowsIds.includes(index) && uuid)
+      .map(({ uuid }, index) => select.touched.includes(index) && uuid)
       .filter(Boolean);
 
     try {
@@ -124,7 +135,7 @@ class NotificationCenterContent extends PureComponent {
         variables: {
           searchParams,
           totalElements: totalElements > MAX_SELECTED_ROWS ? MAX_SELECTED_ROWS : totalElements,
-          ...(allRowsSelected ? { excUuids: uuids } : { incUuids: uuids }),
+          ...(select.all ? { excUuids: uuids } : { incUuids: uuids }),
         },
       });
 
@@ -141,7 +152,7 @@ class NotificationCenterContent extends PureComponent {
       });
     }
 
-    this.resetSelection();
+    select.reset();
   };
 
   handleSwitchNotificationConfiguration = async (showNotificationsPopUp) => {
@@ -165,27 +176,6 @@ class NotificationCenterContent extends PureComponent {
     }
   };
 
-  resetSelection = () => {
-    this.setState({ allRowsSelected: false, touchedRowsIds: [] });
-  };
-
-  getSelectedRowLength = () => {
-    const { notifications } = this.props;
-    const { allRowsSelected, touchedRowsIds } = this.state;
-
-    const totalElements = get(notifications, 'data.notificationCenter.totalElements');
-
-    let selectedRowsLength = touchedRowsIds.length;
-
-    if (allRowsSelected) {
-      selectedRowsLength = totalElements > MAX_SELECTED_ROWS
-        ? MAX_SELECTED_ROWS - selectedRowsLength
-        : totalElements - selectedRowsLength;
-    }
-
-    return selectedRowsLength;
-  };
-
   render() {
     const {
       onCloseModal,
@@ -194,7 +184,9 @@ class NotificationCenterContent extends PureComponent {
       notificationsConfiguration,
     } = this.props;
 
-    const { allRowsSelected, touchedRowsIds } = this.state;
+    const { select } = this.state;
+
+    const selectedCount = select?.selected || 0;
 
     const typesData = get(notificationsTypesData, 'notificationCenterTypes') || [];
     const notificationsTypes = Object.keys(typesData);
@@ -210,7 +202,7 @@ class NotificationCenterContent extends PureComponent {
               {totalElements} {I18n.t('NOTIFICATION_CENTER.TOOLTIP.HEADLINE')}
             </div>
             <div className="NotificationCenterContent__subline">
-              {this.getSelectedRowLength()} {I18n.t('NOTIFICATION_CENTER.TOOLTIP.SUBLINE')}
+              {selectedCount} {I18n.t('NOTIFICATION_CENTER.TOOLTIP.SUBLINE')}
             </div>
           </div>
           <div className="NotificationCenterContent__actions">
@@ -226,7 +218,7 @@ class NotificationCenterContent extends PureComponent {
                 />
               </div>
             </If>
-            <If condition={allRowsSelected || touchedRowsIds.length}>
+            <If condition={selectedCount}>
               <Button
                 className="NotificationCenterContent__markAsRead"
                 onClick={this.bulkUpdate}
@@ -245,9 +237,7 @@ class NotificationCenterContent extends PureComponent {
         <NotificationCenterTable
           className="NotificationCenterContent__table"
           notifications={notifications}
-          allRowsSelected={allRowsSelected}
-          touchedRowsIds={touchedRowsIds}
-          selectItems={this.selectItems}
+          onSelect={this.onSelect}
           onCloseModal={onCloseModal}
         />
       </div>

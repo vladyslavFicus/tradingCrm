@@ -1,4 +1,8 @@
 .LeadsGrid {
+  &__name {
+    cursor: pointer;
+  }
+
   &__primary {
     font-weight: 700;
   }

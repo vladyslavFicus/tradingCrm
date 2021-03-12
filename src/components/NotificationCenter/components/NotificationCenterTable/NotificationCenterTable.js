@@ -7,7 +7,7 @@ import { NetworkStatus } from 'apollo-client';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
@@ -16,6 +16,7 @@ import './NotificationCenterTable.scss';
 
 class NotificationCenterTable extends PureComponent {
   static propTypes = {
+    onSelect: PropTypes.func.isRequired,
     notifications: PropTypes.query({
       notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
     }).isRequired,
@@ -23,16 +24,10 @@ class NotificationCenterTable extends PureComponent {
       confirmationModal: PropTypes.modalType,
     }).isRequired,
     className: PropTypes.string,
-    selectItems: PropTypes.func.isRequired,
-    touchedRowsIds: PropTypes.array,
-    allRowsSelected: PropTypes.bool,
-    onCloseModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    className: '',
-    touchedRowsIds: [],
-    allRowsSelected: false,
+    className: null,
   };
 
   handlePageChanged = () => {
@@ -49,31 +44,17 @@ class NotificationCenterTable extends PureComponent {
     loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
   };
 
-  handleSelectRow = (allRowsSelected, touchedRowsIds) => {
-    this.props.selectItems(allRowsSelected, touchedRowsIds);
-  };
-
-  handleAllRowsSelect = (allRowsSelected) => {
+  handleSelectError = (select) => {
     const {
-      selectItems,
-      onCloseModal,
-      notifications,
       modals: { confirmationModal },
     } = this.props;
 
-    const { totalElements } = notifications?.data?.notificationCenter || {};
-
-    if (allRowsSelected && totalElements > MAX_SELECTED_ROWS) {
-      confirmationModal.show({
-        onSubmit: confirmationModal.hide,
-        onCloseCallback: onCloseModal(),
-        modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
-        actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: MAX_SELECTED_ROWS }),
-        submitButtonLabel: I18n.t('COMMON.OK'),
-      });
-    }
-
-    selectItems(allRowsSelected, []);
+    confirmationModal.show({
+      onSubmit: confirmationModal.hide,
+      modalTitle: `${select.max} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
+      actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: select.max }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
   };
 
   rowsClassNames = ({ priority, read }) => classNames(
@@ -91,40 +72,38 @@ class NotificationCenterTable extends PureComponent {
         data,
         networkStatus,
       },
-      allRowsSelected,
-      touchedRowsIds,
+      onSelect,
     } = this.props;
 
-    const { content, last } = data?.notificationCenter || { content: [] };
+    const {
+      content = [],
+      totalElements = 0,
+      last = true,
+    } = data?.notificationCenter || {};
 
     // Show loader only if initial load or new variables was applied
     const loading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(networkStatus);
 
     return (
       <div
+        id="notification-center-table-scrollable-target"
         className={classNames('NotificationCenterTable', className)}
-        ref={(node) => {
-          this.scrollParentRef = node;
-        }}
       >
-        <Grid
-          className="NotificationCenterTable__grid"
-          data={content}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          handlePageChanged={this.handlePageChanged}
-          handleSelectRow={this.handleSelectRow}
-          handleAllRowsSelect={this.handleAllRowsSelect}
-          rowsClassNames={this.rowsClassNames}
-          scrollParentRef={this.scrollParentRef}
-          isLoading={loading}
-          isLastPage={last}
-          threshold={0}
-          withNoResults={!loading && !content.length}
+        <Table
           withMultiSelect
-          useWindow={false}
+          stickyFromTop={0}
+          items={content}
+          totalCount={totalElements}
+          loading={loading}
+          hasMore={!last}
+          onMore={this.handlePageChanged}
+          maxSelectCount={MAX_SELECTED_ROWS}
+          onSelect={onSelect}
+          onSelectError={this.handleSelectError}
+          customClassNameRow={this.rowsClassNames}
+          scrollableTarget="notification-center-table-scrollable-target"
         >
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
             render={({ type, uuid }) => (
               <If condition={type}>
@@ -135,7 +114,7 @@ class NotificationCenterTable extends PureComponent {
               </If>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
             render={({ type, subtype, details }) => (
               <Fragment>
@@ -170,7 +149,7 @@ class NotificationCenterTable extends PureComponent {
               </Fragment>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
             render={({ client }) => (
               <Choose>
@@ -183,7 +162,7 @@ class NotificationCenterTable extends PureComponent {
               </Choose>
             )}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_DATE')}
             render={({ createdAt }) => {
               if (!createdAt) {
@@ -204,7 +183,7 @@ class NotificationCenterTable extends PureComponent {
               );
             }}
           />
-          <GridColumn
+          <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.PRIORITY')}
             render={({ priority }) => (
               <If condition={priority}>
@@ -220,7 +199,7 @@ class NotificationCenterTable extends PureComponent {
               </If>
             )}
           />
-        </Grid>
+        </Table>
       </div>
     );
   }

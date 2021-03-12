@@ -9,7 +9,7 @@ import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import { FormikCheckbox } from 'components/Formik';
 import PartnerScheduleModal from 'modals/PartnerScheduleModal';
 import ChangeScheduleStatusMutation from './graphql/ChangeScheduleStatusMutation';
@@ -190,17 +190,18 @@ class PartnerSchedule extends PureComponent {
     const scheduleWeek = get(data, 'partner.schedule') || [];
 
     return (
-      <div className="PartnerSchedule card">
-        <div className="card-body">
-          <Formik
-            initialValues={{
-              ...scheduleWeek.reduce((acc, { day, activated }) => ({ ...acc, [day]: activated }), {}),
-            }}
-            enableReinitialize
-            onSubmit={this.handleSubmit}
-          >
-            {({ dirty, isSubmitting, setFieldValue }) => (
-              <Form>
+      <div className="PartnerSchedule">
+        <Formik
+          initialValues={{
+            ...scheduleWeek.reduce((acc, { day, activated }) => ({ ...acc, [day]: activated }), {}),
+          }}
+          enableReinitialize
+          onSubmit={this.handleSubmit}
+        >
+          {({ dirty, isSubmitting, setFieldValue }) => (
+            <Form>
+              <div className="PartnerSchedule__header-container">
+                <div className="PartnerSchedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</div>
                 <If condition={dirty || isSubmitting}>
                   <Button
                     primary
@@ -210,46 +211,42 @@ class PartnerSchedule extends PureComponent {
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>
                 </If>
-                <span className="PartnerSchedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</span>
-                <Grid
-                  rowsClassNames={({ day }) => (
-                    classNames({
-                      'PartnerSchedule--is-disabled': !checkedCountries[day],
-                    }))
-                  }
-                  data={scheduleWeek}
-                  handleRowClick={this.handleOfficeClick}
-                  isLastPage
-                  withNoResults={!loading && scheduleWeek.length === 0}
-                >
-                  <GridColumn
-                    header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.ACTIVATE')}
-                    render={this.renderActivate(setFieldValue)}
-                  />
-                  <GridColumn
-                    header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.DAY')}
-                    render={this.renderDay}
-                  />
-                  <GridColumn
-                    header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.WORKING_HOURS')}
-                    render={this.renderHours}
-                  />
-                  <GridColumn
-                    header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.TOTAL_LEADS_LIMIT')}
-                    render={this.renderLimit}
-                  />
-                  <GridColumn
-                    header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.COUNTRY_LIMIT')}
-                    render={this.renderCountry}
-                  />
-                  <GridColumn
-                    render={this.renderActions}
-                  />
-                </Grid>
-              </Form>
-            )}
-          </Formik>
-        </div>
+              </div>
+
+              <Table
+                items={scheduleWeek}
+                loading={loading}
+                customClassNameRow={({ day }) => (
+                  classNames({
+                    'PartnerSchedule--is-disabled': !checkedCountries[day],
+                  }))
+                }
+              >
+                <Column
+                  header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.ACTIVATE')}
+                  render={this.renderActivate(setFieldValue)}
+                />
+                <Column
+                  header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.DAY')}
+                  render={this.renderDay}
+                />
+                <Column
+                  header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.WORKING_HOURS')}
+                  render={this.renderHours}
+                />
+                <Column
+                  header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.TOTAL_LEADS_LIMIT')}
+                  render={this.renderLimit}
+                />
+                <Column
+                  header={I18n.t('PARTNERS.SCHEDULE.GRID_HEADER.COUNTRY_LIMIT')}
+                  render={this.renderCountry}
+                />
+                <Column render={this.renderActions} />
+              </Table>
+            </Form>
+          )}
+        </Formik>
       </div>
     );
   }

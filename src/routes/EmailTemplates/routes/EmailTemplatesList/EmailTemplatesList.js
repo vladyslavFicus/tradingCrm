@@ -8,7 +8,7 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import Grid, { GridColumn } from 'components/Grid';
+import { Table, Column } from 'components/Table';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailTemplateDeleteMutation from './graphql/EmailTemplateDeleteMutation';
 import './EmailTemplatesList.scss';
@@ -27,7 +27,7 @@ class EmailTemplatesList extends PureComponent {
     error: false,
   };
 
-  handleTemplateClick = ({ id }) => {
+  handleTemplateClick = (id) => {
     this.props.history.push(`/email-templates/edit/${id}`);
   };
 
@@ -35,9 +35,16 @@ class EmailTemplatesList extends PureComponent {
     this.props.history.push('/email-templates/create');
   };
 
-  renderTemplate = ({ name }) => <div className="font-weight-700 cursor-pointer">{name}</div>;
+  renderTemplate = ({ id, name }) => (
+    <div
+      className="font-weight-700 cursor-pointer"
+      onClick={() => this.handleTemplateClick(id)}
+    >
+      {name}
+    </div>
+  );
 
-  renderSubject = ({ subject }) => <div className="font-weight-700 cursor-pointer">{subject}</div>;
+  renderSubject = ({ subject }) => <div className="font-weight-700">{subject}</div>;
 
   renderRemoveIcon = ({ id }) => (
     <button
@@ -104,32 +111,25 @@ class EmailTemplatesList extends PureComponent {
             </button>
           </PermissionContent>
         </div>
-        <div className="EmailTemplatesList__body">
-          <Grid
-            data={entities}
-            handleRowClick={this.handleTemplateClick}
-            headerStickyFromTop={126}
-            isLoading={loading}
-            isLastPage
-            withNoResults={!loading && entities.length === 0}
-          >
-            <GridColumn
-              name="template"
-              header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.TEMPLATE')}
-              render={this.renderTemplate}
-            />
-            <GridColumn
-              name="subject"
-              header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.SUBJECT')}
-              render={this.renderSubject}
-            />
-            <GridColumn
-              name="delete"
-              header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.ACTION')}
-              render={this.renderRemoveIcon}
-            />
-          </Grid>
-        </div>
+
+        <Table
+          stickyFromTop={126}
+          items={entities}
+          loading={loading}
+        >
+          <Column
+            header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.TEMPLATE')}
+            render={this.renderTemplate}
+          />
+          <Column
+            header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.SUBJECT')}
+            render={this.renderSubject}
+          />
+          <Column
+            header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.ACTION')}
+            render={this.renderRemoveIcon}
+          />
+        </Table>
       </div>
     );
   }

@@ -17,44 +17,39 @@ class LeadsList extends PureComponent {
   };
 
   state = {
-    allRowsSelected: false,
-    touchedRowsIds: [],
+    select: null,
   };
 
   componentDidUpdate(prevProps) {
+    const { leadsQuery } = this.props;
+    const { select } = this.state;
+
     // Clear selecting when filters or sorting changed
-    if (this.props.leadsQuery.networkStatus === NetworkStatus.setVariables && !prevProps.leadsQuery.loading) {
-      this.updateLeadsListState();
+    if (leadsQuery.networkStatus === NetworkStatus.setVariables && !prevProps.leadsQuery.loading && select) {
+      select.reset();
     }
   }
 
-  updateLeadsListState = (
-    allRowsSelected = false,
-    touchedRowsIds = [],
-  ) => {
-    this.setState({ allRowsSelected, touchedRowsIds });
+  onSelect = (select) => {
+    this.setState({ select });
   };
 
   render() {
     const { leadsQuery } = this.props;
-    const { allRowsSelected, touchedRowsIds } = this.state;
+    const { select } = this.state;
 
     return (
       <div className="LeadsList">
         <LeadsHeader
           leadsQuery={leadsQuery}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          updateLeadsListState={this.updateLeadsListState}
+          select={select}
         />
 
         <LeadsGridFilter handleRefetch={leadsQuery.refetch} />
 
         <LeadsGrid
           leadsQuery={leadsQuery}
-          touchedRowsIds={touchedRowsIds}
-          allRowsSelected={allRowsSelected}
-          updateLeadsListState={this.updateLeadsListState}
+          onSelect={this.onSelect}
         />
       </div>
     );
