@@ -364,7 +364,11 @@ class DistributionRules extends PureComponent {
       },
     } = this.props;
 
-    const { last = true, content = [], totalElements } = data?.distributionRules || {};
+    const {
+      last = true,
+      content = [],
+      totalElements = 0,
+    } = data?.distributionRules || {};
 
     return (
       <div className="DistributionRulesList">
