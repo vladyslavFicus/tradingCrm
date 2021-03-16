@@ -129,10 +129,17 @@ class PermissionsSetting extends PureComponent {
       ({ shadowActions }) => ({
         shouldUpdate: false,
         shadowActions: shadowActions.map((section) => {
+          const _section = { ...section };
+          const [sectionKey] = Object.keys(section?.actions || {});
+          const { permissions = [] } = currentSection?.additional || {};
+
+          // When the section has additional permission, then need to enable matched switcher
+          if (permissions && permissions.includes(section.actions[sectionKey].action) && enabled) {
+            _section.actions[sectionKey].state = true;
+          }
+
           if (currentSection && section.id === currentSection.id) {
             isSectionSwitcher = true;
-            const [sectionKey] = Object.keys(section?.actions || {});
-            const _section = { ...section };
 
             _section.actions[sectionKey].state = enabled;
 
@@ -142,6 +149,11 @@ class PermissionsSetting extends PureComponent {
                 const _permission = { ...permission };
 
                 Object.keys(permission.actions || {}).forEach((value) => {
+                  // When the section has additional permission, then need to enable matched switcher
+                  if (permissions && permissions.includes(_permission.actions[value].action) && enabled) {
+                    _permission.actions[value].state = true;
+                  }
+
                   const { state } = {
                     ...(enabled && action === _permission.actions[value].action
                       ? { state: enabled }
