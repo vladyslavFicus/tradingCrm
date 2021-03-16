@@ -9,7 +9,7 @@ const REQUEST = gql`
     $firstName: String!
     $lastName: String!
     $phoneNumber: String
-    $sip: String
+    $clickToCall: OperatorUpdate__ClickToCall__Input
     $country: String
   ) {
     operator {
@@ -18,7 +18,7 @@ const REQUEST = gql`
         firstName: $firstName
         lastName: $lastName
         phoneNumber: $phoneNumber
-        sip: $sip
+        clickToCall: $clickToCall
         country: $country
       ) {
         _id
@@ -29,7 +29,11 @@ const REQUEST = gql`
         lastName
         operatorStatus
         phoneNumber
-        sip
+        clickToCall {
+          didlogicPhone
+          asteriskPhone
+          commpeakPhone
+        }
         registeredBy
         registrationDate
         statusChangeAuthor
