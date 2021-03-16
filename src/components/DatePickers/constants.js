@@ -10,10 +10,24 @@ export const DATE_TIME_OLD_BASE_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export const defaultAdditionalOptions = () => ([
   {
-    label: 'DATE_PICKER.PERIOD_RESETS.TODAY',
+    label: 'DATE_PICKER.PERIOD_RESETS.CURRENT_DAY',
     value: {
       from: moment().startOf('day'),
       to: moment().endOf('day'),
+    },
+  },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.PREVIOUS_DAY',
+    value: {
+      from: moment().subtract(1, 'days').startOf('day'),
+      to: moment().subtract(1, 'days').endOf('day'),
+    },
+  },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.CURRENT_WEEK',
+    value: {
+      from: moment().startOf('isoWeek'),
+      to: moment().endOf('isoWeek'),
     },
   },
   {
@@ -24,10 +38,10 @@ export const defaultAdditionalOptions = () => ([
     },
   },
   {
-    label: 'DATE_PICKER.PERIOD_RESETS.THIS_WEEK',
+    label: 'DATE_PICKER.PERIOD_RESETS.CURRENT_MONTH',
     value: {
-      from: moment().startOf('isoWeek'),
-      to: moment().endOf('isoWeek'),
+      from: moment().startOf('month'),
+      to: moment().endOf('month'),
     },
   },
   {
@@ -38,31 +52,17 @@ export const defaultAdditionalOptions = () => ([
     },
   },
   {
-    label: 'DATE_PICKER.PERIOD_RESETS.THIS_MONTH',
-    value: {
-      from: moment().startOf('month'),
-      to: moment().endOf('month'),
-    },
-  },
-  {
-    label: 'DATE_PICKER.PERIOD_RESETS.LAST_7_DAYS',
-    value: {
-      from: moment().subtract(7, 'days'),
-      to: moment(),
-    },
-  },
-  {
-    label: 'DATE_PICKER.PERIOD_RESETS.LAST_14_DAYS',
-    value: {
-      from: moment().subtract(14, 'days'),
-      to: moment(),
-    },
-  },
-  {
-    label: 'DATE_PICKER.PERIOD_RESETS.THIS_YEAR',
+    label: 'DATE_PICKER.PERIOD_RESETS.CURRENT_YEAR',
     value: {
       from: moment().startOf('year'),
       to: moment().endOf('year'),
+    },
+  },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.PREVIOUS_YEAR',
+    value: {
+      from: moment().subtract(1, 'years').startOf('year'),
+      to: moment().subtract(1, 'years').endOf('year'),
     },
   },
 ]);

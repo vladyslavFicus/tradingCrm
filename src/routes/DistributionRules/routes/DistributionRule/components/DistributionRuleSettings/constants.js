@@ -40,6 +40,20 @@ export const periodInDays = [
       to: moment().subtract(3, 'days').endOf('days'),
     },
   },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.LAST_7_DAYS',
+    value: {
+      from: moment().subtract(7, 'days'),
+      to: moment(),
+    },
+  },
+  {
+    label: 'DATE_PICKER.PERIOD_RESETS.LAST_14_DAYS',
+    value: {
+      from: moment().subtract(14, 'days'),
+      to: moment(),
+    },
+  },
 ];
 
 export const executionTypes = [

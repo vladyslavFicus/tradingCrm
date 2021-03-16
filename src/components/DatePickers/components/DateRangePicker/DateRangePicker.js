@@ -552,7 +552,7 @@ class DateRangePicker extends PureComponent {
               <div className="DateRangePicker__popup-column">
                 <If condition={withAdditional}>
                   <DatePickerAdditional
-                    additionalOptions={[...additionalOptions, ...defaultAdditionalOptions()]}
+                    additionalOptions={[...defaultAdditionalOptions(), ...additionalOptions]}
                     additionalValues={additionalValues}
                     selectedAdditional={selectedAdditional}
                     selectedDateRange={dateRange}

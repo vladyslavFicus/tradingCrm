@@ -2225,15 +2225,17 @@
     "START_DATE": "Start date",
     "END_DATE": "End date",
     "PERIOD_RESETS": {
-      "TODAY": "Today",
+      "CURRENT_DAY": "Current day",
       "PREVIOUS_WEEK": "Previous week",
-      "THIS_WEEK": "This week",
+      "CURRENT_WEEK": "Current week",
       "PREVIOUS_MONTH": "Previous month",
-      "THIS_MONTH": "This month",
+      "CURRENT_MONTH": "Current month",
       "LAST_7_DAYS": "Last 7 days",
       "LAST_14_DAYS": "Last 14 days",
-      "THIS_YEAR": "This year",
-      "TITLE": "Range presets"
+      "CURRENT_YEAR": "Current year",
+      "TITLE": "Range presets",
+      "PREVIOUS_DAY": "Previous day",
+      "PREVIOUS_YEAR": "Previous year"
     }
   },
   "MODALS": {
