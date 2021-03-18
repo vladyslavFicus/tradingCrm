@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { getClickToCall } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -19,8 +20,10 @@ const attributeLabels = {
   firstName: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.FIRST_NAME',
   lastName: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.LAST_NAME',
   phoneNumber: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.PHONE',
+  didlogicSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.DIDLOGIC',
+  asteriskSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.ASTERISK',
+  commpeakSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.COMMPEAK',
   country: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.COUNTRY',
-  sip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.SIP',
   email: 'COMMON.EMAIL',
 };
 
@@ -30,7 +33,6 @@ const validate = createValidator({
   email: ['required', 'email'],
   country: [`in:,${Object.keys(countries).join()}`],
   phoneNumber: 'string',
-  sip: 'string',
 }, translateLabels(attributeLabels), false);
 
 class OperatorPersonal extends PureComponent {
@@ -83,10 +85,14 @@ class OperatorPersonal extends PureComponent {
       lastName,
       country,
       email,
-      sip,
+      clickToCall,
     } = operatorQuery.data?.operator || {};
 
     const isReadOnly = !(new Permissions(permissions.OPERATORS.UPDATE_PROFILE).check(currentPermissions));
+
+    const isDidlogicActive = getClickToCall()?.isActive;
+    const isAsteriskActive = getClickToCall()?.asterisk?.isActive;
+    const isCommpeakActive = getClickToCall()?.commpeak?.isActive;
 
     return (
       <Formik
@@ -96,7 +102,7 @@ class OperatorPersonal extends PureComponent {
           lastName,
           country,
           email,
-          sip,
+          clickToCall,
         }}
         validate={validate}
         onSubmit={this.onSubmit}
@@ -169,15 +175,6 @@ class OperatorPersonal extends PureComponent {
               />
 
               <Field
-                name="sip"
-                className="OperatorPersonal__field"
-                label={I18n.t(attributeLabels.sip)}
-                placeholder={I18n.t(attributeLabels.sip)}
-                component={FormikInputField}
-                disabled={isSubmitting || isReadOnly}
-              />
-
-              <Field
                 name="country"
                 className="OperatorPersonal__field"
                 label={I18n.t(attributeLabels.country)}
@@ -194,6 +191,49 @@ class OperatorPersonal extends PureComponent {
                 ))}
               </Field>
             </div>
+
+            <If condition={isDidlogicActive || isAsteriskActive || isCommpeakActive}>
+              <hr />
+
+              <div className="OperatorPersonal__title">
+                {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.VOIP')}
+              </div>
+
+              <div className="OperatorPersonal__fields">
+                <If condition={isDidlogicActive}>
+                  <Field
+                    name="clickToCall.didlogicPhone"
+                    className="OperatorPersonal__field"
+                    label={I18n.t(attributeLabels.didlogicSip)}
+                    placeholder={I18n.t(attributeLabels.didlogicSip)}
+                    component={FormikInputField}
+                    disabled={isSubmitting || isReadOnly}
+                  />
+                </If>
+
+                <If condition={isAsteriskActive}>
+                  <Field
+                    name="clickToCall.asteriskPhone"
+                    className="OperatorPersonal__field"
+                    label={I18n.t(attributeLabels.asteriskSip)}
+                    placeholder={I18n.t(attributeLabels.asteriskSip)}
+                    component={FormikInputField}
+                    disabled={isSubmitting || isReadOnly}
+                  />
+                </If>
+
+                <If condition={isCommpeakActive}>
+                  <Field
+                    name="clickToCall.commpeakPhone"
+                    className="OperatorPersonal__field"
+                    label={I18n.t(attributeLabels.commpeakSip)}
+                    placeholder={I18n.t(attributeLabels.commpeakSip)}
+                    component={FormikInputField}
+                    disabled={isSubmitting || isReadOnly}
+                  />
+                </If>
+              </div>
+            </If>
           </Form>
         )}
       </Formik>
