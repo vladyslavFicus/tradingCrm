@@ -1374,7 +1374,8 @@
         "EMAIL": "Email",
         "COUNTRY": "Country",
         "PHONE_NUMBER": "Phone number",
-        "REGISTRATION_DATE": "Registration date"
+        "REGISTRATION_DATE": "Registration date",
+        "VOIP": "VoIP"
       }
     },
     "MODALS": {
@@ -1967,7 +1968,9 @@
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
           "PHONE": "Phone",
-          "SIP": "SIP"
+          "DIDLOGIC": "DID Logic SIP",
+          "ASTERISK": "Asterisk SIP",
+          "COMMPEAK": "Commpeak SIP"
         }
       }
     },

@@ -49,6 +49,10 @@ const REQUEST = gql`
           isActive
           prefixes
         }
+        commpeak {
+          isActive
+          prefixes
+        }
       }
       email {
         templatedEmails
