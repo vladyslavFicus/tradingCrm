@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import moment from 'moment';
 import { isEqual } from 'lodash';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
@@ -17,6 +18,17 @@ import {
 } from './constants';
 import PartnersQuery from './graphql/PartnersQuery';
 import './DistributionRuleSettings.scss';
+
+const additionalPeriodInDays = [
+  {
+    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.3_DAYS_AGO',
+    value: {
+      from: moment().subtract(3, 'days').startOf('days'),
+      to: moment().subtract(3, 'days').endOf('days'),
+    },
+  },
+];
+
 
 class DistributionRuleSettings extends PureComponent {
   static propTypes = {
@@ -161,7 +173,7 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'registrationPeriodInHours',
                 }}
                 additionalValues={periodInHours}
-                additionalOptions={periodInDays}
+                additionalOptions={[...additionalPeriodInDays, ...periodInDays]}
                 withAdditionalValues
               />
               <Field
@@ -174,6 +186,7 @@ class DistributionRuleSettings extends PureComponent {
                   additional: 'lastNotePeriodInHours',
                 }}
                 additionalValues={periodInHours}
+                additionalOptions={periodInDays}
                 withAdditionalValues
               />
               <Field

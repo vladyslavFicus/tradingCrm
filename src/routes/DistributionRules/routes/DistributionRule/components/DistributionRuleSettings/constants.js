@@ -34,13 +34,6 @@ export const periodInHours = [
 
 export const periodInDays = [
   {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.3_DAYS_AGO',
-    value: {
-      from: moment().subtract(3, 'days').startOf('days'),
-      to: moment().subtract(3, 'days').endOf('days'),
-    },
-  },
-  {
     label: 'DATE_PICKER.PERIOD_RESETS.LAST_7_DAYS',
     value: {
       from: moment().subtract(7, 'days'),
