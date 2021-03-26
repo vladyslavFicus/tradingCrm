@@ -434,6 +434,7 @@ class ClientsGrid extends PureComponent {
             render={this.renderWarningColumn}
           />
           <Column
+            sortBy="lastActivity.date"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
             render={this.renderLastActivityColumn}
           />
