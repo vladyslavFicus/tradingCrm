@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
@@ -20,6 +22,7 @@ class LeadsUploadModal extends PureComponent {
     isOpen: PropTypes.bool.isRequired,
     notify: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
     uploadLeads: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
   }
@@ -40,12 +43,14 @@ class LeadsUploadModal extends PureComponent {
     const {
       notify,
       onSuccess,
+      onError,
       uploadLeads,
       onCloseModal,
     } = this.props;
 
     try {
       await uploadLeads({ variables: { file } });
+      test;
 
       notify({
         level: 'success',
@@ -65,6 +70,9 @@ class LeadsUploadModal extends PureComponent {
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t(errorMessage),
       });
+
+      onCloseModal();
+      onError();
     }
   };
 

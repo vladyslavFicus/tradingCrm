@@ -1,0 +1,18 @@
+.LeadsUploadResultModal {
+  &__description {
+    text-align: center;
+  }
+
+  &__row {
+    text-align: center;
+  }
+
+  &__action-text {
+    font-weight: 700;
+    line-height: 1.3em;
+  }
+
+  .modal-header {
+    background-color: #ff8041;
+  }
+}

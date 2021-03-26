@@ -10,7 +10,12 @@ const REQUEST = gql`
     leads {
       uploadLeads (
         file: $file
-      )
+      ) {
+        content {
+          phone
+          email
+        }
+      }
     }
   }
 `;
