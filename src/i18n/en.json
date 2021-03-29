@@ -584,7 +584,8 @@
       "LEAD": "Name, Email, Phone, ID, source",
       "AFFILIATE": "Affiliate ID, Referrer ID, source",
       "NAME": "Name",
-      "MIGRATION_ID": "Migration ID"
+      "MIGRATION_ID": "Migration ID",
+      "TOOLTIP": "You can input several parameters of the same type simultaneously separated by a comma. Input limit: 200 symbols."
     },
     "DATE_OPTIONS": {
       "START_DATE": "Start date",
