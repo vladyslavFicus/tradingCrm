@@ -19,11 +19,11 @@ const REQUEST = gql`query AddSourceBrandModal__BranchesQuery($brandId: String) {
   }
 }`;
 
-const BranchesQuery = ({ children, initialValues: { brand } }) => (
+const BranchesQuery = ({ children, initialValues }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
-    variables={{ brandId: brand }}
+    variables={{ brandId: initialValues?.brand }}
   >
     {children}
   </Query>
