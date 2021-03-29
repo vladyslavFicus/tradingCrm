@@ -91,6 +91,8 @@ class AddSourceBrandModal extends PureComponent {
     this.fetchAvailableClientsAmount({
       brand,
     });
+
+    this.props.branchesQuery.refetch({ sourceBrand: brand });
   };
 
   handleDesksChange = (setValues, values) => (desks) => {
