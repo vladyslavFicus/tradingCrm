@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import './input.scss';
 
 class Input extends PureComponent {
@@ -17,6 +18,7 @@ class Input extends PureComponent {
     isFocused: PropTypes.bool,
     className: PropTypes.string,
     label: PropTypes.string,
+    labelTooltip: PropTypes.string,
     icon: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     additionPosition: PropTypes.string,
@@ -30,6 +32,7 @@ class Input extends PureComponent {
     isFocused: false,
     className: '',
     label: '',
+    labelTooltip: '',
     value: '',
     icon: null,
     addition: null,
@@ -51,6 +54,7 @@ class Input extends PureComponent {
       label,
       icon,
       addition,
+      labelTooltip,
       additionPosition,
       onAdditionClick,
       showErrorMessage,
@@ -66,6 +70,8 @@ class Input extends PureComponent {
       ...input,
     };
 
+    const uniqueId = `label-${name}`;
+
     return (
       <div
         className={classNames('input', className, {
@@ -78,6 +84,16 @@ class Input extends PureComponent {
       >
         <If condition={label}>
           <label className="input__label">{label}</label>
+          <If condition={labelTooltip}>
+            <span id={uniqueId} className="input__label-icon">
+              <i className="input__icon-info fa fa-info-circle" />
+            </span>
+            <UncontrolledTooltip
+              target={uniqueId}
+            >
+              {labelTooltip}
+            </UncontrolledTooltip>
+          </If>
         </If>
         <div className="input__body">
           <input {...inputProps} />

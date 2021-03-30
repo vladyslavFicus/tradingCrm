@@ -209,6 +209,7 @@ class ClientsGridOldFilter extends PureComponent {
                       name="searchByIdentifiers"
                       className="ClientsGridOldFilter__field ClientsGridOldFilter__search"
                       label={I18n.t(attributeLabels.searchByIdentifiers)}
+                      labelTooltip={I18n.t('COMMON.SEARCH_BY.TOOLTIP')}
                       placeholder={I18n.t('COMMON.SEARCH_BY.CLIENT')}
                       addition={<i className="icon icon-search" />}
                       component={FormikInputField}

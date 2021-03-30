@@ -9,6 +9,16 @@ $input-height: 40px;
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 5px;
+
+    &-icon {
+      vertical-align: middle;
+    }
+  }
+
+  &__icon-info {
+    font-size: 17px;
+    padding: 5px;
+    cursor: pointer;
   }
 
   &__body {
