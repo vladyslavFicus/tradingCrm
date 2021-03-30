@@ -18,14 +18,9 @@ class Input extends PureComponent {
     isFocused: PropTypes.bool,
     className: PropTypes.string,
     label: PropTypes.string,
+    labelTooltip: PropTypes.string,
     icon: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    additionalLabelTooltip: PropTypes.shape({
-      icon: PropTypes.node,
-      text: PropTypes.string,
-      placement: PropTypes.string,
-      delay: PropTypes.object,
-    }),
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
@@ -37,11 +32,11 @@ class Input extends PureComponent {
     isFocused: false,
     className: '',
     label: '',
+    labelTooltip: '',
     value: '',
     icon: null,
     addition: null,
     additionPosition: '',
-    additionalLabelTooltip: null,
     onChange: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
@@ -59,7 +54,7 @@ class Input extends PureComponent {
       label,
       icon,
       addition,
-      additionalLabelTooltip,
+      labelTooltip,
       additionPosition,
       onAdditionClick,
       showErrorMessage,
@@ -75,14 +70,7 @@ class Input extends PureComponent {
       ...input,
     };
 
-    const {
-      text,
-      icon: labelIcon,
-      placement,
-      delay,
-    } = additionalLabelTooltip || {};
-
-    const uniqueId = `label-${Math.random().toString(36).slice(2)}`;
+    const uniqueId = `label-${name}`;
 
     return (
       <div
@@ -96,16 +84,14 @@ class Input extends PureComponent {
       >
         <If condition={label}>
           <label className="input__label">{label}</label>
-          <If condition={additionalLabelTooltip}>
+          <If condition={labelTooltip}>
             <span id={uniqueId} className="input__label-icon">
-              {labelIcon}
+              <i className="input__icon-info fa fa-info-circle" />
             </span>
             <UncontrolledTooltip
-              placement={placement}
               target={uniqueId}
-              delay={{ ...delay }}
             >
-              {text}
+              {labelTooltip}
             </UncontrolledTooltip>
           </If>
         </If>

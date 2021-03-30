@@ -257,12 +257,9 @@ class ClientsGridFilter extends PureComponent {
                       name="searchByIdentifiers"
                       className="ClientsGridFilter__field ClientsGridFilter__search"
                       label={I18n.t(attributeLabels.searchByIdentifiers)}
+                      labelTooltip={I18n.t('COMMON.SEARCH_BY.TOOLTIP')}
                       placeholder={I18n.t('COMMON.SEARCH_BY.CLIENT')}
                       addition={<i className="icon icon-search" />}
-                      additionalLabelTooltip={{
-                        icon: <i id="search-by" className="ClientsGridFilter__icon-info fa fa-info-circle" />,
-                        text: I18n.t('COMMON.SEARCH_BY.TOOLTIP'),
-                      }}
                       component={FormikInputField}
                       maxLength={200}
                       withFocus
