@@ -4004,7 +4004,8 @@
           "branchUpdate": "Update branch",
           "branchDelete": "Delete branch",
           "branchAddManager": "Add branch manager",
-          "removeAddManager": "Remove branch manager"
+          "removeAddManager": "Remove branch manager",
+          "updateAcquisition": "Update acquisition status"
         }
       },
       "management-sales-rules": {

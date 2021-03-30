@@ -932,6 +932,16 @@ export default [
           },
         },
       },
+      // Update acquisition
+      {
+        id: 'updateAcquisition',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.user.bulkUpdateAcquisition',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
