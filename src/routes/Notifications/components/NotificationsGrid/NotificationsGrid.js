@@ -53,9 +53,9 @@ class NotificationsGrid extends PureComponent {
 
   renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
-      <span className="NotificationsGrid__text-primary">
+      <div className="NotificationsGrid__text-primary">
         {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
-      </span>
+      </div>
 
       {/* Render custom details for individual type or subtype */}
       <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
