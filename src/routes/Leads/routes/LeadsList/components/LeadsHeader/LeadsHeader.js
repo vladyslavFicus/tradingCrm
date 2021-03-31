@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
@@ -81,8 +79,13 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     leadsUploadModal.show({
-      onSuccess: leadsQuery.refetch,
-      onError: leadsUploadResultModal.show,
+      onSuccess: (uploadLeadsResult) => {
+        leadsQuery.refetch();
+
+        if (uploadLeadsResult.length) {
+          leadsUploadResultModal.show({ uploadLeadsResult });
+        }
+      },
     });
   };
 

@@ -1,70 +1,15 @@
-/* eslint-disable */
-
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import { withRequests, parseErrors } from 'apollo';
-import { compose } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
-import withNotifications from 'hoc/withNotifications';
 import { Button } from 'components/UI';
-import DeleteBranchMutation from './graphql/DeleteBranchMutation';
 import './LeadsUploadResultModal.scss';
-
-const columns = [
-  'name',
-  'surname',
-  'phone',
-  'mobile',
-  'email',
-  'country',
-  'city',
-  'birthDate',
-  'gender',
-  'language',
-  'source',
-  'affiliate',
-  'salesAgent',
-  'errorReason',
-];
-
-const rows = [
-  {
-    name: '',
-    surname: '',
-    phone: '38094577548',
-    mobile: '',
-    email: 'djfkdjfkd@gmail.com',
-    country: '',
-    city: '',
-    birthDate: '',
-    gender: '',
-    language: '',
-    source: '',
-    affiliate: '',
-    salesAgent: '',
-    processingStatus: 'EMAIL_UNIQUENESS_FAILED',
-  },
-  {
-    phone: '380945343434',
-    email: '4444444@gmail.com',
-  },
-  {
-    phone: '380945343434',
-    email: '4444444@gmail.com',
-  }
-];
 
 class LeadsUploadResultModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
-  };
-
-  state = {
-    isSubmitting: false,
-    errors: null,
+    uploadLeadsResult: PropTypes.arrayOf(PropTypes.leadResult).isRequired,
   };
 
   handleClose = () => {
@@ -74,34 +19,34 @@ class LeadsUploadResultModal extends PureComponent {
   }
 
   createCsvFile = () => {
+    const { uploadLeadsResult } = this.props;
+    const keys = Object.keys(uploadLeadsResult[0]).filter(key => key !== '__typename');
+
     return encodeURI(`data:text/csv;charset=utf-8, ${
       [
-        columns,
-        ...rows.map(item => columns.map(column => {
-          
-          if (column === 'errorReason') {
-            return item['processingStatus'] === 'EMAIL_UNIQUENESS_FAILED' ? 'mail duplication' : 'phone duplication';
-          }
-          
-          return item[column] || '-';
-        })),
-      ].map(e => e.join(",")).join("\n")
-    }`)
+        keys,
+        ...uploadLeadsResult.map(({ __typename, ...uploadLeadResult }) => (
+          Object.values({
+            ...uploadLeadResult,
+            failureReason: I18n.t(`MODALS.LEADS_UPLOAD_RESULT_MODAL.FAILURE_REASON.${uploadLeadResult?.failureReason}`),
+          })
+        )),
+      ].map(e => e.join(',')).join('\n')
+    }`);
   }
 
   render() {
     const {
       isOpen,
+      uploadLeadsResult,
     } = this.props;
-
-    const { isSubmitting, errors } = this.state;
 
     return (
       <Modal className="LeadsUploadResultModal" isOpen={isOpen} toggle={this.handleClose}>
         <ModalHeader toggle={this.handleClose}>{I18n.t('MODALS.LEADS_UPLOAD_RESULT_MODAL.TITLE')}</ModalHeader>
         <ModalBody>
           <div className="LeadsUploadResultModal__row LeadsUploadResultModal__action-text">
-            {I18n.t('MODALS.LEADS_UPLOAD_RESULT_MODAL.DESCRIPTION', { count: rows.length })}
+            {I18n.t('MODALS.LEADS_UPLOAD_RESULT_MODAL.DESCRIPTION', { count: uploadLeadsResult.length })}
           </div>
         </ModalBody>
 
@@ -112,10 +57,7 @@ class LeadsUploadResultModal extends PureComponent {
           >
             {I18n.t('COMMON.BUTTONS.CANCEL')}
           </Button>
-          <Button
-            danger
-            disabled={isSubmitting || errors}
-          >
+          <Button danger>
             <a href={this.createCsvFile()} download="report">{I18n.t('COMMON.BUTTONS.DOWNLOAD')}</a>
           </Button>
         </ModalFooter>
@@ -124,9 +66,4 @@ class LeadsUploadResultModal extends PureComponent {
   }
 }
 
-export default compose(
-  withNotifications,
-  withRequests({
-    deleteBranch: DeleteBranchMutation,
-  }),
-)(LeadsUploadResultModal);
+export default LeadsUploadResultModal;
