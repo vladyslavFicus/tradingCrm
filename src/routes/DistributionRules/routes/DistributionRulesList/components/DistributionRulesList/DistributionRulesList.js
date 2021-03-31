@@ -128,6 +128,7 @@ class DistributionRules extends PureComponent {
         variables: {
           uuid,
         },
+        fetchPolicy: 'network-only',
       });
 
       confirmActionModal.show({
