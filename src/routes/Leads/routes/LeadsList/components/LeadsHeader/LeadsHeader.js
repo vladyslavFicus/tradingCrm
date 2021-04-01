@@ -5,9 +5,11 @@ import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
 import { withNotifications, withModals } from 'hoc';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
+import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
@@ -135,30 +137,32 @@ class LeadsHeader extends PureComponent {
           </ReactPlaceholder>
         </div>
 
-        <div className="LeadsHeader__right">
-          <If condition={totalElements !== 0 && selectedCount !== 0}>
-            <div className="LeadsHeader__bulk">
-              <div className="LeadsHeader__bulk-title">
-                {I18n.t('LEADS.BULK_ACTIONS')}
-              </div>
+        <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
+          <div className="LeadsHeader__right">
+            <If condition={totalElements !== 0 && selectedCount !== 0}>
+              <div className="LeadsHeader__bulk">
+                <div className="LeadsHeader__bulk-title">
+                  {I18n.t('LEADS.BULK_ACTIONS')}
+                </div>
 
+                <Button
+                  commonOutline
+                  onClick={this.handleOpenRepresentativeModal}
+                >
+                  {I18n.t('COMMON.SALES')}
+                </Button>
+              </div>
+            </If>
+            <If condition={selectedCount === 0}>
               <Button
                 commonOutline
-                onClick={this.handleOpenRepresentativeModal}
+                onClick={this.handleOpenLeadsUploadModal}
               >
-                {I18n.t('COMMON.SALES')}
+                {I18n.t('COMMON.UPLOAD')}
               </Button>
-            </div>
-          </If>
-          <If condition={selectedCount === 0}>
-            <Button
-              commonOutline
-              onClick={this.handleOpenLeadsUploadModal}
-            >
-              {I18n.t('COMMON.UPLOAD')}
-            </Button>
-          </If>
-        </div>
+            </If>
+          </div>
+        </PermissionContent>
       </div>
     );
   }
