@@ -9,7 +9,7 @@ class LeadsUploadResultModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    uploadLeadsResult: PropTypes.arrayOf(PropTypes.leadResult).isRequired,
+    uploadLeadsResult: PropTypes.arrayOf(PropTypes.leadUploadResponse).isRequired,
   };
 
   handleClose = () => {

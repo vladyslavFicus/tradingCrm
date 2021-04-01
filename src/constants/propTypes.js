@@ -296,7 +296,7 @@ PropTypes.lead = PropTypes.shape({
   acquisition: PropTypes.acquisition,
 });
 
-PropTypes.leadResult = PropTypes.shape({
+PropTypes.leadUploadResponse = PropTypes.shape({
   name: PropTypes.string,
   surname: PropTypes.string,
   phone: PropTypes.string,
