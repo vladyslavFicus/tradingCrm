@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import './ClientLastActivity.scss';
 
 class ClientLastActivity extends PureComponent {
@@ -53,7 +54,19 @@ class ClientLastActivity extends PureComponent {
             <span className="ClientLastActivity__text-primary">
               {I18n.t('CLIENT_PROFILE.CLIENT.LAST_ACTIVITY.LOCATION')}:
             </span>
-            <span className="ClientLastActivity__text-secondary"> {location}</span>
+            <span
+              id="location"
+              className="ClientLastActivity__text-secondary ClientLastActivity__location"
+            >
+              {location}
+            </span>
+            <UncontrolledTooltip
+              placement="bottom-start"
+              target="location"
+              delay={{ show: 350, hide: 250 }}
+            >
+              {location}
+            </UncontrolledTooltip>
           </div>
         </If>
 
