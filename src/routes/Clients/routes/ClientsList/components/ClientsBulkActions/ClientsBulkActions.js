@@ -136,7 +136,7 @@ class ClientsBulkActions extends PureComponent {
           </If>
         </PermissionContent>
 
-        <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS}>
+        <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
           <Button
             commonOutline
             className="ClientsBulkActions__button"
