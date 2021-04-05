@@ -31,4 +31,12 @@
     color: #333;
     font-size: 11px;
   }
+
+  &__location {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 190px;
+    display: inline-block;
+  }
 }
