@@ -14,11 +14,13 @@ export default (error) => {
 
   const errorCode = get(errorResponse, 'error', 'error.internal');
   const errorParameters = get(errorResponse, 'errorParameters', {});
+  const errors = get(errorResponse, 'errors', []);
 
   return {
     error: errorCode,
     message: I18n.t(errorCode, { defaultValue: errorResponse?.message }),
     fields: Object.keys(fields).length ? fields : null,
     errorParameters,
+    errors,
   };
 };
