@@ -1702,6 +1702,9 @@
         },
         "campaign": {
           "promo-code": "Invalid promo code"
+        },
+        "amount": {
+          "DecimalMin": "The Amount must be at least 0.10"
         }
       },
       "email": {

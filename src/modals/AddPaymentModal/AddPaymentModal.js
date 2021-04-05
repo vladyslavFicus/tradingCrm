@@ -90,6 +90,19 @@ class AddPaymentModal extends PureComponent {
       onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+      const { code, defaultMessage } = error.errors[0] || {};
+
+      if (defaultMessage === 'error.validation.invalid.amount' && code) {
+        this.setState({ errorMessage: I18n.t(`error.validation.invalid.amount.${code}`) });
+
+        notify({
+          level: 'error',
+          title: I18n.t('COMMON.FAIL'),
+          message: I18n.t(`error.validation.invalid.amount.${code}`),
+        });
+
+        return;
+      }
 
       this.setState({ errorMessage: error.message });
 
