@@ -487,7 +487,8 @@
       "UPDATE_NOW": "Update now",
       "YES": "YES",
       "ADD_FILTER": "+ Filter",
-      "OLD_FILTERS": "Old filters"
+      "OLD_FILTERS": "Old filters",
+      "DOWNLOAD": "Download"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -2420,6 +2421,16 @@
     "UNASSIGN_BRANCH": {
       "TITLE": "Branch unassignment",
       "DESCRIPTION": "You are trying to remove the Operator %{operator} with %{clients} of assigned clients from branch %{branch}. It may take a while. It is highly recommended to proceed in non-business hours."
+    },
+    "LEADS_UPLOAD_RESULT_MODAL": {
+      "TITLE": "Leads Upload Result",
+      "DESCRIPTION": "%{count} leads are already in the system. They have not been uploaded. To view them, click the download button below.",
+      "FAILURE_REASON": {
+        "DUPLICATED_EMAIL": "Email is duplicated in the uploaded file",
+        "DUPLICATED_PHONE": "Phone is duplicated in the uploaded file",
+        "EXISTING_EMAIL": "Email already exists in the system",
+        "EXISTING_PHONE": "Phone already exists in the system"
+      }
     }
   },
   "FILE_DROPZONE": {

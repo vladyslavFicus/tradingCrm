@@ -10,7 +10,22 @@ const REQUEST = gql`
     leads {
       uploadLeads (
         file: $file
-      )
+      ) {
+        name
+        surname
+        phone
+        email
+        mobile
+        country
+        source
+        salesAgent
+        birthDate
+        affiliate
+        gender
+        city
+        language
+        failureReason
+      }
     }
   }
 `;

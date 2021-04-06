@@ -11,6 +11,7 @@ import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
+import LeadsUploadResultModal from 'modals/LeadsUploadResultModal';
 import LeadsUploadModal from '../LeadsUploadModal';
 import './LeadsHeader.scss';
 
@@ -24,6 +25,7 @@ class LeadsHeader extends PureComponent {
     modals: PropTypes.shape({
       representativeUpdateModal: PropTypes.modalType,
       leadsUploadModal: PropTypes.modalType,
+      leadsUploadResultModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -74,11 +76,18 @@ class LeadsHeader extends PureComponent {
       leadsQuery,
       modals: {
         leadsUploadModal,
+        leadsUploadResultModal,
       },
     } = this.props;
 
     leadsUploadModal.show({
-      onSuccess: leadsQuery.refetch,
+      onSuccess: (uploadLeadsResult) => {
+        leadsQuery.refetch();
+
+        if (uploadLeadsResult.length) {
+          leadsUploadResultModal.show({ uploadLeadsResult });
+        }
+      },
     });
   };
 
@@ -174,5 +183,6 @@ export default compose(
   withModals({
     representativeUpdateModal: RepresentativeUpdateModal,
     leadsUploadModal: LeadsUploadModal,
+    leadsUploadResultModal: LeadsUploadResultModal,
   }),
 )(LeadsHeader);

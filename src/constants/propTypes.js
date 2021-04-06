@@ -296,6 +296,21 @@ PropTypes.lead = PropTypes.shape({
   acquisition: PropTypes.acquisition,
 });
 
+PropTypes.leadUploadResponse = PropTypes.shape({
+  name: PropTypes.string,
+  surname: PropTypes.string,
+  phone: PropTypes.string,
+  email: PropTypes.string,
+  country: PropTypes.string,
+  source: PropTypes.string,
+  birthDate: PropTypes.string,
+  affiliate: PropTypes.string,
+  gender: PropTypes.string,
+  city: PropTypes.string,
+  language: PropTypes.string,
+  failureReason: PropTypes.string,
+});
+
 PropTypes.branchHierarchyType = PropTypes.shape({
   name: PropTypes.string,
   brandId: PropTypes.string,

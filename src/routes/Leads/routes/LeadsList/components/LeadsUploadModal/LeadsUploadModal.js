@@ -45,16 +45,18 @@ class LeadsUploadModal extends PureComponent {
     } = this.props;
 
     try {
-      await uploadLeads({ variables: { file } });
+      const { data: { leads: { uploadLeads: uploadLeadsResult } } } = await uploadLeads({ variables: { file } });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
-      });
+      if (uploadLeadsResult.length === 0) {
+        notify({
+          level: 'success',
+          title: I18n.t('COMMON.SUCCESS'),
+          message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
+        });
+      }
 
       onCloseModal();
-      onSuccess();
+      onSuccess(uploadLeadsResult);
     } catch (e) {
       const error = parseErrors(e);
 
@@ -65,6 +67,8 @@ class LeadsUploadModal extends PureComponent {
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t(errorMessage),
       });
+
+      onCloseModal();
     }
   };
 
