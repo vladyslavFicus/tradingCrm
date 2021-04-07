@@ -58,7 +58,14 @@ class LeadsUploadResultModal extends PureComponent {
             {I18n.t('COMMON.BUTTONS.CANCEL')}
           </Button>
           <Button danger>
-            <a href={this.createCsvFile()} download="report">{I18n.t('COMMON.BUTTONS.DOWNLOAD')}</a>
+            <a
+              href={this.createCsvFile()}
+              download="report"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {I18n.t('COMMON.BUTTONS.DOWNLOAD')}
+            </a>
           </Button>
         </ModalFooter>
       </Modal>
