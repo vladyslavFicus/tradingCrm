@@ -152,6 +152,10 @@
           "PO_BOX": "PO Box"
         }
       },
+      "FTD_TOGGLE": {
+        "TITLE": "Affiliate settings",
+        "LABEL": "Show FTD information to affiliate"
+      },
       "TITLE": "Profile",
       "VERIFIED_PHONE": "Phone verified",
       "VERIFIED_EMAIL": "E-mail verified",

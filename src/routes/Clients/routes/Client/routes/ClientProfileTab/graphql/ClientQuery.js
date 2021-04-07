@@ -43,6 +43,11 @@ const REQUEST = gql`
       kyc {
         status
       }
+      profileView {
+        paymentDetails {
+          firstDepositTime
+        }
+      }
     }
   }
   ${ContactsFragment}

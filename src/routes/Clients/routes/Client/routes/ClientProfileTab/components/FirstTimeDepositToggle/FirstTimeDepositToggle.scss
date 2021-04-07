@@ -1,0 +1,29 @@
+.FirstTimeDepositToggle {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 25px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  &__switcher {
+    margin-right: 20px;
+
+    .ReactSwitch__label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .ReactSwitch__button--on {
+      background-image: linear-gradient(to left, #24bdee, #4a90e2);
+    }
+  }
+}

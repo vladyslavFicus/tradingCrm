@@ -8,6 +8,7 @@ import ClientAddressForm from './components/ClientAddressForm';
 import ClientKycForm from './components/ClientKycForm';
 import ClientTransferForm from './components/ClientTransferForm';
 import ClientContactsForm from './components/ClientContactsForm';
+import FirstTimeDepositToggle from './components/FirstTimeDepositToggle';
 import ClientQuery from './graphql/ClientQuery';
 import './ClientProfileTab.scss';
 
@@ -22,6 +23,7 @@ class ClientProfileTab extends PureComponent {
     const { clientQuery } = this.props;
 
     const clientData = clientQuery.data?.profile || {};
+    const hasFirstTimeDeposit = clientData.profileView?.paymentDetails?.firstDepositTime;
 
     return (
       <div className="ClientProfileTab">
@@ -34,6 +36,9 @@ class ClientProfileTab extends PureComponent {
           <div className="ClientProfileTab__column ClientProfileTab__column--large">
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
+            <If condition={hasFirstTimeDeposit}>
+              <FirstTimeDepositToggle firstDepositTime={clientData.profileView.paymentDetails.firstDepositTime} />
+            </If>
           </div>
 
           <div className="ClientProfileTab__column  ClientProfileTab__column--thin">
