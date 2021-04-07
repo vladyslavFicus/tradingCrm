@@ -50,16 +50,11 @@ class ClientLastActivity extends PureComponent {
         </If>
 
         <If condition={location}>
-          <div>
+          <div className="ClientLastActivity__location">
             <span className="ClientLastActivity__text-primary">
               {I18n.t('CLIENT_PROFILE.CLIENT.LAST_ACTIVITY.LOCATION')}:
             </span>
-            <span
-              id="location"
-              className="ClientLastActivity__text-secondary ClientLastActivity__location"
-            >
-              {location}
-            </span>
+            <span id="location" className="ClientLastActivity__text-secondary"> {location}</span>
             <UncontrolledTooltip
               placement="bottom-start"
               target="location"
