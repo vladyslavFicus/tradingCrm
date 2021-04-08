@@ -60,7 +60,7 @@ class LeadsUploadResultModal extends PureComponent {
           <Button danger>
             <a
               href={this.createCsvFile()}
-              download="report"
+              download="report.csv"
               target="_blank"
               rel="noreferrer"
             >
