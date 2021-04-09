@@ -45,9 +45,19 @@ class LeadsUploadModal extends PureComponent {
     } = this.props;
 
     try {
-      const { data: { leads: { uploadLeads: uploadLeadsResult } } } = await uploadLeads({ variables: { file } });
+      const {
+        data: {
+          leads: {
+            uploadLeads: {
+              failedLeads,
+              failedLeadsCount,
+              createdLeadsCount,
+            },
+          },
+        },
+      } = await uploadLeads({ variables: { file } });
 
-      if (uploadLeadsResult.length === 0) {
+      if (failedLeads.length === 0) {
         notify({
           level: 'success',
           title: I18n.t('COMMON.SUCCESS'),
@@ -56,7 +66,7 @@ class LeadsUploadModal extends PureComponent {
       }
 
       onCloseModal();
-      onSuccess(uploadLeadsResult);
+      onSuccess(failedLeads, failedLeadsCount, createdLeadsCount);
     } catch (e) {
       const error = parseErrors(e);
 

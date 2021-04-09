@@ -11,20 +11,24 @@ const REQUEST = gql`
       uploadLeads (
         file: $file
       ) {
-        name
-        surname
-        phone
-        email
-        mobile
-        country
-        source
-        salesAgent
-        birthDate
-        affiliate
-        gender
-        city
-        language
-        failureReason
+       failedLeads {
+          name
+          surname
+          phone
+          email
+          mobile
+          country
+          source
+          salesAgent
+          birthDate
+          affiliate
+          gender
+          city
+          language
+          failureReason
+        }
+        failedLeadsCount
+        createdLeadsCount  
       }
     }
   }

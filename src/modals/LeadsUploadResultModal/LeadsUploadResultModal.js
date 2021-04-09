@@ -9,7 +9,9 @@ class LeadsUploadResultModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    uploadLeadsResult: PropTypes.arrayOf(PropTypes.leadUploadResponse).isRequired,
+    failedLeads: PropTypes.arrayOf(PropTypes.leadUploadResponse).isRequired,
+    failedLeadsCount: PropTypes.number.isRequired,
+    createdLeadsCount: PropTypes.number.isRequired,
   };
 
   handleClose = () => {
@@ -19,16 +21,16 @@ class LeadsUploadResultModal extends PureComponent {
   }
 
   createCsvFile = () => {
-    const { uploadLeadsResult } = this.props;
-    const keys = Object.keys(uploadLeadsResult[0]).filter(key => key !== '__typename');
+    const { failedLeads } = this.props;
+    const keys = Object.keys(failedLeads[0]).filter(key => key !== '__typename');
 
     return encodeURI(`data:text/csv;charset=utf-8, ${
       [
         keys,
-        ...uploadLeadsResult.map(({ __typename, ...uploadLeadResult }) => (
+        ...failedLeads.map(({ __typename, ...failedLead }) => (
           Object.values({
-            ...uploadLeadResult,
-            failureReason: I18n.t(`MODALS.LEADS_UPLOAD_RESULT_MODAL.FAILURE_REASON.${uploadLeadResult?.failureReason}`),
+            ...failedLead,
+            failureReason: I18n.t(`MODALS.LEADS_UPLOAD_RESULT_MODAL.FAILURE_REASON.${failedLead?.failureReason}`),
           })
         )),
       ].map(e => e.join(',')).join('\n')
@@ -38,7 +40,8 @@ class LeadsUploadResultModal extends PureComponent {
   render() {
     const {
       isOpen,
-      uploadLeadsResult,
+      failedLeadsCount,
+      createdLeadsCount,
     } = this.props;
 
     return (
@@ -46,7 +49,7 @@ class LeadsUploadResultModal extends PureComponent {
         <ModalHeader toggle={this.handleClose}>{I18n.t('MODALS.LEADS_UPLOAD_RESULT_MODAL.TITLE')}</ModalHeader>
         <ModalBody>
           <div className="LeadsUploadResultModal__row LeadsUploadResultModal__action-text">
-            {I18n.t('MODALS.LEADS_UPLOAD_RESULT_MODAL.DESCRIPTION', { count: uploadLeadsResult.length })}
+            {I18n.t('MODALS.LEADS_UPLOAD_RESULT_MODAL.DESCRIPTION', { failedLeadsCount, createdLeadsCount })}
           </div>
         </ModalBody>
 

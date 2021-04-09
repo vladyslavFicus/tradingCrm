@@ -81,11 +81,11 @@ class LeadsHeader extends PureComponent {
     } = this.props;
 
     leadsUploadModal.show({
-      onSuccess: (uploadLeadsResult) => {
+      onSuccess: (failedLeads, failedLeadsCount, createdLeadsCount) => {
         leadsQuery.refetch();
 
-        if (uploadLeadsResult.length) {
-          leadsUploadResultModal.show({ uploadLeadsResult });
+        if (failedLeads.length) {
+          leadsUploadResultModal.show({ failedLeads, failedLeadsCount, createdLeadsCount });
         }
       },
     });
