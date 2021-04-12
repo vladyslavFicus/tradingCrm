@@ -45,7 +45,7 @@ const REQUEST = gql`
       }
       profileView {
         paymentDetails {
-          firstDepositTime
+          showFtdToAffiliate
         }
       }
     }

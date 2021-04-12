@@ -149,6 +149,16 @@ export default [
           },
         },
       },
+      // Payment show FTD to affiliate
+      {
+        id: 'payment-changeShowFtdToAffiliate',
+        actions: {
+          edit: {
+            action: 'payment.changeShowFtdToAffiliate',
+            state: false,
+          },
+        },
+      },
       // Reset password
       {
         id: 'resetPassword',
