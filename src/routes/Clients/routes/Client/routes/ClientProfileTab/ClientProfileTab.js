@@ -10,7 +10,7 @@ import ClientAddressForm from './components/ClientAddressForm';
 import ClientKycForm from './components/ClientKycForm';
 import ClientTransferForm from './components/ClientTransferForm';
 import ClientContactsForm from './components/ClientContactsForm';
-import FtdToAffiliateToggle from './components/FtdToAffiliateToggle';
+import AffiliateSettings from './components/AffiliateSettings';
 import ClientQuery from './graphql/ClientQuery';
 import './ClientProfileTab.scss';
 
@@ -40,7 +40,7 @@ class ClientProfileTab extends PureComponent {
             <ClientAddressForm clientData={clientData} />
             <PermissionContent permissions={permissions.PAYMENT.CHANGE_SHOW_FTD_TO_AFFILIATE}>
               <If condition={typeof showFtdToAffiliate === 'boolean'}>
-                <FtdToAffiliateToggle
+                <AffiliateSettings
                   showFtdToAffiliate={showFtdToAffiliate}
                   profileUuid={clientData?.uuid}
                 />

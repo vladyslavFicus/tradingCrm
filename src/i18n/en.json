@@ -152,13 +152,15 @@
           "PO_BOX": "PO Box"
         }
       },
-      "FTD_TO_AFFILIATE_TOGGLE": {
+      "AFFILIATE_SETTINGS": {
         "TITLE": "Affiliate settings",
-        "LABEL": "Show FTD information to affiliate",
-        "NOTIFICATIONS": {
-          "TITLE": "Show FTD information to affiliate",
-          "SUCCESS": "\"Show FTD information to affiliate\" was successfully change",
-          "ERROR": "\"Show FTD information to affiliate\" was failed"
+        "FTD_TO_AFFILIATE_TOGGLE": {
+          "LABEL": "Show FTD information to affiliate",
+          "NOTIFICATIONS": {
+            "TITLE": "Show FTD information to affiliate",
+            "SUCCESS": "\"Show FTD information to affiliate\" was successfully change",
+            "ERROR": "\"Show FTD information to affiliate\" was failed"
+          }
         }
       },
       "TITLE": "Profile",

@@ -4,9 +4,9 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation FtdToAffiliateToggle__ShowFtdToAffiliateMutation(
+  mutation AffiliateSettings__ShowFtdToAffiliateMutation(
     $showFtdToAffiliate: Boolean!
-    $profileUuid: String
+    $profileUuid: String!
   ) {
     payment {
       changeShowFtdToAffiliate(
