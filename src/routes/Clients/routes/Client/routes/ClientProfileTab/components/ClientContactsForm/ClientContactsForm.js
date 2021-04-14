@@ -52,8 +52,8 @@ class ClientContactsForm extends PureComponent {
         variables: {
           playerUUID: clientData.uuid,
           phone: values.phone,
-          additionalPhone: values.additionalPhone,
-          additionalEmail: values.additionalEmail,
+          additionalPhone: values.additionalPhone || null,
+          additionalEmail: values.additionalEmail || null,
         },
       });
 
