@@ -108,7 +108,7 @@ class NotificationCenterContent extends PureComponent {
       },
     });
 
-    this.state.select.reset();
+    this.state.select?.reset();
   };
 
   bulkUpdate = async () => {
