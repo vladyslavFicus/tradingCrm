@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
+import PermissionContent from 'components/PermissionContent';
 import ClientPersonalForm from './components/ClientPersonalForm';
 import ClientAddressForm from './components/ClientAddressForm';
 import ClientKycForm from './components/ClientKycForm';
 import ClientTransferForm from './components/ClientTransferForm';
 import ClientContactsForm from './components/ClientContactsForm';
+import AffiliateSettings from './components/AffiliateSettings';
 import ClientQuery from './graphql/ClientQuery';
 import './ClientProfileTab.scss';
 
@@ -22,6 +25,7 @@ class ClientProfileTab extends PureComponent {
     const { clientQuery } = this.props;
 
     const clientData = clientQuery.data?.profile || {};
+    const showFtdToAffiliate = clientData.profileView?.paymentDetails?.showFtdToAffiliate;
 
     return (
       <div className="ClientProfileTab">
@@ -34,6 +38,14 @@ class ClientProfileTab extends PureComponent {
           <div className="ClientProfileTab__column ClientProfileTab__column--large">
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
+            <PermissionContent permissions={permissions.PAYMENT.CHANGE_SHOW_FTD_TO_AFFILIATE}>
+              <If condition={typeof showFtdToAffiliate === 'boolean'}>
+                <AffiliateSettings
+                  showFtdToAffiliate={showFtdToAffiliate}
+                  profileUuid={clientData?.uuid}
+                />
+              </If>
+            </PermissionContent>
           </div>
 
           <div className="ClientProfileTab__column  ClientProfileTab__column--thin">

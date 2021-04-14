@@ -101,6 +101,7 @@ export default {
     CHANGE_METHOD: 'payment.changePaymentMethod',
     CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
     CHANGE_CREATION_TIME: 'payment.utils.changeDatetime',
+    CHANGE_SHOW_FTD_TO_AFFILIATE: 'payment.changeShowFtdToAffiliate',
   },
   PAYMENTS: {
     PAYMENTS_LIST: 'payment.searchPayments',

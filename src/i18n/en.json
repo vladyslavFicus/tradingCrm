@@ -152,6 +152,17 @@
           "PO_BOX": "PO Box"
         }
       },
+      "AFFILIATE_SETTINGS": {
+        "TITLE": "Affiliate settings",
+        "FTD_TO_AFFILIATE_TOGGLE": {
+          "LABEL": "Show FTD information to affiliate",
+          "NOTIFICATIONS": {
+            "TITLE": "Show FTD information to affiliate",
+            "SUCCESS": "\"Show FTD information to affiliate\" was successfully change",
+            "ERROR": "\"Show FTD information to affiliate\" was failed"
+          }
+        }
+      },
       "TITLE": "Profile",
       "VERIFIED_PHONE": "Phone verified",
       "VERIFIED_EMAIL": "E-mail verified",
@@ -3929,6 +3940,7 @@
           "payment-changeStatus": "Change payment status",
           "payment-changeMethod": "Change payment method",
           "payment-changeAgent": "Payment original agent",
+          "payment-changeShowFtdToAffiliate": "Affiliate settings",
           "resetPassword": "Reset password",
           "changePassword": "Change password for client",
           "getAuthorities": "Get authorities for notes",
