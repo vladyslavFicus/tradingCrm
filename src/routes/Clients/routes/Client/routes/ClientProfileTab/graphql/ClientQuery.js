@@ -23,6 +23,9 @@ const REQUEST = gql`
       emailVerified
       phoneVerified
       timeZone
+      affiliate {
+        uuid
+      }
       address {
         ...AddressFragment
       }
