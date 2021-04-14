@@ -39,7 +39,7 @@ class ClientProfileTab extends PureComponent {
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
             <PermissionContent permissions={permissions.PAYMENT.CHANGE_SHOW_FTD_TO_AFFILIATE}>
-              <If condition={typeof showFtdToAffiliate === 'boolean'}>
+              <If condition={typeof showFtdToAffiliate === 'boolean' && clientData?.affiliate}>
                 <AffiliateSettings
                   showFtdToAffiliate={showFtdToAffiliate}
                   profileUuid={clientData?.uuid}
