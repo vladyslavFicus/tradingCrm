@@ -108,7 +108,9 @@ class NotificationCenterTable extends PureComponent {
             render={({ type, uuid }) => (
               <If condition={type}>
                 <div>
-                  <span className="NotificationCenterTable__text-highlight">{type}</span>
+                  <span className="NotificationCenterTable__text-highlight">
+                    {I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`)}
+                  </span>
                 </div>
                 <Uuid uuid={uuid} className="font-size-11" />
               </If>
