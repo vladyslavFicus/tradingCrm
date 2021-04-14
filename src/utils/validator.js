@@ -232,6 +232,27 @@ function validDateTimeRange(startDateRange, endDateRange) {
   return !momentEnd.isBefore(momentStart);
 }
 
+/**
+ * Check if time 01:00 is after 01:01 and throw an error if it's before or equal
+ *
+ * @param value
+ * @param compareFieldKey
+ *
+ * @return {boolean}
+ */
+function validTimeRange(value, compareFieldKey) {
+  const DATE_TIME_BASE_FORMAT = 'HH:mm';
+
+  if (!compareFieldKey) {
+    return true;
+  }
+
+  const momentStart = moment(value, DATE_TIME_BASE_FORMAT);
+  const momentEnd = moment(this.validator.input[compareFieldKey], DATE_TIME_BASE_FORMAT);
+
+  return momentEnd.isAfter(momentStart);
+}
+
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
@@ -239,6 +260,7 @@ Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
 Validator.register('date', date, 'The date must be valid: Example: 01.01.2020');
 Validator.register('dateWithTime', dateWithTime, 'The date must be valid: Example: 01.01.2020 00:00');
 Validator.register('validDateTimeRange', validDateTimeRange, 'The date range must be valid');
+Validator.register('validTimeRange', validTimeRange, 'The time range must be valid');
 Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
 Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');

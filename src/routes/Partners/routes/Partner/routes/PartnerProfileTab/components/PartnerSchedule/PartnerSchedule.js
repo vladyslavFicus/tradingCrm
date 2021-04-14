@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
+import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
@@ -118,8 +119,8 @@ class PartnerSchedule extends PureComponent {
       <When condition={workingHoursFrom && workingHoursTo}>
         <div className="font-weight-700">
           {`
-            ${I18n.t('PARTNERS.SCHEDULE.FROM')} ${workingHoursFrom}
-            ${I18n.t('PARTNERS.SCHEDULE.TO')} ${workingHoursTo}
+            ${I18n.t('PARTNERS.SCHEDULE.FROM')} ${moment(workingHoursFrom, 'HH:mm:ss').format('HH:mm')}
+            ${I18n.t('PARTNERS.SCHEDULE.TO')} ${moment(workingHoursTo, 'HH:mm:ss').format('HH:mm')}
           `}
         </div>
       </When>
