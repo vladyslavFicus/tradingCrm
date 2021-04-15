@@ -1,0 +1,45 @@
+.HtmlEditor {
+  &__label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #7f8c9f;
+  }
+
+  &__wrapper {
+    border: solid 1px #cfcfcf;
+    border-radius: 4px;
+    padding: 10px;
+
+    textarea, input {
+      appearance: auto;
+    }
+
+    .rdw-link-modal-btn,
+    .rdw-embedded-modal-btn,
+    .rdw-image-modal-btn {
+      text-align: center;
+    }
+
+    .rdw-embedded-modal-header-option,
+    .rdw-image-modal-header-option {
+      width: 100%;
+    }
+
+    .rdw-embedded-modal-size-input,
+    .rdw-image-modal-size-input {
+      padding: 2px;
+    }
+
+    .rdw-image-modal-header {
+      margin: 0;
+    }
+
+    .rdw-colorpicker-modal {
+      width: 230px;
+    }
+
+    .rdw-colorpicker-modal-style-label {
+      padding: 0 10px 10px;
+    }
+  }
+}

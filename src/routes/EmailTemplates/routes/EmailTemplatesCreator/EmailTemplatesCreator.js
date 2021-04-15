@@ -6,7 +6,7 @@ import { Field, Form, Formik } from 'formik';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
-import { FormikInputField, FormikTextEditorField } from 'components/Formik';
+import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
 import EmailTemplateCreateMutation from './graphql/EmailTemplateCreateMutation';
 import { validator } from '../../utils';
@@ -86,7 +86,7 @@ class EmailTemplatesCreator extends PureComponent {
                     name="text"
                     label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_EDITOR_LABEL')}
                     placeholder={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_EDITOR_PLACEHOLDER')}
-                    component={FormikTextEditorField}
+                    component={FormikHtmlEditorField}
                   />
                   <Hint text={I18n.t('EMAILS.EMAIL_TEMPLATES.HINT')} />
                 </div>
