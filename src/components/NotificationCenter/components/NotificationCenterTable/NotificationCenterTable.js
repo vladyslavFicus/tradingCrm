@@ -105,21 +105,14 @@ class NotificationCenterTable extends PureComponent {
         >
           <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE')}
-            render={({ type, uuid, details }) => (
+            render={({ type, uuid }) => (
               <If condition={type}>
                 <div>
                   <span className="NotificationCenterTable__text-highlight">
                     {I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`)}
                   </span>
                 </div>
-                <Choose>
-                  <When condition={type === 'CLIENTS_DISTRIBUTOR'}>
-                    <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="font-size-11" />
-                  </When>
-                  <Otherwise>
-                    <Uuid uuid={uuid} className="font-size-11" />
-                  </Otherwise>
-                </Choose>
+                <Uuid uuid={uuid} className="font-size-11" />
               </If>
             )}
           />
@@ -130,6 +123,12 @@ class NotificationCenterTable extends PureComponent {
                 <span className="NotificationCenterTable__text-highlight">
                   {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
                 </span>
+
+                <If condition={type === 'CLIENTS_DISTRIBUTOR'}>
+                  <div>
+                    <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="font-size-11" />
+                  </div>
+                </If>
 
                 {/* Render custom details for individual type or subtype */}
                 <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
