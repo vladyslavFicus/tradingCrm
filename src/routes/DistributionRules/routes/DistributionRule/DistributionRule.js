@@ -7,6 +7,7 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { DISTRIBUTION_RULE_CHANGED } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
+import ShortLoader from 'components/ShortLoader';
 import DistributionRuleHeader from './components/DistributionRuleHeader';
 import DistributionRuleInfo from './components/DistributionRuleInfo';
 import DistributionRuleSettings from './components/DistributionRuleSettings';
@@ -344,6 +345,10 @@ class DistributionRule extends PureComponent {
       || !sourceBrandConfig
       || !targetBrandConfig;
 
+    if (ruleLoading) {
+      return <ShortLoader />;
+    }
+
     return (
       <div className="DistributionRule card">
         <DistributionRuleHeader
@@ -389,6 +394,7 @@ class DistributionRule extends PureComponent {
             className="DistributionRule__actions-btn"
             onClick={this.handleUpdateRule}
             disabled={submitDisabled}
+            submitting={isSubmitting}
             primary
           >
             {I18n.t('COMMON.SAVE')}

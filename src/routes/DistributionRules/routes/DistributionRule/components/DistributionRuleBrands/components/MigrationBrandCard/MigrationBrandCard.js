@@ -42,7 +42,7 @@ class MigrationBrandCard extends PureComponent {
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brand.brandName}</div>
+          <div className="MigrationBrandCard__dt">{brand?.brandName}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOSEN')}
@@ -71,7 +71,7 @@ class MigrationBrandCard extends PureComponent {
     return (
       <>
         <div className="MigrationBrandCard__cell">
-          <div className="MigrationBrandCard__dt">{brand.brandName}</div>
+          <div className="MigrationBrandCard__dt">{brand?.brandName}</div>
           <div className="MigrationBrandCard__dd">
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_TO_MIGRATION')}
