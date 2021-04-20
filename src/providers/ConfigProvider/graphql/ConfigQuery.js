@@ -60,6 +60,11 @@ const REQUEST = gql`
       clientPortal {
         url
       }
+      affiliate {
+        restriction {
+          minFtdDeposit
+        }
+      }
     }
   }
 `;
