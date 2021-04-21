@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import permissions from 'config/permissions';
+import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
@@ -27,6 +28,8 @@ class ClientProfileTab extends PureComponent {
     const clientData = clientQuery.data?.profile || {};
     const showFtdToAffiliate = clientData.profileView?.paymentDetails?.showFtdToAffiliate;
 
+    const { affiliate: { restriction: { minFtdDeposit } } } = getBrand();
+
     return (
       <div className="ClientProfileTab">
         <TabHeader
@@ -39,7 +42,13 @@ class ClientProfileTab extends PureComponent {
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
             <PermissionContent permissions={permissions.PAYMENT.CHANGE_SHOW_FTD_TO_AFFILIATE}>
-              <If condition={typeof showFtdToAffiliate === 'boolean' && clientData?.affiliate}>
+              <If
+                condition={
+                  typeof showFtdToAffiliate === 'boolean'
+                  && clientData?.affiliate
+                  && minFtdDeposit !== null
+                }
+              >
                 <AffiliateSettings
                   showFtdToAffiliate={showFtdToAffiliate}
                   profileUuid={clientData?.uuid}
