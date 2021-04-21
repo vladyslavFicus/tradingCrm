@@ -3371,7 +3371,8 @@
       "KYC": "KYC",
       "CALLBACK": "Callback",
       "CLIENT": "Client",
-      "TRADING": "Trading"
+      "TRADING": "Trading",
+      "CLIENTS_DISTRIBUTOR": "CDE"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -3397,7 +3398,8 @@
       "CALLBACK_REQUESTED": "Requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
       "MARGIN_CALL": "Margin level under 100%",
-      "BULK_CLIENTS_ASSIGNED": "Bulk assigned"
+      "BULK_CLIENTS_ASSIGNED": "Bulk assigned",
+      "CLIENTS_DISTRIBUTOR_MIGRATION_FINISHED": "Migration finished"
     },
     "DETAILS": {
       "CALLBACK_TIME": "Callback time: %{time}",
