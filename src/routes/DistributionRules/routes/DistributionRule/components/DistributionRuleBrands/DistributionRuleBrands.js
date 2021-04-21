@@ -74,6 +74,71 @@ class DistributionRuleBrands extends PureComponent {
     targetBrandConfig: null,
   }
 
+  state = {
+    sourceBrandAbsoluteClientsCount: null,
+    targetBrandAbsoluteClientsCount: null,
+  };
+
+  componentDidUpdate(prevProps) {
+    // Calculate source brand absolute clients count
+    if (!prevProps.sourceBrandConfig && this.props.sourceBrandConfig) {
+      this.calculateSourceBrandAbsoluteClientsCount();
+    }
+
+    // Calculate target brand absolute clients count
+    if (!prevProps.targetBrandConfig && this.props.targetBrandConfig) {
+      this.calculateTargetBrandAbsoluteClientsCount();
+    }
+  }
+
+  calculateSourceBrandAbsoluteClientsCount = async () => {
+    const {
+      brand: sourceBrand,
+      desks,
+      teams,
+      distributionUnit: { quantity: sourceBrandQuantity, baseUnit },
+    } = this.props.sourceBrandConfig;
+
+    // Clear source brand absolute clients count if base unit isn't percentage
+    if (baseUnit !== 'PERCENTAGE') {
+      this.setState({ sourceBrandAbsoluteClientsCount: null });
+      return;
+    }
+
+    const count = await this.fetchAvailableClientsAmount({ sourceBrand, desks, teams });
+
+    const sourceBrandAbsoluteClientsCount = Math.floor(count / 100 * sourceBrandQuantity);
+
+    this.setState({ sourceBrandAbsoluteClientsCount });
+  };
+
+  calculateTargetBrandAbsoluteClientsCount = async () => {
+    const {
+      brand: sourceBrand,
+      desks,
+      teams,
+      distributionUnit: { quantity: sourceBrandQuantity },
+    } = this.props.sourceBrandConfig;
+
+    const {
+      brand: targetBrand,
+      distributionUnit: { quantity: targetBrandQuantity, baseUnit: targetBrandBaseUnit },
+    } = this.props.targetBrandConfig;
+
+    // Clear target brand absolute clients count if base unit isn't percentage
+    if (targetBrandBaseUnit !== 'PERCENTAGE') {
+      this.setState({ targetBrandAbsoluteClientsCount: null });
+      return;
+    }
+
+    const count = await this.fetchAvailableClientsAmount({ sourceBrand, desks, teams }, targetBrand);
+
+    const sourceBrandAbsoluteClientsCount = Math.floor(count / 100 * sourceBrandQuantity);
+    const targetBrandAbsoluteClientsCount = Math.floor(sourceBrandAbsoluteClientsCount / 100 * targetBrandQuantity);
+
+    this.setState({ targetBrandAbsoluteClientsCount });
+  };
+
   handleAddSourceBrand = () => {
     const {
       modals: { addSourceBrandModal },
@@ -95,6 +160,9 @@ class DistributionRuleBrands extends PureComponent {
       handleSubmit: (values) => {
         handleSourceBrandConfig(values);
         addSourceBrandModal.hide();
+
+        this.calculateSourceBrandAbsoluteClientsCount();
+        this.setState({ targetBrandAbsoluteClientsCount: null });
       },
     });
   };
@@ -138,8 +206,27 @@ class DistributionRuleBrands extends PureComponent {
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);
         addTargetBrandModal.hide();
+
+        this.calculateTargetBrandAbsoluteClientsCount();
       },
     });
+  };
+
+  handleRemoveBrandCard = (type) => {
+    // Clear source and target brand absolute clients count if source brand was removed
+    if (type === 'source') {
+      this.setState({
+        sourceBrandAbsoluteClientsCount: null,
+        targetBrandAbsoluteClientsCount: null,
+      });
+    }
+
+    // Clear target brand absolute clients count if source brand was removed
+    if (type === 'target') {
+      this.setState({ targetBrandAbsoluteClientsCount: null });
+    }
+
+    this.props.handleRemoveBrandCard(type);
   };
 
   fetchAvailableClientsAmount = async ({ sourceBrand, desks, teams }, targetBrand) => {
@@ -195,7 +282,6 @@ class DistributionRuleBrands extends PureComponent {
       addTargetBrandEnabled,
       sourceBrandConfig,
       targetBrandConfig,
-      handleRemoveBrandCard,
       brandsQuery,
     } = this.props;
 
@@ -220,10 +306,11 @@ class DistributionRuleBrands extends PureComponent {
                   <MigrationBrandCard
                     className="DistributionRuleBrands__card"
                     handleEditBrandCard={this.handleAddSourceBrand}
-                    handleRemoveBrandCard={() => handleRemoveBrandCard('source')}
+                    handleRemoveBrandCard={() => this.handleRemoveBrandCard('source')}
                     brandType="source"
                     {...sourceBrandConfig}
                     brand={sourceBrand}
+                    absoluteClientsCount={this.state.sourceBrandAbsoluteClientsCount}
                   />
                 </When>
                 <Otherwise>
@@ -245,10 +332,11 @@ class DistributionRuleBrands extends PureComponent {
                   <MigrationBrandCard
                     className="DistributionRuleBrands__card"
                     handleEditBrandCard={this.handleAddTargetBrand}
-                    handleRemoveBrandCard={() => handleRemoveBrandCard('target')}
+                    handleRemoveBrandCard={() => this.handleRemoveBrandCard('target')}
                     brandType="target"
                     {...targetBrandConfig}
                     brand={targetBrand}
+                    absoluteClientsCount={this.state.targetBrandAbsoluteClientsCount}
                   />
                 </When>
                 <Otherwise>

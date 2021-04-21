@@ -20,6 +20,7 @@ class MigrationBrandCard extends PureComponent {
     handleRemoveBrandCard: PropTypes.func.isRequired,
     brandType: PropTypes.string.isRequired,
     brand: PropTypes.brandConfig.isRequired,
+    absoluteClientsCount: PropTypes.number,
   }
 
   static defaultProps = {
@@ -27,6 +28,7 @@ class MigrationBrandCard extends PureComponent {
     distributionUnit: {},
     sortType: '',
     operatorEntity: null,
+    absoluteClientsCount: null,
   }
 
   renderSourceBrandContent = () => {
@@ -37,6 +39,7 @@ class MigrationBrandCard extends PureComponent {
       },
       sortType,
       brand,
+      absoluteClientsCount,
     } = this.props;
 
     return (
@@ -47,6 +50,11 @@ class MigrationBrandCard extends PureComponent {
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_CHOSEN')}
           </div>
+          <If condition={absoluteClientsCount}>
+            <div className="MigrationBrandCard__dd">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS', { value: absoluteClientsCount })}
+            </div>
+          </If>
         </div>
         <div className="MigrationBrandCard__cell">
           <If condition={sortType}>
@@ -66,6 +74,7 @@ class MigrationBrandCard extends PureComponent {
       },
       operatorEntity,
       brand,
+      absoluteClientsCount,
     } = this.props;
 
     return (
@@ -76,6 +85,11 @@ class MigrationBrandCard extends PureComponent {
             {quantity}{baseUnit === 'PERCENTAGE' ? '%' : ''}&nbsp;
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS_TO_MIGRATION')}
           </div>
+          <If condition={absoluteClientsCount}>
+            <div className="MigrationBrandCard__dd">
+              {I18n.t('CLIENTS_DISTRIBUTION.RULE.BRAND.CLIENTS', { value: absoluteClientsCount })}
+            </div>
+          </If>
         </div>
         <div className="MigrationBrandCard__cell">
           <If condition={operatorEntity?.fullName}>
