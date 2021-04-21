@@ -247,8 +247,11 @@ class Table extends PureComponent {
               className={
                 classNames(
                   'Table__checkbox',
-                  { 'Table__checkbox--is-active': select.all },
-                  { 'Table__checkbox--without-check': select.all && select.touched.length },
+                  {
+                    'Table__checkbox--is-active': select.all,
+                    'Table__checkbox--is-disabled': !select.all,
+                    'Table__checkbox--without-check': select.all && select.touched.length,
+                  },
                 )
               }
               onClick={this.handleSelectAll}
@@ -356,7 +359,10 @@ class Table extends PureComponent {
                 className={
                   classNames(
                     'Table__checkbox',
-                    { 'Table__checkbox--is-active': isSelected },
+                    {
+                      'Table__checkbox--is-active': isSelected,
+                      'Table__checkbox--is-disabled': !isSelected,
+                    },
                   )
                 }
                 onClick={() => this.handleSelectSingle(rowIndex)}
