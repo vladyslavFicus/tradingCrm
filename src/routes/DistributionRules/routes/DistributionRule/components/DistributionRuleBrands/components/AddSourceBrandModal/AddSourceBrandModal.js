@@ -307,6 +307,13 @@ class AddSourceBrandModal extends PureComponent {
                       ))}
                     </Field>
                   </div>
+                  <If condition={values.baseUnit === 'PERCENTAGE' && values.quantity <= 100 && availableClientsAmount}>
+                    <div className="AddSourceBrandModal__absolute-clients-count">
+                      {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.ABSOLUTE_CLIENTS_COUNT', {
+                        value: Math.floor(availableClientsAmount / 100 * values.quantity),
+                      })}
+                    </div>
+                  </If>
                   <Field
                     name="sortType"
                     label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SORT_METHOD')}

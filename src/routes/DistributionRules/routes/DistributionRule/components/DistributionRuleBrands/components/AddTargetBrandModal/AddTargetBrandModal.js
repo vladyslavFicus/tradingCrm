@@ -248,6 +248,13 @@ class AddTargetBrandModal extends PureComponent {
                       component={FormikInputField}
                     />
                   </div>
+                  <If condition={baseUnit === 'PERCENTAGE' && values.quantity <= 100 && availableClientsAmount}>
+                    <div className="AddTargetBrandModal__absolute-clients-count">
+                      {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.ABSOLUTE_CLIENTS_COUNT', {
+                        value: Math.floor(availableClientsAmount / 100 * values.quantity),
+                      })}
+                    </div>
+                  </If>
                   <Field
                     name="migrationSource"
                     label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MIGRATION_SOURCE')}
