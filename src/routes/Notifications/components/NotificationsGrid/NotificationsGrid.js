@@ -46,7 +46,7 @@ class NotificationsGrid extends PureComponent {
 
   renderNotificationType = ({ uuid, type }) => (
     <div>
-      <div className="NotificationsGrid__text-primary">{type}</div>
+      <div className="NotificationsGrid__text-primary">{I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`)}</div>
       <Uuid uuid={uuid} className="NotificationsGrid__text-secondary" />
     </div>
   );
@@ -56,6 +56,12 @@ class NotificationsGrid extends PureComponent {
       <div className="NotificationsGrid__text-primary">
         {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
       </div>
+
+      <If condition={type === 'CLIENTS_DISTRIBUTOR'}>
+        <div>
+          <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="font-size-11" />
+        </div>
+      </If>
 
       {/* Render custom details for individual type or subtype */}
       <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
