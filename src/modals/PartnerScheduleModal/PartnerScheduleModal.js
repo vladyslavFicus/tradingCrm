@@ -11,13 +11,13 @@ import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { Button } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';
 import { attributeLabels } from './constants';
 import createScheduleMutation from './graphql/createScheduleMutation';
 import './PartnerScheduleModal.scss';
 
 const validate = createValidator({
-  workingHoursFrom: ['required', 'string'],
+  workingHoursFrom: ['required', 'string', 'validTimeRange:workingHoursTo'],
   workingHoursTo: ['required', 'string'],
 }, translateLabels(attributeLabels), false);
 
@@ -183,22 +183,17 @@ class PartnerScheduleModal extends PureComponent {
                     {formError || errors.submit}
                   </div>
                 </If>
-                <div className="row">
-                  <Field
-                    name="workingHoursFrom"
-                    label={I18n.t(attributeLabels.workingHoursFrom)}
-                    placeholder="00:00"
-                    className="col-lg"
-                    component={FormikInputField}
-                  />
-                  <Field
-                    name="workingHoursTo"
-                    label={I18n.t(attributeLabels.workingHoursTo)}
-                    placeholder="00:00"
-                    className="col-lg"
-                    component={FormikInputField}
-                  />
-                </div>
+                <Field
+                  component={FormikTimeRangeField}
+                  fieldsNames={{
+                    from: 'workingHoursFrom',
+                    to: 'workingHoursTo',
+                  }}
+                  fieldsLabels={{
+                    from: I18n.t(attributeLabels.workingHoursFrom),
+                    to: I18n.t(attributeLabels.workingHoursTo),
+                  }}
+                />
                 <Field
                   name="totalLimit"
                   type="number"

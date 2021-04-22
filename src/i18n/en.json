@@ -763,6 +763,11 @@
     "FILTERS": {
       "SEARCH_LIMIT": "Search limit"
     },
+    "TIME_RANGE": {
+      "TIME_FROM": "Time from:",
+      "TIME_TO": "Time to:",
+      "TIME_UNIT": "UTC time"
+    },
     "DATE_RANGE": {
       "START_DATE": "Start date",
       "END_DATE": "End date"
