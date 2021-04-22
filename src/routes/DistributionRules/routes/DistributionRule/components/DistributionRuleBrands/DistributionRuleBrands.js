@@ -79,14 +79,12 @@ class DistributionRuleBrands extends PureComponent {
     targetBrandAbsoluteClientsCount: null,
   };
 
-  componentDidUpdate(prevProps) {
-    // Calculate source brand absolute clients count
-    if (!prevProps.sourceBrandConfig && this.props.sourceBrandConfig) {
+  componentDidMount() {
+    if (this.props.sourceBrandConfig) {
       this.calculateSourceBrandAbsoluteClientsCount();
     }
 
-    // Calculate target brand absolute clients count
-    if (!prevProps.targetBrandConfig && this.props.targetBrandConfig) {
+    if (this.props.targetBrandConfig) {
       this.calculateTargetBrandAbsoluteClientsCount();
     }
   }
