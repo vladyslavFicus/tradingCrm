@@ -165,13 +165,13 @@ class ClientTradingAccountsGrid extends PureComponent {
   renderBalanceColumn = ({ balance, currency }) => (
     <Fragment>
       <div className="ClientTradingAccountsGrid__cell-main-value">
-        {currency} {Number(balance).toFixed(2)}
+        {currency} {I18n.toCurrency(balance, { unit: '' })}
       </div>
     </Fragment>
   );
 
   renderCreditColumn = ({ credit, currency }) => (
-    <div className="ClientTradingAccountsGrid__cell-main-value">{currency} {Number(credit).toFixed(2)}</div>
+    <div className="ClientTradingAccountsGrid__cell-main-value">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
   );
 
   renderLeverageColumn = (tradingAccount) => {

@@ -170,7 +170,7 @@ class Chart extends PureComponent {
                     </Choose>
                   </When>
                   <Otherwise>
-                    {(withCurrency && totals) ? Number(totals[key].value).toFixed(2) : totals[key].value}
+                    {(withCurrency && totals) ? I18n.toCurrency(totals[key].value, { unit: '' }) : totals[key].value}
                     <If condition={withCurrency}>
                       {` ${getBrand().currencies.base || ''}`}
                     </If>

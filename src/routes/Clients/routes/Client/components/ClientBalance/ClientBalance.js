@@ -50,8 +50,6 @@ class ClientBalance extends PureComponent {
 
   getFormatedDate = value => moment(value).format('DD.MM.YYYY');
 
-  getFormatNumber = value => Number(value).toFixed(2);
-
   handleDateChange = async (selectedDate) => {
     const {
       registrationDate,
@@ -81,12 +79,12 @@ class ClientBalance extends PureComponent {
     return (
       <>
         <div className="ClientBalance__text-primary">
-          {baseCurrency} {this.getFormatNumber(amount)}
+          {baseCurrency} {I18n.toCurrency(amount, { unit: '' })}
         </div>
 
         <div className="ClientBalance__text-secondary">
           {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.CREDIT')}:{' '}
-          {baseCurrency} {this.getFormatNumber(credit)}
+          {baseCurrency} {I18n.toCurrency(credit, { unit: '' })}
         </div>
       </>
     );
@@ -111,11 +109,11 @@ class ClientBalance extends PureComponent {
               {currency} {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.BALANCE')}
             </div>
             <div className="ClientBalance__text-primary">
-              {currency} {this.getFormatNumber(amount)}
+              {currency} {I18n.toCurrency(amount, { unit: '' })}
             </div>
             <div className="ClientBalance__text-secondary">
               {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.CREDIT')}:{' '}
-              {currency} {this.getFormatNumber(credit)}
+              {currency} {I18n.toCurrency(credit, { unit: '' })}
             </div>
           </div>
         ))}
@@ -214,7 +212,7 @@ class ClientBalance extends PureComponent {
               {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.DEPOSITED')}
             </div>
             <div className="ClientBalance__text-primary">
-              {baseCurrency}: {this.getFormatNumber(depositAmount || 0)}
+              {baseCurrency}: {I18n.toCurrency(depositAmount || 0, { unit: '' })}
             </div>
           </div>
 
@@ -224,7 +222,7 @@ class ClientBalance extends PureComponent {
               {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.WITHDRAWN')}
             </div>
             <div className="ClientBalance__text-primary">
-              {baseCurrency}: {this.getFormatNumber(withdrawAmount || 0)}
+              {baseCurrency}: {I18n.toCurrency(withdrawAmount || 0, { unit: '' })}
             </div>
           </div>
 
@@ -234,7 +232,7 @@ class ClientBalance extends PureComponent {
               {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.NET')}
             </div>
             <div className="ClientBalance__text-primary">
-              {baseCurrency}: {this.getFormatNumber((depositAmount - withdrawAmount) || 0)}
+              {baseCurrency}: {I18n.toCurrency((depositAmount - withdrawAmount) || 0, { unit: '' })}
             </div>
           </div>
         </div>

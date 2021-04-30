@@ -153,7 +153,7 @@ class ClientsGrid extends PureComponent {
     return (
       <div>
         <div className="ClientsGrid__balance">
-          {currency} {Number(amount).toFixed(2)}
+          {currency} {I18n.toCurrency(amount, { unit: '' })}
         </div>
       </div>
     );
