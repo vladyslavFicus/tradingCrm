@@ -63,7 +63,7 @@ class TradingAccountsListGrid extends PureComponent {
   );
 
   renderCreditColumn = ({ credit, currency }) => (
-    <div className="font-weight-700">{currency} {Number(credit).toFixed(2)}</div>
+    <div className="font-weight-700">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
   );
 
   render() {
@@ -142,7 +142,7 @@ class TradingAccountsListGrid extends PureComponent {
           <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.BALANCE')}
             render={({ balance, currency }) => (
-              <div className="font-weight-700">{currency} {Number(balance).toFixed(2)}</div>
+              <div className="font-weight-700">{currency} {I18n.toCurrency(balance, { unit: '' })}</div>
             )}
           />
         </Table>

@@ -41,7 +41,7 @@ class ClientReferrals extends PureComponent {
 
           <div className="ClientReferrals__text-secondary">
             {I18n.t('CLIENT_PROFILE.CLIENT.REFERRALS.REMUNERATION', {
-              value: remunerationTotalAmount,
+              value: I18n.toCurrency(remunerationTotalAmount, { unit: '' }),
               currency: baseCurrency,
             })}
           </div>

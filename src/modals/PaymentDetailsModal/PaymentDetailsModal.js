@@ -102,10 +102,10 @@ class PaymentDetailsModal extends PureComponent {
       <div className="PaymentDetailsModal__block PaymentDetailsModal__one-third">
         <div className="PaymentDetailsModal__block-title">{I18n.t('COMMON.BALANCE')}</div>
         <div className="PaymentDetailsModal__block-label">
-          {currency} {Number(amount).toFixed(2)}
+          {currency} {I18n.toCurrency(amount, { unit: '' })}
         </div>
         <div className="PaymentDetailsModal__block-secondary">
-          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {Number(credit).toFixed(2)}
+          {I18n.t('CLIENT_PROFILE.PROFILE.HEADER.CREDIT')}: {currency} {I18n.toCurrency(credit, { unit: '' })}
         </div>
       </div>
     );

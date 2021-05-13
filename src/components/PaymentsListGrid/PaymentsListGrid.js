@@ -243,12 +243,10 @@ class PaymentsListGrid extends PureComponent {
             render={({ currency, amount, normalizedAmount }) => (
               <Fragment>
                 <div className="PaymentsListGrid__header-block-middle">
-                  {currency} {Number(amount).toFixed(2)}
+                  {currency} {I18n.toCurrency(amount, { unit: '' })}
                 </div>
                 <div className="PaymentsListGrid__text-secondary">
-                  {`(${getBrand().currencies.base} ${Number(
-                    normalizedAmount,
-                  ).toFixed(2)})`}
+                  {`(${getBrand().currencies.base} ${I18n.toCurrency(normalizedAmount, { unit: '' })})`}
                 </div>
               </Fragment>
             )}

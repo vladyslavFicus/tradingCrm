@@ -80,7 +80,7 @@ class ClientsGrid extends PureComponent {
                 <Choose>
                   <When condition={balance.amount}>
                     <div className="header-block-middle">
-                      {currency} {Number(balance.amount).toFixed(2)}
+                      {currency} {I18n.toCurrency(balance.amount, { unit: '' })}
                     </div>
                   </When>
                   <Otherwise>
