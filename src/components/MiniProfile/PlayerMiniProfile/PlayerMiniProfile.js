@@ -8,7 +8,6 @@ import PropTypes from 'constants/propTypes';
 import renderLabel from 'utils/renderLabel';
 import NoteIcon from 'components/NoteIcon';
 import { statuses } from 'constants/user';
-import Amount from 'components/Amount';
 import Uuid from 'components/Uuid';
 import ShortLoader from 'components/ShortLoader';
 import { withRequests, parseErrors } from 'apollo';
@@ -86,7 +85,7 @@ const PlayerMiniProfile = ({ miniProfile }) => {
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.BALANCE')}</div>
           <div className="info-block-content">
-            <Amount amount={amount} currency={currency} />
+            {I18n.toCurrency(amount, { unit: '' })} {currency}
           </div>
         </div>
         <div className="info-block">
