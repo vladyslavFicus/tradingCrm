@@ -65,7 +65,9 @@ class NotificationsGrid extends PureComponent {
 
       {/* Render custom details for individual type or subtype */}
       <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
-        <div className="NotificationsGrid__text-subtype">{details.amount} {details.currency}</div>
+        <div className="NotificationsGrid__text-subtype">
+          {I18n.toCurrency(details.amount, { unit: '' })} {details.currency}
+        </div>
       </If>
 
       <If condition={type === 'ACCOUNT' || subtype === 'MARGIN_CALL'}>

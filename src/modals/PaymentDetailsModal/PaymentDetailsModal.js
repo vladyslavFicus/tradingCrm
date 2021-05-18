@@ -18,7 +18,6 @@ import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
 import PaymentStatus from 'components/PaymentStatus';
 import ShortLoader from 'components/ShortLoader';
-import Amount from 'components/Amount';
 import IpFlag from 'components/IpFlag';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
@@ -319,7 +318,7 @@ class PaymentDetailsModal extends PureComponent {
           }
         >
           {isWithdraw && '-'}
-          <Amount amount={amount} currency={currency} />
+          {I18n.toCurrency(amount, { unit: '' })} {currency}
         </div>
       </div>
     );

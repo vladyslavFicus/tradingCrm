@@ -138,12 +138,14 @@ class FeedContent extends PureComponent {
 
       // for outdated types
       } if (detailValue) {
+        const _detailValue = detailKey === 'amount' ? I18n.toCurrency(detailValue, { unit: '' }) : detailValue;
+
         acc.push(
           <div key={uuidv4()}>
             <span className="FeedContent__label">{I18n.t(renderLabel(detailKey))}:</span>
             <span
               className="FeedContent__value-to"
-              dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, detailValue) }}
+              dangerouslySetInnerHTML={{ __html: prepareValue(detailKey, _detailValue) }}
             />
           </div>,
         );
