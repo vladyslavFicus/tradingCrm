@@ -25,6 +25,7 @@ import Desks from 'routes/Desks';
 import Teams from 'routes/Teams';
 import SalesRules from 'components/SalesRules';
 import DistributionRules from 'routes/DistributionRules';
+import TradingEngine from 'routes/TradingEngine';
 import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import EmailTemplates from 'routes/EmailTemplates';
@@ -97,6 +98,7 @@ class IndexRoute extends PureComponent {
           <Route path="/teams" layout={MainLayout} component={Teams} isPrivate />
           <Route path="/sales-rules" layout={MainLayout} component={SalesRules} isPrivate />
           <Route path="/distribution" layout={MainLayout} component={DistributionRules} isPrivate />
+          <Route path="/trading-engine" layout={MainLayout} component={TradingEngine} isPrivate />
           <Route path="/notifications" layout={MainLayout} component={Notifications} isPrivate />
           <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
           <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />
