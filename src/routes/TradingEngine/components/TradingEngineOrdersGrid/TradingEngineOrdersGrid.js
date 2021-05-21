@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-class TradingEngineOrders extends PureComponent {
+class TradingEngineOrdersGrid extends PureComponent {
   render() {
     return (
       <div className="TradingEngineOrders">
@@ -10,4 +10,4 @@ class TradingEngineOrders extends PureComponent {
   }
 }
 
-export default TradingEngineOrders;
+export default TradingEngineOrdersGrid;
