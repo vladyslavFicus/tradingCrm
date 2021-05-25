@@ -5,7 +5,7 @@ import PropTypes from 'constants/propTypes';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import TradingEngineAccounts from '../components/TradingEngineAccounts';
-import TradingEngineOrders from '../components/TradingEngineOrders';
+import TradingEngineOrdersGrid from '../components/TradingEngineOrdersGrid';
 import { tradingEngineTabs } from './constants';
 
 class TradingEngine extends PureComponent {
@@ -30,7 +30,7 @@ class TradingEngine extends PureComponent {
           <Suspense fallback={null}>
             <Switch>
               <Route path={`${path}/accounts`} component={TradingEngineAccounts} />
-              <Route path={`${path}/orders`} component={TradingEngineOrders} />
+              <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
               <Redirect to={`${url}/accounts`} />
             </Switch>
           </Suspense>
