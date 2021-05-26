@@ -3349,6 +3349,36 @@
       "ORDERS": "Orders",
       "SYMBOLS": "Symbols"
     },
+    "ACCOUNTS": {
+      "HEADLINE": "Trading accounts",
+      "GRID": {
+        "ACCOUNT_ID": "Trading acc",
+        "PROFILE": "Client",
+        "DATE": "Date",
+        "LEVERAGE": "Leverage",
+        "BALANCE": "Balance",
+        "STATUS": "Status",
+        "ACCOUNT_TYPE": "Account type",
+        "LOGIN": "MT4 login",
+        "CREDIT": "Credit"
+      },
+      "FORM": {
+        "FIELDS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
+          "ACCOUNT_TYPE": "Account type",
+          "STATUS": "Status"
+        },
+        "ACCOUNT_TYPE": {
+          "DEMO": "Demo",
+          "LIVE": "Live"
+        },
+        "STATUS": {
+          "ARCHIVED": "Archived",
+          "NOT_ARCHIVED": "Not archived"
+        }
+      }
+    },
     "SYMBOLS": {
       "GRID": {
         "SYMBOL": "Symbol",

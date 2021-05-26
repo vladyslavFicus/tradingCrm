@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
-import './TradingEngineSymbols.scss';
+import './TradingEngineSymbolsGrid.scss';
 
 class TradingEngineSymbols extends PureComponent {
   static propTypes = {
