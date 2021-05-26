@@ -4,9 +4,11 @@ import { Switch, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
+import { tradingEngineTabs } from './constants';
 import TradingEngineAccounts from '../components/TradingEngineAccounts';
 import TradingEngineOrders from '../components/TradingEngineOrders';
-import { tradingEngineTabs } from './constants';
+import TradingEngineSymbols from '../components/TradingEngineSymbols';
+import './TradingEngine.scss';
 
 class TradingEngine extends PureComponent {
   static propTypes = {
@@ -23,14 +25,13 @@ class TradingEngine extends PureComponent {
 
     return (
       <div className="TradingEngine">
-
         <Tabs items={tradingEngineTabs} />
-
-        <div className="Client__tab-content">
+        <div>
           <Suspense fallback={null}>
             <Switch>
               <Route path={`${path}/accounts`} component={TradingEngineAccounts} />
               <Route path={`${path}/orders`} component={TradingEngineOrders} />
+              <Route path={`${path}/symbols`} component={TradingEngineSymbols} />
               <Redirect to={`${url}/accounts`} />
             </Switch>
           </Suspense>

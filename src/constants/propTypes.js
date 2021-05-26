@@ -419,6 +419,12 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   targetBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
 });
 
+PropTypes.symbolsTradingEngineType = PropTypes.shape({
+  symbol: PropTypes.string,
+  bid: PropTypes.number,
+  ask: PropTypes.number,
+});
+
 PropTypes.tradingActivity = PropTypes.shape({
   id: PropTypes.number.isRequired,
   tradeId: PropTypes.number.isRequired,

@@ -3346,7 +3346,15 @@
   "TRADING_ENGINE": {
     "TABS": {
       "ACCOUNTS": "Accounts",
-      "ORDERS": "Orders"
+      "ORDERS": "Orders",
+      "SYMBOLS": "Symbols"
+    },
+    "SYMBOLS": {
+      "GRID": {
+        "SYMBOL": "Symbol",
+        "BID": "Bid",
+        "ASK": "Ask"
+      }
     }
   },
   "NOTIFICATION_CENTER": {

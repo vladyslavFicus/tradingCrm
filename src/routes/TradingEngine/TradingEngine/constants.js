@@ -5,5 +5,8 @@ export const tradingEngineTabs = [
   }, {
     url: '/trading-engine/orders',
     label: 'TRADING_ENGINE.TABS.ORDERS',
+  }, {
+    url: '/trading-engine/symbols',
+    label: 'TRADING_ENGINE.TABS.SYMBOLS',
   },
 ];
