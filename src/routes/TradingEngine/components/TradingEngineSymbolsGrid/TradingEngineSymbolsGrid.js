@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
+import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
 import './TradingEngineSymbolsGrid.scss';
 
 class TradingEngineSymbols extends PureComponent {
@@ -59,31 +60,41 @@ class TradingEngineSymbols extends PureComponent {
       symbols,
     } = this.props;
 
-    const { content = [] } = symbols.data?.tradingEngineSymbols || {};
+    const { content = [], totalElements = 0 } = symbols.data?.tradingEngineSymbols || {};
 
     return (
-      <div className="TradingEngineSymbols">
-        <Table
-          items={content}
-          sorts={location?.state?.sorts}
-          onMore={this.handlePageChanged}
-        >
-          <Column
-            sortBy="symbol"
-            header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SYMBOL')}
-            render={this.renderSymbol}
-          />
-          <Column
-            sortBy="bid"
-            header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.BID')}
-            render={this.renderBid}
-          />
-          <Column
-            sortBy="ask"
-            header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.ASK')}
-            render={this.renderAsk}
-          />
-        </Table>
+      <div className="card">
+        <div className="card-heading card-heading--is-sticky">
+          <span className="font-size-20">
+            <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
+          </span>
+        </div>
+
+        <TradingEngineSymbolsGridFilter handleRefetch={this.refetchOrders} />
+
+        <div className="TradingEngineSymbols">
+          <Table
+            items={content}
+            sorts={location?.state?.sorts}
+            onMore={this.handlePageChanged}
+          >
+            <Column
+              sortBy="symbol"
+              header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SYMBOL')}
+              render={this.renderSymbol}
+            />
+            <Column
+              sortBy="bid"
+              header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.BID')}
+              render={this.renderBid}
+            />
+            <Column
+              sortBy="ask"
+              header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.ASK')}
+              render={this.renderAsk}
+            />
+          </Table>
+        </div>
       </div>
     );
   }

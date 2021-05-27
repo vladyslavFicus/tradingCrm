@@ -8,6 +8,7 @@ import TradingEngineAccountsGrid from '../components/TradingEngineAccountsGrid';
 import TradingEngineOrdersGrid from '../components/TradingEngineOrdersGrid';
 import TradingEngineSymbolsGrid from '../components/TradingEngineSymbolsGrid';
 import { tradingEngineTabs } from './constants';
+import './TradingEngine.scss';
 
 class TradingEngine extends PureComponent {
   static propTypes = {
