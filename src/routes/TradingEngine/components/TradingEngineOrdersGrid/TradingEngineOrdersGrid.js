@@ -9,7 +9,9 @@ import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Badge from 'components/Badge';
 import Uuid from 'components/Uuid';
+import Tabs from 'components/Tabs';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
+import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
 import { types } from './attributes/constants';
 import { getTypeColor } from './attributes/utils';
@@ -61,6 +63,8 @@ class TradingEngineOrdersGrid extends PureComponent {
 
     return (
       <div className="card">
+        <Tabs items={tradingEngineTabs} />
+
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ORDERS.HEADLINE')}

@@ -6,6 +6,8 @@ import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
+import Tabs from 'components/Tabs';
+import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
 import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
 import './TradingEngineSymbolsGrid.scss';
@@ -64,6 +66,8 @@ class TradingEngineSymbols extends PureComponent {
 
     return (
       <div className="card">
+        <Tabs items={tradingEngineTabs} />
+
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}

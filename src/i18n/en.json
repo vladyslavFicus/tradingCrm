@@ -3500,6 +3500,19 @@
           "PENDING": "Pending"
         }
       }
+    },
+    "ACCOUNT_PROFILE": {
+      "ALLOW_TRADING": "Allow trading",
+      "GROUP": "Group",
+      "LEVERAGE": "Leverage",
+      "REGISTERED": "Registered",
+      "DISABLE": "Disable",
+      "ENABLE": "Enable",
+
+      "TABS": {
+        "ORDERS": "Orders",
+        "EXPOSURE": "Exposure"
+      }
     }
   },
   "NOTIFICATION_CENTER": {

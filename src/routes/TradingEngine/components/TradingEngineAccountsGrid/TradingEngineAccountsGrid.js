@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { get } from 'lodash';
@@ -10,7 +10,9 @@ import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
+import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
+import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
 import './TradingEngineAccountsGrid.scss';
@@ -66,14 +68,14 @@ class TradingEngineAccountsGrid extends PureComponent {
   );
 
   renderLoginColumn = ({ login, group }) => (
-    <Fragment>
+    <Link to="/trading-engine/accounts/test-uuid">
       <div className="font-weight-700">
         {login}
       </div>
       <div className="font-size-11">
         {group}
       </div>
-    </Fragment>
+    </Link>
   );
 
   renderCreditColumn = ({ credit, currency }) => (
@@ -96,6 +98,8 @@ class TradingEngineAccountsGrid extends PureComponent {
 
     return (
       <div className="card">
+        <Tabs items={tradingEngineTabs} />
+
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNTS.HEADLINE')}

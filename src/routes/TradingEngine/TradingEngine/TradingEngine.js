@@ -1,13 +1,11 @@
 import React, { PureComponent, Suspense } from 'react';
-import { compose } from 'react-apollo';
-import { Switch, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
-import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import TradingEngineAccountsGrid from '../components/TradingEngineAccountsGrid';
 import TradingEngineOrdersGrid from '../components/TradingEngineOrdersGrid';
 import TradingEngineSymbolsGrid from '../components/TradingEngineSymbolsGrid';
-import { tradingEngineTabs } from './constants';
+import TradingEngineAccountProfile from '../routes/TradingEngineAccountProfile';
 import './TradingEngine.scss';
 
 class TradingEngine extends PureComponent {
@@ -25,11 +23,11 @@ class TradingEngine extends PureComponent {
 
     return (
       <div className="TradingEngine">
-        <Tabs items={tradingEngineTabs} />
-        <div>
+        <div className="Client__tab-content">
           <Suspense fallback={null}>
             <Switch>
-              <Route path={`${path}/accounts`} component={TradingEngineAccountsGrid} />
+              <Route exact path={`${path}/accounts`} component={TradingEngineAccountsGrid} />
+              <Route path={`${path}/accounts/:id`} component={TradingEngineAccountProfile} />
               <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
               <Route path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
               <Redirect to={`${url}/accounts`} />
@@ -41,6 +39,4 @@ class TradingEngine extends PureComponent {
   }
 }
 
-export default compose(
-  withRouter,
-)(TradingEngine);
+export default TradingEngine;
