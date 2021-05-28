@@ -3349,6 +3349,18 @@
       "ORDERS": "Orders",
       "SYMBOLS": "Symbols"
     },
+    "MODALS": {
+      "DEPOSIT_WITHDRAWAL_MODAL": {
+        "TITLE": "Deposit / Withdrawal",
+        "LOGIN": "Login",
+        "FULL_NAME": "Full name",
+        "BALANCE": "Balance",
+        "MARGIN": "Margin",
+        "CREDIT": "Credit",
+        "AMOUNT": "Amount",
+        "COMMENT": "Comment"
+      }
+    },
     "ACCOUNTS": {
       "HEADLINE": "Trading accounts",
       "GRID": {

@@ -24,6 +24,7 @@ class Input extends PureComponent {
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
+    digitsAfterDot: PropTypes.number,
   };
 
   static defaultProps = {
@@ -40,6 +41,7 @@ class Input extends PureComponent {
     onChange: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
+    digitsAfterDot: null,
   };
 
   render() {
@@ -58,13 +60,14 @@ class Input extends PureComponent {
       additionPosition,
       onAdditionClick,
       showErrorMessage,
+      digitsAfterDot,
       ...input
     } = this.props;
 
     const inputProps = {
       className: 'input__control',
       name,
-      value,
+      value: digitsAfterDot ? Number(value).toFixed(digitsAfterDot) : value,
       disabled,
       onChange,
       ...input,
