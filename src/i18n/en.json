@@ -3374,6 +3374,26 @@
         "AUTO": "Auto",
         "SELL_AT": "Sell at {{value}}",
         "BUY_AT": "Buy at {{value}}"
+      },
+      "EDIT_ORDER_MODAL": {
+        "TITLE": "Deal #{{id}}, {{type}} {{amount}} {{symbol}} at {{openPrice}}",
+        "ORDER": "Order",
+        "DELETE": "Delete",
+        "OPEN_TIME": "Open time",
+        "COMMISSION": "Commission",
+        "EXPIRY": "Expiry",
+        "TAXES": "Taxes",
+        "OPEN_PRICE": "Open price",
+        "RO_SWAPS": "R/O Swaps",
+        "STOP_LOSS": "Stop Loss",
+        "FLOATING_PL": "Floating P/L",
+        "TAKE_PROFIT": "Take profit",
+        "MODIFY": "Modify",
+        "COMMENT": "Comment",
+        "CHANGE": "Change",
+        "PROCESS": "Process",
+        "VOLUME": "Volume",
+        "CLOSE_AT": "Close {{volume}} at {{currentPrice}}"
       }
     },
     "ACCOUNTS": {
