@@ -3359,6 +3359,21 @@
         "CREDIT": "Credit",
         "AMOUNT": "Amount",
         "COMMENT": "Comment"
+      },
+      "NEW_ORDER_MODAL": {
+        "TITLE": "New order",
+        "LOGIN": "Login",
+        "VOLUME": "Volume",
+        "REQUESTED_VOLUME": "Requested volume",
+        "SYMBOL": "Symbol",
+        "COMMENT": "Comment",
+        "STOP_LOSS": "Stop Loss",
+        "TAKE_PROFIT": "Take profit",
+        "OPEN_PRICE": "Open price",
+        "UPDATE": "Update",
+        "AUTO": "Auto",
+        "SELL_AT": "Sell at {{value}}",
+        "BUY_AT": "Buy at {{value}}"
       }
     },
     "ACCOUNTS": {

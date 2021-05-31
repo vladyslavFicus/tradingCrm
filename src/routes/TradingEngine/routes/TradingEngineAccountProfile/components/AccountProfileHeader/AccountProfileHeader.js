@@ -3,18 +3,25 @@ import PropTypes from 'constants/propTypes';
 import withModals from 'hoc/withModals';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
-import './AccountProfileHeader.scss';
 import DepositWithdrawalModal from 'routes/TradingEngine/modals/DepositWithdrawalModal';
+import NewOrderModal from 'routes/TradingEngine/modals/NewOrderModal';
+import './AccountProfileHeader.scss';
 
 class AccountProfileHeader extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
       depositWithdrawalModal: PropTypes.modal,
+      newOrderModal: PropTypes.modal,
     }).isRequired,
   };
 
   render() {
-    const { modals: { depositWithdrawalModal } } = this.props;
+    const {
+      modals: {
+        depositWithdrawalModal,
+        newOrderModal,
+      },
+    } = this.props;
 
     return (
       <div className="AccountProfileHeader">
@@ -32,7 +39,7 @@ class AccountProfileHeader extends PureComponent {
         <div className="AccountProfileHeader__actions">
           <Button
             className="AccountProfileHeader__action"
-            onClick={() => {}}
+            onClick={() => newOrderModal.show()}
             commonOutline
             small
           >
@@ -64,4 +71,5 @@ class AccountProfileHeader extends PureComponent {
 
 export default withModals({
   depositWithdrawalModal: DepositWithdrawalModal,
+  newOrderModal: NewOrderModal,
 })(AccountProfileHeader);
