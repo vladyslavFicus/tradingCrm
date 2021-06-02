@@ -25,22 +25,13 @@ const REQUEST = gql`
         name
         login
         group
-        accountUUID
-        platformType
         credit
-        profile {
-          uuid
-          fullName
-        }
-        affiliate {
-          source
-        }
+        profileUuid
+        profileFullName
         createdAt
         leverage
         balance
-        archived
         accountType
-        currency
       }
       totalElements
       size

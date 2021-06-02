@@ -78,10 +78,6 @@ class TradingEngineAccountsGrid extends PureComponent {
     </Link>
   );
 
-  renderCreditColumn = ({ credit, currency }) => (
-    <div className="font-weight-700">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
-  );
-
   render() {
     const {
       location: { state },
@@ -133,10 +129,8 @@ class TradingEngineAccountsGrid extends PureComponent {
             <Column
               sortBy="profile"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.PROFILE')}
-              render={({ profile }) => (
-                <If condition={profile}>
-                  <GridPlayerInfo profile={profile} />
-                </If>
+              render={({ profileUuid, profileFullName }) => (
+                <GridPlayerInfo profile={{ uuid: profileUuid, fullName: profileFullName }} />
               )}
             />
             <Column
@@ -155,7 +149,9 @@ class TradingEngineAccountsGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.CREDIT')}
-              render={this.renderCreditColumn}
+              render={({ credit }) => (
+                <div className="font-weight-700">{I18n.toCurrency(credit, { unit: '' })}</div>
+              )}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.LEVERAGE')}
@@ -168,8 +164,8 @@ class TradingEngineAccountsGrid extends PureComponent {
             <Column
               sortBy="balance"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.BALANCE')}
-              render={({ balance, currency }) => (
-                <div className="font-weight-700">{currency} {I18n.toCurrency(balance, { unit: '' })}</div>
+              render={({ balance }) => (
+                <div className="font-weight-700">{I18n.toCurrency(balance, { unit: '' })}</div>
               )}
             />
           </Table>
