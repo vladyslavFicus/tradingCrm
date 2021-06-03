@@ -3350,6 +3350,19 @@
       "SYMBOLS": "Symbols"
     },
     "MODALS": {
+      "CREDIT": {
+        "TITLE": "Credit",
+        "ACCOUNT": "Account",
+        "NAME": "Name",
+        "BALANCE": "Balance",
+        "CREDIT": "Credit",
+        "AMOUNT": "Amount",
+        "COMMENT": "Comment",
+        "FREE_MARGIN": "Free margin",
+        "DUE_DATE": "Due date",
+        "CREDIT_IN": "Credit In",
+        "CREDIT_OUT": "Credit Out"
+      },
       "DEPOSIT_WITHDRAWAL_MODAL": {
         "TITLE": "Deposit / Withdrawal",
         "LOGIN": "Login",
