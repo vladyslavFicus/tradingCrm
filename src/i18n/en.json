@@ -3572,6 +3572,83 @@
       "TABS": {
         "ORDERS": "Orders",
         "EXPOSURE": "Exposure"
+      },
+      "ORDERS": {
+        "STATISTICS": {
+          "DEPOSIT": "Deposit",
+          "WITHDRAW": "Withdraw",
+          "CREDIT": "Credit",
+          "BALANCE": "Balance",
+          "EQUITY": "Equity",
+          "MARGIN": "Margin",
+          "FREE_MARGIN": "Free margin",
+          "MARGIN_LEVEL": "Margin level"
+        },
+        "HEADLINE": "Orders",
+        "GRID": {
+          "TRADE": "Trade",
+          "TYPE": "Type",
+          "TRADING_ACC": "Trading Acc.",
+          "OPEN_PRICE": "Open price",
+          "CLOSE_PRICE": "Close price",
+          "VOLUME": "Volume",
+          "SWAP": "Swap",
+          "P&L": "P&L",
+          "S/L": "S/L",
+          "T/P": "T/P",
+          "OPEN_TIME": "Open time",
+          "STATUS": "Status"
+        },
+        "FILTER_FORM": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Order, Login",
+          "TYPE_LABEL": "Type",
+          "SYMBOL_LABEL": "Symbol",
+          "TIME_RANGE": "Time range",
+          "TYPES": {
+            "BUY": "Buy",
+            "SELL": "Sell",
+            "BUY_LIMIT": "Buy limit",
+            "SELL_LIMIT": "Sell limit",
+            "BUY_STOP": "Buy stop",
+            "SELL_STOP": "Sell stop",
+            "BUY_MARKET": "Buy market",
+            "SELL_MARKET": "Sell market",
+            "BUY_STOP_LIMIT": "Buy stop limit",
+            "SELL_STOP_LIMIT": "Sell stop limit",
+            "CREDIT": "Credit"
+          },
+          "SYMBOLS": {
+            "USDCHF": "US Dollar vs Swiss Franc",
+            "GBPUSD": "British Pound vs US Dollar",
+            "EURUSD": "Euro vs US Dollar",
+            "USDJPY": "US Dollar vs Japanese Yen",
+            "USDCAD": "US Dollar vs Canadian Dollar",
+            "AUDUSD": "Australian Dollar vs US Dollar",
+            "EURGBP": "Euro vs British Pound",
+            "EURAUD": "Euro vs Australian Dollar",
+            "EURCHF": "Euro vs Swiss Franc",
+            "EURJPY": "Euro vs Japanese Yen",
+            "GBPCHF": "British Pound vs Swiss Franc",
+            "CADJPY": "Canadian Dollar vs Japanese Yen",
+            "GBPJPY": "British Pound vs Japanese Yen",
+            "AUDNZD": "Australian Dollar vs New Zealand Dollar",
+            "AUDCAD": "Australian Dollar vs Canadian Dollar",
+            "AUDCHF": "Australian Dollar vs Swiss Franc",
+            "AUDJPY": "Australian Dollar vs Japanese Yen",
+            "CHFJPY": "Swiss Franc vs Japanese Yen",
+            "EURNZD": "Euro vs New Zealand Dollar",
+            "EURCAD": "Euro vs Canadian Dollar",
+            "CADCHF": "Canadian Dollar vs Swiss Franc",
+            "NZDJPY": "New Zealand Dollar vs Japanese Yen",
+            "NZDUSD": "New Zealand Dollar vs US Dollar"
+          }
+        },
+        "STATUSES": {
+          "OPEN": "Open",
+          "CLOSED": "Closed",
+          "PENDING": "Pending"
+        }
       }
     }
   },

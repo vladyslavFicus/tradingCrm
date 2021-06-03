@@ -9,6 +9,7 @@ import AccountProfileStatus from './components/AccountProfileStatus';
 import AccountProfileGroup from './components/AccountProfileGroup';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
 import AccountProfileRegistered from './components/AccountProfileRegistered';
+import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
 import { accountProfileTabs } from './constants';
 import './TradingEngineAccountProfile.scss';
 
@@ -44,7 +45,7 @@ class TradingEngineAccountProfile extends PureComponent {
 
         <div className="TradingEngineAccountProfile__tab-content">
           <Switch>
-            <Route path={`${path}/orders`} component={() => null} />
+            <Route path={`${path}/orders`} component={AccountProfileOrdersGrid} />
             <Route path={`${path}/exposure`} component={() => null} />
             <Redirect to={`${url}/orders`} />
           </Switch>
