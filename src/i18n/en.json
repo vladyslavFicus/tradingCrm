@@ -3351,7 +3351,7 @@
     },
     "MODALS": {
       "CREDIT": {
-        "TITLE": "Credit",
+        "TITLE": "Credit in / Credit out",
         "ACCOUNT": "Account",
         "NAME": "Name",
         "BALANCE": "Balance",

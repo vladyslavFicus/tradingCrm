@@ -75,7 +75,6 @@ class TradingEngineOrdersGrid extends PureComponent {
 
         <div className="TradingEngineOrdersGrid">
           <Table
-            stickyFromTop={189}
             items={content}
             loading={loading}
             hasMore={!last}
@@ -85,7 +84,7 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="trade"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADE')}
-              render={({ tradeId, tradeType }) => (
+              render={({ id, tradeType }) => (
                 <Fragment>
                   <Badge
                     text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
@@ -95,12 +94,12 @@ class TradingEngineOrdersGrid extends PureComponent {
                     <div
                       className="TradingEngineOrdersGrid__cell-value TradingEngineOrdersGrid__cell-value--pointer"
                     >
-                      TR-{tradeId}
+                      TR-{id}
                     </div>
                   </Badge>
                   <div className="TradingEngineOrdersGrid__cell-value-add">
                     <Uuid
-                      uuid={`${tradeId}`}
+                      uuid={`${id}`}
                       uuidPrefix="TR"
                     />
                   </div>
@@ -134,48 +133,38 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="openPrice"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.OPEN_PRICE')}
-              render={({ openPrice, stopLoss, takeProfit }) => (
+              render={({ openPrice }) => (
                 <Fragment>
                   <div className="TradingEngineOrdersGrid__cell-value">{openPrice}</div>
-                  <If condition={stopLoss}>
-                    <div className="TradingEngineOrdersGrid__cell-value-add">
-                      S/L {parseFloat(stopLoss).toLocaleString('en-EN', { minimumFractionDigits: 5 })}
-                    </div>
-                  </If>
-                  <If condition={takeProfit}>
-                    <div className="TradingEngineOrdersGrid__cell-value-add">
-                      T/P {parseFloat(takeProfit).toLocaleString('en-EN', { minimumFractionDigits: 5 })}
-                    </div>
-                  </If>
                 </Fragment>
               )}
             />
             <Column
-              sortBy="volume"
+              sortBy="volumeUnits"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.VOLUME')}
-              render={({ volume }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{volume}</div>
+              render={({ volumeUnits }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">{volumeUnits}</div>
               )}
             />
             <Column
-              sortBy="profit"
+              sortBy="takeProfit"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.S/L')}
-              render={({ profit }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{profit}</div>
+              render={({ takeProfit }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">{takeProfit}</div>
               )}
             />
             <Column
               sortBy="profit"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.T/P')}
-              render={({ profit }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{profit}</div>
+              render={({ takeProfit }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">{takeProfit}</div>
               )}
             />
             <Column
               sortBy="swap"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.SWAP')}
-              render={({ swap }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{swap}</div>
+              render={({ swaps }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">{swaps}</div>
               )}
             />
             <Column
@@ -188,13 +177,13 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="openTime"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.OPEN_TIME')}
-              render={({ openTime }) => (
+              render={({ time }) => (
                 <Fragment>
                   <div className="TradingEngineOrdersGrid__cell-value">
-                    {moment(moment.unix(openTime)).format('DD.MM.YYYY')}
+                    {moment(moment.unix(time)).format('DD.MM.YYYY')}
                   </div>
                   <div className="TradingEngineOrdersGrid__cell-value-add">
-                    {moment(moment.unix(openTime)).format('HH:mm:ss')}
+                    {moment(moment.unix(time)).format('HH:mm:ss')}
                   </div>
                 </Fragment>
               )}

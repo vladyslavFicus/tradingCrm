@@ -10,7 +10,7 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
   $openTimeEnd: String,
   $closeTimeStart: String,
   $closeTimeEnd: String,
-  $operationType: TradingActivity__OperationTypes__Enum,
+  $operationType: TradingEngine__OperationTypes__Enum,
   $symbol: String,
   $volumeFrom: Float,
   $volumeTo: Float,
@@ -47,33 +47,26 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
   ) {
     content {
       id
-      tradeId
-      tradeType
       login
-      platformType
+      tradeType
       symbol
+      symbolAlias
+      direction
       digits
-      operationType
-      volume
-      openTime
-      closeTime
+      takeProfit
+      stopLoss
       openPrice
       closePrice
-      openRate
-      closeRate
-      stopLoss
-      takeProfit
-      expiration
-      reason
+      marginRate
+      volumeUnits
+      volumeLots
+      lotSize
       commission
-      commissionAgent
-      swap
-      profit
-      taxes
-      magic
+      swaps
+      pnl
+      time
       comment
-      timestamp
-      tradeStatus
+      operationType
       originalAgent {
         uuid
         fullName
