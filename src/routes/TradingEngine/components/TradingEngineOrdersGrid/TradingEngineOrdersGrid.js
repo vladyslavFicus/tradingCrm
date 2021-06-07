@@ -170,8 +170,8 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="profit"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.P&L')}
-              render={({ profit }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{profit}</div>
+              render={({ pnl }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">{pnl}</div>
               )}
             />
             <Column
@@ -180,10 +180,10 @@ class TradingEngineOrdersGrid extends PureComponent {
               render={({ time }) => (
                 <Fragment>
                   <div className="TradingEngineOrdersGrid__cell-value">
-                    {moment(moment.unix(time)).format('DD.MM.YYYY')}
+                    {moment.utc(time).local().format('DD.MM.YYYY')}
                   </div>
                   <div className="TradingEngineOrdersGrid__cell-value-add">
-                    {moment(moment.unix(time)).format('HH:mm:ss')}
+                    {moment.utc(time).local().format('HH:mm')}
                   </div>
                 </Fragment>
               )}

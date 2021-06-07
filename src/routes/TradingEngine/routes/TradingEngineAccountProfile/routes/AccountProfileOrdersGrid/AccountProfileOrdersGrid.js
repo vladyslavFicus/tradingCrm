@@ -5,10 +5,12 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withRouter } from 'react-router-dom';
+import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Badge from 'components/Badge';
 import Uuid from 'components/Uuid';
+import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
 import { tradeStatusesColor, types } from './attributes/constants';
@@ -18,6 +20,9 @@ import './AccountProfileOrdersGrid.scss';
 class AccountProfileOrdersGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    modals: PropTypes.shape({
+      editOrderModal: PropTypes.modalType,
+    }).isRequired,
     tradingEngineOrdersQuery: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
@@ -55,6 +60,9 @@ class AccountProfileOrdersGrid extends PureComponent {
         data,
         loading,
       },
+      modals: {
+        editOrderModal,
+      },
     } = this.props;
 
     const { content = [], last = true, totalElements = 0 } = data?.tradingEngineOrders || {};
@@ -83,36 +91,36 @@ class AccountProfileOrdersGrid extends PureComponent {
                 <div>
                   <strong>
                     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.CREDIT')}
-                  </strong>: <span>100</span>
+                  </strong>: <span>1000</span>
                 </div>
                 <div>
                   <strong>
                     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.BALANCE')}
-                  </strong>: <span>550</span>
+                  </strong>: <span>0</span>
                 </div>
               </div>
               <div className="AccountProfileOrdersGrid__statistics">
                 <div>
                   <strong>
                     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.EQUITY')}
-                  </strong>: <span>100</span>
+                  </strong>: <span>1071.26</span>
                 </div>
                 <div>
                   <strong>
                     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.MARGIN')}
-                  </strong>: <span>550</span>
+                  </strong>: <span>121</span>
                 </div>
               </div>
               <div className="AccountProfileOrdersGrid__statistics">
                 <div>
                   <strong>
                     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.FREE_MARGIN')}
-                  </strong>: <span>100</span>
+                  </strong>: <span>950.26</span>
                 </div>
                 <div>
                   <strong>
                     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.MARGIN_LEVEL')}
-                  </strong>: <span>550</span>
+                  </strong>: <span>885%</span>
                 </div>
               </div>
             </div>
@@ -133,7 +141,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                 sortBy="trade"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRADE')}
                 render={({ id, tradeType }) => (
-                  <Fragment>
+                  <div onClick={() => editOrderModal.show()}>
                     <Badge
                       text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
                       info={tradeType === 'DEMO'}
@@ -151,7 +159,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                         uuidPrefix="TR"
                       />
                     </div>
-                  </Fragment>
+                  </div>
                 )}
               />
               <Column
@@ -208,8 +216,8 @@ class AccountProfileOrdersGrid extends PureComponent {
               <Column
                 sortBy="profit"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-                render={({ profit }) => (
-                  <div className="TAccountProfileOrdersGrid__cell-value">{profit}</div>
+                render={({ pnl }) => (
+                  <div className="AccountProfileOrdersGrid__cell-value">{pnl}</div>
                 )}
               />
               <Column
@@ -246,6 +254,9 @@ class AccountProfileOrdersGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withModals({
+    editOrderModal: EditOrderModal,
+  }),
   withRequests({
     tradingEngineOrdersQuery: TradingEngineOrdersQuery,
   }),
