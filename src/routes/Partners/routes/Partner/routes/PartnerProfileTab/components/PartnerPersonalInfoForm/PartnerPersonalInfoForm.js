@@ -7,6 +7,7 @@ import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { getBrand } from 'config';
 import { withPermission } from 'providers/PermissionsProvider';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -32,6 +33,7 @@ const attributeLabels = {
   showFTDAmount: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_FTD_AMOUNT',
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
   showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
+  cdeAffiliate: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CDE_AFFILIATE',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
@@ -42,6 +44,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     updatePartner: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
+    auth: PropTypes.auth.isRequired,
   }
 
   get isReadOnly() {
@@ -109,7 +112,10 @@ class PartnerPersonalInfoForm extends PureComponent {
   };
 
   render() {
-    const { partnerData } = this.props;
+    const {
+      partnerData,
+      auth: { role, department },
+    } = this.props;
     const {
       firstName,
       lastName,
@@ -119,6 +125,7 @@ class PartnerPersonalInfoForm extends PureComponent {
       phone,
       country,
       permission: partnerPermissions,
+      cdeAffiliate,
     } = get(partnerData, 'data.partner') || {};
 
     const brand = getBrand();
@@ -134,6 +141,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             public: partnerPublic,
             phone,
             country,
+            cdeAffiliate,
             ...partnerPermissions,
           }}
           validate={createValidator({
@@ -150,6 +158,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showSalesStatus: 'boolean',
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
+            cdeAffiliate: 'boolean',
           }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
           enableReinitialize
@@ -324,6 +333,15 @@ class PartnerPersonalInfoForm extends PureComponent {
                   label={I18n.t(attributeLabels.showKycStatus)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
+
+                <If condition={['ADMINISTRATION'].includes(department) && ['ADMINISTRATION'].includes(role)}>
+                  <Field
+                    name="cdeAffiliate"
+                    component={FormikCheckbox}
+                    label={I18n.t(attributeLabels.cdeAffiliate)}
+                    disabled={isSubmitting}
+                  />
+                </If>
               </div>
             </Form>
           )}
@@ -334,6 +352,7 @@ class PartnerPersonalInfoForm extends PureComponent {
 }
 
 export default compose(
+  withStorage(['auth']),
   withPermission,
   withNotifications,
   withRequests({
