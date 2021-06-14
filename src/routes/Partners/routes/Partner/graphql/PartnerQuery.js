@@ -25,6 +25,7 @@ const REQUEST = gql`
       statusChangeAuthor
       createdBy
       createdAt
+      cdeAffiliate
       permission {
         allowedIpAddresses
         forbiddenCountries

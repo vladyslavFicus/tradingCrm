@@ -13,6 +13,7 @@ const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
   $permission: PartnerPermission__Input
   $externalAffiliateId: String
   $public: Boolean
+  $cdeAffiliate: Boolean
 ) {
   partner {
     updatePartner(
@@ -25,6 +26,7 @@ const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
       permission: $permission
       externalAffiliateId: $externalAffiliateId
       public: $public
+      cdeAffiliate: $cdeAffiliate
     )
   }
 }`;
