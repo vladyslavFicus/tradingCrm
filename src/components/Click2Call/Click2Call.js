@@ -9,10 +9,12 @@ import withNotifications from 'hoc/withNotifications';
 import DidlogicCreateCall from './graphql/DidlogicCreateCall';
 import AsteriskCreateCall from './graphql/AsteriskCreateCall';
 import CommpeakCreateCall from './graphql/CommpeakCreateCall';
+import CoperatoCreateCall from './graphql/CoperatoCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import didlogicIcon from './icons/didlogic.png';
 import asteriskIcon from './icons/asterisk.png';
 import commpeakIcon from './icons/commpeak.png';
+import coperatoIcon from './icons/coperato.png';
 import './Click2Call.scss';
 
 const TOOLTIP_STYLE = {
@@ -30,6 +32,7 @@ class Click2Call extends PureComponent {
     clickToCall: PropTypes.func.isRequired,
     asteriskCreateCall: PropTypes.func.isRequired,
     commpeakCreateCall: PropTypes.func.isRequired,
+    coperatoCreateCall: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['PROFILE', 'LEAD']).isRequired,
@@ -49,7 +52,10 @@ class Click2Call extends PureComponent {
   isDidlogicOnly = () => {
     const _clickToCall = getClickToCall();
 
-    return _clickToCall.isActive && !_clickToCall.asterisk.isActive && !_clickToCall.commpeak.isActive;
+    return _clickToCall.isActive
+      && !_clickToCall.asterisk.isActive
+      && !_clickToCall.commpeak.isActive
+      && !_clickToCall.coperato.isActive;
   };
 
   handleDidLogicCall = async () => {
@@ -94,6 +100,20 @@ class Click2Call extends PureComponent {
     }
   };
 
+  handleCoperatoCall = prefix => async () => {
+    const { notify, uuid, field, type } = this.props;
+
+    try {
+      await this.props.coperatoCreateCall({ variables: { uuid, field, type, prefix } });
+    } catch (e) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
+      });
+    }
+  };
+
   handleMouseEnter = () => {
     // Show tooltip with additional click2call providers if not only didlogic enabled
     if (!this.isDidlogicOnly()) {
@@ -124,6 +144,7 @@ class Click2Call extends PureComponent {
       _clickToCall.isActive,
       _clickToCall.asterisk.isActive,
       _clickToCall.commpeak.isActive,
+      _clickToCall.coperato.isActive,
     ].includes(true);
 
     return (
@@ -184,6 +205,23 @@ class Click2Call extends PureComponent {
                 </div>
               </div>
             </If>
+
+            <If condition={_clickToCall.coperato.isActive}>
+              <div className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
+                <img className="Click2Call__submenu-item-image" src={coperatoIcon} alt="" />
+                <div className="Click2Call__submenu-item-prefixes">
+                  {Object.keys(_clickToCall.coperato.prefixes).map(prefix => (
+                    <span
+                      key={prefix}
+                      className="Click2Call__submenu-item-prefix"
+                      onClick={this.handleCoperatoCall(_clickToCall.coperato.prefixes[prefix])}
+                    >
+                      {prefix}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </If>
           </div>
         </ToolTip>
       </If>
@@ -197,5 +235,6 @@ export default compose(
     clickToCall: DidlogicCreateCall,
     asteriskCreateCall: AsteriskCreateCall,
     commpeakCreateCall: CommpeakCreateCall,
+    coperatoCreateCall: CoperatoCreateCall,
   }),
 )(Click2Call);
