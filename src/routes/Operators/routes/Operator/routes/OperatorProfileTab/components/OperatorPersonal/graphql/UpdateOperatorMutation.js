@@ -33,6 +33,7 @@ const REQUEST = gql`
           didlogicPhone
           asteriskPhone
           commpeakPhone
+          coperatoPhone
         }
         registeredBy
         registrationDate

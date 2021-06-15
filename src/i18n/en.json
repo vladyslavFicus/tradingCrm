@@ -1992,7 +1992,8 @@
           "PHONE": "Phone",
           "DIDLOGIC": "DID Logic SIP",
           "ASTERISK": "Asterisk SIP",
-          "COMMPEAK": "Commpeak SIP"
+          "COMMPEAK": "Commpeak SIP",
+          "COPERATO": "Coperato SIP"
         }
       }
     },
