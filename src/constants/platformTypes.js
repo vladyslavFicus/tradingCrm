@@ -4,6 +4,9 @@ const platformTypes = [{
 }, {
   label: 'MT5',
   value: 'MT5',
+}, {
+  label: 'WET',
+  value: 'WET',
 }];
 
 export {
