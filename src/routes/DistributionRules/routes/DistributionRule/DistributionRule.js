@@ -2,16 +2,21 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { isEqual, cloneDeep } from 'lodash';
 import { compose } from 'react-apollo';
+import { Redirect, Switch } from 'react-router-dom';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import { distributionRuleTabs } from 'config/menu';
 import EventEmitter, { DISTRIBUTION_RULE_CHANGED } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import ShortLoader from 'components/ShortLoader';
+import Tabs from 'components/Tabs';
+import Route from 'components/Route';
 import DistributionRuleHeader from './components/DistributionRuleHeader';
 import DistributionRuleInfo from './components/DistributionRuleInfo';
 import DistributionRuleSettings from './components/DistributionRuleSettings';
 import DistributionRuleBrands from './components/DistributionRuleBrands';
+import DistributionRuleFeedsTab from './routes/DistributionRuleFeedsTab';
 import {
   DistributionRuleQuery,
   DistributionRuleUpdate,
@@ -306,6 +311,8 @@ class DistributionRule extends PureComponent {
   render() {
     const {
       match: {
+        url,
+        path,
         params: { id: ruleUuid },
       },
       ruleQuery: {
@@ -364,42 +371,55 @@ class DistributionRule extends PureComponent {
           latestMigration={latestMigration}
           updateRuleStatus={this.updateRuleStatus}
         />
-        <div className="card-body">
-          <DistributionRuleSettings
-            loading={ruleLoading}
-            generalSettings={generalSettings}
-            handleGeneralSettings={this.handleGeneralSettings}
-          />
-          <DistributionRuleBrands
-            allowedBaseUnits={allowedBaseUnits}
-            generalSettings={generalSettings}
-            sourceBrandConfig={sourceBrandConfig}
-            targetBrandConfig={targetBrandConfig}
-            handleSourceBrandConfig={this.handleSourceBrandConfig}
-            handleTargetBrandConfig={this.handleTargetBrandConfig}
-            addSourceBrandEnabled={addSourceBrandEnabled}
-            addTargetBrandEnabled={addTargetBrandEnabled}
-            handleRemoveBrandCard={this.handleRemoveBrandCard}
-          />
-        </div>
-        <div className="DistributionRule__actions">
-          <Button
-            className="DistributionRule__actions-btn"
-            onClick={this.handleCancel}
-            commonOutline
-          >
-            {I18n.t('COMMON.CANCEL')}
-          </Button>
-          <Button
-            className="DistributionRule__actions-btn"
-            onClick={this.handleUpdateRule}
-            disabled={submitDisabled}
-            submitting={isSubmitting}
-            primary
-          >
-            {I18n.t('COMMON.SAVE')}
-          </Button>
-        </div>
+
+        <Tabs items={distributionRuleTabs} />
+
+        <Switch>
+          {/* General information tab */}
+          <Route path={`${path}/general`}>
+            <div className="card-body">
+              <DistributionRuleSettings
+                loading={ruleLoading}
+                generalSettings={generalSettings}
+                handleGeneralSettings={this.handleGeneralSettings}
+              />
+              <DistributionRuleBrands
+                allowedBaseUnits={allowedBaseUnits}
+                generalSettings={generalSettings}
+                sourceBrandConfig={sourceBrandConfig}
+                targetBrandConfig={targetBrandConfig}
+                handleSourceBrandConfig={this.handleSourceBrandConfig}
+                handleTargetBrandConfig={this.handleTargetBrandConfig}
+                addSourceBrandEnabled={addSourceBrandEnabled}
+                addTargetBrandEnabled={addTargetBrandEnabled}
+                handleRemoveBrandCard={this.handleRemoveBrandCard}
+              />
+            </div>
+            <div className="DistributionRule__actions">
+              <Button
+                className="DistributionRule__actions-btn"
+                onClick={this.handleCancel}
+                commonOutline
+              >
+                {I18n.t('COMMON.CANCEL')}
+              </Button>
+              <Button
+                className="DistributionRule__actions-btn"
+                onClick={this.handleUpdateRule}
+                disabled={submitDisabled}
+                submitting={isSubmitting}
+                primary
+              >
+                {I18n.t('COMMON.SAVE')}
+              </Button>
+            </div>
+          </Route>
+
+          {/* Feeds tab */}
+          <Route path={`${path}/feed`} component={DistributionRuleFeedsTab} />
+
+          <Redirect to={`${url}/general`} />
+        </Switch>
       </div>
     );
   }
