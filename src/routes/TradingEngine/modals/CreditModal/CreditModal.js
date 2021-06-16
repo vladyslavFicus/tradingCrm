@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import ShortLoader from 'components/ShortLoader';
@@ -10,16 +12,50 @@ import {
   FormikTextAreaField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
+import createCreditInMutation from './graphql/CreateCreditInMutation';
+import createCreditOutMutation from './graphql/CreateCreditOutMutation';
 import './CreditModal.scss';
 
 class CreditModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    createCreditIn: PropTypes.func.isRequired,
+    createCreditOut: PropTypes.func.isRequired,
   }
 
-  handleSubmit = async () => {
+  handleCreditIn = async () => {
+    const { createCreditIn } = this.props;
     console.log('--Submit--');
+
+    try {
+      createCreditIn({
+        variables: {
+          accountUuid: 'Uuid-test',
+          amount: 236,
+          comment: 'test comment',
+        }
+      });
+    } catch (e) {
+
+    }
+  }
+
+  handleCreditOut = async () => {
+    const { createCreditOut } = this.props;
+    console.log('--Submit--');
+
+    try {
+      createCreditOut({
+        variables: {
+          accountUuid: 'Uuid-test',
+          amount: 222,
+          comment: 'test comment',
+        }
+      });
+    } catch (e) {
+
+    }
   }
 
   render() {
@@ -126,8 +162,8 @@ class CreditModal extends PureComponent {
                     <div className="CreditModal__buttons">
                       <Button
                         disabled={isSubmitting}
-                        type="submit"
                         className="CreditModal__button"
+                        onClick={this.handleCreditIn}
                         primary
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.CREDIT.CREDIT_IN')}
@@ -144,7 +180,7 @@ class CreditModal extends PureComponent {
                       <Button
                         disabled={isSubmitting}
                         className="CreditModal__button"
-                        type="submit"
+                        onClick={this.handleCreditOut}
                         danger
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.CREDIT.CREDIT_OUT')}
@@ -161,4 +197,9 @@ class CreditModal extends PureComponent {
   }
 }
 
-export default CreditModal;
+export default compose(
+  withRequests({
+    createCreditIn: createCreditInMutation,
+    createCreditOut: createCreditOutMutation,
+  }),
+)(CreditModal);
