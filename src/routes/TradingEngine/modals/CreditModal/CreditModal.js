@@ -34,10 +34,10 @@ class CreditModal extends PureComponent {
           accountUuid: 'Uuid-test',
           amount: 236,
           comment: 'test comment',
-        }
+        },
       });
     } catch (e) {
-
+      // ...
     }
   }
 
@@ -51,10 +51,10 @@ class CreditModal extends PureComponent {
           accountUuid: 'Uuid-test',
           amount: 222,
           comment: 'test comment',
-        }
+        },
       });
     } catch (e) {
-
+      // ...
     }
   }
 
