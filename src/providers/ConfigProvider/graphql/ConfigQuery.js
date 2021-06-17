@@ -43,6 +43,15 @@ const REQUEST = gql`
           enabled
         }
       }
+      wet {
+        leveragesChangingRequest
+        live {
+          enabled
+        }
+        demo {
+          enabled
+        }
+      }
       clickToCall {
         isActive
         asterisk {
