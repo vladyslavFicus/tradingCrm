@@ -249,7 +249,7 @@ class PaymentsListGrid extends PureComponent {
                   {`(${getBrand().currencies.base} ${I18n.toCurrency(normalizedAmount, { unit: '' })})`}
                 </div>
                 <If condition={cryptoAmount && cryptoCurrency}>
-                  <span className="PaymentsListGrid__text-primary">{cryptoCurrency} {cryptoAmount}</span>
+                  <span className="PaymentsListGrid__text-secondary">{cryptoCurrency} {cryptoAmount}</span>
                 </If>
               </Fragment>
             )}
