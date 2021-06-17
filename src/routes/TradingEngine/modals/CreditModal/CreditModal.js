@@ -24,35 +24,37 @@ class CreditModal extends PureComponent {
     createCreditOut: PropTypes.func.isRequired,
   }
 
-  handleCreditIn = async () => {
-    const { createCreditIn } = this.props;
-    console.log('--Submit--');
+  handleCreditIn = async ({ amount, comment }) => {
+    const { createCreditIn, onCloseModal } = this.props;
 
     try {
       createCreditIn({
         variables: {
-          accountUuid: 'Uuid-test',
-          amount: 236,
-          comment: 'test comment',
+          accountUuid: 'WET-f78e442a-34df-4575-8e70-1cbc18c0a81a',
+          amount: +amount,
+          comment,
         },
       });
+
+      onCloseModal();
     } catch (e) {
       // ...
     }
   }
 
-  handleCreditOut = async () => {
-    const { createCreditOut } = this.props;
-    console.log('--Submit--');
+  handleCreditOut = async ({ amount, comment }) => {
+    const { createCreditOut, onCloseModal } = this.props;
 
     try {
       createCreditOut({
         variables: {
-          accountUuid: 'Uuid-test',
-          amount: 222,
-          comment: 'test comment',
+          accountUuid: 'WET-f78e442a-34df-4575-8e70-1cbc18c0a81a',
+          amount: +amount,
+          comment,
         },
       });
+
+      onCloseModal();
     } catch (e) {
       // ...
     }
@@ -93,7 +95,7 @@ class CreditModal extends PureComponent {
               validateOnChange={false}
               onSubmit={this.handleSubmit}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, values }) => (
                 <Form>
                   <ModalBody>
                     <div className="CreditModal__field-container">
@@ -121,8 +123,12 @@ class CreditModal extends PureComponent {
                         component={FormikInputField}
                       />
                       <Field
-                        disabled
                         name="amount"
+                        type="number"
+                        placeholder="0.00"
+                        step="0.01"
+                        min={0}
+                        max={999999}
                         className="CreditModal__field"
                         label={I18n.t('TRADING_ENGINE.MODALS.CREDIT.AMOUNT')}
                         component={FormikInputField}
@@ -163,7 +169,7 @@ class CreditModal extends PureComponent {
                       <Button
                         disabled={isSubmitting}
                         className="CreditModal__button"
-                        onClick={this.handleCreditIn}
+                        onClick={() => this.handleCreditIn(values)}
                         primary
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.CREDIT.CREDIT_IN')}
@@ -180,7 +186,7 @@ class CreditModal extends PureComponent {
                       <Button
                         disabled={isSubmitting}
                         className="CreditModal__button"
-                        onClick={this.handleCreditOut}
+                        onClick={() => this.handleCreditOut(values)}
                         danger
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.CREDIT.CREDIT_OUT')}

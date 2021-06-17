@@ -5,20 +5,10 @@ import { Query } from 'react-apollo';
 
 const REQUEST = gql`
   query TradingEngine_AccountsQuery(
-    $searchKeyword: String
-    $accountType: String
-    $platformType: String
-    $archived: Boolean
-    $size: Int
-    $page: Int
+    $args: TradingEngineSearch__Input
   ) {
     tradingEngineAccounts (
-      searchKeyword: $searchKeyword
-      platformType: $platformType
-      accountType: $accountType
-      archived: $archived
-      size: $size
-      page: $page
+      args: $args
     ) {
       content {
         uuid
@@ -28,7 +18,7 @@ const REQUEST = gql`
         credit
         profileUuid
         profileFullName
-        createdAt
+        registrationDate
         leverage
         balance
         accountType
@@ -46,12 +36,15 @@ const TradingEngineAccountsQuery = ({ children, location: { state } }) => (
     query={REQUEST}
     fetchPolicy="cache-and-network"
     variables={{
-      ...state && state.filters,
-      page: 0,
-      size: 20,
-      // Parse to boolean value if 'archived' value exist
-      archived: state?.filters?.archived ? !!+state?.filters?.archived : undefined,
-      sorts: state?.sorts?.length ? state.sorts : undefined,
+      args: {
+        ...state && state.filters,
+        page: {
+          from: 0,
+          size: 20,
+          sorts: state?.sorts,
+        },
+        enabled: state?.filters?.enabled ? !!+state?.filters?.enabled : undefined,
+      },
     }}
   >
     {children}

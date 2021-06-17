@@ -27,15 +27,31 @@ class TradingEngineAccountsGrid extends PureComponent {
 
   handlePageChanged = () => {
     const {
-      accounts,
+      location: {
+        state,
+      },
       accounts: {
+        data,
         loadMore,
+        variables,
       },
     } = this.props;
 
-    const page = get(accounts, 'data.tradingEngineAccounts.number') || 0;
+    const currentPage = data?.tradingEngineAccounts?.number || 0;
+    const filters = state?.filters || {};
+    const size = variables?.args?.page?.size;
+    const sorts = state?.sorts;
 
-    loadMore(page + 1);
+    loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: currentPage + 1,
+          size,
+          sorts,
+        },
+      },
+    });
   };
 
   handleSort = (sorts) => {
@@ -127,33 +143,35 @@ class TradingEngineAccountsGrid extends PureComponent {
               render={this.renderTradingAccountColumn}
             />
             <Column
-              sortBy="profile"
+              sortBy="profileFullName"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.PROFILE')}
               render={({ profileUuid, profileFullName }) => (
                 <GridPlayerInfo profile={{ uuid: profileUuid, fullName: profileFullName }} />
               )}
             />
             <Column
-              sortBy="createdAt"
+              sortBy="registrationDate"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.DATE')}
-              render={({ createdAt }) => (
-                <If condition={createdAt}>
+              render={({ registrationDate }) => (
+                <If condition={registrationDate}>
                   <div className="font-weight-700">
-                    {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+                    {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
                   </div>
                   <div className="font-size-11">
-                    {moment.utc(createdAt).local().format('HH:mm:ss')}
+                    {moment.utc(registrationDate).local().format('HH:mm:ss')}
                   </div>
                 </If>
               )}
             />
             <Column
+              sortBy="credit"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.CREDIT')}
               render={({ credit }) => (
                 <div className="font-weight-700">{I18n.toCurrency(credit, { unit: '' })}</div>
               )}
             />
             <Column
+              sortBy="leverage"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.LEVERAGE')}
               render={({ leverage }) => (
                 <If condition={leverage}>

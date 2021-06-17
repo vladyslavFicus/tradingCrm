@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { accountTypes, accountStatuses } from '../../constants';
+import { accountStatuses } from '../../constants';
 import './TradingEngineAccountsFilters.scss';
 
 class TradingEngineAccountsFilters extends PureComponent {
@@ -66,7 +66,7 @@ class TradingEngineAccountsFilters extends PureComponent {
           <Form className="filter__form">
             <div className="filter__form-inputs">
               <Field
-                name="searchKeyword"
+                name="keyword"
                 label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY')}
                 placeholder={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
                 className="form-group filter-row__big"
@@ -75,22 +75,7 @@ class TradingEngineAccountsFilters extends PureComponent {
                 withFocus
               />
               <Field
-                name="accountType"
-                label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.ACCOUNT_TYPE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="form-group filter-row__medium"
-                component={FormikSelectField}
-                withAnyOption
-                withFocus
-              >
-                {Object.keys(accountTypes).map(key => (
-                  <option key={key} value={key}>
-                    {I18n.t(accountTypes[key])}
-                  </option>
-                ))}
-              </Field>
-              <Field
-                name="archived"
+                name="enabled"
                 label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.STATUS')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="form-group filter-row__medium"
