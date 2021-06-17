@@ -37,6 +37,8 @@ const REQUEST = gql`
         userMigrationId
         normalizedAmount
         declineReason
+        cryptoAmount
+        cryptoCurrency
         partner {
           fullName
         }
