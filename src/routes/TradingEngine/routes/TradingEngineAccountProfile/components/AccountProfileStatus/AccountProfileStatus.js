@@ -2,9 +2,14 @@ import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import './AccountProfileStatus.scss';
 
 class AccountProfileStatus extends PureComponent {
+  static propTypes = {
+    enable: PropTypes.bool.isRequired,
+  }
+
   state = {
     isDropDownOpen: false,
   };
@@ -20,7 +25,7 @@ class AccountProfileStatus extends PureComponent {
   renderLabel = () => (
     <div className="AccountProfileStatus__label">
       <div className="AccountProfileStatus__status">
-        {I18n.t('COMMON.ENABLED')}
+        {I18n.t(`COMMON.${this.props.enable ? 'ENABLED' : 'DISABLED'}`)}
       </div>
     </div>
   );

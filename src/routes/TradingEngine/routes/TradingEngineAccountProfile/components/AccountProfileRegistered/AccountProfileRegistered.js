@@ -1,11 +1,16 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import PropTypes from 'constants/propTypes';
 import './AccountProfileRegistered.scss';
 
 class AccountProfileRegistered extends PureComponent {
+  static propTypes = {
+    registrationDate: PropTypes.string.isRequired,
+  }
+
   render() {
-    const registrationDate = '2020-07-01T04:21:12';
+    const { registrationDate } = this.props;
 
     return (
       <div className="AccountProfileRegistered">

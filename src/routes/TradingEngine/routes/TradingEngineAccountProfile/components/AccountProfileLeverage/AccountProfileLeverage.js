@@ -2,10 +2,15 @@ import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import { leverages } from './constants';
 import './AccountProfileLeverage.scss';
 
 class AccountProfileLeverage extends PureComponent {
+  static propTypes = {
+    leverage: PropTypes.number.isRequired,
+  }
+
   state = {
     isDropDownOpen: false,
   };
@@ -21,7 +26,7 @@ class AccountProfileLeverage extends PureComponent {
   renderLabel = () => (
     <div className="AccountProfileLeverage__label">
       <div className="AccountProfileLeverage__status">
-        1:100
+        {`1:${this.props.leverage}`}
       </div>
     </div>
   );

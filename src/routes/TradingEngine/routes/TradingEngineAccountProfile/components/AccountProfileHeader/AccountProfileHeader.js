@@ -15,6 +15,7 @@ class AccountProfileHeader extends PureComponent {
       depositWithdrawalModal: PropTypes.modal,
       newOrderModal: PropTypes.modal,
     }).isRequired,
+    account: PropTypes.object.isRequired,
   }
 
   render() {
@@ -24,18 +25,25 @@ class AccountProfileHeader extends PureComponent {
         newOrderModal,
         creditModal,
       },
+      account,
     } = this.props;
+
+    const {
+      uuid,
+      name,
+      profileUuid,
+    } = account;
 
     return (
       <div className="AccountProfileHeader">
         <div className="AccountProfileHeader__topic">
           <div className="AccountProfileHeader__title">
-            <div>123-412-123</div>
-            <div>Vasya Pupkin</div>
+            <Uuid uuid={uuid} uuidPrefix="WET" />
+            <div>{name}</div>
           </div>
 
           <div className="AccountProfileHeader__uuid">
-            <Uuid uuid="UUID-TEST-NUMBER" uuidPrefix="AC" />
+            <Uuid uuid={profileUuid} uuidPrefix="AC" />
           </div>
         </div>
 

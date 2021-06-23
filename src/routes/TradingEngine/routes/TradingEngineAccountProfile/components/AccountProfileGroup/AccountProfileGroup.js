@@ -2,9 +2,14 @@ import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import './AccountProfileGroup.scss';
 
 class AccountProfileGroup extends PureComponent {
+  static propTypes = {
+    group: PropTypes.string.isRequired,
+  }
+
   state = {
     isDropDownOpen: false,
   };
@@ -20,7 +25,7 @@ class AccountProfileGroup extends PureComponent {
   renderLabel = () => (
     <div className="AccountProfileGroup__label">
       <div className="AccountProfileGroup__status">
-        0-USD
+        {this.props.group}
       </div>
     </div>
   );

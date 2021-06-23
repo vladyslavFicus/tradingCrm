@@ -83,8 +83,8 @@ class TradingEngineAccountsGrid extends PureComponent {
     </Fragment>
   );
 
-  renderLoginColumn = ({ login, group }) => (
-    <Link to="/trading-engine/accounts/test-uuid">
+  renderLoginColumn = ({ login, group, uuid }) => (
+    <Link to={`/trading-engine/accounts/${uuid}`}>
       <div className="font-weight-700">
         {login}
       </div>
