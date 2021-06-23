@@ -95,6 +95,7 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE',
   icon: 'icon-union',
   url: '/trading-engine',
+  permissions: new Permissions(permissions.TRADING_ENGINE.GET_ACCOUNTS),
 }, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',

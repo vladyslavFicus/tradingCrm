@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export const DATE_USER_STRING_FORMAT = 'DD.MM.YYYY';
 export const DATE_BASE_FORMAT = 'YYYY-MM-DD';
-export const DATE_TIME_USER_STRING_FORMAT = 'DD.MM.YYYY HH:mm';
+export const DATE_TIME_USER_STRING_FORMAT = 'DD.MM.YYYY HH:mm:ss';
 export const DATE_TIME_BASE_FORMAT = 'YYYY-MM-DDTHH:mm:ss[Z]';
 
 // # Must be removed after backend change all data in filter-sets to DATE_TIME_BASE_FORMAT

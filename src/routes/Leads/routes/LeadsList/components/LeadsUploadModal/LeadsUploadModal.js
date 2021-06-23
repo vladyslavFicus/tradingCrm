@@ -3,6 +3,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import Dropzone from 'react-dropzone';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import classNames from 'classnames';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -24,6 +25,10 @@ class LeadsUploadModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
   }
 
+  state = {
+    submitting: false,
+  };
+
   handleRejectUpload = ([file]) => {
     const { notify } = this.props;
 
@@ -43,6 +48,8 @@ class LeadsUploadModal extends PureComponent {
       uploadLeads,
       onCloseModal,
     } = this.props;
+
+    this.setState({ submitting: true });
 
     try {
       const {
@@ -65,6 +72,8 @@ class LeadsUploadModal extends PureComponent {
         });
       }
 
+      this.setState({ submitting: false });
+
       onCloseModal();
       onSuccess(failedLeads, failedLeadsCount, createdLeadsCount);
     } catch (e) {
@@ -78,12 +87,15 @@ class LeadsUploadModal extends PureComponent {
         message: I18n.t(errorMessage),
       });
 
+      this.setState({ submitting: false });
+
       onCloseModal();
     }
   };
 
   render() {
     const { isOpen, onCloseModal } = this.props;
+    const { submitting } = this.state;
 
     return (
       <Modal className="LeadsUploadModal" isOpen={isOpen} toggle={onCloseModal}>
@@ -102,11 +114,19 @@ class LeadsUploadModal extends PureComponent {
           </div>
 
           <Dropzone
+            disabled={submitting}
             accept={fileConfig.types}
             maxSize={fileConfig.maxSize * 1024 * 1024}
             onDropAccepted={this.handleUploadCSV}
             onDropRejected={this.handleRejectUpload}
-            className="LeadsUploadModal__dropzone"
+            className={
+              classNames(
+                'LeadsUploadModal__dropzone',
+                {
+                  'LeadsUploadModal__dropzone--submitting': submitting,
+                },
+              )
+            }
             activeClassName="LeadsUploadModal__dropzone-active"
             acceptClassName="LeadsUploadModal__dropzone-accept"
           >
@@ -114,7 +134,12 @@ class LeadsUploadModal extends PureComponent {
               <img src="/img/upload-icon.svg" className="LeadsUploadModal__dropzone-upload-image" alt="" />
               <div className="LeadsUploadModal__dropzone-info">
                 <p>{I18n.t('FILE_DROPZONE.DRAG_HERE_OR')}</p>
-                <Button className="LeadsUploadModal__dropzone-button">
+                <Button
+                  submitting={submitting}
+                  className={classNames('LeadsUploadModal__dropzone-button', {
+                    'LeadsUploadModal__dropzone-button--submitting': submitting,
+                  })}
+                >
                   {I18n.t('FILE_DROPZONE.BROWSE_FILES')}
                 </Button>
               </div>

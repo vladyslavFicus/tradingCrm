@@ -240,7 +240,7 @@ class PaymentsListGrid extends PureComponent {
           <Column
             sortBy={withSort && 'amount'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT')}
-            render={({ currency, amount, normalizedAmount }) => (
+            render={({ currency, amount, normalizedAmount, cryptoAmount, cryptoCurrency }) => (
               <Fragment>
                 <div className="PaymentsListGrid__header-block-middle">
                   {currency} {I18n.toCurrency(amount, { unit: '' })}
@@ -248,6 +248,9 @@ class PaymentsListGrid extends PureComponent {
                 <div className="PaymentsListGrid__text-secondary">
                   {`(${getBrand().currencies.base} ${I18n.toCurrency(normalizedAmount, { unit: '' })})`}
                 </div>
+                <If condition={cryptoAmount && cryptoCurrency}>
+                  <span className="PaymentsListGrid__text-secondary">{cryptoCurrency} {cryptoAmount}</span>
+                </If>
               </Fragment>
             )}
           />

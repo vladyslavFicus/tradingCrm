@@ -4,8 +4,8 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`
-  query NotificationsGridFilter_DesksAndTeamsQuery($withoutBrandFilter: Boolean) {
-    userBranches (withoutBrandFilter: $withoutBrandFilter) {
+  query NotificationsGridFilter_DesksAndTeamsQuery {
+    userBranches {
       DESK {
         name
         uuid
@@ -22,11 +22,7 @@ const REQUEST = gql`
 `;
 
 const DesksAndTeamsQuery = ({ children }) => (
-  <Query
-    query={REQUEST}
-    variables={{ withoutBrandFilter: true }}
-    fetchPolicy="cache-and-network"
-  >
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );

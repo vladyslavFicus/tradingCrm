@@ -74,6 +74,8 @@ const REQUEST = gql`
         modifiedBy
         statusChangedAt
         warnings
+        cryptoAmount
+        cryptoCurrency
       }
     }
   }

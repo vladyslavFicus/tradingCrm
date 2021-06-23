@@ -62,6 +62,10 @@ const REQUEST = gql`
           isActive
           prefixes
         }
+        coperato {
+          isActive
+          prefixes
+        }
       }
       email {
         templatedEmails

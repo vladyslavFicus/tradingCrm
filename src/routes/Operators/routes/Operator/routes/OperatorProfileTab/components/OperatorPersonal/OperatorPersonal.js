@@ -23,6 +23,7 @@ const attributeLabels = {
   didlogicSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.DIDLOGIC',
   asteriskSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.ASTERISK',
   commpeakSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.COMMPEAK',
+  coperatoSip: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.COPERATO',
   country: 'OPERATORS.PROFILE.PERSONAL_FORM.LABELS.COUNTRY',
   email: 'COMMON.EMAIL',
 };
@@ -93,6 +94,7 @@ class OperatorPersonal extends PureComponent {
     const isDidlogicActive = getClickToCall()?.isActive;
     const isAsteriskActive = getClickToCall()?.asterisk?.isActive;
     const isCommpeakActive = getClickToCall()?.commpeak?.isActive;
+    const isCoperatoActive = getClickToCall()?.coperato?.isActive;
 
     return (
       <Formik
@@ -192,7 +194,7 @@ class OperatorPersonal extends PureComponent {
               </Field>
             </div>
 
-            <If condition={isDidlogicActive || isAsteriskActive || isCommpeakActive}>
+            <If condition={isDidlogicActive || isAsteriskActive || isCommpeakActive || isCoperatoActive}>
               <hr />
 
               <div className="OperatorPersonal__title">
@@ -228,6 +230,17 @@ class OperatorPersonal extends PureComponent {
                     className="OperatorPersonal__field"
                     label={I18n.t(attributeLabels.commpeakSip)}
                     placeholder={I18n.t(attributeLabels.commpeakSip)}
+                    component={FormikInputField}
+                    disabled={isSubmitting || isReadOnly}
+                  />
+                </If>
+
+                <If condition={isCoperatoActive}>
+                  <Field
+                    name="clickToCall.coperatoPhone"
+                    className="OperatorPersonal__field"
+                    label={I18n.t(attributeLabels.coperatoSip)}
+                    placeholder={I18n.t(attributeLabels.coperatoSip)}
                     component={FormikInputField}
                     disabled={isSubmitting || isReadOnly}
                   />

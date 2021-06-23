@@ -1993,7 +1993,8 @@
           "PHONE": "Phone",
           "DIDLOGIC": "DID Logic SIP",
           "ASTERISK": "Asterisk SIP",
-          "COMMPEAK": "Commpeak SIP"
+          "COMMPEAK": "Commpeak SIP",
+          "COPERATO": "Coperato SIP"
         }
       }
     },
@@ -2142,7 +2143,8 @@
             "SHOW_NOTES": "Show notes",
             "SHOW_SALES_STATUS": "Show sales status",
             "SHOW_FTD_AMOUNT": "Show FTD Amount",
-            "SHOW_KYC_STATUS": "Show KYC status"
+            "SHOW_KYC_STATUS": "Show KYC status",
+            "CDE_AFFILIATE": "Mark as source"
           }
         }
       }

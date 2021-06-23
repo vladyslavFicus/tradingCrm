@@ -100,7 +100,7 @@ class Input extends PureComponent {
     let value = _value;
 
     if (type === 'number' && value !== '') {
-      value = value
+      value = +value
         .replace(/[^0-9.-]/g, '') // remove chars except number, hyphen, point.
         .replace(/(\..*)\./g, '$1') // remove multiple points.
         .replace(/(?!^)-/g, '') // remove middle hyphen.
