@@ -7,8 +7,12 @@ import './AccountProfileGroup.scss';
 
 class AccountProfileGroup extends PureComponent {
   static propTypes = {
-    group: PropTypes.string.isRequired,
+    group: PropTypes.string,
   }
+
+  static defaultProps = {
+    group: '',
+  };
 
   state = {
     isDropDownOpen: false,

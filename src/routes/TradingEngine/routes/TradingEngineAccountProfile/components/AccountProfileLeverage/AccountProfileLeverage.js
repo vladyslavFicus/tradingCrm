@@ -8,8 +8,12 @@ import './AccountProfileLeverage.scss';
 
 class AccountProfileLeverage extends PureComponent {
   static propTypes = {
-    leverage: PropTypes.number.isRequired,
+    leverage: PropTypes.number,
   }
+
+  static defaultProps = {
+    leverage: 0,
+  };
 
   state = {
     isDropDownOpen: false,

@@ -7,8 +7,12 @@ import './AccountProfileStatus.scss';
 
 class AccountProfileStatus extends PureComponent {
   static propTypes = {
-    enable: PropTypes.bool.isRequired,
+    enable: PropTypes.bool,
   }
+
+  static defaultProps = {
+    enable: true,
+  };
 
   state = {
     isDropDownOpen: false,

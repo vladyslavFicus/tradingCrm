@@ -15,7 +15,19 @@ class AccountProfileHeader extends PureComponent {
       depositWithdrawalModal: PropTypes.modal,
       newOrderModal: PropTypes.modal,
     }).isRequired,
-    account: PropTypes.object.isRequired,
+    account: PropTypes.shape({
+      uuid: PropTypes.string,
+      name: PropTypes.string,
+      profileUuid: PropTypes.string,
+    }),
+  }
+
+  static defaultProps = {
+    account: {
+      uuid: '',
+      name: '',
+      profileUuid: '',
+    },
   }
 
   render() {

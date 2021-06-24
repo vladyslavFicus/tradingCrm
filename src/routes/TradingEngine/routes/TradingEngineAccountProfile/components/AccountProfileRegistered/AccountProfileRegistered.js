@@ -6,8 +6,12 @@ import './AccountProfileRegistered.scss';
 
 class AccountProfileRegistered extends PureComponent {
   static propTypes = {
-    registrationDate: PropTypes.string.isRequired,
+    registrationDate: PropTypes.string,
   }
+
+  static defaultProps = {
+    registrationDate: '',
+  };
 
   render() {
     const { registrationDate } = this.props;
