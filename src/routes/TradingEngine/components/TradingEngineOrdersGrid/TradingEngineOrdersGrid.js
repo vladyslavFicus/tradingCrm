@@ -123,10 +123,18 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="login"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADING_ACC')}
-              render={({ login, symbol }) => (
+              render={({ login }) => (
                 <Fragment>
                   <div className="TradingEngineOrdersGrid__cell-value">{login}</div>
-                  <div className="TradingEngineOrdersGrid__cell-value-add">{symbol}</div>
+                </Fragment>
+              )}
+            />
+            <Column
+              sortBy="symbol"
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.SYMBOL')}
+              render={({ symbol }) => (
+                <Fragment>
+                  <div className="TradingEngineOrdersGrid__cell-value">{symbol}</div>
                 </Fragment>
               )}
             />

@@ -3503,6 +3503,7 @@
       "GRID": {
         "TRADE": "Trade",
         "TYPE": "Type",
+        "SYMBOL": "Symbol",
         "TRADING_ACC": "Trading Acc.",
         "OPEN_PRICE": "Open price",
         "CLOSE_PRICE": "Close price",
