@@ -59,6 +59,7 @@ class CreditModal extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_IN.SUCCESS'),
       });
 
       onCloseModal();
@@ -66,6 +67,7 @@ class CreditModal extends PureComponent {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_IN.FAILED'),
       });
     }
   }
@@ -94,6 +96,7 @@ class CreditModal extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_OUT.SUCCESS'),
       });
 
       onCloseModal();
@@ -101,6 +104,7 @@ class CreditModal extends PureComponent {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_OUT.FAILED'),
       });
     }
   }

@@ -3363,7 +3363,17 @@
         "FREE_MARGIN": "Free margin",
         "DUE_DATE": "Due date",
         "CREDIT_IN": "Credit In",
-        "CREDIT_OUT": "Credit Out"
+        "CREDIT_OUT": "Credit Out",
+        "NOTIFICATION": {
+          "CREDIT_IN": {
+            "SUCCESS": "Credit In has been successfully completed",
+            "FAILED": "Credit In has been failed"
+          },
+          "CREDIT_OUT": {
+            "SUCCESS": "Credit Out has been successfully completed",
+            "FAILED": "Credit Out has been failed"
+          }
+        }
       },
       "DEPOSIT_WITHDRAWAL_MODAL": {
         "TITLE": "Deposit / Withdrawal",
@@ -3373,7 +3383,17 @@
         "MARGIN": "Margin",
         "CREDIT": "Credit",
         "AMOUNT": "Amount",
-        "COMMENT": "Comment"
+        "COMMENT": "Comment",
+        "NOTIFICATION": {
+          "DEPOSIT": {
+            "SUCCESS": "Deposit has been successfully completed",
+            "FAILED": "Deposit has been failed"
+          },
+          "WITHDRAWAL": {
+            "SUCCESS": "Withdrawal has been successfully completed",
+            "FAILED": "Withdrawal has been failed"
+          }
+        }
       },
       "NEW_ORDER_MODAL": {
         "TITLE": "New order",
@@ -3388,7 +3408,11 @@
         "UPDATE": "Update",
         "AUTO": "Auto",
         "SELL_AT": "Sell at {{value}}",
-        "BUY_AT": "Buy at {{value}}"
+        "BUY_AT": "Buy at {{value}}",
+        "NOTIFICATION": {
+          "SUCCESS": "Order has been successfully created",
+          "FAILED": "Order creation failed"
+        }
       },
       "EDIT_ORDER_MODAL": {
         "TITLE": "Deal #{{id}}, {{type}} {{amount}} {{symbol}} at {{openPrice}}",
@@ -3408,7 +3432,11 @@
         "CHANGE": "Change",
         "PROCESS": "Process",
         "VOLUME": "Volume",
-        "CLOSE_AT": "Close {{volume}} at {{currentPrice}}"
+        "CLOSE_AT": "Close {{volume}} at {{currentPrice}}",
+        "NOTIFICATION": {
+          "SUCCESS": "Order has been successfully updated",
+          "FAILED": "Order update failed"
+        }
       }
     },
     "ACCOUNTS": {
