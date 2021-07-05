@@ -54,7 +54,7 @@ class TradingEngineAccountProfile extends PureComponent {
 
         <div className="TradingEngineAccountProfile__tab-content">
           <Switch>
-            <Route path={`${path}/orders`} component={AccountProfileOrdersGrid} />
+            <Route path={`${path}/orders`} render={() => <AccountProfileOrdersGrid accountLogin={account?.login} />} />
             <Route path={`${path}/exposure`} component={() => null} />
             <Redirect to={`${url}/orders`} />
           </Switch>

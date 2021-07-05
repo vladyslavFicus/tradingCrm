@@ -3621,13 +3621,14 @@
           "TYPE": "Type",
           "TRADING_ACC": "Trading Acc.",
           "OPEN_PRICE": "Open price",
-          "CLOSE_PRICE": "Close price",
+          "CLOSING_PRICE": "Closing price",
           "VOLUME": "Volume",
           "SWAP": "Swap",
           "P&L": "P&L",
           "S/L": "S/L",
           "T/P": "T/P",
-          "OPEN_TIME": "Open time",
+          "OPENING_TIME": "Opening time",
+          "CLOSING_TIME": "Closing time",
           "STATUS": "Status"
         },
         "FILTER_FORM": {
@@ -3635,7 +3636,8 @@
           "SEARCH_BY_PLACEHOLDER": "Order, Login",
           "TYPE_LABEL": "Type",
           "SYMBOL_LABEL": "Symbol",
-          "TIME_RANGE": "Time range",
+          "OPEN_TIME_RANGE_LABEL": "Open time range",
+          "CLOSE_TIME_RANGE_LABEL": "Close time range",
           "TYPES": {
             "BUY": "Buy",
             "SELL": "Sell",

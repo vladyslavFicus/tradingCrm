@@ -1,35 +1,35 @@
 export const types = [{
-  value: 'OP_BUY',
+  value: 'BUY',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY',
 }, {
-  value: 'OP_BUY_LIMIT',
+  value: 'BUY_LIMIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY_LIMIT',
 }, {
-  value: 'OP_BUY_STOP_LIMIT',
+  value: 'BUY_STOP_LIMIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY_STOP_LIMIT',
 }, {
-  value: 'OP_BUY_MARKET',
+  value: 'BUY_MARKET',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY_MARKET',
 }, {
-  value: 'OP_BUY_STOP',
+  value: 'BUY_STOP',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY_STOP',
 }, {
-  value: 'OP_CREDIT',
+  value: 'CREDIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.CREDIT',
 }, {
-  value: 'OP_SELL',
+  value: 'SELL',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL',
 }, {
-  value: 'OP_SELL_LIMIT',
+  value: 'SELL_LIMIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL_LIMIT',
 }, {
-  value: 'OP_SELL_STOP_LIMIT',
+  value: 'SELL_STOP_LIMIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL_STOP_LIMIT',
 }, {
-  value: 'OP_SELL_MARKET',
+  value: 'SELL_MARKET',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL_MARKET',
 }, {
-  value: 'OP_SELL_STOP',
+  value: 'SELL_STOP',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL_STOP',
 }];
 

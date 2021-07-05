@@ -54,7 +54,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
     return (
       <Formik
         enableReinitialize
-        initialValues={state?.filters || { tradeType: 'LIVE' }}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
         {({
@@ -66,7 +66,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
           <Form className="TradingEngineOrdersGridFilter">
             <div className="TradingEngineOrdersGridFilter__fields">
               <Field
-                name="searchKeyword"
+                name="keyword"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SEARCH_BY')}
                 placeholder={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                 className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__field--large"
@@ -75,7 +75,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 withFocus
               />
               <Field
-                name="operationType"
+                name="orderType"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.TYPE_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingEngineOrdersGridFilter__field"

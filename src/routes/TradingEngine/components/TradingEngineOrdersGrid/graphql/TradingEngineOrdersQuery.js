@@ -4,47 +4,9 @@ import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
-  $profileUUID: String,
-  $tradeId: Int,
-  $openTimeStart: String,
-  $openTimeEnd: String,
-  $closeTimeStart: String,
-  $closeTimeEnd: String,
-  $operationType: TradingEngine__OperationTypes__Enum,
-  $symbol: String,
-  $volumeFrom: Float,
-  $volumeTo: Float,
-  $status: TradingActivity__Statuses__Enum,
-  $sortColumn: String,
-  $sortDirection: String,
-  $page: Int,
-  $limit: Int,
-  $loginIds: [Int],
-  $tradeType: String,
-  $platformType: String,
-  $agentIds: [String],
+  $args: TradingEngineSearch__Input
 ) {
-  tradingEngineOrders(
-    profileUUID: $profileUUID,
-    tradeId: $tradeId,
-    openTimeStart: $openTimeStart,
-    openTimeEnd: $openTimeEnd,
-    closeTimeStart: $closeTimeStart,
-    closeTimeEnd: $closeTimeEnd,
-    operationType: $operationType,
-    symbol: $symbol,
-    volumeFrom: $volumeFrom,
-    volumeTo: $volumeTo,
-    status: $status,
-    sortColumn: $sortColumn,
-    sortDirection: $sortDirection,
-    page: $page,
-    limit: $limit,
-    loginIds: $loginIds,
-    tradeType: $tradeType,
-    platformType: $platformType,
-    agentIds: $agentIds,
-  ) {
+  tradingEngineOrders(args: $args) {
     content {
       id
       login
@@ -63,10 +25,18 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       lotSize
       commission
       swaps
-      pnl
-      time
+      pnl {
+        gross
+        net
+      }
+      time {
+        creation
+        modification
+        expiration
+        closing
+      }
       comment
-      operationType
+      type
       originalAgent {
         uuid
         fullName
@@ -87,11 +57,14 @@ const TradingEngineOrdersQuery = ({
   <Query
     query={REQUEST}
     variables={{
-      profileUUID: 'PLAYER-6ffc393a-e611-4da9-ba48-358c2b678dc3',
-      tradeType: 'LIVE',
-      ...state?.filters,
-      page: 0,
-      limit: 20,
+      args: {
+        ...state && state.filters,
+        page: {
+          from: 0,
+          size: 20,
+          sorts: state?.sorts,
+        },
+      },
     }}
     fetchPolicy="cache-and-network"
   >

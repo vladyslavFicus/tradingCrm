@@ -7,7 +7,6 @@ import { withRequests } from 'apollo';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
-import Badge from 'components/Badge';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
@@ -20,24 +19,40 @@ import './TradingEngineOrdersGrid.scss';
 class TradingEngineOrdersGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    tradingEngineOrdersQuery: PropTypes.query({
+    orders: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
   };
 
-  refetchOrders = () => this.props.tradingEngineOrdersQuery.refetch();
+  refetchOrders = () => this.props.orders.refetch();
 
   handlePageChanged = () => {
     const {
-      tradingEngineOrdersQuery: {
+      location: {
+        state,
+      },
+      orders: {
         data,
         loadMore,
+        variables,
       },
     } = this.props;
 
-    const page = data?.tradingEngineOrders?.number || 0;
+    const currentPage = data?.tradingEngineOrders?.number || 0;
+    const filters = state?.filters || {};
+    const size = variables?.args?.page?.size;
+    const sorts = state?.sorts;
 
-    loadMore(page + 1);
+    loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: currentPage + 1,
+          size,
+          sorts,
+        },
+      },
+    });
   };
 
   handleSort = (sorts) => {
@@ -53,7 +68,8 @@ class TradingEngineOrdersGrid extends PureComponent {
 
   render() {
     const {
-      tradingEngineOrdersQuery: {
+      location: { state },
+      orders: {
         data,
         loading,
       },
@@ -78,26 +94,16 @@ class TradingEngineOrdersGrid extends PureComponent {
             items={content}
             loading={loading}
             hasMore={!last}
+            sorts={state?.sorts}
             onSort={this.handleSort}
             onMore={this.handlePageChanged}
           >
             <Column
-              sortBy="trade"
+              sortBy="id"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADE')}
-              render={({ id, tradeType }) => (
+              render={({ id }) => (
                 <Fragment>
-                  <Badge
-                    text={I18n.t(`CONSTANTS.ACCOUNT_TYPE.${tradeType}`)}
-                    info={tradeType === 'DEMO'}
-                    success={tradeType === 'LIVE'}
-                  >
-                    <div
-                      className="TradingEngineOrdersGrid__cell-value TradingEngineOrdersGrid__cell-value--pointer"
-                    >
-                      TR-{id}
-                    </div>
-                  </Badge>
-                  <div className="TradingEngineOrdersGrid__cell-value-add">
+                  <div className="TradingEngineOrdersGrid__cell-value">
                     <Uuid
                       uuid={`${id}`}
                       uuidPrefix="TR"
@@ -109,24 +115,15 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="type"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TYPE')}
-              render={({ operationType }) => (
+              render={({ type }) => (
                 <div
                   className={classNames(
-                    getTypeColor(types.find(item => item.value === operationType).value),
+                    getTypeColor(types.find(item => item.value === type).value),
                     'TradingEngineOrdersGrid__cell-value',
                   )}
                 >
-                  {I18n.t(types.find(item => item.value === operationType).label)}
+                  {I18n.t(types.find(item => item.value === type).label)}
                 </div>
-              )}
-            />
-            <Column
-              sortBy="login"
-              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADING_ACC')}
-              render={({ login }) => (
-                <Fragment>
-                  <div className="TradingEngineOrdersGrid__cell-value">{login}</div>
-                </Fragment>
               )}
             />
             <Column
@@ -139,7 +136,7 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
-              sortBy="openPrice"
+              sortBy="openingPrice"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.OPEN_PRICE')}
               render={({ openPrice }) => (
                 <Fragment>
@@ -148,38 +145,37 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
-              sortBy="volumeUnits"
+              sortBy="volume"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.VOLUME')}
               render={({ volumeUnits }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">{volumeUnits}</div>
               )}
             />
             <Column
-              sortBy="takeProfit"
+              sortBy="stopLoss"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.S/L')}
-              render={({ takeProfit }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{takeProfit}</div>
+              render={({ stopLoss }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">{stopLoss}</div>
               )}
             />
             <Column
-              sortBy="profit"
+              sortBy="takeProfit"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.T/P')}
               render={({ takeProfit }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">{takeProfit}</div>
               )}
             />
             <Column
-              sortBy="swap"
+              sortBy="swaps"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.SWAP')}
               render={({ swaps }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">{swaps}</div>
               )}
             />
             <Column
-              sortBy="profit"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.P&L')}
               render={({ pnl }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{pnl}</div>
+                <div className="TradingEngineOrdersGrid__cell-value">{pnl.net}</div>
               )}
             />
             <Column
@@ -206,6 +202,6 @@ class TradingEngineOrdersGrid extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    tradingEngineOrdersQuery: TradingEngineOrdersQuery,
+    orders: TradingEngineOrdersQuery,
   }),
 )(TradingEngineOrdersGrid);

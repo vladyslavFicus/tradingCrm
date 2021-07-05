@@ -55,7 +55,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
     return (
       <Formik
         enableReinitialize
-        initialValues={state?.filters || { tradeType: 'LIVE' }}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
         {({
@@ -67,7 +67,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
           <Form className="TradingEngineOrdersGridFilter">
             <div className="TradingEngineOrdersGridFilter__fields">
               <Field
-                name="searchKeyword"
+                name="keyword"
                 label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY')}
                 placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                 className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__field--large"
@@ -76,7 +76,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 withFocus
               />
               <Field
-                name="operationType"
+                name="orderType"
                 label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingEngineOrdersGridFilter__field"
@@ -108,13 +108,24 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="dateRange"
+                name="openingDateRange"
                 className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
-                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TIME_RANGE')}
+                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
-                  from: 'dateRange.from',
-                  to: 'dateRange.to',
+                  from: 'openingDateRange.from',
+                  to: 'openingDateRange.to',
+                }}
+                withFocus
+              />
+              <Field
+                name="closingDateRange"
+                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
+                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'closingDateRange.from',
+                  to: 'closingDateRange.to',
                 }}
                 withFocus
               />
