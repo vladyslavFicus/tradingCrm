@@ -7,11 +7,8 @@ import './input.scss';
 class Input extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    type: PropTypes.string,
-    step: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
-    onKeyDown: PropTypes.func,
     error: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -27,17 +24,10 @@ class Input extends PureComponent {
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
-    digitsAfterDot: PropTypes.number,
-    min: PropTypes.number,
-    max: PropTypes.number,
   };
 
   static defaultProps = {
     error: null,
-    type: 'string',
-    step: '1',
-    min: null,
-    max: null,
     disabled: false,
     isFocused: false,
     className: '',
@@ -48,87 +38,15 @@ class Input extends PureComponent {
     addition: null,
     additionPosition: '',
     onChange: () => {},
-    onKeyDown: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
-    digitsAfterDot: null,
-  };
-
-  onKeyDown = (e) => {
-    const { type, onKeyDown } = this.props;
-
-    if (type === 'number' && e.code === 'ArrowUp') {
-      this.increaseValue();
-
-      e.preventDefault();
-    }
-
-    if (type === 'number' && e.code === 'ArrowDown') {
-      this.decreaseValue();
-
-      e.preventDefault();
-    }
-
-    onKeyDown(e);
-  };
-
-  increaseValue = () => {
-    const value = parseFloat(this.props.value) || 0;
-    const step = parseFloat(this.props.step);
-    const digitsAfterPoint = (this.props.step.split('.')[1] || '').length;
-
-    // Fixed {{digitsAfterPoint}} of symbols after point
-    const result = (value + step).toFixed(digitsAfterPoint);
-
-    this.onChange(result);
-  };
-
-  decreaseValue = () => {
-    const value = parseFloat(this.props.value) || 0;
-    const step = parseFloat(this.props.step);
-    const digitsAfterPoint = (this.props.step.split('.')[1] || '').length;
-
-    // Fixed {{digitsAfterPoint}} of symbols after point
-    const result = (value - step).toFixed(digitsAfterPoint);
-
-    this.onChange(result);
-  };
-
-  onChange = (_value) => {
-    const { type, min, max } = this.props;
-
-    let value = _value;
-
-    if (type === 'number' && value !== '') {
-      value = value
-        .replace(/[^0-9.-]/g, '') // remove chars except number, hyphen, point.
-        .replace(/(\..*)\./g, '$1') // remove multiple points.
-        .replace(/(?!^)-/g, '') // remove middle hyphen.
-        .replace(/^0+(\d)/gm, '$1'); // remove multiple leading zeros
-
-      const isLastSymbolDot = value[value.length - 1] === '.';
-
-      // Set min value if current value less or equal then min
-      if (!isLastSymbolDot && min !== null && value <= min) {
-        value = min;
-      }
-
-      // Set max value if current value greater or equal then max
-      if (!isLastSymbolDot && max !== null && value >= max) {
-        value = max;
-      }
-    }
-
-    this.props.onChange(value);
   };
 
   render() {
     const {
       name,
       value,
-      type,
       onChange,
-      onKeyDown,
       error,
       disabled,
       isFocused,
@@ -140,18 +58,15 @@ class Input extends PureComponent {
       additionPosition,
       onAdditionClick,
       showErrorMessage,
-      digitsAfterDot,
       ...input
     } = this.props;
 
     const inputProps = {
       className: 'input__control',
       name,
-      value: digitsAfterDot ? Number(value).toFixed(digitsAfterDot) : value,
+      value,
       disabled,
-      type: type === 'number' ? 'string' : type,
-      onChange: e => this.onChange(e.target.value),
-      onKeyDown: this.onKeyDown,
+      onChange,
       ...input,
     };
 
