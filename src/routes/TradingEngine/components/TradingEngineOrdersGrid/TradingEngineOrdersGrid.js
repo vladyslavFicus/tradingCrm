@@ -184,10 +184,10 @@ class TradingEngineOrdersGrid extends PureComponent {
               render={({ time }) => (
                 <Fragment>
                   <div className="TradingEngineOrdersGrid__cell-value">
-                    {moment.utc(time).local().format('DD.MM.YYYY')}
+                    {moment.utc(time.creation).local().format('DD.MM.YYYY')}
                   </div>
                   <div className="TradingEngineOrdersGrid__cell-value-add">
-                    {moment.utc(time).local().format('HH:mm')}
+                    {moment.utc(time.creation).local().format('HH:mm')}
                   </div>
                 </Fragment>
               )}
