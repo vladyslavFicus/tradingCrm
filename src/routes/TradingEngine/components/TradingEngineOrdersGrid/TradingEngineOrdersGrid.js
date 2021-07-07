@@ -12,7 +12,7 @@ import Tabs from 'components/Tabs';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
-import { types } from './attributes/constants';
+import { types, tradeStatusesColor } from './attributes/constants';
 import { getTypeColor } from './attributes/utils';
 import './TradingEngineOrdersGrid.scss';
 
@@ -190,6 +190,16 @@ class TradingEngineOrdersGrid extends PureComponent {
                     {moment.utc(time.creation).local().format('HH:mm')}
                   </div>
                 </Fragment>
+              )}
+            />
+            <Column
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.STATUS')}
+              render={({ status }) => (
+                <div
+                  className={tradeStatusesColor[`${status}`]}
+                >
+                  <strong>{I18n.t(`TRADING_ENGINE.ORDERS.STATUSES.${status}`)}</strong>
+                </div>
               )}
             />
           </Table>

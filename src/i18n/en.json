@@ -3540,7 +3540,13 @@
         "P&L": "P&L",
         "S/L": "S/L",
         "T/P": "T/P",
-        "OPEN_TIME": "Open time"
+        "OPEN_TIME": "Open time",
+        "STATUS": "Status"
+      },
+      "STATUSES": {
+        "OPEN": "Open",
+        "CLOSED": "Closed",
+        "PENDING": "Pending"
       },
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",

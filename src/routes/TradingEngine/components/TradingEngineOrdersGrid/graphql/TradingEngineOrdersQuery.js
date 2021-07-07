@@ -25,6 +25,7 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       lotSize
       commission
       swaps
+      status
       pnl {
         gross
         net
