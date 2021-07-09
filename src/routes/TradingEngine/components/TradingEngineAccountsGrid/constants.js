@@ -1,0 +1,14 @@
+const accountTypes = {
+  LIVE: 'TRADING_ENGINE.ACCOUNTS.FORM.ACCOUNT_TYPE.LIVE',
+  DEMO: 'TRADING_ENGINE.ACCOUNTS.FORM.ACCOUNT_TYPE.DEMO',
+};
+
+const accountStatuses = {
+  1: 'TRADING_ENGINE.ACCOUNTS.FORM.STATUS.NOT_ARCHIVED',
+  0: 'TRADING_ENGINE.ACCOUNTS.FORM.STATUS.ARCHIVED',
+};
+
+export {
+  accountTypes,
+  accountStatuses,
+};

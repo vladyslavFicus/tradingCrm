@@ -33,7 +33,8 @@
       "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications",
       "ROLES_AND_PERMISSIONS": "Roles & Permissions",
-      "CLIENTS_DISTRIBUTION": "Clients Distribution"
+      "CLIENTS_DISTRIBUTION": "Clients Distribution",
+      "TRADING_ENGINE": "Trading Engine"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -3341,6 +3342,352 @@
         "SUCCESS_MESSAGE": "The distribution rule was successfully updated",
         "INCOMPLETE_STATUS": "Rule %{name} is not completed",
         "ALREADY_EXIST": "There is an existing rule with the same conditions"
+      }
+    }
+  },
+  "TRADING_ENGINE": {
+    "TABS": {
+      "ACCOUNTS": "Accounts",
+      "ORDERS": "Orders",
+      "SYMBOLS": "Symbols"
+    },
+    "MODALS": {
+      "CREDIT": {
+        "TITLE": "Credit in / Credit out",
+        "ACCOUNT": "Account",
+        "NAME": "Name",
+        "BALANCE": "Balance",
+        "CREDIT": "Credit",
+        "AMOUNT": "Amount",
+        "COMMENT": "Comment",
+        "FREE_MARGIN": "Free margin",
+        "DUE_DATE": "Due date",
+        "CREDIT_IN": "Credit In",
+        "CREDIT_OUT": "Credit Out",
+        "NOTIFICATION": {
+          "CREDIT_IN": {
+            "SUCCESS": "Credit In has been successfully completed",
+            "FAILED": "Credit In has been failed"
+          },
+          "CREDIT_OUT": {
+            "SUCCESS": "Credit Out has been successfully completed",
+            "FAILED": "Credit Out has been failed"
+          }
+        }
+      },
+      "DEPOSIT_WITHDRAWAL_MODAL": {
+        "TITLE": "Deposit / Withdrawal",
+        "LOGIN": "Login",
+        "FULL_NAME": "Full name",
+        "BALANCE": "Balance",
+        "MARGIN": "Margin",
+        "CREDIT": "Credit",
+        "AMOUNT": "Amount",
+        "COMMENT": "Comment",
+        "NOTIFICATION": {
+          "DEPOSIT": {
+            "SUCCESS": "Deposit has been successfully completed",
+            "FAILED": "Deposit has been failed"
+          },
+          "WITHDRAWAL": {
+            "SUCCESS": "Withdrawal has been successfully completed",
+            "FAILED": "Withdrawal has been failed"
+          }
+        }
+      },
+      "NEW_ORDER_MODAL": {
+        "TITLE": "New order",
+        "LOGIN": "Login",
+        "VOLUME": "Volume",
+        "REQUESTED_VOLUME": "Requested volume",
+        "SYMBOL": "Symbol",
+        "COMMENT": "Comment",
+        "STOP_LOSS": "Stop Loss",
+        "TAKE_PROFIT": "Take profit",
+        "OPEN_PRICE": "Open price",
+        "UPDATE": "Update",
+        "AUTO": "Auto",
+        "SELL_AT": "Sell at {{value}}",
+        "BUY_AT": "Buy at {{value}}",
+        "NOTIFICATION": {
+          "SUCCESS": "Order has been successfully created",
+          "FAILED": "Order creation failed"
+        }
+      },
+      "EDIT_ORDER_MODAL": {
+        "TITLE": "Deal #{{id}}, {{type}} {{amount}} {{symbol}} at {{openPrice}}",
+        "ORDER": "Order",
+        "DELETE": "Delete",
+        "OPEN_TIME": "Open time",
+        "COMMISSION": "Commission",
+        "EXPIRY": "Expiry",
+        "TAXES": "Taxes",
+        "OPEN_PRICE": "Open price",
+        "RO_SWAPS": "R/O Swaps",
+        "STOP_LOSS": "Stop Loss",
+        "FLOATING_PL": "Floating P/L",
+        "TAKE_PROFIT": "Take profit",
+        "MODIFY": "Modify",
+        "COMMENT": "Comment",
+        "CHANGE": "Change",
+        "PROCESS": "Process",
+        "VOLUME": "Volume",
+        "CLOSE_AT": "Close {{volume}} at {{currentPrice}}",
+        "NOTIFICATION": {
+          "SUCCESS": "Order has been successfully updated",
+          "FAILED": "Order update failed"
+        }
+      }
+    },
+    "ACCOUNTS": {
+      "HEADLINE": "Trading accounts",
+      "GRID": {
+        "ACCOUNT_ID": "Trading acc",
+        "PROFILE": "Client",
+        "DATE": "Date",
+        "LEVERAGE": "Leverage",
+        "BALANCE": "Balance",
+        "STATUS": "Status",
+        "ACCOUNT_TYPE": "Account type",
+        "LOGIN": "Login",
+        "CREDIT": "Credit"
+      },
+      "FORM": {
+        "FIELDS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
+          "ACCOUNT_TYPE": "Account type",
+          "STATUS": "Status"
+        },
+        "ACCOUNT_TYPE": {
+          "DEMO": "Demo",
+          "LIVE": "Live"
+        },
+        "STATUS": {
+          "ARCHIVED": "Archived",
+          "NOT_ARCHIVED": "Not archived"
+        }
+      }
+    },
+    "SYMBOLS": {
+      "HEADLINE": "Symbols",
+      "GRID": {
+        "SYMBOL": "Symbol",
+        "BID": "Bid",
+        "ASK": "Ask"
+      },
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Order, Login",
+        "TYPE_LABEL": "Type",
+        "SYMBOL_LABEL": "Symbol",
+        "TYPES": {
+          "BUY": "Buy",
+          "SELL": "Sell",
+          "BUY_LIMIT": "Buy limit",
+          "SELL_LIMIT": "Sell limit",
+          "BUY_STOP": "Buy stop",
+          "SELL_STOP": "Sell stop",
+          "BUY_MARKET": "Buy market",
+          "SELL_MARKET": "Sell market",
+          "BUY_STOP_LIMIT": "Buy stop limit",
+          "SELL_STOP_LIMIT": "Sell stop limit",
+          "CREDIT": "Credit"
+        },
+        "SYMBOLS": {
+          "USDCHF": "US Dollar vs Swiss Franc",
+          "GBPUSD": "British Pound vs US Dollar",
+          "EURUSD": "Euro vs US Dollar",
+          "USDJPY": "US Dollar vs Japanese Yen",
+          "USDCAD": "US Dollar vs Canadian Dollar",
+          "AUDUSD": "Australian Dollar vs US Dollar",
+          "EURGBP": "Euro vs British Pound",
+          "EURAUD": "Euro vs Australian Dollar",
+          "EURCHF": "Euro vs Swiss Franc",
+          "EURJPY": "Euro vs Japanese Yen",
+          "GBPCHF": "British Pound vs Swiss Franc",
+          "CADJPY": "Canadian Dollar vs Japanese Yen",
+          "GBPJPY": "British Pound vs Japanese Yen",
+          "AUDNZD": "Australian Dollar vs New Zealand Dollar",
+          "AUDCAD": "Australian Dollar vs Canadian Dollar",
+          "AUDCHF": "Australian Dollar vs Swiss Franc",
+          "AUDJPY": "Australian Dollar vs Japanese Yen",
+          "CHFJPY": "Swiss Franc vs Japanese Yen",
+          "EURNZD": "Euro vs New Zealand Dollar",
+          "EURCAD": "Euro vs Canadian Dollar",
+          "CADCHF": "Canadian Dollar vs Swiss Franc",
+          "NZDJPY": "New Zealand Dollar vs Japanese Yen",
+          "NZDUSD": "New Zealand Dollar vs US Dollar"
+        },
+        "STATUSES": {
+          "OPEN": "Open",
+          "CLOSED": "Closed",
+          "PENDING": "Pending"
+        }
+      }
+    },
+    "ORDERS": {
+      "HEADLINE": "Orders",
+      "GRID": {
+        "TRADE": "Trade",
+        "TYPE": "Type",
+        "SYMBOL": "Symbol",
+        "TRADING_ACC": "Trading Acc.",
+        "OPEN_PRICE": "Open price",
+        "CLOSE_PRICE": "Close price",
+        "VOLUME": "Volume",
+        "SWAP": "Swap",
+        "P&L": "P&L",
+        "S/L": "S/L",
+        "T/P": "T/P",
+        "OPEN_TIME": "Open time",
+        "STATUS": "Status"
+      },
+      "STATUSES": {
+        "OPEN": "Open",
+        "CLOSED": "Closed",
+        "PENDING": "Pending"
+      },
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Order, Login",
+        "TYPE_LABEL": "Type",
+        "SYMBOL_LABEL": "Symbol",
+        "TYPES": {
+          "BUY": "Buy",
+          "SELL": "Sell",
+          "BUY_LIMIT": "Buy limit",
+          "SELL_LIMIT": "Sell limit",
+          "BUY_STOP": "Buy stop",
+          "SELL_STOP": "Sell stop",
+          "BUY_MARKET": "Buy market",
+          "SELL_MARKET": "Sell market",
+          "BUY_STOP_LIMIT": "Buy stop limit",
+          "SELL_STOP_LIMIT": "Sell stop limit",
+          "CREDIT": "Credit"
+        },
+        "SYMBOLS": {
+          "USDCHF": "US Dollar vs Swiss Franc",
+          "GBPUSD": "British Pound vs US Dollar",
+          "EURUSD": "Euro vs US Dollar",
+          "USDJPY": "US Dollar vs Japanese Yen",
+          "USDCAD": "US Dollar vs Canadian Dollar",
+          "AUDUSD": "Australian Dollar vs US Dollar",
+          "EURGBP": "Euro vs British Pound",
+          "EURAUD": "Euro vs Australian Dollar",
+          "EURCHF": "Euro vs Swiss Franc",
+          "EURJPY": "Euro vs Japanese Yen",
+          "GBPCHF": "British Pound vs Swiss Franc",
+          "CADJPY": "Canadian Dollar vs Japanese Yen",
+          "GBPJPY": "British Pound vs Japanese Yen",
+          "AUDNZD": "Australian Dollar vs New Zealand Dollar",
+          "AUDCAD": "Australian Dollar vs Canadian Dollar",
+          "AUDCHF": "Australian Dollar vs Swiss Franc",
+          "AUDJPY": "Australian Dollar vs Japanese Yen",
+          "CHFJPY": "Swiss Franc vs Japanese Yen",
+          "EURNZD": "Euro vs New Zealand Dollar",
+          "EURCAD": "Euro vs Canadian Dollar",
+          "CADCHF": "Canadian Dollar vs Swiss Franc",
+          "NZDJPY": "New Zealand Dollar vs Japanese Yen",
+          "NZDUSD": "New Zealand Dollar vs US Dollar"
+        },
+        "STATUSES": {
+          "OPEN": "Open",
+          "CLOSED": "Closed",
+          "PENDING": "Pending"
+        }
+      }
+    },
+    "ACCOUNT_PROFILE": {
+      "ALLOW_TRADING": "Allow trading",
+      "GROUP": "Group",
+      "LEVERAGE": "Leverage",
+      "REGISTERED": "Registered",
+      "DISABLE": "Disable",
+      "ENABLE": "Enable",
+
+      "TABS": {
+        "ORDERS": "Orders",
+        "EXPOSURE": "Exposure"
+      },
+      "ORDERS": {
+        "STATISTICS": {
+          "DEPOSIT": "Deposit",
+          "WITHDRAW": "Withdraw",
+          "CREDIT": "Credit",
+          "BALANCE": "Balance",
+          "EQUITY": "Equity",
+          "MARGIN": "Margin",
+          "FREE_MARGIN": "Free margin",
+          "MARGIN_LEVEL": "Margin level"
+        },
+        "HEADLINE": "Orders",
+        "GRID": {
+          "TRADE": "Trade",
+          "TYPE": "Type",
+          "TRADING_ACC": "Trading Acc.",
+          "OPEN_PRICE": "Open price",
+          "CLOSING_PRICE": "Closing price",
+          "VOLUME": "Volume",
+          "SWAP": "Swap",
+          "P&L": "P&L",
+          "S/L": "S/L",
+          "T/P": "T/P",
+          "OPENING_TIME": "Opening time",
+          "CLOSING_TIME": "Closing time",
+          "STATUS": "Status"
+        },
+        "FILTER_FORM": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Order, Login",
+          "TYPE_LABEL": "Type",
+          "SYMBOL_LABEL": "Symbol",
+          "OPEN_TIME_RANGE_LABEL": "Open time range",
+          "CLOSE_TIME_RANGE_LABEL": "Close time range",
+          "TYPES": {
+            "BUY": "Buy",
+            "SELL": "Sell",
+            "BUY_LIMIT": "Buy limit",
+            "SELL_LIMIT": "Sell limit",
+            "BUY_STOP": "Buy stop",
+            "SELL_STOP": "Sell stop",
+            "BUY_MARKET": "Buy market",
+            "SELL_MARKET": "Sell market",
+            "BUY_STOP_LIMIT": "Buy stop limit",
+            "SELL_STOP_LIMIT": "Sell stop limit",
+            "CREDIT": "Credit"
+          },
+          "SYMBOLS": {
+            "USDCHF": "US Dollar vs Swiss Franc",
+            "GBPUSD": "British Pound vs US Dollar",
+            "EURUSD": "Euro vs US Dollar",
+            "USDJPY": "US Dollar vs Japanese Yen",
+            "USDCAD": "US Dollar vs Canadian Dollar",
+            "AUDUSD": "Australian Dollar vs US Dollar",
+            "EURGBP": "Euro vs British Pound",
+            "EURAUD": "Euro vs Australian Dollar",
+            "EURCHF": "Euro vs Swiss Franc",
+            "EURJPY": "Euro vs Japanese Yen",
+            "GBPCHF": "British Pound vs Swiss Franc",
+            "CADJPY": "Canadian Dollar vs Japanese Yen",
+            "GBPJPY": "British Pound vs Japanese Yen",
+            "AUDNZD": "Australian Dollar vs New Zealand Dollar",
+            "AUDCAD": "Australian Dollar vs Canadian Dollar",
+            "AUDCHF": "Australian Dollar vs Swiss Franc",
+            "AUDJPY": "Australian Dollar vs Japanese Yen",
+            "CHFJPY": "Swiss Franc vs Japanese Yen",
+            "EURNZD": "Euro vs New Zealand Dollar",
+            "EURCAD": "Euro vs Canadian Dollar",
+            "CADCHF": "Canadian Dollar vs Swiss Franc",
+            "NZDJPY": "New Zealand Dollar vs Japanese Yen",
+            "NZDUSD": "New Zealand Dollar vs US Dollar"
+          }
+        },
+        "STATUSES": {
+          "OPEN": "Open",
+          "CLOSED": "Closed",
+          "PENDING": "Pending"
+        }
       }
     }
   },

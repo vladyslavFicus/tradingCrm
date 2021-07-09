@@ -1,0 +1,31 @@
+.AccountProfileOrdersGrid {
+  &__statistics-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  &__statistics {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 50px;
+  }
+
+  &__cell-value {
+    font-weight: 700;
+
+    &--pointer {
+      cursor: pointer;
+    }
+
+    &--upper {
+      text-transform: uppercase;
+    }
+  }
+
+  &__cell-value-add {
+    font-size: 11px;
+  }
+}

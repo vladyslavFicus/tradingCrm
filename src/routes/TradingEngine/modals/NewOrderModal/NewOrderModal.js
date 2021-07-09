@@ -1,0 +1,191 @@
+import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
+import I18n from 'i18n-js';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Formik, Form, Field } from 'formik';
+import { withNotifications } from 'hoc';
+import PropTypes from 'constants/propTypes';
+import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
+import { Button } from 'components/UI';
+import { createValidator } from 'utils/validator';
+import './NewOrderModal.scss';
+
+class NewOrderModal extends PureComponent {
+  static propTypes = {
+    ...PropTypes.router,
+    isOpen: PropTypes.bool.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+  };
+
+  handleSubmit = async (values) => {
+    const {
+      notify,
+      onCloseModal,
+    } = this.props;
+
+    try {
+      console.log('SUBMIT', values);
+
+      onCloseModal();
+    } catch (_) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ERROR'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  render() {
+    const {
+      isOpen,
+      onCloseModal,
+    } = this.props;
+
+    return (
+      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
+        <Formik
+          initialValues={{
+            login: '123-412-123',
+          }}
+          validate={createValidator({
+            amount: ['required', 'numeric', 'greater:0', 'max:999999'],
+          })}
+          onSubmit={this.handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <ModalHeader toggle={onCloseModal}>
+                {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
+              </ModalHeader>
+              <ModalBody>
+                <div className="NewOrderModal__field-container NewOrderModal__field-container--half">
+                  <Field
+                    disabled
+                    name="login"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.LOGIN')}
+                    className="NewOrderModal__field"
+                    component={FormikInputField}
+                  />
+                </div>
+                <div className="NewOrderModal__field-container">
+                  <Field
+                    name="volume"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
+                    className="NewOrderModal__field"
+                    component={FormikInputField}
+                  />
+                  <Field
+                    name="requestedVolume"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.REQUESTED_VOLUME')}
+                    className="NewOrderModal__field"
+                    component={FormikInputField}
+                  />
+                </div>
+                <div className="NewOrderModal__field-container">
+                  <Field
+                    name="symbol"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SYMBOL')}
+                    className="NewOrderModal__field"
+                    component={FormikSelectField}
+                  >
+                    <option key="US30" value="US30">US30, US Wall Street 30</option>
+                    <option key="USTEC" value="USTEC">USTEC, US Tech 100</option>
+                    <option key="CHINAA" value="CHINAA">CHINAA, China A50</option>
+                    <option key="EURUSD-" value="EURUSD-">EURUSD-, Euro vs US Dollar</option>
+                    <option key="AUDUSD-" value="AUDUSD-">AUDUSD-, Australian vs US Dollar</option>
+                    <option key="USDCAD-" value="USDCAD-">USDCAD-, US Dollar vs Canadian</option>
+                  </Field>
+                </div>
+                <div className="NewOrderModal__field-container">
+                  <Field
+                    name="comment"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
+                    className="NewOrderModal__field"
+                    component={FormikTextAreaField}
+                  />
+                </div>
+
+                <div className="NewOrderModal__field-container">
+                  <Field
+                    name="stopLoss"
+                    type="number"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.STOP_LOSS')}
+                    className="NewOrderModal__field"
+                    placeholder="0.00000"
+                    step="0.00001"
+                    min={0}
+                    max={999999}
+                    component={FormikInputField}
+                  />
+                  <Field
+                    name="takeProfit"
+                    type="number"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TAKE_PROFIT')}
+                    className="NewOrderModal__field"
+                    placeholder="0.00000"
+                    step="0.00001"
+                    min={0}
+                    max={999999}
+                    component={FormikInputField}
+                  />
+                </div>
+                <div className="NewOrderModal__field-container">
+                  <Field
+                    name="openPrice"
+                    type="number"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE')}
+                    className="NewOrderModal__field"
+                    placeholder="0.00"
+                    step="0.01"
+                    min={0}
+                    max={999999}
+                    component={FormikInputField}
+                  />
+                  <Button
+                    className="NewOrderModal__button NewOrderModal__button--small"
+                    type="button"
+                    primaryOutline
+                  >
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
+                  </Button>
+                  <Field
+                    name="auto"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
+                    className="NewOrderModal__field NewOrderModal__field--center"
+                    component={FormikCheckbox}
+                  />
+                </div>
+                <div className="NewOrderModal__field-container">
+                  <Button
+                    className="NewOrderModal__button"
+                    danger
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: 3.81946 })}
+                  </Button>
+                  <Button
+                    className="NewOrderModal__button"
+                    primary
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: 3.82085 })}
+                  </Button>
+                </div>
+              </ModalBody>
+            </Form>
+          )}
+        </Formik>
+      </Modal>
+    );
+  }
+}
+
+export default compose(
+  withRouter,
+  withNotifications,
+)(NewOrderModal);

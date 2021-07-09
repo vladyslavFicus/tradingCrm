@@ -189,6 +189,27 @@ PropTypes.tradingActivityOriginalAgent = PropTypes.shape({
   fullName: PropTypes.string,
 });
 
+PropTypes.tradingEngineAccount = PropTypes.shape({
+  uuid: PropTypes.string,
+  profileUuid: PropTypes.string,
+  brandId: PropTypes.string,
+  profileFullName: PropTypes.string,
+  serverId: PropTypes.number,
+  login: PropTypes.number,
+  accountType: PropTypes.string,
+  enable: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  leverage: PropTypes.number,
+  group: PropTypes.string,
+  name: PropTypes.string,
+  balance: PropTypes.number,
+  credit: PropTypes.number,
+  margin: PropTypes.number,
+  freeMargin: PropTypes.number,
+  equity: PropTypes.number,
+  comment: PropTypes.string,
+});
+
 PropTypes.paymentMethodLimit = PropTypes.shape({
   currencyCode: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
@@ -417,6 +438,12 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   }),
   sourceBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
   targetBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
+});
+
+PropTypes.symbolsTradingEngineType = PropTypes.shape({
+  symbol: PropTypes.string,
+  bid: PropTypes.number,
+  ask: PropTypes.number,
 });
 
 PropTypes.tradingActivity = PropTypes.shape({

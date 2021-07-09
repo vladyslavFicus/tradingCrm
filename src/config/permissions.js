@@ -116,6 +116,9 @@ export default {
     CREATE: 'trading-account.createAccount',
     UPDATE_PASSWORD: 'trading-account.changeAccountPassword',
   },
+  TRADING_ENGINE: {
+    GET_ACCOUNTS: 'we-trading.findAccounts',
+  },
   NOTES: {
     ADD_NOTE: 'note.saveNote',
     VIEW_NOTES: 'note.searchNotes',
