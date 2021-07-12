@@ -14,6 +14,7 @@ import AccountProfileRegistered from './components/AccountProfileRegistered';
 import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
 import { accountProfileTabs } from './constants';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
+import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import './TradingEngineAccountProfile.scss';
 
 class TradingEngineAccountProfile extends PureComponent {
@@ -25,12 +26,16 @@ class TradingEngineAccountProfile extends PureComponent {
     accountQuery: PropTypes.query({
       tradingEngineAccount: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
+    ordersQuery: PropTypes.query({
+      tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
+    }).isRequired,
   }
 
   render() {
     const {
       match: { path, url },
       accountQuery,
+      ordersQuery,
     } = this.props;
 
     const account = accountQuery.data?.tradingEngineAccount || {};
@@ -39,7 +44,7 @@ class TradingEngineAccountProfile extends PureComponent {
       <div className="TradingEngineAccountProfile">
         <Helmet title="Account profile" />
 
-        <AccountProfileHeader account={account} />
+        <AccountProfileHeader account={account} handleRefetch={ordersQuery.refetch} />
 
         <div className="TradingEngineAccountProfile__content">
           <div className="TradingEngineAccountProfile__info">
@@ -54,7 +59,10 @@ class TradingEngineAccountProfile extends PureComponent {
 
         <div className="TradingEngineAccountProfile__tab-content">
           <Switch>
-            <Route path={`${path}/orders`} render={() => <AccountProfileOrdersGrid accountLogin={account?.login} />} />
+            <Route
+              path={`${path}/orders`}
+              render={() => <AccountProfileOrdersGrid orders={ordersQuery} />}
+            />
             <Route path={`${path}/exposure`} component={() => null} />
             <Redirect to={`${url}/orders`} />
           </Switch>
@@ -68,5 +76,6 @@ export default compose(
   withRouter,
   withRequests({
     accountQuery: TradingEngineAccountQuery,
+    ordersQuery: TradingEngineOrdersQuery,
   }),
 )(TradingEngineAccountProfile);

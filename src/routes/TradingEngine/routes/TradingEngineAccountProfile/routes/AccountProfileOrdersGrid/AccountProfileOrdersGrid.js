@@ -3,14 +3,12 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
-import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
 import { tradeStatusesColor, types } from './attributes/constants';
 import { getTypeColor } from './attributes/utils';
@@ -294,8 +292,5 @@ export default compose(
   withRouter,
   withModals({
     editOrderModal: EditOrderModal,
-  }),
-  withRequests({
-    orders: TradingEngineOrdersQuery,
   }),
 )(AccountProfileOrdersGrid);

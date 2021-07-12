@@ -20,6 +20,7 @@ class AccountProfileHeader extends PureComponent {
       name: PropTypes.string,
       profileUuid: PropTypes.string,
     }),
+    handleRefetch: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -38,6 +39,7 @@ class AccountProfileHeader extends PureComponent {
         creditModal,
       },
       account,
+      handleRefetch,
     } = this.props;
 
     const {
@@ -62,7 +64,9 @@ class AccountProfileHeader extends PureComponent {
         <div className="AccountProfileHeader__actions">
           <Button
             className="AccountProfileHeader__action"
-            onClick={() => newOrderModal.show()}
+            onClick={() => newOrderModal.show({
+              onSuccess: () => handleRefetch(),
+            })}
             commonOutline
             small
           >

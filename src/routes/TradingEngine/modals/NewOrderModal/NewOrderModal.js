@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
+import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -9,6 +10,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
+import createOrderMutation from './graphql/CreateOrderMutation';
 import './NewOrderModal.scss';
 
 class NewOrderModal extends PureComponent {
@@ -16,18 +18,42 @@ class NewOrderModal extends PureComponent {
     ...PropTypes.router,
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    createOrder: PropTypes.func.isRequired,
   };
 
-  handleSubmit = async (values) => {
+  handleSubmit = (values, direction) => async () => {
     const {
       notify,
       onCloseModal,
+      createOrder,
+      onSuccess,
+      match: {
+        params: {
+          id,
+        },
+      },
     } = this.props;
 
     try {
-      console.log('SUBMIT', values);
+      createOrder({
+        variables: {
+          type: 'MARKET',
+          accountUuid: id,
+          pendingOrder: true,
+          direction,
+          ...values,
+        },
+      });
 
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
+      });
+
+      onSuccess();
       onCloseModal();
     } catch (_) {
       notify({
@@ -42,20 +68,26 @@ class NewOrderModal extends PureComponent {
     const {
       isOpen,
       onCloseModal,
+      match: {
+        params: {
+          id,
+        },
+      },
     } = this.props;
 
     return (
       <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
           initialValues={{
-            login: '123-412-123',
+            login: id,
+            autoOpenPrice: false,
           }}
           validate={createValidator({
             amount: ['required', 'numeric', 'greater:0', 'max:999999'],
           })}
           onSubmit={this.handleSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, values }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
@@ -72,15 +104,14 @@ class NewOrderModal extends PureComponent {
                 </div>
                 <div className="NewOrderModal__field-container">
                   <Field
-                    name="volume"
+                    name="volumeLots"
+                    type="number"
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
                     className="NewOrderModal__field"
-                    component={FormikInputField}
-                  />
-                  <Field
-                    name="requestedVolume"
-                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.REQUESTED_VOLUME')}
-                    className="NewOrderModal__field"
+                    placeholder="0.00000"
+                    step="0.00001"
+                    min={0}
+                    max={999999}
                     component={FormikInputField}
                   />
                 </div>
@@ -134,7 +165,7 @@ class NewOrderModal extends PureComponent {
                 </div>
                 <div className="NewOrderModal__field-container">
                   <Field
-                    name="openPrice"
+                    name="submittedPrice"
                     type="number"
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE')}
                     className="NewOrderModal__field"
@@ -152,7 +183,7 @@ class NewOrderModal extends PureComponent {
                     {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
                   </Button>
                   <Field
-                    name="auto"
+                    name="autoOpenPrice"
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
                     className="NewOrderModal__field NewOrderModal__field--center"
                     component={FormikCheckbox}
@@ -163,7 +194,7 @@ class NewOrderModal extends PureComponent {
                     className="NewOrderModal__button"
                     danger
                     disabled={isSubmitting}
-                    type="submit"
+                    onClick={this.handleSubmit(values, 'SELL')}
                   >
                     {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: 3.81946 })}
                   </Button>
@@ -171,7 +202,7 @@ class NewOrderModal extends PureComponent {
                     className="NewOrderModal__button"
                     primary
                     disabled={isSubmitting}
-                    type="submit"
+                    onClick={this.handleSubmit(values, 'BUY')}
                   >
                     {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: 3.82085 })}
                   </Button>
@@ -188,4 +219,7 @@ class NewOrderModal extends PureComponent {
 export default compose(
   withRouter,
   withNotifications,
+  withRequests({
+    createOrder: createOrderMutation,
+  }),
 )(NewOrderModal);

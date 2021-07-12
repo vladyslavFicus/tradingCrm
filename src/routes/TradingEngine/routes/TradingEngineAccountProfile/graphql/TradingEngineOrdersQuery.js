@@ -54,13 +54,13 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
 const TradingEngineOrdersQuery = ({
   children,
   location: { state },
-  accountLogin,
+  match: { params: { id } },
 }) => (
   <Query
     query={REQUEST}
     variables={{
       args: {
-        accountLogin,
+        accountUuid: id,
         ...state && state.filters,
         page: {
           from: 0,
@@ -78,6 +78,11 @@ const TradingEngineOrdersQuery = ({
 TradingEngineOrdersQuery.propTypes = {
   ...PropTypes.router,
   children: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default TradingEngineOrdersQuery;
