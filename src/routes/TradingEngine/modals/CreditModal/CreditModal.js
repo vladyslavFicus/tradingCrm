@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withRouter } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -48,7 +48,7 @@ class CreditModal extends PureComponent {
     } = this.props;
 
     try {
-      createCreditIn({
+      await createCreditIn({
         variables: {
           accountUuid: id,
           amount,
@@ -85,7 +85,7 @@ class CreditModal extends PureComponent {
     } = this.props;
 
     try {
-      createCreditOut({
+      await createCreditOut({
         variables: {
           accountUuid: id,
           amount,
@@ -101,10 +101,14 @@ class CreditModal extends PureComponent {
 
       onCloseModal();
     } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_OUT.FAILED'),
+        message: error.error === 'error.credit.not-enough-credit'
+          ? I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_OUT.NO_CREDIT')
+          : I18n.t('TRADING_ENGINE.MODALS.CREDIT.NOTIFICATION.CREDIT_OUT.FAILED'),
       });
     }
   }

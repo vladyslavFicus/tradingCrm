@@ -3371,7 +3371,8 @@
           },
           "CREDIT_OUT": {
             "SUCCESS": "Credit Out has been successfully completed",
-            "FAILED": "Credit Out has been failed"
+            "FAILED": "Credit Out has been failed",
+            "NO_CREDIT": "Not enough credit for account"
           }
         }
       },
