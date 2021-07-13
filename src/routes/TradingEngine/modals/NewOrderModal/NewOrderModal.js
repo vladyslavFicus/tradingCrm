@@ -37,7 +37,7 @@ class NewOrderModal extends PureComponent {
     } = this.props;
 
     try {
-      createOrder({
+      await createOrder({
         variables: {
           type: 'MARKET',
           accountUuid: id,

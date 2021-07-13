@@ -7,8 +7,10 @@ import { withRequests } from 'apollo';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
+import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
+import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
@@ -19,6 +21,9 @@ import './TradingEngineOrdersGrid.scss';
 class TradingEngineOrdersGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    modals: PropTypes.shape({
+      editOrderModal: PropTypes.modalType,
+    }).isRequired,
     orders: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
@@ -73,6 +78,9 @@ class TradingEngineOrdersGrid extends PureComponent {
         data,
         loading,
       },
+      modals: {
+        editOrderModal,
+      },
     } = this.props;
 
     const { content = [], last = true, totalElements = 0 } = data?.tradingEngineOrders || {};
@@ -102,14 +110,14 @@ class TradingEngineOrdersGrid extends PureComponent {
               sortBy="id"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADE')}
               render={({ id }) => (
-                <Fragment>
+                <div onClick={() => editOrderModal.show()}>
                   <div className="TradingEngineOrdersGrid__cell-value">
                     <Uuid
                       uuid={`${id}`}
                       uuidPrefix="TR"
                     />
                   </div>
-                </Fragment>
+                </div>
               )}
             />
             <Column
@@ -211,6 +219,9 @@ class TradingEngineOrdersGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withModals({
+    editOrderModal: EditOrderModal,
+  }),
   withRequests({
     orders: TradingEngineOrdersQuery,
   }),
