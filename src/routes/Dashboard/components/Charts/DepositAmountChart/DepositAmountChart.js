@@ -19,6 +19,8 @@ class DepositAmountChart extends PureComponent {
     });
   };
 
+  tooltipAmountFormatter = value => I18n.toCurrency(value, { unit: '' });
+
   render() {
     const { depositPaymentsStatistic } = this.props;
 
@@ -26,6 +28,7 @@ class DepositAmountChart extends PureComponent {
       <Chart
         title={I18n.t('DASHBOARD.DEPOSITS_AMOUNT_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.DEPOSITS_AMOUNT_CHART.TOOLTIP_TITLE')}
+        tooltipAmountFormatter={this.tooltipAmountFormatter}
         data={get(depositPaymentsStatistic, 'data.paymentsStatistic.items', [])}
         totals={
           mapTotalObject(
