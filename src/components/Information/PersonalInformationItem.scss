@@ -1,0 +1,10 @@
+.PersonalInformationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__additional {
+    display: flex;
+    align-items: center;
+  }
+}
