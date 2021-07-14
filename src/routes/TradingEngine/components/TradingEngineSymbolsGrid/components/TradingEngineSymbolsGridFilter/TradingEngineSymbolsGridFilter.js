@@ -3,16 +3,10 @@ import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
-import {
-  FormikInputField,
-  FormikSelectField,
-} from 'components/Formik';
+import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import {
-  types,
-  symbols,
-} from './constants';
+import { symbols } from './constants';
 import './TradingEngineSymbolsGridFilter.scss';
 
 class TradingEngineSymbolsGridFilter extends PureComponent {
@@ -65,31 +59,6 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
         }) => (
           <Form className="TradingEngineSymbolsGridFilter">
             <div className="TradingEngineSymbolsGridFilter__fields">
-              <Field
-                name="searchKeyword"
-                label={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.SEARCH_BY')}
-                placeholder={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
-                className="TradingEngineSymbolsGridFilter__field TradingEngineSymbolsGridFilter__field--large"
-                component={FormikInputField}
-                addition={<i className="icon icon-search" />}
-                withFocus
-              />
-              <Field
-                name="operationType"
-                label={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.TYPE_LABEL')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="TradingEngineSymbolsGridFilter__field"
-                component={FormikSelectField}
-                withAnyOption
-                searchable
-                withFocus
-              >
-                {types.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
-                  </option>
-                ))}
-              </Field>
               <Field
                 name="symbol"
                 label={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.SYMBOL_LABEL')}

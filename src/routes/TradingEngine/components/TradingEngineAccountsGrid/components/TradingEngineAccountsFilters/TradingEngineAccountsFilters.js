@@ -3,10 +3,9 @@ import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { accountStatuses } from '../../constants';
 import './TradingEngineAccountsFilters.scss';
 
 class TradingEngineAccountsFilters extends PureComponent {
@@ -74,21 +73,6 @@ class TradingEngineAccountsFilters extends PureComponent {
                 addition={<i className="icon icon-search" />}
                 withFocus
               />
-              <Field
-                name="enabled"
-                label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.STATUS')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="form-group filter-row__medium"
-                component={FormikSelectField}
-                withAnyOption
-                withFocus
-              >
-                {Object.keys(accountStatuses).map(key => (
-                  <option key={key} value={key}>
-                    {I18n.t(accountStatuses[key])}
-                  </option>
-                ))}
-              </Field>
             </div>
             <div className="TradingEngineAccountsFilters__buttons">
               <RefreshButton
