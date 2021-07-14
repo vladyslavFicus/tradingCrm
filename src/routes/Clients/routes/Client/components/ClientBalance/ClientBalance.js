@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
@@ -6,8 +7,10 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { getBrand } from 'config';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
+import PermissionContent from 'components/PermissionContent';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import PaymentStatisticDepositQuery from './graphql/PaymentStatisticDepositQuery';
 import PaymentStatisticWithdrawQuery from './graphql/PaymentStatisticWithdrawQuery';
@@ -244,28 +247,30 @@ class ClientBalance extends PureComponent {
     const { isDropDownOpen } = this.state;
 
     return (
-      <div
-        className={
-          classNames('ClientBalance', {
-            'ClientBalance--with-open-dropdown': isDropDownOpen,
-          })
-        }
-      >
-        <div className="ClientBalance__text-title">
-          {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.TOTAL_BALANCE')}
-        </div>
+      <PermissionContent permissions={permissions.USER_PROFILE.BALANCE}>
+        <div
+          className={
+            classNames('ClientBalance', {
+              'ClientBalance--with-open-dropdown': isDropDownOpen,
+            })
+          }
+        >
+          <div className="ClientBalance__text-title">
+            {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.TOTAL_BALANCE')}
+          </div>
 
-        <Dropdown isOpen={isDropDownOpen} toggle={this.toggleDropdown}>
-          <DropdownToggle tag="div">
-            {this.renderBalance()}
-            <i className="ClientBalance__arrow fa fa-angle-down" />
-          </DropdownToggle>
-          <DropdownMenu className="ClientBalance__dropdown-content">
-            {this.renderBalancesByCurrency()}
-            {this.renderPaymentsStatistic()}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
+          <Dropdown isOpen={isDropDownOpen} toggle={this.toggleDropdown}>
+            <DropdownToggle tag="div">
+              {this.renderBalance()}
+              <i className="ClientBalance__arrow fa fa-angle-down" />
+            </DropdownToggle>
+            <DropdownMenu className="ClientBalance__dropdown-content">
+              {this.renderBalancesByCurrency()}
+              {this.renderPaymentsStatistic()}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </PermissionContent>
     );
   }
 }

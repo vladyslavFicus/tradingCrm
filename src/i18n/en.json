@@ -3942,6 +3942,7 @@
         "PERMISSIONS": {
           "list": "List of clients",
           "profile": "Client's profile",
+          "balance": "Client's balance",
           "payment-deposit": "Make deposit transaction",
           "payment-withdraw": "Make withdraw transaction",
           "payment-creditIn": "Make credit in transaction",

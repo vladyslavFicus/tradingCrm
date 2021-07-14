@@ -51,6 +51,7 @@ export default {
   USER_PROFILE: {
     STATUS: 'profile.admin.changeProfileStatus',
     PROFILES_LIST: 'profileview.admin.pageableSearch',
+    BALANCE: 'backoffice-graphql.profileview.balance',
     KYC_UPDATE: 'profile.admin.updateKycStatus',
     UPDATE_PERSONAL_INFORMATION: 'profile.admin.updateProfilePersonalInformation',
     UPDATE_ADDRESS: 'profile.admin.updateProfileAddress',

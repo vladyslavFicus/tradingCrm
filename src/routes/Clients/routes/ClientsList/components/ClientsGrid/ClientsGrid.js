@@ -32,6 +32,7 @@ import { MAX_SELECTED_CLIENTS } from '../../constants';
 import './ClientsGrid.scss';
 
 const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
+const clientBalancePermission = new Permissions(permissions.USER_PROFILE.BALANCE);
 
 class ClientsGrid extends PureComponent {
   static propTypes = {
@@ -396,6 +397,7 @@ class ClientsGrid extends PureComponent {
     } = this.props;
 
     const isAvailableMultiSelect = changeAsquisitionStatusPermission.check(currentPermissions);
+    const isBalanceAvailable = clientBalancePermission.check(currentPermissions);
 
     const { response } = limitItems(clientsQuery?.data?.profiles, location);
 
@@ -443,11 +445,13 @@ class ClientsGrid extends PureComponent {
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <Column
-            sortBy="balance.amount"
-            header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
-            render={this.renderBalanceColumn}
-          />
+          <If condition={isBalanceAvailable}>
+            <Column
+              sortBy="balance.amount"
+              header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
+              render={this.renderBalanceColumn}
+            />
+          </If>
           <Column
             sortBy="paymentDetails.depositsCount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}

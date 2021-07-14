@@ -4,9 +4,11 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import { getBrand } from 'config';
+import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import renderLabel from 'utils/renderLabel';
 import NoteIcon from 'components/NoteIcon';
+import PermissionContent from 'components/PermissionContent';
 import { statuses } from 'constants/user';
 import Uuid from 'components/Uuid';
 import ShortLoader from 'components/ShortLoader';
@@ -40,7 +42,7 @@ const PlayerMiniProfile = ({ miniProfile }) => {
       registrationDetails: { registrationDate },
       profileView: {
         lastSignInSessions,
-        balance: { amount },
+        balance,
       },
       kyc: { status: KYCStatus },
       status: { type: statusType, reason },
@@ -82,12 +84,14 @@ const PlayerMiniProfile = ({ miniProfile }) => {
         </div>
       )}
       <div className="mini-profile-content">
-        <div className="info-block">
-          <div className="info-block-label">{I18n.t('MINI_PROFILE.BALANCE')}</div>
-          <div className="info-block-content">
-            {I18n.toCurrency(amount, { unit: '' })} {currency}
+        <PermissionContent permissions={permissions.USER_PROFILE.BALANCE}>
+          <div className="info-block">
+            <div className="info-block-label">{I18n.t('MINI_PROFILE.BALANCE')}</div>
+            <div className="info-block-content">
+              {I18n.toCurrency(balance && balance.amount, { unit: '' })} {currency}
+            </div>
           </div>
-        </div>
+        </PermissionContent>
         <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.LAST_LOGIN')}</div>
           <div className="info-block-content">
