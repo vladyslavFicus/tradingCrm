@@ -54,7 +54,7 @@ export default [
         id: 'balance',
         actions: {
           view: {
-            action: 'backoffice-graphql.profileview.balance',
+            action: 'backoffice-graphql.profile.field.balance',
             state: false,
           },
         },

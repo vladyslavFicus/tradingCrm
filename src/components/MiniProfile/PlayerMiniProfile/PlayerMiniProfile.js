@@ -88,7 +88,7 @@ const PlayerMiniProfile = ({ miniProfile }) => {
           <div className="info-block">
             <div className="info-block-label">{I18n.t('MINI_PROFILE.BALANCE')}</div>
             <div className="info-block-content">
-              {I18n.toCurrency(balance && balance.amount, { unit: '' })} {currency}
+              {I18n.toCurrency(balance?.amount, { unit: '' })} {currency}
             </div>
           </div>
         </PermissionContent>

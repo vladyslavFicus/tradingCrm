@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
