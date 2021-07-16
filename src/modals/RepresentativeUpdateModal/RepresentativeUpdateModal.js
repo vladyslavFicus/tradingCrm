@@ -17,7 +17,7 @@ import EventEmitter, { ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import BulkUpdateClientsAcquisitionMutation from './graphql/BulkUpdateClientsAcquisitionMutation';
 import BulkUpdateLeadsAcquisitionMutation from './graphql/BulkUpdateLeadsAcquisitionMutation';
 import UpdateAcquisitionMutation from './graphql/UpdateAcquisitionMutation';
-import OperatorsByTypeQuery from './graphql/OperatorsByTypeQuery';
+import OperatorsSubordinatesQuery from './graphql/OperatorsSubordinatesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 
 const attributeLabels = type => ({
@@ -40,18 +40,7 @@ class RepresentativeUpdateModal extends PureComponent {
         TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
       }),
     }).isRequired,
-    operatorsByTypeQuery: PropTypes.query({
-      usersByType: PropTypes.response({
-        SALES_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        SALES_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        SALES_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        SALES_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        RETENTION_HOD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        RETENTION_MANAGER: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        RETENTION_LEAD: PropTypes.arrayOf(PropTypes.userHierarchyType),
-        RETENTION_AGENT: PropTypes.arrayOf(PropTypes.userHierarchyType),
-      }),
-    }).isRequired,
+    operatorsSubordinatesQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.operator)).isRequired,
     updateLeadOrClientAcquisition: PropTypes.func.isRequired,
     bulkUpdateLeadsAcquisition: PropTypes.func.isRequired,
     bulkUpdateClientsAcquisition: PropTypes.func.isRequired,
@@ -85,7 +74,7 @@ class RepresentativeUpdateModal extends PureComponent {
   // Filter operators by branch
   filterOperatorsByBranch = ({ operators, uuids }) => {
     const filteredOperators = operators.filter((operator) => {
-      const partnerBranches = operator.operator?.hierarchy?.parentBranches || [];
+      const partnerBranches = operator?.hierarchy?.parentBranches || [];
       const branches = partnerBranches.map(({ uuid }) => uuid);
 
       return intersection(branches, uuids).length;
@@ -96,18 +85,9 @@ class RepresentativeUpdateModal extends PureComponent {
 
   // Filter operators by Sales/Retention type, parent desk and parent team
   getFilteredOperators = ({ desk, team }) => {
-    const { type, operatorsByTypeQuery } = this.props;
+    const { operatorsSubordinatesQuery } = this.props;
 
-    // Get an object with shape { operatorType: arrayOfOperatorsByType }
-    const operatorsBySalesAndRetentionType = operatorsByTypeQuery.data?.usersByType || {};
-
-    // Get an array of operators by 'type' from props
-    const operators = [
-      ...operatorsBySalesAndRetentionType[`${type}_AGENT`] || [],
-      ...operatorsBySalesAndRetentionType[`${type}_HOD`] || [],
-      ...operatorsBySalesAndRetentionType[`${type}_MANAGER`] || [],
-      ...operatorsBySalesAndRetentionType[`${type}_LEAD`] || [],
-    ];
+    const operators = operatorsSubordinatesQuery.data?.operatorsSubordinates || [];
 
     if (team) {
       return this.filterOperatorsByBranch({ operators, uuids: [team] });
@@ -287,7 +267,7 @@ class RepresentativeUpdateModal extends PureComponent {
       isOpen,
       onCloseModal,
       desksAndTeamsQuery,
-      operatorsByTypeQuery,
+      operatorsSubordinatesQuery,
       configs: { multiAssign },
     } = this.props;
 
@@ -297,7 +277,7 @@ class RepresentativeUpdateModal extends PureComponent {
     const desks = allDesks.filter(({ deskType }) => deskType === deskTypes[type]);
 
     const isDesksAndTeamsLoading = desksAndTeamsQuery.loading;
-    const isOperatorsLoading = operatorsByTypeQuery.loading;
+    const isOperatorsLoading = operatorsSubordinatesQuery.loading;
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
@@ -431,7 +411,7 @@ class RepresentativeUpdateModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    operatorsByTypeQuery: OperatorsByTypeQuery,
+    operatorsSubordinatesQuery: OperatorsSubordinatesQuery,
     desksAndTeamsQuery: DesksAndTeamsQuery,
     updateLeadOrClientAcquisition: UpdateAcquisitionMutation,
     bulkUpdateLeadsAcquisition: BulkUpdateLeadsAcquisitionMutation,
