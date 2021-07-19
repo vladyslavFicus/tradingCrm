@@ -49,6 +49,16 @@ export default [
           },
         },
       },
+      // Client's balance
+      {
+        id: 'balance',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.field.balance',
+            state: false,
+          },
+        },
+      },
       // Make deposit transaction
       {
         id: 'payment-deposit',
