@@ -3416,9 +3416,9 @@
         }
       },
       "EDIT_ORDER_MODAL": {
-        "TITLE": "Deal #{{id}}, {{type}} {{amount}} {{symbol}} at {{openPrice}}",
+        "TITLE": "Deal #{{id}}, {{direction}} {{volumeLots}} {{symbol}}",
         "ORDER": "Order",
-        "DELETE": "Delete",
+        "CANCEL": "Cancel",
         "OPEN_TIME": "Open time",
         "COMMISSION": "Commission",
         "EXPIRY": "Expiry",
@@ -3433,10 +3433,12 @@
         "CHANGE": "Change",
         "PROCESS": "Process",
         "VOLUME": "Volume",
-        "CLOSE_AT": "Close {{volume}} at {{currentPrice}}",
+        "ACTIVATE_AT": "Activate {{volumeLots}} at {{openPrice}}",
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully updated",
-          "FAILED": "Order update failed"
+          "FAILED": "Order update failed",
+          "CLOSE_SUCCESS": "Order has been successfully closed",
+          "CLOSE_FAILED": "Order close failed"
         }
       }
     },

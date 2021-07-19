@@ -62,8 +62,8 @@ class TradingEngineAccountsFilters extends PureComponent {
           values,
           dirty,
         }) => (
-          <Form className="filter__form">
-            <div className="filter__form-inputs">
+          <Form className="TradingEngineAccountsFilters__form">
+            <div className="TradingEngineAccountsFilters__fields">
               <Field
                 name="keyword"
                 label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY')}

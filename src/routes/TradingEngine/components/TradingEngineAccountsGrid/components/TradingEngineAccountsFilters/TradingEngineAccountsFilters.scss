@@ -15,4 +15,17 @@
       margin-right: 0;
     }
   }
+
+  &__fields {
+    display: grid;
+    flex-flow: row wrap;
+    width: 100%;
+    grid-gap: 15px;
+    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+  }
+
+  &__form {
+    background-color: #f2f4f8;
+    padding: 20px 25px 35px;
+  }
 }

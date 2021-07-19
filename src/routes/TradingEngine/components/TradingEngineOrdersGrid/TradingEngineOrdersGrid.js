@@ -110,7 +110,12 @@ class TradingEngineOrdersGrid extends PureComponent {
               sortBy="id"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADE')}
               render={({ id }) => (
-                <div onClick={() => editOrderModal.show()}>
+                <div
+                  onClick={() => editOrderModal.show({
+                    id,
+                    onSuccess: () => this.refetchOrders(),
+                  })}
+                >
                   <div className="TradingEngineOrdersGrid__cell-value">
                     <Uuid
                       uuid={`${id}`}
