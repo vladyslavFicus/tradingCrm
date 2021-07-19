@@ -157,6 +157,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRADE')}
                 render={({ id }) => (
                   <div
+                    className="AccountProfileOrdersGrid__uuid"
                     onClick={() => editOrderModal.show({
                       id,
                       onSuccess: () => this.refetchOrders(),
