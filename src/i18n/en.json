@@ -3692,7 +3692,8 @@
         "STATUSES": {
           "OPEN": "Open",
           "CLOSED": "Closed",
-          "PENDING": "Pending"
+          "PENDING": "Pending",
+          "CANCELED": "Canceled"
         }
       }
     }
