@@ -887,4 +887,9 @@ PropTypes.TableSelection = PropTypes.shape({
   reset: PropTypes.func.isRequired,
 });
 
+PropTypes.coperatorNumber = PropTypes.shape({
+  number: PropTypes.string,
+  country: PropTypes.string,
+});
+
 export default PropTypes;

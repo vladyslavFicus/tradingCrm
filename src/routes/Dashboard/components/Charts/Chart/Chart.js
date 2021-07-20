@@ -28,6 +28,7 @@ class Chart extends PureComponent {
   static propTypes = {
     withCurrency: PropTypes.bool,
     tooltipTitle: PropTypes.string,
+    tooltipAmountFormatter: PropTypes.func,
     title: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     hasResults: PropTypes.bool.isRequired,
@@ -50,6 +51,7 @@ class Chart extends PureComponent {
 
   static defaultProps = {
     tooltipTitle: '',
+    tooltipAmountFormatter: undefined,
     withCurrency: false,
     xDataKey: '',
   };
@@ -87,6 +89,7 @@ class Chart extends PureComponent {
       lineDataKey,
       withCurrency,
       tooltipTitle,
+      tooltipAmountFormatter,
       selectOptions,
       chartAndTextColor,
     } = this.props;
@@ -139,7 +142,10 @@ class Chart extends PureComponent {
                       </If>
                       <YAxis minTickGap={40} axisLine={false} />
                       <CartesianGrid stroke="#eee" horizontal={false} />
-                      <Tooltip {...(tooltipTitle && { content: createCustomTooltip(tooltipTitle) })} />
+                      <Tooltip
+                        formatter={tooltipAmountFormatter}
+                        {...(tooltipTitle && { content: createCustomTooltip(tooltipTitle) })}
+                      />
                       <Line
                         type="monotone"
                         key={lineDataKey}

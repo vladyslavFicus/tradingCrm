@@ -67,6 +67,11 @@ const REQUEST = gql`
           prefixes
         }
       }
+      sms {
+        coperato {
+          isActive
+        }
+      }
       email {
         templatedEmails
       }

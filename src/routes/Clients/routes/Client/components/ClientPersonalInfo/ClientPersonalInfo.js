@@ -7,6 +7,7 @@ import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
+import Sms from 'components/Sms';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
@@ -179,13 +180,23 @@ class ClientPersonalInfo extends PureComponent {
             label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
             value={this.state.phone || '**********'}
             verified={phoneVerified}
-            additional={<Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />}
+            additional={(
+              <>
+                <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
+                <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
+              </>
+            )}
             className="ClientPersonalInfo__contacts"
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
             value={this.state.additionalPhone || '**********'}
-            additional={<Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />}
+            additional={(
+              <>
+                <Sms uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+                <Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+              </>
+            )}
             className="ClientPersonalInfo__contacts"
           />
           <PersonalInformationItem
