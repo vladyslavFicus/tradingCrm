@@ -23,6 +23,11 @@ class AccountProfileOrdersGrid extends PureComponent {
     orders: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
   };
 
   refetchOrders = () => this.props.orders.refetch();
@@ -31,6 +36,11 @@ class AccountProfileOrdersGrid extends PureComponent {
     const {
       location: {
         state,
+      },
+      match: {
+        params: {
+          id,
+        },
       },
       orders: {
         data,
@@ -46,6 +56,7 @@ class AccountProfileOrdersGrid extends PureComponent {
 
     loadMore({
       args: {
+        accountUuid: id,
         ...filters,
         page: {
           from: currentPage + 1,
