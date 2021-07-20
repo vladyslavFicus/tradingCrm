@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import { compose, withApollo } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
@@ -19,10 +19,18 @@ import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
 import './ClientPersonalInfo.scss';
+import profileContactsQuery from '../../graphql/ProfileContactsQuery';
 
 class ClientPersonalInfo extends PureComponent {
   static propTypes = {
-    client: PropTypes.profile.isRequired,
+    clientInfo: PropTypes.profile.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
+    profileContactsQuery: PropTypes.shape({
+      additionalPhone: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
+    }).isRequired,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
     modals: PropTypes.shape({
@@ -32,9 +40,14 @@ class ClientPersonalInfo extends PureComponent {
     permission: PropTypes.permission.isRequired,
   };
 
+  state = {
+    additionalPhone: undefined,
+    phone: undefined,
+  }
+
   handleRegulatedChanged = async (variables) => {
     const {
-      client: { uuid: playerUUID },
+      clientInfo: { uuid: playerUUID },
       updateConfiguration,
       notify,
     } = this.props;
@@ -61,9 +74,29 @@ class ClientPersonalInfo extends PureComponent {
     }
   };
 
+  getProfileContacts = async () => {
+    const { clientInfo: { uuid }, notify } = this.props.clientInfo;
+
+    try {
+      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+        query: profileContactsQuery,
+        variables: { profileUUID: uuid },
+      });
+
+      console.log('additionalPhone', additionalPhone);
+      console.log('phone', phone);
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILTER_SET.LOADING_FAILED'),
+      });
+    }
+  }
+
   triggerEmailSelectModal = () => {
     const {
-      client: { uuid, firstName, lastName },
+      clientInfo: { uuid, firstName, lastName },
       modals: { emailSelectModal } } = this.props;
 
     emailSelectModal.show({
@@ -75,8 +108,8 @@ class ClientPersonalInfo extends PureComponent {
   };
 
   handleReferrerClick = () => {
-    const { client } = this.props;
-    const uuid = client?.referrer?.uuid;
+    const { clientInfo } = this.props;
+    const uuid = clientInfo?.referrer?.uuid;
 
     if (!uuid) return;
 
@@ -85,7 +118,7 @@ class ClientPersonalInfo extends PureComponent {
 
   render() {
     const {
-      client: {
+      clientInfo: {
         uuid,
         birthDate,
         gender,
@@ -93,9 +126,7 @@ class ClientPersonalInfo extends PureComponent {
         migrationId,
         contacts: {
           email,
-          phone,
           additionalEmail,
-          additionalPhone,
         },
         address: {
           countryCode,
@@ -146,14 +177,14 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-            value={phone}
+            value={this.state.phone || '**********'}
             verified={phoneVerified}
             additional={<Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />}
             className="ClientPersonalInfo__contacts"
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-            value={additionalPhone}
+            value={this.state.additionalPhone || '**********'}
             additional={<Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />}
             className="ClientPersonalInfo__contacts"
           />
@@ -266,6 +297,7 @@ class ClientPersonalInfo extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withPermission,
   withNotifications,
   withModals({
