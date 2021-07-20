@@ -9,7 +9,7 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import createOrderMutation from './graphql/CreateOrderMutation';
 import './NewOrderModal.scss';
 
@@ -83,11 +83,13 @@ class NewOrderModal extends PureComponent {
             autoOpenPrice: false,
           }}
           validate={createValidator({
-            amount: ['required', 'numeric', 'greater:0', 'max:999999'],
-          })}
-          onSubmit={this.handleSubmit}
+            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+          }, translateLabels({
+            volumeLots: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME'),
+          }), false)}
+          enableReinitialize
         >
-          {({ isSubmitting, values }) => (
+          {({ isSubmitting, isValid, dirty, values }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
@@ -193,7 +195,7 @@ class NewOrderModal extends PureComponent {
                   <Button
                     className="NewOrderModal__button"
                     danger
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !dirty || !isValid}
                     onClick={this.handleSubmit(values, 'SELL')}
                   >
                     {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: 3.81946 })}
@@ -201,7 +203,7 @@ class NewOrderModal extends PureComponent {
                   <Button
                     className="NewOrderModal__button"
                     primary
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !dirty || !isValid}
                     onClick={this.handleSubmit(values, 'BUY')}
                   >
                     {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: 3.82085 })}
