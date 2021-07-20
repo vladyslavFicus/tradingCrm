@@ -165,7 +165,7 @@ class NewOrderModal extends PureComponent {
                 </div>
                 <div className="NewOrderModal__field-container">
                   <Field
-                    name="submittedPrice"
+                    name="openPrice"
                     type="number"
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE')}
                     className="NewOrderModal__field"

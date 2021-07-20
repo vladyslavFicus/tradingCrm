@@ -10,7 +10,7 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
    $type: String!
    $direction: String!
    $autoOpenPrice: Boolean!
-   $submittedPrice: Float
+   $openPrice: Float
    $stopLoss: Float
    $takeProfit: Float
    $comment: String
@@ -24,7 +24,7 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
       type: $type
       direction: $direction
       autoOpenPrice: $autoOpenPrice
-      submittedPrice: $submittedPrice
+      openPrice: $openPrice
       stopLoss: $stopLoss
       takeProfit: $takeProfit
       comment: $comment
