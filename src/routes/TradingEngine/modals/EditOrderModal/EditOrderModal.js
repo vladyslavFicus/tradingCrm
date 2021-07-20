@@ -13,6 +13,7 @@ import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
+import deleteOrderMutation from './graphql/DeleteOrderMutation';
 import orderQuery from './graphql/OrderQuery';
 import './EditOrderModal.scss';
 
@@ -91,6 +92,37 @@ class EditOrderModal extends PureComponent {
         level: 'error',
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CLOSE_FAILED'),
+      });
+    }
+  }
+
+  handleDeleteOrder = async () => {
+    const {
+      id,
+      notify,
+      onCloseModal,
+      deleteOrder,
+      onSuccess,
+    } = this.props;
+
+    try {
+      await deleteOrder({
+        variables: { orderId: id },
+      });
+
+      notify({
+        level: 'success',
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_SUCCESS'),
+      });
+
+      onSuccess();
+      onCloseModal();
+    } catch (_) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.ERROR'),
+        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
       });
     }
   }
@@ -176,6 +208,7 @@ class EditOrderModal extends PureComponent {
                     <Button
                       className="EditOrderModal__button EditOrderModal__button--small"
                       danger
+                      onClick={() => this.handleDeleteOrder()}
                       disabled={isSubmitting}
                     >
                       {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL')}
@@ -337,6 +370,7 @@ export default compose(
   withRequests({
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
+    deleteOrder: deleteOrderMutation,
     order: orderQuery,
   }),
 )(EditOrderModal);

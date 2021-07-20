@@ -3438,7 +3438,9 @@
           "SUCCESS": "Order has been successfully updated",
           "FAILED": "Order update failed",
           "CLOSE_SUCCESS": "Order has been successfully closed",
-          "CLOSE_FAILED": "Order close failed"
+          "CLOSE_FAILED": "Order close failed",
+          "CANCEL_SUCCESS": "Order has been successfully canceled",
+          "CANCEL_FAILED": "Order cancel failed"
         }
       }
     },
@@ -3549,7 +3551,8 @@
       "STATUSES": {
         "OPEN": "Open",
         "CLOSED": "Closed",
-        "PENDING": "Pending"
+        "PENDING": "Pending",
+        "CANCELED": "Canceled"
       },
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",
