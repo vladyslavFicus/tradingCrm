@@ -193,7 +193,7 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
-              sortBy="openTime"
+              sortBy="openingTime"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.OPEN_TIME')}
               render={({ time }) => (
                 <Fragment>
