@@ -290,11 +290,18 @@ class AccountProfileOrdersGrid extends PureComponent {
               <Column
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.STATUS')}
                 render={({ status }) => (
-                  <div
-                    className={tradeStatusesColor[`${status}`]}
-                  >
-                    <strong>{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATUSES.${status}`)}</strong>
-                  </div>
+                  <Choose>
+                    <When condition={status}>
+                      <div
+                        className={tradeStatusesColor[`${status}`]}
+                      >
+                        <strong>{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATUSES.${status}`)}</strong>
+                      </div>
+                    </When>
+                    <Otherwise>
+                      <span>&mdash;</span>
+                    </Otherwise>
+                  </Choose>
                 )}
               />
             </Table>

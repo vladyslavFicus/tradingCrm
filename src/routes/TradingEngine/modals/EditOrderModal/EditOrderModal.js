@@ -159,9 +159,9 @@ class EditOrderModal extends PureComponent {
             type,
             symbol,
             openPrice,
-            openTime: moment.utc(time?.creation).local().format('DD.MM.YYYY'),
+            openTime: moment.utc(time?.creation).local().format('DD.MM.YYYY HH:mm:ss'),
             commission,
-            expiry: moment.utc(time?.expiration).local().format('DD.MM.YYYY'),
+            expiry: moment.utc(time?.expiration).local().format('DD.MM.YYYY HH:mm:ss'),
             roSwaps: swaps,
             stopLoss,
             pnl: pnl?.net,
@@ -284,13 +284,6 @@ class EditOrderModal extends PureComponent {
                       className="EditOrderModal__field"
                       component={FormikInputField}
                     />
-                    <Button
-                      primary
-                      className="EditOrderModal__button EditOrderModal__button--small"
-                      disabled={isSubmitting}
-                    >
-                      {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.MODIFY')}
-                    </Button>
                     <Field
                       disabled
                       name="profit"
