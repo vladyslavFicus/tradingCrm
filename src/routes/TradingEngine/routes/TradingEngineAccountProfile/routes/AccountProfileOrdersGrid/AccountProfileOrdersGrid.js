@@ -56,6 +56,7 @@ class AccountProfileOrdersGrid extends PureComponent {
 
     loadMore({
       args: {
+        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
         accountUuid: id,
         ...filters,
         page: {

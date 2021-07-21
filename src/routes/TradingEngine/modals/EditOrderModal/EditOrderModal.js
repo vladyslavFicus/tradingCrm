@@ -317,7 +317,7 @@ class EditOrderModal extends PureComponent {
 
                     <div className="EditOrderModal__field-container">
                       <Field
-                        name="volume"
+                        name="volumeLots"
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                         className="EditOrderModal__field"

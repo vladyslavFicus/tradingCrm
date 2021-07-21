@@ -59,6 +59,7 @@ const TradingEngineOrdersQuery = ({
     query={REQUEST}
     variables={{
       args: {
+        orderStatuses: ['PENDING', 'OPEN'],
         ...state && state.filters,
         page: {
           from: 0,

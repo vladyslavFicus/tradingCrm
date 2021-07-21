@@ -60,6 +60,7 @@ const TradingEngineOrdersQuery = ({
     query={REQUEST}
     variables={{
       args: {
+        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
         accountUuid: id,
         ...state && state.filters,
         page: {
