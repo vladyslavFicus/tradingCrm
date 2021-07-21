@@ -316,7 +316,7 @@ class EditOrderModal extends PureComponent {
                   </div>
                 </fieldset>
 
-                <If condition={status === 'OPEN'}>
+                <If condition={status !== 'CLOSED'}>
                   <fieldset className="EditOrderModal__fieldset">
                     <legend className="EditOrderModal__fieldset-title">
                       {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROCESS')}
@@ -347,9 +347,9 @@ class EditOrderModal extends PureComponent {
                         onClick={() => this.handleCloseOrder(values)}
                         disabled={isSubmitting}
                       >
-                        {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ACTIVATE_AT', {
+                        {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                           volumeLots: Number(values.volumeLots).toFixed(2),
-                          openPrice: Number(values.openPrice).toFixed(2),
+                          closePrice: Number(values.closePrice || 0).toFixed(2),
                         })}
                       </Button>
                     </div>

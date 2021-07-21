@@ -3433,7 +3433,8 @@
         "CHANGE": "Change",
         "PROCESS": "Process",
         "VOLUME": "Volume",
-        "ACTIVATE_AT": "Activate {{volumeLots}} at {{openPrice}}",
+        "BUTTON_FOR_PENDING": "Activate {{volumeLots}} at {{closePrice}}",
+        "BUTTON_FOR_OPEN": "Close {{volumeLots}} at {{closePrice}}",
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully updated",
           "FAILED": "Order update failed",
