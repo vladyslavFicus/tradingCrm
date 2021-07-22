@@ -224,8 +224,8 @@ class AccountProfileOrdersGrid extends PureComponent {
               <Column
                 sortBy="volume"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.VOLUME')}
-                render={({ volumeUnits }) => (
-                  <div className="AccountProfileOrdersGrid__cell-value">{volumeUnits}</div>
+                render={({ volumeLots }) => (
+                  <div className="AccountProfileOrdersGrid__cell-value">{volumeLots}</div>
                 )}
               />
               <Column
