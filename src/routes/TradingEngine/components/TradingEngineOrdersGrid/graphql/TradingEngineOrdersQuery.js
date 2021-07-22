@@ -9,7 +9,7 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
   tradingEngineOrders(args: $args) {
     content {
       id
-      login
+      accountLogin
       tradeType
       symbol
       symbolAlias

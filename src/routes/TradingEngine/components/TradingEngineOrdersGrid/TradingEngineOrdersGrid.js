@@ -128,6 +128,19 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
+              sortBy="accountLogin"
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.LOGIN')}
+              render={({ accountLogin }) => (
+                <>
+                  <div className="TradingEngineOrdersGrid__cell-value">
+                    <Uuid
+                      uuid={`${accountLogin}`}
+                    />
+                  </div>
+                </>
+              )}
+            />
+            <Column
               sortBy="type"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TYPE')}
               render={({ type }) => (

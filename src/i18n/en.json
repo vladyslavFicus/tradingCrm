@@ -3546,7 +3546,8 @@
         "S/L": "S/L",
         "T/P": "T/P",
         "OPEN_TIME": "Open time",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "LOGIN": "Login"
       },
       "STATUSES": {
         "OPEN": "Open",
