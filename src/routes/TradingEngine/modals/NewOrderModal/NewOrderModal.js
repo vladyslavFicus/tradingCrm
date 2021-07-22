@@ -21,6 +21,7 @@ class NewOrderModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     createOrder: PropTypes.func.isRequired,
+    login: PropTypes.number.isRequired,
   };
 
   handleSubmit = (values, direction) => async () => {
@@ -68,18 +69,14 @@ class NewOrderModal extends PureComponent {
     const {
       isOpen,
       onCloseModal,
-      match: {
-        params: {
-          id,
-        },
-      },
+      login,
     } = this.props;
 
     return (
       <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
           initialValues={{
-            login: id,
+            login,
             autoOpenPrice: false,
           }}
           validate={createValidator({
