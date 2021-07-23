@@ -148,7 +148,7 @@ class EditOrderModal extends PureComponent {
       volumeLots,
       openPrice,
       comment,
-      login,
+      accountLogin,
       direction,
     } = data?.tradingEngineOrder || {};
 
@@ -189,7 +189,7 @@ class EditOrderModal extends PureComponent {
               <ModalBody>
                 <fieldset className="EditOrderModal__fieldset">
                   <legend className="EditOrderModal__fieldset-title">
-                    {login}
+                    {accountLogin}
                   </legend>
                   <div className="EditOrderModal__field-container">
                     <Field
@@ -342,7 +342,10 @@ class EditOrderModal extends PureComponent {
                       >
                         {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                           volumeLots: Number(values.volumeLots).toFixed(2),
-                          closePrice: Number(values.closePrice || 0).toFixed(2),
+                          closePrice: Number(
+                            /* TODO Temporary solution, imitation websocket */
+                            values.closePrice || Math.floor(Math.random() * 101).toFixed(2),
+                          ).toFixed(2),
                         })}
                       </Button>
                     </div>

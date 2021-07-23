@@ -9,7 +9,7 @@ const REQUEST = gql`
       orderId: $orderId
     ) {
       id
-      login
+      accountLogin
       tradeType
       symbol
       symbolAlias
