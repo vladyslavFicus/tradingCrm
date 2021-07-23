@@ -80,6 +80,7 @@
     "PROFILE": {
       "CONTACTS": {
         "TITLE": "Contacts",
+        "SHOW": "Show",
         "VERIFIED": "Verified",
         "VERIFY": "Verify",
         "LABEL": {

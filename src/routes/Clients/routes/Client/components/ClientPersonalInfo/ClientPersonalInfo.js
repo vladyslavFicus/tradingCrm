@@ -16,6 +16,7 @@ import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
+import ShowClientPhone from '../ShowClientPhone';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
@@ -27,10 +28,6 @@ class ClientPersonalInfo extends PureComponent {
     clientInfo: PropTypes.profile.isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
-    }).isRequired,
-    profileContactsQuery: PropTypes.shape({
-      additionalPhone: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
     }).isRequired,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
@@ -76,21 +73,22 @@ class ClientPersonalInfo extends PureComponent {
   };
 
   getProfileContacts = async () => {
-    const { clientInfo: { uuid }, notify } = this.props.clientInfo;
+    const { clientInfo: { uuid }, notify } = this.props;
 
     try {
       const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
         query: profileContactsQuery,
-        variables: { profileUUID: uuid },
+        variables: { playerUUID: uuid },
       });
 
-      console.log('additionalPhone', additionalPhone);
-      console.log('phone', phone);
+      this.setState({
+        additionalPhone,
+        phone,
+      });
     } catch {
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('FILTER_SET.LOADING_FAILED'),
       });
     }
   }
@@ -127,7 +125,9 @@ class ClientPersonalInfo extends PureComponent {
         migrationId,
         contacts: {
           email,
+          additionalPhone,
           additionalEmail,
+          phone,
         },
         address: {
           countryCode,
@@ -178,10 +178,11 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-            value={this.state.phone || '**********'}
+            value={this.state.phone || phone}
             verified={phoneVerified}
             additional={(
               <>
+                <ShowClientPhone getProfileContacts={this.getProfileContacts} />
                 <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
                 <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
               </>
@@ -190,7 +191,7 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-            value={this.state.additionalPhone || '**********'}
+            value={this.state.additionalPhone || additionalPhone}
             additional={(
               <>
                 <Sms uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import { compose, withApollo } from 'react-apollo';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications, withModals } from 'hoc';
@@ -18,6 +18,7 @@ import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';
 import VerifyEmailMutation from './graphql/VerifyEmailMutation';
 import './ClientContactsForm.scss';
+import profileContactsQuery from '../../../../graphql/ProfileContactsQuery';
 
 const attributeLabels = {
   email: 'COMMON.EMAIL',
@@ -31,6 +32,9 @@ class ClientContactsForm extends PureComponent {
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType.isRequired,
     }).isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
     clientData: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
     updateClientContacts: PropTypes.func.isRequired,
@@ -39,6 +43,34 @@ class ClientContactsForm extends PureComponent {
     verifyEmail: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
   };
+
+  state = {
+    additionalPhone: undefined,
+    phone: undefined,
+    isContactsShown: undefined,
+  }
+
+  getProfileContacts = async () => {
+    const { clientData: { uuid }, notify } = this.props;
+
+    try {
+      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+        query: profileContactsQuery,
+        variables: { playerUUID: uuid },
+      });
+
+      this.setState({
+        additionalPhone,
+        phone,
+        isContactsShown: true,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+      });
+    }
+  }
 
   handleSubmitContacts = async (values) => {
     const {
@@ -232,8 +264,8 @@ class ClientContactsForm extends PureComponent {
         <div className="ClientContactsForm">
           <Formik
             initialValues={{
-              phone,
-              additionalPhone,
+              phone: this.state.phone || phone,
+              additionalPhone: this.state.additionalPhone || additionalPhone,
               additionalEmail,
             }}
             validate={createValidator({
@@ -272,7 +304,13 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.phone)}
                       placeholder={I18n.t(attributeLabels.phone)}
                       component={FormikInputField}
-                      disabled={isSubmitting || !isAvailableToUpdatePhone || !isAvailableToUpdateContacts}
+                      addition={isAvailableToUpdatePhone ? I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW') : ''}
+                      additionPosition="right"
+                      onAdditionClick={this.getProfileContacts}
+                      disabled={isSubmitting
+                      || !isAvailableToUpdatePhone
+                      || !isAvailableToUpdateContacts
+                      || !this.state.isContactsShown}
                     />
 
                     <If condition={!phoneVerified}>
@@ -280,6 +318,7 @@ class ClientContactsForm extends PureComponent {
                         <Button
                           className="ClientContactsForm__field-button"
                           onClick={this.handleVerifyPhone}
+                          disabled={!this.state.isContactsShown}
                           primary
                         >
                           {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
@@ -287,7 +326,7 @@ class ClientContactsForm extends PureComponent {
                       </PermissionContent>
                     </If>
 
-                    <If condition={phone === values.phone && phoneVerified}>
+                    <If condition={(phone === values.phone || this.state.phone === values.phone) && phoneVerified}>
                       <Button
                         className="ClientContactsForm__field-button"
                         verified
@@ -305,7 +344,10 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.additionalPhone)}
                       placeholder={I18n.t(attributeLabels.additionalPhone)}
                       component={FormikInputField}
-                      disabled={isSubmitting || !isAvailableToUpdateAltPhone || !isAvailableToUpdateContacts}
+                      disabled={isSubmitting
+                      || !isAvailableToUpdateAltPhone
+                      || !isAvailableToUpdateContacts
+                      || !this.state.isContactsShown}
                     />
                   </div>
 
@@ -391,6 +433,7 @@ class ClientContactsForm extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withPermission,
   withNotifications,
   withModals({
