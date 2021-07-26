@@ -33,6 +33,9 @@
     width: 100%;
     height: auto;
     text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 
     &:not(:last-child) {
       margin-right: 15px;
