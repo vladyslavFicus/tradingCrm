@@ -24,7 +24,7 @@ class NewOrderModal extends PureComponent {
     login: PropTypes.number.isRequired,
   };
 
-  handleSubmit = (values, direction) => async () => {
+  handleSubmit = (values, direction, setFieldValue) => async () => {
     const {
       notify,
       onCloseModal,
@@ -36,6 +36,8 @@ class NewOrderModal extends PureComponent {
         },
       },
     } = this.props;
+
+    setFieldValue('direction', direction);
 
     try {
       await createOrder({
@@ -77,16 +79,53 @@ class NewOrderModal extends PureComponent {
         <Formik
           initialValues={{
             login,
-            autoOpenPrice: false,
+            autoOpenPrice: true,
           }}
-          validate={createValidator({
-            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+          validate={values => createValidator({
+            volumeLots: ['required', 'numeric', 'max:10000', 'min:0.01'],
+            symbol: ['required', 'string'],
+            ...!values.autoOpenPrice && {
+              openPrice: 'required',
+            },
+            stopLoss: [
+              `max:${
+              values.direction === 'BUY'
+              && !values.autoOpenPrice
+              && values.openPrice
+                ? values.openPrice
+                : 999999
+            }`,
+              `min:${
+              values.direction === 'SELL'
+              && !values.autoOpenPrice
+              && values.openPrice
+                ? values.openPrice : 0
+            }`,
+            ],
+            takeProfit: [
+              `max:${
+              values.direction === 'SELL'
+              && !values.autoOpenPrice
+              && values.openPrice
+                ? values.openPrice
+                : 999999
+            }`,
+              `min:${
+              values.direction === 'BUY'
+              && !values.autoOpenPrice
+              && values.openPrice
+                ? values.openPrice
+                : 0
+            }`,
+            ],
           }, translateLabels({
             volumeLots: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME'),
-          }), false)}
+          }), false)(values)}
+          validateOnChange={false}
+          validateOnBlur={false}
           enableReinitialize
         >
-          {({ isSubmitting, isValid, dirty, values }) => (
+          {({ isSubmitting, dirty, values, setFieldValue }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
@@ -134,6 +173,7 @@ class NewOrderModal extends PureComponent {
                     name="comment"
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
                     className="NewOrderModal__field"
+                    maxLength={1000}
                     component={FormikTextAreaField}
                   />
                 </div>
@@ -172,6 +212,7 @@ class NewOrderModal extends PureComponent {
                     step="0.01"
                     min={0}
                     max={999999}
+                    disabled={values.autoOpenPrice}
                     component={FormikInputField}
                   />
                   <Button
@@ -192,18 +233,20 @@ class NewOrderModal extends PureComponent {
                   <Button
                     className="NewOrderModal__button"
                     danger
-                    disabled={isSubmitting || !dirty || !isValid}
-                    onClick={this.handleSubmit(values, 'SELL')}
+                    type="submit"
+                    disabled={!dirty || isSubmitting}
+                    onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
                   >
-                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: 3.81946 })}
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: values.openPrice || 0 })}
                   </Button>
                   <Button
                     className="NewOrderModal__button"
                     primary
-                    disabled={isSubmitting || !dirty || !isValid}
-                    onClick={this.handleSubmit(values, 'BUY')}
+                    type="submit"
+                    disabled={!dirty || isSubmitting}
+                    onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
                   >
-                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: 3.82085 })}
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: values.openPrice || 0 })}
                   </Button>
                 </div>
               </ModalBody>
