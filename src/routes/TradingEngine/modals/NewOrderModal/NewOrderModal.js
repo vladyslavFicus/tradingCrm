@@ -79,6 +79,8 @@ class NewOrderModal extends PureComponent {
         <Formik
           initialValues={{
             login,
+            volumeLots: 1,
+            symbol: 'US30',
             autoOpenPrice: true,
           }}
           validate={values => createValidator({
