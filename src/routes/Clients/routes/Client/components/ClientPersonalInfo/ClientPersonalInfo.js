@@ -16,7 +16,7 @@ import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
-import ShowClientPhone from '../ShowClientPhone';
+import ShowClientPhoneButton from '../ShowClientPhoneButton';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
@@ -182,7 +182,7 @@ class ClientPersonalInfo extends PureComponent {
             verified={phoneVerified}
             additional={(
               <>
-                <ShowClientPhone getProfileContacts={this.getProfileContacts} />
+                <ShowClientPhoneButton onClick={this.getProfileContacts} />
                 <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
                 <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
               </>

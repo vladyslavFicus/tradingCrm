@@ -18,7 +18,7 @@ import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';
 import VerifyEmailMutation from './graphql/VerifyEmailMutation';
 import './ClientContactsForm.scss';
-import profileContactsQuery from '../../../../graphql/ProfileContactsQuery';
+import profileContactsQuery from './graphql/ProfileContactsQuery';
 
 const attributeLabels = {
   email: 'COMMON.EMAIL',
@@ -304,7 +304,7 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.phone)}
                       placeholder={I18n.t(attributeLabels.phone)}
                       component={FormikInputField}
-                      addition={isAvailableToUpdatePhone ? I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW') : ''}
+                      addition={isAvailableToUpdatePhone && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
                       additionPosition="right"
                       onAdditionClick={this.getProfileContacts}
                       disabled={isSubmitting

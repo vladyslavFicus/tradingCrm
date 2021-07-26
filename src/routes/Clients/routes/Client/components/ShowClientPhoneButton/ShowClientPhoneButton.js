@@ -2,20 +2,20 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
-import { withPermission } from '../../../../../../providers/PermissionsProvider';
-import permissions from '../../../../../../config/permissions';
-import './ShowClientPhone.scss';
+import { withPermission } from 'providers/PermissionsProvider';
+import permissions from 'config/permissions';
+import './ShowClientPhoneButton.scss';
 
-class ShowClientPhone extends PureComponent {
+class ShowClientPhoneButton extends PureComponent {
   static propTypes = {
     permission: PropTypes.permission.isRequired,
-    getProfileContacts: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
   };
 
   render() {
     const {
       permission: { allows },
-      getProfileContacts,
+      onClick,
     } = this.props;
 
     const isAvailable = allows(permissions.USER_PROFILE.FIELD_PHONE);
@@ -24,7 +24,7 @@ class ShowClientPhone extends PureComponent {
       <If condition={isAvailable}>
         <Button
           className="ShowClientPhone__button"
-          onClick={getProfileContacts}
+          onClick={onClick}
         >
           {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
         </Button>
@@ -33,4 +33,4 @@ class ShowClientPhone extends PureComponent {
   }
 }
 
-export default withPermission(ShowClientPhone);
+export default withPermission(ShowClientPhoneButton);
