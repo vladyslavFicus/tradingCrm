@@ -8,7 +8,7 @@ import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { injectName } from 'utils/injectName';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikSelectField, FormikTextEditorField } from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'components/Formik';
 import EmailPreview from 'components/EmailPreview';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailSendMutation from './graphql/EmailSendMutation';
@@ -151,7 +151,7 @@ class EmailSelectModal extends PureComponent {
                           name="text"
                           label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_EDITOR_LABEL')}
                           placeholder={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_EDITOR_PLACEHOLDER')}
-                          component={FormikTextEditorField}
+                          component={FormikHtmlEditorField}
                         />
                       </When>
                       <Otherwise>
