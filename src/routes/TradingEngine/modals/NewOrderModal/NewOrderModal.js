@@ -173,19 +173,9 @@ class NewOrderModal extends PureComponent {
                 </div>
                 <div className="NewOrderModal__field-container">
                   <Field
-                    name="comment"
-                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
-                    className="NewOrderModal__field"
-                    maxLength={1000}
-                    component={FormikTextAreaField}
-                  />
-                </div>
-
-                <div className="NewOrderModal__field-container">
-                  <Field
-                    name="stopLoss"
+                    name="takeProfit"
                     type="number"
-                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.STOP_LOSS')}
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TAKE_PROFIT')}
                     className="NewOrderModal__field"
                     placeholder="0.00000"
                     step="0.00001"
@@ -194,9 +184,9 @@ class NewOrderModal extends PureComponent {
                     component={FormikInputField}
                   />
                   <Field
-                    name="takeProfit"
+                    name="stopLoss"
                     type="number"
-                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TAKE_PROFIT')}
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.STOP_LOSS')}
                     className="NewOrderModal__field"
                     placeholder="0.00000"
                     step="0.00001"
@@ -230,6 +220,15 @@ class NewOrderModal extends PureComponent {
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
                     className="NewOrderModal__field NewOrderModal__field--center"
                     component={FormikCheckbox}
+                  />
+                </div>
+                <div className="NewOrderModal__field-container">
+                  <Field
+                    name="comment"
+                    label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
+                    className="NewOrderModal__field"
+                    maxLength={1000}
+                    component={FormikTextAreaField}
                   />
                 </div>
                 <div className="NewOrderModal__field-container">
