@@ -122,6 +122,7 @@ class NewOrderModal extends PureComponent {
             ],
           }, translateLabels({
             volumeLots: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME'),
+            openPrice: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE'),
           }), false)(values)}
           validateOnChange={false}
           validateOnBlur={false}
