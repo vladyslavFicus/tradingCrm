@@ -61,7 +61,7 @@ class EditOrderModal extends PureComponent {
     }
   }
 
-  handleCloseOrder = async ({ volume, closePrice }) => {
+  handleCloseOrder = async ({ volumeLots, closePrice }) => {
     const {
       id,
       notify,
@@ -74,7 +74,7 @@ class EditOrderModal extends PureComponent {
       await closeOrder({
         variables: {
           orderId: id,
-          volume,
+          volume: volumeLots,
           closePrice,
         },
       });
@@ -309,48 +309,57 @@ class EditOrderModal extends PureComponent {
                   </div>
                 </fieldset>
 
-                <If condition={status !== 'CLOSED'}>
-                  <fieldset className="EditOrderModal__fieldset">
-                    <legend className="EditOrderModal__fieldset-title">
-                      {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROCESS')}
-                    </legend>
+                <Formik
+                  initialValues={{}}
+                  enableReinitialize
+                >
+                  {({ values: _values }) => (
+                    <Form>
+                      <If condition={status !== 'CLOSED'}>
+                        <fieldset className="EditOrderModal__fieldset">
+                          <legend className="EditOrderModal__fieldset-title">
+                            {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROCESS')}
+                          </legend>
 
-                    <div className="EditOrderModal__field-container">
-                      <Field
-                        name="volumeLots"
-                        type="number"
-                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                        className="EditOrderModal__field"
-                        placeholder="0"
-                        component={FormikInputField}
-                      />
-                      <Field
-                        name="closePrice"
-                        type="number"
-                        className="EditOrderModal__field"
-                        placeholder="0.00000"
-                        step="0.00001"
-                        min={0}
-                        max={999999}
-                        component={FormikInputField}
-                      />
-                      <Button
-                        className="EditOrderModal__button"
-                        danger
-                        onClick={() => this.handleCloseOrder(values)}
-                        disabled={isSubmitting}
-                      >
-                        {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
-                          volumeLots: Number(values.volumeLots).toFixed(2),
-                          closePrice: Number(
-                            /* TODO Temporary solution, imitation websocket */
-                            values.closePrice || Math.floor(Math.random() * 101).toFixed(2),
-                          ).toFixed(2),
-                        })}
-                      </Button>
-                    </div>
-                  </fieldset>
-                </If>
+                          <div className="EditOrderModal__field-container">
+                            <Field
+                              name="volumeLots"
+                              type="number"
+                              label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
+                              className="EditOrderModal__field"
+                              placeholder="0"
+                              component={FormikInputField}
+                            />
+                            <Field
+                              name="closePrice"
+                              type="number"
+                              className="EditOrderModal__field"
+                              placeholder="0.00000"
+                              step="0.00001"
+                              min={0}
+                              max={999999}
+                              component={FormikInputField}
+                            />
+                            <Button
+                              className="EditOrderModal__button"
+                              danger
+                              onClick={() => this.handleCloseOrder(_values)}
+                              disabled={isSubmitting}
+                            >
+                              {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
+                                volumeLots: Number(values.volumeLots).toFixed(2),
+                                closePrice: Number(
+                                  /* TODO Temporary solution, imitation websocket */
+                                  values.closePrice || Math.floor(Math.random() * 101).toFixed(2),
+                                ).toFixed(2),
+                              })}
+                            </Button>
+                          </div>
+                        </fieldset>
+                      </If>
+                    </Form>
+                  )}
+                </Formik>
               </ModalBody>
             </Form>
           )}
