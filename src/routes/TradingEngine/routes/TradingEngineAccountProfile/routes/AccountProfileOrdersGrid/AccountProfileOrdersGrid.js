@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
@@ -9,9 +10,11 @@ import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
+import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
 import { tradeStatusesColor, types } from './attributes/constants';
 import { getTypeColor } from './attributes/utils';
+import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import './AccountProfileOrdersGrid.scss';
 
 class AccountProfileOrdersGrid extends PureComponent {
@@ -30,7 +33,15 @@ class AccountProfileOrdersGrid extends PureComponent {
     }).isRequired,
   };
 
-  refetchOrders = () => this.props.orders.refetch();
+  componentDidMount() {
+    EventEmitter.on(ORDER_RELOAD, this.onRefetchOrders);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.off(ORDER_RELOAD, this.onRefetchOrders);
+  }
+
+  onRefetchOrders = () => this.props.orders.refetch();
 
   handlePageChanged = () => {
     const {
@@ -317,5 +328,8 @@ export default compose(
   withRouter,
   withModals({
     editOrderModal: EditOrderModal,
+  }),
+  withRequests({
+    orders: TradingEngineOrdersQuery,
   }),
 )(AccountProfileOrdersGrid);

@@ -33,4 +33,7 @@ export const NOTIFICATIONS_READ = 'NOTIFICATIONS_READ';
 export const FILTERS_TOGGLER_COLLAPSED = 'FILTERS_TOGGLER_COLLAPSED';
 export const FILTERS_TOGGLER_IN_VIEWPORT = 'FILTERS_TOGGLER_IN_VIEWPORT';
 
+// ---- Trading engine events ---- //
+export const ORDER_RELOAD = 'ORDER_RELOAD';
+
 export default new EventEmitter();

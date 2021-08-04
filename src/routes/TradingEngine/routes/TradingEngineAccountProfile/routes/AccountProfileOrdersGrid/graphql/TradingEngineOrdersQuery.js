@@ -54,12 +54,13 @@ const TradingEngineOrdersQuery = ({
   children,
   location: { state },
   match: { params: { id } },
+  orderStatuses,
 }) => (
   <Query
     query={REQUEST}
     variables={{
       args: {
-        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
+        orderStatuses,
         accountUuid: id,
         ...state && state.filters,
         page: {

@@ -14,7 +14,6 @@ import AccountProfileRegistered from './components/AccountProfileRegistered';
 import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
 import { accountProfileTabs } from './constants';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
-import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import './TradingEngineAccountProfile.scss';
 
 class TradingEngineAccountProfile extends PureComponent {
@@ -26,16 +25,12 @@ class TradingEngineAccountProfile extends PureComponent {
     accountQuery: PropTypes.query({
       tradingEngineAccount: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
-    ordersQuery: PropTypes.query({
-      tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
-    }).isRequired,
   }
 
   render() {
     const {
       match: { path, url },
       accountQuery,
-      ordersQuery,
     } = this.props;
 
     const account = accountQuery.data?.tradingEngineAccount || {};
@@ -44,7 +39,7 @@ class TradingEngineAccountProfile extends PureComponent {
       <div className="TradingEngineAccountProfile">
         <Helmet title="Account profile" />
 
-        <AccountProfileHeader account={account} handleRefetch={ordersQuery.refetch} />
+        <AccountProfileHeader account={account} />
 
         <div className="TradingEngineAccountProfile__content">
           <div className="TradingEngineAccountProfile__info">
@@ -61,9 +56,17 @@ class TradingEngineAccountProfile extends PureComponent {
           <Switch>
             <Route
               path={`${path}/orders`}
-              render={() => <AccountProfileOrdersGrid orders={ordersQuery} />}
+              render={() => <AccountProfileOrdersGrid orderStatuses={['OPEN']} />}
             />
-            <Route path={`${path}/exposure`} component={() => null} />
+            <Route
+              path={`${path}/pending-orders`}
+              render={() => <AccountProfileOrdersGrid orderStatuses={['PENDING']} />}
+            />
+            <Route
+              path={`${path}/transactions`}
+              render={() => <AccountProfileOrdersGrid />}
+            />
+            <Route path={`${path}/history`} component={AccountProfileOrdersGrid} />
             <Redirect to={`${url}/orders`} />
           </Switch>
         </div>
@@ -76,6 +79,5 @@ export default compose(
   withRouter,
   withRequests({
     accountQuery: TradingEngineAccountQuery,
-    ordersQuery: TradingEngineOrdersQuery,
   }),
 )(TradingEngineAccountProfile);

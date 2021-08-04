@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import withModals from 'hoc/withModals';
+import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import CreditModal from 'routes/TradingEngine/modals/CreditModal';
@@ -18,7 +19,6 @@ class AccountProfileHeader extends PureComponent {
       name: PropTypes.string,
       profileUuid: PropTypes.string,
     }),
-    handleRefetch: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -63,7 +63,7 @@ class AccountProfileHeader extends PureComponent {
             className="AccountProfileHeader__action"
             onClick={() => newOrderModal.show({
               login,
-              onSuccess: () => handleRefetch(),
+              onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
             })}
             commonOutline
             small

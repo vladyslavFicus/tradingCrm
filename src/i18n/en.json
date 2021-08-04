@@ -3616,7 +3616,9 @@
 
       "TABS": {
         "ORDERS": "Orders",
-        "EXPOSURE": "Exposure"
+        "PENDING_ORDERS": "Pending orders",
+        "TRANSACTIONS": "Transactions",
+        "HISTORY": "History"
       },
       "ORDERS": {
         "STATISTICS": {
