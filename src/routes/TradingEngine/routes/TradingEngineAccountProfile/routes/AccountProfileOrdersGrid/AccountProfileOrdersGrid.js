@@ -11,6 +11,7 @@ import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
+import { EditButton } from 'components/UI';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
 import { tradeStatusesColor, types } from './attributes/constants';
 import { getTypeColor } from './attributes/utils';
@@ -191,6 +192,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                         uuid={`${id}`}
                         uuidPrefix="TR"
                       />
+                      <EditButton className="AccountProfileOrdersGrid__edit-button" />
                     </div>
                   </div>
                 )}

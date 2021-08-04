@@ -11,6 +11,7 @@ import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
+import { EditButton } from 'components/UI';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
@@ -123,6 +124,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                       uuid={`${id}`}
                       uuidPrefix="TR"
                     />
+                    <EditButton className="TradingEngineOrdersGrid__edit-button" />
                   </div>
                 </div>
               )}

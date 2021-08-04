@@ -2,6 +2,12 @@
   &__cell-value {
     font-weight: 700;
 
+    &:hover {
+      .TradingEngineOrdersGrid__edit-button {
+        display: inline-block;
+      }
+    }
+
     &--pointer {
       cursor: pointer;
     }
@@ -18,5 +24,12 @@
   &__uuid {
     width: 110%;
     height: 37px;
+  }
+
+  &__edit-button {
+    display: none;
+    margin-left: 10px;
+    position: absolute;
+    top: 4px;
   }
 }
