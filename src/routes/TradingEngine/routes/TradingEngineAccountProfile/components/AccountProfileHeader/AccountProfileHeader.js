@@ -36,7 +36,6 @@ class AccountProfileHeader extends PureComponent {
         creditModal,
       },
       account,
-      handleRefetch,
     } = this.props;
 
     const {
