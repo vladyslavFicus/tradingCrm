@@ -35,14 +35,14 @@ class AccountProfileOrdersGrid extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(ORDER_RELOAD, this.onRefetchOrders);
+    EventEmitter.on(ORDER_RELOAD, this.refetchOrders);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(ORDER_RELOAD, this.onRefetchOrders);
+    EventEmitter.off(ORDER_RELOAD, this.refetchOrders);
   }
 
-  onRefetchOrders = () => this.props.orders.refetch();
+  refetchOrders = () => this.props.orders.refetch();
 
   handlePageChanged = () => {
     const {
