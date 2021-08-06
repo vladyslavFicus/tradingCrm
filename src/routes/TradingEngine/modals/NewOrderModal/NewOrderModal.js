@@ -21,8 +21,14 @@ class NewOrderModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     createOrder: PropTypes.func.isRequired,
-    login: PropTypes.number.isRequired,
+    login: PropTypes.number,
+    mutableLogin: PropTypes.bool,
   };
+
+  static defaultProps = {
+    login: null,
+    mutableLogin: false,
+  }
 
   handleSubmit = (values, direction, setFieldValue) => async () => {
     const {
@@ -72,6 +78,7 @@ class NewOrderModal extends PureComponent {
       isOpen,
       onCloseModal,
       login,
+      mutableLogin,
     } = this.props;
 
     return (
@@ -136,7 +143,7 @@ class NewOrderModal extends PureComponent {
               <ModalBody>
                 <div className="NewOrderModal__field-container NewOrderModal__field-container--half">
                   <Field
-                    disabled
+                    disabled={!mutableLogin}
                     name="login"
                     label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.LOGIN')}
                     className="NewOrderModal__field"

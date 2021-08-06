@@ -5,13 +5,17 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import moment from 'moment';
+import withModals from 'hoc/withModals';
 import { accountTypesLabels } from 'constants/accountTypes';
 import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
+import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
+import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
+import NewOrderModal from 'routes/TradingEngine/modals/NewOrderModal';
 import { tradingEngineTabs } from '../../TradingEngine/constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
@@ -22,6 +26,9 @@ class TradingEngineAccountsGrid extends PureComponent {
     ...PropTypes.router,
     accounts: PropTypes.query({
       tradingEngineAccountsData: PropTypes.pageable(PropTypes.tradingAccountsItem),
+    }).isRequired,
+    modals: PropTypes.shape({
+      newOrderModal: PropTypes.modal,
     }).isRequired,
   };
 
@@ -101,6 +108,9 @@ class TradingEngineAccountsGrid extends PureComponent {
       accounts: {
         loading,
       },
+      modals: {
+        newOrderModal,
+      },
     } = this.props;
 
     const { content = [], last = true } = accounts.data?.tradingEngineAccounts || {};
@@ -112,10 +122,23 @@ class TradingEngineAccountsGrid extends PureComponent {
       <div className="card">
         <Tabs items={tradingEngineTabs} />
 
-        <div className="card-heading card-heading--is-sticky">
+        <div className="TradingEngineAccountsGrid__header card-heading card-heading--is-sticky">
           <span className="font-size-20">
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNTS.HEADLINE')}
           </span>
+          <div className="TradingEngineAccountsGrid__actions">
+            <Button
+              className="TradingEngineAccountsGrid__action"
+              onClick={() => newOrderModal.show({
+                mutableLogin: true,
+                onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
+              })}
+              commonOutline
+              small
+            >
+              New order
+            </Button>
+          </div>
         </div>
 
         <TradingEngineAccountsFilters
@@ -197,5 +220,8 @@ export default compose(
   withRouter,
   withRequests({
     accounts: TradingEngineAccountsQuery,
+  }),
+  withModals({
+    newOrderModal: NewOrderModal,
   }),
 )(TradingEngineAccountsGrid);

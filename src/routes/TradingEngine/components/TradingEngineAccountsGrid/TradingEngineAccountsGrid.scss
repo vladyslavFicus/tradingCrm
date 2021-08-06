@@ -1,4 +1,9 @@
 .TradingEngineAccountsGrid {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__header-block-small {
     font-size: 11px;
     color: #333;
@@ -32,5 +37,11 @@
 
   &__upper {
     text-transform: uppercase
+  }
+
+  &__action {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
   }
 }
