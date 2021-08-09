@@ -1,9 +1,9 @@
-.AccountProfileOrdersGrid {
+.AccountProfileHistoryGrid {
   &__cell-value {
     font-weight: 700;
 
     &:hover {
-      .AccountProfileOrdersGrid__edit-button {
+      .AccountProfileHistoryGrid__edit-button {
         display: inline-block;
       }
     }

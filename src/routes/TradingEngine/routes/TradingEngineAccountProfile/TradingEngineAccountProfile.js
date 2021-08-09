@@ -12,6 +12,9 @@ import AccountProfileGroup from './components/AccountProfileGroup';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
 import AccountProfileRegistered from './components/AccountProfileRegistered';
 import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
+import AccountProfileHistoryGrid from './routes/AccountProfileHistoryGrid';
+import AccountProfilePendingOrdersGrid from './routes/AccountProfilePendingOrdersGrid';
+import AccountProfileTransactionsGrid from './routes/AccountProfileTransactionsGrid';
 import { accountProfileTabs } from './constants';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import './TradingEngineAccountProfile.scss';
@@ -60,13 +63,13 @@ class TradingEngineAccountProfile extends PureComponent {
             />
             <Route
               path={`${path}/pending-orders`}
-              render={() => <AccountProfileOrdersGrid orderStatuses={['PENDING']} />}
+              render={() => <AccountProfilePendingOrdersGrid orderStatuses={['PENDING']} />}
             />
             <Route
               path={`${path}/transactions`}
-              render={() => <AccountProfileOrdersGrid />}
+              render={() => <AccountProfileTransactionsGrid />}
             />
-            <Route path={`${path}/history`} component={AccountProfileOrdersGrid} />
+            <Route path={`${path}/history`} component={AccountProfileHistoryGrid} />
             <Redirect to={`${url}/orders`} />
           </Switch>
         </div>

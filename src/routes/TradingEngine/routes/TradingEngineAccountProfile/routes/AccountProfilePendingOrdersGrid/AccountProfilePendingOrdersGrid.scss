@@ -1,9 +1,9 @@
-.AccountProfileOrdersGrid {
+.AccountProfilePendingOrdersGrid {
   &__cell-value {
     font-weight: 700;
 
     &:hover {
-      .AccountProfileOrdersGrid__edit-button {
+      .AccountProfilePendingOrdersGrid__edit-button {
         display: inline-block;
       }
     }

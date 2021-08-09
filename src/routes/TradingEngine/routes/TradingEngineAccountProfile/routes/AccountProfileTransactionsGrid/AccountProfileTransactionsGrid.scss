@@ -1,9 +1,9 @@
-.AccountProfileOrdersGrid {
+.AccountProfileTransactionsGrid {
   &__cell-value {
     font-weight: 700;
 
     &:hover {
-      .AccountProfileOrdersGrid__edit-button {
+      .AccountProfileTransactionsGrid__edit-button {
         display: inline-block;
       }
     }
