@@ -13565,6 +13565,35 @@ rollup@^1.31.1:
     "@types/node" "*"
     acorn "^7.1.0"
 
+rsocket-core@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/rsocket-core/-/rsocket-core-0.0.27.tgz#a9eb36fc8282cfe37b39f0c4a1fc86ab665afeed"
+  integrity sha512-q/+8PY0BIPvwXb6jPsnKCdyUKFusrm4JDzWnxbW1Ywu2sG/suv28/+mHC7kRGtMnRsxsLAWnqsmI6EznTabItA==
+  dependencies:
+    rsocket-flowable "^0.0.27"
+    rsocket-types "^0.0.27"
+
+rsocket-flowable@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/rsocket-flowable/-/rsocket-flowable-0.0.27.tgz#389254cc1532908ae8b3ac033dc2374f57e2d661"
+  integrity sha512-I/1vETXP+qCfGFeMY8i+QLhyBpcEj0nDmWnP2vh7lDyOBNT9LjAiY6kigUzEHbfhoNe3vnJWYK6uCzxIsi622Q==
+
+rsocket-types@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/rsocket-types/-/rsocket-types-0.0.27.tgz#503e183040dc90adfd0ca834da6adc8e60bf0ecf"
+  integrity sha512-88vgA+d31a6wW5YP63jQZ0CqZ3DALtH4oCbuMtIcNy28m1kDYGPZunhsnw+YC/XtjOqb5hKhn10ZQm7OK2xc1g==
+  dependencies:
+    rsocket-flowable "^0.0.27"
+
+rsocket-websocket-client@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/rsocket-websocket-client/-/rsocket-websocket-client-0.0.27.tgz#8c1e12fdc19c09a5b5c28c7c68376e6f90d14154"
+  integrity sha512-1BX2O1C1R5W78kI7J5E/nbzxawUOceLggeG1b7rnIGZgCbnftGoIOF5xU/Q268UCE4NNtaDRED4xSHJpdAVFBw==
+  dependencies:
+    rsocket-core "^0.0.27"
+    rsocket-flowable "^0.0.27"
+    rsocket-types "^0.0.27"
+
 rsvp@^4.8.4:
   version "4.8.5"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"

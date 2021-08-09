@@ -1,5 +1,6 @@
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
+import RSocketProvider from 'rsocket';
 import PropTypes from 'constants/propTypes';
 import Route from 'components/Route';
 import permissions from 'config/permissions';
@@ -29,19 +30,21 @@ class TradingEngineManager extends PureComponent {
     return (
       <Choose>
         <When condition={permission.allows(permissions.TRADING_ENGINE.GET_ACCOUNTS)}>
-          <div className="TradingEngineManager">
-            <div className="Client__tab-content">
-              <Suspense fallback={null}>
-                <Switch>
-                  <Route exact path={`${path}/accounts`} component={TradingEngineAccountsGrid} />
-                  <Route path={`${path}/accounts/:id`} component={TradingEngineAccountProfile} />
-                  <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
-                  <Route path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
-                  <Redirect to={`${url}/accounts`} />
-                </Switch>
-              </Suspense>
+          <RSocketProvider>
+            <div className="TradingEngineManager">
+              <div className="Client__tab-content">
+                <Suspense fallback={null}>
+                  <Switch>
+                    <Route exact path={`${path}/accounts`} component={TradingEngineAccountsGrid} />
+                    <Route path={`${path}/accounts/:id`} component={TradingEngineAccountProfile} />
+                    <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
+                    <Route path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
+                    <Redirect to={`${url}/accounts`} />
+                  </Switch>
+                </Suspense>
+              </div>
             </div>
-          </div>
+          </RSocketProvider>
         </When>
         <Otherwise>
           <NotFound />
