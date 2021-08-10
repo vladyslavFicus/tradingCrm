@@ -154,6 +154,7 @@ class Click2Call extends PureComponent {
           onClick={this.handlePhoneClick}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          className="Click2Call__icon"
         />
         <ToolTip
           parent={`#${this.id}`}

@@ -140,7 +140,7 @@ class Client extends PureComponent {
 
           <HideDetails>
             <div className="Client__details">
-              <ClientPersonalInfo client={client} />
+              <ClientPersonalInfo clientInfo={client} />
 
               <ClientAcquisitionStatus
                 clientUuid={uuid}

@@ -81,6 +81,7 @@
     "PROFILE": {
       "CONTACTS": {
         "TITLE": "Contacts",
+        "SHOW": "Show",
         "VERIFIED": "Verified",
         "VERIFY": "Verify",
         "LABEL": {
@@ -500,7 +501,8 @@
       "YES": "YES",
       "ADD_FILTER": "+ Filter",
       "OLD_FILTERS": "Old filters",
-      "DOWNLOAD": "Download"
+      "DOWNLOAD": "Download",
+      "SEND": "Send"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -590,6 +592,7 @@
       "SELECT_PARTNER_TYPE": "Select partner type",
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
+      "SELECT_PHONE_NUMBER": "-- Select phone number --",
       "NO_ITEMS": "-- No items --"
     },
     "SEARCH_BY": {
@@ -4276,6 +4279,15 @@
       }
     }
   },
+  "SMS": {
+    "SMS_SEND_MODAL": {
+      "TITLE": "Send SMS to Client",
+      "FROM_NUMBER": "From Number",
+      "TEXT_MESSAGE": "Text Message",
+      "SMS_SENT_TO_CLIENT": "SMS sent to client",
+      "SMS_SENT_FAILED": "SMS sent failed"
+    }
+  },
   "ROLES_AND_PERMISSIONS": {
     "TITLE": "Roles and Permissions",
     "SELECT_FILTER":  {
@@ -4306,6 +4318,7 @@
         "PERMISSIONS": {
           "list": "List of clients",
           "profile": "Client's profile",
+          "balance": "Client's balance",
           "payment-deposit": "Make deposit transaction",
           "payment-withdraw": "Make withdraw transaction",
           "payment-creditIn": "Make credit in transaction",

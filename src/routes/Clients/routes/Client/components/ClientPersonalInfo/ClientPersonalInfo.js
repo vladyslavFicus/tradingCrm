@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import { compose, withApollo } from 'react-apollo';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
@@ -7,6 +7,7 @@ import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
+import Sms from 'components/Sms';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
@@ -15,14 +16,19 @@ import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
+import ShowClientPhoneButton from '../ShowClientPhoneButton';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
 import './ClientPersonalInfo.scss';
+import profileContactsQuery from '../../graphql/ProfileContactsQuery';
 
 class ClientPersonalInfo extends PureComponent {
   static propTypes = {
-    client: PropTypes.profile.isRequired,
+    clientInfo: PropTypes.profile.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
     modals: PropTypes.shape({
@@ -32,9 +38,14 @@ class ClientPersonalInfo extends PureComponent {
     permission: PropTypes.permission.isRequired,
   };
 
+  state = {
+    additionalPhone: undefined,
+    phone: undefined,
+  }
+
   handleRegulatedChanged = async (variables) => {
     const {
-      client: { uuid: playerUUID },
+      clientInfo: { uuid: playerUUID },
       updateConfiguration,
       notify,
     } = this.props;
@@ -61,9 +72,30 @@ class ClientPersonalInfo extends PureComponent {
     }
   };
 
+  getProfileContacts = async () => {
+    const { clientInfo: { uuid }, notify } = this.props;
+
+    try {
+      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+        query: profileContactsQuery,
+        variables: { playerUUID: uuid },
+      });
+
+      this.setState({
+        additionalPhone,
+        phone,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+      });
+    }
+  }
+
   triggerEmailSelectModal = () => {
     const {
-      client: { uuid, firstName, lastName },
+      clientInfo: { uuid, firstName, lastName },
       modals: { emailSelectModal } } = this.props;
 
     emailSelectModal.show({
@@ -75,8 +107,8 @@ class ClientPersonalInfo extends PureComponent {
   };
 
   handleReferrerClick = () => {
-    const { client } = this.props;
-    const uuid = client?.referrer?.uuid;
+    const { clientInfo } = this.props;
+    const uuid = clientInfo?.referrer?.uuid;
 
     if (!uuid) return;
 
@@ -85,7 +117,7 @@ class ClientPersonalInfo extends PureComponent {
 
   render() {
     const {
-      client: {
+      clientInfo: {
         uuid,
         birthDate,
         gender,
@@ -93,9 +125,9 @@ class ClientPersonalInfo extends PureComponent {
         migrationId,
         contacts: {
           email,
-          phone,
-          additionalEmail,
           additionalPhone,
+          additionalEmail,
+          phone,
         },
         address: {
           countryCode,
@@ -146,15 +178,26 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
-            value={phone}
+            value={this.state.phone || phone}
             verified={phoneVerified}
-            additional={<Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />}
+            additional={(
+              <>
+                <ShowClientPhoneButton onClick={this.getProfileContacts} />
+                <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
+                <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
+              </>
+            )}
             className="ClientPersonalInfo__contacts"
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
-            value={additionalPhone}
-            additional={<Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />}
+            value={this.state.additionalPhone || additionalPhone}
+            additional={(
+              <>
+                <Sms uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+                <Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+              </>
+            )}
             className="ClientPersonalInfo__contacts"
           />
           <PersonalInformationItem
@@ -266,6 +309,7 @@ class ClientPersonalInfo extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withPermission,
   withNotifications,
   withModals({

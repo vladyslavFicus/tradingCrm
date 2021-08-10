@@ -19,6 +19,8 @@ class WithdrawsAmountChart extends PureComponent {
     });
   };
 
+  tooltipAmountFormatter = value => I18n.toCurrency(value, { unit: '' });
+
   render() {
     const { withdrawPaymentsStatistic } = this.props;
 
@@ -26,6 +28,7 @@ class WithdrawsAmountChart extends PureComponent {
       <Chart
         title={I18n.t('DASHBOARD.WITHDRAWS_AMOUNT_CHART.TITLE')}
         tooltipContent={I18n.t('DASHBOARD.WITHDRAWS_AMOUNT_CHART.TOOLTIP_TITLE')}
+        tooltipAmountFormatter={this.tooltipAmountFormatter}
         data={get(withdrawPaymentsStatistic, 'data.paymentsStatistic.items', [])}
         totals={
           mapTotalObject(

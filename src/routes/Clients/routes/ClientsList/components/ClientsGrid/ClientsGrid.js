@@ -25,18 +25,16 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { Column, Table } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import Permissions from 'utils/permissions';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
 import { MAX_SELECTED_CLIENTS } from '../../constants';
 import './ClientsGrid.scss';
 
-const changeAsquisitionStatusPermission = new Permissions(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
-
 class ClientsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     onSelect: PropTypes.func.isRequired,
+    permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
@@ -390,12 +388,13 @@ class ClientsGrid extends PureComponent {
       location,
       clientsQuery,
       permission: {
-        permissions: currentPermissions,
+        allows,
       },
       onSelect,
     } = this.props;
 
-    const isAvailableMultiSelect = changeAsquisitionStatusPermission.check(currentPermissions);
+    const isAvailableMultiSelect = allows(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
+    const isBalanceAvailable = allows(permissions.USER_PROFILE.BALANCE);
 
     const { response } = limitItems(clientsQuery?.data?.profiles, location);
 
@@ -443,11 +442,13 @@ class ClientsGrid extends PureComponent {
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
-          <Column
-            sortBy="balance.amount"
-            header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
-            render={this.renderBalanceColumn}
-          />
+          <If condition={isBalanceAvailable}>
+            <Column
+              sortBy="balance.amount"
+              header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
+              render={this.renderBalanceColumn}
+            />
+          </If>
           <Column
             sortBy="paymentDetails.depositsCount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}

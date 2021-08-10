@@ -5,10 +5,10 @@
   padding: 10px 5px;
 
   position: relative;
-  
+
   input {
     font-size: 13px;
-    padding-left: 25px;
+    padding-left: 29px;
     padding-right: 25px;
 
     height: 29px;
@@ -19,7 +19,8 @@
     font-size: 13px;
 
     position: absolute;
-    top: 19px;
+    top: 24px;
+    z-index: 1;
   }
 
   &__icon-left {
