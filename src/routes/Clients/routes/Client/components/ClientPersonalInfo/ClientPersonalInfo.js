@@ -18,10 +18,10 @@ import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
 import ShowClientPhoneButton from '../ShowClientPhoneButton';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
+import ProfileContactsQuery from '../../graphql/ProfileContactsQuery';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
 import './ClientPersonalInfo.scss';
-import profileContactsQuery from '../../graphql/ProfileContactsQuery';
 
 class ClientPersonalInfo extends PureComponent {
   static propTypes = {
@@ -77,7 +77,7 @@ class ClientPersonalInfo extends PureComponent {
 
     try {
       const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
-        query: profileContactsQuery,
+        query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
       });
 

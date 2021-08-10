@@ -17,8 +17,8 @@ import UpdateClientContactsMutation from './graphql/UpdateClientContactsMutation
 import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';
 import VerifyEmailMutation from './graphql/VerifyEmailMutation';
+import ProfileContactsQuery from './graphql/ProfileContactsQuery';
 import './ClientContactsForm.scss';
-import profileContactsQuery from './graphql/ProfileContactsQuery';
 
 const attributeLabels = {
   email: 'COMMON.EMAIL',
@@ -45,9 +45,9 @@ class ClientContactsForm extends PureComponent {
   };
 
   state = {
-    additionalPhone: undefined,
-    phone: undefined,
-    isContactsShown: undefined,
+    additionalPhone: false,
+    phone: false,
+    isContactsShown: false,
   }
 
   getProfileContacts = async () => {
@@ -55,7 +55,7 @@ class ClientContactsForm extends PureComponent {
 
     try {
       const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
-        query: profileContactsQuery,
+        query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
       });
 
