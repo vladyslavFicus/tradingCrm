@@ -10,13 +10,10 @@ import {
 } from 'components/Formik/index';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI/index';
-import {
-  types,
-  symbols,
-} from '../../attributes/constants';
-import './TradingEngineOrdersGridFilter.scss';
+import { types } from '../../../../attributes/constants';
+import './AccountProfileOrdersGridFilter.scss';
 
-class TradingEngineOrdersGridFilter extends PureComponent {
+class AccountProfileOrdersGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
@@ -64,13 +61,13 @@ class TradingEngineOrdersGridFilter extends PureComponent {
           values,
           dirty,
         }) => (
-          <Form className="TradingEngineOrdersGridFilter">
-            <div className="TradingEngineOrdersGridFilter__fields">
+          <Form className="AccountProfileOrdersGridFilter">
+            <div className="AccountProfileOrdersGridFilter__fields">
               <Field
                 name="keyword"
                 label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY')}
                 placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
-                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__field--large"
+                className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__field--large"
                 component={FormikInputField}
                 addition={<i className="icon icon-search" />}
                 withFocus
@@ -79,7 +76,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 name="orderType"
                 label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="TradingEngineOrdersGridFilter__field"
+                className="AccountProfileOrdersGridFilter__field"
                 component={FormikSelectField}
                 withAnyOption
                 searchable
@@ -92,25 +89,9 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="symbol"
-                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="TradingEngineOrdersGridFilter__field"
-                component={FormikSelectField}
-                withAnyOption
-                searchable
-                withFocus
-              >
-                {symbols.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
-                  </option>
-                ))}
-              </Field>
-              <Field
                 name="openingDateRange"
-                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
-                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
+                className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TRANSACTION_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
                   from: 'openingDateRange.from',
@@ -118,25 +99,14 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 }}
                 withFocus
               />
-              <Field
-                name="closingDateRange"
-                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
-                label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
-                component={FormikDateRangePicker}
-                fieldsNames={{
-                  from: 'closingDateRange.from',
-                  to: 'closingDateRange.to',
-                }}
-                withFocus
-              />
             </div>
-            <div className="TradingEngineOrdersGridFilter__buttons">
+            <div className="AccountProfileOrdersGridFilter__buttons">
               <RefreshButton
-                className="TradingEngineOrdersGridFilter__button"
+                className="AccountProfileOrdersGridFilter__button"
                 onClick={handleRefetch}
               />
               <Button
-                className="TradingEngineOrdersGridFilter__button"
+                className="AccountProfileOrdersGridFilter__button"
                 onClick={() => this.handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -144,7 +114,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 {I18n.t('COMMON.RESET')}
               </Button>
               <Button
-                className="TradingEngineOrdersGridFilter__button"
+                className="AccountProfileOrdersGridFilter__button"
                 type="submit"
                 disabled={!dirty || isSubmitting}
                 primary
@@ -159,4 +129,4 @@ class TradingEngineOrdersGridFilter extends PureComponent {
   }
 }
 
-export default withRouter(TradingEngineOrdersGridFilter);
+export default withRouter(AccountProfileOrdersGridFilter);

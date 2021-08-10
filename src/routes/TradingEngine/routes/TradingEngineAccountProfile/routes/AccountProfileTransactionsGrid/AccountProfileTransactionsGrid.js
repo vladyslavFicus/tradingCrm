@@ -12,7 +12,7 @@ import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { EditButton } from 'components/UI';
-import TradingEngineOrdersGridFilter from '../../components/AccountProfileGridFilter';
+import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import AccountProfileStatistics from '../../components/AccountProfileStatistics';
 import { types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
@@ -111,7 +111,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
         <div className="card">
           <AccountProfileStatistics totalElements={totalElements} />
 
-          <TradingEngineOrdersGridFilter handleRefetch={this.refetchOrders} />
+          <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
 
           <div>
             <Table

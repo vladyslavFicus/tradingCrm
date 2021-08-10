@@ -3658,6 +3658,7 @@
           "TYPE_LABEL": "Type",
           "SYMBOL_LABEL": "Symbol",
           "OPEN_TIME_RANGE_LABEL": "Open time range",
+          "TRANSACTION_TIME_RANGE_LABEL": "Transaction time range",
           "CLOSE_TIME_RANGE_LABEL": "Close time range",
           "TYPES": {
             "BUY": "Buy",
