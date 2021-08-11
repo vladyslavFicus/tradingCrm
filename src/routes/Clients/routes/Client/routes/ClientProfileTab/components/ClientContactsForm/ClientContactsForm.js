@@ -318,7 +318,6 @@ class ClientContactsForm extends PureComponent {
                         <Button
                           className="ClientContactsForm__field-button"
                           onClick={this.handleVerifyPhone}
-                          disabled={!this.state.isContactsShown}
                           primary
                         >
                           {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY')}
