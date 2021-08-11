@@ -45,8 +45,8 @@ class ClientContactsForm extends PureComponent {
   };
 
   state = {
-    additionalPhone: false,
-    phone: false,
+    additionalPhone: undefined,
+    phone: undefined,
     isContactsShown: false,
   }
 
