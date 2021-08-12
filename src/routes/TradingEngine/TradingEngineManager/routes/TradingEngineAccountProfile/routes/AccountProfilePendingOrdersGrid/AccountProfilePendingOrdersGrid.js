@@ -9,17 +9,17 @@ import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import EditOrderModal from 'routes/TradingEngine/modals/EditOrderModal';
+import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { EditButton } from 'components/UI';
-import AccountProfileGridFilter from './components/AccountProfileOrdersGridFilter';
+import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import AccountProfileStatistics from '../../components/AccountProfileStatistics';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
-import './AccountProfileHistoryGrid.scss';
+import './AccountProfilePendingOrdersGrid.scss';
 
-class AccountProfileHistoryGrid extends PureComponent {
+class AccountProfilePendingOrdersGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     modals: PropTypes.shape({
@@ -107,11 +107,11 @@ class AccountProfileHistoryGrid extends PureComponent {
     const { content = [], last = true, totalElements = 0 } = data?.tradingEngineOrders || {};
 
     return (
-      <div className="AccountProfileHistoryGrid">
+      <div className="AccountProfilePendingOrdersGrid">
         <div className="card">
           <AccountProfileStatistics totalElements={totalElements} />
 
-          <AccountProfileGridFilter handleRefetch={this.refetchOrders} />
+          <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
 
           <div>
             <Table
@@ -128,18 +128,18 @@ class AccountProfileHistoryGrid extends PureComponent {
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRADE')}
                 render={({ id }) => (
                   <div
-                    className="AccountProfileHistoryGrid__uuid"
+                    className="AccountProfilePendingOrdersGrid__uuid"
                     onClick={() => editOrderModal.show({
                       id,
                       onSuccess: () => this.refetchOrders(),
                     })}
                   >
-                    <div className="AccountProfileHistoryGrid__cell-value">
+                    <div className="AccountProfilePendingOrdersGrid__cell-value">
                       <Uuid
                         uuid={`${id}`}
                         uuidPrefix="TR"
                       />
-                      <EditButton className="AccountProfileHistoryGrid__edit-button" />
+                      <EditButton className="AccountProfilePendingOrdersGrid__edit-button" />
                     </div>
                   </div>
                 )}
@@ -151,7 +151,7 @@ class AccountProfileHistoryGrid extends PureComponent {
                   <div
                     className={classNames(
                       getTypeColor(types.find(item => item.value === type).value),
-                      'AccountProfileHistoryGrid__cell-value',
+                      'AccountProfilePendingOrdersGrid__cell-value',
                     )}
                   >
                     {I18n.t(types.find(item => item.value === type).label)}
@@ -159,98 +159,49 @@ class AccountProfileHistoryGrid extends PureComponent {
                 )}
               />
               <Column
-                sortBy="symbol"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.SYMBOL')}
-                render={({ symbol }) => <div className="AccountProfileOrdersGrid__cell-value">{symbol}</div>}
-              />
-              <Column
                 sortBy="openingTime"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPENING_TIME')}
                 render={({ time }) => (
                   <Fragment>
-                    <div className="AccountProfileHistoryGrid__cell-value">
+                    <div className="AccountProfilePendingOrdersGrid__cell-value">
                       {moment.utc(time.creation).local().format('DD.MM.YYYY')}
                     </div>
-                    <div className="AccountProfileHistoryGrid__cell-value-add">
+                    <div className="AccountProfilePendingOrdersGrid__cell-value-add">
                       {moment.utc(time.creation).local().format('HH:mm:ss')}
                     </div>
                   </Fragment>
                 )}
               />
               <Column
-                sortBy="openingPrice"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPEN_PRICE')}
-                render={({ openPrice }) => (
-                  <Fragment>
-                    <div className="AccountProfileHistoryGrid__cell-value">{openPrice}</div>
-                  </Fragment>
-                )}
+                sortBy="symbol"
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.SYMBOL')}
+                render={({ symbol }) => <div className="AccountProfilePendingOrdersGrid__cell-value">{symbol}</div>}
               />
               <Column
                 sortBy="volume"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.VOLUME')}
                 render={({ volumeLots }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{volumeLots}</div>
+                  <div className="AccountProfilePendingOrdersGrid__cell-value">{volumeLots}</div>
                 )}
               />
               <Column
                 sortBy="stopLoss"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.S/L')}
                 render={({ stopLoss }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{stopLoss}</div>
+                  <div className="AccountProfilePendingOrdersGrid__cell-value">{stopLoss}</div>
                 )}
               />
               <Column
                 sortBy="takeProfit"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.T/P')}
                 render={({ takeProfit }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{takeProfit}</div>
+                  <div className="AccountProfilePendingOrdersGrid__cell-value">{takeProfit}</div>
                 )}
               />
               <Column
-                sortBy="swaps"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.SWAP')}
-                render={({ swaps }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{swaps}</div>
-                )}
-              />
-              <Column
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-                render={({ pnl }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{pnl.net}</div>
-                )}
-              />
-              <Column
-                sortBy="closingPrice"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.CLOSING_PRICE')}
-                render={({ closePrice }) => (
-                  <Choose>
-                    <When condition={closePrice}>
-                      <div className="AccountProfileHistoryGrid__cell-value">{closePrice}</div>
-                    </When>
-                    <Otherwise>
-                      <span>&mdash;</span>
-                    </Otherwise>
-                  </Choose>
-                )}
-              />
-              <Column
-                sortBy="closingTime"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.CLOSING_TIME')}
-                render={({ time }) => (
-                  <Choose>
-                    <When condition={time.closing}>
-                      <div className="AccountProfileHistoryGrid__cell-value">
-                        {moment.utc(time.closing).local().format('DD.MM.YYYY')}
-                      </div>
-                      <div className="AccountProfileHistoryGrid__cell-value-add">
-                        {moment.utc(time.closing).local().format('HH:mm:ss')}
-                      </div>
-                    </When>
-                    <Otherwise>
-                      <span>&mdash;</span>
-                    </Otherwise>
-                  </Choose>
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
+                render={({ price }) => (
+                  <div className="AccountProfilePendingOrdersGrid__cell-value">{price}</div>
                 )}
               />
               <Column
@@ -286,4 +237,4 @@ export default compose(
   withRequests({
     orders: TradingEngineOrdersQuery,
   }),
-)(AccountProfileHistoryGrid);
+)(AccountProfilePendingOrdersGrid);

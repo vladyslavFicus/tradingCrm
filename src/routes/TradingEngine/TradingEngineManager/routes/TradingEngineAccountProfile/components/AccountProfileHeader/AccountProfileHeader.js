@@ -4,8 +4,8 @@ import withModals from 'hoc/withModals';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
-import CreditModal from 'routes/TradingEngine/modals/CreditModal';
-import NewOrderModal from 'routes/TradingEngine/modals/NewOrderModal';
+import CreditModal from 'routes/TradingEngine/TradingEngineManager/modals/CreditModal';
+import NewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/NewOrderModal';
 import './AccountProfileHeader.scss';
 
 class AccountProfileHeader extends PureComponent {

@@ -1,12 +1,12 @@
 export const tradingEngineTabs = [
   {
-    url: '/trading-engine/accounts',
+    url: '/trading-engine-manager/accounts',
     label: 'TRADING_ENGINE.TABS.ACCOUNTS',
   }, {
-    url: '/trading-engine/orders',
+    url: '/trading-engine-manager/orders',
     label: 'TRADING_ENGINE.TABS.ORDERS',
   }, {
-    url: '/trading-engine/symbols',
+    url: '/trading-engine-manager/symbols',
     label: 'TRADING_ENGINE.TABS.SYMBOLS',
   },
 ];

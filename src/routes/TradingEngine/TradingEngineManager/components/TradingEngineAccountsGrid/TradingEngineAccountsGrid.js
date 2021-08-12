@@ -15,8 +15,8 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import NewOrderModal from 'routes/TradingEngine/modals/NewOrderModal';
-import { tradingEngineTabs } from '../../TradingEngine/constants';
+import NewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/NewOrderModal';
+import { tradingEngineTabs } from '../../constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
 import './TradingEngineAccountsGrid.scss';
@@ -91,7 +91,7 @@ class TradingEngineAccountsGrid extends PureComponent {
   );
 
   renderLoginColumn = ({ login, group, uuid }) => (
-    <Link to={`/trading-engine/accounts/${uuid}`}>
+    <Link to={`/trading-engine-manager/accounts/${uuid}`}>
       <div className="font-weight-700">
         {login}
       </div>

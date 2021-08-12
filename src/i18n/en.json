@@ -34,7 +34,9 @@
       "NOTIFICATIONS": "Notifications",
       "ROLES_AND_PERMISSIONS": "Roles & Permissions",
       "CLIENTS_DISTRIBUTION": "Clients Distribution",
-      "TRADING_ENGINE": "Trading Engine"
+      "TRADING_ENGINE": "Trading Engine",
+      "TRADING_ENGINE_MANAGER": "TE Manager",
+      "TRADING_ENGINE_ADMIN": "TE Admin"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",

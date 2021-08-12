@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
-import { tradingEngineTabs } from '../../TradingEngine/constants';
+import { tradingEngineTabs } from '../../constants';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
 import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
 import './TradingEngineSymbolsGrid.scss';

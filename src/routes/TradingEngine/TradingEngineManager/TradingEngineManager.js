@@ -5,13 +5,13 @@ import Route from 'components/Route';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import NotFound from 'routes/NotFound';
-import TradingEngineAccountsGrid from '../components/TradingEngineAccountsGrid';
-import TradingEngineOrdersGrid from '../components/TradingEngineOrdersGrid';
-import TradingEngineSymbolsGrid from '../components/TradingEngineSymbolsGrid';
-import TradingEngineAccountProfile from '../routes/TradingEngineAccountProfile';
-import './TradingEngine.scss';
+import TradingEngineAccountsGrid from './components/TradingEngineAccountsGrid';
+import TradingEngineOrdersGrid from './components/TradingEngineOrdersGrid';
+import TradingEngineSymbolsGrid from './components/TradingEngineSymbolsGrid';
+import TradingEngineAccountProfile from './routes/TradingEngineAccountProfile';
+import './TradingEngineManager.scss';
 
-class TradingEngine extends PureComponent {
+class TradingEngineManager extends PureComponent {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string,
@@ -29,7 +29,7 @@ class TradingEngine extends PureComponent {
     return (
       <Choose>
         <When condition={permission.allows(permissions.TRADING_ENGINE.GET_ACCOUNTS)}>
-          <div className="TradingEngine">
+          <div className="TradingEngineManager">
             <div className="Client__tab-content">
               <Suspense fallback={null}>
                 <Switch>
@@ -51,4 +51,4 @@ class TradingEngine extends PureComponent {
   }
 }
 
-export default withPermission(TradingEngine);
+export default withPermission(TradingEngineManager);
