@@ -6,11 +6,12 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
+import { withNotifications, withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
@@ -25,6 +26,9 @@ class EditOrderModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     editOrder: PropTypes.func.isRequired,
     closeOrder: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
 
   handleEditOrder = async (values) => {
@@ -34,66 +38,89 @@ class EditOrderModal extends PureComponent {
       onCloseModal,
       editOrder,
       onSuccess,
+      modals: { confirmActionModal },
     } = this.props;
 
-    try {
-      await editOrder({
-        variables: {
-          orderId: id,
-          ...values,
-        },
-      });
+    confirmActionModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CHANGE_ORDER_TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CHANGE_ORDER_TEXT', { id }),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      onSubmit: async () => {
+        try {
+          await editOrder({
+            variables: {
+              orderId: id,
+              ...values,
+            },
+          });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.SUCCESS'),
-      });
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.SUCCESS'),
+          });
 
-      onSuccess();
-      onCloseModal();
-    } catch (_) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.ERROR'),
-        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.FAILED'),
-      });
-    }
+          onSuccess();
+          onCloseModal();
+        } catch (_) {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.FAILED'),
+          });
+        }
+      },
+    });
   }
 
-  handleCloseOrder = async ({ volumeLots, closePrice }) => {
+  handleCloseOrder = async ({ volumeLots, closePrice, status, symbol }) => {
     const {
       id,
       notify,
       onCloseModal,
       closeOrder,
       onSuccess,
+      modals: { confirmActionModal },
     } = this.props;
 
-    try {
-      await closeOrder({
-        variables: {
-          orderId: id,
-          volume: volumeLots,
-          closePrice,
-        },
-      });
+    confirmActionModal.show({
+      modalTitle: I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CLOSE_ORDER_TITLE_${status}`),
+      actionText: I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CLOSE_ORDER_TEXT_${status}`, {
+        id,
+        /* TODO Temporary solution, imitation websocket */
+        closePrice: closePrice || Math.floor(Math.random() * 101).toFixed(2),
+        symbol,
+      }),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      onSubmit: async () => {
+        try {
+          await closeOrder({
+            variables: {
+              orderId: id,
+              volume: volumeLots,
+              closePrice,
+            },
+          });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CLOSE_SUCCESS'),
-      });
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CLOSE_SUCCESS'),
+          });
 
-      onSuccess();
-      onCloseModal();
-    } catch (_) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.ERROR'),
-        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CLOSE_FAILED'),
-      });
-    }
+          onSuccess();
+          onCloseModal();
+        } catch (_) {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CLOSE_FAILED'),
+          });
+        }
+      },
+    });
   }
 
   handleDeleteOrder = async () => {
@@ -103,28 +130,37 @@ class EditOrderModal extends PureComponent {
       onCloseModal,
       deleteOrder,
       onSuccess,
+      modals: { confirmActionModal },
     } = this.props;
 
-    try {
-      await deleteOrder({
-        variables: { orderId: id },
-      });
+    confirmActionModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TEXT', { id }),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      onSubmit: async () => {
+        try {
+          await deleteOrder({
+            variables: { orderId: id },
+          });
 
-      notify({
-        level: 'success',
-        title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_SUCCESS'),
-      });
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_SUCCESS'),
+          });
 
-      onSuccess();
-      onCloseModal();
-    } catch (_) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.ERROR'),
-        message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
-      });
-    }
+          onSuccess();
+          onCloseModal();
+        } catch (_) {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
+          });
+        }
+      },
+    });
   }
 
   render() {
@@ -343,7 +379,7 @@ class EditOrderModal extends PureComponent {
                             <Button
                               className="EditOrderModal__button"
                               danger
-                              onClick={() => this.handleCloseOrder(_values)}
+                              onClick={() => this.handleCloseOrder({ ..._values, status, symbol })}
                               disabled={isSubmitting}
                             >
                               {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
@@ -372,6 +408,9 @@ class EditOrderModal extends PureComponent {
 export default compose(
   withRouter,
   withNotifications,
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
   withRequests({
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
