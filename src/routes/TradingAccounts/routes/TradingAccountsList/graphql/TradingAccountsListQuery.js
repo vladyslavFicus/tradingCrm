@@ -9,15 +9,13 @@ const REQUEST = gql`
     $accountType: String
     $platformType: String
     $archived: Boolean
-    $size: Int
-    $page: Int
+    $page: Page__Input
   ) {
     tradingAccounts (
       searchKeyword: $searchKeyword
       platformType: $platformType
       accountType: $accountType
       archived: $archived
-      size: $size
       page: $page
     ) {
       content {
@@ -53,11 +51,14 @@ const REQUEST = gql`
 const TradingAccountsListQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
-    fetchPolicy="cache-and-network"
+    fetchPolicy="network-only"
     variables={{
       ...state && state.filters,
-      page: 0,
-      size: 20,
+      page: {
+        from: 0,
+        size: 20,
+        sorts: state?.sorts,
+      },
       // Parse to boolean value if 'archived' value exist
       archived: state?.filters?.archived ? !!+state?.filters?.archived : undefined,
     }}
@@ -71,6 +72,7 @@ TradingAccountsListQuery.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
       filters: PropTypes.object,
+      sorts: PropTypes.array,
     }),
   }).isRequired,
 };

@@ -1,4 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
+import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import moment from 'moment';
@@ -13,22 +15,48 @@ import './TradingAccountsListGrid.scss';
 
 class TradingAccountsListGrid extends PureComponent {
   static propTypes = {
+    ...PropTypes.router,
     tradingAccountsData: PropTypes.query({
       tradingAccounts: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
   };
 
+  handleSort = (sorts) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
+    });
+  };
+
   handlePageChanged = () => {
     const {
+      location: {
+        state,
+      },
       tradingAccountsData,
       tradingAccountsData: {
         loadMore,
+        variables,
       },
     } = this.props;
 
     const page = get(tradingAccountsData, 'data.tradingAccounts.number') || 0;
+    const filters = state?.filters;
+    const sorts = state?.sorts;
+    const size = variables?.args?.page?.size;
 
-    loadMore(page + 1);
+    loadMore({
+      ...filters,
+      page: {
+        from: page + 1,
+        size,
+        sorts,
+      },
+    });
   };
 
   renderTradingAccountColumn = ({ uuid, name, accountType, platformType, archived }) => (
@@ -68,6 +96,7 @@ class TradingAccountsListGrid extends PureComponent {
 
   render() {
     const {
+      location,
       tradingAccountsData,
       tradingAccountsData: {
         loading,
@@ -81,11 +110,14 @@ class TradingAccountsListGrid extends PureComponent {
         <Table
           stickyFromTop={125}
           items={content}
+          sorts={location?.state?.sorts}
+          onSort={this.handleSort}
           loading={loading}
           hasMore={!last}
           onMore={this.handlePageChanged}
         >
           <Column
+            sortBy="login"
             header={I18n.t('TRADING_ACCOUNTS.GRID.LOGIN')}
             render={this.renderLoginColumn}
           />
@@ -151,4 +183,6 @@ class TradingAccountsListGrid extends PureComponent {
   }
 }
 
-export default TradingAccountsListGrid;
+export default compose(
+  withRouter,
+)(TradingAccountsListGrid);
