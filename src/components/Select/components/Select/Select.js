@@ -358,6 +358,67 @@ class Select extends PureComponent {
     });
   };
 
+  handleKeyDown = (e) => {
+    // Skip any interactions if options not loaded yet
+    if (!this.state.options.length) {
+      return;
+    }
+
+    // Prevent default behaviour for all buttons except of Tab button
+    if (e.code !== 'Tab') {
+      e.preventDefault();
+    }
+
+    // Cancel selection and close options block
+    if (['Escape', 'Tab'].includes(e.code)) {
+      this.updateState({ toSelectOptions: [] }, this.handleClose);
+    }
+
+    // Open select options if pressed SPACE button
+    if (['Space', 'ArrowDown', 'ArrowUp'].includes(e.code) && !this.state.opened) {
+      this.setState({ opened: true });
+
+      return;
+    }
+
+    // Close select options if pressed ENTER or SPACE button
+    if (['Enter', 'Space'].includes(e.code) && this.state.opened) {
+      this.handleClose();
+    }
+
+    // Control arrow down/up pressing when single select in focus
+    if (['ArrowDown', 'ArrowUp'].includes(e.code) && !this.props.multiple) {
+      const currentOption = this.state.toSelectOptions[0] || this.state.originalSelectedOptions[0];
+      const currentOptionIndex = this.state.options.findIndex(({ key }) => key === currentOption?.key);
+
+      let nextOptionIndex = 0;
+      if (e.code === 'ArrowUp') {
+        nextOptionIndex = currentOptionIndex > 0 ? currentOptionIndex - 1 : this.state.options.length - 1;
+      }
+
+      if (e.code === 'ArrowDown' && this.state.options.length > currentOptionIndex + 1) {
+        nextOptionIndex = this.state.options.length > currentOptionIndex + 1 ? currentOptionIndex + 1 : 0;
+      }
+
+      const nextOption = this.state.options[nextOptionIndex];
+
+      this.updateState({ toSelectOptions: [nextOption] }, () => {
+        const optionTop = this.activeOptionRef.offsetTop;
+        const optionHeight = this.activeOptionRef.offsetHeight + 10; // 10 is padding for option
+        const containerScrollTop = this.optionsContainerRef.scrollTop;
+        const containerHeight = this.optionsContainerRef.offsetHeight;
+
+        if (optionTop + optionHeight > containerScrollTop + containerHeight) {
+          this.optionsContainerRef.scrollTop = optionTop - containerHeight + optionHeight;
+        }
+
+        if (optionTop < containerScrollTop) {
+          this.optionsContainerRef.scrollTop = optionTop;
+        }
+      });
+    }
+  };
+
   filterOptions = options => (Array.isArray(options)
     ? options
       .filter(option => option.type === 'option')
@@ -450,6 +511,8 @@ class Select extends PureComponent {
         </When>
         <Otherwise>
           <div
+            tabIndex={0} // eslint-disable-line
+            onKeyDown={this.handleKeyDown}
             className={classNames('Select__form-control', 'Select__label', {
               'Select__label--multipleLabel': isMultipleLabel,
             })}
@@ -525,7 +588,7 @@ class Select extends PureComponent {
           {/* Single option */}
           <SelectSingleOptions
             options={options}
-            selectedOption={originalSelectedOptions[0]}
+            selectedOption={toSelectOptions[0] || originalSelectedOptions[0]}
             onChange={this.handleSelectSingleOption}
             bindActiveOption={this.bindActiveOptionRef}
             handleSelectHide={this.handleHideSelect}

@@ -33,6 +33,7 @@ class SelectSearchBox extends PureComponent {
           onChange={onChange}
           value={query}
           ref={(input) => { this.input = input; }}
+          tabIndex={-1}
         />
         <If condition={!!query}>
           <i className="icon icon-times select-search-box__icon-right" onClick={() => onChange(null)} />
