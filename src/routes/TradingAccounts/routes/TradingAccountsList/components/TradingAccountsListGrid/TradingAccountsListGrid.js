@@ -122,6 +122,7 @@ class TradingAccountsListGrid extends PureComponent {
             render={this.renderLoginColumn}
           />
           <Column
+            sortBy="name"
             header={I18n.t('TRADING_ACCOUNTS.GRID.ACCOUNT_ID')}
             render={this.renderTradingAccountColumn}
           />
@@ -134,6 +135,7 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <Column
+            sortBy="affiliate.source"
             header={I18n.t('TRADING_ACCOUNTS.GRID.SOURCE_NAME')}
             render={({ affiliate }) => (
               <Choose>
@@ -147,6 +149,7 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <Column
+            sortBy="createdAt"
             header={I18n.t('TRADING_ACCOUNTS.GRID.DATE')}
             render={({ createdAt }) => (
               <If condition={createdAt}>
@@ -160,10 +163,12 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <Column
+            sortBy="credit"
             header={I18n.t('TRADING_ACCOUNTS.GRID.CREDIT')}
             render={this.renderCreditColumn}
           />
           <Column
+            sortBy="leverage"
             header={I18n.t('TRADING_ACCOUNTS.GRID.LEVERAGE')}
             render={({ leverage }) => (
               <If condition={leverage}>
@@ -172,6 +177,7 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <Column
+            sortBy="balance"
             header={I18n.t('TRADING_ACCOUNTS.GRID.BALANCE')}
             render={({ balance, currency }) => (
               <div className="font-weight-700">{currency} {I18n.toCurrency(balance, { unit: '' })}</div>
