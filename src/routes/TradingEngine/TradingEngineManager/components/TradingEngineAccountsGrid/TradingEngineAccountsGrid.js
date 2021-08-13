@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { withStreams } from 'rsocket';
 import { get } from 'lodash';
 import moment from 'moment';
 import withModals from 'hoc/withModals';
@@ -147,6 +148,9 @@ class TradingEngineAccountsGrid extends PureComponent {
         />
 
         <div className="TradingEngineAccountsGrid">
+          <div>ASK: {this.props.prices$?.data?.ask}</div>
+          <div>BID: {this.props.prices$?.data?.bid}</div>
+          <div>Date: {this.props.prices$?.data?.dateTime}</div>
           <Table
             stickyFromTop={125}
             items={content}
@@ -223,5 +227,11 @@ export default compose(
   }),
   withModals({
     newOrderModal: NewOrderModal,
+  }),
+  withStreams({
+    prices$: {
+      route: 'streamPricesStub',
+      data: { symbol: 'EURUSD', accountUuid: 'TEST' },
+    },
   }),
 )(TradingEngineAccountsGrid);

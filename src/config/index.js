@@ -47,6 +47,17 @@ const getGraphQLSubscriptionUrl = () => {
 };
 
 /**
+ * Get RSocket url
+ *
+ * @return {*}
+ */
+const getRSocketUrl = () => {
+  const { protocol, host } = window.location;
+
+  return `${protocol === 'https:' ? 'wss' : 'ws'}://${host}/rsocket`;
+};
+
+/**
  * Get application version
  *
  * @return {*}
@@ -141,6 +152,7 @@ export {
   getBackofficeBrand,
   setBackofficeBrand,
   getStaticFileUrl,
+  getRSocketUrl,
 };
 
 export default config;
