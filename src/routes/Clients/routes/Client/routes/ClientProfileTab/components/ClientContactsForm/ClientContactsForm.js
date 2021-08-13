@@ -57,7 +57,7 @@ class ClientContactsForm extends PureComponent {
       const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
         query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'network-only',
       });
 
       this.setState({
