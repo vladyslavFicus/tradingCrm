@@ -94,7 +94,13 @@ const sidebarTopMenu = [{
 }, {
   label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE',
   icon: 'icon-trading-engine',
-  url: '/trading-engine',
+  items: [{
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_MANAGER',
+    url: '/trading-engine-manager',
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_ADMIN',
+    url: '/trading-engine-admin',
+  }],
   permissions: new Permissions(permissions.TRADING_ENGINE.GET_ACCOUNTS),
 }, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
