@@ -3442,7 +3442,7 @@
         "BUTTON_FOR_OPEN": "Close {{volumeLots}} at {{closePrice}}",
         "CONFIRMATION": {
           "CHANGE_ORDER_TITLE": "Change order",
-          "CHANGE_ORDER_TEXT": "Do you really want to change open price stop loss, take profit of order #{{id}}?",
+          "CHANGE_ORDER_TEXT": "Do you really want to change open price stop loss, take profit, comment of order #{{id}}?",
           "CANCEL_ORDER_TITLE": "Cancel order",
           "CANCEL_ORDER_TEXT": "Do you really want to cancel order #{{id}}?",
           "CLOSE_ORDER_TITLE_OPEN": "Close order",
@@ -3495,7 +3495,13 @@
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",
-        "ASK": "Ask"
+        "ASK": "Ask",
+        "SECURITIES": "Securities",
+        "SPREAD": "Spread",
+        "STOP": "Stop",
+        "LONG": "Long",
+        "SHORT": "Short",
+        "DIGITS": "Digits"
       },
       "FILTER_FORM": {
         "SEARCH_BY": "Search by",
