@@ -4,36 +4,27 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const MUTATION = gql`
-  mutation UpdateTradingAccount(
-    $name: String
-    $mode: String
-    $currency: String
-    $readOnly: Boolean
-    $profileId: String!
+  mutation ToggleDisabledTradingAccountMutation(
     $accountUUID: String!
+    $readOnly: Boolean!
   ) {
     tradingAccount {
-      update(
-        profileId: $profileId,
+      toggleDisabled(
         accountUUID: $accountUUID,
-        name: $name,
-        mode: $mode,
-        currency: $currency,
         readOnly: $readOnly,
       )
     }
   }
 `;
 
-
-const UpdateTradingAccount = ({ children }) => (
+const ToggleDisabledTradingAccountMutation = ({ children }) => (
   <Mutation mutation={MUTATION}>
     {children}
   </Mutation>
 );
 
-UpdateTradingAccount.propTypes = {
+ToggleDisabledTradingAccountMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UpdateTradingAccount;
+export default ToggleDisabledTradingAccountMutation;
