@@ -18,13 +18,13 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
-import UpdateTradingAccountModal from 'modals/UpdateTradingAccountModal';
+import RenameTradingAccountModal from 'modals/RenameTradingAccountModal';
 import ChangeLeverageModal from 'modals/ChangeLeverageModal';
 import TradingAccountChangePasswordModal from 'modals/TradingAccountChangePasswordModal';
 import {
-  UpdateTradingAccountMutation,
   ApproveChangingLeverageMutation,
   RejectChangingLeverageMutation,
+  ToggleDisabledTradingAccountMutation,
 } from './graphql';
 import './ClientTradingAccountsGrid.scss';
 
@@ -33,11 +33,11 @@ class ClientTradingAccountsGrid extends PureComponent {
     notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       tradingAccountChangePasswordModal: PropTypes.modalType,
-      updateTradingAccountModal: PropTypes.modalType,
+      renameTradingAccountModal: PropTypes.modalType,
       changeLeverageModal: PropTypes.modalType,
     }).isRequired,
     permission: PropTypes.permission.isRequired,
-    updateTradingAccount: PropTypes.func.isRequired,
+    toggleDisabledTradingAccount: PropTypes.func.isRequired,
     approveChangingLeverage: PropTypes.func.isRequired,
     rejectChangingLeverage: PropTypes.func.isRequired,
     profileUUID: PropTypes.string.isRequired,
@@ -50,14 +50,14 @@ class ClientTradingAccountsGrid extends PureComponent {
     const {
       notify,
       profileUUID,
-      updateTradingAccount,
+      toggleDisabledTradingAccount,
       clientTradingAccountsQuery: {
         refetch,
       },
     } = this.props;
 
     try {
-      await updateTradingAccount({
+      await toggleDisabledTradingAccount({
         variables: {
           accountUUID,
           profileId: profileUUID,
@@ -315,9 +315,10 @@ class ClientTradingAccountsGrid extends PureComponent {
     },
   ) => {
     const {
+      permission,
       modals: {
         tradingAccountChangePasswordModal,
-        updateTradingAccountModal,
+        renameTradingAccountModal,
         changeLeverageModal,
       },
       profileUUID,
@@ -333,15 +334,20 @@ class ClientTradingAccountsGrid extends PureComponent {
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
         onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
       },
-      {
+    ];
+
+    const canRenameAccount = permission.allows(permissions.TRADING_ACCOUNT.RENAME_ACCOUNT);
+
+    if (canRenameAccount) {
+      dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.RENAME'),
-        onClick: () => updateTradingAccountModal.show({
+        onClick: () => renameTradingAccountModal.show({
           accountUUID,
           profileUUID,
           onSuccess: refetch,
         }),
-      },
-    ];
+      });
+    }
 
     if (brand[platformType.toLowerCase()]?.leveragesChangingRequest?.length) {
       dropDownActions.push({
@@ -360,11 +366,15 @@ class ClientTradingAccountsGrid extends PureComponent {
       });
     }
 
-    if (accountType !== 'DEMO') {
-      dropDownActions.push({
-        label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!readOnly ? 'DISABLE' : 'ENABLE'}`),
-        onClick: this.handleSetTradingAccountReadonly(accountUUID, !readOnly),
-      });
+    const isReadOnly = permission.allows(permissions.TRADING_ACCOUNT.READ_ONLY);
+
+    if (isReadOnly) {
+      if (accountType !== 'DEMO') {
+        dropDownActions.push({
+          label: I18n.t(`CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.${!readOnly ? 'DISABLE' : 'ENABLE'}`),
+          onClick: this.handleSetTradingAccountReadonly(accountUUID, !readOnly),
+        });
+      }
     }
 
     if (!archived) {
@@ -439,12 +449,12 @@ export default compose(
   withNotifications,
   withModals({
     tradingAccountChangePasswordModal: TradingAccountChangePasswordModal,
-    updateTradingAccountModal: UpdateTradingAccountModal,
+    renameTradingAccountModal: RenameTradingAccountModal,
     changeLeverageModal: ChangeLeverageModal,
   }),
   withRequests({
-    updateTradingAccount: UpdateTradingAccountMutation,
     approveChangingLeverage: ApproveChangingLeverageMutation,
     rejectChangingLeverage: RejectChangingLeverageMutation,
+    toggleDisabledTradingAccount: ToggleDisabledTradingAccountMutation,
   }),
 )(ClientTradingAccountsGrid);
