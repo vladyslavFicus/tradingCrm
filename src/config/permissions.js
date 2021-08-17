@@ -116,6 +116,8 @@ export default {
   TRADING_ACCOUNT: {
     CREATE: 'trading-account.createAccount',
     UPDATE_PASSWORD: 'trading-account.changeAccountPassword',
+    READ_ONLY: 'trading-account.changeAccountReadOnly',
+    RENAME_ACCOUNT: 'trading-account.renameAccount',
   },
   NOTES: {
     ADD_NOTE: 'note.saveNote',

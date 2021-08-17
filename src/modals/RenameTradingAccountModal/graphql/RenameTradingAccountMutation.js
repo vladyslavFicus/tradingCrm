@@ -4,28 +4,26 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation UpdateTradingAccountModal_updateTradingAccountMutation(
-  $name: String
-  $profileId: String!
+  mutation RenameTradingAccountModal_RenameTradingAccountMutation(
+  $name: String!
   $accountUUID: String!
 ) {
   tradingAccount {
-    update(
-      profileId: $profileId
+    rename(
       accountUUID: $accountUUID
       name: $name
     )
   }
 }`;
 
-const UpdateTradingAccount = ({ children }) => (
+const RenameTradingAccountMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-UpdateTradingAccount.propTypes = {
+RenameTradingAccountMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default UpdateTradingAccount;
+export default RenameTradingAccountMutation;

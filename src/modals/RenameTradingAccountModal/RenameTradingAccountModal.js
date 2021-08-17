@@ -9,38 +9,35 @@ import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import UpdateTradingAccountMutation from './graphql/UpdateTradingAccountMutation';
-import './UpdateTradingAccountModal.scss';
+import RenameTradingAccountMutation from './graphql/RenameTradingAccountMutation';
+import './RenameTradingAccountModal.scss';
 
 const attributeLabels = {
   name: 'MODALS.UPDATE_TRADING_ACCOUNT_MODAL.LABLES.NAME',
 };
 
-class UpdateTradingAccountModal extends PureComponent {
+class RenameTradingAccountModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     notify: PropTypes.func.isRequired,
-    updateTradingAccount: PropTypes.func.isRequired,
+    renameTradingAccount: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    profileUUID: PropTypes.string.isRequired,
     accountUUID: PropTypes.string.isRequired,
   }
 
   handleSubmit = async (values, { setSubmitting }) => {
     const {
       notify,
-      updateTradingAccount,
+      renameTradingAccount,
       onSuccess,
       onCloseModal,
-      profileUUID,
       accountUUID,
     } = this.props;
 
     try {
-      await updateTradingAccount({
+      await renameTradingAccount({
         variables: {
-          profileId: profileUUID,
           accountUUID,
           ...values,
         },
@@ -101,14 +98,14 @@ class UpdateTradingAccountModal extends PureComponent {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  className="UpdateTradingAccountModal__button"
+                  className="RenameTradingAccountModal__button"
                   onClick={onCloseModal}
                   commonOutline
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
                 <Button
-                  className="UpdateTradingAccountModal__button"
+                  className="RenameTradingAccountModal__button"
                   disabled={isSubmitting}
                   type="submit"
                   primary
@@ -127,6 +124,6 @@ class UpdateTradingAccountModal extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    updateTradingAccount: UpdateTradingAccountMutation,
+    renameTradingAccount: RenameTradingAccountMutation,
   }),
-)(UpdateTradingAccountModal);
+)(RenameTradingAccountModal);
