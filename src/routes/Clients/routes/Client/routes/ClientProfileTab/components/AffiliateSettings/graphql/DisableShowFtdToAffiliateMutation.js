@@ -5,12 +5,10 @@ import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
   mutation AffiliateSettings__DisableShowFtdToAffiliateMutation(
-    $showFtdToAffiliate: Boolean!
     $profileUuid: String!
   ) {
     payment {
       disableShowFtdToAffiliate(
-        showFtdToAffiliate: $showFtdToAffiliate
         profileUuid: $profileUuid
       )
     }
