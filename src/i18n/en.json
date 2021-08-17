@@ -4486,7 +4486,9 @@
         "PERMISSIONS": {
           "list": "List of trading accounts",
           "create": "Create trading account",
-          "changePassword": "Trading account password"
+          "changePassword": "Trading account password",
+          "rename": "Rename trading account",
+          "toggleDisabled": "Disable Trading account"
         }
       },
       "notes": {
