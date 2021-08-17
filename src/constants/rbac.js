@@ -1216,6 +1216,24 @@ export default [
           },
         },
       },
+      {
+        id: 'rename',
+        actions: {
+          edit: {
+            action: 'trading-account.renameAccount',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'toggleDisabled',
+        actions: {
+          edit: {
+            action: 'trading-account.changeAccountReadOnly',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
