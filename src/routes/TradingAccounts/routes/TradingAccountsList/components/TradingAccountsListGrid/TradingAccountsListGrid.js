@@ -135,7 +135,6 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <Column
-            sortBy="affiliate.source"
             header={I18n.t('TRADING_ACCOUNTS.GRID.SOURCE_NAME')}
             render={({ affiliate }) => (
               <Choose>
