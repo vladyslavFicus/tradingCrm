@@ -26,7 +26,7 @@ class TradingEngineAccountProfile extends PureComponent {
       url: PropTypes.string,
     }).isRequired,
     accountQuery: PropTypes.query({
-      tradingEngineAccount: PropTypes.pageable(PropTypes.tradingAccountsItem),
+      tradingEngineAccount: PropTypes.tradingEngineAccount,
     }).isRequired,
   }
 

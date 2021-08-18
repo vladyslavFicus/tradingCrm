@@ -16,7 +16,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import NewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/NewOrderModal';
+import CommonNewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/CommonNewOrderModal';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
@@ -131,7 +131,6 @@ class TradingEngineAccountsGrid extends PureComponent {
             <Button
               className="TradingEngineAccountsGrid__action"
               onClick={() => newOrderModal.show({
-                mutableLogin: true,
                 onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
               })}
               commonOutline
@@ -226,7 +225,7 @@ export default compose(
     accounts: TradingEngineAccountsQuery,
   }),
   withModals({
-    newOrderModal: NewOrderModal,
+    newOrderModal: CommonNewOrderModal,
   }),
   withStreams({
     prices$: {

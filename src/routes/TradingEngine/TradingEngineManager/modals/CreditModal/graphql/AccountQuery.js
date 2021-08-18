@@ -4,9 +4,9 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_AccountQuery($accountUuid: String!) {
+  query TradingEngine_AccountQuery($identifier: String!) {
     tradingEngineAccount (
-      accountUuid: $accountUuid
+      identifier: $identifier
     ) {
       uuid
       name
@@ -29,7 +29,7 @@ const AccountQuery = ({ children, match: { params: { id } } }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
-    variables={{ accountUuid: id }}
+    variables={{ identifier: id }}
   >
     {children}
   </Query>

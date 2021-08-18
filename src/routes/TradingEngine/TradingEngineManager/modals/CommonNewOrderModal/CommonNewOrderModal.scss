@@ -1,0 +1,60 @@
+.CommonNewOrderModal {
+  width: 655px;
+
+  &__field-container {
+    display: flex;
+    flex: 1 1;
+    align-items: flex-end;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    &--half {
+      width: calc(50% - 7.5px);
+    }
+  }
+
+  &__error {
+    color: #fb434a;
+    font-size: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  &__field {
+    width: 100%;
+    margin-right: 15px;
+    margin-bottom: 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &--center {
+      margin-bottom: 8px;
+    }
+
+    .input__error {
+      position: absolute;
+    }
+  }
+
+  &__button {
+    width: 100%;
+    text-align: center;
+
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+
+    &--small {
+      width: 33%;
+    }
+  }
+
+  .modal-body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
