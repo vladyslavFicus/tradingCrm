@@ -3966,7 +3966,7 @@
           "payment-changeStatus": "Change payment status",
           "payment-changeMethod": "Change payment method",
           "payment-changeAgent": "Payment original agent",
-          "payment-changeShowFtdToAffiliate": "Affiliate settings",
+          "payment-enableShowFtdToAffiliate": "Affiliate settings",
           "resetPassword": "Reset password",
           "changePassword": "Change password for client",
           "getAuthorities": "Get authorities for notes",
