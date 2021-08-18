@@ -163,7 +163,6 @@ class TradingAccountsListGrid extends PureComponent {
             )}
           />
           <Column
-            sortBy="credit"
             header={I18n.t('TRADING_ACCOUNTS.GRID.CREDIT')}
             render={this.renderCreditColumn}
           />
