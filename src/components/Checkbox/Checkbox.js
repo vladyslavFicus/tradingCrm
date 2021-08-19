@@ -26,6 +26,19 @@ class Checkbox extends PureComponent {
     vertical: false,
   };
 
+  /**
+   * Change value by press on space or enter button
+   *
+   * @param e
+   */
+  handleKeyPress = (e) => {
+    e.preventDefault();
+
+    if (['Space', 'Enter'].includes(e.code)) {
+      this.props.onChange();
+    }
+  };
+
   render() {
     const {
       name,
@@ -61,7 +74,11 @@ class Checkbox extends PureComponent {
             type="checkbox"
             checked={value}
           />
-          <span className="Checkbox__icon">
+          <span
+            className="Checkbox__icon"
+            tabIndex={0} // eslint-disable-line
+            onKeyPress={this.handleKeyPress}
+          >
             <CheckIcon className="Checkbox__icon-in" />
           </span>
           <If condition={label}>
