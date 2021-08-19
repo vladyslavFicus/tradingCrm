@@ -21,7 +21,6 @@ class RSocketProvider extends PureComponent {
   client = new RSocketReconnectableClient(
     this.createClient,
     {
-      debug: true,
       interval: 5000,
       getToken: () => this.props.storage.get('token'),
       onRefreshToken: () => this.onRefreshToken(),
