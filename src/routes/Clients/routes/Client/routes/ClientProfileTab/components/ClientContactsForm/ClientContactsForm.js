@@ -79,20 +79,22 @@ class ClientContactsForm extends PureComponent {
       clientData,
       notify,
     } = this.props;
-
+    const { isContactsShown } = this.state;
+    console.log('isContactsShown', isContactsShown);
     try {
+      console.log('isContactsShown', isContactsShown);
       await updateClientContacts({
         variables: {
           playerUUID: clientData.uuid,
-          phone: values.phone,
-          additionalPhone: values.additionalPhone || null,
+          phone: isContactsShown ? values.phone : null,
+          additionalPhone: isContactsShown ? (values.additionalPhone || null) : null,
           additionalEmail: values.additionalEmail || null,
         },
       });
 
       this.setState({
-        additionalPhone: values.additionalPhone,
-        phone: values.phone,
+        additionalPhone: isContactsShown ? values.additionalPhone : undefined,
+        phone: isContactsShown ? values.phone : undefined,
       });
 
       notify({
