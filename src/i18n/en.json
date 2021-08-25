@@ -3660,7 +3660,20 @@
         "ORDERS": "Orders",
         "PENDING_ORDERS": "Pending orders",
         "TRANSACTIONS": "Transactions",
-        "HISTORY": "History"
+        "HISTORY": "History",
+        "FEED": "Feed"
+      },
+      "FEED": {
+        "FILTER_FORM": {
+          "LABELS": {
+            "SEARCH_BY": "Search by",
+            "SEARCH_BY_PLACEHOLDER": "Action ID, Account ID, IP",
+            "ACTION_TYPES": "Action types",
+            "CREATION_DATE_FROM": "Creation date from",
+            "CREATION_DATE_TO": "Creation date to",
+            "ACTION_DATE_RANGE": "Action date range"
+          }
+        }
       },
       "ORDERS": {
         "STATISTICS": {

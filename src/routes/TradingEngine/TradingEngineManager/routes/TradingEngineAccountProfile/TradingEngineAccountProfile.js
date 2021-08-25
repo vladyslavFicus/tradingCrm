@@ -15,6 +15,7 @@ import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
 import AccountProfileHistoryGrid from './routes/AccountProfileHistoryGrid';
 import AccountProfilePendingOrdersGrid from './routes/AccountProfilePendingOrdersGrid';
 import AccountProfileTransactionsGrid from './routes/AccountProfileTransactionsGrid';
+import AccountProfileFeedGrid from './routes/AccountProfileFeedGrid';
 import { accountProfileTabs } from './constants';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import './TradingEngineAccountProfile.scss';
@@ -70,6 +71,7 @@ class TradingEngineAccountProfile extends PureComponent {
               render={() => <AccountProfileTransactionsGrid />}
             />
             <Route path={`${path}/history`} component={AccountProfileHistoryGrid} />
+            <Route path={`${path}/feed`} component={AccountProfileFeedGrid} />
             <Redirect to={`${url}/orders`} />
           </Switch>
         </div>

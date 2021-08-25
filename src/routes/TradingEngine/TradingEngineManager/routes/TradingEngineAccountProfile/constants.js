@@ -15,4 +15,8 @@ export const accountProfileTabs = [
     url: '/trading-engine-manager/accounts/:id/history',
     label: 'TRADING_ENGINE.ACCOUNT_PROFILE.TABS.HISTORY',
   },
+  {
+    url: '/trading-engine-manager/accounts/:id/feed',
+    label: 'TRADING_ENGINE.ACCOUNT_PROFILE.TABS.FEED',
+  },
 ];
