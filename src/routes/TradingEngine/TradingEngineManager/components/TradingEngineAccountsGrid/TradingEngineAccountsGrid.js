@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
-import { withStreams } from 'rsocket';
+import { withLazyStreams } from 'rsocket';
 import { get } from 'lodash';
 import moment from 'moment';
 import withModals from 'hoc/withModals';
@@ -31,7 +31,20 @@ class TradingEngineAccountsGrid extends PureComponent {
     modals: PropTypes.shape({
       newOrderModal: PropTypes.modal,
     }).isRequired,
+    pricesStreamRequest: PropTypes.func.isRequired,
   };
+
+  state = {
+    nextTickPrice: null,
+  };
+
+  componentDidMount() {
+    const pricesSubscription = this.props.pricesStreamRequest();
+
+    pricesSubscription.onNext(({ data }) => {
+      this.setState({ nextTickPrice: data });
+    });
+  }
 
   handlePageChanged = () => {
     const {
@@ -147,9 +160,9 @@ class TradingEngineAccountsGrid extends PureComponent {
         />
 
         <div className="TradingEngineAccountsGrid">
-          <div>ASK: {this.props.prices$?.data?.ask}</div>
-          <div>BID: {this.props.prices$?.data?.bid}</div>
-          <div>Date: {this.props.prices$?.data?.dateTime}</div>
+          <div>ASK: {this.state.nextTickPrice?.ask}</div>
+          <div>BID: {this.state.nextTickPrice?.bid}</div>
+          <div>Date: {this.state.nextTickPrice?.dateTime}</div>
           <Table
             stickyFromTop={125}
             items={content}
@@ -227,8 +240,8 @@ export default compose(
   withModals({
     newOrderModal: CommonNewOrderModal,
   }),
-  withStreams({
-    prices$: {
+  withLazyStreams({
+    pricesStreamRequest: {
       route: 'streamPricesStub',
       data: { symbol: 'EURUSD', accountUuid: 'TEST' },
     },
