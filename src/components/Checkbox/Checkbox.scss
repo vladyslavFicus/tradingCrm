@@ -8,6 +8,7 @@ $color-disable: #cfcfcf;
 
   &__container {
     cursor: pointer;
+    box-sizing: border-box;
 
     &:hover {
       & .Checkbox {
@@ -37,6 +38,10 @@ $color-disable: #cfcfcf;
     vertical-align: top;
     height: 20px;
     width: 20px;
+
+    &:focus {
+      border: 2px solid #4990e2;
+    }
   }
 
   &__icon-in {
