@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
+import Hotkeys from 'react-hot-keys';
 import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -101,15 +102,19 @@ class TradingEngineAccountsGrid extends PureComponent {
     </Link>
   );
 
+  handleNewOrderClick = () => {
+    this.props.modals.newOrderModal.show({
+      mutableLogin: true,
+      onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
+    });
+  };
+
   render() {
     const {
       location: { state },
       accounts,
       accounts: {
         loading,
-      },
-      modals: {
-        newOrderModal,
       },
     } = this.props;
 
@@ -120,6 +125,12 @@ class TradingEngineAccountsGrid extends PureComponent {
 
     return (
       <div className="card">
+        {/* Hotkey on F9 button to open new order modal */}
+        <Hotkeys
+          keyName="f9"
+          onKeyUp={this.handleNewOrderClick}
+        />
+
         <Tabs items={tradingEngineTabs} />
 
         <div className="TradingEngineAccountsGrid__header card-heading card-heading--is-sticky">
@@ -129,9 +140,7 @@ class TradingEngineAccountsGrid extends PureComponent {
           <div className="TradingEngineAccountsGrid__actions">
             <Button
               className="TradingEngineAccountsGrid__action"
-              onClick={() => newOrderModal.show({
-                onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
-              })}
+              onClick={this.handleNewOrderClick}
               commonOutline
               small
             >

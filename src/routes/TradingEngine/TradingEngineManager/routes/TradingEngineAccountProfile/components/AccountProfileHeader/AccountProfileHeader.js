@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Hotkeys from 'react-hot-keys';
 import PropTypes from 'constants/propTypes';
 import withModals from 'hoc/withModals';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
@@ -15,7 +16,7 @@ class AccountProfileHeader extends PureComponent {
       newOrderModal: PropTypes.modal,
     }).isRequired,
     account: PropTypes.shape({
-      login: PropTypes.string,
+      login: PropTypes.number,
       name: PropTypes.string,
       profileUuid: PropTypes.string,
     }),
@@ -29,10 +30,25 @@ class AccountProfileHeader extends PureComponent {
     },
   }
 
-  render() {
+  handleNewOrderClick = () => {
     const {
       modals: {
         newOrderModal,
+      },
+      account: {
+        login,
+      },
+    } = this.props;
+
+    newOrderModal.show({
+      login,
+      onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
+    });
+  };
+
+  render() {
+    const {
+      modals: {
         creditModal,
       },
       account,
@@ -46,6 +62,12 @@ class AccountProfileHeader extends PureComponent {
 
     return (
       <div className="AccountProfileHeader">
+        {/* Hotkey on F9 button to open new order modal */}
+        <Hotkeys
+          keyName="f9"
+          onKeyUp={this.handleNewOrderClick}
+        />
+
         <div className="AccountProfileHeader__topic">
           <div className="AccountProfileHeader__title">
             <Uuid uuid={login} uuidPrefix="WET" />
@@ -60,10 +82,7 @@ class AccountProfileHeader extends PureComponent {
         <div className="AccountProfileHeader__actions">
           <Button
             className="AccountProfileHeader__action"
-            onClick={() => newOrderModal.show({
-              login,
-              onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
-            })}
+            onClick={this.handleNewOrderClick}
             commonOutline
             small
           >

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
+import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -164,7 +165,13 @@ class NewOrderModal extends PureComponent {
     const accountSymbols = tradingEngineAccountSymbolsQuery.data?.tradingEngineAccountSymbols || [];
 
     return (
-      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen} keyboard={false}>
+        {/*
+           Disable keyboard controlling on modal to prevent close modal by ESC button because it's working with a bug
+           and after close by ESC button hotkeys not working when not clicking ESC button second time.
+           So we should implement close event by ESC button manually.
+        */}
+        <Hotkeys keyName="esc" filter={() => true} onKeyUp={onCloseModal} />
         <Formik
           initialValues={{
             login,
@@ -216,6 +223,7 @@ class NewOrderModal extends PureComponent {
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
+          onSubmit={() => {}}
         >
           {({ isSubmitting, values, setFieldValue }) => (
             <Form>
@@ -326,7 +334,6 @@ class NewOrderModal extends PureComponent {
                     <Button
                       className="NewOrderModal__button"
                       danger
-                      type="submit"
                       disabled={isSubmitting}
                       onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
                     >
@@ -335,7 +342,6 @@ class NewOrderModal extends PureComponent {
                     <Button
                       className="NewOrderModal__button"
                       primary
-                      type="submit"
                       disabled={isSubmitting}
                       onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
                     >

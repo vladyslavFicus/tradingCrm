@@ -359,14 +359,9 @@ class Select extends PureComponent {
   };
 
   handleKeyDown = (e) => {
-    // Skip any interactions if options not loaded yet
-    if (!this.state.options.length) {
+    // Skip any interactions if options not loaded yet or select is disabled
+    if (!this.state.options.length || this.props.disabled) {
       return;
-    }
-
-    // Prevent default behaviour for all buttons except of Tab button
-    if (e.code !== 'Tab') {
-      e.preventDefault();
     }
 
     // Cancel selection and close options block
@@ -381,9 +376,17 @@ class Select extends PureComponent {
       return;
     }
 
-    // Close select options if pressed ENTER or SPACE button
+    // Close select options if pressed ENTER or SPACE button and select was opened
     if (['Enter', 'Space'].includes(e.code) && this.state.opened) {
       this.handleClose();
+    }
+
+    // Execute click on first "submit" element in closest forms if enter was pressed and select isn't opened
+    if (e.code === 'Enter' && !this.state.opened) {
+      const form = this.optionsContainerRef.closest('form');
+      const submitElement = form?.querySelectorAll('[type=submit]');
+
+      submitElement[0]?.click();
     }
 
     // Control arrow down/up pressing when single select in focus
@@ -441,6 +444,7 @@ class Select extends PureComponent {
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
     const {
+      disabled,
       multiple,
       multipleLabel,
       placeholder: inputPlaceholder,
@@ -511,8 +515,9 @@ class Select extends PureComponent {
         </When>
         <Otherwise>
           <div
-            tabIndex={0} // eslint-disable-line
+            tabIndex={disabled ? -1 : 0} // eslint-disable-line
             onKeyDown={this.handleKeyDown}
+            onKeyUp={e => e.stopPropagation()}
             className={classNames('Select__form-control', 'Select__label', {
               'Select__label--multipleLabel': isMultipleLabel,
             })}
