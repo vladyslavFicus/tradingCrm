@@ -323,6 +323,7 @@ class EditOrderModal extends PureComponent {
                     <Field
                       disabled
                       name="profit"
+                      label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
                       className="EditOrderModal__field"
                       component={FormikInputField}
                     />
