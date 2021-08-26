@@ -1,9 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
-import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -15,39 +14,19 @@ import './TradingEngineSymbolsGrid.scss';
 class TradingEngineSymbols extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    symbols: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
-  handlePageChanged = () => {
-    const {
-      symbols,
-      symbols: {
-        loadMore,
-        loading,
-      },
-    } = this.props;
-
-    const currentPage = get(symbols, 'data.tradingEngineSymbols.page') || 0;
-
-    if (!loading) {
-      loadMore(currentPage + 1);
-    }
-  };
-
-  renderSymbol = ({ symbol }) => (
-    <Fragment>
-      <div className="TradingEngineSymbols__cell-primary">
-        {symbol}
-      </div>
-    </Fragment>
+  renderName = ({ name }) => (
+    <div className="TradingEngineSymbols__cell-primary">
+      {name}
+    </div>
   );
 
   renderSecurities = ({ securities }) => (
-    <Fragment>
-      <div className="TradingEngineSymbols__cell-primary">
-        {securities}
-      </div>
-    </Fragment>
+    <div className="TradingEngineSymbols__cell-primary">
+      {securities}
+    </div>
   );
 
   renderSpread = ({ spread }) => (
@@ -83,10 +62,10 @@ class TradingEngineSymbols extends PureComponent {
   render() {
     const {
       location,
-      symbols,
+      symbolsQuery,
     } = this.props;
 
-    const { content = [], totalElements = 0 } = symbols.data?.tradingEngineSymbols || {};
+    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
 
     return (
       <div className="card">
@@ -94,7 +73,7 @@ class TradingEngineSymbols extends PureComponent {
 
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
-            <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
+            <strong>{symbols.length}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
         </div>
 
@@ -102,42 +81,35 @@ class TradingEngineSymbols extends PureComponent {
 
         <div className="TradingEngineSymbols">
           <Table
-            items={content}
+            items={symbols}
             sorts={location?.state?.sorts}
-            onMore={this.handlePageChanged}
+            loading={symbolsQuery.loading}
           >
             <Column
-              sortBy="symbol"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SYMBOL')}
-              render={this.renderSymbol}
+              render={this.renderName}
             />
             <Column
-              sortBy="securities"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SECURITIES')}
               render={this.renderSecurities}
             />
             <Column
-              sortBy="spread"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SPREAD')}
               render={this.renderSpread}
             />
             <Column
-              sortBy="stop"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.STOP')}
               render={this.renderStop}
             />
             <Column
-              sortBy="long"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.LONG')}
               render={this.renderLong}
             />
             <Column
-              sortBy="short"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SHORT')}
               render={this.renderShort}
             />
             <Column
-              sortBy="digits"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.DIGITS')}
               render={this.renderDigits}
             />
@@ -151,6 +123,6 @@ class TradingEngineSymbols extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    symbols: TradingEngineSymbolsQuery,
+    symbolsQuery: TradingEngineSymbolsQuery,
   }),
 )(TradingEngineSymbols);
