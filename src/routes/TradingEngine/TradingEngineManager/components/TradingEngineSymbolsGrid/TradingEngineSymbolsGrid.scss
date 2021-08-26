@@ -2,4 +2,39 @@
   &__cell-primary {
     font-weight: 700;
   }
+
+  &__direction {
+    margin: -15px -10px;
+    padding: 15px 10px;
+
+    &--up {
+      animation: direction-up-animation 1s ease-in-out;
+    }
+
+    &--down {
+      animation: direction-down-animation 1s ease-in-out;
+    }
+  }
+
+  .Table__cell:last-child {
+    padding-right: 10px;
+  }
+}
+
+@keyframes direction-up-animation {
+  from {
+    background-color: rgba(139, 194, 115, 0.4);
+  }
+  to {
+    background-color: unset;
+  }
+}
+
+@keyframes direction-down-animation {
+  from {
+    background-color: rgba(236, 85, 60, 0.4);
+  }
+  to {
+    background-color: unset;
+  }
 }

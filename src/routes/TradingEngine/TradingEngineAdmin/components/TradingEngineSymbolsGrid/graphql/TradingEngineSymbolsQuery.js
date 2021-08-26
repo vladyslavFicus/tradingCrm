@@ -6,18 +6,15 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query TradingEngineAdmin_TradingEngineSymbolsQuery {
     tradingEngineSymbols {
-      totalElements
-      content {
-        symbol
-        bid
-        ask
-        securities
-        spread
-        stop
-        long
-        short
-        digits
-      }
+      name
+      bid
+      ask
+      securities
+      spread
+      stop
+      long
+      short
+      digits
     }
   }
 `;
@@ -27,7 +24,6 @@ const TradingEngineSymbolsQuery = ({ children, location: { state } }) => (
     query={REQUEST}
     variables={{
       ...state?.filters,
-      limit: 20,
       sorts: state?.sorts?.length ? state.sorts : undefined,
     }}
     fetchPolicy="cache-and-network"

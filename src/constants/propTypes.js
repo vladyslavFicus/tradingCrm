@@ -441,7 +441,7 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
 });
 
 PropTypes.symbolsTradingEngineType = PropTypes.shape({
-  symbol: PropTypes.string,
+  name: PropTypes.string,
   bid: PropTypes.number,
   ask: PropTypes.number,
 });

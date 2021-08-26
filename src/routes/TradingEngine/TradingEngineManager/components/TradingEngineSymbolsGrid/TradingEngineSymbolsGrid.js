@@ -1,68 +1,123 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
+import { withLazyStreams } from 'rsocket';
 import { withRequests } from 'apollo';
-import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
-import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
+// import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
 import './TradingEngineSymbolsGrid.scss';
 
 class TradingEngineSymbols extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    symbols: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
+    symbolsStreamRequest: PropTypes.func.isRequired,
   };
 
-  handlePageChanged = () => {
+  symbols = [];
+
+  intervalID = null;
+
+  state = {
+    tick: null, // eslint-disable-line
+  };
+
+  componentDidUpdate(prevProps) {
     const {
-      symbols,
-      symbols: {
-        loadMore,
-        loading,
-      },
+      symbolsQuery,
+      symbolsStreamRequest,
     } = this.props;
 
-    const currentPage = get(symbols, 'data.tradingEngineSymbols.page') || 0;
+    // Subscribe to symbols ticks when symbols list will be allowed to use in stream request
+    const symbolsNames = symbolsQuery.data?.tradingEngineSymbols?.map(({ name }) => name) || [];
 
-    if (!loading) {
-      loadMore(currentPage + 1);
+    if (
+      prevProps.symbolsQuery.loading
+      && !symbolsQuery.loading
+      && symbolsNames.length
+    ) {
+      // Initially fill symbols variable to render it inside render method
+      this.symbols = symbolsQuery.data.tradingEngineSymbols;
+
+      // Request symbols stream by retrieved symbols name
+      const symbolsStream = symbolsStreamRequest({ data: { symbols: symbolsNames } });
+
+      // Here can be up to 90 ticks per second, so performance is so bad for 90 re-rendering per one second
+      // The solution is aggregate ticks inside in-memory variable and manually re-render table each 200 ms
+      symbolsStream.onNext(({ data }) => { // eslint-disable-line
+        const symbol = this.symbols.find(({ name }) => name === data.symbol);
+
+        // Calculate direction where price moved depends from previous symbol tick
+        symbol.askDirection = data.ask > symbol.ask ? 'UP' : 'DOWN';
+        symbol.bidDirection = data.bid > symbol.bid ? 'UP' : 'DOWN';
+
+        // Mutate object to change bid and ask values
+        symbol.bid = data.bid;
+        symbol.ask = data.ask;
+      });
+
+      // Make re-rendering 1 time per 200 ms to optimize performance and FPS
+      if (!this.intervalID) {
+        this.intervalID = setInterval(() => {
+          this.setState({ tick: Math.random() }); // eslint-disable-line
+        }, 200);
+      }
     }
-  };
+  }
 
-  renderSymbol = ({ symbol }) => (
-    <Fragment>
-      <div className="TradingEngineSymbols__cell-primary">
-        {symbol}
-      </div>
-    </Fragment>
-  );
+  componentWillUnmount() {
+    // Clear component interval update
+    clearInterval(this.intervalID);
+  }
 
-  renderBid = ({ bid }) => (
-    <Fragment>
-      <div className="TradingEngineSymbols__cell-primary">
-        {bid}
-      </div>
-    </Fragment>
-  );
-
-  renderAsk = ({ ask }) => (
+  renderName = ({ name }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {ask}
+      {name}
+    </div>
+  );
+
+  renderBid = ({ bid, bidDirection }) => (
+    <div
+      key={bid}
+      className={classNames(
+        'TradingEngineSymbols__cell-primary',
+        'TradingEngineSymbols__direction',
+        {
+          'TradingEngineSymbols__direction--up': bidDirection === 'UP',
+          'TradingEngineSymbols__direction--down': bidDirection === 'DOWN',
+        },
+      )}
+    >
+      {bid || '—'}
+    </div>
+  );
+
+  renderAsk = ({ ask, askDirection }) => (
+    <div
+      key={ask}
+      className={classNames(
+        'TradingEngineSymbols__cell-primary',
+        'TradingEngineSymbols__direction',
+        {
+          'TradingEngineSymbols__direction--up': askDirection === 'UP',
+          'TradingEngineSymbols__direction--down': askDirection === 'DOWN',
+        },
+      )}
+    >
+      {ask || '—'}
     </div>
   );
 
   render() {
-    const {
-      location,
-      symbols,
-    } = this.props;
+    const { symbolsQuery } = this.props;
 
-    const { content = [], totalElements = 0 } = symbols.data?.tradingEngineSymbols || {};
+    const symbols = this.symbols.length ? this.symbols : (symbolsQuery.data.tradingEngineSymbols || []);
 
     return (
       <div className="card">
@@ -70,30 +125,28 @@ class TradingEngineSymbols extends PureComponent {
 
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
-            <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
+            <strong>{symbolsQuery.data?.tradingEngineSymbols?.length}</strong>
+            &nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
         </div>
 
-        <TradingEngineSymbolsGridFilter handleRefetch={this.refetchOrders} />
+        {/* <TradingEngineSymbolsGridFilter handleRefetch={this.refetchOrders} /> */}
 
         <div className="TradingEngineSymbols">
           <Table
-            items={content}
-            sorts={location?.state?.sorts}
-            onMore={this.handlePageChanged}
+            items={symbols}
+            loading={symbolsQuery.loading}
+            stickyFromTop={123}
           >
             <Column
-              sortBy="symbol"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SYMBOL')}
-              render={this.renderSymbol}
+              render={this.renderName}
             />
             <Column
-              sortBy="bid"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.BID')}
               render={this.renderBid}
             />
             <Column
-              sortBy="ask"
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.ASK')}
               render={this.renderAsk}
             />
@@ -107,6 +160,11 @@ class TradingEngineSymbols extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    symbols: TradingEngineSymbolsQuery,
+    symbolsQuery: TradingEngineSymbolsQuery,
+  }),
+  withLazyStreams({
+    symbolsStreamRequest: {
+      route: 'streamAllSymbolPrices',
+    },
   }),
 )(TradingEngineSymbols);
