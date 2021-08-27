@@ -1085,7 +1085,12 @@
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
         "ACQUISITION_UPDATED": "Acquisition updated",
-        "EMAIL_SENT": "Email sent"
+        "EMAIL_SENT": "Email sent",
+        "MARKET_ORDER_CREATED": "Market order created",
+        "PENDING_ORDER_CREATED": "Pending order created",
+        "ORDER_UPDATED": "Order updated",
+        "ORDER_CANCELED": "Order canceled",
+        "ORDER_CLOSED": "Order closed"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
