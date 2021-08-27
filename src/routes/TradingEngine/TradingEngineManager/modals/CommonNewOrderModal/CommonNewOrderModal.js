@@ -47,6 +47,7 @@ class CommonNewOrderModal extends PureComponent {
       } = await this.props.client.query({
         query: TradingEngineAccountQuery,
         variables: { identifier: login },
+        fetchPolicy: 'network-only',
       });
 
       this.setState({
@@ -54,11 +55,14 @@ class CommonNewOrderModal extends PureComponent {
         uuid,
       });
     } catch (_) {
+      this.setState({
+        existingLogin: false,
+      });
       this.setState({ formError: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ERROR') });
     }
   }
 
-  handleSubmit = (values, direction, setFieldValue) => async () => {
+  handleSubmit = (values, direction, setFieldValue, setSubmitting) => async () => {
     const {
       notify,
       onCloseModal,
@@ -94,6 +98,8 @@ class CommonNewOrderModal extends PureComponent {
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
       });
     }
+
+    setSubmitting(false);
   }
 
   render() {
@@ -162,13 +168,13 @@ class CommonNewOrderModal extends PureComponent {
           validateOnBlur={false}
           enableReinitialize
         >
-          {({ isSubmitting, dirty, values, setFieldValue }) => (
+          {({ isSubmitting, dirty, values, setFieldValue, setSubmitting }) => (
             <Form>
               <ModalHeader toggle={onCloseModal}>
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TITLE')}
               </ModalHeader>
               <ModalBody>
-                <If condition={formError}>
+                <If condition={formError && !existingLogin}>
                   <div className="CommonNewOrderModal__error">
                     {formError}
                   </div>
@@ -290,8 +296,8 @@ class CommonNewOrderModal extends PureComponent {
                     className="CommonNewOrderModal__button"
                     danger
                     type="submit"
-                    disabled={!dirty || isSubmitting}
-                    onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
+                    disabled={!dirty || isSubmitting || !existingLogin}
+                    onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                   >
                     {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', { value: values.openPrice || 0 })}
                   </Button>
@@ -299,8 +305,8 @@ class CommonNewOrderModal extends PureComponent {
                     className="CommonNewOrderModal__button"
                     primary
                     type="submit"
-                    disabled={!dirty || isSubmitting}
-                    onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
+                    disabled={!dirty || isSubmitting || !existingLogin}
+                    onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                   >
                     {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', { value: values.openPrice || 0 })}
                   </Button>

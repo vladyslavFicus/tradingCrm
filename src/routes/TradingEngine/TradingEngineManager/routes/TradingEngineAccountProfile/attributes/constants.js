@@ -5,6 +5,9 @@ export const types = [{
   value: 'BUY_LIMIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY_LIMIT',
 }, {
+  value: 'BALANCE',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BALANCE',
+}, {
   value: 'BUY_STOP_LIMIT',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY_STOP_LIMIT',
 }, {

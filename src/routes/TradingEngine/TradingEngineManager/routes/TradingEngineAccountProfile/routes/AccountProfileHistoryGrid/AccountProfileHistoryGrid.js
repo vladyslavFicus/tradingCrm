@@ -16,7 +16,7 @@ import AccountProfileGridFilter from './components/AccountProfileOrdersGridFilte
 import AccountProfileStatistics from '../../components/AccountProfileStatistics';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
-import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
+import TradingEngineHistoryQuery from './graphql/TradingEngineHistoryQuery';
 import './AccountProfileHistoryGrid.scss';
 
 class AccountProfileHistoryGrid extends PureComponent {
@@ -25,7 +25,7 @@ class AccountProfileHistoryGrid extends PureComponent {
     modals: PropTypes.shape({
       editOrderModal: PropTypes.modalType,
     }).isRequired,
-    orders: PropTypes.query({
+    historyQuery: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
     match: PropTypes.shape({
@@ -36,14 +36,14 @@ class AccountProfileHistoryGrid extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(ORDER_RELOAD, this.refetchOrders);
+    EventEmitter.on(ORDER_RELOAD, this.refetchHistory);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(ORDER_RELOAD, this.refetchOrders);
+    EventEmitter.off(ORDER_RELOAD, this.refetchHistory);
   }
 
-  refetchOrders = () => this.props.orders.refetch();
+  refetchHistory = () => this.props.historyQuery.refetch();
 
   handlePageChanged = () => {
     const {
@@ -55,21 +55,20 @@ class AccountProfileHistoryGrid extends PureComponent {
           id,
         },
       },
-      orders: {
+      historyQuery: {
         data,
         loadMore,
         variables,
       },
     } = this.props;
 
-    const currentPage = data?.tradingEngineOrders?.number || 0;
+    const currentPage = data?.tradingEngineHistory?.number || 0;
     const filters = state?.filters || {};
     const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
 
     loadMore({
       args: {
-        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
         accountUuid: id,
         ...filters,
         page: {
@@ -95,7 +94,7 @@ class AccountProfileHistoryGrid extends PureComponent {
   render() {
     const {
       location: { state },
-      orders: {
+      historyQuery: {
         data,
         loading,
       },
@@ -104,14 +103,14 @@ class AccountProfileHistoryGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content = [], last = true, totalElements = 0 } = data?.tradingEngineOrders || {};
+    const { content = [], last = true, totalElements = 0 } = data?.tradingEngineHistory || {};
 
     return (
       <div className="AccountProfileHistoryGrid">
         <div className="card">
           <AccountProfileStatistics totalElements={totalElements} />
 
-          <AccountProfileGridFilter handleRefetch={this.refetchOrders} />
+          <AccountProfileGridFilter handleRefetch={this.refetchHistory} />
 
           <div>
             <Table
@@ -169,10 +168,10 @@ class AccountProfileHistoryGrid extends PureComponent {
                 render={({ time }) => (
                   <Fragment>
                     <div className="AccountProfileHistoryGrid__cell-value">
-                      {moment.utc(time.creation).local().format('DD.MM.YYYY')}
+                      {moment.utc(time?.creation).local().format('DD.MM.YYYY')}
                     </div>
                     <div className="AccountProfileHistoryGrid__cell-value-add">
-                      {moment.utc(time.creation).local().format('HH:mm:ss')}
+                      {moment.utc(time?.creation).local().format('HH:mm:ss')}
                     </div>
                   </Fragment>
                 )}
@@ -189,8 +188,8 @@ class AccountProfileHistoryGrid extends PureComponent {
               <Column
                 sortBy="volume"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.VOLUME')}
-                render={({ volumeLots }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{volumeLots}</div>
+                render={({ volume }) => (
+                  <div className="AccountProfileHistoryGrid__cell-value">{volume}</div>
                 )}
               />
               <Column
@@ -217,7 +216,7 @@ class AccountProfileHistoryGrid extends PureComponent {
               <Column
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
                 render={({ pnl }) => (
-                  <div className="AccountProfileHistoryGrid__cell-value">{pnl.net}</div>
+                  <div className="AccountProfileHistoryGrid__cell-value">{pnl?.net}</div>
                 )}
               />
               <Column
@@ -239,12 +238,12 @@ class AccountProfileHistoryGrid extends PureComponent {
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.CLOSING_TIME')}
                 render={({ time }) => (
                   <Choose>
-                    <When condition={time.closing}>
+                    <When condition={time?.closing}>
                       <div className="AccountProfileHistoryGrid__cell-value">
-                        {moment.utc(time.closing).local().format('DD.MM.YYYY')}
+                        {moment.utc(time?.closing).local().format('DD.MM.YYYY')}
                       </div>
                       <div className="AccountProfileHistoryGrid__cell-value-add">
-                        {moment.utc(time.closing).local().format('HH:mm:ss')}
+                        {moment.utc(time?.closing).local().format('HH:mm:ss')}
                       </div>
                     </When>
                     <Otherwise>
@@ -284,6 +283,6 @@ export default compose(
     editOrderModal: EditOrderModal,
   }),
   withRequests({
-    orders: TradingEngineOrdersQuery,
+    historyQuery: TradingEngineHistoryQuery,
   }),
 )(AccountProfileHistoryGrid);

@@ -16,7 +16,7 @@ import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGri
 import AccountProfileStatistics from '../../components/AccountProfileStatistics';
 import { types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
-import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
+import TradingEngineTransactionsQuery from './graphql/TradingEngineTransactionsQuery';
 import './AccountProfileTransactionsGrid.scss';
 
 class AccountProfileTransactionsGrid extends PureComponent {
@@ -25,8 +25,8 @@ class AccountProfileTransactionsGrid extends PureComponent {
     modals: PropTypes.shape({
       editOrderModal: PropTypes.modalType,
     }).isRequired,
-    orders: PropTypes.query({
-      tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
+    transactionsQuery: PropTypes.query({
+      tradingEngineTransactions: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -55,7 +55,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
           id,
         },
       },
-      orders: {
+      transactionsQuery: {
         data,
         loadMore,
         variables,
@@ -95,7 +95,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
   render() {
     const {
       location: { state },
-      orders: {
+      transactionsQuery: {
         data,
         loading,
       },
@@ -104,7 +104,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content = [], last = true, totalElements = 0 } = data?.tradingEngineOrders || {};
+    const { content = [], last = true, totalElements = 0 } = data?.tradingEngineTransactions || {};
 
     return (
       <div className="AccountProfileTransactionsGrid">
@@ -168,7 +168,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TIME')}
                 render={({ time }) => (
                   <div className="AccountProfileTransactionsGrid__cell-value">
-                    {moment.utc(time.creation).local().format('DD.MM.YYYY')}
+                    {moment.utc(time?.creation).local().format('DD.MM.YYYY')}
                   </div>
                 )}
               />
@@ -186,6 +186,6 @@ export default compose(
     editOrderModal: EditOrderModal,
   }),
   withRequests({
-    orders: TradingEngineOrdersQuery,
+    transactionsQuery: TradingEngineTransactionsQuery,
   }),
 )(AccountProfileTransactionsGrid);

@@ -3458,7 +3458,7 @@
         "NET_FLOATING": "Net Floating P/L",
         "COMMENT": "Comment",
         "CHANGE": "Change",
-        "PROCESS": "Process to Close order",
+        "PROCESS": "Close order",
         "VOLUME": "Volume",
         "BUTTON_FOR_PENDING": "Activate {{volumeLots}} at {{closePrice}}",
         "BUTTON_FOR_OPEN": "Close {{volumeLots}} at {{closePrice}}",
@@ -3607,6 +3607,7 @@
         "TYPES": {
           "BUY": "Buy",
           "SELL": "Sell",
+          "BALANCE": "Balance",
           "BUY_LIMIT": "Buy limit",
           "SELL_LIMIT": "Sell limit",
           "BUY_STOP": "Buy stop",

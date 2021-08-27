@@ -88,8 +88,7 @@ class EditOrderModal extends PureComponent {
       modalTitle: I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CLOSE_ORDER_TITLE_${status}`),
       actionText: I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CLOSE_ORDER_TEXT_${status}`, {
         id,
-        /* TODO Temporary solution, imitation websocket */
-        closePrice: closePrice || Math.floor(Math.random() * 101).toFixed(2),
+        closePrice: closePrice || 0,
         symbol,
       }),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -385,10 +384,7 @@ class EditOrderModal extends PureComponent {
                             >
                               {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                                 volumeLots: Number(values.volumeLots).toFixed(2),
-                                closePrice: Number(
-                                  /* TODO Temporary solution, imitation websocket */
-                                  values.closePrice || Math.floor(Math.random() * 101).toFixed(2),
-                                ).toFixed(2),
+                                closePrice: Number(_values.closePrice || 0.00000).toFixed(2),
                               })}
                             </Button>
                           </div>

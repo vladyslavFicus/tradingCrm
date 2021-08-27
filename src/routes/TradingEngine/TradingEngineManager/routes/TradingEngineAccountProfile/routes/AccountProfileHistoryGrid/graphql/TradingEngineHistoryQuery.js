@@ -3,44 +3,24 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PropTypes from 'constants/propTypes';
 
-const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
-  $args: TradingEngineSearch__Input
+const REQUEST = gql`query TradingEngine_TradingEngineHistoryQuery(
+  $args: TradingEngineHistorySearch__Input
 ) {
-  tradingEngineOrders(args: $args) {
+  tradingEngineHistory(args: $args) {
     content {
       id
-      tradeType
-      symbol
-      symbolAlias
-      direction
-      digits
-      takeProfit
-      stopLoss
-      openPrice
-      closePrice
-      marginRate
-      volumeUnits
-      volumeLots
-      lotSize
-      commission
-      swaps
-      status
-      pnl {
-        gross
-        net
-      }
-      time {
-        creation
-        modification
-        expiration
-        closing
-      }
-      comment
+      accountLogin
       type
-      originalAgent {
-        uuid
-        fullName
-      }
+      closingTime
+      symbol
+      volume
+      closePrice
+      profit
+      deletedAt
+      openPrice
+      stopLoss
+      takeProfit
+      swaps
     }
     page
     number
@@ -50,17 +30,15 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
   }
 }`;
 
-const TradingEngineOrdersQuery = ({
+const TradingEngineHistoryQuery = ({
   children,
   location: { state },
   match: { params: { id } },
-  orderStatuses,
 }) => (
   <Query
     query={REQUEST}
     variables={{
       args: {
-        orderStatuses,
         accountUuid: id,
         ...state && state.filters,
         page: {
@@ -76,7 +54,7 @@ const TradingEngineOrdersQuery = ({
   </Query>
 );
 
-TradingEngineOrdersQuery.propTypes = {
+TradingEngineHistoryQuery.propTypes = {
   ...PropTypes.router,
   children: PropTypes.func.isRequired,
   match: PropTypes.shape({
@@ -86,4 +64,4 @@ TradingEngineOrdersQuery.propTypes = {
   }).isRequired,
 };
 
-export default TradingEngineOrdersQuery;
+export default TradingEngineHistoryQuery;
