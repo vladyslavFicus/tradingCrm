@@ -10,7 +10,7 @@ import {
 } from 'components/Formik/index';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI/index';
-import { types } from '../../../../attributes/constants';
+import { types } from './constants';
 import './AccountProfileOrdersGridFilter.scss';
 
 class AccountProfileOrdersGridFilter extends PureComponent {
@@ -73,7 +73,7 @@ class AccountProfileOrdersGridFilter extends PureComponent {
                 withFocus
               />
               <Field
-                name="orderType"
+                name="transactionType"
                 label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="AccountProfileOrdersGridFilter__field"

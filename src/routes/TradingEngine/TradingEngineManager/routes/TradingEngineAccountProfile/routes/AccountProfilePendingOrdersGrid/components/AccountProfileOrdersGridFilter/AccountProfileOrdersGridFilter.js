@@ -13,7 +13,7 @@ import { Button, RefreshButton } from 'components/UI/index';
 import {
   types,
   symbols,
-} from '../../../../attributes/constants';
+} from './constants';
 import './AccountProfileOrdersGridFilter.scss';
 
 class AccountProfileOrdersGridFilter extends PureComponent {
