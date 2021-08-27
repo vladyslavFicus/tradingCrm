@@ -10,7 +10,6 @@ import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { EditButton } from 'components/UI';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import AccountProfileStatistics from '../../components/AccountProfileStatistics';
@@ -35,15 +34,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
     }).isRequired,
   };
 
-  componentDidMount() {
-    EventEmitter.on(ORDER_RELOAD, this.refetchOrders);
-  }
-
-  componentWillUnmount() {
-    EventEmitter.off(ORDER_RELOAD, this.refetchOrders);
-  }
-
-  refetchOrders = () => this.props.orders.refetch();
+  refetchTransactions = () => this.props.transactionsQuery.refetch();
 
   handlePageChanged = () => {
     const {
@@ -62,14 +53,13 @@ class AccountProfileTransactionsGrid extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = data?.tradingEngineOrders?.number || 0;
+    const currentPage = data?.tradingEngineTransactions?.number || 0;
     const filters = state?.filters || {};
     const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
 
     loadMore({
       args: {
-        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
         accountUuid: id,
         ...filters,
         page: {
@@ -109,9 +99,9 @@ class AccountProfileTransactionsGrid extends PureComponent {
     return (
       <div className="AccountProfileTransactionsGrid">
         <div className="card">
-          <AccountProfileStatistics totalElements={totalElements} />
+          <AccountProfileStatistics totalElements={totalElements} type="TRANSACTIONS" />
 
-          <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
+          <AccountProfileOrdersGridFilter handleRefetch={this.refetchTransactions} />
 
           <div>
             <Table
@@ -125,7 +115,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
             >
               <Column
                 sortBy="transaction"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRANSACTION')}
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TRANSACTION')}
                 render={({ id }) => (
                   <div
                     className="AccountProfileTransactionsGrid__uuid"
@@ -146,7 +136,7 @@ class AccountProfileTransactionsGrid extends PureComponent {
               />
               <Column
                 sortBy="type"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TYPE')}
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TYPE')}
                 render={({ type }) => (
                   <div
                     className={classNames(
@@ -160,15 +150,15 @@ class AccountProfileTransactionsGrid extends PureComponent {
               />
               <Column
                 sortBy="amount"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.AMOUNT')}
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.AMOUNT')}
                 render={({ amount }) => <div className="AccountProfileTransactionsGrid__cell-value">{amount}</div>}
               />
               <Column
                 sortBy="time"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TIME')}
-                render={({ time }) => (
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TIME')}
+                render={({ createdAt }) => (
                   <div className="AccountProfileTransactionsGrid__cell-value">
-                    {moment.utc(time?.creation).local().format('DD.MM.YYYY')}
+                    {moment.utc(createdAt).local().format('DD.MM.YYYY')}
                   </div>
                 )}
               />

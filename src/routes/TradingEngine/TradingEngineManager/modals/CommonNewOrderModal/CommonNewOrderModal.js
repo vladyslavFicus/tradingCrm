@@ -193,7 +193,7 @@ class CommonNewOrderModal extends PureComponent {
                     disabled={!dirty || isSubmitting}
                     onClick={this.handleGetAccount(values)}
                   >
-                    {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
+                    {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
                   </Button>
                 </div>
                 <div className="CommonNewOrderModal__field-container">

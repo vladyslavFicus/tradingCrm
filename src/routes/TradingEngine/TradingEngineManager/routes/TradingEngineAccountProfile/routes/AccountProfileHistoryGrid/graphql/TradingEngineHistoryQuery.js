@@ -21,6 +21,7 @@ const REQUEST = gql`query TradingEngine_TradingEngineHistoryQuery(
       stopLoss
       takeProfit
       swaps
+      status
     }
     page
     number

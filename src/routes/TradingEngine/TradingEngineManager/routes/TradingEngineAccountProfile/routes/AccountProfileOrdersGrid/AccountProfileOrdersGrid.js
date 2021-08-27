@@ -109,7 +109,7 @@ class AccountProfileOrdersGrid extends PureComponent {
     return (
       <div className="AccountProfileOrdersGrid">
         <div className="card">
-          <AccountProfileStatistics totalElements={totalElements} />
+          <AccountProfileStatistics totalElements={totalElements} type="ORDERS" />
 
           <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
 

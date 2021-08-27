@@ -6,14 +6,17 @@ import './AccountProfileStatistics.scss';
 class AccountProfileStatistics extends PureComponent {
   static propTypes = {
     totalElements: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
   };
 
   render() {
+    const { totalElements, type } = this.props;
+
     return (
       <div className="card-heading card-heading--is-sticky">
         <div className="AccountProfileStatistics__statistics-block">
           <span className="font-size-20">
-            <strong>{this.props.totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}
+            <strong>{totalElements}</strong>&nbsp;{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.${type}.HEADLINE`)}
           </span>
           <div className="AccountProfileStatistics__statistics">
             <div>
