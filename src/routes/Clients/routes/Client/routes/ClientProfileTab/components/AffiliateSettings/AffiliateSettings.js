@@ -21,13 +21,12 @@ class AffiliateSettings extends PureComponent {
     permission: PropTypes.permission.isRequired,
   };
 
-  handleToggleFTD = async (enabled) => {
-    const { enableShowFtdToAffiliate, disableShowFtdToAffiliate, profileUuid, permission } = this.props;
+  enableToggleFTD = async () => {
+    const { enableShowFtdToAffiliate, profileUuid, permission } = this.props;
 
     const isAllowedToEnable = permission.allows(permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE);
-    const isAllowedToDisable = permission.allows(permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE);
 
-    if (enabled && isAllowedToEnable) {
+    if (isAllowedToEnable) {
       try {
         await enableShowFtdToAffiliate({
           variables: {
@@ -39,7 +38,15 @@ class AffiliateSettings extends PureComponent {
       } catch {
         this.notifyErrorToggleSwitch();
       }
-    } else if (!enabled && isAllowedToDisable) {
+    }
+  }
+
+  disableToggleFTD = async () => {
+    const { disableShowFtdToAffiliate, profileUuid, permission } = this.props;
+
+    const isAllowedToDisable = permission.allows(permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE);
+
+    if (isAllowedToDisable) {
       try {
         await disableShowFtdToAffiliate({
           variables: {
@@ -89,7 +96,7 @@ class AffiliateSettings extends PureComponent {
           className="AffiliateSettings__switcher"
           label={I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.LABEL')}
           labelPosition="right"
-          onClick={this.handleToggleFTD}
+          onClick={enabled => (enabled ? this.enableToggleFTD() : this.disableToggleFTD())}
         />
       </div>
     );
