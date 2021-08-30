@@ -57,6 +57,7 @@
     "jwt-decode": "^2.2.0",
     "keymirror": "^0.1.1",
     "levenary": "^1.1.1",
+    "lightweight-charts": "1.0.0-rc.4",
     "lodash": "^4.17.4",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",

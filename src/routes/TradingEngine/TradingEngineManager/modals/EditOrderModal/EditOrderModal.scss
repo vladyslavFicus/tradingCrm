@@ -1,7 +1,14 @@
 .EditOrderModal {
-  width: 655px;
+  width: 1230px;
+
+  &__inner-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 
   &__field-container {
+    width: 600px;
     display: flex;
     flex: 1 1;
     align-items: flex-end;
