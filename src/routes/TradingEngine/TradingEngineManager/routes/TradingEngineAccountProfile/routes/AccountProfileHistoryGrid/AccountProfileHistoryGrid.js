@@ -156,13 +156,13 @@ class AccountProfileHistoryGrid extends PureComponent {
               <Column
                 sortBy="openingTime"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.OPENING_TIME')}
-                render={({ time }) => (
+                render={({ openingTime }) => (
                   <Fragment>
                     <div className="AccountProfileHistoryGrid__cell-value">
-                      {moment.utc(time?.creation).local().format('DD.MM.YYYY')}
+                      {moment.utc(openingTime).local().format('DD.MM.YYYY')}
                     </div>
                     <div className="AccountProfileHistoryGrid__cell-value-add">
-                      {moment.utc(time?.creation).local().format('HH:mm:ss')}
+                      {moment.utc(openingTime).local().format('HH:mm:ss')}
                     </div>
                   </Fragment>
                 )}

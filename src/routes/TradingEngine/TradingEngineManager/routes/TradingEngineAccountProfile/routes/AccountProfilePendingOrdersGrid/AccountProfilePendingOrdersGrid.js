@@ -178,6 +178,15 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
                 render={({ symbol }) => <div className="AccountProfilePendingOrdersGrid__cell-value">{symbol}</div>}
               />
               <Column
+                sortBy="openingPrice"
+                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPEN_PRICE')}
+                render={({ openPrice }) => (
+                  <Fragment>
+                    <div className="AccountProfileHistoryGrid__cell-value">{openPrice}</div>
+                  </Fragment>
+                )}
+              />
+              <Column
                 sortBy="volume"
                 header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.VOLUME')}
                 render={({ volumeLots }) => (

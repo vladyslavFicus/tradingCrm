@@ -12,6 +12,7 @@ const REQUEST = gql`query TradingEngine_TradingEngineHistoryQuery(
       accountLogin
       type
       closingTime
+      openingTime
       symbol
       volume
       closePrice
