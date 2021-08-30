@@ -1,0 +1,15 @@
+.SymbolChart {
+  display: flex;
+  flex: 1;
+  padding: 30px 15px;
+  
+  &__icon {
+    width: 300px;
+    margin: 0 auto;
+    opacity: 0.1;
+  }
+  
+  .ShortLoader {
+    margin: auto auto;
+  }
+}

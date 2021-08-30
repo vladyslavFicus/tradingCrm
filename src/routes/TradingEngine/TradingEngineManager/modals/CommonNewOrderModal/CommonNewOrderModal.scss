@@ -1,7 +1,18 @@
 .CommonNewOrderModal {
-  width: 655px;
+  width: 1200px;
+
+  &__inner-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+    .modal-body {
+      flex: initial;
+    }
+  }
 
   &__field-container {
+    width: 600px;
     display: flex;
     flex: 1 1;
     align-items: flex-end;
