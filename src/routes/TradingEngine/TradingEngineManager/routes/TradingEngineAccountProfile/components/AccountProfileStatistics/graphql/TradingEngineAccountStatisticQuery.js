@@ -26,6 +26,7 @@ const TradingEngineAccountStatisticQuery = ({ children, uuid }) => (
     query={REQUEST}
     fetchPolicy="network-only"
     variables={{ accountUuid: uuid }}
+    skip={!uuid}
   >
     {children}
   </Query>
