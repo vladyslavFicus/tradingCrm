@@ -14,6 +14,8 @@ import withRSocket from './withRSocket';
  *     route: 'streamPrices',
  *     data: { symbol: 'EURUSD', accountUUID: 'TES-uuid' },
  *     metadata: { someMetadata: 'metadata value' },
+ *     skip: false,
+ *     accumulator: (curr, next) => ({ ...curr, [next.data.orderId]: next }),
  *   },
  *   ...
  * });
@@ -22,7 +24,8 @@ import withRSocket from './withRSocket';
  * @param streamsOptions.*.route String
  * @param streamsOptions.*.data Object
  * @param streamsOptions.*.metadata Object
- * @param streamsOptions.*.skip Boolean
+ * @param streamsOptions.*.skip Boolean Flag to skip stream request
+ * @param streamsOptions.*.accumulator Function Accumulate stream responses by custom logic
  *
  * @return {*}
  */
@@ -73,6 +76,7 @@ const withStreams = streamsOptions => (Component) => {
           data,
           metadata,
           skip,
+          accumulator = (curr, next) => next, // Default accumulator which return next value all time
         } = streamsOptionsObject[key];
 
         // Skip subscription if skip = true was provided or previous dependencies not changed
@@ -92,7 +96,7 @@ const withStreams = streamsOptions => (Component) => {
           .requestStream({ data, metadata })
           .subscribe({
             onNext: (value) => {
-              this.setState({ [key]: value });
+              this.setState(state => ({ [key]: accumulator(state[key], value) }));
             },
             onSubscribe: (subscription) => {
               this.subscriptions[key] = { subscription, data, metadata, route };

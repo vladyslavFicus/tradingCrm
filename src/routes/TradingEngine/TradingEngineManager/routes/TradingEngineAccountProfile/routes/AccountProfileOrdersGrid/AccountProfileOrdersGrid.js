@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
+import { withStreams } from 'rsocket';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
@@ -32,6 +33,11 @@ class AccountProfileOrdersGrid extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
+    openOrderStatistics$: PropTypes.object,
+  };
+
+  static defaultProps = {
+    openOrderStatistics$: undefined,
   };
 
   componentDidMount() {
@@ -101,6 +107,7 @@ class AccountProfileOrdersGrid extends PureComponent {
       modals: {
         editOrderModal,
       },
+      openOrderStatistics$ = {},
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
@@ -216,14 +223,18 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-              render={({ pnl }) => (
-                <div className="AccountProfileOrdersGrid__cell-value">{pnl.net}</div>
+              render={({ id, pnl }) => (
+                <div className="AccountProfileOrdersGrid__cell-value">
+                  {(openOrderStatistics$[id]?.data.pnl || pnl.net)?.toFixed(2)}
+                </div>
               )}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ price }) => (
-                <div className="AccountProfileOrdersGrid__cell-value">{price}</div>
+              render={({ id, digits, price }) => (
+                <div className="AccountProfileOrdersGrid__cell-value">
+                  {(openOrderStatistics$[id]?.data.currentPrice || price)?.toFixed(digits)}
+                </div>
               )}
             />
             <Column
@@ -258,4 +269,11 @@ export default compose(
   withRequests({
     orders: TradingEngineOrdersQuery,
   }),
+  withStreams(({ match: { params: { id } } }) => ({
+    openOrderStatistics$: {
+      route: 'streamOpenOrderStatistics',
+      data: { accountUuid: id },
+      accumulator: (curr, next) => ({ ...curr, [next.data.orderId]: next }),
+    },
+  })),
 )(AccountProfileOrdersGrid);
