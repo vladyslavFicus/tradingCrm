@@ -38,7 +38,7 @@ export const countPrecisionAndMinMove = (ask, bid) => {
   const maxBidValueAfterDot = Math.max(...bid.map(({ value }) => decimalCount(value)));
   const maxValue = Math.max(maxAskValueAfterDot, maxBidValueAfterDot);
 
-  if (Number.isFinite(maxValue)) {
+  if (maxValue && Number.isFinite(maxValue)) {
     return {
       minMove: (parseFloat(0).toFixed(maxValue - 1) + 1),
       precision: maxValue,

@@ -210,6 +210,18 @@ PropTypes.tradingEngineAccount = PropTypes.shape({
   comment: PropTypes.string,
 });
 
+PropTypes.tradingEngineAccountStatistic = PropTypes.shape({
+  depositsSum: PropTypes.number.isRequired,
+  withdrawalsSum: PropTypes.number.isRequired,
+  balance: PropTypes.number.isRequired,
+  credit: PropTypes.number.isRequired,
+  margin: PropTypes.number.isRequired,
+  freeMargin: PropTypes.number.isRequired,
+  marginLevel: PropTypes.number.isRequired,
+  equity: PropTypes.number.isRequired,
+  openPnl: PropTypes.number.isRequired,
+});
+
 PropTypes.paymentMethodLimit = PropTypes.shape({
   currencyCode: PropTypes.string,
   disabled: PropTypes.bool.isRequired,

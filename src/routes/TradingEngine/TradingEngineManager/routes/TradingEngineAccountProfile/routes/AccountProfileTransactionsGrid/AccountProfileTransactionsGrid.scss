@@ -1,4 +1,9 @@
 .AccountProfileTransactionsGrid {
+  &__title {
+    font-size: 20px;
+    padding: 20px;
+  }
+
   &__cell-value {
     font-weight: 700;
 
