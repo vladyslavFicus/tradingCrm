@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { isEqual } from 'lodash';
 import withRSocket from './withRSocket';
 
 /**
@@ -21,6 +22,7 @@ import withRSocket from './withRSocket';
  * @param streamsOptions.*.route String
  * @param streamsOptions.*.data Object
  * @param streamsOptions.*.metadata Object
+ * @param streamsOptions.*.skip Boolean
  *
  * @return {*}
  */
@@ -35,6 +37,34 @@ const withStreams = streamsOptions => (Component) => {
     subscriptions = {};
 
     componentDidMount() {
+      this.subscribe();
+    }
+
+    componentDidUpdate() {
+      this.subscribe();
+    }
+
+    componentWillUnmount() {
+      Object.values(this.subscriptions).forEach(({ subscription }) => {
+        subscription.cancel();
+      });
+    }
+
+    isEqualDependencies(key, route, data, metadata) {
+      const subscription = this.subscriptions[key];
+
+      if (!subscription) {
+        return false;
+      }
+
+      return (
+        subscription.route === route
+        && isEqual(subscription.data, data)
+        && isEqual(subscription.metadata, metadata)
+      );
+    }
+
+    subscribe() {
       const streamsOptionsObject = typeof streamsOptions === 'function' ? streamsOptions(this.props) : streamsOptions;
 
       Object.keys(streamsOptionsObject).forEach((key) => {
@@ -42,7 +72,20 @@ const withStreams = streamsOptions => (Component) => {
           route,
           data,
           metadata,
+          skip,
         } = streamsOptionsObject[key];
+
+        // Skip subscription if skip = true was provided or previous dependencies not changed
+        if (skip || this.isEqualDependencies(key, route, data, metadata)) {
+          return;
+        }
+
+        // Remove existing subscriptions if someone re-subscribing
+        if (this.subscriptions[key]) {
+          this.subscriptions[key].subscription.cancel();
+
+          delete this.subscriptions[key];
+        }
 
         this.props.rsocket
           .route(route)
@@ -52,17 +95,11 @@ const withStreams = streamsOptions => (Component) => {
               this.setState({ [key]: value });
             },
             onSubscribe: (subscription) => {
-              this.subscriptions[key] = subscription;
+              this.subscriptions[key] = { subscription, data, metadata, route };
 
               subscription.request(Number.MAX_SAFE_INTEGER);
             },
           });
-      });
-    }
-
-    componentWillUnmount() {
-      Object.values(this.subscriptions).forEach((subscription) => {
-        subscription.cancel();
       });
     }
 

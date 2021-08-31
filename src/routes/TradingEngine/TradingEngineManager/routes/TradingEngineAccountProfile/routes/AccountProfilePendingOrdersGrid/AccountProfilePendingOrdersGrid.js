@@ -13,7 +13,6 @@ import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/Edi
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { EditButton } from 'components/UI';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
-import AccountProfileStatistics from '../../components/AccountProfileStatistics';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
@@ -104,134 +103,134 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content = [], last = true, totalElements = 0 } = data?.tradingEngineOrders || {};
+    const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
 
     return (
       <div className="AccountProfilePendingOrdersGrid">
-        <div className="card">
-          <AccountProfileStatistics totalElements={totalElements} type="ORDERS" />
+        <div className="AccountProfilePendingOrdersGrid__title">
+          <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}
+        </div>
 
-          <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
+        <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
 
-          <div>
-            <Table
-              stickyFromTop={152}
-              items={content}
-              loading={loading}
-              hasMore={!last}
-              sorts={state?.sorts}
-              onSort={this.handleSort}
-              onMore={this.handlePageChanged}
-            >
-              <Column
-                sortBy="id"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRADE')}
-                render={({ id }) => (
-                  <div
-                    className="AccountProfilePendingOrdersGrid__uuid"
-                    onClick={() => editOrderModal.show({
-                      id,
-                      onSuccess: () => this.refetchOrders(),
-                    })}
-                  >
-                    <div className="AccountProfilePendingOrdersGrid__cell-value">
-                      <Uuid
-                        uuid={`${id}`}
-                        uuidPrefix="TR"
-                      />
-                      <EditButton className="AccountProfilePendingOrdersGrid__edit-button" />
-                    </div>
+        <div>
+          <Table
+            stickyFromTop={152}
+            items={content}
+            loading={loading}
+            hasMore={!last}
+            sorts={state?.sorts}
+            onSort={this.handleSort}
+            onMore={this.handlePageChanged}
+          >
+            <Column
+              sortBy="id"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRADE')}
+              render={({ id }) => (
+                <div
+                  className="AccountProfilePendingOrdersGrid__uuid"
+                  onClick={() => editOrderModal.show({
+                    id,
+                    onSuccess: () => this.refetchOrders(),
+                  })}
+                >
+                  <div className="AccountProfilePendingOrdersGrid__cell-value">
+                    <Uuid
+                      uuid={`${id}`}
+                      uuidPrefix="TR"
+                    />
+                    <EditButton className="AccountProfilePendingOrdersGrid__edit-button" />
                   </div>
-                )}
-              />
-              <Column
-                sortBy="type"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TYPE')}
-                render={({ type }) => (
-                  <div
-                    className={classNames(
-                      getTypeColor(types.find(item => item.value === type).value),
-                      'AccountProfilePendingOrdersGrid__cell-value',
-                    )}
-                  >
-                    {I18n.t(types.find(item => item.value === type).label)}
+                </div>
+              )}
+            />
+            <Column
+              sortBy="type"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TYPE')}
+              render={({ type }) => (
+                <div
+                  className={classNames(
+                    getTypeColor(types.find(item => item.value === type).value),
+                    'AccountProfilePendingOrdersGrid__cell-value',
+                  )}
+                >
+                  {I18n.t(types.find(item => item.value === type).label)}
+                </div>
+              )}
+            />
+            <Column
+              sortBy="openingTime"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPENING_TIME')}
+              render={({ time }) => (
+                <Fragment>
+                  <div className="AccountProfilePendingOrdersGrid__cell-value">
+                    {moment.utc(time.creation).local().format('DD.MM.YYYY')}
                   </div>
-                )}
-              />
-              <Column
-                sortBy="openingTime"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPENING_TIME')}
-                render={({ time }) => (
-                  <Fragment>
-                    <div className="AccountProfilePendingOrdersGrid__cell-value">
-                      {moment.utc(time.creation).local().format('DD.MM.YYYY')}
+                  <div className="AccountProfilePendingOrdersGrid__cell-value-add">
+                    {moment.utc(time.creation).local().format('HH:mm:ss')}
+                  </div>
+                </Fragment>
+              )}
+            />
+            <Column
+              sortBy="symbol"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.SYMBOL')}
+              render={({ symbol }) => <div className="AccountProfilePendingOrdersGrid__cell-value">{symbol}</div>}
+            />
+            <Column
+              sortBy="openingPrice"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPEN_PRICE')}
+              render={({ openPrice }) => (
+                <Fragment>
+                  <div className="AccountProfileHistoryGrid__cell-value">{openPrice}</div>
+                </Fragment>
+              )}
+            />
+            <Column
+              sortBy="volume"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.VOLUME')}
+              render={({ volumeLots }) => (
+                <div className="AccountProfilePendingOrdersGrid__cell-value">{volumeLots}</div>
+              )}
+            />
+            <Column
+              sortBy="stopLoss"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.S/L')}
+              render={({ stopLoss }) => (
+                <div className="AccountProfilePendingOrdersGrid__cell-value">{stopLoss}</div>
+              )}
+            />
+            <Column
+              sortBy="takeProfit"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.T/P')}
+              render={({ takeProfit }) => (
+                <div className="AccountProfilePendingOrdersGrid__cell-value">{takeProfit}</div>
+              )}
+            />
+            <Column
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
+              render={({ price }) => (
+                <div className="AccountProfilePendingOrdersGrid__cell-value">{price}</div>
+              )}
+            />
+            <Column
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.STATUS')}
+              render={({ status }) => (
+                <Choose>
+                  <When condition={status}>
+                    <div
+                      className={tradeStatusesColor[`${status}`]}
+                    >
+                      <strong>{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATUSES.${status}`)}</strong>
                     </div>
-                    <div className="AccountProfilePendingOrdersGrid__cell-value-add">
-                      {moment.utc(time.creation).local().format('HH:mm:ss')}
-                    </div>
-                  </Fragment>
-                )}
-              />
-              <Column
-                sortBy="symbol"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.SYMBOL')}
-                render={({ symbol }) => <div className="AccountProfilePendingOrdersGrid__cell-value">{symbol}</div>}
-              />
-              <Column
-                sortBy="openingPrice"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.OPEN_PRICE')}
-                render={({ openPrice }) => (
-                  <Fragment>
-                    <div className="AccountProfileHistoryGrid__cell-value">{openPrice}</div>
-                  </Fragment>
-                )}
-              />
-              <Column
-                sortBy="volume"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.VOLUME')}
-                render={({ volumeLots }) => (
-                  <div className="AccountProfilePendingOrdersGrid__cell-value">{volumeLots}</div>
-                )}
-              />
-              <Column
-                sortBy="stopLoss"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.S/L')}
-                render={({ stopLoss }) => (
-                  <div className="AccountProfilePendingOrdersGrid__cell-value">{stopLoss}</div>
-                )}
-              />
-              <Column
-                sortBy="takeProfit"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.T/P')}
-                render={({ takeProfit }) => (
-                  <div className="AccountProfilePendingOrdersGrid__cell-value">{takeProfit}</div>
-                )}
-              />
-              <Column
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-                render={({ price }) => (
-                  <div className="AccountProfilePendingOrdersGrid__cell-value">{price}</div>
-                )}
-              />
-              <Column
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.STATUS')}
-                render={({ status }) => (
-                  <Choose>
-                    <When condition={status}>
-                      <div
-                        className={tradeStatusesColor[`${status}`]}
-                      >
-                        <strong>{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATUSES.${status}`)}</strong>
-                      </div>
-                    </When>
-                    <Otherwise>
-                      <span>&mdash;</span>
-                    </Otherwise>
-                  </Choose>
-                )}
-              />
-            </Table>
-          </div>
+                  </When>
+                  <Otherwise>
+                    <span>&mdash;</span>
+                  </Otherwise>
+                </Choose>
+              )}
+            />
+          </Table>
         </div>
       </div>
     );

@@ -11,6 +11,7 @@ import AccountProfileStatus from './components/AccountProfileStatus';
 import AccountProfileGroup from './components/AccountProfileGroup';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
 import AccountProfileRegistered from './components/AccountProfileRegistered';
+import AccountProfileStatistics from './components/AccountProfileStatistics';
 import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
 import AccountProfileHistoryGrid from './routes/AccountProfileHistoryGrid';
 import AccountProfilePendingOrdersGrid from './routes/AccountProfilePendingOrdersGrid';
@@ -52,6 +53,8 @@ class TradingEngineAccountProfile extends PureComponent {
             <AccountProfileLeverage leverage={account?.leverage} />
             <AccountProfileRegistered registrationDate={account?.registrationDate} />
           </div>
+
+          <AccountProfileStatistics uuid={account?.uuid} />
         </div>
 
         <Tabs items={accountProfileTabs} />
