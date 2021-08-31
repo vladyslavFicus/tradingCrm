@@ -12,7 +12,6 @@ import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
 import { EditButton } from 'components/UI';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
-import AccountProfileStatistics from '../../components/AccountProfileStatistics';
 import { types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
 import TradingEngineTransactionsQuery from './graphql/TradingEngineTransactionsQuery';
@@ -94,76 +93,76 @@ class AccountProfileTransactionsGrid extends PureComponent {
       },
     } = this.props;
 
-    const { content = [], last = true, totalElements = 0 } = data?.tradingEngineTransactions || {};
+    const { content = [], last = true, totalElements } = data?.tradingEngineTransactions || {};
 
     return (
       <div className="AccountProfileTransactionsGrid">
-        <div className="card">
-          <AccountProfileStatistics totalElements={totalElements} type="TRANSACTIONS" />
+        <div className="AccountProfileTransactionsGrid__title">
+          <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.HEADLINE')}
+        </div>
 
-          <AccountProfileOrdersGridFilter handleRefetch={this.refetchTransactions} />
+        <AccountProfileOrdersGridFilter handleRefetch={this.refetchTransactions} />
 
-          <div>
-            <Table
-              stickyFromTop={152}
-              items={content}
-              loading={loading}
-              hasMore={!last}
-              sorts={state?.sorts}
-              onSort={this.handleSort}
-              onMore={this.handlePageChanged}
-            >
-              <Column
-                sortBy="transaction"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TRANSACTION')}
-                render={({ id }) => (
-                  <div
-                    className="AccountProfileTransactionsGrid__uuid"
-                    onClick={() => editOrderModal.show({
-                      id,
-                      onSuccess: () => this.refetchOrders(),
-                    })}
-                  >
-                    <div className="AccountProfileTransactionsGrid__cell-value">
-                      <Uuid
-                        uuid={`${id}`}
-                        uuidPrefix="TR"
-                      />
-                      <EditButton className="AccountProfileTransactionsGrid__edit-button" />
-                    </div>
-                  </div>
-                )}
-              />
-              <Column
-                sortBy="type"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TYPE')}
-                render={({ type }) => (
-                  <div
-                    className={classNames(
-                      getTypeColor(types.find(item => item.value === type).value),
-                      'AccountProfileTransactionsGrid__cell-value',
-                    )}
-                  >
-                    {I18n.t(types.find(item => item.value === type).label)}
-                  </div>
-                )}
-              />
-              <Column
-                sortBy="amount"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.AMOUNT')}
-                render={({ amount }) => <div className="AccountProfileTransactionsGrid__cell-value">{amount}</div>}
-              />
-              <Column
-                sortBy="time"
-                header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TIME')}
-                render={({ createdAt }) => (
+        <div>
+          <Table
+            stickyFromTop={152}
+            items={content}
+            loading={loading}
+            hasMore={!last}
+            sorts={state?.sorts}
+            onSort={this.handleSort}
+            onMore={this.handlePageChanged}
+          >
+            <Column
+              sortBy="transaction"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TRANSACTION')}
+              render={({ id }) => (
+                <div
+                  className="AccountProfileTransactionsGrid__uuid"
+                  onClick={() => editOrderModal.show({
+                    id,
+                    onSuccess: () => this.refetchOrders(),
+                  })}
+                >
                   <div className="AccountProfileTransactionsGrid__cell-value">
-                    {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+                    <Uuid
+                      uuid={`${id}`}
+                      uuidPrefix="TR"
+                    />
+                    <EditButton className="AccountProfileTransactionsGrid__edit-button" />
                   </div>
-                )}
-              />
-            </Table>
-          </div>
+                </div>
+              )}
+            />
+            <Column
+              sortBy="type"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TYPE')}
+              render={({ type }) => (
+                <div
+                  className={classNames(
+                    getTypeColor(types.find(item => item.value === type).value),
+                    'AccountProfileTransactionsGrid__cell-value',
+                  )}
+                >
+                  {I18n.t(types.find(item => item.value === type).label)}
+                </div>
+              )}
+            />
+            <Column
+              sortBy="amount"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.AMOUNT')}
+              render={({ amount }) => <div className="AccountProfileTransactionsGrid__cell-value">{amount}</div>}
+            />
+            <Column
+              sortBy="time"
+              header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TIME')}
+              render={({ createdAt }) => (
+                <div className="AccountProfileTransactionsGrid__cell-value">
+                  {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+                </div>
+              )}
+            />
+          </Table>
         </div>
       </div>
     );

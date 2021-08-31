@@ -3692,7 +3692,8 @@
           "EQUITY": "Equity",
           "MARGIN": "Margin",
           "FREE_MARGIN": "Free margin",
-          "MARGIN_LEVEL": "Margin level"
+          "MARGIN_LEVEL": "Margin level",
+          "OPEN_PnL": "Open P/L"
         },
         "HEADLINE": "Orders",
         "GRID": {
