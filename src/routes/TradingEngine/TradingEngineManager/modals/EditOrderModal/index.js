@@ -1,1 +1,1 @@
-export { default } from './EditOrderModal';
+export { default } from './EditOrderModalWrapper';
