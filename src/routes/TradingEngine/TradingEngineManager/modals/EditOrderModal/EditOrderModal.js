@@ -13,7 +13,7 @@ import { createValidator } from 'utils/validator';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
-import TradingEngineSymbolChartQuery from './graphql/SymbolChartQuery';
+import LastSymbolPriceQuery from './graphql/LastSymbolPriceQuery';
 import './EditOrderModal.scss';
 import { withLazyStreams } from '../../../../../rsocket';
 
@@ -23,39 +23,32 @@ class EditOrderModal extends PureComponent {
     editOrder: PropTypes.func.isRequired,
     closeOrder: PropTypes.func.isRequired,
     accountUuid: PropTypes.string.isRequired,
-    tradingEngineSymbolChartQuery: PropTypes.query({
+    tradingEngineLastSymbolPriceQuery: PropTypes.query({
       tradingEngineSymbolPrices: PropTypes.shape({
-        name: PropTypes.string,
-        ask: PropTypes.number.isRequired,
         bid: PropTypes.number.isRequired,
-        time: PropTypes.string.isRequired,
       }),
     }).isRequired,
-    chartStreamRequest: PropTypes.func.isRequired,
+    priceStreamRequest: PropTypes.func.isRequired,
     order: PropTypes.object.isRequired,
   };
 
   state = {
-    chartNextTickItem: null,
+    priceNextTickItem: null,
   };
 
   componentDidMount() {
-    const { order: { symbol }, accountUuid } = this.props;
-
-    if (symbol && accountUuid) {
-      this.initializationStream();
-    }
+    this.initializationStream();
   }
 
   initializationStream = () => {
-    const { order: { symbol }, chartStreamRequest, accountUuid } = this.props;
+    const { order: { symbol }, priceStreamRequest, accountUuid } = this.props;
 
-    const chartSubscription = chartStreamRequest({
+    const priceSubscription = priceStreamRequest({
       data: { symbol, accountUuid },
     });
 
-    chartSubscription.onNext(({ data }) => {
-      this.setState({ chartNextTickItem: data });
+    priceSubscription.onNext(({ data }) => {
+      this.setState({ priceNextTickItem: data });
     });
   }
 
@@ -191,19 +184,18 @@ class EditOrderModal extends PureComponent {
   }
 
   getClosedPrice = () => {
-    const { tradingEngineSymbolChartQuery } = this.props;
-    const { chartNextTickItem } = this.state;
-    const { loading } = tradingEngineSymbolChartQuery;
+    const { tradingEngineLastSymbolPriceQuery } = this.props;
+    const { priceNextTickItem } = this.state;
+    const { loading } = tradingEngineLastSymbolPriceQuery;
     const defaultValue = 0;
-    const chartData = tradingEngineSymbolChartQuery.data?.tradingEngineSymbolPrices || [];
-    const chartDataLastItem = chartData[chartData.length - 1];
+    const priceData = tradingEngineLastSymbolPriceQuery.data?.tradingEngineSymbolPrices || [];
 
     if (loading) return defaultValue;
 
-    if (chartNextTickItem) {
-      return chartNextTickItem.bid;
-    } if (chartDataLastItem) {
-      return chartDataLastItem.bid;
+    if (priceNextTickItem) {
+      return priceNextTickItem.bid;
+    } if (priceData[0]) {
+      return priceData[0].bid;
     }
 
     return defaultValue;
@@ -447,10 +439,10 @@ export default compose(
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
-    tradingEngineSymbolChartQuery: TradingEngineSymbolChartQuery,
+    tradingEngineLastSymbolPriceQuery: LastSymbolPriceQuery,
   }),
   withLazyStreams({
-    chartStreamRequest: {
+    priceStreamRequest: {
       route: 'streamPrices',
     },
   }),

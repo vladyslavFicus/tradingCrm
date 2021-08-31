@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_SymbolChartQuery(
+  query TradingEngine_LastSymbolPriceQuery(
     $symbol: String!
     $size: Int!
   ) {
@@ -12,15 +12,12 @@ const REQUEST = gql`
       symbol: $symbol
       size: $size
     ) {
-      name
-      ask
       bid
-      time
     }
   }
 `;
 
-const SymbolChartQuery = ({ children, order, size }) => (
+const LastSymbolPriceQuery = ({ children, order, size }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -31,14 +28,14 @@ const SymbolChartQuery = ({ children, order, size }) => (
   </Query>
 );
 
-SymbolChartQuery.propTypes = {
+LastSymbolPriceQuery.propTypes = {
   children: PropTypes.func.isRequired,
   order: PropTypes.object.isRequired,
   size: PropTypes.number,
 };
 
-SymbolChartQuery.defaultProps = {
-  size: 2000,
+LastSymbolPriceQuery.defaultProps = {
+  size: 1,
 };
 
-export default SymbolChartQuery;
+export default LastSymbolPriceQuery;
