@@ -3,6 +3,7 @@ import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { withLazyStreams } from 'rsocket';
 import { ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
@@ -15,7 +16,6 @@ import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
 import LastSymbolPriceQuery from './graphql/LastSymbolPriceQuery';
 import './EditOrderModal.scss';
-import { withLazyStreams } from '../../../../../rsocket';
 
 class EditOrderModal extends PureComponent {
   static propTypes = {
