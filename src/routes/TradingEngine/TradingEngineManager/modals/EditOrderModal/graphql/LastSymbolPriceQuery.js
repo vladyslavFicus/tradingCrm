@@ -17,11 +17,11 @@ const REQUEST = gql`
   }
 `;
 
-const LastSymbolPriceQuery = ({ children, order, size }) => (
+const LastSymbolPriceQuery = ({ children, order }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
-    variables={{ symbol: order.symbol, size }}
+    variables={{ symbol: order.symbol, size: 1 }}
     skip={!order.symbol}
   >
     {children}
@@ -31,11 +31,6 @@ const LastSymbolPriceQuery = ({ children, order, size }) => (
 LastSymbolPriceQuery.propTypes = {
   children: PropTypes.func.isRequired,
   order: PropTypes.object.isRequired,
-  size: PropTypes.number,
-};
-
-LastSymbolPriceQuery.defaultProps = {
-  size: 1,
 };
 
 export default LastSymbolPriceQuery;
