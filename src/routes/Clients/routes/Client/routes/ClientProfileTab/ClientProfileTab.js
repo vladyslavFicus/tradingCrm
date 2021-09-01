@@ -41,7 +41,9 @@ class ClientProfileTab extends PureComponent {
           <div className="ClientProfileTab__column ClientProfileTab__column--large">
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
-            <PermissionContent permissions={permissions.PAYMENT.CHANGE_SHOW_FTD_TO_AFFILIATE}>
+            <PermissionContent permissions={permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE
+            || permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE}
+            >
               <If
                 condition={
                   typeof showFtdToAffiliate === 'boolean'
