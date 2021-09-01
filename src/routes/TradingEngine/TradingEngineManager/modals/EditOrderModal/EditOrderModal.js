@@ -67,7 +67,7 @@ class EditOrderModal extends PureComponent {
   }
 
   getLastPrice = async () => {
-    const { order: { data }, notify } = this.props;
+    const { order: { data } } = this.props;
     const { symbol } = data?.tradingEngineOrder || {};
 
     try {
@@ -78,12 +78,9 @@ class EditOrderModal extends PureComponent {
 
       const priceData = tradingEngineSymbolPrices || [];
 
-      this.setState({ initialPrice: priceData[priceData.length - 1].bid || 0 });
+      this.setState({ initialPrice: priceData[0].bid || 0 });
     } catch (err) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-      });
+      this.setState({ initialPrice: 0 });
     }
   }
 
@@ -221,17 +218,7 @@ class EditOrderModal extends PureComponent {
   getClosedPrice = () => {
     const { priceNextTickItem, initialPrice } = this.state;
 
-    const defaultValue = 0;
-
-    if (priceNextTickItem) {
-      return priceNextTickItem.bid;
-    }
-
-    if (initialPrice) {
-      return initialPrice;
-    }
-
-    return defaultValue;
+    return priceNextTickItem?.bid ?? initialPrice ?? 0;
   }
 
   render() {
