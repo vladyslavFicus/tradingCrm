@@ -1,22 +1,24 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import { compose, withApollo } from 'react-apollo';
 import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import { withLazyStreams } from 'rsocket';
+import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications, withModals } from 'hoc';
+import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
-import { createValidator } from 'utils/validator';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { createValidator } from 'utils/validator';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
 import orderQuery from './graphql/OrderQuery';
+import LastSymbolPriceQuery from './graphql/LastSymbolPriceQuery';
 import './EditOrderModal.scss';
 
 class EditOrderModal extends PureComponent {
@@ -24,13 +26,64 @@ class EditOrderModal extends PureComponent {
     ...PropTypes.router,
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
-    editOrder: PropTypes.func.isRequired,
-    closeOrder: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
     }).isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
+    notify: PropTypes.func.isRequired,
+    editOrder: PropTypes.func.isRequired,
+    closeOrder: PropTypes.func.isRequired,
+    accountUuid: PropTypes.string.isRequired,
+    priceStreamRequest: PropTypes.func.isRequired,
+    order: PropTypes.object.isRequired,
   };
+
+  state = {
+    priceNextTickItem: null,
+    initialPrice: 0,
+  };
+
+  componentDidUpdate(prevProps) {
+    const { order: { loading } } = this.props;
+
+    if (!loading && prevProps.order.loading) {
+      this.getLastPrice();
+      this.initializationStream();
+    }
+  }
+
+  initializationStream = () => {
+    const { order: { symbol }, priceStreamRequest, accountUuid } = this.props;
+
+    const priceSubscription = priceStreamRequest({
+      data: { symbol, accountUuid },
+    });
+
+    priceSubscription.onNext(({ data }) => {
+      this.setState({ priceNextTickItem: data });
+    });
+  }
+
+  getLastPrice = async () => {
+    const { order: { data } } = this.props;
+    const { symbol } = data?.tradingEngineOrder || {};
+
+    try {
+      const { data: { tradingEngineSymbolPrices } } = await this.props.client.query({
+        query: LastSymbolPriceQuery,
+        variables: { symbol, size: 1 },
+      });
+
+      const priceData = tradingEngineSymbolPrices || [];
+
+      this.setState({ initialPrice: priceData[0]?.bid || 0 });
+      // eslint-disable-next-line no-empty
+    } catch (err) {
+
+    }
+  }
 
   handleEditOrder = async (values) => {
     const {
@@ -193,6 +246,8 @@ class EditOrderModal extends PureComponent {
       direction,
     } = data?.tradingEngineOrder || {};
 
+    const { priceNextTickItem, initialPrice } = this.state;
+
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>
@@ -204,7 +259,7 @@ class EditOrderModal extends PureComponent {
           })}
         </ModalHeader>
         <div className="EditOrderModal__inner-wrapper">
-          <SymbolChart symbol={symbol} accountUuid={accountUuid} />
+          <SymbolChart accountUuid={accountUuid} symbol={symbol} />
           <Formik
             initialValues={{
               type,
@@ -354,7 +409,10 @@ class EditOrderModal extends PureComponent {
                   </fieldset>
 
                   <Formik
-                    initialValues={{}}
+                    initialValues={{
+                      volumeLots,
+                      closePrice: priceNextTickItem?.bid ?? initialPrice ?? 0,
+                    }}
                     enableReinitialize
                   >
                     {({ values: _values }) => (
@@ -371,14 +429,12 @@ class EditOrderModal extends PureComponent {
                                 type="number"
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                                 className="EditOrderModal__field"
-                                placeholder="0"
                                 component={FormikInputField}
                               />
                               <Field
                                 name="closePrice"
                                 type="number"
                                 className="EditOrderModal__field"
-                                placeholder="0.00000"
                                 step="0.00001"
                                 min={0}
                                 max={999999}
@@ -391,8 +447,8 @@ class EditOrderModal extends PureComponent {
                                 disabled={isSubmitting}
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
-                                  volumeLots: Number(values.volumeLots).toFixed(2),
-                                  closePrice: Number(_values.closePrice || 0.00000).toFixed(2),
+                                  volumeLots: Number(_values.volumeLots || values.volumeLots).toFixed(2),
+                                  closePrice: Number(_values.closePrice || values.volumeLots),
                                 })}
                               </Button>
                             </div>
@@ -412,6 +468,7 @@ class EditOrderModal extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withRouter,
   withNotifications,
   withModals({
@@ -422,5 +479,10 @@ export default compose(
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
     order: orderQuery,
+  }),
+  withLazyStreams({
+    priceStreamRequest: {
+      route: 'streamPrices',
+    },
   }),
 )(EditOrderModal);
