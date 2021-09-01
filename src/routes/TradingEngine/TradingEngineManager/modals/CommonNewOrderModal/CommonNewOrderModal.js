@@ -28,7 +28,7 @@ class CommonNewOrderModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     createOrder: PropTypes.func.isRequired,
-    streamPricesRequest: PropTypes.func.isRequired,
+    streamPriceRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -38,32 +38,61 @@ class CommonNewOrderModal extends PureComponent {
     formError: null,
     existingLogin: false,
     accountSymbols: [],
-    selectedSymbol: null,
     login: null,
   };
 
-  componentDidUpdate(_, { selectedSymbol: prevSelectedSymbol }) {
-    const { selectedSymbol, accountUuid } = this.state;
+  componentDidUpdate(_, { accountSymbols: prevAccountSymbols }) {
+    const { accountSymbols, accountUuid } = this.state;
+    const defaultSymbol = accountSymbols[0]?.name;
+    const prevDefaultSymbol = prevAccountSymbols[0]?.name;
 
-    if (accountUuid && (prevSelectedSymbol !== selectedSymbol)) {
-      this.getSymbolPrices(selectedSymbol);
-
-      this.initializationStream();
+    if (accountUuid && (prevDefaultSymbol !== defaultSymbol)) {
+      this.fetchSymbolPrice(defaultSymbol);
     }
   }
 
-  initializationStream = () => {
-    const { streamPricesRequest } = this.props;
-    const { selectedSymbol, accountUuid } = this.state;
+  onChangeSymbol = (value, setFieldValue) => {
+    this.fetchSymbolPrice(value);
 
-    const subscription = streamPricesRequest({
-      data: { symbol: selectedSymbol, accountUuid },
+    setFieldValue('symbol', value);
+  };
+
+  fetchSymbolPrice = async (symbol) => {
+    const {
+      client,
+      notify,
+      streamPriceRequest,
+    } = this.props;
+
+    const subscription = streamPriceRequest({
+      data: { symbol, accountUuid: this.state.accountUuid },
     });
 
     subscription.onNext(({ data: { ask, bid } }) => {
       this.setState({ ask, bid });
     });
-  }
+
+    try {
+      const { data: { tradingEngineSymbolPrices } } = await client.query({
+        query: TradingEngineSymbolPricesQuery,
+        variables: {
+          symbol,
+          size: 1,
+        },
+        fetchPolicy: 'network-only',
+      });
+
+      this.setState({
+        ask: tradingEngineSymbolPrices[0]?.ask || 0,
+        bid: tradingEngineSymbolPrices[0]?.bid || 0,
+      });
+    } catch (_) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+      });
+    }
+  };
 
   handleGetAccount = ({ login }) => async () => {
     try {
@@ -79,7 +108,11 @@ class CommonNewOrderModal extends PureComponent {
         fetchPolicy: 'network-only',
       });
 
-      const { data: { tradingEngineAccountSymbols } } = await this.props.client.query({
+      const {
+        data: {
+          tradingEngineAccountSymbols,
+        },
+      } = await this.props.client.query({
         query: TradingEngineAccountSymbolsQuery,
         variables: { accountUuid },
         fetchPolicy: 'network-only',
@@ -90,7 +123,6 @@ class CommonNewOrderModal extends PureComponent {
         existingLogin: true,
         accountUuid,
         accountSymbols: tradingEngineAccountSymbols,
-        selectedSymbol: tradingEngineAccountSymbols[0]?.name,
       });
     } catch (_) {
       this.setState({
@@ -141,30 +173,6 @@ class CommonNewOrderModal extends PureComponent {
 
     setSubmitting(false);
   }
-
-  onChangeSymbol = (value, setFieldValue) => {
-    this.getSymbolPrices(value);
-
-    this.setState({ selectedSymbol: value });
-
-    setFieldValue('symbol', value);
-  };
-
-  getSymbolPrices = async (symbol) => {
-    const { data: { tradingEngineSymbolPrices } } = await this.props.client.query({
-      query: TradingEngineSymbolPricesQuery,
-      variables: {
-        symbol,
-        size: 1,
-      },
-      fetchPolicy: 'network-only',
-    });
-
-    this.setState({
-      ask: tradingEngineSymbolPrices[0]?.ask,
-      bid: tradingEngineSymbolPrices[0]?.bid,
-    });
-  };
 
   render() {
     const {
@@ -366,7 +374,7 @@ class CommonNewOrderModal extends PureComponent {
                       className="CommonNewOrderModal__button"
                       danger
                       type="submit"
-                      disabled={!dirty || isSubmitting || !existingLogin}
+                      disabled={isSubmitting || !existingLogin}
                       onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                     >
                       {I18n.t(
@@ -378,7 +386,7 @@ class CommonNewOrderModal extends PureComponent {
                       className="CommonNewOrderModal__button"
                       primary
                       type="submit"
-                      disabled={!dirty || isSubmitting || !existingLogin}
+                      disabled={isSubmitting || !existingLogin}
                       onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                     >
                       {I18n.t(
@@ -404,7 +412,7 @@ export default compose(
     createOrder: CreateOrderMutation,
   }),
   withLazyStreams({
-    streamPricesRequest: {
+    streamPriceRequest: {
       route: 'streamPrices',
     },
   }),
