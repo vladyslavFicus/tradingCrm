@@ -21,6 +21,10 @@ class AffiliateSettings extends PureComponent {
     permission: PropTypes.permission.isRequired,
   };
 
+  state = {
+    showFtdToAffiliate: this.props.showFtdToAffiliate,
+  }
+
   enableToggleFTD = async () => {
     const { enableShowFtdToAffiliate, profileUuid } = this.props;
 
@@ -31,6 +35,7 @@ class AffiliateSettings extends PureComponent {
         },
       });
 
+      this.setState({ showFtdToAffiliate: true });
       this.notifySuccessToggleSwitch();
     } catch {
       this.notifyErrorToggleSwitch();
@@ -47,6 +52,7 @@ class AffiliateSettings extends PureComponent {
         },
       });
 
+      this.setState({ showFtdToAffiliate: false });
       this.notifySuccessToggleSwitch();
     } catch {
       this.notifyErrorToggleSwitch();
@@ -74,7 +80,8 @@ class AffiliateSettings extends PureComponent {
   }
 
   isToggleDisabled = () => {
-    const { permission, showFtdToAffiliate } = this.props;
+    const { permission } = this.props;
+    const { showFtdToAffiliate } = this.state;
 
     const isAllowedToDisable = permission.allows(permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE);
     const isAllowedToEnable = permission.allows(permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE);
@@ -97,7 +104,7 @@ class AffiliateSettings extends PureComponent {
           {I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.TITLE')}
         </div>
         <ReactSwitch
-          on={this.props.showFtdToAffiliate}
+          on={this.state.showFtdToAffiliate}
           stopPropagation
           disabled={this.isToggleDisabled()}
           className="AffiliateSettings__switcher"
