@@ -168,9 +168,9 @@ class TradingEngineOrdersGrid extends PureComponent {
             <Column
               sortBy="openingPrice"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.OPEN_PRICE')}
-              render={({ openPrice }) => (
+              render={({ openPrice, digits }) => (
                 <Fragment>
-                  <div className="TradingEngineOrdersGrid__cell-value">{openPrice}</div>
+                  <div className="TradingEngineOrdersGrid__cell-value">{openPrice.toFixed(digits)}</div>
                 </Fragment>
               )}
             />
@@ -185,14 +185,32 @@ class TradingEngineOrdersGrid extends PureComponent {
               sortBy="stopLoss"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.S/L')}
               render={({ stopLoss }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{stopLoss}</div>
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={stopLoss}>
+                      {stopLoss}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="takeProfit"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.T/P')}
               render={({ takeProfit }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{takeProfit}</div>
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={takeProfit}>
+                      {takeProfit}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column

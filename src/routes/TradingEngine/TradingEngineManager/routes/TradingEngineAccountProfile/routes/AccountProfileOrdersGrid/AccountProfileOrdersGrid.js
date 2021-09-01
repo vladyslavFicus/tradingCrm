@@ -37,7 +37,7 @@ class AccountProfileOrdersGrid extends PureComponent {
   };
 
   static defaultProps = {
-    openOrderStatistics$: undefined,
+    openOrderStatistics$: {},
   };
 
   componentDidMount() {
@@ -107,7 +107,7 @@ class AccountProfileOrdersGrid extends PureComponent {
       modals: {
         editOrderModal,
       },
-      openOrderStatistics$ = {},
+      openOrderStatistics$,
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
@@ -204,14 +204,32 @@ class AccountProfileOrdersGrid extends PureComponent {
               sortBy="stopLoss"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.S/L')}
               render={({ stopLoss }) => (
-                <div className="AccountProfileOrdersGrid__cell-value">{stopLoss}</div>
+                <div className="AccountProfileOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={stopLoss}>
+                      {stopLoss}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="takeProfit"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.T/P')}
               render={({ takeProfit }) => (
-                <div className="AccountProfileOrdersGrid__cell-value">{takeProfit}</div>
+                <div className="AccountProfileOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={takeProfit}>
+                      {takeProfit}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
@@ -223,17 +241,25 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-              render={({ id, pnl }) => (
-                <div className="AccountProfileOrdersGrid__cell-value">
-                  {(openOrderStatistics$[id]?.data.pnl || pnl.net)?.toFixed(2)}
-                </div>
-              )}
+              render={({ id, pnl }) => {
+                const _pnl = openOrderStatistics$[id]?.data?.pnl || pnl.net;
+
+                return (
+                  <div className={classNames('AccountProfileOrdersGrid__cell-value', {
+                    'AccountProfileOrdersGrid__cell-value--positive': _pnl > 0,
+                    'AccountProfileOrdersGrid__cell-value--negative': _pnl < 0,
+                  })}
+                  >
+                    {_pnl?.toFixed(2)}
+                  </div>
+                );
+              }}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
               render={({ id, digits, price }) => (
                 <div className="AccountProfileOrdersGrid__cell-value">
-                  {(openOrderStatistics$[id]?.data.currentPrice || price)?.toFixed(digits)}
+                  {(openOrderStatistics$[id]?.data?.currentPrice || price)?.toFixed(digits)}
                 </div>
               )}
             />
