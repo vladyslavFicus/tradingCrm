@@ -37,7 +37,7 @@ class AccountProfileOrdersGrid extends PureComponent {
   };
 
   static defaultProps = {
-    openOrderStatistics$: undefined,
+    openOrderStatistics$: {},
   };
 
   componentDidMount() {
@@ -107,7 +107,7 @@ class AccountProfileOrdersGrid extends PureComponent {
       modals: {
         editOrderModal,
       },
-      openOrderStatistics$ = {},
+      openOrderStatistics$,
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
