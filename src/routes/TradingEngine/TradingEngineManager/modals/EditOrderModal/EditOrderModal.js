@@ -68,7 +68,7 @@ class EditOrderModal extends PureComponent {
 
   getLastPrice = async () => {
     const { order: { data }, notify } = this.props;
-    const { symbol } = data?.tradingEngineOrder;
+    const { symbol } = data?.tradingEngineOrder || {};
 
     try {
       const { data: { tradingEngineSymbolPrices } } = await this.props.client.query({
@@ -78,7 +78,7 @@ class EditOrderModal extends PureComponent {
 
       const priceData = tradingEngineSymbolPrices || [];
 
-      this.setState({ initialPrice: priceData[priceData.length - 1].bid });
+      this.setState({ initialPrice: priceData[priceData.length - 1].bid || 0 });
     } catch (err) {
       notify({
         level: 'error',
