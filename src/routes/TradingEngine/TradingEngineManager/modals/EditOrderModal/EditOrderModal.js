@@ -42,7 +42,7 @@ class EditOrderModal extends PureComponent {
 
   state = {
     priceNextTickItem: null,
-    initialPrice: null,
+    initialPrice: 0,
   };
 
   componentDidUpdate(prevProps) {
@@ -78,9 +78,10 @@ class EditOrderModal extends PureComponent {
 
       const priceData = tradingEngineSymbolPrices || [];
 
-      this.setState({ initialPrice: priceData[0].bid || 0 });
+      this.setState({ initialPrice: priceData[0]?.bid || 0 });
+      // eslint-disable-next-line no-empty
     } catch (err) {
-      this.setState({ initialPrice: 0 });
+
     }
   }
 
@@ -215,12 +216,6 @@ class EditOrderModal extends PureComponent {
     });
   }
 
-  getClosedPrice = () => {
-    const { priceNextTickItem, initialPrice } = this.state;
-
-    return priceNextTickItem?.bid ?? initialPrice ?? 0;
-  }
-
   render() {
     const {
       isOpen,
@@ -250,6 +245,8 @@ class EditOrderModal extends PureComponent {
       accountLogin,
       direction,
     } = data?.tradingEngineOrder || {};
+
+    const { priceNextTickItem, initialPrice } = this.state;
 
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -414,7 +411,7 @@ class EditOrderModal extends PureComponent {
                   <Formik
                     initialValues={{
                       volumeLots,
-                      closePrice: this.getClosedPrice(),
+                      closePrice: priceNextTickItem?.bid ?? initialPrice ?? 0,
                     }}
                     enableReinitialize
                   >
