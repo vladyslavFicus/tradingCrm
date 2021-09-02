@@ -159,12 +159,12 @@ export default [
           },
         },
       },
-      // Payment show FTD to affiliate
+      // Payment enable show FTD to affiliate
       {
-        id: 'payment-changeShowFtdToAffiliate',
+        id: 'payment-enableShowFtdToAffiliate',
         actions: {
           edit: {
-            action: 'payment.changeShowFtdToAffiliate',
+            action: 'payment.enableShowFtdToAffiliate',
             state: false,
           },
         },
