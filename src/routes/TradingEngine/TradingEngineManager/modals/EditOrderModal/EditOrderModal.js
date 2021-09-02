@@ -35,7 +35,6 @@ class EditOrderModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     editOrder: PropTypes.func.isRequired,
     closeOrder: PropTypes.func.isRequired,
-    accountUuid: PropTypes.string.isRequired,
     priceStreamRequest: PropTypes.func.isRequired,
     order: PropTypes.object.isRequired,
   };
@@ -55,7 +54,8 @@ class EditOrderModal extends PureComponent {
   }
 
   initializationStream = () => {
-    const { order: { symbol }, priceStreamRequest, accountUuid } = this.props;
+    const { order, priceStreamRequest } = this.props;
+    const { symbol, accountUuid } = order.data?.tradingEngineOrder || {};
 
     const priceSubscription = priceStreamRequest({
       data: { symbol, accountUuid },
@@ -69,6 +69,7 @@ class EditOrderModal extends PureComponent {
   getLastPrice = async () => {
     const { order: { data } } = this.props;
     const { symbol } = data?.tradingEngineOrder || {};
+    const { initialPrice } = this.state;
 
     try {
       const { data: { tradingEngineSymbolPrices } } = await this.props.client.query({
@@ -78,7 +79,9 @@ class EditOrderModal extends PureComponent {
 
       const priceData = tradingEngineSymbolPrices || [];
 
-      this.setState({ initialPrice: priceData[0]?.bid || 0 });
+      if (!initialPrice) {
+        this.setState({ initialPrice: priceData[0]?.bid || 0 });
+      }
       // eslint-disable-next-line no-empty
     } catch (err) {
 
