@@ -4,27 +4,25 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`
-  mutation AffiliateSettings__ShowFtdToAffiliateMutation(
-    $showFtdToAffiliate: Boolean!
+  mutation AffiliateSettings__DisableShowFtdToAffiliateMutation(
     $profileUuid: String!
   ) {
     payment {
-      changeShowFtdToAffiliate(
-        showFtdToAffiliate: $showFtdToAffiliate
+      disableShowFtdToAffiliate(
         profileUuid: $profileUuid
       )
     }
   }
 `;
 
-const ChangeShowFtdToAffiliateMutation = ({ children }) => (
+const DisableShowFtdToAffiliateMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-ChangeShowFtdToAffiliateMutation.propTypes = {
+DisableShowFtdToAffiliateMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default ChangeShowFtdToAffiliateMutation;
+export default DisableShowFtdToAffiliateMutation;

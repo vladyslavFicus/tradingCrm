@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import permissions from 'config/permissions';
 import { getBrand } from 'config';
+import { CONDITIONS } from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
@@ -41,7 +42,11 @@ class ClientProfileTab extends PureComponent {
           <div className="ClientProfileTab__column ClientProfileTab__column--large">
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
-            <PermissionContent permissions={permissions.PAYMENT.CHANGE_SHOW_FTD_TO_AFFILIATE}>
+            <PermissionContent
+              permissionsCondition={CONDITIONS.OR}
+              permissions={[
+                permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE, permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE]}
+            >
               <If
                 condition={
                   typeof showFtdToAffiliate === 'boolean'
