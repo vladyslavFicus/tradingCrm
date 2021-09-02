@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { withLazyStreams } from 'rsocket';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -13,6 +14,8 @@ import { createValidator, translateLabels } from 'utils/validator';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
+import TradingEngineSymbolPricesQuery from './graphql/SymbolPricesQuery';
+
 import './CommonNewOrderModal.scss';
 
 class CommonNewOrderModal extends PureComponent {
@@ -25,18 +28,70 @@ class CommonNewOrderModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     createOrder: PropTypes.func.isRequired,
-    login: PropTypes.number,
+    streamPriceRequest: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    login: null,
-  }
-
   state = {
-    uuid: null,
+    ask: 0,
+    bid: 0,
+    accountUuid: null,
     formError: null,
     existingLogin: false,
     accountSymbols: [],
+    login: null,
+  };
+
+  componentDidUpdate(_, { accountSymbols: prevAccountSymbols }) {
+    const { accountSymbols, accountUuid } = this.state;
+    const defaultSymbol = accountSymbols[0]?.name;
+    const prevDefaultSymbol = prevAccountSymbols[0]?.name;
+
+    if (accountUuid && (prevDefaultSymbol !== defaultSymbol)) {
+      this.fetchSymbolPrice(defaultSymbol);
+    }
+  }
+
+  onChangeSymbol = (value, setFieldValue) => {
+    this.fetchSymbolPrice(value);
+
+    setFieldValue('symbol', value);
+  };
+
+  fetchSymbolPrice = async (symbol) => {
+    const {
+      client,
+      notify,
+      streamPriceRequest,
+    } = this.props;
+
+    const subscription = streamPriceRequest({
+      data: { symbol, accountUuid: this.state.accountUuid },
+    });
+
+    subscription.onNext(({ data: { ask, bid } }) => {
+      this.setState({ ask, bid });
+    });
+
+    try {
+      const { data: { tradingEngineSymbolPrices } } = await client.query({
+        query: TradingEngineSymbolPricesQuery,
+        variables: {
+          symbol,
+          size: 1,
+        },
+        fetchPolicy: 'network-only',
+      });
+
+      this.setState({
+        ask: tradingEngineSymbolPrices[0]?.ask || 0,
+        bid: tradingEngineSymbolPrices[0]?.bid || 0,
+      });
+    } catch (_) {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.FAIL'),
+      });
+    }
   };
 
   handleGetAccount = ({ login }) => async () => {
@@ -44,7 +99,7 @@ class CommonNewOrderModal extends PureComponent {
       const {
         data: {
           tradingEngineAccount: {
-            uuid,
+            uuid: accountUuid,
           },
         },
       } = await this.props.client.query({
@@ -53,15 +108,20 @@ class CommonNewOrderModal extends PureComponent {
         fetchPolicy: 'network-only',
       });
 
-      const { data: { tradingEngineAccountSymbols } } = await this.props.client.query({
+      const {
+        data: {
+          tradingEngineAccountSymbols,
+        },
+      } = await this.props.client.query({
         query: TradingEngineAccountSymbolsQuery,
-        variables: { accountUuid: uuid },
+        variables: { accountUuid },
         fetchPolicy: 'network-only',
       });
 
       this.setState({
+        login,
         existingLogin: true,
-        uuid,
+        accountUuid,
         accountSymbols: tradingEngineAccountSymbols,
       });
     } catch (_) {
@@ -80,13 +140,15 @@ class CommonNewOrderModal extends PureComponent {
       onSuccess,
     } = this.props;
 
+    const { accountUuid } = this.state;
+
     setFieldValue('direction', direction);
 
     try {
       await createOrder({
         variables: {
           type: 'MARKET',
-          accountUuid: this.state.uuid,
+          accountUuid,
           pendingOrder: true,
           direction,
           ...values,
@@ -116,14 +178,16 @@ class CommonNewOrderModal extends PureComponent {
     const {
       isOpen,
       onCloseModal,
-      login,
     } = this.props;
 
     const {
+      ask,
+      bid,
+      login,
       existingLogin,
       formError,
       accountSymbols,
-      uuid,
+      accountUuid,
     } = this.state;
 
     return (
@@ -186,7 +250,7 @@ class CommonNewOrderModal extends PureComponent {
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TITLE')}
               </ModalHeader>
               <div className="CommonNewOrderModal__inner-wrapper">
-                <SymbolChart symbol={values.symbol} accountUuid={uuid} />
+                <SymbolChart symbol={values.symbol} accountUuid={accountUuid} />
                 <ModalBody>
                   <If condition={formError && !existingLogin}>
                     <div className="CommonNewOrderModal__error">
@@ -231,6 +295,7 @@ class CommonNewOrderModal extends PureComponent {
                       className="CommonNewOrderModal__field"
                       component={FormikSelectField}
                       disabled={!existingLogin}
+                      customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
                     >
                       {accountSymbols.map(({ name, description }) => (
                         <option key={name} value={name}>
@@ -309,19 +374,25 @@ class CommonNewOrderModal extends PureComponent {
                       className="CommonNewOrderModal__button"
                       danger
                       type="submit"
-                      disabled={!dirty || isSubmitting || !existingLogin}
+                      disabled={isSubmitting || !existingLogin}
                       onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                     >
-                      {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', { value: values.openPrice || 0 })}
+                      {I18n.t(
+                        'TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT',
+                        { value: values.openPrice || bid },
+                      )}
                     </Button>
                     <Button
                       className="CommonNewOrderModal__button"
                       primary
                       type="submit"
-                      disabled={!dirty || isSubmitting || !existingLogin}
+                      disabled={isSubmitting || !existingLogin}
                       onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                     >
-                      {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', { value: values.openPrice || 0 })}
+                      {I18n.t(
+                        'TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT',
+                        { value: values.openPrice || ask },
+                      )}
                     </Button>
                   </div>
                 </ModalBody>
@@ -339,5 +410,10 @@ export default compose(
   withNotifications,
   withRequests({
     createOrder: CreateOrderMutation,
+  }),
+  withLazyStreams({
+    streamPriceRequest: {
+      route: 'streamPrices',
+    },
   }),
 )(CommonNewOrderModal);

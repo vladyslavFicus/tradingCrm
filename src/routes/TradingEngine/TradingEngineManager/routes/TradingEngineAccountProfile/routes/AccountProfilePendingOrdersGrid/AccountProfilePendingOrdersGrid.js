@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
+import { withStreams } from 'rsocket';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
@@ -32,6 +33,11 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
+    pendingOrderStatistics$: PropTypes.object,
+  };
+
+  static defaultProps = {
+    pendingOrderStatistics$: {},
   };
 
   componentDidMount() {
@@ -101,6 +107,7 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
       modals: {
         editOrderModal,
       },
+      pendingOrderStatistics$,
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
@@ -197,20 +204,40 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
               sortBy="stopLoss"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.S/L')}
               render={({ stopLoss }) => (
-                <div className="AccountProfilePendingOrdersGrid__cell-value">{stopLoss}</div>
+                <div className="AccountProfilePendingOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={stopLoss}>
+                      {stopLoss}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="takeProfit"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.T/P')}
               render={({ takeProfit }) => (
-                <div className="AccountProfilePendingOrdersGrid__cell-value">{takeProfit}</div>
+                <div className="AccountProfilePendingOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={takeProfit}>
+                      {takeProfit}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ price }) => (
-                <div className="AccountProfilePendingOrdersGrid__cell-value">{price}</div>
+              render={({ id, price, digits }) => (
+                <div className="AccountProfilePendingOrdersGrid__cell-value">
+                  {(pendingOrderStatistics$[id]?.data?.currentPrice || price)?.toFixed(digits)}
+                </div>
               )}
             />
             <Column
@@ -245,4 +272,11 @@ export default compose(
   withRequests({
     orders: TradingEngineOrdersQuery,
   }),
+  withStreams(({ match: { params: { id } } }) => ({
+    pendingOrderStatistics$: {
+      route: 'streamPendingOrderStatistics',
+      data: { accountUuid: id },
+      accumulator: (curr, next) => ({ ...curr, [next.data.orderId]: next }),
+    },
+  })),
 )(AccountProfilePendingOrdersGrid);
