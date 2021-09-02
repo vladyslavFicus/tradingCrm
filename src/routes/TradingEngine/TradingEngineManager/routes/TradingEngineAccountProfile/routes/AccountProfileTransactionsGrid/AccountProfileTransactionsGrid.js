@@ -151,7 +151,9 @@ class AccountProfileTransactionsGrid extends PureComponent {
             <Column
               sortBy="amount"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.AMOUNT')}
-              render={({ amount }) => <div className="AccountProfileTransactionsGrid__cell-value">{amount}</div>}
+              render={({ amount }) => (
+                <div className="AccountProfileTransactionsGrid__cell-value">{amount.toFixed(2)}</div>
+              )}
             />
             <Column
               sortBy="time"
