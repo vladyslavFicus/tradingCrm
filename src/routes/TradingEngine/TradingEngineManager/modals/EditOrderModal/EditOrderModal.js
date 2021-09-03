@@ -131,7 +131,7 @@ class EditOrderModal extends PureComponent {
     });
   }
 
-  handleCloseOrder = async ({ volumeLots, closePrice, status, symbol }) => {
+  handleCloseOrder = async ({ volumeLots, closePrice, status, symbol, type }) => {
     const {
       id,
       notify,
@@ -147,6 +147,7 @@ class EditOrderModal extends PureComponent {
         id,
         closePrice: closePrice || 0,
         symbol,
+        type,
       }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
@@ -224,11 +225,6 @@ class EditOrderModal extends PureComponent {
       isOpen,
       onCloseModal,
       order: { data },
-      match: {
-        params: {
-          id: accountUuid,
-        },
-      },
     } = this.props;
 
     const {
@@ -246,6 +242,7 @@ class EditOrderModal extends PureComponent {
       openPrice,
       comment,
       accountLogin,
+      accountUuid,
       direction,
     } = data?.tradingEngineOrder || {};
 
@@ -446,7 +443,7 @@ class EditOrderModal extends PureComponent {
                               <Button
                                 className="EditOrderModal__button"
                                 danger
-                                onClick={() => this.handleCloseOrder({ ..._values, status, symbol })}
+                                onClick={() => this.handleCloseOrder({ ..._values, status, symbol, type })}
                                 disabled={isSubmitting}
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {

@@ -3474,7 +3474,7 @@
           "CANCEL_ORDER_TITLE": "Cancel order",
           "CANCEL_ORDER_TEXT": "Do you really want to cancel order #{{id}}?",
           "CLOSE_ORDER_TITLE_OPEN": "Close order",
-          "CLOSE_ORDER_TEXT_OPEN": "Do you really want to close order #{{id}} Sell {{symbol}} at price {{closePrice}}?",
+          "CLOSE_ORDER_TEXT_OPEN": "Do you really want to close order #{{id}} {{type}} {{symbol}} at price {{closePrice}}?",
           "CLOSE_ORDER_TITLE_PENDING": "Activate order",
           "CLOSE_ORDER_TEXT_PENDING": "Do you really want to activate order #{{id}} at price {{closePrice}}? "
         },
