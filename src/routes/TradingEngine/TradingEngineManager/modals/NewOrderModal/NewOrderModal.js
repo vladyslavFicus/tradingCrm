@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
@@ -137,11 +137,15 @@ class NewOrderModal extends PureComponent {
 
       onSuccess();
       onCloseModal();
-    } catch (_) {
+    } catch (e) {
+      const { error } = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.ERROR'),
-        message: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
+        message: error === 'error.order.creation.not-enough-free-margin'
+          ? I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
+          : I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
       });
     }
   }
