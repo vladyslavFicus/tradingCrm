@@ -63,14 +63,14 @@ class Input extends PureComponent {
    * @param e
    */
   onKeyDown = (e) => {
-    const { target: { value }, keyCode } = e;
+    const { target: { value }, code } = e;
     const { onTruncated, onEnterPress } = this.props;
 
     // Fire onTruncated event if input value empty
-    if (keyCode === 8 && onTruncated && value.length === 0) {
+    if (code === 'Backspace' && onTruncated && value.length === 0) {
       onTruncated();
     }
-    if (keyCode === 13) {
+    if (code === 'Enter') {
       onEnterPress(this);
     }
   };
