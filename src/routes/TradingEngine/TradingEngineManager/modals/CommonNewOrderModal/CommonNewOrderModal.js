@@ -296,10 +296,11 @@ class CommonNewOrderModal extends PureComponent {
                       component={FormikSelectField}
                       disabled={!existingLogin}
                       customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
+                      searchable
                     >
                       {accountSymbols.map(({ name, description }) => (
                         <option key={name} value={name}>
-                          {name} {description}
+                          {`${name}  ${description}`}
                         </option>
                       ))}
                     </Field>
