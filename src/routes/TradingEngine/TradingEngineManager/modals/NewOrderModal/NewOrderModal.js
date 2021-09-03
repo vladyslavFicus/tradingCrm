@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
+import { withStorage } from 'providers/StorageProvider';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
@@ -21,6 +22,7 @@ import './NewOrderModal.scss';
 class NewOrderModal extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withStorage.propTypes,
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -110,6 +112,7 @@ class NewOrderModal extends PureComponent {
       onCloseModal,
       createOrder,
       onSuccess,
+      storage,
       match: {
         params: {
           id,
@@ -120,7 +123,13 @@ class NewOrderModal extends PureComponent {
     setFieldValue('direction', direction);
 
     try {
-      await createOrder({
+      const {
+        data: {
+          tradingEngine: {
+            createOrder: { id: orderId },
+          },
+        },
+      } = await createOrder({
         variables: {
           type: 'MARKET',
           accountUuid: id,
@@ -129,6 +138,9 @@ class NewOrderModal extends PureComponent {
           ...values,
         },
       });
+
+      // Save last created order to storage to open it later by request
+      storage.set('TE.lastCreatedOrderId', orderId);
 
       notify({
         level: 'success',
@@ -244,6 +256,7 @@ class NewOrderModal extends PureComponent {
                   </div>
                   <div className="NewOrderModal__field-container">
                     <Field
+                      autoFocus
                       name="volumeLots"
                       type="number"
                       label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
@@ -331,6 +344,19 @@ class NewOrderModal extends PureComponent {
                     />
                   </div>
                   <div className="NewOrderModal__field-container">
+                    {/* Sell order by CTRL+S pressing */}
+                    <Hotkeys
+                      keyName="ctrl+s"
+                      filter={() => true}
+                      onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue)}
+                    />
+
+                    {/* Buy order by CTRL+S pressing */}
+                    <Hotkeys
+                      keyName="ctrl+d"
+                      filter={() => true}
+                      onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
+                    />
                     <Button
                       className="NewOrderModal__button"
                       danger
@@ -362,6 +388,7 @@ export default compose(
   withRouter,
   withApollo,
   withNotifications,
+  withStorage,
   withRequests({
     createOrder: createOrderMutation,
     tradingEngineAccountSymbolsQuery: TradingEngineAccountSymbolsQuery,

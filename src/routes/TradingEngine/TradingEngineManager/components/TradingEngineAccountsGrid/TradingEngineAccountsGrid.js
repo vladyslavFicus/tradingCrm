@@ -7,6 +7,7 @@ import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import moment from 'moment';
 import withModals from 'hoc/withModals';
+import { withStorage } from 'providers/StorageProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
@@ -16,7 +17,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import CommonNewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/CommonNewOrderModal';
+import CommonNewOrderModal from '../../modals/CommonNewOrderModal';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
@@ -25,6 +26,7 @@ import './TradingEngineAccountsGrid.scss';
 class TradingEngineAccountsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withStorage.propTypes,
     accounts: PropTypes.query({
       tradingEngineAccountsData: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
@@ -71,6 +73,14 @@ class TradingEngineAccountsGrid extends PureComponent {
         sorts,
       },
     });
+  };
+
+  handleOpenLastOpenedAccount = () => {
+    const uuid = this.props.storage.get('TE.lastOpenedAccountUuid');
+
+    if (uuid) {
+      window.open(`/trading-engine-manager/accounts/${uuid}`);
+    }
   };
 
   renderTradingAccountColumn = ({ uuid, name, accountType, platformType, archived }) => (
@@ -130,6 +140,9 @@ class TradingEngineAccountsGrid extends PureComponent {
           keyName="f9"
           onKeyUp={this.handleNewOrderClick}
         />
+
+        {/* Open last opened account by SHIFT+A hot key */}
+        <Hotkeys keyName="shift+a" filter={() => true} onKeyUp={this.handleOpenLastOpenedAccount} />
 
         <Tabs items={tradingEngineTabs} />
 
@@ -226,6 +239,7 @@ class TradingEngineAccountsGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withStorage,
   withRequests({
     accounts: TradingEngineAccountsQuery,
   }),

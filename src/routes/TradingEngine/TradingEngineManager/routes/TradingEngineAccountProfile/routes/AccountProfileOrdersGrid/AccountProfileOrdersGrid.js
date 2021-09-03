@@ -12,7 +12,6 @@ import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import { EditButton } from 'components/UI';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
@@ -134,21 +133,22 @@ class AccountProfileOrdersGrid extends PureComponent {
               sortBy="id"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.TRADE')}
               render={({ id }) => (
-                <div
-                  className="AccountProfileOrdersGrid__uuid"
-                  onClick={() => editOrderModal.show({
-                    id,
-                    onSuccess: () => this.refetchOrders(),
-                  })}
-                >
-                  <div className="AccountProfileOrdersGrid__cell-value">
-                    <Uuid
-                      uuid={`${id}`}
-                      uuidPrefix="TR"
-                    />
-                    <EditButton className="AccountProfileOrdersGrid__edit-button" />
+                <>
+                  <div
+                    className="AccountProfileOrdersGrid__cell-value AccountProfileOrdersGrid__cell-value--pointer"
+                    onClick={() => editOrderModal.show({
+                      id,
+                      onSuccess: () => this.refetchOrders(),
+                    })}
+                  >
+                    TR-{id}
                   </div>
-                </div>
+                  <Uuid
+                    uuid={id}
+                    title={I18n.t('COMMON.COPY')}
+                    className="AccountProfileOrdersGrid__cell-value-add"
+                  />
+                </>
               )}
             />
             <Column

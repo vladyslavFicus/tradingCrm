@@ -92,11 +92,11 @@ class Select extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { query, originalOptions } = this.state;
+    const { query, originalOptions, opened } = this.state;
     const { children, value, multiple } = this.props;
     let options = originalOptions;
 
-    if (!shallowEqual(children, nextProps.children)) {
+    if (!shallowEqual(children, nextProps.children) && !opened) {
       options = [...this.filterOptions(nextProps.children)];
 
       const selectedOptions = multiple
@@ -112,7 +112,7 @@ class Select extends PureComponent {
       });
     }
 
-    if (!this.shallowEqual(value, nextProps.value)) {
+    if (!this.shallowEqual(value, nextProps.value) && !opened) {
       const opts = [...this.filterOptions(nextProps.children)];
       // happened when after choosing value, we add more options to select
       if (opts.length > options) {
@@ -365,12 +365,18 @@ class Select extends PureComponent {
     }
 
     // Cancel selection and close options block
-    if (['Escape', 'Tab'].includes(e.code)) {
+    if (['Escape', 'Tab'].includes(e.code) && this.state.opened) {
+      e.stopPropagation();
+
       this.updateState({ toSelectOptions: [] }, this.handleClose);
+
+      return;
     }
 
     // Open select options if pressed SPACE button
     if (['Space', 'ArrowDown', 'ArrowUp'].includes(e.code) && !this.state.opened) {
+      e.preventDefault();
+
       this.setState({ opened: true });
 
       return;
@@ -378,6 +384,9 @@ class Select extends PureComponent {
 
     // Close select options if pressed ENTER or SPACE button and select was opened
     if (['Enter', 'Space'].includes(e.code) && this.state.opened) {
+      e.preventDefault();
+      e.stopPropagation();
+
       this.handleClose();
     }
 
@@ -391,6 +400,8 @@ class Select extends PureComponent {
 
     // Control arrow down/up pressing when single select in focus
     if (['ArrowDown', 'ArrowUp'].includes(e.code) && !this.props.multiple) {
+      e.preventDefault();
+
       const currentOption = this.state.toSelectOptions[0] || this.state.originalSelectedOptions[0];
       const currentOptionIndex = this.state.options.findIndex(({ key }) => key === currentOption?.key);
 
@@ -517,7 +528,6 @@ class Select extends PureComponent {
           <div
             tabIndex={disabled ? -1 : 0} // eslint-disable-line
             onKeyDown={this.handleKeyDown}
-            onKeyUp={e => e.stopPropagation()}
             className={classNames('Select__form-control', 'Select__label', {
               'Select__label--multipleLabel': isMultipleLabel,
             })}

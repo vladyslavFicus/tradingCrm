@@ -3,6 +3,7 @@ import { Redirect, Switch, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import Helmet from 'react-helmet';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
@@ -23,13 +24,27 @@ import './TradingEngineAccountProfile.scss';
 
 class TradingEngineAccountProfile extends PureComponent {
   static propTypes = {
+    ...withStorage.propTypes,
     match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }).isRequired,
       path: PropTypes.string,
       url: PropTypes.string,
     }).isRequired,
     accountQuery: PropTypes.query({
       tradingEngineAccount: PropTypes.tradingEngineAccount,
     }).isRequired,
+  }
+
+  componentDidMount() {
+    const {
+      storage,
+      match: { params: { id } },
+    } = this.props;
+
+    // Save last opened account to storage to open it later by request
+    storage.set('TE.lastOpenedAccountUuid', id);
   }
 
   render() {
@@ -85,6 +100,7 @@ class TradingEngineAccountProfile extends PureComponent {
 
 export default compose(
   withRouter,
+  withStorage,
   withRequests({
     accountQuery: TradingEngineAccountQuery,
   }),
