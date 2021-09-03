@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
@@ -80,11 +80,14 @@ class SymbolChart extends PureComponent {
             <ShortLoader />
           </When>
           <Otherwise>
-            <Chart
-              chartData={chartData}
-              chartNextTickItem={chartNextTickItem}
-              {...chartConfig}
-            />
+            <Fragment>
+              <div className="SymbolChart__label">{symbol}</div>
+              <Chart
+                chartData={chartData}
+                chartNextTickItem={chartNextTickItem}
+                chartConfig={chartConfig}
+              />
+            </Fragment>
           </Otherwise>
         </Choose>
       </div>

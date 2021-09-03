@@ -20,12 +20,14 @@ class Chart extends PureComponent {
       dateTime: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }),
+    chartConfig: PropTypes.object,
   };
 
   static defaultProps = {
     width: 540,
     height: 600,
     chartNextTickItem: undefined,
+    chartConfig: {},
   }
 
   chart = null;
@@ -51,9 +53,19 @@ class Chart extends PureComponent {
   }
 
   initializationChart = () => {
-    const { width, height, chartData } = this.props;
+    const { width, height, chartData, chartConfig } = this.props;
+    const chartOptions = {
+      width,
+      height,
+      timeScale: {
+        rightOffset: 2,
+        timeVisible: true,
+        secondsVisible: true,
+      },
+      ...chartConfig,
+    };
 
-    this.chart = createChart(document.getElementById('symbol_chart'), { width, height });
+    this.chart = createChart(document.getElementById('symbol_chart'), chartOptions);
     this.bidLine = this.chart.addLineSeries({ lineWidth: 1 });
     this.askLine = this.chart.addLineSeries({ lineWidth: 1, color: 'red' });
 
@@ -76,7 +88,6 @@ class Chart extends PureComponent {
 
     const { ask, bid } = formattedData;
     const { minMove, precision } = countPrecisionAndMinMove(ask, bid);
-
     const priceFormat = {
       type: 'price',
       minMove,
