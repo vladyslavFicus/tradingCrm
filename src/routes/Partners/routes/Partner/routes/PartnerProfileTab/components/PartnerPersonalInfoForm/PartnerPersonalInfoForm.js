@@ -61,7 +61,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     showSalesStatus,
     showFTDAmount,
     showKycStatus,
-    minFtdLimit,
+    minFtdDeposit,
     ...rest
   }, { setSubmitting }) => {
     const { updatePartner, partnerData, notify } = this.props;
@@ -80,7 +80,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showSalesStatus,
             showFTDAmount,
             showKycStatus,
-            minFtdLimit: parseFloat(minFtdLimit),
+            minFtdDeposit: parseFloat(minFtdDeposit),
           },
           ...rest,
         },
@@ -162,7 +162,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
             cdeAffiliate: 'boolean',
-            minFtdLimit: ['numeric', 'min:1', 'max:10000'],
+            minFtdDeposit: ['numeric', 'min:1', 'max:10000'],
           }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
           enableReinitialize
@@ -348,7 +348,7 @@ class PartnerPersonalInfoForm extends PureComponent {
                 </If>
 
                 <Field
-                  name="minFtdLimit"
+                  name="minFtdDeposit"
                   className="PartnerPersonalInfoForm__field"
                   label={I18n.t(attributeLabels.minFtdLimit)}
                   placeholder={I18n.t(attributeLabels.minFtdLimit)}
