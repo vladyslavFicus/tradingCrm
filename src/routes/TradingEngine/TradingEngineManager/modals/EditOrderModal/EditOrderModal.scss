@@ -63,6 +63,12 @@
     font-size: 15px;
   }
 
+  &__confirmation-modal {
+    top: 50%;
+    transform: translateY(-50%)!important;
+    margin: 0 auto;
+  }
+
   .modal-body {
     padding-top: 10px;
     padding-bottom: 20px;

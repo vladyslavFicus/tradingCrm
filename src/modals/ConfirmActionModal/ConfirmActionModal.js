@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { shortify } from 'utils/uuid';
@@ -19,6 +20,7 @@ class ConfirmActionModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onCloseCallback: PropTypes.func,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
@@ -30,6 +32,7 @@ class ConfirmActionModal extends PureComponent {
     actionText: I18n.t('MODALS.CONFIRM_ACTION_MODAL.DESCRIPTION'),
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
     cancelButtonLabel: I18n.t('COMMON.CANCEL'),
+    className: null,
   };
 
   state = {
@@ -67,12 +70,17 @@ class ConfirmActionModal extends PureComponent {
       additionalText,
       submitButtonLabel,
       cancelButtonLabel,
+      className,
     } = this.props;
 
     const { isSubmitting } = this.state;
 
     return (
-      <Modal className="ConfirmActionModal modal-danger" isOpen={isOpen} toggle={this.handleClose}>
+      <Modal
+        className={classNames('ConfirmActionModal modal-danger', className)}
+        isOpen={isOpen}
+        toggle={this.handleClose}
+      >
         <ModalHeader toggle={this.handleClose}>{modalTitle}</ModalHeader>
         <ModalBody>
           <div className="ConfirmActionModal__row ConfirmActionModal__action-text">{actionText}</div>
