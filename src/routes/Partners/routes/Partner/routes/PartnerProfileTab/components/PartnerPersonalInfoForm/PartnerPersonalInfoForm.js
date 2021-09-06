@@ -34,6 +34,7 @@ const attributeLabels = {
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
   showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
   cdeAffiliate: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CDE_AFFILIATE',
+  minFtdLimit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
@@ -60,6 +61,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     showSalesStatus,
     showFTDAmount,
     showKycStatus,
+    minFtdLimit,
     ...rest
   }, { setSubmitting }) => {
     const { updatePartner, partnerData, notify } = this.props;
@@ -78,6 +80,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showSalesStatus,
             showFTDAmount,
             showKycStatus,
+            minFtdLimit: parseFloat(minFtdLimit),
           },
           ...rest,
         },
@@ -159,6 +162,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
             cdeAffiliate: 'boolean',
+            minFtdLimit: ['numeric', 'min:1', 'max:10000'],
           }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
           enableReinitialize
@@ -342,6 +346,15 @@ class PartnerPersonalInfoForm extends PureComponent {
                     disabled={isSubmitting}
                   />
                 </If>
+
+                <Field
+                  name="minFtdLimit"
+                  className="PartnerPersonalInfoForm__field"
+                  label={I18n.t(attributeLabels.minFtdLimit)}
+                  placeholder={I18n.t(attributeLabels.minFtdLimit)}
+                  component={FormikInputField}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
               </div>
             </Form>
           )}
