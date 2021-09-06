@@ -1571,6 +1571,16 @@
     }
   },
   "FEED_ITEM": {
+    "affiliateName": "Affiliate's name",
+    "retentionRep": "Retention representative",
+    "salesRep": "Sales representative",
+    "triggeredByName": "Assigned by name",
+    "triggeredByUuid": "Assigned by uuid",
+    "acquisitionType": "Acquisition status",
+    "acquisitionRepresentativeUuid": "Assigned to uuid",
+    "operatorsName": "Operator's name",
+    "invitationSent": "Invitation",
+    "attemptDateTime": "Attempt date & time",
     "LOG_IN": {
       "UPLOADED_FILE": "Uploaded file",
       "SESSION_ID": "Session ID",

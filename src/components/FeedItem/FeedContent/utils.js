@@ -1,6 +1,6 @@
 import i18n from 'i18n-js';
 import moment from 'moment';
-import { toNumber } from 'lodash';
+import { toNumber, startCase } from 'lodash';
 import humanizeDuration from 'humanize-duration';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
@@ -8,7 +8,6 @@ import {
   genders,
   statuses,
   unblockReasons,
-  attributeLabels,
   reasons as blockReasons,
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
 } from 'constants/user';
@@ -71,7 +70,7 @@ const translateValue = (value) => {
     ...(translateObject(retentionStatuses)),
     ...(translateObject(paymentMethodsLabels)),
     ...(translateObject(manualPaymentMethodsLabels)),
-    ...(genders),
+    ...(translateObject(genders)),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
     CORPORATE_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),
@@ -133,4 +132,4 @@ export const prepareValue = (key, value) => {
   return customValues[key] || prepareCommonValue(value);
 };
 
-export const renderLabel = label => attributeLabels[label] || label;
+export const renderLabel = label => i18n.t(`FEED_ITEM.${label}`, { defaultValue: startCase(label) });
