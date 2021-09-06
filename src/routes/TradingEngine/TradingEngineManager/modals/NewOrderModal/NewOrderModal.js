@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
+import { withStorage } from 'providers/StorageProvider';
+import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -20,6 +22,7 @@ import './NewOrderModal.scss';
 class NewOrderModal extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withStorage.propTypes,
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -109,6 +112,7 @@ class NewOrderModal extends PureComponent {
       onCloseModal,
       createOrder,
       onSuccess,
+      storage,
       match: {
         params: {
           id,
@@ -119,7 +123,13 @@ class NewOrderModal extends PureComponent {
     setFieldValue('direction', direction);
 
     try {
-      await createOrder({
+      const {
+        data: {
+          tradingEngine: {
+            createOrder: { id: orderId },
+          },
+        },
+      } = await createOrder({
         variables: {
           type: 'MARKET',
           accountUuid: id,
@@ -128,6 +138,9 @@ class NewOrderModal extends PureComponent {
           ...values,
         },
       });
+
+      // Save last created order to storage to open it later by request
+      storage.set('TE.lastCreatedOrderId', orderId);
 
       notify({
         level: 'success',
@@ -168,7 +181,13 @@ class NewOrderModal extends PureComponent {
     const accountSymbols = tradingEngineAccountSymbolsQuery.data?.tradingEngineAccountSymbols || [];
 
     return (
-      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen} keyboard={false}>
+        {/*
+           Disable keyboard controlling on modal to prevent close modal by ESC button because it's working with a bug
+           and after close by ESC button hotkeys not working when not clicking ESC button second time.
+           So we should implement close event by ESC button manually.
+        */}
+        <Hotkeys keyName="esc" filter={() => true} onKeyUp={onCloseModal} />
         <Formik
           initialValues={{
             login,
@@ -220,6 +239,7 @@ class NewOrderModal extends PureComponent {
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
+          onSubmit={() => {}}
         >
           {({ isSubmitting, values, setFieldValue }) => (
             <Form>
@@ -240,6 +260,7 @@ class NewOrderModal extends PureComponent {
                   </div>
                   <div className="NewOrderModal__field-container">
                     <Field
+                      autoFocus
                       name="volumeLots"
                       type="number"
                       label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
@@ -328,10 +349,22 @@ class NewOrderModal extends PureComponent {
                     />
                   </div>
                   <div className="NewOrderModal__field-container">
+                    {/* Sell order by CTRL+S pressing */}
+                    <Hotkeys
+                      keyName="ctrl+s"
+                      filter={() => true}
+                      onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue)}
+                    />
+
+                    {/* Buy order by CTRL+S pressing */}
+                    <Hotkeys
+                      keyName="ctrl+d"
+                      filter={() => true}
+                      onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
+                    />
                     <Button
                       className="NewOrderModal__button"
                       danger
-                      type="submit"
                       disabled={isSubmitting}
                       onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
                     >
@@ -340,7 +373,6 @@ class NewOrderModal extends PureComponent {
                     <Button
                       className="NewOrderModal__button"
                       primary
-                      type="submit"
                       disabled={isSubmitting}
                       onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
                     >
@@ -361,6 +393,7 @@ export default compose(
   withRouter,
   withApollo,
   withNotifications,
+  withStorage,
   withRequests({
     createOrder: createOrderMutation,
     tradingEngineAccountSymbolsQuery: TradingEngineAccountSymbolsQuery,

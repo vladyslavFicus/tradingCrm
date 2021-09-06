@@ -3,9 +3,11 @@ import { compose, withApollo } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
 import I18n from 'i18n-js';
+import Hotkeys from 'react-hot-keys';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -20,6 +22,7 @@ import './CommonNewOrderModal.scss';
 
 class CommonNewOrderModal extends PureComponent {
   static propTypes = {
+    ...withStorage.propTypes,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
@@ -138,6 +141,7 @@ class CommonNewOrderModal extends PureComponent {
       onCloseModal,
       createOrder,
       onSuccess,
+      storage,
     } = this.props;
 
     const { accountUuid } = this.state;
@@ -145,7 +149,13 @@ class CommonNewOrderModal extends PureComponent {
     setFieldValue('direction', direction);
 
     try {
-      await createOrder({
+      const {
+        data: {
+          tradingEngine: {
+            createOrder: { id: orderId },
+          },
+        },
+      } = await createOrder({
         variables: {
           type: 'MARKET',
           accountUuid,
@@ -154,6 +164,9 @@ class CommonNewOrderModal extends PureComponent {
           ...values,
         },
       });
+
+      // Save last created order to storage to open it later by request
+      storage.set('TE.lastCreatedOrderId', orderId);
 
       notify({
         level: 'success',
@@ -195,7 +208,13 @@ class CommonNewOrderModal extends PureComponent {
     } = this.state;
 
     return (
-      <Modal className="CommonNewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="CommonNewOrderModal" toggle={onCloseModal} isOpen={isOpen} keyboard={false}>
+        {/*
+           Disable keyboard controlling on modal to prevent close modal by ESC button because it's working with a bug
+           and after close by ESC button hotkeys not working when not clicking ESC button second time.
+           So we should implement close event by ESC button manually.
+        */}
+        <Hotkeys keyName="esc" filter={() => true} onKeyUp={onCloseModal} />
         <Formik
           initialValues={{
             login,
@@ -247,6 +266,7 @@ class CommonNewOrderModal extends PureComponent {
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
+          onSubmit={() => {}}
         >
           {({ isSubmitting, dirty, values, setFieldValue, setSubmitting }) => (
             <Form>
@@ -263,10 +283,12 @@ class CommonNewOrderModal extends PureComponent {
                   </If>
                   <div className="CommonNewOrderModal__field-container">
                     <Field
+                      autoFocus
                       name="login"
                       label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LOGIN')}
                       className="CommonNewOrderModal__field"
                       component={FormikInputField}
+                      onEnterPress={this.handleGetAccount(values)}
                     />
                     <Button
                       className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
@@ -375,10 +397,24 @@ class CommonNewOrderModal extends PureComponent {
                     />
                   </div>
                   <div className="CommonNewOrderModal__field-container">
+                    <If condition={existingLogin}>
+                      {/* Sell order by CTRL+S pressing */}
+                      <Hotkeys
+                        keyName="ctrl+s"
+                        filter={() => true}
+                        onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
+                      />
+
+                      {/* Buy order by CTRL+S pressing */}
+                      <Hotkeys
+                        keyName="ctrl+d"
+                        filter={() => true}
+                        onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
+                      />
+                    </If>
                     <Button
                       className="CommonNewOrderModal__button"
                       danger
-                      type="submit"
                       disabled={isSubmitting || !existingLogin}
                       onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                     >
@@ -390,7 +426,6 @@ class CommonNewOrderModal extends PureComponent {
                     <Button
                       className="CommonNewOrderModal__button"
                       primary
-                      type="submit"
                       disabled={isSubmitting || !existingLogin}
                       onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                     >
@@ -412,6 +447,7 @@ class CommonNewOrderModal extends PureComponent {
 
 export default compose(
   withApollo,
+  withStorage,
   withNotifications,
   withRequests({
     createOrder: CreateOrderMutation,
