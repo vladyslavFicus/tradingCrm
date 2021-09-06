@@ -2156,7 +2156,8 @@
             "SHOW_SALES_STATUS": "Show sales status",
             "SHOW_FTD_AMOUNT": "Show FTD Amount",
             "SHOW_KYC_STATUS": "Show KYC status",
-            "CDE_AFFILIATE": "Mark as source"
+            "CDE_AFFILIATE": "Mark as source",
+            "MIN_FTD_LIMIT": "Minimal FTD"
           }
         }
       }
