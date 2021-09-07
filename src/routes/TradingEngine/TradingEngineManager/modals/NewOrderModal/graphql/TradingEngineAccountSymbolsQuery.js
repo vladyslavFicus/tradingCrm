@@ -10,6 +10,7 @@ const REQUEST = gql`
     ) {
       name
       description
+      digits
     }
   }
 `;

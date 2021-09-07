@@ -32,7 +32,7 @@ class EditOrderModal extends PureComponent {
     }).isRequired,
   };
 
-  handleEditOrder = async (values) => {
+  handleEditOrder = async ({ takeProfit, stopLoss, openPrice, ...res }) => {
     const {
       id,
       notify,
@@ -52,7 +52,10 @@ class EditOrderModal extends PureComponent {
           await editOrder({
             variables: {
               orderId: id,
-              ...values,
+              takeProfit: Number(takeProfit),
+              stopLoss: Number(stopLoss),
+              openPrice: Number(openPrice),
+              ...res,
             },
           });
 
@@ -183,6 +186,7 @@ class EditOrderModal extends PureComponent {
       status,
       commission,
       swaps,
+      digits,
       stopLoss,
       pnl,
       takeProfit,
@@ -192,6 +196,15 @@ class EditOrderModal extends PureComponent {
       accountLogin,
       direction,
     } = data?.tradingEngineOrder || {};
+
+    const decimalsSettings = {
+      decimalsLimit: digits,
+      decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
+        symbol,
+        digits,
+      }),
+      decimalsLengthDefault: digits,
+    };
 
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -289,9 +302,11 @@ class EditOrderModal extends PureComponent {
                         name="openPrice"
                         type="number"
                         step="0.00001"
+                        placeholder={`0.${'0'.repeat(digits || 4)}`}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
+                        {...decimalsSettings}
                       />
                       <Field
                         disabled
@@ -306,9 +321,11 @@ class EditOrderModal extends PureComponent {
                         name="stopLoss"
                         type="number"
                         step="0.00001"
+                        placeholder={`0.${'0'.repeat(digits || 4)}`}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.STOP_LOSS')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
+                        {...decimalsSettings}
                       />
                       <Field
                         disabled
@@ -323,9 +340,11 @@ class EditOrderModal extends PureComponent {
                         name="takeProfit"
                         type="number"
                         step="0.00001"
+                        placeholder={`0.${'0'.repeat(digits || 4)}`}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TAKE_PROFIT')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
+                        {...decimalsSettings}
                       />
                       <Field
                         disabled

@@ -51,10 +51,16 @@ class CommonNewOrderModal extends PureComponent {
     }
   }
 
-  onChangeSymbol = (value, setFieldValue) => {
+  onChangeSymbol = (value, values, setValues) => {
     this.fetchSymbolPrice(value);
 
-    setFieldValue('symbol', value);
+    setValues({
+      ...values,
+      symbol: value,
+      takeProfit: null,
+      stopLoss: null,
+      openPrice: null,
+    });
   };
 
   fetchSymbolPrice = async (symbol) => {
@@ -132,7 +138,7 @@ class CommonNewOrderModal extends PureComponent {
     }
   }
 
-  handleSubmit = (values, direction, setFieldValue, setSubmitting) => async () => {
+  handleSubmit = ({ takeProfit, stopLoss, openPrice, ...res }, direction, setFieldValue, setSubmitting) => async () => {
     const {
       notify,
       onCloseModal,
@@ -150,8 +156,11 @@ class CommonNewOrderModal extends PureComponent {
           type: 'MARKET',
           accountUuid,
           pendingOrder: true,
+          takeProfit: Number(takeProfit),
+          stopLoss: Number(stopLoss),
+          openPrice: Number(openPrice),
           direction,
-          ...values,
+          ...res,
         },
       });
 
@@ -244,161 +253,178 @@ class CommonNewOrderModal extends PureComponent {
           validateOnBlur={false}
           enableReinitialize
         >
-          {({ isSubmitting, dirty, values, setFieldValue, setSubmitting }) => (
-            <Form>
-              <ModalHeader toggle={onCloseModal}>
-                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TITLE')}
-              </ModalHeader>
-              <div className="CommonNewOrderModal__inner-wrapper">
-                <SymbolChart symbol={values.symbol} accountUuid={accountUuid} />
-                <ModalBody>
-                  <If condition={formError && !existingLogin}>
-                    <div className="CommonNewOrderModal__error">
-                      {formError}
+          {({ isSubmitting, dirty, values, setFieldValue, setSubmitting, setValues }) => {
+            const { symbol } = values;
+            const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
+
+            const decimalsSettings = {
+              decimalsLimit: digitsCurrentSymbol,
+              decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
+                symbol,
+                digits: digitsCurrentSymbol,
+              }),
+              decimalsLengthDefault: digitsCurrentSymbol,
+            };
+
+            return (
+              <Form>
+                <ModalHeader toggle={onCloseModal}>
+                  {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TITLE')}
+                </ModalHeader>
+                <div className="CommonNewOrderModal__inner-wrapper">
+                  <SymbolChart symbol={symbol} accountUuid={accountUuid} />
+                  <ModalBody>
+                    <If condition={formError && !existingLogin}>
+                      <div className="CommonNewOrderModal__error">
+                        {formError}
+                      </div>
+                    </If>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Field
+                        name="login"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LOGIN')}
+                        className="CommonNewOrderModal__field"
+                        component={FormikInputField}
+                      />
+                      <Button
+                        className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
+                        type="button"
+                        primaryOutline
+                        disabled={!dirty || isSubmitting}
+                        onClick={this.handleGetAccount(values)}
+                      >
+                        {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
+                      </Button>
                     </div>
-                  </If>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Field
-                      name="login"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LOGIN')}
-                      className="CommonNewOrderModal__field"
-                      component={FormikInputField}
-                    />
-                    <Button
-                      className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
-                      type="button"
-                      primaryOutline
-                      disabled={!dirty || isSubmitting}
-                      onClick={this.handleGetAccount(values)}
-                    >
-                      {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
-                    </Button>
-                  </div>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Field
-                      name="volumeLots"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
-                      className="CommonNewOrderModal__field"
-                      placeholder="0.00000"
-                      step="0.00001"
-                      min={0}
-                      max={999999}
-                      component={FormikInputField}
-                      disabled={!existingLogin}
-                    />
-                  </div>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Field
-                      name="symbol"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
-                      className="CommonNewOrderModal__field"
-                      component={FormikSelectField}
-                      disabled={!existingLogin}
-                      customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
-                    >
-                      {accountSymbols.map(({ name, description }) => (
-                        <option key={name} value={name}>
-                          {name} {description}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Field
-                      name="takeProfit"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
-                      className="CommonNewOrderModal__field"
-                      placeholder="0.00000"
-                      step="0.00001"
-                      min={0}
-                      max={999999}
-                      component={FormikInputField}
-                      disabled={!existingLogin}
-                    />
-                    <Field
-                      name="stopLoss"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
-                      className="CommonNewOrderModal__field"
-                      placeholder="0.00000"
-                      step="0.00001"
-                      min={0}
-                      max={999999}
-                      component={FormikInputField}
-                      disabled={!existingLogin}
-                    />
-                  </div>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Field
-                      name="openPrice"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
-                      className="CommonNewOrderModal__field"
-                      placeholder="0.00"
-                      step="0.01"
-                      min={0}
-                      max={999999}
-                      disabled={values.autoOpenPrice && !existingLogin}
-                      component={FormikInputField}
-                    />
-                    <Button
-                      className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
-                      type="button"
-                      primaryOutline
-                      disabled={!existingLogin}
-                    >
-                      {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
-                    </Button>
-                    <Field
-                      name="autoOpenPrice"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
-                      className="CommonNewOrderModal__field CommonNewOrderModal__field--center"
-                      component={FormikCheckbox}
-                      disabled={!existingLogin}
-                    />
-                  </div>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Field
-                      name="comment"
-                      label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMENT')}
-                      className="CommonNewOrderModal__field"
-                      maxLength={1000}
-                      component={FormikTextAreaField}
-                      disabled={!existingLogin}
-                    />
-                  </div>
-                  <div className="CommonNewOrderModal__field-container">
-                    <Button
-                      className="CommonNewOrderModal__button"
-                      danger
-                      type="submit"
-                      disabled={isSubmitting || !existingLogin}
-                      onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
-                    >
-                      {I18n.t(
-                        'TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT',
-                        { value: values.openPrice || bid },
-                      )}
-                    </Button>
-                    <Button
-                      className="CommonNewOrderModal__button"
-                      primary
-                      type="submit"
-                      disabled={isSubmitting || !existingLogin}
-                      onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
-                    >
-                      {I18n.t(
-                        'TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT',
-                        { value: values.openPrice || ask },
-                      )}
-                    </Button>
-                  </div>
-                </ModalBody>
-              </div>
-            </Form>
-          )}
+                    <div className="CommonNewOrderModal__field-container">
+                      <Field
+                        name="volumeLots"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
+                        className="CommonNewOrderModal__field"
+                        placeholder="0.00000"
+                        step="0.00001"
+                        min={0}
+                        max={999999}
+                        component={FormikInputField}
+                        disabled={!existingLogin}
+                      />
+                    </div>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Field
+                        name="symbol"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
+                        className="CommonNewOrderModal__field"
+                        component={FormikSelectField}
+                        disabled={!existingLogin}
+                        customOnChange={value => this.onChangeSymbol(value, values, setValues)}
+                      >
+                        {accountSymbols.map(({ name, description }) => (
+                          <option key={name} value={name}>
+                            {name} {description}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Field
+                        name="takeProfit"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
+                        className="CommonNewOrderModal__field"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        step="0.00001"
+                        min={0}
+                        max={999999}
+                        component={FormikInputField}
+                        disabled={!existingLogin}
+                        {...decimalsSettings}
+                      />
+                      <Field
+                        name="stopLoss"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
+                        className="CommonNewOrderModal__field"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        step="0.00001"
+                        min={0}
+                        max={999999}
+                        component={FormikInputField}
+                        disabled={!existingLogin}
+                        {...decimalsSettings}
+                      />
+                    </div>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Field
+                        name="openPrice"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
+                        className="CommonNewOrderModal__field"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        step="0.000001"
+                        min={0}
+                        max={999999}
+                        disabled={values.autoOpenPrice && !existingLogin}
+                        component={FormikInputField}
+                        {...decimalsSettings}
+                      />
+                      <Button
+                        className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
+                        type="button"
+                        primaryOutline
+                        disabled={!existingLogin}
+                      >
+                        {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
+                      </Button>
+                      <Field
+                        name="autoOpenPrice"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
+                        className="CommonNewOrderModal__field CommonNewOrderModal__field--center"
+                        component={FormikCheckbox}
+                        disabled={!existingLogin}
+                      />
+                    </div>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Field
+                        name="comment"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMENT')}
+                        className="CommonNewOrderModal__field"
+                        maxLength={1000}
+                        component={FormikTextAreaField}
+                        disabled={!existingLogin}
+                      />
+                    </div>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Button
+                        className="CommonNewOrderModal__button"
+                        danger
+                        type="submit"
+                        disabled={isSubmitting || !existingLogin}
+                        onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
+                      >
+                        {I18n.t(
+                          'TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT',
+                          { value: values.openPrice || bid },
+                        )}
+                      </Button>
+                      <Button
+                        className="CommonNewOrderModal__button"
+                        primary
+                        type="submit"
+                        disabled={isSubmitting || !existingLogin}
+                        onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
+                      >
+                        {I18n.t(
+                          'TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT',
+                          { value: values.openPrice || ask },
+                        )}
+                      </Button>
+                    </div>
+                  </ModalBody>
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </Modal>
     );
