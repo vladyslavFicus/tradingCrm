@@ -20,6 +20,18 @@
     &--upper {
       text-transform: uppercase;
     }
+
+    &--neutral {
+      color: #ccc;
+    }
+
+    &--positive {
+      color: #0cb56c;
+    }
+
+    &--negative {
+      color: #ef393f;
+    }
   }
 
   &__cell-value-add {

@@ -3,15 +3,16 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import Hotkeys from 'react-hot-keys';
 import { withRouter } from 'react-router-dom';
+import { withRequests } from 'apollo';
+import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
-import { EditButton } from 'components/UI';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
@@ -22,6 +23,7 @@ import './TradingEngineOrdersGrid.scss';
 class TradingEngineOrdersGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withStorage.propTypes,
     modals: PropTypes.shape({
       editOrderModal: PropTypes.modalType,
     }).isRequired,
@@ -73,6 +75,24 @@ class TradingEngineOrdersGrid extends PureComponent {
     });
   };
 
+  handleOpenLastCreatedOrder = () => {
+    const {
+      storage,
+      modals: {
+        editOrderModal,
+      },
+    } = this.props;
+
+    const id = storage.get('TE.lastCreatedOrderId');
+
+    if (id) {
+      editOrderModal.show({
+        id,
+        onSuccess: this.refetchOrders,
+      });
+    }
+  }
+
   render() {
     const {
       location: { state },
@@ -97,6 +117,9 @@ class TradingEngineOrdersGrid extends PureComponent {
           </span>
         </div>
 
+        {/* Open last created order by SHIFT+Q hot key */}
+        <Hotkeys keyName="shift+q" filter={() => true} onKeyUp={this.handleOpenLastCreatedOrder} />
+
         <TradingEngineOrdersGridFilter handleRefetch={this.refetchOrders} />
 
         <div className="TradingEngineOrdersGrid">
@@ -112,21 +135,22 @@ class TradingEngineOrdersGrid extends PureComponent {
               sortBy="id"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.TRADE')}
               render={({ id }) => (
-                <div
-                  className="TradingEngineOrdersGrid__uuid"
-                  onClick={() => editOrderModal.show({
-                    id,
-                    onSuccess: () => this.refetchOrders(),
-                  })}
-                >
-                  <div className="TradingEngineOrdersGrid__cell-value">
-                    <Uuid
-                      uuid={`${id}`}
-                      uuidPrefix="TR"
-                    />
-                    <EditButton className="TradingEngineOrdersGrid__edit-button" />
+                <>
+                  <div
+                    className="TradingEngineOrdersGrid__cell-value TradingEngineOrdersGrid__cell-value--pointer"
+                    onClick={() => editOrderModal.show({
+                      id,
+                      onSuccess: () => this.refetchOrders(),
+                    })}
+                  >
+                    TR-{id}
                   </div>
-                </div>
+                  <Uuid
+                    uuid={id}
+                    title={I18n.t('COMMON.COPY')}
+                    className="AccountProfileOrdersGrid__cell-value-add"
+                  />
+                </>
               )}
             />
             <Column
@@ -266,6 +290,7 @@ class TradingEngineOrdersGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withStorage,
   withModals({
     editOrderModal: EditOrderModal,
   }),

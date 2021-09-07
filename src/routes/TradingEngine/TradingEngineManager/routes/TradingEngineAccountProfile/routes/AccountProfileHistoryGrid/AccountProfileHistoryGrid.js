@@ -151,7 +151,18 @@ class AccountProfileHistoryGrid extends PureComponent {
             <Column
               sortBy="symbol"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.SYMBOL')}
-              render={({ symbol }) => <div className="AccountProfileOrdersGrid__cell-value">{symbol}</div>}
+              render={({ symbol }) => (
+                <div className="AccountProfileOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={symbol}>
+                      {symbol}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
+              )}
             />
             <Column
               sortBy="openingTime"
@@ -171,43 +182,93 @@ class AccountProfileHistoryGrid extends PureComponent {
               sortBy="openingPrice"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.OPEN_PRICE')}
               render={({ openPrice }) => (
-                <Fragment>
-                  <div className="AccountProfileHistoryGrid__cell-value">{openPrice}</div>
-                </Fragment>
+                <div className="AccountProfileHistoryGrid__cell-value">
+                  <Choose>
+                    <When condition={openPrice}>
+                      {openPrice}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="volume"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.VOLUME')}
               render={({ volume }) => (
-                <div className="AccountProfileHistoryGrid__cell-value">{volume}</div>
+                <div className="AccountProfileHistoryGrid__cell-value">
+                  <Choose>
+                    <When condition={volume}>
+                      {volume}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="stopLoss"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.S/L')}
               render={({ stopLoss }) => (
-                <div className="AccountProfileHistoryGrid__cell-value">{stopLoss}</div>
+                <div className="AccountProfileHistoryGrid__cell-value">
+                  <Choose>
+                    <When condition={stopLoss}>
+                      {stopLoss}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="takeProfit"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.T/P')}
               render={({ takeProfit }) => (
-                <div className="AccountProfileHistoryGrid__cell-value">{takeProfit}</div>
+                <div className="AccountProfileHistoryGrid__cell-value">
+                  <Choose>
+                    <When condition={takeProfit}>
+                      {takeProfit}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               sortBy="swaps"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.SWAP')}
               render={({ swaps }) => (
-                <div className="AccountProfileHistoryGrid__cell-value">{swaps}</div>
+                <div className="AccountProfileHistoryGrid__cell-value">
+                  <Choose>
+                    <When condition={swaps}>
+                      {swaps}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.P&L')}
               render={({ profit }) => (
-                <div className="AccountProfileHistoryGrid__cell-value">{profit}</div>
+                <div className={classNames('AccountProfileHistoryGrid__cell-value', {
+                  'AccountProfileHistoryGrid__cell-value--neutral': profit === 0,
+                  'AccountProfileHistoryGrid__cell-value--positive': profit > 0,
+                  'AccountProfileHistoryGrid__cell-value--negative': profit < 0,
+                })}
+                >
+                  {profit.toFixed(2)}
+                </div>
               )}
             />
             <Column

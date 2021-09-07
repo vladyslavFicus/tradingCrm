@@ -76,7 +76,7 @@ class Checkbox extends PureComponent {
           />
           <span
             className="Checkbox__icon"
-            tabIndex={0} // eslint-disable-line
+            tabIndex={disabled ? -1 : 0} // eslint-disable-line
             onKeyPress={this.handleKeyPress}
           >
             <CheckIcon className="Checkbox__icon-in" />

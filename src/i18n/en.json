@@ -483,6 +483,7 @@
     "EXTERNAL_AFILIATE_ID": "External ID",
     "OK": "Ok",
     "NO_ITEMS": "No items",
+    "COPY": "Copy",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
@@ -1570,6 +1571,16 @@
     }
   },
   "FEED_ITEM": {
+    "affiliateName": "Affiliate's name",
+    "retentionRep": "Retention representative",
+    "salesRep": "Sales representative",
+    "triggeredByName": "Assigned by name",
+    "triggeredByUuid": "Assigned by uuid",
+    "acquisitionType": "Acquisition status",
+    "acquisitionRepresentativeUuid": "Assigned to uuid",
+    "operatorsName": "Operator's name",
+    "invitationSent": "Invitation",
+    "attemptDateTime": "Attempt date & time",
     "LOG_IN": {
       "UPLOADED_FILE": "Uploaded file",
       "SESSION_ID": "Session ID",
@@ -2155,7 +2166,8 @@
             "SHOW_SALES_STATUS": "Show sales status",
             "SHOW_FTD_AMOUNT": "Show FTD Amount",
             "SHOW_KYC_STATUS": "Show KYC status",
-            "CDE_AFFILIATE": "Mark as source"
+            "CDE_AFFILIATE": "Mark as source",
+            "MIN_FTD_LIMIT": "Minimal FTD"
           }
         }
       }
@@ -3425,7 +3437,8 @@
         "ERROR": "This account doesn't exist",
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created",
-          "FAILED": "Order creation failed"
+          "FAILED": "Order creation failed",
+          "NOT_ENOUGH_FREE_MARGIN": "Not enough free margin"
         }
       },
       "COMMON_NEW_ORDER_MODAL": {
@@ -3475,7 +3488,7 @@
           "CANCEL_ORDER_TITLE": "Cancel order",
           "CANCEL_ORDER_TEXT": "Do you really want to cancel order #{{id}}?",
           "CLOSE_ORDER_TITLE_OPEN": "Close order",
-          "CLOSE_ORDER_TEXT_OPEN": "Do you really want to close order #{{id}} Sell {{symbol}} at price {{closePrice}}?",
+          "CLOSE_ORDER_TEXT_OPEN": "Do you really want to close order #{{id}} {{type}} {{symbol}} at price {{closePrice}}?",
           "CLOSE_ORDER_TITLE_PENDING": "Activate order",
           "CLOSE_ORDER_TEXT_PENDING": "Do you really want to activate order #{{id}} at price {{closePrice}}? "
         },
@@ -4549,7 +4562,7 @@
           "payment-changeStatus": "Change payment status",
           "payment-changeMethod": "Change payment method",
           "payment-changeAgent": "Payment original agent",
-          "payment-changeShowFtdToAffiliate": "Affiliate settings",
+          "payment-enableShowFtdToAffiliate": "Affiliate settings",
           "resetPassword": "Reset password",
           "changePassword": "Change password for client",
           "getAuthorities": "Get authorities for notes",

@@ -24,6 +24,9 @@ class Input extends PureComponent {
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    onTruncated: PropTypes.func,
+    onEnterPress: PropTypes.func,
     showWarningMessage: PropTypes.bool,
     warningMessage: PropTypes.string,
   };
@@ -44,6 +47,36 @@ class Input extends PureComponent {
     onAdditionClick: () => {},
     showErrorMessage: true,
     showWarningMessage: false,
+    autoFocus: false,
+    onEnterPress: () => true,
+    onTruncated: () => {},
+  };
+
+  inputRef = React.createRef();
+
+  componentDidMount() {
+    // Enable autofocus on next tick (because in the same tick it isn't working)
+    if (this.props.autoFocus) {
+      setTimeout(() => this.inputRef.current.focus(), 0);
+    }
+  }
+
+  /**
+   * On key down handler
+   *
+   * @param e
+   */
+  onKeyDown = (e) => {
+    const { target: { value }, code } = e;
+    const { onTruncated, onEnterPress } = this.props;
+
+    // Fire onTruncated event if input value empty
+    if (code === 'Backspace' && onTruncated && value.length === 0) {
+      onTruncated();
+    }
+    if (code === 'Enter') {
+      onEnterPress(this);
+    }
   };
 
   render() {
@@ -74,6 +107,8 @@ class Input extends PureComponent {
       disabled,
       onChange: e => onChange(e.target.value),
       ...input,
+      ref: this.inputRef,
+      onKeyDown: this.onKeyDown,
     };
 
     const uniqueId = `label-${name}`;

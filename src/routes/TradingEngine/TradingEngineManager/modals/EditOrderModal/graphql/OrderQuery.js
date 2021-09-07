@@ -10,6 +10,7 @@ const REQUEST = gql`
     ) {
       id
       accountLogin
+      accountUuid
       tradeType
       symbol
       symbolAlias

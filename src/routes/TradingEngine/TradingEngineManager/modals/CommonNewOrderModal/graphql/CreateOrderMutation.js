@@ -29,7 +29,9 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
       takeProfit: $takeProfit
       comment: $comment
       pendingOrder: $pendingOrder
-    )
+    ) {
+      id
+    }
   }
 }
 `;

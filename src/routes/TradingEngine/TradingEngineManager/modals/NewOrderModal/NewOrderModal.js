@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, withApollo } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
+import { withStorage } from 'providers/StorageProvider';
+import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -20,6 +22,7 @@ import './NewOrderModal.scss';
 class NewOrderModal extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withStorage.propTypes,
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -115,6 +118,7 @@ class NewOrderModal extends PureComponent {
       onCloseModal,
       createOrder,
       onSuccess,
+      storage,
       match: {
         params: {
           id,
@@ -125,7 +129,13 @@ class NewOrderModal extends PureComponent {
     setFieldValue('direction', direction);
 
     try {
-      await createOrder({
+      const {
+        data: {
+          tradingEngine: {
+            createOrder: { id: orderId },
+          },
+        },
+      } = await createOrder({
         variables: {
           type: 'MARKET',
           accountUuid: id,
@@ -138,6 +148,9 @@ class NewOrderModal extends PureComponent {
         },
       });
 
+      // Save last created order to storage to open it later by request
+      storage.set('TE.lastCreatedOrderId', orderId);
+
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
@@ -146,14 +159,26 @@ class NewOrderModal extends PureComponent {
 
       onSuccess();
       onCloseModal();
-    } catch (_) {
+    } catch (e) {
+      const { error } = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.ERROR'),
-        message: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
+        message: error === 'error.order.creation.not-enough-free-margin'
+          ? I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
+          : I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
       });
     }
   }
+
+  handleAutoOpenPrice = (value, setFieldValue) => () => {
+    const autoOpenPrice = !value;
+
+    setFieldValue('autoOpenPrice', autoOpenPrice);
+
+    setFieldValue('openPrice', !autoOpenPrice ? this.state.bid : undefined);
+  };
 
   render() {
     const {
@@ -173,7 +198,13 @@ class NewOrderModal extends PureComponent {
     const accountSymbols = tradingEngineAccountSymbolsQuery.data?.tradingEngineAccountSymbols || [];
 
     return (
-      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen} keyboard={false}>
+        {/*
+           Disable keyboard controlling on modal to prevent close modal by ESC button because it's working with a bug
+           and after close by ESC button hotkeys not working when not clicking ESC button second time.
+           So we should implement close event by ESC button manually.
+        */}
+        <Hotkeys keyName="esc" filter={() => true} onKeyUp={onCloseModal} />
         <Formik
           initialValues={{
             login,
@@ -225,6 +256,7 @@ class NewOrderModal extends PureComponent {
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
+          onSubmit={() => {}}
         >
           {({ isSubmitting, values, setFieldValue, setValues }) => {
             const { symbol } = values;
@@ -258,6 +290,7 @@ class NewOrderModal extends PureComponent {
                     </div>
                     <div className="NewOrderModal__field-container">
                       <Field
+                        autoFocus
                         name="volumeLots"
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
@@ -276,6 +309,7 @@ class NewOrderModal extends PureComponent {
                         className="NewOrderModal__field"
                         component={FormikSelectField}
                         customOnChange={value => this.onChangeSymbol(value, values, setValues)}
+                        searchable
                       >
                         {accountSymbols.map(({ name, description }) => (
                           <option key={name} value={name}>
@@ -320,6 +354,7 @@ class NewOrderModal extends PureComponent {
                         step="0.01"
                         min={0}
                         max={999999}
+                        value={values.openPrice || bid}
                         disabled={values.autoOpenPrice}
                         component={FormikInputField}
                         {...decimalsSettings}
@@ -328,6 +363,8 @@ class NewOrderModal extends PureComponent {
                         className="NewOrderModal__button NewOrderModal__button--small"
                         type="button"
                         primaryOutline
+                        disabled={values.autoOpenPrice}
+                        onClick={() => setFieldValue('openPrice', bid)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
                       </Button>
@@ -336,6 +373,7 @@ class NewOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
                         className="NewOrderModal__field NewOrderModal__field--center"
                         component={FormikCheckbox}
+                        onChange={this.handleAutoOpenPrice(values.autoOpenPrice, setFieldValue)}
                       />
                     </div>
                     <div className="NewOrderModal__field-container">
@@ -348,6 +386,19 @@ class NewOrderModal extends PureComponent {
                       />
                     </div>
                     <div className="NewOrderModal__field-container">
+                      {/* Sell order by CTRL+S pressing */}
+                      <Hotkeys
+                        keyName="ctrl+s"
+                        filter={() => true}
+                        onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue)}
+                      />
+
+                      {/* Buy order by CTRL+S pressing */}
+                      <Hotkeys
+                        keyName="ctrl+d"
+                        filter={() => true}
+                        onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
+                      />
                       <Button
                         className="NewOrderModal__button"
                         danger
@@ -382,6 +433,7 @@ export default compose(
   withRouter,
   withApollo,
   withNotifications,
+  withStorage,
   withRequests({
     createOrder: createOrderMutation,
     tradingEngineAccountSymbolsQuery: TradingEngineAccountSymbolsQuery,

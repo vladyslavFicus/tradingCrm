@@ -1,11 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
+import Hotkeys from 'react-hot-keys';
 import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import moment from 'moment';
 import withModals from 'hoc/withModals';
+import { withStorage } from 'providers/StorageProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
@@ -15,7 +17,7 @@ import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import CommonNewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/CommonNewOrderModal';
+import CommonNewOrderModal from '../../modals/CommonNewOrderModal';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
@@ -24,6 +26,7 @@ import './TradingEngineAccountsGrid.scss';
 class TradingEngineAccountsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    ...withStorage.propTypes,
     accounts: PropTypes.query({
       tradingEngineAccountsData: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
@@ -72,6 +75,14 @@ class TradingEngineAccountsGrid extends PureComponent {
     });
   };
 
+  handleOpenLastOpenedAccount = () => {
+    const uuid = this.props.storage.get('TE.lastOpenedAccountUuid');
+
+    if (uuid) {
+      window.open(`/trading-engine-manager/accounts/${uuid}`);
+    }
+  };
+
   renderTradingAccountColumn = ({ uuid, name, accountType, platformType, archived }) => (
     <Fragment>
       <Badge
@@ -101,15 +112,19 @@ class TradingEngineAccountsGrid extends PureComponent {
     </Link>
   );
 
+  handleNewOrderClick = () => {
+    this.props.modals.newOrderModal.show({
+      mutableLogin: true,
+      onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
+    });
+  };
+
   render() {
     const {
       location: { state },
       accounts,
       accounts: {
         loading,
-      },
-      modals: {
-        newOrderModal,
       },
     } = this.props;
 
@@ -120,6 +135,15 @@ class TradingEngineAccountsGrid extends PureComponent {
 
     return (
       <div className="card">
+        {/* Hotkey on F9 button to open new order modal */}
+        <Hotkeys
+          keyName="f9"
+          onKeyUp={this.handleNewOrderClick}
+        />
+
+        {/* Open last opened account by SHIFT+A hot key */}
+        <Hotkeys keyName="shift+a" filter={() => true} onKeyUp={this.handleOpenLastOpenedAccount} />
+
         <Tabs items={tradingEngineTabs} />
 
         <div className="TradingEngineAccountsGrid__header card-heading card-heading--is-sticky">
@@ -129,9 +153,7 @@ class TradingEngineAccountsGrid extends PureComponent {
           <div className="TradingEngineAccountsGrid__actions">
             <Button
               className="TradingEngineAccountsGrid__action"
-              onClick={() => newOrderModal.show({
-                onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
-              })}
+              onClick={this.handleNewOrderClick}
               commonOutline
               small
             >
@@ -217,6 +239,7 @@ class TradingEngineAccountsGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withStorage,
   withRequests({
     accounts: TradingEngineAccountsQuery,
   }),
