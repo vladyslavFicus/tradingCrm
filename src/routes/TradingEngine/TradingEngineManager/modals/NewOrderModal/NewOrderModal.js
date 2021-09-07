@@ -163,6 +163,14 @@ class NewOrderModal extends PureComponent {
     }
   }
 
+  handleAutoOpenPrice = (value, setFieldValue) => () => {
+    const autoOpenPrice = !value;
+
+    setFieldValue('autoOpenPrice', autoOpenPrice);
+
+    setFieldValue('openPrice', !autoOpenPrice ? this.state.bid : undefined);
+  };
+
   render() {
     const {
       isOpen,
@@ -322,6 +330,7 @@ class NewOrderModal extends PureComponent {
                       step="0.01"
                       min={0}
                       max={999999}
+                      value={values.openPrice || bid}
                       disabled={values.autoOpenPrice}
                       component={FormikInputField}
                     />
@@ -329,6 +338,8 @@ class NewOrderModal extends PureComponent {
                       className="NewOrderModal__button NewOrderModal__button--small"
                       type="button"
                       primaryOutline
+                      disabled={values.autoOpenPrice}
+                      onClick={() => setFieldValue('openPrice', bid)}
                     >
                       {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
                     </Button>
@@ -337,6 +348,7 @@ class NewOrderModal extends PureComponent {
                       label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
                       className="NewOrderModal__field NewOrderModal__field--center"
                       component={FormikCheckbox}
+                      onChange={this.handleAutoOpenPrice(values.autoOpenPrice, setFieldValue)}
                     />
                   </div>
                   <div className="NewOrderModal__field-container">
