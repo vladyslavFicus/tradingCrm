@@ -249,152 +249,169 @@ class NewOrderModal extends PureComponent {
           enableReinitialize
           onSubmit={() => {}}
         >
-          {({ isSubmitting, values, setFieldValue }) => (
-            <Form>
-              <ModalHeader toggle={onCloseModal}>
-                {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
-              </ModalHeader>
-              <div className="NewOrderModal__inner-wrapper">
-                <SymbolChart symbol={values.symbol} accountUuid={accountUuid} />
-                <ModalBody>
-                  <div className="NewOrderModal__field-container NewOrderModal__field-container--half">
-                    <Field
-                      disabled
-                      name="login"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.LOGIN')}
-                      className="NewOrderModal__field"
-                      component={FormikInputField}
-                    />
-                  </div>
-                  <div className="NewOrderModal__field-container">
-                    <Field
-                      autoFocus
-                      name="volumeLots"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
-                      className="NewOrderModal__field"
-                      placeholder="0.00000"
-                      step="0.00001"
-                      min={0}
-                      max={999999}
-                      component={FormikInputField}
-                    />
-                  </div>
-                  <div className="NewOrderModal__field-container">
-                    <Field
-                      name="symbol"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SYMBOL')}
-                      className="NewOrderModal__field"
-                      component={FormikSelectField}
-                      customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
-                      searchable
-                    >
-                      {accountSymbols.map(({ name, description }) => (
-                        <option key={name} value={name}>
-                          {`${name}  ${description}`}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="NewOrderModal__field-container">
-                    <Field
-                      name="takeProfit"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TAKE_PROFIT')}
-                      className="NewOrderModal__field"
-                      placeholder="0.00000"
-                      step="0.00001"
-                      min={0}
-                      max={999999}
-                      component={FormikInputField}
-                    />
-                    <Field
-                      name="stopLoss"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.STOP_LOSS')}
-                      className="NewOrderModal__field"
-                      placeholder="0.00000"
-                      step="0.00001"
-                      min={0}
-                      max={999999}
-                      component={FormikInputField}
-                    />
-                  </div>
-                  <div className="NewOrderModal__field-container">
-                    <Field
-                      name="openPrice"
-                      type="number"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE')}
-                      className="NewOrderModal__field"
-                      placeholder="0.00"
-                      step="0.01"
-                      min={0}
-                      max={999999}
-                      value={values.openPrice || bid}
-                      disabled={values.autoOpenPrice}
-                      component={FormikInputField}
-                    />
-                    <Button
-                      className="NewOrderModal__button NewOrderModal__button--small"
-                      type="button"
-                      primaryOutline
-                      disabled={values.autoOpenPrice}
-                      onClick={() => setFieldValue('openPrice', bid)}
-                    >
-                      {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
-                    </Button>
-                    <Field
-                      name="autoOpenPrice"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
-                      className="NewOrderModal__field NewOrderModal__field--center"
-                      component={FormikCheckbox}
-                      onChange={this.handleAutoOpenPrice(values.autoOpenPrice, setFieldValue)}
-                    />
-                  </div>
-                  <div className="NewOrderModal__field-container">
-                    <Field
-                      name="comment"
-                      label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
-                      className="NewOrderModal__field"
-                      maxLength={1000}
-                      component={FormikTextAreaField}
-                    />
-                  </div>
-                  <div className="NewOrderModal__field-container">
-                    {/* Sell order by CTRL+S pressing */}
-                    <Hotkeys
-                      keyName="ctrl+s"
-                      filter={() => true}
-                      onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue)}
-                    />
+          {({ isSubmitting, values, setFieldValue }) => {
+            const {
+              autoOpenPrice,
+              openPrice,
+              symbol,
+            } = values;
 
-                    {/* Buy order by CTRL+S pressing */}
-                    <Hotkeys
-                      keyName="ctrl+d"
-                      filter={() => true}
-                      onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
-                    />
-                    <Button
-                      className="NewOrderModal__button"
-                      danger
-                      disabled={isSubmitting}
-                      onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
-                    >
-                      {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: values.openPrice || bid })}
-                    </Button>
-                    <Button
-                      className="NewOrderModal__button"
-                      primary
-                      disabled={isSubmitting}
-                      onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
-                    >
-                      {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: values.openPrice || ask })}
-                    </Button>
-                  </div>
-                </ModalBody>
-              </div>
-            </Form>
-          )}
+            const sellPrice = autoOpenPrice ? bid : openPrice;
+            const buyPrice = autoOpenPrice ? ask : openPrice;
+
+            const currentSymbol = accountSymbols.find(({ name }) => symbol === name);
+
+            return (
+              <Form>
+                <ModalHeader toggle={onCloseModal}>
+                  {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
+                </ModalHeader>
+                <div className="NewOrderModal__inner-wrapper">
+                  <SymbolChart symbol={symbol} accountUuid={accountUuid} />
+                  <ModalBody>
+                    <div className="NewOrderModal__field-container NewOrderModal__field-container--half">
+                      <Field
+                        disabled
+                        name="login"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.LOGIN')}
+                        className="NewOrderModal__field"
+                        component={FormikInputField}
+                      />
+                    </div>
+                    <div className="NewOrderModal__field-container">
+                      <Field
+                        autoFocus
+                        name="volumeLots"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
+                        className="NewOrderModal__field"
+                        placeholder="0.00000"
+                        step="0.00001"
+                        min={0}
+                        max={999999}
+                        component={FormikInputField}
+                      />
+                    </div>
+                    <div className="NewOrderModal__field-container">
+                      <Field
+                        name="symbol"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SYMBOL')}
+                        className="NewOrderModal__field"
+                        component={FormikSelectField}
+                        customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
+                        searchable
+                      >
+                        {accountSymbols.map(({ name, description }) => (
+                          <option key={name} value={name}>
+                            {`${name}  ${description}`}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                    <div className="NewOrderModal__field-container">
+                      <Field
+                        name="takeProfit"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TAKE_PROFIT')}
+                        className="NewOrderModal__field"
+                        placeholder="0.00000"
+                        step="0.00001"
+                        min={0}
+                        max={999999}
+                        component={FormikInputField}
+                      />
+                      <Field
+                        name="stopLoss"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.STOP_LOSS')}
+                        className="NewOrderModal__field"
+                        placeholder="0.00000"
+                        step="0.00001"
+                        min={0}
+                        max={999999}
+                        component={FormikInputField}
+                      />
+                    </div>
+                    <div className="NewOrderModal__field-container">
+                      <Field
+                        name="openPrice"
+                        type="number"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE')}
+                        className="NewOrderModal__field"
+                        placeholder="0.00"
+                        step="0.01"
+                        min={0}
+                        max={999999}
+                        value={autoOpenPrice ? bid.toFixed(currentSymbol?.digits) : openPrice}
+                        disabled={autoOpenPrice}
+                        component={FormikInputField}
+                      />
+                      <Button
+                        className="NewOrderModal__button NewOrderModal__button--small"
+                        type="button"
+                        primaryOutline
+                        disabled={autoOpenPrice}
+                        onClick={() => setFieldValue('openPrice', bid)}
+                      >
+                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
+                      </Button>
+                      <Field
+                        name="autoOpenPrice"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
+                        className="NewOrderModal__field NewOrderModal__field--center"
+                        component={FormikCheckbox}
+                        onChange={this.handleAutoOpenPrice(autoOpenPrice, setFieldValue)}
+                      />
+                    </div>
+                    <div className="NewOrderModal__field-container">
+                      <Field
+                        name="comment"
+                        label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
+                        className="NewOrderModal__field"
+                        maxLength={1000}
+                        component={FormikTextAreaField}
+                      />
+                    </div>
+                    <div className="NewOrderModal__field-container">
+                      {/* Sell order by CTRL+S pressing */}
+                      <Hotkeys
+                        keyName="ctrl+s"
+                        filter={() => true}
+                        onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue)}
+                      />
+
+                      {/* Buy order by CTRL+S pressing */}
+                      <Hotkeys
+                        keyName="ctrl+d"
+                        filter={() => true}
+                        onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
+                      />
+                      <Button
+                        className="NewOrderModal__button"
+                        danger
+                        disabled={isSubmitting || !sellPrice}
+                        onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
+                      >
+                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', {
+                          value: sellPrice && sellPrice.toFixed(currentSymbol?.digits),
+                        })}
+                      </Button>
+                      <Button
+                        className="NewOrderModal__button"
+                        primary
+                        disabled={isSubmitting || !buyPrice}
+                        onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
+                      >
+                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', {
+                          value: buyPrice && buyPrice.toFixed(currentSymbol?.digits),
+                        })}
+                      </Button>
+                    </div>
+                  </ModalBody>
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </Modal>
     );
