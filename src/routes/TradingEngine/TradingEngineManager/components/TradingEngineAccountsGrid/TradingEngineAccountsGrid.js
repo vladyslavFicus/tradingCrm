@@ -79,7 +79,7 @@ class TradingEngineAccountsGrid extends PureComponent {
     const uuid = this.props.storage.get('TE.lastOpenedAccountUuid');
 
     if (uuid) {
-      window.open(`/trading-engine-manager/accounts/${uuid}`);
+      this.props.history.push(`/trading-engine-manager/accounts/${uuid}`);
     }
   };
 
