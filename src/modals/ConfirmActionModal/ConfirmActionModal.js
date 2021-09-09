@@ -47,7 +47,7 @@ class ConfirmActionModal extends PureComponent {
   }
 
   handleSubmit = async () => {
-    const { onSubmit, onCloseCallback } = this.props;
+    const { onSubmit, onCloseCallback, onCloseModal } = this.props;
     const { isSubmitting } = this.state;
 
     if (!isSubmitting) {
@@ -55,6 +55,7 @@ class ConfirmActionModal extends PureComponent {
 
       await onSubmit();
       await onCloseCallback();
+      await onCloseModal();
 
       this.setState({ isSubmitting: false });
     }

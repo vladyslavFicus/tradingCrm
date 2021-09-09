@@ -92,7 +92,6 @@ class EditOrderModal extends PureComponent {
     const {
       id,
       notify,
-      onCloseModal,
       editOrder,
       onSuccess,
       modals: { confirmActionModal },
@@ -120,7 +119,6 @@ class EditOrderModal extends PureComponent {
           });
 
           onSuccess();
-          onCloseModal();
         } catch (_) {
           notify({
             level: 'error',
