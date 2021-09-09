@@ -259,7 +259,15 @@ class NewOrderModal extends PureComponent {
           onSubmit={() => {}}
         >
           {({ isSubmitting, values, setFieldValue, setValues }) => {
-            const { symbol } = values;
+            const {
+              autoOpenPrice,
+              openPrice,
+              symbol,
+            } = values;
+
+            const sellPrice = autoOpenPrice ? bid : openPrice;
+            const buyPrice = autoOpenPrice ? ask : openPrice;
+
             const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
 
             const decimalsSettings = {
@@ -277,7 +285,7 @@ class NewOrderModal extends PureComponent {
                   {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TITLE')}
                 </ModalHeader>
                 <div className="NewOrderModal__inner-wrapper">
-                  <SymbolChart symbol={values.symbol} accountUuid={accountUuid} />
+                  <SymbolChart symbol={symbol} accountUuid={accountUuid} />
                   <ModalBody>
                     <div className="NewOrderModal__field-container NewOrderModal__field-container--half">
                       <Field
@@ -313,7 +321,7 @@ class NewOrderModal extends PureComponent {
                       >
                         {accountSymbols.map(({ name, description }) => (
                           <option key={name} value={name}>
-                            {name} {description}
+                            {`${name}  ${description}`}
                           </option>
                         ))}
                       </Field>
@@ -354,8 +362,8 @@ class NewOrderModal extends PureComponent {
                         step="0.01"
                         min={0}
                         max={999999}
-                        value={values.openPrice || bid}
-                        disabled={values.autoOpenPrice}
+                        value={autoOpenPrice ? bid.toFixed(digitsCurrentSymbol) : openPrice}
+                        disabled={autoOpenPrice}
                         component={FormikInputField}
                         {...decimalsSettings}
                       />
@@ -363,7 +371,7 @@ class NewOrderModal extends PureComponent {
                         className="NewOrderModal__button NewOrderModal__button--small"
                         type="button"
                         primaryOutline
-                        disabled={values.autoOpenPrice}
+                        disabled={autoOpenPrice}
                         onClick={() => setFieldValue('openPrice', bid)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.UPDATE')}
@@ -373,7 +381,7 @@ class NewOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.AUTO')}
                         className="NewOrderModal__field NewOrderModal__field--center"
                         component={FormikCheckbox}
-                        onChange={this.handleAutoOpenPrice(values.autoOpenPrice, setFieldValue)}
+                        onChange={this.handleAutoOpenPrice(autoOpenPrice, setFieldValue)}
                       />
                     </div>
                     <div className="NewOrderModal__field-container">
@@ -402,20 +410,22 @@ class NewOrderModal extends PureComponent {
                       <Button
                         className="NewOrderModal__button"
                         danger
-                        type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !sellPrice}
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
                       >
-                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', { value: values.openPrice || bid })}
+                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', {
+                          value: sellPrice && sellPrice.toFixed(digitsCurrentSymbol),
+                        })}
                       </Button>
                       <Button
                         className="NewOrderModal__button"
                         primary
-                        type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !buyPrice}
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
                       >
-                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', { value: values.openPrice || ask })}
+                        {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', {
+                          value: buyPrice && buyPrice.toFixed(digitsCurrentSymbol),
+                        })}
                       </Button>
                     </div>
                   </ModalBody>
