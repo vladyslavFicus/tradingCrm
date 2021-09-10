@@ -15,6 +15,7 @@ import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import CopyToClipboard from 'components/CopyToClipboard';
 import { FormikInputField, FormikSelectField, FormikCheckbox, FormikMultiInputField } from 'components/Formik';
+import FormikInputRangeField from 'components/Formik/FormikInputField/components/FormikInputRangeField';
 import { Button } from 'components/UI';
 import updatePartnerMutation from './graphql/UpdatePartnerMutation';
 import './PartnerPersonalInfoForm.scss';
@@ -34,7 +35,7 @@ const attributeLabels = {
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
   showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
   cdeAffiliate: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CDE_AFFILIATE',
-  minFtdLimit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
+  minFtdDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
@@ -350,9 +351,10 @@ class PartnerPersonalInfoForm extends PureComponent {
                 <Field
                   name="minFtdDeposit"
                   className="PartnerPersonalInfoForm__field"
-                  label={I18n.t(attributeLabels.minFtdLimit)}
-                  placeholder={I18n.t(attributeLabels.minFtdLimit)}
-                  component={FormikInputField}
+                  label={I18n.t(attributeLabels.minFtdDeposit)}
+                  placeholder={I18n.t(attributeLabels.minFtdDeposit)}
+                  component={FormikInputRangeField}
+                  errorText={I18n.t('PARTNERS.PROFILE.CONTACTS.FORM.ERRORS.MIN_FTD_DEPOSIT', { max: 10000, min: 1 })}
                   disabled={isSubmitting || this.isReadOnly}
                 />
               </div>
