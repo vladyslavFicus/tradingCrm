@@ -3599,6 +3599,7 @@
       "HEADLINE": "Orders",
       "GRID": {
         "TRADE": "Trade",
+        "DEAL": "Deal",
         "TYPE": "Type",
         "SYMBOL": "Symbol",
         "TRADING_ACC": "Trading Acc.",
@@ -3611,7 +3612,10 @@
         "T/P": "T/P",
         "OPEN_TIME": "Open time",
         "STATUS": "Status",
-        "LOGIN": "Login"
+        "LOGIN": "Login",
+        "LOTS": "Lots",
+        "COMMISSION": "Commission",
+        "PROFIT": "Profit"
       },
       "STATUSES": {
         "OPEN": "Open",
@@ -3623,7 +3627,10 @@
         "SEARCH_BY": "Search by",
         "SEARCH_BY_PLACEHOLDER": "Order, Login",
         "TYPE_LABEL": "Type",
+        "GROUP": "Group",
         "SYMBOL_LABEL": "Symbol",
+        "CLOSE_TIME_RANGE_LABEL": "Close time range",
+        "OPEN_TIME_RANGE_LABEL": "Open time range",
         "TYPES": {
           "BUY": "Buy",
           "SELL": "Sell",
