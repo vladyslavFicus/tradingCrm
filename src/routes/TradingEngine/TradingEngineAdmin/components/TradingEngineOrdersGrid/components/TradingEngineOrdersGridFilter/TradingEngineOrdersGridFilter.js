@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import {
   FormikInputField,
@@ -10,13 +12,18 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { types } from '../../attributes/constants';
+import TradingEngineGroupsQuery from './graphql/TradingEngineGroupsQuery';
 import './TradingEngineOrdersGridFilter.scss';
 
 class TradingEngineOrdersGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
+    groups: PropTypes.query({
+      tradingEngineGroups: PropTypes.shape({
+        groupName: PropTypes.string,
+      }),
+    }).isRequired,
   };
 
   handleSubmit = (values) => {
@@ -47,7 +54,12 @@ class TradingEngineOrdersGridFilter extends PureComponent {
     const {
       location: { state },
       handleRefetch,
+      groups: {
+        data: groupsData,
+      },
     } = this.props;
+
+    const groups = groupsData?.tradingEngineGroups || [];
 
     return (
       <Formik
@@ -82,9 +94,9 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {types.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
+                {groups.map(({ groupName }) => (
+                  <option key={groupName} value={groupName}>
+                    {I18n.t(groupName)}
                   </option>
                 ))}
               </Field>
@@ -140,4 +152,9 @@ class TradingEngineOrdersGridFilter extends PureComponent {
   }
 }
 
-export default withRouter(TradingEngineOrdersGridFilter);
+export default compose(
+  withRouter,
+  withRequests({
+    groups: TradingEngineGroupsQuery,
+  }),
+)(TradingEngineOrdersGridFilter);
