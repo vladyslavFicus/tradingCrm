@@ -44,11 +44,13 @@ class FormikInputDecimalsField extends PureComponent {
       return;
     }
 
-    setFieldValue(name, value);
-
-    if (decimalsLimit && +value !== Math.floor(+value)) {
+    if (decimalsLimit && +value !== Math.floor(value)) {
       this.validationDecimals(decimalsLimit, value);
+
+      return;
     }
+
+    setFieldValue(name, value);
   }
 
   handleInputBlur = ({ target: { value } }) => {
