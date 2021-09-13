@@ -13,6 +13,7 @@ import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectFiel
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import { createValidator, translateLabels } from 'utils/validator';
+import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
@@ -54,10 +55,16 @@ class CommonNewOrderModal extends PureComponent {
     }
   }
 
-  onChangeSymbol = (value, setFieldValue) => {
+  onChangeSymbol = (value, values, setValues) => {
     this.fetchSymbolPrice(value);
 
-    setFieldValue('symbol', value);
+    setValues({
+      ...values,
+      symbol: value,
+      takeProfit: null,
+      stopLoss: null,
+      openPrice: null,
+    });
   };
 
   fetchSymbolPrice = async (symbol) => {
@@ -135,7 +142,7 @@ class CommonNewOrderModal extends PureComponent {
     }
   }
 
-  handleSubmit = (values, direction, setFieldValue, setSubmitting) => async () => {
+  handleSubmit = ({ takeProfit, stopLoss, openPrice, ...res }, direction, setFieldValue, setSubmitting) => async () => {
     const {
       notify,
       onCloseModal,
@@ -160,8 +167,11 @@ class CommonNewOrderModal extends PureComponent {
           type: 'MARKET',
           accountUuid,
           pendingOrder: true,
+          takeProfit: Number(takeProfit),
+          stopLoss: Number(stopLoss),
+          openPrice: Number(openPrice),
           direction,
-          ...values,
+          ...res,
         },
       });
 
@@ -276,7 +286,7 @@ class CommonNewOrderModal extends PureComponent {
           enableReinitialize
           onSubmit={() => {}}
         >
-          {({ isSubmitting, dirty, values, setFieldValue, setSubmitting }) => {
+          {({ isSubmitting, dirty, values, setFieldValue, setSubmitting, setValues }) => {
             const {
               login,
               autoOpenPrice,
@@ -287,7 +297,16 @@ class CommonNewOrderModal extends PureComponent {
             const sellPrice = autoOpenPrice ? bid : openPrice;
             const buyPrice = autoOpenPrice ? ask : openPrice;
 
-            const currentSymbol = accountSymbols.find(({ name }) => symbol === name);
+            const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
+
+            const decimalsSettings = {
+              decimalsLimit: digitsCurrentSymbol,
+              decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
+                symbol,
+                digits: digitsCurrentSymbol,
+              }),
+              decimalsLengthDefault: digitsCurrentSymbol,
+            };
 
             return (
               <Form>
@@ -342,7 +361,7 @@ class CommonNewOrderModal extends PureComponent {
                         className="CommonNewOrderModal__field"
                         component={FormikSelectField}
                         disabled={!existingLogin}
-                        customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
+                        customOnChange={value => this.onChangeSymbol(value, values, setValues)}
                         searchable
                       >
                         {accountSymbols.map(({ name, description }) => (
@@ -358,24 +377,26 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
                         className="CommonNewOrderModal__field"
-                        placeholder="0.00000"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         disabled={!existingLogin}
+                        {...decimalsSettings}
                       />
                       <Field
                         name="stopLoss"
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
                         className="CommonNewOrderModal__field"
-                        placeholder="0.00000"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         disabled={!existingLogin}
+                        {...decimalsSettings}
                       />
                     </div>
                     <div className="CommonNewOrderModal__field-container">
@@ -384,13 +405,14 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
                         className="CommonNewOrderModal__field"
-                        placeholder="0.00"
-                        step="0.01"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        step="0.00001"
                         min={0}
                         max={999999}
-                        value={autoOpenPrice ? bid.toFixed(currentSymbol?.digits) : openPrice}
+                        value={autoOpenPrice ? bid.toFixed(digitsCurrentSymbol) : openPrice}
                         disabled={autoOpenPrice || !existingLogin}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
+                        {...decimalsSettings}
                       />
                       <Button
                         className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
@@ -443,7 +465,7 @@ class CommonNewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice && sellPrice.toFixed(currentSymbol?.digits),
+                          value: sellPrice && sellPrice.toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                       <Button
@@ -453,7 +475,7 @@ class CommonNewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice && buyPrice.toFixed(currentSymbol?.digits),
+                          value: buyPrice && buyPrice.toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                     </div>

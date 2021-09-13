@@ -3378,6 +3378,7 @@
       "ORDERS": "Orders",
       "SYMBOLS": "Symbols"
     },
+    "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
       "CREDIT": {
         "TITLE": "Credit in / Credit out",
