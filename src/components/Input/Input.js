@@ -105,7 +105,7 @@ class Input extends PureComponent {
       name,
       value,
       disabled,
-      onChange: e => onChange(e.target.value),
+      onChange,
       ...input,
       ref: this.inputRef,
       onKeyDown: this.onKeyDown,

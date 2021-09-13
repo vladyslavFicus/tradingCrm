@@ -13,6 +13,7 @@ import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectFiel
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import { createValidator, translateLabels } from 'utils/validator';
+import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
@@ -380,7 +381,7 @@ class CommonNewOrderModal extends PureComponent {
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         disabled={!existingLogin}
                         {...decimalsSettings}
                       />
@@ -393,7 +394,7 @@ class CommonNewOrderModal extends PureComponent {
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         disabled={!existingLogin}
                         {...decimalsSettings}
                       />
@@ -410,7 +411,7 @@ class CommonNewOrderModal extends PureComponent {
                         max={999999}
                         value={autoOpenPrice ? bid.toFixed(digitsCurrentSymbol) : openPrice}
                         disabled={autoOpenPrice || !existingLogin}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                       <Button

@@ -10,10 +10,16 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
+import { createValidator, translateLabels } from 'utils/validator';
+import {
+  FormikCheckbox,
+  FormikInputField,
+  FormikTextAreaField,
+  FormikSelectField,
+} from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
-import { createValidator, translateLabels } from 'utils/validator';
+import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import createOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import TradingEngineSymbolPricesQuery from './graphql/SymbolPricesQuery';
@@ -336,7 +342,7 @@ class NewOrderModal extends PureComponent {
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                       <Field
@@ -348,7 +354,7 @@ class NewOrderModal extends PureComponent {
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                     </div>
@@ -364,7 +370,7 @@ class NewOrderModal extends PureComponent {
                         max={999999}
                         value={autoOpenPrice ? bid.toFixed(digitsCurrentSymbol) : openPrice}
                         disabled={autoOpenPrice}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                       <Button

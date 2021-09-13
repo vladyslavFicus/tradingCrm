@@ -14,6 +14,7 @@ import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { createValidator } from 'utils/validator';
+import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
@@ -361,7 +362,7 @@ class EditOrderModal extends PureComponent {
                         placeholder={`0.${'0'.repeat(digits || 4)}`}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE')}
                         className="EditOrderModal__field"
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                       <Field
@@ -380,7 +381,7 @@ class EditOrderModal extends PureComponent {
                         placeholder={`0.${'0'.repeat(digits || 4)}`}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.STOP_LOSS')}
                         className="EditOrderModal__field"
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                       <Field
@@ -399,7 +400,7 @@ class EditOrderModal extends PureComponent {
                         placeholder={`0.${'0'.repeat(digits || 4)}`}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TAKE_PROFIT')}
                         className="EditOrderModal__field"
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
                       <Field
