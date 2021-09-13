@@ -33,6 +33,7 @@ const REQUEST = gql`
         showFTDAmount
         showKycStatus
         showNotes
+        cumulativeDeposit
         minFtdDeposit
       }
       schedule {
