@@ -42,6 +42,7 @@ class EditOrderModal extends PureComponent {
 
   state = {
     priceNextTickItem: null,
+    currentClosePrice: 0,
     initialPrice: 0,
   };
 
@@ -63,7 +64,13 @@ class EditOrderModal extends PureComponent {
     });
 
     priceSubscription.onNext(({ data }) => {
-      this.setState({ priceNextTickItem: data });
+      const { initialPrice } = this.state;
+
+      if (!initialPrice) {
+        this.setState({ priceNextTickItem: data, initialPrice: data?.bid });
+      } else {
+        this.setState({ priceNextTickItem: data });
+      }
     });
   }
 
@@ -72,6 +79,10 @@ class EditOrderModal extends PureComponent {
     const { symbol } = data?.tradingEngineOrder || {};
     const { initialPrice } = this.state;
 
+    if (initialPrice) {
+      return;
+    }
+
     try {
       const { data: { tradingEngineSymbolPrices } } = await this.props.client.query({
         query: LastSymbolPriceQuery,
@@ -79,10 +90,8 @@ class EditOrderModal extends PureComponent {
       });
 
       const priceData = tradingEngineSymbolPrices || [];
+      this.setState({ initialPrice: priceData[0]?.bid || 0 });
 
-      if (!initialPrice) {
-        this.setState({ initialPrice: priceData[0]?.bid || 0 });
-      }
       // eslint-disable-next-line no-empty
     } catch (err) {
 
@@ -250,7 +259,7 @@ class EditOrderModal extends PureComponent {
       direction,
     } = data?.tradingEngineOrder || {};
 
-    const { priceNextTickItem, initialPrice } = this.state;
+    const { priceNextTickItem, initialPrice, currentClosePrice } = this.state;
 
     const decimalsSettings = {
       decimalsLimit: digits,
@@ -430,7 +439,7 @@ class EditOrderModal extends PureComponent {
                   <Formik
                     initialValues={{
                       volumeLots,
-                      closePrice: priceNextTickItem?.bid ?? initialPrice ?? 0,
+                      closePrice: currentClosePrice || initialPrice,
                     }}
                     enableReinitialize
                   >
@@ -457,6 +466,13 @@ class EditOrderModal extends PureComponent {
                                 step="0.00001"
                                 min={0}
                                 max={999999}
+                                addition="UPDATE"
+                                additionPosition="right"
+                                onAdditionClick={() => {
+                                  this.setState({
+                                    currentClosePrice: priceNextTickItem?.bid ?? initialPrice ?? 0,
+                                  });
+                                }}
                                 component={FormikInputField}
                               />
                               <Button
@@ -467,7 +483,7 @@ class EditOrderModal extends PureComponent {
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                                   volumeLots: Number(_values.volumeLots || values.volumeLots).toFixed(2),
-                                  closePrice: Number(_values.closePrice || values.volumeLots),
+                                  closePrice: Number(_values.closePrice || values.closePrice),
                                 })}
                               </Button>
                             </div>
