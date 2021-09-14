@@ -35,6 +35,7 @@ const attributeLabels = {
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
   showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
   cdeAffiliate: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CDE_AFFILIATE',
+  cumulativeDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT',
   minFtdDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
 };
 
@@ -62,6 +63,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     showSalesStatus,
     showFTDAmount,
     showKycStatus,
+    cumulativeDeposit,
     minFtdDeposit,
     ...rest
   }, { setSubmitting }) => {
@@ -81,6 +83,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showSalesStatus,
             showFTDAmount,
             showKycStatus,
+            cumulativeDeposit,
             minFtdDeposit: parseFloat(minFtdDeposit),
           },
           ...rest,
@@ -163,6 +166,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
             cdeAffiliate: 'boolean',
+            cumulativeDeposit: 'boolean',
             minFtdDeposit: ['numeric', 'min:1', 'max:10000'],
           }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
@@ -348,15 +352,23 @@ class PartnerPersonalInfoForm extends PureComponent {
                   />
                 </If>
 
-                <Field
-                  name="minFtdDeposit"
-                  className="PartnerPersonalInfoForm__field"
-                  label={I18n.t(attributeLabels.minFtdDeposit)}
-                  placeholder={I18n.t(attributeLabels.minFtdDeposit)}
-                  component={FormikInputRangeField}
-                  errorText={I18n.t('PARTNERS.PROFILE.CONTACTS.FORM.ERRORS.MIN_FTD_DEPOSIT', { max: 10000, min: 1 })}
-                  disabled={isSubmitting || this.isReadOnly}
-                />
+                <div className="PartnerPersonalInfoForm__deposit_settings">
+                  <Field
+                    name="minFtdDeposit"
+                    className="PartnerPersonalInfoForm__field"
+                    label={I18n.t(attributeLabels.minFtdDeposit)}
+                    placeholder={I18n.t(attributeLabels.minFtdDeposit)}
+                    component={FormikInputRangeField}
+                    errorText={I18n.t('PARTNERS.PROFILE.CONTACTS.FORM.ERRORS.MIN_FTD_DEPOSIT', { max: 10000, min: 1 })}
+                    disabled={isSubmitting || this.isReadOnly}
+                  />
+                  <Field
+                    name="cumulativeDeposit"
+                    component={FormikCheckbox}
+                    label={I18n.t(attributeLabels.cumulativeDeposit)}
+                    disabled={isSubmitting || this.isReadOnly}
+                  />
+                </div>
               </div>
             </Form>
           )}

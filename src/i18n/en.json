@@ -2159,6 +2159,7 @@
             "SHOW_FTD_AMOUNT": "Show FTD Amount",
             "SHOW_KYC_STATUS": "Show KYC status",
             "CDE_AFFILIATE": "Mark as source",
+            "CUMULATIVE_DEPOSIT": "Cumulative deposit",
             "MIN_FTD_LIMIT": "Minimal FTD"
           },
           "ERRORS": {
