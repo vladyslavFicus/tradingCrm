@@ -43,17 +43,26 @@ class FeedContent extends PureComponent {
     );
   };
 
-  handleTypeChanged = (key, { from, to }) => (
+  handleTypeChanged = (key, { from, to, elements }) => (
     <div key={uuidv4()}>
       <span className="FeedContent__label">{renderLabel(key)}:</span>
       <If condition={from}>
         <span className="FeedContent__value-from">{prepareValue(key, from)}</span>
       </If>
       <span className="FeedContent__arrow">&#8594;</span>
-      <span
-        className="FeedContent__value-to"
-        dangerouslySetInnerHTML={{ __html: prepareValue(key, to) }}
-      />
+      <Choose>
+        <When condition={Array.isArray(elements)}>
+          <span className="FeedContent__value-to">
+            {elements.map(({ value }) => value).join(', ')}
+          </span>
+        </When>
+        <Otherwise>
+          <span
+            className="FeedContent__value-to"
+            dangerouslySetInnerHTML={{ __html: prepareValue(key, to) }}
+          />
+        </Otherwise>
+      </Choose>
     </div>
   );
 
