@@ -51,7 +51,7 @@ class ClientProfileTab extends PureComponent {
                 condition={
                   typeof showFtdToAffiliate === 'boolean'
                   && clientData?.affiliate
-                  && (minFtdDeposit || affiliateMinFtdDeposit)
+                  && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
                 }
               >
                 <AffiliateSettings
