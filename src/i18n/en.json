@@ -1328,7 +1328,8 @@
       "NO_INTEREST": "No interest",
       "UNDER_18": "Under 18",
       "INVALID_LANGUAGE": "Invalid language",
-      "REASSIGN": "Reassign"
+      "REASSIGN": "Reassign",
+      "WRONG_NUMBER": "Wrong number"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
