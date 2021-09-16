@@ -753,6 +753,7 @@
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
+      "APPROVED": "Approved",
       "COMPLETED": "Completed",
       "REJECTED": "Rejected",
       "FAILED": "Failed",
