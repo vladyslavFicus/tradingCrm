@@ -3620,7 +3620,8 @@
         "LOGIN": "Login",
         "LOTS": "Lots",
         "COMMISSION": "Commission",
-        "PROFIT": "Profit"
+        "PROFIT": "Profit",
+        "GROUP": "Group"
       },
       "STATUSES": {
         "OPEN": "Open",
@@ -3636,6 +3637,7 @@
         "SYMBOL_LABEL": "Symbol",
         "CLOSE_TIME_RANGE_LABEL": "Close time range",
         "OPEN_TIME_RANGE_LABEL": "Open time range",
+        "STATUS": "Status",
         "TYPES": {
           "BUY": "Buy",
           "SELL": "Sell",
@@ -3678,7 +3680,8 @@
         "STATUSES": {
           "OPEN": "Open",
           "CLOSED": "Closed",
-          "PENDING": "Pending"
+          "PENDING": "Pending",
+          "CANCELED": "Canceled"
         }
       }
     },

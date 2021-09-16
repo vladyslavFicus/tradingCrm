@@ -12,7 +12,7 @@ import { Table, Column } from 'components/Table';
 import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
-import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
+import EditOrderModal from 'routes/TradingEngine/TradingEngineAdmin/modals/EditOrderModal';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineAdminTabs } from '../../constants';
 import TradingEngineOrdersGridFilter from './components/TradingEngineOrdersGridFilter';
@@ -132,7 +132,7 @@ class TradingEngineOrdersGrid extends PureComponent {
             onMore={this.handlePageChanged}
           >
             <Column
-              sortBy="deal"
+              sortBy="id"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.DEAL')}
               render={({ id }) => (
                 <>
@@ -143,13 +143,8 @@ class TradingEngineOrdersGrid extends PureComponent {
                       onSuccess: () => this.refetchOrders(),
                     })}
                   >
-                    TR-{id}
+                    {id}
                   </div>
-                  <Uuid
-                    uuid={id}
-                    title={I18n.t('COMMON.COPY')}
-                    className="AccountProfileOrdersGrid__cell-value-add"
-                  />
                 </>
               )}
             />
@@ -164,6 +159,22 @@ class TradingEngineOrdersGrid extends PureComponent {
                     />
                   </div>
                 </>
+              )}
+            />
+            <Column
+              sortBy="group"
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.GROUP')}
+              render={({ group }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  <Choose>
+                    <When condition={group}>
+                      {group}
+                    </When>
+                    <Otherwise>
+                      &mdash;
+                    </Otherwise>
+                  </Choose>
+                </div>
               )}
             />
             <Column
@@ -312,11 +323,11 @@ class TradingEngineOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.PROFIT')}
-              render={({ profit }) => (
+              render={({ pnl }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">
                   <Choose>
-                    <When condition={profit}>
-                      {profit}
+                    <When condition={pnl}>
+                      {pnl.gross}
                     </When>
                     <Otherwise>
                       &mdash;

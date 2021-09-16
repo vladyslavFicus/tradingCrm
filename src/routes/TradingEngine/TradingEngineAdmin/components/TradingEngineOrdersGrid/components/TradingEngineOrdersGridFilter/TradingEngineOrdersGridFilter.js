@@ -12,6 +12,7 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
+import { statuses } from '../../attributes/constants';
 import TradingEngineGroupsQuery from './graphql/TradingEngineGroupsQuery';
 import './TradingEngineOrdersGridFilter.scss';
 
@@ -85,14 +86,14 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 withFocus
               />
               <Field
-                name="group"
+                name="groups"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.GROUP')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingEngineOrdersGridFilter__field"
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
                 {groups.map(({ groupName }) => (
                   <option key={groupName} value={groupName}>
@@ -101,8 +102,22 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 ))}
               </Field>
               <Field
+                name="orderStatuses"
+                className="TradingEngineOrdersGridFilter__field"
+                label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.STATUS')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withFocus
+              >
+                {statuses.map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {I18n.t(label)}
+                  </option>
+                ))}
+              </Field>
+              <Field
                 name="openingDateRange"
-                className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -113,7 +128,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
               />
               <Field
                 name="closingDateRange"
-                className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{

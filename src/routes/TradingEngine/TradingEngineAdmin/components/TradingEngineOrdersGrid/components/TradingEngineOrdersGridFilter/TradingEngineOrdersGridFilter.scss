@@ -32,4 +32,8 @@
       margin-right: 0;
     }
   }
+
+  &__date-range {
+    grid-column: span 4;
+  }
 }
