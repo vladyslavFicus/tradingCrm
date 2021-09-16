@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import permissions from 'config/permissions';
 import { getBrand } from 'config';
+import permissions from 'config/permissions';
 import { CONDITIONS } from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import TabHeader from 'components/TabHeader';
@@ -28,7 +28,7 @@ class ClientProfileTab extends PureComponent {
 
     const clientData = clientQuery.data?.profile || {};
     const showFtdToAffiliate = clientData.profileView?.paymentDetails?.showFtdToAffiliate;
-
+    const affiliateMinFtdDeposit = clientData.affiliate?.partner?.permission?.minFtdDeposit;
     const { affiliate: { restriction: { minFtdDeposit } } } = getBrand();
 
     return (
@@ -51,7 +51,7 @@ class ClientProfileTab extends PureComponent {
                 condition={
                   typeof showFtdToAffiliate === 'boolean'
                   && clientData?.affiliate
-                  && minFtdDeposit !== null
+                  && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
                 }
               >
                 <AffiliateSettings

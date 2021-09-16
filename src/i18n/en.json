@@ -753,6 +753,7 @@
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
+      "APPROVED": "Approved",
       "COMPLETED": "Completed",
       "REJECTED": "Rejected",
       "FAILED": "Failed",
@@ -1337,7 +1338,8 @@
       "NO_INTEREST": "No interest",
       "UNDER_18": "Under 18",
       "INVALID_LANGUAGE": "Invalid language",
-      "REASSIGN": "Reassign"
+      "REASSIGN": "Reassign",
+      "WRONG_NUMBER": "Wrong number"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
@@ -3464,7 +3466,8 @@
         "ERROR": "This account doesn't exist",
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created",
-          "FAILED": "Order creation failed"
+          "FAILED": "Order creation failed",
+          "NOT_ENOUGH_FREE_MARGIN": "Not enough free margin"
         }
       },
       "EDIT_ORDER_MODAL": {

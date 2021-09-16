@@ -25,6 +25,11 @@ const REQUEST = gql`
       timeZone
       affiliate {
         uuid
+        partner {
+          permission {
+            minFtdDeposit
+          }
+        }
       }
       address {
         ...AddressFragment
