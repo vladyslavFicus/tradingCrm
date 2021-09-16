@@ -10,6 +10,7 @@ import {
   unblockReasons,
   reasons as blockReasons,
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
+  orderTypes,
 } from 'constants/user';
 import { documentsType, categories } from 'constants/files';
 import {
@@ -71,6 +72,7 @@ const translateValue = (value) => {
     ...(translateObject(paymentMethodsLabels)),
     ...(translateObject(manualPaymentMethodsLabels)),
     ...(translateObject(genders)),
+    ...(translateObject(orderTypes)),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
     CORPORATE_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),

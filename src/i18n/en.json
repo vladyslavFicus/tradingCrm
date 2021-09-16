@@ -3648,7 +3648,8 @@
           "SELL_MARKET": "Sell market",
           "BUY_STOP_LIMIT": "Buy stop limit",
           "SELL_STOP_LIMIT": "Sell stop limit",
-          "CREDIT": "Credit"
+          "CREDIT": "Credit",
+          "OPEN": "Open"
         },
         "SYMBOLS": {
           "USDCHF": "US Dollar vs Swiss Franc",
