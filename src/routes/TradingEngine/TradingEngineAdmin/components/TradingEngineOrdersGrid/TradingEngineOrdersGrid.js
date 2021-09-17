@@ -53,7 +53,6 @@ class TradingEngineOrdersGrid extends PureComponent {
 
     loadMore({
       args: {
-        orderStatuses: ['PENDING', 'OPEN'],
         ...filters,
         page: {
           from: currentPage + 1,

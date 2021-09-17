@@ -27,6 +27,7 @@ const REQUEST = gql`
       commission
       swaps
       status
+      reason
       pnl {
         gross
         net

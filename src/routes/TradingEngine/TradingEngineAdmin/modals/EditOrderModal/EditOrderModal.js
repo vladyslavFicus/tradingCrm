@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRequests } from 'apollo';
@@ -9,17 +11,24 @@ import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikTextAreaField } from 'components/Formik';
+import {
+  FormikInputField,
+  FormikTextAreaField,
+  FormikSelectField,
+  FormikDatePicker,
+} from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { createValidator } from 'utils/validator';
+import { reasons } from './constants';
 import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
 import orderQuery from './graphql/OrderQuery';
 import LastSymbolPriceQuery from './graphql/LastSymbolPriceQuery';
+import symbolsQuery from './graphql/SymbolsQuery';
 import './EditOrderModal.scss';
 
 class EditOrderModal extends PureComponent {
@@ -38,6 +47,7 @@ class EditOrderModal extends PureComponent {
     closeOrder: PropTypes.func.isRequired,
     priceStreamRequest: PropTypes.func.isRequired,
     order: PropTypes.object.isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
   state = {
@@ -237,6 +247,7 @@ class EditOrderModal extends PureComponent {
       isOpen,
       onCloseModal,
       order: { data },
+      symbolsQuery,
     } = this.props;
 
     const {
@@ -257,6 +268,8 @@ class EditOrderModal extends PureComponent {
       accountLogin,
       accountUuid,
       direction,
+      lotSize,
+      reason,
     } = data?.tradingEngineOrder || {};
 
     const { priceNextTickItem, initialPrice, currentClosePrice } = this.state;
@@ -269,6 +282,8 @@ class EditOrderModal extends PureComponent {
       }),
       decimalsLengthDefault: digits,
     };
+
+    const symbolsNames = symbolsQuery.data?.tradingEngineSymbols?.map(({ name }) => name) || [];
 
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -289,7 +304,7 @@ class EditOrderModal extends PureComponent {
               openPrice,
               openTime: moment.utc(time?.creation).local().format('DD.MM.YYYY HH:mm:ss'),
               commission,
-              expiry: moment.utc(time?.expiration).local().format('DD.MM.YYYY HH:mm:ss'),
+              closeTime: moment.utc(time?.closing).local().format('DD.MM.YYYY HH:mm:ss'),
               roSwaps: swaps,
               stopLoss,
               pnl: pnl?.net,
@@ -297,9 +312,12 @@ class EditOrderModal extends PureComponent {
               profit: pnl?.net,
               volumeLots,
               comment,
+              lotSize,
+              reason,
             }}
             validate={createValidator({
               amount: ['required', 'numeric', 'greater:0', 'max:999999'],
+              lotSize: ['required', 'numeric', 'max:100000', 'min:0.01'],
             })}
             onSubmit={this.handleSubmit}
             enableReinitialize
@@ -313,54 +331,49 @@ class EditOrderModal extends PureComponent {
                     </legend>
                     <div className="EditOrderModal__field-container">
                       <Field
-                        disabled
-                        name="order"
-                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ORDER')}
+                        name="type"
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
                         className="EditOrderModal__field"
-                        value={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
-                          id,
-                          direction,
-                          volumeLots,
-                          symbol,
-                        })}
                         component={FormikInputField}
                       />
-                      <Button
-                        className="EditOrderModal__button EditOrderModal__button--small"
-                        danger
-                        onClick={() => this.handleDeleteOrder()}
-                        disabled={isSubmitting}
+                      <Field
+                        name="lotSize"
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
+                        className="EditOrderModal__field"
+                        component={FormikInputField}
+                      />
+                    </div>
+                    <div className="EditOrderModal__field-container">
+                      <Field
+                        name="reason"
+                        component={FormikSelectField}
+                        className="EditOrderModal__field"
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
+                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       >
-                        {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL')}
-                      </Button>
+                        {reasons.map(({ value, label }) => (
+                          <option key={value} value={value}>{I18n.t(label)}</option>
+                        ))}
+                      </Field>
                     </div>
                     <div className="EditOrderModal__field-container">
                       <Field
-                        disabled
                         name="openTime"
-                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_TIME')}
                         className="EditOrderModal__field"
-                        component={FormikInputField}
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_TIME')}
+                        component={FormikDatePicker}
+                        withFocus
+                        withTime
                       />
                       <Field
-                        disabled
-                        name="commission"
-                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMISSION')}
+                        name="closeTime"
                         className="EditOrderModal__field"
-                        component={FormikInputField}
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_TIME')}
+                        component={FormikDatePicker}
+                        withFocus
+                        withTime
                       />
                     </div>
-                    <If condition={time?.expiratio}>
-                      <div className="EditOrderModal__field-container">
-                        <Field
-                          disabled
-                          name="expiry"
-                          label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.EXPIRY')}
-                          className="EditOrderModal__field"
-                          component={FormikInputField}
-                        />
-                      </div>
-                    </If>
                     <div className="EditOrderModal__field-container">
                       <Field
                         name="openPrice"
@@ -371,6 +384,26 @@ class EditOrderModal extends PureComponent {
                         className="EditOrderModal__field"
                         component={FormikInputDecimalsField}
                         {...decimalsSettings}
+                      />
+                      <Field
+                        name="symbol"
+                        component={FormikSelectField}
+                        className="EditOrderModal__field"
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SYMBOL')}
+                        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      >
+                        {symbolsNames.map((name) => (
+                          <option key={name} value={name}>{name}</option>
+                        ))}
+                      </Field>
+                    </div>
+                    <div className="EditOrderModal__field-container">
+                      <Field
+                        disabled
+                        name="commission"
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMISSION')}
+                        className="EditOrderModal__field"
+                        component={FormikInputField}
                       />
                       <Field
                         disabled
@@ -514,6 +547,7 @@ export default compose(
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
     order: orderQuery,
+    symbolsQuery: symbolsQuery,
   }),
   withLazyStreams({
     priceStreamRequest: {

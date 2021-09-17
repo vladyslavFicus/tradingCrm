@@ -3475,6 +3475,7 @@
         "ORDER": "Order",
         "CANCEL": "Cancel",
         "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
         "COMMISSION": "Commission",
         "EXPIRY": "Expiry",
         "TAXES": "Taxes",
@@ -3488,6 +3489,9 @@
         "CHANGE": "Change",
         "PROCESS": "Close order",
         "VOLUME": "Volume",
+        "TYPE": "Type",
+        "REASON": "Reason",
+        "SYMBOL": "Symbol",
         "BUTTON_FOR_PENDING": "Activate {{volumeLots}} at {{closePrice}}",
         "BUTTON_FOR_OPEN": "Close {{volumeLots}} at {{closePrice}}",
         "CONFIRMATION": {
@@ -3507,6 +3511,11 @@
           "CLOSE_FAILED": "Order close failed",
           "CANCEL_SUCCESS": "Order has been successfully canceled",
           "CANCEL_FAILED": "Order cancel failed"
+        },
+        "REASONS": {
+          "CLIENT": "Client",
+          "OPERATOR": "Operator",
+          "SYSTEM": "System"
         }
       }
     },

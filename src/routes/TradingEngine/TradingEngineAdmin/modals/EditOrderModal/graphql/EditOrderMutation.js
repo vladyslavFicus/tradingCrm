@@ -9,6 +9,15 @@ const REQUEST = gql`mutation TradingEngine_EditOrderMutation(
    $stopLoss: Float
    $takeProfit: Float
    $comment: String
+   $type: String
+   $symbol: String
+   $reason: String
+   $commission: Float
+   $swaps: Float
+   $volume: Float
+   $closePrice: Float
+   $openTime: String
+   $closeTime: String
 ) {
   tradingEngine {
     editOrder(
@@ -17,6 +26,15 @@ const REQUEST = gql`mutation TradingEngine_EditOrderMutation(
       stopLoss: $stopLoss
       takeProfit: $takeProfit
       comment: $comment
+      type: $type
+      symbol: $symbol
+      reason: $reason
+      commission: $commission
+      swaps: $swaps
+      volume: $volume
+      closePrice: $closePrice
+      openTime: $openTime
+      closeTime: $closeTime
     )
   }
 }
