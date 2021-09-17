@@ -465,7 +465,7 @@ class CommonNewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice && sellPrice.toFixed(digitsCurrentSymbol),
+                          value: sellPrice && Number(sellPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                       <Button
@@ -475,7 +475,7 @@ class CommonNewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice && buyPrice.toFixed(digitsCurrentSymbol),
+                          value: buyPrice && Number(buyPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                     </div>
