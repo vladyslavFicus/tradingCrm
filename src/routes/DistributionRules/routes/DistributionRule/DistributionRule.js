@@ -415,6 +415,7 @@ class DistributionRule extends PureComponent {
             </div>
           </Route>
 
+          {/* Feeds tab */}
           <Route path={`${path}/feed`} component={DistributionRuleFeedsTab} />
 
           <Redirect to={`${url}/general`} />
