@@ -2649,7 +2649,8 @@
         "STATUSES": {
           "OPEN": "Open",
           "CLOSED": "Closed",
-          "PENDING": "Pending"
+          "PENDING": "Pending",
+          "CANCELED": "Canceled"
         }
       }
     },
@@ -3653,8 +3654,7 @@
           "SELL_MARKET": "Sell market",
           "BUY_STOP_LIMIT": "Buy stop limit",
           "SELL_STOP_LIMIT": "Sell stop limit",
-          "CREDIT": "Credit",
-          "OPEN": "Open"
+          "CREDIT": "Credit"
         },
         "SYMBOLS": {
           "USDCHF": "US Dollar vs Swiss Franc",

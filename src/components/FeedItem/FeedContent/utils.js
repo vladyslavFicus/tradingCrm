@@ -10,8 +10,8 @@ import {
   unblockReasons,
   reasons as blockReasons,
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
-  orderTypes,
 } from 'constants/user';
+import { orderTypes, orderStatuses } from 'routes/TradingEngine/constants/order';
 import { documentsType, categories } from 'constants/files';
 import {
   methodsLabels as paymentMethodsLabels,
@@ -73,6 +73,7 @@ const translateValue = (value) => {
     ...(translateObject(manualPaymentMethodsLabels)),
     ...(translateObject(genders)),
     ...(translateObject(orderTypes)),
+    ...(translateObject(orderStatuses)),
     INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
     INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
     CORPORATE_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),
