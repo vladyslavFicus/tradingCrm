@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { isEqual, cloneDeep } from 'lodash';
 import { compose } from 'react-apollo';
@@ -28,6 +28,8 @@ class DistributionRule extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     match: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
       params: PropTypes.shape({
         id: PropTypes.string,
       }).isRequired,
@@ -374,52 +376,54 @@ class DistributionRule extends PureComponent {
 
         <Tabs items={distributionRuleTabs} />
 
-        <Switch>
-          {/* General information tab */}
-          <Route path={`${path}/general`}>
-            <div className="card-body">
-              <DistributionRuleSettings
-                loading={ruleLoading}
-                generalSettings={generalSettings}
-                handleGeneralSettings={this.handleGeneralSettings}
-              />
-              <DistributionRuleBrands
-                allowedBaseUnits={allowedBaseUnits}
-                generalSettings={generalSettings}
-                sourceBrandConfig={sourceBrandConfig}
-                targetBrandConfig={targetBrandConfig}
-                handleSourceBrandConfig={this.handleSourceBrandConfig}
-                handleTargetBrandConfig={this.handleTargetBrandConfig}
-                addSourceBrandEnabled={addSourceBrandEnabled}
-                addTargetBrandEnabled={addTargetBrandEnabled}
-                handleRemoveBrandCard={this.handleRemoveBrandCard}
-              />
-            </div>
-            <div className="DistributionRule__actions">
-              <Button
-                className="DistributionRule__actions-btn"
-                onClick={this.handleCancel}
-                commonOutline
-              >
-                {I18n.t('COMMON.CANCEL')}
-              </Button>
-              <Button
-                className="DistributionRule__actions-btn"
-                onClick={this.handleUpdateRule}
-                disabled={submitDisabled}
-                submitting={isSubmitting}
-                primary
-              >
-                {I18n.t('COMMON.SAVE')}
-              </Button>
-            </div>
-          </Route>
+        <Suspense fallback={null}>
+          <Switch>
+            {/* General information tab */}
+            <Route path={`${path}/general`}>
+              <div className="card-body">
+                <DistributionRuleSettings
+                  loading={ruleLoading}
+                  generalSettings={generalSettings}
+                  handleGeneralSettings={this.handleGeneralSettings}
+                />
+                <DistributionRuleBrands
+                  allowedBaseUnits={allowedBaseUnits}
+                  generalSettings={generalSettings}
+                  sourceBrandConfig={sourceBrandConfig}
+                  targetBrandConfig={targetBrandConfig}
+                  handleSourceBrandConfig={this.handleSourceBrandConfig}
+                  handleTargetBrandConfig={this.handleTargetBrandConfig}
+                  addSourceBrandEnabled={addSourceBrandEnabled}
+                  addTargetBrandEnabled={addTargetBrandEnabled}
+                  handleRemoveBrandCard={this.handleRemoveBrandCard}
+                />
+              </div>
+              <div className="DistributionRule__actions">
+                <Button
+                  className="DistributionRule__actions-btn"
+                  onClick={this.handleCancel}
+                  commonOutline
+                >
+                  {I18n.t('COMMON.CANCEL')}
+                </Button>
+                <Button
+                  className="DistributionRule__actions-btn"
+                  onClick={this.handleUpdateRule}
+                  disabled={submitDisabled}
+                  submitting={isSubmitting}
+                  primary
+                >
+                  {I18n.t('COMMON.SAVE')}
+                </Button>
+              </div>
+            </Route>
 
-          {/* Feeds tab */}
-          <Route path={`${path}/feed`} component={DistributionRuleFeedsTab} />
+            {/* Feeds tab */}
+            <Route path={`${path}/feed`} component={DistributionRuleFeedsTab} />
 
-          <Redirect to={`${url}/general`} />
-        </Switch>
+            <Redirect to={`${url}/general`} />
+          </Switch>
+        </Suspense>
       </div>
     );
   }
