@@ -181,7 +181,7 @@ class CommonNewOrderModal extends PureComponent {
       notify({
         level: 'success',
         title: I18n.t('COMMON.SUCCESS'),
-        message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ERROR.NOTIFICATION.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
 
       onSuccess();
@@ -193,7 +193,7 @@ class CommonNewOrderModal extends PureComponent {
         level: 'error',
         title: I18n.t('COMMON.ERROR'),
         message: error === 'error.order.creation.not-enough-free-margin'
-          ? I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
+          ? I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
           : I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
       });
     }
@@ -465,7 +465,7 @@ class CommonNewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice && sellPrice.toFixed(digitsCurrentSymbol),
+                          value: sellPrice && Number(sellPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                       <Button
@@ -475,7 +475,7 @@ class CommonNewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice && buyPrice.toFixed(digitsCurrentSymbol),
+                          value: buyPrice && Number(buyPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                     </div>

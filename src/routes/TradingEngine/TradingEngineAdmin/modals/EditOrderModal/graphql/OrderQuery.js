@@ -1,15 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import PropTypes from 'constants/propTypes';
 
-const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
-  $args: TradingEngineSearch__Input
-) {
-  tradingEngineOrders(args: $args) {
-    content {
+const REQUEST = gql`
+  query TradingEngine_OrderQuery($orderId: String!) {
+    tradingEngineOrder (
+      orderId: $orderId
+    ) {
       id
       accountLogin
+      accountUuid
       tradeType
       symbol
       symbolAlias
@@ -26,7 +27,6 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       commission
       swaps
       status
-      group
       pnl {
         gross
         net
@@ -44,39 +44,22 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
         fullName
       }
     }
-    page
-    number
-    totalElements
-    size
-    last
   }
-}`;
+`;
 
-const TradingEngineOrdersQuery = ({
-  children,
-  location: { state },
-}) => (
+const OrderQuery = ({ children, id }) => (
   <Query
     query={REQUEST}
-    variables={{
-      args: {
-        ...state && state.filters,
-        page: {
-          from: 0,
-          size: 20,
-          sorts: state?.sorts,
-        },
-      },
-    }}
     fetchPolicy="cache-and-network"
+    variables={{ orderId: id }}
   >
     {children}
   </Query>
 );
 
-TradingEngineOrdersQuery.propTypes = {
-  ...PropTypes.router,
+OrderQuery.propTypes = {
   children: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
-export default TradingEngineOrdersQuery;
+export default OrderQuery;

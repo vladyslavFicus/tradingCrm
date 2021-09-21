@@ -1,6 +1,7 @@
 import keyMirror from 'keymirror';
 
 const statuses = keyMirror({
+  APPROVED: null,
   CANCELED: null,
   COMPLETED: null,
   FAILED: null,
@@ -23,6 +24,8 @@ const tradingStatuses = keyMirror({
 const statusMapper = {
   [statuses.COMPLETED]: [
     tradingStatuses.PAYMENT_COMPLETED,
+  ],
+  [statuses.APPROVED]: [
     tradingStatuses.PAYMENT_APPROVED,
   ],
   [statuses.FAILED]: [
@@ -196,6 +199,7 @@ const customTypesProps = {
 
 const statusesLabels = {
   [statuses.PENDING]: 'COMMON.PAYMENT_STATUS.PENDING',
+  [statuses.APPROVED]: 'COMMON.PAYMENT_STATUS.APPROVED',
   [statuses.REJECTED]: 'COMMON.PAYMENT_STATUS.REJECTED',
   [statuses.CANCELED]: 'COMMON.PAYMENT_STATUS.CANCELED',
   [statuses.FAILED]: 'COMMON.PAYMENT_STATUS.FAILED',
@@ -244,6 +248,7 @@ const methodsStatusesLabels = {
 };
 
 const statusesColor = {
+  [statuses.APPROVED]: 'color-info',
   [statuses.PENDING]: 'color-info',
   [statuses.REJECTED]: 'color-danger',
   [statuses.CANCELED]: 'color-danger',
