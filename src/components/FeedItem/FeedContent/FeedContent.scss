@@ -17,6 +17,19 @@
       font-weight: 700;
       margin-left: 5px;
     }
+
+    &-added {
+      color: #46BE8A
+    }
+
+    &-removed {
+      text-decoration: line-through;
+      color: #fb434a;
+    }
+
+    &-comma {
+      color: #fb434a;
+    }
   }
 
   &__arrow {

@@ -10,10 +10,16 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
+import { createValidator, translateLabels } from 'utils/validator';
+import {
+  FormikCheckbox,
+  FormikInputField,
+  FormikTextAreaField,
+  FormikSelectField,
+} from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
-import { createValidator, translateLabels } from 'utils/validator';
+import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import createOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import TradingEngineSymbolPricesQuery from './graphql/SymbolPricesQuery';
@@ -58,10 +64,17 @@ class NewOrderModal extends PureComponent {
     }
   }
 
-  onChangeSymbol = (value, setFieldValue) => {
+  onChangeSymbol = (value, values, setValues) => {
     this.fetchSymbolPrice(value);
 
-    setFieldValue('symbol', value);
+    setValues({
+      ...values,
+      symbol: value,
+      takeProfit: null,
+      stopLoss: null,
+      openPrice: null,
+      autoOpenPrice: true,
+    });
   };
 
   fetchSymbolPrice = async (symbol) => {
@@ -106,7 +119,7 @@ class NewOrderModal extends PureComponent {
     }
   };
 
-  handleSubmit = (values, direction, setFieldValue) => async () => {
+  handleSubmit = ({ takeProfit, stopLoss, openPrice, ...res }, direction, setFieldValue) => async () => {
     const {
       notify,
       onCloseModal,
@@ -134,8 +147,11 @@ class NewOrderModal extends PureComponent {
           type: 'MARKET',
           accountUuid: id,
           pendingOrder: true,
+          takeProfit: Number(takeProfit),
+          stopLoss: Number(stopLoss),
+          openPrice: Number(openPrice),
           direction,
-          ...values,
+          ...res,
         },
       });
 
@@ -249,7 +265,7 @@ class NewOrderModal extends PureComponent {
           enableReinitialize
           onSubmit={() => {}}
         >
-          {({ isSubmitting, values, setFieldValue }) => {
+          {({ isSubmitting, values, setFieldValue, setValues }) => {
             const {
               autoOpenPrice,
               openPrice,
@@ -259,7 +275,16 @@ class NewOrderModal extends PureComponent {
             const sellPrice = autoOpenPrice ? bid : openPrice;
             const buyPrice = autoOpenPrice ? ask : openPrice;
 
-            const currentSymbol = accountSymbols.find(({ name }) => symbol === name);
+            const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
+
+            const decimalsSettings = {
+              decimalsLimit: digitsCurrentSymbol,
+              decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
+                symbol,
+                digits: digitsCurrentSymbol,
+              }),
+              decimalsLengthDefault: digitsCurrentSymbol,
+            };
 
             return (
               <Form>
@@ -298,7 +323,7 @@ class NewOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SYMBOL')}
                         className="NewOrderModal__field"
                         component={FormikSelectField}
-                        customOnChange={value => this.onChangeSymbol(value, setFieldValue)}
+                        customOnChange={value => this.onChangeSymbol(value, values, setValues)}
                         searchable
                       >
                         {accountSymbols.map(({ name, description }) => (
@@ -314,22 +339,24 @@ class NewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.TAKE_PROFIT')}
                         className="NewOrderModal__field"
-                        placeholder="0.00000"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
+                        {...decimalsSettings}
                       />
                       <Field
                         name="stopLoss"
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.STOP_LOSS')}
                         className="NewOrderModal__field"
-                        placeholder="0.00000"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
+                        {...decimalsSettings}
                       />
                     </div>
                     <div className="NewOrderModal__field-container">
@@ -338,13 +365,14 @@ class NewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE')}
                         className="NewOrderModal__field"
-                        placeholder="0.00"
+                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
                         step="0.01"
                         min={0}
                         max={999999}
-                        value={autoOpenPrice ? bid.toFixed(currentSymbol?.digits) : openPrice}
+                        value={autoOpenPrice ? bid.toFixed(digitsCurrentSymbol) : openPrice}
                         disabled={autoOpenPrice}
-                        component={FormikInputField}
+                        component={FormikInputDecimalsField}
+                        {...decimalsSettings}
                       />
                       <Button
                         className="NewOrderModal__button NewOrderModal__button--small"
@@ -393,7 +421,7 @@ class NewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice && sellPrice.toFixed(currentSymbol?.digits),
+                          value: sellPrice && Number(sellPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                       <Button
@@ -403,7 +431,7 @@ class NewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice && buyPrice.toFixed(currentSymbol?.digits),
+                          value: buyPrice && Number(buyPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                     </div>

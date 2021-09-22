@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { compose } from 'react-apollo';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import {
   FormikInputField,
@@ -10,13 +12,19 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { types } from '../../attributes/constants';
+import { statuses } from '../../attributes/constants';
+import TradingEngineGroupsQuery from './graphql/TradingEngineGroupsQuery';
 import './TradingEngineOrdersGridFilter.scss';
 
 class TradingEngineOrdersGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
+    groups: PropTypes.query({
+      tradingEngineGroups: PropTypes.shape({
+        groupName: PropTypes.string,
+      }),
+    }).isRequired,
   };
 
   handleSubmit = (values) => {
@@ -47,7 +55,12 @@ class TradingEngineOrdersGridFilter extends PureComponent {
     const {
       location: { state },
       handleRefetch,
+      groups: {
+        data: groupsData,
+      },
     } = this.props;
+
+    const groups = groupsData?.tradingEngineGroups || [];
 
     return (
       <Formik
@@ -73,16 +86,30 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 withFocus
               />
               <Field
-                name="group"
+                name="groups"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.GROUP')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingEngineOrdersGridFilter__field"
                 component={FormikSelectField}
-                withAnyOption
                 searchable
                 withFocus
+                multiple
               >
-                {types.map(({ value, label }) => (
+                {groups.map(({ groupName }) => (
+                  <option key={groupName} value={groupName}>
+                    {I18n.t(groupName)}
+                  </option>
+                ))}
+              </Field>
+              <Field
+                name="orderStatuses"
+                className="TradingEngineOrdersGridFilter__field"
+                label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.STATUS')}
+                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                component={FormikSelectField}
+                withFocus
+              >
+                {statuses.map(({ value, label }) => (
                   <option key={value} value={value}>
                     {I18n.t(label)}
                   </option>
@@ -90,7 +117,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
               </Field>
               <Field
                 name="openingDateRange"
-                className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -101,7 +128,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
               />
               <Field
                 name="closingDateRange"
-                className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+                className="TradingEngineOrdersGridFilter__field TradingEngineOrdersGridFilter__date-range"
                 label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -140,4 +167,9 @@ class TradingEngineOrdersGridFilter extends PureComponent {
   }
 }
 
-export default withRouter(TradingEngineOrdersGridFilter);
+export default compose(
+  withRouter,
+  withRequests({
+    groups: TradingEngineGroupsQuery,
+  }),
+)(TradingEngineOrdersGridFilter);

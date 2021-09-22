@@ -931,4 +931,26 @@ PropTypes.coperatorNumber = PropTypes.shape({
   country: PropTypes.string,
 });
 
+PropTypes.order = PropTypes.shape({
+  id: PropTypes.number,
+  accountLogin: PropTypes.number,
+  type: PropTypes.string,
+  closingTime: PropTypes.string,
+  openingTime: PropTypes.string,
+  symbol: PropTypes.string,
+  volume: PropTypes.number,
+  closePrice: PropTypes.number,
+  profit: PropTypes.number,
+  deletedAt: PropTypes.string,
+  openPrice: PropTypes.number,
+  stopLoss: PropTypes.number,
+  takeProfit: PropTypes.number,
+  swaps: PropTypes.number,
+  status: PropTypes.string,
+  group: PropTypes.string,
+  commission: PropTypes.number,
+  comment: PropTypes.string,
+  leverage: PropTypes.number,
+});
+
 export default PropTypes;

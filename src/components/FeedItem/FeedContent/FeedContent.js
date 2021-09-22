@@ -43,28 +43,42 @@ class FeedContent extends PureComponent {
     );
   };
 
-  handleTypeChanged = (key, { from, to, elements }) => (
-    <div key={uuidv4()}>
-      <span className="FeedContent__label">{renderLabel(key)}:</span>
-      <If condition={from}>
-        <span className="FeedContent__value-from">{prepareValue(key, from)}</span>
-      </If>
-      <span className="FeedContent__arrow">&#8594;</span>
-      <Choose>
-        <When condition={Array.isArray(elements)}>
-          <span className="FeedContent__value-to">
-            {elements.map(({ value }) => value).join(', ')}
+  formatTypeChangedElements = (array, type) => array
+    .filter(({ changeType }) => changeType === type)
+    .map(({ value }) => value)
+    .join(', ');
+
+  handleTypeChanged = (key, { from, to, elements }) => {
+    if (Array.isArray(elements)) {
+      const changeTypeRemoved = this.formatTypeChangedElements(elements, 'REMOVED');
+      const changeTypeAdded = this.formatTypeChangedElements(elements, 'ADDED');
+
+      return (
+        <div key={uuidv4()}>
+          <span className="FeedContent__label">{renderLabel(key)}:</span>
+          <span className="FeedContent__value-removed">{changeTypeRemoved}</span>
+          <span className="FeedContent__value-comma">
+            <If condition={changeTypeRemoved}>
+              &#44;&nbsp;
+            </If>
           </span>
-        </When>
-        <Otherwise>
-          <span
-            className="FeedContent__value-to"
-            dangerouslySetInnerHTML={{ __html: prepareValue(key, to) }}
-          />
-        </Otherwise>
-      </Choose>
-    </div>
-  );
+          <span className="FeedContent__value-added">{changeTypeAdded}</span>
+        </div>
+      );
+    }
+
+    return (
+      <div key={uuidv4()}>
+        <span className="FeedContent__label">{renderLabel(key)}:</span>
+        <span className="FeedContent__value-from">{prepareValue(key, from)}</span>
+        <span className="FeedContent__arrow">&#8594;</span>
+        <span
+          className="FeedContent__value-to"
+          dangerouslySetInnerHTML={{ __html: prepareValue(key, to) }}
+        />
+      </div>
+    );
+  };
 
   handleTypeRemoved = (key, { value }) => {
     if (isObject(value)) {

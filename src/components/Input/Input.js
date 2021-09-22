@@ -27,6 +27,8 @@ class Input extends PureComponent {
     autoFocus: PropTypes.bool,
     onTruncated: PropTypes.func,
     onEnterPress: PropTypes.func,
+    showWarningMessage: PropTypes.bool,
+    warningMessage: PropTypes.string,
   };
 
   static defaultProps = {
@@ -36,6 +38,7 @@ class Input extends PureComponent {
     className: '',
     label: '',
     labelTooltip: '',
+    warningMessage: '',
     value: '',
     icon: null,
     addition: null,
@@ -43,6 +46,7 @@ class Input extends PureComponent {
     onChange: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
+    showWarningMessage: false,
     autoFocus: false,
     onEnterPress: () => true,
     onTruncated: () => {},
@@ -88,6 +92,8 @@ class Input extends PureComponent {
       icon,
       addition,
       labelTooltip,
+      warningMessage,
+      showWarningMessage,
       additionPosition,
       onAdditionClick,
       showErrorMessage,
@@ -106,6 +112,7 @@ class Input extends PureComponent {
     };
 
     const uniqueId = `label-${name}`;
+    const warningMessageUniqueId = `warning-${name}`;
 
     return (
       <div
@@ -131,7 +138,16 @@ class Input extends PureComponent {
           </If>
         </If>
         <div className="input__body">
-          <input {...inputProps} />
+          <If condition={showWarningMessage}>
+            <UncontrolledTooltip
+              target={warningMessageUniqueId}
+              trigger="focus"
+              isOpenDefault
+            >
+              {warningMessage}
+            </UncontrolledTooltip>
+          </If>
+          <input {...inputProps} id={warningMessageUniqueId} />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
           </If>
