@@ -1084,7 +1084,9 @@
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
         "ACQUISITION_UPDATED": "Acquisition updated",
-        "EMAIL_SENT": "Email sent"
+        "EMAIL_SENT": "Email sent",
+        "CDE_RULE_CREATED_EVENT":  "CDE rule created",
+        "CDE_RULE_UPDATED_EVENT":  "CDE rule updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -3290,6 +3292,7 @@
         "INACTIVE": "Inactive"
       },
       "GENERAL_INFO": "General information",
+      "FEED": "Feed",
       "FILTERS_LABELS": {
         "SALES_STATUS": "Current Sales Status*",
         "MIGRATION_STATUS": "Migration Sales Status*",
