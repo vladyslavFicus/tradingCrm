@@ -73,6 +73,7 @@ class NewOrderModal extends PureComponent {
       takeProfit: null,
       stopLoss: null,
       openPrice: null,
+      autoOpenPrice: true,
     });
   };
 
