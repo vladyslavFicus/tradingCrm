@@ -3,29 +3,25 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation TradingEngine_CloseOrderMutation(
+const REQUEST = gql`mutation TradingEngine_ReopenOrderMutation(
    $orderId: String!
-   $volume: Float
-   $closePrice: Float
 ) {
   tradingEngine {
-    closeOrder(
+    reopenOrder(
       orderId: $orderId
-      volume: $volume
-      closePrice: $closePrice
     )
   }
 }
 `;
 
-const CloseOrderMutation = ({ children }) => (
+const ReopenOrderMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-CloseOrderMutation.propTypes = {
+ReopenOrderMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default CloseOrderMutation;
+export default ReopenOrderMutation;

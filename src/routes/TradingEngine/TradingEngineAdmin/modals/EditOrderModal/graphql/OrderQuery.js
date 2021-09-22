@@ -28,6 +28,10 @@ const REQUEST = gql`
       swaps
       status
       reason
+      closePrice
+      openRate
+      closeRate
+      margin
       pnl {
         gross
         net
