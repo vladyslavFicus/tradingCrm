@@ -3508,6 +3508,26 @@
           "CANCEL_SUCCESS": "Order has been successfully canceled",
           "CANCEL_FAILED": "Order cancel failed"
         }
+      },
+      "CLOSED_ORDER_MODAL": {
+        "TITLE": "Deal #{{id}}, {{type}} {{volume}} {{symbol}} at {{openPrice}}",
+        "FIELDSET_TITLE": "Account information",
+        "LOGIN": "Login",
+        "GROUP": "Group",
+        "LEVERAGE": "Leverage",
+        "ORDER": "Order",
+        "TYPE": "Type",
+        "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
+        "OPEN_PRICE": "Open price",
+        "CLOSE_PRICE": "Close price",
+        "STOP_LOSS": "Stop Loss",
+        "TAKE_PROFIT": "Take profit",
+        "COMISSION": "Commission",
+        "R_O_SWAPS": "R/O Swaps",
+        "PROFIT": "Profit",
+        "COMMENT": "Comment",
+        "STATUS": "Status"
       }
     },
     "ACCOUNTS": {
