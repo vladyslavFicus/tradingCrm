@@ -1088,12 +1088,11 @@
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
         "ACQUISITION_UPDATED": "Acquisition updated",
-        "EMAIL_SENT": "Email sent",
         "MARKET_ORDER_CREATED": "Market order created",
         "PENDING_ORDER_CREATED": "Pending order created",
         "ORDER_UPDATED": "Order updated",
         "ORDER_CANCELED": "Order canceled",
-        "ORDER_CLOSED": "Order closed"
+        "ORDER_CLOSED": "Order closed",
         "EMAIL_SENT": "Email sent",
         "CDE_RULE_CREATED_EVENT":  "CDE rule created",
         "CDE_RULE_UPDATED_EVENT":  "CDE rule updated"
