@@ -753,6 +753,7 @@
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
+      "APPROVED": "Approved",
       "COMPLETED": "Completed",
       "REJECTED": "Rejected",
       "FAILED": "Failed",
@@ -1093,6 +1094,9 @@
         "ORDER_UPDATED": "Order updated",
         "ORDER_CANCELED": "Order canceled",
         "ORDER_CLOSED": "Order closed"
+        "EMAIL_SENT": "Email sent",
+        "CDE_RULE_CREATED_EVENT":  "CDE rule created",
+        "CDE_RULE_UPDATED_EVENT":  "CDE rule updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1337,7 +1341,8 @@
       "NO_INTEREST": "No interest",
       "UNDER_18": "Under 18",
       "INVALID_LANGUAGE": "Invalid language",
-      "REASSIGN": "Reassign"
+      "REASSIGN": "Reassign",
+      "WRONG_NUMBER": "Wrong number"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
@@ -2168,6 +2173,7 @@
             "SHOW_FTD_AMOUNT": "Show FTD Amount",
             "SHOW_KYC_STATUS": "Show KYC status",
             "CDE_AFFILIATE": "Mark as source",
+            "CUMULATIVE_DEPOSIT": "Cumulative deposit",
             "MIN_FTD_LIMIT": "Minimal FTD"
           },
           "ERRORS": {
@@ -3296,6 +3302,7 @@
         "INACTIVE": "Inactive"
       },
       "GENERAL_INFO": "General information",
+      "FEED": "Feed",
       "FILTERS_LABELS": {
         "SALES_STATUS": "Current Sales Status*",
         "MIGRATION_STATUS": "Migration Sales Status*",

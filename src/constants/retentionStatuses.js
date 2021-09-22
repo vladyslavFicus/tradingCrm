@@ -20,6 +20,7 @@ export const retentionStatuses = {
   RECEIVED_WITHDRAWAL: 'CONSTANTS.RETENTION_STATUSES.RECEIVED_WITHDRAWAL',
   RECOVERY_DEPOSITOR: 'CONSTANTS.RETENTION_STATUSES.RECOVERY_DEPOSITOR',
   UNDER_18: 'CONSTANTS.RETENTION_STATUSES.UNDER_18',
+  WRONG_NUMBER: 'CONSTANTS.RETENTION_STATUSES.WRONG_NUMBER',
 };
 
 export const retentionStatusesColor = {
@@ -44,4 +45,5 @@ export const retentionStatusesColor = {
   UNDER_18: 'color-danger',
   INVALID_LANGUAGE: 'color-warning',
   REASSIGN: 'color-info',
+  WRONG_NUMBER: 'color-danger',
 };
