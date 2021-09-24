@@ -89,13 +89,13 @@ class AccountProfileOrdersGridFilter extends PureComponent {
                 ))}
               </Field>
               <Field
-                name="openingDateRange"
+                name="creationDateRange"
                 className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
                 label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TRANSACTION_TIME_RANGE_LABEL')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
-                  from: 'openingDateRange.from',
-                  to: 'openingDateRange.to',
+                  from: 'creationDateRange.from',
+                  to: 'creationDateRange.to',
                 }}
                 withFocus
               />
