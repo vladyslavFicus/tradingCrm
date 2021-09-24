@@ -39,6 +39,16 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       }
       comment
       type
+      account {
+        currency
+      }
+      symbolEntity {
+        lotSize
+      }
+      groupSpread {
+        bidAdjustment
+        askAdjustment
+      }
     }
     page
     number
