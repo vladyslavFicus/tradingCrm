@@ -37,10 +37,6 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       }
       comment
       type
-      originalAgent {
-        uuid
-        fullName
-      }
     }
     page
     number
