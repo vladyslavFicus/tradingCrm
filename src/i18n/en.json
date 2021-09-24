@@ -3643,6 +3643,7 @@
         "S/L": "S/L",
         "T/P": "T/P",
         "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
         "STATUS": "Status",
         "LOGIN": "Login",
         "LOTS": "Lots",
