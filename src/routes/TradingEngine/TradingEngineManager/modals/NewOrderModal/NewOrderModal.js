@@ -16,10 +16,10 @@ import {
   FormikInputField,
   FormikTextAreaField,
   FormikSelectField,
+  FormikInputDecimalsField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
-import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import createOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import TradingEngineSymbolPricesQuery from './graphql/SymbolPricesQuery';
@@ -276,7 +276,7 @@ class NewOrderModal extends PureComponent {
             const buyPrice = autoOpenPrice ? ask : openPrice;
 
             const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
-
+            // console.log('openPrice', openPrice, bid.toFixed(digitsCurrentSymbol), autoOpenPrice);
             const decimalsSettings = {
               decimalsLimit: digitsCurrentSymbol,
               decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
