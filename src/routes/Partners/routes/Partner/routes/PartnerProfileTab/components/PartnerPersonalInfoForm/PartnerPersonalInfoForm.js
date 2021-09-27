@@ -14,8 +14,13 @@ import Permissions from 'utils/permissions';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import CopyToClipboard from 'components/CopyToClipboard';
-import { FormikInputField, FormikSelectField, FormikCheckbox, FormikMultiInputField } from 'components/Formik';
-import FormikInputRangeField from 'components/Formik/FormikInputField/components/FormikInputRangeField';
+import {
+  FormikInputField,
+  FormikInputRangeField,
+  FormikSelectField,
+  FormikCheckbox,
+  FormikMultiInputField,
+} from 'components/Formik';
 import { Button } from 'components/UI';
 import updatePartnerMutation from './graphql/UpdatePartnerMutation';
 import './PartnerPersonalInfoForm.scss';
@@ -84,7 +89,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount,
             showKycStatus,
             cumulativeDeposit,
-            minFtdDeposit: parseFloat(minFtdDeposit),
+            minFtdDeposit,
           },
           ...rest,
         },
