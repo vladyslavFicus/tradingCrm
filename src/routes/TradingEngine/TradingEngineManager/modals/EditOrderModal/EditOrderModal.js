@@ -163,6 +163,7 @@ class EditOrderModal extends PureComponent {
       }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'EditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
           await closeOrder({
@@ -207,6 +208,7 @@ class EditOrderModal extends PureComponent {
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'EditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
           await deleteOrder({
