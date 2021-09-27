@@ -97,6 +97,8 @@ class Input extends PureComponent {
       additionPosition,
       onAdditionClick,
       showErrorMessage,
+      onEnterPress,
+      onTruncated,
       ...input
     } = this.props;
 

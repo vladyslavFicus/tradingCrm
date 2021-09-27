@@ -211,7 +211,7 @@ class ClosedOrderModal extends PureComponent {
             className="ClosedOrderModal__button"
             common
           >
-            {I18n.t('COMMON.CANCEL')}
+            {I18n.t('COMMON.CLOSE')}
           </Button>
         </ModalFooter>
       </Modal>

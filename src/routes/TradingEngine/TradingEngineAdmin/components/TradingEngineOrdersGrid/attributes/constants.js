@@ -40,6 +40,9 @@ export const statuses = [{
   value: 'OPEN',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.OPEN',
 }, {
+  value: 'PENDING',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.PENDING',
+}, {
   value: 'CANCELED',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.CANCELED',
 }];
