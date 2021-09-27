@@ -274,7 +274,9 @@ class NewOrderModal extends PureComponent {
 
             const sellPrice = autoOpenPrice ? bid : openPrice;
             const buyPrice = autoOpenPrice ? ask : openPrice;
+
             const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
+
             const decimalsSettings = {
               decimalsLimit: digitsCurrentSymbol,
               decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
