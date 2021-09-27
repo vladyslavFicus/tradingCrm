@@ -290,6 +290,25 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
+              sortBy="time.closing"
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.CLOSE_TIME')}
+              render={({ time }) => (
+                <Choose>
+                  <When condition={time?.closing}>
+                    <div className="TradingEngineOrdersGrid__cell-value">
+                      {moment.utc(time.closing).local().format('DD.MM.YYYY')}
+                    </div>
+                    <div className="TradingEngineOrdersGrid__cell-value-add">
+                      {moment.utc(time.closing).local().format('HH:mm:ss')}
+                    </div>
+                  </When>
+                  <Otherwise>
+                    &mdash;
+                  </Otherwise>
+                </Choose>
+              )}
+            />
+            <Column
               sortBy="commission"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.COMMISSION')}
               render={({ commission }) => (
