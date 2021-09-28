@@ -8,6 +8,7 @@ import FormikSwitchField from './FormikSwitchField';
 import FormikTextAreaField from './FormikTextAreaField';
 import FormikHtmlEditorField from './FormikHtmlEditorField';
 import FormikTimeRangeField from './FormikTimeRangeField';
+import FormikInputRangeField from './FormikInputRangeField';
 import FormikInputDecimalsField from './FormikInputDecimalsField';
 
 export {
@@ -21,5 +22,6 @@ export {
   FormikTextAreaField,
   FormikHtmlEditorField,
   FormikTimeRangeField,
+  FormikInputRangeField,
   FormikInputDecimalsField,
 };
