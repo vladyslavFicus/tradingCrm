@@ -273,8 +273,8 @@ class ClientTradingAccountsGrid extends PureComponent {
       >
         {I18n.t(`CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.${!readOnly ? 'ENABLED' : 'DISABLED'}`)}
       </div>
-      <If condition={readOnlyUpdatedBy}>
-        <Link to={`/operators/${readOnlyUpdatedBy}`}>
+      <Choose>
+        <When condition={readOnlyUpdatedBy === 'SYSTEM'}>
           <div
             className={
               classNames(
@@ -283,10 +283,25 @@ class ClientTradingAccountsGrid extends PureComponent {
               )
             }
           >
-            {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_BY', { updatedBy: operator.fullName })}
+            {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_BY', { updatedBy: 'SYSTEM' })}
           </div>
-        </Link>
-      </If>
+        </When>
+
+        <When condition={readOnlyUpdatedBy}>
+          <Link to={`/operators/${readOnlyUpdatedBy}`}>
+            <div
+              className={
+                classNames(
+                  'ClientTradingAccountsGrid__cell-main-value',
+                  'ClientTradingAccountsGrid__cell-main-value--small',
+                )
+              }
+            >
+              {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_BY', { updatedBy: operator.fullName })}
+            </div>
+          </Link>
+        </When>
+      </Choose>
       <If condition={readOnlyUpdateTime}>
         <div className="ClientTradingAccountsGrid__cell-sub-value">
           {I18n.t('CLIENT_PROFILE.ACCOUNTS.TRADING_STATUS.UPDATED_AT', {
