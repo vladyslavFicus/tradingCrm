@@ -1,13 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import { OrderType } from 'types/trading-engine';
 import CircleLoader from 'components/CircleLoader';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import './PnL.scss';
-
-enum OrderType {
-  SELL = 'SELL',
-  BUY = 'BUY',
-}
 
 interface Props {
   type: OrderType,

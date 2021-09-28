@@ -1,7 +1,4 @@
-enum OrderType {
-  SELL = 'SELL',
-  BUY = 'BUY',
-}
+import { OrderType } from 'types/trading-engine';
 
 /**
  * Calculate floating PnL
