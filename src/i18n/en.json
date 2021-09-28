@@ -2164,7 +2164,8 @@
             "SHOW_KYC_STATUS": "Show KYC status",
             "CDE_AFFILIATE": "Mark as source",
             "CUMULATIVE_DEPOSIT": "Cumulative deposit",
-            "MIN_FTD_LIMIT": "Minimal FTD"
+            "MIN_FTD_LIMIT": "Minimal FTD",
+            "SHOW_AUTO_LOGIN_URL": "Send auto-login URL"
           },
           "ERRORS": {
             "MIN_FTD_DEPOSIT": "Minimal FTD may not be less than {{min}} and greater than {{max}}"
