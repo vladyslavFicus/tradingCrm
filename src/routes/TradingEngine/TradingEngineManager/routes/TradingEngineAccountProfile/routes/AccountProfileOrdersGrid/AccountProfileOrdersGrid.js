@@ -29,6 +29,7 @@ class AccountProfileOrdersGrid extends PureComponent {
     orders: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
+    orderStatuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -65,6 +66,7 @@ class AccountProfileOrdersGrid extends PureComponent {
         loadMore,
         variables,
       },
+      orderStatuses,
     } = this.props;
 
     const currentPage = data?.tradingEngineOrders?.number || 0;
@@ -74,7 +76,7 @@ class AccountProfileOrdersGrid extends PureComponent {
 
     loadMore({
       args: {
-        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
+        orderStatuses,
         accountUuid: id,
         ...filters,
         page: {

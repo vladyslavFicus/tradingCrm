@@ -3,13 +3,14 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withStreams } from 'rsocket';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
+import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
+import CurrentPrice from 'routes/TradingEngine/components/CurrentPrice';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { EditButton } from 'components/UI';
@@ -33,11 +34,11 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    pendingOrderStatistics$: PropTypes.object,
+    orderStatuses: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
-  static defaultProps = {
-    pendingOrderStatistics$: {},
+  state = {
+    symbolsPrices: {},
   };
 
   componentDidMount() {
@@ -65,6 +66,7 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
         loadMore,
         variables,
       },
+      orderStatuses,
     } = this.props;
 
     const currentPage = data?.tradingEngineOrders?.number || 0;
@@ -74,7 +76,7 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
 
     loadMore({
       args: {
-        orderStatuses: ['PENDING', 'OPEN', 'CLOSED'],
+        orderStatuses,
         accountUuid: id,
         ...filters,
         page: {
@@ -97,6 +99,10 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
     });
   };
 
+  handleSymbolsPricesTick = (symbolsPrices) => {
+    this.setState({ symbolsPrices });
+  };
+
   render() {
     const {
       location: { state },
@@ -107,7 +113,6 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
       modals: {
         editOrderModal,
       },
-      pendingOrderStatistics$,
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
@@ -117,6 +122,12 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
         <div className="AccountProfilePendingOrdersGrid__title">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}
         </div>
+
+        {/* Subscribe to symbol prices stream */}
+        <SymbolsPricesStream
+          symbols={content.map(({ symbol }) => symbol)}
+          onNotify={this.handleSymbolsPricesTick}
+        />
 
         <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
 
@@ -234,9 +245,14 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ id, price, digits }) => (
+              render={({ type, symbol, digits, groupSpread }) => (
                 <div className="AccountProfilePendingOrdersGrid__cell-value">
-                  {(pendingOrderStatistics$[id]?.data?.currentPrice || price)?.toFixed(digits)}
+                  <CurrentPrice
+                    type={type}
+                    digits={digits}
+                    currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
+                    currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
+                  />
                 </div>
               )}
             />
@@ -272,11 +288,4 @@ export default compose(
   withRequests({
     orders: TradingEngineOrdersQuery,
   }),
-  withStreams(({ match: { params: { id } } }) => ({
-    pendingOrderStatistics$: {
-      route: 'streamPendingOrderStatistics',
-      data: { accountUuid: id },
-      accumulator: (curr, next) => ({ ...curr, [next.data.orderId]: next }),
-    },
-  })),
 )(AccountProfilePendingOrdersGrid);
