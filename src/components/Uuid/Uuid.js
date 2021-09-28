@@ -62,4 +62,4 @@ Uuid.defaultProps = {
   className: null,
 };
 
-export default Uuid;
+export default React.memo(Uuid);
