@@ -4,6 +4,7 @@ $color-checked: #5287bd;
 $color-disable: #cfcfcf;
 
 .Checkbox {
+  width: 100%;
   margin-bottom: 12px;
 
   &__container {
@@ -63,6 +64,12 @@ $color-disable: #cfcfcf;
     font-size: 15px;
     margin-left: 10px;
     transition: color 0.1s ease;
+  }
+
+  &__hint {
+    position: absolute;
+    color: $color-disable;
+    font-size: 12px;
   }
 
   &__error {
