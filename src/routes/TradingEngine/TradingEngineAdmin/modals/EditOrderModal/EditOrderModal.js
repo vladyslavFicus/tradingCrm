@@ -39,7 +39,7 @@ class EditOrderModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     editOrder: PropTypes.func.isRequired,
     reopenOrder: PropTypes.func.isRequired,
-    order: PropTypes.object.isRequired,
+    orderQuery: PropTypes.object.isRequired,
     symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
@@ -151,7 +151,7 @@ class EditOrderModal extends PureComponent {
     const {
       isOpen,
       onCloseModal,
-      order: { data },
+      orderQuery: { data },
       symbolsQuery,
     } = this.props;
 
@@ -190,7 +190,7 @@ class EditOrderModal extends PureComponent {
     };
 
     const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
-    const [currentSymbol] = symbols.filter(({ name }) => name === symbol);
+    const currentSymbol = symbols.find(({ name }) => name === symbol);
 
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -282,16 +282,14 @@ class EditOrderModal extends PureComponent {
                       </Field>
                     </div>
                     <div className="EditOrderModal__field-container">
-                      <If condition={time?.creation}>
-                        <Field
-                          name="openTime"
-                          className="EditOrderModal__field"
-                          label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_TIME')}
-                          component={FormikDatePicker}
-                          withTime
-                          withUtc
-                        />
-                      </If>
+                      <Field
+                        name="openTime"
+                        className="EditOrderModal__field"
+                        label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_TIME')}
+                        component={FormikDatePicker}
+                        withTime
+                        withUtc
+                      />
                       <Field
                         name="openPrice"
                         type="number"
@@ -459,7 +457,7 @@ export default compose(
   withRequests({
     editOrder: EditOrderMutation,
     reopenOrder: ReopenOrderMutation,
-    order: OrderQuery,
+    orderQuery: OrderQuery,
     symbolsQuery: SymbolsQuery,
   }),
 )(EditOrderModal);

@@ -6,8 +6,8 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`mutation TradingEngine_EditOrderMutation(
   $args: TradingEngineEditOrderAdmin__Input
 ) {
-  tradingEngine {
-    editOrderAdmin(args: $args)
+  tradingEngineAdmin {
+    editOrder(args: $args)
   }
 }
 `;

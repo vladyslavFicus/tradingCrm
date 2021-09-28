@@ -6,7 +6,7 @@ import { Mutation } from 'react-apollo';
 const REQUEST = gql`mutation TradingEngine_ReopenOrderMutation(
    $orderId: String!
 ) {
-  tradingEngine {
+  tradingEngineAdmin {
     reopenOrder(
       orderId: $orderId
     )
