@@ -39,10 +39,6 @@ const REQUEST = gql`
       }
       comment
       type
-      originalAgent {
-        uuid
-        fullName
-      }
     }
   }
 `;
