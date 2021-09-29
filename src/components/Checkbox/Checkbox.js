@@ -14,6 +14,7 @@ class Checkbox extends PureComponent {
     error: PropTypes.string,
     onChange: PropTypes.func,
     vertical: PropTypes.bool,
+    hint: PropTypes.string,
   };
 
   static defaultProps = {
@@ -22,6 +23,7 @@ class Checkbox extends PureComponent {
     className: '',
     label: null,
     error: null,
+    hint: null,
     onChange: () => {},
     vertical: false,
   };
@@ -32,6 +34,7 @@ class Checkbox extends PureComponent {
       value,
       label,
       error,
+      hint,
       disabled,
       className,
       onChange,
@@ -68,6 +71,11 @@ class Checkbox extends PureComponent {
             <span className="Checkbox__label">{label}</span>
           </If>
         </label>
+        <If condition={hint}>
+          <div className="Checkbox__hint">
+            <span>{hint}</span>
+          </div>
+        </If>
         <If condition={error}>
           <div className="Checkbox__error">
             <i className="icon icon-alert" />
