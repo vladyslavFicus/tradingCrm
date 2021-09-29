@@ -9,11 +9,15 @@ import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
-import { FormikCheckbox, FormikInputField, FormikTextAreaField, FormikSelectField } from 'components/Formik';
+import {
+  FormikCheckbox,
+  FormikInputField,
+  FormikTextAreaField,
+  FormikSelectField,
+  FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import { createValidator, translateLabels } from 'utils/validator';
-import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';

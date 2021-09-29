@@ -15,13 +15,11 @@ class FormikInputDecimalsField extends PureComponent {
       initialValues: PropTypes.object.isRequired,
       setFieldValue: PropTypes.func.isRequired,
     }).isRequired,
-    type: PropTypes.string,
     decimalsWarningMessage: PropTypes.string,
     withFocus: PropTypes.bool,
   };
 
   static defaultProps = {
-    type: 'text',
     decimalsWarningMessage: '',
     withFocus: false,
   };
