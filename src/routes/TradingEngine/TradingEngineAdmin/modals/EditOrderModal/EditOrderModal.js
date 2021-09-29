@@ -413,7 +413,8 @@ class EditOrderModal extends PureComponent {
                       <Button
                         primary
                         onClick={() => this.handleEditOrder(values, status)}
-                        className="EditOrderModal__button Button--danger"
+                        className="EditOrderModal__button"
+                        danger
                         disabled={!dirty || isSubmitting}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
