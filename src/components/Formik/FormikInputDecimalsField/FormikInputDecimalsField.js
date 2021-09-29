@@ -15,12 +15,10 @@ class FormikInputDecimalsField extends PureComponent {
       initialValues: PropTypes.object.isRequired,
       setFieldValue: PropTypes.func.isRequired,
     }).isRequired,
-    decimalsWarningMessage: PropTypes.string,
     withFocus: PropTypes.bool,
   };
 
   static defaultProps = {
-    decimalsWarningMessage: '',
     withFocus: false,
   };
 
@@ -47,7 +45,6 @@ class FormikInputDecimalsField extends PureComponent {
         initialValues,
       },
       withFocus,
-      decimalsWarningMessage,
       ...input
     } = this.props;
 
@@ -56,7 +53,6 @@ class FormikInputDecimalsField extends PureComponent {
         name={name}
         value={value !== null ? value : ''}
         onChange={this.handleInputChange}
-        warningMessage={decimalsWarningMessage}
         error={get(errors, name)}
         isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
         {...omit(input, ['staticContext'])}

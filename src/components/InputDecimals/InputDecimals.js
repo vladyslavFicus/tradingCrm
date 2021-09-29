@@ -10,11 +10,13 @@ class InputDecimals extends React.Component {
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
     decimalsLimit: PropTypes.number,
+    decimalsWarningMessage: PropTypes.string,
     decimalsLengthDefault: PropTypes.number,
   };
 
   static defaultProps = {
     decimalsLimit: undefined,
+    decimalsWarningMessage: '',
     decimalsLengthDefault: undefined,
     onBlur: () => {},
     onFocus: () => {},
@@ -110,6 +112,7 @@ class InputDecimals extends React.Component {
       <Input
         {...this.props}
         showWarningMessage={this.state.showWarningMessage}
+        warningMessage={this.props.decimalsWarningMessage}
         value={this.state.value}
         onChange={this.handleInputChange}
         onBlur={this.handleInputBlur}
