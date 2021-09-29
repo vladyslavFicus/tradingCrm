@@ -82,9 +82,7 @@ class InputDecimals extends React.Component {
       blur: true,
     });
 
-    if (onBlur) {
-      onBlur(e);
-    }
+    onBlur(e);
   }
 
   handleInputFocus = (e) => {
@@ -94,9 +92,7 @@ class InputDecimals extends React.Component {
       blur: false,
     });
 
-    if (onFocus) {
-      onFocus(e);
-    }
+    onFocus(e);
   }
 
   validationDecimals = (decimalsLimit, value) => {
