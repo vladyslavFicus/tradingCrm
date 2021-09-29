@@ -52,9 +52,7 @@ class FormikInputRangeField extends PureComponent {
 
     setFieldValue(name, value);
 
-    if (onChange) {
-      onChange(value);
-    }
+    onChange(value);
   }
 
   onError = () => {
