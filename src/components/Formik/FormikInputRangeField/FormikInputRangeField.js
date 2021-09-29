@@ -15,6 +15,7 @@ class FormikInputRangeField extends PureComponent {
       errors: PropTypes.object.isRequired,
       initialValues: PropTypes.object.isRequired,
     }).isRequired,
+    onChange: PropTypes.func,
     errorText: PropTypes.string.isRequired,
     type: PropTypes.string,
     withFocus: PropTypes.bool,
@@ -29,6 +30,7 @@ class FormikInputRangeField extends PureComponent {
     pattern: '[0-9]*',
     min: 1,
     max: 10000,
+    onChange: () => {},
   };
 
   isValueExist = () => {
@@ -45,9 +47,14 @@ class FormikInputRangeField extends PureComponent {
       form: {
         setFieldValue,
       },
+      onChange,
     } = this.props;
 
     setFieldValue(name, value);
+
+    if (onChange) {
+      onChange(value);
+    }
   }
 
   onError = () => {
@@ -82,11 +89,11 @@ class FormikInputRangeField extends PureComponent {
       <InputRange
         name={name}
         value={value !== null ? value : ''}
-        onChange={this.onChange}
         onError={this.onError}
         error={get(errors, name)}
         isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
         {...omit(input, ['staticContext'])}
+        onChange={this.onChange}
       />
     );
   }
