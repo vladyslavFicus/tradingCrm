@@ -16,10 +16,10 @@ import {
   FormikInputField,
   FormikTextAreaField,
   FormikSelectField,
+  FormikInputDecimalsField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
-import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import createOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import TradingEngineSymbolPricesQuery from './graphql/SymbolPricesQuery';
@@ -147,9 +147,9 @@ class NewOrderModal extends PureComponent {
           type: 'MARKET',
           accountUuid: id,
           pendingOrder: true,
-          takeProfit: Number(takeProfit),
-          stopLoss: Number(stopLoss),
-          openPrice: Number(openPrice),
+          takeProfit,
+          stopLoss,
+          openPrice,
           direction,
           ...res,
         },
