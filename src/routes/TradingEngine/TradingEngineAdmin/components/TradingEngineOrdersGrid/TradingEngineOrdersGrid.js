@@ -12,6 +12,8 @@ import { Table, Column } from 'components/Table';
 import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
+import PnL from 'routes/TradingEngine/components/PnL';
+import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineAdmin/modals/EditOrderModal';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineAdminTabs } from '../../constants';
@@ -30,6 +32,10 @@ class TradingEngineOrdersGrid extends PureComponent {
     orders: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
+  };
+
+  state = {
+    symbolsPrices: {},
   };
 
   refetchOrders = () => this.props.orders.refetch();
@@ -92,6 +98,10 @@ class TradingEngineOrdersGrid extends PureComponent {
     }
   }
 
+  handleSymbolsPricesTick = (symbolsPrices) => {
+    this.setState({ symbolsPrices });
+  };
+
   render() {
     const {
       location: { state },
@@ -118,6 +128,12 @@ class TradingEngineOrdersGrid extends PureComponent {
 
         {/* Open last created order by SHIFT+Q hot key */}
         <Hotkeys keyName="shift+q" filter={() => true} onKeyUp={this.handleOpenLastCreatedOrder} />
+
+        {/* Subscribe to symbol prices stream on opened positions */}
+        <SymbolsPricesStream
+          symbols={content?.filter(({ status }) => status === 'OPEN').map(({ symbol }) => symbol)}
+          onNotify={this.handleSymbolsPricesTick}
+        />
 
         <TradingEngineOrdersGridFilter handleRefetch={this.refetchOrders} />
 
@@ -289,6 +305,25 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
+              sortBy="time.closing"
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.CLOSE_TIME')}
+              render={({ time }) => (
+                <Choose>
+                  <When condition={time?.closing}>
+                    <div className="TradingEngineOrdersGrid__cell-value">
+                      {moment.utc(time.closing).local().format('DD.MM.YYYY')}
+                    </div>
+                    <div className="TradingEngineOrdersGrid__cell-value-add">
+                      {moment.utc(time.closing).local().format('HH:mm:ss')}
+                    </div>
+                  </When>
+                  <Otherwise>
+                    &mdash;
+                  </Otherwise>
+                </Choose>
+              )}
+            />
+            <Column
               sortBy="commission"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.COMMISSION')}
               render={({ commission }) => (
@@ -322,9 +357,20 @@ class TradingEngineOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.PROFIT')}
-              render={({ pnl }) => (
+              render={({ type, openPrice, symbol, volumeLots, symbolEntity, groupSpread, status, pnl }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">
                   <Choose>
+                    <When condition={status === 'OPEN'}>
+                      <PnL
+                        type={type}
+                        openPrice={openPrice}
+                        currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
+                        currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
+                        volume={volumeLots}
+                        lotSize={symbolEntity.lotSize}
+                        exchangeRate={1}
+                      />
+                    </When>
                     <When condition={pnl}>
                       {pnl.gross}
                     </When>

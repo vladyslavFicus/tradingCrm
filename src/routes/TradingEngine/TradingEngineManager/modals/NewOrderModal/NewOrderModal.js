@@ -73,6 +73,7 @@ class NewOrderModal extends PureComponent {
       takeProfit: null,
       stopLoss: null,
       openPrice: null,
+      autoOpenPrice: true,
     });
   };
 
@@ -420,7 +421,7 @@ class NewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice && sellPrice.toFixed(digitsCurrentSymbol),
+                          value: sellPrice && Number(sellPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                       <Button
@@ -430,7 +431,7 @@ class NewOrderModal extends PureComponent {
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice && buyPrice.toFixed(digitsCurrentSymbol),
+                          value: buyPrice && Number(buyPrice).toFixed(digitsCurrentSymbol),
                         })}
                       </Button>
                     </div>

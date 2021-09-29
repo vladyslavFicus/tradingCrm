@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_OrderQuery($orderId: String!) {
+  query TradingEngine_OrderQuery($orderId: Int!) {
     tradingEngineOrder (
       orderId: $orderId
     ) {
@@ -39,10 +39,6 @@ const REQUEST = gql`
       }
       comment
       type
-      originalAgent {
-        uuid
-        fullName
-      }
     }
   }
 `;

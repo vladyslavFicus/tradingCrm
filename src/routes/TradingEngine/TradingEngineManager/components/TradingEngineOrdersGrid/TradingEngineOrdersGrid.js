@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import Hotkeys from 'react-hot-keys';
 import { withRouter } from 'react-router-dom';
+import { withLazyStreams } from 'rsocket';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
@@ -12,6 +13,8 @@ import { Table, Column } from 'components/Table';
 import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
+import PnL from 'routes/TradingEngine/components/PnL';
+import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
 import TradingEngineOrdersQuery from './graphql/TradingEngineOrdersQuery';
 import { tradingEngineTabs } from '../../constants';
@@ -27,19 +30,23 @@ class TradingEngineOrdersGrid extends PureComponent {
     modals: PropTypes.shape({
       editOrderModal: PropTypes.modalType,
     }).isRequired,
-    orders: PropTypes.query({
+    ordersQuery: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
   };
 
-  refetchOrders = () => this.props.orders.refetch();
+  state = {
+    symbolsPrices: {},
+  };
+
+  refetchOrders = () => this.props.ordersQuery.refetch();
 
   handlePageChanged = () => {
     const {
       location: {
         state,
       },
-      orders: {
+      ordersQuery: {
         data,
         loadMore,
         variables,
@@ -93,10 +100,14 @@ class TradingEngineOrdersGrid extends PureComponent {
     }
   }
 
+  handleSymbolsPricesTick = (symbolsPrices) => {
+    this.setState({ symbolsPrices });
+  };
+
   render() {
     const {
       location: { state },
-      orders: {
+      ordersQuery: {
         data,
         loading,
       },
@@ -120,6 +131,12 @@ class TradingEngineOrdersGrid extends PureComponent {
         {/* Open last created order by SHIFT+Q hot key */}
         <Hotkeys keyName="shift+q" filter={() => true} onKeyUp={this.handleOpenLastCreatedOrder} />
 
+        {/* Subscribe to symbol prices stream */}
+        <SymbolsPricesStream
+          symbols={content?.map(({ symbol }) => symbol)}
+          onNotify={this.handleSymbolsPricesTick}
+        />
+
         <TradingEngineOrdersGridFilter handleRefetch={this.refetchOrders} />
 
         <div className="TradingEngineOrdersGrid">
@@ -130,6 +147,7 @@ class TradingEngineOrdersGrid extends PureComponent {
             sorts={state?.sorts}
             onSort={this.handleSort}
             onMore={this.handlePageChanged}
+            stickyFromTop={125}
           >
             <Column
               sortBy="id"
@@ -246,8 +264,18 @@ class TradingEngineOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.P&L')}
-              render={({ pnl }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">{pnl.net}</div>
+              render={({ symbol, type, openPrice, volumeLots, symbolEntity, groupSpread }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  <PnL
+                    type={type}
+                    openPrice={openPrice}
+                    currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
+                    currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
+                    volume={volumeLots}
+                    lotSize={symbolEntity.lotSize}
+                    exchangeRate={1}
+                  />
+                </div>
               )}
             />
             <Column
@@ -295,6 +323,11 @@ export default compose(
     editOrderModal: EditOrderModal,
   }),
   withRequests({
-    orders: TradingEngineOrdersQuery,
+    ordersQuery: TradingEngineOrdersQuery,
+  }),
+  withLazyStreams({
+    symbolsStreamRequest: {
+      route: 'streamAllSymbolPrices',
+    },
   }),
 )(TradingEngineOrdersGrid);

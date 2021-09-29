@@ -9,7 +9,7 @@ import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
+import ClosedOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/ClosedOrderModal';
 import { EditButton } from 'components/UI';
 import AccountProfileGridFilter from './components/AccountProfileOrdersGridFilter';
 import { tradeStatusesColor, types } from '../../attributes/constants';
@@ -21,7 +21,7 @@ class AccountProfileHistoryGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     modals: PropTypes.shape({
-      editOrderModal: PropTypes.modalType,
+      closedOrderModal: PropTypes.modalType,
     }).isRequired,
     historyQuery: PropTypes.query({
       tradingEngineOrders: PropTypes.pageable(PropTypes.tradingActivity),
@@ -89,7 +89,7 @@ class AccountProfileHistoryGrid extends PureComponent {
         loading,
       },
       modals: {
-        editOrderModal,
+        closedOrderModal,
       },
     } = this.props;
 
@@ -116,23 +116,29 @@ class AccountProfileHistoryGrid extends PureComponent {
             <Column
               sortBy="id"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.TRADE')}
-              render={({ id }) => (
-                <div
-                  className="AccountProfileHistoryGrid__uuid"
-                  onClick={() => editOrderModal.show({
-                    id,
-                    onSuccess: () => this.refetchOrders(),
-                  })}
-                >
-                  <div className="AccountProfileHistoryGrid__cell-value">
-                    <Uuid
-                      uuid={`${id}`}
-                      uuidPrefix="TR"
-                    />
-                    <EditButton className="AccountProfileHistoryGrid__edit-button" />
+              render={(order) => {
+                const { id, status } = order;
+                const isShowClosedOrderModal = ['CLOSED', 'CANCELLED'].includes(status);
+
+                return (
+                  <div className="AccountProfileHistoryGrid__uuid">
+                    <div className="AccountProfileHistoryGrid__cell-value">
+                      <Uuid
+                        uuid={`${id}`}
+                        uuidPrefix="TR"
+                      />
+                      <If condition={isShowClosedOrderModal}>
+                        <EditButton
+                          className="AccountProfileHistoryGrid__edit-button"
+                          onClick={() => closedOrderModal.show({
+                            order,
+                          })}
+                        />
+                      </If>
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              }}
             />
             <Column
               sortBy="type"
@@ -331,7 +337,7 @@ class AccountProfileHistoryGrid extends PureComponent {
 export default compose(
   withRouter,
   withModals({
-    editOrderModal: EditOrderModal,
+    closedOrderModal: ClosedOrderModal,
   }),
   withRequests({
     historyQuery: TradingEngineHistoryQuery,

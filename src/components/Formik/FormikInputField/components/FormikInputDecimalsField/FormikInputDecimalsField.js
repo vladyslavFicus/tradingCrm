@@ -28,10 +28,7 @@ class FormikInputDecimalsField extends PureComponent {
 
   handleInputChange = (event) => {
     const {
-      target: {
-        value,
-        validity: { valid },
-      },
+      target: { value },
     } = event;
 
     const {
@@ -39,10 +36,6 @@ class FormikInputDecimalsField extends PureComponent {
       form: { setFieldValue },
       decimalsLimit,
     } = this.props;
-
-    if (!valid) {
-      return;
-    }
 
     if (decimalsLimit && +value !== Math.floor(value)) {
       this.validationDecimals(decimalsLimit, value);
@@ -79,6 +72,7 @@ class FormikInputDecimalsField extends PureComponent {
       setFieldValue(name, value.substring(0, digits.length + decimalsLimit + 1));
       this.setState({ showWarningMessage: true });
     } else {
+      setFieldValue(name, value);
       this.setState({ showWarningMessage: false });
     }
   }

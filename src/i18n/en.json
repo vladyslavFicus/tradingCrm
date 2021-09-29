@@ -1088,12 +1088,14 @@
         "INTEREST_RATE": "Interest rate",
         "PROFILE_ACQUISITION_UPDATED": "Profile acquisition updated",
         "ACQUISITION_UPDATED": "Acquisition updated",
-        "EMAIL_SENT": "Email sent",
         "MARKET_ORDER_CREATED": "Market order created",
         "PENDING_ORDER_CREATED": "Pending order created",
         "ORDER_UPDATED": "Order updated",
         "ORDER_CANCELED": "Order canceled",
-        "ORDER_CLOSED": "Order closed"
+        "ORDER_CLOSED": "Order closed",
+        "EMAIL_SENT": "Email sent",
+        "CDE_RULE_CREATED_EVENT":  "CDE rule created",
+        "CDE_RULE_UPDATED_EVENT":  "CDE rule updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -2649,7 +2651,8 @@
         "STATUSES": {
           "OPEN": "Open",
           "CLOSED": "Closed",
-          "PENDING": "Pending"
+          "PENDING": "Pending",
+          "CANCELED": "Canceled"
         }
       }
     },
@@ -3299,6 +3302,7 @@
         "INACTIVE": "Inactive"
       },
       "GENERAL_INFO": "General information",
+      "FEED": "Feed",
       "FILTERS_LABELS": {
         "SALES_STATUS": "Current Sales Status*",
         "MIGRATION_STATUS": "Migration Sales Status*",
@@ -3529,6 +3533,26 @@
           "OPERATOR": "Operator",
           "SYSTEM": "System"
         }
+      },
+      "CLOSED_ORDER_MODAL": {
+        "TITLE": "Deal #{{id}}, {{type}} {{volume}} {{symbol}} at {{openPrice}}",
+        "FIELDSET_TITLE": "Account information",
+        "LOGIN": "Login",
+        "GROUP": "Group",
+        "LEVERAGE": "Leverage",
+        "ORDER": "Order",
+        "TYPE": "Type",
+        "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
+        "OPEN_PRICE": "Open price",
+        "CLOSE_PRICE": "Close price",
+        "STOP_LOSS": "Stop Loss",
+        "TAKE_PROFIT": "Take profit",
+        "COMISSION": "Commission",
+        "R_O_SWAPS": "R/O Swaps",
+        "PROFIT": "Profit",
+        "COMMENT": "Comment",
+        "STATUS": "Status"
       }
     },
     "ACCOUNTS": {
@@ -3640,6 +3664,7 @@
         "S/L": "S/L",
         "T/P": "T/P",
         "OPEN_TIME": "Open time",
+        "CLOSE_TIME": "Close time",
         "STATUS": "Status",
         "LOGIN": "Login",
         "LOTS": "Lots",

@@ -159,9 +159,22 @@ const partnerTabs = [
   },
 ];
 
+const distributionRuleTabs = [
+  {
+    label: 'CLIENTS_DISTRIBUTION.RULE.GENERAL_INFO',
+    url: '/distribution/:id/rule/general',
+  },
+  {
+    label: 'CLIENTS_DISTRIBUTION.RULE.FEED',
+    url: '/distribution/:id/rule/feed',
+    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+  },
+];
+
 export {
   partnerTabs,
   operatorTabs,
+  distributionRuleTabs,
   sidebarTopMenu,
   sidebarBottomMenu,
   operatorsExcludeAuthorities,
