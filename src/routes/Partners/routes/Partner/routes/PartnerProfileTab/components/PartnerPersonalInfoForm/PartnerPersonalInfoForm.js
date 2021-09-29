@@ -40,7 +40,7 @@ const attributeLabels = {
   showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
   cdeAffiliate: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CDE_AFFILIATE',
   cumulativeDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT',
-  cumulativeDepositHint: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT_DEFAULT',
+  cumulativeDepositHint: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT_HINT',
   minFtdDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
 };
 
@@ -89,7 +89,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount,
             showKycStatus,
             cumulativeDeposit,
-            minFtdDeposit: parseFloat(minFtdDeposit),
+            minFtdDeposit,
           },
           ...rest,
         },
