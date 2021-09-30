@@ -18,7 +18,11 @@ function CurrentPrice(props: Props) {
   } = props;
 
   // Get different current price depends on order type
-  const currentPrice = type === OrderType.BUY ? currentPriceBid : currentPriceAsk;
+  const currentPrice = [
+    OrderType.BUY,
+    OrderType.SELL_LIMIT,
+    OrderType.SELL_STOP,
+  ].includes(type) ? currentPriceBid : currentPriceAsk;
 
   return (
     <Choose>
