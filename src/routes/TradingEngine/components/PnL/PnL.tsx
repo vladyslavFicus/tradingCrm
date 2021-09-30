@@ -13,6 +13,7 @@ interface Props {
   volume: number,
   lotSize: number,
   exchangeRate: number,
+  loaderSize: number,
 }
 
 function PnL(props: Props) {
@@ -24,6 +25,7 @@ function PnL(props: Props) {
     volume,
     lotSize,
     exchangeRate,
+    loaderSize = 20,
   } = props;
 
   const pnl = calculatePnL({ type, openPrice, currentPriceBid, currentPriceAsk, volume, lotSize, exchangeRate });
@@ -31,7 +33,7 @@ function PnL(props: Props) {
   return (
     <Choose>
       <When condition={pnl !== null}>
-        <span className={classNames('TradingEngineOrdersGrid__cell-value', {
+        <span className={classNames('PnL', {
           'PnL--positive': pnl && pnl > 0,
           'PnL--negative': pnl && pnl < 0,
         })}
@@ -40,7 +42,7 @@ function PnL(props: Props) {
         </span>
       </When>
       <Otherwise>
-        <CircleLoader size={20} />
+        <CircleLoader className="PnL__loader" size={loaderSize} />
       </Otherwise>
     </Choose>
   );

@@ -484,6 +484,7 @@
     "OK": "Ok",
     "NO_ITEMS": "No items",
     "COPY": "Copy",
+    "LOADING": "Loading...",
     "UPDATE_VERSION_MODAL": {
       "TEXT": "Backoffice has been updated. To continue working with it click the button below. It will reload the page and update you Backoffice version.",
       "TITLE": "Update your client version"
@@ -3485,6 +3486,7 @@
         "EXPIRY": "Expiry",
         "TAXES": "Taxes",
         "OPEN_PRICE": "Open price",
+        "ESTIMATED_PNL": "Estimated P&L:",
         "RO_SWAPS": "R/O Swaps",
         "SWAPS": "Swaps",
         "STOP_LOSS": "Stop Loss",
@@ -3507,6 +3509,7 @@
         "CLOSE_RATE": "Close conversation rate",
         "BUTTON_FOR_PENDING": "Activate {{volumeLots}} at {{closePrice}}",
         "BUTTON_FOR_OPEN": "Close {{volumeLots}} at {{closePrice}}",
+        "WITH_PNL": "with P&L:",
         "CONFIRMATION": {
           "CHANGE_ORDER_TITLE": "Change order",
           "CHANGE_ORDER_TEXT": "Do you really want to change open price, stop loss, take profit, comment of order #{{id}}?",

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { withLazyStreams, LazyStream } from 'rsocket';
 import compose from 'compose-function';
 
@@ -19,8 +19,6 @@ interface Props {
   onNotify: (symbols: SymbolsPrices) => void,
   symbolsStreamRequest: LazyStream,
 }
-
-const symbolPrices: SymbolsPrices = {};
 
 /**
  * Subscribe to ticks of prices for list of symbols and notify parent about new changes with custom interval
@@ -45,11 +43,13 @@ function SymbolsPricesStream(props: Props) {
     return null;
   }
 
+  const symbolPrices = useRef<SymbolsPrices>({});
+
   // Make interval parent notification about changes
   useEffect(() => {
     const timerID = setInterval(() => {
       // Copy object to new object to send new link to object and re-render parent if it was saved to state
-      onNotify({ ...symbolPrices });
+      onNotify({ ...symbolPrices.current });
     }, interval);
 
     return () => {
@@ -59,10 +59,13 @@ function SymbolsPricesStream(props: Props) {
 
   // Make subscription to symbol prices
   useEffect(() => {
+    // Clear previous data for previous subscription
+    symbolPrices.current = {};
+
     const subscription = symbolsStreamRequest({ data: { symbols: uniqueSymbols } });
 
     subscription.onNext<SymbolPriceStreamResponse>(({ data }) => {
-      symbolPrices[data.symbol] = data;
+      symbolPrices.current[data.symbol] = data;
     });
   }, [uniqueSymbols.join()]); // Join an array to string, cause deps should be non-changeable array length
 

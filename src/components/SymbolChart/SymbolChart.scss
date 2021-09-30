@@ -1,15 +1,16 @@
 .SymbolChart {
-  display: flex;
-  flex: 1;
-  padding: 30px 15px;
-  position: relative;
-  
+  margin-top: 12px;
+
+  &--loading {
+    display: flex;
+    margin: 0 auto;
+  }
+
   &__icon {
     width: 300px;
-    margin: 0 auto;
     opacity: 0.1;
   }
-  
+
   &__label {
     position: absolute;
     left: 0;
@@ -18,9 +19,5 @@
     background: #2c90e8;
     width: auto;
     color: #fff;
-  }
-
-  .ShortLoader {
-    margin: auto auto;
   }
 }
