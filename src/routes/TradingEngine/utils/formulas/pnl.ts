@@ -27,7 +27,7 @@ export const calculatePnL = (args: CalculatePnLArguments): number | null => {
   } = args;
 
   // If no current bid or ask provided then return null. Because we can't calculate p&l without these data
-  if (!currentPriceBid || !currentPriceAsk) {
+  if (!Number.isFinite(currentPriceBid) || !Number.isFinite(currentPriceAsk)) {
     return null;
   }
 

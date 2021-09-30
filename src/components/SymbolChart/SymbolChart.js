@@ -1,9 +1,9 @@
 import React, { Fragment, PureComponent } from 'react';
 import { compose } from 'react-apollo';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withLazyStreams } from 'rsocket';
 import PropTypes from 'constants/propTypes';
-import ShortLoader from 'components/ShortLoader';
 import Chart from './components/Chart';
 import { ReactComponent as SymbolChartIcon } from './SymbolChartIcon.svg';
 import TradingEngineSymbolChartQuery from './graphql/SymbolChartQuery';
@@ -70,14 +70,13 @@ class SymbolChart extends PureComponent {
 
     const chartData = tradingEngineSymbolChartQuery.data?.tradingEngineSymbolPrices || [];
 
+    const isLoading = !symbol || !accountUuid || loading;
+
     return (
-      <div className="SymbolChart">
+      <div className={classNames('SymbolChart', { 'SymbolChart--loading': isLoading })}>
         <Choose>
-          <When condition={!symbol || !accountUuid}>
+          <When condition={isLoading}>
             <SymbolChartIcon className="SymbolChart__icon" />
-          </When>
-          <When condition={loading}>
-            <ShortLoader />
           </When>
           <Otherwise>
             <Fragment>

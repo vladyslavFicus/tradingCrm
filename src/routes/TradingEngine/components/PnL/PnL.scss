@@ -1,9 +1,16 @@
 .PnL {
+  font-weight: 700;
+
   &--positive {
     color: #0cb56c;
   }
 
   &--negative {
     color: #ef393f;
+  }
+
+  &__loader {
+    display: inline-block;
+    margin-top: 2px;
   }
 }
