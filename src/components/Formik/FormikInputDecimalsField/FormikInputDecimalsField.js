@@ -1,36 +1,25 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { eq, get, omit } from 'lodash';
-import InputRange from '../../InputRange';
+import InputDecimals from 'components/InputDecimals';
 
-class FormikInputRangeField extends PureComponent {
+class FormikInputDecimalsField extends PureComponent {
   static propTypes = {
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      onChange: PropTypes.func.isRequired,
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     form: PropTypes.shape({
-      setFieldError: PropTypes.func.isRequired,
-      setFieldValue: PropTypes.func.isRequired,
       errors: PropTypes.object.isRequired,
       initialValues: PropTypes.object.isRequired,
+      setFieldValue: PropTypes.func.isRequired,
     }).isRequired,
-    onChange: PropTypes.func,
-    errorText: PropTypes.string.isRequired,
-    type: PropTypes.string,
     withFocus: PropTypes.bool,
-    min: PropTypes.number,
-    max: PropTypes.number,
-    pattern: PropTypes.string,
   };
 
   static defaultProps = {
-    type: 'text',
     withFocus: false,
-    pattern: '[0-9]*',
-    min: 1,
-    max: 10000,
-    onChange: () => {},
   };
 
   isValueExist = () => {
@@ -39,34 +28,10 @@ class FormikInputRangeField extends PureComponent {
     return value !== undefined && value !== null;
   };
 
-  onChange = (value) => {
-    const {
-      field: {
-        name,
-      },
-      form: {
-        setFieldValue,
-      },
-      onChange,
-    } = this.props;
+  handleInputChange = (value) => {
+    const { form: { setFieldValue }, field: { name } } = this.props;
 
     setFieldValue(name, value);
-
-    onChange(value);
-  }
-
-  onError = () => {
-    const {
-      field: {
-        name,
-      },
-      form: {
-        setFieldError,
-      },
-      errorText,
-    } = this.props;
-
-    setFieldError(name, errorText);
   }
 
   render() {
@@ -84,17 +49,16 @@ class FormikInputRangeField extends PureComponent {
     } = this.props;
 
     return (
-      <InputRange
+      <InputDecimals
         name={name}
         value={value !== null ? value : ''}
-        onError={this.onError}
+        onChange={this.handleInputChange}
         error={get(errors, name)}
         isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
         {...omit(input, ['staticContext'])}
-        onChange={this.onChange}
       />
     );
   }
 }
 
-export default FormikInputRangeField;
+export default FormikInputDecimalsField;

@@ -10,7 +10,6 @@ import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import ClosedOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/ClosedOrderModal';
-import { EditButton } from 'components/UI';
 import AccountProfileGridFilter from './components/AccountProfileOrdersGridFilter';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
@@ -81,15 +80,21 @@ class AccountProfileHistoryGrid extends PureComponent {
     });
   };
 
+  handleClosedOrderModal = (order) => {
+    const { status } = order;
+    const isShowClosedOrderModal = ['CLOSED', 'CANCELED'].includes(status);
+
+    if (isShowClosedOrderModal) {
+      this.props.modals.closedOrderModal.show({ order });
+    }
+  };
+
   render() {
     const {
       location: { state },
       historyQuery: {
         data,
         loading,
-      },
-      modals: {
-        closedOrderModal,
       },
     } = this.props;
 
@@ -117,25 +122,21 @@ class AccountProfileHistoryGrid extends PureComponent {
               sortBy="id"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.TRADE')}
               render={(order) => {
-                const { id, status } = order;
-                const isShowClosedOrderModal = ['CLOSED', 'CANCELLED'].includes(status);
-
+                const { id } = order;
                 return (
                   <div className="AccountProfileHistoryGrid__uuid">
-                    <div className="AccountProfileHistoryGrid__cell-value">
-                      <Uuid
-                        uuid={`${id}`}
-                        uuidPrefix="TR"
-                      />
-                      <If condition={isShowClosedOrderModal}>
-                        <EditButton
-                          className="AccountProfileHistoryGrid__edit-button"
-                          onClick={() => closedOrderModal.show({
-                            order,
-                          })}
-                        />
-                      </If>
+                    <div
+                      className="AccountProfileHistoryGrid__cell-value AccountProfileHistoryGrid__cell-value--pointer"
+                      onClick={() => this.handleClosedOrderModal(order)}
+                    >
+                      TR-{id}
                     </div>
+                    <Uuid
+                      uuid={`${id}`}
+                      uuidPrefix="TR"
+                      title={I18n.t('COMMON.COPY')}
+                      className="AccountProfileHistoryGrid__cell-value-add"
+                    />
                   </div>
                 );
               }}

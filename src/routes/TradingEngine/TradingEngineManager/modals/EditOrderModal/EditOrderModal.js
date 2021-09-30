@@ -9,12 +9,11 @@ import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { FormikInputField, FormikTextAreaField } from 'components/Formik';
+import { FormikInputField, FormikTextAreaField, FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { createValidator } from 'utils/validator';
-import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
@@ -163,6 +162,7 @@ class EditOrderModal extends PureComponent {
       }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'EditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
           await closeOrder({
@@ -207,6 +207,7 @@ class EditOrderModal extends PureComponent {
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'EditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
           await deleteOrder({

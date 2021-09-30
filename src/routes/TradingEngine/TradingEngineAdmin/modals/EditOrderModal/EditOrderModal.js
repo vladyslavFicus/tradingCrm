@@ -12,12 +12,12 @@ import {
   FormikTextAreaField,
   FormikSelectField,
   FormikDatePicker,
+  FormikInputDecimalsField,
 } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
-import FormikInputDecimalsField from 'components/Formik/FormikInputField/components/FormikInputDecimalsField';
 import { reasons } from './constants';
 import EditOrderMutation from './graphql/EditOrderMutation';
 import ReopenOrderMutation from './graphql/ReopenOrderMutation';
@@ -45,9 +45,6 @@ class EditOrderModal extends PureComponent {
 
   handleEditOrder = async (
     {
-      takeProfit,
-      stopLoss,
-      openPrice,
       volumeLots,
       closePrice,
       profit,
@@ -79,9 +76,6 @@ class EditOrderModal extends PureComponent {
               args: {
                 orderId: id,
                 volume: volumeLots,
-                takeProfit: Number(takeProfit),
-                stopLoss: Number(stopLoss),
-                openPrice: Number(openPrice),
                 closePrice: status === 'OPEN' ? null : closePrice,
                 ...res,
               },
