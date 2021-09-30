@@ -41,7 +41,7 @@ class InputRange extends PureComponent {
     const inputValue = parseInt(value, 10);
 
     if (((inputValue <= max && inputValue >= min) || !value)) {
-      onChange(value !== '' ? inputValue : value);
+      onChange(value !== '' ? inputValue : null);
     } else if ((inputValue > max || inputValue < min) && onError) {
       onError();
     }
