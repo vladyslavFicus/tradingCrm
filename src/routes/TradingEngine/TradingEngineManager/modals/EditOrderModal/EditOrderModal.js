@@ -363,19 +363,21 @@ class EditOrderModal extends PureComponent {
                                 component={FormikInputDecimalsField}
                                 {...decimalsSettings}
                               />
-                              <div className="EditOrderModal__field-hint">
-                                {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ESTIMATED_PNL')}&nbsp;
-                                <PnL
-                                  type={type}
-                                  openPrice={values.openPrice}
-                                  currentPriceBid={this.state.currentSymbolPrice?.bid + groupSpread.bidAdjustment}
-                                  currentPriceAsk={this.state.currentSymbolPrice?.ask + groupSpread.askAdjustment}
-                                  volume={volumeLots}
-                                  lotSize={symbolEntity.lotSize}
-                                  exchangeRate={1}
-                                  loaderSize={16}
-                                />
-                              </div>
+                              <If condition={status === 'OPEN'}>
+                                <div className="EditOrderModal__field-hint">
+                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ESTIMATED_PNL')}&nbsp;
+                                  <PnL
+                                    type={type}
+                                    openPrice={values.openPrice}
+                                    currentPriceBid={this.state.currentSymbolPrice?.bid + groupSpread.bidAdjustment}
+                                    currentPriceAsk={this.state.currentSymbolPrice?.ask + groupSpread.askAdjustment}
+                                    volume={volumeLots}
+                                    lotSize={symbolEntity.lotSize}
+                                    exchangeRate={1}
+                                    loaderSize={16}
+                                  />
+                                </div>
+                              </If>
                             </div>
                             <Field
                               disabled
@@ -488,19 +490,21 @@ class EditOrderModal extends PureComponent {
                                   }}
                                   component={FormikInputField}
                                 />
-                                <div className="EditOrderModal__field-hint">
-                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.WITH_PNL')}&nbsp;
-                                  <PnL
-                                    type={type}
-                                    openPrice={openPrice}
-                                    currentPriceBid={Number(_values.closePrice)}
-                                    currentPriceAsk={Number(_values.closePrice)}
-                                    volume={volumeLots}
-                                    lotSize={symbolEntity.lotSize}
-                                    exchangeRate={1}
-                                    loaderSize={16}
-                                  />
-                                </div>
+                                <If condition={status === 'OPEN'}>
+                                  <div className="EditOrderModal__field-hint">
+                                    {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.WITH_PNL')}&nbsp;
+                                    <PnL
+                                      type={type}
+                                      openPrice={openPrice}
+                                      currentPriceBid={Number(_values.closePrice)}
+                                      currentPriceAsk={Number(_values.closePrice)}
+                                      volume={volumeLots}
+                                      lotSize={symbolEntity.lotSize}
+                                      exchangeRate={1}
+                                      loaderSize={16}
+                                    />
+                                  </div>
+                                </If>
                               </div>
                               <Button
                                 disabled={!initialSymbolPrice}
