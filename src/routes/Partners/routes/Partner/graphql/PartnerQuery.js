@@ -34,6 +34,7 @@ const REQUEST = gql`
         showKycStatus
         showNotes
         cumulativeDeposit
+        showAutologinUrl
         minFtdDeposit
       }
       schedule {

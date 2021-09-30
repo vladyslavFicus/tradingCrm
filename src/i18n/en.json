@@ -2164,8 +2164,9 @@
             "SHOW_KYC_STATUS": "Show KYC status",
             "CDE_AFFILIATE": "Mark as source",
             "CUMULATIVE_DEPOSIT": "Cumulative deposit",
-            "CUMULATIVE_DEPOSIT_HINT": "( Please enter the value to the \"Minimal FTD\" field to unselect the \"Cumulative deposit\" checkbox )",
-            "MIN_FTD_LIMIT": "Minimal FTD"
+            "MIN_FTD_LIMIT": "Minimal FTD",
+            "SHOW_AUTO_LOGIN_URL": "Send auto-login URL",
+            "CUMULATIVE_DEPOSIT_HINT": "( Please enter the value to the \"Minimal FTD\" field to unselect the \"Cumulative deposit\" checkbox )"
           },
           "ERRORS": {
             "MIN_FTD_DEPOSIT": "Minimal FTD may not be less than {{min}} and greater than {{max}}"

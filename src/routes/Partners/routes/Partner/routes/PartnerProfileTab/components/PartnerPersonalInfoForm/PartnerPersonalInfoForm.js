@@ -42,6 +42,7 @@ const attributeLabels = {
   cumulativeDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT',
   cumulativeDepositHint: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT_HINT',
   minFtdDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
+  showAutologinUrl: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_AUTO_LOGIN_URL',
 };
 
 class PartnerPersonalInfoForm extends PureComponent {
@@ -173,6 +174,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount: 'boolean',
             showKycStatus: 'boolean',
             cdeAffiliate: 'boolean',
+            showAutologinUrl: 'boolean',
             cumulativeDeposit: 'boolean',
             minFtdDeposit: ['numeric', 'min:1', 'max:10000'],
           }, translateLabels(attributeLabels), false)}
@@ -358,6 +360,13 @@ class PartnerPersonalInfoForm extends PureComponent {
                     disabled={isSubmitting}
                   />
                 </If>
+
+                <Field
+                  name="showAutologinUrl"
+                  component={FormikCheckbox}
+                  label={I18n.t(attributeLabels.showAutologinUrl)}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
 
                 <div className="PartnerPersonalInfoForm__deposit_settings">
                   <Field
