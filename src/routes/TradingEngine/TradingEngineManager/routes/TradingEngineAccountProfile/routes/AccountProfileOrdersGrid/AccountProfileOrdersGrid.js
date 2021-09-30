@@ -3,13 +3,15 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withStreams } from 'rsocket';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
+import PnL from 'routes/TradingEngine/components/PnL';
+import CurrentPrice from 'routes/TradingEngine/components/CurrentPrice';
+import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
@@ -32,11 +34,10 @@ class AccountProfileOrdersGrid extends PureComponent {
         id: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    openOrderStatistics$: PropTypes.object,
   };
 
-  static defaultProps = {
-    openOrderStatistics$: {},
+  state = {
+    symbolsPrices: {},
   };
 
   componentDidMount() {
@@ -96,6 +97,10 @@ class AccountProfileOrdersGrid extends PureComponent {
     });
   };
 
+  handleSymbolsPricesTick = (symbolsPrices) => {
+    this.setState({ symbolsPrices });
+  };
+
   render() {
     const {
       location: { state },
@@ -106,7 +111,6 @@ class AccountProfileOrdersGrid extends PureComponent {
       modals: {
         editOrderModal,
       },
-      openOrderStatistics$,
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineOrders || {};
@@ -116,6 +120,12 @@ class AccountProfileOrdersGrid extends PureComponent {
         <div className="AccountProfileOrdersGrid__title">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}
         </div>
+
+        {/* Subscribe to symbol prices stream */}
+        <SymbolsPricesStream
+          symbols={content?.map(({ symbol }) => symbol)}
+          onNotify={this.handleSymbolsPricesTick}
+        />
 
         <AccountProfileOrdersGridFilter handleRefetch={this.refetchOrders} />
 
@@ -241,25 +251,30 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-              render={({ id, pnl }) => {
-                const _pnl = openOrderStatistics$[id]?.data?.pnl || pnl.net;
-
-                return (
-                  <div className={classNames('AccountProfileOrdersGrid__cell-value', {
-                    'AccountProfileOrdersGrid__cell-value--positive': _pnl > 0,
-                    'AccountProfileOrdersGrid__cell-value--negative': _pnl < 0,
-                  })}
-                  >
-                    {_pnl?.toFixed(2)}
-                  </div>
-                );
-              }}
+              render={({ type, symbol, openPrice, volumeLots, symbolEntity, groupSpread }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  <PnL
+                    type={type}
+                    openPrice={openPrice}
+                    currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
+                    currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
+                    volume={volumeLots}
+                    lotSize={symbolEntity.lotSize}
+                    exchangeRate={1}
+                  />
+                </div>
+              )}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ id, digits, price }) => (
+              render={({ type, symbol, digits, groupSpread }) => (
                 <div className="AccountProfileOrdersGrid__cell-value">
-                  {(openOrderStatistics$[id]?.data?.currentPrice || price)?.toFixed(digits)}
+                  <CurrentPrice
+                    type={type}
+                    digits={digits}
+                    currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
+                    currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
+                  />
                 </div>
               )}
             />
@@ -295,11 +310,4 @@ export default compose(
   withRequests({
     orders: TradingEngineOrdersQuery,
   }),
-  withStreams(({ match: { params: { id } } }) => ({
-    openOrderStatistics$: {
-      route: 'streamOpenOrderStatistics',
-      data: { accountUuid: id },
-      accumulator: (curr, next) => ({ ...curr, [next.data.orderId]: next }),
-    },
-  })),
 )(AccountProfileOrdersGrid);
