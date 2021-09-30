@@ -27,6 +27,7 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       swaps
       status
       group
+      margin
       pnl {
         gross
         net

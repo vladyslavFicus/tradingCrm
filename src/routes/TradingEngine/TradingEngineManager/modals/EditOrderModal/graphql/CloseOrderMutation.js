@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation TradingEngine_CloseOrderMutation(
-   $orderId: String!
+   $orderId: Int!
    $volume: Float
    $closePrice: Float
 ) {

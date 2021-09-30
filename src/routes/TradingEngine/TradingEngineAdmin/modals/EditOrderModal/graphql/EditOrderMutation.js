@@ -4,20 +4,10 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 const REQUEST = gql`mutation TradingEngine_EditOrderMutation(
-   $orderId: String!
-   $openPrice: Float
-   $stopLoss: Float
-   $takeProfit: Float
-   $comment: String
+  $args: TradingEngineEditOrderAdmin__Input
 ) {
-  tradingEngine {
-    editOrder(
-      orderId: $orderId
-      openPrice: $openPrice
-      stopLoss: $stopLoss
-      takeProfit: $takeProfit
-      comment: $comment
-    )
+  tradingEngineAdmin {
+    editOrder(args: $args)
   }
 }
 `;

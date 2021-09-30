@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_OrderQuery($orderId: String!) {
+  query TradingEngine_OrderQuery($orderId: Int!) {
     tradingEngineOrder (
       orderId: $orderId
     ) {
@@ -27,6 +27,11 @@ const REQUEST = gql`
       commission
       swaps
       status
+      reason
+      closePrice
+      openRate
+      closeRate
+      margin
       pnl {
         gross
         net
