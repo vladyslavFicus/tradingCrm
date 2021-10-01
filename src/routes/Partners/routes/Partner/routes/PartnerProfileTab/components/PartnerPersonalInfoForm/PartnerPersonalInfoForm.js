@@ -70,6 +70,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     showFTDAmount,
     showKycStatus,
     cumulativeDeposit,
+    showAutologinUrl,
     minFtdDeposit,
     ...rest
   }, { setSubmitting }) => {
@@ -90,6 +91,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showFTDAmount,
             showKycStatus,
             cumulativeDeposit,
+            showAutologinUrl,
             minFtdDeposit,
           },
           ...rest,
