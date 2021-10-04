@@ -253,7 +253,7 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-              render={({ type, symbol, openPrice, volumeLots, symbolEntity, groupSpread }) => (
+              render={({ type, symbol, openPrice, volumeLots, account, symbolEntity, groupSpread }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">
                   <PnL
                     type={type}
@@ -262,7 +262,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                     currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
                     volume={volumeLots}
                     lotSize={symbolEntity.lotSize}
-                    exchangeRate={1}
+                    exchangeRate={this.state.symbolsPrices[symbol]?.pnlRates[account.currency]}
                   />
                 </div>
               )}

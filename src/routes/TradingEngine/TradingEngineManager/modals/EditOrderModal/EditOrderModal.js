@@ -218,13 +218,16 @@ class EditOrderModal extends PureComponent {
       accountLogin,
       accountUuid,
       direction,
+      account,
       symbolEntity,
       groupSpread,
     } = data?.tradingEngineOrder || {};
 
     const { currentSymbolPrice, initialSymbolPrice } = this.state;
 
-    const closePrice = type === 'SELL' ? initialSymbolPrice?.ask : initialSymbolPrice?.bid;
+    const closePrice = type === 'SELL'
+      ? (initialSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0)
+      : (initialSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0);
 
     const decimalsSettings = {
       decimalsLimit: digits,
@@ -368,12 +371,12 @@ class EditOrderModal extends PureComponent {
                                   {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ESTIMATED_PNL')}&nbsp;
                                   <PnL
                                     type={type}
-                                    openPrice={values.openPrice}
+                                    openPrice={values.openPrice || 0}
                                     currentPriceBid={this.state.currentSymbolPrice?.bid + groupSpread.bidAdjustment}
                                     currentPriceAsk={this.state.currentSymbolPrice?.ask + groupSpread.askAdjustment}
                                     volume={volumeLots}
                                     lotSize={symbolEntity.lotSize}
-                                    exchangeRate={1}
+                                    exchangeRate={this.state.currentSymbolPrice?.pnlRates[account.currency]}
                                     loaderSize={16}
                                   />
                                 </div>
@@ -450,7 +453,7 @@ class EditOrderModal extends PureComponent {
                     enableReinitialize
                     initialValues={{
                       volumeLots,
-                      closePrice: closePrice?.toFixed(digits),
+                      closePrice,
                     }}
                     onSubmit={() => {}}
                   >
@@ -483,10 +486,10 @@ class EditOrderModal extends PureComponent {
                                   additionPosition="right"
                                   onAdditionClick={() => {
                                     const _closePrice = type === 'SELL'
-                                      ? currentSymbolPrice?.ask
-                                      : currentSymbolPrice?.bid;
+                                      ? currentSymbolPrice?.ask + groupSpread.askAdjustment
+                                      : currentSymbolPrice?.bid + groupSpread.bidAdjustment;
 
-                                    setFieldValue('closePrice', _closePrice?.toFixed(digits));
+                                    setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
                                   }}
                                   component={FormikInputField}
                                 />
@@ -496,11 +499,11 @@ class EditOrderModal extends PureComponent {
                                     <PnL
                                       type={type}
                                       openPrice={openPrice}
-                                      currentPriceBid={Number(_values.closePrice)}
-                                      currentPriceAsk={Number(_values.closePrice)}
+                                      currentPriceBid={_values.closePrice || 0}
+                                      currentPriceAsk={_values.closePrice || 0}
                                       volume={volumeLots}
                                       lotSize={symbolEntity.lotSize}
-                                      exchangeRate={1}
+                                      exchangeRate={this.state.currentSymbolPrice?.pnlRates[account.currency]}
                                       loaderSize={16}
                                     />
                                   </div>
@@ -514,7 +517,7 @@ class EditOrderModal extends PureComponent {
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                                   volumeLots: Number(_values.volumeLots).toFixed(2),
-                                  closePrice: Number(_values.closePrice || 0).toFixed(digits),
+                                  closePrice: (_values.closePrice || 0).toFixed(digits),
                                 })}
                               </Button>
                             </div>

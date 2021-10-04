@@ -28,23 +28,26 @@ function PnL(props: Props) {
     loaderSize = 20,
   } = props;
 
+  const loading = !Number.isFinite(currentPriceBid)
+    || !Number.isFinite(currentPriceAsk)
+    || !Number.isFinite(exchangeRate);
+
+  if (loading) {
+    return (
+      <CircleLoader className="PnL__loader" size={loaderSize} />
+    );
+  }
+
   const pnl = calculatePnL({ type, openPrice, currentPriceBid, currentPriceAsk, volume, lotSize, exchangeRate });
 
   return (
-    <Choose>
-      <When condition={pnl !== null}>
-        <span className={classNames('PnL', {
-          'PnL--positive': pnl && pnl > 0,
-          'PnL--negative': pnl && pnl < 0,
-        })}
-        >
-          {pnl?.toFixed(2)}
-        </span>
-      </When>
-      <Otherwise>
-        <CircleLoader className="PnL__loader" size={loaderSize} />
-      </Otherwise>
-    </Choose>
+    <span className={classNames('PnL', {
+      'PnL--positive': pnl > 0,
+      'PnL--negative': pnl < 0,
+    })}
+    >
+      {pnl.toFixed(2)}
+    </span>
   );
 }
 

@@ -264,7 +264,7 @@ class TradingEngineOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.P&L')}
-              render={({ symbol, type, status, openPrice, volumeLots, symbolEntity, groupSpread }) => (
+              render={({ symbol, type, status, openPrice, volumeLots, symbolEntity, groupSpread, account }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">
                   <Choose>
                     <When condition={status === 'OPEN'}>
@@ -275,7 +275,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                         currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
                         volume={volumeLots}
                         lotSize={symbolEntity.lotSize}
-                        exchangeRate={1}
+                        exchangeRate={this.state.symbolsPrices[symbol]?.pnlRates[account.currency]}
                       />
                     </When>
                     <Otherwise>
