@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
-import { withLazyStreams } from 'rsocket';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
@@ -9,6 +8,7 @@ import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
+import { accountTypesLabels } from 'constants/accountTypes';
 import {
   FormikCheckbox,
   FormikInputField,
@@ -17,12 +17,14 @@ import {
   FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
+import Badge from 'components/Badge';
+import Input from 'components/Input';
 import { createValidator, translateLabels } from 'utils/validator';
+import { OrderType } from 'types/trading-engine';
+import SymbolPricesStream from 'routes/TradingEngine/components/SymbolPricesStream';
+import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
-import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
-import TradingEngineSymbolPricesQuery from './graphql/SymbolPricesQuery';
-
 import './CommonNewOrderModal.scss';
 
 class CommonNewOrderModal extends PureComponent {
@@ -36,32 +38,17 @@ class CommonNewOrderModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     createOrder: PropTypes.func.isRequired,
-    streamPriceRequest: PropTypes.func.isRequired,
   };
 
   state = {
-    ask: 0,
-    bid: 0,
-    accountUuid: null,
-    formError: null,
-    existingLogin: false,
-    accountSymbols: [],
     login: null,
+    account: null,
+    currentSymbolPrice: null,
+    loading: false,
+    formError: null,
   };
 
-  componentDidUpdate(_, { accountSymbols: prevAccountSymbols }) {
-    const { accountSymbols, accountUuid } = this.state;
-    const defaultSymbol = accountSymbols[0]?.name;
-    const prevDefaultSymbol = prevAccountSymbols[0]?.name;
-
-    if (accountUuid && (prevDefaultSymbol !== defaultSymbol)) {
-      this.fetchSymbolPrice(defaultSymbol);
-    }
-  }
-
   onChangeSymbol = (value, values, setValues) => {
-    this.fetchSymbolPrice(value);
-
     setValues({
       ...values,
       symbol: value,
@@ -72,50 +59,19 @@ class CommonNewOrderModal extends PureComponent {
     });
   };
 
-  fetchSymbolPrice = async (symbol) => {
-    const {
-      client,
-      notify,
-      streamPriceRequest,
-    } = this.props;
-
-    const subscription = streamPriceRequest({
-      data: { symbol, accountUuid: this.state.accountUuid },
-    });
-
-    subscription.onNext(({ data: { ask, bid } }) => {
-      this.setState({ ask, bid });
-    });
-
-    try {
-      const { data: { tradingEngineSymbolPrices } } = await client.query({
-        query: TradingEngineSymbolPricesQuery,
-        variables: {
-          symbol,
-          size: 1,
-        },
-        fetchPolicy: 'network-only',
-      });
-
-      this.setState({
-        ask: tradingEngineSymbolPrices[0]?.ask || 0,
-        bid: tradingEngineSymbolPrices[0]?.bid || 0,
-      });
-    } catch (_) {
-      notify({
-        level: 'error',
-        title: I18n.t('COMMON.FAIL'),
-      });
-    }
-  };
+  getCurrentSymbol = symbol => this.state.account?.allowedSymbols?.find(({ name }) => name === symbol);
 
   handleGetAccount = login => async () => {
+    this.setState({
+      login,
+      loading: true,
+      account: null,
+    });
+
     try {
       const {
         data: {
-          tradingEngineAccount: {
-            uuid: accountUuid,
-          },
+          tradingEngineAccount,
         },
       } = await this.props.client.query({
         query: TradingEngineAccountQuery,
@@ -123,27 +79,11 @@ class CommonNewOrderModal extends PureComponent {
         fetchPolicy: 'network-only',
       });
 
-      const {
-        data: {
-          tradingEngineAccountSymbols,
-        },
-      } = await this.props.client.query({
-        query: TradingEngineAccountSymbolsQuery,
-        variables: { accountUuid },
-        fetchPolicy: 'network-only',
-      });
-
-      this.setState({
-        login,
-        existingLogin: true,
-        accountUuid,
-        accountSymbols: tradingEngineAccountSymbols,
-      });
+      this.setState({ account: tradingEngineAccount, formError: null });
     } catch (_) {
-      this.setState({
-        existingLogin: false,
-      });
       this.setState({ formError: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ERROR') });
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
@@ -156,7 +96,7 @@ class CommonNewOrderModal extends PureComponent {
       storage,
     } = this.props;
 
-    const { accountUuid } = this.state;
+    const { account } = this.state;
 
     setFieldValue('direction', direction);
 
@@ -170,11 +110,11 @@ class CommonNewOrderModal extends PureComponent {
       } = await createOrder({
         variables: {
           type: 'MARKET',
-          accountUuid,
+          accountUuid: account.uuid,
           pendingOrder: true,
-          takeProfit: Number(takeProfit),
-          stopLoss: Number(stopLoss),
-          openPrice: Number(openPrice),
+          takeProfit,
+          stopLoss,
+          openPrice,
           direction,
           ...res,
         },
@@ -206,12 +146,23 @@ class CommonNewOrderModal extends PureComponent {
     setSubmitting(false);
   }
 
-  handleAutoOpenPrice = (value, setFieldValue) => () => {
+  handleAutoOpenPrice = (value, symbol, setFieldValue) => () => {
+    const { currentSymbolPrice } = this.state;
+
+    const currentSymbol = this.getCurrentSymbol(symbol);
+
     const autoOpenPrice = !value;
+
+    // Get current BID price and apply group spread
+    const openPrice = !autoOpenPrice ? currentSymbolPrice?.bid + currentSymbol?.groupSpread?.bidAdjustment : undefined;
 
     setFieldValue('autoOpenPrice', autoOpenPrice);
 
-    setFieldValue('openPrice', !autoOpenPrice ? this.state.bid : undefined);
+    setFieldValue('openPrice', openPrice);
+  };
+
+  handleSymbolsPricesTick = (currentSymbolPrice) => {
+    this.setState({ currentSymbolPrice });
   };
 
   render() {
@@ -221,13 +172,11 @@ class CommonNewOrderModal extends PureComponent {
     } = this.props;
 
     const {
-      ask,
-      bid,
       login: _login,
-      existingLogin,
+      account,
+      currentSymbolPrice,
+      loading,
       formError,
-      accountSymbols,
-      accountUuid,
     } = this.state;
 
     return (
@@ -238,11 +187,12 @@ class CommonNewOrderModal extends PureComponent {
            So we should implement close event by ESC button manually.
         */}
         <Hotkeys keyName="esc" filter={() => true} onKeyUp={onCloseModal} />
+
         <Formik
           initialValues={{
             login: _login,
             volumeLots: 1,
-            symbol: accountSymbols[0]?.name,
+            symbol: account?.allowedSymbols[0]?.name,
             autoOpenPrice: true,
           }}
           validate={values => createValidator({
@@ -297,31 +247,45 @@ class CommonNewOrderModal extends PureComponent {
               autoOpenPrice,
               openPrice,
               symbol,
+              volumeLots,
             } = values;
 
-            const sellPrice = autoOpenPrice ? bid : openPrice;
-            const buyPrice = autoOpenPrice ? ask : openPrice;
+            const currentSymbol = this.getCurrentSymbol(symbol);
 
-            const digitsCurrentSymbol = accountSymbols.find(({ name }) => name === symbol)?.digits;
+            // Get current BID and ASK prices with applied group spread
+            const currentPriceBid = (currentSymbolPrice?.bid || 0) + (currentSymbol?.groupSpread?.bidAdjustment || 0);
+            const currentPriceAsk = (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0);
+
+            // Get SELL and BUY price depends on autoOpenPrice checkbox
+            const sellPrice = autoOpenPrice ? currentPriceBid : openPrice;
+            const buyPrice = autoOpenPrice ? currentPriceAsk : openPrice;
 
             const decimalsSettings = {
-              decimalsLimit: digitsCurrentSymbol,
+              decimalsLimit: currentSymbol?.digits,
               decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
                 symbol,
-                digits: digitsCurrentSymbol,
+                digits: currentSymbol?.digits,
               }),
-              decimalsLengthDefault: digitsCurrentSymbol,
+              decimalsLengthDefault: currentSymbol?.digits,
             };
 
             return (
               <Form>
+                <If condition={symbol}>
+                  {/* Subscribe to symbol prices stream */}
+                  <SymbolPricesStream
+                    symbol={symbol}
+                    onNotify={this.handleSymbolsPricesTick}
+                  />
+                </If>
+
                 <ModalHeader toggle={onCloseModal}>
                   {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TITLE')}
                 </ModalHeader>
                 <div className="CommonNewOrderModal__inner-wrapper">
-                  <SymbolChart symbol={symbol} accountUuid={accountUuid} />
+                  <SymbolChart symbol={symbol} accountUuid={account?.uuid} />
                   <ModalBody>
-                    <If condition={formError && !existingLogin}>
+                    <If condition={formError}>
                       <div className="CommonNewOrderModal__error">
                         {formError}
                       </div>
@@ -339,12 +303,51 @@ class CommonNewOrderModal extends PureComponent {
                         className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
                         type="button"
                         primaryOutline
+                        submitting={loading}
                         disabled={!dirty || isSubmitting}
                         onClick={this.handleGetAccount(login)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
                       </Button>
                     </div>
+                    <If condition={account}>
+                      <div className="CommonNewOrderModal__field-container">
+                        <div className="CommonNewOrderModal__account">
+                          <div>
+                            <Badge
+                              text={I18n.t(accountTypesLabels[account.accountType].label)}
+                              info={account.accountType === 'DEMO'}
+                              success={account.accountType === 'LIVE'}
+                            >
+                              <span className="CommonNewOrderModal__account-label">
+                                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.NAME')}:
+                              </span>
+                              &nbsp;{account.name}
+                            </Badge>
+                            <div>
+                              <span className="CommonNewOrderModal__account-label">
+                                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.GROUP')}:
+                              </span>
+                              &nbsp;{account.group}
+                            </div>
+                          </div>
+                          <div>
+                            <div>
+                              <span className="CommonNewOrderModal__account-label">
+                                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.BALANCE')}:
+                              </span>
+                              &nbsp;{I18n.toCurrency(account.balance, { unit: '' })}
+                            </div>
+                            <div>
+                              <span className="CommonNewOrderModal__account-label">
+                                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.CREDIT')}:
+                              </span>
+                              &nbsp;{I18n.toCurrency(account.credit, { unit: '' })}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </If>
                     <div className="CommonNewOrderModal__field-container">
                       <Field
                         name="volumeLots"
@@ -356,7 +359,7 @@ class CommonNewOrderModal extends PureComponent {
                         min={0}
                         max={999999}
                         component={FormikInputField}
-                        disabled={!existingLogin}
+                        disabled={!account}
                       />
                     </div>
                     <div className="CommonNewOrderModal__field-container">
@@ -365,11 +368,11 @@ class CommonNewOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                         className="CommonNewOrderModal__field"
                         component={FormikSelectField}
-                        disabled={!existingLogin}
+                        disabled={!account}
                         customOnChange={value => this.onChangeSymbol(value, values, setValues)}
                         searchable
                       >
-                        {accountSymbols.map(({ name, description }) => (
+                        {(account?.allowedSymbols || []).map(({ name, description }) => (
                           <option key={name} value={name}>
                             {`${name}  ${description}`}
                           </option>
@@ -382,12 +385,12 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
                         className="CommonNewOrderModal__field"
-                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        placeholder={`0.${'0'.repeat(currentSymbol?.digits || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
                         component={FormikInputDecimalsField}
-                        disabled={!existingLogin}
+                        disabled={!account}
                         {...decimalsSettings}
                       />
                       <Field
@@ -395,12 +398,12 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
                         className="CommonNewOrderModal__field"
-                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        placeholder={`0.${'0'.repeat(currentSymbol?.digits || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
                         component={FormikInputDecimalsField}
-                        disabled={!existingLogin}
+                        disabled={!account}
                         {...decimalsSettings}
                       />
                     </div>
@@ -410,12 +413,12 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
                         className="CommonNewOrderModal__field"
-                        placeholder={`0.${'0'.repeat(digitsCurrentSymbol || 4)}`}
+                        placeholder={`0.${'0'.repeat(currentSymbol?.digits || 4)}`}
                         step="0.00001"
                         min={0}
                         max={999999}
-                        value={autoOpenPrice ? bid.toFixed(digitsCurrentSymbol) : openPrice}
-                        disabled={autoOpenPrice || !existingLogin}
+                        value={sellPrice}
+                        disabled={autoOpenPrice || !account}
                         component={FormikInputDecimalsField}
                         {...decimalsSettings}
                       />
@@ -423,8 +426,8 @@ class CommonNewOrderModal extends PureComponent {
                         className="CommonNewOrderModal__button CommonNewOrderModal__button--small"
                         type="button"
                         primaryOutline
-                        disabled={autoOpenPrice || !existingLogin}
-                        onClick={() => setFieldValue('openPrice', bid)}
+                        disabled={autoOpenPrice || !account}
+                        onClick={() => setFieldValue('openPrice', currentPriceBid)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
                       </Button>
@@ -433,8 +436,46 @@ class CommonNewOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
                         className="CommonNewOrderModal__field CommonNewOrderModal__field--center"
                         component={FormikCheckbox}
-                        onChange={this.handleAutoOpenPrice(autoOpenPrice, setFieldValue)}
-                        disabled={!existingLogin}
+                        onChange={this.handleAutoOpenPrice(autoOpenPrice, symbol, setFieldValue)}
+                        disabled={!account}
+                      />
+                    </div>
+                    <div className="CommonNewOrderModal__field-container">
+                      <Input
+                        disabled
+                        name="sellPnl"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_PNL')}
+                        value={
+                          (account && currentSymbol && currentSymbolPrice)
+                            ? calculatePnL({
+                              type: OrderType.SELL,
+                              currentPriceBid,
+                              currentPriceAsk,
+                              openPrice: sellPrice,
+                              volume: volumeLots,
+                              lotSize: currentSymbol?.lotSize,
+                              exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
+                            })
+                            : 0}
+                        className="CommonNewOrderModal__field"
+                      />
+                      <Input
+                        disabled
+                        name="buyPnl"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_PNL')}
+                        value={
+                          (account && currentSymbol && currentSymbolPrice)
+                            ? calculatePnL({
+                              type: OrderType.BUY,
+                              currentPriceBid,
+                              currentPriceAsk,
+                              openPrice: buyPrice,
+                              volume: volumeLots,
+                              lotSize: currentSymbol?.lotSize,
+                              exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
+                            })
+                            : 0}
+                        className="CommonNewOrderModal__field"
                       />
                     </div>
                     <div className="CommonNewOrderModal__field-container">
@@ -444,11 +485,11 @@ class CommonNewOrderModal extends PureComponent {
                         className="CommonNewOrderModal__field"
                         maxLength={1000}
                         component={FormikTextAreaField}
-                        disabled={!existingLogin}
+                        disabled={!account}
                       />
                     </div>
                     <div className="CommonNewOrderModal__field-container">
-                      <If condition={existingLogin}>
+                      <If condition={account}>
                         {/* Sell order by CTRL+S pressing */}
                         <Hotkeys
                           keyName="ctrl+s"
@@ -466,21 +507,21 @@ class CommonNewOrderModal extends PureComponent {
                       <Button
                         className="CommonNewOrderModal__button"
                         danger
-                        disabled={isSubmitting || !existingLogin || !sellPrice}
+                        disabled={isSubmitting || !account || !sellPrice}
                         onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice && Number(sellPrice).toFixed(digitsCurrentSymbol),
+                          value: sellPrice ? Number(sellPrice).toFixed(currentSymbol?.digits) : 0,
                         })}
                       </Button>
                       <Button
                         className="CommonNewOrderModal__button"
                         primary
-                        disabled={isSubmitting || !existingLogin || !buyPrice}
+                        disabled={isSubmitting || !account || !buyPrice}
                         onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice && Number(buyPrice).toFixed(digitsCurrentSymbol),
+                          value: buyPrice ? Number(buyPrice).toFixed(currentSymbol?.digits) : 0,
                         })}
                       </Button>
                     </div>
@@ -501,10 +542,5 @@ export default compose(
   withNotifications,
   withRequests({
     createOrder: CreateOrderMutation,
-  }),
-  withLazyStreams({
-    streamPriceRequest: {
-      route: 'streamPrices',
-    },
   }),
 )(CommonNewOrderModal);

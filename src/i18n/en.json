@@ -3471,6 +3471,14 @@
         "SELL_AT": "Sell at {{value}}",
         "BUY_AT": "Buy at {{value}}",
         "ERROR": "This account doesn't exist",
+        "SELL_PNL": "Sell P&L",
+        "BUY_PNL": "Buy P&L",
+        "ACCOUNT": {
+          "NAME": "Name",
+          "GROUP": "Group",
+          "BALANCE": "Balance",
+          "CREDIT": "Credit"
+        },
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created",
           "FAILED": "Order creation failed",
