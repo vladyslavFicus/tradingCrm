@@ -15,7 +15,7 @@ interface CalculatePnLArguments {
   exchangeRate: number,
 }
 
-export const calculatePnL = (args: CalculatePnLArguments): number | null => {
+export const calculatePnL = (args: CalculatePnLArguments): number => {
   const {
     type,
     openPrice,
@@ -26,20 +26,18 @@ export const calculatePnL = (args: CalculatePnLArguments): number | null => {
     exchangeRate,
   } = args;
 
-  // If no current bid or ask provided then return null. Because we can't calculate p&l without these data
-  if (!Number.isFinite(currentPriceBid) || !Number.isFinite(currentPriceAsk)) {
-    return null;
-  }
+  let pnl = 0;
 
   // Calculate P&L for order with type SELL
   if (type === OrderType.SELL) {
-    return (openPrice - currentPriceAsk) * lotSize * volume * exchangeRate;
+    pnl = (openPrice - currentPriceAsk) * lotSize * volume * exchangeRate;
   }
 
   // Calculate P&L for order with type BUY
   if (type === OrderType.BUY) {
-    return (currentPriceBid - openPrice) * lotSize * volume * exchangeRate;
+    pnl = (currentPriceBid - openPrice) * lotSize * volume * exchangeRate;
   }
 
-  return null;
+  // Rounding PnL to 2 decimals after point
+  return Number(pnl.toFixed(2));
 };
