@@ -517,7 +517,7 @@ class EditOrderModal extends PureComponent {
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                                   volumeLots: Number(_values.volumeLots).toFixed(2),
-                                  closePrice: _values.closePrice || 0,
+                                  closePrice: (_values.closePrice || 0).toFixed(digits),
                                 })}
                               </Button>
                             </div>
