@@ -3540,7 +3540,7 @@
         }
       },
       "CLOSED_ORDER_MODAL": {
-        "TITLE": "Deal #{{id}}, {{type}} {{volume}} {{symbol}} at {{openPrice}}",
+        "TITLE": "Deal #{{id}}, {{type}} {{volumeLots}} {{symbol}} at {{openPrice}}",
         "FIELDSET_TITLE": "Account information",
         "LOGIN": "Login",
         "GROUP": "Group",
