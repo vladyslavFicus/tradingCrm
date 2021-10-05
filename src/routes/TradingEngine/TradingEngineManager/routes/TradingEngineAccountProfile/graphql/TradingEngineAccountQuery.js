@@ -8,6 +8,7 @@ const REQUEST = gql`
     tradingEngineAccount (
       identifier: $identifier
     ) {
+      _id
       uuid
       name
       login
@@ -20,6 +21,7 @@ const REQUEST = gql`
       leverage
       balance
       accountType
+      readOnly
     }
   }
 `;
