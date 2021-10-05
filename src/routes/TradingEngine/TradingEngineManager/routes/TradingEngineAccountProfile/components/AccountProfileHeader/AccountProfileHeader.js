@@ -16,6 +16,7 @@ class AccountProfileHeader extends PureComponent {
       newOrderModal: PropTypes.modal,
     }).isRequired,
     account: PropTypes.shape({
+      uuid: PropTypes.string,
       login: PropTypes.number,
       name: PropTypes.string,
       profileUuid: PropTypes.string,
@@ -24,6 +25,7 @@ class AccountProfileHeader extends PureComponent {
 
   static defaultProps = {
     account: {
+      uuid: '',
       login: '',
       name: '',
       profileUuid: '',
@@ -36,12 +38,12 @@ class AccountProfileHeader extends PureComponent {
         newOrderModal,
       },
       account: {
-        login,
+        uuid,
       },
     } = this.props;
 
     newOrderModal.show({
-      login,
+      accountUuid: uuid,
       onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
     });
   };
