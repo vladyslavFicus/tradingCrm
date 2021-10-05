@@ -1,6 +1,7 @@
 import React from 'react';
 import { OrderType } from 'types/trading-engine';
 import CircleLoader from 'components/CircleLoader';
+import CurrentPriceDebug from './CurrentPriceDebug';
 
 interface Props {
   type: OrderType,
@@ -25,14 +26,18 @@ function CurrentPrice(props: Props) {
   ].includes(type) ? currentPriceBid : currentPriceAsk;
 
   return (
-    <Choose>
-      <When condition={currentPrice !== null && !Number.isNaN(currentPrice)}>
-        {currentPrice?.toFixed(digits)}
-      </When>
-      <Otherwise>
-        <CircleLoader size={20} />
-      </Otherwise>
-    </Choose>
+    <>
+      <Choose>
+        <When condition={currentPrice !== null && !Number.isNaN(currentPrice)}>
+          {currentPrice?.toFixed(digits)}
+        </When>
+        <Otherwise>
+          <CircleLoader size={20} />
+        </Otherwise>
+      </Choose>
+
+      <CurrentPriceDebug {...props} />
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { OrderType } from 'types/trading-engine';
 import CircleLoader from 'components/CircleLoader';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
+import PnLDebug from './PnLDebug';
 import './PnL.scss';
 
 interface Props {
@@ -41,13 +42,17 @@ function PnL(props: Props) {
   const pnl = calculatePnL({ type, openPrice, currentPriceBid, currentPriceAsk, volume, lotSize, exchangeRate });
 
   return (
-    <span className={classNames('PnL', {
-      'PnL--positive': pnl > 0,
-      'PnL--negative': pnl < 0,
-    })}
-    >
-      {pnl.toFixed(2)}
-    </span>
+    <>
+      <span className={classNames('PnL', {
+        'PnL--positive': pnl > 0,
+        'PnL--negative': pnl < 0,
+      })}
+      >
+        {pnl.toFixed(2)}
+      </span>
+
+      <PnLDebug {...props} />
+    </>
   );
 }
 
