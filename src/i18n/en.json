@@ -3557,7 +3557,16 @@
         "R_O_SWAPS": "R/O Swaps",
         "PROFIT": "Profit",
         "COMMENT": "Comment",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "CANCEL": "Cancel",
+        "CONFIRMATION": {
+          "CANCEL_ORDER_TITLE": "Cancel order",
+          "CANCEL_ORDER_TEXT": "Do you really want to cancel Deal #{{id}} {{type}} {{closePrice}} {{symbol}}"
+        },
+        "NOTIFICATION": {
+          "CANCEL_SUCCESS": "Deal has been successfully canceled",
+          "CANCEL_FAILED": "Deal cancel failed"
+        }
       }
     },
     "ACCOUNTS": {

@@ -85,7 +85,7 @@ class AccountProfileHistoryGrid extends PureComponent {
     const isShowClosedOrderModal = ['CLOSED', 'CANCELED'].includes(status);
 
     if (isShowClosedOrderModal) {
-      this.props.modals.closedOrderModal.show({ order });
+      this.props.modals.closedOrderModal.show({ order, onSuccess: () => this.refetchHistory() });
     }
   };
 

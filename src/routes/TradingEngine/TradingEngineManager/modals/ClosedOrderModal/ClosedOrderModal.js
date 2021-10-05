@@ -1,19 +1,80 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import compose from 'compose-function';
+import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
 import TextArea from 'components/TextArea';
+import deleteOrderMutation from './graphql/DeleteOrderMutation';
 import './ClosedOrderModal.scss';
 
 class ClosedOrderModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     order: PropTypes.order.isRequired,
+    deleteOrder: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      confirmActionModal: PropTypes.modalType,
+    }).isRequired,
   };
+
+  handleDeleteOrder = async () => {
+    const {
+      order: {
+        id,
+        type,
+        symbol,
+        closePrice,
+      },
+      notify,
+      onCloseModal,
+      deleteOrder,
+      onSuccess,
+      modals: { confirmActionModal },
+    } = this.props;
+
+    confirmActionModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TEXT', {
+        id,
+        type,
+        symbol,
+        closePrice,
+      }),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      onSubmit: async () => {
+        try {
+          await deleteOrder({
+            variables: { orderId: id },
+          });
+
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.NOTIFICATION.CANCEL_SUCCESS'),
+          });
+
+          onSuccess();
+          onCloseModal();
+        } catch (_) {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
+          });
+        }
+      },
+    });
+  }
 
   render() {
     const {
@@ -205,7 +266,14 @@ class ClosedOrderModal extends PureComponent {
             </If>
           </fieldset>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter className="ClosedOrderModal__container-button">
+          <Button
+            className="ClosedOrderModal__button ClosedOrderModal__button--small"
+            danger
+            onClick={this.handleDeleteOrder}
+          >
+            {I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.CANCEL')}
+          </Button>
           <Button
             onClick={onCloseModal}
             className="ClosedOrderModal__button"
@@ -219,4 +287,12 @@ class ClosedOrderModal extends PureComponent {
   }
 }
 
-export default ClosedOrderModal;
+export default compose(
+  withNotifications,
+  withRequests({
+    deleteOrder: deleteOrderMutation,
+  }),
+  withModals({
+    confirmActionModal: ConfirmActionModal,
+  }),
+)(ClosedOrderModal);

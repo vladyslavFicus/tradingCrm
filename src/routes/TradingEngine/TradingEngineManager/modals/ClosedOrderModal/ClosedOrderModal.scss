@@ -28,6 +28,10 @@
     width: 180px;
   }
 
+  &__container-button {
+    justify-content: space-between;
+  }
+
   &__fieldset {
     border: 1px solid #ccc;
     padding: 0 20px 20px 20px;
