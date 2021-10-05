@@ -12,6 +12,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
+import CreateCallbackModal from 'modals/CreateCallbackModal';
 import PermissionContent from 'components/PermissionContent';
 import ActionsDropDown from 'components/ActionsDropDown';
 import NotePopover from 'components/NotePopover';
@@ -22,7 +23,6 @@ import ClientUnlockLoginMutation from './graphql/ClientUnlockLoginMutation';
 import ClientResetPasswordMutation from './graphql/ClientResetPasswordMutation';
 import ClientChangePasswordMutation from './graphql/ClientChangePasswordMutation';
 import './ClientHeader.scss';
-import CreateCallbackModal from '../../../../../../modals/CreateCallbackModal/CreateCallbackModal';
 
 class ClientHeader extends PureComponent {
   static propTypes = {
