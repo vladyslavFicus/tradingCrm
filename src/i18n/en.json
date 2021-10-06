@@ -3757,6 +3757,10 @@
       "REGISTERED": "Registered",
       "DISABLE": "Disable",
       "ENABLE": "Enable",
+      "NOTIFICATIONS": {
+        "CHANGE_LEVERAGE_SUCCESS": "Account leverage changed successfully",
+        "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage"
+      },
 
       "TABS": {
         "ORDERS": "Orders",
