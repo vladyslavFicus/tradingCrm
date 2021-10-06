@@ -8,6 +8,7 @@ const REQUEST = gql`
     tradingEngineAccount (
       identifier: $identifier
     ) {
+      _id
       uuid
       name
       login
