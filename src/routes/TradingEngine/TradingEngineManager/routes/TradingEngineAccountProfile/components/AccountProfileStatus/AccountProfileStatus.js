@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import ChangeAccountSettingsMutation from './graphql/ChangeAccountSettingsMutation';
+import UpdateAccountMutation from './graphql/UpdateAccountMutation';
 import './AccountProfileStatus.scss';
 
 class AccountProfileStatus extends PureComponent {
@@ -14,7 +14,7 @@ class AccountProfileStatus extends PureComponent {
     enable: PropTypes.bool,
     accountUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
-    changeAccountSettings: PropTypes.func.isRequired,
+    updateAccount: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -33,15 +33,15 @@ class AccountProfileStatus extends PureComponent {
     this.setState(({ isDropDownOpen }) => ({ isDropDownOpen: !isDropDownOpen }));
   }
 
-  handleSelectStatus = async (action) => {
+  handleStatusChange = async (action) => {
     const {
       notify,
       accountUuid,
-      changeAccountSettings,
+      updateAccount,
     } = this.props;
 
     try {
-      await changeAccountSettings({
+      await updateAccount({
         variables: {
           accountUuid,
           readOnly: action,
@@ -97,13 +97,13 @@ class AccountProfileStatus extends PureComponent {
           <DropdownMenu className="AccountProfileStatus__dropdown-menu">
             <DropdownItem
               className="AccountProfileStatus__dropdown-item"
-              onClick={() => this.handleSelectStatus(true)}
+              onClick={() => this.handleStatusChange(true)}
             >
               {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ENABLE')}
             </DropdownItem>
             <DropdownItem
               className="AccountProfileStatus__dropdown-item"
-              onClick={() => this.handleSelectStatus(false)}
+              onClick={() => this.handleStatusChange(false)}
             >
               {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.DISABLE')}
             </DropdownItem>
@@ -118,6 +118,6 @@ class AccountProfileStatus extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    changeAccountSettings: ChangeAccountSettingsMutation,
+    updateAccount: UpdateAccountMutation,
   }),
 )(AccountProfileStatus);

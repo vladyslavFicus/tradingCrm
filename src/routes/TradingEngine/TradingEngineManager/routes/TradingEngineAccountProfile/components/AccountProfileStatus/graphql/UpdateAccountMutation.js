@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation TradingEngine_ChangeAccountSettingsMutation(
+const REQUEST = gql`mutation TradingEngine_UpdateAccountMutation(
    $accountUuid: String!
    $readOnly: Boolean
 ) {
   tradingEngine {
-    changeAccountSettings(
+    updateAccount(
       accountUuid: $accountUuid
       readOnly: $readOnly
     ) {
@@ -19,14 +19,14 @@ const REQUEST = gql`mutation TradingEngine_ChangeAccountSettingsMutation(
 }
 `;
 
-const ChangeAccountSettingsMutation = ({ children }) => (
+const UpdateAccountMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-ChangeAccountSettingsMutation.propTypes = {
+UpdateAccountMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default ChangeAccountSettingsMutation;
+export default UpdateAccountMutation;
