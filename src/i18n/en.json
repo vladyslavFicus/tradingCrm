@@ -3449,6 +3449,8 @@
         "SELL_AT": "Sell at {{value}}",
         "BUY_AT": "Buy at {{value}}",
         "ERROR": "This account doesn't exist",
+        "SELL_PNL": "Sell P&L",
+        "BUY_PNL": "Buy P&L",
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created",
           "FAILED": "Order creation failed",
@@ -3471,6 +3473,14 @@
         "SELL_AT": "Sell at {{value}}",
         "BUY_AT": "Buy at {{value}}",
         "ERROR": "This account doesn't exist",
+        "SELL_PNL": "Sell P&L",
+        "BUY_PNL": "Buy P&L",
+        "ACCOUNT": {
+          "NAME": "Name",
+          "GROUP": "Group",
+          "BALANCE": "Balance",
+          "CREDIT": "Credit"
+        },
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created",
           "FAILED": "Order creation failed",
@@ -3758,6 +3768,10 @@
       "DISABLE": "Disable",
       "ENABLE": "Enable",
       "NOTIFICATIONS": {
+        "CHANGE_GROUP_SUCCESS": "Account group changed successfully",
+        "CHANGE_GROUP_ERROR": "Failed to change account group",
+        "CHANGE_STATUS_SUCCESS": "Account status changed successfully",
+        "CHANGE_STATUS_ERROR": "Failed to change account status",
         "CHANGE_LEVERAGE_SUCCESS": "Account leverage changed successfully",
         "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage"
       },

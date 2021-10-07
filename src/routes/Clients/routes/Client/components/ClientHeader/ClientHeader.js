@@ -12,6 +12,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
+import CreateCallbackModal from 'modals/CreateCallbackModal';
 import PermissionContent from 'components/PermissionContent';
 import ActionsDropDown from 'components/ActionsDropDown';
 import NotePopover from 'components/NotePopover';
@@ -39,6 +40,7 @@ class ClientHeader extends PureComponent {
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       changePasswordModal: PropTypes.modalType,
+      createCallbackModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -183,6 +185,14 @@ class ClientHeader extends PureComponent {
     }
   };
 
+  handleOpenAddCallbackModal = () => {
+    const {
+      modals: { createCallbackModal },
+    } = this.props;
+
+    createCallbackModal.show();
+  };
+
   render() {
     const {
       client,
@@ -226,6 +236,16 @@ class ClientHeader extends PureComponent {
         </div>
 
         <div className="ClientHeader__actions">
+
+          <Button
+            small
+            commonOutline
+            className="ClientHeader__action"
+            onClick={this.handleOpenAddCallbackModal}
+          >
+            {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
+          </Button>
+
           <If condition={clientLoginLocked && status?.type !== 'BLOCKED'}>
             <Button
               className="ClientHeader__action"
@@ -293,6 +313,7 @@ export default compose(
   withModals({
     confirmActionModal: ConfirmActionModal,
     changePasswordModal: ChangePasswordModal,
+    createCallbackModal: CreateCallbackModal,
   }),
   withRequests({
     clientLockStatusQuery: ClientLockStatusQuery,
