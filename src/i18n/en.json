@@ -3768,6 +3768,8 @@
       "DISABLE": "Disable",
       "ENABLE": "Enable",
       "NOTIFICATIONS": {
+        "CHANGE_GROUP_SUCCESS": "Account group changed successfully",
+        "CHANGE_GROUP_ERROR": "Failed to change account group",
         "CHANGE_STATUS_SUCCESS": "Account status changed successfully",
         "CHANGE_STATUS_ERROR": "Failed to change account status"
       },

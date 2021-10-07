@@ -64,7 +64,7 @@ class TradingEngineAccountProfile extends PureComponent {
         <div className="TradingEngineAccountProfile__content">
           <div className="TradingEngineAccountProfile__info">
             <AccountProfileStatus enable={account?.readOnly} accountUuid={account?.uuid} />
-            <AccountProfileGroup group={account?.group} />
+            <AccountProfileGroup group={account?.group} accountUuid={account?.uuid} />
             <AccountProfileLeverage />
             <AccountProfileRegistered registrationDate={account?.registrationDate} />
           </div>
