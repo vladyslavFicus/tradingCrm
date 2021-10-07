@@ -3767,6 +3767,10 @@
       "REGISTERED": "Registered",
       "DISABLE": "Disable",
       "ENABLE": "Enable",
+      "NOTIFICATIONS": {
+        "CHANGE_STATUS_SUCCESS": "Account status changed successfully",
+        "CHANGE_STATUS_ERROR": "Failed to change account status"
+      },
 
       "TABS": {
         "ORDERS": "Orders",
