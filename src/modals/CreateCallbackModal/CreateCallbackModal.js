@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
+import EventEmitter, { CALLBACK_CREATED } from 'utils/EventEmitter';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
@@ -92,6 +93,7 @@ class CreateCallbackModal extends PureComponent {
         }
       }
 
+      EventEmitter.emit(CALLBACK_CREATED);
       onCloseModal();
       onSuccess();
 
