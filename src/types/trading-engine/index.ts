@@ -6,3 +6,10 @@ export enum OrderType {
   SELL_LIMIT = 'SELL_LIMIT',
   SELL_STOP = 'SELL_STOP',
 }
+
+export enum orderStatus {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+  PENDING = 'PENDING',
+  CANCELED = 'CANCELED',
+}
