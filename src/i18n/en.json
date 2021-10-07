@@ -3771,7 +3771,9 @@
         "CHANGE_GROUP_SUCCESS": "Account group changed successfully",
         "CHANGE_GROUP_ERROR": "Failed to change account group",
         "CHANGE_STATUS_SUCCESS": "Account status changed successfully",
-        "CHANGE_STATUS_ERROR": "Failed to change account status"
+        "CHANGE_STATUS_ERROR": "Failed to change account status",
+        "CHANGE_LEVERAGE_SUCCESS": "Account leverage changed successfully",
+        "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage"
       },
 
       "TABS": {
