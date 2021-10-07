@@ -269,14 +269,21 @@ class AccountProfileHistoryGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.P&L')}
-              render={({ profit }) => (
+              render={({ profit, status }) => (
                 <div className={classNames('AccountProfileHistoryGrid__cell-value', {
                   'AccountProfileHistoryGrid__cell-value--neutral': profit === 0,
                   'AccountProfileHistoryGrid__cell-value--positive': profit > 0,
                   'AccountProfileHistoryGrid__cell-value--negative': profit < 0,
                 })}
                 >
-                  {profit.toFixed(2)}
+                  <Choose>
+                    <When condition={status === 'CANCELED'}>
+                      <span>&mdash;</span>
+                    </When>
+                    <Otherwise>
+                      {profit.toFixed(2)}
+                    </Otherwise>
+                  </Choose>
                 </div>
               )}
             />
