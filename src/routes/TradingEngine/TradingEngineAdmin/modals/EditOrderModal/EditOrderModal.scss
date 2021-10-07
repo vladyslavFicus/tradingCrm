@@ -51,10 +51,12 @@
     &:not(:last-child) {
       margin-right: 15px;
     }
+  }
 
-    &--small {
-      width: 33%;
-    }
+  &__container-cancel-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
   }
 
   &__fieldset {

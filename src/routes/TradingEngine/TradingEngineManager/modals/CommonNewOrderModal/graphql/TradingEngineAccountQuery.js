@@ -8,6 +8,7 @@ export default gql`query TradingEngine_AccountQuery($identifier: String!) {
     name
     login
     group
+    currency
     credit
     enable
     profileUuid
@@ -16,6 +17,16 @@ export default gql`query TradingEngine_AccountQuery($identifier: String!) {
     leverage
     balance
     accountType
+    allowedSymbols {
+      name
+      description
+      digits
+      lotSize
+      groupSpread(identifier: $identifier) {
+        bidAdjustment
+        askAdjustment
+      }
+    }
   }
 }
 `;

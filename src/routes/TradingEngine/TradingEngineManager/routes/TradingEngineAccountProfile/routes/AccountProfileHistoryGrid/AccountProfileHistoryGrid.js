@@ -7,6 +7,7 @@ import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
+import { orderStatus } from 'types/trading-engine';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import ClosedOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/ClosedOrderModal';
@@ -80,12 +81,14 @@ class AccountProfileHistoryGrid extends PureComponent {
     });
   };
 
-  handleClosedOrderModal = (order) => {
-    const { status } = order;
-    const isShowClosedOrderModal = ['CLOSED', 'CANCELED'].includes(status);
+  handleClosedOrderModal = ({ status, id }) => {
+    const isShowClosedOrderModal = [orderStatus.CLOSED, orderStatus.CANCELED].includes(status);
 
     if (isShowClosedOrderModal) {
-      this.props.modals.closedOrderModal.show({ order, onSuccess: () => this.refetchHistory() });
+      this.props.modals.closedOrderModal.show({
+        orderId: id,
+        onSuccess: () => this.refetchHistory(),
+      });
     }
   };
 

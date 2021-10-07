@@ -29,7 +29,13 @@
   }
 
   &__container-button {
-    justify-content: space-between;
+    justify-content: center;
+
+    .Button {
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+    }
   }
 
   &__fieldset {
@@ -40,5 +46,12 @@
   &__fieldset-title {
     width: auto;
     font-size: 15px;
+  }
+
+  &__confirmation-modal {
+    width: 570px; 
+    top: 50%;
+    transform: translateY(-50%)!important;
+    margin: 0 auto;
   }
 }

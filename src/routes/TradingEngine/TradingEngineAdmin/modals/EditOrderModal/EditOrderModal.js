@@ -23,6 +23,7 @@ import EditOrderMutation from './graphql/EditOrderMutation';
 import ReopenOrderMutation from './graphql/ReopenOrderMutation';
 import OrderQuery from './graphql/OrderQuery';
 import SymbolsQuery from './graphql/SymbolsQuery';
+import DeleteOrderMutation from './graphql/DeleteOrderMutation';
 import './EditOrderModal.scss';
 
 class EditOrderModal extends PureComponent {
@@ -135,6 +136,60 @@ class EditOrderModal extends PureComponent {
             level: 'error',
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.REOPEN_FAILED'),
+          });
+        }
+      },
+    });
+  }
+
+  handleDeleteOrder = async () => {
+    const {
+      id,
+      notify,
+      onCloseModal,
+      deleteOrder,
+      onSuccess,
+      orderQuery: {
+        data,
+      },
+      modals: { confirmActionModal },
+    } = this.props;
+
+    const {
+      type,
+      symbol,
+      volumeLots,
+    } = data?.tradingEngineOrder || {};
+
+    confirmActionModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_DEAL_TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_DEAL_TEXT', {
+        id,
+        type,
+        symbol,
+        volumeLots,
+      }),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      onSubmit: async () => {
+        try {
+          await deleteOrder({
+            variables: { orderId: id },
+          });
+
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_SUCCESS'),
+          });
+
+          onSuccess();
+          onCloseModal();
+        } catch (_) {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
           });
         }
       },
@@ -424,9 +479,10 @@ class EditOrderModal extends PureComponent {
                         </Button>
                       </If>
                       <Button
-                        primary
-                        onClick={onCloseModal}
                         className="EditOrderModal__button"
+                        danger
+                        onClick={this.handleDeleteOrder}
+                        disabled={status === 'CANCELED' || isSubmitting}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL')}
                       </Button>
@@ -454,5 +510,6 @@ export default compose(
     reopenOrder: ReopenOrderMutation,
     orderQuery: OrderQuery,
     symbolsQuery: SymbolsQuery,
+    deleteOrder: DeleteOrderMutation,
   }),
 )(EditOrderModal);

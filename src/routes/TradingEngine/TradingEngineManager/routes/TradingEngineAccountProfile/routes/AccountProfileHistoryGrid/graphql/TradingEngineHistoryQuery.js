@@ -23,10 +23,6 @@ const REQUEST = gql`query TradingEngine_TradingEngineHistoryQuery(
       takeProfit
       swaps
       status
-      group
-      commission
-      comment
-      leverage
     }
     page
     number
