@@ -8,29 +8,28 @@ const REQUEST = gql`
     tradingEngineAccount (
       identifier: $identifier
     ) {
-      _id
       uuid
-      name
       login
-      group
-      credit
-      enable
-      profileUuid
-      profileFullName
-      registrationDate
-      leverage
-      balance
-      accountType
-      readOnly
+      currency
+      allowedSymbols {
+        name
+        description
+        digits
+        lotSize
+        groupSpread(identifier: $identifier) {
+          bidAdjustment
+          askAdjustment
+        }
+      }
     }
   }
 `;
 
-const TradingEngineAccountQuery = ({ children, match: { params: { id } } }) => (
+const TradingEngineAccountQuery = ({ children, accountUuid }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
-    variables={{ identifier: id }}
+    variables={{ identifier: accountUuid }}
   >
     {children}
   </Query>
@@ -38,11 +37,7 @@ const TradingEngineAccountQuery = ({ children, match: { params: { id } } }) => (
 
 TradingEngineAccountQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  accountUuid: PropTypes.string.isRequired,
 };
 
 export default TradingEngineAccountQuery;

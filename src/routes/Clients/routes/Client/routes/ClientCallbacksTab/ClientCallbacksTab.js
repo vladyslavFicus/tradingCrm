@@ -3,7 +3,7 @@ import { compose } from 'react-apollo';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD, CALLBACK_CREATED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import CreateCallbackModal from 'modals/CreateCallbackModal';
 import TabHeader from 'components/TabHeader';
@@ -25,10 +25,12 @@ class ClientCallbacksTab extends PureComponent {
 
   componentDidMount() {
     EventEmitter.on(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.on(CALLBACK_CREATED, this.onProfileEvent);
   }
 
   componentWillUnmount() {
     EventEmitter.off(CLIENT_RELOAD, this.onProfileEvent);
+    EventEmitter.off(CALLBACK_CREATED, this.onProfileEvent);
   }
 
   onProfileEvent = () => {
@@ -37,13 +39,10 @@ class ClientCallbacksTab extends PureComponent {
 
   handleOpenAddCallbackModal = () => {
     const {
-      clientCallbacksQuery: { refetch },
       modals: { createCallbackModal },
     } = this.props;
 
-    createCallbackModal.show({
-      onSuccess: refetch,
-    });
+    createCallbackModal.show();
   };
 
   render() {
