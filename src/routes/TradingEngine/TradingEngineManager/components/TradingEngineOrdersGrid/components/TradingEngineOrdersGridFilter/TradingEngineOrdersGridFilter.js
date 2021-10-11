@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
+import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import {
@@ -9,16 +11,15 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import {
-  types,
-  symbols,
-} from '../../attributes/constants';
+import SymbolsQuery from './graphql/SymbolsQuery';
+import { types } from '../../attributes/constants';
 import './TradingEngineOrdersGridFilter.scss';
 
 class TradingEngineOrdersGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
   handleSubmit = (values) => {
@@ -49,7 +50,10 @@ class TradingEngineOrdersGridFilter extends PureComponent {
     const {
       location: { state },
       handleRefetch,
+      symbolsQuery,
     } = this.props;
+
+    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
 
     return (
       <Formik
@@ -100,9 +104,9 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {symbols.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
+                {symbols.map(({ name }) => (
+                  <option key={name} value={name}>
+                    {name}
                   </option>
                 ))}
               </Field>
@@ -136,4 +140,9 @@ class TradingEngineOrdersGridFilter extends PureComponent {
   }
 }
 
-export default withRouter(TradingEngineOrdersGridFilter);
+export default compose(
+  withRouter,
+  withRequests({
+    symbolsQuery: SymbolsQuery,
+  }),
+)(TradingEngineOrdersGridFilter);
