@@ -555,7 +555,6 @@ export default compose(
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
-    tradingEngineAccountQuery: TradingEngineAccountQuery,
     orderQuery,
   }),
 )(EditOrderModal);
