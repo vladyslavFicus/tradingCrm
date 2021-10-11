@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { withLazyStreams, LazyStream } from 'rsocket';
+import { withLazyStreams, LazyStream, LazyStreamSubscription } from 'rsocket';
 import compose from 'compose-function';
 
 interface SymbolPriceStreamResponse {
@@ -35,15 +35,20 @@ function SymbolsPricesStream(props: Props) {
     onNotify = () => {},
   } = props;
 
+  // Current symbol prices
+  const symbolPrices = useRef<SymbolsPrices>({});
+
+  // Actual subscription
+  const subscription = useRef<LazyStreamSubscription | null>(null);
+
   // Get sorted list of symbols to execute re-subscribe if list changed
   const uniqueSymbols = [...new Set(symbols)].sort();
 
-  // Skip subscribing if symbols list is empty
-  if (!uniqueSymbols.length) {
-    return null;
+  // Cancel actual subscription if it exists and if symbols list is empty
+  if (!uniqueSymbols.length && subscription.current) {
+    subscription.current.cancel();
+    subscription.current = null;
   }
-
-  const symbolPrices = useRef<SymbolsPrices>({});
 
   // Make interval parent notification about changes
   useEffect(() => {
@@ -62,9 +67,14 @@ function SymbolsPricesStream(props: Props) {
     // Clear previous data for previous subscription
     symbolPrices.current = {};
 
-    const subscription = symbolsStreamRequest({ data: { symbols: uniqueSymbols } });
+    // Skip subscribing if symbols list is empty
+    if (!uniqueSymbols.length) {
+      return;
+    }
 
-    subscription.onNext<SymbolPriceStreamResponse>(({ data }) => {
+    subscription.current = symbolsStreamRequest({ data: { symbols: uniqueSymbols } });
+
+    subscription.current.onNext<SymbolPriceStreamResponse>(({ data }) => {
       symbolPrices.current[data.symbol] = data;
     });
   }, [uniqueSymbols.join()]); // Join an array to string, cause deps should be non-changeable array length
