@@ -27,10 +27,6 @@ const REQUEST = gql`
       commission
       swaps
       status
-      pnl {
-        gross
-        net
-      }
       time {
         creation
         modification

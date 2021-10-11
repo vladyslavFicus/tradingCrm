@@ -7,23 +7,23 @@ import { OrderType } from 'types/trading-engine';
  */
 interface CalculatePnLArguments {
   type: OrderType,
-  openPrice: number,
-  currentPriceBid: number,
-  currentPriceAsk: number,
-  lotSize: number,
-  volume: number,
-  exchangeRate: number,
+  openPrice?: number,
+  currentPriceBid?: number,
+  currentPriceAsk?: number,
+  lotSize?: number,
+  volume?: number,
+  exchangeRate?: number,
 }
 
 export const calculatePnL = (args: CalculatePnLArguments): number => {
   const {
     type,
-    openPrice,
-    currentPriceBid,
-    currentPriceAsk,
-    lotSize,
-    volume,
-    exchangeRate,
+    openPrice = 0,
+    currentPriceBid = 0,
+    currentPriceAsk = 0,
+    lotSize = 0,
+    volume = 0,
+    exchangeRate = 0,
   } = args;
 
   let pnl = 0;
