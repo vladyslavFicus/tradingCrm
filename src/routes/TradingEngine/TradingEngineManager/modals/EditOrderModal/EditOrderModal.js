@@ -37,12 +37,19 @@ class EditOrderModal extends PureComponent {
     editOrder: PropTypes.func.isRequired,
     closeOrder: PropTypes.func.isRequired,
     orderQuery: PropTypes.object.isRequired,
+    tradingEngineAccountQuery: PropTypes.query(PropTypes.tradingEngineAccount).isRequired,
   };
 
   state = {
     currentSymbolPrice: null,
     initialSymbolPrice: null,
   };
+
+  getCurrentSymbol = (symbol) => {
+    const account = this.props.tradingEngineAccountQuery?.data?.tradingEngineAccount;
+
+    return account?.allowedSymbols?.find(({ name }) => name === symbol);
+  }
 
   handleEditOrder = async ({ takeProfit, stopLoss, openPrice, ...res }) => {
     const {
@@ -491,7 +498,8 @@ class EditOrderModal extends PureComponent {
 
                                     setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
                                   }}
-                                  component={FormikInputField}
+                                  component={FormikInputDecimalsField}
+                                  {...decimalsSettings}
                                 />
                                 <If condition={status === 'OPEN'}>
                                   <div className="EditOrderModal__field-hint">
@@ -547,6 +555,7 @@ export default compose(
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
+    tradingEngineAccountQuery: TradingEngineAccountQuery,
     orderQuery,
   }),
 )(EditOrderModal);
