@@ -37,19 +37,12 @@ class EditOrderModal extends PureComponent {
     editOrder: PropTypes.func.isRequired,
     closeOrder: PropTypes.func.isRequired,
     orderQuery: PropTypes.object.isRequired,
-    tradingEngineAccountQuery: PropTypes.query(PropTypes.tradingEngineAccount).isRequired,
   };
 
   state = {
     currentSymbolPrice: null,
     initialSymbolPrice: null,
   };
-
-  getCurrentSymbol = (symbol) => {
-    const account = this.props.tradingEngineAccountQuery?.data?.tradingEngineAccount;
-
-    return account?.allowedSymbols?.find(({ name }) => name === symbol);
-  }
 
   handleEditOrder = async ({ takeProfit, stopLoss, openPrice, ...res }) => {
     const {
