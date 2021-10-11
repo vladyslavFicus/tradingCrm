@@ -42,10 +42,14 @@ class CreateCallbackModal extends PureComponent {
     }).isRequired,
     createCallback: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    onSuccess: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onSuccess: () => {},
   };
 
   createNote = async (callbackId) => {
