@@ -278,7 +278,7 @@ class AccountProfileHistoryGrid extends PureComponent {
                 })}
                 >
                   <Choose>
-                    <When condition={status === 'CANCELED'}>
+                    <When condition={status === orderStatus.CANCELED}>
                       <span>&mdash;</span>
                     </When>
                     <Otherwise>
