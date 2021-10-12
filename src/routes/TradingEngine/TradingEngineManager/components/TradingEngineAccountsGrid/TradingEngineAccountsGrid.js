@@ -13,7 +13,6 @@ import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
 import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
-import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
@@ -119,6 +118,17 @@ class TradingEngineAccountsGrid extends PureComponent {
     });
   };
 
+  renderClientColumn = ({ profileUuid, profileFullName }) => (
+    <>
+      <div className="font-weight-700">
+        {profileFullName}
+      </div>
+      <div className="font-size-11">
+        <Uuid uuid={profileUuid} />
+      </div>
+    </>
+  );
+
   render() {
     const {
       location: { state },
@@ -189,9 +199,7 @@ class TradingEngineAccountsGrid extends PureComponent {
             <Column
               sortBy="profileFullName"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.PROFILE')}
-              render={({ profileUuid, profileFullName }) => (
-                <GridPlayerInfo profile={{ uuid: profileUuid, fullName: profileFullName }} />
-              )}
+              render={this.renderClientColumn}
             />
             <Column
               sortBy="registrationDate"
