@@ -15,7 +15,7 @@ import {
   FormikInputDecimalsField,
 } from 'components/Formik';
 import { createValidator } from 'utils/validator';
-import { orderStatus } from 'types/trading-engine';
+import { OrderStatus } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
@@ -242,7 +242,7 @@ class EditOrderModal extends PureComponent {
     const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
     const currentSymbol = symbols.find(({ name }) => name === symbol);
 
-    const isDisabled = status === orderStatus.CANCELED;
+    const isDisabled = status === OrderStatus.CANCELED;
 
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -382,7 +382,7 @@ class EditOrderModal extends PureComponent {
                       />
                     </div>
                     <div className="EditOrderModal__field-container">
-                      <If condition={status === orderStatus.CLOSED}>
+                      <If condition={status === OrderStatus.CLOSED}>
                         <Field
                           name="closeTime"
                           className="EditOrderModal__field"
@@ -394,7 +394,7 @@ class EditOrderModal extends PureComponent {
                         />
                       </If>
                       <Field
-                        disabled={status === orderStatus.OPEN || isDisabled}
+                        disabled={status === OrderStatus.OPEN || isDisabled}
                         name="closePrice"
                         type="number"
                         step="0.00001"
