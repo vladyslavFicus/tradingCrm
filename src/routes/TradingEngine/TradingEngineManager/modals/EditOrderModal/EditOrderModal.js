@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withModals, withNotifications } from 'hoc';
-import { OrderType, orderStatus } from 'types/trading-engine';
+import { OrderType, OrderStatus } from 'types/trading-engine';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextAreaField, FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -396,7 +396,7 @@ class EditOrderModal extends PureComponent {
                               <Input
                                 disabled
                                 name="pnl"
-                                value={status === 'OPEN' ? floatingPnL.toFixed(2) : '-'}
+                                value={status === OrderStatus.OPEN ? floatingPnL.toFixed(2) : '-'}
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.FLOATING_PL')}
                                 className="EditOrderModal__field"
                               />
@@ -415,7 +415,11 @@ class EditOrderModal extends PureComponent {
                               <Input
                                 disabled
                                 name="netPnL"
-                                value={(status === 'OPEN' ? (floatingPnL - commission - swaps).toFixed(2) : '-')}
+                                value={
+                                  status === OrderStatus.OPEN
+                                    ? (floatingPnL - commission - swaps).toFixed(2)
+                                    : '-'
+                                }
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
                                 className="EditOrderModal__field"
                               />
@@ -452,7 +456,7 @@ class EditOrderModal extends PureComponent {
                   >
                     {({ values: _values, setFieldValue }) => (
                       <Form>
-                        <If condition={status !== 'CLOSED'}>
+                        <If condition={status !== OrderStatus.CLOSED}>
                           <fieldset className="EditOrderModal__fieldset">
                             <legend className="EditOrderModal__fieldset-title">
                               {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROCESS')}
@@ -485,7 +489,7 @@ class EditOrderModal extends PureComponent {
                                 {...decimalsSettings}
                               />
                               <Button
-                                disabled={status === orderStatus.PENDING || !initialSymbolPrice}
+                                disabled={status === OrderStatus.PENDING || !initialSymbolPrice}
                                 className="EditOrderModal__button"
                                 danger
                                 onClick={() => this.handleCloseOrder({ ..._values, status, symbol, type })}
@@ -496,7 +500,7 @@ class EditOrderModal extends PureComponent {
                                 })}
                               </Button>
                             </div>
-                            <If condition={status === 'OPEN'}>
+                            <If condition={status === OrderStatus.OPEN}>
                               <div className="EditOrderModal__field-container">
                                 <div className="EditOrderModal__close-pnl">
                                   {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.WITH_PNL')}&nbsp;

@@ -7,7 +7,7 @@ import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
-import { orderStatus } from 'types/trading-engine';
+import { OrderStatus } from 'types/trading-engine';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import ClosedOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/ClosedOrderModal';
@@ -82,7 +82,7 @@ class AccountProfileHistoryGrid extends PureComponent {
   };
 
   handleClosedOrderModal = ({ status, id }) => {
-    const isShowClosedOrderModal = [orderStatus.CLOSED, orderStatus.CANCELED].includes(status);
+    const isShowClosedOrderModal = [OrderStatus.CLOSED, OrderStatus.CANCELED].includes(status);
 
     if (isShowClosedOrderModal) {
       this.props.modals.closedOrderModal.show({
@@ -278,7 +278,7 @@ class AccountProfileHistoryGrid extends PureComponent {
                 })}
                 >
                   <Choose>
-                    <When condition={status === orderStatus.CANCELED}>
+                    <When condition={status === OrderStatus.CANCELED}>
                       <span>&mdash;</span>
                     </When>
                     <Otherwise>
