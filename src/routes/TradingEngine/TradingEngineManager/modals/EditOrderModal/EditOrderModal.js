@@ -491,7 +491,8 @@ class EditOrderModal extends PureComponent {
 
                                     setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
                                   }}
-                                  component={FormikInputField}
+                                  component={FormikInputDecimalsField}
+                                  {...decimalsSettings}
                                 />
                                 <If condition={status === 'OPEN'}>
                                   <div className="EditOrderModal__field-hint">
