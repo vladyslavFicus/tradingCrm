@@ -21,7 +21,7 @@ import {
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import Input from 'components/Input';
-import SymbolPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
+import SymbolPricesStream from 'routes/TradingEngine/components/SymbolPricesStream';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import createOrderMutation from './graphql/CreateOrderMutation';

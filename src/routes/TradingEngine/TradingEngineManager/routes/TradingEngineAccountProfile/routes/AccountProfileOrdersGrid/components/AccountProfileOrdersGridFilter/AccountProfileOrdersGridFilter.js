@@ -11,7 +11,7 @@ import {
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI/index';
 import {
-  types,
+  orderTypes,
   symbols,
 } from '../../../../attributes/constants';
 import './AccountProfileOrdersGridFilter.scss';
@@ -85,7 +85,7 @@ class AccountProfileOrdersGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {types.map(({ value, label }) => (
+                {orderTypes.map(({ value, label }) => (
                   <option key={value} value={value}>
                     {I18n.t(label)}
                   </option>

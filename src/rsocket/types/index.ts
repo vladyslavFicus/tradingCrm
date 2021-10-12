@@ -1,1 +1,4 @@
-export type { LazyStream } from './lazy-stream';
+export type {
+  LazyStream,
+  LazyStreamSubscription,
+} from './lazy-stream';
