@@ -44,6 +44,16 @@ const REQUEST = gql`
       }
       comment
       type
+      account {
+        currency
+      }
+      symbolEntity {
+        lotSize
+      }
+      groupSpread {
+        bidAdjustment
+        askAdjustment
+      }
     }
   }
 `;
