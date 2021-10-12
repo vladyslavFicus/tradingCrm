@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withModals, withNotifications } from 'hoc';
+import { orderStatus } from 'types/trading-engine';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextAreaField, FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -511,7 +512,7 @@ class EditOrderModal extends PureComponent {
                                 </If>
                               </div>
                               <Button
-                                disabled={!initialSymbolPrice}
+                                disabled={status === orderStatus.PENDING || !initialSymbolPrice}
                                 className="EditOrderModal__button"
                                 danger
                                 onClick={() => this.handleCloseOrder({ ..._values, status, symbol, type })}
