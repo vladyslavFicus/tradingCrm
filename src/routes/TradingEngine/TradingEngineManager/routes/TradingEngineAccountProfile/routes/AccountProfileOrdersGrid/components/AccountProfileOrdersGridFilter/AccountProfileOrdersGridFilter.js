@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
+import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import {
@@ -10,16 +12,15 @@ import {
 } from 'components/Formik/index';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI/index';
-import {
-  orderTypes,
-  symbols,
-} from '../../../../attributes/constants';
+import SymbolsQuery from './graphql/SymbolsQuery';
+import { orderTypes } from '../../../../attributes/constants';
 import './AccountProfileOrdersGridFilter.scss';
 
 class AccountProfileOrdersGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
   handleSubmit = (values) => {
@@ -50,7 +51,10 @@ class AccountProfileOrdersGridFilter extends PureComponent {
     const {
       location: { state },
       handleRefetch,
+      symbolsQuery,
     } = this.props;
+
+    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
 
     return (
       <Formik
@@ -101,9 +105,9 @@ class AccountProfileOrdersGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {symbols.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
+                {symbols.map(({ name }) => (
+                  <option key={name} value={name}>
+                    {name}
                   </option>
                 ))}
               </Field>
@@ -148,4 +152,9 @@ class AccountProfileOrdersGridFilter extends PureComponent {
   }
 }
 
-export default withRouter(AccountProfileOrdersGridFilter);
+export default compose(
+  withRouter,
+  withRequests({
+    symbolsQuery: SymbolsQuery,
+  }),
+)(AccountProfileOrdersGridFilter);
