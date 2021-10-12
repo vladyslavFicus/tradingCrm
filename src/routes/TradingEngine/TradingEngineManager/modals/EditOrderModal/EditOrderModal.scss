@@ -44,10 +44,9 @@
     }
   }
 
-  &__field-hint {
-    position: absolute;
-    display: flex;
+  &__close-pnl {
     width: 100%;
+    text-align: center;
     font-size: 13px;
     margin-left: 2px;
     color: #5f5e5e;

@@ -177,7 +177,7 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
-              sortBy="group"
+              sortBy="account.group"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.GROUP')}
               render={({ group }) => (
                 <div className="TradingEngineOrdersGrid__cell-value">
@@ -305,7 +305,7 @@ class TradingEngineOrdersGrid extends PureComponent {
               )}
             />
             <Column
-              sortBy="time.closing"
+              sortBy="closingTime"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.CLOSE_TIME')}
               render={({ time }) => (
                 <Choose>

@@ -16,7 +16,7 @@ interface LazyStreamHandler<DataGeneric = Object, MetadataGeneric = Object> {
   (response: LazyStreamResponse<DataGeneric, MetadataGeneric>): void
 }
 
-interface LazyStreamSubscription {
+export interface LazyStreamSubscription {
   onNext<DataGeneric = Object, MetadataGeneric = Object>(
     handler: LazyStreamHandler<DataGeneric, MetadataGeneric>
   ): void,

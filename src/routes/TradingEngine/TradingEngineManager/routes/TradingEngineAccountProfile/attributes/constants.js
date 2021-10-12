@@ -36,6 +36,15 @@ export const types = [{
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL_STOP',
 }];
 
+export const orderTypes = [{
+  value: 'BUY',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY',
+},
+{
+  value: 'SELL',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL',
+}];
+
 export const statuses = [{
   value: 'CLOSED',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.CLOSED',

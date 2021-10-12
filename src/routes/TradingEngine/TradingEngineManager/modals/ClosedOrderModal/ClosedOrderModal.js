@@ -6,6 +6,7 @@ import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import { OrderStatus } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
@@ -113,7 +114,8 @@ class ClosedOrderModal extends PureComponent {
       comment,
     } = data?.tradingEngineOrder || {};
 
-    const isStatusClosed = status === 'CLOSED';
+    const isStatusClosed = status === OrderStatus.CLOSED;
+    const isStatusCanceled = status === OrderStatus.CANCELED;
 
     return (
       <Modal className="ClosedOrderModal" toggle={onCloseModal} isOpen={isOpen}>
@@ -294,6 +296,7 @@ class ClosedOrderModal extends PureComponent {
                 className="ClosedOrderModal__button ClosedOrderModal__button--small"
                 danger
                 onClick={this.handleDeleteOrder}
+                disabled={isStatusCanceled}
               >
                 {I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.CANCEL')}
               </Button>

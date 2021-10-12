@@ -13,7 +13,6 @@ import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
 import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
-import GridPlayerInfo from 'components/GridPlayerInfo';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
@@ -91,11 +90,11 @@ class TradingEngineAccountsGrid extends PureComponent {
         success={accountType === 'LIVE' && !archived}
         danger={archived}
       >
-        <div className="font-weight-700">
+        <div className="TradingEngineAccountsGrid__text-primary">
           {name}
         </div>
       </Badge>
-      <div className="font-size-11">
+      <div className="TradingEngineAccountsGrid__text-secondary">
         <Uuid uuid={uuid} uuidPrefix={platformType} />
       </div>
     </Fragment>
@@ -103,10 +102,10 @@ class TradingEngineAccountsGrid extends PureComponent {
 
   renderLoginColumn = ({ login, group, uuid }) => (
     <Link to={`/trading-engine-manager/accounts/${uuid}`}>
-      <div className="font-weight-700">
+      <div className="TradingEngineAccountsGrid__text-primary">
         {login}
       </div>
-      <div className="font-size-11">
+      <div className="TradingEngineAccountsGrid__text-secondary">
         {group}
       </div>
     </Link>
@@ -118,6 +117,17 @@ class TradingEngineAccountsGrid extends PureComponent {
       onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
     });
   };
+
+  renderClientColumn = ({ profileUuid, profileFullName }) => (
+    <>
+      <div className="TradingEngineAccountsGrid__text-primary">
+        {profileFullName}
+      </div>
+      <div className="TradingEngineAccountsGrid__text-secondary">
+        <Uuid uuid={profileUuid} />
+      </div>
+    </>
+  );
 
   render() {
     const {
@@ -189,19 +199,17 @@ class TradingEngineAccountsGrid extends PureComponent {
             <Column
               sortBy="profileFullName"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.PROFILE')}
-              render={({ profileUuid, profileFullName }) => (
-                <GridPlayerInfo profile={{ uuid: profileUuid, fullName: profileFullName }} />
-              )}
+              render={this.renderClientColumn}
             />
             <Column
               sortBy="registrationDate"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.DATE')}
               render={({ registrationDate }) => (
                 <If condition={registrationDate}>
-                  <div className="font-weight-700">
+                  <div className="TradingEngineAccountsGrid__text-primary">
                     {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
                   </div>
-                  <div className="font-size-11">
+                  <div className="TradingEngineAccountsGrid__text-secondary">
                     {moment.utc(registrationDate).local().format('HH:mm:ss')}
                   </div>
                 </If>
@@ -211,7 +219,7 @@ class TradingEngineAccountsGrid extends PureComponent {
               sortBy="credit"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.CREDIT')}
               render={({ credit }) => (
-                <div className="font-weight-700">{I18n.toCurrency(credit, { unit: '' })}</div>
+                <div className="TradingEngineAccountsGrid__text-primary">{I18n.toCurrency(credit, { unit: '' })}</div>
               )}
             />
             <Column
@@ -219,7 +227,7 @@ class TradingEngineAccountsGrid extends PureComponent {
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.LEVERAGE')}
               render={({ leverage }) => (
                 <If condition={leverage}>
-                  <div className="font-weight-700">{leverage}</div>
+                  <div className="TradingEngineAccountsGrid__text-primary">{leverage}</div>
                 </If>
               )}
             />
@@ -227,7 +235,7 @@ class TradingEngineAccountsGrid extends PureComponent {
               sortBy="balance"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.BALANCE')}
               render={({ balance }) => (
-                <div className="font-weight-700">{I18n.toCurrency(balance, { unit: '' })}</div>
+                <div className="TradingEngineAccountsGrid__text-primary">{I18n.toCurrency(balance, { unit: '' })}</div>
               )}
             />
           </Table>

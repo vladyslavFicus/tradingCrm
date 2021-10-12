@@ -19,7 +19,7 @@ import {
   FormikSelectField,
   FormikCheckbox,
   FormikMultiInputField,
-  FormikInputRangeField } from 'components/Formik';
+} from 'components/Formik';
 import { Button } from 'components/UI';
 import updatePartnerMutation from './graphql/UpdatePartnerMutation';
 import './PartnerPersonalInfoForm.scss';
@@ -39,9 +39,6 @@ const attributeLabels = {
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
   showSalesStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_SALES_STATUS',
   cdeAffiliate: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CDE_AFFILIATE',
-  cumulativeDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT',
-  cumulativeDepositHint: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.CUMULATIVE_DEPOSIT_HINT',
-  minFtdDeposit: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.MIN_FTD_LIMIT',
   showAutologinUrl: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_AUTO_LOGIN_URL',
 };
 
@@ -69,9 +66,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     showSalesStatus,
     showFTDAmount,
     showKycStatus,
-    cumulativeDeposit,
     showAutologinUrl,
-    minFtdDeposit,
     ...rest
   }, { setSubmitting }) => {
     const { updatePartner, partnerData, notify } = this.props;
@@ -90,9 +85,7 @@ class PartnerPersonalInfoForm extends PureComponent {
             showSalesStatus,
             showFTDAmount,
             showKycStatus,
-            cumulativeDeposit,
             showAutologinUrl,
-            minFtdDeposit,
           },
           ...rest,
         },
@@ -142,7 +135,6 @@ class PartnerPersonalInfoForm extends PureComponent {
       permission: partnerPermissions,
       cdeAffiliate,
     } = get(partnerData, 'data.partner') || {};
-    const { cumulativeDeposit, minFtdDeposit } = partnerPermissions;
 
     const brand = getBrand();
 
@@ -159,7 +151,6 @@ class PartnerPersonalInfoForm extends PureComponent {
             country,
             cdeAffiliate,
             ...partnerPermissions,
-            cumulativeDeposit: minFtdDeposit ? cumulativeDeposit : true,
           }}
           validate={createValidator({
             firstName: ['required', 'string'],
@@ -177,13 +168,11 @@ class PartnerPersonalInfoForm extends PureComponent {
             showKycStatus: 'boolean',
             cdeAffiliate: 'boolean',
             showAutologinUrl: 'boolean',
-            cumulativeDeposit: 'boolean',
-            minFtdDeposit: ['numeric', 'min:1', 'max:10000'],
           }, translateLabels(attributeLabels), false)}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
-          {({ isSubmitting, dirty, values, setFieldValue }) => (
+          {({ isSubmitting, dirty, values }) => (
             <Form>
               <div className="PartnerPersonalInfoForm__header">
                 <div className="PartnerPersonalInfoForm__title">
@@ -369,32 +358,6 @@ class PartnerPersonalInfoForm extends PureComponent {
                   label={I18n.t(attributeLabels.showAutologinUrl)}
                   disabled={isSubmitting || this.isReadOnly}
                 />
-
-                <div className="PartnerPersonalInfoForm__deposit_settings">
-                  <Field
-                    name="minFtdDeposit"
-                    className="PartnerPersonalInfoForm__field"
-                    label={I18n.t(attributeLabels.minFtdDeposit)}
-                    placeholder={I18n.t(attributeLabels.minFtdDeposit)}
-                    component={FormikInputRangeField}
-                    onChange={(value) => {
-                      if (!value) {
-                        setFieldValue('cumulativeDeposit', true);
-                      } else {
-                        setFieldValue('cumulativeDeposit', cumulativeDeposit);
-                      }
-                    }}
-                    errorText={I18n.t('PARTNERS.PROFILE.CONTACTS.FORM.ERRORS.MIN_FTD_DEPOSIT', { max: 10000, min: 1 })}
-                    disabled={isSubmitting || this.isReadOnly}
-                  />
-                  <Field
-                    name="cumulativeDeposit"
-                    component={FormikCheckbox}
-                    label={I18n.t(attributeLabels.cumulativeDeposit)}
-                    hint={!values.minFtdDeposit && I18n.t(attributeLabels.cumulativeDepositHint)}
-                    disabled={isSubmitting || this.isReadOnly || !values.minFtdDeposit}
-                  />
-                </div>
               </div>
             </Form>
           )}
