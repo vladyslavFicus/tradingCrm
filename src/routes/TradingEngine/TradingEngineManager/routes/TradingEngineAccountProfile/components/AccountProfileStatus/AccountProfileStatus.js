@@ -65,7 +65,7 @@ class AccountProfileStatus extends PureComponent {
   renderLabel = () => (
     <div className="AccountProfileStatus__label">
       <div className="AccountProfileStatus__status">
-        {I18n.t(`COMMON.${this.props.enable ? 'ENABLED' : 'DISABLED'}`)}
+        {I18n.t(`COMMON.${this.props.enable ? 'DISABLED' : 'ENABLED'}`)}
       </div>
     </div>
   );
@@ -97,13 +97,13 @@ class AccountProfileStatus extends PureComponent {
           <DropdownMenu className="AccountProfileStatus__dropdown-menu">
             <DropdownItem
               className="AccountProfileStatus__dropdown-item"
-              onClick={() => this.handleStatusChange(true)}
+              onClick={() => this.handleStatusChange(false)}
             >
               {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ENABLE')}
             </DropdownItem>
             <DropdownItem
               className="AccountProfileStatus__dropdown-item"
-              onClick={() => this.handleStatusChange(false)}
+              onClick={() => this.handleStatusChange(true)}
             >
               {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.DISABLE')}
             </DropdownItem>

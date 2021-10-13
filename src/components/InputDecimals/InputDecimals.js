@@ -56,7 +56,8 @@ class InputDecimals extends React.Component {
     const { onChange } = this.props;
 
     this.setState({ value, showWarningMessage });
-    onChange(parseFloat(value));
+
+    onChange(value ? parseFloat(value) : value);
   }
 
   handleInputChange = (event) => {

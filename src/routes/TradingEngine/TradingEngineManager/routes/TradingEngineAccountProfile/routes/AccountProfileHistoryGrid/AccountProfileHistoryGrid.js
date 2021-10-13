@@ -7,7 +7,7 @@ import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
-import { orderStatus } from 'types/trading-engine';
+import { OrderStatus } from 'types/trading-engine';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import ClosedOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/ClosedOrderModal';
@@ -82,7 +82,7 @@ class AccountProfileHistoryGrid extends PureComponent {
   };
 
   handleClosedOrderModal = ({ status, id }) => {
-    const isShowClosedOrderModal = [orderStatus.CLOSED, orderStatus.CANCELED].includes(status);
+    const isShowClosedOrderModal = [OrderStatus.CLOSED, OrderStatus.CANCELED].includes(status);
 
     if (isShowClosedOrderModal) {
       this.props.modals.closedOrderModal.show({
@@ -270,14 +270,21 @@ class AccountProfileHistoryGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.P&L')}
-              render={({ profit }) => (
+              render={({ profit, status }) => (
                 <div className={classNames('AccountProfileHistoryGrid__cell-value', {
                   'AccountProfileHistoryGrid__cell-value--neutral': profit === 0,
                   'AccountProfileHistoryGrid__cell-value--positive': profit > 0,
                   'AccountProfileHistoryGrid__cell-value--negative': profit < 0,
                 })}
                 >
-                  {profit.toFixed(2)}
+                  <Choose>
+                    <When condition={status === OrderStatus.CANCELED}>
+                      <span>&mdash;</span>
+                    </When>
+                    <Otherwise>
+                      {profit.toFixed(2)}
+                    </Otherwise>
+                  </Choose>
                 </div>
               )}
             />

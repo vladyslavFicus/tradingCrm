@@ -6,7 +6,7 @@ import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { orderStatus } from 'types/trading-engine';
+import { OrderStatus } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
@@ -114,8 +114,8 @@ class ClosedOrderModal extends PureComponent {
       comment,
     } = data?.tradingEngineOrder || {};
 
-    const isStatusClosed = status === orderStatus.CLOSED;
-    const isStatusCanceled = status === orderStatus.CANCELED;
+    const isStatusClosed = status === OrderStatus.CLOSED;
+    const isStatusCanceled = status === OrderStatus.CANCELED;
 
     return (
       <Modal className="ClosedOrderModal" toggle={onCloseModal} isOpen={isOpen}>

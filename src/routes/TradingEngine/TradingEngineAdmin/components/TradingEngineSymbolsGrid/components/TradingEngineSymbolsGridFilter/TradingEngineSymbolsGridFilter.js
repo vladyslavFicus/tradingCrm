@@ -1,18 +1,21 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
+import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { symbols } from './constants';
+import SymbolsQuery from './graphql/SymbolsQuery';
 import './TradingEngineSymbolsGridFilter.scss';
 
 class TradingEngineSymbolsGridFilter extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
     handleRefetch: PropTypes.func.isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
   handleSubmit = (values) => {
@@ -43,7 +46,10 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
     const {
       location: { state },
       handleRefetch,
+      symbolsQuery,
     } = this.props;
+
+    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
 
     return (
       <Formik
@@ -60,7 +66,7 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
           <Form className="TradingEngineSymbolsGridFilter">
             <div className="TradingEngineSymbolsGridFilter__fields">
               <Field
-                name="symbol"
+                name="symbolNames"
                 label={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.SYMBOL_LABEL')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingEngineSymbolsGridFilter__field"
@@ -68,10 +74,11 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
                 withAnyOption
                 searchable
                 withFocus
+                multiple
               >
-                {symbols.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
+                {symbols.map(({ name }) => (
+                  <option key={name} value={name}>
+                    {name}
                   </option>
                 ))}
               </Field>
@@ -105,4 +112,9 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
   }
 }
 
-export default withRouter(TradingEngineSymbolsGridFilter);
+export default compose(
+  withRouter,
+  withRequests({
+    symbolsQuery: SymbolsQuery,
+  }),
+)(TradingEngineSymbolsGridFilter);

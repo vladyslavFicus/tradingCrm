@@ -15,6 +15,7 @@ import {
   FormikInputDecimalsField,
 } from 'components/Formik';
 import { createValidator } from 'utils/validator';
+import { OrderStatus } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
@@ -241,6 +242,8 @@ class EditOrderModal extends PureComponent {
     const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
     const currentSymbol = symbols.find(({ name }) => name === symbol);
 
+    const isDisabled = status === OrderStatus.CANCELED;
+
     return (
       <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>
@@ -294,6 +297,7 @@ class EditOrderModal extends PureComponent {
                         className="EditOrderModal__field"
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
                         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                        disabled={isDisabled}
                       >
                         {reasons.map(({ value, label }) => (
                           <option key={value} value={value}>{I18n.t(label)}</option>
@@ -319,6 +323,7 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
+                        disabled={isDisabled}
                       />
                       <Field
                         disabled
@@ -341,6 +346,7 @@ class EditOrderModal extends PureComponent {
                         component={FormikDatePicker}
                         withTime
                         withUtc
+                        disabled={isDisabled}
                       />
                       <Field
                         name="openPrice"
@@ -350,6 +356,7 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE')}
                         className="EditOrderModal__field"
                         component={FormikInputDecimalsField}
+                        disabled={isDisabled}
                         {...decimalsSettings}
                       />
                     </div>
@@ -362,6 +369,7 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.STOP_LOSS')}
                         className="EditOrderModal__field"
                         component={FormikInputDecimalsField}
+                        disabled={isDisabled}
                         {...decimalsSettings}
                       />
                       <Field
@@ -372,11 +380,12 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TAKE_PROFIT')}
                         className="EditOrderModal__field"
                         component={FormikInputDecimalsField}
+                        disabled={isDisabled}
                         {...decimalsSettings}
                       />
                     </div>
                     <div className="EditOrderModal__field-container">
-                      <If condition={status === 'CLOSED'}>
+                      <If condition={status === OrderStatus.CLOSED}>
                         <Field
                           name="closeTime"
                           className="EditOrderModal__field"
@@ -384,10 +393,11 @@ class EditOrderModal extends PureComponent {
                           component={FormikDatePicker}
                           withTime
                           withUtc
+                          disabled={isDisabled}
                         />
                       </If>
                       <Field
-                        disabled={status === 'OPEN'}
+                        disabled={status === OrderStatus.OPEN || isDisabled}
                         name="closePrice"
                         type="number"
                         step="0.00001"
@@ -424,6 +434,7 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMISSION')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
+                        disabled={isDisabled}
                       />
                       <Field
                         name="swaps"
@@ -433,6 +444,7 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SWAPS')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
+                        disabled={isDisabled}
                       />
                     </div>
                     <div className="EditOrderModal__field-container">
@@ -459,6 +471,7 @@ class EditOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
                         className="EditOrderModal__field"
                         component={FormikTextAreaField}
+                        disabled={isDisabled}
                       />
                     </div>
                     <div className="EditOrderModal__field-container EditOrderModal__field-container-button">
@@ -468,7 +481,7 @@ class EditOrderModal extends PureComponent {
                         onClick={() => this.handleEditOrder(values, status)}
                         className="EditOrderModal__button"
                         danger
-                        disabled={!dirty || isSubmitting}
+                        disabled={!dirty || isSubmitting || isDisabled}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
                       </Button>
@@ -486,7 +499,7 @@ class EditOrderModal extends PureComponent {
                         className="EditOrderModal__button"
                         danger
                         onClick={this.handleDeleteOrder}
-                        disabled={status === 'CANCELED' || isSubmitting}
+                        disabled={isDisabled || isSubmitting}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL')}
                       </Button>
