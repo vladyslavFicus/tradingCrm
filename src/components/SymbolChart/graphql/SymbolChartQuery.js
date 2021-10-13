@@ -39,7 +39,7 @@ SymbolChartQuery.propTypes = {
 
 SymbolChartQuery.defaultProps = {
   size: 2000,
-  symbol: '',
+  symbol: null,
 };
 
 export default SymbolChartQuery;
