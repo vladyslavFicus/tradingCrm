@@ -14,7 +14,7 @@ import {
   FormikDatePicker,
   FormikInputDecimalsField,
 } from 'components/Formik';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import { OrderStatus } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
@@ -276,14 +276,15 @@ class EditOrderModal extends PureComponent {
               openTime: time?.creation,
               closeTime: time?.closing,
             }}
-            validate={createValidator({
-              amount: ['required', 'numeric', 'greater:0', 'max:999999'],
-              volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
-            })}
-            onSubmit={this.handleSubmit}
+            validate={values => createValidator({
+              volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
+            }, translateLabels({
+              volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
+            }), false)(values)}
+            onSubmit={values => this.handleEditOrder(values, status)}
             enableReinitialize
           >
-            {({ values, isSubmitting, dirty }) => (
+            {({ isSubmitting, dirty }) => (
               <Form>
                 <ModalBody>
                   <fieldset className="EditOrderModal__fieldset">
@@ -318,7 +319,7 @@ class EditOrderModal extends PureComponent {
                         step="0.01"
                         placeholder="0.00"
                         min={0}
-                        max={1000}
+                        max={9999}
                         maxLength={4}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                         className="EditOrderModal__field"
@@ -478,7 +479,6 @@ class EditOrderModal extends PureComponent {
                       <Button
                         type="submit"
                         primary
-                        onClick={() => this.handleEditOrder(values, status)}
                         className="EditOrderModal__button"
                         danger
                         disabled={!dirty || isSubmitting || isDisabled}

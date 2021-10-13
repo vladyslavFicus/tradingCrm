@@ -42,6 +42,11 @@
     &--center {
       margin-bottom: 8px;
     }
+
+    &--customError .input__error {
+      position: absolute;
+      white-space: nowrap;
+    }
   }
 
   &__close-pnl {

@@ -87,7 +87,7 @@ class CommonNewOrderModal extends PureComponent {
     }
   }
 
-  handleSubmit = ({ takeProfit, stopLoss, openPrice, ...res }, direction, setFieldValue, setSubmitting) => async () => {
+  handleSubmit = async ({ takeProfit, stopLoss, openPrice, direction, ...res }) => {
     const {
       notify,
       onCloseModal,
@@ -97,8 +97,6 @@ class CommonNewOrderModal extends PureComponent {
     } = this.props;
 
     const { account } = this.state;
-
-    setFieldValue('direction', direction);
 
     try {
       const {
@@ -142,8 +140,6 @@ class CommonNewOrderModal extends PureComponent {
           : I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
       });
     }
-
-    setSubmitting(false);
   }
 
   handleAutoOpenPrice = (value, symbol, setFieldValue) => () => {
@@ -196,7 +192,7 @@ class CommonNewOrderModal extends PureComponent {
             autoOpenPrice: true,
           }}
           validate={values => createValidator({
-            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+            volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
             symbol: ['required', 'string'],
             ...!values.autoOpenPrice && {
               openPrice: 'required',
@@ -239,9 +235,9 @@ class CommonNewOrderModal extends PureComponent {
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
-          onSubmit={() => {}}
+          onSubmit={this.handleSubmit}
         >
-          {({ isSubmitting, dirty, values, setFieldValue, setSubmitting, setValues }) => {
+          {({ isSubmitting, dirty, values, setFieldValue, setValues, handleSubmit }) => {
             const {
               login,
               autoOpenPrice,
@@ -357,7 +353,7 @@ class CommonNewOrderModal extends PureComponent {
                         placeholder="0.00"
                         step="0.01"
                         min={0}
-                        max={1000}
+                        max={9999}
                         maxLength={4}
                         component={FormikInputField}
                         disabled={!account}
@@ -495,33 +491,43 @@ class CommonNewOrderModal extends PureComponent {
                         <Hotkeys
                           keyName="ctrl+s"
                           filter={() => true}
-                          onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
+                          onKeyUp={() => {
+                            setFieldValue('direction', 'SELL');
+                            handleSubmit();
+                          }}
                         />
 
-                        {/* Buy order by CTRL+S pressing */}
+                        {/* Buy order by CTRL+D pressing */}
                         <Hotkeys
                           keyName="ctrl+d"
                           filter={() => true}
-                          onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
+                          onKeyUp={() => {
+                            setFieldValue('direction', 'BUY');
+                            handleSubmit();
+                          }}
                         />
                       </If>
                       <Button
-                        type="submit"
                         className="CommonNewOrderModal__button"
                         danger
                         disabled={isSubmitting || !account || !sellPrice}
-                        onClick={this.handleSubmit(values, 'SELL', setFieldValue, setSubmitting)}
+                        onClick={() => {
+                          setFieldValue('direction', 'SELL');
+                          handleSubmit();
+                        }}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', {
                           value: sellPrice ? Number(sellPrice).toFixed(currentSymbol?.digits) : 0,
                         })}
                       </Button>
                       <Button
-                        type="submit"
                         className="CommonNewOrderModal__button"
                         primary
                         disabled={isSubmitting || !account || !buyPrice}
-                        onClick={this.handleSubmit(values, 'BUY', setFieldValue, setSubmitting)}
+                        onClick={() => {
+                          setFieldValue('direction', 'BUY');
+                          handleSubmit();
+                        }}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', {
                           value: buyPrice ? Number(buyPrice).toFixed(currentSymbol?.digits) : 0,

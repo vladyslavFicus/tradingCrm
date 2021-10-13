@@ -60,7 +60,7 @@ class NewOrderModal extends PureComponent {
     });
   };
 
-  handleSubmit = ({ takeProfit, stopLoss, openPrice, ...res }, direction, setFieldValue) => async () => {
+  handleSubmit = async ({ takeProfit, stopLoss, openPrice, direction, ...res }) => {
     const {
       notify,
       onCloseModal,
@@ -74,7 +74,6 @@ class NewOrderModal extends PureComponent {
       },
     } = this.props;
 
-    setFieldValue('direction', direction);
 
     try {
       const {
@@ -166,7 +165,7 @@ class NewOrderModal extends PureComponent {
             autoOpenPrice: true,
           }}
           validate={values => createValidator({
-            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+            volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
             symbol: ['required', 'string'],
             ...!values.autoOpenPrice && {
               openPrice: 'required',
@@ -209,9 +208,9 @@ class NewOrderModal extends PureComponent {
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
-          onSubmit={() => {}}
+          onSubmit={this.handleSubmit}
         >
-          {({ isSubmitting, values, setFieldValue, setValues }) => {
+          {({ isSubmitting, values, setFieldValue, setValues, handleSubmit }) => {
             const {
               autoOpenPrice,
               openPrice,
@@ -273,7 +272,7 @@ class NewOrderModal extends PureComponent {
                         placeholder="0.00"
                         step="0.01"
                         min={0}
-                        max={1000}
+                        max={9999}
                         maxLength={4}
                         component={FormikInputField}
                       />
@@ -404,32 +403,42 @@ class NewOrderModal extends PureComponent {
                       <Hotkeys
                         keyName="ctrl+s"
                         filter={() => true}
-                        onKeyUp={this.handleSubmit(values, 'SELL', setFieldValue)}
+                        onKeyUp={() => {
+                          setFieldValue('direction', 'SELL');
+                          handleSubmit();
+                        }}
                       />
 
-                      {/* Buy order by CTRL+S pressing */}
+                      {/* Buy order by CTRL+D pressing */}
                       <Hotkeys
                         keyName="ctrl+d"
                         filter={() => true}
-                        onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
+                        onKeyUp={() => {
+                          setFieldValue('direction', 'BUY');
+                          handleSubmit();
+                        }}
                       />
                       <Button
-                        type="submit"
                         className="NewOrderModal__button"
                         danger
                         disabled={isSubmitting || !sellPrice}
-                        onClick={this.handleSubmit(values, 'SELL', setFieldValue)}
+                        onClick={() => {
+                          setFieldValue('direction', 'SELL');
+                          handleSubmit();
+                        }}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.SELL_AT', {
                           value: sellPrice && sellPrice.toFixed(currentSymbol?.digits),
                         })}
                       </Button>
                       <Button
-                        type="submit"
                         className="NewOrderModal__button"
                         primary
                         disabled={isSubmitting || !buyPrice}
-                        onClick={this.handleSubmit(values, 'BUY', setFieldValue)}
+                        onClick={() => {
+                          setFieldValue('direction', 'BUY');
+                          handleSubmit();
+                        }}
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.BUY_AT', {
                           value: buyPrice && buyPrice.toFixed(currentSymbol?.digits),

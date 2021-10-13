@@ -15,7 +15,7 @@ import SymbolChart from 'components/SymbolChart';
 import ShortLoader from 'components/ShortLoader';
 import Input from 'components/Input';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { createValidator } from 'utils/validator';
+import { createValidator, translateLabels } from 'utils/validator';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import PnL from 'routes/TradingEngine/components/PnL';
 import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
@@ -452,7 +452,12 @@ class EditOrderModal extends PureComponent {
                       volumeLots,
                       closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
                     }}
-                    onSubmit={() => {}}
+                    validate={values => createValidator({
+                      volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
+                    }, translateLabels({
+                      volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
+                    }), false)(values)}
+                    onSubmit={values => this.handleCloseOrder({ ...values, status, symbol, type })}
                   >
                     {({ values: _values, setFieldValue }) => (
                       <Form>
@@ -466,8 +471,13 @@ class EditOrderModal extends PureComponent {
                               <Field
                                 name="volumeLots"
                                 type="number"
+                                step="0.01"
+                                placeholder="0.00"
+                                min={0}
+                                max={9999}
+                                maxLength={4}
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                                className="EditOrderModal__field"
+                                className="EditOrderModal__field EditOrderModal__field--customError"
                                 component={FormikInputField}
                               />
                               <Field
@@ -489,10 +499,10 @@ class EditOrderModal extends PureComponent {
                                 {...decimalsSettings}
                               />
                               <Button
+                                type="submit"
                                 disabled={status === OrderStatus.PENDING || !initialSymbolPrice}
                                 className="EditOrderModal__button"
                                 danger
-                                onClick={() => this.handleCloseOrder({ ..._values, status, symbol, type })}
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                                   volumeLots: Number(_values.volumeLots).toFixed(2),
