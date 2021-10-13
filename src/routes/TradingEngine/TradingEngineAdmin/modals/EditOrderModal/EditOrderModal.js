@@ -15,6 +15,7 @@ import {
   FormikInputDecimalsField,
 } from 'components/Formik';
 import { createValidator } from 'utils/validator';
+import { round } from 'utils/round';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
@@ -236,8 +237,8 @@ class EditOrderModal extends PureComponent {
     const { currentSymbolPrice } = this.state;
 
     // Get current BID and ASK prices with applied group spread
-    const currentPriceBid = (currentSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0);
-    const currentPriceAsk = (currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0);
+    const currentPriceBid = round((currentSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0), digits);
+    const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
 
     const decimalsSettings = {
       decimalsLimit: digits,

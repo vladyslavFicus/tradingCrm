@@ -16,6 +16,7 @@ import ShortLoader from 'components/ShortLoader';
 import Input from 'components/Input';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { createValidator } from 'utils/validator';
+import { round } from 'utils/round';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import PnL from 'routes/TradingEngine/components/PnL';
 import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
@@ -228,12 +229,12 @@ class EditOrderModal extends PureComponent {
     const { currentSymbolPrice, initialSymbolPrice } = this.state;
 
     // Get current BID and ASK prices with applied group spread
-    const currentPriceBid = (currentSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0);
-    const currentPriceAsk = (currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0);
+    const currentPriceBid = round((currentSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0), digits);
+    const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
 
     // Get initial BID and ASK prices with applied group spread
-    const initialPriceBid = (initialSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0);
-    const initialPriceAsk = (initialSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0);
+    const initialPriceBid = round((initialSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0), digits);
+    const initialPriceAsk = round((initialSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
 
     const decimalsSettings = {
       decimalsLimit: digits,
@@ -303,7 +304,7 @@ class EditOrderModal extends PureComponent {
                         openPrice: values.openPrice,
                         volume: volumeLots,
                         lotSize: symbolEntity.lotSize,
-                        exchangeRate: this.state.currentSymbolPrice?.pnlRates[account.currency],
+                        exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                       });
 
                       return (

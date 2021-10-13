@@ -7,6 +7,7 @@ import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
+import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import PnL from 'routes/TradingEngine/components/PnL';
@@ -253,32 +254,48 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-              render={({ type, symbol, openPrice, volumeLots, account, symbolEntity, groupSpread }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">
-                  <PnL
-                    type={type}
-                    openPrice={openPrice}
-                    currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
-                    currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
-                    volume={volumeLots}
-                    lotSize={symbolEntity.lotSize}
-                    exchangeRate={this.state.symbolsPrices[symbol]?.pnlRates[account.currency]}
-                  />
-                </div>
-              )}
+              render={({ type, symbol, openPrice, volumeLots, digits, account, symbolEntity, groupSpread }) => {
+                const currentSymbol = this.state.symbolsPrices[symbol];
+
+                // Get current BID and ASK prices with applied group spread
+                const currentPriceBid = round(currentSymbol?.bid + groupSpread.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+
+                return (
+                  <div className="TradingEngineOrdersGrid__cell-value">
+                    <PnL
+                      type={type}
+                      openPrice={openPrice}
+                      currentPriceBid={currentPriceBid}
+                      currentPriceAsk={currentPriceAsk}
+                      volume={volumeLots}
+                      lotSize={symbolEntity.lotSize}
+                      exchangeRate={currentSymbol?.pnlRates[account.currency]}
+                    />
+                  </div>
+                );
+              }}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ type, symbol, digits, groupSpread }) => (
-                <div className="AccountProfileOrdersGrid__cell-value">
-                  <CurrentPrice
-                    type={type}
-                    digits={digits}
-                    currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
-                    currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
-                  />
-                </div>
-              )}
+              render={({ type, symbol, digits, groupSpread }) => {
+                const currentSymbol = this.state.symbolsPrices[symbol];
+
+                // Get current BID and ASK prices with applied group spread
+                const currentPriceBid = round(currentSymbol?.bid + groupSpread.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+
+                return (
+                  <div className="AccountProfileOrdersGrid__cell-value">
+                    <CurrentPrice
+                      type={type}
+                      digits={digits}
+                      currentPriceBid={currentPriceBid}
+                      currentPriceAsk={currentPriceAsk}
+                    />
+                  </div>
+                );
+              }}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.STATUS')}
