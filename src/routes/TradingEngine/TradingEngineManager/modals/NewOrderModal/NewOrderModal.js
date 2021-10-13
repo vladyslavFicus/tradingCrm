@@ -166,7 +166,7 @@ class NewOrderModal extends PureComponent {
             autoOpenPrice: true,
           }}
           validate={values => createValidator({
-            volumeLots: ['required', 'numeric', 'max:10000', 'min:0.01'],
+            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
             symbol: ['required', 'string'],
             ...!values.autoOpenPrice && {
               openPrice: 'required',
@@ -270,10 +270,11 @@ class NewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
                         className="NewOrderModal__field"
-                        placeholder="0.00000"
-                        step="0.00001"
+                        placeholder="0.00"
+                        step="0.01"
                         min={0}
-                        max={999999}
+                        max={1000}
+                        maxLength={4}
                         component={FormikInputField}
                       />
                     </div>
@@ -413,6 +414,7 @@ class NewOrderModal extends PureComponent {
                         onKeyUp={this.handleSubmit(values, 'BUY', setFieldValue)}
                       />
                       <Button
+                        type="submit"
                         className="NewOrderModal__button"
                         danger
                         disabled={isSubmitting || !sellPrice}
@@ -423,6 +425,7 @@ class NewOrderModal extends PureComponent {
                         })}
                       </Button>
                       <Button
+                        type="submit"
                         className="NewOrderModal__button"
                         primary
                         disabled={isSubmitting || !buyPrice}

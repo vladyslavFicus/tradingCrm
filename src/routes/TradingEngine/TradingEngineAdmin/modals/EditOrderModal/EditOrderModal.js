@@ -275,7 +275,7 @@ class EditOrderModal extends PureComponent {
             }}
             validate={createValidator({
               amount: ['required', 'numeric', 'greater:0', 'max:999999'],
-              volumeLots: ['required', 'numeric', 'max:100000', 'min:0.01'],
+              volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
             })}
             onSubmit={this.handleSubmit}
             enableReinitialize
@@ -311,8 +311,11 @@ class EditOrderModal extends PureComponent {
                       <Field
                         name="volumeLots"
                         type="number"
-                        step="0.00001"
+                        step="0.01"
                         placeholder="0.00"
+                        min={0}
+                        max={1000}
+                        maxLength={4}
                         label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                         className="EditOrderModal__field"
                         component={FormikInputField}
@@ -460,6 +463,7 @@ class EditOrderModal extends PureComponent {
                     </div>
                     <div className="EditOrderModal__field-container EditOrderModal__field-container-button">
                       <Button
+                        type="submit"
                         primary
                         onClick={() => this.handleEditOrder(values, status)}
                         className="EditOrderModal__button"

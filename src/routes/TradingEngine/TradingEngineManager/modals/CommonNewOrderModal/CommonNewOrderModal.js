@@ -196,7 +196,7 @@ class CommonNewOrderModal extends PureComponent {
             autoOpenPrice: true,
           }}
           validate={values => createValidator({
-            volumeLots: ['required', 'numeric', 'max:10000', 'min:0.01'],
+            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
             symbol: ['required', 'string'],
             ...!values.autoOpenPrice && {
               openPrice: 'required',
@@ -354,10 +354,11 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
                         className="CommonNewOrderModal__field"
-                        placeholder="0.00000"
-                        step="0.00001"
+                        placeholder="0.00"
+                        step="0.01"
                         min={0}
-                        max={999999}
+                        max={1000}
+                        maxLength={4}
                         component={FormikInputField}
                         disabled={!account}
                       />
@@ -505,6 +506,7 @@ class CommonNewOrderModal extends PureComponent {
                         />
                       </If>
                       <Button
+                        type="submit"
                         className="CommonNewOrderModal__button"
                         danger
                         disabled={isSubmitting || !account || !sellPrice}
@@ -515,6 +517,7 @@ class CommonNewOrderModal extends PureComponent {
                         })}
                       </Button>
                       <Button
+                        type="submit"
                         className="CommonNewOrderModal__button"
                         primary
                         disabled={isSubmitting || !account || !buyPrice}

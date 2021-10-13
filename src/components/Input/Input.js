@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -29,6 +30,7 @@ class Input extends PureComponent {
     onEnterPress: PropTypes.func,
     showWarningMessage: PropTypes.bool,
     warningMessage: PropTypes.string,
+    maxLength: PropTypes.number,
   };
 
   static defaultProps = {
@@ -50,6 +52,7 @@ class Input extends PureComponent {
     autoFocus: false,
     onEnterPress: () => true,
     onTruncated: () => {},
+    maxLength: 524288,
   };
 
   inputRef = React.createRef();
@@ -77,6 +80,21 @@ class Input extends PureComponent {
     if (code === 'Enter') {
       onEnterPress(this);
     }
+  };
+
+  handleChangeInput = (event) => {
+    const { onChange, maxLength, type} = this.props;
+    const { value } = event.target;
+
+    if(type === "number" && maxLength) {
+      if(value.toString().length <= maxLength) {
+        onChange(event);
+        return;
+      }
+      return;
+    }
+
+    onChange(event);
   };
 
   render() {
@@ -107,7 +125,6 @@ class Input extends PureComponent {
       name,
       value,
       disabled,
-      onChange,
       ...input,
       ref: this.inputRef,
       onKeyDown: this.onKeyDown,
@@ -149,7 +166,11 @@ class Input extends PureComponent {
               {warningMessage}
             </UncontrolledTooltip>
           </If>
-          <input {...inputProps} id={warningMessageUniqueId} />
+          <input
+            {...inputProps}
+            id={warningMessageUniqueId}
+            onChange={this.handleChangeInput}
+          />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
           </If>
