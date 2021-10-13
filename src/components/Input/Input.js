@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -31,6 +30,7 @@ class Input extends PureComponent {
     showWarningMessage: PropTypes.bool,
     warningMessage: PropTypes.string,
     maxLength: PropTypes.number,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
@@ -53,6 +53,7 @@ class Input extends PureComponent {
     onEnterPress: () => true,
     onTruncated: () => {},
     maxLength: 524288,
+    type: '',
   };
 
   inputRef = React.createRef();
@@ -83,11 +84,11 @@ class Input extends PureComponent {
   };
 
   handleChangeInput = (event) => {
-    const { onChange, maxLength, type} = this.props;
+    const { onChange, maxLength, type } = this.props;
     const { value } = event.target;
 
-    if(type === "number" && maxLength) {
-      if(value.toString().length <= maxLength) {
+    if (type === 'number' && maxLength) {
+      if (value.toString().length <= maxLength) {
         onChange(event);
         return;
       }
