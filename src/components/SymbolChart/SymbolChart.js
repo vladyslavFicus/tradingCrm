@@ -2,18 +2,20 @@ import React, { Fragment, PureComponent } from 'react';
 import { compose } from 'react-apollo';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { withLazyStreams } from 'rsocket';
 import PropTypes from 'constants/propTypes';
+import { round } from 'utils/round';
+import SymbolPricesStream from 'routes/TradingEngine/components/SymbolPricesStream';
 import Chart from './components/Chart';
 import { ReactComponent as SymbolChartIcon } from './SymbolChartIcon.svg';
-import TradingEngineSymbolChartQuery from './graphql/SymbolChartQuery';
+import SymbolChartQuery from './graphql/SymbolChartQuery';
+import SymbolQuery from './graphql/SymbolQuery';
 import './SymbolChart.scss';
 
 class SymbolChart extends PureComponent {
   static propTypes = {
     symbol: PropTypes.string,
     accountUuid: PropTypes.string,
-    tradingEngineSymbolChartQuery: PropTypes.query({
+    chartQuery: PropTypes.query({
       tradingEngineSymbolPrices: PropTypes.shape({
         name: PropTypes.string,
         ask: PropTypes.number.isRequired,
@@ -21,59 +23,65 @@ class SymbolChart extends PureComponent {
         time: PropTypes.string.isRequired,
       }),
     }).isRequired,
-    chartStreamRequest: PropTypes.func.isRequired,
+    symbolQuery: PropTypes.query({
+      digits: PropTypes.string,
+      groupSpread: PropTypes.shape({
+        bidAdjustment: PropTypes.number,
+        askAdjustment: PropTypes.number,
+      }),
+    }).isRequired,
     chartConfig: PropTypes.object,
   };
 
   static defaultProps = {
     chartConfig: {},
-    symbol: '',
-    accountUuid: '',
+    symbol: null,
+    accountUuid: null,
   };
 
   state = {
     chartNextTickItem: null,
   };
 
-  componentDidMount() {
-    const { symbol, accountUuid } = this.props;
+  handleSymbolsPricesTick = (chartNextTickItem) => {
+    this.setState({ chartNextTickItem: this.addGroupSpread(chartNextTickItem) });
+  };
 
-    if (symbol && accountUuid) {
-      this.initializationStream();
-    }
-  }
+  addGroupSpread = (item) => {
+    const {
+      digits,
+      groupSpread,
+    } = this.props.symbolQuery.data?.tradingEngineSymbol || {};
 
-  componentDidUpdate({ symbol: prevSymbol }) {
-    const { symbol, accountUuid } = this.props;
+    const bid = round(item.bid + groupSpread?.bidAdjustment, digits);
+    const ask = round(item.ask + groupSpread?.askAdjustment, digits);
 
-    if (accountUuid && (prevSymbol !== symbol)) {
-      this.initializationStream(symbol);
-    }
-  }
-
-  initializationStream = () => {
-    const { symbol, chartStreamRequest, accountUuid } = this.props;
-
-    const chartSubscription = chartStreamRequest({
-      data: { symbol, accountUuid },
-    });
-
-    chartSubscription.onNext(({ data }) => {
-      this.setState({ chartNextTickItem: data });
-    });
-  }
+    return { ...item, bid, ask };
+  };
 
   render() {
-    const { chartConfig, tradingEngineSymbolChartQuery, symbol, accountUuid } = this.props;
+    const {
+      chartConfig,
+      chartQuery,
+      symbolQuery,
+      symbol,
+      accountUuid,
+    } = this.props;
+
     const { chartNextTickItem } = this.state;
-    const { loading } = tradingEngineSymbolChartQuery;
 
-    const chartData = tradingEngineSymbolChartQuery.data?.tradingEngineSymbolPrices || [];
+    const chartData = (chartQuery.data?.tradingEngineSymbolPrices || []).map(this.addGroupSpread);
 
-    const isLoading = !symbol || !accountUuid || loading;
+    const isLoading = !symbol || !accountUuid || chartQuery.loading || symbolQuery.loading;
 
     return (
       <div className={classNames('SymbolChart', { 'SymbolChart--loading': isLoading })}>
+        {/* Subscribe to symbol prices stream */}
+        <SymbolPricesStream
+          symbol={symbol}
+          onNotify={this.handleSymbolsPricesTick}
+        />
+
         <Choose>
           <When condition={isLoading}>
             <SymbolChartIcon className="SymbolChart__icon" />
@@ -96,11 +104,7 @@ class SymbolChart extends PureComponent {
 
 export default compose(
   withRequests({
-    tradingEngineSymbolChartQuery: TradingEngineSymbolChartQuery,
-  }),
-  withLazyStreams({
-    chartStreamRequest: {
-      route: 'streamPrices',
-    },
+    chartQuery: SymbolChartQuery,
+    symbolQuery: SymbolQuery,
   }),
 )(SymbolChart);
