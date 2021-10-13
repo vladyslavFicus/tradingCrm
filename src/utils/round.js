@@ -6,4 +6,4 @@
  *
  * @return {number}
  */
-export const round = (number, decimals = 0) => Number(number.toFixed(decimals));
+export const round = (number, decimals = 0) => (Number.isFinite(number) ? Number(number.toFixed(decimals)) : 0);
