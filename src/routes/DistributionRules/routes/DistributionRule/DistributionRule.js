@@ -149,6 +149,7 @@ class DistributionRule extends PureComponent {
   };
 
   handleGeneralSettings = (isValid, generalSettings) => {
+    console.log('generalSettings', generalSettings);
     this.setState({
       generalSettings,
       sourceBrandConfig: null,
@@ -158,7 +159,9 @@ class DistributionRule extends PureComponent {
     });
   };
 
-  handleSourceBrandConfig = ({ quantity, baseUnit, ...brandSettings }) => {
+  handleSourceBrandConfig = ({ quantity, baseUnit, affiliateUuids, ...brandSettings }) => {
+    const { generalSettings } = this.state;
+
     this.setState({
       sourceBrandConfig: {
         ...brandSettings,
@@ -166,6 +169,10 @@ class DistributionRule extends PureComponent {
           quantity,
           baseUnit,
         },
+      },
+      generalSettings: {
+        ...generalSettings,
+        affiliateUuids,
       },
       targetBrandConfig: null,
       addSourceBrandEnabled: false,
