@@ -267,7 +267,7 @@ class ClosedOrderModal extends PureComponent {
                       name="profit"
                       label={I18n.t('TRADING_ENGINE.MODALS.CLOSED_ORDER_MODAL.PROFIT')}
                       className="ClosedOrderModal__field"
-                      value={pnl?.gross}
+                      value={pnl?.gross?.toFixed(2)}
                     />
                   </div>
                   <div className="ClosedOrderModal__field-container">
