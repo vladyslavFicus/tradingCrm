@@ -237,7 +237,7 @@ class EditOrderModal extends PureComponent {
     const { currentSymbolPrice } = this.state;
 
     // Get current BID and ASK prices with applied group spread
-    const currentPriceBid = round((currentSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0), digits);
+    const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (groupSpread?.bidAdjustment || 0), digits);
     const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
 
     const decimalsSettings = {
