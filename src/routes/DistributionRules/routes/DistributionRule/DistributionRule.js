@@ -149,7 +149,6 @@ class DistributionRule extends PureComponent {
   };
 
   handleGeneralSettings = (isValid, generalSettings) => {
-    console.log('generalSettings', generalSettings);
     this.setState({
       generalSettings,
       sourceBrandConfig: null,
