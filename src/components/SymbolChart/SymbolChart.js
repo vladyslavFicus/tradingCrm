@@ -53,7 +53,7 @@ class SymbolChart extends PureComponent {
       groupSpread,
     } = this.props.symbolQuery.data?.tradingEngineSymbol || {};
 
-    const bid = round(item.bid + groupSpread?.bidAdjustment, digits);
+    const bid = round(item.bid - groupSpread?.bidAdjustment, digits);
     const ask = round(item.ask + groupSpread?.askAdjustment, digits);
 
     return { ...item, bid, ask };

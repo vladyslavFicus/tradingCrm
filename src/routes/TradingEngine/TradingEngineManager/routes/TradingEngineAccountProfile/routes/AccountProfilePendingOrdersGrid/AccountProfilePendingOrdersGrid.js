@@ -254,7 +254,7 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
                 const currentSymbol = this.state.symbolsPrices[symbol];
 
                 // Get current BID and ASK prices with applied group spread
-                const currentPriceBid = round(currentSymbol?.bid + groupSpread.bidAdjustment, digits);
+                const currentPriceBid = round(currentSymbol?.bid - groupSpread.bidAdjustment, digits);
                 const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
 
                 return (
