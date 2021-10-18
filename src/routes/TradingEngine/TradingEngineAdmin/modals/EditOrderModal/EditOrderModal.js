@@ -347,7 +347,7 @@ class EditOrderModal extends PureComponent {
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                           className="EditOrderModal__field"
                           component={FormikInputField}
-                          disabled={isDisabled}
+                          disabled
                         />
                         <Field
                           disabled
