@@ -20,6 +20,7 @@ import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
 import Input from 'components/Input';
 import { createValidator, translateLabels } from 'utils/validator';
+import { round } from 'utils/round';
 import { OrderType } from 'types/trading-engine';
 import SymbolPricesStream from 'routes/TradingEngine/components/SymbolPricesStream';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
@@ -149,8 +150,13 @@ class CommonNewOrderModal extends PureComponent {
 
     const autoOpenPrice = !value;
 
-    // Get current BID price and apply group spread
-    const openPrice = !autoOpenPrice ? currentSymbolPrice?.bid + currentSymbol?.groupSpread?.bidAdjustment : undefined;
+    // Get current BID price with applied group spread
+    const currentPriceBid = round(
+      currentSymbolPrice?.bid + currentSymbol?.groupSpread?.bidAdjustment,
+      currentSymbol?.digits,
+    );
+
+    const openPrice = !autoOpenPrice ? currentPriceBid : undefined;
 
     setFieldValue('autoOpenPrice', autoOpenPrice);
 
@@ -249,8 +255,15 @@ class CommonNewOrderModal extends PureComponent {
             const currentSymbol = this.getCurrentSymbol(symbol);
 
             // Get current BID and ASK prices with applied group spread
-            const currentPriceBid = (currentSymbolPrice?.bid || 0) + (currentSymbol?.groupSpread?.bidAdjustment || 0);
-            const currentPriceAsk = (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0);
+            const currentPriceBid = round(
+              (currentSymbolPrice?.bid || 0) + (currentSymbol?.groupSpread?.bidAdjustment || 0),
+              currentSymbol?.digits,
+            );
+
+            const currentPriceAsk = round(
+              (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0),
+              currentSymbol?.digits,
+            );
 
             // Get SELL and BUY price depends on autoOpenPrice checkbox
             const sellPrice = autoOpenPrice ? currentPriceBid : openPrice;

@@ -11,6 +11,7 @@ import { withNotifications } from 'hoc';
 import { OrderType } from 'types/trading-engine';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
+import { round } from 'utils/round';
 import {
   FormikCheckbox,
   FormikInputField,
@@ -126,8 +127,13 @@ class NewOrderModal extends PureComponent {
 
     const autoOpenPrice = !value;
 
-    // Get current BID price and apply group spread
-    const openPrice = !autoOpenPrice ? currentSymbolPrice?.bid + currentSymbol?.groupSpread?.bidAdjustment : undefined;
+    // Get current BID price with applied group spread
+    const currentPriceBid = round(
+      currentSymbolPrice?.bid + currentSymbol?.groupSpread?.bidAdjustment,
+      currentSymbol?.digits,
+    );
+
+    const openPrice = !autoOpenPrice ? currentPriceBid : undefined;
 
     setFieldValue('autoOpenPrice', autoOpenPrice);
 
@@ -221,8 +227,15 @@ class NewOrderModal extends PureComponent {
             const currentSymbol = this.getCurrentSymbol(symbol);
 
             // Get current BID and ASK prices with applied group spread
-            const currentPriceBid = (currentSymbolPrice?.bid || 0) + (currentSymbol?.groupSpread?.bidAdjustment || 0);
-            const currentPriceAsk = (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0);
+            const currentPriceBid = round(
+              (currentSymbolPrice?.bid || 0) + (currentSymbol?.groupSpread?.bidAdjustment || 0),
+              currentSymbol?.digits,
+            );
+
+            const currentPriceAsk = round(
+              (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0),
+              currentSymbol?.digits,
+            );
 
             // Get SELL and BUY price depends on autoOpenPrice checkbox
             const sellPrice = autoOpenPrice ? currentPriceBid : openPrice;

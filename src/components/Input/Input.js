@@ -53,7 +53,7 @@ class Input extends PureComponent {
     onEnterPress: () => true,
     onTruncated: () => {},
     maxLength: 524288,
-    type: '',
+    type: 'text',
   };
 
   inputRef = React.createRef();

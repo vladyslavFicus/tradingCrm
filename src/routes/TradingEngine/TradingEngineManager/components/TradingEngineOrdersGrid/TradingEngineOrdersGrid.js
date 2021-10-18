@@ -9,6 +9,7 @@ import { withLazyStreams } from 'rsocket';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
+import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import withModals from 'hoc/withModals';
 import Uuid from 'components/Uuid';
@@ -264,26 +265,34 @@ class TradingEngineOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.P&L')}
-              render={({ symbol, type, status, openPrice, volumeLots, symbolEntity, groupSpread, account }) => (
-                <div className="TradingEngineOrdersGrid__cell-value">
-                  <Choose>
-                    <When condition={status === 'OPEN'}>
-                      <PnL
-                        type={type}
-                        openPrice={openPrice}
-                        currentPriceBid={this.state.symbolsPrices[symbol]?.bid + groupSpread.bidAdjustment}
-                        currentPriceAsk={this.state.symbolsPrices[symbol]?.ask + groupSpread.askAdjustment}
-                        volume={volumeLots}
-                        lotSize={symbolEntity.lotSize}
-                        exchangeRate={this.state.symbolsPrices[symbol]?.pnlRates[account.currency]}
-                      />
-                    </When>
-                    <Otherwise>
-                      &mdash;
-                    </Otherwise>
-                  </Choose>
-                </div>
-              )}
+              render={({ symbol, type, status, openPrice, volumeLots, digits, symbolEntity, groupSpread, account }) => {
+                const currentSymbol = this.state.symbolsPrices[symbol];
+
+                // Get current BID and ASK prices with applied group spread
+                const currentPriceBid = round(currentSymbol?.bid + groupSpread.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+
+                return (
+                  <div className="TradingEngineOrdersGrid__cell-value">
+                    <Choose>
+                      <When condition={status === 'OPEN'}>
+                        <PnL
+                          type={type}
+                          openPrice={openPrice}
+                          currentPriceBid={currentPriceBid}
+                          currentPriceAsk={currentPriceAsk}
+                          volume={volumeLots}
+                          lotSize={symbolEntity.lotSize}
+                          exchangeRate={currentSymbol?.pnlRates[account.currency]}
+                        />
+                      </When>
+                      <Otherwise>
+                        &mdash;
+                      </Otherwise>
+                    </Choose>
+                  </div>
+                );
+              }}
             />
             <Column
               sortBy="openingTime"
