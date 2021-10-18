@@ -478,7 +478,7 @@ class EditOrderModal extends PureComponent {
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROFIT')}
                           className="EditOrderModal__field"
-                          value={status === OrderStatus.OPEN ? floatingPnL : pnl?.gross}
+                          value={status === OrderStatus.OPEN ? floatingPnL : pnl?.gross?.toFixed(2)}
                         />
                         <Input
                           disabled

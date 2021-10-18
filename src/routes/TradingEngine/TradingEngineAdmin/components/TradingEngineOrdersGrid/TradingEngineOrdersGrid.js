@@ -391,7 +391,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                         />
                       </When>
                       <When condition={pnl}>
-                        {pnl.gross}
+                        {pnl.gross.toFixed(2)}
                       </When>
                       <Otherwise>
                         &mdash;
