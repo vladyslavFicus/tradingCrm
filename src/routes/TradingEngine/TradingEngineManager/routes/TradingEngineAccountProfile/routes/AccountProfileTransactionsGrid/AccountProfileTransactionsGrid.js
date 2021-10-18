@@ -5,12 +5,9 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import EditOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/EditOrderModal';
-import { EditButton } from 'components/UI';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import { types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
@@ -20,9 +17,6 @@ import './AccountProfileTransactionsGrid.scss';
 class AccountProfileTransactionsGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    modals: PropTypes.shape({
-      editOrderModal: PropTypes.modalType,
-    }).isRequired,
     transactionsQuery: PropTypes.query({
       tradingEngineTransactions: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
@@ -88,9 +82,6 @@ class AccountProfileTransactionsGrid extends PureComponent {
         data,
         loading,
       },
-      modals: {
-        editOrderModal,
-      },
     } = this.props;
 
     const { content = [], last = true, totalElements } = data?.tradingEngineTransactions || {};
@@ -117,20 +108,15 @@ class AccountProfileTransactionsGrid extends PureComponent {
               sortBy="transaction"
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TRANSACTIONS.GRID.TRANSACTION')}
               render={({ id }) => (
-                <div
-                  className="AccountProfileTransactionsGrid__uuid"
-                  onClick={() => editOrderModal.show({
-                    id,
-                    onSuccess: () => this.refetchOrders(),
-                  })}
-                >
+                <div className="AccountProfileTransactionsGrid__uuid">
                   <div className="AccountProfileTransactionsGrid__cell-value">
-                    <Uuid
-                      uuid={`${id}`}
-                      uuidPrefix="TR"
-                    />
-                    <EditButton className="AccountProfileTransactionsGrid__edit-button" />
+                    TR-{id}
                   </div>
+                  <Uuid
+                    uuid={id}
+                    title={I18n.t('COMMON.COPY')}
+                    className="AccountProfileTransactionsGrid__cell-value-add"
+                  />
                 </div>
               )}
             />
@@ -173,9 +159,6 @@ class AccountProfileTransactionsGrid extends PureComponent {
 
 export default compose(
   withRouter,
-  withModals({
-    editOrderModal: EditOrderModal,
-  }),
   withRequests({
     transactionsQuery: TradingEngineTransactionsQuery,
   }),
