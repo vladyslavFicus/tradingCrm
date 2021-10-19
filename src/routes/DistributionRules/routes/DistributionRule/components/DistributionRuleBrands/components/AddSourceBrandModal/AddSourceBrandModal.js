@@ -15,6 +15,7 @@ import {
   MAX_MIGRATED_CLIENTS,
 } from '../../constants';
 import BranchesQuery from './graphql/BranchesQuery';
+import PartnersQuery from './graphql/PartnersQuery';
 import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
@@ -40,6 +41,9 @@ class AddSourceBrandModal extends PureComponent {
         TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
         DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
+    }).isRequired,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
   }
 
@@ -152,6 +156,7 @@ class AddSourceBrandModal extends PureComponent {
         data: branchesData,
         loading: branchesLoading,
       },
+      partnersQuery,
     } = this.props;
 
     const { availableClientsAmount } = this.state;
@@ -163,6 +168,8 @@ class AddSourceBrandModal extends PureComponent {
 
     const availableDesks = branchesData?.userBranches?.DESK || [];
     const availableTeams = branchesData?.userBranches?.TEAM || [];
+
+    const partners = partnersQuery.data?.partners?.content || [];
 
     return (
       <Modal
@@ -178,6 +185,7 @@ class AddSourceBrandModal extends PureComponent {
             sortType: sortType || 'FIFO',
             desks,
             teams,
+            affiliateUuids: null,
           }}
           validate={values => (
             createValidator({
@@ -208,6 +216,8 @@ class AddSourceBrandModal extends PureComponent {
               ? availableTeams.filter(({ parentBranch }) => values.desks.includes(parentBranch?.uuid))
               : availableTeams;
 
+            const brandPartners = partners.filter(partner => partner.brand === values.brand);
+
             return (
               <Form>
                 <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.SOURCE_BRAND')}</ModalHeader>
@@ -237,6 +247,21 @@ class AddSourceBrandModal extends PureComponent {
                       }}
                     />
                   </If>
+                  <Field
+                    name="affiliateUuids"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    disabled={partnersQuery.loading}
+                    searchable
+                    multiple
+                  >
+                    {[{ uuid: 'NONE', fullName: 'NONE' }, ...brandPartners].map(({ uuid, fullName }) => (
+                      <option key={uuid} value={uuid}>
+                        {fullName}
+                      </option>
+                    ))}
+                  </Field>
                   <div className="AddSourceBrandModal__row">
                     <Field
                       name="desks"
@@ -349,4 +374,5 @@ class AddSourceBrandModal extends PureComponent {
 
 export default withRequests({
   branchesQuery: BranchesQuery,
+  partnersQuery: PartnersQuery,
 })(AddSourceBrandModal);

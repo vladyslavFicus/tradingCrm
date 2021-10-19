@@ -3,7 +3,6 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { isEqual } from 'lodash';
-import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
@@ -16,7 +15,6 @@ import {
   periodInDays,
   executionTypes,
 } from './constants';
-import PartnersQuery from './graphql/PartnersQuery';
 import './DistributionRuleSettings.scss';
 
 const additionalPeriodInDays = [
@@ -62,19 +60,13 @@ class DistributionRuleSettings extends PureComponent {
         PropTypes.string,
       ]),
     }).isRequired,
-    partnersQuery: PropTypes.query({
-      partners: PropTypes.pageable(PropTypes.partner),
-    }).isRequired,
   }
 
   render() {
     const {
       handleGeneralSettings,
       generalSettings,
-      partnersQuery,
     } = this.props;
-
-    const partners = partnersQuery.data?.partners?.content || [];
 
     return (
       <div className="DistributionRuleSettings">
@@ -190,22 +182,6 @@ class DistributionRuleSettings extends PureComponent {
                 withAdditionalValues
               />
               <Field
-                name="affiliateUuids"
-                className="DistributionRuleSettings__form-field"
-                label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                disabled={partnersQuery.loading}
-                searchable
-                multiple
-              >
-                {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
-                  <option key={uuid} value={uuid}>
-                    {fullName}
-                  </option>
-                ))}
-              </Field>
-              <Field
                 name="firstTimeDeposit"
                 className="DistributionRuleSettings__form-field"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.FIRST_TIME_DEPOSIT')}
@@ -270,6 +246,4 @@ class DistributionRuleSettings extends PureComponent {
   }
 }
 
-export default withRequests({
-  partnersQuery: PartnersQuery,
-})(DistributionRuleSettings);
+export default DistributionRuleSettings;
