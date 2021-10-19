@@ -69,7 +69,7 @@ class AddSourceBrandModal extends PureComponent {
     }
   }
 
-  fetchAvailableClientsAmount = async ({ brand, desks, teams }) => {
+  fetchAvailableClientsAmount = async ({ brand, affiliateUuids, desks, teams }) => {
     const {
       fetchAvailableClientsAmount,
     } = this.props;
@@ -77,7 +77,12 @@ class AddSourceBrandModal extends PureComponent {
     this.setState({ availableClientsAmount: null });
 
     try {
-      const availableClientsAmount = await fetchAvailableClientsAmount({ sourceBrand: brand, desks, teams });
+      const availableClientsAmount = await fetchAvailableClientsAmount({
+        sourceBrand: brand,
+        affiliateUuids,
+        desks,
+        teams,
+      });
       this.setState({ availableClientsAmount });
     } catch {
       // ...
@@ -97,6 +102,18 @@ class AddSourceBrandModal extends PureComponent {
     });
 
     this.props.branchesQuery.refetch({ brandId: brand });
+  };
+
+  handleAffiliatesChange = (setValues, values) => (affiliateUuids) => {
+    setValues({
+      ...values,
+      affiliateUuids,
+    });
+
+    this.fetchAvailableClientsAmount({
+      brand: values.brand,
+      affiliateUuids,
+    });
   };
 
   handleDesksChange = (setValues, values) => (desks) => {
@@ -252,6 +269,7 @@ class AddSourceBrandModal extends PureComponent {
                     label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
+                    customOnChange={this.handleAffiliatesChange(setValues, values)}
                     disabled={partnersQuery.loading}
                     searchable
                     multiple
