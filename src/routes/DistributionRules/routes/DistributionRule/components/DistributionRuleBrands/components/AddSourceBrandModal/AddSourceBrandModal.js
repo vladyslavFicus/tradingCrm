@@ -93,6 +93,7 @@ class AddSourceBrandModal extends PureComponent {
     setValues({
       ...values,
       brand,
+      affiliateUuids: null,
       desks: null,
       teams: null,
     });
@@ -105,14 +106,33 @@ class AddSourceBrandModal extends PureComponent {
   };
 
   handleAffiliatesChange = (setValues, values) => (affiliateUuids) => {
+    const {
+      branchesQuery: {
+        data: branchesData,
+      },
+    } = this.props;
+
+    const availableTeams = branchesData?.userBranches?.TEAM || [];
+
+    // if there are selected teams and desks, need to keep selected teams related to selected desks
+    const teams = values.teams && values.desks
+      ? availableTeams
+        .filter(({ uuid, parentBranch }) => values.teams.includes(uuid) && values.desks.includes(parentBranch?.uuid))
+        .map(({ uuid }) => uuid)
+      : null;
+
     setValues({
       ...values,
       affiliateUuids,
+      desks: values.desks,
+      teams,
     });
 
     this.fetchAvailableClientsAmount({
       brand: values.brand,
       affiliateUuids,
+      desks: values.desks,
+      teams,
     });
   };
 
@@ -134,22 +154,25 @@ class AddSourceBrandModal extends PureComponent {
 
     setValues({
       ...values,
+      affiliateUuids: values.affiliateUuids,
       desks,
       teams,
     });
 
     this.fetchAvailableClientsAmount({
       brand: values.brand,
+      affiliateUuids: values.affiliateUuids,
       desks,
       teams,
     });
   };
 
-  handleTeamsChange = (setFieldValue, { brand, desks }) => (teams) => {
+  handleTeamsChange = (setFieldValue, { brand, desks, affiliateUuids }) => (teams) => {
     setFieldValue('teams', teams);
 
     this.fetchAvailableClientsAmount({
       brand,
+      affiliateUuids,
       desks,
       teams,
     });
