@@ -111,6 +111,7 @@ class AccountProfileGroup extends PureComponent {
           <DropdownMenu className="AccountProfileGroup__dropdown-menu">
             {groups.map(({ groupName }) => (
               <DropdownItem
+                key={groupName}
                 className="AccountProfileGroup__dropdown-item"
                 onClick={() => this.handleGroupChange(groupName)}
               >

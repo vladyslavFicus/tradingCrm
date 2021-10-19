@@ -437,7 +437,6 @@ class EditOrderModal extends PureComponent {
                           name="openRate"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_RATE')}
                           className="EditOrderModal__field"
-                          component={FormikInputField}
                           value={openRate}
                         />
                         <Input
@@ -446,7 +445,7 @@ class EditOrderModal extends PureComponent {
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_RATE')}
                           className="EditOrderModal__field"
-                          value={closeRate}
+                          value={closeRate || 0}
                         />
                       </div>
                       <div className="EditOrderModal__field-container">

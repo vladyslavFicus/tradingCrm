@@ -7,7 +7,7 @@ import deleteFromArray from 'utils/deleteFromArray';
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 });
 
 class SelectMultipleOptions extends PureComponent {

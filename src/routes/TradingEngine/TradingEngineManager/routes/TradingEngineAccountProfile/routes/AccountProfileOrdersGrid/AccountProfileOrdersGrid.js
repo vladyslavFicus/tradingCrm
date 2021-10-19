@@ -157,7 +157,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                     TR-{id}
                   </div>
                   <Uuid
-                    uuid={id}
+                    uuid={id.toString()}
                     title={I18n.t('COMMON.COPY')}
                     className="AccountProfileOrdersGrid__cell-value-add"
                   />

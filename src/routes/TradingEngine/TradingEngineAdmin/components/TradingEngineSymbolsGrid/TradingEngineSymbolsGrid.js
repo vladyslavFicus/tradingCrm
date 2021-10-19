@@ -77,7 +77,7 @@ class TradingEngineSymbols extends PureComponent {
           </span>
         </div>
 
-        <TradingEngineSymbolsGridFilter handleRefetch={this.refetchOrders} />
+        <TradingEngineSymbolsGridFilter handleRefetch={symbolsQuery.refetch} />
 
         <div className="TradingEngineSymbols">
           <Table

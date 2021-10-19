@@ -72,7 +72,7 @@ class AccountProfileHeader extends PureComponent {
 
         <div className="AccountProfileHeader__topic">
           <div className="AccountProfileHeader__title">
-            <Uuid uuid={login} uuidPrefix="WET" />
+            <Uuid uuid={login.toString()} uuidPrefix="WET" />
             <div>{name}</div>
           </div>
 

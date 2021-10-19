@@ -26,9 +26,15 @@ class CopyToClipboard extends PureComponent {
     notificationMessage: null,
   };
 
+  timerID = null;
+
   state = {
     highlight: false,
   };
+
+  componentWillUnmount() {
+    clearTimeout(this.timerID);
+  }
 
   toggle = () => {
     this.setState(({ highlight }) => ({ highlight: !highlight }));
@@ -36,7 +42,8 @@ class CopyToClipboard extends PureComponent {
 
   animate = () => {
     this.toggle();
-    setTimeout(this.toggle, 1000);
+
+    this.timerID = setTimeout(this.toggle, 1000);
   };
 
   handleCopy = () => {
