@@ -1,5 +1,5 @@
 import { departments, roles } from 'constants/brands';
-import Permissions from 'utils/permissions';
+import Permissions, { CONDITIONS } from 'utils/permissions';
 import permissions from './permissions';
 
 const operatorsExcludeAuthorities = [{
@@ -14,6 +14,12 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.DASHBOARD',
   icon: 'icon-dashboard',
   url: '/dashboard',
+  permissions: new Permissions([
+    permissions.DASHBOARD.REGISTRATION_STATISTICS,
+    permissions.DASHBOARD.PAYMENT_STATISTICS,
+    permissions.DASHBOARD.PAYMENTS_LIST,
+    permissions.DASHBOARD.PROFILES_LIST,
+  ], CONDITIONS.OR),
 }, {
   label: 'SIDEBAR.TOP_MENU.CLIENTS',
   icon: 'icon-users',

@@ -1,8 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { tradingTypes } from 'constants/payment';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
+import { withStorage } from 'providers/StorageProvider';
 import RegistrationsChart from './components/Charts/RegistrationsChart';
 import DepositAmountChart from './components/Charts/DepositAmountChart';
 import DepositCountChart from './components/Charts/DepositCountChart';
@@ -15,9 +18,20 @@ import './Dashboard.scss';
 const GRID_SIZE = 10;
 
 class Dashboard extends PureComponent {
+  static propTypes = {
+    brand: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+  };
+
   render() {
     return (
       <Fragment>
+        {/* Redirect to TE Manager only for brand "trading-engine" */}
+        <If condition={this.props.brand.id === 'trading-engine'}>
+          <Redirect to="/trading-engine-manager" />
+        </If>
+
         <div className="Dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
 
         <div className="Dashboard__charts">
@@ -61,4 +75,4 @@ class Dashboard extends PureComponent {
   }
 }
 
-export default Dashboard;
+export default withStorage(['brand'])(Dashboard);
