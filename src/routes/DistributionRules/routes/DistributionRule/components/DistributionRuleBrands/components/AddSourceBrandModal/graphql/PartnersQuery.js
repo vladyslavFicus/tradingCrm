@@ -8,6 +8,7 @@ const REQUEST = gql`query DistributionRuleSettings_PartnersQuery {
     content {
       uuid
       fullName
+      brand
     }
   }
 }`;
