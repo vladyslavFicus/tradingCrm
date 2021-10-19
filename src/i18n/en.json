@@ -1148,7 +1148,8 @@
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing",
         "IB": "IB",
-        "RBAC": "RBAC"
+        "RBAC": "RBAC",
+        "TE": "Trading Engine"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1163,7 +1164,8 @@
         "AFFILIATE": "Affiliate",
         "PLAYER": "Player",
         "AGENT": "Agent",
-        "RBAC": "RBAC"
+        "RBAC": "RBAC",
+        "ADMINISTRATION": "Administration"
       }
     },
     "COUNTRIES": {
