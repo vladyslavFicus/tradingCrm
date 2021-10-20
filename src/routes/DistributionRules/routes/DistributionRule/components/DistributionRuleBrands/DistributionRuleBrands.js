@@ -227,14 +227,13 @@ class DistributionRuleBrands extends PureComponent {
     this.props.handleRemoveBrandCard(type);
   };
 
-  fetchAvailableClientsAmount = async ({ sourceBrand, desks, teams }, targetBrand) => {
+  fetchAvailableClientsAmount = async ({ sourceBrand, affiliateUuids, desks, teams }, targetBrand) => {
     const {
       client,
       generalSettings: {
         salesStatuses,
         countries,
         languages,
-        affiliateUuids,
         registrationPeriodInHours,
         registrationDateRange,
         lastNotePeriodInHours,
