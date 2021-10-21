@@ -164,6 +164,7 @@ class DistributionRule extends PureComponent {
     this.setState({
       sourceBrandConfig: {
         ...brandSettings,
+        affiliateUuids,
         distributionUnit: {
           quantity,
           baseUnit,
@@ -171,7 +172,6 @@ class DistributionRule extends PureComponent {
       },
       generalSettings: {
         ...generalSettings,
-        affiliateUuids,
       },
       targetBrandConfig: null,
       addSourceBrandEnabled: false,
