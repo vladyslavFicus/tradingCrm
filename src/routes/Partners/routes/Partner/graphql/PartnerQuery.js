@@ -33,7 +33,9 @@ const REQUEST = gql`
         showFTDAmount
         showKycStatus
         showNotes
+        cumulativeDeposit
         showAutologinUrl
+        minFtdDeposit
       }
       schedule {
         configId
