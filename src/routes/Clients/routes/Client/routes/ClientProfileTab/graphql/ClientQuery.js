@@ -52,8 +52,10 @@ const REQUEST = gql`
         status
       }
       profileView {
-        paymentDetails {
-          showFtdToAffiliate
+        affiliate {
+          ftd {
+            isVisible
+          }
         }
       }
     }
