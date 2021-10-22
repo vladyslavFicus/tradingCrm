@@ -1,10 +1,14 @@
 import React, { PureComponent } from 'react';
 import Hotkeys from 'react-hot-keys';
+import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import withModals from 'hoc/withModals';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
+import permissions from 'config/permissions';
+import { CONDITIONS } from 'utils/permissions';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
+import PermissionContent from 'components/PermissionContent';
 import CreditModal from 'routes/TradingEngine/TradingEngineManager/modals/CreditModal';
 import NewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/NewOrderModal';
 import './AccountProfileHeader.scss';
@@ -88,17 +92,25 @@ class AccountProfileHeader extends PureComponent {
             commonOutline
             small
           >
-            New order
+            {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NEW_ORDER')}
           </Button>
 
-          <Button
-            className="AccountProfileHeader__action"
-            onClick={() => creditModal.show()}
-            commonOutline
-            small
+          <PermissionContent
+            permissions={[
+              permissions.WE_TRADING.CREDIT_IN,
+              permissions.WE_TRADING.CREDIT_OUT,
+            ]}
+            permissionsCondition={CONDITIONS.OR}
           >
-            Credit
-          </Button>
+            <Button
+              className="AccountProfileHeader__action"
+              onClick={creditModal.show}
+              commonOutline
+              small
+            >
+              {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.CREDIT')}
+            </Button>
+          </PermissionContent>
         </div>
       </div>
     );
