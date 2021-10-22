@@ -24,6 +24,8 @@
     "@newage/backoffice_ui": "0.0.52",
     "@newage/backoffice_utils": "0.0.32",
     "@sentry/browser": "^5.4.3",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.11",
@@ -112,6 +114,7 @@
     "@types/react": "^17.0.22",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.9",
+    "babel-jest": "26.6.3",
     "babel-plugin-jsx-control-statements": "^4.1.0",
     "env-cmd": "8.0.2",
     "eslint": "^7.11.0",
@@ -136,9 +139,15 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*Debug.{js,jsx,ts,tsx}"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run eslint"
+      "pre-commit": "npm run eslint && CI=true npm run test"
     }
   }
 }

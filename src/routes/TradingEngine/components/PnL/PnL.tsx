@@ -9,12 +9,12 @@ import './PnL.scss';
 interface Props {
   type: OrderType,
   openPrice: number,
-  currentPriceBid: number,
-  currentPriceAsk: number,
+  currentPriceBid?: number,
+  currentPriceAsk?: number,
   volume: number,
   lotSize: number,
-  exchangeRate: number,
-  loaderSize: number,
+  exchangeRate?: number,
+  loaderSize?: number,
 }
 
 function PnL(props: Props) {
@@ -43,10 +43,12 @@ function PnL(props: Props) {
 
   return (
     <>
-      <span className={classNames('PnL', {
-        'PnL--positive': pnl > 0,
-        'PnL--negative': pnl < 0,
-      })}
+      <span
+        data-testid="PnL"
+        className={classNames('PnL', {
+          'PnL--positive': pnl > 0,
+          'PnL--negative': pnl < 0,
+        })}
       >
         {pnl.toFixed(2)}
       </span>
