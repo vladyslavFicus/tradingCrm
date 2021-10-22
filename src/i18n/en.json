@@ -1063,6 +1063,7 @@
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
         "ACCOUNT_CREATED": "Account created",
+        "ACCOUNT_UPDATED": "Account updated",
         "SHUFTIPRO_SENT": "Shuftipro sent",
         "ATTACHMENT_ADDED": "Attachment added",
         "TRADING_ACCOUNT_READ_ONLY_UPDATED": "“Read only” attribute was updated for trading account",
