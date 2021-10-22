@@ -170,9 +170,7 @@ class DistributionRule extends PureComponent {
           baseUnit,
         },
       },
-      generalSettings: {
-        ...generalSettings,
-      },
+      generalSettings,
       targetBrandConfig: null,
       addSourceBrandEnabled: false,
       addTargetBrandEnabled: true,
