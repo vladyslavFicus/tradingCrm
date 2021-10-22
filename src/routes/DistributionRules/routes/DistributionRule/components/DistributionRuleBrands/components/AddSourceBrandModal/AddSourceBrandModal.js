@@ -26,6 +26,7 @@ class AddSourceBrandModal extends PureComponent {
     allowedBaseUnits: PropTypes.arrayOf(PropTypes.string).isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
+      affiliateUuids: PropTypes.arrayOf(PropTypes.string),
       distributionUnit: PropTypes.shape({
         quantity: PropTypes.number,
         baseUnit: PropTypes.string,
@@ -186,6 +187,7 @@ class AddSourceBrandModal extends PureComponent {
       brands,
       initialValues: {
         brand,
+        affiliateUuids,
         distributionUnit,
         sortType,
         desks,
@@ -220,12 +222,12 @@ class AddSourceBrandModal extends PureComponent {
         <Formik
           initialValues={{
             brand,
+            affiliateUuids,
             quantity,
             baseUnit,
             sortType: sortType || 'FIFO',
             desks,
             teams,
-            affiliateUuids: null,
           }}
           validate={values => (
             createValidator({
