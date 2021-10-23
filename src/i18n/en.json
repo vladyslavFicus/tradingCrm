@@ -963,6 +963,8 @@
         "AFFILIATE_UPDATED": "Affiliate updated",
         "AFFILIATE_UUID": "Affiliate uuid",
         "AFFILIATE_FIRST_NAME": "Affiliate first name",
+        "AFFILIATE_FTD_CREATED": "Affiliate FTD created",
+        "AFFILIATE_FTD_UPDATED": "Affiliate FTD updated",
         "LOG_IN": "Logged in",
         "LOG_OUT": "Logged out",
         "EXPIRATION_DATE": "Passport - expiration date",
