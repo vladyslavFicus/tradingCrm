@@ -3764,6 +3764,8 @@
       }
     },
     "ACCOUNT_PROFILE": {
+      "NEW_ORDER": "New order",
+      "CREDIT": "Credit",
       "ALLOW_TRADING": "Allow trading",
       "GROUP": "Group",
       "LEVERAGE": "Leverage",
