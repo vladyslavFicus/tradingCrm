@@ -59,8 +59,6 @@ const TradingAccountsListQuery = ({ children, location: { state } }) => (
         size: 20,
         sorts: state?.sorts,
       },
-      // Parse to boolean value if 'archived' value exist
-      archived: state?.filters?.archived ? !!+state?.filters?.archived : undefined,
     }}
   >
     {children}

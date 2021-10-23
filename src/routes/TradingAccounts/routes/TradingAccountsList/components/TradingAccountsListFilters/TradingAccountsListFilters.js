@@ -115,10 +115,11 @@ class TradingAccountsListFilters extends PureComponent {
                 component={FormikSelectField}
                 withAnyOption
                 withFocus
+                boolean
               >
-                {Object.keys(accountStatuses).map(key => (
-                  <option key={key} value={key}>
-                    {I18n.t(accountStatuses[key])}
+                {accountStatuses.map(({ value, label }) => (
+                  <option key={`archived-${value}`} value={value}>
+                    {I18n.t(label)}
                   </option>
                 ))}
               </Field>
