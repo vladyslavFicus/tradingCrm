@@ -3,10 +3,13 @@ const accountTypes = {
   DEMO: 'TRADING_ACCOUNTS.FORM.ACCOUNT_TYPE.DEMO',
 };
 
-const accountStatuses = {
-  0: 'TRADING_ACCOUNTS.FORM.STATUS.NOT_ARCHIVED',
-  1: 'TRADING_ACCOUNTS.FORM.STATUS.ARCHIVED',
-};
+const accountStatuses = [{
+  value: false,
+  label: 'TRADING_ACCOUNTS.FORM.STATUS.NOT_ARCHIVED',
+}, {
+  value: true,
+  label: 'TRADING_ACCOUNTS.FORM.STATUS.ARCHIVED',
+}];
 
 export {
   accountTypes,
