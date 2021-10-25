@@ -23,13 +23,13 @@ class FeedContent extends PureComponent {
     if (isObject(value)) {
       return (
         <div key={uuidv4()}>
-          <span className="FeedContent__label-top">{renderLabel(key)}:</span>
+          <span className="FeedContent__label">{renderLabel(key)}:</span>
           <div className="FeedContent__wrapper">
             {Object.entries(value).map(([deepKey, deepValue]) => {
               if (isObject(deepValue) && !Array.isArray(deepValue)) {
                 return (
                   <div key={uuidv4()}>
-                    <span className="FeedContent__label-top">{renderLabel(deepKey)}:</span>
+                    <span className="FeedContent__label">{renderLabel(deepKey)}:</span>
                     <div className="FeedContent__wrapper">
                       {Object.entries(deepValue).map(([deeperKey, deeperValue]) => (
                         <div key={uuidv4()}>
