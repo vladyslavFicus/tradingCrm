@@ -91,7 +91,7 @@ class DistributionRuleSettings extends PureComponent {
               languages: ['required'],
             })(values);
 
-            if (!isEqual({ ...generalSettings }, values)) {
+            if (!isEqual(generalSettings, values)) {
               handleGeneralSettings(Object.keys(errors).length === 0, values);
             }
 
