@@ -20,41 +20,12 @@ class FeedContent extends PureComponent {
   );
 
   handleTypeAdded = (key, { value }) => {
-    if (isObject(value)) {
+    if (isObject(value) && !Array.isArray(value)) {
       return (
         <div key={uuidv4()}>
           <span className="FeedContent__label">{renderLabel(key)}:</span>
           <div className="FeedContent__wrapper">
-            {Object.entries(value).map(([deepKey, deepValue]) => {
-              if (isObject(deepValue) && !Array.isArray(deepValue)) {
-                return (
-                  <div key={uuidv4()}>
-                    <span className="FeedContent__label">{renderLabel(deepKey)}:</span>
-                    <div className="FeedContent__wrapper">
-                      {Object.entries(deepValue).map(([deeperKey, deeperValue]) => (
-                        <div key={uuidv4()}>
-                          <span className="FeedContent__label">{renderLabel(deeperKey)}:</span>
-                          <span
-                            className="FeedContent__value-to"
-                            dangerouslySetInnerHTML={{ __html: prepareValue(deeperKey, deeperValue) }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <div key={uuidv4()}>
-                  <span className="FeedContent__label">{renderLabel(deepKey)}:</span>
-                  <span
-                    className="FeedContent__value-to"
-                    dangerouslySetInnerHTML={{ __html: prepareValue(deepKey, deepValue) }}
-                  />
-                </div>
-              );
-            })}
+            {Object.entries(value).map(([deepKey, deepValue]) => this.handleTypeAdded(deepKey, { value: deepValue }))}
           </div>
         </div>
       );
