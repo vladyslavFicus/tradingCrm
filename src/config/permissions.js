@@ -166,5 +166,7 @@ export default {
   WE_TRADING: {
     CREDIT_IN: 'we-trading.creditIn',
     CREDIT_OUT: 'we-trading.creditOut',
+    MANAGER_EDIT_ORDER: 'we-trading.updateOrder',
+    ADMIN_EDIT_ORDER: 'we-trading.admin.updateOrder',
   },
 };
