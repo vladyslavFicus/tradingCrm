@@ -5,12 +5,21 @@
   *
   * @return Int Timestamp
 */
-export const chartTimeFormatting = time => (new Date(time).getTime() / 1000);
+export const chartTimeFormatting = (time) => {
+  // Set that original datetime in UTC format
+  const date = new Date(`${time}Z`);
+
+  // Add client timezone offset one more time (cause TradingView convert datetime to UTC on chart)
+  // date.getTimezoneOffset() -- return value with minus before offset for plus timezone
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+
+  return date.getTime() / 1000;
+};
 
 /**
   * How much numbers after dot
   *
-  * @param value Float
+  * @param number Float
   *
   * @return Int
 */
