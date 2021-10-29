@@ -20,4 +20,8 @@ export const routePermissions = {
   '/sales-rules': permissions.SALES_RULES.GET_RULES,
   '/email-templates/list': permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES,
   '/roles-and-permissions': permissions.AUTH.UPDATE_ACTIONS,
+
+  // Trading Engine
+  '/trading-engine-manager': permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+  '/trading-engine-admin': permissions.WE_TRADING.ADMIN_EDIT_ORDER,
 };

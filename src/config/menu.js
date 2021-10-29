@@ -103,11 +103,12 @@ const sidebarTopMenu = [{
   items: [{
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_MANAGER',
     url: '/trading-engine-manager',
+    permissions: new Permissions(permissions.WE_TRADING.MANAGER_EDIT_ORDER),
   }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_ADMIN',
     url: '/trading-engine-admin',
+    permissions: new Permissions(permissions.WE_TRADING.ADMIN_EDIT_ORDER),
   }],
-  permissions: new Permissions(permissions.TRADING_ENGINE.GET_ACCOUNTS),
 }, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',
