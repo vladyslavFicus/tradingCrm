@@ -70,7 +70,7 @@ const OrderQuery = ({ children, id }) => (
 
 OrderQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default OrderQuery;

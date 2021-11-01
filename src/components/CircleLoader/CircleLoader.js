@@ -28,7 +28,7 @@ class CircleLoader extends PureComponent {
       borderTop: `${size / 9}px solid ${color}`,
     };
 
-    return <div className={classNames('CircleLoader', className)} style={style} />;
+    return <div data-testid="CircleLoader" className={classNames('CircleLoader', className)} style={style} />;
   }
 }
 

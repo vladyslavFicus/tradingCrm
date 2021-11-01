@@ -16,7 +16,6 @@ const REQUEST = gql`
       updatedAt
       countries
       languages
-      affiliateUuids
       firstTimeDeposit
       salesStatuses
       targetSalesStatus
@@ -37,6 +36,7 @@ const REQUEST = gql`
       }
       sourceBrandConfigs {
         brand
+        affiliateUuids
         distributionUnit {
           quantity
           baseUnit

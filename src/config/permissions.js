@@ -163,4 +163,10 @@ export default {
     LIST: 'clients-distributor.searchRules',
     CREATE_RULE: 'clients-distributor.createRule',
   },
+  WE_TRADING: {
+    CREDIT_IN: 'we-trading.creditIn',
+    CREDIT_OUT: 'we-trading.creditOut',
+    MANAGER_EDIT_ORDER: 'we-trading.updateOrder',
+    ADMIN_EDIT_ORDER: 'we-trading.admin.updateOrder',
+  },
 };

@@ -963,6 +963,8 @@
         "AFFILIATE_UPDATED": "Affiliate updated",
         "AFFILIATE_UUID": "Affiliate uuid",
         "AFFILIATE_FIRST_NAME": "Affiliate first name",
+        "AFFILIATE_FTD_CREATED": "Affiliate FTD created",
+        "AFFILIATE_FTD_UPDATED": "Affiliate FTD updated",
         "LOG_IN": "Logged in",
         "LOG_OUT": "Logged out",
         "EXPIRATION_DATE": "Passport - expiration date",
@@ -1063,6 +1065,7 @@
         "MT4LOGIN": "Mt4login",
         "TOTAL_SCORE": "Total score",
         "ACCOUNT_CREATED": "Account created",
+        "ACCOUNT_UPDATED": "Account updated",
         "SHUFTIPRO_SENT": "Shuftipro sent",
         "ATTACHMENT_ADDED": "Attachment added",
         "TRADING_ACCOUNT_READ_ONLY_UPDATED": "“Read only” attribute was updated for trading account",
@@ -1148,7 +1151,8 @@
         "COMPLIANCE": "Compliance",
         "DEALING": "Dealing",
         "IB": "IB",
-        "RBAC": "RBAC"
+        "RBAC": "RBAC",
+        "TE": "Trading Engine"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
@@ -1163,7 +1167,8 @@
         "AFFILIATE": "Affiliate",
         "PLAYER": "Player",
         "AGENT": "Agent",
-        "RBAC": "RBAC"
+        "RBAC": "RBAC",
+        "ADMINISTRATION": "Administration"
       }
     },
     "COUNTRIES": {
@@ -3761,6 +3766,8 @@
       }
     },
     "ACCOUNT_PROFILE": {
+      "NEW_ORDER": "New order",
+      "CREDIT": "Credit",
       "ALLOW_TRADING": "Allow trading",
       "GROUP": "Group",
       "LEVERAGE": "Leverage",

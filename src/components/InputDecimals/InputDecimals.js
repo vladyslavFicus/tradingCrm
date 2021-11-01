@@ -4,8 +4,8 @@ import Input from 'components/Input';
 
 class InputDecimals extends React.Component {
   static propTypes = {
-    value: PropTypes.number.isRequired,
-    disabled: PropTypes.bool.isRequired,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    disabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
@@ -15,6 +15,8 @@ class InputDecimals extends React.Component {
   };
 
   static defaultProps = {
+    value: undefined,
+    disabled: false,
     decimalsLimit: undefined,
     decimalsWarningMessage: '',
     decimalsLengthDefault: undefined,
@@ -109,12 +111,27 @@ class InputDecimals extends React.Component {
   }
 
   render() {
+    const {
+      onFocus,
+      onBlur,
+      onChange,
+      decimalsLimit,
+      decimalsLengthDefault,
+      decimalsWarningMessage,
+      ...props
+    } = this.props;
+
+    const {
+      showWarningMessage,
+      value,
+    } = this.state;
+
     return (
       <Input
-        {...this.props}
-        showWarningMessage={this.state.showWarningMessage}
-        warningMessage={this.props.decimalsWarningMessage}
-        value={this.state.value}
+        {...props}
+        showWarningMessage={showWarningMessage}
+        warningMessage={decimalsWarningMessage}
+        value={value}
         onChange={this.handleInputChange}
         onBlur={this.handleInputBlur}
         onFocus={this.handleInputFocus}
