@@ -33,4 +33,10 @@
       margin-right: 3px;
     }
   }
+
+  .ClientContactsForm__field {
+    .input__control:disabled + .input__addition {
+      border-color: #cfcfcf;
+    }
+  }
 }

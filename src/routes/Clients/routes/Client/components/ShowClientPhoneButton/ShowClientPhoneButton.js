@@ -17,7 +17,11 @@ class ShowClientPhoneButton extends PureComponent {
     } = this.props;
 
     return (
-      <PermissionContent permissions={permissions.USER_PROFILE.FIELD_PHONE}>
+      <PermissionContent permissionsCondition={[
+        permissions.USER_PROFILE.FIELD_PHONE,
+        permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
+      ]}
+      >
         <Button
           className="ShowClientPhone__button"
           onClick={onClick}
