@@ -75,9 +75,9 @@ class DistributionRule extends PureComponent {
       DistributionRule.initialState = {
         ...initialState,
         generalSettings: {
-          countries,
-          languages,
-          salesStatuses,
+          countries: countries.sort((a, b) => a.localeCompare(b)),
+          languages: languages.sort((a, b) => a.localeCompare(b)),
+          salesStatuses: salesStatuses.sort((a, b) => a.localeCompare(b)),
           targetSalesStatus,
           registrationPeriodInHours,
           registrationDateRange,
