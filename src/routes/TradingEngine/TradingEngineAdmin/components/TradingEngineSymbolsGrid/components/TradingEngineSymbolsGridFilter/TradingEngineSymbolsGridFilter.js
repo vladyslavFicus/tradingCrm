@@ -54,7 +54,7 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
     return (
       <Formik
         enableReinitialize
-        initialValues={state?.filters || { tradeType: 'LIVE' }}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
         {({
