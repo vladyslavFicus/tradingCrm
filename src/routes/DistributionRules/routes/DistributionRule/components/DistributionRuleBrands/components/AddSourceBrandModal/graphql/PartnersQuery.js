@@ -14,7 +14,7 @@ const REQUEST = gql`query DistributionRuleSettings_PartnersQuery($brandId: Strin
 }`;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="network-only">
+  <Query query={REQUEST} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
