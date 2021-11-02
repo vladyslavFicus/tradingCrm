@@ -15,7 +15,7 @@ import SymbolChart from 'components/SymbolChart';
 import ShortLoader from 'components/ShortLoader';
 import Input from 'components/Input';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { createValidator, translateLabels } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import PnL from 'routes/TradingEngine/components/PnL';
@@ -453,11 +453,11 @@ class EditOrderModal extends PureComponent {
                       volumeLots,
                       closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
                     }}
-                    validate={values => createValidator({
+                    validate={createValidator({
                       volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
-                    }, translateLabels({
+                    }, {
                       volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-                    }), false)(values)}
+                    })}
                     onSubmit={values => this.handleCloseOrder({ ...values, status, symbol, type })}
                   >
                     {({ values: _values, setFieldValue }) => (
@@ -480,6 +480,7 @@ class EditOrderModal extends PureComponent {
                                 className="EditOrderModal__field"
                                 classNameError="EditOrderModal__field--customError"
                                 component={FormikInputField}
+                                disabled
                               />
                               <Field
                                 name="closePrice"

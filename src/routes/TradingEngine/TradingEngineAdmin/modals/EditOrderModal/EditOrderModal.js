@@ -288,11 +288,11 @@ class EditOrderModal extends PureComponent {
               openTime: time?.creation,
               closeTime: time?.closing,
             }}
-            validate={values => createValidator({
+            validate={createValidator({
               volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
             }, {
               volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-            }, false)(values)}
+            })}
             onSubmit={values => this.handleEditOrder(values, status)}
             enableReinitialize
           >
