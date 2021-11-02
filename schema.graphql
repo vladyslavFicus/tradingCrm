@@ -255,10 +255,11 @@ type DistributionRule__SourceBrandConfig {
 
 type DistributionRule__TargetBrandConfig {
   brand: String
+  copyAffiliateSource: Boolean
   country: String
   desks: [String]
   distributionUnit: DistributionRule__DistributionUnit
-  migrationSource: String
+  affiliateUuid: String
   operator: String
   operatorEntity: Operator
   sortType: String
