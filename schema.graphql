@@ -206,7 +206,6 @@ type DidLogicMutation {
 
 type DistributionRule {
   _id: ID!
-  affiliateUuids: [String]
   countries: [String]
   createdAt: String
   createdBy: String
@@ -222,10 +221,10 @@ type DistributionRule {
   registrationDateRange: DistributionRule__DateRange
   registrationPeriodInHours: Int
   salesStatuses: [String]
-  sourceBrandConfigs: [DistributionRule__BrandConfig]
+  sourceBrandConfigs: [DistributionRule__SourceBrandConfig]
   status: String
   statusChangedAt: String
-  targetBrandConfigs: [DistributionRule__BrandConfig]
+  targetBrandConfigs: [DistributionRule__TargetBrandConfig]
   targetSalesStatus: String
   updatedAt: String
   uuid: String!
@@ -240,7 +239,21 @@ type DistributionRuleMutation {
   updateRuleStatus(ruleStatus: String!, uuid: String!): Boolean
 }
 
-type DistributionRule__BrandConfig {
+type DistributionRule__SourceBrandConfig {
+  brand: String
+  affiliateUuids: [String]
+  country: String
+  desks: [String]
+  distributionUnit: DistributionRule__DistributionUnit
+  migrationSource: String
+  operator: String
+  operatorEntity: Operator
+  sortType: String
+  teams: [String]
+  uuid: String
+}
+
+type DistributionRule__TargetBrandConfig {
   brand: String
   country: String
   desks: [String]
