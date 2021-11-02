@@ -146,7 +146,12 @@ class LeadsHeader extends PureComponent {
           </ReactPlaceholder>
         </div>
 
-        <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
+        <PermissionContent
+          permissions={[
+            permissions.USER_PROFILE.CHANGE_ACQUISITION,
+            permissions.LEADS.UPLOAD_LEADS_FROM_FILE,
+          ]}
+        >
           <div className="LeadsHeader__right">
             <If condition={totalElements !== 0 && selectedCount !== 0}>
               <div className="LeadsHeader__bulk">
