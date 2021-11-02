@@ -189,6 +189,39 @@ PropTypes.tradingActivityOriginalAgent = PropTypes.shape({
   fullName: PropTypes.string,
 });
 
+PropTypes.tradingEngineAccount = PropTypes.shape({
+  uuid: PropTypes.string,
+  profileUuid: PropTypes.string,
+  brandId: PropTypes.string,
+  profileFullName: PropTypes.string,
+  serverId: PropTypes.number,
+  login: PropTypes.number,
+  accountType: PropTypes.string,
+  enable: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  leverage: PropTypes.number,
+  group: PropTypes.string,
+  name: PropTypes.string,
+  balance: PropTypes.number,
+  credit: PropTypes.number,
+  margin: PropTypes.number,
+  freeMargin: PropTypes.number,
+  equity: PropTypes.number,
+  comment: PropTypes.string,
+});
+
+PropTypes.tradingEngineAccountStatistic = PropTypes.shape({
+  depositsSum: PropTypes.number.isRequired,
+  withdrawalsSum: PropTypes.number.isRequired,
+  balance: PropTypes.number.isRequired,
+  credit: PropTypes.number.isRequired,
+  margin: PropTypes.number.isRequired,
+  freeMargin: PropTypes.number.isRequired,
+  marginLevel: PropTypes.number.isRequired,
+  equity: PropTypes.number.isRequired,
+  openPnl: PropTypes.number.isRequired,
+});
+
 PropTypes.paymentMethodLimit = PropTypes.shape({
   currencyCode: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
@@ -417,6 +450,12 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
   }),
   sourceBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
   targetBrandConfigs: PropTypes.arrayOf(PropTypes.ruleSourceBrandConfigsType),
+});
+
+PropTypes.symbolsTradingEngineType = PropTypes.shape({
+  name: PropTypes.string,
+  bid: PropTypes.number,
+  ask: PropTypes.number,
 });
 
 PropTypes.tradingActivity = PropTypes.shape({
@@ -890,6 +929,45 @@ PropTypes.TableSelection = PropTypes.shape({
 PropTypes.coperatorNumber = PropTypes.shape({
   number: PropTypes.string,
   country: PropTypes.string,
+});
+
+PropTypes.order = PropTypes.shape({
+  id: PropTypes.number,
+  accountLogin: PropTypes.number,
+  accountUuid: PropTypes.string,
+  group: PropTypes.string,
+  symbol: PropTypes.string,
+  symbolAlias: PropTypes.string,
+  direction: PropTypes.string,
+  type: PropTypes.string,
+  tradeType: PropTypes.string,
+  status: PropTypes.string,
+  digits: PropTypes.number,
+  takeProfit: PropTypes.number,
+  stopLoss: PropTypes.number,
+  openPrice: PropTypes.number,
+  closePrice: PropTypes.number,
+  margin: PropTypes.number,
+  openRate: PropTypes.number,
+  closeRate: PropTypes.number,
+  volumeUnits: PropTypes.number,
+  volumeLots: PropTypes.number,
+  lotSize: PropTypes.number,
+  commission: PropTypes.number,
+  swaps: PropTypes.number,
+  pnl: PropTypes.shape({
+    gross: PropTypes.number,
+    net: PropTypes.number,
+  }),
+  time: PropTypes.shape({
+    creation: PropTypes.string,
+    modification: PropTypes.string,
+    expiration: PropTypes.string,
+    closing: PropTypes.string,
+  }),
+  comment: PropTypes.string,
+  reason: PropTypes.string,
+  leverage: PropTypes.number,
 });
 
 export default PropTypes;

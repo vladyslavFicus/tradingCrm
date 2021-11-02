@@ -5,7 +5,7 @@ import PropTypes from 'constants/propTypes';
 import Preloader from 'components/Preloader';
 import PermissionsQuery from './graphql/PermissionsQuery';
 
-const PermissionContext = React.createContext();
+export const PermissionContext = React.createContext();
 
 class PermissionProvider extends PureComponent {
   static propTypes = {

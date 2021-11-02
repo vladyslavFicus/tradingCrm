@@ -14,6 +14,10 @@
     color: #fff;
   }
 
+  &:focus {
+    border: 2px solid #4990e2
+  }
+
   &--common {
     background-image: linear-gradient(to left, #bdbdbd, #979797);
     border: none;

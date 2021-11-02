@@ -121,6 +121,9 @@ export default {
     READ_ONLY: 'trading-account.changeAccountReadOnly',
     RENAME_ACCOUNT: 'trading-account.renameAccount',
   },
+  TRADING_ENGINE: {
+    GET_ACCOUNTS: 'we-trading.findAccounts',
+  },
   NOTES: {
     ADD_NOTE: 'note.saveNote',
     VIEW_NOTES: 'note.searchNotes',
@@ -159,5 +162,11 @@ export default {
   CLIENTS_DISTRIBUTION: {
     LIST: 'clients-distributor.searchRules',
     CREATE_RULE: 'clients-distributor.createRule',
+  },
+  WE_TRADING: {
+    CREDIT_IN: 'we-trading.creditIn',
+    CREDIT_OUT: 'we-trading.creditOut',
+    MANAGER_EDIT_ORDER: 'we-trading.updateOrder',
+    ADMIN_EDIT_ORDER: 'we-trading.admin.updateOrder',
   },
 };

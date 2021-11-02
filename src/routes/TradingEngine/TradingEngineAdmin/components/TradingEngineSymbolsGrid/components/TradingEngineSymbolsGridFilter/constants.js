@@ -1,0 +1,10 @@
+export const statuses = [{
+  value: 'CLOSED',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.CLOSED',
+}, {
+  value: 'OPEN',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.OPEN',
+}, {
+  value: 'PENDING',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.PENDING',
+}];

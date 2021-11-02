@@ -11,6 +11,6 @@
   box-shadow: none;
   transition: box-shadow .3s ease-in-out;
   &:hover {
-    box-shadow: 0 0 30px hsla(0, 0, 0, 0.7);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
   }
 }

@@ -132,7 +132,7 @@ class FeedContent extends PureComponent {
     const contentJSX = [];
 
     Object.entries(deepDetailValue || details).forEach(([key, detailValue]) => {
-      const { changeType } = detailValue;
+      const { changeType } = detailValue || {};
 
       if (isObject(detailValue)) {
         if (key === 'changes') {

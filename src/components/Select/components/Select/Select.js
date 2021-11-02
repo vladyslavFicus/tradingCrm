@@ -92,11 +92,11 @@ class Select extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { query, originalOptions } = this.state;
+    const { query, originalOptions, opened } = this.state;
     const { children, value, multiple } = this.props;
     let options = originalOptions;
 
-    if (!shallowEqual(children, nextProps.children)) {
+    if (!shallowEqual(children, nextProps.children) && !opened) {
       options = [...this.filterOptions(nextProps.children)];
 
       const selectedOptions = multiple
@@ -112,7 +112,7 @@ class Select extends PureComponent {
       });
     }
 
-    if (!this.shallowEqual(value, nextProps.value)) {
+    if (!this.shallowEqual(value, nextProps.value) && !opened) {
       const opts = [...this.filterOptions(nextProps.children)];
       // happened when after choosing value, we add more options to select
       if (opts.length > options) {
@@ -358,6 +358,81 @@ class Select extends PureComponent {
     });
   };
 
+  handleKeyDown = (e) => {
+    // Skip any interactions if options not loaded yet or select is disabled
+    if (!this.state.options.length || this.props.disabled) {
+      return;
+    }
+
+    // Cancel selection and close options block
+    if (['Escape', 'Tab'].includes(e.code) && this.state.opened) {
+      e.stopPropagation();
+
+      this.updateState({ toSelectOptions: [] }, this.handleClose);
+
+      return;
+    }
+
+    // Open select options if pressed SPACE button
+    if (['Space', 'ArrowDown', 'ArrowUp'].includes(e.code) && !this.state.opened) {
+      e.preventDefault();
+
+      this.setState({ opened: true });
+
+      return;
+    }
+
+    // Close select options if pressed ENTER or SPACE button and select was opened
+    if (['Enter', 'Space'].includes(e.code) && this.state.opened) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.handleClose();
+    }
+
+    // Execute click on first "submit" element in closest forms if enter was pressed and select isn't opened
+    if (e.code === 'Enter' && !this.state.opened) {
+      const form = this.optionsContainerRef.closest('form');
+      const submitElement = form?.querySelectorAll('[type=submit]');
+
+      submitElement[0]?.click();
+    }
+
+    // Control arrow down/up pressing when single select in focus
+    if (['ArrowDown', 'ArrowUp'].includes(e.code) && !this.props.multiple) {
+      e.preventDefault();
+
+      const currentOption = this.state.toSelectOptions[0] || this.state.originalSelectedOptions[0];
+      const currentOptionIndex = this.state.options.findIndex(({ key }) => key === currentOption?.key);
+
+      let nextOptionIndex = 0;
+      if (e.code === 'ArrowUp') {
+        nextOptionIndex = currentOptionIndex > 0 ? currentOptionIndex - 1 : this.state.options.length - 1;
+      }
+
+      if (e.code === 'ArrowDown' && this.state.options.length > currentOptionIndex + 1) {
+        nextOptionIndex = this.state.options.length > currentOptionIndex + 1 ? currentOptionIndex + 1 : 0;
+      }
+
+      const nextOption = this.state.options[nextOptionIndex];
+
+      this.updateState({ toSelectOptions: [nextOption] }, () => {
+        const optionTop = this.activeOptionRef.offsetTop;
+        const optionHeight = this.activeOptionRef.offsetHeight + 10; // 10 is padding for option
+        const containerScrollTop = this.optionsContainerRef.scrollTop;
+        const containerHeight = this.optionsContainerRef.offsetHeight;
+
+        if (optionTop + optionHeight > containerScrollTop + containerHeight) {
+          this.optionsContainerRef.scrollTop = optionTop - containerHeight + optionHeight;
+        }
+
+        if (optionTop < containerScrollTop) {
+          this.optionsContainerRef.scrollTop = optionTop;
+        }
+      });
+    }
+  };
+
   filterOptions = options => (Array.isArray(options)
     ? options
       .filter(option => option.type === 'option')
@@ -380,6 +455,7 @@ class Select extends PureComponent {
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
     const {
+      disabled,
       multiple,
       multipleLabel,
       placeholder: inputPlaceholder,
@@ -450,6 +526,8 @@ class Select extends PureComponent {
         </When>
         <Otherwise>
           <div
+            tabIndex={disabled ? -1 : 0} // eslint-disable-line
+            onKeyDown={this.handleKeyDown}
             className={classNames('Select__form-control', 'Select__label', {
               'Select__label--multipleLabel': isMultipleLabel,
             })}
@@ -525,7 +603,7 @@ class Select extends PureComponent {
           {/* Single option */}
           <SelectSingleOptions
             options={options}
-            selectedOption={originalSelectedOptions[0]}
+            selectedOption={toSelectOptions[0] || originalSelectedOptions[0]}
             onChange={this.handleSelectSingleOption}
             bindActiveOption={this.bindActiveOptionRef}
             handleSelectHide={this.handleHideSelect}

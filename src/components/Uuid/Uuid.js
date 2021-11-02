@@ -8,6 +8,7 @@ const Uuid = ({
   uuidPrefix,
   uuidPostfix,
   uuidPartsCount,
+  title,
   notify,
   notificationLevel,
   notificationTitle,
@@ -29,7 +30,7 @@ const Uuid = ({
       notificationMessage={notificationMessage}
       className={className}
     >
-      <span>{shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}</span>
+      <span>{title || shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}</span>
     </CopyToClipboard>
   );
 };
@@ -39,6 +40,7 @@ Uuid.propTypes = {
   uuidPrefix: PropTypes.string,
   uuidPostfix: PropTypes.string,
   uuidPartsCount: PropTypes.number,
+  title: PropTypes.string,
   notify: PropTypes.bool,
   notificationLevel: PropTypes.string,
   notificationTitle: PropTypes.string,
@@ -51,6 +53,7 @@ Uuid.defaultProps = {
   uuidPrefix: null,
   uuidPostfix: null,
   uuidPartsCount: 2,
+  title: null,
   notificationLevel: 'info',
   notificationTitle: 'COMMON.NOTIFICATIONS.COPY_FULL_UUID.TITLE',
   notificationMessage: 'COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE',
@@ -59,4 +62,4 @@ Uuid.defaultProps = {
   className: null,
 };
 
-export default Uuid;
+export default React.memo(Uuid);

@@ -1,5 +1,5 @@
 import { departments, roles } from 'constants/brands';
-import Permissions from 'utils/permissions';
+import Permissions, { CONDITIONS } from 'utils/permissions';
 import permissions from './permissions';
 
 const operatorsExcludeAuthorities = [{
@@ -14,6 +14,12 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.DASHBOARD',
   icon: 'icon-dashboard',
   url: '/dashboard',
+  permissions: new Permissions([
+    permissions.DASHBOARD.REGISTRATION_STATISTICS,
+    permissions.DASHBOARD.PAYMENT_STATISTICS,
+    permissions.DASHBOARD.PAYMENTS_LIST,
+    permissions.DASHBOARD.PROFILES_LIST,
+  ], CONDITIONS.OR),
 }, {
   label: 'SIDEBAR.TOP_MENU.CLIENTS',
   icon: 'icon-users',
@@ -91,6 +97,18 @@ const sidebarTopMenu = [{
   icon: 'icon-union',
   url: '/distribution',
   permissions: new Permissions(permissions.CLIENTS_DISTRIBUTION.LIST),
+}, {
+  label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE',
+  icon: 'icon-trading-engine',
+  items: [{
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_MANAGER',
+    url: '/trading-engine-manager',
+    permissions: new Permissions(permissions.WE_TRADING.MANAGER_EDIT_ORDER),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_ADMIN',
+    url: '/trading-engine-admin',
+    permissions: new Permissions(permissions.WE_TRADING.ADMIN_EDIT_ORDER),
+  }],
 }, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',

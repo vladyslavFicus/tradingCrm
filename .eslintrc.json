@@ -1,5 +1,8 @@
 {
   "parser": "babel-eslint",
+  "env": {
+    "jest": true
+  },
   "extends": [
     "airbnb",
     "plugin:jsx-control-statements/recommended"
@@ -38,6 +41,18 @@
     "template-curly-spacing": "off",
     // END: Workaround
 
+    // Fix error on importing .ts|.tsx files
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+
     "max-len": [2, 120],
     "react/prefer-stateless-function": 0,
     "react/forbid-foreign-prop-types": 0,
@@ -69,7 +84,8 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": "src"
+        "paths": "src",
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   }
