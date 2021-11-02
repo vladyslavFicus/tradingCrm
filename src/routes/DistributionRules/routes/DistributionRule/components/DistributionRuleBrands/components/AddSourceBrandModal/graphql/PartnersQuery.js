@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query DistributionRuleSettings_PartnersQuery {
-  partners {
+const REQUEST = gql`query DistributionRuleSettings_PartnersQuery($brandId: String) {
+  partners(brandId: $brandId) {
     content {
       uuid
       fullName
@@ -14,7 +14,7 @@ const REQUEST = gql`query DistributionRuleSettings_PartnersQuery {
 }`;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="cache-and-network">
+  <Query query={REQUEST} fetchPolicy="network-only">
     {children}
   </Query>
 );
