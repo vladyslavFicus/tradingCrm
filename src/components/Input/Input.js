@@ -29,6 +29,8 @@ class Input extends PureComponent {
     onEnterPress: PropTypes.func,
     showWarningMessage: PropTypes.bool,
     warningMessage: PropTypes.string,
+    type: PropTypes.string,
+    classNameError: PropTypes.string,
   };
 
   static defaultProps = {
@@ -50,6 +52,8 @@ class Input extends PureComponent {
     autoFocus: false,
     onEnterPress: () => true,
     onTruncated: () => {},
+    type: 'text',
+    classNameError: null,
   };
 
   inputRef = React.createRef();
@@ -99,6 +103,7 @@ class Input extends PureComponent {
       showErrorMessage,
       onEnterPress,
       onTruncated,
+      classNameError,
       ...input
     } = this.props;
 
@@ -166,7 +171,7 @@ class Input extends PureComponent {
         </div>
         <If condition={error && showErrorMessage}>
           <div className="input__footer">
-            <div className="input__error">
+            <div className={classNames('input__error', classNameError)}>
               <i className="input__error-icon icon-alert" />
               {error}
             </div>
