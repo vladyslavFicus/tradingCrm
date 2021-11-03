@@ -4,8 +4,9 @@ $color-checked: #5287bd;
 $color-disable: #cfcfcf;
 
 .Checkbox {
-  width: 100%;
+  width: auto;
   margin-bottom: 12px;
+  white-space: nowrap;
 
   &__container {
     cursor: pointer;

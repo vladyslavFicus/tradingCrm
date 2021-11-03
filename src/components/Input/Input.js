@@ -171,6 +171,7 @@ class Input extends PureComponent {
             {...inputProps}
             id={warningMessageUniqueId}
             onChange={this.handleChangeInput}
+            onWheel={e => e.target.blur()}
           />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
