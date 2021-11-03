@@ -20,15 +20,13 @@ class DepositWithdrawalModal extends PureComponent {
     notify: PropTypes.func.isRequired,
   };
 
-  handleSubmit = async (values) => {
+  handleSubmit = async () => {
     const {
       notify,
       onCloseModal,
     } = this.props;
 
     try {
-      console.log('SUBMIT', values);
-
       onCloseModal();
     } catch (_) {
       notify({
