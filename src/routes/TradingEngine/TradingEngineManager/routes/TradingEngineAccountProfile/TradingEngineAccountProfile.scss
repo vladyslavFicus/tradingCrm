@@ -1,11 +1,14 @@
 .TradingEngineAccountProfile {
-  background-color: #fff;
   margin: 0 auto;
   min-width: 960px;
 
   &__content {
     padding-bottom: 50px;
     background: linear-gradient(180deg,#fff,#fff 0,#f8f8f8 100%,#f8f8f8 0);
+  }
+
+  &__tab-content {
+    background-color: #fff;
   }
 
   &__info {

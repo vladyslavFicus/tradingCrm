@@ -229,11 +229,11 @@ class EditOrderModal extends PureComponent {
     const { currentSymbolPrice, initialSymbolPrice } = this.state;
 
     // Get current BID and ASK prices with applied group spread
-    const currentPriceBid = round((currentSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0), digits);
+    const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (groupSpread?.bidAdjustment || 0), digits);
     const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
 
     // Get initial BID and ASK prices with applied group spread
-    const initialPriceBid = round((initialSymbolPrice?.bid || 0) + (groupSpread?.bidAdjustment || 0), digits);
+    const initialPriceBid = round((initialSymbolPrice?.bid || 0) - (groupSpread?.bidAdjustment || 0), digits);
     const initialPriceAsk = round((initialSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
 
     const decimalsSettings = {
@@ -480,6 +480,7 @@ class EditOrderModal extends PureComponent {
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                                 className="EditOrderModal__field EditOrderModal__field--customError"
                                 component={FormikInputField}
+                                disabled
                               />
                               <Field
                                 name="closePrice"

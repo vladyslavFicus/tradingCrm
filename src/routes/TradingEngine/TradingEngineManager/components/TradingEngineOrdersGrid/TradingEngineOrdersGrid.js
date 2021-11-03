@@ -165,7 +165,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                     TR-{id}
                   </div>
                   <Uuid
-                    uuid={id}
+                    uuid={id.toString()}
                     title={I18n.t('COMMON.COPY')}
                     className="AccountProfileOrdersGrid__cell-value-add"
                   />
@@ -178,9 +178,7 @@ class TradingEngineOrdersGrid extends PureComponent {
               render={({ accountLogin }) => (
                 <>
                   <div className="TradingEngineOrdersGrid__cell-value">
-                    <Uuid
-                      uuid={`${accountLogin}`}
-                    />
+                    <Uuid uuid={accountLogin.toString()} />
                   </div>
                 </>
               )}
@@ -269,7 +267,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                 const currentSymbol = this.state.symbolsPrices[symbol];
 
                 // Get current BID and ASK prices with applied group spread
-                const currentPriceBid = round(currentSymbol?.bid + groupSpread.bidAdjustment, digits);
+                const currentPriceBid = round(currentSymbol?.bid - groupSpread.bidAdjustment, digits);
                 const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
 
                 return (

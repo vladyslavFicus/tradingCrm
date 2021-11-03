@@ -27,7 +27,8 @@ class ClientProfileTab extends PureComponent {
     const { clientQuery } = this.props;
 
     const clientData = clientQuery.data?.profile || {};
-    const showFtdToAffiliate = clientData.profileView?.paymentDetails?.showFtdToAffiliate;
+    const depositsCount = clientData.profileView?.paymentDetails?.depositsCount;
+    const showFtdToAffiliate = clientData.profileView?.affiliate?.ftd?.isVisible;
     const affiliateMinFtdDeposit = clientData.affiliate?.partner?.permission?.minFtdDeposit;
     const { affiliate: { restriction: { minFtdDeposit } } } = getBrand();
 
@@ -45,11 +46,13 @@ class ClientProfileTab extends PureComponent {
             <PermissionContent
               permissionsCondition={CONDITIONS.OR}
               permissions={[
-                permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE, permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE]}
+                permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
+                permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
+              ]}
             >
               <If
                 condition={
-                  typeof showFtdToAffiliate === 'boolean'
+                  depositsCount > 0
                   && clientData?.affiliate
                   && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
                 }

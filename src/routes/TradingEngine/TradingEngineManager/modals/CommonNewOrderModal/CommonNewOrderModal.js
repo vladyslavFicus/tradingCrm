@@ -152,7 +152,7 @@ class CommonNewOrderModal extends PureComponent {
 
     // Get current BID price with applied group spread
     const currentPriceBid = round(
-      currentSymbolPrice?.bid + currentSymbol?.groupSpread?.bidAdjustment,
+      currentSymbolPrice?.bid - currentSymbol?.groupSpread?.bidAdjustment,
       currentSymbol?.digits,
     );
 
@@ -256,7 +256,7 @@ class CommonNewOrderModal extends PureComponent {
 
             // Get current BID and ASK prices with applied group spread
             const currentPriceBid = round(
-              (currentSymbolPrice?.bid || 0) + (currentSymbol?.groupSpread?.bidAdjustment || 0),
+              (currentSymbolPrice?.bid || 0) - (currentSymbol?.groupSpread?.bidAdjustment || 0),
               currentSymbol?.digits,
             );
 

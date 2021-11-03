@@ -1,5 +1,8 @@
 {
   "parser": "babel-eslint",
+  "env": {
+    "jest": true
+  },
   "extends": [
     "airbnb",
     "plugin:jsx-control-statements/recommended"

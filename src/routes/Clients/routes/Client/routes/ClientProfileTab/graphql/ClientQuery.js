@@ -53,7 +53,12 @@ const REQUEST = gql`
       }
       profileView {
         paymentDetails {
-          showFtdToAffiliate
+          depositsCount
+        }
+        affiliate {
+          ftd {
+            isVisible
+          }
         }
       }
     }

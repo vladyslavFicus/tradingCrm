@@ -7,6 +7,7 @@ import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
+import ShortLoader from 'components/ShortLoader';
 import AccountProfileHeader from './components/AccountProfileHeader';
 import AccountProfileStatus from './components/AccountProfileStatus';
 import AccountProfileGroup from './components/AccountProfileGroup';
@@ -59,40 +60,47 @@ class TradingEngineAccountProfile extends PureComponent {
       <div className="TradingEngineAccountProfile">
         <Helmet title="Account profile" />
 
-        <AccountProfileHeader account={account} />
+        <Choose>
+          <When condition={accountQuery.loading}>
+            <ShortLoader />
+          </When>
+          <Otherwise>
+            <AccountProfileHeader account={account} />
 
-        <div className="TradingEngineAccountProfile__content">
-          <div className="TradingEngineAccountProfile__info">
-            <AccountProfileStatus enable={account?.readOnly} accountUuid={account?.uuid} />
-            <AccountProfileGroup group={account?.group} accountUuid={account?.uuid} />
-            <AccountProfileLeverage leverage={account?.leverage} accountUuid={account?.uuid} />
-            <AccountProfileRegistered registrationDate={account?.registrationDate} />
-          </div>
+            <div className="TradingEngineAccountProfile__content">
+              <div className="TradingEngineAccountProfile__info">
+                <AccountProfileStatus enable={account?.readOnly} accountUuid={account?.uuid} />
+                <AccountProfileGroup group={account?.group} accountUuid={account?.uuid} />
+                <AccountProfileLeverage leverage={account?.leverage} accountUuid={account?.uuid} />
+                <AccountProfileRegistered registrationDate={account?.registrationDate} />
+              </div>
 
-          <AccountProfileStatistics uuid={account?.uuid} />
-        </div>
+              <AccountProfileStatistics uuid={account?.uuid} />
+            </div>
 
-        <Tabs items={accountProfileTabs} />
+            <Tabs items={accountProfileTabs} />
 
-        <div className="TradingEngineAccountProfile__tab-content">
-          <Switch>
-            <Route
-              path={`${path}/orders`}
-              render={() => <AccountProfileOrdersGrid orderStatuses={['OPEN']} />}
-            />
-            <Route
-              path={`${path}/pending-orders`}
-              render={() => <AccountProfilePendingOrdersGrid orderStatuses={['PENDING']} />}
-            />
-            <Route
-              path={`${path}/transactions`}
-              render={() => <AccountProfileTransactionsGrid />}
-            />
-            <Route path={`${path}/history`} component={AccountProfileHistoryGrid} />
-            <Route path={`${path}/feed`} component={AccountProfileFeedGrid} />
-            <Redirect to={`${url}/orders`} />
-          </Switch>
-        </div>
+            <div className="TradingEngineAccountProfile__tab-content">
+              <Switch>
+                <Route
+                  path={`${path}/orders`}
+                  render={() => <AccountProfileOrdersGrid orderStatuses={['OPEN']} />}
+                />
+                <Route
+                  path={`${path}/pending-orders`}
+                  render={() => <AccountProfilePendingOrdersGrid orderStatuses={['PENDING']} />}
+                />
+                <Route
+                  path={`${path}/transactions`}
+                  render={() => <AccountProfileTransactionsGrid />}
+                />
+                <Route path={`${path}/history`} component={AccountProfileHistoryGrid} />
+                <Route path={`${path}/feed`} component={AccountProfileFeedGrid} />
+                <Redirect to={`${url}/orders`} />
+              </Switch>
+            </div>
+          </Otherwise>
+        </Choose>
       </div>
     );
   }

@@ -15,6 +15,7 @@ import {
   MAX_MIGRATED_CLIENTS,
 } from '../../constants';
 import BranchesQuery from './graphql/BranchesQuery';
+import PartnersQuery from './graphql/PartnersQuery';
 import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
@@ -25,6 +26,7 @@ class AddSourceBrandModal extends PureComponent {
     allowedBaseUnits: PropTypes.arrayOf(PropTypes.string).isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
+      affiliateUuids: PropTypes.arrayOf(PropTypes.string),
       distributionUnit: PropTypes.shape({
         quantity: PropTypes.number,
         baseUnit: PropTypes.string,
@@ -40,6 +42,9 @@ class AddSourceBrandModal extends PureComponent {
         TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
         DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
+    }).isRequired,
+    partnersQuery: PropTypes.query({
+      partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
   }
 
@@ -65,7 +70,7 @@ class AddSourceBrandModal extends PureComponent {
     }
   }
 
-  fetchAvailableClientsAmount = async ({ brand, desks, teams }) => {
+  fetchAvailableClientsAmount = async ({ brand, affiliateUuids, desks, teams }) => {
     const {
       fetchAvailableClientsAmount,
     } = this.props;
@@ -73,7 +78,12 @@ class AddSourceBrandModal extends PureComponent {
     this.setState({ availableClientsAmount: null });
 
     try {
-      const availableClientsAmount = await fetchAvailableClientsAmount({ sourceBrand: brand, desks, teams });
+      const availableClientsAmount = await fetchAvailableClientsAmount({
+        sourceBrand: brand,
+        affiliateUuids,
+        desks,
+        teams,
+      });
       this.setState({ availableClientsAmount });
     } catch {
       // ...
@@ -84,6 +94,7 @@ class AddSourceBrandModal extends PureComponent {
     setValues({
       ...values,
       brand,
+      affiliateUuids: null,
       desks: null,
       teams: null,
     });
@@ -93,6 +104,37 @@ class AddSourceBrandModal extends PureComponent {
     });
 
     this.props.branchesQuery.refetch({ brandId: brand });
+  };
+
+  handleAffiliatesChange = (setValues, values) => (affiliateUuids) => {
+    const {
+      branchesQuery: {
+        data: branchesData,
+      },
+    } = this.props;
+
+    const availableTeams = branchesData?.userBranches?.TEAM || [];
+
+    // if there are selected teams and desks, need to keep selected teams related to selected desks
+    const teams = values.teams && values.desks
+      ? availableTeams
+        .filter(({ uuid, parentBranch }) => values.teams.includes(uuid) && values.desks.includes(parentBranch?.uuid))
+        .map(({ uuid }) => uuid)
+      : null;
+
+    setValues({
+      ...values,
+      affiliateUuids,
+      desks: values.desks,
+      teams,
+    });
+
+    this.fetchAvailableClientsAmount({
+      brand: values.brand,
+      affiliateUuids,
+      desks: values.desks,
+      teams,
+    });
   };
 
   handleDesksChange = (setValues, values) => (desks) => {
@@ -113,22 +155,25 @@ class AddSourceBrandModal extends PureComponent {
 
     setValues({
       ...values,
+      affiliateUuids: values.affiliateUuids,
       desks,
       teams,
     });
 
     this.fetchAvailableClientsAmount({
       brand: values.brand,
+      affiliateUuids: values.affiliateUuids,
       desks,
       teams,
     });
   };
 
-  handleTeamsChange = (setFieldValue, { brand, desks }) => (teams) => {
+  handleTeamsChange = (setFieldValue, { brand, desks, affiliateUuids }) => (teams) => {
     setFieldValue('teams', teams);
 
     this.fetchAvailableClientsAmount({
       brand,
+      affiliateUuids,
       desks,
       teams,
     });
@@ -142,6 +187,7 @@ class AddSourceBrandModal extends PureComponent {
       brands,
       initialValues: {
         brand,
+        affiliateUuids,
         distributionUnit,
         sortType,
         desks,
@@ -152,6 +198,7 @@ class AddSourceBrandModal extends PureComponent {
         data: branchesData,
         loading: branchesLoading,
       },
+      partnersQuery,
     } = this.props;
 
     const { availableClientsAmount } = this.state;
@@ -164,6 +211,8 @@ class AddSourceBrandModal extends PureComponent {
     const availableDesks = branchesData?.userBranches?.DESK || [];
     const availableTeams = branchesData?.userBranches?.TEAM || [];
 
+    const partners = partnersQuery.data?.partners?.content || [];
+
     return (
       <Modal
         toggle={onCloseModal}
@@ -173,6 +222,7 @@ class AddSourceBrandModal extends PureComponent {
         <Formik
           initialValues={{
             brand,
+            affiliateUuids,
             quantity,
             baseUnit,
             sortType: sortType || 'FIFO',
@@ -208,6 +258,8 @@ class AddSourceBrandModal extends PureComponent {
               ? availableTeams.filter(({ parentBranch }) => values.desks.includes(parentBranch?.uuid))
               : availableTeams;
 
+            const brandPartners = partners.filter(partner => partner.brand === values.brand);
+
             return (
               <Form>
                 <ModalHeader>{I18n.t('CLIENTS_DISTRIBUTION.RULE.SOURCE_BRAND')}</ModalHeader>
@@ -237,6 +289,22 @@ class AddSourceBrandModal extends PureComponent {
                       }}
                     />
                   </If>
+                  <Field
+                    name="affiliateUuids"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    customOnChange={this.handleAffiliatesChange(setValues, values)}
+                    disabled={partnersQuery.loading}
+                    searchable
+                    multiple
+                  >
+                    {[{ uuid: 'NONE', fullName: 'NONE' }, ...brandPartners].map(({ uuid, fullName }) => (
+                      <option key={uuid} value={uuid}>
+                        {fullName}
+                      </option>
+                    ))}
+                  </Field>
                   <div className="AddSourceBrandModal__row">
                     <Field
                       name="desks"
@@ -349,4 +417,5 @@ class AddSourceBrandModal extends PureComponent {
 
 export default withRequests({
   branchesQuery: BranchesQuery,
+  partnersQuery: PartnersQuery,
 })(AddSourceBrandModal);

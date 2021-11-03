@@ -6,11 +6,11 @@ import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 interface Props {
   type: OrderType,
   openPrice: number,
-  currentPriceBid: number,
-  currentPriceAsk: number,
+  currentPriceBid?: number,
+  currentPriceAsk?: number,
   volume: number,
   lotSize: number,
-  exchangeRate: number,
+  exchangeRate?: number,
 }
 
 function PnLDebug(props: Props) {
