@@ -53,7 +53,7 @@ class Input extends PureComponent {
     onEnterPress: () => true,
     onTruncated: () => {},
     type: 'text',
-    classNameError: '',
+    classNameError: null,
   };
 
   inputRef = React.createRef();
