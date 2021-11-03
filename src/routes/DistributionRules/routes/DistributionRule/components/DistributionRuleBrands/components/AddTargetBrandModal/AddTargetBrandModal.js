@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRequests } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
+import { FormikSelectField, FormikInputField, FormikCheckbox } from 'components/Formik';
 import { Button } from 'components/UI';
 import operatorsByBrandQuery from './graphql/operatorsByBrandQuery';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -22,11 +22,12 @@ class AddTargetBrandModal extends PureComponent {
     sourceBrandQuantity: PropTypes.number.isRequired,
     initialValues: PropTypes.shape({
       brand: PropTypes.string,
+      copyAffiliateSource: PropTypes.bool,
       distributionUnit: PropTypes.shape({
         quantity: PropTypes.number,
         baseUnit: PropTypes.string,
       }),
-      migrationSource: PropTypes.string,
+      affiliateUuid: PropTypes.string,
       operator: PropTypes.string,
     }).isRequired,
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
@@ -151,11 +152,12 @@ class AddTargetBrandModal extends PureComponent {
       },
       initialValues: {
         brand,
+        copyAffiliateSource,
         distributionUnit: {
           quantity,
           baseUnit,
         },
-        migrationSource,
+        affiliateUuid,
         operator,
       },
     } = this.props;
@@ -179,8 +181,9 @@ class AddTargetBrandModal extends PureComponent {
             brand,
             quantity,
             baseUnit,
-            migrationSource,
+            affiliateUuid,
             operator,
+            copyAffiliateSource,
           }}
           validate={values => (
             createValidator({
@@ -188,7 +191,7 @@ class AddTargetBrandModal extends PureComponent {
               quantity: ['required', 'integer', 'min:1',
                 `max:${values.baseUnit === 'PERCENTAGE' ? 100 : availableClientsAmount}`,
               ],
-              migrationSource: 'required',
+              affiliateUuid: 'required',
             }, translateLabels({
               ...modalFieldsNames,
               quantity: values.baseUnit === 'PERCENTAGE'
@@ -256,8 +259,8 @@ class AddTargetBrandModal extends PureComponent {
                     </div>
                   </If>
                   <Field
-                    name="migrationSource"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MIGRATION_SOURCE')}
+                    name="affiliateUuid"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AFFILIATE_UUID')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
                     disabled={!partnersByBrand.length}
@@ -279,6 +282,11 @@ class AddTargetBrandModal extends PureComponent {
                       <option key={uuid} value={uuid}>{fullName}</option>
                     ))}
                   </Field>
+                  <Field
+                    name="copyAffiliateSource"
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.COPY_SOURCE')}
+                    component={FormikCheckbox}
+                  />
                 </ModalBody>
                 <ModalFooter>
                   <Button
