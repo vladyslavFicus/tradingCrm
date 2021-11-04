@@ -146,8 +146,8 @@ class LeadsHeader extends PureComponent {
           </ReactPlaceholder>
         </div>
 
-        <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
-          <div className="LeadsHeader__right">
+        <div className="LeadsHeader__right">
+          <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
             <If condition={totalElements !== 0 && selectedCount !== 0}>
               <div className="LeadsHeader__bulk">
                 <div className="LeadsHeader__bulk-title">
@@ -162,6 +162,8 @@ class LeadsHeader extends PureComponent {
                 </Button>
               </div>
             </If>
+          </PermissionContent>
+          <PermissionContent permissions={permissions.LEADS.UPLOAD_LEADS_FROM_FILE}>
             <If condition={selectedCount === 0}>
               <Button
                 commonOutline
@@ -170,8 +172,8 @@ class LeadsHeader extends PureComponent {
                 {I18n.t('COMMON.UPLOAD')}
               </Button>
             </If>
-          </div>
-        </PermissionContent>
+          </PermissionContent>
+        </div>
       </div>
     );
   }
