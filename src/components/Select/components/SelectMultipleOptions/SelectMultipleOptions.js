@@ -7,7 +7,7 @@ import deleteFromArray from 'utils/deleteFromArray';
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 });
 
 class SelectMultipleOptions extends PureComponent {
@@ -79,7 +79,12 @@ class SelectMultipleOptions extends PureComponent {
         {
           headerButtonClassName && headerButtonOnClick && headerButtonIconClassName && headerButtonText
           && (
-            <button type="button" className={headerButtonClassName} onClick={headerButtonOnClick}>
+            <button
+              type="button"
+              className={headerButtonClassName}
+              onClick={headerButtonOnClick}
+              tabIndex={-1}
+            >
               <i className={headerButtonIconClassName} /> {headerButtonText}
             </button>
           )
@@ -112,6 +117,7 @@ class SelectMultipleOptions extends PureComponent {
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
                 disabled={option.props.disabled}
+                tabIndex={-1}
               />
               <label className="custom-control-label" htmlFor={`${uniq}-${option.value}`}>
                 {option.label}

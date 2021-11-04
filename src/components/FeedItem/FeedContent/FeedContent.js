@@ -20,16 +20,15 @@ class FeedContent extends PureComponent {
   );
 
   handleTypeAdded = (key, { value }) => {
-    if (isObject(value)) {
-      return Object.entries(value).forEach(([deepKey, deepValue]) => (
+    if (isObject(value) && !Array.isArray(value)) {
+      return (
         <div key={uuidv4()}>
           <span className="FeedContent__label">{renderLabel(key)}:</span>
-          <span
-            className="FeedContent__value-to"
-            dangerouslySetInnerHTML={{ __html: prepareValue(deepKey, deepValue) }}
-          />
+          <div className="FeedContent__wrapper">
+            {Object.entries(value).map(([deepKey, deepValue]) => this.handleTypeAdded(deepKey, { value: deepValue }))}
+          </div>
         </div>
-      ));
+      );
     }
 
     return (
@@ -133,7 +132,7 @@ class FeedContent extends PureComponent {
     const contentJSX = [];
 
     Object.entries(deepDetailValue || details).forEach(([key, detailValue]) => {
-      const { changeType } = detailValue;
+      const { changeType } = detailValue || {};
 
       if (isObject(detailValue)) {
         if (key === 'changes') {

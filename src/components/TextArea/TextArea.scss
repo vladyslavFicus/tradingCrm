@@ -1,4 +1,6 @@
-.FormikTextAreaField {
+.TextArea {
+  height: 100%;
+
   &__label {
     margin-bottom: 5px;
     font-size: 15px;
@@ -16,6 +18,7 @@
     border: 1px solid #ced4da;
     transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
     border-radius: inherit;
+    border-radius: 3px;
 
     &:focus {
       border-color: #4990e2;

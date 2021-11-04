@@ -1,0 +1,28 @@
+.AccountProfileOrdersGrid {
+  &__title {
+    font-size: 20px;
+    padding: 20px;
+  }
+
+  &__cell-value {
+    font-weight: 700;
+
+    &:hover {
+      .AccountProfileOrdersGrid__edit-button {
+        display: inline-block;
+      }
+    }
+
+    &--pointer {
+      cursor: pointer;
+    }
+
+    &--upper {
+      text-transform: uppercase;
+    }
+  }
+
+  &__cell-value-add {
+    font-size: 11px;
+  }
+}

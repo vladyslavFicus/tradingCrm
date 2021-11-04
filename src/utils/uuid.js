@@ -3,7 +3,7 @@ export function shortify(uuid, manualPrefix = null, size = 2, manualPostfix = nu
     return uuid;
   }
 
-  const elements = uuid.split('-');
+  const elements = uuid.toString().split('-');
   if (elements.length < 2 || uuid.length < 12) {
     if (manualPrefix) {
       return `${manualPrefix}-${uuid}`;

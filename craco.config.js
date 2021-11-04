@@ -3,7 +3,7 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
   babel: {
-    plugins: ['module:jsx-control-statements'],
+    plugins: ['jsx-control-statements'],
   },
   eslint: {
     mode: 'file',

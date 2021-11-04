@@ -1,0 +1,52 @@
+.AccountProfileHistoryGrid {
+  &__title {
+    font-size: 20px;
+    padding: 20px;
+  }
+
+  &__cell-value {
+    font-weight: 700;
+
+    &:hover {
+      .AccountProfileHistoryGrid__edit-button {
+        display: inline-block;
+      }
+    }
+
+    &--pointer {
+      cursor: pointer;
+    }
+
+    &--upper {
+      text-transform: uppercase;
+    }
+
+    &--neutral {
+      color: #ccc;
+    }
+
+    &--positive {
+      color: #0cb56c;
+    }
+
+    &--negative {
+      color: #ef393f;
+    }
+  }
+
+  &__cell-value-add {
+    font-size: 11px;
+  }
+
+  &__uuid {
+    width: 110%;
+    height: 37px;
+  }
+
+  &__edit-button {
+    display: none;
+    margin-left: 10px;
+    position: absolute;
+    top: 4px;
+  }
+}

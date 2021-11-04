@@ -47,11 +47,12 @@ const REQUEST = gql`
       }
       targetBrandConfigs {
         brand
+        copyAffiliateSource
         distributionUnit {
           quantity
           baseUnit
         }
-        migrationSource
+        affiliateUuid
         operatorEntity {
           uuid
           fullName

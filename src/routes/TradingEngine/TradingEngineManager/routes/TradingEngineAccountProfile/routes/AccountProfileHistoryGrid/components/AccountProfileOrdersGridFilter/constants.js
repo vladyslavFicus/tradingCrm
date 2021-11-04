@@ -1,0 +1,13 @@
+export const types = [{
+  value: 'BUY',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BUY',
+}, {
+  value: 'CREDIT',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.CREDIT',
+}, {
+  value: 'SELL',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.SELL',
+}, {
+  value: 'BALANCE',
+  label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.BALANCE',
+}];

@@ -258,7 +258,7 @@ Validator.register('lessThan', lessThanValidator, 'The :attribute must be less')
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
 Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
 Validator.register('date', date, 'The date must be valid: Example: 01.01.2020');
-Validator.register('dateWithTime', dateWithTime, 'The date must be valid: Example: 01.01.2020 00:00:00');
+Validator.register('dateWithTime', dateWithTime, 'The date must be valid: Example: 01.01.2020 00:00');
 Validator.register('validDateTimeRange', validDateTimeRange, 'The date range must be valid');
 Validator.register('validTimeRange', validTimeRange, 'The time range must be valid');
 Validator.register('greater', greaterValidator, 'The :attribute must be greater than :greater');

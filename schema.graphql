@@ -206,7 +206,6 @@ type DidLogicMutation {
 
 type DistributionRule {
   _id: ID!
-  affiliateUuids: [String]
   countries: [String]
   createdAt: String
   createdBy: String
@@ -222,10 +221,10 @@ type DistributionRule {
   registrationDateRange: DistributionRule__DateRange
   registrationPeriodInHours: Int
   salesStatuses: [String]
-  sourceBrandConfigs: [DistributionRule__BrandConfig]
+  sourceBrandConfigs: [DistributionRule__SourceBrandConfig]
   status: String
   statusChangedAt: String
-  targetBrandConfigs: [DistributionRule__BrandConfig]
+  targetBrandConfigs: [DistributionRule__TargetBrandConfig]
   targetSalesStatus: String
   updatedAt: String
   uuid: String!
@@ -240,12 +239,27 @@ type DistributionRuleMutation {
   updateRuleStatus(ruleStatus: String!, uuid: String!): Boolean
 }
 
-type DistributionRule__BrandConfig {
+type DistributionRule__SourceBrandConfig {
   brand: String
+  affiliateUuids: [String]
   country: String
   desks: [String]
   distributionUnit: DistributionRule__DistributionUnit
   migrationSource: String
+  operator: String
+  operatorEntity: Operator
+  sortType: String
+  teams: [String]
+  uuid: String
+}
+
+type DistributionRule__TargetBrandConfig {
+  brand: String
+  copyAffiliateSource: Boolean
+  country: String
+  desks: [String]
+  distributionUnit: DistributionRule__DistributionUnit
+  affiliateUuid: String
   operator: String
   operatorEntity: Operator
   sortType: String
@@ -1289,7 +1303,7 @@ type Query {
   operatorsByBrand(brandId: String!, hierarchyTypeGroup: Desk__Types__Enum!): [Operator]
   operatorsSubordinates(hierarchyTypeGroup: String, onlyActive: Boolean): [Operator]
   partner(uuid: String!): Partner
-  partners(country: String, page: Page__Input, registrationDateFrom: String, registrationDateTo: String, searchBy: String, status: String): Pageable__Partner
+  partners(brandId: String, country: String, page: Page__Input, registrationDateFrom: String, registrationDateTo: String, searchBy: String, status: String): Pageable__Partner
   paymentMethods: [String]
   payments(args: PaymentSearch__Input): Pageable__Payment
   paymentsStatistic(additionalStatistics: [PaymentStatisticDateRange__Input], dateFrom: String, dateTo: String, detalization: StatisticDetalization__Enum, paymentStatus: String, paymentType: String, profileId: String): PaymentStatistic

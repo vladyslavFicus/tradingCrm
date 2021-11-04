@@ -25,6 +25,13 @@ class Input extends PureComponent {
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
+    autoFocus: PropTypes.bool,
+    onTruncated: PropTypes.func,
+    onEnterPress: PropTypes.func,
+    showWarningMessage: PropTypes.bool,
+    warningMessage: PropTypes.string,
+    type: PropTypes.string,
+    classNameError: PropTypes.string,
   };
 
   static defaultProps = {
@@ -34,6 +41,7 @@ class Input extends PureComponent {
     className: '',
     label: '',
     labelTooltip: '',
+    warningMessage: '',
     value: '',
     icon: null,
     addition: null,
@@ -42,6 +50,39 @@ class Input extends PureComponent {
     onChange: () => {},
     onAdditionClick: () => {},
     showErrorMessage: true,
+    showWarningMessage: false,
+    autoFocus: false,
+    onEnterPress: () => true,
+    onTruncated: () => {},
+    type: 'text',
+    classNameError: null,
+  };
+
+  inputRef = React.createRef();
+
+  componentDidMount() {
+    // Enable autofocus on next tick (because in the same tick it isn't working)
+    if (this.props.autoFocus) {
+      setTimeout(() => this.inputRef.current.focus(), 0);
+    }
+  }
+
+  /**
+   * On key down handler
+   *
+   * @param e
+   */
+  onKeyDown = (e) => {
+    const { target: { value }, code } = e;
+    const { onTruncated, onEnterPress } = this.props;
+
+    // Fire onTruncated event if input value empty
+    if (code === 'Backspace' && onTruncated && value.length === 0) {
+      onTruncated();
+    }
+    if (code === 'Enter') {
+      onEnterPress(this);
+    }
   };
 
   render() {
@@ -57,10 +98,15 @@ class Input extends PureComponent {
       icon,
       addition,
       labelTooltip,
+      warningMessage,
+      showWarningMessage,
       additionClassName,
       additionPosition,
       onAdditionClick,
       showErrorMessage,
+      onEnterPress,
+      onTruncated,
+      classNameError,
       ...input
     } = this.props;
 
@@ -71,9 +117,12 @@ class Input extends PureComponent {
       disabled,
       onChange,
       ...input,
+      ref: this.inputRef,
+      onKeyDown: this.onKeyDown,
     };
 
     const uniqueId = `label-${name}`;
+    const warningMessageUniqueId = `warning-${name}`;
 
     return (
       <div
@@ -99,7 +148,16 @@ class Input extends PureComponent {
           </If>
         </If>
         <div className="input__body">
-          <input {...inputProps} />
+          <If condition={showWarningMessage}>
+            <UncontrolledTooltip
+              target={warningMessageUniqueId}
+              trigger="focus"
+              isOpenDefault
+            >
+              {warningMessage}
+            </UncontrolledTooltip>
+          </If>
+          <input {...inputProps} id={warningMessageUniqueId} />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
           </If>
@@ -116,7 +174,7 @@ class Input extends PureComponent {
         </div>
         <If condition={error && showErrorMessage}>
           <div className="input__footer">
-            <div className="input__error">
+            <div className={classNames('input__error', classNameError)}>
               <i className="input__error-icon icon-alert" />
               {error}
             </div>

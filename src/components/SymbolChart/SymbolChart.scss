@@ -1,0 +1,23 @@
+.SymbolChart {
+  margin-top: 12px;
+
+  &--loading {
+    display: flex;
+    margin: 0 auto;
+  }
+
+  &__icon {
+    width: 300px;
+    opacity: 0.1;
+  }
+
+  &__label {
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    padding: 0 10px;
+    background: #2c90e8;
+    width: auto;
+    color: #fff;
+  }
+}
