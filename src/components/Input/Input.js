@@ -21,6 +21,7 @@ class Input extends PureComponent {
     labelTooltip: PropTypes.string,
     icon: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    additionClassName: PropTypes.string,
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
@@ -36,6 +37,7 @@ class Input extends PureComponent {
     value: '',
     icon: null,
     addition: null,
+    additionClassName: '',
     additionPosition: '',
     onChange: () => {},
     onAdditionClick: () => {},
@@ -55,6 +57,7 @@ class Input extends PureComponent {
       icon,
       addition,
       labelTooltip,
+      additionClassName,
       additionPosition,
       onAdditionClick,
       showErrorMessage,
@@ -102,7 +105,7 @@ class Input extends PureComponent {
           </If>
           <If condition={addition}>
             <div
-              className={classNames('input__addition', {
+              className={classNames(additionClassName, 'input__addition', {
                 'input__addition--right': additionPosition === 'right',
               })}
               onClick={onAdditionClick}

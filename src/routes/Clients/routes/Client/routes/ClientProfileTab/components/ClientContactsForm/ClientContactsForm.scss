@@ -34,9 +34,7 @@
     }
   }
 
-  .ClientContactsForm__field {
-    .input__control:disabled + .input__addition {
-      border-color: #cfcfcf;
-    }
+  &__field-addition {
+    border-color: #cfcfcf !important;
   }
 }

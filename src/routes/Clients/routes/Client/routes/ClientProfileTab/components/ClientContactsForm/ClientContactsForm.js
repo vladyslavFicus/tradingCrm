@@ -314,6 +314,7 @@ class ClientContactsForm extends PureComponent {
                       addition={
                         (isAvailableToUpdatePhone || isAvailableToUpdateAltPhone)
                         && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
+                      additionClassName="ClientContactsForm__field-addition"
                       additionPosition="right"
                       onAdditionClick={this.getProfileContacts}
                       disabled={isSubmitting

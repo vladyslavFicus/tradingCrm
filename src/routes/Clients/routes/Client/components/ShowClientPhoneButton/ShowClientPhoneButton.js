@@ -5,6 +5,7 @@ import { Button } from 'components/UI';
 import permissions from 'config/permissions';
 import './ShowClientPhoneButton.scss';
 import PermissionContent from 'components/PermissionContent';
+import { CONDITIONS } from 'utils/permissions';
 
 class ShowClientPhoneButton extends PureComponent {
   static propTypes = {
@@ -17,10 +18,12 @@ class ShowClientPhoneButton extends PureComponent {
     } = this.props;
 
     return (
-      <PermissionContent permissionsCondition={[
-        permissions.USER_PROFILE.FIELD_PHONE,
-        permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
-      ]}
+      <PermissionContent
+        permission={[
+          permissions.USER_PROFILE.FIELD_PHONE,
+          permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
+        ]}
+        permissionsCondition={CONDITIONS.OR}
       >
         <Button
           className="ShowClientPhone__button"
