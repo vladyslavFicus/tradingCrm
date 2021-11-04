@@ -45,7 +45,9 @@ class ClientContactsForm extends PureComponent {
   };
 
   state = {
+    additionalEmail: undefined,
     additionalPhone: undefined,
+    email: undefined,
     phone: undefined,
     isContactsShown: false,
   }
@@ -54,14 +56,17 @@ class ClientContactsForm extends PureComponent {
     const { clientData: { uuid }, notify } = this.props;
 
     try {
-      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+      const { data: {
+        profileContacts: { additionalEmail, additionalPhone, phone, email } } } = await this.props.client.query({
         query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
         fetchPolicy: 'network-only',
       });
 
       this.setState({
+        additionalEmail,
         additionalPhone,
+        email,
         phone,
         isContactsShown: true,
       });
@@ -271,9 +276,9 @@ class ClientContactsForm extends PureComponent {
         <div className="ClientContactsForm">
           <Formik
             initialValues={{
-              phone: this.state.phone || phone,
+              additionalEmail: this.state.additionalEmail || additionalEmail,
               additionalPhone: this.state.additionalPhone || additionalPhone,
-              additionalEmail,
+              phone: this.state.phone || phone,
             }}
             validate={createValidator({
               phone: 'required|string|min:3',
@@ -364,7 +369,10 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.additionalEmail)}
                       placeholder={I18n.t(attributeLabels.additionalEmail)}
                       component={FormikInputField}
-                      disabled={isSubmitting || !isAvailableToUpdateAltEmail || !isAvailableToUpdateContacts}
+                      disabled={isSubmitting
+                      || !isAvailableToUpdateAltEmail
+                      || !isAvailableToUpdateContacts
+                      || !this.state.isContactsShown}
                     />
                   </div>
                 </div>
@@ -374,7 +382,7 @@ class ClientContactsForm extends PureComponent {
           <hr />
           <Formik
             initialValues={{
-              email,
+              email: this.state.email || email,
             }}
             validate={createValidator({
               email: 'required|email',
@@ -392,7 +400,10 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.email)}
                       placeholder={I18n.t(attributeLabels.email)}
                       component={FormikInputField}
-                      disabled={isSubmitting || !isAvailableToUpdateEmail}
+                      disabled={isSubmitting
+                      || !isAvailableToUpdateEmail
+                      || !isAvailableToUpdateContacts
+                      || !this.state.isContactsShown}
                     />
 
                     <If condition={!emailVerified}>
