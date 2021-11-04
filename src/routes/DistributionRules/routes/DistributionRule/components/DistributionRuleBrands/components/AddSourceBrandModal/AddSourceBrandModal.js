@@ -104,6 +104,7 @@ class AddSourceBrandModal extends PureComponent {
     });
 
     this.props.branchesQuery.refetch({ brandId: brand });
+    this.props.partnersQuery.refetch({ brandId: brand });
   };
 
   handleAffiliatesChange = (setValues, values) => (affiliateUuids) => {
