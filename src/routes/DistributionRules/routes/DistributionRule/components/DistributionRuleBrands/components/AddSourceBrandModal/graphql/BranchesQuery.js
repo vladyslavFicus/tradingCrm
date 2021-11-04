@@ -31,7 +31,11 @@ const BranchesQuery = ({ children, initialValues }) => (
 
 BranchesQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
+  initialValues: PropTypes.object,
+};
+
+BranchesQuery.defaultProps = {
+  initialValues: {},
 };
 
 export default BranchesQuery;
