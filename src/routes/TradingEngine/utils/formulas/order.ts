@@ -27,7 +27,7 @@ export const determineOrderType = (args: DetermineOrderTypeArguments): OrderType
 
   // If it's pending order and direction is BUY --> determine type depends on price
   if (direction === OrderDirection.BUY) {
-    return openPrice < currentPrice ? OrderTypeOnCreation.LIMIT : OrderTypeOnCreation.STOP;
+    return openPrice > currentPrice ? OrderTypeOnCreation.STOP : OrderTypeOnCreation.LIMIT;
   }
 
   // If it's pending order and direction is SELL --> determine type depends on price

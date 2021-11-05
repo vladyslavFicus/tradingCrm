@@ -9,7 +9,7 @@ import { withStorage } from 'providers/StorageProvider';
 import TokenRefreshMutation from './graphql/TokenRefreshMutation';
 import RSocketReconnectableClient from '../lib/RSocketReconnectableClient';
 
-const RSocketContext = React.createContext();
+export const RSocketContext = React.createContext();
 
 class RSocketProvider extends PureComponent {
   static propTypes = {
