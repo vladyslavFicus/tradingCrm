@@ -316,7 +316,10 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.phone)}
                       placeholder={I18n.t(attributeLabels.phone)}
                       component={FormikInputField}
-                      addition={isAvailableToUpdatePhone && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
+                      addition={
+                        (isAvailableToUpdatePhone || isAvailableToUpdateAltPhone)
+                        && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
+                      additionClassName="ClientContactsForm__field-addition"
                       additionPosition="right"
                       onAdditionClick={this.getProfileContacts}
                       disabled={isSubmitting
@@ -357,7 +360,6 @@ class ClientContactsForm extends PureComponent {
                       component={FormikInputField}
                       disabled={isSubmitting
                       || !isAvailableToUpdateAltPhone
-                      || !isAvailableToUpdateContacts
                       || !this.state.isContactsShown}
                     />
                   </div>
