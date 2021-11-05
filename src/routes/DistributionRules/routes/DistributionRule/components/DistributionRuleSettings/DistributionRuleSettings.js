@@ -110,7 +110,7 @@ class DistributionRuleSettings extends PureComponent {
                 customOnChange={(value) => {
                   setValues({
                     ...values,
-                    salesStatuses: value.sort((a, b) => a.localeCompare(b)),
+                    salesStatuses: value && value.sort((a, b) => a.localeCompare(b)),
                   });
                 }}
                 showErrorMessage={false}
@@ -215,7 +215,7 @@ class DistributionRuleSettings extends PureComponent {
                 customOnChange={(value) => {
                   setValues({
                     ...values,
-                    countries: value.sort((a, b) => a.localeCompare(b)),
+                    countries: value && value.sort((a, b) => a.localeCompare(b)),
                   });
                 }}
                 showErrorMessage={false}
@@ -239,7 +239,7 @@ class DistributionRuleSettings extends PureComponent {
                 customOnChange={(value) => {
                   setValues({
                     ...values,
-                    languages: value.sort((a, b) => a.localeCompare(b)),
+                    languages: value && value.sort((a, b) => a.localeCompare(b)),
                   });
                 }}
                 showErrorMessage={false}
