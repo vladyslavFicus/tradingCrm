@@ -44,15 +44,21 @@ class Client extends PureComponent {
       profile: PropTypes.profile,
     }).isRequired,
     match: PropTypes.shape({
+      params: PropTypes.object,
       path: PropTypes.string,
       url: PropTypes.string,
     }).isRequired,
   }
 
   componentDidMount() {
+    const { match: { params: { id } } } = this.props;
+
     EventEmitter.on(CLIENT_RELOAD, this.onClientEvent);
     EventEmitter.on(ACQUISITION_STATUS_CHANGED, this.onAcquisitionStatusChangedEvent);
-    Trackify.click('PROFILE_OPENED');
+    Trackify.page({
+      eventAction: 'PROFILE_OPENED',
+      eventLabel: id,
+    });
   }
 
   componentWillUnmount() {

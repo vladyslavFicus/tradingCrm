@@ -7,7 +7,6 @@ import { parseErrors, withRequests } from 'apollo';
 import Trackify from '@hrzn/trackify';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import { withStorage } from 'providers/StorageProvider';
 import Permissions from 'utils/permissions';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
@@ -20,7 +19,6 @@ import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';
 import VerifyEmailMutation from './graphql/VerifyEmailMutation';
 import ProfileContactsQuery from './graphql/ProfileContactsQuery';
-import OperatorQuery from './graphql/OperatorQuery';
 import './ClientContactsForm.scss';
 
 const attributeLabels = {
@@ -44,9 +42,6 @@ class ClientContactsForm extends PureComponent {
     updateClientEmail: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
-    operatorQuery: PropTypes.query({
-      operator: PropTypes.operator,
-    }).isRequired,
     notify: PropTypes.func.isRequired,
   };
 
@@ -59,8 +54,7 @@ class ClientContactsForm extends PureComponent {
   }
 
   getProfileContacts = async () => {
-    const { clientData: { uuid }, notify, operatorQuery } = this.props;
-    const operator = operatorQuery.data?.operator || {};
+    const { clientData: { uuid }, notify } = this.props;
 
     try {
       const { data: {
@@ -71,15 +65,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       Trackify.click('PROFILE_CONTACTS_VIEWED', {
-        eventValue: {
-          operatorEmail: operator.email,
-          clientAdditionalEmail: additionalEmail,
-          clientAdditionalPhone: additionalPhone,
-          clientEmail: email,
-          clientPhone: phone,
-          eventLabel: uuid,
-          profileUuid: operator.uuid,
-        },
+        eventLabel: uuid,
       });
 
       this.setState({
@@ -116,6 +102,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       this.setState({
+        additionalEmail: isContactsShown ? values.additionalEmail : undefined,
         additionalPhone: isContactsShown ? values.additionalPhone : undefined,
         phone: isContactsShown ? values.phone : undefined,
       });
@@ -167,6 +154,7 @@ class ClientContactsForm extends PureComponent {
       notify,
       modals: { confirmationModal },
     } = this.props;
+    const { isContactsShown } = this.state;
 
     try {
       await updateClientEmail({
@@ -174,6 +162,10 @@ class ClientContactsForm extends PureComponent {
           playerUUID: clientData.uuid,
           email: values.email,
         },
+      });
+
+      this.setState({
+        email: isContactsShown ? values.email : undefined,
       });
 
       notify({
@@ -283,12 +275,12 @@ class ClientContactsForm extends PureComponent {
     } = contacts || {};
 
     const isAvailableToUpdatePhone = allows(permissions.USER_PROFILE.FIELD_PHONE);
-    const isAvailableToUpdateEmail = allows(permissions.USER_PROFILE.FIELD_EMAIL);
     const isAvailableToUpdateAltPhone = allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
     const isAvailableToUpdateAltEmail = allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
 
     const isAvailableToUpdateContacts = new Permissions(permissions.USER_PROFILE.UPDATE_CONTACTS)
       .check(currentPermissions);
+    const isAvailableToUpdateEmail = allows(permissions.USER_PROFILE.UPDATE_EMAIL);
 
     return (
       <>
@@ -344,6 +336,7 @@ class ClientContactsForm extends PureComponent {
                       disabled={isSubmitting
                       || !isAvailableToUpdatePhone
                       || !isAvailableToUpdateContacts
+                      || !isAvailableToUpdateEmail
                       || !this.state.isContactsShown}
                     />
 
@@ -423,7 +416,6 @@ class ClientContactsForm extends PureComponent {
                       component={FormikInputField}
                       disabled={isSubmitting
                       || !isAvailableToUpdateEmail
-                      || !isAvailableToUpdateContacts
                       || !this.state.isContactsShown}
                     />
 
@@ -477,12 +469,10 @@ export default compose(
   withModals({
     confirmationModal: ConfirmActionModal,
   }),
-  withStorage(['auth']),
   withRequests({
     updateClientContacts: UpdateClientContactsMutation,
     updateClientEmail: UpdateClientEmailMutation,
     verifyPhone: VerifyPhoneMutation,
     verifyEmail: VerifyEmailMutation,
-    operatorQuery: OperatorQuery,
   }),
 )(ClientContactsForm);

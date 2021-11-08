@@ -43,26 +43,26 @@ class ClientProfileTab extends PureComponent {
           <div className="ClientProfileTab__column ClientProfileTab__column--large">
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
-            <PermissionContent
-              permissionsCondition={CONDITIONS.OR}
-              permissions={[
-                permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
-                permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
-              ]}
+            <If
+              condition={
+                depositsCount > 0
+                && clientData?.affiliate
+                && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
+              }
             >
-              <If
-                condition={
-                  depositsCount > 0
-                  && clientData?.affiliate
-                  && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
-                }
+              <PermissionContent
+                permissionsCondition={CONDITIONS.OR}
+                permissions={[
+                  permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
+                  permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
+                ]}
               >
                 <AffiliateSettings
                   showFtdToAffiliate={showFtdToAffiliate}
                   profileUuid={clientData?.uuid}
                 />
-              </If>
-            </PermissionContent>
+              </PermissionContent>
+            </If>
           </div>
 
           <div className="ClientProfileTab__column  ClientProfileTab__column--thin">
