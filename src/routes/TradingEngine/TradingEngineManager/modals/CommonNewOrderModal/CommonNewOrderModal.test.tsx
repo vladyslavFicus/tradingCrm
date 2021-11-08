@@ -6,8 +6,8 @@ import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
 import { round } from 'utils/round';
-import { REQUEST as TradingEngineAccountQuery } from './graphql/TradingEngineAccountQuery';
-import NewOrderModal from './NewOrderModal';
+import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
+import CommonNewOrderModal from './CommonNewOrderModal';
 
 // Mocks
 jest.mock('components/SymbolChart', () => () => null);
@@ -18,20 +18,24 @@ const props = {
   onCloseModal: () => null,
   onSuccess: () => null,
   notify: () => null,
-  accountUuid: 'UUID',
 };
 
 // Define mocks for Apollo
 const apolloMockFactory = (data = {}) => [{
   request: {
     query: TradingEngineAccountQuery,
-    variables: { identifier: props.accountUuid },
+    variables: { identifier: 'UUID' },
   },
   result: {
     data: {
       tradingEngineAccount: {
         _id: 'UUID',
         uuid: 'UUID',
+        name: 'My USD account',
+        group: 'USD_GROUP',
+        accountType: 'LIVE',
+        credit: 4.11,
+        balance: 100.53,
         login: 100,
         currency: 'USD',
         allowedSymbols: [{
@@ -91,16 +95,19 @@ const render = (component: React.ReactElement, apolloMockData = {}) => testingLi
   </BrowserRouter>,
 );
 
-it('Render NewOrderModal and wait for symbols and ticks from rsocket', async () => {
+it('Render CommonNewOrderModal and wait for symbols and ticks from rsocket', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -117,16 +124,19 @@ it('Render NewOrderModal and wait for symbols and ticks from rsocket', async () 
   expect(screen.getByLabelText('Open price')).toBeDisabled();
 });
 
-it('Render NewOrderModal and click on "Auto" checkbox', async () => {
+it('Render CommonNewOrderModal and click on "Auto" checkbox', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -146,16 +156,19 @@ it('Render NewOrderModal and click on "Auto" checkbox', async () => {
   expect(screen.getByLabelText(/Pending order/)).not.toBeChecked();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -188,16 +201,19 @@ it('Render NewOrderModal and click on "Pending order" checkbox', async () => {
   expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox double times', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox double times', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -230,7 +246,7 @@ it('Render NewOrderModal and click on "Pending order" checkbox double times', as
   expect(screen.getByText(`Buy at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox, BID price changed down', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox, BID price changed down', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
@@ -239,10 +255,13 @@ it('Render NewOrderModal and click on "Pending order" checkbox, BID price change
   const newBid = 1.1547;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -263,7 +282,7 @@ it('Render NewOrderModal and click on "Pending order" checkbox, BID price change
   expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox, BID price changed up', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox, BID price changed up', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
@@ -272,10 +291,13 @@ it('Render NewOrderModal and click on "Pending order" checkbox, BID price change
   const newBid = 1.1549;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -296,7 +318,7 @@ it('Render NewOrderModal and click on "Pending order" checkbox, BID price change
   expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox, ASK price changed down', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox, ASK price changed down', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
@@ -305,10 +327,13 @@ it('Render NewOrderModal and click on "Pending order" checkbox, ASK price change
   const newBid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -329,7 +354,7 @@ it('Render NewOrderModal and click on "Pending order" checkbox, ASK price change
   expect(screen.getByText(`Buy Stop at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox, ASK price changed up', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox, ASK price changed up', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
@@ -338,10 +363,13 @@ it('Render NewOrderModal and click on "Pending order" checkbox, ASK price change
   const newBid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -362,7 +390,7 @@ it('Render NewOrderModal and click on "Pending order" checkbox, ASK price change
   expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 
-it('Render NewOrderModal and click on "Pending order" checkbox, ASK price is equal openPrice', async () => {
+it('Render CommonNewOrderModal and click on "Pending order" checkbox, ASK price is equal openPrice', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
@@ -371,10 +399,13 @@ it('Render NewOrderModal and click on "Pending order" checkbox, ASK price is equ
   const newBid = 1.1548;
 
   // Act
-  render(<NewOrderModal {...props} />);
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -395,7 +426,7 @@ it('Render NewOrderModal and click on "Pending order" checkbox, ASK price is equ
   expect(screen.getByText(`Buy at ${bid.toFixed(5)}`)).toBeDisabled();
 });
 
-it('Render NewOrderModal and applying group spread for chosen symbol', async () => {
+it('Render CommonNewOrderModal and applying group spread for chosen symbol', async () => {
   // Arrange
   const ask = 1.1552;
   const bid = 1.1548;
@@ -408,6 +439,11 @@ it('Render NewOrderModal and applying group spread for chosen symbol', async () 
     tradingEngineAccount: {
       _id: 'UUID',
       uuid: 'UUID',
+      name: 'My USD account',
+      group: 'USD_GROUP',
+      accountType: 'LIVE',
+      credit: 4.11,
+      balance: 100.53,
       login: 100,
       currency: 'USD',
       allowedSymbols: [{
@@ -424,10 +460,13 @@ it('Render NewOrderModal and applying group spread for chosen symbol', async () 
   };
 
   // Act
-  render(<NewOrderModal {...props} />, apolloMockResponseData);
+  render(<CommonNewOrderModal {...props} />, apolloMockResponseData);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
 
   // Wait for symbols loading
-  await screen.findByText(/EURUSD description/);
+  await screen.findAllByText(/EURUSD description/);
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
