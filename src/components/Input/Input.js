@@ -22,6 +22,7 @@ class Input extends PureComponent {
     labelTooltip: PropTypes.string,
     icon: PropTypes.string,
     addition: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    additionClassName: PropTypes.string,
     additionPosition: PropTypes.string,
     onAdditionClick: PropTypes.func,
     showErrorMessage: PropTypes.bool,
@@ -30,8 +31,8 @@ class Input extends PureComponent {
     onEnterPress: PropTypes.func,
     showWarningMessage: PropTypes.bool,
     warningMessage: PropTypes.string,
-    maxLength: PropTypes.number,
     type: PropTypes.string,
+    classNameError: PropTypes.string,
   };
 
   static defaultProps = {
@@ -45,6 +46,7 @@ class Input extends PureComponent {
     value: '',
     icon: null,
     addition: null,
+    additionClassName: '',
     additionPosition: '',
     onChange: () => {},
     onAdditionClick: () => {},
@@ -53,8 +55,8 @@ class Input extends PureComponent {
     autoFocus: false,
     onEnterPress: () => true,
     onTruncated: () => {},
-    maxLength: 524288,
     type: 'text',
+    classNameError: null,
   };
 
   id = v4();
@@ -86,21 +88,6 @@ class Input extends PureComponent {
     }
   };
 
-  handleChangeInput = (event) => {
-    const { onChange, maxLength, type } = this.props;
-    const { value } = event.target;
-
-    if (type === 'number' && maxLength) {
-      if (value.toString().length <= maxLength) {
-        onChange(event);
-        return;
-      }
-      return;
-    }
-
-    onChange(event);
-  };
-
   render() {
     const {
       name,
@@ -116,11 +103,13 @@ class Input extends PureComponent {
       labelTooltip,
       warningMessage,
       showWarningMessage,
+      additionClassName,
       additionPosition,
       onAdditionClick,
       showErrorMessage,
       onEnterPress,
       onTruncated,
+      classNameError,
       ...input
     } = this.props;
 
@@ -129,6 +118,7 @@ class Input extends PureComponent {
       name,
       value,
       disabled,
+      onChange,
       ...input,
       ref: this.inputRef,
       onKeyDown: this.onKeyDown,
@@ -172,7 +162,6 @@ class Input extends PureComponent {
           <input
             {...inputProps}
             id={this.id}
-            onChange={this.handleChangeInput}
             onWheel={e => e.target.blur()}
           />
           <If condition={icon}>
@@ -180,7 +169,7 @@ class Input extends PureComponent {
           </If>
           <If condition={addition}>
             <div
-              className={classNames('input__addition', {
+              className={classNames(additionClassName, 'input__addition', {
                 'input__addition--right': additionPosition === 'right',
               })}
               onClick={onAdditionClick}
@@ -191,7 +180,7 @@ class Input extends PureComponent {
         </div>
         <If condition={error && showErrorMessage}>
           <div className="input__footer">
-            <div className="input__error">
+            <div className={classNames('input__error', classNameError)}>
               <i className="input__error-icon icon-alert" />
               {error}
             </div>

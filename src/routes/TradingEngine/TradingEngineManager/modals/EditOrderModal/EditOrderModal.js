@@ -15,7 +15,7 @@ import SymbolChart from 'components/SymbolChart';
 import ShortLoader from 'components/ShortLoader';
 import Input from 'components/Input';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { createValidator, translateLabels } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
 import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
 import PnL from 'routes/TradingEngine/components/PnL';
@@ -453,11 +453,11 @@ class EditOrderModal extends PureComponent {
                       volumeLots,
                       closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
                     }}
-                    validate={values => createValidator({
-                      volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
-                    }, translateLabels({
+                    validate={createValidator({
+                      volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+                    }, {
                       volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-                    }), false)(values)}
+                    })}
                     onSubmit={values => this.handleCloseOrder({ ...values, status, symbol, type })}
                   >
                     {({ values: _values, setFieldValue }) => (
@@ -474,11 +474,11 @@ class EditOrderModal extends PureComponent {
                                 type="number"
                                 step="0.01"
                                 placeholder="0.00"
-                                min={0}
-                                max={9999}
-                                maxLength={4}
+                                min={0.01}
+                                max={1000}
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                                className="EditOrderModal__field EditOrderModal__field--customError"
+                                className="EditOrderModal__field"
+                                classNameError="EditOrderModal__field--customError"
                                 component={FormikInputField}
                                 disabled
                               />

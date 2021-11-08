@@ -28,6 +28,7 @@ export default {
     GET_LEADS: 'lead.searchLeads',
     GET_LEAD_BY_ID: 'lead.getLeadById',
     PROMOTE_LEAD: 'profile.admin.createProfile',
+    UPLOAD_LEADS_FROM_FILE: 'lead-updater.uploadLeadsFromFile',
   },
   HIERARCHY: {
     GET_TREE: 'hierarchy.branch.getBranchTree',

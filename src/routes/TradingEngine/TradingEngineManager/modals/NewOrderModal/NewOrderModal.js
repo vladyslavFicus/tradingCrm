@@ -10,7 +10,7 @@ import { Formik, Form, Field } from 'formik';
 import { withNotifications } from 'hoc';
 import { OrderType, OrderDirection } from 'types/trading-engine';
 import PropTypes from 'constants/propTypes';
-import { createValidator, translateLabels } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
 import {
   FormikCheckbox,
@@ -214,7 +214,7 @@ class NewOrderModal extends PureComponent {
             pendingOrder: false,
           }}
           validate={values => createValidator({
-            volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
+            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
             symbol: ['required', 'string'],
             ...!values.autoOpenPrice && {
               openPrice: 'required',
@@ -250,10 +250,10 @@ class NewOrderModal extends PureComponent {
                 : 0
             }`,
             ],
-          }, translateLabels({
+          }, {
             volumeLots: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME'),
             openPrice: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE'),
-          }), false)(values)}
+          }, false)(values)}
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
@@ -340,9 +340,8 @@ class NewOrderModal extends PureComponent {
                         className="NewOrderModal__field"
                         placeholder="0.00"
                         step="0.01"
-                        min={0}
-                        max={9999}
-                        maxLength={4}
+                        min={0.01}
+                        max={1000}
                         component={FormikInputField}
                       />
                     </div>

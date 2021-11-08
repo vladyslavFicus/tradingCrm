@@ -14,7 +14,7 @@ import {
   FormikDatePicker,
   FormikInputDecimalsField,
 } from 'components/Formik';
-import { createValidator, translateLabels } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -288,11 +288,11 @@ class EditOrderModal extends PureComponent {
               openTime: time?.creation,
               closeTime: time?.closing,
             }}
-            validate={values => createValidator({
-              volumeLots: ['required', 'numeric', 'max:9999', 'min:0.01'],
-            }, translateLabels({
+            validate={createValidator({
+              volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+            }, {
               volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-            }), false)(values)}
+            })}
             onSubmit={values => this.handleEditOrder(values, status)}
             enableReinitialize
           >
@@ -346,9 +346,8 @@ class EditOrderModal extends PureComponent {
                           type="number"
                           step="0.01"
                           placeholder="0.00"
-                          min={0}
-                          max={9999}
-                          maxLength={4}
+                          min={0.01}
+                          max={1000}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                           className="EditOrderModal__field"
                           component={FormikInputField}

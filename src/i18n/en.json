@@ -1323,7 +1323,8 @@
       "WIRE_SENT": "Wire Sent",
       "HUNG_UP": "Hung Up",
       "LONG_TERM_CALL_BACK": "Long Term Call Back",
-      "APPOINTMENT_24HR": "Appointment 24hr"
+      "APPOINTMENT_24HR": "Appointment 24hr",
+      "SELF_DEPOSITOR": "Self depositor"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -3364,7 +3365,8 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source*",
+        "AFFILIATE_UUID": "Affiliate Uuid*",
+        "COPY_SOURCE": "Copy source",
         "DESKS": "Desks",
         "TEAMS": "Teams"
       },
