@@ -3,6 +3,7 @@ import { Switch, Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import Helmet from 'react-helmet';
 import { withRequests, hasErrorPath } from 'apollo';
+import Trackify from '@hrzn/trackify';
 import EventEmitter, { CLIENT_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
@@ -51,6 +52,7 @@ class Client extends PureComponent {
   componentDidMount() {
     EventEmitter.on(CLIENT_RELOAD, this.onClientEvent);
     EventEmitter.on(ACQUISITION_STATUS_CHANGED, this.onAcquisitionStatusChangedEvent);
+    Trackify.click('PROFILE_OPENED');
   }
 
   componentWillUnmount() {

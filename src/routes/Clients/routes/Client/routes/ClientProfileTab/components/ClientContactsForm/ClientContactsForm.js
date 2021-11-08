@@ -4,8 +4,10 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withNotifications, withModals } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
+import Trackify from '@hrzn/trackify';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
+import { withStorage } from 'providers/StorageProvider';
 import Permissions from 'utils/permissions';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
@@ -18,6 +20,7 @@ import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';
 import VerifyEmailMutation from './graphql/VerifyEmailMutation';
 import ProfileContactsQuery from './graphql/ProfileContactsQuery';
+import OperatorQuery from './graphql/OperatorQuery';
 import './ClientContactsForm.scss';
 
 const attributeLabels = {
@@ -41,6 +44,9 @@ class ClientContactsForm extends PureComponent {
     updateClientEmail: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
+    operatorQuery: PropTypes.query({
+      operator: PropTypes.operator,
+    }).isRequired,
     notify: PropTypes.func.isRequired,
   };
 
@@ -53,7 +59,8 @@ class ClientContactsForm extends PureComponent {
   }
 
   getProfileContacts = async () => {
-    const { clientData: { uuid }, notify } = this.props;
+    const { clientData: { uuid }, notify, operatorQuery } = this.props;
+    const operator = operatorQuery.data?.operator || {};
 
     try {
       const { data: {
@@ -61,6 +68,18 @@ class ClientContactsForm extends PureComponent {
         query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
         fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('PROFILE_CONTACTS_VIEWED', {
+        eventValue: {
+          operatorEmail: operator.email,
+          clientAdditionalEmail: additionalEmail,
+          clientAdditionalPhone: additionalPhone,
+          clientEmail: email,
+          clientPhone: phone,
+          eventLabel: uuid,
+          profileUuid: operator.uuid,
+        },
       });
 
       this.setState({
@@ -458,10 +477,12 @@ export default compose(
   withModals({
     confirmationModal: ConfirmActionModal,
   }),
+  withStorage(['auth']),
   withRequests({
     updateClientContacts: UpdateClientContactsMutation,
     updateClientEmail: UpdateClientEmailMutation,
     verifyPhone: VerifyPhoneMutation,
     verifyEmail: VerifyEmailMutation,
+    operatorQuery: OperatorQuery,
   }),
 )(ClientContactsForm);

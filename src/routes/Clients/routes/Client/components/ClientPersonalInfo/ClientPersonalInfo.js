@@ -5,10 +5,12 @@ import I18n from 'i18n-js';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
+import Trackify from '@hrzn/trackify';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import Sms from 'components/Sms';
 import { withPermission } from 'providers/PermissionsProvider';
+import { withStorage } from 'providers/StorageProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import { PersonalInformationItem } from 'components/Information';
@@ -19,6 +21,7 @@ import Permissions from 'utils/permissions';
 import ProfileContactsQuery from '../../graphql/ProfileContactsQuery';
 import ShowClientPhoneButton from '../ShowClientPhoneButton';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
+import OperatorQuery from './graphql/OperatorQuery';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
 import './ClientPersonalInfo.scss';
@@ -31,6 +34,9 @@ class ClientPersonalInfo extends PureComponent {
     }).isRequired,
     notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
+    operatorQuery: PropTypes.query({
+      operator: PropTypes.operator,
+    }).isRequired,
     modals: PropTypes.shape({
       emailSelectModal: PropTypes.modalType,
       emailPreviewModal: PropTypes.modalType,
@@ -73,17 +79,33 @@ class ClientPersonalInfo extends PureComponent {
   };
 
   getProfileContacts = async () => {
-    const { clientInfo: { uuid }, notify } = this.props;
+    const { clientInfo: { uuid }, notify, operatorQuery } = this.props;
+    const operator = operatorQuery.data?.operator || {};
 
     try {
-      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+      const { data:
+        { profileContacts: { additionalEmail, additionalPhone, email, phone } } } = await this.props.client.query({
         query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
       });
 
+      Trackify.click('PROFILE_CONTACTS_VIEWED', {
+        eventValue: {
+          operatorEmail: operator.email,
+          clientAdditionalEmail: additionalEmail,
+          clientAdditionalPhone: additionalPhone,
+          clientEmail: email,
+          clientPhone: phone,
+          eventLabel: uuid,
+          profileUuid: operator.uuid,
+        },
+      });
+
       this.setState({
+        additionalEmail,
         additionalPhone,
         phone,
+        email,
       });
     } catch {
       notify({
@@ -202,7 +224,7 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
-            value={email}
+            value={this.state.email || email}
             verified={profileStatus === userStatuses.VERIFIED}
             onClickSelectEmail={this.triggerEmailSelectModal}
             withSendEmail={isSendEmailAvailable}
@@ -210,7 +232,7 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
-            value={additionalEmail}
+            value={this.state.additionalEmail || additionalEmail}
             verified={profileStatus === userStatuses.VERIFIED}
             className="ClientPersonalInfo__contacts"
           />
@@ -315,7 +337,9 @@ export default compose(
   withModals({
     emailSelectModal: EmailSelectModal,
   }),
+  withStorage(['auth']),
   withRequests({
     updateConfiguration: UpdateConfigurationMutation,
+    operatorQuery: OperatorQuery,
   }),
 )(ClientPersonalInfo);
