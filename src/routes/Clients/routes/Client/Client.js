@@ -44,7 +44,9 @@ class Client extends PureComponent {
       profile: PropTypes.profile,
     }).isRequired,
     match: PropTypes.shape({
-      params: PropTypes.object,
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }),
       path: PropTypes.string,
       url: PropTypes.string,
     }).isRequired,

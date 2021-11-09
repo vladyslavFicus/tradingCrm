@@ -336,7 +336,6 @@ class ClientContactsForm extends PureComponent {
                       disabled={isSubmitting
                       || !isAvailableToUpdatePhone
                       || !isAvailableToUpdateContacts
-                      || !isAvailableToUpdateEmail
                       || !this.state.isContactsShown}
                     />
 
