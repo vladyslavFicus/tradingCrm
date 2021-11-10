@@ -1,4 +1,9 @@
 .TradingEngineSymbols {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__cell-primary {
     font-weight: 700;
   }

@@ -1,0 +1,37 @@
+.SessionsSettings {
+  &__field {
+    margin-right: 30px;
+    width: calc(33.3% - 20px);
+    display: inline-block;
+    vertical-align: top;
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+
+  &__section-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__section-title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  &__text-primary {
+    display: inline-block;
+    font-weight: 700;
+  }
+
+  &__edit {
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  &__day {
+    font-weight: 700;
+  }
+}

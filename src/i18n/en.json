@@ -3618,7 +3618,58 @@
         }
       }
     },
+    "NEW_SYMBOL": {
+      "SYMBOL": "Symbol",
+      "CALCULATION": "Calculation",
+      "SWAPS": "Swaps",
+      "SESSIONS": "Sessions",
+      "SYMBOL_LABEL": "Symbol",
+      "SOURCE_LABEL": "Source",
+      "DIGITS_LABEL": "Digits",
+      "DESCRIPTION_LABEL": "Description",
+      "SECURITY_LABEL": "Security",
+      "TYPE_LABEL": "Type",
+      "BASE_CURRENCY_LABEL": "Base currency",
+      "QUOTE_CURRENCY_LABEL": "Quote currency",
+      "BACKGROUND_LABEL": "Background",
+      "SPREAD_BID_LABEL": "Spread bid",
+      "SPREAD_ASK_LABEL": "Spread ask",
+      "LIMIT_STOP_LABEL": "Limit & Stop Level",
+      "CONTRACT_SIZE_LABEL": "Contract size",
+      "PERCENTAGE_LABEL": "Percentage",
+      "MARGIN_CALCULATION_LABEL": "Margin calculation",
+      "PROFIT_CALCULATION_LABEL": "Profit calculation",
+      "ENABLE_LABEL": "Enable",
+      "LONG_POSITIONS_LABEL": "Long positions",
+      "SHORT_POSITIONS_LABEL": "Short positions",
+      "3_DAYS_SWAP_LABEL": "3-days swap",
+      "WEEK": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      },
+      "GRID_HEADER": {
+        "DAY": "Day",
+        "QUOTES": "Quotes",
+        "TRADE": "Trade"
+      },
+      "MODALS": {
+        "SCHEDULE": {
+          "TITLE": "trade settings",
+          "LABELS": {
+            "WORKING_HOURS_FROM": "Working Hours From",
+            "WORKING_HOURS_TO": "Working Hours To"
+          },
+          "MESSAGE": "Please use 00.00 - 24.00 time format (UTC time zone) to set the working time period."
+        }
+      }
+    },
     "SYMBOLS": {
+      "NEW_SYMBOL": "+ New symbol",
       "HEADLINE": "Symbols",
       "GRID": {
         "SYMBOL": "Symbol",

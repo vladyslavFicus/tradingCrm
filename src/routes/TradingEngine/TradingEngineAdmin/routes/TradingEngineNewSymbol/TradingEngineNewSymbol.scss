@@ -1,0 +1,14 @@
+.TradingEngineNewSymbol {
+  padding: 25px;
+  background-color: #fff;
+
+  &__content {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    padding: 25px;
+  }
+
+  &__actions {
+    float: right;
+  }
+}
