@@ -18,6 +18,10 @@
     color: #ffffff;
   }
 
+  &:focus {
+    border: none;
+  }
+
   &:after {
     display: none;
     content: attr(counter);
