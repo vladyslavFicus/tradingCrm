@@ -13,14 +13,17 @@ const REQUEST = gql`query DistributionRuleSettings_PartnersQuery($brandId: Strin
   }
 }`;
 
-const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="cache-and-network">
+const PartnersQuery = ({ children, initialValues: { brand } }) => (
+  <Query query={REQUEST} variables={{ brandId: brand }} fetchPolicy="cache-and-network">
     {children}
   </Query>
 );
 
 PartnersQuery.propTypes = {
   children: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape({
+    brand: PropTypes.string,
+  }).isRequired,
 };
 
 export default PartnersQuery;
