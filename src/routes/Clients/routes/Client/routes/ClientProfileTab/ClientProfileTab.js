@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { getBrand } from 'config';
@@ -43,26 +43,28 @@ class ClientProfileTab extends PureComponent {
           <div className="ClientProfileTab__column ClientProfileTab__column--large">
             <ClientPersonalForm clientData={clientData} />
             <ClientAddressForm clientData={clientData} />
-            <If
-              condition={
-                depositsCount > 0
-                && clientData?.affiliate
-                && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
-              }
+            <PermissionContent
+              permissionsCondition={CONDITIONS.OR}
+              permissions={[
+                permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
+                permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
+              ]}
             >
-              <PermissionContent
-                permissionsCondition={CONDITIONS.OR}
-                permissions={[
-                  permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
-                  permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
-                ]}
-              >
-                <AffiliateSettings
-                  showFtdToAffiliate={showFtdToAffiliate}
-                  profileUuid={clientData?.uuid}
-                />
-              </PermissionContent>
-            </If>
+              <Fragment>
+                <If
+                  condition={
+                    depositsCount > 0
+                    && clientData?.affiliate
+                    && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
+                  }
+                >
+                  <AffiliateSettings
+                    showFtdToAffiliate={showFtdToAffiliate}
+                    profileUuid={clientData?.uuid}
+                  />
+                </If>
+              </Fragment>
+            </PermissionContent>
           </div>
 
           <div className="ClientProfileTab__column  ClientProfileTab__column--thin">
