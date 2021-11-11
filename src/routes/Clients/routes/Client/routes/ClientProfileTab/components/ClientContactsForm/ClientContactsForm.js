@@ -328,7 +328,9 @@ class ClientContactsForm extends PureComponent {
                       placeholder={I18n.t(attributeLabels.phone)}
                       component={FormikInputField}
                       addition={
-                        (isAvailableToUpdatePhone || isAvailableToUpdateAltPhone)
+                        (isAvailableToUpdatePhone
+                        || isAvailableToUpdateAltPhone
+                        || isAvailableToUpdateEmail)
                         && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
                       additionClassName="ClientContactsForm__field-addition"
                       additionPosition="right"
