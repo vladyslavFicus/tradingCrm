@@ -23,6 +23,7 @@ import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesSt
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
+import pendingOrderMutation from './graphql/PendingOrderMutation';
 import orderQuery from './graphql/OrderQuery';
 import './EditOrderModal.scss';
 
@@ -178,6 +179,50 @@ class EditOrderModal extends PureComponent {
             level: 'error',
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
+          });
+        }
+      },
+    });
+  }
+
+  handlePendingOrder = async (activationPrice) => {
+    const {
+      id,
+      notify,
+      onCloseModal,
+      pendingOrder,
+      onSuccess,
+      modals: { confirmActionModal },
+    } = this.props;
+
+    confirmActionModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TEXT', { id }),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'EditOrderModal__confirmation-modal',
+      onSubmit: async () => {
+        try {
+          await pendingOrder({
+            variables: {
+              orderId: id,
+              activationPrice,
+            },
+          });
+
+          notify({
+            level: 'success',
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.PENDING_SUCCESS'),
+          });
+
+          onSuccess();
+          onCloseModal();
+        } catch (_) {
+          notify({
+            level: 'error',
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.PENDING_FAILED'),
           });
         }
       },
@@ -447,93 +492,169 @@ class EditOrderModal extends PureComponent {
                     }}
                   </Formik>
 
-                  <Formik
-                    enableReinitialize
-                    initialValues={{
-                      volumeLots,
-                      closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
-                    }}
-                    validate={createValidator({
-                      volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
-                    }, {
-                      volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-                    })}
-                    onSubmit={values => this.handleCloseOrder({ ...values, status, symbol, type })}
-                  >
-                    {({ values: _values, setFieldValue }) => (
-                      <Form>
-                        <If condition={status !== OrderStatus.CLOSED}>
-                          <fieldset className="EditOrderModal__fieldset">
-                            <legend className="EditOrderModal__fieldset-title">
-                              {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROCESS')}
-                            </legend>
+                  <Choose>
+                    <When condition={status === OrderStatus.PENDING}>
+                      <Formik
+                        enableReinitialize
+                        initialValues={{
+                          volumeLots,
+                          activationPrice: openPrice,
+                        }}
+                        validate={createValidator({
+                          volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+                        }, {
+                          volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
+                        })}
+                        onSubmit={({ activationPrice }) => this.handlePendingOrder(activationPrice)}
+                      >
+                        {({ values: _values, setFieldValue }) => (
+                          <Form>
+                            <If condition={status !== OrderStatus.CLOSED}>
+                              <fieldset className="EditOrderModal__fieldset">
+                                <legend className="EditOrderModal__fieldset-title">
+                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PENDING_ORDER')}
+                                </legend>
 
-                            <div className="EditOrderModal__field-container">
-                              <Field
-                                name="volumeLots"
-                                type="number"
-                                step="0.01"
-                                placeholder="0.00"
-                                min={0.01}
-                                max={1000}
-                                label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                                className="EditOrderModal__field"
-                                classNameError="EditOrderModal__field--customError"
-                                component={FormikInputField}
-                                disabled
-                              />
-                              <Field
-                                name="closePrice"
-                                type="number"
-                                disabled={!initialSymbolPrice}
-                                className="EditOrderModal__field"
-                                step="0.00001"
-                                min={0}
-                                max={999999}
-                                addition="UPDATE"
-                                additionPosition="right"
-                                onAdditionClick={() => {
-                                  const _closePrice = type === OrderType.SELL ? currentPriceAsk : currentPriceBid;
-
-                                  setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
-                                }}
-                                component={FormikInputDecimalsField}
-                                {...decimalsSettings}
-                              />
-                              <Button
-                                type="submit"
-                                disabled={status === OrderStatus.PENDING || !initialSymbolPrice}
-                                className="EditOrderModal__button"
-                                danger
-                              >
-                                {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
-                                  volumeLots: Number(_values.volumeLots).toFixed(2),
-                                  closePrice: (_values.closePrice || 0).toFixed(digits),
-                                })}
-                              </Button>
-                            </div>
-                            <If condition={status === OrderStatus.OPEN}>
-                              <div className="EditOrderModal__field-container">
-                                <div className="EditOrderModal__close-pnl">
-                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.WITH_PNL')}&nbsp;
-                                  <PnL
-                                    type={type}
-                                    openPrice={openPrice}
-                                    currentPriceBid={_values.closePrice || 0}
-                                    currentPriceAsk={_values.closePrice || 0}
-                                    volume={volumeLots}
-                                    lotSize={symbolEntity.lotSize}
-                                    exchangeRate={this.state.currentSymbolPrice?.pnlRates[account.currency]}
-                                    loaderSize={16}
+                                <div className="EditOrderModal__field-container">
+                                  <Field
+                                    name="volumeLots"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    min={0.01}
+                                    max={1000}
+                                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
+                                    className="EditOrderModal__field"
+                                    classNameError="EditOrderModal__field--customError"
+                                    component={FormikInputField}
+                                    disabled
                                   />
+                                  <Field
+                                    name="activationPrice"
+                                    type="number"
+                                    disabled={!initialSymbolPrice}
+                                    className="EditOrderModal__field"
+                                    step="0.00001"
+                                    min={0}
+                                    max={999999}
+                                    addition="UPDATE"
+                                    additionPosition="right"
+                                    onAdditionClick={() => {
+                                      // eslint-disable-next-line
+                                      const _activationPrice = type === OrderType.SELL ? currentPriceBid : currentPriceAsk;
+
+                                      setFieldValue('activationPrice', Number(_activationPrice?.toFixed(digits)));
+                                    }}
+                                    component={FormikInputDecimalsField}
+                                    {...decimalsSettings}
+                                  />
+                                  <Button
+                                    type="submit"
+                                    className="EditOrderModal__button"
+                                    danger
+                                  >
+                                    {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_ACTIVATE_PENDING_ORDER', {
+                                      volumeLots: Number(_values.volumeLots).toFixed(2),
+                                      activationPrice: (_values.activationPrice || 0).toFixed(digits),
+                                    })}
+                                  </Button>
                                 </div>
-                              </div>
+                              </fieldset>
                             </If>
-                          </fieldset>
-                        </If>
-                      </Form>
-                    )}
-                  </Formik>
+                          </Form>
+                        )}
+                      </Formik>
+                    </When>
+                    <Otherwise>
+                      <Formik
+                        enableReinitialize
+                        initialValues={{
+                          volumeLots,
+                          closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
+                        }}
+                        validate={createValidator({
+                          volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+                        }, {
+                          volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
+                        })}
+                        onSubmit={values => this.handleCloseOrder({ ...values, status, symbol, type })}
+                      >
+                        {({ values: _values, setFieldValue }) => (
+                          <Form>
+                            <If condition={status !== OrderStatus.CLOSED}>
+                              <fieldset className="EditOrderModal__fieldset">
+                                <legend className="EditOrderModal__fieldset-title">
+                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROCESS')}
+                                </legend>
+
+                                <div className="EditOrderModal__field-container">
+                                  <Field
+                                    name="volumeLots"
+                                    type="number"
+                                    step="0.01"
+                                    placeholder="0.00"
+                                    min={0.01}
+                                    max={1000}
+                                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
+                                    className="EditOrderModal__field"
+                                    classNameError="EditOrderModal__field--customError"
+                                    component={FormikInputField}
+                                    disabled
+                                  />
+                                  <Field
+                                    name="closePrice"
+                                    type="number"
+                                    disabled={!initialSymbolPrice}
+                                    className="EditOrderModal__field"
+                                    step="0.00001"
+                                    min={0}
+                                    max={999999}
+                                    addition="UPDATE"
+                                    additionPosition="right"
+                                    onAdditionClick={() => {
+                                      const _closePrice = type === OrderType.SELL ? currentPriceAsk : currentPriceBid;
+
+                                      setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
+                                    }}
+                                    component={FormikInputDecimalsField}
+                                    {...decimalsSettings}
+                                  />
+                                  <Button
+                                    type="submit"
+                                    disabled={!initialSymbolPrice}
+                                    className="EditOrderModal__button"
+                                    danger
+                                  >
+                                    {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_OPEN_ORDER', {
+                                      volumeLots: Number(_values.volumeLots).toFixed(2),
+                                      closePrice: (_values.closePrice || 0).toFixed(digits),
+                                    })}
+                                  </Button>
+                                </div>
+                                <If condition={status === OrderStatus.OPEN}>
+                                  <div className="EditOrderModal__field-container">
+                                    <div className="EditOrderModal__close-pnl">
+                                      {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.WITH_PNL')}&nbsp;
+                                      <PnL
+                                        type={type}
+                                        openPrice={openPrice}
+                                        currentPriceBid={_values.closePrice || 0}
+                                        currentPriceAsk={_values.closePrice || 0}
+                                        volume={volumeLots}
+                                        lotSize={symbolEntity.lotSize}
+                                        exchangeRate={this.state.currentSymbolPrice?.pnlRates[account.currency]}
+                                        loaderSize={16}
+                                      />
+                                    </div>
+                                  </div>
+                                </If>
+                              </fieldset>
+                            </If>
+                          </Form>
+                        )}
+                      </Formik>
+                    </Otherwise>
+                  </Choose>
                 </div>
               </div>
             </ModalBody>
@@ -555,6 +676,7 @@ export default compose(
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
+    pendingOrder: pendingOrderMutation,
     orderQuery,
   }),
 )(EditOrderModal);
