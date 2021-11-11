@@ -52,10 +52,10 @@ class ClientProfileTab extends PureComponent {
             >
               <If
                 condition={
-                    depositsCount > 0
-                    && clientData?.affiliate
-                    && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
-                  }
+                  depositsCount > 0
+                  && clientData?.affiliate
+                  && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
+                }
               >
                 <AffiliateSettings
                   showFtdToAffiliate={showFtdToAffiliate}
