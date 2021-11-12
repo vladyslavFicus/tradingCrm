@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-const REQUEST = gql`mutation TradingEngine_PendingOrderMutation(
+const REQUEST = gql`mutation TradingEngine_ActivatePendingOrderMutation(
    $orderId: Int!
    $activationPrice: Float!
 ) {
   tradingEngine {
-    pendingOrder(
+    activatePendingOrder(
       orderId: $orderId
       activationPrice: $activationPrice
     )
@@ -16,14 +16,14 @@ const REQUEST = gql`mutation TradingEngine_PendingOrderMutation(
 }
 `;
 
-const PendingOrderMutation = ({ children }) => (
+const ActivatePendingOrderMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-PendingOrderMutation.propTypes = {
+ActivatePendingOrderMutation.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default PendingOrderMutation;
+export default ActivatePendingOrderMutation;

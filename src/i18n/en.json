@@ -3526,7 +3526,7 @@
         "OPEN_RATE": "Open conversation rate",
         "CLOSE_RATE": "Close conversation rate",
         "BUTTON_ACTIVATE_PENDING_ORDER": "Activate {{volumeLots}} at {{activationPrice}}",
-        "BUTTON_OPEN_ORDER": "Close {{volumeLots}} at {{closePrice}}",
+        "BUTTON_CLOSE_ORDER": "Close {{volumeLots}} at {{closePrice}}",
         "WITH_PNL": "with P&L:",
         "PENDING_ORDER": "Pending order",
         "CONFIRMATION": {
@@ -3543,7 +3543,7 @@
           "CLOSE_ORDER_TITLE_PENDING": "Activate order",
           "CLOSE_ORDER_TEXT_PENDING": "Do you really want to activate order #{{id}} at price {{closePrice}}? ",
           "PENDING_ORDER_TITLE": "Pending order",
-          "PENDING_ORDER_TEXT": "Do you really want to activate pending order #{{id}}?"
+          "PENDING_ORDER_TEXT": "Do you really want to activate pending order #{{id}} at price {{activationPrice}}?"
         },
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully updated",

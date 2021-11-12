@@ -23,7 +23,7 @@ import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesSt
 import editOrderMutation from './graphql/EditOrderMutation';
 import closeOrderMutation from './graphql/CloseOrderMutation';
 import deleteOrderMutation from './graphql/DeleteOrderMutation';
-import pendingOrderMutation from './graphql/PendingOrderMutation';
+import activatePendingOrderMutation from './graphql/ActivatePendingOrderMutation';
 import orderQuery from './graphql/OrderQuery';
 import './EditOrderModal.scss';
 
@@ -185,25 +185,28 @@ class EditOrderModal extends PureComponent {
     });
   }
 
-  handlePendingOrder = async (activationPrice) => {
+  handleActivatePendingOrder = async (activationPrice) => {
     const {
       id,
       notify,
       onCloseModal,
-      pendingOrder,
+      activatePendingOrder,
       onSuccess,
       modals: { confirmActionModal },
     } = this.props;
 
     confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TITLE'),
-      actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TEXT', { id }),
+      actionText: I18n.t(
+        'TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TEXT',
+        { id, activationPrice },
+      ),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
       className: 'EditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
-          await pendingOrder({
+          await activatePendingOrder({
             variables: {
               orderId: id,
               activationPrice,
@@ -505,7 +508,7 @@ class EditOrderModal extends PureComponent {
                         }, {
                           volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
                         })}
-                        onSubmit={({ activationPrice }) => this.handlePendingOrder(activationPrice)}
+                        onSubmit={({ activationPrice }) => this.handleActivatePendingOrder(activationPrice)}
                       >
                         {({ values: _values, setFieldValue }) => (
                           <Form>
@@ -537,11 +540,12 @@ class EditOrderModal extends PureComponent {
                                     step="0.00001"
                                     min={0}
                                     max={999999}
-                                    addition="UPDATE"
+                                    addition={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
                                     additionPosition="right"
                                     onAdditionClick={() => {
-                                      // eslint-disable-next-line
-                                      const _activationPrice = type === OrderType.SELL ? currentPriceBid : currentPriceAsk;
+                                      const _activationPrice = type === OrderType.SELL
+                                        ? currentPriceBid
+                                        : currentPriceAsk;
 
                                       setFieldValue('activationPrice', Number(_activationPrice?.toFixed(digits)));
                                     }}
@@ -609,7 +613,7 @@ class EditOrderModal extends PureComponent {
                                     step="0.00001"
                                     min={0}
                                     max={999999}
-                                    addition="UPDATE"
+                                    addition={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
                                     additionPosition="right"
                                     onAdditionClick={() => {
                                       const _closePrice = type === OrderType.SELL ? currentPriceAsk : currentPriceBid;
@@ -625,7 +629,7 @@ class EditOrderModal extends PureComponent {
                                     className="EditOrderModal__button"
                                     danger
                                   >
-                                    {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_OPEN_ORDER', {
+                                    {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_CLOSE_ORDER', {
                                       volumeLots: Number(_values.volumeLots).toFixed(2),
                                       closePrice: (_values.closePrice || 0).toFixed(digits),
                                     })}
@@ -676,7 +680,7 @@ export default compose(
     editOrder: editOrderMutation,
     closeOrder: closeOrderMutation,
     deleteOrder: deleteOrderMutation,
-    pendingOrder: pendingOrderMutation,
+    activatePendingOrder: activatePendingOrderMutation,
     orderQuery,
   }),
 )(EditOrderModal);
