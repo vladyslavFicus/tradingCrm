@@ -163,7 +163,7 @@ class EditOrderModal extends PureComponent {
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_DEAL_TITLE'),
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_DEAL_TEXT', {
         id,
-        type,
+        type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
         symbol,
         volumeLots,
       }),
@@ -223,7 +223,6 @@ class EditOrderModal extends PureComponent {
       takeProfit,
       volumeLots,
       openPrice,
-      direction,
       closePrice,
       closeRate,
       commission,
@@ -267,7 +266,7 @@ class EditOrderModal extends PureComponent {
         <ModalHeader toggle={onCloseModal}>
           {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
             id,
-            direction,
+            type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
             volumeLots,
             symbol,
           })}
@@ -337,7 +336,7 @@ class EditOrderModal extends PureComponent {
                           name="type"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
                           className="EditOrderModal__field"
-                          value={type}
+                          value={I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`)}
                         />
                       </div>
                       <div className="EditOrderModal__field-container">
