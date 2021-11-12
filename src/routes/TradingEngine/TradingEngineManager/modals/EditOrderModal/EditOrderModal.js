@@ -264,7 +264,7 @@ class EditOrderModal extends PureComponent {
             <Otherwise>
               {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
                 id,
-                direction,
+                type: I18n.t(`CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPES.${type}`),
                 volumeLots,
                 symbol,
               })}
