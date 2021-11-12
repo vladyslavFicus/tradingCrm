@@ -397,7 +397,7 @@ class NewOrderModal extends PureComponent {
                         step={step(currentSymbol?.digits)}
                         min={0}
                         max={999999}
-                        value={sellPrice.toFixed(currentSymbol?.digits)}
+                        value={sellPrice}
                         disabled={autoOpenPrice}
                         component={FormikInputDecimalsField}
                         {...decimalsSettings}
