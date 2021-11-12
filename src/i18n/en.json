@@ -3393,7 +3393,8 @@
     "TABS": {
       "ACCOUNTS": "Accounts",
       "ORDERS": "Orders",
-      "SYMBOLS": "Symbols"
+      "SYMBOLS": "Symbols",
+      "SECURITIES": "Securities"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
@@ -3616,6 +3617,13 @@
           "ARCHIVED": "Archived",
           "NOT_ARCHIVED": "Not archived"
         }
+      }
+    },
+    "SECURITIES": {
+      "GRID": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "SYMBOLS": "Symbols"
       }
     },
     "SYMBOLS": {
