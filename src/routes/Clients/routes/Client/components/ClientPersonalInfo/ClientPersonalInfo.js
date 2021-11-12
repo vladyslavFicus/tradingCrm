@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
+import Trackify from '@hrzn/trackify';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import Sms from 'components/Sms';
@@ -39,7 +40,9 @@ class ClientPersonalInfo extends PureComponent {
   };
 
   state = {
+    additionalEmail: undefined,
     additionalPhone: undefined,
+    email: undefined,
     phone: undefined,
   }
 
@@ -76,14 +79,21 @@ class ClientPersonalInfo extends PureComponent {
     const { clientInfo: { uuid }, notify } = this.props;
 
     try {
-      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+      const { data:
+        { profileContacts: { additionalEmail, additionalPhone, email, phone } } } = await this.props.client.query({
         query: ProfileContactsQuery,
         variables: { playerUUID: uuid },
       });
 
+      Trackify.click('PROFILE_CONTACTS_VIEWED', {
+        eventLabel: uuid,
+      });
+
       this.setState({
+        additionalEmail,
         additionalPhone,
         phone,
+        email,
       });
     } catch {
       notify({
@@ -202,7 +212,7 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
-            value={email}
+            value={this.state.email || email}
             verified={profileStatus === userStatuses.VERIFIED}
             onClickSelectEmail={this.triggerEmailSelectModal}
             withSendEmail={isSendEmailAvailable}
@@ -210,7 +220,7 @@ class ClientPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
-            value={additionalEmail}
+            value={this.state.additionalEmail || additionalEmail}
             verified={profileStatus === userStatuses.VERIFIED}
             className="ClientPersonalInfo__contacts"
           />
