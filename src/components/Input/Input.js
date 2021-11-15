@@ -59,7 +59,7 @@ class Input extends PureComponent {
     classNameError: null,
   };
 
-  id = v4();
+  id = `input-${v4()}`;
 
   inputRef = React.createRef();
 
