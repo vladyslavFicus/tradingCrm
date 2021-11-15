@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import classNames from 'classnames';
-import { withLazyStreams } from 'rsocket';
+import { set } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
+import SymbolsPricesStream from 'routes/TradingEngine/components/SymbolsPricesStream';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
 // import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
@@ -16,65 +16,29 @@ import './TradingEngineSymbolsGrid.scss';
 class TradingEngineSymbols extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
-    symbolsStreamRequest: PropTypes.func.isRequired,
+    symbolsQuery: PropTypes.query(PropTypes.pageable(PropTypes.symbolsTradingEngineType)).isRequired,
   };
-
-  symbols = [];
-
-  intervalID = null;
 
   state = {
-    tick: null, // eslint-disable-line
+    symbolsPrices: {},
   };
 
-  componentDidUpdate(prevProps) {
+  handlePageChanged = () => {
     const {
       symbolsQuery,
-      symbolsStreamRequest,
+      symbolsQuery: {
+        loadMore,
+      },
     } = this.props;
 
-    // Subscribe to symbols ticks when symbols list will be allowed to use in stream request
-    const symbolsNames = symbolsQuery.data?.tradingEngineSymbols?.map(({ name }) => name) || [];
+    const page = symbolsQuery?.data?.tradingEngineSymbolsSearch?.number || 0;
 
-    if (
-      prevProps.symbolsQuery.loading
-      && !symbolsQuery.loading
-      && symbolsNames.length
-    ) {
-      // Initially fill symbols variable to render it inside render method
-      this.symbols = symbolsQuery.data.tradingEngineSymbols;
+    loadMore(variables => set(variables, 'args.page.from', page + 1));
+  };
 
-      // Request symbols stream by retrieved symbols name
-      const symbolsStream = symbolsStreamRequest({ data: { symbols: symbolsNames } });
-
-      // Here can be up to 90 ticks per second, so performance is so bad for 90 re-rendering per one second
-      // The solution is aggregate ticks inside in-memory variable and manually re-render table each 200 ms
-      symbolsStream.onNext(({ data }) => { // eslint-disable-line
-        const symbol = this.symbols.find(({ name }) => name === data.symbol);
-
-        // Calculate direction where price moved depends from previous symbol tick
-        symbol.askDirection = data.ask > symbol.ask ? 'UP' : 'DOWN';
-        symbol.bidDirection = data.bid > symbol.bid ? 'UP' : 'DOWN';
-
-        // Mutate object to change bid and ask values
-        symbol.bid = data.bid;
-        symbol.ask = data.ask;
-      });
-
-      // Make re-rendering 1 time per 200 ms to optimize performance and FPS
-      if (!this.intervalID) {
-        this.intervalID = setInterval(() => {
-          this.setState({ tick: Math.random() }); // eslint-disable-line
-        }, 200);
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    // Clear component interval update
-    clearInterval(this.intervalID);
-  }
+  handleSymbolsPricesTick = (symbolsPrices) => {
+    this.setState({ symbolsPrices });
+  };
 
   renderName = ({ name }) => (
     <div className="TradingEngineSymbols__cell-primary">
@@ -82,42 +46,22 @@ class TradingEngineSymbols extends PureComponent {
     </div>
   );
 
-  renderBid = ({ bid, bidDirection }) => (
-    <div
-      key={bid}
-      className={classNames(
-        'TradingEngineSymbols__cell-primary',
-        'TradingEngineSymbols__direction',
-        {
-          'TradingEngineSymbols__direction--up': bidDirection === 'UP',
-          'TradingEngineSymbols__direction--down': bidDirection === 'DOWN',
-        },
-      )}
-    >
-      {bid || '—'}
+  renderBid = ({ name, digits }) => (
+    <div className="TradingEngineSymbols__cell-primary">
+      {this.state.symbolsPrices[name]?.bid?.toFixed(digits) || '—'}
     </div>
   );
 
-  renderAsk = ({ ask, askDirection }) => (
-    <div
-      key={ask}
-      className={classNames(
-        'TradingEngineSymbols__cell-primary',
-        'TradingEngineSymbols__direction',
-        {
-          'TradingEngineSymbols__direction--up': askDirection === 'UP',
-          'TradingEngineSymbols__direction--down': askDirection === 'DOWN',
-        },
-      )}
-    >
-      {ask || '—'}
+  renderAsk = ({ name, digits }) => (
+    <div className="TradingEngineSymbols__cell-primary">
+      {this.state.symbolsPrices[name]?.ask?.toFixed(digits) || '—'}
     </div>
   );
 
   render() {
     const { symbolsQuery } = this.props;
 
-    const symbols = this.symbols.length ? this.symbols : (symbolsQuery.data.tradingEngineSymbols || []);
+    const { content = [], last = true, totalElements } = symbolsQuery.data?.tradingEngineSymbolsSearch || {};
 
     return (
       <div className="card">
@@ -125,17 +69,25 @@ class TradingEngineSymbols extends PureComponent {
 
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
-            <strong>{symbolsQuery.data?.tradingEngineSymbols?.length}</strong>
+            <strong>{totalElements}</strong>
             &nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
         </div>
+
+        {/* Subscribe to symbol prices stream */}
+        <SymbolsPricesStream
+          symbols={content?.map(({ name }) => name)}
+          onNotify={this.handleSymbolsPricesTick}
+        />
 
         {/* <TradingEngineSymbolsGridFilter handleRefetch={this.refetchOrders} /> */}
 
         <div className="TradingEngineSymbols">
           <Table
-            items={symbols}
+            items={content}
             loading={symbolsQuery.loading}
+            onMore={this.handlePageChanged}
+            hasMore={!last}
             stickyFromTop={123}
           >
             <Column
@@ -161,10 +113,5 @@ export default compose(
   withRouter,
   withRequests({
     symbolsQuery: TradingEngineSymbolsQuery,
-  }),
-  withLazyStreams({
-    symbolsStreamRequest: {
-      route: 'streamAllSymbolPrices',
-    },
   }),
 )(TradingEngineSymbols);
