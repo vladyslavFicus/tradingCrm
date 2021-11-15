@@ -29,7 +29,7 @@ class Checkbox extends PureComponent {
     vertical: false,
   };
 
-  id = v4();
+  id = `checkbox-${v4()}`;
 
   /**
    * Change value by press on space or enter button
