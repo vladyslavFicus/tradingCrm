@@ -37,7 +37,7 @@ class TextArea extends PureComponent {
     showErrorMessage: true,
     labelClassName: '',
     placeholder: '',
-    maxLength: 10000,
+    maxLength: null,
     helpText: null,
     resize: 'none',
   };

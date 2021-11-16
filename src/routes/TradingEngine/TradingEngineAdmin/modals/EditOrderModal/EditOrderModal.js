@@ -496,6 +496,7 @@ class EditOrderModal extends PureComponent {
                           name="comment"
                           label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
                           className="EditOrderModal__field"
+                          maxLength={1000}
                           component={FormikTextAreaField}
                           disabled={isDisabled}
                         />

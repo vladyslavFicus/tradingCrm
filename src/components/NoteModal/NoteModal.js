@@ -75,6 +75,7 @@ class NoteModal extends PureComponent {
                 <Field
                   name="content"
                   label={I18n.t(attributeLabels.content)}
+                  maxLength={MAX_NOTE_BODY_LENGTH}
                   component={FormikTextAreaField}
                 />
                 <div
