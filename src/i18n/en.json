@@ -3587,6 +3587,16 @@
           "CANCEL_SUCCESS": "Deal has been successfully canceled",
           "CANCEL_FAILED": "Deal cancel failed"
         }
+      },
+      "NEW_SECURITIES_MODAL": {
+        "TITLE": "New Securities",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "NOTIFICATION": {
+          "SUCCESS": "Securities has been successfully created",
+          "FAILED": "Securities creation failed",
+          "FAILED_EXIST": "Securities with this name already exists."
+        }
       }
     },
     "ACCOUNTS": {
@@ -3628,6 +3638,7 @@
     },
     "SYMBOLS": {
       "HEADLINE": "Symbols",
+      "NEW_SECURITIES": "+ New securities",
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",
