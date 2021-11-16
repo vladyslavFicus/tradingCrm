@@ -6,12 +6,12 @@ export interface Props {
   children: any;
 }
 
-const REQUEST = gql`mutation TradingEngine_CreateSecuritiesMutation(
+const REQUEST = gql`mutation TradingEngine_CreateSecurityMutation(
    $name: String!
    $description: String
 ) {
   tradingEngineAdmin {
-    createSecurities(
+    createSecurity(
       name: $name
       description: $description
     )
@@ -19,10 +19,10 @@ const REQUEST = gql`mutation TradingEngine_CreateSecuritiesMutation(
 }
 `;
 
-const CreateSecuritiesMutation = ({ children }: Props) => (
+const CreateSecurityMutation = ({ children }: Props) => (
   <Mutation mutation={REQUEST}>
     {children}
   </Mutation>
 );
 
-export default CreateSecuritiesMutation;
+export default CreateSecurityMutation;

@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { compose, QueryResult } from 'react-apollo';
+import compose from 'compose-function';
+import { QueryResult } from 'react-apollo';
 import { withRequests } from 'apollo';
 import withModals from 'hoc/withModals';
 import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
-import { Modal } from 'types/trading-engine/modal';
-import NewSecuritiesModal from 'routes/TradingEngine/TradingEngineAdmin/modals/NewSecuritiesModal';
+import { Modal } from 'types/modal';
+import NewSecuritiesModal from 'routes/TradingEngine/TradingEngineAdmin/modals/NewSecurityModal';
 import { tradingEngineAdminTabs } from '../../constants';
 import TradingEngineSecuritiesQuery from './graphql/TradingEngineSecuritiesQuery';
 import './TradingEngineSecuritiesGrid.scss';
@@ -18,12 +19,12 @@ interface Securities {
   symbols: string[],
 }
 
-interface SecuritiesQuery {
+interface SecuritiesData {
   tradingEngineSecurities: Securities[],
 }
 
 interface Props {
-  securitiesQuery: QueryResult<SecuritiesQuery>,
+  securitiesQuery: QueryResult<SecuritiesData>,
   modals: {
     newSecuritiesModal: Modal,
   },
@@ -90,10 +91,10 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
     const securities = securitiesQuery.data?.tradingEngineSecurities || [];
 
     return (
-      <div className="card">
+      <div className="TradingEngineSecuritiesGrid__card">
         <Tabs items={tradingEngineAdminTabs} />
 
-        <div className="TradingEngineSecuritiesGrid__header card-heading card-heading--is-sticky">
+        <div className="TradingEngineSecuritiesGrid__header">
           <span className="TradingEngineSecuritiesGrid__title">
             <strong>{securities.length}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
@@ -102,7 +103,7 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
             commonOutline
             small
           >
-            {I18n.t('TRADING_ENGINE.SYMBOLS.NEW_SECURITIES')}
+            {I18n.t('TRADING_ENGINE.SYMBOLS.NEW_SECURITY')}
           </Button>
         </div>
 

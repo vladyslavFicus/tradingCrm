@@ -3588,14 +3588,14 @@
           "CANCEL_FAILED": "Deal cancel failed"
         }
       },
-      "NEW_SECURITIES_MODAL": {
-        "TITLE": "New Securities",
+      "NEW_SECURITY_MODAL": {
+        "TITLE": "New Security",
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "NOTIFICATION": {
-          "SUCCESS": "Securities has been successfully created",
-          "FAILED": "Securities creation failed",
-          "FAILED_EXIST": "Securities with this name already exists."
+          "SUCCESS": "Security has been successfully created",
+          "FAILED": "Security creation failed",
+          "FAILED_EXIST": "Security with this name already exists."
         }
       }
     },
@@ -3638,7 +3638,7 @@
     },
     "SYMBOLS": {
       "HEADLINE": "Symbols",
-      "NEW_SECURITIES": "+ New securities",
+      "NEW_SECURITY": "+ New security",
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",
