@@ -3505,7 +3505,7 @@
         }
       },
       "EDIT_ORDER_MODAL": {
-        "TITLE": "Deal #{{id}}, {{direction}} {{volumeLots}} {{symbol}}",
+        "TITLE": "Deal #{{id}}, {{type}} {{volumeLots}} {{symbol}}",
         "ORDER": "Order",
         "CANCEL": "Cancel",
         "OPEN_TIME": "Open time",
