@@ -14,7 +14,6 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
    $stopLoss: Float
    $takeProfit: Float
    $comment: String
-   $pendingOrder: Boolean!
 ) {
   tradingEngine {
     createOrder(
@@ -28,7 +27,6 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
       stopLoss: $stopLoss
       takeProfit: $takeProfit
       comment: $comment
-      pendingOrder: $pendingOrder
     ) {
       id
     }

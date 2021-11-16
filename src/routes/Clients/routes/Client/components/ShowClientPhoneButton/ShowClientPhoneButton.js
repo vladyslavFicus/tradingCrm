@@ -20,8 +20,10 @@ class ShowClientPhoneButton extends PureComponent {
     return (
       <PermissionContent
         permissions={[
-          permissions.USER_PROFILE.FIELD_PHONE,
+          permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL,
           permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
+          permissions.USER_PROFILE.FIELD_PHONE,
+          permissions.USER_PROFILE.FIELD_EMAIL,
         ]}
         permissionsCondition={CONDITIONS.OR}
       >

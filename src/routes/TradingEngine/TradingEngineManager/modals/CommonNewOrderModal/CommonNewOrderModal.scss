@@ -51,6 +51,16 @@
     }
   }
 
+  &__checkbox-container {
+    display: flex;
+    width: 100%;
+    top: 4px;
+  }
+
+  &__auto-checkbox {
+    margin-right: 35px;
+  }
+
   &__button {
     width: 100%;
     text-align: center;

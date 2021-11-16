@@ -110,7 +110,7 @@ class EditOrderModal extends PureComponent {
         id,
         closePrice: closePrice || 0,
         symbol,
-        type,
+        type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
       }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
@@ -268,7 +268,6 @@ class EditOrderModal extends PureComponent {
       comment,
       accountLogin,
       accountUuid,
-      direction,
       account,
       symbolEntity,
       groupSpread,
@@ -312,7 +311,7 @@ class EditOrderModal extends PureComponent {
             <Otherwise>
               {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
                 id,
-                direction,
+                type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
                 volumeLots,
                 symbol,
               })}
@@ -367,7 +366,7 @@ class EditOrderModal extends PureComponent {
                                 name="order"
                                 value={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
                                   id,
-                                  direction,
+                                  type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
                                   volumeLots,
                                   symbol,
                                 })}

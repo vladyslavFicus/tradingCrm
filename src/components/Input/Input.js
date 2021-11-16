@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { v4 } from 'uuid';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import './input.scss';
 
@@ -57,6 +58,8 @@ class Input extends PureComponent {
     type: 'text',
     classNameError: null,
   };
+
+  id = `input-${v4()}`;
 
   inputRef = React.createRef();
 
@@ -122,7 +125,6 @@ class Input extends PureComponent {
     };
 
     const uniqueId = `label-${name}`;
-    const warningMessageUniqueId = `warning-${name}`;
 
     return (
       <div
@@ -135,7 +137,7 @@ class Input extends PureComponent {
         })}
       >
         <If condition={label}>
-          <label className="input__label">{label}</label>
+          <label className="input__label" htmlFor={this.id}>{label}</label>
           <If condition={labelTooltip}>
             <span id={uniqueId} className="input__label-icon">
               <i className="input__icon-info fa fa-info-circle" />
@@ -150,14 +152,18 @@ class Input extends PureComponent {
         <div className="input__body">
           <If condition={showWarningMessage}>
             <UncontrolledTooltip
-              target={warningMessageUniqueId}
+              target={this.id}
               trigger="focus"
               isOpenDefault
             >
               {warningMessage}
             </UncontrolledTooltip>
           </If>
-          <input {...inputProps} id={warningMessageUniqueId} />
+          <input
+            {...inputProps}
+            id={this.id}
+            onWheel={e => e.target.blur()}
+          />
           <If condition={icon}>
             <i className={classNames(icon, 'input__icon')} />
           </If>
