@@ -274,9 +274,10 @@ class ClientContactsForm extends PureComponent {
       additionalEmail,
     } = contacts || {};
 
-    const isAvailableToUpdatePhone = allows(permissions.USER_PROFILE.FIELD_PHONE);
-    const isAvailableToUpdateAltPhone = allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
-    const isAvailableToUpdateAltEmail = allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
+    const isAvailableToSeePhone = allows(permissions.USER_PROFILE.FIELD_PHONE);
+    const isAvailableToSeeAltPhone = allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
+    const isAvailableToSeeAltEmail = allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
+    const isAvailableToSeeEmail = allows(permissions.USER_PROFILE.FIELD_EMAIL);
 
     const isAvailableToUpdateContacts = new Permissions(permissions.USER_PROFILE.UPDATE_CONTACTS)
       .check(currentPermissions);
@@ -328,13 +329,16 @@ class ClientContactsForm extends PureComponent {
                       placeholder={I18n.t(attributeLabels.phone)}
                       component={FormikInputField}
                       addition={
-                        (isAvailableToUpdatePhone || isAvailableToUpdateAltPhone || isAvailableToUpdateEmail)
+                        (isAvailableToSeePhone
+                          || isAvailableToSeeAltPhone
+                          || isAvailableToSeeEmail
+                          || isAvailableToSeeAltEmail)
                         && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
                       additionClassName="ClientContactsForm__field-addition"
                       additionPosition="right"
                       onAdditionClick={this.getProfileContacts}
                       disabled={isSubmitting
-                      || !isAvailableToUpdatePhone
+                      || !isAvailableToSeePhone
                       || !isAvailableToUpdateContacts
                       || !this.state.isContactsShown}
                     />
@@ -370,7 +374,8 @@ class ClientContactsForm extends PureComponent {
                       placeholder={I18n.t(attributeLabels.additionalPhone)}
                       component={FormikInputField}
                       disabled={isSubmitting
-                      || !isAvailableToUpdateAltPhone
+                      || !isAvailableToSeeAltPhone
+                      || !isAvailableToUpdateContacts
                       || !this.state.isContactsShown}
                     />
                   </div>
@@ -383,7 +388,7 @@ class ClientContactsForm extends PureComponent {
                       placeholder={I18n.t(attributeLabels.additionalEmail)}
                       component={FormikInputField}
                       disabled={isSubmitting
-                      || !isAvailableToUpdateAltEmail
+                      || !isAvailableToSeeAltEmail
                       || !isAvailableToUpdateContacts
                       || !this.state.isContactsShown}
                     />
@@ -415,6 +420,7 @@ class ClientContactsForm extends PureComponent {
                       component={FormikInputField}
                       disabled={isSubmitting
                       || !isAvailableToUpdateEmail
+                      || !isAvailableToSeeEmail
                       || !this.state.isContactsShown}
                     />
 
