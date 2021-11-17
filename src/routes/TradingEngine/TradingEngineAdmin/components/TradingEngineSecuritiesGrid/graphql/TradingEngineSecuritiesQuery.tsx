@@ -1,9 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Children } from 'types/children';
 
 export interface Props {
-  children: any;
+  children: Children;
 }
 
 const REQUEST = gql`
