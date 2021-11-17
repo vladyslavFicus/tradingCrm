@@ -3597,6 +3597,16 @@
           "FAILED": "Security creation failed",
           "FAILED_EXIST": "Security with this name already exists."
         }
+      },
+      "EDIT_SECURITY_MODAL": {
+        "TITLE": "Edit Security",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "NOTIFICATION": {
+          "SUCCESS": "Security has been successfully updated",
+          "FAILED": "Security update failed",
+          "FAILED_EXIST": "Security with this name already exists."
+        }
       }
     },
     "ACCOUNTS": {
