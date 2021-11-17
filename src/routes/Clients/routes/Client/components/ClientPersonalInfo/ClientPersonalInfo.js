@@ -98,7 +98,7 @@ class ClientPersonalInfo extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
@@ -124,7 +124,7 @@ class ClientPersonalInfo extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
@@ -150,7 +150,7 @@ class ClientPersonalInfo extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }

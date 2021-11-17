@@ -80,7 +80,7 @@ class ClientContactsForm extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
@@ -107,7 +107,7 @@ class ClientContactsForm extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
@@ -134,7 +134,7 @@ class ClientContactsForm extends PureComponent {
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
