@@ -3,11 +3,11 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import permissions from 'config/permissions';
-import './ShowClientPhoneButton.scss';
+import './ShowContactsButton.scss';
 import PermissionContent from 'components/PermissionContent';
 import { CONDITIONS } from 'utils/permissions';
 
-class ShowClientPhoneButton extends PureComponent {
+class ShowContactsButton extends PureComponent {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
   };
@@ -38,4 +38,4 @@ class ShowClientPhoneButton extends PureComponent {
   }
 }
 
-export default ShowClientPhoneButton;
+export default ShowContactsButton;
