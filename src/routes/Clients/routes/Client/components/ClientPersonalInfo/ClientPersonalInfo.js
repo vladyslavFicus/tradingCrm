@@ -254,6 +254,12 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_PHONE')}
             value={this.state.additionalPhone || additionalPhone}
+            additional={(
+              <>
+                <Sms uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+                <Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+              </>
+            )}
             className="ClientPersonalInfo__contacts"
           />
           <PersonalInformationItem
