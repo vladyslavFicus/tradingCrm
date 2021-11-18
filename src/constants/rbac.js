@@ -1206,6 +1206,16 @@ export default [
           },
         },
       },
+      // Unarchive trading account
+      {
+        id: 'unarchive',
+        actions: {
+          edit: {
+            action: 'trading-account.unarchiveAccount',
+            state: false,
+          },
+        },
+      },
       // Trading account password
       {
         id: 'changePassword',

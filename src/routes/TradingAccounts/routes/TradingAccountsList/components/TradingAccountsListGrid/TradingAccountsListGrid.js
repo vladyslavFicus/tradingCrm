@@ -5,17 +5,21 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
+import UnarchiveButton from '../UnarchiveButton';
 import './TradingAccountsListGrid.scss';
 
 class TradingAccountsListGrid extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
+    permission: PropTypes.permission.isRequired,
     tradingAccountsData: PropTypes.query({
       tradingAccounts: PropTypes.pageable(PropTypes.tradingAccountsItem),
     }).isRequired,
@@ -46,11 +50,13 @@ class TradingAccountsListGrid extends PureComponent {
 
     const page = get(tradingAccountsData, 'data.tradingAccounts.number') || 0;
     const filters = state?.filters;
+    const archived = !!+state?.filters?.archived || undefined;
     const sorts = state?.sorts;
     const size = variables?.args?.page?.size;
 
     loadMore({
       ...filters,
+      archived,
       page: {
         from: page + 1,
         size,
@@ -94,6 +100,15 @@ class TradingAccountsListGrid extends PureComponent {
     <div className="font-weight-700">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
   );
 
+  renderUnarchivedButton = ({ archived, uuid }) => archived && <UnarchiveButton uuid={uuid} />;
+
+  isArchivedAccountInContent = () => {
+    const { tradingAccountsData } = this.props;
+    const { content = [] } = tradingAccountsData.data?.tradingAccounts || {};
+
+    return content.some(({ archived }) => archived);
+  }
+
   render() {
     const {
       location,
@@ -104,6 +119,7 @@ class TradingAccountsListGrid extends PureComponent {
     } = this.props;
 
     const { content = [], last = true } = tradingAccountsData.data?.tradingAccounts || {};
+    const isUnarchiveAllow = this.props.permission.allows(permissions.TRADING_ACCOUNT.UNARCHIVE);
 
     return (
       <div className="TradingAccountsListGrid">
@@ -181,6 +197,12 @@ class TradingAccountsListGrid extends PureComponent {
               <div className="font-weight-700">{currency} {I18n.toCurrency(balance, { unit: '' })}</div>
             )}
           />
+          <If condition={isUnarchiveAllow && this.isArchivedAccountInContent()}>
+            <Column
+              header={I18n.t('TRADING_ACCOUNTS.GRID.UNARCHIVE.HEADER')}
+              render={this.renderUnarchivedButton}
+            />
+          </If>
         </Table>
       </div>
     );
@@ -189,4 +211,5 @@ class TradingAccountsListGrid extends PureComponent {
 
 export default compose(
   withRouter,
+  withPermission,
 )(TradingAccountsListGrid);
