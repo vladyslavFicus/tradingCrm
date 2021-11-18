@@ -3,14 +3,14 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = (app) => {
   // Proxy-passing /api/attachment requests to /attachment endpoint
   app.use(createProxyMiddleware('/api/attachment', {
-    target: process.env.API_URL.replace('/graphql', ''), // Replace `/graphql` to avoiding adding new ENV variable
+    target: process.env.API_URL.replace('/gql', ''), // Replace `/gql` to avoiding adding new ENV variable
     pathRewrite: {
       '^/api': '',
     },
     changeOrigin: true,
   }));
 
-  // Proxy-passing /api requests to /graphql endpoint
+  // Proxy-passing /api requests to /gql endpoint
   app.use(createProxyMiddleware('/api', {
     target: process.env.API_URL,
     pathRewrite: {
@@ -19,7 +19,7 @@ module.exports = (app) => {
     changeOrigin: true,
   }));
 
-  // Proxy-passing /ws web-socket requests to /graphql endpoint
+  // Proxy-passing /ws web-socket requests to /gql endpoint
   app.use(createProxyMiddleware('/ws', {
     target: process.env.SUBSCRIPTION_URL,
     pathRewrite: {

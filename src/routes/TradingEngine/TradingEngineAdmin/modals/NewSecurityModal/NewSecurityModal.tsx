@@ -9,7 +9,7 @@ import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify } from 'types/notify';
+import { Notify, LevelType } from 'types/notify';
 import CreateSecurityMutation from './graphql/CreateSecurityMutation';
 
 interface CreateSecurityResponse {
@@ -23,8 +23,13 @@ interface Props {
   onSuccess: () => void,
 }
 
+interface InitialValuesProps {
+  name: string,
+  description: string,
+}
+
 class NewSecurityModal extends PureComponent<Props> {
-  onSubmit = async (data: { name?: string, description?: string }) => {
+  onSubmit = async (variables: InitialValuesProps) => {
     const {
       createSecurity,
       notify,
@@ -33,14 +38,10 @@ class NewSecurityModal extends PureComponent<Props> {
     } = this.props;
 
     try {
-      await createSecurity({
-        variables: {
-          ...data,
-        },
-      });
+      await createSecurity({ variables });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.TITLE'),
         message: I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -51,7 +52,7 @@ class NewSecurityModal extends PureComponent<Props> {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.TITLE'),
         message: error.error === 'error.security.already.exist'
           ? I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.NOTIFICATION.FAILED_EXIST')
@@ -68,10 +69,13 @@ class NewSecurityModal extends PureComponent<Props> {
     return (
       <Modal toggle={onCloseModal} isOpen>
         <Formik
-          initialValues={{}}
+          initialValues={{
+            name: '',
+            description: '',
+          }}
           validate={createValidator({
             name: ['required', 'string'],
-            description: 'required',
+            description: 'string',
           })}
           validateOnBlur={false}
           validateOnChange={false}
