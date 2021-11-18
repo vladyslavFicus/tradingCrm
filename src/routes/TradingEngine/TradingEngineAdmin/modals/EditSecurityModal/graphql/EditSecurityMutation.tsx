@@ -1,10 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { Children } from 'types/children';
+import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
 export interface Props {
-  children: Children;
+  children: ApolloComponentFn;
 }
 
 const REQUEST = gql`mutation TradingEngine_EditSecurityMutation(

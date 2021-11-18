@@ -14,14 +14,14 @@ import { tradingEngineAdminTabs } from '../../constants';
 import TradingEngineSecuritiesQuery from './graphql/TradingEngineSecuritiesQuery';
 import './TradingEngineSecuritiesGrid.scss';
 
-interface Securities {
+interface Security {
   name: string,
   description: string,
   symbols: string[],
 }
 
 interface SecuritiesData {
-  tradingEngineSecurities: Securities[],
+  tradingEngineSecurities: Security[],
 }
 
 interface Props {
@@ -35,26 +35,19 @@ interface Props {
 class TradingEngineSecuritiesGrid extends PureComponent<Props> {
   refetchSecurities = () => this.props.securitiesQuery.refetch();
 
-  renderName = ({ name }: Securities) => (
+  renderName = ({ name }: Security) => (
     <div
       className="TradingEngineSecuritiesGrid__cell-primary"
       onClick={() => this.props.modals.editSecurityModal.show({
         name,
-        onSuccess: () => this.refetchSecurities(),
+        onSuccess: this.refetchSecurities,
       })}
     >
-      <Choose>
-        <When condition={!!name}>
-          {name}
-        </When>
-        <Otherwise>
-          &mdash;
-        </Otherwise>
-      </Choose>
+      {name}
     </div>
   );
 
-  renderDescription = ({ description }: Securities) => (
+  renderDescription = ({ description }: Security) => (
     <div className="TradingEngineSecuritiesGrid__cell-primary">
       <Choose>
         <When condition={!!description}>
@@ -67,10 +60,10 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
     </div>
   );
 
-  renderSymbol = ({ symbols } : Securities) => (
+  renderSymbol = ({ symbols } : Security) => (
     <div className="TradingEngineSecuritiesGrid__cell-primary">
       <Choose>
-        <When condition={!!symbols}>
+        <When condition={!!symbols.length}>
           {symbols.join(', ')}
         </When>
         <Otherwise>
@@ -88,7 +81,7 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
     } = this.props;
 
     newSecurityModal.show({
-      onSuccess: () => this.refetchSecurities(),
+      onSuccess: this.refetchSecurities,
     });
   };
 
@@ -100,7 +93,7 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
     const securities = securitiesQuery.data?.tradingEngineSecurities || [];
 
     return (
-      <div className="TradingEngineSecuritiesGrid__card">
+      <div className="TradingEngineSecuritiesGrid">
         <Tabs items={tradingEngineAdminTabs} />
 
         <div className="TradingEngineSecuritiesGrid__header">
@@ -116,7 +109,7 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
           </Button>
         </div>
 
-        <div className="TradingEngineSecuritiesGrid">
+        <div className="TradingEngineSecuritiesGrid__card">
           <Table
             items={securities}
             loading={securitiesQuery.loading}

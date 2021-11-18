@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field } from 'formik';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Field, Form, Formik } from 'formik';
 import compose from 'compose-function';
-import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
-import { withRequests, parseErrors } from 'apollo';
+import { MutationOptions, MutationResult, QueryResult } from 'react-apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify } from 'types/notify';
+import { LevelType, Notify } from 'types/notify';
 import EditSecurityMutation from './graphql/EditSecurityMutation';
 import SecurityQuery from './graphql/SecurityQuery';
 
@@ -33,13 +33,13 @@ interface Props {
   name: string,
 }
 
-interface InitialsValuesProps {
+interface InitialValuesProps {
   name: string,
   description: string,
 }
 
 class EditSecurityModal extends PureComponent<Props> {
-  onSubmit = async (data: InitialsValuesProps) => {
+  onSubmit = async (data: InitialValuesProps) => {
     const {
       name,
       editSecurity,
@@ -57,7 +57,7 @@ class EditSecurityModal extends PureComponent<Props> {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.TITLE'),
         message: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -68,7 +68,7 @@ class EditSecurityModal extends PureComponent<Props> {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.TITLE'),
         message: error.error === 'error.security.already.exist'
           ? I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NOTIFICATION.FAILED_EXIST')

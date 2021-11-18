@@ -1,10 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { Children } from 'types/children';
+import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
 export interface Props {
-  children: Children,
+  children: ApolloComponentFn,
   name: string,
 }
 
