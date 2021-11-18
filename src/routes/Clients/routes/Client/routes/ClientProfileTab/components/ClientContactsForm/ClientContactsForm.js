@@ -210,7 +210,6 @@ class ClientContactsForm extends PureComponent {
       notify,
       modals: { confirmationModal },
     } = this.props;
-    const { isEmailShown } = this.state;
 
     try {
       await updateClientEmail({
@@ -221,7 +220,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       this.setState({
-        email: isEmailShown ? values.email : undefined,
+        email: values.email,
       });
 
       notify({
