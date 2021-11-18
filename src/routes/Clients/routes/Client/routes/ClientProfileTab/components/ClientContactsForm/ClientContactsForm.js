@@ -18,7 +18,9 @@ import UpdateClientContactsMutation from './graphql/UpdateClientContactsMutation
 import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';
 import VerifyEmailMutation from './graphql/VerifyEmailMutation';
-import ProfileContactsQuery from './graphql/ProfileContactsQuery';
+import ProfilePhonesQuery from './graphql/ProfilePhonesQuery';
+import ProfileEmailQuery from './graphql/ProfileEmailQuery';
+import ProfileAdditionalEmailQuery from './graphql/ProfileAdditionalEmailQuery';
 import './ClientContactsForm.scss';
 
 const attributeLabels = {
@@ -50,35 +52,89 @@ class ClientContactsForm extends PureComponent {
     additionalPhone: undefined,
     email: undefined,
     phone: undefined,
-    isContactsShown: false,
+    isPhonesShown: false,
+    isEmailShown: false,
+    isAdditionalEmailShown: false,
   }
 
-  getProfileContacts = async () => {
+  getProfilePhones = async () => {
     const { clientData: { uuid }, notify } = this.props;
 
     try {
       const { data: {
-        profileContacts: { additionalEmail, additionalPhone, phone, email } } } = await this.props.client.query({
-        query: ProfileContactsQuery,
+        profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+        query: ProfilePhonesQuery,
         variables: { playerUUID: uuid },
         fetchPolicy: 'network-only',
       });
 
-      Trackify.click('PROFILE_CONTACTS_VIEWED', {
+      Trackify.click('PROFILE_PHONES_VIEWED', {
+        eventLabel: uuid,
+      });
+
+      this.setState({
+        additionalPhone,
+        phone,
+        isPhonesShown: true,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getProfileEmail = async () => {
+    const { clientData: { uuid }, notify } = this.props;
+
+    try {
+      const { data: {
+        profileContacts: { email } } } = await this.props.client.query({
+        query: ProfileEmailQuery,
+        variables: { playerUUID: uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('PROFILE_EMAILS_VIEWED', {
+        eventLabel: uuid,
+      });
+
+      this.setState({
+        email,
+        isEmailShown: true,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getProfileAdditionalEmail = async () => {
+    const { clientData: { uuid }, notify } = this.props;
+
+    try {
+      const { data: {
+        profileContacts: { additionalEmail } } } = await this.props.client.query({
+        query: ProfileAdditionalEmailQuery,
+        variables: { playerUUID: uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('PROFILE_EMAILS_VIEWED', {
         eventLabel: uuid,
       });
 
       this.setState({
         additionalEmail,
-        additionalPhone,
-        email,
-        phone,
-        isContactsShown: true,
+        isAdditionalEmailShown: true,
       });
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
@@ -89,22 +145,22 @@ class ClientContactsForm extends PureComponent {
       clientData,
       notify,
     } = this.props;
-    const { isContactsShown } = this.state;
+    const { isPhonesShown, isAdditionalEmailShown, additionalEmail, additionalPhone, phone } = this.state;
 
     try {
       await updateClientContacts({
         variables: {
           playerUUID: clientData.uuid,
-          phone: isContactsShown ? values.phone : null,
-          additionalPhone: isContactsShown ? (values.additionalPhone || null) : null,
-          additionalEmail: values.additionalEmail || null,
+          phone: isPhonesShown ? (values.phone || phone) : null,
+          additionalPhone: isPhonesShown ? (values.additionalPhone || additionalPhone) : null,
+          additionalEmail: isAdditionalEmailShown ? (values.additionalEmail || additionalEmail) : null,
         },
       });
 
       this.setState({
-        additionalEmail: isContactsShown ? values.additionalEmail : undefined,
-        additionalPhone: isContactsShown ? values.additionalPhone : undefined,
-        phone: isContactsShown ? values.phone : undefined,
+        additionalEmail: isAdditionalEmailShown ? (values.additionalEmail || additionalEmail) : undefined,
+        additionalPhone: isPhonesShown ? (values.additionalPhone || additionalPhone) : undefined,
+        phone: isPhonesShown ? (values.phone || phone) : undefined,
       });
 
       notify({
@@ -154,7 +210,6 @@ class ClientContactsForm extends PureComponent {
       notify,
       modals: { confirmationModal },
     } = this.props;
-    const { isContactsShown } = this.state;
 
     try {
       await updateClientEmail({
@@ -165,7 +220,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       this.setState({
-        email: isContactsShown ? values.email : undefined,
+        email: values.email,
       });
 
       notify({
@@ -288,14 +343,12 @@ class ClientContactsForm extends PureComponent {
         <div className="ClientContactsForm">
           <Formik
             initialValues={{
-              additionalEmail: this.state.additionalEmail || additionalEmail,
               additionalPhone: this.state.additionalPhone || additionalPhone,
               phone: this.state.phone || phone,
             }}
             validate={createValidator({
               phone: 'required|string|min:3',
               additionalPhone: 'string',
-              additionalEmail: 'string',
             }, translateLabels(attributeLabels), false)}
             onSubmit={this.handleSubmitContacts}
             enableReinitialize
@@ -331,16 +384,15 @@ class ClientContactsForm extends PureComponent {
                       addition={
                         (isAvailableToSeePhone
                           || isAvailableToSeeAltPhone
-                          || isAvailableToSeeEmail
                           || isAvailableToSeeAltEmail)
                         && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
                       additionClassName="ClientContactsForm__field-addition"
                       additionPosition="right"
-                      onAdditionClick={this.getProfileContacts}
+                      onAdditionClick={this.getProfilePhones}
                       disabled={isSubmitting
                       || !isAvailableToSeePhone
                       || !isAvailableToUpdateContacts
-                      || !this.state.isContactsShown}
+                      || !this.state.isPhonesShown}
                     />
 
                     <If condition={!phoneVerified}>
@@ -376,21 +428,7 @@ class ClientContactsForm extends PureComponent {
                       disabled={isSubmitting
                       || !isAvailableToSeeAltPhone
                       || !isAvailableToUpdateContacts
-                      || !this.state.isContactsShown}
-                    />
-                  </div>
-
-                  <div className="ClientContactsForm__field-row">
-                    <Field
-                      name="additionalEmail"
-                      className="ClientContactsForm__field"
-                      label={I18n.t(attributeLabels.additionalEmail)}
-                      placeholder={I18n.t(attributeLabels.additionalEmail)}
-                      component={FormikInputField}
-                      disabled={isSubmitting
-                      || !isAvailableToSeeAltEmail
-                      || !isAvailableToUpdateContacts
-                      || !this.state.isContactsShown}
+                      || !this.state.isPhonesShown}
                     />
                   </div>
                 </div>
@@ -410,6 +448,21 @@ class ClientContactsForm extends PureComponent {
           >
             {({ values, isSubmitting, dirty }) => (
               <Form>
+
+                <div className="ClientContactsForm__header">
+                  <If condition={dirty && !isSubmitting && isAvailableToUpdateEmail}>
+                    <div className="ClientContactsForm__actions">
+                      <Button
+                        small
+                        primary
+                        type="submit"
+                      >
+                        {I18n.t('COMMON.SAVE_CHANGES')}
+                      </Button>
+                    </div>
+                  </If>
+                </div>
+
                 <div className="ClientContactsForm__fields">
                   <div className="ClientContactsForm__field-row">
                     <Field
@@ -418,10 +471,14 @@ class ClientContactsForm extends PureComponent {
                       label={I18n.t(attributeLabels.email)}
                       placeholder={I18n.t(attributeLabels.email)}
                       component={FormikInputField}
+                      addition={isAvailableToSeeEmail && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
+                      additionClassName="ClientContactsForm__field-addition"
+                      additionPosition="right"
+                      onAdditionClick={this.getProfileEmail}
                       disabled={isSubmitting
                       || !isAvailableToUpdateEmail
                       || !isAvailableToSeeEmail
-                      || !this.state.isContactsShown}
+                      || !this.state.isEmailShown}
                     />
 
                     <If condition={!emailVerified}>
@@ -447,17 +504,54 @@ class ClientContactsForm extends PureComponent {
                     </If>
                   </div>
                 </div>
-                <If condition={dirty && !isSubmitting && isAvailableToUpdateEmail}>
-                  <div className="ClientContactsForm__actions">
-                    <Button
-                      small
-                      primary
-                      type="submit"
-                    >
-                      {I18n.t('COMMON.SAVE_CHANGES')}
-                    </Button>
+              </Form>
+            )}
+          </Formik>
+          <Formik
+            initialValues={{
+              additionalEmail: this.state.additionalEmail || additionalEmail,
+            }}
+            validate={createValidator({
+              additionalEmail: 'string',
+            }, translateLabels(attributeLabels), false)}
+            onSubmit={this.handleSubmitContacts}
+            enableReinitialize
+          >
+            {({ isSubmitting, dirty }) => (
+              <Form>
+                <div className="ClientContactsForm__header">
+                  <If condition={dirty && !isSubmitting && isAvailableToUpdateContacts}>
+                    <div className="ClientContactsForm__actions">
+                      <Button
+                        small
+                        primary
+                        type="submit"
+                      >
+                        {I18n.t('COMMON.SAVE_CHANGES')}
+                      </Button>
+                    </div>
+                  </If>
+                </div>
+
+                <div className="ClientContactsForm__fields">
+                  <div className="ClientContactsForm__field-row">
+                    <Field
+                      name="additionalEmail"
+                      className="ClientContactsForm__field"
+                      label={I18n.t(attributeLabels.additionalEmail)}
+                      placeholder={I18n.t(attributeLabels.additionalEmail)}
+                      component={FormikInputField}
+                      addition={isAvailableToSeeAltEmail && I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
+                      additionClassName="ClientContactsForm__field-addition"
+                      additionPosition="right"
+                      onAdditionClick={this.getProfileAdditionalEmail}
+                      disabled={isSubmitting
+                        || !isAvailableToSeeAltEmail
+                        || !isAvailableToUpdateContacts
+                        || !this.state.isAdditionalEmailShown}
+                    />
                   </div>
-                </If>
+                </div>
               </Form>
             )}
           </Formik>
