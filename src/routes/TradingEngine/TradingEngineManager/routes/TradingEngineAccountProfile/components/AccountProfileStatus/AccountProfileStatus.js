@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import UpdateAccountMutation from './graphql/UpdateAccountMutation';
+import UpdateAccountReadonlyMutation from './graphql/UpdateAccountReadonlyMutation';
 import './AccountProfileStatus.scss';
 
 class AccountProfileStatus extends PureComponent {
@@ -14,7 +14,7 @@ class AccountProfileStatus extends PureComponent {
     enable: PropTypes.bool,
     accountUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
-    updateAccount: PropTypes.func.isRequired,
+    updateAccountReadonly: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -37,11 +37,11 @@ class AccountProfileStatus extends PureComponent {
     const {
       notify,
       accountUuid,
-      updateAccount,
+      updateAccountReadonly,
     } = this.props;
 
     try {
-      await updateAccount({
+      await updateAccountReadonly({
         variables: {
           accountUuid,
           readOnly: action,
@@ -118,6 +118,6 @@ class AccountProfileStatus extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    updateAccount: UpdateAccountMutation,
+    updateAccountReadonly: UpdateAccountReadonlyMutation,
   }),
 )(AccountProfileStatus);

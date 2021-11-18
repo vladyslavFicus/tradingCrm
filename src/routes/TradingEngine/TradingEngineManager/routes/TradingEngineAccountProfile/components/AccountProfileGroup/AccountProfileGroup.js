@@ -6,7 +6,7 @@ import compose from 'compose-function';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import UpdateAccountMutation from './graphql/UpdateAccountMutation';
+import UpdateAccountGroupMutation from './graphql/UpdateAccountGroupMutation';
 import TradingEngineGroupsQuery from './graphql/TradingEngineGroupsQuery';
 import './AccountProfileGroup.scss';
 
@@ -20,7 +20,7 @@ class AccountProfileGroup extends PureComponent {
       }),
     }).isRequired,
     notify: PropTypes.func.isRequired,
-    updateAccount: PropTypes.func.isRequired,
+    updateAccountGroup: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -42,12 +42,12 @@ class AccountProfileGroup extends PureComponent {
   handleGroupChange = async (group) => {
     const {
       accountUuid,
-      updateAccount,
+      updateAccountGroup,
       notify,
     } = this.props;
 
     try {
-      await updateAccount({
+      await updateAccountGroup({
         variables: {
           accountUuid,
           group,
@@ -133,6 +133,6 @@ export default compose(
   withNotifications,
   withRequests({
     groupsQuery: TradingEngineGroupsQuery,
-    updateAccount: UpdateAccountMutation,
+    updateAccountGroup: UpdateAccountGroupMutation,
   }),
 )(AccountProfileGroup);
