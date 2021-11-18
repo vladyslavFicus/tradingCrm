@@ -52,7 +52,7 @@ class ClientContactsForm extends PureComponent {
     additionalPhone: undefined,
     email: undefined,
     phone: undefined,
-    isContactsShown: false,
+    isPhonesShown: false,
     isEmailShown: false,
     isAdditionalEmailShown: false,
   }
@@ -75,7 +75,7 @@ class ClientContactsForm extends PureComponent {
       this.setState({
         additionalPhone,
         phone,
-        isContactsShown: true,
+        isPhonesShown: true,
       });
     } catch {
       notify({
@@ -145,22 +145,22 @@ class ClientContactsForm extends PureComponent {
       clientData,
       notify,
     } = this.props;
-    const { isContactsShown, isAdditionalEmailShown, additionalEmail, additionalPhone, phone } = this.state;
+    const { isPhonesShown, isAdditionalEmailShown, additionalEmail, additionalPhone, phone } = this.state;
 
     try {
       await updateClientContacts({
         variables: {
           playerUUID: clientData.uuid,
-          phone: isContactsShown ? (values.phone || phone) : null,
-          additionalPhone: isContactsShown ? (values.additionalPhone || additionalPhone) : null,
+          phone: isPhonesShown ? (values.phone || phone) : null,
+          additionalPhone: isPhonesShown ? (values.additionalPhone || additionalPhone) : null,
           additionalEmail: isAdditionalEmailShown ? (values.additionalEmail || additionalEmail) : null,
         },
       });
 
       this.setState({
         additionalEmail: isAdditionalEmailShown ? (values.additionalEmail || additionalEmail) : undefined,
-        additionalPhone: isContactsShown ? (values.additionalPhone || additionalPhone) : undefined,
-        phone: isContactsShown ? (values.phone || phone) : undefined,
+        additionalPhone: isPhonesShown ? (values.additionalPhone || additionalPhone) : undefined,
+        phone: isPhonesShown ? (values.phone || phone) : undefined,
       });
 
       notify({
@@ -393,7 +393,7 @@ class ClientContactsForm extends PureComponent {
                       disabled={isSubmitting
                       || !isAvailableToSeePhone
                       || !isAvailableToUpdateContacts
-                      || !this.state.isContactsShown}
+                      || !this.state.isPhonesShown}
                     />
 
                     <If condition={!phoneVerified}>
@@ -429,7 +429,7 @@ class ClientContactsForm extends PureComponent {
                       disabled={isSubmitting
                       || !isAvailableToSeeAltPhone
                       || !isAvailableToUpdateContacts
-                      || !this.state.isContactsShown}
+                      || !this.state.isPhonesShown}
                     />
                   </div>
                 </div>
