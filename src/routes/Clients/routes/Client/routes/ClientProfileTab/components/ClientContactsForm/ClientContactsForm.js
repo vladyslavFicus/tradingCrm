@@ -216,7 +216,7 @@ class ClientContactsForm extends PureComponent {
       await updateClientEmail({
         variables: {
           playerUUID: clientData.uuid,
-          email: isEmailShown ? values.email : null,
+          email: values.email,
         },
       });
 
