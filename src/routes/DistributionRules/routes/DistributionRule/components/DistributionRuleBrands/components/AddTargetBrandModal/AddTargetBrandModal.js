@@ -260,7 +260,7 @@ class AddTargetBrandModal extends PureComponent {
                   </If>
                   <Field
                     name="affiliateUuid"
-                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AFFILIATE_UUID')}
+                    label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AFFILIATE')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
                     disabled={!partnersByBrand.length}
