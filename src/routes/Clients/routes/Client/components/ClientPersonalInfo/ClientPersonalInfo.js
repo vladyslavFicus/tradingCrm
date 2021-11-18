@@ -17,7 +17,7 @@ import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
-import ProfileContactsQuery from '../../graphql/ProfileContactsQuery';
+import ProfilePhonesQuery from '../../graphql/ProfilePhonesQuery';
 import ShowContactsButton from '../ShowContactsButton';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
 import ProfileAdditionalEmailQuery from './graphql/ProfileAdditionalEmailQuery';
@@ -83,11 +83,11 @@ class ClientPersonalInfo extends PureComponent {
     try {
       const { data:
         { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
-        query: ProfileContactsQuery,
+        query: ProfilePhonesQuery,
         variables: { playerUUID: uuid },
       });
 
-      Trackify.click('PROFILE_CONTACTS_VIEWED', {
+      Trackify.click('PROFILE_PHONES_VIEWED', {
         eventLabel: uuid,
       });
 
@@ -244,7 +244,13 @@ class ClientPersonalInfo extends PureComponent {
             verified={phoneVerified}
             additional={(
               <>
-                <ShowContactsButton onClick={this.getProfilePhones} />
+                <ShowContactsButton
+                  permissions={[
+                    permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
+                    permissions.USER_PROFILE.FIELD_PHONE,
+                  ]}
+                  onClick={this.getProfilePhones}
+                />
                 <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
                 <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
               </>
@@ -265,7 +271,12 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
             value={this.state.email || email}
-            additional={<ShowContactsButton onClick={this.getProfileEmail} />}
+            additional={(
+              <ShowContactsButton
+                permissions={[permissions.USER_PROFILE.FIELD_EMAIL]}
+                onClick={this.getProfileEmail}
+              />
+            )}
             verified={profileStatus === userStatuses.VERIFIED}
             onClickSelectEmail={this.triggerEmailSelectModal}
             withSendEmail={isSendEmailAvailable}
@@ -274,7 +285,12 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
             value={this.state.additionalEmail || additionalEmail}
-            additional={<ShowContactsButton onClick={this.getProfileAdditionalEmail} />}
+            additional={(
+              <ShowContactsButton
+                permissions={[permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL]}
+                onClick={this.getProfileAdditionalEmail}
+              />
+            )}
             verified={profileStatus === userStatuses.VERIFIED}
             className="ClientPersonalInfo__contacts"
           />

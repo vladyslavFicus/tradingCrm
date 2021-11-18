@@ -1,12 +1,10 @@
 import gql from 'graphql-tag';
 
-export default gql`query ProfileContactsQuery (
+export default gql`query ProfilePhonesQuery (
     $playerUUID: String!
   ){
     profileContacts(playerUUID: $playerUUID) {
-      additionalEmail
       additionalPhone
-      email
       phone
     }
   }

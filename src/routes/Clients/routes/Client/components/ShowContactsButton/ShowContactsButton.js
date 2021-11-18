@@ -2,29 +2,25 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
-import permissions from 'config/permissions';
 import './ShowContactsButton.scss';
 import PermissionContent from 'components/PermissionContent';
 import { CONDITIONS } from 'utils/permissions';
 
 class ShowContactsButton extends PureComponent {
   static propTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     onClick: PropTypes.func.isRequired,
   };
 
   render() {
     const {
+      permissions,
       onClick,
     } = this.props;
 
     return (
       <PermissionContent
-        permissions={[
-          permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL,
-          permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
-          permissions.USER_PROFILE.FIELD_PHONE,
-          permissions.USER_PROFILE.FIELD_EMAIL,
-        ]}
+        permissions={permissions}
         permissionsCondition={CONDITIONS.OR}
       >
         <Button
