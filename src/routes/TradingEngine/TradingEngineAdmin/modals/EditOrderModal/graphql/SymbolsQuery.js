@@ -6,9 +6,11 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query TradingEngine_TradingEngineSymbolsQuery {
     tradingEngineSymbols {
-      name
-      bid
-      ask
+      content {
+        name
+        bid
+        ask
+      }
     }
   }
 `;

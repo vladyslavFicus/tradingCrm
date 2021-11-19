@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { tradingEngineAdminTabs } from '../../constants';
-import TradingEngineSymbolsSearchQuery from './graphql/TradingEngineSymbolsSearchQuery';
+import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
 import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
 import './TradingEngineSymbolsGrid.scss';
 
@@ -32,7 +32,7 @@ class TradingEngineSymbols extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = data?.tradingEngineSymbolsSearch?.number || 0;
+    const currentPage = data?.tradingEngineSymbols?.number || 0;
     const filters = state?.filters || {};
     const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
@@ -111,7 +111,7 @@ class TradingEngineSymbols extends PureComponent {
       },
     } = this.props;
 
-    const { content = [], last = true, totalElements } = data?.tradingEngineSymbolsSearch || {};
+    const { content = [], last = true, totalElements } = data?.tradingEngineSymbols || {};
 
     return (
       <div className="card">
@@ -172,6 +172,6 @@ class TradingEngineSymbols extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
-    symbolsQuery: TradingEngineSymbolsSearchQuery,
+    symbolsQuery: TradingEngineSymbolsQuery,
   }),
 )(TradingEngineSymbols);

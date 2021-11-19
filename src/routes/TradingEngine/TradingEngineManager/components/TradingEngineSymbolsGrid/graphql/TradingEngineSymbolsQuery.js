@@ -6,20 +6,18 @@ import { Query } from 'react-apollo';
 const REQUEST = gql`
   query TradingEngine_TradingEngineSymbolsQuery {
     tradingEngineSymbols {
-      name
-      bid
-      ask
+      content {
+        name
+        bid
+        ask
+      }
     }
   }
 `;
 
-const TradingEngineSymbolsQuery = ({ children, location: { state } }) => (
+const TradingEngineSymbolsQuery = ({ children }) => (
   <Query
     query={REQUEST}
-    variables={{
-      ...state?.filters,
-      sorts: state?.sorts?.length ? state.sorts : undefined,
-    }}
     fetchPolicy="cache-and-network"
   >
     {children}
@@ -28,12 +26,6 @@ const TradingEngineSymbolsQuery = ({ children, location: { state } }) => (
 
 TradingEngineSymbolsQuery.propTypes = {
   children: PropTypes.func.isRequired,
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      filters: PropTypes.object,
-      sorts: PropTypes.array,
-    }),
-  }).isRequired,
 };
 
 export default TradingEngineSymbolsQuery;

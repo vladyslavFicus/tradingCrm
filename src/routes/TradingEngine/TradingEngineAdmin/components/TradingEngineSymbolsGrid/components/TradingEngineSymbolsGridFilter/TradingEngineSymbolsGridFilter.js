@@ -49,7 +49,7 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
       symbolsQuery,
     } = this.props;
 
-    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
+    const symbols = symbolsQuery.data?.tradingEngineSymbols?.content || [];
 
     return (
       <Formik
