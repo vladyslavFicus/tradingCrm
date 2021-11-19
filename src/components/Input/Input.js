@@ -33,6 +33,7 @@ class Input extends PureComponent {
     warningMessage: PropTypes.string,
     type: PropTypes.string,
     classNameError: PropTypes.string,
+    onKeyDown: PropTypes.func,
   };
 
   static defaultProps = {
@@ -57,6 +58,7 @@ class Input extends PureComponent {
     onTruncated: () => {},
     type: 'text',
     classNameError: null,
+    onKeyDown: () => {},
   };
 
   id = `input-${v4()}`;
@@ -77,7 +79,7 @@ class Input extends PureComponent {
    */
   onKeyDown = (e) => {
     const { target: { value }, code } = e;
-    const { onTruncated, onEnterPress } = this.props;
+    const { onTruncated, onEnterPress, onKeyDown } = this.props;
 
     // Fire onTruncated event if input value empty
     if (code === 'Backspace' && onTruncated && value.length === 0) {
@@ -86,6 +88,8 @@ class Input extends PureComponent {
     if (code === 'Enter') {
       onEnterPress(this);
     }
+
+    onKeyDown(e);
   };
 
   render() {

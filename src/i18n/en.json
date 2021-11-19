@@ -4573,7 +4573,12 @@
       "STATUS": "Status",
       "ACCOUNT_TYPE": "Account type",
       "LOGIN": "MT4 login",
-      "CREDIT": "Credit"
+      "CREDIT": "Credit",
+      "UNARCHIVE": {
+        "HEADER": "Unarchive",
+        "BUTTON": "Unarchive",
+        "SUCCESS": "Account {{uuid}} is in queue to unarchive"
+      }
     }
   },
   "BRANCH_MANAGER_INFO": {
@@ -4825,7 +4830,8 @@
           "create": "Create trading account",
           "changePassword": "Trading account password",
           "rename": "Rename trading account",
-          "toggleDisabled": "Disable Trading account"
+          "toggleDisabled": "Disable Trading account",
+          "unarchive": "Unarchive trading account"
         }
       },
       "notes": {

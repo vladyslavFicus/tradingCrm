@@ -17,9 +17,11 @@ import PropTypes from 'constants/propTypes';
 import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
-import ProfileContactsQuery from '../../graphql/ProfileContactsQuery';
-import ShowClientPhoneButton from '../ShowClientPhoneButton';
+import ProfilePhonesQuery from '../../graphql/ProfilePhonesQuery';
+import ShowContactsButton from '../ShowContactsButton';
 import UpdateConfigurationMutation from './graphql/UpdateConfigurationMutation';
+import ProfileAdditionalEmailQuery from './graphql/ProfileAdditionalEmailQuery';
+import ProfileEmailQuery from './graphql/ProfileEmailQuery';
 import EmailSelectModal from './components/EmailSelectModal';
 import RegulatedForm from './components/RegulatedForm';
 import './ClientPersonalInfo.scss';
@@ -75,30 +77,80 @@ class ClientPersonalInfo extends PureComponent {
     }
   };
 
-  getProfileContacts = async () => {
+  getProfilePhones = async () => {
     const { clientInfo: { uuid }, notify } = this.props;
 
     try {
       const { data:
-        { profileContacts: { additionalEmail, additionalPhone, email, phone } } } = await this.props.client.query({
-        query: ProfileContactsQuery,
+        { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+        query: ProfilePhonesQuery,
         variables: { playerUUID: uuid },
       });
 
-      Trackify.click('PROFILE_CONTACTS_VIEWED', {
+      Trackify.click('PROFILE_PHONES_VIEWED', {
         eventLabel: uuid,
       });
 
       this.setState({
-        additionalEmail,
         additionalPhone,
         phone,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getProfileEmail = async () => {
+    const { clientInfo: { uuid }, notify } = this.props;
+
+    try {
+      const { data: {
+        profileContacts: { email } } } = await this.props.client.query({
+        query: ProfileEmailQuery,
+        variables: { playerUUID: uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('PROFILE_EMAILS_VIEWED', {
+        eventLabel: uuid,
+      });
+
+      this.setState({
         email,
       });
     } catch {
       notify({
         level: 'error',
-        title: I18n.t('COMMON.FAIL'),
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getProfileAdditionalEmail = async () => {
+    const { clientInfo: { uuid }, notify } = this.props;
+
+    try {
+      const { data: {
+        profileContacts: { additionalEmail } } } = await this.props.client.query({
+        query: ProfileAdditionalEmailQuery,
+        variables: { playerUUID: uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('PROFILE_EMAILS_VIEWED', {
+        eventLabel: uuid,
+      });
+
+      this.setState({
+        additionalEmail,
+      });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
@@ -192,7 +244,13 @@ class ClientPersonalInfo extends PureComponent {
             verified={phoneVerified}
             additional={(
               <>
-                <ShowClientPhoneButton onClick={this.getProfileContacts} />
+                <ShowContactsButton
+                  permissions={[
+                    permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
+                    permissions.USER_PROFILE.FIELD_PHONE,
+                  ]}
+                  onClick={this.getProfilePhones}
+                />
                 <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
                 <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
               </>
@@ -213,6 +271,12 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.EMAIL')}
             value={this.state.email || email}
+            additional={(
+              <ShowContactsButton
+                permissions={[permissions.USER_PROFILE.FIELD_EMAIL]}
+                onClick={this.getProfileEmail}
+              />
+            )}
             verified={profileStatus === userStatuses.VERIFIED}
             onClickSelectEmail={this.triggerEmailSelectModal}
             withSendEmail={isSendEmailAvailable}
@@ -221,6 +285,12 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.ALT_EMAIL')}
             value={this.state.additionalEmail || additionalEmail}
+            additional={(
+              <ShowContactsButton
+                permissions={[permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL]}
+                onClick={this.getProfileAdditionalEmail}
+              />
+            )}
             verified={profileStatus === userStatuses.VERIFIED}
             className="ClientPersonalInfo__contacts"
           />
