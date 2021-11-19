@@ -3,7 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import UpdateAccountMutation from './graphql/UpdateAccountMutation';
@@ -59,11 +59,14 @@ class AccountProfileGroup extends PureComponent {
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_SUCCESS'),
       });
-    } catch (_) {
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAILED'),
-        message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_ERROR'),
+        message: error.error === 'error.account.group.change'
+          ? error.message : I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_ERROR'),
       });
     }
   };

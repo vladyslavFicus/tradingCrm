@@ -1323,7 +1323,8 @@
       "WIRE_SENT": "Wire Sent",
       "HUNG_UP": "Hung Up",
       "LONG_TERM_CALL_BACK": "Long Term Call Back",
-      "APPOINTMENT_24HR": "Appointment 24hr"
+      "APPOINTMENT_24HR": "Appointment 24hr",
+      "SELF_DEPOSITOR": "Self depositor"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -3364,7 +3365,8 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "MIGRATION_SOURCE": "Migration Source*",
+        "AFFILIATE_UUID": "Affiliate Uuid*",
+        "COPY_SOURCE": "Copy source",
         "DESKS": "Desks",
         "TEAMS": "Teams"
       },
@@ -3451,8 +3453,13 @@
         "OPEN_PRICE": "Open price",
         "UPDATE": "Update",
         "AUTO": "Auto",
-        "SELL_AT": "Sell at {{value}}",
-        "BUY_AT": "Buy at {{value}}",
+        "PENDING_ORDER": "Pending order",
+        "SELL_MARKET_AT": "Sell at {{value}}",
+        "BUY_MARKET_AT": "Buy at {{value}}",
+        "SELL_LIMIT_AT": "Sell Limit at {{value}}",
+        "BUY_LIMIT_AT": "Buy Limit at {{value}}",
+        "SELL_STOP_AT": "Sell Stop at {{value}}",
+        "BUY_STOP_AT": "Buy Stop at {{value}}",
         "ERROR": "This account doesn't exist",
         "SELL_PNL": "Sell P&L",
         "BUY_PNL": "Buy P&L",
@@ -3475,8 +3482,13 @@
         "UPDATE": "Update",
         "UPLOAD": "Upload",
         "AUTO": "Auto",
-        "SELL_AT": "Sell at {{value}}",
-        "BUY_AT": "Buy at {{value}}",
+        "PENDING_ORDER": "Pending order",
+        "SELL_MARKET_AT": "Sell at {{value}}",
+        "BUY_MARKET_AT": "Buy at {{value}}",
+        "SELL_LIMIT_AT": "Sell Limit at {{value}}",
+        "BUY_LIMIT_AT": "Buy Limit at {{value}}",
+        "SELL_STOP_AT": "Sell Stop at {{value}}",
+        "BUY_STOP_AT": "Buy Stop at {{value}}",
         "ERROR": "This account doesn't exist",
         "SELL_PNL": "Sell P&L",
         "BUY_PNL": "Buy P&L",
@@ -3493,7 +3505,7 @@
         }
       },
       "EDIT_ORDER_MODAL": {
-        "TITLE": "Deal #{{id}}, {{direction}} {{volumeLots}} {{symbol}}",
+        "TITLE": "Deal #{{id}}, {{type}} {{volumeLots}} {{symbol}}",
         "ORDER": "Order",
         "CANCEL": "Cancel",
         "OPEN_TIME": "Open time",
@@ -4556,7 +4568,12 @@
       "STATUS": "Status",
       "ACCOUNT_TYPE": "Account type",
       "LOGIN": "MT4 login",
-      "CREDIT": "Credit"
+      "CREDIT": "Credit",
+      "UNARCHIVE": {
+        "HEADER": "Unarchive",
+        "BUTTON": "Unarchive",
+        "SUCCESS": "Account {{uuid}} is in queue to unarchive"
+      }
     }
   },
   "BRANCH_MANAGER_INFO": {
@@ -4808,7 +4825,8 @@
           "create": "Create trading account",
           "changePassword": "Trading account password",
           "rename": "Rename trading account",
-          "toggleDisabled": "Disable Trading account"
+          "toggleDisabled": "Disable Trading account",
+          "unarchive": "Unarchive trading account"
         }
       },
       "notes": {

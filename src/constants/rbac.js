@@ -1206,6 +1206,16 @@ export default [
           },
         },
       },
+      // Unarchive trading account
+      {
+        id: 'unarchive',
+        actions: {
+          edit: {
+            action: 'trading-account.unarchiveAccount',
+            state: false,
+          },
+        },
+      },
       // Trading account password
       {
         id: 'changePassword',
@@ -1327,37 +1337,37 @@ export default [
   // ============================================= //
   // ============ Clients Distribution =========== //
   // ============================================= //
-  {
-    id: 'clients-distribution',
-    actions: {
-      view: {
-        action: 'clients-distributor.searchRules',
-        state: false,
-      },
-    },
-    permissions: [
-      // List of distribution rules
-      {
-        id: 'list',
-        actions: {
-          view: {
-            action: 'clients-distributor.searchRules',
-            state: false,
-          },
-        },
-      },
-      // Create rule
-      {
-        id: 'create',
-        actions: {
-          edit: {
-            action: 'clients-distributor.createRule',
-            state: false,
-          },
-        },
-      },
-    ],
-  },
+  // {
+  //   id: 'clients-distribution',
+  //   actions: {
+  //     view: {
+  //       action: 'clients-distributor.searchRules',
+  //       state: false,
+  //     },
+  //   },
+  //   permissions: [
+  //     // List of distribution rules
+  //     {
+  //       id: 'list',
+  //       actions: {
+  //         view: {
+  //           action: 'clients-distributor.searchRules',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     // Create rule
+  //     {
+  //       id: 'create',
+  //       actions: {
+  //         edit: {
+  //           action: 'clients-distributor.createRule',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //   ],
+  // },
   // ============================================= //
   // ============== Payment methods ============== //
   // ============================================= //

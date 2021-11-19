@@ -14,8 +14,7 @@ import {
   modalFieldsNames,
   MAX_MIGRATED_CLIENTS,
 } from '../../constants';
-import BranchesQuery from './graphql/BranchesQuery';
-import PartnersQuery from './graphql/PartnersQuery';
+import AddSourceBrandModalQuery from './graphql/AddSourceBrandModalQuery';
 import './AddSourceBrandModal.scss';
 
 class AddSourceBrandModal extends PureComponent {
@@ -37,13 +36,11 @@ class AddSourceBrandModal extends PureComponent {
     }),
     fetchAvailableClientsAmount: PropTypes.func.isRequired,
     brands: PropTypes.arrayOf(PropTypes.brandConfig).isRequired,
-    branchesQuery: PropTypes.query({
+    sourceBrandModalQuery: PropTypes.query({
       userBranches: PropTypes.shape({
         TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
         DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
       }),
-    }).isRequired,
-    partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
   }
@@ -103,17 +100,17 @@ class AddSourceBrandModal extends PureComponent {
       brand,
     });
 
-    this.props.branchesQuery.refetch({ brandId: brand });
+    this.props.sourceBrandModalQuery.refetch({ brandId: brand });
   };
 
   handleAffiliatesChange = (setValues, values) => (affiliateUuids) => {
     const {
-      branchesQuery: {
-        data: branchesData,
+      sourceBrandModalQuery: {
+        data: sourceBrandModalData,
       },
     } = this.props;
 
-    const availableTeams = branchesData?.userBranches?.TEAM || [];
+    const availableTeams = sourceBrandModalData?.userBranches?.TEAM || [];
 
     // if there are selected teams and desks, need to keep selected teams related to selected desks
     const teams = values.teams && values.desks
@@ -139,12 +136,12 @@ class AddSourceBrandModal extends PureComponent {
 
   handleDesksChange = (setValues, values) => (desks) => {
     const {
-      branchesQuery: {
-        data: branchesData,
+      sourceBrandModalQuery: {
+        data: sourceBrandModalData,
       },
     } = this.props;
 
-    const availableTeams = branchesData?.userBranches?.TEAM || [];
+    const availableTeams = sourceBrandModalData?.userBranches?.TEAM || [];
 
     // if there are selected teams and desks, need to keep selected teams related to selected desks
     const teams = values.teams && desks
@@ -194,11 +191,10 @@ class AddSourceBrandModal extends PureComponent {
         teams,
       },
       handleSubmit,
-      branchesQuery: {
-        data: branchesData,
-        loading: branchesLoading,
+      sourceBrandModalQuery: {
+        data: sourceBrandModalData,
+        loading: sourceBrandModalLoading,
       },
-      partnersQuery,
     } = this.props;
 
     const { availableClientsAmount } = this.state;
@@ -208,10 +204,10 @@ class AddSourceBrandModal extends PureComponent {
     const limitAmount = Math.min(availableClientsAmount, MAX_MIGRATED_CLIENTS);
     const limitAmountPercentage = Math.min(100, Math.floor(MAX_MIGRATED_CLIENTS / availableClientsAmount * 100));
 
-    const availableDesks = branchesData?.userBranches?.DESK || [];
-    const availableTeams = branchesData?.userBranches?.TEAM || [];
+    const availableDesks = sourceBrandModalData?.userBranches?.DESK || [];
+    const availableTeams = sourceBrandModalData?.userBranches?.TEAM || [];
 
-    const partners = partnersQuery.data?.partners?.content || [];
+    const partners = sourceBrandModalData?.partners?.content || [];
 
     return (
       <Modal
@@ -295,7 +291,7 @@ class AddSourceBrandModal extends PureComponent {
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
                     customOnChange={this.handleAffiliatesChange(setValues, values)}
-                    disabled={partnersQuery.loading}
+                    disabled={sourceBrandModalLoading}
                     searchable
                     multiple
                   >
@@ -311,7 +307,7 @@ class AddSourceBrandModal extends PureComponent {
                       label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.DESKS')}
                       placeholder={
                         I18n.t(
-                          (!branchesLoading && availableDesks.length === 0)
+                          (!sourceBrandModalLoading && availableDesks.length === 0)
                             ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
@@ -319,7 +315,7 @@ class AddSourceBrandModal extends PureComponent {
                       className="AddSourceBrandModal__field"
                       component={FormikSelectField}
                       customOnChange={this.handleDesksChange(setValues, values)}
-                      disabled={branchesLoading || availableDesks.length === 0}
+                      disabled={sourceBrandModalLoading || availableDesks.length === 0}
                       searchable
                       multiple
                     >
@@ -334,7 +330,7 @@ class AddSourceBrandModal extends PureComponent {
                       label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TEAMS')}
                       placeholder={
                         I18n.t(
-                          (!branchesLoading && filteredTeams.length === 0)
+                          (!sourceBrandModalLoading && filteredTeams.length === 0)
                             ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
@@ -342,7 +338,7 @@ class AddSourceBrandModal extends PureComponent {
                       className="AddSourceBrandModal__field"
                       component={FormikSelectField}
                       customOnChange={this.handleTeamsChange(setFieldValue, values)}
-                      disabled={branchesLoading || filteredTeams.length === 0}
+                      disabled={sourceBrandModalLoading || filteredTeams.length === 0}
                       searchable
                       multiple
                     >
@@ -416,6 +412,5 @@ class AddSourceBrandModal extends PureComponent {
 }
 
 export default withRequests({
-  branchesQuery: BranchesQuery,
-  partnersQuery: PartnersQuery,
+  sourceBrandModalQuery: AddSourceBrandModalQuery,
 })(AddSourceBrandModal);

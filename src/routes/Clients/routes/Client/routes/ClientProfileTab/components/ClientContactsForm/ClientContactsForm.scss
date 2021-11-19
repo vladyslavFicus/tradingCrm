@@ -8,6 +8,10 @@
     justify-content: space-between;
   }
 
+  &__actions {
+    margin-left: auto;
+  }
+
   &__title {
     color: #333;
     font-size: 18px;
@@ -32,5 +36,9 @@
     & > i {
       margin-right: 3px;
     }
+  }
+
+  &__field-addition {
+    border-color: #cfcfcf !important;
   }
 }

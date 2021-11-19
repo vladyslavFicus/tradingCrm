@@ -163,7 +163,7 @@ class EditOrderModal extends PureComponent {
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_DEAL_TITLE'),
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_DEAL_TEXT', {
         id,
-        type,
+        type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
         symbol,
         volumeLots,
       }),
@@ -223,7 +223,6 @@ class EditOrderModal extends PureComponent {
       takeProfit,
       volumeLots,
       openPrice,
-      direction,
       closePrice,
       closeRate,
       commission,
@@ -267,7 +266,7 @@ class EditOrderModal extends PureComponent {
         <ModalHeader toggle={onCloseModal}>
           {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
             id,
-            direction,
+            type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
             volumeLots,
             symbol,
           })}
@@ -289,9 +288,11 @@ class EditOrderModal extends PureComponent {
               closeTime: time?.closing,
             }}
             validate={createValidator({
-              volumeLots: ['required', 'numeric', 'max:100000', 'min:0.01'],
+              volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+            }, {
+              volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
             })}
-            onSubmit={this.handleSubmit}
+            onSubmit={values => this.handleEditOrder(values, status)}
             enableReinitialize
           >
             {({ values, isSubmitting, dirty }) => {
@@ -335,15 +336,17 @@ class EditOrderModal extends PureComponent {
                           name="type"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
                           className="EditOrderModal__field"
-                          value={type}
+                          value={I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`)}
                         />
                       </div>
                       <div className="EditOrderModal__field-container">
                         <Field
                           name="volumeLots"
                           type="number"
-                          step="0.00001"
+                          step="0.01"
                           placeholder="0.00"
+                          min={0.01}
+                          max={1000}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                           className="EditOrderModal__field"
                           component={FormikInputField}
@@ -492,14 +495,14 @@ class EditOrderModal extends PureComponent {
                           name="comment"
                           label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
                           className="EditOrderModal__field"
+                          maxLength={1000}
                           component={FormikTextAreaField}
                           disabled={isDisabled}
                         />
                       </div>
                       <div className="EditOrderModal__field-container EditOrderModal__field-container-button">
                         <Button
-                          primary
-                          onClick={() => this.handleEditOrder(values, status)}
+                          type="submit"
                           className="EditOrderModal__button"
                           danger
                           disabled={!dirty || isSubmitting || isDisabled}

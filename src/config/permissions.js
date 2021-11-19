@@ -28,6 +28,7 @@ export default {
     GET_LEADS: 'lead.searchLeads',
     GET_LEAD_BY_ID: 'lead.getLeadById',
     PROMOTE_LEAD: 'profile.admin.createProfile',
+    UPLOAD_LEADS_FROM_FILE: 'lead-updater.uploadLeadsFromFile',
   },
   HIERARCHY: {
     GET_TREE: 'hierarchy.branch.getBranchTree',
@@ -120,6 +121,7 @@ export default {
     UPDATE_PASSWORD: 'trading-account.changeAccountPassword',
     READ_ONLY: 'trading-account.changeAccountReadOnly',
     RENAME_ACCOUNT: 'trading-account.renameAccount',
+    UNARCHIVE: 'trading-account.unarchiveAccount',
   },
   TRADING_ENGINE: {
     GET_ACCOUNTS: 'we-trading.findAccounts',
@@ -166,5 +168,7 @@ export default {
   WE_TRADING: {
     CREDIT_IN: 'we-trading.creditIn',
     CREDIT_OUT: 'we-trading.creditOut',
+    MANAGER_EDIT_ORDER: 'we-trading.updateOrder',
+    ADMIN_EDIT_ORDER: 'we-trading.admin.updateOrder',
   },
 };

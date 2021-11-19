@@ -109,7 +109,7 @@ class EditOrderModal extends PureComponent {
         id,
         closePrice: closePrice || 0,
         symbol,
-        type,
+        type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
       }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
@@ -220,7 +220,6 @@ class EditOrderModal extends PureComponent {
       comment,
       accountLogin,
       accountUuid,
-      direction,
       account,
       symbolEntity,
       groupSpread,
@@ -264,7 +263,7 @@ class EditOrderModal extends PureComponent {
             <Otherwise>
               {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
                 id,
-                direction,
+                type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
                 volumeLots,
                 symbol,
               })}
@@ -319,7 +318,7 @@ class EditOrderModal extends PureComponent {
                                 name="order"
                                 value={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
                                   id,
-                                  direction,
+                                  type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
                                   volumeLots,
                                   symbol,
                                 })}
@@ -431,6 +430,7 @@ class EditOrderModal extends PureComponent {
                                 label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
                                 className="EditOrderModal__field"
                                 component={FormikTextAreaField}
+                                maxLength={1000}
                               />
                               <Button
                                 primary
@@ -453,7 +453,12 @@ class EditOrderModal extends PureComponent {
                       volumeLots,
                       closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
                     }}
-                    onSubmit={() => {}}
+                    validate={createValidator({
+                      volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+                    }, {
+                      volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
+                    })}
+                    onSubmit={values => this.handleCloseOrder({ ...values, status, symbol, type })}
                   >
                     {({ values: _values, setFieldValue }) => (
                       <Form>
@@ -467,8 +472,13 @@ class EditOrderModal extends PureComponent {
                               <Field
                                 name="volumeLots"
                                 type="number"
+                                step="0.01"
+                                placeholder="0.00"
+                                min={0.01}
+                                max={1000}
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                                 className="EditOrderModal__field"
+                                classNameError="EditOrderModal__field--customError"
                                 component={FormikInputField}
                                 disabled
                               />
@@ -491,10 +501,10 @@ class EditOrderModal extends PureComponent {
                                 {...decimalsSettings}
                               />
                               <Button
+                                type="submit"
                                 disabled={status === OrderStatus.PENDING || !initialSymbolPrice}
                                 className="EditOrderModal__button"
                                 danger
-                                onClick={() => this.handleCloseOrder({ ..._values, status, symbol, type })}
                               >
                                 {I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_FOR_${status}`, {
                                   volumeLots: Number(_values.volumeLots).toFixed(2),
