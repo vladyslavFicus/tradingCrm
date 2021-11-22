@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withModals, withNotifications } from 'hoc';
-import { OrderType, OrderStatus } from 'types/trading-engine';
+import { OrderDirection, OrderType, OrderStatus } from 'types/trading-engine';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextAreaField, FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -278,6 +278,7 @@ class EditOrderModal extends PureComponent {
       account,
       symbolEntity,
       groupSpread,
+      direction,
     } = data?.tradingEngineOrder || {};
 
     const { currentSymbolPrice, initialSymbolPrice } = this.state;
@@ -558,7 +559,7 @@ class EditOrderModal extends PureComponent {
                                       <Button
                                         className="EditOrderModal__additionUpdate-button"
                                         onClick={() => {
-                                          const _activationPrice = type === OrderType.SELL
+                                          const _activationPrice = direction === OrderDirection.SELL
                                             ? currentPriceBid
                                             : currentPriceAsk;
 

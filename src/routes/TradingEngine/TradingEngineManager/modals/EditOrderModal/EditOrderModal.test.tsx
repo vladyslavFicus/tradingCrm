@@ -327,6 +327,6 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
   await waitFor(() => expect(updateButton).toBeEnabled());
 
   fireEvent.click(updateButton);
-  await screen.findByText(`Activate ${volumeLots} at ${ask.toFixed(5)}`);
-  expect(screen.getByTestId('activationPrice')).toHaveValue(ask);
+  await screen.findByText(`Activate ${volumeLots} at ${bid.toFixed(5)}`);
+  expect(screen.getByTestId('activationPrice')).toHaveValue(bid);
 });
