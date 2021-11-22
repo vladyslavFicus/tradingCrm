@@ -3393,7 +3393,8 @@
     "TABS": {
       "ACCOUNTS": "Accounts",
       "ORDERS": "Orders",
-      "SYMBOLS": "Symbols"
+      "SYMBOLS": "Symbols",
+      "SECURITIES": "Securities"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
@@ -3596,6 +3597,16 @@
           "CANCEL_SUCCESS": "Deal has been successfully canceled",
           "CANCEL_FAILED": "Deal cancel failed"
         }
+      },
+      "NEW_SECURITY_MODAL": {
+        "TITLE": "New Security",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "NOTIFICATION": {
+          "SUCCESS": "Security has been successfully created",
+          "FAILED": "Security creation failed",
+          "FAILED_EXIST": "Security with this name already exists."
+        }
       }
     },
     "ACCOUNTS": {
@@ -3628,8 +3639,16 @@
         }
       }
     },
+    "SECURITIES": {
+      "GRID": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "SYMBOLS": "Symbols"
+      }
+    },
     "SYMBOLS": {
       "HEADLINE": "Symbols",
+      "NEW_SECURITY": "+ New security",
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",
