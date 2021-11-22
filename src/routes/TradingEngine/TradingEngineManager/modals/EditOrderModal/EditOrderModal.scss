@@ -47,6 +47,10 @@
       position: absolute;
       white-space: nowrap;
     }
+
+    &--volumeLots {
+      flex-basis: 50%;
+    }
   }
 
   &__close-pnl {
@@ -72,6 +76,10 @@
     &--small {
       width: 33%;
     }
+
+    &--update {
+      max-width: 90px;
+    }
   }
 
   &__fieldset {
@@ -93,22 +101,5 @@
   .modal-body {
     padding-top: 10px;
     padding-bottom: 20px;
-  }
-
-  &__additionUpdate {
-    padding: 0;
-    border: none;
-
-    &-button {
-      background-color: transparent;
-      border: 1px solid #cfcfcf;
-      border-radius: 3px;
-      color: #cfcfcf;
-      cursor: pointer;
-      line-height: 1;
-      height: 40px;
-      text-align: center;
-      transition: border-color 0.1s ease, color 0.1s ease;
-    }
   }
 }

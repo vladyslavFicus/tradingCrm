@@ -1,5 +1,5 @@
 import React from 'react';
-import { render as testingLibraryRender, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render as testingLibraryRender, screen, fireEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 import StorageProvider from 'providers/StorageProvider';
@@ -24,7 +24,6 @@ const props = {
 const apolloMockResponseData = {
   account: {
     currency: "EUR",
-    __typename: "TradingEngineAccount"
   },
   accountLogin: 144354,
   accountUuid: "WET-4fdfd959-e853-4cca-bfc8-6469fa6acd16",
@@ -36,7 +35,6 @@ const apolloMockResponseData = {
   groupSpread: {
     bidAdjustment: 0,
     askAdjustment: 0,
-    __typename: "TradingEngineGroupSpread"
   },
   id: 143749,
   lotSize: 100000,
@@ -49,7 +47,6 @@ const apolloMockResponseData = {
   symbolAlias: "EURUSD",
   symbolEntity: {
     lotSize: 100000,
-    __typename: "TradingEngineSymbol"
   },
   takeProfit: null,
   time: {
@@ -57,7 +54,6 @@ const apolloMockResponseData = {
     creation: "2021-11-18T15:13:19.29864",
     expiration: null,
     modification: null,
-    __typename: "TradingEngineOrder__Time",
   },
   tradeType: "MARKET",
   type: "BUY",
@@ -128,9 +124,18 @@ it('Render EditOrderModal', async () => {
     type,
     volumeLots,
     symbol,
+    commission,
+    openPrice,
+    swaps,
+    stopLoss,
+    takeProfit,
+    comment
   } = apolloMockResponseData;
 
   // Arrange
+  const floatingPnL = '17.58';
+  const netPnL = '17.58';
+
   const ask = 1.15520;
   const bid = 1.15480;
 
@@ -138,31 +143,42 @@ it('Render EditOrderModal', async () => {
   render(<EditOrderModal {...props} />);
 
   // Wait for order loading
-  await screen.findByText(/Deal/);
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
 
   // Assert for order info
+  await waitFor(() => screen.getByText(`Close ${volumeLots} at ${bid.toFixed(5)}`));
+
   expect(screen.getByLabelText('Order')).toBeDisabled();
   expect(screen.getByLabelText('Order')).toHaveValue(
     `Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`
   );
 
-  expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Cancel' }));
   expect(screen.getByLabelText('Open time')).toBeDisabled();
+  expect(screen.queryByLabelText('Expiry')).toBeNull();
   expect(screen.getByLabelText('Commission')).toBeDisabled();
-  expect(screen.getByLabelText('Open price')).toBeInTheDocument();
+  expect(screen.getByLabelText('Commission')).toHaveValue(String(commission));
+  expect(screen.getByLabelText('Open price')).toBeEnabled();
+  expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
   expect(screen.getByLabelText('R/O Swaps')).toBeDisabled();
-  expect(screen.getByLabelText('Stop Loss')).toBeInTheDocument();
-  expect(screen.getByLabelText('Take profit')).toBeInTheDocument();
+  expect(screen.getByLabelText('R/O Swaps')).toHaveValue(String(swaps));
+  expect(screen.getByLabelText('Stop Loss')).toBeEnabled();
+  expect(screen.getByLabelText('Stop Loss')).toHaveValue(stopLoss);
+  expect(screen.getByLabelText('Take profit')).toBeEnabled();
+  expect(screen.getByLabelText('Take profit')).toHaveValue(takeProfit);
   expect(screen.getByLabelText('Floating P/L')).toBeDisabled();
+  expect(screen.getByLabelText('Floating P/L')).toHaveValue(floatingPnL);
   expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
-  expect(screen.getByLabelText('Comment')).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: 'Change' })).toBeInTheDocument();
+  expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
+  expect(screen.getByLabelText('Comment')).toBeEnabled();
+  expect(screen.getByLabelText('Comment')).toHaveValue(comment);
+  expect(screen.getByRole('button', { name: 'Change' }));
 });
 
-it('Render EditOrderModal order with Expiry dete', async () => {
+it('Render EditOrderModal order with Expiry dаte', async () => {
   const ORDER_WITH_EXPIRY_DATE = {
     ...apolloMockResponseData,
     time: {
@@ -175,8 +191,9 @@ it('Render EditOrderModal order with Expiry dete', async () => {
   render(<EditOrderModal {...props} />, ORDER_WITH_EXPIRY_DATE);
 
   // Wait for order loading
-  await screen.findByText(/Deal/);
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
 
+  expect(screen.getByLabelText('Expiry')).toHaveValue('04.11.2021 20:41:11');
   expect(screen.getByLabelText('Expiry')).toBeDisabled();
 });
 
@@ -187,30 +204,40 @@ it('Render EditOrderModal for OPEN order with BUY type', async () => {
   const ask = 1.1552;
   const bid = 1.1548;
 
+  const pnl = '17.58';
+
+  const newAsk = 1.1555;
+  const newBid = 1.1545;
+
   // Act
   render(<EditOrderModal {...props} />);
 
   // Wait for order loading
-  await screen.findByText(/Deal/);
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
 
   // Wait while rsocket tick will be accepted by component
-  await screen.findByText(`Close ${volumeLots} at ${bid.toFixed(5)}`);
+  await waitFor(() => screen.getByText(`Close ${volumeLots} at ${bid.toFixed(5)}`));
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots)
   expect(screen.getByLabelText('Volume')).toBeDisabled();
   expect(screen.getByTestId('closePrice')).toHaveValue(bid);
-  expect(screen.getByTestId('PnL')).not.toBeEmptyDOMElement();
+  expect(screen.getByTestId('PnL')).toHaveTextContent(pnl);
 
   const updateButton = screen.getByRole('button', { name: 'Update' });
   expect(updateButton).toBeInTheDocument();
   await waitFor(() => expect(updateButton).toBeEnabled());
 
+  // Wait while rsocket tick will be accepted by component
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask: newAsk, bid: newBid }));
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   fireEvent.click(updateButton);
-  await waitFor(() => screen.findByText(`Close ${volumeLots} at ${bid.toFixed(5)}`));
-  expect(screen.getByTestId('closePrice')).toHaveValue(bid);
+
+  await waitFor(() => screen.getByText(`Close ${volumeLots} at ${newBid.toFixed(5)}`));
+  expect(screen.getByTestId('closePrice')).toHaveValue(newBid);
 });
 
 it('Render EditOrderModal for OPEN order with SELL type', async () => {
@@ -222,33 +249,43 @@ it('Render EditOrderModal for OPEN order with SELL type', async () => {
   const { volumeLots } = apolloMockResponseData;
 
   // Arrange
-  const ask = 1.1554;
-  const bid = 1.1544;
+  const ask = 1.1552;
+  const bid = 1.1548;
+
+  const pnl = '-17.93';
+
+  const newAsk = 1.1555;
+  const newBid = 1.1545;
 
   // Act
   render(<EditOrderModal {...props} />, SELL_ORDER_TYPE);
 
   // Wait for order loading
-  await screen.findByText(/Deal/);
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
 
   // Wait while rsocket tick will be accepted by component
-  await screen.findByText(`Close ${volumeLots} at ${ask.toFixed(5)}`);
+  await waitFor(() => screen.getByText(`Close ${volumeLots} at ${ask.toFixed(5)}`));
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots)
   expect(screen.getByLabelText('Volume')).toBeDisabled();
   expect(screen.getByTestId('closePrice')).toHaveValue(ask);
-  expect(screen.getByTestId('PnL')).not.toBeEmptyDOMElement();
+  expect(screen.getByTestId('PnL')).toHaveTextContent(pnl);
 
   const updateButton = screen.getByRole('button', { name: 'Update' });
   expect(updateButton).toBeInTheDocument();
   await waitFor(() => expect(updateButton).toBeEnabled());
 
+  // Wait while rsocket tick will be accepted by component
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask: newAsk, bid: newBid }));
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   fireEvent.click(updateButton);
-  await waitFor(() => screen.findByText(`Close ${volumeLots} at ${ask.toFixed(5)}`));
-  expect(screen.getByTestId('closePrice')).toHaveValue(ask);
+
+  await waitFor(() => screen.getByText(`Close ${volumeLots} at ${newAsk.toFixed(5)}`));
+  expect(screen.getByTestId('closePrice')).toHaveValue(newAsk);
 });
 
 it('Render EditOrderModal for PENDING order with BUY type', async () => {
@@ -267,11 +304,14 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
   const ask = 1.1552;
   const bid = 1.1548;
 
+  const newAsk = 1.1555;
+  const newBid = 1.1545;
+
   // Act
   render(<EditOrderModal {...props} />, SELL_ORDER_TYPE);
 
   // Wait for order loading
-  await screen.findByText(/Deal/);
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
@@ -286,9 +326,14 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
   expect(updateButton).toBeInTheDocument();
   await waitFor(() => expect(updateButton).toBeEnabled());
 
+  // Wait while rsocket tick will be accepted by component
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask: newAsk, bid: newBid }));
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   fireEvent.click(updateButton);
-  await waitFor(() => screen.findByText(`Activate ${volumeLots} at ${ask.toFixed(5)}`));
-  expect(screen.getByTestId('activationPrice')).toHaveValue(ask);
+
+  await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newAsk.toFixed(5)}`));
+  expect(screen.getByTestId('activationPrice')).toHaveValue(newAsk);
 });
 
 it('Render EditOrderModal for PENDING order with SELL type', async () => {
@@ -307,17 +352,20 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
   const ask = 1.1552;
   const bid = 1.1548;
 
+  const newAsk = 1.1555;
+  const newBid = 1.1545;
+
   // Act
   render(<EditOrderModal {...props} />, SELL_ORDER_TYPE);
 
   // Wait for order loading
-  await screen.findByText(/Deal/);
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
 
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
 
   // Wait while rsocket tick will be accepted by component
-  await screen.findByText(`Activate ${volumeLots} at ${openPrice.toFixed(5)}`);
+  await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${openPrice.toFixed(5)}`));
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots)
   expect(screen.getByLabelText('Volume')).toBeDisabled();
@@ -326,7 +374,12 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
   expect(updateButton).toBeInTheDocument();
   await waitFor(() => expect(updateButton).toBeEnabled());
 
+  // Wait while rsocket tick will be accepted by component
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask: newAsk, bid: newBid }));
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   fireEvent.click(updateButton);
-  await screen.findByText(`Activate ${volumeLots} at ${bid.toFixed(5)}`);
-  expect(screen.getByTestId('activationPrice')).toHaveValue(bid);
+
+  await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newBid.toFixed(5)}`));
+  expect(screen.getByTestId('activationPrice')).toHaveValue(newBid);
 });

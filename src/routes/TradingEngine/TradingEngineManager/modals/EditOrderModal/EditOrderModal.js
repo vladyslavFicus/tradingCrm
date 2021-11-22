@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withModals, withNotifications } from 'hoc';
-import { OrderDirection, OrderType, OrderStatus } from 'types/trading-engine';
+import { OrderDirection, OrderStatus } from 'types/trading-engine';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikTextAreaField, FormikInputDecimalsField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -538,7 +538,7 @@ class EditOrderModal extends PureComponent {
                                   min={0.01}
                                   max={1000}
                                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                                  className="EditOrderModal__field"
+                                  className="EditOrderModal__field EditOrderModal__field--volumeLots"
                                   classNameError="EditOrderModal__field--customError"
                                   component={FormikInputField}
                                   disabled
@@ -552,28 +552,24 @@ class EditOrderModal extends PureComponent {
                                   step={step(digits)}
                                   min={0}
                                   max={999999}
-                                  additionClassName="EditOrderModal__additionUpdate"
-                                  additionPosition="right"
-                                  addition={
-                                    (
-                                      <Button
-                                        className="EditOrderModal__additionUpdate-button"
-                                        onClick={() => {
-                                          const _activationPrice = direction === OrderDirection.SELL
-                                            ? currentPriceBid
-                                            : currentPriceAsk;
-
-                                          setFieldValue('activationPrice', Number(_activationPrice?.toFixed(digits)));
-                                        }}
-                                        disabled={!initialSymbolPrice}
-                                      >
-                                        {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
-                                      </Button>
-                                    )
-                                  }
                                   component={FormikInputDecimalsField}
+                                  data-testid="activationPrice"
                                   {...decimalsSettings}
                                 />
+                                <Button
+                                  type="button"
+                                  primaryOutline
+                                  className="EditOrderModal__button EditOrderModal__button--update"
+                                  onClick={() => {
+                                    const _activationPrice = direction === OrderDirection.SELL
+                                      ? currentPriceBid
+                                      : currentPriceAsk;
+                                    setFieldValue('activationPrice', Number(_activationPrice?.toFixed(digits)));
+                                  }}
+                                  disabled={!initialSymbolPrice}
+                                >
+                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
+                                </Button>
                                 <Button
                                   type="submit"
                                   className="EditOrderModal__button"
@@ -595,7 +591,7 @@ class EditOrderModal extends PureComponent {
                         enableReinitialize
                         initialValues={{
                           volumeLots,
-                          closePrice: type === OrderType.SELL ? initialPriceAsk : initialPriceBid,
+                          closePrice: direction === OrderDirection.SELL ? initialPriceAsk : initialPriceBid,
                         }}
                         validate={createValidator({
                           volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
@@ -620,7 +616,7 @@ class EditOrderModal extends PureComponent {
                                   min={0.01}
                                   max={1000}
                                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                                  className="EditOrderModal__field"
+                                  className="EditOrderModal__field EditOrderModal__field--volumeLots"
                                   classNameError="EditOrderModal__field--customError"
                                   component={FormikInputField}
                                   disabled
@@ -634,27 +630,24 @@ class EditOrderModal extends PureComponent {
                                   step={step(digits)}
                                   min={0}
                                   max={999999}
-                                  additionClassName="EditOrderModal__additionUpdate"
-                                  additionPosition="right"
-                                  addition={
-                                    (
-                                      <Button
-                                        className="EditOrderModal__additionUpdate-button"
-                                        onClick={() => {
-                                          const _closePrice = type === OrderType.SELL
-                                            ? currentPriceAsk
-                                            : currentPriceBid;
-                                          setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
-                                        }}
-                                        disabled={!initialSymbolPrice}
-                                      >
-                                        {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
-                                      </Button>
-                                    )
-                                  }
                                   component={FormikInputDecimalsField}
+                                  data-testid="closePrice"
                                   {...decimalsSettings}
                                 />
+                                <Button
+                                  type="button"
+                                  primaryOutline
+                                  className="EditOrderModal__button EditOrderModal__button--update"
+                                  onClick={() => {
+                                    const _closePrice = direction === OrderDirection.SELL
+                                      ? currentPriceAsk
+                                      : currentPriceBid;
+                                    setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
+                                  }}
+                                  disabled={!initialSymbolPrice}
+                                >
+                                  {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
+                                </Button>
                                 <Button
                                   type="submit"
                                   disabled={!initialSymbolPrice}

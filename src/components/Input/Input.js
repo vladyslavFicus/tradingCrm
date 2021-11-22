@@ -164,7 +164,6 @@ class Input extends PureComponent {
             </UncontrolledTooltip>
           </If>
           <input
-            data-testid={name}
             {...inputProps}
             id={this.id}
             onWheel={e => e.target.blur()}

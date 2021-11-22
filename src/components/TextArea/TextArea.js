@@ -43,7 +43,7 @@ class TextArea extends PureComponent {
     resize: 'none',
   };
 
-  id = `input-${v4()}`;
+  id = `textarea-${v4()}`;
 
   render() {
     const {
