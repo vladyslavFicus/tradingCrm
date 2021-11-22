@@ -548,7 +548,7 @@ class EditOrderModal extends PureComponent {
                                   disabled={!initialSymbolPrice}
                                   className="EditOrderModal__field"
                                   placeholder={placeholder(currentSymbolPrice?.digits)}
-                                  step={step(currentSymbolPrice?.digits)}
+                                  step={step(digits)}
                                   min={0}
                                   max={999999}
                                   additionClassName="EditOrderModal__additionUpdate"
@@ -630,7 +630,7 @@ class EditOrderModal extends PureComponent {
                                   disabled={!initialSymbolPrice}
                                   className="EditOrderModal__field"
                                   placeholder={placeholder(currentSymbolPrice?.digits)}
-                                  step={step(currentSymbolPrice?.digits)}
+                                  step={step(digits)}
                                   min={0}
                                   max={999999}
                                   additionClassName="EditOrderModal__additionUpdate"
