@@ -345,9 +345,13 @@ class EditOrderModal extends PureComponent {
                       comment,
                     }}
                     validate={createValidator({
-                      amount: ['required', 'numeric', 'greater:0', 'max:999999'],
+                      openPrice: ['required'],
+                    }, {
+                      openPrice: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE'),
                     })}
-                    onSubmit={this.handleSubmit}
+                    onSubmit={this.handleEditOrder}
+                    validateOnChange={false}
+                    validateOnBlur={false}
                     enableReinitialize
                   >
                     {({ values, isSubmitting, dirty }) => {
@@ -488,8 +492,8 @@ class EditOrderModal extends PureComponent {
                                 maxLength={1000}
                               />
                               <Button
+                                type="submit"
                                 primary
-                                onClick={() => this.handleEditOrder(values)}
                                 className="EditOrderModal__button EditOrderModal__button--small"
                                 disabled={!dirty || isSubmitting}
                               >
@@ -547,15 +551,25 @@ class EditOrderModal extends PureComponent {
                                   step={step(currentSymbolPrice?.digits)}
                                   min={0}
                                   max={999999}
-                                  addition={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
+                                  additionClassName="EditOrderModal__additionUpdate"
                                   additionPosition="right"
-                                  onAdditionClick={() => {
-                                    const _activationPrice = type === OrderType.SELL
-                                      ? currentPriceBid
-                                      : currentPriceAsk;
+                                  addition={
+                                    (
+                                      <Button
+                                        className="EditOrderModal__additionUpdate-button"
+                                        onClick={() => {
+                                          const _activationPrice = type === OrderType.SELL
+                                            ? currentPriceBid
+                                            : currentPriceAsk;
 
-                                    setFieldValue('activationPrice', Number(_activationPrice?.toFixed(digits)));
-                                  }}
+                                          setFieldValue('activationPrice', Number(_activationPrice?.toFixed(digits)));
+                                        }}
+                                        disabled={!initialSymbolPrice}
+                                      >
+                                        {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
+                                      </Button>
+                                    )
+                                  }
                                   component={FormikInputDecimalsField}
                                   {...decimalsSettings}
                                 />
@@ -619,13 +633,24 @@ class EditOrderModal extends PureComponent {
                                   step={step(currentSymbolPrice?.digits)}
                                   min={0}
                                   max={999999}
-                                  addition={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
+                                  additionClassName="EditOrderModal__additionUpdate"
                                   additionPosition="right"
-                                  onAdditionClick={() => {
-                                    const _closePrice = type === OrderType.SELL ? currentPriceAsk : currentPriceBid;
-
-                                    setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
-                                  }}
+                                  addition={
+                                    (
+                                      <Button
+                                        className="EditOrderModal__additionUpdate-button"
+                                        onClick={() => {
+                                          const _closePrice = type === OrderType.SELL
+                                            ? currentPriceAsk
+                                            : currentPriceBid;
+                                          setFieldValue('closePrice', Number(_closePrice?.toFixed(digits)));
+                                        }}
+                                        disabled={!initialSymbolPrice}
+                                      >
+                                        {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
+                                      </Button>
+                                    )
+                                  }
                                   component={FormikInputDecimalsField}
                                   {...decimalsSettings}
                                 />
