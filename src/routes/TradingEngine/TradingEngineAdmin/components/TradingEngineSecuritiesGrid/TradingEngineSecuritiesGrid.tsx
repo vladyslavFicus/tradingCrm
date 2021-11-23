@@ -98,14 +98,14 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
 
         <div className="TradingEngineSecuritiesGrid__header">
           <span className="TradingEngineSecuritiesGrid__title">
-            <strong>{securities.length}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
+            <strong>{securities.length}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SECURITIES.HEADLINE')}
           </span>
           <Button
             onClick={this.handleNewSecuritiesClick}
             commonOutline
             small
           >
-            {I18n.t('TRADING_ENGINE.SYMBOLS.NEW_SECURITY')}
+            {I18n.t('TRADING_ENGINE.SECURITIES.NEW_SECURITY')}
           </Button>
         </div>
 

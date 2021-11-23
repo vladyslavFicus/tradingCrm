@@ -3650,6 +3650,8 @@
       }
     },
     "SECURITIES": {
+      "HEADLINE": "Securities",
+      "NEW_SECURITY": "+ New security",
       "GRID": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
@@ -3658,7 +3660,6 @@
     },
     "SYMBOLS": {
       "HEADLINE": "Symbols",
-      "NEW_SECURITY": "+ New security",
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",
