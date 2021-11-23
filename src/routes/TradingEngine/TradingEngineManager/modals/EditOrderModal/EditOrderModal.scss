@@ -47,6 +47,10 @@
       position: absolute;
       white-space: nowrap;
     }
+
+    &--volumeLots {
+      flex-basis: 50%;
+    }
   }
 
   &__close-pnl {
@@ -71,6 +75,10 @@
 
     &--small {
       width: 33%;
+    }
+
+    &--update {
+      max-width: 90px;
     }
   }
 

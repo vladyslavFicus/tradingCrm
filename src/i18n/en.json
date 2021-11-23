@@ -3536,9 +3536,10 @@
         "REOPEN": "Reopen",
         "OPEN_RATE": "Open conversation rate",
         "CLOSE_RATE": "Close conversation rate",
-        "BUTTON_FOR_PENDING": "Activate {{volumeLots}} at {{closePrice}}",
-        "BUTTON_FOR_OPEN": "Close {{volumeLots}} at {{closePrice}}",
+        "BUTTON_ACTIVATE_PENDING_ORDER": "Activate {{volumeLots}} at {{activationPrice}}",
+        "BUTTON_CLOSE_ORDER": "Close {{volumeLots}} at {{closePrice}}",
         "WITH_PNL": "with P&L:",
+        "PENDING_ORDER": "Pending order",
         "CONFIRMATION": {
           "CHANGE_ORDER_TITLE": "Change order",
           "CHANGE_ORDER_TEXT": "Do you really want to change open price, stop loss, take profit, comment of order #{{id}}?",
@@ -3551,7 +3552,9 @@
           "CLOSE_ORDER_TITLE_OPEN": "Close order",
           "CLOSE_ORDER_TEXT_OPEN": "Do you really want to close order #{{id}} {{type}} {{symbol}} at price {{closePrice}}?",
           "CLOSE_ORDER_TITLE_PENDING": "Activate order",
-          "CLOSE_ORDER_TEXT_PENDING": "Do you really want to activate order #{{id}} at price {{closePrice}}? "
+          "CLOSE_ORDER_TEXT_PENDING": "Do you really want to activate order #{{id}} at price {{closePrice}}? ",
+          "PENDING_ORDER_TITLE": "Pending order",
+          "PENDING_ORDER_TEXT": "Do you really want to activate pending order #{{id}} at price {{activationPrice}}?"
         },
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully updated",
@@ -3561,7 +3564,9 @@
           "CLOSE_SUCCESS": "Order has been successfully closed",
           "CLOSE_FAILED": "Order close failed",
           "CANCEL_SUCCESS": "Order has been successfully canceled",
-          "CANCEL_FAILED": "Order cancel failed"
+          "CANCEL_FAILED": "Order cancel failed",
+          "PENDING_SUCCESS": "Pending order has been successfully activated",
+          "PENDING_FAILED": "Pending order activation failed"
         },
         "REASONS": {
           "CLIENT": "Client",

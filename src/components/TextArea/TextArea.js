@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { v4 } from 'uuid';
 import './TextArea.scss';
 
 class TextArea extends PureComponent {
@@ -42,6 +43,8 @@ class TextArea extends PureComponent {
     resize: 'none',
   };
 
+  id = `textarea-${v4()}`;
+
   render() {
     const {
       name,
@@ -72,12 +75,14 @@ class TextArea extends PureComponent {
       }
       >
         <If condition={label}>
-          <label className={
-            classNames(
-              'TextArea__label',
-              labelClassName,
-            )
-          }
+          <label
+            className={
+              classNames(
+                'TextArea__label',
+                labelClassName,
+              )
+            }
+            htmlFor={this.id}
           >
             {label}
           </label>
@@ -94,6 +99,7 @@ class TextArea extends PureComponent {
               'TextArea__textarea--error': error && showErrorMessage,
             },
           )}
+          id={this.id}
           name={name}
           disabled={disabled}
           onChange={onChange}
