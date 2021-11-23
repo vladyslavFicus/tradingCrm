@@ -19,7 +19,7 @@ class MigrationBrandCard extends PureComponent {
     handleEditBrandCard: PropTypes.func.isRequired,
     handleRemoveBrandCard: PropTypes.func.isRequired,
     brandType: PropTypes.string.isRequired,
-    brand: PropTypes.brandConfig.isRequired,
+    brand: PropTypes.brandConfig,
     absoluteClientsCount: PropTypes.number,
   }
 
@@ -29,6 +29,7 @@ class MigrationBrandCard extends PureComponent {
     sortType: '',
     operatorEntity: null,
     absoluteClientsCount: null,
+    brand: null,
   }
 
   renderSourceBrandContent = () => {

@@ -53,7 +53,11 @@ class HierarchyProfileRules extends PureComponent {
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     title: PropTypes.string.isRequired,
-    branchType: PropTypes.string.isRequired,
+    branchType: PropTypes.string,
+  };
+
+  static defaultProps = {
+    branchType: null,
   };
 
   openCreateRuleModal = () => {
