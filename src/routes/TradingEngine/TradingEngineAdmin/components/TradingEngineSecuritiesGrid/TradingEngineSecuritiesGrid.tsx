@@ -8,7 +8,8 @@ import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { Modal } from 'types/modal';
-import NewSecuritiesModal from 'routes/TradingEngine/TradingEngineAdmin/modals/NewSecurityModal';
+import EditSecurityModal from 'routes/TradingEngine/TradingEngineAdmin/modals/EditSecurityModal';
+import NewSecurityModal from 'routes/TradingEngine/TradingEngineAdmin/modals/NewSecurityModal';
 import { tradingEngineAdminTabs } from '../../constants';
 import TradingEngineSecuritiesQuery from './graphql/TradingEngineSecuritiesQuery';
 import './TradingEngineSecuritiesGrid.scss';
@@ -26,13 +27,22 @@ interface SecuritiesData {
 interface Props {
   securitiesQuery: QueryResult<SecuritiesData>,
   modals: {
-    newSecuritiesModal: Modal,
+    newSecurityModal: Modal,
+    editSecurityModal: Modal,
   },
 }
 
 class TradingEngineSecuritiesGrid extends PureComponent<Props> {
+  refetchSecurities = () => this.props.securitiesQuery.refetch();
+
   renderName = ({ name }: Security) => (
-    <div className="TradingEngineSecuritiesGrid__cell-primary">
+    <div
+      className="TradingEngineSecuritiesGrid__cell-primary"
+      onClick={() => this.props.modals.editSecurityModal.show({
+        name,
+        onSuccess: this.refetchSecurities,
+      })}
+    >
       {name}
     </div>
   );
@@ -65,14 +75,13 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
 
   handleNewSecuritiesClick = () => {
     const {
-      securitiesQuery,
       modals: {
-        newSecuritiesModal,
+        newSecurityModal,
       },
     } = this.props;
 
-    newSecuritiesModal.show({
-      onSuccess: securitiesQuery.refetch,
+    newSecurityModal.show({
+      onSuccess: this.refetchSecurities,
     });
   };
 
@@ -131,6 +140,7 @@ export default compose(
     securitiesQuery: TradingEngineSecuritiesQuery,
   }),
   withModals({
-    newSecuritiesModal: NewSecuritiesModal,
+    newSecurityModal: NewSecurityModal,
+    editSecurityModal: EditSecurityModal,
   }),
 )(TradingEngineSecuritiesGrid);
