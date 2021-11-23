@@ -31,7 +31,7 @@ class TradingEngineSymbols extends PureComponent {
       },
     } = this.props;
 
-    const page = symbolsQuery?.data?.tradingEngineSymbolsSearch?.number || 0;
+    const page = symbolsQuery?.data?.tradingEngineSymbols?.number || 0;
 
     loadMore(variables => set(variables, 'args.page.from', page + 1));
   };
@@ -61,7 +61,7 @@ class TradingEngineSymbols extends PureComponent {
   render() {
     const { symbolsQuery } = this.props;
 
-    const { content = [], last = true, totalElements } = symbolsQuery.data?.tradingEngineSymbolsSearch || {};
+    const { content = [], last = true, totalElements } = symbolsQuery.data?.tradingEngineSymbols || {};
 
     return (
       <div className="card">

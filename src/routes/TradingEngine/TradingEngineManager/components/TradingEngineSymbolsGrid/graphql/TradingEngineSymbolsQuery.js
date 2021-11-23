@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_TradingEngineSymbolsQuery($args: TradingEngineSymbolsSearch__Input) {
-    tradingEngineSymbolsSearch(args: $args) {
+  query TradingEngine_TradingEngineSymbolsQuery($args: TradingEngineSymbols__Input) {
+    tradingEngineSymbols(args: $args) {
       content {
         name
         digits
