@@ -619,7 +619,6 @@ class EditOrderModal extends PureComponent {
                                   className="EditOrderModal__field EditOrderModal__field--volumeLots"
                                   classNameError="EditOrderModal__field--customError"
                                   component={FormikInputField}
-                                  disabled
                                 />
                                 <Field
                                   name="closePrice"
