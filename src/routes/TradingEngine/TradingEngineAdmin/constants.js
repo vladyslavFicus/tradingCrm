@@ -1,4 +1,4 @@
-export const tradingEngineAdminTabs = [
+const tradingEngineAdminTabs = [
   {
     url: '/trading-engine-admin/symbols',
     label: 'TRADING_ENGINE.TABS.SYMBOLS',
@@ -12,3 +12,10 @@ export const tradingEngineAdminTabs = [
     label: 'TRADING_ENGINE.TABS.SECURITIES',
   },
 ];
+
+const namePattern = '/^[A-Za-z0-9.*@+-_!=]*$/';
+
+export {
+  tradingEngineAdminTabs,
+  namePattern,
+};
