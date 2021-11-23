@@ -146,6 +146,44 @@ it('Render NewOrderModal and click on "Auto" checkbox', async () => {
   expect(screen.getByLabelText(/Pending order/)).not.toBeChecked();
 });
 
+it('Render NewOrderModal and click on "Auto" checkbox and "Update" button', async () => {
+  // Arrange
+  const ask = 1.1552;
+  const bid = 1.1548;
+
+  const newAsk = 1.111;
+  const newBid = 1.777;
+
+  // Act
+  render(<NewOrderModal {...props} />);
+
+  // Wait for symbols loading
+  await screen.findByText(/EURUSD description/);
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  // Wait while rsocket tick will be accepted by component
+  await screen.findByText(`Sell at ${bid.toFixed(5)}`);
+
+  fireEvent.click(screen.getByLabelText(/Auto/));
+
+  // Publish tick message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask: newAsk, bid: newBid }));
+
+  // We should wait 500 ms (update interval in SymbolPricesStream) to notify component about changes
+  await new Promise(res => setTimeout(res, 500));
+
+  fireEvent.click(screen.getByRole('button', { name: 'Update' }));
+
+  // Wait while rsocket tick will be accepted by component
+  await screen.findByText(`Sell at ${newBid.toFixed(5)}`);
+
+  // Assert
+  expect(screen.getByText(`Sell at ${newBid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Buy at ${newBid.toFixed(5)}`)).toBeEnabled();
+});
+
 it('Render NewOrderModal and click on "Pending order" checkbox', async () => {
   // Arrange
   const ask = 1.1552;
