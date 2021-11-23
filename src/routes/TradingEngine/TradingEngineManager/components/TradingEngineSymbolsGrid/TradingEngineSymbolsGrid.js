@@ -76,7 +76,7 @@ class TradingEngineSymbols extends PureComponent {
 
         {/* Subscribe to symbol prices stream */}
         <SymbolsPricesStream
-          symbols={content?.map(({ name }) => name)}
+          symbols={content.map(({ name }) => name)}
           onNotify={this.handleSymbolsPricesTick}
         />
 
