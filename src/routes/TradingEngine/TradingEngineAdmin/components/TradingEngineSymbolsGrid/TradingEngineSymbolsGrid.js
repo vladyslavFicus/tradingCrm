@@ -28,13 +28,18 @@ class TradingEngineSymbols extends PureComponent {
       symbolsQuery: {
         data,
         loadMore,
-        variables,
+        variables: {
+          args: {
+            page: {
+              size,
+            },
+          },
+        },
       },
     } = this.props;
 
     const currentPage = data?.tradingEngineSymbols?.number || 0;
     const filters = state?.filters || {};
-    const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
 
     loadMore({

@@ -8,8 +8,6 @@ const REQUEST = gql`
     tradingEngineSymbols {
       content {
         name
-        bid
-        ask
       }
     }
   }
