@@ -348,7 +348,7 @@ class EditOrderModal extends PureComponent {
                     validate={createValidator({
                       openPrice: ['required'],
                     }, {
-                      openPrice: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE'),
+                      openPrice: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE'),
                     })}
                     onSubmit={this.handleEditOrder}
                     validateOnChange={false}
@@ -518,7 +518,7 @@ class EditOrderModal extends PureComponent {
                         validate={createValidator({
                           volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
                         }, {
-                          volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
+                          volumeLots: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME'),
                         })}
                         onSubmit={this.handleActivatePendingOrder}
                       >
@@ -594,7 +594,7 @@ class EditOrderModal extends PureComponent {
                           closePrice: direction === OrderDirection.SELL ? initialPriceAsk : initialPriceBid,
                         }}
                         validate={createValidator({
-                          volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+                          volumeLots: ['required', 'numeric', `max:${volumeLots}`, 'min:0.01'],
                         }, {
                           volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
                         })}
