@@ -49,15 +49,12 @@ class ApolloProvider extends PureComponent {
     );
 
     const wsLink = new WebSocketLink({
-      uri: getGraphQLSubscriptionUrl(),
-      options: {
-        reconnect: true,
-        lazy: true,
-        inactivityTimeout: 60000,
-        connectionParams: () => ({
-          token: storage.get('token'),
-        }),
-      },
+      url: getGraphQLSubscriptionUrl(),
+      keepAlive: 20000,
+      isFatalConnectionProblem: () => false,
+      connectionParams: () => ({
+        token: storage.get('token'),
+      }),
     });
 
     const transportLink = split(

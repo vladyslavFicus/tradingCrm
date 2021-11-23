@@ -10,11 +10,6 @@ export default gql`query TradingEngine_AccountQuery($identifier: String!) {
     group
     currency
     credit
-    enable
-    profileUuid
-    profileFullName
-    registrationDate
-    leverage
     balance
     accountType
     allowedSymbols {

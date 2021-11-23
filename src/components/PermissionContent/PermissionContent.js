@@ -6,7 +6,7 @@ import PermissionElse from './PermissionElse';
 
 class PermissionContent extends PureComponent {
   static propTypes = {
-    children: PropTypes.any.isRequired,
+    children: PropTypes.any,
     permissions: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.array,
@@ -17,6 +17,7 @@ class PermissionContent extends PureComponent {
 
   static defaultProps = {
     permissionsCondition: CONDITIONS.AND,
+    children: null,
   };
 
   static getDerivedStateFromProps(props) {

@@ -121,6 +121,7 @@ export default {
     UPDATE_PASSWORD: 'trading-account.changeAccountPassword',
     READ_ONLY: 'trading-account.changeAccountReadOnly',
     RENAME_ACCOUNT: 'trading-account.renameAccount',
+    UNARCHIVE: 'trading-account.unarchiveAccount',
   },
   TRADING_ENGINE: {
     GET_ACCOUNTS: 'we-trading.findAccounts',

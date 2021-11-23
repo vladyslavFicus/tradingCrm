@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-const REQUEST = gql`query AddSourceBrandModal__BranchesQuery($brandId: String) {
+const REQUEST = gql`query AddSourceBrandModalQuery($brandId: String) {
   userBranches(brandId: $brandId) {
     DESK {
       name
@@ -17,9 +17,16 @@ const REQUEST = gql`query AddSourceBrandModal__BranchesQuery($brandId: String) {
       }
     }
   }
+  partners(brandId: $brandId) {
+    content {
+      uuid
+      fullName
+      brand
+    }
+  }
 }`;
 
-const BranchesQuery = ({ children, initialValues }) => (
+const AddSourceBrandModalQuery = ({ children, initialValues }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -29,13 +36,13 @@ const BranchesQuery = ({ children, initialValues }) => (
   </Query>
 );
 
-BranchesQuery.propTypes = {
+AddSourceBrandModalQuery.propTypes = {
   children: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
 };
 
-BranchesQuery.defaultProps = {
+AddSourceBrandModalQuery.defaultProps = {
   initialValues: {},
 };
 
-export default BranchesQuery;
+export default AddSourceBrandModalQuery;

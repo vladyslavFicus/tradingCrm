@@ -12,7 +12,7 @@ class FormikInputField extends PureComponent {
     }).isRequired,
     form: PropTypes.shape({
       errors: PropTypes.object.isRequired,
-      initialValues: PropTypes.object.isRequired,
+      initialValues: PropTypes.object,
     }).isRequired,
     type: PropTypes.string,
     withFocus: PropTypes.bool,

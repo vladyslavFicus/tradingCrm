@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { v4 } from 'uuid';
 import { ReactComponent as CheckIcon } from './img/check-icon.svg';
 import './Checkbox.scss';
 
@@ -27,6 +28,8 @@ class Checkbox extends PureComponent {
     onChange: () => {},
     vertical: false,
   };
+
+  id = `checkbox-${v4()}`;
 
   /**
    * Change value by press on space or enter button
@@ -68,8 +71,9 @@ class Checkbox extends PureComponent {
           )
         }
       >
-        <label className="Checkbox__container">
+        <label className="Checkbox__container" htmlFor={this.id}>
           <input
+            id={this.id}
             name={name}
             className="Checkbox__input"
             onChange={onChange}

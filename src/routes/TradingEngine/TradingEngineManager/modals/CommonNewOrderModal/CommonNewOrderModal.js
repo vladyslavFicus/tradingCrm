@@ -21,9 +21,10 @@ import Badge from 'components/Badge';
 import Input from 'components/Input';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
-import { OrderType } from 'types/trading-engine';
+import { OrderType, OrderDirection } from 'types/trading-engine';
 import SymbolPricesStream from 'routes/TradingEngine/components/SymbolPricesStream';
-import { calculatePnL } from 'routes/TradingEngine/utils/formulas';
+import { step, placeholder } from 'routes/TradingEngine/utils/inputHelper';
+import { calculatePnL, determineOrderType } from 'routes/TradingEngine/utils/formulas';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
 import './CommonNewOrderModal.scss';
@@ -57,10 +58,47 @@ class CommonNewOrderModal extends PureComponent {
       stopLoss: null,
       openPrice: null,
       autoOpenPrice: true,
+      pendingOrder: false,
     });
   };
 
   getCurrentSymbol = symbol => this.state.account?.allowedSymbols?.find(({ name }) => name === symbol);
+
+  /**
+   * Get current BID price with applied group spread
+   *
+   * @param symbol
+   *
+   * @return {number}
+   */
+  getCurrentPriceBid = (symbol) => {
+    const { currentSymbolPrice } = this.state;
+
+    const currentSymbol = this.getCurrentSymbol(symbol);
+
+    return round(
+      (currentSymbolPrice?.bid || 0) - (currentSymbol?.groupSpread?.bidAdjustment || 0),
+      currentSymbol?.digits,
+    );
+  };
+
+  /**
+   * Get current ASK price with applied group spread
+   *
+   * @param symbol
+   *
+   * @return {number}
+   */
+  getCurrentPriceAsk = (symbol) => {
+    const { currentSymbolPrice } = this.state;
+
+    const currentSymbol = this.getCurrentSymbol(symbol);
+
+    return round(
+      (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0),
+      currentSymbol?.digits,
+    );
+  };
 
   handleGetAccount = login => async () => {
     this.setState({
@@ -88,7 +126,7 @@ class CommonNewOrderModal extends PureComponent {
     }
   }
 
-  handleSubmit = async ({ takeProfit, stopLoss, openPrice, direction, ...res }) => {
+  handleSubmit = async (values) => {
     const {
       notify,
       onCloseModal,
@@ -108,14 +146,8 @@ class CommonNewOrderModal extends PureComponent {
         },
       } = await createOrder({
         variables: {
-          type: 'MARKET',
           accountUuid: account.uuid,
-          pendingOrder: true,
-          takeProfit,
-          stopLoss,
-          openPrice,
-          direction,
-          ...res,
+          ...values,
         },
       });
 
@@ -144,23 +176,33 @@ class CommonNewOrderModal extends PureComponent {
   }
 
   handleAutoOpenPrice = (value, symbol, setFieldValue) => () => {
-    const { currentSymbolPrice } = this.state;
-
-    const currentSymbol = this.getCurrentSymbol(symbol);
-
     const autoOpenPrice = !value;
 
-    // Get current BID price with applied group spread
-    const currentPriceBid = round(
-      currentSymbolPrice?.bid - currentSymbol?.groupSpread?.bidAdjustment,
-      currentSymbol?.digits,
-    );
+    const currentPriceBid = this.getCurrentPriceBid(symbol);
 
+    // If auto open price is turned on --> remove openPrice, in other case set real BID price to openPrice field
     const openPrice = !autoOpenPrice ? currentPriceBid : undefined;
 
     setFieldValue('autoOpenPrice', autoOpenPrice);
-
     setFieldValue('openPrice', openPrice);
+  };
+
+  handlePendingOrder = (value, symbol, openPrice, setFieldValue) => () => {
+    const pendingOrder = !value;
+
+    // If pending order is turned on --> turn off auto open price and set real BID price to openPrice field
+    if (pendingOrder) {
+      const currentPriceBid = this.getCurrentPriceBid(symbol);
+
+      setFieldValue('autoOpenPrice', false);
+
+      // Set openPrice only if field is empty
+      if (!openPrice) {
+        setFieldValue('openPrice', currentPriceBid);
+      }
+    }
+
+    setFieldValue('pendingOrder', pendingOrder);
   };
 
   handleSymbolsPricesTick = (currentSymbolPrice) => {
@@ -196,6 +238,7 @@ class CommonNewOrderModal extends PureComponent {
             volumeLots: 1,
             symbol: account?.allowedSymbols[0]?.name,
             autoOpenPrice: true,
+            pendingOrder: false,
           }}
           validate={values => createValidator({
             volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
@@ -250,24 +293,41 @@ class CommonNewOrderModal extends PureComponent {
               openPrice,
               symbol,
               volumeLots,
+              pendingOrder,
             } = values;
 
             const currentSymbol = this.getCurrentSymbol(symbol);
 
             // Get current BID and ASK prices with applied group spread
-            const currentPriceBid = round(
-              (currentSymbolPrice?.bid || 0) - (currentSymbol?.groupSpread?.bidAdjustment || 0),
-              currentSymbol?.digits,
-            );
-
-            const currentPriceAsk = round(
-              (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0),
-              currentSymbol?.digits,
-            );
+            const currentPriceBid = this.getCurrentPriceBid(symbol);
+            const currentPriceAsk = this.getCurrentPriceAsk(symbol);
 
             // Get SELL and BUY price depends on autoOpenPrice checkbox
             const sellPrice = autoOpenPrice ? currentPriceBid : openPrice;
             const buyPrice = autoOpenPrice ? currentPriceAsk : openPrice;
+
+            // Determine order type for SELL and BUY buttons for right order creation
+            const sellType = determineOrderType({
+              pendingOrder,
+              openPrice,
+              direction: OrderDirection.SELL,
+              currentPrice: currentPriceBid,
+            });
+
+            const buyType = determineOrderType({
+              pendingOrder,
+              openPrice,
+              direction: OrderDirection.BUY,
+              currentPrice: currentPriceAsk,
+            });
+
+            // Get status of buttons SELL and BUY
+            const isSellDisabled = (
+              !account || isSubmitting || !sellPrice || (pendingOrder && openPrice === currentPriceBid)
+            );
+            const isBuyDisabled = (
+              !account || isSubmitting || !buyPrice || (pendingOrder && openPrice === currentPriceAsk)
+            );
 
             const decimalsSettings = {
               decimalsLimit: currentSymbol?.digits,
@@ -394,8 +454,8 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
                         className="CommonNewOrderModal__field"
-                        placeholder={`0.${'0'.repeat(currentSymbol?.digits || 4)}`}
-                        step="0.00001"
+                        placeholder={placeholder(currentSymbol?.digits)}
+                        step={step(currentSymbol?.digits)}
                         min={0}
                         max={999999}
                         component={FormikInputDecimalsField}
@@ -407,8 +467,8 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
                         className="CommonNewOrderModal__field"
-                        placeholder={`0.${'0'.repeat(currentSymbol?.digits || 4)}`}
-                        step="0.00001"
+                        placeholder={placeholder(currentSymbol?.digits)}
+                        step={step(currentSymbol?.digits)}
                         min={0}
                         max={999999}
                         component={FormikInputDecimalsField}
@@ -422,8 +482,8 @@ class CommonNewOrderModal extends PureComponent {
                         type="number"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
                         className="CommonNewOrderModal__field"
-                        placeholder={`0.${'0'.repeat(currentSymbol?.digits || 4)}`}
-                        step="0.00001"
+                        placeholder={placeholder(currentSymbol?.digits)}
+                        step={step(currentSymbol?.digits)}
                         min={0}
                         max={999999}
                         value={sellPrice}
@@ -440,53 +500,64 @@ class CommonNewOrderModal extends PureComponent {
                       >
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
                       </Button>
-                      <Field
-                        name="autoOpenPrice"
-                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
-                        className="CommonNewOrderModal__field CommonNewOrderModal__field--center"
-                        component={FormikCheckbox}
-                        onChange={this.handleAutoOpenPrice(autoOpenPrice, symbol, setFieldValue)}
-                        disabled={!account}
-                      />
+                      <div className="CommonNewOrderModal__checkbox-container">
+                        <Field
+                          name="autoOpenPrice"
+                          label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
+                          className="CommonNewOrderModal__auto-checkbox"
+                          component={FormikCheckbox}
+                          onChange={this.handleAutoOpenPrice(autoOpenPrice, symbol, setFieldValue)}
+                          disabled={!account || pendingOrder}
+                        />
+                        <Field
+                          name="pendingOrder"
+                          label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.PENDING_ORDER')}
+                          component={FormikCheckbox}
+                          onChange={this.handlePendingOrder(pendingOrder, symbol, openPrice, setFieldValue)}
+                          disabled={!account}
+                        />
+                      </div>
                     </div>
-                    <div className="CommonNewOrderModal__field-container">
-                      <Input
-                        disabled
-                        name="sellPnl"
-                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_PNL')}
-                        value={
-                          (account && currentSymbol && currentSymbolPrice)
-                            ? calculatePnL({
-                              type: OrderType.SELL,
-                              currentPriceBid,
-                              currentPriceAsk,
-                              openPrice: sellPrice,
-                              volume: volumeLots,
-                              lotSize: currentSymbol?.lotSize,
-                              exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
-                            })
-                            : 0}
-                        className="CommonNewOrderModal__field"
-                      />
-                      <Input
-                        disabled
-                        name="buyPnl"
-                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_PNL')}
-                        value={
-                          (account && currentSymbol && currentSymbolPrice)
-                            ? calculatePnL({
-                              type: OrderType.BUY,
-                              currentPriceBid,
-                              currentPriceAsk,
-                              openPrice: buyPrice,
-                              volume: volumeLots,
-                              lotSize: currentSymbol?.lotSize,
-                              exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
-                            })
-                            : 0}
-                        className="CommonNewOrderModal__field"
-                      />
-                    </div>
+                    <If condition={!pendingOrder}>
+                      <div className="CommonNewOrderModal__field-container">
+                        <Input
+                          disabled
+                          name="sellPnl"
+                          label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_PNL')}
+                          value={
+                            (account && currentSymbol && currentSymbolPrice)
+                              ? calculatePnL({
+                                type: OrderType.SELL,
+                                currentPriceBid,
+                                currentPriceAsk,
+                                openPrice: sellPrice,
+                                volume: volumeLots,
+                                lotSize: currentSymbol?.lotSize,
+                                exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
+                              })
+                              : 0}
+                          className="CommonNewOrderModal__field"
+                        />
+                        <Input
+                          disabled
+                          name="buyPnl"
+                          label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_PNL')}
+                          value={
+                            (account && currentSymbol && currentSymbolPrice)
+                              ? calculatePnL({
+                                type: OrderType.BUY,
+                                currentPriceBid,
+                                currentPriceAsk,
+                                openPrice: buyPrice,
+                                volume: volumeLots,
+                                lotSize: currentSymbol?.lotSize,
+                                exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
+                              })
+                              : 0}
+                          className="CommonNewOrderModal__field"
+                        />
+                      </div>
+                    </If>
                     <div className="CommonNewOrderModal__field-container">
                       <Field
                         name="comment"
@@ -504,8 +575,11 @@ class CommonNewOrderModal extends PureComponent {
                           keyName="ctrl+s"
                           filter={() => true}
                           onKeyUp={() => {
-                            setFieldValue('direction', 'SELL');
-                            handleSubmit();
+                            if (!isSellDisabled) {
+                              setFieldValue('type', sellType);
+                              setFieldValue('direction', OrderDirection.SELL);
+                              handleSubmit();
+                            }
                           }}
                         />
 
@@ -514,35 +588,41 @@ class CommonNewOrderModal extends PureComponent {
                           keyName="ctrl+d"
                           filter={() => true}
                           onKeyUp={() => {
-                            setFieldValue('direction', 'BUY');
-                            handleSubmit();
+                            if (!isBuyDisabled) {
+                              setFieldValue('type', buyType);
+                              setFieldValue('direction', OrderDirection.BUY);
+                              handleSubmit();
+                            }
                           }}
                         />
                       </If>
                       <Button
                         className="CommonNewOrderModal__button"
                         danger
-                        disabled={isSubmitting || !account || !sellPrice}
+                        disabled={isSellDisabled}
                         onClick={() => {
-                          setFieldValue('direction', 'SELL');
+                          setFieldValue('type', sellType);
+                          setFieldValue('direction', OrderDirection.SELL);
                           handleSubmit();
                         }}
                       >
-                        {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_AT', {
-                          value: sellPrice ? Number(sellPrice).toFixed(currentSymbol?.digits) : 0,
+                        {I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_${sellType}_AT`, {
+                          value: sellPrice && sellPrice.toFixed(currentSymbol?.digits),
+                          type: I18n.t(`TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.${sellType}`),
                         })}
                       </Button>
                       <Button
                         className="CommonNewOrderModal__button"
                         primary
-                        disabled={isSubmitting || !account || !buyPrice}
+                        disabled={isBuyDisabled}
                         onClick={() => {
-                          setFieldValue('direction', 'BUY');
+                          setFieldValue('type', buyType);
+                          setFieldValue('direction', OrderDirection.BUY);
                           handleSubmit();
                         }}
                       >
-                        {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_AT', {
-                          value: buyPrice ? Number(buyPrice).toFixed(currentSymbol?.digits) : 0,
+                        {I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_${buyType}_AT`, {
+                          value: buyPrice && buyPrice.toFixed(currentSymbol?.digits),
                         })}
                       </Button>
                     </div>

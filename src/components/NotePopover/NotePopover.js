@@ -362,6 +362,7 @@ class NotePopover extends PureComponent {
                     label={I18n.t(attributeLabels.content)}
                     component={FormikTextAreaField}
                     showErrorMessage={false}
+                    maxLength={MAX_CONTENT_LENGTH}
                     disabled={note && !updateAllowed}
                   />
                   <div className="row no-gutters align-items-center">
