@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
@@ -228,11 +228,15 @@ class EditOrderModal extends PureComponent {
 
           onSuccess();
           onCloseModal();
-        } catch (_) {
+        } catch (e) {
+          const { error } = parseErrors(e);
+
           notify({
             level: 'error',
             title: I18n.t('COMMON.ERROR'),
-            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.PENDING_FAILED'),
+            message: error === 'error.trading.account.free-margin.not-enough'
+              ? I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
+              : I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.PENDING_FAILED'),
           });
         }
       },
