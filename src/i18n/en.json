@@ -3566,7 +3566,8 @@
           "CANCEL_SUCCESS": "Order has been successfully canceled",
           "CANCEL_FAILED": "Order cancel failed",
           "PENDING_SUCCESS": "Pending order has been successfully activated",
-          "PENDING_FAILED": "Pending order activation failed"
+          "PENDING_FAILED": "Pending order activation failed",
+          "NOT_ENOUGH_FREE_MARGIN": "Not enough free margin"
         },
         "REASONS": {
           "CLIENT": "Client",
