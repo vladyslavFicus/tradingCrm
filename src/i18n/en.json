@@ -3365,7 +3365,7 @@
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",
         "QUANTITY_PERCENTAGE": "Percentage",
-        "AFFILIATE_UUID": "Affiliate Uuid*",
+        "AFFILIATE": "Affiliate*",
         "COPY_SOURCE": "Copy source",
         "DESKS": "Desks",
         "TEAMS": "Teams"
