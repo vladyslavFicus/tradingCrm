@@ -6,22 +6,13 @@ import compose from 'compose-function';
 import { MutationOptions, MutationResult, QueryResult } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { createValidator, translateLabels } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { LevelType, Notify } from 'types/notify';
-import { namePattern } from '../../constants';
+import { securityNamePattern } from '../../constants';
 import EditSecurityMutation from './graphql/EditSecurityMutation';
 import SecurityQuery from './graphql/SecurityQuery';
-
-const attributeLabels = {
-  name: 'TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NAME',
-  description: 'TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.DESCRIPTION',
-};
-
-const customErrors = {
-  'regex.name': I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.INVALID_NAME'),
-};
 
 interface EditSecurityResponse {
   editSecurity: null,
@@ -104,10 +95,22 @@ class EditSecurityModal extends PureComponent<Props> {
             name,
             description,
           }}
-          validate={createValidator({
-            name: ['required', `regex:${namePattern}`],
-            description: 'string',
-          }, translateLabels(attributeLabels), false, customErrors)}
+          validate={
+            createValidator(
+              {
+                name: ['required', `regex:${securityNamePattern}`],
+                description: 'string',
+              },
+              {
+                name: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NAME'),
+                description: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.DESCRIPTION'),
+              },
+              false,
+              {
+                'regex.name': I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.INVALID_NAME'),
+              },
+            )
+          }
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={this.onSubmit}

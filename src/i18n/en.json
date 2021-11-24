@@ -3607,7 +3607,7 @@
           "FAILED": "Security creation failed",
           "FAILED_EXIST": "Security with this name already exists."
         },
-        "INVALID_NAME": "The name format is invalid"
+        "INVALID_NAME": "Security name must contain only letters, numbers or . * @ + - _ # ! % = characters"
       },
       "EDIT_SECURITY_MODAL": {
         "TITLE": "Edit Security",
@@ -3618,7 +3618,7 @@
           "FAILED": "Security update failed",
           "FAILED_EXIST": "Security with this name already exists."
         },
-        "INVALID_NAME": "The name format is invalid"
+        "INVALID_NAME": "Security name must contain only letters, numbers or . * @ + - _ # ! % = characters"
       }
     },
     "ACCOUNTS": {

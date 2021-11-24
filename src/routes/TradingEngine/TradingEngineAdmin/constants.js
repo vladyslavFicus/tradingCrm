@@ -13,9 +13,9 @@ const tradingEngineAdminTabs = [
   },
 ];
 
-const namePattern = '/^[A-Za-z0-9.*@+-_!=]*$/';
+const securityNamePattern = '/^[A-Za-z0-9.*@+-_!=]*$/';
 
 export {
   tradingEngineAdminTabs,
-  namePattern,
+  securityNamePattern,
 };
