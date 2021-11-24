@@ -35,7 +35,7 @@ class TradingEngineSymbols extends PureComponent {
     } = this.props;
 
     // Subscribe to symbols ticks when symbols list will be allowed to use in stream request
-    const symbolsNames = symbolsQuery.data?.tradingEngineSymbols?.content?.map(({ name }) => name) || [];
+    const symbolsNames = symbolsQuery.data?.tradingEngineSymbols?.map(({ name }) => name) || [];
 
     if (
       prevProps.symbolsQuery.loading
@@ -43,7 +43,7 @@ class TradingEngineSymbols extends PureComponent {
       && symbolsNames.length
     ) {
       // Initially fill symbols variable to render it inside render method
-      this.symbols = symbolsQuery.data.tradingEngineSymbols.content;
+      this.symbols = symbolsQuery.data.tradingEngineSymbols;
 
       // Request symbols stream by retrieved symbols name
       const symbolsStream = symbolsStreamRequest({ data: { symbols: symbolsNames } });
@@ -117,7 +117,7 @@ class TradingEngineSymbols extends PureComponent {
   render() {
     const { symbolsQuery } = this.props;
 
-    const symbols = this.symbols.length ? this.symbols : (symbolsQuery.data?.tradingEngineSymbols?.content || []);
+    const symbols = this.symbols.length ? this.symbols : (symbolsQuery.data.tradingEngineSymbols || []);
 
     return (
       <div className="card">
@@ -125,7 +125,7 @@ class TradingEngineSymbols extends PureComponent {
 
         <div className="card-heading card-heading--is-sticky">
           <span className="font-size-20">
-            <strong>{symbolsQuery.data?.tradingEngineSymbols?.content?.length}</strong>
+            <strong>{symbolsQuery.data?.tradingEngineSymbols?.length}</strong>
             &nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
         </div>

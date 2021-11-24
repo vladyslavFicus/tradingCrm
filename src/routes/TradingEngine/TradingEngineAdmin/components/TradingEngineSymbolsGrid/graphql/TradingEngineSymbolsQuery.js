@@ -10,8 +10,6 @@ const REQUEST = gql`
     tradingEngineSymbols(args: $args) {
       content {
         name
-        bid
-        ask
         securities
         spread
         stop
