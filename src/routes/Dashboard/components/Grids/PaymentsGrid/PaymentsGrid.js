@@ -22,7 +22,6 @@ class PaymentsGrid extends PureComponent {
       <PaymentsListGrid
         paymentsQuery={paymentsQuery}
         handleRefresh={this.handleModalActionSuccess}
-        withSort={false}
         withLazyload={false}
       />
     );
