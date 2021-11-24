@@ -252,7 +252,7 @@ class DistributionRuleBrands extends PureComponent {
           targetBrand,
           salesStatuses,
           countries,
-          languages: languages || '',
+          languages,
           affiliateUuids,
           registrationPeriodInHours,
           registrationDateRange,
