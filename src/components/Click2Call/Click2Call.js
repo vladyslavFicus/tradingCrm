@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { getClickToCall } from 'config';
 import I18n from 'i18n-js';
