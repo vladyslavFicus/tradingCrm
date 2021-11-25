@@ -10,6 +10,7 @@ import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
+import { securityNamePattern } from '../../constants';
 import CreateSecurityMutation from './graphql/CreateSecurityMutation';
 
 interface CreateSecurityResponse {
@@ -73,10 +74,22 @@ class NewSecurityModal extends PureComponent<Props> {
             name: '',
             description: '',
           }}
-          validate={createValidator({
-            name: ['required', 'string'],
-            description: 'string',
-          })}
+          validate={
+            createValidator(
+              {
+                name: ['required', `regex:${securityNamePattern}`],
+                description: 'string',
+              },
+              {
+                name: I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.NAME'),
+                description: I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.DESCRIPTION'),
+              },
+              false,
+              {
+                'regex.name': I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.INVALID_NAME'),
+              },
+            )
+          }
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={this.onSubmit}

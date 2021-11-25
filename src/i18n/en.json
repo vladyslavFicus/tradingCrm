@@ -3612,7 +3612,8 @@
           "SUCCESS": "Security has been successfully created",
           "FAILED": "Security creation failed",
           "FAILED_EXIST": "Security with this name already exists."
-        }
+        },
+        "INVALID_NAME": "Security name must contain only letters, numbers or . * @ + - _ # ! % = characters"
       },
       "EDIT_SECURITY_MODAL": {
         "TITLE": "Edit Security",
@@ -3622,7 +3623,8 @@
           "SUCCESS": "Security has been successfully updated",
           "FAILED": "Security update failed",
           "FAILED_EXIST": "Security with this name already exists."
-        }
+        },
+        "INVALID_NAME": "Security name must contain only letters, numbers or . * @ + - _ # ! % = characters"
       }
     },
     "ACCOUNTS": {
