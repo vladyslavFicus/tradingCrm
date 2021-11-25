@@ -2,6 +2,9 @@
 // this adds jest-dom's custom assertions
 import '@testing-library/jest-dom';
 
+// Init i18n
+import 'i18n';
+
 // Mock local storage
 const localStorageMock = {
   getItem: jest.fn(),

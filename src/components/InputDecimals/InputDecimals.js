@@ -59,7 +59,7 @@ class InputDecimals extends React.Component {
 
     this.setState({ value, showWarningMessage });
 
-    onChange(value ? parseFloat(value) : value);
+    onChange(value ? parseFloat(value) : undefined);
   }
 
   handleInputChange = (event) => {
@@ -110,6 +110,19 @@ class InputDecimals extends React.Component {
     }
   }
 
+  handleKeyDown = (e) => {
+    const { decimalsLimit } = this.props;
+    const { value } = this.state;
+
+    // Check if decimals limit is 0 and user tried to enter dot in input
+    // We should prevent enter dot in input and show warning
+    if (decimalsLimit === 0 && e.key === '.') {
+      e.preventDefault();
+
+      this.setValue(value, true);
+    }
+  };
+
   render() {
     const {
       onFocus,
@@ -135,6 +148,7 @@ class InputDecimals extends React.Component {
         onChange={this.handleInputChange}
         onBlur={this.handleInputBlur}
         onFocus={this.handleInputFocus}
+        onKeyDown={this.handleKeyDown}
       />
     );
   }

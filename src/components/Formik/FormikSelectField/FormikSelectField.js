@@ -39,7 +39,7 @@ class FormikSelectField extends PureComponent {
       errors: PropTypes.object.isRequired,
       touched: PropTypes.object.isRequired,
       setFieldValue: PropTypes.func.isRequired,
-      initialValues: PropTypes.object.isRequired,
+      initialValues: PropTypes.object,
     }).isRequired,
   }
 

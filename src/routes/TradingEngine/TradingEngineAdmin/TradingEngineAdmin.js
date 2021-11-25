@@ -6,6 +6,7 @@ import Route from 'components/Route';
 import TradingEngineSymbolsGrid from './components/TradingEngineSymbolsGrid';
 import TradingEngineOrdersGrid from './components/TradingEngineOrdersGrid';
 import TradingEngineNewSymbol from './routes/TradingEngineNewSymbol';
+import TradingEngineSecuritiesGrid from './components/TradingEngineSecuritiesGrid';
 import './TradingEngineAdmin.scss';
 
 class TradingEngineAdmin extends PureComponent {
@@ -30,6 +31,7 @@ class TradingEngineAdmin extends PureComponent {
                 <Route exact path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
                 <Route path={`${path}/symbols/new-symbol`} component={TradingEngineNewSymbol} />
                 <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
+                <Route path={`${path}/securities`} component={TradingEngineSecuritiesGrid} />
                 <Redirect to={`${url}/symbols`} />
               </Switch>
             </Suspense>

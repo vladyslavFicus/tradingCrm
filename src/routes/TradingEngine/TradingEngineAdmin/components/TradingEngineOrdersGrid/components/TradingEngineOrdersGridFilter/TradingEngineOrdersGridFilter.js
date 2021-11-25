@@ -108,6 +108,7 @@ class TradingEngineOrdersGridFilter extends PureComponent {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 withFocus
+                withAnyOption
               >
                 {statuses.map(({ value, label }) => (
                   <option key={value} value={value}>

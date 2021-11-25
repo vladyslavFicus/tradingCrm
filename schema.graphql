@@ -239,34 +239,6 @@ type DistributionRuleMutation {
   updateRuleStatus(ruleStatus: String!, uuid: String!): Boolean
 }
 
-type DistributionRule__SourceBrandConfig {
-  brand: String
-  affiliateUuids: [String]
-  country: String
-  desks: [String]
-  distributionUnit: DistributionRule__DistributionUnit
-  migrationSource: String
-  operator: String
-  operatorEntity: Operator
-  sortType: String
-  teams: [String]
-  uuid: String
-}
-
-type DistributionRule__TargetBrandConfig {
-  brand: String
-  copyAffiliateSource: Boolean
-  country: String
-  desks: [String]
-  distributionUnit: DistributionRule__DistributionUnit
-  affiliateUuid: String
-  operator: String
-  operatorEntity: Operator
-  sortType: String
-  teams: [String]
-  uuid: String
-}
-
 type DistributionRule__DateRange {
   from: String
   to: String
@@ -282,6 +254,33 @@ type DistributionRule__LatestMigration {
   ruleUuid: String
   startDate: String
   status: String
+  uuid: String
+}
+
+type DistributionRule__SourceBrandConfig {
+  affiliateUuids: [String]
+  brand: String
+  country: String
+  desks: [String]
+  distributionUnit: DistributionRule__DistributionUnit
+  operator: String
+  operatorEntity: Operator
+  sortType: String
+  teams: [String]
+  uuid: String
+}
+
+type DistributionRule__TargetBrandConfig {
+  affiliateUuid: String
+  brand: String
+  copyAffiliateSource: Boolean
+  country: String
+  desks: [String]
+  distributionUnit: DistributionRule__DistributionUnit
+  operator: String
+  operatorEntity: Operator
+  sortType: String
+  teams: [String]
   uuid: String
 }
 
@@ -1119,7 +1118,6 @@ type ProfileView__LastActivity {
 type ProfileView__PaymentDetails {
   depositsCount: Int
   lastDepositTime: String
-  showFtdToAffiliate: Boolean
 }
 
 type ProfileView__Referrer {
@@ -1632,13 +1630,16 @@ type TradingEngineHistory {
 }
 
 type TradingEngineMutation {
+  activatePendingOrder(activationPrice: Float!, orderId: Int!): Boolean
   closeOrder(closePrice: Float, orderId: Int!, volume: Float): Boolean
   createCreditIn(accountUuid: String!, amount: Float!, comment: String): TradingEngineCredit
   createCreditOut(accountUuid: String!, amount: Float!, comment: String): TradingEngineCredit
-  createOrder(accountUuid: String!, autoOpenPrice: Boolean!, comment: String, direction: String!, openPrice: Float, pendingOrder: Boolean!, stopLoss: Float, symbol: String!, takeProfit: Float, type: String!, volumeLots: Float!): TradingEngineOrder
+  createOrder(accountUuid: String!, comment: String, direction: String!, openPrice: Float, stopLoss: Float, symbol: String!, takeProfit: Float, type: String!, volumeLots: Float!): TradingEngineOrder
   deleteOrder(orderId: Int!): Boolean
   editOrder(comment: String, openPrice: Float, orderId: Int!, stopLoss: Float, takeProfit: Float): Boolean
-  updateAccount(accountUuid: String!, group: String, leverage: Int, readOnly: Boolean): TradingEngineAccount
+  updateAccountGroup(accountUuid: String!, group: String): TradingEngineAccount
+  updateAccountLeverage(accountUuid: String!, leverage: Int): TradingEngineAccount
+  updateAccountReadonly(accountUuid: String!, readOnly: Boolean): TradingEngineAccount
 }
 
 type TradingEngineOrder {
@@ -1974,7 +1975,6 @@ input DistributionRuleSearch__Input {
 }
 
 input DistributionRuleUpdate__Input {
-  affiliateUuids: [String]
   countries: [String]
   executionPeriodInHours: Int
   executionType: String
@@ -1993,6 +1993,7 @@ input DistributionRuleUpdate__Input {
 }
 
 input DistributionRuleUpdate__SourceBrand__Input {
+  affiliateUuids: [String]
   brand: String
   desks: [String]
   distributionUnit: DistributionRuleUpdate__Unit__Input
@@ -2001,10 +2002,11 @@ input DistributionRuleUpdate__SourceBrand__Input {
 }
 
 input DistributionRuleUpdate__TargetBrand__Input {
+  affiliateUuid: String
   brand: String
+  copyAffiliateSource: Boolean
   country: String
   distributionUnit: DistributionRuleUpdate__Unit__Input
-  migrationSource: String
   operator: String
 }
 

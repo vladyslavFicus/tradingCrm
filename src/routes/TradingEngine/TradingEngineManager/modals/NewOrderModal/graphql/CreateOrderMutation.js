@@ -9,12 +9,10 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
    $volumeLots: Float!
    $type: String!
    $direction: String!
-   $autoOpenPrice: Boolean!
    $openPrice: Float
    $stopLoss: Float
    $takeProfit: Float
    $comment: String
-   $pendingOrder: Boolean!
 ) {
   tradingEngine {
     createOrder(
@@ -23,12 +21,10 @@ const REQUEST = gql`mutation TradingEngine_CreateOrderMutation(
       volumeLots: $volumeLots
       type: $type
       direction: $direction
-      autoOpenPrice: $autoOpenPrice
       openPrice: $openPrice
       stopLoss: $stopLoss
       takeProfit: $takeProfit
       comment: $comment
-      pendingOrder: $pendingOrder
     ) {
       id
     }

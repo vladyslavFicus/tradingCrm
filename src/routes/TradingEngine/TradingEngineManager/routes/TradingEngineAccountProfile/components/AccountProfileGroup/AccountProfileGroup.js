@@ -3,10 +3,10 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import UpdateAccountMutation from './graphql/UpdateAccountMutation';
+import UpdateAccountGroupMutation from './graphql/UpdateAccountGroupMutation';
 import TradingEngineGroupsQuery from './graphql/TradingEngineGroupsQuery';
 import './AccountProfileGroup.scss';
 
@@ -20,7 +20,7 @@ class AccountProfileGroup extends PureComponent {
       }),
     }).isRequired,
     notify: PropTypes.func.isRequired,
-    updateAccount: PropTypes.func.isRequired,
+    updateAccountGroup: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -42,12 +42,12 @@ class AccountProfileGroup extends PureComponent {
   handleGroupChange = async (group) => {
     const {
       accountUuid,
-      updateAccount,
+      updateAccountGroup,
       notify,
     } = this.props;
 
     try {
-      await updateAccount({
+      await updateAccountGroup({
         variables: {
           accountUuid,
           group,
@@ -59,11 +59,14 @@ class AccountProfileGroup extends PureComponent {
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_SUCCESS'),
       });
-    } catch (_) {
+    } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: 'error',
         title: I18n.t('COMMON.FAILED'),
-        message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_ERROR'),
+        message: error.error === 'error.account.group.change'
+          ? error.message : I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_ERROR'),
       });
     }
   };
@@ -130,6 +133,6 @@ export default compose(
   withNotifications,
   withRequests({
     groupsQuery: TradingEngineGroupsQuery,
-    updateAccount: UpdateAccountMutation,
+    updateAccountGroup: UpdateAccountGroupMutation,
   }),
 )(AccountProfileGroup);

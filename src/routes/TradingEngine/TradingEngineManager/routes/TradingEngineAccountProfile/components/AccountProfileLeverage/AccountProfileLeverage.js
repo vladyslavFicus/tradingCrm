@@ -7,7 +7,7 @@ import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { leverages } from './constants';
-import UpdateAccountMutation from './graphql/UpdateAccountMutation';
+import UpdateAccountLeverageMutation from './graphql/UpdateAccountLeverageMutation';
 import './AccountProfileLeverage.scss';
 
 class AccountProfileLeverage extends PureComponent {
@@ -15,7 +15,7 @@ class AccountProfileLeverage extends PureComponent {
     leverage: PropTypes.number,
     accountUuid: PropTypes.string.isRequired,
     notify: PropTypes.func.isRequired,
-    updateAccount: PropTypes.func.isRequired,
+    updateAccountLeverage: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -38,11 +38,11 @@ class AccountProfileLeverage extends PureComponent {
     const {
       notify,
       accountUuid,
-      updateAccount,
+      updateAccountLeverage,
     } = this.props;
 
     try {
-      await updateAccount({
+      await updateAccountLeverage({
         variables: {
           accountUuid,
           leverage,
@@ -115,6 +115,6 @@ class AccountProfileLeverage extends PureComponent {
 export default compose(
   withNotifications,
   withRequests({
-    updateAccount: UpdateAccountMutation,
+    updateAccountLeverage: UpdateAccountLeverageMutation,
   }),
 )(AccountProfileLeverage);
