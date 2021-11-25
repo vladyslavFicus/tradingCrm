@@ -1839,6 +1839,8 @@ input ClientSearch__Input {
   activityStatus: String
   affiliateUuids: [String]
   assignStatus: String
+  affiliateFtd: Boolean
+  affiliateFtdDateRange: ClientSearch__Input__AffiliateFTDDateRange
   balanceRange: ClientSearch__Input__Balance
   countries: [String]
   depositsCountRange: ClientSearch__Input__Deposit
@@ -1910,6 +1912,11 @@ input ClientSearch__Input__LastTradeDateRange {
 }
 
 input ClientSearch__Input__RegistrationDateRange {
+  from: String
+  to: String
+}
+
+input ClientSearch__Input__AffiliateFTDDateRange {
   from: String
   to: String
 }

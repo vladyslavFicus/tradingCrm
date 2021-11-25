@@ -1710,6 +1710,8 @@
         "AGE_TO": "Age To",
         "CURRENCY": "Currency",
         "AFFILIATE_ID": "Affiliate ID",
+        "AFFILIATE_FTD": "Affiliate FTD",
+        "AFFILIATE_FTD_DATE_RANGE": "Affiliate FTD date range",
         "STATUS": "Profile status",
         "TAGS": "Tags",
         "SEGMENTS": "Segments",
