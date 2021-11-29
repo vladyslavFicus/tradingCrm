@@ -28,7 +28,7 @@ class HierarchyItemBranch extends PureComponent {
     usersCount: PropTypes.number,
     manager: PropTypes.shape({
       uuid: PropTypes.string,
-      fullName: PropTypes,
+      fullName: PropTypes.string,
     }),
   };
 

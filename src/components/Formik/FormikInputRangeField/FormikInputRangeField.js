@@ -90,7 +90,7 @@ class FormikInputRangeField extends PureComponent {
         onError={this.onError}
         error={get(errors, name)}
         isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
-        {...omit(input, ['staticContext'])}
+        {...omit(input, ['staticContext', 'errorText'])}
         onChange={this.onChange}
       />
     );
