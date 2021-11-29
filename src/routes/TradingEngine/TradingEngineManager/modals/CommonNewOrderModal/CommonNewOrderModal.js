@@ -607,7 +607,7 @@ class CommonNewOrderModal extends PureComponent {
                         }}
                       >
                         {I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_${sellType}_AT`, {
-                          value: sellPrice && sellPrice.toFixed(currentSymbol?.digits),
+                          value: (sellPrice || 0).toFixed(currentSymbol?.digits),
                           type: I18n.t(`TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.${sellType}`),
                         })}
                       </Button>
@@ -622,7 +622,7 @@ class CommonNewOrderModal extends PureComponent {
                         }}
                       >
                         {I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_${buyType}_AT`, {
-                          value: buyPrice && buyPrice.toFixed(currentSymbol?.digits),
+                          value: (buyPrice || 0).toFixed(currentSymbol?.digits),
                         })}
                       </Button>
                     </div>
