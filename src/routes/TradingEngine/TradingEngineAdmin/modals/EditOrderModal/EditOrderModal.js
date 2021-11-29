@@ -248,7 +248,7 @@ class EditOrderModal extends PureComponent {
       decimalsLengthDefault: digits,
     };
 
-    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
+    const symbols = symbolsQuery.data?.tradingEngineSymbols?.content || [];
 
     const isDisabled = status === OrderStatus.CANCELED;
 
