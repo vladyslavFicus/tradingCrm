@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
@@ -50,18 +51,18 @@ class ClientProfileTab extends PureComponent {
                 permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
               ]}
             >
-              <If
-                condition={
-                  depositsCount > 0
-                  && clientData?.affiliate
-                  && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null)
-                }
-              >
-                <AffiliateSettings
-                  showFtdToAffiliate={showFtdToAffiliate}
-                  profileUuid={clientData?.uuid}
-                />
-              </If>
+              {/* <If */}
+              {/*  condition={ */}
+              {/*    depositsCount > 0 */}
+              {/*    && clientData?.affiliate */}
+              {/*    && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null) */}
+              {/*  } */}
+              {/* > */}
+              <AffiliateSettings
+                showFtdToAffiliate={showFtdToAffiliate}
+                profileUuid={clientData?.uuid}
+              />
+              {/* </If> */}
             </PermissionContent>
           </div>
 
