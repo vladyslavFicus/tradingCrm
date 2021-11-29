@@ -4,11 +4,17 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_TradingEngineSymbolsQuery {
-    tradingEngineSymbols {
-      name
-      bid
-      ask
+  query TradingEngine_TradingEngineSymbolsQuery($args: TradingEngineSymbols__Input) {
+    tradingEngineSymbols(args: $args) {
+      content {
+        name
+        digits
+      }
+      page
+      number
+      totalElements
+      size
+      last
     }
   }
 `;
@@ -17,8 +23,14 @@ const TradingEngineSymbolsQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
     variables={{
-      ...state?.filters,
-      sorts: state?.sorts?.length ? state.sorts : undefined,
+      args: {
+        ...state?.filters,
+        page: {
+          from: 0,
+          size: 20,
+          sorts: state?.sorts,
+        },
+      },
     }}
     fetchPolicy="cache-and-network"
   >
