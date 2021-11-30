@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { getBrand } from 'config';
 import permissions from 'config/permissions';
 import { CONDITIONS } from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
@@ -28,10 +26,8 @@ class ClientProfileTab extends PureComponent {
     const { clientQuery } = this.props;
 
     const clientData = clientQuery.data?.profile || {};
-    const depositsCount = clientData.profileView?.paymentDetails?.depositsCount;
-    const showFtdToAffiliate = clientData.profileView?.affiliate?.ftd?.isVisible;
-    const affiliateMinFtdDeposit = clientData.affiliate?.partner?.permission?.minFtdDeposit;
-    const { affiliate: { restriction: { minFtdDeposit } } } = getBrand();
+    const hasAffiliate = !!clientData.profileView?.affiliate;
+    const showFtdToAffiliate = !!clientData.profileView?.affiliate?.ftd?.isVisible;
 
     return (
       <div className="ClientProfileTab">
@@ -51,18 +47,12 @@ class ClientProfileTab extends PureComponent {
                 permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
               ]}
             >
-              {/* <If */}
-              {/*  condition={ */}
-              {/*    depositsCount > 0 */}
-              {/*    && clientData?.affiliate */}
-              {/*    && (minFtdDeposit !== null || affiliateMinFtdDeposit !== null) */}
-              {/*  } */}
-              {/* > */}
-              <AffiliateSettings
-                showFtdToAffiliate={showFtdToAffiliate}
-                profileUuid={clientData?.uuid}
-              />
-              {/* </If> */}
+              <If condition={!clientQuery?.loading && hasAffiliate}>
+                <AffiliateSettings
+                  showFtdToAffiliate={showFtdToAffiliate}
+                  profileUuid={clientData?.uuid}
+                />
+              </If>
             </PermissionContent>
           </div>
 
