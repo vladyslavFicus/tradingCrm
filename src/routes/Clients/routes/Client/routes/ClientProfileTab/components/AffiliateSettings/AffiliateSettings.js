@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
-import { withRequests } from 'apollo';
+import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
@@ -28,35 +28,32 @@ class AffiliateSettings extends PureComponent {
   enableToggleFTD = async () => {
     const { enableShowFtdToAffiliate, profileUuid } = this.props;
 
-    try {
-      await enableShowFtdToAffiliate({
-        variables: {
-          profileUuid,
-        },
-      });
+    await enableShowFtdToAffiliate({
+      variables: {
+        profileUuid,
+      },
+    });
 
-      this.setState({ showFtdToAffiliate: true });
-      this.notifySuccessToggleSwitch();
-    } catch {
-      this.notifyErrorToggleSwitch();
-    }
+    this.setState({ showFtdToAffiliate: true });
+    this.notifySuccessToggleSwitch();
   }
 
   disableToggleFTD = async () => {
     const { disableShowFtdToAffiliate, profileUuid } = this.props;
 
-    try {
-      await disableShowFtdToAffiliate({
-        variables: {
-          profileUuid,
-        },
-      });
+    await disableShowFtdToAffiliate({
+      variables: {
+        profileUuid,
+      },
+    });
 
-      this.setState({ showFtdToAffiliate: false });
-      this.notifySuccessToggleSwitch();
-    } catch {
-      this.notifyErrorToggleSwitch();
-    }
+    this.setState({ showFtdToAffiliate: false });
+    this.notifySuccessToggleSwitch();
+  }
+
+  onErrorToggleSwitch = (e) => {
+    const error = parseErrors(e);
+    this.notifyErrorToggleSwitch(error.message);
   }
 
   notifySuccessToggleSwitch = () => {
@@ -69,13 +66,14 @@ class AffiliateSettings extends PureComponent {
     });
   }
 
-  notifyErrorToggleSwitch = () => {
+  notifyErrorToggleSwitch = (message) => {
     const { notify } = this.props;
 
     notify({
       level: 'error',
       title: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.TITLE'),
-      message: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.ERROR'),
+      message: message
+        || I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.ERROR'),
     });
   }
 
@@ -110,7 +108,8 @@ class AffiliateSettings extends PureComponent {
           className="AffiliateSettings__switcher"
           label={I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.LABEL')}
           labelPosition="right"
-          onClick={enabled => (enabled ? this.enableToggleFTD() : this.disableToggleFTD())}
+          onClick={this.state.showFtdToAffiliate ? this.disableToggleFTD : this.enableToggleFTD}
+          onError={this.onErrorToggleSwitch}
         />
       </div>
     );
