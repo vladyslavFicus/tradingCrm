@@ -18,7 +18,7 @@ import UpdateTradingAccountModalMutation from './graphql/UpdateTradingAccountMod
 const validator = values => createValidator({
   name: ['required', 'string', 'max:50', 'min:4'],
   currency: ['required', 'string'],
-  password: ['required', `regex:${getBrand().password.mt4_pattern}`],
+  password: values.platformType !== 'WET' && ['required', `regex:${getBrand().password.mt4_pattern}`],
   amount: values.accountType === 'DEMO' && 'required',
 }, translateLabels(attributeLabels), false)(values);
 
@@ -175,14 +175,16 @@ class TradingAccountAddModal extends PureComponent {
                     </option>
                   ))}
                 </Field>
-                <Field
-                  name="password"
-                  component={FormikInputField}
-                  label={attributeLabels.password}
-                  placeholder={attributeLabels.password}
-                  addition={<span className="icon-generate-password" />}
-                  onAdditionClick={() => setFieldValue('password', generate())}
-                />
+                <If condition={values.platformType !== 'WET'}>
+                  <Field
+                    name="password"
+                    component={FormikInputField}
+                    label={attributeLabels.password}
+                    placeholder={attributeLabels.password}
+                    addition={<span className="icon-generate-password" />}
+                    onAdditionClick={() => setFieldValue('password', generate())}
+                  />
+                </If>
               </ModalBody>
               <ModalFooter>
                 <Button
