@@ -4,11 +4,11 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import withModals from 'hoc/withModals';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import permissions from 'config/permissions';
-import { CONDITIONS } from 'utils/permissions';
+// import permissions from 'config/permissions';
+// import { CONDITIONS } from 'utils/permissions';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
-import PermissionContent from 'components/PermissionContent';
+// import PermissionContent from 'components/PermissionContent';
 import CreditModal from 'routes/TradingEngine/TradingEngineManager/modals/CreditModal';
 import NewOrderModal from 'routes/TradingEngine/TradingEngineManager/modals/NewOrderModal';
 import './AccountProfileHeader.scss';
@@ -54,9 +54,9 @@ class AccountProfileHeader extends PureComponent {
 
   render() {
     const {
-      modals: {
-        creditModal,
-      },
+      // modals: {
+      //   creditModal,
+      // },
       account,
     } = this.props;
 
@@ -95,22 +95,22 @@ class AccountProfileHeader extends PureComponent {
             {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NEW_ORDER')}
           </Button>
 
-          <PermissionContent
-            permissions={[
-              permissions.WE_TRADING.CREDIT_IN,
-              permissions.WE_TRADING.CREDIT_OUT,
-            ]}
-            permissionsCondition={CONDITIONS.OR}
-          >
-            <Button
-              className="AccountProfileHeader__action"
-              onClick={creditModal.show}
-              commonOutline
-              small
-            >
-              {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.CREDIT')}
-            </Button>
-          </PermissionContent>
+          {/* <PermissionContent */}
+          {/*   permissions={[ */}
+          {/*     permissions.WE_TRADING.CREDIT_IN, */}
+          {/*     permissions.WE_TRADING.CREDIT_OUT, */}
+          {/*   ]} */}
+          {/*   permissionsCondition={CONDITIONS.OR} */}
+          {/* > */}
+          {/*   <Button */}
+          {/*     className="AccountProfileHeader__action" */}
+          {/*     onClick={creditModal.show} */}
+          {/*     commonOutline */}
+          {/*     small */}
+          {/*   > */}
+          {/*     {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.CREDIT')} */}
+          {/*   </Button> */}
+          {/* </PermissionContent> */}
         </div>
       </div>
     );
