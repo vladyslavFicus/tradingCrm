@@ -3645,7 +3645,7 @@
       "FORM": {
         "FIELDS": {
           "SEARCH_BY": "Search by",
-          "SEARCH_BY_PLACEHOLDER": "WET login, Player's Full Name",
+          "SEARCH_BY_PLACEHOLDER": "WET login, Client's Full Name",
           "ACCOUNT_TYPE": "Account type",
           "STATUS": "Status"
         },
