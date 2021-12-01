@@ -46,6 +46,8 @@ class TradingAccountAddModal extends PureComponent {
         variables: {
           ...data,
           profileId,
+          // Remove password field from request for WET accounts
+          password: data.platformType !== 'WET' ? data.password : undefined,
         },
       });
 
