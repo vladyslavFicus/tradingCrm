@@ -335,7 +335,7 @@ class PaymentDetailsModal extends PureComponent {
         <div className="PaymentDetailsModal__block-payment-status">
           <Choose>
             <When condition={paymentMethod}>
-              {formatLabel(paymentMethod)}
+              {formatLabel(paymentMethod, false)}
             </When>
             <Otherwise>
               &mdash;
