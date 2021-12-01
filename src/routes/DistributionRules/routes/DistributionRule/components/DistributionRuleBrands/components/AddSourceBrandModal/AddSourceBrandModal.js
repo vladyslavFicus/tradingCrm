@@ -57,13 +57,14 @@ class AddSourceBrandModal extends PureComponent {
     const {
       initialValues: {
         brand,
+        affiliateUuids,
         desks,
         teams,
       },
     } = this.props;
 
     if (brand) {
-      this.fetchAvailableClientsAmount({ brand, desks, teams });
+      this.fetchAvailableClientsAmount({ brand, affiliateUuids, desks, teams });
     }
   }
 
