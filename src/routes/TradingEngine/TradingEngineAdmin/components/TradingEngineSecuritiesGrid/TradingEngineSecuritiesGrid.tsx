@@ -37,7 +37,7 @@ class TradingEngineSecuritiesGrid extends PureComponent<Props> {
 
   renderName = ({ name }: Security) => (
     <div
-      className="TradingEngineSecuritiesGrid__cell-primary"
+      className="TradingEngineSecuritiesGrid__cell-primary TradingEngineSecuritiesGrid__cell-primary--pointer"
       onClick={() => this.props.modals.editSecurityModal.show({
         name,
         onSuccess: this.refetchSecurities,
