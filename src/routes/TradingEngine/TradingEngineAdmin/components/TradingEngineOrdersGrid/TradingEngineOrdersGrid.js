@@ -390,7 +390,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                           exchangeRate={currentSymbol?.pnlRates[account.currency]}
                         />
                       </When>
-                      <When condition={pnl}>
+                      <When condition={status === 'CLOSED'}>
                         {pnl.gross.toFixed(2)}
                       </When>
                       <Otherwise>
