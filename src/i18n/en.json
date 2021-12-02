@@ -1324,7 +1324,18 @@
       "HUNG_UP": "Hung Up",
       "LONG_TERM_CALL_BACK": "Long Term Call Back",
       "APPOINTMENT_24HR": "Appointment 24hr",
-      "SELF_DEPOSITOR": "Self depositor"
+      "SELF_DEPOSITOR": "Self depositor",
+      "HOT": "Hot",
+      "BLACK_LIST_COUNTRY": "Black list country",
+      "EXPECTATION": "Expectation",
+      "JUNK_LEAD": "Junk lead",
+      "SHARED": "Shared",
+      "SHARED_2": "Shared 2",
+      "SHARED_3": "Shared 3",
+      "SHARED_10": "Shared 10",
+      "PUBLIC_NUMBER": "Public number",
+      "POTENTIAL_FRAUD": "Potential fraud",
+      "CALL_BACK_INSFF": "Callback insff"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
