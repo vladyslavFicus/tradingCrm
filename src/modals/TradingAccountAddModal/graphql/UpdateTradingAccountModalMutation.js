@@ -6,7 +6,7 @@ import { Mutation } from 'react-apollo';
 const MUTATION = gql`mutation UpdateTradingAccountModalMutation_createTradingAccount(
   $name: String!
   $currency: String!
-  $password: String!
+  $password: String
   $profileId: String!
   $accountType: String!
   $platformType: String!
