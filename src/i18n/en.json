@@ -3396,7 +3396,8 @@
       "ACCOUNTS": "Accounts",
       "ORDERS": "Orders",
       "SYMBOLS": "Symbols",
-      "SECURITIES": "Securities"
+      "SECURITIES": "Securities",
+      "GROUPS": "Groups"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
@@ -4099,6 +4100,22 @@
           "CANCELED": "Canceled"
         }
       }
+    },
+    "GROUPS": {
+      "HEADLINE": "Groups",
+      "GRID": {
+        "NAME": "Name",
+        "COMPANY": "Company",
+        "MC_SO": "MC/SO",
+        "SECURITIES": "Securities",
+        "ACTIONS": "Actions"
+      },
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search By",
+        "SEARCH_BY_PLACEHOLDER": "Name, Description"
+      },
+      "GROUPS_FOUND": "Groups found",
+      "NEW_GROUP": "+ New group"
     }
   },
   "NOTIFICATION_CENTER": {
