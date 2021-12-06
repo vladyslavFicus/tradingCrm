@@ -344,12 +344,14 @@ class ClientTradingAccountsGrid extends PureComponent {
 
     const brand = getBrand();
 
-    const dropDownActions = [
-      {
+    const dropDownActions = [];
+
+    if (platformType !== 'WET') {
+      dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
         onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
-      },
-    ];
+      });
+    }
 
     const canRenameAccount = permission.allows(permissions.TRADING_ACCOUNT.RENAME_ACCOUNT);
 
