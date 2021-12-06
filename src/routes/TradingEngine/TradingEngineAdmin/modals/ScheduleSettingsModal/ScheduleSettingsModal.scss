@@ -4,21 +4,19 @@
     pointer-events: none;
   }
 
-  &__message-error {
-    color: #fb434a;
-    margin-bottom: 10px;
-    & > div {
-      text-align: center;
-    }
-  }
-
   &__message {
+    font-weight: 700;
     text-align: center;
     margin-bottom: 15px;
   }
 
   &__button {
     width: 0;
+  }
+
+  & .TimeRange {
+    margin: auto;
+    width: 51%;
   }
 
   &__limit-error {

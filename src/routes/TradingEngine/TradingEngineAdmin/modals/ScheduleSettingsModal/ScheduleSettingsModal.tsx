@@ -4,41 +4,64 @@ import { Formik, Form, Field } from 'formik';
 import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
-import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
 import { Button } from 'components/UI';
 import { FormikTimeRangeField } from 'components/Formik';
 import './ScheduleSettingsModal.scss';
 
 const validate = createValidator({
-  workingHoursFrom: ['required', 'string', 'validTimeRange:workingHoursTo'],
-  workingHoursTo: ['required', 'string'],
+  openTime: ['required', 'string'],
+  closeTime: ['required', 'string'],
 });
 
-class ScheduleSettingsModal extends PureComponent {
-  static propTypes = {
-    onCloseModal: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    day: PropTypes.string.isRequired,
-    formError: PropTypes.string,
-    workingHoursFrom: PropTypes.string,
-    workingHoursTo: PropTypes.string,
-  };
+interface SymbolSessionWorkingHours {
+  openTime: string,
+  closeTime: string,
+}
 
-  static defaultProps = {
-    workingHoursFrom: '',
-    workingHoursTo: '',
-    formError: '',
+interface Props {
+  onCloseModal: () => void,
+  onSuccess: (values?: Object) => void,
+  isOpen: boolean,
+  sessionType: 'trade' | 'quote',
+  formError: string,
+  dayOfWeek: string,
+  trade?: SymbolSessionWorkingHours,
+  quote?: SymbolSessionWorkingHours,
+}
+
+class ScheduleSettingsModal extends PureComponent<Props> {
+  onHandleSubmit = async ({
+    openTime,
+    closeTime,
+  }: SymbolSessionWorkingHours,
+  { setSubmitting }: { setSubmitting: (value: boolean) => void }) => {
+    const {
+      dayOfWeek,
+      sessionType,
+      onSuccess,
+      onCloseModal,
+    } = this.props;
+
+    onSuccess({
+      dayOfWeek,
+      [sessionType]: {
+        openTime,
+        closeTime,
+      },
+    });
+
+    onCloseModal();
+
+    setSubmitting(false);
   };
 
   render() {
     const {
       onCloseModal,
       isOpen,
-      day,
-      formError,
-      workingHoursFrom,
-      workingHoursTo,
+      dayOfWeek,
+      sessionType,
     } = this.props;
 
     return (
@@ -48,15 +71,14 @@ class ScheduleSettingsModal extends PureComponent {
       >
         <Formik
           initialValues={{
-            workingHoursFrom: workingHoursFrom || '00:00',
-            workingHoursTo: workingHoursTo || '00:00',
+            openTime: this.props[sessionType]?.openTime || '00:00',
+            closeTime: this.props[sessionType]?.closeTime || '00:00',
           }}
           validate={validate}
           onSubmit={this.onHandleSubmit}
         >
           {(
             {
-              errors,
               dirty,
               isValid,
               isSubmitting,
@@ -64,23 +86,18 @@ class ScheduleSettingsModal extends PureComponent {
           ) => (
             <Form className="ScheduleSettingsModal">
               <ModalHeader toggle={onCloseModal}>
-                {`${I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${day}`)}
+                {`${I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${dayOfWeek}`)}
                 ${I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
                 <p className="ScheduleSettingsModal__message">
                   {I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.MESSAGE')}
                 </p>
-                <If condition={formError || (errors && errors.submit)}>
-                  <div className="ScheduleSettingsModal__message-error">
-                    {formError || errors.submit}
-                  </div>
-                </If>
                 <Field
                   component={FormikTimeRangeField}
                   fieldsNames={{
-                    from: 'workingHoursFrom',
-                    to: 'workingHoursTo',
+                    from: 'openTime',
+                    to: 'closeTime',
                   }}
                   fieldsLabels={{
                     from: I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.LABELS.WORKING_HOURS_FROM'),
@@ -100,7 +117,7 @@ class ScheduleSettingsModal extends PureComponent {
                   type="submit"
                   disabled={!dirty || !isValid || isSubmitting}
                 >
-                  {I18n.t('COMMON.SAVE_CHANGES')}
+                  {I18n.t('COMMON.BUTTONS.SAVE')}
                 </Button>
               </ModalFooter>
             </Form>

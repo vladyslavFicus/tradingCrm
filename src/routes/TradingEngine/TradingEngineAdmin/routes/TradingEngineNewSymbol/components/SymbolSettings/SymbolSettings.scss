@@ -1,12 +1,29 @@
 .SymbolSettings {
-  &__field {
-    margin-right: 30px;
-    width: calc(33.3% - 20px);
-    display: inline-block;
-    vertical-align: top;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 25px;
+  margin-bottom: 20px;
 
-    &:nth-child(3n) {
+  &__field {
+    width: 100%;
+    margin-right: 15px;
+    margin-bottom: 0;
+
+    &:last-child {
       margin-right: 0;
+    }
+  }
+
+  &__field-container {
+    width: 100%;
+    display: flex;
+    flex: 1 1;
+    align-items: flex-end;
+    margin-bottom: 20px;
+
+    &--third {
+      width: calc(33.3% - 20px);
+      margin-bottom: 20px;
     }
   }
 

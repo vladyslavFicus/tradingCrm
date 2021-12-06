@@ -2,13 +2,29 @@
   padding: 25px;
   background-color: #fff;
 
-  &__content {
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 5px;
-    padding: 25px;
+  &__actions {
+    display: flex;
   }
 
-  &__actions {
-    float: right;
+  &__button {
+    margin: 25px 0 25px auto;
+    order: 2;
+  }
+
+  &__header {
+    display: flex;
+    padding: 25px;
+    align-items: center;
+    position: sticky;
+    top: 48px;
+    height: 110px;
+    z-index: 2;
+    background-color: #fff;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-weight: bolder;
+    font-size: 20px;
   }
 }
