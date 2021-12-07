@@ -87,15 +87,12 @@ class Chart extends PureComponent {
       return undefined;
     }
     if (maxYAxisValueLength === 7) {
-      return 75;
+      return 80;
     }
     if (maxYAxisValueLength <= 8) {
-      return 85;
+      return 90;
     }
-    if (maxYAxisValueLength <= 9) {
-      return 95;
-    }
-    return 100;
+    return 105;
   }
 
   tickFormatter = item => (item.toString().length > 10
@@ -120,7 +117,6 @@ class Chart extends PureComponent {
 
     const chartData = data.map(chartPointData => ({
       ...chartPointData,
-      amount: 1000000,
       entryDate: moment(chartPointData.entryDate).format('DD.MM'),
     }));
 
