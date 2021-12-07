@@ -21,6 +21,8 @@ export const retentionStatuses = {
   RECOVERY_DEPOSITOR: 'CONSTANTS.RETENTION_STATUSES.RECOVERY_DEPOSITOR',
   UNDER_18: 'CONSTANTS.RETENTION_STATUSES.UNDER_18',
   WRONG_NUMBER: 'CONSTANTS.RETENTION_STATUSES.WRONG_NUMBER',
+  MEDIA: 'CONSTANTS.RETENTION_STATUSES.MEDIA',
+  WIRE_SENT: 'CONSTANTS.RETENTION_STATUSES.WIRE_SENT',
 };
 
 export const retentionStatusesColor = {
@@ -46,4 +48,6 @@ export const retentionStatusesColor = {
   INVALID_LANGUAGE: 'color-warning',
   REASSIGN: 'color-info',
   WRONG_NUMBER: 'color-danger',
+  MEDIA: 'color-info',
+  WIRE_SENT: 'color-info',
 };
