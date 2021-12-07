@@ -78,6 +78,29 @@ class Chart extends PureComponent {
     );
   };
 
+  getYAxisWidth = (chartData) => {
+    const { lineDataKey } = this.props;
+    const maxYAxisValue = Math.max.apply(null, chartData.map(item => item[lineDataKey]));
+    const maxYAxisValueLength = maxYAxisValue.toString().length;
+
+    if (maxYAxisValueLength < 7) {
+      return undefined;
+    }
+    if (maxYAxisValueLength === 7) {
+      return 75;
+    }
+    if (maxYAxisValueLength <= 8) {
+      return 85;
+    }
+    if (maxYAxisValueLength <= 9) {
+      return 95;
+    }
+    return 100;
+  }
+
+  tickFormatter = item => (item.toString().length > 10
+    ? `${item.toString().substring(0, 7)}...` : item);
+
   renderContent(expanded = false) {
     const {
       data,
@@ -97,6 +120,7 @@ class Chart extends PureComponent {
 
     const chartData = data.map(chartPointData => ({
       ...chartPointData,
+      amount: 1000000,
       entryDate: moment(chartPointData.entryDate).format('DD.MM'),
     }));
 
@@ -140,7 +164,12 @@ class Chart extends PureComponent {
                       <If condition={xDataKey}>
                         <XAxis dataKey={xDataKey} />
                       </If>
-                      <YAxis minTickGap={40} axisLine={false} />
+                      <YAxis
+                        minTickGap={40}
+                        width={this.getYAxisWidth(chartData)}
+                        axisLine={false}
+                        tickFormatter={this.tickFormatter}
+                      />
                       <CartesianGrid stroke="#eee" horizontal={false} />
                       <Tooltip
                         formatter={tooltipAmountFormatter}
