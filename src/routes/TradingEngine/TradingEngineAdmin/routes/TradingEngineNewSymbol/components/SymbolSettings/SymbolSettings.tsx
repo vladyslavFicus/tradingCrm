@@ -139,7 +139,7 @@ const SymbolSettings = (props: Props) => {
       </div>
       <div className="SymbolSettings__field-container--third">
         <Field
-          name="background_color"
+          name="backgroundColor"
           label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.BACKGROUND_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"

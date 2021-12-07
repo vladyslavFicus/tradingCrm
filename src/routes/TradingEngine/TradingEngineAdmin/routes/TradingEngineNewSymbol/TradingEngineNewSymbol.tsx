@@ -23,8 +23,48 @@ import './TradingEngineNewSymbol.scss';
 
 interface SymbolSession {
   dayOfWeek: string,
-  openTime: string,
-  closeTime: string,
+  trade: {
+    openTime: string,
+    closeTime: string,
+  },
+  quote: {
+    openTime: string,
+    closeTime: string,
+  },
+}
+
+interface SubmitData {
+  symbol: string,
+  source: string,
+  digits: number,
+  description: string,
+  securityName: string,
+  symbolType: string,
+  baseCurrency: string,
+  quoteCurrency: string,
+  backgroundColor: string,
+  swapConfigs: {
+    rollover: string,
+    type: string,
+    long: number,
+    short: number,
+  },
+  filtration: {
+    filterSmoothing: number,
+    softFilter: number,
+    hardFilter: number,
+    softFiltrationLevel: number,
+    hardFiltrationLevel: number,
+    discardFiltrationLevel: number,
+  },
+  bidSpread: number,
+  askSpread: number,
+  stopsLevel: number,
+  lotSize: number,
+  percentage: number,
+  marginCalculation: string,
+  profitCalculation: string,
+  symbolSessions: SymbolSession,
 }
 
 interface CreateSymbolResponse {
@@ -56,9 +96,7 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
     symbolSessions: [],
   };
 
-  handleSubmit = async ({ marginCalculation, profitCalculation, ...rest }: any) => {
-    console.log('values---', { ...decodeNullValues(rest), symbolSessions: this.state.symbolSessions });
-
+  handleSubmit = async ({ marginCalculation, profitCalculation, ...rest }: SubmitData) => {
     const {
       notify,
       history,
@@ -70,8 +108,6 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
         variables: {
           args: {
             ...decodeNullValues(rest),
-            marginMode: 'FOREX',
-            isTest: true,
             symbolSessions: this.state.symbolSessions,
           },
         },
@@ -127,20 +163,20 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
                 symbolType: ['required'],
                 baseCurrency: ['required'],
                 quoteCurrency: ['required'],
-                background_color: ['required'],
-                'swapConfigs.rollover': ['required'],
-                'swapConfigs.type': ['required'],
-                'filtration.filterSmoothing': ['required'],
-                'filtration.softFilter': ['required'],
-                'filtration.hardFilter': ['required'],
+                backgroundColor: ['required'],
                 bidSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
                 askSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
                 stopsLevel: ['required', 'numeric', 'min:1', 'max:100000'],
+                lotSize: ['required', 'numeric', 'min:1', 'max:10000000000'],
+                percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
+                'filtration.filterSmoothing': ['required'],
+                'filtration.softFilter': ['required'],
+                'filtration.hardFilter': ['required'],
                 'filtration.softFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
                 'filtration.hardFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
                 'filtration.discardFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
-                lotSize: ['required', 'numeric', 'min:1', 'max:10000000000'],
-                percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
+                'swapConfigs.rollover': ['required'],
+                'swapConfigs.type': ['required'],
                 'swapConfigs.long': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
                 'swapConfigs.short': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
               },
@@ -153,20 +189,20 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
                 symbolType: I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL'),
                 baseCurrency: I18n.t('TRADING_ENGINE.NEW_SYMBOL.BASE_CURRENCY_LABEL'),
                 quoteCurrency: I18n.t('TRADING_ENGINE.NEW_SYMBOL.QUOTE_CURRENCY_LABEL'),
-                background: I18n.t('TRADING_ENGINE.NEW_SYMBOL.BACKGROUND_LABEL'),
-                'swapConfigs.rollover': I18n.t('TRADING_ENGINE.NEW_SYMBOL.3_DAYS_SWAP_LABEL'),
-                'swapConfigs.type': I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL'),
-                'filtration.filterSmoothing': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SMOOTHING'),
-                'filtration.softFilter': I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER'),
-                'filtration.hardFilter': I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER'),
+                backgroundColor: I18n.t('TRADING_ENGINE.NEW_SYMBOL.BACKGROUND_LABEL'),
                 bidSpread: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SPREAD_BID_LABEL'),
                 askSpread: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SPREAD_ASK_LABEL'),
                 stopsLevel: I18n.t('TRADING_ENGINE.NEW_SYMBOL.LIMIT_STOP_LABEL'),
+                lotSize: I18n.t('TRADING_ENGINE.NEW_SYMBOL.CONTRACT_SIZE_LABEL'),
+                percentage: I18n.t('TRADING_ENGINE.NEW_SYMBOL.PERCENTAGE_LABEL'),
+                'filtration.filterSmoothing': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SMOOTHING'),
+                'filtration.softFilter': I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER'),
+                'filtration.hardFilter': I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER'),
                 'filtration.softFiltrationLevel': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SOFT_FILTRATION_LEVEL'),
                 'filtration.hardFiltrationLevel': I18n.t('TRADING_ENGINE.NEW_SYMBOL.HARD_FILTRATION_LEVEL'),
                 'filtration.discardFiltrationLevel': I18n.t('TRADING_ENGINE.NEW_SYMBOL.DISCARD_FILTRATION_LEVEL'),
-                lotSize: I18n.t('TRADING_ENGINE.NEW_SYMBOL.CONTRACT_SIZE_LABEL'),
-                percentage: I18n.t('TRADING_ENGINE.NEW_SYMBOL.PERCENTAGE_LABEL'),
+                'swapConfigs.rollover': I18n.t('TRADING_ENGINE.NEW_SYMBOL.3_DAYS_SWAP_LABEL'),
+                'swapConfigs.type': I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL'),
                 'swapConfigs.long': I18n.t('TRADING_ENGINE.NEW_SYMBOL.LONG_POSITIONS_LABEL'),
                 'swapConfigs.short': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SHORT_POSITIONS_LABEL'),
               },
@@ -174,6 +210,10 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
             )
           }
           initialValues={{
+            symbol: '',
+            source: '',
+            description: '',
+            backgroundColor: '',
             digits: 4,
             symbolType: 'FOREX',
             baseCurrency: 'USD',
@@ -183,6 +223,7 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
             stopsLevel: 10,
             lotSize: 100000,
             percentage: 100.0,
+            securityName: 'Indices',
             marginCalculation: 'FOREX',
             profitCalculation: 'FOREX',
             swapConfigs: {
@@ -199,6 +240,17 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
               hardFilter: 0,
               discardFiltrationLevel: 0,
               filterSmoothing: 0,
+            },
+            symbolSessions: {
+              dayOfWeek: '',
+              trade: {
+                openTime: '',
+                closeTime: '',
+              },
+              quote: {
+                openTime: '',
+                closeTime: '',
+              },
             },
           }}
           onSubmit={this.handleSubmit}
