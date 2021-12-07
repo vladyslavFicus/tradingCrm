@@ -11,7 +11,50 @@ interface Props {
   groupsListQuery: GroupsQueryResult,
 }
 
-function GroupsGrid({ groupsListQuery }: Props) {
+const renderName = ({ groupName }: Group) => (
+  <div className="GroupsGrid__cell-primary">
+    {groupName}
+  </div>
+);
+
+const renderCompany = ({ brand }: Group) => (
+  <div className="GroupsGrid__cell-primary">
+    {brand}
+  </div>
+);
+
+const renderMCSO = ({ marginCallLevel, stopoutLevel }: Group) => (
+  <div className="GroupsGrid__cell-primary">
+    {`${marginCallLevel} / ${stopoutLevel} %`}
+  </div>
+);
+
+const renderSecurities = ({ groupSecurities = [] }: Group) => {
+  const securities = groupSecurities
+    .map(({ security }: GroupSecurities) => security.name)
+    .join(', ');
+
+  return (
+    <div>{securities}</div>
+  );
+};
+
+const renderActions = (handleEditClick: Function, handleDeleteClick: Function) => (
+  <>
+    <EditButton
+      onClick={handleEditClick}
+      className="GroupsGrid__edit-button"
+    />
+    <Button
+      transparent
+      onClick={handleDeleteClick}
+    >
+      <i className="fa fa-trash btn-transparent color-danger" />
+    </Button>
+  </>
+);
+
+const GroupsGrid = ({ groupsListQuery }: Props) => {
   const { state } = useLocation<LocationState>();
   const history = useHistory();
 
@@ -20,7 +63,7 @@ function GroupsGrid({ groupsListQuery }: Props) {
     content = [],
     totalElements,
     last = true,
-    number: currentPage = 0,
+    number = 0,
   } = groupsListData?.tradingEngineGroupsList || {};
 
   const handleDeleteClick = () => {
@@ -51,56 +94,13 @@ function GroupsGrid({ groupsListQuery }: Props) {
       args: {
         ...filters,
         page: {
-          from: currentPage + 1,
+          from: number + 1,
           size,
           sorts,
         },
       },
     });
   };
-
-  const renderName = ({ groupName }: Group) => (
-    <div className="GroupsGrid__cell-primary">
-      {groupName}
-    </div>
-  );
-
-  const renderCompany = ({ brand }: Group) => (
-    <div className="GroupsGrid__cell-primary">
-      {brand}
-    </div>
-  );
-
-  const renderMCSO = ({ marginCallLevel, stopoutLevel }: Group) => (
-    <div className="GroupsGrid__cell-primary">
-      {`${marginCallLevel} / ${stopoutLevel} %`}
-    </div>
-  );
-
-  const renderSecurities = ({ groupSecurities = [] }: Group) => {
-    const securities = groupSecurities
-      .map(({ security }: GroupSecurities) => security.name)
-      .join(', ');
-
-    return (
-      <div>{securities}</div>
-    );
-  };
-
-  const renderActions = () => (
-    <>
-      <EditButton
-        onClick={handleEditClick}
-        className="GroupsGrid__edit-button"
-      />
-      <Button
-        transparent
-        onClick={handleDeleteClick}
-      >
-        <i className="fa fa-trash btn-transparent color-danger" />
-      </Button>
-    </>
-  );
 
   return (
     <div className="GroupsGrid">
@@ -137,11 +137,14 @@ function GroupsGrid({ groupsListQuery }: Props) {
         <Column
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
-          render={renderActions}
+          render={() => renderActions(
+            handleEditClick,
+            handleDeleteClick,
+          )}
         />
       </Table>
     </div>
   );
-}
+};
 
 export default React.memo(GroupsGrid);

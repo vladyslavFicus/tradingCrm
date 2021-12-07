@@ -1,5 +1,4 @@
-import { QueryResult } from 'react-apollo';
-import { QueryVariables } from 'types/queryVariables';
+import { Query, QueryPageable } from 'types/query';
 
 export interface GroupSecurity {
   name: string
@@ -18,19 +17,18 @@ export interface Group {
 }
 
 export interface GroupsListData {
-  tradingEngineGroupsList: {
-    content: Group[],
-    page: number,
-    size: number,
-    totalElements: number,
-    last: boolean,
-    loading: boolean,
-    refetch: () => void,
-    number: number,
-  },
+  tradingEngineGroupsList: QueryPageable<Group[]>
 }
 
-export interface GroupsQueryResult extends QueryResult<GroupsListData, QueryVariables> {
-  loadMore: (variables: QueryVariables) => GroupsListData;
+export interface GroupsListVariables {
+  args: {
+    keyword?: string
+    page: {
+      from: number
+      size: number
+      sorts?: []
+    }
+  }
 }
 
+export interface GroupsQueryResult extends Query<GroupsListData, GroupsListVariables> { }

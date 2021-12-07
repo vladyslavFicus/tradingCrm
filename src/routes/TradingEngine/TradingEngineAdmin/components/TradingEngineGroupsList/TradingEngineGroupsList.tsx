@@ -13,19 +13,17 @@ interface Props {
   groupsListQuery: GroupsQueryResult,
 }
 
-function TradingEngineGroupsList({ groupsListQuery }: Props) {
-  return (
-    <div className="TradingEngineGroupsList">
-      <Tabs items={tradingEngineAdminTabs} />
+const TradingEngineGroupsList = ({ groupsListQuery }: Props) => (
+  <div className="TradingEngineGroupsList">
+    <Tabs items={tradingEngineAdminTabs} />
 
-      <TradingEngineGroupsHeader groupsListQuery={groupsListQuery} />
+    <TradingEngineGroupsHeader groupsListQuery={groupsListQuery} />
 
-      <TradingEngineGroupsGridFilters groupsListQuery={groupsListQuery} />
+    <TradingEngineGroupsGridFilters groupsListQuery={groupsListQuery} />
 
-      <TradingEngineGroupsGrid groupsListQuery={groupsListQuery} />
-    </div>
-  );
-}
+    <TradingEngineGroupsGrid groupsListQuery={groupsListQuery} />
+  </div>
+);
 
 export default React.memo(
   withRequests({

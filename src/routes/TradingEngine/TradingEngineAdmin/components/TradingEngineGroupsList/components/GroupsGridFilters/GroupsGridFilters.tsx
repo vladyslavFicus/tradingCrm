@@ -13,13 +13,13 @@ interface Props {
   groupsListQuery: GroupsQueryResult,
 }
 
-function GroupsGridFilters({ groupsListQuery }: Props) {
+const GroupsGridFilters = ({ groupsListQuery }: Props) => {
   const { state } = useLocation<LocationState>();
   const history = useHistory();
 
   const { loading, refetch } = groupsListQuery || {};
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: Object) => {
     history.replace({
       state: {
         ...state,
@@ -28,7 +28,7 @@ function GroupsGridFilters({ groupsListQuery }: Props) {
     });
   };
 
-  const handleReset = (resetForm) => {
+  const handleReset = (resetForm: () => void) => {
     history.replace({
       state: {
         ...state,
@@ -93,6 +93,6 @@ function GroupsGridFilters({ groupsListQuery }: Props) {
       )}
     </Formik>
   );
-}
+};
 
 export default React.memo(GroupsGridFilters);

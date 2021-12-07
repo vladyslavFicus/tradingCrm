@@ -10,7 +10,7 @@ interface Props {
   groupsListQuery: GroupsQueryResult,
 }
 
-function GroupsHeader({ groupsListQuery }: Props) {
+const GroupsHeader = ({ groupsListQuery }: Props) => {
   const { loading, data: groupsListData } = groupsListQuery || {};
   const { totalElements } = groupsListData?.tradingEngineGroupsList || {};
 
@@ -29,25 +29,13 @@ function GroupsHeader({ groupsListQuery }: Props) {
                 className="animated-background"
                 style={{ width: '220px', height: '20px' }}
               />
-              <TextRow
-                className="animated-background"
-                style={{ width: '220px', height: '12px' }}
-              />
             </div>
           )}
         >
-          <Choose>
-            <When condition={Boolean(totalElements)}>
-              <div className="GroupsHeader__title">
-                <b>{totalElements} </b> {I18n.t('TRADING_ENGINE.GROUPS.GROUPS_FOUND')}
-              </div>
-            </When>
-            <Otherwise>
-              <div className="GroupsHeader__title">
-                {I18n.t('TRADING_ENGINE.GROUPS.HEADLINE')}
-              </div>
-            </Otherwise>
-          </Choose>
+          <div className="GroupsHeader__title">
+            <strong>{totalElements} </strong>
+            {I18n.t('TRADING_ENGINE.GROUPS.HEADLINE')}
+          </div>
         </ReactPlaceholder>
       </div>
 
@@ -62,6 +50,6 @@ function GroupsHeader({ groupsListQuery }: Props) {
       </div>
     </div>
   );
-}
+};
 
 export default React.memo(GroupsHeader);
