@@ -101,7 +101,7 @@ class TradingEngineAccountsGrid extends PureComponent {
   );
 
   renderLoginColumn = ({ login, group, uuid }) => (
-    <Link to={`/trading-engine-manager/accounts/${uuid}`}>
+    <Link to={`/trading-engine-manager/accounts/${uuid}`} target="_blank">
       <div className="TradingEngineAccountsGrid__text-primary">
         {login}
       </div>

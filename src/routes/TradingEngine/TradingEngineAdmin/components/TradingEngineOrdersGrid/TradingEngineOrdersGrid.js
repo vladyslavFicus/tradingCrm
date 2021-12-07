@@ -225,52 +225,27 @@ class TradingEngineOrdersGrid extends PureComponent {
               sortBy="symbol"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.SYMBOL')}
               render={({ symbol }) => (
-                <Fragment>
-                  <div className="TradingEngineOrdersGrid__cell-value">
-                    <Choose>
-                      <When condition={symbol}>
-                        {symbol}
-                      </When>
-                      <Otherwise>
-                        &mdash;
-                      </Otherwise>
-                    </Choose>
-                  </div>
-                </Fragment>
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  {symbol}
+                </div>
               )}
             />
             <Column
-              sortBy="lots"
+              sortBy="volumeLots"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.LOTS')}
-              render={({ lots }) => (
-                <Fragment>
-                  <Choose>
-                    <When condition={lots}>
-                      {lots}
-                    </When>
-                    <Otherwise>
-                      &mdash;
-                    </Otherwise>
-                  </Choose>
-                </Fragment>
+              render={({ volumeLots }) => (
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  {volumeLots}
+                </div>
               )}
             />
             <Column
               sortBy="openingPrice"
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.OPEN_PRICE')}
               render={({ openPrice, digits }) => (
-                <Fragment>
-                  <div className="TradingEngineOrdersGrid__cell-value">
-                    <Choose>
-                      <When condition={openPrice}>
-                        {openPrice.toFixed(digits)}
-                      </When>
-                      <Otherwise>
-                        &mdash;
-                      </Otherwise>
-                    </Choose>
-                  </div>
-                </Fragment>
+                <div className="TradingEngineOrdersGrid__cell-value">
+                  {openPrice.toFixed(digits)}
+                </div>
               )}
             />
             <Column
@@ -390,7 +365,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                           exchangeRate={currentSymbol?.pnlRates[account.currency]}
                         />
                       </When>
-                      <When condition={pnl}>
+                      <When condition={status === 'CLOSED'}>
                         {pnl.gross.toFixed(2)}
                       </When>
                       <Otherwise>

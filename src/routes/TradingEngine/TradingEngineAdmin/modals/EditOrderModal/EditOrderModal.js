@@ -325,7 +325,7 @@ class EditOrderModal extends PureComponent {
                           className="EditOrderModal__field"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                          disabled={isDisabled}
+                          disabled
                         >
                           {reasons.map(({ value, label }) => (
                             <option key={value} value={value}>{I18n.t(label)}</option>
