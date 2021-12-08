@@ -1335,7 +1335,8 @@
       "SHARED_10": "Shared 10",
       "PUBLIC_NUMBER": "Public number",
       "POTENTIAL_FRAUD": "Potential fraud",
-      "CALL_BACK_INSFF": "Callback insff"
+      "CALL_BACK_INSFF": "Callback insff",
+      "MEDIA": "Media"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
