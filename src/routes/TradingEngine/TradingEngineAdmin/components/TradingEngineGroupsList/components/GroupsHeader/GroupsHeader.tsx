@@ -12,7 +12,7 @@ interface Props {
 
 const GroupsHeader = ({ groupsListQuery }: Props) => {
   const { loading, data: groupsListData } = groupsListQuery || {};
-  const { totalElements } = groupsListData?.tradingEngineGroupsList || {};
+  const { totalElements } = groupsListData?.tradingEngineAdminGroups || {};
 
   const handleCreateClick = () => {
     // TODO: handleCreate

@@ -12,10 +12,10 @@ export interface Props {
 }
 
 const REQUEST = gql`
-  query TradingEngine_TradingEngineGroupsListQuery(
+  query TradingEngine_TradingEngineAdminGroupsQuery(
     $args: TradingEngineSearch__Input
   ) {
-    tradingEngineGroupsList(args: $args) {
+    tradingEngineAdminGroups(args: $args) {
       content {
         groupName
         brand
@@ -36,7 +36,7 @@ const REQUEST = gql`
   }
 `;
 
-const TradingEngineGroupsListQuery = ({ children, location: { state } }: Props) => (
+const TradingEngineAdminGroupsQuery = ({ children, location: { state } }: Props) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -55,4 +55,4 @@ const TradingEngineGroupsListQuery = ({ children, location: { state } }: Props) 
   </Query>
 );
 
-export default TradingEngineGroupsListQuery;
+export default TradingEngineAdminGroupsQuery;

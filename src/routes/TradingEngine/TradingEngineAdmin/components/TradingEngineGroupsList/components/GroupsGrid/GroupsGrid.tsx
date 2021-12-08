@@ -64,7 +64,7 @@ const GroupsGrid = ({ groupsListQuery }: Props) => {
     totalElements,
     last = true,
     number = 0,
-  } = groupsListData?.tradingEngineGroupsList || {};
+  } = groupsListData?.tradingEngineAdminGroups || {};
 
   const handleDeleteClick = () => {
     // TODO: handleDelete
