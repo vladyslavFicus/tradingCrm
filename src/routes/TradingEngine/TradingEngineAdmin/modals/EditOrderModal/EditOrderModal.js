@@ -521,11 +521,11 @@ class EditOrderModal extends PureComponent {
                         </If>
                         <Button
                           className="EditOrderModal__button"
-                          danger
+                          dangerOutline
                           onClick={this.handleDeleteOrder}
                           disabled={isDisabled || isSubmitting}
                         >
-                          {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL')}
+                          {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL_ORDER')}
                         </Button>
                       </div>
                     </fieldset>

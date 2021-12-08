@@ -3522,6 +3522,7 @@
         "TITLE": "Deal #{{id}}, {{type}} {{volumeLots}} {{symbol}}",
         "ORDER": "Order",
         "CANCEL": "Cancel",
+        "CANCEL_ORDER": "Cancel order",
         "OPEN_TIME": "Open time",
         "CLOSE_TIME": "Close time",
         "COMMISSION": "Commission",
