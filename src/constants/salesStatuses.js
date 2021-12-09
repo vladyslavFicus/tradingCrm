@@ -46,6 +46,7 @@ export const salesStatuses = {
   PUBLIC_NUMBER: 'CONSTANTS.SALES_STATUSES.PUBLIC_NUMBER',
   POTENTIAL_FRAUD: 'CONSTANTS.SALES_STATUSES.POTENTIAL_FRAUD',
   CALL_BACK_INSFF: 'CONSTANTS.SALES_STATUSES.CALL_BACK_INSFF',
+  MEDIA: 'CONSTANTS.SALES_STATUSES.MEDIA',
 };
 
 export const salesStatusesColor = {
@@ -95,4 +96,5 @@ export const salesStatusesColor = {
   PUBLIC_NUMBER: 'color-danger',
   POTENTIAL_FRAUD: 'color-danger',
   CALL_BACK_INSFF: 'color-info',
+  MEDIA: 'color-info',
 };
