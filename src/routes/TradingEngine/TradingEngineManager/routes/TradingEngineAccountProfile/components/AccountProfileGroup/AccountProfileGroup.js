@@ -66,6 +66,7 @@ class AccountProfileGroup extends PureComponent {
         level: 'error',
         title: I18n.t('COMMON.FAILED'),
         message: error.error === 'error.account.group.change'
+        || error.error === 'error.account.group.change.incorrect-currency'
           ? error.message : I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_ERROR'),
       });
     }
