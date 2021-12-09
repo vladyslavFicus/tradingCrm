@@ -1,71 +1,25 @@
 import React, { PureComponent } from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import I18n from 'i18n';
 import compose from 'compose-function';
 import { parseErrors, withRequests } from 'apollo';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
-import { Router } from 'types/router';
 import { Notify, LevelType } from 'types/notify';
+import { DayOfWeek, SymbolType, SwapType, FormValues } from './types';
 import SymbolSettings from './components/SymbolSettings';
 import CalculationSettings from './components/CalculationSettings';
 import SwapsSettings from './components/SwapsSettings';
 import SessionsSettings from './components/SessionsSettings';
 import FiltrationSettings from './components/FiltrationSettings';
-import SymbolsQuery from './graphql/SymbolsQuery';
+import SymbolsSourcesQuery from './graphql/SymbolsSourcesQuery';
 import SecuritiesQuery from './graphql/SecuritiesQuery';
 import CreateSymbolMutation from './graphql/CreateSymbolMutation';
 import './TradingEngineNewSymbol.scss';
-
-interface SymbolSession {
-  dayOfWeek: string,
-  trade: {
-    openTime: string,
-    closeTime: string,
-  },
-  quote: {
-    openTime: string,
-    closeTime: string,
-  },
-}
-
-interface SubmitData {
-  symbol: string,
-  source: string,
-  digits: number,
-  description: string,
-  securityName: string,
-  symbolType: string,
-  baseCurrency: string,
-  quoteCurrency: string,
-  backgroundColor: string,
-  swapConfigs: {
-    rollover: string,
-    type: string,
-    long: number,
-    short: number,
-  },
-  filtration: {
-    filterSmoothing: number,
-    softFilter: number,
-    hardFilter: number,
-    softFiltrationLevel: number,
-    hardFiltrationLevel: number,
-    discardFiltrationLevel: number,
-  },
-  bidSpread: number,
-  askSpread: number,
-  stopsLevel: number,
-  lotSize: number,
-  percentage: number,
-  marginCalculation: string,
-  profitCalculation: string,
-  symbolSessions: SymbolSession,
-}
 
 interface CreateSymbolResponse {
   createSymbol: null,
@@ -77,26 +31,19 @@ interface SecurityData {
   }[],
 }
 
-interface SymbolData {
-  tradingEngineSymbols: {
-    name: string,
-  }[],
+interface SymbolSourcesData {
+  tradingEngineAdminSymbolsSources: [],
 }
 
 interface Props {
   notify: Notify,
-  history: Router,
-  symbolsQuery: QueryResult<SymbolData>,
+  symbolsSourcesQuery: QueryResult<SymbolSourcesData>,
   securitiesQuery: QueryResult<SecurityData>,
   createSymbol: (options: MutationOptions) => MutationResult<CreateSymbolResponse>,
 }
 
-class TradingEngineNewSymbol extends PureComponent<Props> {
-  state = {
-    symbolSessions: [],
-  };
-
-  handleSubmit = async ({ marginCalculation, profitCalculation, ...rest }: SubmitData) => {
+class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> {
+  handleSubmit = async ({ marginCalculation, profitCalculation, ...rest }: FormValues) => {
     const {
       notify,
       history,
@@ -108,7 +55,6 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
         variables: {
           args: {
             ...decodeNullValues(rest),
-            symbolSessions: this.state.symbolSessions,
           },
         },
       });
@@ -133,17 +79,13 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
     }
   }
 
-  updateSymbolSessionsState = (symbolSessions: SymbolSession[]) => {
-    this.setState({ symbolSessions });
-  }
-
   render() {
     const {
-      symbolsQuery,
+      symbolsSourcesQuery,
       securitiesQuery,
     } = this.props;
 
-    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
+    const symbolsSources = symbolsSourcesQuery.data?.tradingEngineAdminSymbolsSources || [];
     const securities = securitiesQuery.data?.tradingEngineSecurities || [];
 
     return (
@@ -215,7 +157,7 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
             description: '',
             backgroundColor: '',
             digits: 4,
-            symbolType: 'FOREX',
+            symbolType: SymbolType.FOREX,
             baseCurrency: 'USD',
             quoteCurrency: 'USD',
             bidSpread: -10,
@@ -224,14 +166,14 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
             lotSize: 100000,
             percentage: 100.0,
             securityName: 'Indices',
-            marginCalculation: 'FOREX',
-            profitCalculation: 'FOREX',
+            marginCalculation: SymbolType.FOREX,
+            profitCalculation: SymbolType.FOREX,
             swapConfigs: {
               enable: true,
-              type: 'POINTS',
+              type: SwapType.POINTS,
               long: 0.000000,
               short: 0.000000,
-              rollover: 'WEDNESDAY',
+              rollover: DayOfWeek.WEDNESDAY,
             },
             filtration: {
               softFiltrationLevel: 0,
@@ -241,26 +183,23 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
               discardFiltrationLevel: 0,
               filterSmoothing: 0,
             },
-            symbolSessions: {
-              dayOfWeek: '',
-              trade: {
-                openTime: '',
-                closeTime: '',
+            symbolSessions: [
+              {
+                dayOfWeek: DayOfWeek.MONDAY,
+                trade: {
+                  openTime: '',
+                  closeTime: '',
+                },
+                quote: {
+                  openTime: '',
+                  closeTime: '',
+                },
               },
-              quote: {
-                openTime: '',
-                closeTime: '',
-              },
-            },
+            ],
           }}
           onSubmit={this.handleSubmit}
         >
-          {({
-            isSubmitting,
-            setValues,
-            values,
-            dirty,
-          }) => (
+          {(formik : FormikProps<FormValues>) => (
             <Form className="TradingEngineNewSymbol__content">
               <div className="TradingEngineNewSymbol__header">
                 <span className="TradingEngineNewSymbol__title">
@@ -272,7 +211,7 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
                     className="TradingEngineNewSymbol__button"
                     small
                     primary
-                    disabled={!dirty && !isSubmitting}
+                    disabled={!formik.dirty && !formik.isSubmitting}
                   >
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>
@@ -281,10 +220,9 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
 
               <div className="TradingEngineNewSymbol__column">
                 <SymbolSettings
-                  symbols={symbols}
+                  symbolsSources={symbolsSources}
                   securities={securities}
-                  values={values}
-                  setValues={setValues}
+                  {...formik}
                 />
               </div>
 
@@ -298,7 +236,7 @@ class TradingEngineNewSymbol extends PureComponent<Props> {
 
               <div className="TradingEngineNewSymbol__column">
                 <SessionsSettings
-                  updateSymbolSessionsState={this.updateSymbolSessionsState}
+                  {...formik}
                 />
               </div>
 
@@ -317,7 +255,7 @@ export default compose(
   withNotifications,
   withRouter,
   withRequests({
-    symbolsQuery: SymbolsQuery,
+    symbolsSourcesQuery: SymbolsSourcesQuery,
     securitiesQuery: SecuritiesQuery,
     createSymbol: CreateSymbolMutation,
   }),

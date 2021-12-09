@@ -18,12 +18,14 @@ class TimeRange extends PureComponent {
     error: PropTypes.string,
     onChangeFrom: PropTypes.func,
     onChangeTo: PropTypes.func,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
     fieldsLabels: {},
     fieldsValues: {},
     error: '',
+    className: '',
     onChangeFrom: () => {},
     onChangeTo: () => {},
   };
@@ -35,10 +37,11 @@ class TimeRange extends PureComponent {
       error,
       onChangeFrom,
       onChangeTo,
+      className,
     } = this.props;
 
     return (
-      <div className={classNames('TimeRange', { 'TimeRange--with-error': !!error })}>
+      <div className={classNames('TimeRange', className, { 'TimeRange--with-error': !!error })}>
         <div className="TimeRange__counts">
           <TimePicker
             label={fieldsLabels.from || I18n.t('COMMON.TIME_RANGE.TIME_FROM')}

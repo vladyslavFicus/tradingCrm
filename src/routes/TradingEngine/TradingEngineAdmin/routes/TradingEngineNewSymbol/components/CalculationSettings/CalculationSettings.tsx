@@ -10,7 +10,7 @@ import './CalculationSettings.scss';
 
 const FiltrationSettings = () => (
   <div className="FiltrationSettings">
-    <div className="CalculationSettings__section-header">
+    <div className="CalculationSettings__header">
       <div className="CalculationSettings__section-title">
         {I18n.t('TRADING_ENGINE.NEW_SYMBOL.CALCULATION')}
       </div>
@@ -41,7 +41,6 @@ const FiltrationSettings = () => (
         className="CalculationSettings__field"
         component={FormikSelectField}
         searchable
-        withFocus
       >
         {marginCalculationLabel.map(({ name, value }) => (
           <option key={name} value={value}>
@@ -57,7 +56,6 @@ const FiltrationSettings = () => (
         className="CalculationSettings__field"
         component={FormikSelectField}
         searchable
-        withFocus
       >
         {profitCalculationLabel.map(({ name, value }) => (
           <option key={value} value={value}>

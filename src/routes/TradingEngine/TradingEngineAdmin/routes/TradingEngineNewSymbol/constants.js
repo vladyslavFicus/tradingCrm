@@ -132,6 +132,8 @@ const symbolTypeLabels = [
   },
 ];
 
+const weekends = ['SUNDAY', 'SATURDAY'];
+
 export {
   profitCalculationLabel,
   marginCalculationLabel,
@@ -139,4 +141,5 @@ export {
   rolloverLabels,
   backgroundColor,
   symbolTypeLabels,
+  weekends,
 };

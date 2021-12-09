@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { Button } from 'components/UI';
 import { FormikTimeRangeField } from 'components/Formik';
+import { DayOfWeek, SessionType } from '../../routes/TradingEngineNewSymbol/types';
 import './ScheduleSettingsModal.scss';
 
 const validate = createValidator({
@@ -23,9 +24,9 @@ interface Props {
   onCloseModal: () => void,
   onSuccess: (values?: Object) => void,
   isOpen: boolean,
-  sessionType: 'trade' | 'quote',
+  sessionType: SessionType.TRADE | SessionType.QUOTE,
   formError: string,
-  dayOfWeek: string,
+  dayOfWeek: DayOfWeek,
   trade?: SymbolSessionWorkingHours,
   quote?: SymbolSessionWorkingHours,
 }
@@ -35,7 +36,7 @@ class ScheduleSettingsModal extends PureComponent<Props> {
     openTime,
     closeTime,
   }: SymbolSessionWorkingHours,
-  { setSubmitting }: { setSubmitting: (value: boolean) => void }) => {
+  { setSubmitting }: FormikHelpers<SymbolSessionWorkingHours>) => {
     const {
       dayOfWeek,
       sessionType,
@@ -94,6 +95,7 @@ class ScheduleSettingsModal extends PureComponent<Props> {
                   {I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.MESSAGE')}
                 </p>
                 <Field
+                  className="ScheduleSettingsModal__timeRange"
                   component={FormikTimeRangeField}
                   fieldsNames={{
                     from: 'openTime',

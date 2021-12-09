@@ -1,39 +1,37 @@
 import React from 'react';
 import I18n from 'i18n';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import {
   FormikInputField,
   FormikSelectField,
   FormikTextAreaField,
 } from 'components/Formik';
 import { backgroundColor, symbolTypeLabels } from '../../constants';
+import { FormValues, SymbolType } from '../../types';
 import './SymbolSettings.scss';
 
 interface Props {
-  symbols: {
-    name: string,
-  }[],
+  symbolsSources: [],
   securities: {
     name: string,
   }[],
-  values: { [field: string]: any },
-  setValues: (values: any, shouldValidate?: boolean) => void,
 }
 
-const SymbolSettings = (props: Props) => {
+const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
   const {
-    symbols,
+    symbolsSources,
     securities,
     setValues,
     values,
+
   } = props;
 
-  const onChangeSymbolType = (value: string) => {
+  const onChangeSymbolType = (value: SymbolType) => {
     setValues({
       ...values,
       symbolType: value,
       marginCalculation: value,
-      profileCalculation: value,
+      profitCalculation: value,
     });
   };
 
@@ -59,11 +57,10 @@ const SymbolSettings = (props: Props) => {
           component={FormikSelectField}
           withAnyOption
           searchable
-          withFocus
         >
-          {symbols.map(({ name }) => (
-            <option key={name} value={name}>
-              {name}
+          {symbolsSources.map(i => (
+            <option key={i} value={i}>
+              {i}
             </option>
           ))}
         </Field>
@@ -72,7 +69,6 @@ const SymbolSettings = (props: Props) => {
           label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.DIGITS_LABEL')}
           className="SymbolSettings__field"
           component={FormikSelectField}
-          withFocus
         >
           {[0, 1, 2, 3, 4, 5, 6, 7].map(i => (
             <option key={i} value={i}>
@@ -98,7 +94,6 @@ const SymbolSettings = (props: Props) => {
           component={FormikSelectField}
           withAnyOption
           searchable
-          withFocus
         >
           {securities.map(({ name }) => (
             <option key={name} value={name}>
@@ -113,8 +108,7 @@ const SymbolSettings = (props: Props) => {
           className="SymbolSettings__field"
           component={FormikSelectField}
           searchable
-          withFocus
-          customOnChange={(value: string) => onChangeSymbolType(value)}
+          customOnChange={onChangeSymbolType}
         >
           {symbolTypeLabels.map(({ name, value }) => (
             <option key={value} value={value}>
@@ -146,7 +140,6 @@ const SymbolSettings = (props: Props) => {
           component={FormikSelectField}
           withAnyOption
           searchable
-          withFocus
         >
           {backgroundColor.map(({ name, value }) => (
             <option key={name} value={value}>

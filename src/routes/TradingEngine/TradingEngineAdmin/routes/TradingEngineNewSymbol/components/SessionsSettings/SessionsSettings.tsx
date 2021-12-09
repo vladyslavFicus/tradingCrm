@@ -2,62 +2,55 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n';
 import compose from 'compose-function';
 import classNames from 'classnames';
+import { FormikProps } from 'formik';
 import { withModals } from 'hoc';
 import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
 import { Table, Column } from 'components/Table';
+import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../types';
+import { weekends } from '../../constants';
 import ScheduleSettingsModal from '../../../../modals/ScheduleSettingsModal';
 import './SessionsSettings.scss';
-
-interface SymbolSessionWorkingHours {
-  openTime: string,
-  closeTime: string,
-}
-
-interface SymbolSession {
-  dayOfWeek: string,
-  trade?: SymbolSessionWorkingHours,
-  quote?: SymbolSessionWorkingHours,
-}
 
 interface Props {
   modals: {
     scheduleSettings: Modal,
   },
-  updateSymbolSessionsState: (value: SymbolSession[]) => void,
-  symbolSessions: SymbolSession[],
 }
 
-class SessionsSettings extends PureComponent<Props> {
+class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
   state = {
     symbolSessions: [
-      { dayOfWeek: 'SUNDAY' },
-      { dayOfWeek: 'MONDAY' },
-      { dayOfWeek: 'TUESDAY' },
-      { dayOfWeek: 'WEDNESDAY' },
-      { dayOfWeek: 'THURSDAY' },
-      { dayOfWeek: 'FRIDAY' },
-      { dayOfWeek: 'SATURDAY' },
+      { dayOfWeek: DayOfWeek.SUNDAY },
+      { dayOfWeek: DayOfWeek.MONDAY },
+      { dayOfWeek: DayOfWeek.TUESDAY },
+      { dayOfWeek: DayOfWeek.WEDNESDAY },
+      { dayOfWeek: DayOfWeek.THURSDAY },
+      { dayOfWeek: DayOfWeek.FRIDAY },
+      { dayOfWeek: DayOfWeek.SATURDAY },
     ],
   };
 
   handleSymbolSessionsChange = (value: SymbolSession) => {
     const { symbolSessions } = this.state;
+    // Matched index for existing day in state
     const matchIndex = symbolSessions
-      .findIndex((({ dayOfWeek }) => dayOfWeek === value?.dayOfWeek));
+      .findIndex((({ dayOfWeek }) => dayOfWeek === value.dayOfWeek));
 
+    // Add/update data for a new or existing day
     symbolSessions.splice(matchIndex, 1, { ...symbolSessions[matchIndex], ...value });
 
     this.setState({ symbolSessions });
 
+    // Get list of days which contains data in trade or quote
     const symbolSessionsContainWorkingHours = symbolSessions.filter(
       item => Object.keys(item).some(i => ['trade', 'quote'].includes(i)),
     );
 
-    this.props.updateSymbolSessionsState(symbolSessionsContainWorkingHours);
+    this.props.setFieldValue('symbolSessions', symbolSessionsContainWorkingHours);
   }
 
-  triggerEditScheduleModal = (value: SymbolSession, sessionType: string) => {
+  triggerEditScheduleModal = (value: SymbolSession, sessionType: SessionType) => {
     const {
       modals: { scheduleSettings },
     } = this.props;
@@ -69,7 +62,7 @@ class SessionsSettings extends PureComponent<Props> {
     });
   };
 
-  renderActions = (value: SymbolSession, sessionType: string) => (
+  renderActions = (value: SymbolSession, sessionType: SessionType) => (
     <Button
       transparent
       className="SessionsSettings__edit"
@@ -108,7 +101,7 @@ class SessionsSettings extends PureComponent<Props> {
         </Otherwise>
       </Choose>
 
-      {this.renderActions(value, 'quote')}
+      {this.renderActions(value, SessionType.QUOTE)}
     </>
   );
 
@@ -128,7 +121,7 @@ class SessionsSettings extends PureComponent<Props> {
         </Otherwise>
       </Choose>
 
-      {this.renderActions(value, 'trade')}
+      {this.renderActions(value, SessionType.TRADE)}
     </>
   );
 
@@ -145,7 +138,7 @@ class SessionsSettings extends PureComponent<Props> {
           items={this.state.symbolSessions}
           customClassNameRow={({ dayOfWeek }: SymbolSession) => (
             classNames({
-              'SessionsSettings--is-disabled': ['SUNDAY', 'SATURDAY'].includes(dayOfWeek),
+              'SessionsSettings--is-disabled': weekends.includes(dayOfWeek),
             }))
           }
         >

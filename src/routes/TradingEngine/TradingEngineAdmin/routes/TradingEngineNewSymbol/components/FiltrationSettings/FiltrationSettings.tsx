@@ -27,7 +27,6 @@ const FiltrationSettings = () => (
         label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
-        withFocus
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
           <option key={i} value={i}>
@@ -47,7 +46,6 @@ const FiltrationSettings = () => (
         label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
-        withFocus
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
           <option key={i} value={i}>
@@ -67,7 +65,6 @@ const FiltrationSettings = () => (
         label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SMOOTHING')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
-        withFocus
       >
         {['off', 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
           <option key={i} value={i === 'off' ? 0 : i}>

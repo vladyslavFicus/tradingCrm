@@ -34,7 +34,6 @@ const SwapsSettings = () => (
         component={FormikSelectField}
         withAnyOption
         searchable
-        withFocus
       >
         {swapTypesLabels.map(({ name, value }) => (
           <option key={value} value={value}>
@@ -63,7 +62,6 @@ const SwapsSettings = () => (
         className="SwapsSettings__field"
         component={FormikSelectField}
         searchable
-        withFocus
       >
         {rolloverLabels.map(({ name, value }) => (
           <option key={value} value={value}>

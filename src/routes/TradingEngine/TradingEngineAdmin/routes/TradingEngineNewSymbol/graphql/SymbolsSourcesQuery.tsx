@@ -9,14 +9,12 @@ export interface Props {
 }
 
 const REQUEST = gql`
-  query TradingEngine_TradingEngineSymbolsQuery {
-    tradingEngineSymbols {
-      name
-    }
+  query TradingEngine_TradingEngineSymbolsSourcesQuery {
+    tradingEngineAdminSymbolsSources
   }
 `;
 
-const SymbolsQuery = ({ children }: Props) => (
+const SymbolsSourcesQuery = ({ children }: Props) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -25,8 +23,8 @@ const SymbolsQuery = ({ children }: Props) => (
   </Query>
 );
 
-SymbolsQuery.propTypes = {
+SymbolsSourcesQuery.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default SymbolsQuery;
+export default SymbolsSourcesQuery;
