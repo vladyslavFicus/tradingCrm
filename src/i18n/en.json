@@ -1360,7 +1360,9 @@
       "UNDER_18": "Under 18",
       "INVALID_LANGUAGE": "Invalid language",
       "REASSIGN": "Reassign",
-      "WRONG_NUMBER": "Wrong number"
+      "WRONG_NUMBER": "Wrong number",
+      "MEDIA": "Media",
+      "WIRE_SENT": "Wire Sent"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
