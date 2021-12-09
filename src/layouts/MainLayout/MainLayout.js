@@ -1,4 +1,5 @@
 import React, { PureComponent, Suspense } from 'react';
+import classNames from 'classnames';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import Header from 'components/Header';
@@ -20,13 +21,44 @@ class MainLayout extends PureComponent {
     auth: PropTypes.auth.isRequired,
   };
 
+  state = {
+    downtime: {
+      title: '',
+      show: false,
+    },
+  };
+
+  componentDidMount() {
+    this.loadDowntime();
+  }
+
+  /**
+   * Load downtime content from S3
+   *
+   * @return {Promise<void>}
+   */
+  loadDowntime = async () => {
+    const response = await fetch(`/cloud-static/DOWNTIME.json?${Math.random()}`);
+
+    let { downtime } = this.state;
+
+    if (response.status === 200) {
+      downtime = await response.json();
+    }
+
+    this.setState({ downtime });
+  };
+
   render() {
     const {
       children,
       auth,
     } = this.props;
 
+    const { downtime } = this.state;
+
     const isShowProductionAlert = auth.department === 'ADMINISTRATION' && getBrand().env.includes('prod');
+    const isShowDowntimeAlert = downtime.show;
 
     return (
       <PermissionProvider key={auth.department}>
@@ -35,7 +67,13 @@ class MainLayout extends PureComponent {
         <Header />
         <Sidebar />
 
-        <main className="content-container">
+        <main className={classNames(
+          'content-container',
+          {
+            'content-container--padding-bottom': isShowProductionAlert && isShowDowntimeAlert,
+          },
+        )}
+        >
           <ErrorBoundary>
             <Suspense fallback={<ShortLoader />}>
               {children}
@@ -44,6 +82,13 @@ class MainLayout extends PureComponent {
         </main>
 
         <BackToTop />
+
+        {/* Notify users about downtime */}
+        <If condition={isShowDowntimeAlert}>
+          <div className="downtime-footer">
+            {downtime.title}
+          </div>
+        </If>
 
         {/* Notify ADMINISTRATION role if it's production environment */}
         <If condition={isShowProductionAlert}>
