@@ -145,7 +145,7 @@ class NewOrderModal extends PureComponent {
       notify({
         level: 'error',
         title: I18n.t('COMMON.ERROR'),
-        message: error === 'error.order.creation.not-enough-free-margin'
+        message: error === 'error.trading.account.free-margin.not-enough'
           ? I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
           : I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.NOTIFICATION.FAILED'),
       });

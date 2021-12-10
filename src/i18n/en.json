@@ -1335,7 +1335,8 @@
       "SHARED_10": "Shared 10",
       "PUBLIC_NUMBER": "Public number",
       "POTENTIAL_FRAUD": "Potential fraud",
-      "CALL_BACK_INSFF": "Callback insff"
+      "CALL_BACK_INSFF": "Callback insff",
+      "MEDIA": "Media"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
@@ -1359,7 +1360,9 @@
       "UNDER_18": "Under 18",
       "INVALID_LANGUAGE": "Invalid language",
       "REASSIGN": "Reassign",
-      "WRONG_NUMBER": "Wrong number"
+      "WRONG_NUMBER": "Wrong number",
+      "MEDIA": "Media",
+      "WIRE_SENT": "Wire Sent"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
@@ -3523,6 +3526,7 @@
         "TITLE": "Deal #{{id}}, {{type}} {{volumeLots}} {{symbol}}",
         "ORDER": "Order",
         "CANCEL": "Cancel",
+        "CANCEL_ORDER": "Cancel order",
         "OPEN_TIME": "Open time",
         "CLOSE_TIME": "Close time",
         "COMMISSION": "Commission",
