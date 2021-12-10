@@ -40,10 +40,8 @@ class MainLayout extends PureComponent {
   loadDowntime = async () => {
     const response = await fetch(`/cloud-static/DOWNTIME.json?${Math.random()}`);
 
-    let { downtime } = this.state;
-
     if (response.status === 200) {
-      downtime = await response.json();
+      const downtime = await response.json();
 
       this.setState({ downtime });
     }
