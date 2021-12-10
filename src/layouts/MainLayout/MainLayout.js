@@ -44,9 +44,9 @@ class MainLayout extends PureComponent {
 
     if (response.status === 200) {
       downtime = await response.json();
-    }
 
-    this.setState({ downtime });
+      this.setState({ downtime });
+    }
   };
 
   render() {
