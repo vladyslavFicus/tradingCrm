@@ -1,15 +1,8 @@
 import { Location } from 'history';
+import { Filters, Sort } from 'types';
 
-export interface Filters {
-  keyword: string;
-}
-
-export interface Sorts {
-  column?: string;
-  direction?: 'ASC' | 'DESC';
-}
-
-export interface LocationState extends Location {
+export interface State {
   filters?: null | Filters
-  sorts?: [] | undefined | Sorts[],
-};
+  sorts?: [] | undefined | Sort[],
+}
+export interface LocationState extends Location<State> { };

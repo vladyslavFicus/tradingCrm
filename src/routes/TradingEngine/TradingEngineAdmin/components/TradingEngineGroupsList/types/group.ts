@@ -1,5 +1,5 @@
 import { Query, QueryPageable } from 'types/query';
-import { Sorts } from 'types/location';
+import { Page } from 'types';
 
 export interface GroupSecurity {
   name: string
@@ -18,17 +18,13 @@ export interface Group {
 }
 
 export interface GroupsListData {
-  tradingEngineAdminGroups: QueryPageable<Group[]>
+  tradingEngineAdminGroups: QueryPageable<Group>
 }
 
 export interface GroupsListVariables {
   args: {
     keyword?: string
-    page: {
-      from: number
-      size: number
-      sorts?: [] | undefined | Sorts[],
-    }
+    page: Page
   }
 }
 

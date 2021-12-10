@@ -2,18 +2,16 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
-import { LocationState } from 'types/location';
+import { LocationState } from 'types';
 
 export interface Props {
   children: ApolloComponentFn,
-  location: {
-    state: LocationState
-  },
+  location: LocationState
 }
 
 const REQUEST = gql`
   query TradingEngine_TradingEngineAdminGroupsQuery(
-    $args: TradingEngineSearch__Input
+    $args: TradingEngineGroupsSearch__Input
   ) {
     tradingEngineAdminGroups(args: $args) {
       content {

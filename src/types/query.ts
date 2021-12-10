@@ -1,7 +1,7 @@
 import { QueryResult } from 'react-apollo';
 
 export interface QueryPageable<TContent> {
-  content: TContent,
+  content: TContent[],
   page: number,
   size: number,
   totalElements: number,

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useHistory, useLocation } from 'react-router-dom';
-import { LocationState } from 'types/location';
+import { State, Sort } from 'types';
 import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
 import { GroupsQueryResult, Group, GroupSecurities } from '../../types/group';
@@ -55,7 +55,7 @@ const renderActions = (handleEditClick: Function, handleDeleteClick: Function) =
 );
 
 const GroupsGrid = ({ groupsListQuery }: Props) => {
-  const { state } = useLocation<LocationState>();
+  const { state } = useLocation<State>();
   const history = useHistory();
 
   const { loading, data: groupsListData } = groupsListQuery || {};
@@ -74,7 +74,7 @@ const GroupsGrid = ({ groupsListQuery }: Props) => {
     // TODO: handleEdit
   };
 
-  const handleSort = (sorts: []) => {
+  const handleSort = (sorts: Sort) => {
     history.replace({
       state: {
         ...state,

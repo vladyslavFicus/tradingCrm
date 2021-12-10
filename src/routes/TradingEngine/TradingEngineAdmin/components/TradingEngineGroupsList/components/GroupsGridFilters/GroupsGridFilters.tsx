@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
-import { LocationState } from 'types/location';
+import { State, Filters } from 'types';
 import { GroupsQueryResult } from '../../types/group';
 import './GroupsGridFilters.scss';
 
@@ -14,12 +14,12 @@ interface Props {
 }
 
 const GroupsGridFilters = ({ groupsListQuery }: Props) => {
-  const { state } = useLocation<LocationState>();
+  const { state } = useLocation<State>();
   const history = useHistory();
 
   const { loading, refetch } = groupsListQuery || {};
 
-  const handleSubmit = (values: Object) => {
+  const handleSubmit = (values: Filters) => {
     history.replace({
       state: {
         ...state,
