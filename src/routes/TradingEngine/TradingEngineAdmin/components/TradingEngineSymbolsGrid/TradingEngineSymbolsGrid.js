@@ -67,14 +67,7 @@ class TradingEngineSymbols extends PureComponent {
 
   renderName = ({ symbol }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      <Choose>
-        <When condition={symbol}>
-          {symbol}
-        </When>
-        <Otherwise>
-          &mdash;
-        </Otherwise>
-      </Choose>
+      {symbol}
     </div>
   );
 
