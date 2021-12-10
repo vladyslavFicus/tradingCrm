@@ -1,6 +1,10 @@
 import { Query, QueryPageable } from 'types/query';
 import { Page } from 'types';
 
+export interface GroupFilters {
+  keyword?: string;
+}
+
 export interface GroupSecurity {
   name: string
 }

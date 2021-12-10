@@ -3,10 +3,11 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 import { LocationState } from 'types';
+import { GroupFilters } from '../types/group';
 
 export interface Props {
   children: ApolloComponentFn,
-  location: LocationState
+  location: LocationState<GroupFilters>
 }
 
 const REQUEST = gql`

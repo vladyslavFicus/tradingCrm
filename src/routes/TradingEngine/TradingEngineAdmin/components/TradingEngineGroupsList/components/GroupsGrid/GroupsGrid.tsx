@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { State, Sort } from 'types';
 import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
-import { GroupsQueryResult, Group, GroupSecurities } from '../../types/group';
+import { GroupsQueryResult, Group, GroupSecurities, GroupFilters } from '../../types/group';
 import './GroupsGrid.scss';
 
 interface Props {
@@ -55,7 +55,7 @@ const renderActions = (handleEditClick: Function, handleDeleteClick: Function) =
 );
 
 const GroupsGrid = ({ groupsListQuery }: Props) => {
-  const { state } = useLocation<State>();
+  const { state } = useLocation<State<GroupFilters>>();
   const history = useHistory();
 
   const { loading, data: groupsListData } = groupsListQuery || {};
