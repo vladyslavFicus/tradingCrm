@@ -80,7 +80,7 @@ class Chart extends PureComponent {
 
   getYAxisWidth = (chartData) => {
     const { lineDataKey } = this.props;
-    const maxYAxisValue = Math.max.apply(null, chartData.map(item => item[lineDataKey]));
+    const maxYAxisValue = Math.max(chartData.map(item => item[lineDataKey]));
     const maxYAxisValueLength = maxYAxisValue.toString().length;
 
     if (maxYAxisValueLength < 7) {
@@ -89,7 +89,7 @@ class Chart extends PureComponent {
     if (maxYAxisValueLength === 7) {
       return 80;
     }
-    if (maxYAxisValueLength <= 8) {
+    if (maxYAxisValueLength === 8) {
       return 90;
     }
     return 105;
