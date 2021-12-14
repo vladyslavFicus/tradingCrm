@@ -212,6 +212,8 @@ class ClientsGridFilter extends PureComponent {
                         searchByAffiliateIdentifiers: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
                         migrationId: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
                         activityStatus: I18n.t(attributeLabels.activityStatus),
+                        affiliateFtd: I18n.t(attributeLabels.affiliateFtd),
+                        affiliateFtdDateRange: I18n.t(attributeLabels.affiliateFtdDateRange),
                         languages: I18n.t(attributeLabels.languages),
                         countries: I18n.t(attributeLabels.countries),
                         desks: I18n.t(attributeLabels.desks),
@@ -475,6 +477,23 @@ class ClientsGridFilter extends PureComponent {
                     </Field>
 
                     <Field
+                      name="affiliateFtd"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.affiliateFtd)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withAnyOption
+                      withFocus
+                      boolean
+                    >
+                      {radioSelect.map(({ value, label }) => (
+                        <option key={`affiliateFTD-${value}`} value={value}>
+                          {I18n.t(label)}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
                       name="acquisitionStatus"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
                       label={I18n.t(attributeLabels.acquisitionStatus)}
@@ -654,6 +673,18 @@ class ClientsGridFilter extends PureComponent {
                       fieldsNames={{
                         from: 'registrationDateRange.from',
                         to: 'registrationDateRange.to',
+                      }}
+                      withFocus
+                    />
+
+                    <Field
+                      name="affiliateFtdDateRange"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
+                      label={I18n.t(attributeLabels.affiliateFtdDateRange)}
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'affiliateFtdDateRange.from',
+                        to: 'affiliateFtdDateRange.to',
                       }}
                       withFocus
                     />

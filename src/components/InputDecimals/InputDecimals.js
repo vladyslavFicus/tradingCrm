@@ -114,9 +114,9 @@ class InputDecimals extends React.Component {
     const { decimalsLimit } = this.props;
     const { value } = this.state;
 
-    // Check if decimals limit is 0 and user tried to enter dot in input
+    // Check if decimals limit is 0 and user tried to enter dot or comma in input
     // We should prevent enter dot in input and show warning
-    if (decimalsLimit === 0 && e.key === '.') {
+    if (decimalsLimit === 0 && ['.', ','].includes(e.key)) {
       e.preventDefault();
 
       this.setValue(value, true);

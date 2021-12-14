@@ -427,6 +427,23 @@ class ClientsGridOldFilter extends PureComponent {
                     </Field>
 
                     <Field
+                      name="affiliateFtd"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.affiliateFtd)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withAnyOption
+                      withFocus
+                      boolean
+                    >
+                      {radioSelect.map(({ value, label }) => (
+                        <option key={`affiliateFTD-${value}`} value={value}>
+                          {I18n.t(label)}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
                       name="acquisitionStatus"
                       className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.acquisitionStatus)}
@@ -606,6 +623,18 @@ class ClientsGridOldFilter extends PureComponent {
                       fieldsNames={{
                         from: 'registrationDateRange.from',
                         to: 'registrationDateRange.to',
+                      }}
+                      withFocus
+                    />
+
+                    <Field
+                      name="affiliateFtdDateRange"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
+                      label={I18n.t(attributeLabels.affiliateFtdDateRange)}
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'affiliateFtdDateRange.from',
+                        to: 'affiliateFtdDateRange.to',
                       }}
                       withFocus
                     />

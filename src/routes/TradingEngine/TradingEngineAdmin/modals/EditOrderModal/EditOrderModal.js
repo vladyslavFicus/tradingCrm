@@ -248,7 +248,7 @@ class EditOrderModal extends PureComponent {
       decimalsLengthDefault: digits,
     };
 
-    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
+    const symbols = symbolsQuery.data?.tradingEngineSymbols?.content || [];
 
     const isDisabled = status === OrderStatus.CANCELED;
 
@@ -325,7 +325,7 @@ class EditOrderModal extends PureComponent {
                           className="EditOrderModal__field"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                          disabled={isDisabled}
+                          disabled
                         >
                           {reasons.map(({ value, label }) => (
                             <option key={value} value={value}>{I18n.t(label)}</option>
@@ -521,11 +521,11 @@ class EditOrderModal extends PureComponent {
                         </If>
                         <Button
                           className="EditOrderModal__button"
-                          danger
+                          dangerOutline
                           onClick={this.handleDeleteOrder}
                           disabled={isDisabled || isSubmitting}
                         >
-                          {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL')}
+                          {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CANCEL_ORDER')}
                         </Button>
                       </div>
                     </fieldset>

@@ -19,6 +19,54 @@ class TradingEngineSymbols extends PureComponent {
     symbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.symbolsTradingEngineType)).isRequired,
   };
 
+  refetchSymbols = () => this.props.symbolsQuery.refetch();
+
+  handlePageChanged = () => {
+    const {
+      location: {
+        state,
+      },
+
+      symbolsQuery: {
+        data,
+        loadMore,
+        variables: {
+          args: {
+            page: {
+              size,
+            },
+          },
+        },
+      },
+    } = this.props;
+
+    const currentPage = data?.tradingEngineSymbols?.number || 0;
+    const filters = state?.filters || {};
+    const sorts = state?.sorts;
+
+    loadMore({
+      args: {
+        ...filters,
+        page: {
+          from: currentPage + 1,
+          size,
+          sorts,
+        },
+      },
+    });
+  };
+
+  handleSort = (sorts) => {
+    const { history, location: { state } } = this.props;
+
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
+    });
+  };
+
   renderName = ({ name }) => (
     <div className="TradingEngineSymbols__cell-primary">
       {name}
@@ -63,11 +111,14 @@ class TradingEngineSymbols extends PureComponent {
 
   render() {
     const {
-      location,
-      symbolsQuery,
+      location: { state },
+      symbolsQuery: {
+        data,
+        loading,
+      },
     } = this.props;
 
-    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
+    const { content = [], last = true, totalElements } = data?.tradingEngineSymbols || {};
 
     return (
       <div className="card">
@@ -75,7 +126,7 @@ class TradingEngineSymbols extends PureComponent {
 
         <div className="TradingEngineSymbols__header card-heading card-heading--is-sticky">
           <span className="font-size-20">
-            <strong>{symbols.length}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
+            <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
           <div className="TradingEngineSymbols__actions">
             <Link to="/trading-engine-admin/symbols/new-symbol">
@@ -90,13 +141,16 @@ class TradingEngineSymbols extends PureComponent {
           </div>
         </div>
 
-        <TradingEngineSymbolsGridFilter handleRefetch={symbolsQuery.refetch} />
+        <TradingEngineSymbolsGridFilter handleRefetch={this.refetchSymbols} />
 
         <div className="TradingEngineSymbols">
           <Table
-            items={symbols}
-            sorts={location?.state?.sorts}
-            loading={symbolsQuery.loading}
+            items={content}
+            sorts={state?.sorts}
+            loading={loading}
+            hasMore={!last}
+            onSort={this.handleSort}
+            onMore={this.handlePageChanged}
           >
             <Column
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SYMBOL')}

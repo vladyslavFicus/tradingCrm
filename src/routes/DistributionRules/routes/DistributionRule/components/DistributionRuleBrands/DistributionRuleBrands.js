@@ -92,6 +92,7 @@ class DistributionRuleBrands extends PureComponent {
   calculateSourceBrandAbsoluteClientsCount = async () => {
     const {
       brand: sourceBrand,
+      affiliateUuids,
       desks,
       teams,
       distributionUnit: { quantity: sourceBrandQuantity, baseUnit },
@@ -103,7 +104,7 @@ class DistributionRuleBrands extends PureComponent {
       return;
     }
 
-    const count = await this.fetchAvailableClientsAmount({ sourceBrand, desks, teams });
+    const count = await this.fetchAvailableClientsAmount({ sourceBrand, affiliateUuids, desks, teams });
 
     const sourceBrandAbsoluteClientsCount = Math.floor(count / 100 * sourceBrandQuantity);
 
@@ -113,6 +114,7 @@ class DistributionRuleBrands extends PureComponent {
   calculateTargetBrandAbsoluteClientsCount = async () => {
     const {
       brand: sourceBrand,
+      affiliateUuids,
       desks,
       teams,
       distributionUnit: { quantity: sourceBrandQuantity },
@@ -129,7 +131,7 @@ class DistributionRuleBrands extends PureComponent {
       return;
     }
 
-    const count = await this.fetchAvailableClientsAmount({ sourceBrand, desks, teams }, targetBrand);
+    const count = await this.fetchAvailableClientsAmount({ sourceBrand, affiliateUuids, desks, teams }, targetBrand);
 
     const sourceBrandAbsoluteClientsCount = Math.floor(count / 100 * sourceBrandQuantity);
     const targetBrandAbsoluteClientsCount = Math.floor(sourceBrandAbsoluteClientsCount / 100 * targetBrandQuantity);
@@ -177,6 +179,7 @@ class DistributionRuleBrands extends PureComponent {
           quantity: sourceBrandQuantity,
           baseUnit: sourceBrandBaseUnit,
         },
+        affiliateUuids,
         desks,
         teams,
       },
@@ -199,7 +202,7 @@ class DistributionRuleBrands extends PureComponent {
         operator: targetBrandConfig?.operatorEntity?.uuid,
       },
       fetchAvailableClientsAmount: targetBrandId => (
-        this.fetchAvailableClientsAmount({ sourceBrand, desks, teams }, targetBrandId)
+        this.fetchAvailableClientsAmount({ sourceBrand, affiliateUuids, desks, teams }, targetBrandId)
       ),
       handleSubmit: (values) => {
         handleTargetBrandConfig(values);

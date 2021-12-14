@@ -255,7 +255,7 @@ class PaymentsListFilters extends PureComponent {
                     >
                       {paymentMethods.map(value => (
                         <option key={value} value={value}>
-                          {formatLabel(value)}
+                          {formatLabel(value, false)}
                         </option>
                       ))}
                     </Field>

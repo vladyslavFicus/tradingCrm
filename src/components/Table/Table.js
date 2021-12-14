@@ -18,7 +18,7 @@ class Table extends PureComponent {
     loading: PropTypes.bool, // Flag to render loader while data loading from server, etc...
     notFound: PropTypes.node, // Custom not found react element
     scrollableTarget: PropTypes.string, // Selector to right working infinite scroll inside custom div or modal
-    customClassNameRow: PropTypes.oneOfType(PropTypes.string, PropTypes.func), // Custom class for row in table body
+    customClassNameRow: PropTypes.oneOfType([PropTypes.string, PropTypes.func]), // Custom class for row in table body
     stickyFromTop: PropTypes.number, // Number of pixels from top to stick header
     onSort: PropTypes.func, // Callback when sorting changed inside table
     onSelect: PropTypes.func, // Callback when select rows changed inside table

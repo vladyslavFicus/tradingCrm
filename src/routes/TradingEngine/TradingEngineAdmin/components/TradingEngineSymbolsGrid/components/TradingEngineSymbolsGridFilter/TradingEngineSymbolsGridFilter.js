@@ -49,12 +49,12 @@ class TradingEngineSymbolsGridFilter extends PureComponent {
       symbolsQuery,
     } = this.props;
 
-    const symbols = symbolsQuery.data?.tradingEngineSymbols || [];
+    const symbols = symbolsQuery.data?.tradingEngineSymbols?.content || [];
 
     return (
       <Formik
         enableReinitialize
-        initialValues={state?.filters || { tradeType: 'LIVE' }}
+        initialValues={state?.filters || {}}
         onSubmit={this.handleSubmit}
       >
         {({

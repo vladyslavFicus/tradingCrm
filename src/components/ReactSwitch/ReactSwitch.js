@@ -7,6 +7,7 @@ class ReactSwitch extends PureComponent {
   static propTypes = {
     on: PropTypes.bool,
     onClick: PropTypes.func,
+    onError: PropTypes.func,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     stopPropagation: PropTypes.bool,
@@ -22,6 +23,7 @@ class ReactSwitch extends PureComponent {
     disabled: false,
     stopPropagation: false,
     onClick: () => {},
+    onError: () => {},
     label: null,
     labelPosition: 'right',
   };
@@ -39,7 +41,7 @@ class ReactSwitch extends PureComponent {
   }
 
   handleClick = (e) => {
-    const { onClick, stopPropagation } = this.props;
+    const { onClick, stopPropagation, onError } = this.props;
 
     if (stopPropagation) {
       e.stopPropagation();
@@ -51,6 +53,10 @@ class ReactSwitch extends PureComponent {
       } catch (_) {
         // Revert changes if error has occurred
         this.setState(({ on }) => ({ on: !on }));
+
+        if (onError) {
+          onError(_);
+        }
       }
     });
   };
