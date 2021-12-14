@@ -7,7 +7,7 @@ import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { Button } from 'components/UI';
 import { FormikTimeRangeField } from 'components/Formik';
-import { DayOfWeek, SessionType } from '../../routes/TradingEngineNewSymbol/types';
+import { DayOfWeek, SessionType } from '../../types';
 import './ScheduleSettingsModal.scss';
 
 const validate = createValidator({
@@ -24,7 +24,7 @@ interface Props {
   onCloseModal: () => void,
   onSuccess: (values?: Object) => void,
   isOpen: boolean,
-  sessionType: SessionType.TRADE | SessionType.QUOTE,
+  sessionType: SessionType,
   formError: string,
   dayOfWeek: DayOfWeek,
   trade?: SymbolSessionWorkingHours,

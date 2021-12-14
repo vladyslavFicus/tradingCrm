@@ -7,7 +7,7 @@ import {
   FormikTextAreaField,
 } from 'components/Formik';
 import { backgroundColor, symbolTypeLabels } from '../../constants';
-import { FormValues, SymbolType } from '../../types';
+import { FormValues, SymbolType } from '../../../../types';
 import './SymbolSettings.scss';
 
 interface Props {

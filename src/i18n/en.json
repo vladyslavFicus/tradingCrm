@@ -3686,21 +3686,21 @@
     "NEW_SYMBOL": {
       "SYMBOL": "Symbol",
       "CALCULATION": "Calculation",
-      "CALCULATION_LABEL": {
-        "PROFIT_CALCULATION_FOREX": "Forex [(close_price-open_price) * contract_size * lots]",
+      "CALCULATION_LABELS": {
+        "PROFIT_CALCULATION_FOREX": "Forex [(close_price - open_price) * contract_size * lots]",
         "PROFIT_CALCULATION_CFD": "CFD [ (close_price - open_price) * contract_size * lots ]",
         "MARGIN_CALCULATION_FOREX": "Forex [lots * contract size/leverage * percentage/100]",
         "MARGIN_CALCULATION_CFD": "CFD [lots * contract_size * market_price * percentage / 100]"
       },
       "SWAPS": "Swaps",
-      "SWAPS_LABEL": {
+      "SWAPS_LABELS": {
         "POINTS": "in points",
         "MONEY_IN_ACCOUNT_CURRENCY": "in margin currency",
         "INTEREST_CURRENT_PRICE": "in interest rate"
       },
       "SESSIONS": "Sessions",
       "SYMBOL_LABEL": "Symbol",
-      "SYMBOL_TYPE_LABEL": {
+      "SYMBOL_TYPE_LABELS": {
         "FOREX": "Forex",
         "CFD": "CFD"
       },

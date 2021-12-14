@@ -7,7 +7,7 @@ import { withModals } from 'hoc';
 import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
 import { Table, Column } from 'components/Table';
-import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../types';
+import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../../../types';
 import { weekends } from '../../constants';
 import ScheduleSettingsModal from '../../../../modals/ScheduleSettingsModal';
 import './SessionsSettings.scss';
@@ -58,7 +58,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
     scheduleSettings.show({
       ...value,
       sessionType,
-      onSuccess: (data: SymbolSession) => this.handleSymbolSessionsChange(data),
+      onSuccess: this.handleSymbolSessionsChange,
     });
   };
 

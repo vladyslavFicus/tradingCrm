@@ -10,7 +10,7 @@ import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
-import { DayOfWeek, SymbolType, SwapType, FormValues } from './types';
+import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';
 import SymbolSettings from './components/SymbolSettings';
 import CalculationSettings from './components/CalculationSettings';
 import SwapsSettings from './components/SwapsSettings';
