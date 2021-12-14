@@ -201,7 +201,7 @@ class ClientsGrid extends PureComponent {
               <Uuid
                 className="ClientsGrid__text-secondary"
                 uuidPostfix="..."
-                length={12}
+                length={45}
                 uuid={source}
               />
             </div>
