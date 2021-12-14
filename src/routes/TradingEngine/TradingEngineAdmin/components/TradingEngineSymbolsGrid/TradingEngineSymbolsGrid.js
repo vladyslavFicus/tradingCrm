@@ -6,6 +6,8 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
+import { Button } from 'components/UI';
+import { Link } from 'components/Link';
 import { tradingEngineAdminTabs } from '../../constants';
 import TradingEngineSymbolsQuery from './graphql/TradingEngineSymbolsQuery';
 import TradingEngineSymbolsGridFilter from './components/TradingEngineSymbolsGridFilter';
@@ -122,10 +124,21 @@ class TradingEngineSymbols extends PureComponent {
       <div className="card">
         <Tabs items={tradingEngineAdminTabs} />
 
-        <div className="card-heading card-heading--is-sticky">
+        <div className="TradingEngineSymbols__header card-heading card-heading--is-sticky">
           <span className="font-size-20">
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
+          <div className="TradingEngineSymbols__actions">
+            <Link to="/trading-engine-admin/symbols/new-symbol">
+              <Button
+                className="TradingEngineAccountsGrid__action"
+                commonOutline
+                small
+              >
+                {I18n.t('TRADING_ENGINE.SYMBOLS.NEW_SYMBOL')}
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <TradingEngineSymbolsGridFilter handleRefetch={this.refetchSymbols} />

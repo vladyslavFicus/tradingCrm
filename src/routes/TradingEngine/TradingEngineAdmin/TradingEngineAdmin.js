@@ -5,6 +5,7 @@ import PropTypes from 'constants/propTypes';
 import Route from 'components/Route';
 import TradingEngineSymbolsGrid from './components/TradingEngineSymbolsGrid';
 import TradingEngineOrdersGrid from './components/TradingEngineOrdersGrid';
+import TradingEngineNewSymbol from './routes/TradingEngineNewSymbol';
 import TradingEngineSecuritiesGrid from './components/TradingEngineSecuritiesGrid';
 import './TradingEngineAdmin.scss';
 
@@ -27,7 +28,8 @@ class TradingEngineAdmin extends PureComponent {
           <div className="Client__tab-content">
             <Suspense fallback={null}>
               <Switch>
-                <Route path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
+                <Route exact path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
+                <Route path={`${path}/symbols/new-symbol`} component={TradingEngineNewSymbol} />
                 <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
                 <Route path={`${path}/securities`} component={TradingEngineSecuritiesGrid} />
                 <Redirect to={`${url}/symbols`} />
