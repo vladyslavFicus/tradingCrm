@@ -38,7 +38,7 @@ class TradingEngineSymbols extends PureComponent {
       },
     } = this.props;
 
-    const currentPage = data?.tradingEngineSymbols?.number || 0;
+    const currentPage = data?.tradingEngineAdminSymbols?.number || 0;
     const filters = state?.filters || {};
     const sorts = state?.sorts;
 
@@ -65,45 +65,100 @@ class TradingEngineSymbols extends PureComponent {
     });
   };
 
-  renderName = ({ name }) => (
+  renderName = ({ symbol }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {name}
+      {symbol}
     </div>
   );
 
-  renderSecurities = ({ securities }) => (
+  renderSecurities = ({ securityName }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {securities}
+      <Choose>
+        <When condition={securityName}>
+          {securityName}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
     </div>
   );
 
-  renderSpread = ({ spread }) => (
+  renderAskSpread = ({ askSpread }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {spread}
+      <Choose>
+        <When condition={askSpread}>
+          {askSpread}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
     </div>
   );
 
-  renderStop = ({ stop }) => (
+  renderBidSpread = ({ bidSpread }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {stop}
+      <Choose>
+        <When condition={bidSpread}>
+          {bidSpread}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
     </div>
   );
 
-  renderLong = ({ long }) => (
+  renderStop = ({ stopsLevel }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {long}
+      <Choose>
+        <When condition={stopsLevel}>
+          {stopsLevel}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
     </div>
   );
 
-  renderShort = ({ short }) => (
+  renderLong = ({ swapConfigs }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {short}
+      <Choose>
+        <When condition={swapConfigs?.long}>
+          {swapConfigs.long}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
+    </div>
+  );
+
+  renderShort = ({ swapConfigs }) => (
+    <div className="TradingEngineSymbols__cell-primary">
+      <Choose>
+        <When condition={swapConfigs?.short}>
+          {swapConfigs.short}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
     </div>
   );
 
   renderDigits = ({ digits }) => (
     <div className="TradingEngineSymbols__cell-primary">
-      {digits}
+      <Choose>
+        <When condition={digits}>
+          {digits}
+        </When>
+        <Otherwise>
+          &mdash;
+        </Otherwise>
+      </Choose>
     </div>
   );
 
@@ -116,7 +171,7 @@ class TradingEngineSymbols extends PureComponent {
       },
     } = this.props;
 
-    const { content = [], last = true, totalElements } = data?.tradingEngineSymbols || {};
+    const { content = [], last = true, totalElements } = data?.tradingEngineAdminSymbols || {};
 
     return (
       <div className="card">
@@ -148,8 +203,12 @@ class TradingEngineSymbols extends PureComponent {
               render={this.renderSecurities}
             />
             <Column
-              header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SPREAD')}
-              render={this.renderSpread}
+              header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SPREAD_ASK')}
+              render={this.renderAskSpread}
+            />
+            <Column
+              header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SPREAD_BID')}
+              render={this.renderBidSpread}
             />
             <Column
               header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.STOP')}
