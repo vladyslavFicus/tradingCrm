@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { omit, intersection } from 'lodash';
+import { intersection } from 'lodash';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
@@ -50,13 +50,7 @@ class LeadsGridFilter extends PureComponent {
   };
 
   get leadsSalesStatuses() {
-    return omit(salesStatuses, [
-      'DIALER_NA',
-      'DIALER_NEW',
-      'DIALER_ASSIGNED',
-      'DIALER_FAILED',
-      'DIALER_DROP',
-    ]);
+    return salesStatuses;
   }
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
