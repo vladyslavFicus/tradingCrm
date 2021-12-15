@@ -1,0 +1,13 @@
+.GroupsGrid {
+  background-color: #fff;
+
+  &__cell {
+    &-primary {
+      font-weight: 700;
+    }
+  }
+  
+  &__edit-button {
+    margin-right: 15px;
+  }
+}

@@ -10,6 +10,9 @@ const tradingEngineAdminTabs = [
   {
     url: '/trading-engine-admin/securities',
     label: 'TRADING_ENGINE.TABS.SECURITIES',
+  }, {
+    url: '/trading-engine-admin/groups',
+    label: 'TRADING_ENGINE.TABS.GROUPS',
   },
 ];
 
