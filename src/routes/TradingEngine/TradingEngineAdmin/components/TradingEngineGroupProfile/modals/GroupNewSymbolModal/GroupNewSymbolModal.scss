@@ -1,0 +1,20 @@
+.GroupNewSymbolModal {
+  &__description {
+    padding: 20px 15px 0 15px;
+  }
+
+  &__fields{
+    display: grid;
+    column-gap: 15px;
+    grid-template-columns: repeat(12, 1fr);
+  
+  }
+
+  &__field {
+    grid-column: span 6;
+
+    &--large {
+      grid-column: span 12;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+.GroupSecuritiesGrid {
+  background-color: #fff;
+  padding: 25px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  &__cell {
+    &-primary {
+      font-weight: 700;
+    }
+  }
+  
+  &__edit-button {
+    margin-right: 15px;
+  }
+}

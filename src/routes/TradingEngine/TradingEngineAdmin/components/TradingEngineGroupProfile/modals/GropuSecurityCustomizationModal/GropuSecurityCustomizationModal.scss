@@ -1,0 +1,29 @@
+.GropuSecurityCustomizationModal {
+  &__description {
+    padding: 20px 15px 0 15px;
+  }
+
+  &__fields{
+    display: grid;
+    column-gap: 15px;
+    grid-template-columns: repeat(12, 1fr);
+  
+  }
+
+  &__field {
+    grid-column: span 6;
+
+    &--small {
+      align-self: end;
+      grid-column: span 4;
+    }
+  }
+
+  &__title {
+    margin: 20px 0;
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+}

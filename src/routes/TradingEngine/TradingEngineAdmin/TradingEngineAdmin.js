@@ -7,6 +7,8 @@ import TradingEngineSymbolsGrid from './components/TradingEngineSymbolsGrid';
 import TradingEngineOrdersGrid from './components/TradingEngineOrdersGrid';
 import TradingEngineSecuritiesGrid from './components/TradingEngineSecuritiesGrid';
 import TradingEngineGroupsList from './components/TradingEngineGroupsList';
+import TradingEngineGroupProfile from './components/TradingEngineGroupProfile';
+
 import './TradingEngineAdmin.scss';
 
 class TradingEngineAdmin extends PureComponent {
@@ -32,6 +34,8 @@ class TradingEngineAdmin extends PureComponent {
                 <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
                 <Route path={`${path}/securities`} component={TradingEngineSecuritiesGrid} />
                 <Route exact path={`${path}/groups`} component={TradingEngineGroupsList} />
+                <Route path={`${path}/group/`} component={TradingEngineGroupProfile} />
+                <Route path={`${path}/group/:id`} component={TradingEngineGroupProfile} />
                 <Redirect to={`${url}/symbols`} />
               </Switch>
             </Suspense>
