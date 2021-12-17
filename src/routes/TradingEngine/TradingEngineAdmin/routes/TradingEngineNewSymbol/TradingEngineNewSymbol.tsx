@@ -32,7 +32,9 @@ interface SecurityData {
 }
 
 interface SymbolSourcesData {
-  tradingEngineAdminSymbolsSources: [],
+  tradingEngineAdminSymbolsSources: {
+    sourceName: string,
+  }[],
 }
 
 interface Props {

@@ -10,7 +10,9 @@ export interface Props {
 
 const REQUEST = gql`
   query TradingEngine_TradingEngineSymbolsSourcesQuery {
-    tradingEngineAdminSymbolsSources
+    tradingEngineAdminSymbolsSources {
+      sourceName
+    }
   }
 `;
 

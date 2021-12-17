@@ -11,7 +11,9 @@ import { FormValues, SymbolType } from '../../../../types';
 import './SymbolSettings.scss';
 
 interface Props {
-  symbolsSources: [],
+  symbolsSources: {
+    sourceName: string,
+  }[],
   securities: {
     name: string,
   }[],
@@ -58,9 +60,9 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
           withAnyOption
           searchable
         >
-          {symbolsSources.map(i => (
-            <option key={i} value={i}>
-              {i}
+          {symbolsSources.map(({ sourceName }) => (
+            <option key={sourceName} value={sourceName}>
+              {sourceName}
             </option>
           ))}
         </Field>
