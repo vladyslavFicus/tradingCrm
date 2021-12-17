@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
@@ -9,12 +8,14 @@ export interface Props {
 }
 
 const REQUEST = gql`
-  query TradingEngine_TradingEngineSymbolsSourcesQuery {
-    tradingEngineAdminSymbolsSources
+  query TradingEngineAdmin_TradingEngineSecuritiesQuery {
+    tradingEngineSecurities {
+      name
+    }
   }
 `;
 
-const SymbolsSourcesQuery = ({ children }: Props) => (
+const TradingEngineSecuritiesQuery = ({ children }: Props) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -23,8 +24,4 @@ const SymbolsSourcesQuery = ({ children }: Props) => (
   </Query>
 );
 
-SymbolsSourcesQuery.propTypes = {
-  children: PropTypes.func.isRequired,
-};
-
-export default SymbolsSourcesQuery;
+export default TradingEngineSecuritiesQuery;

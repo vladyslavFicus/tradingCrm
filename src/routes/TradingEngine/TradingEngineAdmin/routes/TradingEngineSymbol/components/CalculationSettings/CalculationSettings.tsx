@@ -12,21 +12,21 @@ const FiltrationSettings = () => (
   <div className="FiltrationSettings">
     <div className="CalculationSettings__header">
       <div className="CalculationSettings__section-title">
-        {I18n.t('TRADING_ENGINE.NEW_SYMBOL.CALCULATION')}
+        {I18n.t('TRADING_ENGINE.SYMBOL.CALCULATION')}
       </div>
     </div>
     <div className="CalculationSettings__field-container">
       <Field
         type="number"
         name="lotSize"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.CONTRACT_SIZE_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.CONTRACT_SIZE_LABEL')}
         className="CalculationSettings__field"
         component={FormikInputField}
       />
       <Field
         type="number"
         name="percentage"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.PERCENTAGE_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.PERCENTAGE_LABEL')}
         className="CalculationSettings__field"
         component={FormikInputField}
       />
@@ -36,7 +36,7 @@ const FiltrationSettings = () => (
       <Field
         name="marginCalculation"
         disabled
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.MARGIN_CALCULATION_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.MARGIN_CALCULATION_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         className="CalculationSettings__field"
         component={FormikSelectField}
@@ -51,7 +51,7 @@ const FiltrationSettings = () => (
       <Field
         name="profitCalculation"
         disabled
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.PROFIT_CALCULATION_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.PROFIT_CALCULATION_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         className="CalculationSettings__field"
         component={FormikSelectField}

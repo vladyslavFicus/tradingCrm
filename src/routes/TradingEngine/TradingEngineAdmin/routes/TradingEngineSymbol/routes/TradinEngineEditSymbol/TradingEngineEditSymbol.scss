@@ -1,0 +1,30 @@
+.TradingEngineEditSymbol {
+  padding: 25px;
+  background-color: #fff;
+
+  &__actions {
+    display: flex;
+  }
+
+  &__button {
+    margin: 25px 0 25px auto;
+    order: 2;
+  }
+
+  &__header {
+    display: flex;
+    padding: 25px;
+    align-items: center;
+    position: sticky;
+    top: 48px;
+    height: 110px;
+    z-index: 2;
+    background-color: #fff;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-weight: bolder;
+    font-size: 20px;
+  }
+}

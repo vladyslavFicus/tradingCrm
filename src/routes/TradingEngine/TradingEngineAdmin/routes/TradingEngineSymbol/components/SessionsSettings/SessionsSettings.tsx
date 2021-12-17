@@ -3,6 +3,7 @@ import I18n from 'i18n';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
+import { isEqual } from 'lodash';
 import { withModals } from 'hoc';
 import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
@@ -16,6 +17,7 @@ interface Props {
   modals: {
     scheduleSettings: Modal,
   },
+  symbolSessions: SymbolSession[],
 }
 
 class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
@@ -30,6 +32,12 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
       { dayOfWeek: DayOfWeek.SATURDAY },
     ],
   };
+
+  componentDidUpdate(prevProps: Props) {
+    if (!isEqual(this.props.symbolSessions, prevProps.symbolSessions)) {
+      this.props.symbolSessions.map(item => this.handleSymbolSessionsChange(item));
+    }
+  }
 
   handleSymbolSessionsChange = (value: SymbolSession) => {
     const { symbolSessions } = this.state;
@@ -77,7 +85,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
   renderDay = ({ dayOfWeek } : SymbolSession) => (
     <Choose>
       <When condition={!!dayOfWeek}>
-        <div className="SessionsSettings__day">{I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${dayOfWeek}`)}</div>
+        <div className="SessionsSettings__day">{I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}</div>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -130,7 +138,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
       <div className="SessionsSettings">
         <div className="SessionsSettings__section-header">
           <div className="SessionsSettings__section-title">
-            {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SESSIONS')}
+            {I18n.t('TRADING_ENGINE.SYMBOL.SESSIONS')}
           </div>
         </div>
 
@@ -143,17 +151,17 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
           }
         >
           <Column
-            header={I18n.t('TRADING_ENGINE.NEW_SYMBOL.GRID_HEADER.DAY')}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.DAY')}
             render={this.renderDay}
           />
           <Column
             width={470}
-            header={I18n.t('TRADING_ENGINE.NEW_SYMBOL.GRID_HEADER.QUOTES')}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.QUOTES')}
             render={this.renderQuotes}
           />
           <Column
             width={470}
-            header={I18n.t('TRADING_ENGINE.NEW_SYMBOL.GRID_HEADER.TRADE')}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.TRADE')}
             render={this.renderTrade}
           />
         </Table>

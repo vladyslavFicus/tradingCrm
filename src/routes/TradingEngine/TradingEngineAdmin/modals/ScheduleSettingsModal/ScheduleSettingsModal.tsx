@@ -87,12 +87,12 @@ class ScheduleSettingsModal extends PureComponent<Props> {
           ) => (
             <Form className="ScheduleSettingsModal">
               <ModalHeader toggle={onCloseModal}>
-                {`${I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${dayOfWeek}`)}
-                ${I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.TITLE')}`}
+                {`${I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}
+                ${I18n.t('TRADING_ENGINE.SYMBOL.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
                 <p className="ScheduleSettingsModal__message">
-                  {I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.MESSAGE')}
+                  {I18n.t('TRADING_ENGINE.SYMBOL.MODALS.SCHEDULE.MESSAGE')}
                 </p>
                 <Field
                   className="ScheduleSettingsModal__timeRange"
@@ -102,8 +102,8 @@ class ScheduleSettingsModal extends PureComponent<Props> {
                     to: 'closeTime',
                   }}
                   fieldsLabels={{
-                    from: I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.LABELS.WORKING_HOURS_FROM'),
-                    to: I18n.t('TRADING_ENGINE.NEW_SYMBOL.MODALS.SCHEDULE.LABELS.WORKING_HOURS_TO'),
+                    from: I18n.t('TRADING_ENGINE.SYMBOL.MODALS.SCHEDULE.LABELS.WORKING_HOURS_FROM'),
+                    to: I18n.t('TRADING_ENGINE.SYMBOL.MODALS.SCHEDULE.LABELS.WORKING_HOURS_TO'),
                   }}
                 />
               </ModalBody>

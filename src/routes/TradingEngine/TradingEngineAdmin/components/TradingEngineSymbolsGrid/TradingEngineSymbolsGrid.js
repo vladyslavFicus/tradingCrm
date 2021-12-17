@@ -68,9 +68,11 @@ class TradingEngineSymbols extends PureComponent {
   };
 
   renderName = ({ name }) => (
-    <div className="TradingEngineSymbols__cell-primary">
-      {name}
-    </div>
+    <Link to={`/trading-engine-admin/symbols/edit-symbol/${name}`} target="_blank">
+      <div className="TradingEngineSymbols__cell-primary">
+        {name}
+      </div>
+    </Link>
   );
 
   renderSecurities = ({ securities }) => (
