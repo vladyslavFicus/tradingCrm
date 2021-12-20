@@ -121,7 +121,8 @@ class Select extends PureComponent {
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    const { query, originalOptions, opened, children, value, multiple } = prevState;
+    const { query, originalOptions, opened, children, multiple } = prevState;
+    const { value } = nextProps;
     let options = originalOptions;
 
     if (!shallowEqual(children, nextProps.children) && !opened) {
