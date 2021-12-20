@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { getClickToCall } from 'config';
 import I18n from 'i18n-js';
 import { compose } from 'react-apollo';
+import { debounce } from 'lodash';
 import ToolTip from 'react-portal-tooltip';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -25,6 +26,8 @@ const TOOLTIP_STYLE = {
     left: '-12px',
   },
 };
+
+const debounceDelay = 1000;
 
 class Click2Call extends PureComponent {
   static propTypes = {
@@ -58,7 +61,7 @@ class Click2Call extends PureComponent {
       && !_clickToCall.coperato.isActive;
   };
 
-  handleDidLogicCall = async () => {
+  handleDidLogicCall = debounce(async () => {
     const { notify, uuid, field, type } = this.props;
 
     try {
@@ -70,9 +73,9 @@ class Click2Call extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
     }
-  };
+  }, debounceDelay, { leading: true, trailing: false });
 
-  handleAsteriskCall = prefix => async () => {
+  handleAsteriskCall = prefix => debounce(async () => {
     const { notify, uuid, field, type } = this.props;
 
     try {
@@ -84,9 +87,9 @@ class Click2Call extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
     }
-  };
+  }, debounceDelay, { leading: true, trailing: false });
 
-  handleCommpeakCall = prefix => async () => {
+  handleCommpeakCall = prefix => debounce(async () => {
     const { notify, uuid, field, type } = this.props;
 
     try {
@@ -98,9 +101,9 @@ class Click2Call extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
     }
-  };
+  }, debounceDelay, { leading: true, trailing: false });
 
-  handleCoperatoCall = prefix => async () => {
+  handleCoperatoCall = prefix => debounce(async () => {
     const { notify, uuid, field, type } = this.props;
 
     try {
@@ -112,7 +115,7 @@ class Click2Call extends PureComponent {
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
     }
-  };
+  }, debounceDelay, { leading: true, trailing: false });
 
   handleMouseEnter = () => {
     // Show tooltip with additional click2call providers if not only didlogic enabled

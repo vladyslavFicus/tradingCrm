@@ -191,8 +191,8 @@ class TradingEngineEditSymbol extends PureComponent<Props & RouteComponentProps>
             swapConfigs: {
               enable: swapConfigs?.enable || false,
               type: swapConfigs?.type || SwapType.POINTS,
-              long: 0.000000,
-              short: 0.000000,
+              long: swapConfigs?.long || 0.000000,
+              short: swapConfigs?.short || 0.000000,
               rollover: swapConfigs?.rollover || DayOfWeek.WEDNESDAY,
             },
             filtration: {

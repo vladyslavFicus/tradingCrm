@@ -3410,7 +3410,8 @@
       "ACCOUNTS": "Accounts",
       "ORDERS": "Orders",
       "SYMBOLS": "Symbols",
-      "SECURITIES": "Securities"
+      "SECURITIES": "Securities",
+      "GROUPS": "Groups"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
@@ -3792,7 +3793,8 @@
         "BID": "Bid",
         "ASK": "Ask",
         "SECURITIES": "Securities",
-        "SPREAD": "Spread",
+        "SPREAD_ASK": "Spread ask",
+        "SPREAD_BID": "Spread bid",
         "STOP": "Stop",
         "LONG": "Long",
         "SHORT": "Short",
@@ -4216,6 +4218,21 @@
           "CANCELED": "Canceled"
         }
       }
+    },
+    "GROUPS": {
+      "HEADLINE": "Groups",
+      "GRID": {
+        "NAME": "Name",
+        "COMPANY": "Company",
+        "MC_SO": "MC/SO",
+        "SECURITIES": "Securities",
+        "ACTIONS": "Actions"
+      },
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search By",
+        "SEARCH_BY_PLACEHOLDER": "Name, Description"
+      },
+      "NEW_GROUP": "+ New group"
     }
   },
   "NOTIFICATION_CENTER": {

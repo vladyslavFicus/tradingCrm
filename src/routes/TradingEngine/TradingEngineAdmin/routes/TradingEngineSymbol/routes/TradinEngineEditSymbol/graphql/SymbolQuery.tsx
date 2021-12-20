@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import { RouteComponentProps } from 'react-router-dom';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-export interface Props {
+export interface Props extends RouteComponentProps<{ id: string }> {
   children: ApolloComponentFn;
 }
 
@@ -58,7 +58,7 @@ const REQUEST = gql`
 `;
 
 const TradingEngineSecuritiesQuery = (
-  { children, match: { params: { id } } }: Props & RouteComponentProps<{ id: string }>,
+  { children, match: { params: { id } } }: Props,
 ) => (
   <Query
     query={REQUEST}

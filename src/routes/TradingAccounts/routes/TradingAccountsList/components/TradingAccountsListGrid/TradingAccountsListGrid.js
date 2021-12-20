@@ -50,13 +50,11 @@ class TradingAccountsListGrid extends PureComponent {
 
     const page = get(tradingAccountsData, 'data.tradingAccounts.number') || 0;
     const filters = state?.filters;
-    const archived = !!+state?.filters?.archived || undefined;
     const sorts = state?.sorts;
     const size = variables?.args?.page?.size;
 
     loadMore({
       ...filters,
-      archived,
       page: {
         from: page + 1,
         size,
