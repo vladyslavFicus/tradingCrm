@@ -1,36 +1,36 @@
-const profitCalculationLabel = [
+const profitCalculationLabels = [
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABEL.PROFIT_CALCULATION_FOREX',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABELS.PROFIT_CALCULATION_FOREX',
     value: 'FOREX',
   },
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABEL.PROFIT_CALCULATION_CFD',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABELS.PROFIT_CALCULATION_CFD',
     value: 'CFD',
   },
 ];
 
-const marginCalculationLabel = [
+const marginCalculationLabels = [
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABEL.MARGIN_CALCULATION_FOREX',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABELS.MARGIN_CALCULATION_FOREX',
     value: 'FOREX',
   },
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABEL.MARGIN_CALCULATION_CFD',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.CALCULATION_LABELS.MARGIN_CALCULATION_CFD',
     value: 'CFD',
   },
 ];
 
 const swapTypesLabels = [
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.SWAPS_LABEL.POINTS',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.SWAPS_LABELS.POINTS',
     value: 'POINTS',
   },
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.SWAPS_LABEL.MONEY_IN_ACCOUNT_CURRENCY',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.SWAPS_LABELS.MONEY_IN_ACCOUNT_CURRENCY',
     value: 'MONEY_IN_ACCOUNT_CURRENCY',
   },
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.SWAPS_LABEL.INTEREST_CURRENT_PRICE',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.SWAPS_LABELS.INTEREST_CURRENT_PRICE',
     value: 'INTEREST_CURRENT_PRICE',
   },
 ];
@@ -123,11 +123,11 @@ const backgroundColor = [
 
 const symbolTypeLabels = [
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.SYMBOL_TYPE_LABEL.FOREX',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.SYMBOL_TYPE_LABELS.FOREX',
     value: 'FOREX',
   },
   {
-    name: 'TRADING_ENGINE.NEW_SYMBOL.SYMBOL_TYPE_LABEL.CFD',
+    name: 'TRADING_ENGINE.NEW_SYMBOL.SYMBOL_TYPE_LABELS.CFD',
     value: 'CFD',
   },
 ];
@@ -135,8 +135,8 @@ const symbolTypeLabels = [
 const weekends = ['SUNDAY', 'SATURDAY'];
 
 export {
-  profitCalculationLabel,
-  marginCalculationLabel,
+  profitCalculationLabels,
+  marginCalculationLabels,
   swapTypesLabels,
   rolloverLabels,
   backgroundColor,

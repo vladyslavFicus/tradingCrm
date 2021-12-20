@@ -10,7 +10,7 @@ import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
-import { DayOfWeek, SymbolType, SwapType, FormValues } from './types';
+import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';
 import SymbolSettings from './components/SymbolSettings';
 import CalculationSettings from './components/CalculationSettings';
 import SwapsSettings from './components/SwapsSettings';
@@ -32,7 +32,9 @@ interface SecurityData {
 }
 
 interface SymbolSourcesData {
-  tradingEngineAdminSymbolsSources: [],
+  tradingEngineAdminSymbolsSources: {
+    sourceName: string,
+  }[],
 }
 
 interface Props {
@@ -199,52 +201,56 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
           }}
           onSubmit={this.handleSubmit}
         >
-          {(formik : FormikProps<FormValues>) => (
-            <Form className="TradingEngineNewSymbol__content">
-              <div className="TradingEngineNewSymbol__header">
-                <span className="TradingEngineNewSymbol__title">
-                  {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL')}
-                </span>
-                <div className="TradingEngineNewSymbol__actions">
-                  <Button
-                    type="submit"
-                    className="TradingEngineNewSymbol__button"
-                    small
-                    primary
-                    disabled={!formik.dirty && !formik.isSubmitting}
-                  >
-                    {I18n.t('COMMON.SAVE_CHANGES')}
-                  </Button>
+          {(formik : FormikProps<FormValues>) => {
+            const symbolSessionContainsErrors = formik.values?.symbolSessions.filter(({ error }) => error);
+
+            return (
+              <Form className="TradingEngineNewSymbol__content">
+                <div className="TradingEngineNewSymbol__header">
+                  <span className="TradingEngineNewSymbol__title">
+                    {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL')}
+                  </span>
+                  <div className="TradingEngineNewSymbol__actions">
+                    <Button
+                      type="submit"
+                      className="TradingEngineNewSymbol__button"
+                      small
+                      primary
+                      disabled={(!formik.dirty && !formik.isSubmitting) || symbolSessionContainsErrors.length}
+                    >
+                      {I18n.t('COMMON.SAVE_CHANGES')}
+                    </Button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="TradingEngineNewSymbol__column">
-                <SymbolSettings
-                  symbolsSources={symbolsSources}
-                  securities={securities}
-                  {...formik}
-                />
-              </div>
+                <div className="TradingEngineNewSymbol__column">
+                  <SymbolSettings
+                    symbolsSources={symbolsSources}
+                    securities={securities}
+                    {...formik}
+                  />
+                </div>
 
-              <div className="TradingEngineNewSymbol__column">
-                <CalculationSettings />
-              </div>
+                <div className="TradingEngineNewSymbol__column">
+                  <CalculationSettings />
+                </div>
 
-              <div className="TradingEngineNewSymbol__column">
-                <SwapsSettings />
-              </div>
+                <div className="TradingEngineNewSymbol__column">
+                  <SwapsSettings />
+                </div>
 
-              <div className="TradingEngineNewSymbol__column">
-                <SessionsSettings
-                  {...formik}
-                />
-              </div>
+                <div className="TradingEngineNewSymbol__column">
+                  <SessionsSettings
+                    {...formik}
+                  />
+                </div>
 
-              <div className="TradingEngineNewSymbol__column">
-                <FiltrationSettings />
-              </div>
-            </Form>
-          )}
+                <div className="TradingEngineNewSymbol__column">
+                  <FiltrationSettings />
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
     );

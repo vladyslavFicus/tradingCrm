@@ -5,7 +5,7 @@ import {
   FormikInputField,
   FormikSelectField,
 } from 'components/Formik';
-import { marginCalculationLabel, profitCalculationLabel } from '../../constants';
+import { marginCalculationLabels, profitCalculationLabels } from '../../constants';
 import './CalculationSettings.scss';
 
 const FiltrationSettings = () => (
@@ -42,7 +42,7 @@ const FiltrationSettings = () => (
         component={FormikSelectField}
         searchable
       >
-        {marginCalculationLabel.map(({ name, value }) => (
+        {marginCalculationLabels.map(({ name, value }) => (
           <option key={name} value={value}>
             {I18n.t(name)}
           </option>
@@ -57,7 +57,7 @@ const FiltrationSettings = () => (
         component={FormikSelectField}
         searchable
       >
-        {profitCalculationLabel.map(({ name, value }) => (
+        {profitCalculationLabels.map(({ name, value }) => (
           <option key={value} value={value}>
             {I18n.t(name)}
           </option>

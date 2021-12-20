@@ -3410,7 +3410,8 @@
       "ACCOUNTS": "Accounts",
       "ORDERS": "Orders",
       "SYMBOLS": "Symbols",
-      "SECURITIES": "Securities"
+      "SECURITIES": "Securities",
+      "GROUPS": "Groups"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
@@ -3686,14 +3687,14 @@
     "NEW_SYMBOL": {
       "SYMBOL": "Symbol",
       "CALCULATION": "Calculation",
-      "CALCULATION_LABEL": {
-        "PROFIT_CALCULATION_FOREX": "Forex [(close_price-open_price) * contract_size * lots]",
+      "CALCULATION_LABELS": {
+        "PROFIT_CALCULATION_FOREX": "Forex [(close_price - open_price) * contract_size * lots]",
         "PROFIT_CALCULATION_CFD": "CFD [ (close_price - open_price) * contract_size * lots ]",
         "MARGIN_CALCULATION_FOREX": "Forex [lots * contract size/leverage * percentage/100]",
         "MARGIN_CALCULATION_CFD": "CFD [lots * contract_size * market_price * percentage / 100]"
       },
       "SWAPS": "Swaps",
-      "SWAPS_LABEL": {
+      "SWAPS_LABELS": {
         "POINTS": "in points",
         "MONEY_IN_ACCOUNT_CURRENCY": "in margin currency",
         "INTEREST_CURRENT_PRICE": "in interest rate"
@@ -3704,7 +3705,7 @@
         "QUOTE_REQUIRED_ERROR": "Trade session cannot be without Quote session"
       },
       "SYMBOL_LABEL": "Symbol",
-      "SYMBOL_TYPE_LABEL": {
+      "SYMBOL_TYPE_LABELS": {
         "FOREX": "Forex",
         "CFD": "CFD"
       },
@@ -3786,7 +3787,8 @@
         "BID": "Bid",
         "ASK": "Ask",
         "SECURITIES": "Securities",
-        "SPREAD": "Spread",
+        "SPREAD_ASK": "Spread ask",
+        "SPREAD_BID": "Spread bid",
         "STOP": "Stop",
         "LONG": "Long",
         "SHORT": "Short",
@@ -4210,6 +4212,21 @@
           "CANCELED": "Canceled"
         }
       }
+    },
+    "GROUPS": {
+      "HEADLINE": "Groups",
+      "GRID": {
+        "NAME": "Name",
+        "COMPANY": "Company",
+        "MC_SO": "MC/SO",
+        "SECURITIES": "Securities",
+        "ACTIONS": "Actions"
+      },
+      "FILTER_FORM": {
+        "SEARCH_BY": "Search By",
+        "SEARCH_BY_PLACEHOLDER": "Name, Description"
+      },
+      "NEW_GROUP": "+ New group"
     }
   },
   "NOTIFICATION_CENTER": {

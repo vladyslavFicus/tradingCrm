@@ -7,15 +7,18 @@ const REQUEST = gql`
   query TradingEngineAdmin_TradingEngineSymbolsQuery(
     $args: TradingEngineSymbols__Input
   ) {
-    tradingEngineSymbols(args: $args) {
+    tradingEngineAdminSymbols(args: $args) {
       content {
-        name
-        securities
-        spread
-        stop
-        long
-        short
+        symbol
+        securityName
+        askSpread
+        bidSpread
+        stopsLevel
         digits
+        swapConfigs {
+          long
+          short
+        }
       }
       page
       number

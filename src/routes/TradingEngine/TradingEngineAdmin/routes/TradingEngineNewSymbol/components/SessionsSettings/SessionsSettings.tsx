@@ -8,7 +8,7 @@ import { withModals } from 'hoc';
 import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
 import { Table, Column } from 'components/Table';
-import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../types';
+import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../../../types';
 import { weekends } from '../../constants';
 import ScheduleSettingsModal from '../../../../modals/ScheduleSettingsModal';
 import './SessionsSettings.scss';
@@ -96,10 +96,12 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
     // Add/update data for a new or existing day
     symbolSessions.splice(matchIndex, 1, { ...symbolSessions[matchIndex], ...value });
 
-    this.setState({ symbolSessions: this.validationSymbolSessions(symbolSessions) });
+    const validatedSymbolSessions = this.validationSymbolSessions(symbolSessions);
+
+    this.setState({ symbolSessions: validatedSymbolSessions });
 
     // Get list of days which contains data in trade or quote
-    const symbolSessionsContainWorkingHours = symbolSessions.filter(
+    const symbolSessionsContainWorkingHours = validatedSymbolSessions.filter(
       item => Object.keys(item).some(i => ['trade', 'quote'].includes(i)),
     );
 
@@ -114,7 +116,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
     scheduleSettings.show({
       ...value,
       sessionType,
-      onSuccess: (data: SymbolSession) => this.handleSymbolSessionsChange(data),
+      onSuccess: this.handleSymbolSessionsChange,
     });
   };
 
@@ -193,7 +195,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
         {this.state.symbolSessions.map(
           ({ error, dayOfWeek }: SymbolSessionWithError) => error
             && (
-              <div className="SessionsSettings__message-error">
+              <div className="SessionsSettings__message-error" key={dayOfWeek}>
                 <strong>{I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${dayOfWeek}`)}: </strong> { error }
               </div>
             ),
