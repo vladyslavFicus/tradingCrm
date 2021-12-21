@@ -3703,6 +3703,10 @@
         "INTEREST_CURRENT_PRICE": "in interest rate"
       },
       "SESSIONS": "Sessions",
+      "SESSIONS_ERROR": {
+        "RANGE_ERROR": "The Trading session can not be longer than the Quote session",
+        "QUOTE_REQUIRED_ERROR": "Trade session cannot be without Quote session"
+      },
       "SYMBOL_LABEL": "Symbol",
       "SYMBOL_TYPE_LABELS": {
         "FOREX": "Forex",

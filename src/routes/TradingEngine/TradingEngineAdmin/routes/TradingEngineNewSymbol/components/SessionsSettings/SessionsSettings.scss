@@ -36,4 +36,13 @@
     opacity: 0.5;
     pointer-events: none;
   }
+
+  &--is-error {
+    border: 2px solid #fb434a;
+  }
+
+  &__message-error {
+    padding-bottom: 5px;
+    color: #fb434a;
+  }
 }
