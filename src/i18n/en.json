@@ -2583,7 +2583,10 @@
   "SIGN_IN": {
     "EMAIL": "Email",
     "PASSWORD": "Password",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "NEXT": "Next",
+    "OTP": "OTP",
+    "NEED_REGISTER_ACCOUNT": "Need to register account by Google Authenticator"
   },
   "CLIENT_PROFILE": {
     "TABS": {

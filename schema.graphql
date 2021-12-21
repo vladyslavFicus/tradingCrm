@@ -24,7 +24,7 @@ type AuthMutation {
   resetPassword(password: String!, token: String!): Boolean
   resetPermission(department: String!, role: String!): Boolean
   resetUserPassword(userUuid: String!): Boolean
-  signIn(login: String!, password: String!): SignIn
+  signIn(login: String!, otp: String, password: String!): SignIn
   tokenRenew: TokenRenew
   unlockLogin(uuid: String!): Boolean
   updateAuthorityActions(actions: [String]!, department: String!, isPermitted: Boolean!, role: String!): Boolean
@@ -845,6 +845,16 @@ type Pageable__TradingEngineOrder {
   totalPages: Int
 }
 
+type Pageable__TradingEngineSymbol {
+  content: [TradingEngineSymbol]
+  last: Boolean!
+  number: Int
+  page: Int!
+  size: Int!
+  totalElements: Int
+  totalPages: Int
+}
+
 type Pageable__TradingEngineTransaction {
   content: [TradingEngineTransaction]
   last: Boolean!
@@ -1324,9 +1334,11 @@ type Query {
   tradingEngineHistory(args: TradingEngineHistorySearch__Input): Pageable__TradingEngineHistory
   tradingEngineOrder(orderId: Int!): TradingEngineOrder
   tradingEngineOrders(args: TradingEngineSearch__Input): Pageable__TradingEngineOrder
+  tradingEngineSecurities: [TradingEngineSecurity]
+  tradingEngineSecurity(securityName: String!): TradingEngineSecurity
   tradingEngineSymbol(symbol: String!): TradingEngineSymbol
   tradingEngineSymbolPrices(size: Int, symbol: String!): [TradingEngineSymbolPrice]
-  tradingEngineSymbols: [TradingEngineSymbol]
+  tradingEngineSymbols(args: TradingEngineSymbols__Input): Pageable__TradingEngineSymbol
   tradingEngineTransactions(args: TradingEngineTransactionSearch__Input): Pageable__TradingEngineTransaction
   treeBranch(uuid: String!): HierarchyTreeBranchResponse
   treeTop: [HierarchyTreeBranch]
@@ -1487,10 +1499,11 @@ type TradingAccountMutation {
   approveChangingLeverage(accountUUID: String!): Boolean
   changeLeverage(accountUUID: String!, leverage: Int!): Boolean
   changePassword(accountUUID: String!, password: String!, profileUUID: String!): Boolean
-  create(accountType: String!, amount: Float, currency: String!, name: String!, password: String!, platformType: String!, profileId: String!): Boolean
+  create(accountType: String!, amount: Float, currency: String!, name: String!, password: String, platformType: String!, profileId: String!): Boolean
   rejectChangingLeverage(accountUUID: String!): Boolean
   rename(accountUUID: String!, name: String!): Boolean
   toggleDisabled(accountUUID: String!, readOnly: Boolean!): Boolean
+  unarchive(uuid: String!): Boolean
 }
 
 type TradingAccount__Affiliate {
@@ -1590,7 +1603,9 @@ type TradingEngineAccountSymbol {
 }
 
 type TradingEngineAdminMutation {
+  createSecurity(description: String, name: String!): Boolean
   editOrder(args: TradingEngineEditOrderAdmin__Input): Boolean
+  editSecurity(description: String, name: String!, securityName: String!): Boolean
   reopenOrder(orderId: Int!): Boolean
 }
 
@@ -1689,6 +1704,18 @@ type TradingEngineOrder__Time {
   creation: String
   expiration: String
   modification: String
+}
+
+type TradingEngineSecurities {
+  description: String
+  name: String
+  symbols: [String]
+}
+
+type TradingEngineSecurity {
+  description: String
+  name: String
+  symbols: [String]
 }
 
 type TradingEngineSymbol {
@@ -1837,10 +1864,10 @@ input Analytics__Input {
 input ClientSearch__Input {
   acquisitionStatus: String
   activityStatus: String
-  affiliateUuids: [String]
-  assignStatus: String
   affiliateFtd: Boolean
   affiliateFtdDateRange: ClientSearch__Input__AffiliateFTDDateRange
+  affiliateUuids: [String]
+  assignStatus: String
   balanceRange: ClientSearch__Input__Balance
   countries: [String]
   depositsCountRange: ClientSearch__Input__Deposit
@@ -1869,6 +1896,11 @@ input ClientSearch__Input {
   statuses: [String]
   teams: [String]
   warnings: [String]
+}
+
+input ClientSearch__Input__AffiliateFTDDateRange {
+  from: String
+  to: String
 }
 
 input ClientSearch__Input__Balance {
@@ -1912,11 +1944,6 @@ input ClientSearch__Input__LastTradeDateRange {
 }
 
 input ClientSearch__Input__RegistrationDateRange {
-  from: String
-  to: String
-}
-
-input ClientSearch__Input__AffiliateFTDDateRange {
   from: String
   to: String
 }
@@ -2259,6 +2286,11 @@ input TradingEngineSearch__Input {
 input TradingEngineSearch__Time__Input {
   from: String
   to: String
+}
+
+input TradingEngineSymbols__Input {
+  page: Page__Input
+  symbolNames: [String]
 }
 
 input TradingEngineTransactionSearch__Input {

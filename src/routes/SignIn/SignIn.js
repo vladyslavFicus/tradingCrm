@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import QRCode from 'react-qr-code';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { get } from 'lodash';
@@ -29,6 +30,9 @@ class SignIn extends PureComponent {
 
   state = {
     formError: '',
+    otpGenerationRequired: false,
+    otpRequired: false,
+    otpSecret: null,
   }
 
   handleSubmit = async (values, { setFieldValue }) => {
@@ -38,6 +42,17 @@ class SignIn extends PureComponent {
       history,
       modals: { changeUnauthorizedPasswordModal },
     } = this.props;
+
+    // Second step handler after OTP Generation Required step
+    if (this.state.otpGenerationRequired) {
+      this.setState({
+        otpGenerationRequired: false,
+        otpSecret: null,
+        otpRequired: true,
+      });
+
+      return;
+    }
 
     try {
       const signInData = await signIn({ variables: values });
@@ -49,6 +64,23 @@ class SignIn extends PureComponent {
       history.push('/brands');
     } catch (e) {
       const error = parseErrors(e);
+
+      // Show OTP generation step
+      if (error.error === 'error.validation.otp.initialization.required') {
+        this.setState({
+          otpGenerationRequired: true,
+          otpSecret: error.errorParameters['otp.secret'],
+        });
+
+        return;
+      }
+
+      // Show OTP validation step
+      if (error.error === 'error.validation.otp.required') {
+        this.setState({ otpRequired: true });
+
+        return;
+      }
 
       if (error.error === 'error.user.locked.password.expired') {
         changeUnauthorizedPasswordModal.show({
@@ -64,7 +96,12 @@ class SignIn extends PureComponent {
   }
 
   render() {
-    const { formError } = this.state;
+    const {
+      formError,
+      otpGenerationRequired,
+      otpRequired,
+      otpSecret,
+    } = this.state;
 
     const backofficeLogo = getBackofficeBrand().themeConfig.logo;
 
@@ -96,6 +133,7 @@ class SignIn extends PureComponent {
 
               <div className="SignIn__form-fields">
                 <Field
+                  disabled={otpGenerationRequired || otpRequired}
                   name="login"
                   type="email"
                   placeholder={I18n.t('SIGN_IN.EMAIL')}
@@ -103,12 +141,39 @@ class SignIn extends PureComponent {
                 />
 
                 <Field
+                  disabled={otpGenerationRequired || otpRequired}
                   name="password"
                   type="password"
                   placeholder={I18n.t('SIGN_IN.PASSWORD')}
                   component={FormikInputField}
                 />
+
+                <If condition={otpRequired}>
+                  <Field
+                    autoFocus
+                    name="otp"
+                    type="text"
+                    placeholder={I18n.t('SIGN_IN.OTP')}
+                    component={FormikInputField}
+                  />
+                </If>
               </div>
+
+              <If condition={otpGenerationRequired}>
+                <div className="SignIn__qrcode-container">
+                  <div className="SignIn__qrcode-title">{I18n.t('SIGN_IN.NEED_REGISTER_ACCOUNT')}</div>
+                  <QRCode
+                    size={128}
+                    value={`otpauth://totp/CRM?secret=${otpSecret}`}
+                    bgColor="#000000"
+                    fgColor="#FFFFFF"
+                    className="SignIn__qrcode"
+                  />
+                  <div className="SignIn__secret-code">
+                    {otpSecret}
+                  </div>
+                </div>
+              </If>
 
               <div className="SignIn__form-buttons">
                 <Button
@@ -117,7 +182,7 @@ class SignIn extends PureComponent {
                   disabled={isSubmitting}
                   type="submit"
                 >
-                  {I18n.t('SIGN_IN.LOGIN')}
+                  {I18n.t(otpGenerationRequired ? 'SIGN_IN.NEXT' : 'SIGN_IN.LOGIN')}
                 </Button>
               </div>
             </Form>
