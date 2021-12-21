@@ -16,6 +16,33 @@ import SelectSingleOptions from '../SelectSingleOptions/SelectSingleOptions';
 import SelectMultipleOptions from '../SelectMultipleOptions/SelectMultipleOptions';
 import './Select.scss';
 
+const filterOptions = options => (Array.isArray(options)
+  ? options
+    .filter(option => option.type === 'option')
+    .map(({ key, props: { value, children, ...props } }) => ({
+      label: children,
+      value,
+      key,
+      props,
+    }))
+    .sort((currentOption, nextOption) => +currentOption.props.disabled - +nextOption.props.disabled)
+  : []
+);
+
+const filterSelectedOptions = (options, selectedOptions, multiple) => (
+  multiple
+    ? options.filter(option => !selectedOptions.includes(option))
+    : options
+);
+
+const objectShallowEqual = (current, next) => {
+  if (!isObject(current) && !isObject(next)) {
+    return current === next;
+  }
+
+  return shallowEqual(current, next);
+};
+
 class Select extends PureComponent {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.node]).isRequired,
@@ -67,7 +94,7 @@ class Select extends PureComponent {
   constructor(props) {
     super(props);
 
-    const originalOptions = this.filterOptions(props.children);
+    const originalOptions = filterOptions(props.children);
     const selectedOptions = props.multiple
       ? originalOptions.filter(option => props.value.includes(option.value))
       : [originalOptions.find(option => option.value === props.value)].filter(option => option);
@@ -76,10 +103,16 @@ class Select extends PureComponent {
       opened: false,
       query: '',
       originalOptions,
-      options: this.filterSelectedOptions(originalOptions, selectedOptions, props.multiple),
+      options: filterSelectedOptions(originalOptions, selectedOptions, props.multiple),
       originalSelectedOptions: selectedOptions,
       selectedOptions,
       toSelectOptions: [],
+      // eslint-disable-next-line react/no-unused-state
+      children: props.children,
+      // eslint-disable-next-line react/no-unused-state
+      value: props.value,
+      // eslint-disable-next-line react/no-unused-state
+      multiple: props.multiple,
     };
 
     this.activeOptionRef = null;
@@ -87,33 +120,32 @@ class Select extends PureComponent {
     this.searchBarRef = null;
   }
 
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { query, originalOptions, opened } = this.state;
-    const { children, value, multiple } = this.props;
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    const { query, originalOptions, opened, children, multiple } = prevState;
+    const { value } = nextProps;
     let options = originalOptions;
 
     if (!shallowEqual(children, nextProps.children) && !opened) {
-      options = [...this.filterOptions(nextProps.children)];
+      options = [...filterOptions(nextProps.children)];
 
       const selectedOptions = multiple
         ? options.filter(option => value.includes(option.value))
         : [options.find(option => option.value === value)].filter(option => option);
 
-      this.updateState({
+      return {
         originalOptions: options,
-        options: this.filterSelectedOptions(filterOptionsByQuery(query, [...options]), selectedOptions, multiple),
+        options: filterSelectedOptions(filterOptionsByQuery(query, [...options]), selectedOptions, multiple),
         selectedOptions,
         originalSelectedOptions: selectedOptions,
         toSelectOptions: [],
-      });
+        children: nextProps.children,
+        value: nextProps.value,
+        multiple: nextProps.multiple,
+      };
     }
 
-    if (!this.shallowEqual(value, nextProps.value) && !opened) {
-      const opts = [...this.filterOptions(nextProps.children)];
+    if (!objectShallowEqual(value, nextProps.value) && !opened) {
+      const opts = [...filterOptions(nextProps.children)];
       // happened when after choosing value, we add more options to select
       if (opts.length > options) {
         options = opts;
@@ -123,13 +155,22 @@ class Select extends PureComponent {
         ? options.filter(option => nextProps.value.includes(option.value))
         : [options.find(option => option.value === nextProps.value)].filter(option => option);
 
-      this.updateState({
+      return {
         ...(opts.length > options && { originalOptions: opts }),
-        options: this.filterSelectedOptions(options, originalSelectedOptions, nextProps.multiple),
+        options: filterSelectedOptions(options, originalSelectedOptions, nextProps.multiple),
         originalSelectedOptions,
         selectedOptions: filterOptionsByQuery(query, originalSelectedOptions),
-      });
+        children,
+        value,
+        multiple,
+      };
     }
+
+    return prevState;
+  }
+
+  componentDidMount() {
+    this.mounted = true;
   }
 
   componentWillUnmount() {
@@ -140,14 +181,6 @@ class Select extends PureComponent {
     if (this.mounted) {
       this.setState(...args);
     }
-  };
-
-  shallowEqual = (current, next) => {
-    if (!isObject(current) && !isObject(next)) {
-      return current === next;
-    }
-
-    return shallowEqual(current, next);
   };
 
   bindRef = name => (node) => {
@@ -432,25 +465,6 @@ class Select extends PureComponent {
       });
     }
   };
-
-  filterOptions = options => (Array.isArray(options)
-    ? options
-      .filter(option => option.type === 'option')
-      .map(({ key, props: { value, children, ...props } }) => ({
-        label: children,
-        value,
-        key,
-        props,
-      }))
-      .sort((currentOption, nextOption) => +currentOption.props.disabled - +nextOption.props.disabled)
-    : []
-  );
-
-  filterSelectedOptions = (options, selectedOptions, multiple) => (
-    multiple
-      ? options.filter(option => !selectedOptions.includes(option))
-      : options
-  );
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;

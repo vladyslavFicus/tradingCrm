@@ -3718,7 +3718,99 @@
         "SYMBOLS": "Symbols"
       }
     },
+    "NEW_SYMBOL": {
+      "SYMBOL": "Symbol",
+      "CALCULATION": "Calculation",
+      "CALCULATION_LABELS": {
+        "PROFIT_CALCULATION_FOREX": "Forex [(close_price - open_price) * contract_size * lots]",
+        "PROFIT_CALCULATION_CFD": "CFD [ (close_price - open_price) * contract_size * lots ]",
+        "MARGIN_CALCULATION_FOREX": "Forex [lots * contract size/leverage * percentage/100]",
+        "MARGIN_CALCULATION_CFD": "CFD [lots * contract_size * market_price * percentage / 100]"
+      },
+      "SWAPS": "Swaps",
+      "SWAPS_LABELS": {
+        "POINTS": "in points",
+        "MONEY_IN_ACCOUNT_CURRENCY": "in margin currency",
+        "INTEREST_CURRENT_PRICE": "in interest rate"
+      },
+      "SESSIONS": "Sessions",
+      "SYMBOL_LABEL": "Symbol",
+      "SYMBOL_TYPE_LABELS": {
+        "FOREX": "Forex",
+        "CFD": "CFD"
+      },
+      "SOURCE_LABEL": "Source",
+      "DIGITS_LABEL": "Digits",
+      "DESCRIPTION_LABEL": "Description",
+      "SECURITY_LABEL": "Security",
+      "TYPE_LABEL": "Type",
+      "BASE_CURRENCY_LABEL": "Base currency",
+      "QUOTE_CURRENCY_LABEL": "Quote currency",
+      "BACKGROUND_LABEL": "Background",
+      "SPREAD_BID_LABEL": "Spread bid",
+      "SPREAD_ASK_LABEL": "Spread ask",
+      "LIMIT_STOP_LABEL": "Limit & Stop Level",
+      "CONTRACT_SIZE_LABEL": "Contract size",
+      "PERCENTAGE_LABEL": "Percentage",
+      "MARGIN_CALCULATION_LABEL": "Margin calculation",
+      "PROFIT_CALCULATION_LABEL": "Profit calculation",
+      "ENABLE_LABEL": "Enable",
+      "LONG_POSITIONS_LABEL": "Long positions",
+      "SHORT_POSITIONS_LABEL": "Short positions",
+      "3_DAYS_SWAP_LABEL": "3-days swap",
+      "FILTRATION": "Filtration",
+      "SOFT_FILTRATION_LEVEL": "Soft filtration Level",
+      "FILTER": "Filter",
+      "HARD_FILTRATION_LEVEL": "Hard filtration Level",
+      "DISCARD_FILTRATION_LEVEL": "Discard filtration level",
+      "SMOOTHING": "Smoothing",
+      "WEEK": {
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday"
+      },
+      "GRID_HEADER": {
+        "DAY": "Day",
+        "QUOTES": "Quotes",
+        "TRADE": "Trade"
+      },
+      "MODALS": {
+        "SCHEDULE": {
+          "TITLE": "trade settings",
+          "LABELS": {
+            "WORKING_HOURS_FROM": "from",
+            "WORKING_HOURS_TO": "to"
+          },
+          "MESSAGE": "Working Hour"
+        }
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Symbol has been successfully created",
+        "FAILED": "Symbol creation failed",
+        "FAILED_EXIST": "Symbol with this name already exists."
+      },
+      "BACKGROUND_COLOR": {
+        "RED": "red",
+        "CYAN": "cyan",
+        "BLUE": "blue",
+        "DARK_BLUE": "dark blue",
+        "LIGHT_BLUE": "light blue",
+        "LIME": "lime",
+        "MAGENTA": "magenta",
+        "PINK": "pink",
+        "SILVER": "silver",
+        "GRAY": "gray",
+        "ORANGE": "orange",
+        "GREEN": "green",
+        "AQUAMARINE": "aquamarine"
+      }
+    },
     "SYMBOLS": {
+      "NEW_SYMBOL": "+ New symbol",
       "HEADLINE": "Symbols",
       "GRID": {
         "SYMBOL": "Symbol",

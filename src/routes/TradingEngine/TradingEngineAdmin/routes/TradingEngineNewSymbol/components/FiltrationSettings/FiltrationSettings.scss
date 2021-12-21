@@ -1,0 +1,39 @@
+.FiltrationSettings {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 25px;
+  margin-bottom: 20px;
+
+  &__field {
+    width: 100%;
+    margin-right: 15px;
+    margin-bottom: 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &--small {
+      width: 33%;
+    }
+  }
+
+  &__field-container {
+    width: 100%;
+    display: flex;
+    flex: 1 1;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  &__section-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__section-title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+}
