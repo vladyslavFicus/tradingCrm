@@ -11,7 +11,7 @@ import { DayOfWeek, SessionType } from '../../types';
 import './ScheduleSettingsModal.scss';
 
 const validate = createValidator({
-  openTime: ['required', 'string'],
+  openTime: ['required', 'string', 'validTimeRange:closeTime'],
   closeTime: ['required', 'string'],
 });
 
