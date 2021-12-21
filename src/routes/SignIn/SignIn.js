@@ -69,7 +69,7 @@ class SignIn extends PureComponent {
       if (error.error === 'error.validation.otp.initialization.required') {
         this.setState({
           otpGenerationRequired: true,
-          otpSecret: error.errorParameters.otp.secret,
+          otpSecret: error.errorParameters['otp.secret'],
         });
 
         return;
