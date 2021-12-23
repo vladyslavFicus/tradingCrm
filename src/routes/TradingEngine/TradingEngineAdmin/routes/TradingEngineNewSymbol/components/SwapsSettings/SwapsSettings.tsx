@@ -73,4 +73,4 @@ const SwapsSettings = () => (
   </div>
 );
 
-export default React.memo(SwapsSettings);
+export default SwapsSettings;
