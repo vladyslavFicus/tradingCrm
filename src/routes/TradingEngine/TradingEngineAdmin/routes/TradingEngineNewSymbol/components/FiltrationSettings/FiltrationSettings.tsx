@@ -76,4 +76,4 @@ const FiltrationSettings = () => (
   </div>
 );
 
-export default FiltrationSettings;
+export default React.memo(FiltrationSettings);
