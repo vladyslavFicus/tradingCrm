@@ -5,6 +5,7 @@ import { compose } from 'react-apollo';
 import { debounce } from 'lodash';
 import ToolTip from 'react-portal-tooltip';
 import { withRequests } from 'apollo';
+import Trackify from '@hrzn/trackify';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
 import DidlogicCreateCall from './graphql/DidlogicCreateCall';
@@ -28,6 +29,8 @@ const TOOLTIP_STYLE = {
 };
 
 const debounceDelay = 3000;
+
+const sendAnalitics = uuid => Trackify.click('CLICK_TO_CALL', { eventLabel: uuid });
 
 class Click2Call extends PureComponent {
   static propTypes = {
@@ -66,6 +69,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.clickToCall({ variables: { uuid, field, type } });
+      sendAnalitics(uuid);
     } catch (e) {
       notify({
         level: 'error',
@@ -80,6 +84,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.asteriskCreateCall({ variables: { uuid, field, type, prefix } });
+      sendAnalitics(uuid);
     } catch (e) {
       notify({
         level: 'error',
@@ -94,6 +99,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.commpeakCreateCall({ variables: { uuid, field, type, prefix } });
+      sendAnalitics(uuid);
     } catch (e) {
       notify({
         level: 'error',
@@ -108,6 +114,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.coperatoCreateCall({ variables: { uuid, field, type, prefix } });
+      sendAnalitics(uuid);
     } catch (e) {
       notify({
         level: 'error',
