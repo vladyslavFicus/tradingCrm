@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { QueryResult } from 'react-apollo';
 import { withRequests } from 'apollo';
-import { omit } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { LevelType, Notify } from 'types/notify';
@@ -55,21 +54,24 @@ const GroupNewSecurityModal = ({
     onCloseModal();
   };
 
-  // TODO: fix type any
-  const handleSecurityChange = (value: number, setFieldValue: any) => {
-    const security = securities.find(({ id }): Security => id === value) || {};
-    setFieldValue('security', omit(security, '__typename'));
+  const handleSecurityChange = (value: string, setFieldValue: FormikProps<Security>) => {
+    const { id, name } = securities.find(security => security.id === value) || {};
+
+    setFieldValue('security.id', id);
+    setFieldValue('security.name', name);
   };
 
   return (
-    <Modal className="GroupNewSecurityModal" toggle={onCloseModal} isOpen={isOpen} keyboard={false}>
+    <Modal
+      className="GroupNewSecurityModal"
+      toggle={onCloseModal}
+      isOpen={isOpen}
+    >
       <Formik
         initialValues={{
-          securityId: Date.now(),
           security: {
             id: '',
             name: '',
-            description: '',
           },
           show: true,
           spreadDiff: SpreadDiff.SPRED_0,
@@ -81,7 +83,9 @@ const GroupNewSecurityModal = ({
           commissionLots: GroupCommissionLots.LOT,
         }}
         validate={createValidator({
-          security: 'required',
+          security: {
+            id: 'required',
+          },
         })}
         validateOnChange={false}
         validateOnBlur={false}
@@ -100,16 +104,16 @@ const GroupNewSecurityModal = ({
 
             <ModalBody>
               <Field
-                name="security"
+                name="security.id"
                 label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.SECURITY')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
                 searchable
-                customOnChange={(value: number) => handleSecurityChange(value, setFieldValue)}
+                customOnChange={(id: string) => handleSecurityChange(id, setFieldValue)}
               >
-                {securities.map(({ id, name, description }) => (
+                {securities.map(({ id, name }) => (
                   <option key={id} value={id}>
-                    {`${name}  ${description}`}
+                    {name}
                   </option>
                 ))}
               </Field>

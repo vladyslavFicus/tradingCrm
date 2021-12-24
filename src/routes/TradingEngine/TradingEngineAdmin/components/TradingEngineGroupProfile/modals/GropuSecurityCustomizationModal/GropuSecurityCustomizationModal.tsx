@@ -13,7 +13,7 @@ import { COMMISION_TYPES, COMMISION_LOTS, SPRED_DIFFERANCE, LOT_MIN, LOT_MAX, LO
 import './GropuSecurityCustomizationModal.scss';
 
 interface Props {
-  security: GroupSecurity,
+  editableGroupSecurity: GroupSecurity,
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const GropuSecurityCustomizationModal = ({
-  security,
+  editableGroupSecurity,
   isOpen,
   notify,
   onCloseModal,
@@ -42,10 +42,9 @@ const GropuSecurityCustomizationModal = ({
       className="GropuSecurityCustomizationModal"
       toggle={onCloseModal}
       isOpen={isOpen}
-      keyboard={false}
     >
       <Formik
-        initialValues={security}
+        initialValues={editableGroupSecurity}
         validate={createValidator(
           {
             commissionBase: ['required', 'numeric', 'min:-100000', 'max:100000'],
@@ -144,29 +143,32 @@ const GropuSecurityCustomizationModal = ({
                 <Field
                   name="commissionBase"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_COSTOMISATION_SECURITY_MODAL.STANDART')}
-                  className="GropuSecurityCustomizationModal__field--small"
+                  className="GropuSecurityCustomizationModal__field--small "
                   component={FormikInputField}
-                  type="text"
+                  digitsAfterDot={2}
+                  type="number"
                 />
                 <Field
                   name="commissionType"
+                  label=""
                   className="GropuSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >
-                  {COMMISION_TYPES.map(({ label, value }) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
+                  {
+                    Object.entries(COMMISION_TYPES).map(([key, value]) => (
+                      <option key={key} value={key}>
+                        {value}
+                      </option>
+                    ))}
                 </Field>
                 <Field
                   name="commissionLots"
                   className="GropuSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >
-                  {COMMISION_LOTS.map(({ label, value }) => (
-                    <option key={value} value={value}>
-                      {label}
+                  {Object.entries(COMMISION_LOTS).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
                     </option>
                   ))}
                 </Field>

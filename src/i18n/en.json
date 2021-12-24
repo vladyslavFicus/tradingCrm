@@ -4254,7 +4254,7 @@
       "HEADLINE": "Groups",
       "GRID": {
         "NAME": "Name",
-        "COMPANY": "Company",
+        "DESCRIPTION": "Description",
         "MC_SO": "MC/SO",
         "SECURITIES": "Securities",
         "ACTIONS": "Actions"
@@ -4263,10 +4263,34 @@
         "SEARCH_BY": "Search By",
         "SEARCH_BY_PLACEHOLDER": "Name, Description"
       },
-      "NEW_GROUP": "+ New group"
+      "NEW_GROUP": "+ New group",
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete group",
+          "DESCRIPTION": "Are you sure that you want to delete group {{groupName}}?"
+        }
+      },
+      "NOTIFICATION": {
+        "DELETE": {
+          "SUCCESS": "Group deleted successfully",
+          "FAILED": "Group did not delete for some reasons"
+        }
+      }
     },
     "GROUP_PROFILE": {
+      "GROUP": "Group",
       "NEW_GROUP": "New group",
+      "NOTIFICATION": {
+        "CREATE": {
+          "SUCCESS": "Group has been successfully created",
+          "FAILED": "Group creation failed",
+          "FAILED_EXIST": "Group with this name already exists."
+        },
+        "EDIT": {
+          "SUCCESS": "Group has been successfully edited",
+          "FAILED": "Group edit failed"
+        }
+      },
       "COMMON_GROUP_FORM": {
         "TITLE": "Common",
         "ENABLE": "Enable",

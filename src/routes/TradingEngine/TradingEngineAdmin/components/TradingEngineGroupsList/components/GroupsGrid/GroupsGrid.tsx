@@ -1,14 +1,25 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
+import { withRequests } from 'apollo';
+import { MutationResult, MutationOptions } from 'react-apollo';
 import { useHistory, useLocation } from 'react-router-dom';
-import { State, Sort } from 'types';
+import { withNotifications, withModals } from 'hoc';
+import { State, Sort, Modal, LevelType, Notify } from 'types';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
 import { GroupsQueryResult, Group, GroupSecurities, GroupFilters } from '../../types/group';
+import DeleteGroupMutation from '../../graphql/DeleteGroupMutation';
 import './GroupsGrid.scss';
 
 interface Props {
   groupsListQuery: GroupsQueryResult,
+  notify: Notify,
+  deleteGroup: (options: MutationOptions) => MutationResult<{ deleteGroup: null }>,
+  modals: {
+    confirmationModal: Modal,
+  },
 }
 
 const renderName = ({ groupName }: Group) => (
@@ -17,7 +28,7 @@ const renderName = ({ groupName }: Group) => (
   </div>
 );
 
-const renderCompany = ({ brand }: Group) => (
+const renderDescription = ({ brand }: Group) => (
   <div className="GroupsGrid__cell-primary">
     {brand}
   </div>
@@ -29,8 +40,8 @@ const renderMCSO = ({ marginCallLevel, stopoutLevel }: Group) => (
   </div>
 );
 
-const renderSecurities = ({ groupSecurities = [] }: Group) => {
-  const securities = groupSecurities
+const renderSecurities = ({ groupSecurities }: Group) => {
+  const securities = (groupSecurities || [])
     .map(({ security }: GroupSecurities) => security.name)
     .join(', ');
 
@@ -39,26 +50,37 @@ const renderSecurities = ({ groupSecurities = [] }: Group) => {
   );
 };
 
-const renderActions = (handleEditClick: Function, handleDeleteClick: Function) => (
+const renderActions = (
+  groupName: String,
+  handleEditGroupClick: Function,
+  handleDeleteGroupModal: (groupName: string) => void,
+) => (
   <>
     <EditButton
-      onClick={handleEditClick}
+      onClick={() => handleEditGroupClick(groupName)}
       className="GroupsGrid__edit-button"
     />
     <Button
       transparent
-      onClick={handleDeleteClick}
+      onClick={() => handleDeleteGroupModal(groupName)}
     >
       <i className="fa fa-trash btn-transparent color-danger" />
     </Button>
   </>
 );
 
-const GroupsGrid = ({ groupsListQuery }: Props) => {
+const GroupsGrid = ({
+  groupsListQuery,
+  modals: {
+    confirmationModal,
+  },
+  deleteGroup,
+  notify,
+}: Props) => {
   const { state } = useLocation<State<GroupFilters>>();
   const history = useHistory();
 
-  const { loading, data: groupsListData } = groupsListQuery || {};
+  const { loading, data: groupsListData, refetch } = groupsListQuery || {};
   const {
     content = [],
     totalElements,
@@ -66,12 +88,37 @@ const GroupsGrid = ({ groupsListQuery }: Props) => {
     number = 0,
   } = groupsListData?.tradingEngineAdminGroups || {};
 
-  const handleDeleteClick = () => {
-    // TODO: handleDelete
+  const handleDeleteGroup = async (groupName: string) => {
+    try {
+      await deleteGroup({ variables: { groupName } });
+
+      await refetch();
+      confirmationModal.hide();
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.SUCCESS'),
+      });
+    } catch (e) {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.FAILED'),
+      });
+    }
   };
 
-  const handleEditClick = () => {
-    // TODO: handleEdit
+  const handleDeleteGroupModal = (groupName: string) => {
+    confirmationModal.show({
+      onSubmit: () => handleDeleteGroup(groupName),
+      modalTitle: I18n.t('TRADING_ENGINE.GROUPS.CONFIRMATION.DELETE.TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.GROUPS.CONFIRMATION.DELETE.DESCRIPTION', { groupName }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
+  };
+
+  const handleEditGroupClick = (groupName: string) => {
+    history.push(`/trading-engine-admin/groups/edit-group/${groupName}`);
   };
 
   const handleSort = (sorts: Sort) => {
@@ -122,8 +169,8 @@ const GroupsGrid = ({ groupsListQuery }: Props) => {
         />
         <Column
           width={300}
-          header={I18n.t('TRADING_ENGINE.GROUPS.GRID.COMPANY')}
-          render={renderCompany}
+          header={I18n.t('TRADING_ENGINE.GROUPS.GRID.DESCRIPTION')}
+          render={renderDescription}
         />
         <Column
           width={100}
@@ -137,9 +184,10 @@ const GroupsGrid = ({ groupsListQuery }: Props) => {
         <Column
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
-          render={() => renderActions(
-            handleEditClick,
-            handleDeleteClick,
+          render={({ groupName }) => renderActions(
+            groupName,
+            handleEditGroupClick,
+            handleDeleteGroupModal,
           )}
         />
       </Table>
@@ -147,4 +195,12 @@ const GroupsGrid = ({ groupsListQuery }: Props) => {
   );
 };
 
-export default React.memo(GroupsGrid);
+export default compose(
+  withModals({
+    confirmationModal: ConfirmActionModal,
+  }),
+  withRequests({
+    deleteGroup: DeleteGroupMutation,
+  }),
+  withNotifications,
+)(React.memo(GroupsGrid));

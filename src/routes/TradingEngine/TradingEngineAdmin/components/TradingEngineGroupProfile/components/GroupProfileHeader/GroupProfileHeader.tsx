@@ -1,24 +1,40 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import Uuid from 'components/Uuid';
+import { FormikProps } from 'formik';
+import ReactPlaceholder from 'react-placeholder';
+import { TextRow } from 'react-placeholder/lib/placeholders';
+import { Button } from 'components/UI';
+import { Group } from '../../types';
 import './GroupProfileHeader.scss';
 
 interface Props {
-  uuid?: string,
-  title?: string,
+  formik: FormikProps<Group>,
+  isEditGroupPage: boolean,
 }
 
-const GroupProfileHeader = ({ uuid = '', title }: Props) => (
-  <div className="GroupProfileHeader">
-    <div className="GroupProfileHeader__topic">
+const GroupProfileHeader = ({ isEditGroupPage, formik }: Props) => {
+  const { dirty, isSubmitting, isValid, values } = formik;
+  const groupName = values?.groupName || '';
+
+  return (
+    <div className="GroupProfileHeader">
       <Choose>
-        <When condition={Boolean(uuid)}>
-          <div className="GroupProfileHeader__title">
-            {title}
-          </div>
-          <div className="GroupProfileHeader__uuid">
-            <Uuid uuid={uuid} />
-          </div>
+        <When condition={isEditGroupPage}>
+          <ReactPlaceholder
+            ready={Boolean(groupName)}
+            customPlaceholder={(
+              <div>
+                <TextRow
+                  className="animated-background"
+                  style={{ width: '220px', height: '20px' }}
+                />
+              </div>
+            )}
+          >
+            <div className="GroupProfileHeader__title">
+              {groupName}
+            </div>
+          </ReactPlaceholder>
         </When>
         <Otherwise>
           <div className="GroupProfileHeader__title">
@@ -26,8 +42,16 @@ const GroupProfileHeader = ({ uuid = '', title }: Props) => (
           </div>
         </Otherwise>
       </Choose>
+      <Button
+        small
+        primary
+        disabled={!dirty || isSubmitting || !isValid}
+        type="submit"
+      >
+        {I18n.t('COMMON.SAVE')}
+      </Button>
     </div>
-  </div>
-);
+  );
+};
 
 export default React.memo(GroupProfileHeader);

@@ -16,13 +16,13 @@ const GroupArchivingForm = () => (
       </div>
       <Field
         label={I18n.t('TRADING_ENGINE.GROUP_PROFILE.ARCHIVING_GROUP_FORM.INACTIVITY_PERIOD')}
-        name="archivePeriod"
+        name="archivePeriodDays"
         component={FormikSelectField}
         className="GroupArchivingForm__field"
       >
-        {ARCHIVE_PERIOD.map(({ label, value }) => (
-          <option key={value} value={value}>
-            {label}
+        {Object.entries(ARCHIVE_PERIOD).map(([key, value]) => (
+          <option key={key} value={Number(key)}>
+            {value}
           </option>
         ))}
       </Field>

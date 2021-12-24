@@ -7,54 +7,54 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button, EditButton } from 'components/UI';
 import GroupNewSymbolModal from '../../modals/GroupNewSymbolModal';
-import { Symbol } from '../../types';
+import { Margin, Group } from '../../types';
 import './GroupSymbolsGrid.scss';
 
 interface Props {
-  formik: FormikProps<Symbol>,
+  formik: FormikProps<Group>,
   modals: {
     confirmationModal: Modal,
     groupNewSymbolModal: Modal,
   },
 }
 
-const renderSymbol = ({ symbol }: Symbol) => (
+const renderSymbol = ({ symbol }: Margin) => (
   <div className="GroupsGrid__cell-primary">
     {symbol}
   </div>
 );
 
-const renderLong = ({ swapConfigs }: Symbol) => (
+const renderLong = ({ swapLong }: Margin) => (
   <div className="GroupsGrid__cell-primary">
-    {swapConfigs?.long}
+    {swapLong}
   </div>
 );
 
-const renderShort = ({ swapConfigs }: Symbol) => (
+const renderShort = ({ swapShort }: Margin) => (
   <div className="GroupsGrid__cell-primary">
-    {swapConfigs?.short}
+    {swapShort}
   </div>
 );
 
-const renderPercentage = ({ percentage }: Symbol) => (
+const renderPercentage = ({ percentage }: Margin) => (
   <div className="GroupsGrid__cell-primary">
     {percentage}
   </div>
 );
 
 const renderActions = (
-  symbol: Symbol,
-  handleDeleteSecurity: (symbol: Symbol) => void,
-  handleEditSecurity: (symbol: Symbol) => void,
+  symbol: Margin,
+  handleDeleteGroupSymbolModal: (symbol: Margin) => void,
+  handleEditGroupSymbolModal: (symbol: Margin) => void,
 ) => (
   <>
     <EditButton
-      onClick={() => handleEditSecurity(symbol)}
-      className="GroupSecuritiesGrid__edit-button"
+      onClick={() => handleEditGroupSymbolModal(symbol)}
+      className="GroupSymbolsGrid__edit-button"
     />
     <Button
       transparent
-      onClick={() => handleDeleteSecurity(symbol)}
+      onClick={() => handleDeleteGroupSymbolModal(symbol)}
     >
       <i className="fa fa-trash btn-transparent color-danger" />
     </Button>
@@ -63,44 +63,44 @@ const renderActions = (
 
 const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const { confirmationModal, groupNewSymbolModal } = modals;
-  const { values: { groupSymbols }, setFieldValue } = formik;
+  const { values, setFieldValue } = formik;
+  const groupMargins = values?.groupMargins || [];
 
-  const newSymbol = (symbol: Symbol) => {
-    setFieldValue('groupSymbols', [...groupSymbols, symbol]);
+  const newGroupSymbol = (symbol: Margin) => {
+    setFieldValue('groupMargins', [...groupMargins, symbol]);
   };
 
-  const editSymbol = (editableSymbol: Symbol) => {
-    const modifiedSymbol = groupSymbols.map((symbol: Symbol) => (
-      symbol.symbolId === editableSymbol.symbolId
-        ? editableSymbol
-        : symbol
+  const editGroupSymbol = (editableGroupMargin: Margin) => {
+    const modifiedGroupMargins = groupMargins.map((groupMargin: Margin) => (
+      groupMargin.symbol === editableGroupMargin.symbol
+        ? editableGroupMargin
+        : groupMargin
     ));
-    setFieldValue('groupSymbols', modifiedSymbol);
+    setFieldValue('groupMargins', modifiedGroupMargins);
   };
 
-  const deleteSymbol = (symbolId: number) => {
-    const modifiedSymbol = groupSymbols.filter((symbol: Symbol) => symbol.symbolId !== symbolId);
-    setFieldValue('groupSymbols', modifiedSymbol);
+  const deleteGroupSymbol = (id: string) => {
+    const modifiedGroupMargins = groupMargins.filter(({ symbol }: Margin) => symbol !== id);
+    setFieldValue('groupMargins', modifiedGroupMargins);
     confirmationModal.hide();
   };
 
-
-  const handleNewSymbol = () => {
+  const handleNewGroupSymbolModal = () => {
     groupNewSymbolModal.show({
-      onSuccess: newSymbol,
+      onSuccess: newGroupSymbol,
     });
   };
 
-  const handleEditSymbol = (symbol: Symbol) => {
+  const handleEditGroupSymbolModal = (symbol: Margin) => {
     groupNewSymbolModal.show({
-      modifiedSymbol: symbol,
-      onSuccess: editSymbol,
+      editableGroupMargin: symbol,
+      onSuccess: editGroupSymbol,
     });
   };
 
-  const handleDeleteSymbol = ({ symbolId, symbol }: Symbol) => {
+  const handleDeleteGroupSymbolModal = ({ symbol }: Margin) => {
     confirmationModal.show({
-      onSubmit: () => deleteSymbol(symbolId),
+      onSubmit: () => deleteGroupSymbol(symbol),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { symbol }),
       submitButtonLabel: I18n.t('COMMON.OK'),
@@ -114,7 +114,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.TITLE')}
         </span>
         <Button
-          onClick={handleNewSymbol}
+          onClick={handleNewGroupSymbolModal}
           commonOutline
           small
         >
@@ -123,32 +123,32 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
       </div>
       <Table
         stickyFromTop={123}
-        items={groupSymbols}
+        items={groupMargins}
+        className="GroupSymbolsGrid__Table"
+        withCustomScroll
       >
         <Column
-          sortBy="symbol"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.SYMBOL')}
           render={renderSymbol}
         />
         <Column
-          sortBy="long"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.LONG')}
           render={renderLong}
         />
         <Column
-          sortBy="short"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.SHORT')}
           render={renderShort}
         />
         <Column
-          sortBy="percentage"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.PERCENTAGE')}
           render={renderPercentage}
         />
         <Column
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SYMBOLS_TABLE.ACTIONS')}
-          render={(symbol: Symbol) => renderActions(symbol, handleDeleteSymbol, handleEditSymbol)}
+          render={(symbol: Margin) => (
+            renderActions(symbol, handleDeleteGroupSymbolModal, handleEditGroupSymbolModal)
+          )}
         />
       </Table>
     </div>

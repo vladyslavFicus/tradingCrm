@@ -1,15 +1,22 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'formik';
+import { getBrand } from 'config';
 import {
   FormikInputField,
   FormikSelectField,
   FormikCheckbox,
 } from 'components/Formik';
-import { CURRENCIES, DEFAULT_LEVERAGES } from '../../constants';
+import { DEFAULT_LEVERAGES } from '../../constants';
 import './GroupCommonForm.scss';
 
-const GroupCommonForm = () => (
+interface Props {
+  isEditGroupPage: boolean,
+}
+
+const currencies = getBrand().currencies.supported;
+
+const GroupCommonForm = ({ isEditGroupPage }: Props) => (
   <div className="GroupCommonForm">
     <div className="GroupCommonForm__header">
       <div className="GroupCommonForm__title">
@@ -21,7 +28,7 @@ const GroupCommonForm = () => (
         name="enable"
         component={FormikCheckbox}
         label={I18n.t('TRADING_ENGINE.GROUP_PROFILE.COMMON_GROUP_FORM.ENABLE')}
-        className="GroupCommonForm__field"
+        className="GroupCommonForm__field GroupCommonForm__field--center"
       />
       <Field
         label={I18n.t('TRADING_ENGINE.GROUP_PROFILE.COMMON_GROUP_FORM.NAME')}
@@ -29,6 +36,7 @@ const GroupCommonForm = () => (
         component={FormikInputField}
         type="text"
         className="GroupCommonForm__field"
+        disabled={isEditGroupPage}
       />
       <Field
         label={I18n.t('TRADING_ENGINE.GROUP_PROFILE.COMMON_GROUP_FORM.DESCRIPTION')}
@@ -42,8 +50,9 @@ const GroupCommonForm = () => (
         name="currency"
         component={FormikSelectField}
         className="GroupCommonForm__field"
+        disabled={isEditGroupPage}
       >
-        {CURRENCIES.map(currenci => (
+        {currencies.map((currenci: string) => (
           <option key={currenci} value={currenci}>
             {currenci}
           </option>
@@ -55,9 +64,9 @@ const GroupCommonForm = () => (
         component={FormikSelectField}
         className="GroupCommonForm__field"
       >
-        {DEFAULT_LEVERAGES.map(({ value, label }) => (
-          <option key={value} value={value}>
-            {label}
+        {DEFAULT_LEVERAGES.map(levarage => (
+          <option key={levarage} value={levarage}>
+            1:{levarage}
           </option>
         ))}
       </Field>

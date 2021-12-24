@@ -9,7 +9,7 @@ export interface Props {
 
 const REQUEST = gql`
   query TradingEngineAdmin_TradingEngineSymbolsQuery(
-    $args: TradingEngineAdminSymbolsSearch__Input
+    $args: TradingEngineSymbols__Input
   ) {
     tradingEngineAdminSymbols(args: $args) {
       content {
@@ -18,7 +18,7 @@ const REQUEST = gql`
         swapConfigs {
           long
           short
-        },
+        }
       }
     }
   }

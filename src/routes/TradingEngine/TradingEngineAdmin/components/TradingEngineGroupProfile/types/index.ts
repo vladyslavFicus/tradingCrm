@@ -2,21 +2,20 @@
 export interface Security {
   id: string,
   name: string,
-  description: string,
 }
 
 export enum GroupCommissionType {
-  MONEY = '$',
-  PIPS = 'pips',
-  PERCENT = '%'
+  MONEY = 'MONEY',
+  PIPS = 'PIPS',
+  PERCENT = 'PERCENT'
 }
 
 export enum GroupCommissionLots {
-  LOT = 'per lot;',
-  DEAL = 'per deal'
+  LOT = 'LOT',
+  DEAL = 'DEAL'
 }
 
-export enum ArchivePeriod {
+export enum ArchivePeriodDays {
   DISABLED = 0,
   PERIOD_90 = 90,
   PERIOD_180 = 180,
@@ -28,12 +27,6 @@ export enum ArchiveMaxBalance {
   MAX_100 = 100,
   MAX_1000 = 1000,
   MAX_10000 = 10000,
-}
-
-export enum Currency {
-  USD = 'USD',
-  EUR = 'EUR',
-  GBP = 'GBP',
 }
 
 export enum DefaultLeverage {
@@ -69,7 +62,7 @@ export enum LotMin {
   MIN_0_10 = 0.10,
   MIN_1_00 = 1.00,
   MIN_10_0 = 10.0,
-  MIN_100 = 100,
+  MIN_100 = 100.0,
 }
 
 export enum LotMax {
@@ -85,13 +78,13 @@ export enum LotMax {
 export enum LotStep {
   STEP_0_01 = 0.01,
   STEP_0_1 = 0.1,
-  STEP_1 = 1,
+  STEP_1_0 = 1.0,
   STEP_10_0 = 10.0,
   STEP_100_0 = 100.0,
 }
 
 export interface GroupSecurity {
-  securityId: number,
+  name: string,
   security: Security,
   show: boolean,
   spreadDiff: SpreadDiff,
@@ -115,18 +108,25 @@ export interface Symbol {
   swapConfigs: SwapConfigs
 }
 
+export interface Margin {
+  symbol: string,
+  percentage: number,
+  swapShort: number,
+  swapLong: number,
+}
+
 export interface Group {
   groupName: string,
-  currency: Currency,
+  currency: string,
   description: string,
   enable: boolean,
   defaultLeverage: DefaultLeverage,
   useSwap: boolean,
   hedgeProhibited: boolean,
-  archivePeriod: ArchivePeriod,
+  archivePeriodDays: ArchivePeriodDays,
   archiveMaxBalance: ArchiveMaxBalance,
   marginCallLevel: number,
   stopoutLevel: number,
   groupSecurities: GroupSecurity[],
-  groupSymbols: Symbol[]
+  groupMargins: Margin[]
 }

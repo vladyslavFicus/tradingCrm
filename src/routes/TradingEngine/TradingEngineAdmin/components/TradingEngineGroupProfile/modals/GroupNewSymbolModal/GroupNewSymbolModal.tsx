@@ -11,11 +11,11 @@ import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import SymbolsQuery from './graphql/SymbolsQuery';
-import { Symbol } from '../../types';
+import { Margin, Symbol } from '../../types';
 import './GroupNewSymbolModal.scss';
 
 interface SymbolsData {
-  tradingEngineAdminSymbols: QueryPageable<Symbol>
+  tradingEngineAdminSymbols: QueryPageable<Margin>
 }
 
 interface SymbolsVariables {
@@ -35,7 +35,7 @@ interface Props {
   onCloseModal: () => void,
   onSuccess: (security: any) => void,
   symbolsQuery: SymbolsQueryResult,
-  modifiedSymbol: Symbol,
+  editableGroupMargin: Margin,
 }
 
 const GroupNewSymbolModal = ({
@@ -44,24 +44,9 @@ const GroupNewSymbolModal = ({
   onCloseModal,
   onSuccess,
   symbolsQuery,
-  modifiedSymbol,
+  editableGroupMargin,
 }: Props) => {
-  // TODO: fix mock data
-  const symbols = symbolsQuery.data?.tradingEngineAdminSymbols?.content || [{
-    symbolId: new Date(),
-    symbol: 'BTSUSDT',
-    percentage: 10,
-    swapConfigs: {
-      long: 3,
-      short: 5,
-    },
-  }];
-
-  // TODO: fix type any
-  const handleSymbolChange = (value: string, setValues: any) => {
-    const formikValues = symbols.find(({ symbol }: Symbol) => symbol === value) || {};
-    setValues(formikValues);
-  };
+  const symbols = symbolsQuery.data?.tradingEngineAdminSymbols?.content || [];
 
   const handleSubmit = (symbol: Symbol) => {
     notify({
@@ -73,36 +58,41 @@ const GroupNewSymbolModal = ({
     onCloseModal();
   };
 
+  const handleSymbolChange = (value: string, setFieldValue: FormikProps<Margin>) => {
+    const { symbol, percentage, swapConfigs } = symbols.find((_symbol: Symbol) => _symbol.symbol === value) || {};
+
+    setFieldValue('symbol', symbol);
+    setFieldValue('percentage', percentage || 0);
+    setFieldValue('swapLong', swapConfigs?.long || 0);
+    setFieldValue('swapShort', swapConfigs?.short || 0);
+  };
+
   return (
     <Modal
       className="GroupNewSymbolModal"
       toggle={onCloseModal}
       isOpen={isOpen}
-      keyboard={false}
     >
       <Formik
         initialValues={
-          modifiedSymbol || {
-            symbolId: '',
+          editableGroupMargin || {
             symbol: '',
             percentage: 0,
-            swapConfigs: {
-              long: 0,
-              short: 0,
-            },
+            swapLong: 0,
+            swapShort: 0,
           }}
         validate={createValidator(
           {
             symbol: ['required'],
             percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
-            'swapConfigs.long': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
-            'swapConfigs.short': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
+            swapLong: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
+            swapShort: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
           },
           {
             symbol: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SYMBOL'),
             percentage: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.MARGIN_PERCENTAGE'),
-            'swapConfigs.long': I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.LONG_POSITION_SWAP'),
-            'swapConfigs.short': I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SHORT_POSITION_SWAP'),
+            swapLong: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.LONG_POSITION_SWAP'),
+            swapShort: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SHORT_POSITION_SWAP'),
           },
           false,
         )}
@@ -111,7 +101,7 @@ const GroupNewSymbolModal = ({
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setValues }: FormikProps<Symbol>) => (
+        {({ dirty, isSubmitting, setFieldValue }: FormikProps<Symbol>) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE')}
@@ -129,7 +119,7 @@ const GroupNewSymbolModal = ({
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   className="GroupNewSymbolModal__field--large"
                   component={FormikSelectField}
-                  customOnChange={(value: string) => handleSymbolChange(value, setValues)}
+                  customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
                   searchable
                 >
                   {symbols.map(({ symbol }) => (
@@ -142,14 +132,14 @@ const GroupNewSymbolModal = ({
 
               <div className="GroupNewSymbolModal__fields">
                 <Field
-                  name="swapConfigs.long"
+                  name="swapLong"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.LONG_POSITION_SWAP')}
                   className="GroupNewSymbolModal__field"
                   component={FormikInputField}
                   type="number"
                 />
                 <Field
-                  name="swapConfigs.short"
+                  name="swapShort"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SHORT_POSITION_SWAP')}
                   className="GroupNewSymbolModal__field"
                   component={FormikInputField}

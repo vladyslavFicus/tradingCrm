@@ -17,7 +17,7 @@ const REQUEST = gql`
     tradingEngineAdminGroups(args: $args) {
       content {
         groupName
-        brand
+        description
         marginCallLevel
         stopoutLevel
         groupSecurities {

@@ -21,21 +21,9 @@ interface Props {
   },
 }
 
-const renderType = ({ security }: GroupSecurity) => (
+const renderType = ({ name, security }: GroupSecurity) => (
   <div className="GroupsGrid__cell-primary">
-    {security.name}
-  </div>
-);
-
-const renderTrade = ({ securityId }: GroupSecurity) => (
-  <div className="GroupsGrid__cell-primary">
-    {securityId}
-  </div>
-);
-
-const renderExecution = ({ securityId }: GroupSecurity) => (
-  <div className="GroupsGrid__cell-primary">
-    {securityId}
+    {security?.name || name}
   </div>
 );
 
@@ -53,17 +41,17 @@ const renderCommission = ({ lotMin, commissionType, lotMax }: GroupSecurity) => 
 
 const renderActions = (
   security: GroupSecurity,
-  handleDeleteSecurity: (security: GroupSecurity) => void,
-  handleEditSecurity: (security: GroupSecurity) => void,
+  handleDeleteGroupSecurityModal: (security: GroupSecurity) => void,
+  handleEditGroupSecurityModal: (security: GroupSecurity) => void,
 ) => (
   <>
     <EditButton
-      onClick={() => handleEditSecurity(security)}
+      onClick={() => handleEditGroupSecurityModal(security)}
       className="GroupSecuritiesGrid__edit-button"
     />
     <Button
       transparent
-      onClick={() => handleDeleteSecurity(security)}
+      onClick={() => handleDeleteGroupSecurityModal(security)}
     >
       <i className="fa fa-trash btn-transparent color-danger" />
     </Button>
@@ -72,44 +60,44 @@ const renderActions = (
 
 const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const { groupNewSecurityModal, gropuSecurityCustomizationModal, confirmationModal } = modals;
-  const { values: { groupSecurities }, setFieldValue } = formik;
+  const { values, setFieldValue } = formik;
+  const groupSecurities = values?.groupSecurities || [];
 
-  const newSecurity = (groupSecurity: GroupSecurity) => {
-    setFieldValue('groupSecurities', [...groupSecurities, groupSecurity]);
+  const newGroupSecurity = (groupSecurity: GroupSecurity) => {
+    setFieldValue('groupSecurities', [groupSecurity, ...groupSecurities]);
   };
 
-  const editSecurity = (editableSecurity: GroupSecurity) => {
-    const modifiedSecurities = groupSecurities.map(security => (
-      security.securityId === editableSecurity.securityId
-        ? editableSecurity
-        : security
+  const editGroupSecurity = (editableGroupSecurity: GroupSecurity) => {
+    const modifiedGroupSecurities = groupSecurities.map(groupSecurity => (
+      groupSecurity.security.id === editableGroupSecurity.security.id
+        ? editableGroupSecurity
+        : groupSecurity
     ));
-    setFieldValue('groupSecurities', modifiedSecurities);
+    setFieldValue('groupSecurities', modifiedGroupSecurities);
   };
 
-  const deleteSecurity = (securityId: number) => {
-    const modifiedSecurities = groupSecurities.filter(security => security.securityId !== securityId);
-    setFieldValue('groupSecurities', modifiedSecurities);
+  const deleteGroupSecurity = (id: string) => {
+    const modifiedGroupSecurities = groupSecurities.filter(groupSecurity => groupSecurity.security.id !== id);
+    setFieldValue('groupSecurities', modifiedGroupSecurities);
     confirmationModal.hide();
   };
 
-
-  const handleNewSecurity = () => {
+  const handleNewGroupSecurityModal = () => {
     groupNewSecurityModal.show({
-      onSuccess: newSecurity,
+      onSuccess: newGroupSecurity,
     });
   };
 
-  const handleEditSecurity = (security: GroupSecurity) => {
+  const handleEditGroupSecurityModal = (editableGroupSecurity: GroupSecurity) => {
     gropuSecurityCustomizationModal.show({
-      security,
-      onSuccess: editSecurity,
+      editableGroupSecurity,
+      onSuccess: editGroupSecurity,
     });
   };
 
-  const handleDeleteSecurity = ({ securityId, security: { name } }: GroupSecurity) => {
+  const handleDeleteGroupSecurityModal = ({ security: { name, id } }: GroupSecurity) => {
     confirmationModal.show({
-      onSubmit: () => deleteSecurity(securityId),
+      onSubmit: () => deleteGroupSecurity(id),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { name }),
       submitButtonLabel: I18n.t('COMMON.OK'),
@@ -123,7 +111,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.TITLE')}
         </span>
         <Button
-          onClick={handleNewSecurity}
+          onClick={handleNewGroupSecurityModal}
           commonOutline
           small
         >
@@ -133,36 +121,27 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
       <Table
         stickyFromTop={123}
         items={groupSecurities}
+        className="GroupSecuritiesGrid__Table"
+        withCustomScroll
       >
         <Column
-          sortBy="type"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.TYPE')}
           render={renderType}
         />
         <Column
-          sortBy="trade"
-          header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.TRADE')}
-          render={renderTrade}
-        />
-        <Column
-          sortBy="execution"
-          header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.EXECUTION')}
-          render={renderExecution}
-        />
-        <Column
-          sortBy="spread"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.SPREAD')}
           render={renderSpread}
         />
         <Column
-          sortBy="commission"
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.COMMISSION')}
           render={renderCommission}
         />
         <Column
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUP_PROFILE.SECURITIES_TABLE.ACTIONS')}
-          render={(security: GroupSecurity) => renderActions(security, handleDeleteSecurity, handleEditSecurity)}
+          render={(security: GroupSecurity) => (
+            renderActions(security, handleDeleteGroupSecurityModal, handleEditGroupSecurityModal)
+          )}
         />
       </Table>
     </div>
