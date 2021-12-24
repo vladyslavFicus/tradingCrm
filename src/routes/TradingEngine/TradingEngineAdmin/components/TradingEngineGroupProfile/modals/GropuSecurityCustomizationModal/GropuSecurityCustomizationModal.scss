@@ -7,7 +7,6 @@
     display: grid;
     column-gap: 15px;
     grid-template-columns: repeat(12, 1fr);
-  
   }
 
   &__field {
@@ -16,6 +15,11 @@
     &--small {
       align-self: end;
       grid-column: span 4;
+    }
+
+    &--errorMessage {
+      white-space: nowrap;
+      position: absolute;
     }
   }
 

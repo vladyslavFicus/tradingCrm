@@ -10,6 +10,7 @@ import { EditButton, Button } from 'components/UI';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
 import GropuSecurityCustomizationModal from '../../modals/GropuSecurityCustomizationModal';
 import { Group, GroupSecurity } from '../../types';
+import { COMMISION_TYPES, COMMISION_LOTS } from '../../constants';
 import './GroupSecuritiesGrid.scss';
 
 interface Props {
@@ -33,9 +34,9 @@ const renderSpread = ({ spreadDiff }: GroupSecurity) => (
   </div>
 );
 
-const renderCommission = ({ lotMin, commissionType, lotMax }: GroupSecurity) => (
+const renderCommission = ({ lotMin, commissionType, commissionLots, lotMax }: GroupSecurity) => (
   <div className="GroupsGrid__cell-primary">
-    {`${lotMin} ${commissionType} / ${lotMax} ${commissionType}`}
+    {`${lotMin} ${COMMISION_TYPES[commissionType]} / ${lotMax} ${COMMISION_LOTS[commissionLots]}`}
   </div>
 );
 

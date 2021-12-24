@@ -7,7 +7,7 @@ import './GroupMarginsForm.scss';
 const GroupMarginsForm = () => (
   <div className="GroupMarginsForm">
     <div className="GroupMarginsForm__fields">
-      <div className="GroupMarginsForm__field">
+      <div className="GroupMarginsForm__field GroupMarginsForm__field--center">
         <div className="GroupMarginsForm__title">
           {I18n.t('TRADING_ENGINE.GROUP_PROFILE.MARGINS_GROUP_FORM.TITLE')}
         </div>

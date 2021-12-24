@@ -14,8 +14,6 @@ interface Props {
   isEditGroupPage: boolean,
 }
 
-const currencies = getBrand().currencies.supported;
-
 const GroupCommonForm = ({ isEditGroupPage }: Props) => (
   <div className="GroupCommonForm">
     <div className="GroupCommonForm__header">
@@ -52,7 +50,7 @@ const GroupCommonForm = ({ isEditGroupPage }: Props) => (
         className="GroupCommonForm__field"
         disabled={isEditGroupPage}
       >
-        {currencies.map((currenci: string) => (
+        {getBrand().currencies.supported.map((currenci: string) => (
           <option key={currenci} value={currenci}>
             {currenci}
           </option>

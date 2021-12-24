@@ -143,14 +143,14 @@ const GropuSecurityCustomizationModal = ({
                 <Field
                   name="commissionBase"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_COSTOMISATION_SECURITY_MODAL.STANDART')}
-                  className="GropuSecurityCustomizationModal__field--small "
+                  className="GropuSecurityCustomizationModal__field--small"
+                  classNameError="GropuSecurityCustomizationModal__field--errorMessage"
                   component={FormikInputField}
                   digitsAfterDot={2}
                   type="number"
                 />
                 <Field
                   name="commissionType"
-                  label=""
                   className="GropuSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >

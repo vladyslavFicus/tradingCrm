@@ -14,7 +14,7 @@
     padding: 25px 25px 5px 25px;
     display: flex;
     flex-flow: row wrap;
-    align-items: center;
+    align-items: baseline;
     width: 100%;
   }
 
@@ -23,6 +23,10 @@
     width: calc(33.3% - 10px);
     display: inline-block;
     vertical-align: top;
+
+    &--center {
+      align-self: center;
+    }
 
     &:nth-child(3n) {
       margin-right: 0;

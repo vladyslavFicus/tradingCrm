@@ -6,6 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
 import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
+import { getBrand } from 'config';
 import { withNotifications } from 'hoc';
 import { Notify, LevelType } from 'types/notify';
 import { createValidator } from 'utils/validator';
@@ -126,7 +127,7 @@ const TradingEngineGroupProfile = ({
             enable: true,
             groupName: '',
             description: '',
-            currency: 'USD',
+            currency: getBrand().currencies.base,
             defaultLeverage: DefaultLeverage.LEVERAGE_100,
             useSwap: true,
             hedgeProhibited: false,
