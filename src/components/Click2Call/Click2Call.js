@@ -27,7 +27,7 @@ const TOOLTIP_STYLE = {
   },
 };
 
-const debounceDelay = 1000;
+const debounceDelay = 3000;
 
 class Click2Call extends PureComponent {
   static propTypes = {
