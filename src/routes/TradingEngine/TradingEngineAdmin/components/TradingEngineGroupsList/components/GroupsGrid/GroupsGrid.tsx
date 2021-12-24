@@ -28,9 +28,9 @@ const renderName = ({ groupName }: Group) => (
   </div>
 );
 
-const renderDescription = ({ brand }: Group) => (
+const renderDescription = ({ description }: Group) => (
   <div className="GroupsGrid__cell-primary">
-    {brand}
+    {description}
   </div>
 );
 

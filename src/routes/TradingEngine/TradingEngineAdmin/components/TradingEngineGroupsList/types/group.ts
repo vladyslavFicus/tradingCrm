@@ -15,7 +15,7 @@ export interface GroupSecurities {
 
 export interface Group {
   groupName: string,
-  brand: string,
+  description: string,
   marginCallLevel: number,
   stopoutLevel: number,
   groupSecurities: GroupSecurities[]
