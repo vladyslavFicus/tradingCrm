@@ -216,7 +216,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
                       className="TradingEngineNewSymbol__button"
                       small
                       primary
-                      disabled={(!formik.dirty && !formik.isSubmitting) || symbolSessionContainsErrors.length}
+                      disabled={(!formik.dirty && !formik.isSubmitting) || symbolSessionContainsErrors.length > 0}
                     >
                       {I18n.t('COMMON.SAVE_CHANGES')}
                     </Button>
