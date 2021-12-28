@@ -2583,7 +2583,10 @@
   "SIGN_IN": {
     "EMAIL": "Email",
     "PASSWORD": "Password",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "NEXT": "Next",
+    "OTP": "OTP",
+    "NEED_REGISTER_ACCOUNT": "Need to register account by Google Authenticator"
   },
   "CLIENT_PROFILE": {
     "TABS": {
@@ -3700,11 +3703,15 @@
         "INTEREST_OPEN_PRICE": "in interest rate"
       },
       "SESSIONS": "Sessions",
+      "SESSIONS_ERROR": {
+        "RANGE_ERROR": "The Trading session can not be longer than the Quote session",
+        "QUOTE_REQUIRED_ERROR": "Trade session cannot be without Quote session"
+      },
+      "SYMBOL_LABEL": "Symbol",
       "SYMBOL_TYPE_LABELS": {
         "FOREX": "Forex",
         "CFD": "CFD"
       },
-      "SYMBOL_LABEL": "Symbol",
       "SOURCE_LABEL": "Source",
       "DIGITS_LABEL": "Digits",
       "DESCRIPTION_LABEL": "Description",

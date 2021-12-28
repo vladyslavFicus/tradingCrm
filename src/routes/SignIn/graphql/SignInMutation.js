@@ -7,11 +7,13 @@ const REQUEST = gql`
   mutation SignInMutation(
     $login: String!
     $password: String!
+    $otp: String
   ) {
     auth {
       signIn(
         login: $login
         password: $password
+        otp: $otp
       ) {
         uuid
         brandToAuthorities

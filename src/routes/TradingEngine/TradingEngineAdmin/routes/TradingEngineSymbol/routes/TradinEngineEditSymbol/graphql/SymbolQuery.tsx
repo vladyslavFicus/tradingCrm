@@ -57,7 +57,7 @@ const REQUEST = gql`
   }
 `;
 
-const TradingEngineSecuritiesQuery = (
+const TradingEngineSymbolQuery = (
   { children, match: { params: { id } } }: Props,
 ) => (
   <Query
@@ -69,4 +69,4 @@ const TradingEngineSecuritiesQuery = (
   </Query>
 );
 
-export default TradingEngineSecuritiesQuery;
+export default TradingEngineSymbolQuery;

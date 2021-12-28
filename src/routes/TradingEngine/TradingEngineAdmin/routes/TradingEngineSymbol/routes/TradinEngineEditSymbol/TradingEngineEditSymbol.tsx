@@ -207,53 +207,57 @@ class TradingEngineEditSymbol extends PureComponent<Props & RouteComponentProps>
           }}
           onSubmit={this.handleSubmit}
         >
-          {(formik : FormikProps<FormValues>) => (
-            <Form className="TradingEngineEditSymbol__content">
-              <div className="TradingEngineEditSymbol__header">
-                <span className="TradingEngineEditSymbol__title">
-                  {I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE')}
-                </span>
-                <div className="TradingEngineEditSymbol__actions">
-                  <Button
-                    type="submit"
-                    className="TradingEngineEditSymbol__button"
-                    small
-                    primary
-                    disabled={!formik.dirty && !formik.isSubmitting}
-                  >
-                    {I18n.t('COMMON.SAVE_CHANGES')}
-                  </Button>
+          {(formik : FormikProps<FormValues>) => {
+            const symbolSessionContainsErrors = formik.values?.symbolSessions.filter(({ error }) => error);
+
+            return (
+              <Form className="TradingEngineEditSymbol__content">
+                <div className="TradingEngineEditSymbol__header">
+                  <span className="TradingEngineEditSymbol__title">
+                    {I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE')}
+                  </span>
+                  <div className="TradingEngineEditSymbol__actions">
+                    <Button
+                      type="submit"
+                      className="TradingEngineEditSymbol__button"
+                      small
+                      primary
+                      disabled={(!formik.dirty && !formik.isSubmitting) || symbolSessionContainsErrors.length > 0}
+                    >
+                      {I18n.t('COMMON.SAVE_CHANGES')}
+                    </Button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="TradingEngineEditSymbol__column">
-                <SymbolSettings
-                  symbolsSources={symbolsSources}
-                  securities={securities}
-                  {...formik}
-                />
-              </div>
+                <div className="TradingEngineEditSymbol__column">
+                  <SymbolSettings
+                    symbolsSources={symbolsSources}
+                    securities={securities}
+                    {...formik}
+                  />
+                </div>
 
-              <div className="TradingEngineEditSymbol__column">
-                <CalculationSettings />
-              </div>
+                <div className="TradingEngineEditSymbol__column">
+                  <CalculationSettings />
+                </div>
 
-              <div className="TradingEngineEditSymbol__column">
-                <SwapsSettings />
-              </div>
+                <div className="TradingEngineEditSymbol__column">
+                  <SwapsSettings />
+                </div>
 
-              <div className="TradingEngineEditSymbol__column">
-                <SessionsSettings
-                  {...formik}
-                  symbolSessions={symbolSessions}
-                />
-              </div>
+                <div className="TradingEngineEditSymbol__column">
+                  <SessionsSettings
+                    {...formik}
+                    symbolSessions={symbolSessions}
+                  />
+                </div>
 
-              <div className="TradingEngineEditSymbol__column">
-                <FiltrationSettings />
-              </div>
-            </Form>
-          )}
+                <div className="TradingEngineEditSymbol__column">
+                  <FiltrationSettings />
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </div>
     );

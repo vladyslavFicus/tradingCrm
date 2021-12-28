@@ -44,4 +44,34 @@
       }
     }
   }
+
+  &__qrcode-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__qrcode {
+    margin-bottom: 15px;
+  }
+
+  &__qrcode-title {
+    color: #fff;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    text-align: center;
+  }
+
+  &__secret-code {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+  }
 }

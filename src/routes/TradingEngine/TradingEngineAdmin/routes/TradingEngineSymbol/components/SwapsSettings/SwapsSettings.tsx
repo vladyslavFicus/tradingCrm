@@ -26,14 +26,11 @@ const SwapsSettings = () => (
     </div>
     <div className="SymbolSettings__field-container">
       <Field
-        disabled
         name="swapConfigs.type"
         label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         className="SwapsSettings__field"
         component={FormikSelectField}
-        withAnyOption
-        searchable
       >
         {swapTypesLabels.map(({ name, value }) => (
           <option key={value} value={value}>

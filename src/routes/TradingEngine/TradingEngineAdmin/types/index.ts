@@ -26,6 +26,7 @@ export enum SwapType {
 
 export interface SymbolSession {
   dayOfWeek: DayOfWeek,
+  error?: string,
   trade?: {
     openTime: string,
     closeTime: string,
