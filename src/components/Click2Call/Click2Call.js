@@ -72,7 +72,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.clickToCall({ variables: { uuid, field, type } });
-      sendAnalytics({ uuid, providerName: 'DidLogic' });
+      sendAnalytics({ uuid, providerName: 'DIDLOGIC' });
     } catch (e) {
       notify({
         level: 'error',
@@ -87,7 +87,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.asteriskCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'Asteris' });
+      sendAnalytics({ uuid, providerName: 'ASTERIS' });
     } catch (e) {
       notify({
         level: 'error',
@@ -102,7 +102,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.commpeakCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'Commpeak' });
+      sendAnalytics({ uuid, providerName: 'COMMPEAK' });
     } catch (e) {
       notify({
         level: 'error',
@@ -117,7 +117,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.coperatoCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'Coperato' });
+      sendAnalytics({ uuid, providerName: 'COPERATO' });
     } catch (e) {
       notify({
         level: 'error',
