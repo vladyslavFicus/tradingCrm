@@ -247,6 +247,7 @@ class ClientsGridFilter extends PureComponent {
                         lastTradeDateRange: I18n.t(attributeLabels.lastTradeDateRange),
                         lastLoginDateRange: I18n.t(attributeLabels.lastLoginDateRange),
                         lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
+                        lastCallDateRange: I18n.t(attributeLabels.lastCallDateRange),
                         searchLimit: I18n.t(attributeLabels.searchLimit),
                       }}
                     />
@@ -771,6 +772,17 @@ class ClientsGridFilter extends PureComponent {
                       placeholder={I18n.t('COMMON.UNLIMITED')}
                       component={FormikInputField}
                       min={0}
+                      withFocus
+                    />
+                    <Field
+                      name="lastCallDateRange"
+                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                      label={I18n.t(attributeLabels.lastCallDateRange)}
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'lastCallDateRange.from',
+                        to: 'lastCallDateRange.to',
+                      }}
                       withFocus
                     />
                   </div>
