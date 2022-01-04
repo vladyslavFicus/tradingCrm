@@ -367,7 +367,6 @@ class ClientsGrid extends PureComponent {
   }
 
   renderLastCallColumn = ({ lastCall }) => {
-    console.log('lastCall', lastCall);
     const { createdAt, callSystem } = lastCall || {};
 
     return (
