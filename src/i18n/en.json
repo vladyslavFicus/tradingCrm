@@ -4277,9 +4277,10 @@
         }
       }
     },
-    "GROUP_PROFILE": {
+    "GROUP": {
       "GROUP": "Group",
       "NEW_GROUP": "New group",
+      "INVALID_NAME": "Group name must contain only letters, numbers or . * @ + - _ ! = characters",
       "NOTIFICATION": {
         "CREATE": {
           "SUCCESS": "Group has been successfully created",
