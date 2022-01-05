@@ -765,16 +765,6 @@ class ClientsGridFilter extends PureComponent {
                     />
 
                     <Field
-                      name="searchLimit"
-                      type="number"
-                      className="ClientsGridFilter__field ClientsGridFilter__search-limit"
-                      label={I18n.t(attributeLabels.searchLimit)}
-                      placeholder={I18n.t('COMMON.UNLIMITED')}
-                      component={FormikInputField}
-                      min={0}
-                      withFocus
-                    />
-                    <Field
                       name="lastCallDateRange"
                       className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.lastCallDateRange)}
@@ -783,6 +773,17 @@ class ClientsGridFilter extends PureComponent {
                         from: 'lastCallDateRange.from',
                         to: 'lastCallDateRange.to',
                       }}
+                      withFocus
+                    />
+
+                    <Field
+                      name="searchLimit"
+                      type="number"
+                      className="ClientsGridFilter__field ClientsGridFilter__search-limit"
+                      label={I18n.t(attributeLabels.searchLimit)}
+                      placeholder={I18n.t('COMMON.UNLIMITED')}
+                      component={FormikInputField}
+                      min={0}
                       withFocus
                     />
                   </div>

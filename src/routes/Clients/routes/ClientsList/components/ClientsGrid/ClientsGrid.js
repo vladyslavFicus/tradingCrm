@@ -367,22 +367,20 @@ class ClientsGrid extends PureComponent {
   }
 
   renderLastCallColumn = ({ lastCall }) => {
-    const { createdAt, callSystem } = lastCall || {};
+    const { date, callSystem } = lastCall || {};
 
     return (
       <Choose>
         <When condition={lastCall}>
-          <Fragment>
-            <div className="ClientsGrid__text-primary">
-              {moment.utc(createdAt).local().format('DD.MM.YYYY')}
-            </div>
-            <div className="ClientsGrid__text-secondary">
-              {moment.utc(createdAt).local().format('HH:mm:ss')}
-            </div>
-            <div className="ClientsGrid__text-secondary">
-              {callSystem}
-            </div>
-          </Fragment>
+          <div className="ClientsGrid__text-primary">
+            {moment.utc(date).local().format('DD.MM.YYYY')}
+          </div>
+          <div className="ClientsGrid__text-secondary">
+            {moment.utc(date).local().format('HH:mm:ss')}
+          </div>
+          <div className="ClientsGrid__text-secondary">
+            {callSystem}
+          </div>
         </When>
         <Otherwise>
           <GridEmptyValue />
