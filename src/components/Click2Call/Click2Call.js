@@ -87,7 +87,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.asteriskCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'ASTERIS' });
+      sendAnalytics({ uuid, providerName: 'ASTERISK' });
     } catch (e) {
       notify({
         level: 'error',
