@@ -500,7 +500,7 @@ class ClientsGrid extends PureComponent {
             render={this.renderLastNoteColumn}
           />
           <Column
-            sortBy="lastCall.createdAt"
+            sortBy="lastCall.date"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_CALL')}
             render={this.renderLastCallColumn}
           />

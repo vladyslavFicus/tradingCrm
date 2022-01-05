@@ -665,19 +665,6 @@ class ClientsGridOldFilter extends PureComponent {
                     />
 
                     <Field
-                      name="lastCallDateRange"
-                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
-                      label={I18n.t(attributeLabels.lastCallDateRange)}
-                      component={FormikDateRangePicker}
-                      fieldsNames={{
-                        from: 'lastCallDateRange.from',
-                        to: 'lastCallDateRange.to',
-                      }}
-                      anchorDirection="right"
-                      withFocus
-                    />
-
-                    <Field
                       name="lastNoteDateRange"
                       className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
                       label={I18n.t(attributeLabels.lastNoteDateRange)}
@@ -723,6 +710,19 @@ class ClientsGridOldFilter extends PureComponent {
                         from: 'lastModificationDateRange.from',
                         to: 'lastModificationDateRange.to',
                       }}
+                      withFocus
+                    />
+
+                    <Field
+                      name="lastCallDateRange"
+                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
+                      label={I18n.t(attributeLabels.lastCallDateRange)}
+                      component={FormikDateRangePicker}
+                      fieldsNames={{
+                        from: 'lastCallDateRange.from',
+                        to: 'lastCallDateRange.to',
+                      }}
+                      anchorDirection="right"
                       withFocus
                     />
 
