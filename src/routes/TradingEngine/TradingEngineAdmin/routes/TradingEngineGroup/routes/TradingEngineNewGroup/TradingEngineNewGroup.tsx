@@ -29,9 +29,7 @@ import CreateGroupMutation from './graphql/CreateGroupMutation';
 import './TradingEngineNewGroup.scss';
 
 interface Props {
-  id?: string,
   notify: Notify,
-  editGroup: (options: MutationOptions) => MutationResult<{ editGroup: null }>,
   createGroup: (options: MutationOptions) => MutationResult<{ createGroup: null }>,
 }
 
