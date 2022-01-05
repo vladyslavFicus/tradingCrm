@@ -366,6 +366,29 @@ class ClientsGrid extends PureComponent {
     );
   }
 
+  renderLastCallColumn = ({ lastCall }) => {
+    const { date, callSystem } = lastCall || {};
+
+    return (
+      <Choose>
+        <When condition={lastCall}>
+          <div className="ClientsGrid__text-primary">
+            {moment.utc(date).local().format('DD.MM.YYYY')}
+          </div>
+          <div className="ClientsGrid__text-secondary">
+            {moment.utc(date).local().format('HH:mm:ss')}
+          </div>
+          <div className="ClientsGrid__text-secondary">
+            {callSystem}
+          </div>
+        </When>
+        <Otherwise>
+          <GridEmptyValue />
+        </Otherwise>
+      </Choose>
+    );
+  }
+
   renderStatusColumn = ({ status }) => {
     const { changedAt, type } = status || {};
 
@@ -475,6 +498,11 @@ class ClientsGrid extends PureComponent {
             sortBy="lastNote.changedAt"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
             render={this.renderLastNoteColumn}
+          />
+          <Column
+            sortBy="lastCall.date"
+            header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_CALL')}
+            render={this.renderLastCallColumn}
           />
           <Column
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}

@@ -1732,6 +1732,7 @@
         "LANGUAGES": "Languages",
         "REG_DATE_RANGE": "Registration date range",
         "FIRST_DEPOSIT_DATE": "FTD date range",
+        "LAST_CALL_DATE": "Last call date",
         "REG_DATE_FROM": "Registered From",
         "REG_DATE_TO": "Registered To",
         "FIRST_NOTE_DATE": "First note date",
@@ -2938,6 +2939,7 @@
         "RETENTION": "Retention",
         "REGISTRATION": "Registration",
         "LAST_NOTE": "Last note",
+        "LAST_CALL": "Last call",
         "STATUS": "Status"
       }
     },
