@@ -62,11 +62,11 @@ class SelectSingleOptions extends PureComponent {
           const isActive = selectedOption && selectedOption.value === option.value;
           const optionProps = {
             key: option.key,
-            className: classNames(optionClassName, {
+            ...option.props,
+            className: classNames(optionClassName, option.props?.className, {
               'is-selected': isActive,
               'is-disabled': option.props.disabled,
             }),
-            ...option.props,
           };
 
           if (isActive && bindActiveOption) {

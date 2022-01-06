@@ -3343,7 +3343,8 @@
         "EXECUTION_TYPE": "Rule Execution Type",
         "LANGUAGE": "Language*",
         "AFFILIATE": "Affiliate",
-        "FIRST_TIME_DEPOSIT": "First time deposit"
+        "FIRST_TIME_DEPOSIT": "First time deposit",
+        "MIGRATION_STATUS_CURRENT": "Current"
       },
       "FILTERS": {
         "EXECUTION_TYPE": {

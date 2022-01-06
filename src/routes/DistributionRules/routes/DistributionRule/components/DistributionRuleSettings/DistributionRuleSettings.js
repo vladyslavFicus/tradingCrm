@@ -131,9 +131,18 @@ class DistributionRuleSettings extends PureComponent {
                 showErrorMessage={false}
                 searchable
               >
-                {salesStatuses.map(({ label, value }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
+                {[
+                  <option
+                    key="__CURRENT__"
+                    value="__CURRENT__"
+                    className="DistributionRuleSettings__form-field--highlight"
+                  >
+                    {I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS_CURRENT')}
+                  </option>,
+                  ...salesStatuses.map(({ label, value }) => (
+                    <option key={value} value={value}>{label}</option>
+                  )),
+                ]}
               </Field>
               <Field
                 name="executionPeriodInHours"
