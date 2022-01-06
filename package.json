@@ -112,6 +112,7 @@
     "@types/compose-function": "^0.0.30",
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^16.9.4",
     "@types/react": "^17.0.22",
     "@types/react-dom": "^17.0.11",

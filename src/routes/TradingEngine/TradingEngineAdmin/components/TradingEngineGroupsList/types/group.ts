@@ -1,4 +1,4 @@
-import { Query, QueryPageable } from 'types/query';
+import { Query, Pageable } from 'types/query';
 import { Page } from 'types';
 
 export interface GroupFilters {
@@ -22,7 +22,7 @@ export interface Group {
 }
 
 export interface GroupsListData {
-  tradingEngineAdminGroups: QueryPageable<Group>
+  tradingEngineAdminGroups: Pageable<Group>
 }
 
 export interface GroupsListVariables {

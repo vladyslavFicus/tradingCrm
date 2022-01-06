@@ -1,7 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { RouteComponentProps } from 'react-router-dom';
+import { State } from 'types';
+import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
+
+interface Props extends RouteComponentProps<{}, {}, State> {
+  children: ApolloComponentFn,
+}
 
 const REQUEST = gql`
   query TradingEngine_AccountsQuery(
@@ -31,7 +37,7 @@ const REQUEST = gql`
   }
 `;
 
-const TradingEngineAccountsQuery = ({ children, location: { state } }) => (
+const TradingEngineAccountsQuery = ({ children, location: { state } }: Props) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -43,22 +49,11 @@ const TradingEngineAccountsQuery = ({ children, location: { state } }) => (
           size: 20,
           sorts: state?.sorts,
         },
-        enabled: state?.filters?.enabled ? !!+state?.filters?.enabled : undefined,
       },
     }}
   >
     {children}
   </Query>
 );
-
-TradingEngineAccountsQuery.propTypes = {
-  children: PropTypes.func.isRequired,
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      filters: PropTypes.object,
-      sorts: PropTypes.array,
-    }),
-  }).isRequired,
-};
 
 export default TradingEngineAccountsQuery;

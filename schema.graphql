@@ -825,6 +825,26 @@ type Pageable__TradingEngineAccount {
   totalPages: Int
 }
 
+type Pageable__TradingEngineAdminSymbol {
+  content: [TradingEngineAdminSymbol]
+  last: Boolean!
+  number: Int
+  page: Int!
+  size: Int!
+  totalElements: Int
+  totalPages: Int
+}
+
+type Pageable__TradingEngineGroup {
+  content: [TradingEngineGroup]
+  last: Boolean!
+  number: Int
+  page: Int!
+  size: Int!
+  totalElements: Int
+  totalPages: Int
+}
+
 type Pageable__TradingEngineHistory {
   content: [TradingEngineHistory]
   last: Boolean!
@@ -1330,6 +1350,9 @@ type Query {
   tradingEngineAccountStatistic(accountUuid: String!): TradingEngineAccountStatistic
   tradingEngineAccountSymbols(accountUuid: String!): [TradingEngineAccountSymbol]
   tradingEngineAccounts(args: TradingEngineSearch__Input): Pageable__TradingEngineAccount
+  tradingEngineAdminGroups(args: TradingEngineGroupsSearch__Input): Pageable__TradingEngineGroup
+  tradingEngineAdminSymbols(args: TradingEngineSymbols__Input): Pageable__TradingEngineAdminSymbol
+  tradingEngineAdminSymbolsSources: [TradingEngineSource]
   tradingEngineGroups: [TradingEngineGroup]
   tradingEngineHistory(args: TradingEngineHistorySearch__Input): Pageable__TradingEngineHistory
   tradingEngineOrder(orderId: Int!): TradingEngineOrder
@@ -1604,9 +1627,25 @@ type TradingEngineAccountSymbol {
 
 type TradingEngineAdminMutation {
   createSecurity(description: String, name: String!): Boolean
+  createSymbol(args: TradingEngineCreateSymbolAdmin__Input): Boolean
   editOrder(args: TradingEngineEditOrderAdmin__Input): Boolean
   editSecurity(description: String, name: String!, securityName: String!): Boolean
   reopenOrder(orderId: Int!): Boolean
+}
+
+type TradingEngineAdminSymbol {
+  askSpread: Float
+  bidSpread: Float
+  digits: Int
+  securityName: String
+  stopsLevel: Float
+  swapConfigs: TradingEngineAdminSymbol__SwapConfigs
+  symbol: String
+}
+
+type TradingEngineAdminSymbol__SwapConfigs {
+  long: Float
+  short: Float
 }
 
 type TradingEngineCredit {
@@ -1616,7 +1655,11 @@ type TradingEngineCredit {
 }
 
 type TradingEngineGroup {
+  brand: String
   groupName: String
+  groupSecurities: [TradingEngineGroup__GroupSecurities]
+  marginCallLevel: Int
+  stopoutLevel: Int
 }
 
 type TradingEngineGroupSpread {
@@ -1624,6 +1667,11 @@ type TradingEngineGroupSpread {
   bidAdjustment: Float
   groupName: String
   symbol: String
+}
+
+type TradingEngineGroup__GroupSecurities {
+  security: TradingEngineSecurity
+  show: Boolean
 }
 
 type TradingEngineHistory {
@@ -1716,6 +1764,10 @@ type TradingEngineSecurity {
   description: String
   name: String
   symbols: [String]
+}
+
+type TradingEngineSource {
+  sourceName: String
 }
 
 type TradingEngineSymbol {
@@ -1834,6 +1886,16 @@ enum TradingActivity__Statuses__Enum {
   PENDING
 }
 
+enum TradingEngine__DaysOfWeek__Enum {
+  FRIDAY
+  MONDAY
+  SATURDAY
+  SUNDAY
+  THURSDAY
+  TUESDAY
+  WEDNESDAY
+}
+
 enum TradingEngine__OperationTypes__Enum {
   BUY
   BUY_LIMIT
@@ -1846,6 +1908,17 @@ enum TradingEngine__OperationTypes__Enum {
   SELL_MARKET
   SELL_STOP
   SELL_STOP_LIMIT
+}
+
+enum TradingEngine__SwapTypes__Enum {
+  INTEREST_CURRENT_PRICE
+  MONEY_IN_ACCOUNT_CURRENCY
+  POINTS
+}
+
+enum TradingEngine__SymbolTypes__Enum {
+  CFD
+  FOREX
 }
 
 input Analytics__Input {
@@ -2241,6 +2314,54 @@ input Sort__Input {
   direction: String
 }
 
+input TradingEngineCreateSymbolAdmin__Filtration__Input {
+  discardFiltrationLevel: Int!
+  filterSmoothing: Int!
+  hardFilter: Int!
+  hardFiltrationLevel: Int!
+  softFilter: Int!
+  softFiltrationLevel: Int!
+}
+
+input TradingEngineCreateSymbolAdmin__Input {
+  askSpread: Int!
+  backgroundColor: String!
+  baseCurrency: String!
+  bidSpread: Int!
+  description: String!
+  digits: Int!
+  filtration: TradingEngineCreateSymbolAdmin__Filtration__Input!
+  lotSize: Int!
+  percentage: Int!
+  quoteCurrency: String!
+  securityName: String!
+  source: String!
+  stopsLevel: Int!
+  swapConfigs: TradingEngineCreateSymbolAdmin__SwapsConfigs__Input!
+  symbol: String!
+  symbolSessions: [TradingEngineCreateSymbolAdmin__SymbolSessions__Input]!
+  symbolType: TradingEngine__SymbolTypes__Enum!
+}
+
+input TradingEngineCreateSymbolAdmin__SwapsConfigs__Input {
+  enable: Boolean!
+  long: Float!
+  rollover: TradingEngine__DaysOfWeek__Enum!
+  short: Float!
+  type: TradingEngine__SwapTypes__Enum
+}
+
+input TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input {
+  closeTime: String
+  openTime: String
+}
+
+input TradingEngineCreateSymbolAdmin__SymbolSessions__Input {
+  dayOfWeek: TradingEngine__DaysOfWeek__Enum!
+  quote: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
+  trade: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
+}
+
 input TradingEngineEditOrderAdmin__Input {
   closePrice: Float
   closeTime: String
@@ -2256,6 +2377,11 @@ input TradingEngineEditOrderAdmin__Input {
   takeProfit: Float
   type: String
   volume: Float
+}
+
+input TradingEngineGroupsSearch__Input {
+  keyword: String
+  page: Page__Input
 }
 
 input TradingEngineHistorySearch__Input {
