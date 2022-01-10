@@ -22,53 +22,6 @@ interface Props {
   },
 }
 
-const renderName = ({ groupName }: GroupList) => (
-  <div className="GroupsGrid__cell-primary">
-    {groupName}
-  </div>
-);
-
-const renderDescription = ({ description }: GroupList) => (
-  <div className="GroupsGrid__cell-primary">
-    {description}
-  </div>
-);
-
-const renderMCSO = ({ marginCallLevel, stopoutLevel }: GroupList) => (
-  <div className="GroupsGrid__cell-primary">
-    {`${marginCallLevel} / ${stopoutLevel} %`}
-  </div>
-);
-
-const renderSecurities = ({ groupSecurities }: GroupList) => {
-  const securities = (groupSecurities || [])
-    .map(({ security }: GroupSecurities) => security.name)
-    .join(', ');
-
-  return (
-    <div>{securities}</div>
-  );
-};
-
-const renderActions = (
-  groupName: String,
-  handleEditGroupClick: Function,
-  handleDeleteGroupModal: Function,
-) => (
-  <>
-    <EditButton
-      onClick={() => handleEditGroupClick(groupName)}
-      className="GroupsGrid__edit-button"
-    />
-    <Button
-      transparent
-      onClick={() => handleDeleteGroupModal(groupName)}
-    >
-      <i className="fa fa-trash btn-transparent color-danger" />
-    </Button>
-  </>
-);
-
 const GroupsGrid = ({
   groupsListQuery,
   modals: {
@@ -165,29 +118,58 @@ const GroupsGrid = ({
           width={200}
           sortBy="groupName"
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.NAME')}
-          render={renderName}
+          render={({ groupName }: GroupList) => (
+            <div className="GroupsGrid__cell-primary">
+              {groupName}
+            </div>
+          )}
         />
         <Column
           width={300}
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.DESCRIPTION')}
-          render={renderDescription}
+          render={({ description }: GroupList) => (
+            <div className="GroupsGrid__cell-primary">
+              {description}
+            </div>
+          )}
         />
         <Column
           width={100}
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.MC_SO')}
-          render={renderMCSO}
+          render={({ marginCallLevel, stopoutLevel }: GroupList) => (
+            <div className="GroupsGrid__cell-primary">
+              {`${marginCallLevel} / ${stopoutLevel} %`}
+            </div>
+          )}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.SECURITIES')}
-          render={renderSecurities}
+          render={({ groupSecurities }: GroupList) => {
+            const securities = (groupSecurities || [])
+              .map(({ security }: GroupSecurities) => security.name)
+              .join(', ');
+
+            return (
+              <div>{securities}</div>
+            );
+          }}
         />
         <Column
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
-          render={({ groupName }) => renderActions(
-            groupName,
-            handleEditGroupClick,
-            handleDeleteGroupModal,
+          render={({ groupName }: GroupList) => (
+            <>
+              <EditButton
+                onClick={() => handleEditGroupClick(groupName)}
+                className="GroupsGrid__edit-button"
+              />
+              <Button
+                transparent
+                onClick={() => handleDeleteGroupModal(groupName)}
+              >
+                <i className="fa fa-trash btn-transparent color-danger" />
+              </Button>
+            </>
           )}
         />
       </Table>
@@ -196,6 +178,7 @@ const GroupsGrid = ({
 };
 
 export default compose(
+  React.memo,
   withModals({
     confirmationModal: ConfirmActionModal,
   }),
@@ -203,4 +186,4 @@ export default compose(
     deleteGroup: DeleteGroupMutation,
   }),
   withNotifications,
-)(React.memo(GroupsGrid));
+)(GroupsGrid);

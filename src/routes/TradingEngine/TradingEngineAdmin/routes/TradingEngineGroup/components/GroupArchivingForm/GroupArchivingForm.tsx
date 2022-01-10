@@ -1,9 +1,9 @@
-
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'formik';
 import { FormikSelectField } from 'components/Formik';
-import { ARCHIVE_PERIOD, ARCHIVE_MAX_BALANCE } from '../../constants';
+import enumToArray from 'utils/enumToArray';
+import { ArchivePeriodDays, ArchiveMaxBalance } from '../../types';
 import './GroupArchivingForm.scss';
 
 const GroupArchivingForm = () => (
@@ -20,9 +20,9 @@ const GroupArchivingForm = () => (
         component={FormikSelectField}
         className="GroupArchivingForm__field"
       >
-        {Object.entries(ARCHIVE_PERIOD).map(([key, value]) => (
-          <option key={key} value={Number(key)}>
-            {value}
+        {enumToArray(ArchivePeriodDays).map(key => (
+          <option key={ArchivePeriodDays[key]} value={ArchivePeriodDays[key]}>
+            {key === 'DISABLED' ? I18n.t('COMMON.DISABLED') : ArchivePeriodDays[key]}
           </option>
         ))}
       </Field>
@@ -32,9 +32,9 @@ const GroupArchivingForm = () => (
         component={FormikSelectField}
         className="GroupArchivingForm__field"
       >
-        {ARCHIVE_MAX_BALANCE.map(balance => (
-          <option key={balance} value={balance}>
-            {balance}
+        {enumToArray(ArchiveMaxBalance).map(key => (
+          <option key={ArchiveMaxBalance[key]} value={ArchiveMaxBalance[key]}>
+            {ArchiveMaxBalance[key]}
           </option>
         ))}
       </Field>

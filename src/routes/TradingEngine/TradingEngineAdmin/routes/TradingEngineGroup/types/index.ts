@@ -1,4 +1,3 @@
-
 export interface Security {
   id: string,
   name: string,
@@ -54,7 +53,7 @@ export enum DefaultLeverage {
 }
 
 export enum SpreadDiff {
-  SPRED_0 = 0
+  SPRED_0 = 0,
 }
 
 export enum LotMin {
@@ -84,7 +83,7 @@ export enum LotStep {
 }
 
 export interface GroupSecurity {
-  name: string,
+  name?: string,
   security: Security,
   show: boolean,
   spreadDiff: SpreadDiff,

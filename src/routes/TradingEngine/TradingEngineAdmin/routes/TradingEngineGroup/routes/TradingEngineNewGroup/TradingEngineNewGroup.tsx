@@ -59,7 +59,7 @@ const TradingEngineNewGroup = ({
         message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.CREATE.SUCCESS'),
       });
 
-      history.push('/trading-engine-admin/groups');
+      history.push(`/trading-engine-admin/groups/edit-group/${group.groupName}`);
     } catch (e) {
       const error = parseErrors(e);
 
@@ -113,7 +113,7 @@ const TradingEngineNewGroup = ({
         {formikBag => (
           <Form>
             <GroupProfileHeader formik={formikBag} />
-            <GroupCommonForm />
+            <GroupCommonForm formik={formikBag} />
             <GroupPermissionsForm />
             <GroupArchivingForm />
             <GroupMarginsForm />
@@ -127,9 +127,10 @@ const TradingEngineNewGroup = ({
 };
 
 export default compose(
+  React.memo,
   withRouter,
   withRequests({
     createGroup: CreateGroupMutation,
   }),
   withNotifications,
-)(React.memo(TradingEngineNewGroup));
+)(TradingEngineNewGroup);

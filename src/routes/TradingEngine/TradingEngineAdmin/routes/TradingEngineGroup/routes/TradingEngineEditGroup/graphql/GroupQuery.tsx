@@ -53,7 +53,6 @@ const GroupQuery = ({ children, match: { params: { id } } }: Props) => (
     query={REQUEST}
     variables={{ groupName: id }}
     fetchPolicy="cache-and-network"
-    skip={!id}
   >
     {children}
   </Query>

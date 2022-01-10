@@ -1,20 +1,21 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import { getBrand } from 'config';
+import enumToArray from 'utils/enumToArray';
 import {
   FormikInputField,
   FormikSelectField,
   FormikCheckbox,
 } from 'components/Formik';
-import { DEFAULT_LEVERAGES } from '../../constants';
+import { Group, DefaultLeverage } from '../../types';
 import './GroupCommonForm.scss';
 
 interface Props {
-  isEditGroupPage?: boolean,
+  formik: FormikProps<Group>,
 }
 
-const GroupCommonForm = ({ isEditGroupPage }: Props) => (
+const GroupCommonForm = ({ formik: { initialValues: { groupName } } }: Props) => (
   <div className="GroupCommonForm">
     <div className="GroupCommonForm__header">
       <div className="GroupCommonForm__title">
@@ -34,7 +35,7 @@ const GroupCommonForm = ({ isEditGroupPage }: Props) => (
         component={FormikInputField}
         type="text"
         className="GroupCommonForm__field"
-        disabled={isEditGroupPage}
+        disabled={groupName}
       />
       <Field
         label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DESCRIPTION')}
@@ -44,11 +45,11 @@ const GroupCommonForm = ({ isEditGroupPage }: Props) => (
         className="GroupCommonForm__field"
       />
       <Field
-        label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DEPOSIT_CURRENCE')}
+        label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DEPOSIT_CURRENCY')}
         name="currency"
         component={FormikSelectField}
         className="GroupCommonForm__field"
-        disabled={isEditGroupPage}
+        disabled={groupName}
       >
         {getBrand().currencies.supported.map((currenci: string) => (
           <option key={currenci} value={currenci}>
@@ -62,9 +63,9 @@ const GroupCommonForm = ({ isEditGroupPage }: Props) => (
         component={FormikSelectField}
         className="GroupCommonForm__field"
       >
-        {DEFAULT_LEVERAGES.map(levarage => (
-          <option key={levarage} value={levarage}>
-            1:{levarage}
+        {enumToArray(DefaultLeverage).map(key => (
+          <option key={DefaultLeverage[key]} value={DefaultLeverage[key]}>
+            1:{DefaultLeverage[key]}
           </option>
         ))}
       </Field>

@@ -1,5 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
 import { FormikProps } from 'formik';
 import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
@@ -40,25 +41,6 @@ const renderPercentage = ({ percentage }: Margin) => (
   <div className="GroupsGrid__cell-primary">
     {percentage}
   </div>
-);
-
-const renderActions = (
-  symbol: Margin,
-  handleDeleteGroupSymbolModal: (symbol: Margin) => void,
-  handleEditGroupSymbolModal: (symbol: Margin) => void,
-) => (
-  <>
-    <EditButton
-      onClick={() => handleEditGroupSymbolModal(symbol)}
-      className="GroupSymbolsGrid__edit-button"
-    />
-    <Button
-      transparent
-      onClick={() => handleDeleteGroupSymbolModal(symbol)}
-    >
-      <i className="fa fa-trash btn-transparent color-danger" />
-    </Button>
-  </>
 );
 
 const GroupSymbolsGrid = ({ modals, formik }: Props) => {
@@ -124,7 +106,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
       <Table
         stickyFromTop={123}
         items={groupMargins}
-        className="GroupSymbolsGrid__Table"
+        className="GroupSymbolsGrid__table"
         withCustomScroll
       >
         <Column
@@ -147,7 +129,18 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.ACTIONS')}
           render={(symbol: Margin) => (
-            renderActions(symbol, handleDeleteGroupSymbolModal, handleEditGroupSymbolModal)
+            <>
+              <EditButton
+                onClick={() => handleEditGroupSymbolModal(symbol)}
+                className="GroupSymbolsGrid__edit-button"
+              />
+              <Button
+                transparent
+                onClick={() => handleDeleteGroupSymbolModal(symbol)}
+              >
+                <i className="fa fa-trash btn-transparent color-danger" />
+              </Button>
+            </>
           )}
         />
       </Table>
@@ -155,9 +148,10 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   );
 };
 
-export default React.memo(
+export default compose(
+  React.memo,
   withModals({
     confirmationModal: ConfirmActionModal,
     groupNewSymbolModal: GroupNewSymbolModal,
-  })(GroupSymbolsGrid),
-);
+  }),
+)(GroupSymbolsGrid);

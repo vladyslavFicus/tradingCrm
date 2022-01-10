@@ -94,6 +94,10 @@ const REQUEST = gql`query ClientsList_ClientsQuery(
       }
       warnings
       online
+      lastCall {
+        date
+        callSystem
+      }
     }
   }
 }`;

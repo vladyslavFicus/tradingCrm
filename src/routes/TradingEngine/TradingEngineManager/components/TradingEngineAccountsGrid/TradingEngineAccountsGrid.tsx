@@ -1,15 +1,18 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import moment from 'moment';
+import { Pageable, Query } from 'types/query';
+import { Modal } from 'types/modal';
+import { Storage } from 'types/storage';
+import { Sort, State, Page } from 'types';
 import withModals from 'hoc/withModals';
 import { withStorage } from 'providers/StorageProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
-import PropTypes from 'constants/propTypes';
 import Badge from 'components/Badge';
 import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
@@ -20,20 +23,24 @@ import CommonNewOrderModal from '../../modals/CommonNewOrderModal';
 import { tradingEngineTabs } from '../../constants';
 import TradingEngineAccountsFilters from './components/TradingEngineAccountsFilters';
 import TradingEngineAccountsQuery from './graphql/TradingEngineAccountsQuery';
+import { TradingAccountItem } from './types';
 import './TradingEngineAccountsGrid.scss';
 
-class TradingEngineAccountsGrid extends PureComponent {
-  static propTypes = {
-    ...PropTypes.router,
-    ...withStorage.propTypes,
-    accounts: PropTypes.query({
-      tradingEngineAccountsData: PropTypes.pageable(PropTypes.tradingAccountsItem),
-    }).isRequired,
-    modals: PropTypes.shape({
-      newOrderModal: PropTypes.modal,
-    }).isRequired,
-  };
+interface Props {
+  accounts: Query<
+    { tradingEngineAccounts: Pageable<TradingAccountItem> },
+    { args: { page: Page } }
+  >,
+  modals: {
+    newOrderModal: Modal<{
+      mutableLogin: boolean,
+      onSuccess: () => void,
+    }>,
+  },
+  storage: Storage,
+}
 
+class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProps<{}, {}, State>> {
   handlePageChanged = () => {
     const {
       location: {
@@ -63,7 +70,7 @@ class TradingEngineAccountsGrid extends PureComponent {
     });
   };
 
-  handleSort = (sorts) => {
+  handleSort = (sorts: Sort[]) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -82,13 +89,12 @@ class TradingEngineAccountsGrid extends PureComponent {
     }
   };
 
-  renderTradingAccountColumn = ({ uuid, name, accountType, platformType, archived }) => (
+  renderTradingAccountColumn = ({ uuid, name, accountType, platformType }: TradingAccountItem) => (
     <Fragment>
       <Badge
-        text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
-        info={accountType === 'DEMO' && !archived}
-        success={accountType === 'LIVE' && !archived}
-        danger={archived}
+        text={I18n.t(accountTypesLabels[accountType].label)}
+        info={accountType === 'DEMO'}
+        success={accountType === 'LIVE'}
       >
         <div className="TradingEngineAccountsGrid__text-primary">
           {name}
@@ -100,7 +106,7 @@ class TradingEngineAccountsGrid extends PureComponent {
     </Fragment>
   );
 
-  renderLoginColumn = ({ login, group, uuid }) => (
+  renderLoginColumn = ({ login, group, uuid }: TradingAccountItem) => (
     <Link to={`/trading-engine-manager/accounts/${uuid}`} target="_blank">
       <div className="TradingEngineAccountsGrid__text-primary">
         {login}
@@ -118,7 +124,7 @@ class TradingEngineAccountsGrid extends PureComponent {
     });
   };
 
-  renderClientColumn = ({ profileUuid, profileFullName }) => (
+  renderClientColumn = ({ profileUuid, profileFullName }: TradingAccountItem) => (
     <>
       <div className="TradingEngineAccountsGrid__text-primary">
         {profileFullName}

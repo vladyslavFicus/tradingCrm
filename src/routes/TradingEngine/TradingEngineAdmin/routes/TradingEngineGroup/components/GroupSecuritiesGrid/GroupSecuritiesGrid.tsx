@@ -10,7 +10,6 @@ import { EditButton, Button } from 'components/UI';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
 import GropuSecurityCustomizationModal from '../../modals/GropuSecurityCustomizationModal';
 import { Group, GroupSecurity } from '../../types';
-import { COMMISION_TYPES, COMMISION_LOTS } from '../../constants';
 import './GroupSecuritiesGrid.scss';
 
 interface Props {
@@ -21,43 +20,6 @@ interface Props {
     gropuSecurityCustomizationModal: Modal,
   },
 }
-
-const renderType = ({ name, security }: GroupSecurity) => (
-  <div className="GroupsGrid__cell-primary">
-    {security?.name || name}
-  </div>
-);
-
-const renderSpread = ({ spreadDiff }: GroupSecurity) => (
-  <div className="GroupsGrid__cell-primary">
-    {spreadDiff}
-  </div>
-);
-
-const renderCommission = ({ lotMin, commissionType, commissionLots, lotMax }: GroupSecurity) => (
-  <div className="GroupsGrid__cell-primary">
-    {`${lotMin} ${COMMISION_TYPES[commissionType]} / ${lotMax} ${COMMISION_LOTS[commissionLots]}`}
-  </div>
-);
-
-const renderActions = (
-  security: GroupSecurity,
-  handleDeleteGroupSecurityModal: (security: GroupSecurity) => void,
-  handleEditGroupSecurityModal: (security: GroupSecurity) => void,
-) => (
-  <>
-    <EditButton
-      onClick={() => handleEditGroupSecurityModal(security)}
-      className="GroupSecuritiesGrid__edit-button"
-    />
-    <Button
-      transparent
-      onClick={() => handleDeleteGroupSecurityModal(security)}
-    >
-      <i className="fa fa-trash btn-transparent color-danger" />
-    </Button>
-  </>
-);
 
 const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const { groupNewSecurityModal, gropuSecurityCustomizationModal, confirmationModal } = modals;
@@ -122,26 +84,52 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
       <Table
         stickyFromTop={123}
         items={groupSecurities}
-        className="GroupSecuritiesGrid__Table"
+        className="GroupSecuritiesGrid__table"
         withCustomScroll
       >
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TYPE')}
-          render={renderType}
+          render={({ name, security }: GroupSecurity) => (
+            <div className="GroupsGrid__cell-primary">
+              {security?.name || name}
+            </div>
+          )}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.SPREAD')}
-          render={renderSpread}
+          render={({ spreadDiff }: GroupSecurity) => (
+            <div className="GroupsGrid__cell-primary">
+              {spreadDiff}
+            </div>
+          )}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.COMMISSION')}
-          render={renderCommission}
+          render={({ lotMin, commissionType, commissionLots, lotMax }: GroupSecurity) => (
+            <div className="GroupsGrid__cell-primary">
+              {`
+                ${lotMin} ${I18n.t(`TRADING_ENGINE.GROUP.${commissionType}`)} / 
+                ${lotMax} ${I18n.t(`TRADING_ENGINE.GROUP.PER_${commissionLots}`)}
+              `}
+            </div>
+          )}
         />
         <Column
           width={120}
           header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.ACTIONS')}
           render={(security: GroupSecurity) => (
-            renderActions(security, handleDeleteGroupSecurityModal, handleEditGroupSecurityModal)
+            <>
+              <EditButton
+                onClick={() => handleEditGroupSecurityModal(security)}
+                className="GroupSecuritiesGrid__edit-button"
+              />
+              <Button
+                transparent
+                onClick={() => handleDeleteGroupSecurityModal(security)}
+              >
+                <i className="fa fa-trash btn-transparent color-danger" />
+              </Button>
+            </>
           )}
         />
       </Table>
@@ -150,9 +138,10 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
 };
 
 export default compose(
+  React.memo,
   withModals({
     confirmationModal: ConfirmActionModal,
     groupNewSecurityModal: GroupNewSecurityModal,
     gropuSecurityCustomizationModal: GropuSecurityCustomizationModal,
   }),
-)(React.memo(GroupSecuritiesGrid));
+)(GroupSecuritiesGrid);

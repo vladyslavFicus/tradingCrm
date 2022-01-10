@@ -36,7 +36,7 @@ class ScheduleSettingsModal extends PureComponent<Props> {
     openTime,
     closeTime,
   }: SymbolSessionWorkingHours,
-  { setSubmitting }: FormikHelpers<SymbolSessionWorkingHours>) => {
+    { setSubmitting }: FormikHelpers<SymbolSessionWorkingHours>) => {
     const {
       dayOfWeek,
       sessionType,

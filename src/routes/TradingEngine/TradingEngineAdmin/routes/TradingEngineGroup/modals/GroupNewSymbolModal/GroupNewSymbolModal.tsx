@@ -5,25 +5,25 @@ import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Button } from 'components/UI';
-import { Query, QueryPageable } from 'types/query';
+import { Query, Pageable } from 'types/query';
 import { LevelType, Notify } from 'types/notify';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import SymbolsQuery from './graphql/SymbolsQuery';
-import { Margin, Symbol } from '../../types';
+import { Symbol } from '../../types';
 import './GroupNewSymbolModal.scss';
 
 interface SymbolsData {
-  tradingEngineAdminSymbols: QueryPageable<Margin>
+  tradingEngineAdminSymbols: Pageable<Symbol>
 }
 
 interface SymbolsVariables {
   args: {
     page: {
       from: number,
-      size: number
+      size: number,
     }
   }
 }
@@ -36,8 +36,24 @@ interface Props {
   onCloseModal: () => void,
   onSuccess: (security: any) => void,
   symbolsQuery: SymbolsQueryResult,
-  editableGroupMargin: Margin,
+  editableGroupMargin: Symbol,
 }
+
+const validate = createValidator(
+  {
+    symbol: ['required'],
+    percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
+    swapLong: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
+    swapShort: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
+  },
+  {
+    symbol: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SYMBOL'),
+    percentage: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.MARGIN_PERCENTAGE'),
+    swapLong: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.LONG_POSITION_SWAP'),
+    swapShort: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SHORT_POSITION_SWAP'),
+  },
+  false,
+);
 
 const GroupNewSymbolModal = ({
   isOpen,
@@ -47,7 +63,7 @@ const GroupNewSymbolModal = ({
   symbolsQuery,
   editableGroupMargin,
 }: Props) => {
-  const { data, loading } = symbolsQuery || {};
+  const { data, loading } = symbolsQuery;
   const symbols = data?.tradingEngineAdminSymbols?.content || [];
 
   const handleSubmit = (symbol: Symbol) => {
@@ -60,7 +76,10 @@ const GroupNewSymbolModal = ({
     onCloseModal();
   };
 
-  const handleSymbolChange = (value: string, setFieldValue: FormikProps<Margin>) => {
+  const handleSymbolChange = (
+    value: string,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+  ) => {
     const { symbol, percentage, swapConfigs } = symbols.find((_symbol: Symbol) => _symbol.symbol === value) || {};
 
     setFieldValue('symbol', symbol);
@@ -83,21 +102,7 @@ const GroupNewSymbolModal = ({
             swapLong: 0,
             swapShort: 0,
           }}
-        validate={createValidator(
-          {
-            symbol: ['required'],
-            percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
-            swapLong: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
-            swapShort: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
-          },
-          {
-            symbol: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SYMBOL'),
-            percentage: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.MARGIN_PERCENTAGE'),
-            swapLong: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.LONG_POSITION_SWAP'),
-            swapShort: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SHORT_POSITION_SWAP'),
-          },
-          false,
-        )}
+        validate={validate}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
@@ -195,8 +200,9 @@ const GroupNewSymbolModal = ({
 };
 
 export default compose(
+  React.memo,
+  withNotifications,
   withRequests({
     symbolsQuery: SymbolsQuery,
   }),
-  withNotifications,
-)(React.memo(GroupNewSymbolModal));
+)(GroupNewSymbolModal);

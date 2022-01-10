@@ -2,7 +2,6 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { omit } from 'lodash';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Formik, Form, FormikProps } from 'formik';
 import { withRequests } from 'apollo';
 import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
@@ -24,20 +23,34 @@ import EditGroupMutation from './graphql/EditGroupMutation';
 import './TradingEngineEditGroup.scss';
 
 interface Props {
-  id: string,
   notify: Notify,
   editGroup: (options: MutationOptions) => MutationResult<{ editGroup: null }>,
   groupQuery: QueryResult<{ tradingEngineAdminGroup: Group }>,
 }
 
+const validator = createValidator(
+  {
+    groupName: ['required', `regex:${groupNamePattern}`],
+    marginCallLevel: ['required', 'numeric', 'min:0', 'max:100'],
+    stopoutLevel: ['required', 'numeric', 'min:0', 'max:100'],
+  },
+  {
+    groupName: I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.NAME'),
+    marginCallLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.MARGIN_CALL_LEVEL'),
+    stopoutLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.STOP_OUT_LEVEL'),
+  },
+  false,
+  {
+    'regex.groupName': I18n.t('TRADING_ENGINE.GROUP.INVALID_NAME'),
+  },
+);
+
 const TradingEngineEditGroup = ({
   notify,
   editGroup,
   groupQuery,
-  history,
-  match: { params: { id } },
-}: Props & RouteComponentProps<{ id: string }>) => {
-  const { data, loading } = groupQuery || {};
+}: Props) => {
+  const { data, loading, refetch } = groupQuery;
 
   const handleSubmit = async (group: Group) => {
     try {
@@ -60,8 +73,7 @@ const TradingEngineEditGroup = ({
         title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
         message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.SUCCESS'),
       });
-
-      history.push('/trading-engine-admin/groups');
+      refetch();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -74,38 +86,20 @@ const TradingEngineEditGroup = ({
   return (
     <div className="TradingEngineEditGroup">
       <Formik
-        initialValues={data?.tradingEngineAdminGroup || {}}
-        validate={createValidator(
-          {
-            groupName: ['required', `regex:${groupNamePattern}`],
-            marginCallLevel: ['required', 'numeric', 'min:0', 'max:100'],
-            stopoutLevel: ['required', 'numeric', 'min:0', 'max:100'],
-          },
-          {
-            groupName: I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.NAME'),
-            marginCallLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.MARGIN_CALL_LEVEL'),
-            stopoutLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.STOP_OUT_LEVEL'),
-          },
-          false,
-          {
-            'regex.groupName': I18n.t('TRADING_ENGINE.GROUP.INVALID_NAME'),
-          },
-        )}
+        initialValues={data?.tradingEngineAdminGroup || ({} as Group)}
+        validate={validator}
         enableReinitialize
         onSubmit={handleSubmit}
       >
         {(formikBag: FormikProps<Group>) => (
           <Form>
-            <GroupProfileHeader
-              formik={formikBag}
-              isEditGroupPage={Boolean(id)}
-            />
+            <GroupProfileHeader formik={formikBag} />
             <Choose>
               <When condition={loading}>
                 <ShortLoader className="TradingEngineEditGroup__loader" />
               </When>
               <Otherwise>
-                <GroupCommonForm isEditGroupPage={Boolean(id)} />
+                <GroupCommonForm formik={formikBag} />
                 <GroupPermissionsForm />
                 <GroupArchivingForm />
                 <GroupMarginsForm />
@@ -120,11 +114,12 @@ const TradingEngineEditGroup = ({
   );
 };
 
+
 export default compose(
-  withRouter,
+  React.memo,
   withRequests({
     editGroup: EditGroupMutation,
     groupQuery: GroupQuery,
   }),
   withNotifications,
-)(React.memo(TradingEngineEditGroup));
+)(TradingEngineEditGroup);

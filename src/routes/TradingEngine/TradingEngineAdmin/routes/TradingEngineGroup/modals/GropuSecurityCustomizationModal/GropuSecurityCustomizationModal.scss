@@ -3,7 +3,7 @@
     padding: 20px 15px 0 15px;
   }
 
-  &__fields{
+  &__fields {
     display: grid;
     column-gap: 15px;
     grid-template-columns: repeat(12, 1fr);
@@ -29,5 +29,4 @@
     font-size: 11px;
     text-transform: uppercase;
   }
-
 }

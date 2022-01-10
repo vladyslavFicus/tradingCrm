@@ -1,9 +1,9 @@
 import { Location } from 'history';
-import { Sort } from 'types';
+import { Sort } from './sort';
 
-export interface State<TFilters = null, TSort = []> {
+export interface State<TFilters = {}> {
   filters?: TFilters,
-  sorts?: [] | undefined | TSort[] | Sort,
+  sorts?: undefined | Sort[],
 }
 
-export interface LocationState<TFilters> extends Location<State<TFilters>> { }
+export interface LocationState<TFilters = {}> extends Location<State<TFilters>> { }

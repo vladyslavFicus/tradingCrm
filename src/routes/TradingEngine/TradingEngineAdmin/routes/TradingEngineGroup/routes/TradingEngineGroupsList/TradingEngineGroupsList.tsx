@@ -1,4 +1,5 @@
 import React from 'react';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import Tabs from 'components/Tabs';
 import TradingEngineGroupsHeader from './components/GroupsHeader';
@@ -25,8 +26,9 @@ const TradingEngineGroupsList = ({ groupsListQuery }: Props) => (
   </div>
 );
 
-export default React.memo(
+export default compose(
+  React.memo,
   withRequests({
     groupsListQuery: GroupsListQuery,
-  })(TradingEngineGroupsList),
-);
+  }),
+)(TradingEngineGroupsList);

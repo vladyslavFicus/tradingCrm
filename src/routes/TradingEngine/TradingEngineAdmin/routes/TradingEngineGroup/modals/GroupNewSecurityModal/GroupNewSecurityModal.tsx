@@ -36,6 +36,12 @@ interface Props {
   onSuccess: (groupSecurity: GroupSecurity) => void,
 }
 
+const validate = createValidator({
+  security: {
+    id: 'required',
+  },
+});
+
 const GroupNewSecurityModal = ({
   isOpen,
   notify,
@@ -43,7 +49,7 @@ const GroupNewSecurityModal = ({
   onSuccess,
   securitiesQuery,
 }: Props) => {
-  const { data, loading } = securitiesQuery || {};
+  const { data, loading } = securitiesQuery;
   const securities = data?.tradingEngineSecurities || [];
 
   const handleSubmit = (groupSecurity: GroupSecurity) => {
@@ -56,7 +62,10 @@ const GroupNewSecurityModal = ({
     onCloseModal();
   };
 
-  const handleSecurityChange = (value: string, setFieldValue: FormikProps<Security>) => {
+  const handleSecurityChange = (
+    value: string,
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+  ) => {
     const { id, name } = securities.find(security => security.id === value) || {};
 
     setFieldValue('security.id', id);
@@ -84,17 +93,13 @@ const GroupNewSecurityModal = ({
           commissionType: GroupCommissionType.PIPS,
           commissionLots: GroupCommissionLots.LOT,
         }}
-        validate={createValidator({
-          security: {
-            id: 'required',
-          },
-        })}
+        validate={validate}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setFieldValue }: FormikProps<Security>) => (
+        {({ dirty, isSubmitting, setFieldValue }: FormikProps<GroupSecurity>) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               <Choose>
@@ -158,8 +163,9 @@ const GroupNewSecurityModal = ({
 };
 
 export default compose(
+  React.memo,
+  withNotifications,
   withRequests({
     securitiesQuery: TradingEngineSecuritiesQuery,
   }),
-  withNotifications,
-)(React.memo(GroupNewSecurityModal));
+)(GroupNewSecurityModal);

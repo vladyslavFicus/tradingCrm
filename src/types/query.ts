@@ -1,6 +1,6 @@
 import { QueryResult } from 'react-apollo';
 
-export interface QueryPageable<TContent> {
+export interface Pageable<TContent> {
   content: TContent[],
   page: number,
   size: number,
@@ -9,6 +9,6 @@ export interface QueryPageable<TContent> {
   number: number,
 }
 
-export interface Query<TData, TVariables> extends QueryResult<TData, TVariables> {
+export interface Query<TData, TVariables = void> extends QueryResult<TData, TVariables> {
   loadMore: (variables: TVariables) => TData;
 }

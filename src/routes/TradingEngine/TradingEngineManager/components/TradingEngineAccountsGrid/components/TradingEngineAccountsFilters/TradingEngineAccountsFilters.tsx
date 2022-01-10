@@ -1,25 +1,31 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import PropTypes from 'constants/propTypes';
 import { FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './TradingEngineAccountsFilters.scss';
 
-class TradingEngineAccountsFilters extends PureComponent {
-  static propTypes = {
-    ...PropTypes.router,
-    loading: PropTypes.bool,
-    handleRefetch: PropTypes.func.isRequired,
-  };
+interface InitialFormValues {
+  keyword?: string,
+}
 
+interface LocationState {
+  filters?: InitialFormValues | null,
+}
+
+interface Props extends RouteComponentProps<{}, {}, LocationState> {
+  loading: boolean,
+  handleRefetch: Function,
+}
+
+class TradingEngineAccountsFilters extends PureComponent<Props> {
   static defaultProps = {
     loading: false,
   };
 
-  handleSubmit = (values) => {
+  handleSubmit = (values: InitialFormValues) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
@@ -30,7 +36,7 @@ class TradingEngineAccountsFilters extends PureComponent {
     });
   };
 
-  handleReset = (resetForm) => {
+  handleReset = (resetForm: Function) => {
     const { history, location: { state } } = this.props;
 
     history.replace({

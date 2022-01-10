@@ -14,6 +14,18 @@
 
     &-field {
       margin-bottom: 0;
+
+      &--highlight {
+        color: #0cb56c;
+
+        &:hover:not(.is-disabled, .is-selected) {
+          color: #0cb56c;
+        }
+
+        &.is-selected {
+          color: #33f6a2;
+        }
+      }
     }
   }
 }
