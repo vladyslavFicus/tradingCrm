@@ -33,6 +33,23 @@ interface Props {
   createGroup: (options: MutationOptions) => MutationResult<{ createGroup: null }>,
 }
 
+const validator = createValidator(
+  {
+    groupName: ['required', `regex:${groupNamePattern}`],
+    marginCallLevel: ['required', 'numeric', 'min:0', 'max:100'],
+    stopoutLevel: ['required', 'numeric', 'min:0', 'max:100'],
+  },
+  {
+    groupName: I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.NAME'),
+    marginCallLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.MARGIN_CALL_LEVEL'),
+    stopoutLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.STOP_OUT_LEVEL'),
+  },
+  false,
+  {
+    'regex.groupName': I18n.t('TRADING_ENGINE.GROUP.INVALID_NAME'),
+  },
+);
+
 const TradingEngineNewGroup = ({
   notify,
   createGroup,
@@ -46,7 +63,7 @@ const TradingEngineNewGroup = ({
             ...group,
             // For BE groupSecurities need only security ID
             groupSecurities: group?.groupSecurities?.map((groupSecurity: GroupSecurity) => ({
-              securityId: Number(groupSecurity.security.id),
+              securityId: groupSecurity.security.id,
               ...omit(groupSecurity, 'security'),
             })) || [],
           },
@@ -91,22 +108,7 @@ const TradingEngineNewGroup = ({
           groupSecurities: [],
           groupMargins: [],
         }}
-        validate={createValidator(
-          {
-            groupName: ['required', `regex:${groupNamePattern}`],
-            marginCallLevel: ['required', 'numeric', 'min:0', 'max:100'],
-            stopoutLevel: ['required', 'numeric', 'min:0', 'max:100'],
-          },
-          {
-            groupName: I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.NAME'),
-            marginCallLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.MARGIN_CALL_LEVEL'),
-            stopoutLevel: I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.STOP_OUT_LEVEL'),
-          },
-          false,
-          {
-            'regex.groupName': I18n.t('TRADING_ENGINE.GROUP.INVALID_NAME'),
-          },
-        )}
+        validate={validator}
         enableReinitialize
         onSubmit={handleSubmit}
       >

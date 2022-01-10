@@ -160,7 +160,9 @@ const GropuSecurityCustomizationModal = ({
                   component={FormikSelectField}
                 >
                   {Object.keys(GroupCommissionType).map(key => (
-                    <option key={key} value={key}>{I18n.t(`TRADING_ENGINE.GROUP.${key}`)}</option>
+                    <option key={key} value={key}>
+                      {I18n.t(`TRADING_ENGINE.GROUP.${key}`)}
+                    </option>
                   ))}
                 </Field>
                 <Field
@@ -169,7 +171,9 @@ const GropuSecurityCustomizationModal = ({
                   component={FormikSelectField}
                 >
                   {Object.keys(GroupCommissionLots).map(key => (
-                    <option key={key} value={key}>{I18n.t(`TRADING_ENGINE.GROUP.PER_${key}`)}</option>
+                    <option key={key} value={key}>
+                      {I18n.t(`TRADING_ENGINE.GROUP.PER_${key}`)}
+                    </option>
                   ))}
                 </Field>
               </div>

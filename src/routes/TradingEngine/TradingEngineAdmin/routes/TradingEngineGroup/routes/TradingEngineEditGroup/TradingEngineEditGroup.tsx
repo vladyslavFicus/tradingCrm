@@ -61,7 +61,7 @@ const TradingEngineEditGroup = ({
             ...omit(group, ['currency']),
             // For BE groupSecurities need only security ID
             groupSecurities: group?.groupSecurities?.map((groupSecurity: GroupSecurity) => ({
-              securityId: Number(groupSecurity.security.id),
+              securityId: groupSecurity.security.id,
               ...omit(groupSecurity, 'security'),
             })) || [],
           },

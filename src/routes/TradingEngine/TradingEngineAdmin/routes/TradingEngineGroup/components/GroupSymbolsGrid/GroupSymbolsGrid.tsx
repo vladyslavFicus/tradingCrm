@@ -19,30 +19,6 @@ interface Props {
   },
 }
 
-const renderSymbol = ({ symbol }: Margin) => (
-  <div className="GroupsGrid__cell-primary">
-    {symbol}
-  </div>
-);
-
-const renderLong = ({ swapLong }: Margin) => (
-  <div className="GroupsGrid__cell-primary">
-    {swapLong}
-  </div>
-);
-
-const renderShort = ({ swapShort }: Margin) => (
-  <div className="GroupsGrid__cell-primary">
-    {swapShort}
-  </div>
-);
-
-const renderPercentage = ({ percentage }: Margin) => (
-  <div className="GroupsGrid__cell-primary">
-    {percentage}
-  </div>
-);
-
 const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const { confirmationModal, groupNewSymbolModal } = modals;
   const { values, setFieldValue } = formik;
@@ -111,19 +87,35 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
       >
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SYMBOL')}
-          render={renderSymbol}
+          render={({ symbol }: Margin) => (
+            <div className="GroupsGrid__cell-primary">
+              {symbol}
+            </div>
+          )}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.LONG')}
-          render={renderLong}
+          render={({ swapLong }: Margin) => (
+            <div className="GroupsGrid__cell-primary">
+              {swapLong}
+            </div>
+          )}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SHORT')}
-          render={renderShort}
+          render={({ swapShort }: Margin) => (
+            <div className="GroupsGrid__cell-primary">
+              {swapShort}
+            </div>
+          )}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.PERCENTAGE')}
-          render={renderPercentage}
+          render={({ percentage }: Margin) => (
+            <div className="GroupsGrid__cell-primary">
+              {percentage}
+            </div>
+          )}
         />
         <Column
           width={120}
