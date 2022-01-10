@@ -139,12 +139,12 @@ class Select extends PureComponent {
         originalSelectedOptions: selectedOptions,
         toSelectOptions: [],
         children: nextProps.children,
-        value: nextProps.value,
+        value,
         multiple: nextProps.multiple,
       };
     }
 
-    if (!objectShallowEqual(value, nextProps.value) && !opened) {
+    if (!objectShallowEqual(prevState.value, value) && !opened) {
       const opts = [...filterOptions(nextProps.children)];
       // happened when after choosing value, we add more options to select
       if (opts.length > options) {

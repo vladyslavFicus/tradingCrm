@@ -1,4 +1,4 @@
-export interface Modal {
-  show: (values?: Object) => void;
+export interface Modal<TProps = {}> {
+  show: (props?: TProps) => void;
   hide: () => void;
 }

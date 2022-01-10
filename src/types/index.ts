@@ -2,7 +2,7 @@ import { Sort } from './sort';
 import { LocationState, State } from './location';
 import { Page } from './page';
 
-export {
+export type {
   Sort,
   LocationState,
   State,
