@@ -88,58 +88,59 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.ADD_SECURITY')}
         </Button>
       </div>
-      <Table
-        stickyFromTop={123}
-        items={groupSecurities}
-        className="GroupSecuritiesGrid__table"
-        withCustomScroll
-      >
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TYPE')}
-          render={({ name, security }: GroupSecurity) => (
-            <div className="GroupsGrid__cell-primary">
-              {security?.name || name}
-            </div>
-          )}
-        />
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.SPREAD')}
-          render={({ spreadDiff }: GroupSecurity) => (
-            <div className="GroupsGrid__cell-primary">
-              {spreadDiff}
-            </div>
-          )}
-        />
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.COMMISSION')}
-          render={({ lotMin, commissionType, commissionLots, lotMax }: GroupSecurity) => (
-            <div className="GroupsGrid__cell-primary">
-              {`
+      <div id="group-securities-table-scrollable-target">
+        <Table
+          stickyFromTop={0}
+          items={groupSecurities}
+          scrollableTarget="group-securities-table-scrollable-target"
+        >
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TYPE')}
+            render={({ name, security }: GroupSecurity) => (
+              <div className="GroupsGrid__cell-primary">
+                {security?.name || name}
+              </div>
+            )}
+          />
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.SPREAD')}
+            render={({ spreadDiff }: GroupSecurity) => (
+              <div className="GroupsGrid__cell-primary">
+                {spreadDiff}
+              </div>
+            )}
+          />
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.COMMISSION')}
+            render={({ lotMin, commissionType, commissionLots, lotMax }: GroupSecurity) => (
+              <div className="GroupsGrid__cell-primary">
+                {`
                 ${lotMin} ${I18n.t(`TRADING_ENGINE.GROUP.${commissionType}`)} / 
                 ${lotMax} ${I18n.t(`TRADING_ENGINE.GROUP.PER_${commissionLots}`)}
               `}
-            </div>
-          )}
-        />
-        <Column
-          width={120}
-          header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.ACTIONS')}
-          render={(security: GroupSecurity) => (
-            <>
-              <EditButton
-                onClick={() => handleEditGroupSecurityModal(security)}
-                className="GroupSecuritiesGrid__edit-button"
-              />
-              <Button
-                transparent
-                onClick={() => handleDeleteGroupSecurityModal(security)}
-              >
-                <i className="fa fa-trash btn-transparent color-danger" />
-              </Button>
-            </>
-          )}
-        />
-      </Table>
+              </div>
+            )}
+          />
+          <Column
+            width={120}
+            header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.ACTIONS')}
+            render={(security: GroupSecurity) => (
+              <>
+                <EditButton
+                  onClick={() => handleEditGroupSecurityModal(security)}
+                  className="GroupSecuritiesGrid__edit-button"
+                />
+                <Button
+                  transparent
+                  onClick={() => handleDeleteGroupSecurityModal(security)}
+                >
+                  <i className="fa fa-trash btn-transparent color-danger" />
+                </Button>
+              </>
+            )}
+          />
+        </Table>
+      </div>
     </div>
   );
 };

@@ -83,7 +83,7 @@ const TradingEngineNewGroup = ({
       notify({
         level: LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
-        message: error.error === 'error.group.already.exist'
+        message: error.error === 'error.group.already.exists'
           ? I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.CREATE.FAILED_EXIST')
           : I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.CREATE.FAILED'),
       });

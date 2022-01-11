@@ -24,7 +24,11 @@
     margin-right: 15px;
   }
 
-  &__table {
+  #group-securities-table-scrollable-target {
     height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #dfe4ed;
+    border-top: none;
   }
 }

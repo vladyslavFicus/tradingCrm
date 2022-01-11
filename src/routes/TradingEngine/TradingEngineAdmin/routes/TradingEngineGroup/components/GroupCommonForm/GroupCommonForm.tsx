@@ -35,7 +35,7 @@ const GroupCommonForm = ({ formik: { initialValues: { groupName } } }: Props) =>
         component={FormikInputField}
         type="text"
         className="GroupCommonForm__field"
-        disabled={groupName}
+        disabled={Boolean(groupName)}
       />
       <Field
         label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DESCRIPTION')}
@@ -49,7 +49,7 @@ const GroupCommonForm = ({ formik: { initialValues: { groupName } } }: Props) =>
         name="currency"
         component={FormikSelectField}
         className="GroupCommonForm__field"
-        disabled={groupName}
+        disabled={Boolean(groupName)}
       >
         {getBrand().currencies.supported.map((currenci: string) => (
           <option key={currenci} value={currenci}>

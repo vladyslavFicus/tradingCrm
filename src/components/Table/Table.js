@@ -25,8 +25,6 @@ class Table extends PureComponent {
     onSelectError: PropTypes.func, // Callback when select rows executed error when maximum selecting exceeded
     withMultiSelect: PropTypes.bool, // Flag to enable multi-select functionality
     maxSelectCount: PropTypes.number, // Maximum of selected rows
-    className: PropTypes.string, // Table class name
-    withCustomScroll: PropTypes.bool, // scrolling without infiniteScroll functionality
   };
 
   static defaultProps = {
@@ -43,8 +41,6 @@ class Table extends PureComponent {
     onSelectError: () => {},
     withMultiSelect: false,
     maxSelectCount: Infinity,
-    withCustomScroll: false,
-    className: null,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -391,35 +387,25 @@ class Table extends PureComponent {
   };
 
   render() {
-    const { hasMore, onMore, items, scrollableTarget, className, withCustomScroll } = this.props;
+    const { hasMore, onMore, items, scrollableTarget } = this.props;
 
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === Column);
 
     return (
-      <div className={classNames('Table', className, { 'Table--withCustomScroll': withCustomScroll })}>
-        <Choose>
-          <When condition={withCustomScroll}>
-            <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
-              <thead className="Table__head">{this.renderHead(columns)}</thead>
-              <tbody className="Table__body">{this.renderBody(columns)}</tbody>
-            </table>
-          </When>
-          <Otherwise>
-            <InfiniteScroll
-              dataLength={items.length}
-              next={onMore}
-              hasMore={hasMore}
-              scrollableTarget={scrollableTarget}
-              loader={<ShortPreloader className="Table--loader" />}
-              style={{ overflow: 'unset' }}
-            >
-              <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
-                <thead className="Table__head">{this.renderHead(columns)}</thead>
-                <tbody className="Table__body">{this.renderBody(columns)}</tbody>
-              </table>
-            </InfiniteScroll>
-          </Otherwise>
-        </Choose>
+      <div className="Table">
+        <InfiniteScroll
+          dataLength={items.length}
+          next={onMore}
+          hasMore={hasMore}
+          scrollableTarget={scrollableTarget}
+          loader={<ShortPreloader className="Table--loader" />}
+          style={{ overflow: 'unset' }}
+        >
+          <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
+            <thead className="Table__head">{this.renderHead(columns)}</thead>
+            <tbody className="Table__body">{this.renderBody(columns)}</tbody>
+          </table>
+        </InfiniteScroll>
       </div>
     );
   }

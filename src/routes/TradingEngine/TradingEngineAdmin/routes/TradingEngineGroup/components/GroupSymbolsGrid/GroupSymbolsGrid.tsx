@@ -84,63 +84,64 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.ADD_SYMBOL')}
         </Button>
       </div>
-      <Table
-        stickyFromTop={123}
-        items={groupMargins}
-        className="GroupSymbolsGrid__table"
-        withCustomScroll
-      >
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SYMBOL')}
-          render={({ symbol }: Margin) => (
-            <div className="GroupsGrid__cell-primary">
-              {symbol}
-            </div>
-          )}
-        />
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.LONG')}
-          render={({ swapLong }: Margin) => (
-            <div className="GroupsGrid__cell-primary">
-              {swapLong}
-            </div>
-          )}
-        />
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SHORT')}
-          render={({ swapShort }: Margin) => (
-            <div className="GroupsGrid__cell-primary">
-              {swapShort}
-            </div>
-          )}
-        />
-        <Column
-          header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.PERCENTAGE')}
-          render={({ percentage }: Margin) => (
-            <div className="GroupsGrid__cell-primary">
-              {percentage}
-            </div>
-          )}
-        />
-        <Column
-          width={120}
-          header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.ACTIONS')}
-          render={(symbol: Margin) => (
-            <>
-              <EditButton
-                onClick={() => handleEditGroupSymbolModal(symbol)}
-                className="GroupSymbolsGrid__edit-button"
-              />
-              <Button
-                transparent
-                onClick={() => handleDeleteGroupSymbolModal(symbol)}
-              >
-                <i className="fa fa-trash btn-transparent color-danger" />
-              </Button>
-            </>
-          )}
-        />
-      </Table>
+      <div id="group-symbols-table-scrollable-target">
+        <Table
+          stickyFromTop={0}
+          items={groupMargins}
+          scrollableTarget="group-symbols-table-scrollable-target"
+        >
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SYMBOL')}
+            render={({ symbol }: Margin) => (
+              <div className="GroupsGrid__cell-primary">
+                {symbol}
+              </div>
+            )}
+          />
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.LONG')}
+            render={({ swapLong }: Margin) => (
+              <div className="GroupsGrid__cell-primary">
+                {swapLong}
+              </div>
+            )}
+          />
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SHORT')}
+            render={({ swapShort }: Margin) => (
+              <div className="GroupsGrid__cell-primary">
+                {swapShort}
+              </div>
+            )}
+          />
+          <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.PERCENTAGE')}
+            render={({ percentage }: Margin) => (
+              <div className="GroupsGrid__cell-primary">
+                {percentage}
+              </div>
+            )}
+          />
+          <Column
+            width={120}
+            header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.ACTIONS')}
+            render={(symbol: Margin) => (
+              <>
+                <EditButton
+                  onClick={() => handleEditGroupSymbolModal(symbol)}
+                  className="GroupSymbolsGrid__edit-button"
+                />
+                <Button
+                  transparent
+                  onClick={() => handleDeleteGroupSymbolModal(symbol)}
+                >
+                  <i className="fa fa-trash btn-transparent color-danger" />
+                </Button>
+              </>
+            )}
+          />
+        </Table>
+      </div>
     </div>
   );
 };
