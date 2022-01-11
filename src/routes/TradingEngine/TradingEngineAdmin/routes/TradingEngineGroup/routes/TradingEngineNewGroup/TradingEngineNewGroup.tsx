@@ -76,7 +76,7 @@ const TradingEngineNewGroup = ({
         message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.CREATE.SUCCESS'),
       });
 
-      history.push(`/trading-engine-admin/groups/edit-group/${group.groupName}`);
+      history.push(`/trading-engine-admin/groups/${group.groupName}`);
     } catch (e) {
       const error = parseErrors(e);
 

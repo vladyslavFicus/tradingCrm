@@ -3,9 +3,10 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { omit } from 'lodash';
 import { Formik, Form, FormikProps } from 'formik';
-import { withRequests } from 'apollo';
+import { withRequests, hasErrorPath } from 'apollo';
 import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
 import { withNotifications } from 'hoc';
+import NotFound from 'routes/NotFound';
 import { Notify, LevelType } from 'types/notify';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
@@ -50,7 +51,12 @@ const TradingEngineEditGroup = ({
   editGroup,
   groupQuery,
 }: Props) => {
-  const { data, loading, refetch } = groupQuery;
+  const { data, loading, error, refetch } = groupQuery;
+  const groupError = hasErrorPath(error, 'tradingEngineAdminGroup');
+
+  if (groupError) {
+    return <NotFound />;
+  }
 
   const handleSubmit = async (group: Group) => {
     try {

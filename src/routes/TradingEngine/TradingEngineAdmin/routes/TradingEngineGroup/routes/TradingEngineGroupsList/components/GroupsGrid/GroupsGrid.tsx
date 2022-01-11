@@ -71,7 +71,7 @@ const GroupsGrid = ({
   };
 
   const handleEditGroupClick = (groupName: string) => {
-    history.push(`/trading-engine-admin/groups/edit-group/${groupName}`);
+    history.push(`/trading-engine-admin/groups/${groupName}`);
   };
 
   const handleSort = (sorts: Sort) => {
@@ -144,15 +144,17 @@ const GroupsGrid = ({
         />
         <Column
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.SECURITIES')}
-          render={({ groupSecurities }: GroupList) => {
-            const securities = (groupSecurities || [])
-              .map(({ security }: GroupSecurities) => security.name)
-              .join(', ');
-
-            return (
-              <div>{securities}</div>
-            );
-          }}
+          render={({ groupSecurities }: GroupList) => (
+            <Choose>
+              {/* "groupSecurities" can be null (not an array), that's why this condition here */}
+              <When condition={groupSecurities && groupSecurities.length > 0}>
+                <div>{groupSecurities.map(({ security }: GroupSecurities) => security.name).join(', ')}</div>
+              </When>
+              <Otherwise>
+                &mdash;
+              </Otherwise>
+            </Choose>
+          )}
         />
         <Column
           width={120}

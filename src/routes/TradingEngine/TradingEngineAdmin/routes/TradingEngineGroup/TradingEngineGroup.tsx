@@ -8,8 +8,8 @@ import TradingEngineEditGroup from './routes/TradingEngineEditGroup';
 const TradingEngineGroup = ({ match: { path, url } }: RouteComponentProps) => (
   <Switch>
     <Route path={`${path}/list`} component={TradingEngineGroupsList} />
-    <Route path={`${path}/new-group`} component={TradingEngineNewGroup} />
-    <Route path={`${path}/edit-group/:id`} component={TradingEngineEditGroup} />
+    <Route path={`${path}/new`} component={TradingEngineNewGroup} />
+    <Route path={`${path}/:id`} component={TradingEngineEditGroup} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );

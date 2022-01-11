@@ -17,7 +17,7 @@ const GroupsHeader = ({ groupsListQuery }: Props) => {
   const { totalElements } = groupsListData?.tradingEngineAdminGroups || {};
 
   const handleCreateClick = () => {
-    history.push('/trading-engine-admin/groups/new-group');
+    history.push('/trading-engine-admin/groups/new');
   };
 
   return (
