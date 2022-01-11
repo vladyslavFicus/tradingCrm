@@ -1,5 +1,7 @@
 import React from 'react';
 import I18n from 'i18n';
+import { withApollo, WithApolloClient } from 'react-apollo';
+import compose from 'compose-function';
 import { Field, FormikProps } from 'formik';
 import {
   FormikInputField,
@@ -8,6 +10,7 @@ import {
 } from 'components/Formik';
 import { backgroundColor, symbolTypeLabels } from '../../constants';
 import { FormValues, SymbolType } from '../../../../types';
+import SymbolQuery from './graphql/SymbolQuery';
 import './SymbolSettings.scss';
 
 interface Props extends FormikProps<FormValues> {
@@ -19,11 +22,12 @@ interface Props extends FormikProps<FormValues> {
   }[],
 }
 
-const SymbolSettings = (props: Props) => {
+const SymbolSettings = (props: WithApolloClient<Props>) => {
   const {
     symbolsSources,
     securities,
     setValues,
+    setFieldValue,
     initialValues,
     values,
   } = props;
@@ -34,6 +38,27 @@ const SymbolSettings = (props: Props) => {
       symbolType: value,
       marginCalculation: value,
       profitCalculation: value,
+    });
+  };
+
+  const onChangeSymbolSource = async (symbolName: string) => {
+    // Set field value before to avoid delay while symbol fetching for BE
+    setFieldValue('source', symbolName);
+
+    const {
+      data: {
+        tradingEngineAdminSymbol,
+      },
+    } = await props.client.query({
+      query: SymbolQuery,
+      variables: { symbolName },
+      fetchPolicy: 'network-only',
+    });
+
+    setValues({
+      ...values,
+      ...tradingEngineAdminSymbol,
+      source: symbolName, // Repeat set symbol name here because "values" object doesn't have source field yet
     });
   };
 
@@ -59,6 +84,7 @@ const SymbolSettings = (props: Props) => {
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
+          customOnChange={onChangeSymbolSource}
           searchable
         >
           {symbolsSources.map(({ sourceName }) => (
@@ -182,4 +208,7 @@ const SymbolSettings = (props: Props) => {
   );
 };
 
-export default React.memo(SymbolSettings);
+export default compose(
+  React.memo,
+  withApollo,
+)(SymbolSettings);
