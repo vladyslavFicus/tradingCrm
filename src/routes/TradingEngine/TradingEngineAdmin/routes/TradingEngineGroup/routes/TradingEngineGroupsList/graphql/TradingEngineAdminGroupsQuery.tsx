@@ -35,7 +35,7 @@ const REQUEST = gql`
   }
 `;
 
-const GroupsListQuery = ({ children, location: { state } }: Props) => (
+const TradingEngineAdminGroupsQuery = ({ children, location: { state } }: Props) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
@@ -54,4 +54,4 @@ const GroupsListQuery = ({ children, location: { state } }: Props) => (
   </Query>
 );
 
-export default GroupsListQuery;
+export default TradingEngineAdminGroupsQuery;

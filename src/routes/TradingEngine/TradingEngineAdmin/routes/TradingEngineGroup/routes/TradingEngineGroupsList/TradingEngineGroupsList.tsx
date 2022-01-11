@@ -5,7 +5,7 @@ import Tabs from 'components/Tabs';
 import TradingEngineGroupsHeader from './components/GroupsHeader';
 import TradingEngineGroupsGrid from './components/GroupsGrid';
 import TradingEngineGroupsGridFilters from './components/GroupsGridFilters';
-import GroupsListQuery from './graphql/GroupsListQuery';
+import TradingEngineAdminGroupsQuery from './graphql/TradingEngineAdminGroupsQuery';
 import { tradingEngineAdminTabs } from '../../../../constants';
 import { GroupsQueryResult } from './types/group';
 import './TradingEngineGroupsList.scss';
@@ -29,6 +29,6 @@ const TradingEngineGroupsList = ({ groupsListQuery }: Props) => (
 export default compose(
   React.memo,
   withRequests({
-    groupsListQuery: GroupsListQuery,
+    groupsListQuery: TradingEngineAdminGroupsQuery,
   }),
 )(TradingEngineGroupsList);
