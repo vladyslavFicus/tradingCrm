@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { FormikProps } from 'formik';
 import { withModals } from 'hoc';
-import { Modal } from 'types/modal';
+import { Modal, ConfirmationModal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button, EditButton } from 'components/UI';
@@ -14,8 +14,12 @@ import './GroupSymbolsGrid.scss';
 interface Props {
   formik: FormikProps<Group>,
   modals: {
-    confirmationModal: Modal,
-    groupNewSymbolModal: Modal,
+    confirmationModal: ConfirmationModal,
+    groupNewSymbolModal: Modal<{
+      onSuccess: (symbol: Margin) => void,
+      editableGroupMargin?: Margin,
+      groupMargins?: Margin[]
+    }>,
   },
 }
 
@@ -46,13 +50,14 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const handleNewGroupSymbolModal = () => {
     groupNewSymbolModal.show({
       onSuccess: newGroupSymbol,
+      groupMargins,
     });
   };
 
   const handleEditGroupSymbolModal = (symbol: Margin) => {
     groupNewSymbolModal.show({
-      editableGroupMargin: symbol,
       onSuccess: editGroupSymbol,
+      editableGroupMargin: symbol,
     });
   };
 

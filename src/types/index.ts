@@ -2,7 +2,7 @@ import { Sort } from './sort';
 import { LocationState, State } from './location';
 import { Page } from './page';
 import { LevelType, Notify } from './notify';
-import { Modal } from './modal';
+import { Modal, ConfirmationModal } from './modal';
 
 export type {
   Sort,
@@ -11,6 +11,7 @@ export type {
   Page,
   Notify,
   Modal,
+  ConfirmationModal,
 };
 
 export {

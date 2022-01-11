@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field, FormikProps } from 'formik';
+import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
 import { Button } from 'components/UI';
 import { Query, Pageable } from 'types/query';
 import { LevelType, Notify } from 'types/notify';
@@ -12,7 +12,7 @@ import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import SymbolsQuery from './graphql/SymbolsQuery';
-import { Symbol } from '../../types';
+import { Symbol, Margin } from '../../types';
 import './GroupNewSymbolModal.scss';
 
 interface SymbolsData {
@@ -37,6 +37,7 @@ interface Props {
   onSuccess: (security: any) => void,
   symbolsQuery: SymbolsQueryResult,
   editableGroupMargin: Symbol,
+  groupMargins: Margin[],
 }
 
 const validate = createValidator(
@@ -62,18 +63,29 @@ const GroupNewSymbolModal = ({
   onSuccess,
   symbolsQuery,
   editableGroupMargin,
+  groupMargins,
 }: Props) => {
   const { data, loading } = symbolsQuery;
   const symbols = data?.tradingEngineAdminSymbols?.content || [];
 
-  const handleSubmit = (symbol: Symbol) => {
-    notify({
-      level: LevelType.SUCCESS,
-      title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
-      message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.NOTIFICATION.SUCCESS'),
-    });
-    onSuccess(symbol);
-    onCloseModal();
+  const handleSubmit = (symbol: Symbol, { setSubmitting }: FormikHelpers<Symbol>) => {
+    const isExist = groupMargins.find((_symbol: Margin) => _symbol.symbol === symbol.symbol);
+    if (isExist) {
+      notify({
+        level: LevelType.WARNING,
+        title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
+        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.NOTIFICATION.FAILED_EXIST'),
+      });
+      setSubmitting(false);
+    } else {
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
+        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.NOTIFICATION.SUCCESS'),
+      });
+      onSuccess(symbol);
+      onCloseModal();
+    }
   };
 
   const handleSymbolChange = (

@@ -3655,7 +3655,8 @@
         "DESCRIPTION": "To add new security please choose the Security from the drop-down list below",
         "SECURITY": "Security",
         "NOTIFICATION": {
-          "SUCCESS": "Security has been successfully added to security table"
+          "SUCCESS": "Security has been successfully added to security table",
+          "FAILED_EXIST": "Security with this name already exists."
         }
       },
       "GROUP_CUSTOMIZATION_SECURITY_MODAL": {
@@ -3681,7 +3682,8 @@
         "SHORT_POSITION_SWAP": "Short position swap",
         "MARGIN_PERCENTAGE": "Margin percentage",
          "NOTIFICATION": {
-          "SUCCESS": "Symbol has been successfully added to symbol table"
+          "SUCCESS": "Symbol has been successfully added to symbol table",
+          "FAILED_EXIST": "Symbol with this name already exists."
         }
       }
     },

@@ -13,7 +13,7 @@ import {
   GroupSecurity, SpreadDiff, LotMin, LotMax, LotStep,
   GroupCommissionType, GroupCommissionLots,
 } from '../../types';
-import './GropuSecurityCustomizationModal.scss';
+import './GroupSecurityCustomizationModal.scss';
 
 interface Props {
   editableGroupSecurity: GroupSecurity,
@@ -33,7 +33,7 @@ const validate = createValidator(
   false,
 );
 
-const GropuSecurityCustomizationModal = ({
+const GroupSecurityCustomizationModal = ({
   editableGroupSecurity,
   isOpen,
   notify,
@@ -52,7 +52,7 @@ const GropuSecurityCustomizationModal = ({
 
   return (
     <Modal
-      className="GropuSecurityCustomizationModal"
+      className="GroupSecurityCustomizationModal"
       toggle={onCloseModal}
       isOpen={isOpen}
     >
@@ -70,7 +70,7 @@ const GropuSecurityCustomizationModal = ({
               {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.TITLE')}
             </ModalHeader>
 
-            <div className="GropuSecurityCustomizationModal__description">
+            <div className="GroupSecurityCustomizationModal__description">
               {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.DESCRIPTION')}
             </div>
 
@@ -78,15 +78,15 @@ const GropuSecurityCustomizationModal = ({
               <Field
                 name="show"
                 label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.ENABLE')}
-                className="GropuSecurityCustomizationModal__field"
+                className="GroupSecurityCustomizationModal__field"
                 component={FormikCheckbox}
               />
 
-              <div className="GropuSecurityCustomizationModal__fields">
+              <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="spreadDiff"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.SPRED_DIFFERENCE')}
-                  className="GropuSecurityCustomizationModal__field"
+                  className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
                   {enumToArray(SpreadDiff).map(key => (
@@ -97,15 +97,15 @@ const GropuSecurityCustomizationModal = ({
                 </Field>
               </div>
 
-              <div className="GropuSecurityCustomizationModal__title">
+              <div className="GroupSecurityCustomizationModal__title">
                 {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOTS')}
               </div>
 
-              <div className="GropuSecurityCustomizationModal__fields">
+              <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="lotMin"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MIN')}
-                  className="GropuSecurityCustomizationModal__field"
+                  className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
                   {enumToArray(LotMin).map(key => (
@@ -117,7 +117,7 @@ const GropuSecurityCustomizationModal = ({
                 <Field
                   name="lotMax"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MAX')}
-                  className="GropuSecurityCustomizationModal__field"
+                  className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
                   {enumToArray(LotMax).map(key => (
@@ -129,7 +129,7 @@ const GropuSecurityCustomizationModal = ({
                 <Field
                   name="lotStep"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_STEP')}
-                  className="GropuSecurityCustomizationModal__field"
+                  className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
                   {enumToArray(LotStep).map(key => (
@@ -140,23 +140,23 @@ const GropuSecurityCustomizationModal = ({
                 </Field>
               </div>
 
-              <div className="GropuSecurityCustomizationModal__title">
+              <div className="GroupSecurityCustomizationModal__title">
                 {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.COMMISSIONS')}
               </div>
 
-              <div className="GropuSecurityCustomizationModal__fields">
+              <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="commissionBase"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.STANDART')}
-                  className="GropuSecurityCustomizationModal__field--small"
-                  classNameError="GropuSecurityCustomizationModal__field--errorMessage"
+                  className="GroupSecurityCustomizationModal__field--small"
+                  classNameError="GroupSecurityCustomizationModal__field--errorMessage"
                   component={FormikInputField}
                   digitsAfterDot={2}
                   type="number"
                 />
                 <Field
                   name="commissionType"
-                  className="GropuSecurityCustomizationModal__field--small"
+                  className="GroupSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >
                   {Object.keys(GroupCommissionType).map(key => (
@@ -167,7 +167,7 @@ const GropuSecurityCustomizationModal = ({
                 </Field>
                 <Field
                   name="commissionLots"
-                  className="GropuSecurityCustomizationModal__field--small"
+                  className="GroupSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >
                   {Object.keys(GroupCommissionLots).map(key => (
@@ -204,4 +204,4 @@ const GropuSecurityCustomizationModal = ({
 export default compose(
   React.memo,
   withNotifications,
-)(GropuSecurityCustomizationModal);
+)(GroupSecurityCustomizationModal);

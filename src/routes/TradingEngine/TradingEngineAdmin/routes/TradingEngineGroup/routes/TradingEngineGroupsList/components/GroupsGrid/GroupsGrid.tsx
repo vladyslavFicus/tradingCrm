@@ -5,7 +5,7 @@ import { withRequests } from 'apollo';
 import { MutationResult, MutationOptions } from 'react-apollo';
 import { useHistory, useLocation } from 'react-router-dom';
 import { withNotifications, withModals } from 'hoc';
-import { State, Sort, Modal, LevelType, Notify } from 'types';
+import { State, Sort, ConfirmationModal, LevelType, Notify } from 'types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
@@ -18,7 +18,7 @@ interface Props {
   notify: Notify,
   deleteGroup: (options: MutationOptions) => MutationResult<{ deleteGroup: null }>,
   modals: {
-    confirmationModal: Modal,
+    confirmationModal: ConfirmationModal,
   },
 }
 

@@ -3,26 +3,32 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { FormikProps } from 'formik';
 import { withModals } from 'hoc';
-import { Modal } from 'types';
+import { Modal, ConfirmationModal } from 'types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
-import GropuSecurityCustomizationModal from '../../modals/GropuSecurityCustomizationModal';
+import GroupSecurityCustomizationModal from '../../modals/GroupSecurityCustomizationModal';
 import { Group, GroupSecurity } from '../../types';
 import './GroupSecuritiesGrid.scss';
 
 interface Props {
   formik: FormikProps<Group>,
   modals: {
-    confirmationModal: Modal,
-    groupNewSecurityModal: Modal,
-    gropuSecurityCustomizationModal: Modal,
+    confirmationModal: ConfirmationModal,
+    groupNewSecurityModal: Modal<{
+      onSuccess: (groupSecurity: GroupSecurity) => void,
+      groupSecurities: GroupSecurity[],
+    }>,
+    groupSecurityCustomizationModal: Modal<{
+      onSuccess: (editableGroupSecurity: GroupSecurity) => void,
+      editableGroupSecurity: GroupSecurity,
+    }>,
   },
 }
 
 const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
-  const { groupNewSecurityModal, gropuSecurityCustomizationModal, confirmationModal } = modals;
+  const { groupNewSecurityModal, groupSecurityCustomizationModal, confirmationModal } = modals;
   const { values, setFieldValue } = formik;
   const groupSecurities = values?.groupSecurities || [];
 
@@ -48,11 +54,12 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const handleNewGroupSecurityModal = () => {
     groupNewSecurityModal.show({
       onSuccess: newGroupSecurity,
+      groupSecurities,
     });
   };
 
   const handleEditGroupSecurityModal = (editableGroupSecurity: GroupSecurity) => {
-    gropuSecurityCustomizationModal.show({
+    groupSecurityCustomizationModal.show({
       editableGroupSecurity,
       onSuccess: editGroupSecurity,
     });
@@ -142,6 +149,6 @@ export default compose(
   withModals({
     confirmationModal: ConfirmActionModal,
     groupNewSecurityModal: GroupNewSecurityModal,
-    gropuSecurityCustomizationModal: GropuSecurityCustomizationModal,
+    groupSecurityCustomizationModal: GroupSecurityCustomizationModal,
   }),
 )(GroupSecuritiesGrid);

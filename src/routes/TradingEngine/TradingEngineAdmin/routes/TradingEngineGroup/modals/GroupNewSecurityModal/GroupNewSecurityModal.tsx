@@ -4,7 +4,7 @@ import compose from 'compose-function';
 import { QueryResult } from 'react-apollo';
 import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field, FormikProps } from 'formik';
+import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
 import { LevelType, Notify } from 'types/notify';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
@@ -34,6 +34,7 @@ interface Props {
   isOpen: boolean,
   onCloseModal: () => void,
   onSuccess: (groupSecurity: GroupSecurity) => void,
+  groupSecurities: GroupSecurity[],
 }
 
 const validate = createValidator({
@@ -48,18 +49,29 @@ const GroupNewSecurityModal = ({
   onCloseModal,
   onSuccess,
   securitiesQuery,
+  groupSecurities,
 }: Props) => {
   const { data, loading } = securitiesQuery;
   const securities = data?.tradingEngineSecurities || [];
 
-  const handleSubmit = (groupSecurity: GroupSecurity) => {
-    onSuccess(groupSecurity);
-    notify({
-      level: LevelType.SUCCESS,
-      title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.TITLE'),
-      message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
-    });
-    onCloseModal();
+  const handleSubmit = (groupSecurity: GroupSecurity, { setSubmitting }: FormikHelpers<GroupSecurity>) => {
+    const isExist = groupSecurities.find(({ security }) => security.id === groupSecurity.security.id);
+    if (isExist) {
+      notify({
+        level: LevelType.WARNING,
+        title: I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TITLE'),
+        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.FAILED_EXIST'),
+      });
+      setSubmitting(false);
+    } else {
+      onSuccess(groupSecurity);
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.TITLE'),
+        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
+      });
+      onCloseModal();
+    }
   };
 
   const handleSecurityChange = (
