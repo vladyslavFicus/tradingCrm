@@ -31,8 +31,8 @@ class TradingEngineAdmin extends PureComponent {
             <Suspense fallback={null}>
               <Switch>
                 <Route exact path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
-                <Route path={`${path}/symbols/new-symbol`} component={TradingEngineNewSymbol} />
-                <Route path={`${path}/symbols/edit-symbol/:id`} component={TradingEngineEditSymbol} />
+                <Route path={`${path}/symbols/new`} component={TradingEngineNewSymbol} />
+                <Route path={`${path}/symbols/:id`} component={TradingEngineEditSymbol} />
                 <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
                 <Route path={`${path}/securities`} component={TradingEngineSecuritiesGrid} />
                 <Route exact path={`${path}/groups`} component={TradingEngineGroupsList} />

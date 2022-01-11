@@ -1,9 +1,17 @@
 .TradingEngineEditSymbol {
-  padding: 25px;
   background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
 
   &__actions {
     display: flex;
+  }
+
+  &__loading {
+    padding: 43px;
+  }
+
+  &__column {
+    padding: 20px 25px;
   }
 
   &__button {
@@ -13,18 +21,18 @@
 
   &__header {
     display: flex;
-    padding: 25px;
     align-items: center;
+    justify-content: space-between;
     position: sticky;
     top: 48px;
     height: 110px;
-    z-index: 2;
+    padding: 25px;
     background-color: #fff;
-    justify-content: space-between;
+    border-bottom: 1px solid #dfe4ed;
+    z-index: 3;
   }
 
   &__title {
-    font-weight: bolder;
     font-size: 20px;
   }
 }

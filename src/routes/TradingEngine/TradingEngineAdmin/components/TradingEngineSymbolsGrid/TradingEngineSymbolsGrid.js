@@ -68,7 +68,7 @@ class TradingEngineSymbols extends PureComponent {
   };
 
   renderName = ({ symbol }) => (
-    <Link to={`/trading-engine-admin/symbols/edit-symbol/${symbol}`} target="_blank">
+    <Link to={`/trading-engine-admin/symbols/${symbol}`} target="_blank">
       <div className="TradingEngineSymbols__cell-primary">
         {symbol}
       </div>
@@ -186,7 +186,7 @@ class TradingEngineSymbols extends PureComponent {
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
           </span>
           <div className="TradingEngineSymbols__actions">
-            <Link to="/trading-engine-admin/symbols/new-symbol">
+            <Link to="/trading-engine-admin/symbols/new">
               <Button
                 className="TradingEngineAccountsGrid__action"
                 commonOutline

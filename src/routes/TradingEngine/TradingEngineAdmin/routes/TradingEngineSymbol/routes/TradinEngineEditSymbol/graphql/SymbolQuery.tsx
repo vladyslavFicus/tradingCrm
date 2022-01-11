@@ -4,8 +4,12 @@ import { Query } from 'react-apollo';
 import { RouteComponentProps } from 'react-router-dom';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-export interface Props extends RouteComponentProps<{ id: string }> {
-  children: ApolloComponentFn;
+interface RouteMatchParams {
+  id: string,
+}
+
+interface Props extends RouteComponentProps<RouteMatchParams> {
+  children: ApolloComponentFn,
 }
 
 const REQUEST = gql`
@@ -57,9 +61,7 @@ const REQUEST = gql`
   }
 `;
 
-const TradingEngineSymbolQuery = (
-  { children, match: { params: { id } } }: Props,
-) => (
+const TradingEngineSymbolQuery = ({ children, match: { params: { id } } }: Props) => (
   <Query
     query={REQUEST}
     variables={{ symbolName: id }}

@@ -185,19 +185,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
               discardFiltrationLevel: 0,
               filterSmoothing: 0,
             },
-            symbolSessions: [
-              {
-                dayOfWeek: DayOfWeek.MONDAY,
-                trade: {
-                  openTime: '',
-                  closeTime: '',
-                },
-                quote: {
-                  openTime: '',
-                  closeTime: '',
-                },
-              },
-            ],
+            symbolSessions: [],
           }}
           onSubmit={this.handleSubmit}
         >

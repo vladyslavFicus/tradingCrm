@@ -10,7 +10,7 @@ import { backgroundColor, symbolTypeLabels } from '../../constants';
 import { FormValues, SymbolType } from '../../../../types';
 import './SymbolSettings.scss';
 
-interface Props {
+interface Props extends FormikProps<FormValues> {
   symbolsSources: {
     sourceName: string,
   }[],
@@ -19,11 +19,12 @@ interface Props {
   }[],
 }
 
-const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
+const SymbolSettings = (props: Props) => {
   const {
     symbolsSources,
     securities,
     setValues,
+    initialValues,
     values,
   } = props;
 
@@ -45,18 +46,19 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
       </div>
       <div className="SymbolSettings__field-container">
         <Field
+          disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="symbol"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SYMBOL_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
         <Field
+          disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="source"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SOURCE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
-          withAnyOption
           searchable
         >
           {symbolsSources.map(({ sourceName }) => (
@@ -66,6 +68,7 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
           ))}
         </Field>
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="digits"
           label={I18n.t('TRADING_ENGINE.SYMBOL.DIGITS_LABEL')}
           className="SymbolSettings__field"
@@ -103,6 +106,7 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
           ))}
         </Field>
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="symbolType"
           label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
@@ -120,12 +124,14 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
       </div>
       <div className="SymbolSettings__field-container">
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="baseCurrency"
           label={I18n.t('TRADING_ENGINE.SYMBOL.BASE_CURRENCY_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="quoteCurrency"
           label={I18n.t('TRADING_ENGINE.SYMBOL.QUOTE_CURRENCY_LABEL')}
           className="SymbolSettings__field"

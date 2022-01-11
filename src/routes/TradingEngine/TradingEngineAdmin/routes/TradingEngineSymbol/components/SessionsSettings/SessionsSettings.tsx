@@ -3,29 +3,31 @@ import I18n from 'i18n';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
-import { isEqual } from 'lodash';
 import moment from 'moment';
 import { withModals } from 'hoc';
 import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
 import { Table, Column } from 'components/Table';
 import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../../../types';
-import { weekends } from '../../constants';
 import ScheduleSettingsModal from '../../../../modals/ScheduleSettingsModal';
 import './SessionsSettings.scss';
 
-interface Props {
+interface Props extends FormikProps<FormValues> {
   modals: {
     scheduleSettings: Modal,
   },
+}
+
+interface State {
   symbolSessions: SymbolSession[],
 }
+
 
 interface SymbolSessionWithError extends SymbolSession {
   error?: string;
 }
 
-class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
+class SessionsSettings extends PureComponent<Props> {
   state = {
     symbolSessions: [
       { dayOfWeek: DayOfWeek.SUNDAY },
@@ -38,10 +40,15 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
     ],
   };
 
-  componentDidUpdate(prevProps: Props) {
-    if (!isEqual(this.props.symbolSessions, prevProps.symbolSessions)) {
-      this.props.symbolSessions.map(item => this.handleSymbolSessionsChange(item));
-    }
+  static getDerivedStateFromProps(props: Props, state: State) {
+    return {
+      // Fill symbol sessions depends on formik values (for example when chosen source and settings fetching from BE)
+      // or it's initial filling fields on edit symbol page
+      symbolSessions: state.symbolSessions.map(item => ({
+        dayOfWeek: item.dayOfWeek,
+        ...props.values.symbolSessions.find(session => session.dayOfWeek === item.dayOfWeek),
+      })),
+    };
   }
 
   validationSymbolSessions = (value: SymbolSession[]) => (
@@ -211,9 +218,9 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
 
         <Table
           items={this.state.symbolSessions}
-          customClassNameRow={({ dayOfWeek, error }: SymbolSessionWithError) => (
+          customClassNameRow={({ error }: SymbolSessionWithError) => (
             classNames({
-              'SessionsSettings--is-disabled': weekends.includes(dayOfWeek),
+              'SessionsSettings--is-disabled': true, // Edit of session settings should be disabled all time
               'SessionsSettings--is-error': error,
             }))
           }

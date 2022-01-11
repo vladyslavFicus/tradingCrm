@@ -16,6 +16,7 @@ const FiltrationSettings = () => (
     </div>
     <div className="FiltrationSettings__field-container">
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         type="number"
         name="filtration.softFiltrationLevel"
         label={I18n.t('TRADING_ENGINE.SYMBOL.SOFT_FILTRATION_LEVEL')}
@@ -23,6 +24,7 @@ const FiltrationSettings = () => (
         component={FormikInputField}
       />
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         name="filtration.softFilter"
         label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
@@ -35,6 +37,7 @@ const FiltrationSettings = () => (
         ))}
       </Field>
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         type="number"
         name="filtration.hardFiltrationLevel"
         label={I18n.t('TRADING_ENGINE.SYMBOL.HARD_FILTRATION_LEVEL')}
@@ -42,6 +45,7 @@ const FiltrationSettings = () => (
         component={FormikInputField}
       />
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         name="filtration.hardFilter"
         label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
@@ -54,6 +58,7 @@ const FiltrationSettings = () => (
         ))}
       </Field>
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         type="number"
         name="filtration.discardFiltrationLevel"
         label={I18n.t('TRADING_ENGINE.SYMBOL.DISCARD_FILTRATION_LEVEL')}
@@ -61,6 +66,7 @@ const FiltrationSettings = () => (
         component={FormikInputField}
       />
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         name="filtration.filterSmoothing"
         label={I18n.t('TRADING_ENGINE.SYMBOL.SMOOTHING')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
