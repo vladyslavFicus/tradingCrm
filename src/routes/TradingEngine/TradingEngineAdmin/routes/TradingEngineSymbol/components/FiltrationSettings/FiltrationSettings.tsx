@@ -11,20 +11,22 @@ const FiltrationSettings = () => (
   <div className="FiltrationSettings">
     <div className="FiltrationSettings__section-header">
       <div className="FiltrationSettings__section-title">
-        {I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTRATION')}
+        {I18n.t('TRADING_ENGINE.SYMBOL.FILTRATION')}
       </div>
     </div>
     <div className="FiltrationSettings__field-container">
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         type="number"
         name="filtration.softFiltrationLevel"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SOFT_FILTRATION_LEVEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.SOFT_FILTRATION_LEVEL')}
         className="FiltrationSettings__field"
         component={FormikInputField}
       />
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         name="filtration.softFilter"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
       >
@@ -35,15 +37,17 @@ const FiltrationSettings = () => (
         ))}
       </Field>
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         type="number"
         name="filtration.hardFiltrationLevel"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.HARD_FILTRATION_LEVEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.HARD_FILTRATION_LEVEL')}
         className="FiltrationSettings__field"
         component={FormikInputField}
       />
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         name="filtration.hardFilter"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
       >
@@ -54,15 +58,17 @@ const FiltrationSettings = () => (
         ))}
       </Field>
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         type="number"
         name="filtration.discardFiltrationLevel"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.DISCARD_FILTRATION_LEVEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.DISCARD_FILTRATION_LEVEL')}
         className="FiltrationSettings__field"
         component={FormikInputField}
       />
       <Field
+        disabled // Field should be disabled on new symbol and edit symbol page
         name="filtration.filterSmoothing"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SMOOTHING')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.SMOOTHING')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
       >

@@ -3690,7 +3690,7 @@
         "SYMBOLS": "Symbols"
       }
     },
-    "NEW_SYMBOL": {
+    "SYMBOL": {
       "SYMBOL": "Symbol",
       "CALCULATION": "Calculation",
       "CALCULATION_LABELS": {
@@ -3702,8 +3702,8 @@
       "SWAPS": "Swaps",
       "SWAPS_LABELS": {
         "POINTS": "in points",
-        "MONEY_IN_ACCOUNT_CURRENCY": "in margin currency",
-        "INTEREST_CURRENT_PRICE": "in interest rate"
+        "MONEY_IN_BASE_CURRENCY": "in margin currency",
+        "INTEREST_OPEN_PRICE": "in interest rate"
       },
       "SESSIONS": "Sessions",
       "SESSIONS_ERROR": {
@@ -3764,11 +3764,6 @@
           "MESSAGE": "Working Hour"
         }
       },
-      "NOTIFICATION": {
-        "SUCCESS": "Symbol has been successfully created",
-        "FAILED": "Symbol creation failed",
-        "FAILED_EXIST": "Symbol with this name already exists."
-      },
       "BACKGROUND_COLOR": {
         "RED": "red",
         "CYAN": "cyan",
@@ -3783,6 +3778,21 @@
         "ORANGE": "orange",
         "GREEN": "green",
         "AQUAMARINE": "aquamarine"
+      }
+    },
+    "NEW_SYMBOL": {
+      "TITLE": "New symbol",
+      "NOTIFICATION": {
+        "SUCCESS": "Symbol has been successfully created",
+        "FAILED": "Symbol creation failed",
+        "FAILED_EXIST": "Symbol with this name already exists."
+      }
+    },
+    "EDIT_SYMBOL": {
+      "TITLE": "Edit symbol",
+      "NOTIFICATION": {
+        "SUCCESS": "Symbol has been successfully updated",
+        "FAILED": "Symbol update failed"
       }
     },
     "SYMBOLS": {

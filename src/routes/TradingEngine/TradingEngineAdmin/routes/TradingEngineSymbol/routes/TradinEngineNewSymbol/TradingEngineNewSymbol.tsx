@@ -10,12 +10,12 @@ import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
-import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';
-import SymbolSettings from './components/SymbolSettings';
-import CalculationSettings from './components/CalculationSettings';
-import SwapsSettings from './components/SwapsSettings';
-import SessionsSettings from './components/SessionsSettings';
-import FiltrationSettings from './components/FiltrationSettings';
+import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../../../types';
+import SymbolSettings from '../../components/SymbolSettings';
+import CalculationSettings from '../../components/CalculationSettings';
+import SwapsSettings from '../../components/SwapsSettings';
+import SessionsSettings from '../../components/SessionsSettings';
+import FiltrationSettings from '../../components/FiltrationSettings';
 import SymbolsSourcesQuery from './graphql/SymbolsSourcesQuery';
 import SecuritiesQuery from './graphql/SecuritiesQuery';
 import CreateSymbolMutation from './graphql/CreateSymbolMutation';
@@ -63,7 +63,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
 
       notify({
         level: LevelType.SUCCESS,
-        title: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL'),
+        title: I18n.t('TRADING_ENGINE.NEW_SYMBOL.TITLE'),
         message: I18n.t('TRADING_ENGINE.NEW_SYMBOL.NOTIFICATION.SUCCESS'),
       });
 
@@ -73,7 +73,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
 
       notify({
         level: LevelType.ERROR,
-        title: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL'),
+        title: I18n.t('TRADING_ENGINE.NEW_SYMBOL.TITLE'),
         message: error.error === 'error.symbol.already.exist'
           ? I18n.t('TRADING_ENGINE.NEW_SYMBOL.NOTIFICATION.FAILED_EXIST')
           : I18n.t('TRADING_ENGINE.NEW_SYMBOL.NOTIFICATION.FAILED'),
@@ -125,30 +125,30 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
                 'swapConfigs.short': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
               },
               {
-                symbol: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL_LABEL'),
-                source: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SOURCE_LABEL'),
-                digits: I18n.t('TRADING_ENGINE.NEW_SYMBOL.DIGITS_LABEL'),
-                description: I18n.t('TRADING_ENGINE.NEW_SYMBOL.DESCRIPTION_LABEL'),
-                securityName: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SECURITY_LABEL'),
-                symbolType: I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL'),
-                baseCurrency: I18n.t('TRADING_ENGINE.NEW_SYMBOL.BASE_CURRENCY_LABEL'),
-                quoteCurrency: I18n.t('TRADING_ENGINE.NEW_SYMBOL.QUOTE_CURRENCY_LABEL'),
-                backgroundColor: I18n.t('TRADING_ENGINE.NEW_SYMBOL.BACKGROUND_LABEL'),
-                bidSpread: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SPREAD_BID_LABEL'),
-                askSpread: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SPREAD_ASK_LABEL'),
-                stopsLevel: I18n.t('TRADING_ENGINE.NEW_SYMBOL.LIMIT_STOP_LABEL'),
-                lotSize: I18n.t('TRADING_ENGINE.NEW_SYMBOL.CONTRACT_SIZE_LABEL'),
-                percentage: I18n.t('TRADING_ENGINE.NEW_SYMBOL.PERCENTAGE_LABEL'),
-                'filtration.filterSmoothing': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SMOOTHING'),
-                'filtration.softFilter': I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER'),
-                'filtration.hardFilter': I18n.t('TRADING_ENGINE.NEW_SYMBOL.FILTER'),
-                'filtration.softFiltrationLevel': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SOFT_FILTRATION_LEVEL'),
-                'filtration.hardFiltrationLevel': I18n.t('TRADING_ENGINE.NEW_SYMBOL.HARD_FILTRATION_LEVEL'),
-                'filtration.discardFiltrationLevel': I18n.t('TRADING_ENGINE.NEW_SYMBOL.DISCARD_FILTRATION_LEVEL'),
-                'swapConfigs.rollover': I18n.t('TRADING_ENGINE.NEW_SYMBOL.3_DAYS_SWAP_LABEL'),
-                'swapConfigs.type': I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL'),
-                'swapConfigs.long': I18n.t('TRADING_ENGINE.NEW_SYMBOL.LONG_POSITIONS_LABEL'),
-                'swapConfigs.short': I18n.t('TRADING_ENGINE.NEW_SYMBOL.SHORT_POSITIONS_LABEL'),
+                symbol: I18n.t('TRADING_ENGINE.SYMBOL.SYMBOL_LABEL'),
+                source: I18n.t('TRADING_ENGINE.SYMBOL.SOURCE_LABEL'),
+                digits: I18n.t('TRADING_ENGINE.SYMBOL.DIGITS_LABEL'),
+                description: I18n.t('TRADING_ENGINE.SYMBOL.DESCRIPTION_LABEL'),
+                securityName: I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL'),
+                symbolType: I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL'),
+                baseCurrency: I18n.t('TRADING_ENGINE.SYMBOL.BASE_CURRENCY_LABEL'),
+                quoteCurrency: I18n.t('TRADING_ENGINE.SYMBOL.QUOTE_CURRENCY_LABEL'),
+                backgroundColor: I18n.t('TRADING_ENGINE.SYMBOL.BACKGROUND_LABEL'),
+                bidSpread: I18n.t('TRADING_ENGINE.SYMBOL.SPREAD_BID_LABEL'),
+                askSpread: I18n.t('TRADING_ENGINE.SYMBOL.SPREAD_ASK_LABEL'),
+                stopsLevel: I18n.t('TRADING_ENGINE.SYMBOL.LIMIT_STOP_LABEL'),
+                lotSize: I18n.t('TRADING_ENGINE.SYMBOL.CONTRACT_SIZE_LABEL'),
+                percentage: I18n.t('TRADING_ENGINE.SYMBOL.PERCENTAGE_LABEL'),
+                'filtration.filterSmoothing': I18n.t('TRADING_ENGINE.SYMBOL.SMOOTHING'),
+                'filtration.softFilter': I18n.t('TRADING_ENGINE.SYMBOL.FILTER'),
+                'filtration.hardFilter': I18n.t('TRADING_ENGINE.SYMBOL.FILTER'),
+                'filtration.softFiltrationLevel': I18n.t('TRADING_ENGINE.SYMBOL.SOFT_FILTRATION_LEVEL'),
+                'filtration.hardFiltrationLevel': I18n.t('TRADING_ENGINE.SYMBOL.HARD_FILTRATION_LEVEL'),
+                'filtration.discardFiltrationLevel': I18n.t('TRADING_ENGINE.SYMBOL.DISCARD_FILTRATION_LEVEL'),
+                'swapConfigs.rollover': I18n.t('TRADING_ENGINE.SYMBOL.3_DAYS_SWAP_LABEL'),
+                'swapConfigs.type': I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL'),
+                'swapConfigs.long': I18n.t('TRADING_ENGINE.SYMBOL.LONG_POSITIONS_LABEL'),
+                'swapConfigs.short': I18n.t('TRADING_ENGINE.SYMBOL.SHORT_POSITIONS_LABEL'),
               },
               false,
             )
@@ -185,19 +185,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
               discardFiltrationLevel: 0,
               filterSmoothing: 0,
             },
-            symbolSessions: [
-              {
-                dayOfWeek: DayOfWeek.MONDAY,
-                trade: {
-                  openTime: '',
-                  closeTime: '',
-                },
-                quote: {
-                  openTime: '',
-                  closeTime: '',
-                },
-              },
-            ],
+            symbolSessions: [],
           }}
           onSubmit={this.handleSubmit}
         >
@@ -208,7 +196,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
               <Form className="TradingEngineNewSymbol__content">
                 <div className="TradingEngineNewSymbol__header">
                   <span className="TradingEngineNewSymbol__title">
-                    {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL')}
+                    {I18n.t('TRADING_ENGINE.NEW_SYMBOL.TITLE')}
                   </span>
                   <div className="TradingEngineNewSymbol__actions">
                     <Button
