@@ -148,5 +148,10 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*Debug.{js,jsx,ts,tsx}"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint && CI=true npm run test"
+    }
   }
 }
