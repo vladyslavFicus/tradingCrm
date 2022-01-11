@@ -56,6 +56,8 @@
       left: auto !important;
       right: 0 !important;
       width: calc(100% + 15px);
+      max-height: 300px;
+      overflow: auto;
     }
 
     &-item {
