@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { State } from 'types';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-interface Props extends RouteComponentProps<{}, {}, State> {
+interface Props extends RouteComponentProps<any, any, State> {
   children: ApolloComponentFn,
 }
 

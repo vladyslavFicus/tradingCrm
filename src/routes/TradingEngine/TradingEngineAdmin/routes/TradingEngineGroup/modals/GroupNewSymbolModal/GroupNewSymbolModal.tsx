@@ -13,11 +13,11 @@ import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import SymbolsQuery from './graphql/SymbolsQuery';
-import { Symbol, Margin } from '../../types';
+import { SymbolEntity, Margin } from '../../types';
 import './GroupNewSymbolModal.scss';
 
 interface SymbolsData {
-  tradingEngineAdminSymbols: Pageable<Symbol>
+  tradingEngineAdminSymbols: Pageable<SymbolEntity>
 }
 
 interface SymbolsVariables {
@@ -84,7 +84,7 @@ const GroupNewSymbolModal = ({
     value: string,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
   ) => {
-    const { symbol, percentage, swapConfigs } = symbols.find((_symbol: Symbol) => _symbol.symbol === value) || {};
+    const { symbol, percentage, swapConfigs } = symbols.find((_symbol: SymbolEntity) => _symbol.symbol === value) || {};
 
     setFieldValue('symbol', symbol);
     setFieldValue('percentage', percentage || 0);
@@ -204,6 +204,10 @@ const GroupNewSymbolModal = ({
       </Formik>
     </Modal>
   );
+};
+
+GroupNewSymbolModal.defaultProps = {
+  groupMargin: null,
 };
 
 export default compose(

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { omit } from 'lodash';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
 import { MutationResult, MutationOptions } from 'react-apollo';
 import { getBrand } from 'config';
@@ -112,7 +112,7 @@ const TradingEngineNewGroup = ({
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {formikBag => (
+        {(formikBag: FormikProps<Group>) => (
           <Form>
             <GroupProfileHeader formik={formikBag} />
             <GroupCommonForm formik={formikBag} />

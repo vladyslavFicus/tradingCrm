@@ -1,23 +1,21 @@
-interface Object {
-  [key: string]: any
-}
+type DefaultObject = Record<string, any>
 
-interface LazyStreamRequest<DataGeneric = Object, MetadataGeneric = Object> {
+interface LazyStreamRequest<DataGeneric = DefaultObject, MetadataGeneric = DefaultObject> {
   data?: DataGeneric,
   metadata?: MetadataGeneric,
 }
 
-interface LazyStreamResponse<DataGeneric = Object, MetadataGeneric = Object> {
+interface LazyStreamResponse<DataGeneric = DefaultObject, MetadataGeneric = DefaultObject> {
   data: DataGeneric,
   metadata: MetadataGeneric,
 }
 
-interface LazyStreamHandler<DataGeneric = Object, MetadataGeneric = Object> {
+interface LazyStreamHandler<DataGeneric = DefaultObject, MetadataGeneric = DefaultObject> {
   (response: LazyStreamResponse<DataGeneric, MetadataGeneric>): void
 }
 
 export interface LazyStreamSubscription {
-  onNext<DataGeneric = Object, MetadataGeneric = Object>(
+  onNext<DataGeneric = DefaultObject, MetadataGeneric = DefaultObject>(
     handler: LazyStreamHandler<DataGeneric, MetadataGeneric>
   ): void,
   cancel(): void

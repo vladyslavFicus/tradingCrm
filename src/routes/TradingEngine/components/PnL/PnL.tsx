@@ -26,7 +26,7 @@ function PnL(props: Props) {
     volume,
     lotSize,
     exchangeRate,
-    loaderSize = 20,
+    loaderSize,
   } = props;
 
   const loading = !Number.isFinite(currentPriceBid)
@@ -57,5 +57,12 @@ function PnL(props: Props) {
     </>
   );
 }
+
+PnL.defaultProps = {
+  currentPriceBid: null,
+  currentPriceAsk: null,
+  exchangeRate: null,
+  loaderSize: 20,
+};
 
 export default React.memo(PnL);

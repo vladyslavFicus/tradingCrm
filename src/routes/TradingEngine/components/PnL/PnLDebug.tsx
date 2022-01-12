@@ -74,4 +74,10 @@ function PnLDebug(props: Props) {
   );
 }
 
+PnLDebug.defaultProps = {
+  currentPriceBid: null,
+  currentPriceAsk: null,
+  exchangeRate: null,
+};
+
 export default React.memo(PnLDebug);

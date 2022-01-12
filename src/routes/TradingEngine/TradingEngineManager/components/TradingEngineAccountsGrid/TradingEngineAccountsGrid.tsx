@@ -40,7 +40,7 @@ interface Props {
   storage: Storage,
 }
 
-class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProps<{}, {}, State>> {
+class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProps<any, any, State>> {
   handlePageChanged = () => {
     const {
       location: {

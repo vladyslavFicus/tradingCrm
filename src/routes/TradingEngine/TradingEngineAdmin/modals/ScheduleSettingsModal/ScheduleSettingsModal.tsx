@@ -22,7 +22,7 @@ interface SymbolSessionWorkingHours {
 
 interface Props {
   onCloseModal: () => void,
-  onSuccess: (values?: Object) => void,
+  onSuccess: (values?: Record<string, any>) => void,
   isOpen: boolean,
   sessionType: SessionType,
   formError: string,

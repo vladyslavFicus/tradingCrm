@@ -99,7 +99,7 @@ export interface SwapConfigs {
   short: number,
 }
 
-export interface Symbol {
+export interface SymbolEntity {
   symbolId: number,
   symbol: string,
   percentage: number,

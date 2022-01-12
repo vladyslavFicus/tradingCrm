@@ -15,9 +15,9 @@ interface LocationState {
   filters?: InitialFormValues | null,
 }
 
-interface Props extends RouteComponentProps<{}, {}, LocationState> {
+interface Props extends RouteComponentProps<any, any, LocationState> {
   loading: boolean,
-  handleRefetch: Function,
+  handleRefetch: () => void,
 }
 
 class TradingEngineAccountsFilters extends PureComponent<Props> {
@@ -36,7 +36,7 @@ class TradingEngineAccountsFilters extends PureComponent<Props> {
     });
   };
 
-  handleReset = (resetForm: Function) => {
+  handleReset = (resetForm: () => void) => {
     const { history, location: { state } } = this.props;
 
     history.replace({
