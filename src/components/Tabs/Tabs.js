@@ -20,8 +20,13 @@ class Tabs extends PureComponent {
         id: PropTypes.string,
       }),
     }).isRequired,
+    className: PropTypes.string,
     permission: PropTypes.permission.isRequired,
   };
+
+  static defaultProps ={
+    className: '',
+  }
 
   render() {
     const {
@@ -32,6 +37,7 @@ class Tabs extends PureComponent {
         },
       },
       location: { pathname },
+      className,
       permission: { permissions },
     } = this.props;
 
@@ -40,7 +46,7 @@ class Tabs extends PureComponent {
     ));
 
     return (
-      <div className="Tabs">
+      <div className={classNames('Tabs', className)}>
         {
           tabs.map((tab, key) => {
             const url = tab.url.replace(/:id/, id);

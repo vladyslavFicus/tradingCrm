@@ -110,6 +110,11 @@ const sidebarTopMenu = [{
     permissions: new Permissions(permissions.WE_TRADING.ADMIN_EDIT_ORDER),
   }],
 }, {
+  label: 'SIDEBAR.TOP_MENU.IP_WHITELIST',
+  icon: 'icon-ip-whitelist',
+  url: '/ip-whitelist',
+  permissions: new Permissions(permissions.IP_WHITELIST.LIST),
+}, {
   label: 'SIDEBAR.TOP_MENU.SETTINGS',
   icon: 'icon-settings',
   isOpen: false,
