@@ -44,7 +44,7 @@ interface Props {
 const validate = createValidator(
   {
     symbol: ['required'],
-    percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
+    percentage: ['required', 'numeric', 'min:0.001', 'max:10000000'],
     swapLong: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
     swapShort: ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
   },
