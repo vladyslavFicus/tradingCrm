@@ -3676,6 +3676,7 @@
       },
       "GROUP_NEW_SYMBOL_MODAL": {
         "TITLE": "Add new symbol",
+        "EDIT_TITLE": "Edit symbol",
         "DESCRIPTION": "Setting swaps and margin calculation parameters for individual symbol.",
         "SYMBOL": "Symbol",
         "LONG_POSITION_SWAP": "Long position swap",

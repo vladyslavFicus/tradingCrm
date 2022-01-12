@@ -2,8 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
+import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import { Button } from 'components/UI';
 import { Query, Pageable } from 'types/query';
 import { LevelType, Notify } from 'types/notify';
@@ -36,7 +37,7 @@ interface Props {
   onCloseModal: () => void,
   onSuccess: (security: any) => void,
   symbolsQuery: SymbolsQueryResult,
-  editableGroupMargin: Symbol,
+  groupMargin?: Margin,
   groupMargins: Margin[],
 }
 
@@ -62,30 +63,21 @@ const GroupNewSymbolModal = ({
   onCloseModal,
   onSuccess,
   symbolsQuery,
-  editableGroupMargin,
+  groupMargin,
   groupMargins,
 }: Props) => {
   const { data, loading } = symbolsQuery;
-  const symbols = data?.tradingEngineAdminSymbols?.content || [];
+  const symbolsData = data?.tradingEngineAdminSymbols?.content || [];
+  const symbols = differenceWith(symbolsData, groupMargins, (_symbol, _margins) => _symbol.symbol === _margins.symbol);
 
-  const handleSubmit = (symbol: Symbol, { setSubmitting }: FormikHelpers<Symbol>) => {
-    const isExist = groupMargins.find((_symbol: Margin) => _symbol.symbol === symbol.symbol);
-    if (isExist) {
-      notify({
-        level: LevelType.WARNING,
-        title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
-        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.NOTIFICATION.FAILED_EXIST'),
-      });
-      setSubmitting(false);
-    } else {
-      notify({
-        level: LevelType.SUCCESS,
-        title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
-        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.NOTIFICATION.SUCCESS'),
-      });
-      onSuccess(symbol);
-      onCloseModal();
-    }
+  const handleSubmit = (symbol: Margin) => {
+    notify({
+      level: LevelType.SUCCESS,
+      title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
+      message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.NOTIFICATION.SUCCESS'),
+    });
+    onSuccess(symbol);
+    onCloseModal();
   };
 
   const handleSymbolChange = (
@@ -108,7 +100,7 @@ const GroupNewSymbolModal = ({
     >
       <Formik
         initialValues={
-          editableGroupMargin || {
+          groupMargin || {
             symbol: '',
             percentage: 0,
             swapLong: 0,
@@ -120,16 +112,18 @@ const GroupNewSymbolModal = ({
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setFieldValue }: FormikProps<Symbol>) => (
+        {({ dirty, isSubmitting, setFieldValue }: FormikProps<Margin>) => (
           <Form>
-
             <ModalHeader toggle={onCloseModal}>
               <Choose>
                 <When condition={loading}>
                   {I18n.t('COMMON.LOADING')}
                 </When>
                 <Otherwise>
-                  {I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE')}
+                  {groupMargin
+                    ? I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.EDIT_TITLE')
+                    : I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE')
+                  }
                 </Otherwise>
               </Choose>
             </ModalHeader>
@@ -153,6 +147,7 @@ const GroupNewSymbolModal = ({
                       component={FormikSelectField}
                       customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
                       searchable
+                      disabled={Boolean(groupMargin)}
                     >
                       {symbols.map(({ symbol }) => (
                         <option key={symbol} value={symbol}>

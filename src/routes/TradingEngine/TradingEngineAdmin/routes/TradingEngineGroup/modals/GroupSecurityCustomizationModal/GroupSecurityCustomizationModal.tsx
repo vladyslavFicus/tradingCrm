@@ -16,7 +16,7 @@ import {
 import './GroupSecurityCustomizationModal.scss';
 
 interface Props {
-  editableGroupSecurity: GroupSecurity,
+  groupSecurity: GroupSecurity,
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
@@ -34,7 +34,7 @@ const validate = createValidator(
 );
 
 const GroupSecurityCustomizationModal = ({
-  editableGroupSecurity,
+  groupSecurity,
   isOpen,
   notify,
   onCloseModal,
@@ -57,7 +57,7 @@ const GroupSecurityCustomizationModal = ({
       isOpen={isOpen}
     >
       <Formik
-        initialValues={editableGroupSecurity}
+        initialValues={groupSecurity}
         validate={validate}
         validateOnChange={false}
         validateOnBlur={false}

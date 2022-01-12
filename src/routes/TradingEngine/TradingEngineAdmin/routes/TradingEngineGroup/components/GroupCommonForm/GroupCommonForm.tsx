@@ -51,9 +51,9 @@ const GroupCommonForm = ({ formik: { initialValues: { groupName } } }: Props) =>
         className="GroupCommonForm__field"
         disabled={Boolean(groupName)}
       >
-        {getBrand().currencies.supported.map((currenci: string) => (
-          <option key={currenci} value={currenci}>
-            {currenci}
+        {getBrand().currencies.supported.map((currency: string) => (
+          <option key={currency} value={currency}>
+            {currency}
           </option>
         ))}
       </Field>

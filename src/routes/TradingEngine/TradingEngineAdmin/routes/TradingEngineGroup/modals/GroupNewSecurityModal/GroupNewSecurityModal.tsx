@@ -3,24 +3,16 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { QueryResult } from 'react-apollo';
 import { withRequests } from 'apollo';
+import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import { LevelType, Notify } from 'types/notify';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import {
-  Security,
-  GroupSecurity,
-  GroupCommissionType,
-  GroupCommissionLots,
-  SpreadDiff,
-  LotMin,
-  LotMax,
-  LotStep,
-} from '../../types';
+import { Security, GroupSecurity } from '../../types';
 import TradingEngineSecuritiesQuery from './graphql/TradingEngineSecuritiesQuery';
 import './GroupNewSecurityModal.scss';
 
@@ -33,14 +25,12 @@ interface Props {
   securitiesQuery: QueryResult<SecuritiesData>,
   isOpen: boolean,
   onCloseModal: () => void,
-  onSuccess: (groupSecurity: GroupSecurity) => void,
+  onSuccess: (security: Security) => void,
   groupSecurities: GroupSecurity[],
 }
 
 const validate = createValidator({
-  security: {
-    id: 'required',
-  },
+  id: 'required',
 });
 
 const GroupNewSecurityModal = ({
@@ -52,26 +42,18 @@ const GroupNewSecurityModal = ({
   groupSecurities,
 }: Props) => {
   const { data, loading } = securitiesQuery;
-  const securities = data?.tradingEngineSecurities || [];
+  const securitiesData = data?.tradingEngineSecurities || [];
+  const securities = differenceWith(securitiesData, groupSecurities,
+    (_security, _groupSecurity) => _security.id === _groupSecurity.security.id);
 
-  const handleSubmit = (groupSecurity: GroupSecurity, { setSubmitting }: FormikHelpers<GroupSecurity>) => {
-    const isExist = groupSecurities.find(({ security }) => security.id === groupSecurity.security.id);
-    if (isExist) {
-      notify({
-        level: LevelType.WARNING,
-        title: I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TITLE'),
-        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.FAILED_EXIST'),
-      });
-      setSubmitting(false);
-    } else {
-      onSuccess(groupSecurity);
-      notify({
-        level: LevelType.SUCCESS,
-        title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.TITLE'),
-        message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
-      });
-      onCloseModal();
-    }
+  const handleSubmit = (security: Security) => {
+    onSuccess(security);
+    notify({
+      level: LevelType.SUCCESS,
+      title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.TITLE'),
+      message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
+    });
+    onCloseModal();
   };
 
   const handleSecurityChange = (
@@ -80,8 +62,8 @@ const GroupNewSecurityModal = ({
   ) => {
     const { id, name } = securities.find(security => security.id === value) || {};
 
-    setFieldValue('security.id', id);
-    setFieldValue('security.name', name);
+    setFieldValue('id', id);
+    setFieldValue('name', name);
   };
 
   return (
@@ -92,18 +74,8 @@ const GroupNewSecurityModal = ({
     >
       <Formik
         initialValues={{
-          security: {
-            id: '',
-            name: '',
-          },
-          show: true,
-          spreadDiff: SpreadDiff.SPRED_0,
-          lotMin: LotMin.MIN_0_01,
-          lotMax: LotMax.MAX_1000_0,
-          lotStep: LotStep.STEP_0_01,
-          commissionBase: 0,
-          commissionType: GroupCommissionType.PIPS,
-          commissionLots: GroupCommissionLots.LOT,
+          id: '',
+          name: '',
         }}
         validate={validate}
         validateOnChange={false}
@@ -111,7 +83,7 @@ const GroupNewSecurityModal = ({
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setFieldValue }: FormikProps<GroupSecurity>) => (
+        {({ dirty, isSubmitting, setFieldValue }: FormikProps<Security>) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               <Choose>
@@ -135,7 +107,7 @@ const GroupNewSecurityModal = ({
                   </div>
 
                   <Field
-                    name="security.id"
+                    name="id"
                     label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.SECURITY')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}

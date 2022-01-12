@@ -83,7 +83,6 @@ export enum LotStep {
 }
 
 export interface GroupSecurity {
-  name?: string,
   security: Security,
   show: boolean,
   spreadDiff: SpreadDiff,

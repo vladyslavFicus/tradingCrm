@@ -17,7 +17,7 @@ interface Props {
     confirmationModal: ConfirmationModal,
     groupNewSymbolModal: Modal<{
       onSuccess: (symbol: Margin) => void,
-      editableGroupMargin?: Margin,
+      groupMargin?: Margin,
       groupMargins?: Margin[]
     }>,
   },
@@ -28,20 +28,20 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const { values, setFieldValue } = formik;
   const groupMargins = values?.groupMargins || [];
 
-  const newGroupSymbol = (symbol: Margin) => {
+  const handleNewGroupSymbol = (symbol: Margin) => {
     setFieldValue('groupMargins', [...groupMargins, symbol]);
   };
 
-  const editGroupSymbol = (editableGroupMargin: Margin) => {
-    const modifiedGroupMargins = groupMargins.map((groupMargin: Margin) => (
-      groupMargin.symbol === editableGroupMargin.symbol
-        ? editableGroupMargin
-        : groupMargin
+  const handleEditGroupSymbol = (groupMargin: Margin) => {
+    const modifiedGroupMargins = groupMargins.map((_groupMargin: Margin) => (
+      _groupMargin.symbol === groupMargin.symbol
+        ? groupMargin
+        : _groupMargin
     ));
     setFieldValue('groupMargins', modifiedGroupMargins);
   };
 
-  const deleteGroupSymbol = (id: string) => {
+  const handleDeleteGroupSymbol = (id: string) => {
     const modifiedGroupMargins = groupMargins.filter(({ symbol }: Margin) => symbol !== id);
     setFieldValue('groupMargins', modifiedGroupMargins);
     confirmationModal.hide();
@@ -49,21 +49,21 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
 
   const handleNewGroupSymbolModal = () => {
     groupNewSymbolModal.show({
-      onSuccess: newGroupSymbol,
+      onSuccess: handleNewGroupSymbol,
       groupMargins,
     });
   };
 
   const handleEditGroupSymbolModal = (symbol: Margin) => {
     groupNewSymbolModal.show({
-      onSuccess: editGroupSymbol,
-      editableGroupMargin: symbol,
+      onSuccess: handleEditGroupSymbol,
+      groupMargin: symbol,
     });
   };
 
   const handleDeleteGroupSymbolModal = ({ symbol }: Margin) => {
     confirmationModal.show({
-      onSubmit: () => deleteGroupSymbol(symbol),
+      onSubmit: () => handleDeleteGroupSymbol(symbol),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { symbol }),
       submitButtonLabel: I18n.t('COMMON.OK'),
@@ -84,7 +84,10 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.ADD_SYMBOL')}
         </Button>
       </div>
-      <div id="group-symbols-table-scrollable-target">
+      <div
+        id="group-symbols-table-scrollable-target"
+        className="GroupSymbolsGrid__scrollableTarget"
+      >
         <Table
           stickyFromTop={0}
           items={groupMargins}
@@ -93,7 +96,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SYMBOL')}
             render={({ symbol }: Margin) => (
-              <div className="GroupsGrid__cell-primary">
+              <div className="GroupSymbolsGrid__cell-primary">
                 {symbol}
               </div>
             )}
@@ -101,7 +104,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.LONG')}
             render={({ swapLong }: Margin) => (
-              <div className="GroupsGrid__cell-primary">
+              <div className="GroupSymbolsGrid__cell-primary">
                 {swapLong}
               </div>
             )}
@@ -109,7 +112,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.SHORT')}
             render={({ swapShort }: Margin) => (
-              <div className="GroupsGrid__cell-primary">
+              <div className="GroupSymbolsGrid__cell-primary">
                 {swapShort}
               </div>
             )}
@@ -117,7 +120,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOLS_TABLE.PERCENTAGE')}
             render={({ percentage }: Margin) => (
-              <div className="GroupsGrid__cell-primary">
+              <div className="GroupSymbolsGrid__cell-primary">
                 {percentage}
               </div>
             )}

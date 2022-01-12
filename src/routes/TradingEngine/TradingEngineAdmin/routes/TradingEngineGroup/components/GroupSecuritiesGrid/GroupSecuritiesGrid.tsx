@@ -9,7 +9,17 @@ import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
 import GroupSecurityCustomizationModal from '../../modals/GroupSecurityCustomizationModal';
-import { Group, GroupSecurity } from '../../types';
+import {
+  Group,
+  GroupSecurity,
+  Security,
+  GroupCommissionType,
+  GroupCommissionLots,
+  SpreadDiff,
+  LotMin,
+  LotMax,
+  LotStep,
+} from '../../types';
 import './GroupSecuritiesGrid.scss';
 
 interface Props {
@@ -17,12 +27,12 @@ interface Props {
   modals: {
     confirmationModal: ConfirmationModal,
     groupNewSecurityModal: Modal<{
-      onSuccess: (groupSecurity: GroupSecurity) => void,
+      onSuccess: (security: Security) => void,
       groupSecurities: GroupSecurity[],
     }>,
     groupSecurityCustomizationModal: Modal<{
-      onSuccess: (editableGroupSecurity: GroupSecurity) => void,
-      editableGroupSecurity: GroupSecurity,
+      onSuccess: (groupSecurity: GroupSecurity) => void,
+      groupSecurity: GroupSecurity,
     }>,
   },
 }
@@ -32,20 +42,30 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const { values, setFieldValue } = formik;
   const groupSecurities = values?.groupSecurities || [];
 
-  const newGroupSecurity = (groupSecurity: GroupSecurity) => {
-    setFieldValue('groupSecurities', [groupSecurity, ...groupSecurities]);
+  const handleNewGroupSecurity = (security: Security) => {
+    setFieldValue('groupSecurities', [...groupSecurities, {
+      security,
+      show: true,
+      spreadDiff: SpreadDiff.SPRED_0,
+      lotMin: LotMin.MIN_0_01,
+      lotMax: LotMax.MAX_1000_0,
+      lotStep: LotStep.STEP_0_01,
+      commissionBase: 0,
+      commissionType: GroupCommissionType.PIPS,
+      commissionLots: GroupCommissionLots.LOT,
+    }]);
   };
 
-  const editGroupSecurity = (editableGroupSecurity: GroupSecurity) => {
-    const modifiedGroupSecurities = groupSecurities.map(groupSecurity => (
-      groupSecurity.security.id === editableGroupSecurity.security.id
-        ? editableGroupSecurity
-        : groupSecurity
+  const handleEditGroupSecurity = (groupSecurity: GroupSecurity) => {
+    const modifiedGroupSecurities = groupSecurities.map(_groupSecurity => (
+      _groupSecurity.security.id === groupSecurity.security.id
+        ? groupSecurity
+        : _groupSecurity
     ));
     setFieldValue('groupSecurities', modifiedGroupSecurities);
   };
 
-  const deleteGroupSecurity = (id: string) => {
+  const handleDeleteGroupSecurity = (id: string) => {
     const modifiedGroupSecurities = groupSecurities.filter(groupSecurity => groupSecurity.security.id !== id);
     setFieldValue('groupSecurities', modifiedGroupSecurities);
     confirmationModal.hide();
@@ -53,21 +73,21 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
 
   const handleNewGroupSecurityModal = () => {
     groupNewSecurityModal.show({
-      onSuccess: newGroupSecurity,
+      onSuccess: handleNewGroupSecurity,
       groupSecurities,
     });
   };
 
-  const handleEditGroupSecurityModal = (editableGroupSecurity: GroupSecurity) => {
+  const handleEditGroupSecurityModal = (groupSecurity: GroupSecurity) => {
     groupSecurityCustomizationModal.show({
-      editableGroupSecurity,
-      onSuccess: editGroupSecurity,
+      groupSecurity,
+      onSuccess: handleEditGroupSecurity,
     });
   };
 
   const handleDeleteGroupSecurityModal = ({ security: { name, id } }: GroupSecurity) => {
     confirmationModal.show({
-      onSubmit: () => deleteGroupSecurity(id),
+      onSubmit: () => handleDeleteGroupSecurity(id),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { name }),
       submitButtonLabel: I18n.t('COMMON.OK'),
@@ -88,7 +108,10 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.ADD_SECURITY')}
         </Button>
       </div>
-      <div id="group-securities-table-scrollable-target">
+      <div
+        id="group-securities-table-scrollable-target"
+        className="GroupSecuritiesGrid__scrollableTarget"
+      >
         <Table
           stickyFromTop={0}
           items={groupSecurities}
@@ -96,9 +119,9 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
         >
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TYPE')}
-            render={({ name, security }: GroupSecurity) => (
+            render={({ security }: GroupSecurity) => (
               <div className="GroupsGrid__cell-primary">
-                {security?.name || name}
+                {security?.name}
               </div>
             )}
           />
