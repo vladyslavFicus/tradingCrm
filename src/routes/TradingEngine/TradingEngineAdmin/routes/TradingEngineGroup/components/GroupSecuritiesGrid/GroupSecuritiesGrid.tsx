@@ -132,7 +132,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
             header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TYPE')}
             render={({ security }: GroupSecurity) => (
               <div className="GroupsGrid__cell-primary">
-                {security?.name}
+                {security.name}
               </div>
             )}
           />
