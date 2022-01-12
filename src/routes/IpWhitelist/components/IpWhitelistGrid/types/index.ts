@@ -15,7 +15,7 @@ export interface IpWitelistAddress {
 }
 
 export interface IpWitelististSearchData {
-  ipWhitelistSearch: Query<IpWitelistAddress>
+  ipWhitelistSearch: Pageable<IpWitelistAddress>
 }
 
 export interface IpWhitelistSearchArg {
