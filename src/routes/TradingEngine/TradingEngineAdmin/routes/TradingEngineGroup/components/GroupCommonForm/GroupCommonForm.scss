@@ -1,0 +1,40 @@
+.GroupCommonForm {
+  background-color: #fff;
+  padding: 25px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+  
+  &__fields {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    padding: 25px 25px 5px 25px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    width: 100%;
+  }
+
+  &__field {
+    margin-right: 15px;
+    width: calc(33.3% - 10px);
+    display: inline-block;
+    vertical-align: top;
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    &--center {
+      align-self: center;
+    }
+  }
+}

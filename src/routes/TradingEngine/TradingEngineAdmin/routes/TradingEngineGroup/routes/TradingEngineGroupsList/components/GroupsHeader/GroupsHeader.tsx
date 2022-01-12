@@ -1,5 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { useHistory } from 'react-router-dom';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { Button } from 'components/UI';
@@ -11,11 +12,12 @@ interface Props {
 }
 
 const GroupsHeader = ({ groupsListQuery }: Props) => {
+  const history = useHistory();
   const { loading, data: groupsListData } = groupsListQuery || {};
   const { totalElements } = groupsListData?.tradingEngineAdminGroups || {};
 
   const handleCreateClick = () => {
-    // TODO: handleCreate
+    history.push('/trading-engine-admin/groups/new');
   };
 
   return (

@@ -3650,6 +3650,43 @@
           "FAILED_EXIST": "Security with this name already exists."
         },
         "INVALID_NAME": "Security name must contain only letters, numbers or . * @ + - _ ! = characters"
+      },
+      "GROUP_NEW_SECURITY_MODAL": {
+        "TITLE": "Add new security",
+        "DESCRIPTION": "To add new security please choose the Security from the drop-down list below",
+        "SECURITY": "Security",
+        "NOTIFICATION": {
+          "SUCCESS": "Security has been successfully added to security table",
+          "FAILED_EXIST": "Security with this name already exists."
+        }
+      },
+      "GROUP_CUSTOMIZATION_SECURITY_MODAL": {
+        "TITLE": "Securities customization",
+        "DESCRIPTION": "Setting parameters of trading with symbols of the group. Appoint type of order execution, spread and communication.",
+        "ENABLE": "Enable",
+        "SPRED_DIFFERENCE": "Spread difference",
+        "LOTS": "Lots",
+        "LOT_MIN": "Minimum",
+        "LOT_MAX": "Maximum",
+        "LOT_STEP": "Step",
+        "COMMISSIONS": "Commissions",
+        "STANDART": "Standart",
+        "NOTIFICATION": {
+          "SUCCESS": "The security was successfully updated"
+        }
+      },
+      "GROUP_NEW_SYMBOL_MODAL": {
+        "TITLE": "Add new symbol",
+        "EDIT_TITLE": "Edit symbol",
+        "DESCRIPTION": "Setting swaps and margin calculation parameters for individual symbol.",
+        "SYMBOL": "Symbol",
+        "LONG_POSITION_SWAP": "Long position swap",
+        "SHORT_POSITION_SWAP": "Short position swap",
+        "MARGIN_PERCENTAGE": "Margin percentage",
+         "NOTIFICATION": {
+          "SUCCESS": "Symbol has been successfully added to symbol table",
+          "FAILED_EXIST": "Symbol with this name already exists."
+        }
       }
     },
     "ACCOUNTS": {
@@ -4233,7 +4270,7 @@
       "HEADLINE": "Groups",
       "GRID": {
         "NAME": "Name",
-        "COMPANY": "Company",
+        "DESCRIPTION": "Description",
         "MC_SO": "MC/SO",
         "SECURITIES": "Securities",
         "ACTIONS": "Actions"
@@ -4242,7 +4279,94 @@
         "SEARCH_BY": "Search By",
         "SEARCH_BY_PLACEHOLDER": "Name, Description"
       },
-      "NEW_GROUP": "+ New group"
+      "NEW_GROUP": "+ New group",
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete group",
+          "DESCRIPTION": "Are you sure that you want to delete group {{groupName}}?"
+        }
+      },
+      "NOTIFICATION": {
+        "DELETE": {
+          "SUCCESS": "Group deleted successfully",
+          "FAILED": "Group did not delete for some reasons"
+        }
+      }
+    },
+    "GROUP": {
+      "GROUP": "Group",
+      "NEW_GROUP": "New group",
+      "INVALID_NAME": "Group name must contain only letters, numbers or . * @ + - _ ! = characters",
+      "MONEY": "$",
+      "PIPS": "pt, points",
+      "PERCENT": "%",
+      "PER_LOT": "per deal",
+      "PER_DEAL": "per deal",
+      "NOTIFICATION": {
+        "CREATE": {
+          "SUCCESS": "Group has been successfully created",
+          "FAILED": "Group creation failed",
+          "FAILED_EXIST": "Group with this name already exists."
+        },
+        "EDIT": {
+          "SUCCESS": "Group has been successfully edited",
+          "FAILED": "Group edit failed"
+        }
+      },
+      "COMMON_GROUP_FORM": {
+        "TITLE": "Common",
+        "ENABLE": "Enable",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "DEPOSIT_CURRENCY": "Deposit currency",
+        "LEVERAGE_BY_DEFAULT": "Leverage by default"
+      },
+      "PERMISSIONS_GROUP_FORM": {
+        "TITLE": "Permissions",
+        "ENABLE_CHARGE_OF_SWAPS": "Enable charge of swaps",
+        "PROHIBIT_HEDGE_POSITIONS": "Prohibit hedge positions"
+      },
+      "ARCHIVING_GROUP_FORM": {
+        "TITLE": "Archiving",
+        "INACTIVITY_PERIOD": "Inactivity period (days)",
+        "MAXIMUM_BAlANCE": "Maximum balance"
+      },
+      "MARGINS_GROUP_FORM": {
+        "TITLE": "Margins",
+        "MARGIN_CALL_LEVEL": "Margin Call Level",
+        "STOP_OUT_LEVEL": "Stop Out level, in %"
+      },
+      "SECURITIES_TABLE": {
+        "TITLE": "Securities",
+        "TYPE": "Type",
+        "TRADE": "Trade",
+        "EXECUTION": "Execution",
+        "SPREAD": "Spread",
+        "COMMISSION": "Commission",
+        "ACTIONS": "Actions",
+        "ADD_SECURITY": "Add security",
+        "CONFIRMATION": {
+          "DELETE": {
+            "TITLE": "Delete security",
+            "DESCRIPTION": "Are you sure that you want to delete security {{name}}?"
+          }
+        }
+      },
+      "SYMBOLS_TABLE": {
+        "TITLE": "Symbols",
+        "SYMBOL": "Symbol",
+        "LONG": "Long",
+        "SHORT": "Short",
+        "PERCENTAGE": "Percentage",
+        "ACTIONS": "Actions",
+        "ADD_SYMBOL": "Add symbol",
+        "CONFIRMATION": {
+          "DELETE": {
+            "TITLE": "Delete symbol",
+            "DESCRIPTION": "Are you sure that you want to delete symbol {{symbol}}?"
+          }
+        }
+      }
     }
   },
   "IP_WHITELIST": {

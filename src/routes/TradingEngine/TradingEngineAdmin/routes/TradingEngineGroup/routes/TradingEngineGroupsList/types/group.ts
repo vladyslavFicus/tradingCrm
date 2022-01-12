@@ -13,16 +13,16 @@ export interface GroupSecurities {
   security: GroupSecurity
 }
 
-export interface Group {
+export interface GroupList {
   groupName: string,
-  brand: string,
+  description: string,
   marginCallLevel: number,
   stopoutLevel: number,
   groupSecurities: GroupSecurities[]
 }
 
 export interface GroupsListData {
-  tradingEngineAdminGroups: Pageable<Group>
+  tradingEngineAdminGroups: Pageable<GroupList>
 }
 
 export interface GroupsListVariables {

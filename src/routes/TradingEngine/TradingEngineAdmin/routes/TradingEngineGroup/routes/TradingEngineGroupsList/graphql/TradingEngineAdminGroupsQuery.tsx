@@ -11,13 +11,13 @@ export interface Props {
 }
 
 const REQUEST = gql`
-  query TradingEngine_TradingEngineAdminGroupsQuery(
+  query TradingEngine_AdminGroupsListQuery(
     $args: TradingEngineGroupsSearch__Input
   ) {
     tradingEngineAdminGroups(args: $args) {
       content {
         groupName
-        brand
+        description
         marginCallLevel
         stopoutLevel
         groupSecurities {
