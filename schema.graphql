@@ -825,8 +825,8 @@ type Pageable__TradingEngineAccount {
   totalPages: Int
 }
 
-type Pageable__TradingEngineAdminSymbol {
-  content: [TradingEngineAdminSymbol]
+type Pageable__TradingEngineAdminSymbolSearch {
+  content: [TradingEngineAdminSymbolSearch]
   last: Boolean!
   number: Int
   page: Int!
@@ -1351,7 +1351,8 @@ type Query {
   tradingEngineAccountSymbols(accountUuid: String!): [TradingEngineAccountSymbol]
   tradingEngineAccounts(args: TradingEngineSearch__Input): Pageable__TradingEngineAccount
   tradingEngineAdminGroups(args: TradingEngineGroupsSearch__Input): Pageable__TradingEngineGroup
-  tradingEngineAdminSymbols(args: TradingEngineSymbols__Input): Pageable__TradingEngineAdminSymbol
+  tradingEngineAdminSymbol(symbolName: String!): TradingEngineAdminSymbol
+  tradingEngineAdminSymbols(args: TradingEngineSymbols__Input): Pageable__TradingEngineAdminSymbolSearch
   tradingEngineAdminSymbolsSources: [TradingEngineSource]
   tradingEngineGroups: [TradingEngineGroup]
   tradingEngineHistory(args: TradingEngineHistorySearch__Input): Pageable__TradingEngineHistory
@@ -1630,22 +1631,71 @@ type TradingEngineAdminMutation {
   createSymbol(args: TradingEngineCreateSymbolAdmin__Input): Boolean
   editOrder(args: TradingEngineEditOrderAdmin__Input): Boolean
   editSecurity(description: String, name: String!, securityName: String!): Boolean
+  editSymbol(args: TradingEngineEditSymbolAdmin__Input): Boolean
   reopenOrder(orderId: Int!): Boolean
 }
 
 type TradingEngineAdminSymbol {
+  askSpread: Float!
+  backgroundColor: String!
+  baseCurrency: String
+  bidSpread: Float!
+  description: String!
+  digits: Int!
+  filtration: TradingEngineAdminSymbol__Filtration!
+  lotSize: Int!
+  percentage: Int!
+  quoteCurrency: String!
+  securityName: String!
+  source: String
+  stopsLevel: Int!
+  swapConfigs: TradingEngineAdminSymbol__SwapsConfigs!
+  symbol: String!
+  symbolSessions: [TradingEngineAdminSymbol__SymbolSessions]
+  symbolType: TradingEngine__SymbolTypes__Enum!
+}
+
+type TradingEngineAdminSymbolSearch {
   askSpread: Float
   bidSpread: Float
   digits: Int
   securityName: String
   stopsLevel: Float
-  swapConfigs: TradingEngineAdminSymbol__SwapConfigs
+  swapConfigs: TradingEngineAdminSymbolSearch__SwapConfigs
   symbol: String
 }
 
-type TradingEngineAdminSymbol__SwapConfigs {
+type TradingEngineAdminSymbolSearch__SwapConfigs {
   long: Float
   short: Float
+}
+
+type TradingEngineAdminSymbol__Filtration {
+  discardFiltrationLevel: Int!
+  filterSmoothing: Int!
+  hardFilter: Int!
+  hardFiltrationLevel: Int!
+  softFilter: Int!
+  softFiltrationLevel: Int!
+}
+
+type TradingEngineAdminSymbol__SwapsConfigs {
+  enable: Boolean!
+  long: Float!
+  rollover: TradingEngine__DaysOfWeek__Enum!
+  short: Float!
+  type: TradingEngine__SwapTypes__Enum
+}
+
+type TradingEngineAdminSymbol__SymbolSessions {
+  dayOfWeek: TradingEngine__DaysOfWeek__Enum!
+  quote: TradingEngineAdminSymbol__SymbolSessionsTime
+  trade: TradingEngineAdminSymbol__SymbolSessionsTime
+}
+
+type TradingEngineAdminSymbol__SymbolSessionsTime {
+  closeTime: String
+  openTime: String
 }
 
 type TradingEngineCredit {
@@ -1911,8 +1961,8 @@ enum TradingEngine__OperationTypes__Enum {
 }
 
 enum TradingEngine__SwapTypes__Enum {
-  INTEREST_CURRENT_PRICE
-  MONEY_IN_ACCOUNT_CURRENCY
+  INTEREST_OPEN_PRICE
+  MONEY_IN_BASE_CURRENCY
   POINTS
 }
 
@@ -2324,10 +2374,10 @@ input TradingEngineCreateSymbolAdmin__Filtration__Input {
 }
 
 input TradingEngineCreateSymbolAdmin__Input {
-  askSpread: Int!
+  askSpread: Float!
   backgroundColor: String!
-  baseCurrency: String!
-  bidSpread: Int!
+  baseCurrency: String
+  bidSpread: Float!
   description: String!
   digits: Int!
   filtration: TradingEngineCreateSymbolAdmin__Filtration__Input!
@@ -2335,7 +2385,7 @@ input TradingEngineCreateSymbolAdmin__Input {
   percentage: Int!
   quoteCurrency: String!
   securityName: String!
-  source: String!
+  source: String
   stopsLevel: Int!
   swapConfigs: TradingEngineCreateSymbolAdmin__SwapsConfigs__Input!
   symbol: String!
@@ -2377,6 +2427,49 @@ input TradingEngineEditOrderAdmin__Input {
   takeProfit: Float
   type: String
   volume: Float
+}
+
+input TradingEngineEditSymbolAdmin__Filtration__Input {
+  discardFiltrationLevel: Int!
+  filterSmoothing: Int!
+  hardFilter: Int!
+  hardFiltrationLevel: Int!
+  softFilter: Int!
+  softFiltrationLevel: Int!
+}
+
+input TradingEngineEditSymbolAdmin__Input {
+  askSpread: Float!
+  backgroundColor: String!
+  baseCurrency: String
+  bidSpread: Float!
+  description: String!
+  digits: Int!
+  filtration: TradingEngineEditSymbolAdmin__Filtration__Input!
+  lotSize: Int!
+  percentage: Int!
+  quoteCurrency: String!
+  securityName: String!
+  source: String
+  stopsLevel: Int!
+  swapConfigs: TradingEngineEditSymbolAdmin__SwapsConfigs__Input!
+  symbol: String!
+  symbolSessions: [TradingEngineEditSymbolAdmin__SymbolSessions__Input]!
+  symbolType: TradingEngine__SymbolTypes__Enum!
+}
+
+input TradingEngineEditSymbolAdmin__SwapsConfigs__Input {
+  enable: Boolean!
+  long: Float!
+  rollover: TradingEngine__DaysOfWeek__Enum!
+  short: Float!
+  type: TradingEngine__SwapTypes__Enum
+}
+
+input TradingEngineEditSymbolAdmin__SymbolSessions__Input {
+  dayOfWeek: TradingEngine__DaysOfWeek__Enum!
+  quote: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
+  trade: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
 }
 
 input TradingEngineGroupsSearch__Input {

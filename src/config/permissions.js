@@ -171,4 +171,10 @@ export default {
     MANAGER_EDIT_ORDER: 'we-trading.updateOrder',
     ADMIN_EDIT_ORDER: 'we-trading.admin.updateOrder',
   },
+  IP_WHITELIST: {
+    LIST: 'brand-config-service.ip-white-list.search',
+    ADD_IP_ADDRESS: 'brand-config-service.ip-white-list.add',
+    DELETE_IP_ADDRESS: 'brand-config-service.ip-white-list.delete',
+    EDIT_IP_ADDRESS_DESCRIPTION: 'brand-config-service.ip-white-list.editDescription',
+  },
 };

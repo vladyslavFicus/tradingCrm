@@ -1,5 +1,7 @@
 import React from 'react';
 import I18n from 'i18n';
+import { withApollo, WithApolloClient } from 'react-apollo';
+import compose from 'compose-function';
 import { Field, FormikProps } from 'formik';
 import {
   FormikInputField,
@@ -8,9 +10,10 @@ import {
 } from 'components/Formik';
 import { backgroundColor, symbolTypeLabels } from '../../constants';
 import { FormValues, SymbolType } from '../../../../types';
+import SymbolQuery from './graphql/SymbolQuery';
 import './SymbolSettings.scss';
 
-interface Props {
+interface Props extends FormikProps<FormValues> {
   symbolsSources: {
     sourceName: string,
   }[],
@@ -19,13 +22,14 @@ interface Props {
   }[],
 }
 
-const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
+const SymbolSettings = (props: WithApolloClient<Props>) => {
   const {
     symbolsSources,
     securities,
     setValues,
+    setFieldValue,
+    initialValues,
     values,
-
   } = props;
 
   const onChangeSymbolType = (value: SymbolType) => {
@@ -37,27 +41,50 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
     });
   };
 
+  const onChangeSymbolSource = async (symbolName: string) => {
+    // Set field value before to avoid delay while symbol fetching for BE
+    setFieldValue('source', symbolName);
+
+    const {
+      data: {
+        tradingEngineAdminSymbol,
+      },
+    } = await props.client.query({
+      query: SymbolQuery,
+      variables: { symbolName },
+      fetchPolicy: 'network-only',
+    });
+
+    setValues({
+      ...values,
+      ...tradingEngineAdminSymbol,
+      source: symbolName, // Repeat set symbol name here because "values" object doesn't have source field yet
+    });
+  };
+
   return (
     <div className="SymbolSettings">
       <div className="SymbolSettings__section-header">
         <div className="SymbolSettings__section-title">
-          {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL')}
+          {I18n.t('TRADING_ENGINE.SYMBOL.SYMBOL')}
         </div>
       </div>
       <div className="SymbolSettings__field-container">
         <Field
+          disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="symbol"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SYMBOL_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.SYMBOL_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
         <Field
+          disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="source"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SOURCE_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.SOURCE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
-          withAnyOption
+          customOnChange={onChangeSymbolSource}
           searchable
         >
           {symbolsSources.map(({ sourceName }) => (
@@ -67,8 +94,9 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
           ))}
         </Field>
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="digits"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.DIGITS_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.DIGITS_LABEL')}
           className="SymbolSettings__field"
           component={FormikSelectField}
         >
@@ -82,7 +110,7 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
       <div className="SymbolSettings__field-container">
         <Field
           name="description"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.DESCRIPTION_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.DESCRIPTION_LABEL')}
           className="SymbolSettings__field"
           component={FormikTextAreaField}
         />
@@ -90,7 +118,7 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
       <div className="SymbolSettings__field-container">
         <Field
           name="securityName"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SECURITY_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
@@ -104,8 +132,9 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
           ))}
         </Field>
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="symbolType"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
@@ -121,14 +150,16 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
       </div>
       <div className="SymbolSettings__field-container">
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="baseCurrency"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.BASE_CURRENCY_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.BASE_CURRENCY_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
         <Field
+          disabled // Field should be disabled on new symbol and edit symbol page
           name="quoteCurrency"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.QUOTE_CURRENCY_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.QUOTE_CURRENCY_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
@@ -136,7 +167,7 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
       <div className="SymbolSettings__field-container--third">
         <Field
           name="backgroundColor"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.BACKGROUND_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.BACKGROUND_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
@@ -154,21 +185,21 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
         <Field
           type="number"
           name="bidSpread"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SPREAD_BID_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.SPREAD_BID_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
         <Field
           type="number"
           name="askSpread"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SPREAD_ASK_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.SPREAD_ASK_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
         <Field
           type="number"
           name="stopsLevel"
-          label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.LIMIT_STOP_LABEL')}
+          label={I18n.t('TRADING_ENGINE.SYMBOL.LIMIT_STOP_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
         />
@@ -177,4 +208,7 @@ const SymbolSettings = (props: Props & FormikProps<FormValues>) => {
   );
 };
 
-export default React.memo(SymbolSettings);
+export default compose(
+  React.memo,
+  withApollo,
+)(SymbolSettings);

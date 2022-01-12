@@ -1,0 +1,50 @@
+.IpWhitelistGrid {
+  &__tabs {
+    margin-left: 0;
+  }
+
+  &__headline {
+    font-size: 20px;
+  }
+
+  &__card {
+    background-color: #fff;
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    flex: 0 0 100%;
+    line-height: normal;
+    padding: 25px;
+  }
+
+  &__cell-primary {
+    font-weight: 700;
+  }
+
+  &__cell-primary-date {
+    font-weight: 700
+  }
+
+  &__cell-primary-time {
+    font-size: 11px;
+  }
+
+  &__header-button {
+    padding: 8px 16px;
+    margin-left: auto;
+    border: 1px solid #9b9b9b;
+    border-radius: 3px;
+    color: #9b9b9b;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+  }
+
+  &__action-icon {
+    font-size: 16px;
+    cursor: pointer;  
+  }
+}

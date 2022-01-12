@@ -35,7 +35,7 @@ interface Props {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
-  onSuccess: (security: any) => void,
+  onSuccess: (symbol: Margin) => void,
   symbolsQuery: SymbolsQueryResult,
   groupMargin?: Margin,
   groupMargins: Margin[],

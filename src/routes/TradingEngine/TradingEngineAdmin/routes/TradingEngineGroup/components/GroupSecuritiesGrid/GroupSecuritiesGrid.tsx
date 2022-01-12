@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { FormikProps } from 'formik';
 import { withModals } from 'hoc';
-import { Modal, ConfirmationModal } from 'types';
+import { Modal } from 'types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { EditButton, Button } from 'components/UI';
@@ -22,18 +22,29 @@ import {
 } from '../../types';
 import './GroupSecuritiesGrid.scss';
 
+interface ConfirmationModalProps {
+  onSubmit: (id: number) => void,
+  modalTitle: string,
+  actionText: string,
+  submitButtonLabel: string,
+}
+
+interface GroupNewSecurityModalProps {
+  onSuccess: (security: Security) => void,
+  groupSecurities: GroupSecurity[],
+}
+
+interface GroupSecurityCustomizationModalProps {
+  onSuccess: (groupSecurity: GroupSecurity) => void,
+  groupSecurity: GroupSecurity,
+}
+
 interface Props {
   formik: FormikProps<Group>,
   modals: {
-    confirmationModal: ConfirmationModal,
-    groupNewSecurityModal: Modal<{
-      onSuccess: (security: Security) => void,
-      groupSecurities: GroupSecurity[],
-    }>,
-    groupSecurityCustomizationModal: Modal<{
-      onSuccess: (groupSecurity: GroupSecurity) => void,
-      groupSecurity: GroupSecurity,
-    }>,
+    confirmationModal: Modal<ConfirmationModalProps>,
+    groupNewSecurityModal: Modal<GroupNewSecurityModalProps>,
+    groupSecurityCustomizationModal: Modal<GroupSecurityCustomizationModalProps>,
   },
 }
 

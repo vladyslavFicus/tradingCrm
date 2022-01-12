@@ -13,7 +13,7 @@ const SwapsSettings = () => (
   <div className="SwapsSettings">
     <div className="SwapsSettings__section-header">
       <div className="SwapsSettings__section-title">
-        {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SWAPS')}
+        {I18n.t('TRADING_ENGINE.SYMBOL.SWAPS')}
       </div>
     </div>
     <div className="SymbolSettings__field-container">
@@ -21,13 +21,13 @@ const SwapsSettings = () => (
         name="swapConfigs.enable"
         className="SwapsSettings__field"
         component={FormikCheckbox}
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.ENABLE_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.ENABLE_LABEL')}
       />
     </div>
     <div className="SymbolSettings__field-container">
       <Field
         name="swapConfigs.type"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.TYPE_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         className="SwapsSettings__field"
         component={FormikSelectField}
@@ -41,20 +41,20 @@ const SwapsSettings = () => (
       <Field
         type="number"
         name="swapConfigs.long"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.LONG_POSITIONS_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.LONG_POSITIONS_LABEL')}
         className="SwapsSettings__field"
         component={FormikInputField}
       />
       <Field
         type="number"
         name="swapConfigs.short"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.SHORT_POSITIONS_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.SHORT_POSITIONS_LABEL')}
         className="SwapsSettings__field"
         component={FormikInputField}
       />
       <Field
         name="swapConfigs.rollover"
-        label={I18n.t('TRADING_ENGINE.NEW_SYMBOL.3_DAYS_SWAP_LABEL')}
+        label={I18n.t('TRADING_ENGINE.SYMBOL.3_DAYS_SWAP_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         className="SwapsSettings__field"
         component={FormikSelectField}

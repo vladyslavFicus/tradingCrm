@@ -27,8 +27,8 @@ export interface GroupsListData {
 
 export interface GroupsListVariables {
   args: {
-    keyword?: string
-    page: Page
+    keyword?: string,
+    page: Page,
   }
 }
 

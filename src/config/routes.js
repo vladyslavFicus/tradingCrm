@@ -24,4 +24,8 @@ export const routePermissions = {
   // Trading Engine
   '/trading-engine-manager': permissions.WE_TRADING.MANAGER_EDIT_ORDER,
   '/trading-engine-admin': permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+
+  '/ip-whitelist/list': permissions.IP_WHITELIST.LIST,
+  '/ip-whitelist/feed': permissions.AUDIT.AUDIT_LOGS,
+
 };

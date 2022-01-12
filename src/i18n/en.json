@@ -36,7 +36,8 @@
       "CLIENTS_DISTRIBUTION": "Clients Distribution",
       "TRADING_ENGINE": "Trading Engine",
       "TRADING_ENGINE_MANAGER": "TE Manager",
-      "TRADING_ENGINE_ADMIN": "TE Admin"
+      "TRADING_ENGINE_ADMIN": "TE Admin",
+      "IP_WHITELIST": "IP Whitelist"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -1098,8 +1099,8 @@
         "ORDER_CANCELED": "Order canceled",
         "ORDER_CLOSED": "Order closed",
         "EMAIL_SENT": "Email sent",
-        "CDE_RULE_CREATED_EVENT":  "CDE rule created",
-        "CDE_RULE_UPDATED_EVENT":  "CDE rule updated"
+        "CDE_RULE_CREATED_EVENT": "CDE rule created",
+        "CDE_RULE_UPDATED_EVENT": "CDE rule updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -3337,7 +3338,7 @@
         "SALES_STATUS": "Current Sales Status*",
         "MIGRATION_STATUS": "Migration Sales Status*",
         "COUNTRY": "Country*",
-        "EXECUTION_TIME":"Time in Current Sales Status",
+        "EXECUTION_TIME": "Time in Current Sales Status",
         "REGISTRATION_DATE_RANGE": "Registration date",
         "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type",
@@ -3727,7 +3728,7 @@
         "SYMBOLS": "Symbols"
       }
     },
-    "NEW_SYMBOL": {
+    "SYMBOL": {
       "SYMBOL": "Symbol",
       "CALCULATION": "Calculation",
       "CALCULATION_LABELS": {
@@ -3739,8 +3740,8 @@
       "SWAPS": "Swaps",
       "SWAPS_LABELS": {
         "POINTS": "in points",
-        "MONEY_IN_ACCOUNT_CURRENCY": "in margin currency",
-        "INTEREST_CURRENT_PRICE": "in interest rate"
+        "MONEY_IN_BASE_CURRENCY": "in margin currency",
+        "INTEREST_OPEN_PRICE": "in interest rate"
       },
       "SESSIONS": "Sessions",
       "SESSIONS_ERROR": {
@@ -3801,11 +3802,6 @@
           "MESSAGE": "Working Hour"
         }
       },
-      "NOTIFICATION": {
-        "SUCCESS": "Symbol has been successfully created",
-        "FAILED": "Symbol creation failed",
-        "FAILED_EXIST": "Symbol with this name already exists."
-      },
       "BACKGROUND_COLOR": {
         "RED": "red",
         "CYAN": "cyan",
@@ -3820,6 +3816,21 @@
         "ORANGE": "orange",
         "GREEN": "green",
         "AQUAMARINE": "aquamarine"
+      }
+    },
+    "NEW_SYMBOL": {
+      "TITLE": "New symbol",
+      "NOTIFICATION": {
+        "SUCCESS": "Symbol has been successfully created",
+        "FAILED": "Symbol creation failed",
+        "FAILED_EXIST": "Symbol with this name already exists."
+      }
+    },
+    "EDIT_SYMBOL": {
+      "TITLE": "Edit symbol",
+      "NOTIFICATION": {
+        "SUCCESS": "Symbol has been successfully updated",
+        "FAILED": "Symbol update failed"
       }
     },
     "SYMBOLS": {
@@ -3990,7 +4001,6 @@
         "CHANGE_LEVERAGE_SUCCESS": "Account leverage changed successfully",
         "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage"
       },
-
       "TABS": {
         "ORDERS": "Orders",
         "PENDING_ORDERS": "Pending orders",
@@ -4359,6 +4369,28 @@
       }
     }
   },
+  "IP_WHITELIST": {
+    "TABS": {
+      "LIST": "IP Whitelist",
+      "FEED": "Feed"
+    },
+    "FEED": {
+      "HEADLINE": "Feed"
+    },
+    "GRID": {
+      "HEADLINE": "IP Whitelist",
+      "ADD_IP": "Add new IP",
+      "DESCRIPTION": "Description",
+      "ACTION": "Action",
+      "IP_ADDRESS": "IP address",
+      "CREATED_AT": "Date of creation",
+      "FILTER_FORM": {
+        "CREATION_DATE_LABEL": "Date of creation",
+        "SEARCH_BY_IP": "Search",
+        "SEARCH_BY_IP_PLACEHOLDER": "Search by IP"
+      }
+    }
+  },
   "NOTIFICATION_CENTER": {
     "TITLE": "Notifications",
     "SHOW_POPUP": "Show pop-up",
@@ -4443,7 +4475,7 @@
     "ERROR_LOADING_BRANCHES": "Error occured while loading branches",
     "TREE": {
       "HEADING": "Hierarchy",
-      "ITEM_DESCRIPTION":  "{{childrenCount}} branches / {{usersCount}} users",
+      "ITEM_DESCRIPTION": "{{childrenCount}} branches / {{usersCount}} users",
       "MANAGER": "Manager",
       "MANAGER_NOT_SELECTED": "Not selected",
       "OPERATOR": "OPERATOR"
@@ -4943,7 +4975,7 @@
   },
   "ROLES_AND_PERMISSIONS": {
     "TITLE": "Roles and Permissions",
-    "SELECT_FILTER":  {
+    "SELECT_FILTER": {
       "ALL": "All",
       "ENABLED": "Enabled",
       "DISABLED": "Disabled"
@@ -4952,9 +4984,9 @@
       "ERROR": "Change permission is failed",
       "RESET_ERROR": "Reset to default permission is failed"
     },
-    "TABLE":  {
+    "TABLE": {
       "ACTION": "Action",
-      "PERMISSION":  "Permission",
+      "PERMISSION": "Permission",
       "VIEW": "View",
       "EDIT": "Edit",
       "PREVIEW": "Preview"
@@ -4964,7 +4996,7 @@
       "TEXT": "All role permissions will be set to default. Do you want to continue?"
     },
     "RESET_TO_DEFAULT": "Reset to Default",
-    "CHOOSE_AN_AUTHORITY":  "Please choose an authority to show permissions...",
+    "CHOOSE_AN_AUTHORITY": "Please choose an authority to show permissions...",
     "SECTIONS": {
       "clients": {
         "TITLE": "Clients",
@@ -5164,6 +5196,15 @@
           "RECALL": "Recall",
           "SYSTEM": "System",
           "WIRE": "Wire"
+        }
+      },
+      "ip-white-list": {
+        "TITLE": "IP Whitelist",
+        "PERMISSIONS": {
+          "list": "View IP Whitelist",
+          "create": "Add new IP address",
+          "editDescription": "Edit  IP address description",
+          "delete": "Delete IP address"
         }
       }
     }

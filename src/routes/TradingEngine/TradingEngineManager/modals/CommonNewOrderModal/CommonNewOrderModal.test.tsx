@@ -283,7 +283,7 @@ it('Render CommonNewOrderModal and click on "Pending order" checkbox double time
   expect(screen.getByLabelText(/Open price/)).toBeEnabled();
 
   // Sell and Buy buttons should have openPrice value in text
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeEnabled()
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeEnabled();
   expect(screen.getByText(`Buy at ${bid.toFixed(5)}`)).toBeEnabled();
 });
 

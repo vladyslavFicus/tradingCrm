@@ -9,21 +9,25 @@ import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
 import { Table, Column } from 'components/Table';
 import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../../../types';
-import { weekends } from '../../constants';
 import ScheduleSettingsModal from '../../../../modals/ScheduleSettingsModal';
 import './SessionsSettings.scss';
 
-interface Props {
+interface Props extends FormikProps<FormValues> {
   modals: {
     scheduleSettings: Modal,
   },
 }
 
+interface State {
+  symbolSessions: SymbolSession[],
+}
+
+
 interface SymbolSessionWithError extends SymbolSession {
   error?: string;
 }
 
-class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
+class SessionsSettings extends PureComponent<Props> {
   state = {
     symbolSessions: [
       { dayOfWeek: DayOfWeek.SUNDAY },
@@ -36,13 +40,24 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
     ],
   };
 
+  static getDerivedStateFromProps(props: Props, state: State) {
+    return {
+      // Fill symbol sessions depends on formik values (for example when chosen source and settings fetching from BE)
+      // or it's initial filling fields on edit symbol page
+      symbolSessions: state.symbolSessions.map(item => ({
+        dayOfWeek: item.dayOfWeek,
+        ...props.values.symbolSessions.find(session => session.dayOfWeek === item.dayOfWeek),
+      })),
+    };
+  }
+
   validationSymbolSessions = (value: SymbolSession[]) => (
     value.map((item) => {
       // If session contains trade and does not contain quote, need to add error message
       if (item?.trade && !item?.quote) {
         return {
           ...item,
-          error: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SESSIONS_ERROR.QUOTE_REQUIRED_ERROR'),
+          error: I18n.t('TRADING_ENGINE.SYMBOL.SESSIONS_ERROR.QUOTE_REQUIRED_ERROR'),
         };
       }
 
@@ -75,7 +90,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
         if (!isInRangeOpenTime || !isInRangeCloseTime) {
           return {
             ...item,
-            error: I18n.t('TRADING_ENGINE.NEW_SYMBOL.SESSIONS_ERROR.RANGE_ERROR'),
+            error: I18n.t('TRADING_ENGINE.SYMBOL.SESSIONS_ERROR.RANGE_ERROR'),
           };
         }
       }
@@ -135,7 +150,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
   renderDay = ({ dayOfWeek } : SymbolSession) => (
     <Choose>
       <When condition={!!dayOfWeek}>
-        <div className="SessionsSettings__day">{I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${dayOfWeek}`)}</div>
+        <div className="SessionsSettings__day">{I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}</div>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -188,7 +203,7 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
       <div className="SessionsSettings">
         <div className="SessionsSettings__section-header">
           <div className="SessionsSettings__section-title">
-            {I18n.t('TRADING_ENGINE.NEW_SYMBOL.SESSIONS')}
+            {I18n.t('TRADING_ENGINE.SYMBOL.SESSIONS')}
           </div>
         </div>
 
@@ -196,32 +211,32 @@ class SessionsSettings extends PureComponent<Props & FormikProps<FormValues>> {
           ({ error, dayOfWeek }: SymbolSessionWithError) => error
             && (
               <div className="SessionsSettings__message-error" key={dayOfWeek}>
-                <strong>{I18n.t(`TRADING_ENGINE.NEW_SYMBOL.WEEK.${dayOfWeek}`)}: </strong> { error }
+                <strong>{I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}: </strong> { error }
               </div>
             ),
         )}
 
         <Table
           items={this.state.symbolSessions}
-          customClassNameRow={({ dayOfWeek, error }: SymbolSessionWithError) => (
+          customClassNameRow={({ error }: SymbolSessionWithError) => (
             classNames({
-              'SessionsSettings--is-disabled': weekends.includes(dayOfWeek),
+              'SessionsSettings--is-disabled': true, // Edit of session settings should be disabled all time
               'SessionsSettings--is-error': error,
             }))
           }
         >
           <Column
-            header={I18n.t('TRADING_ENGINE.NEW_SYMBOL.GRID_HEADER.DAY')}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.DAY')}
             render={this.renderDay}
           />
           <Column
             width={470}
-            header={I18n.t('TRADING_ENGINE.NEW_SYMBOL.GRID_HEADER.QUOTES')}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.QUOTES')}
             render={this.renderQuotes}
           />
           <Column
             width={470}
-            header={I18n.t('TRADING_ENGINE.NEW_SYMBOL.GRID_HEADER.TRADE')}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.TRADE')}
             render={this.renderTrade}
           />
         </Table>

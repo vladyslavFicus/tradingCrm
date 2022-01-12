@@ -35,6 +35,7 @@ import Notifications from 'routes/Notifications';
 import RolesAndPermissions from 'routes/RolesAndPermissions';
 import { operatorsExcludeAuthorities } from 'config/menu';
 import { withStorage } from 'providers/StorageProvider';
+import IpWhitelist from 'routes/IpWhitelist';
 
 class IndexRoute extends PureComponent {
   static propTypes = {
@@ -101,6 +102,7 @@ class IndexRoute extends PureComponent {
           <Route path="/distribution" layout={MainLayout} component={DistributionRules} isPrivate />
           <Route path="/trading-engine-manager" layout={MainLayout} component={TradingEngineManager} isPrivate />
           <Route path="/trading-engine-admin" layout={MainLayout} component={TradingEngineAdmin} isPrivate />
+          <Route path="/ip-whitelist" layout={MainLayout} component={IpWhitelist} isPrivate />
           <Route path="/notifications" layout={MainLayout} component={Notifications} isPrivate />
           <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
           <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />

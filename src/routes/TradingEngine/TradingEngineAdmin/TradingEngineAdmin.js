@@ -5,7 +5,8 @@ import PropTypes from 'constants/propTypes';
 import Route from 'components/Route';
 import TradingEngineSymbolsGrid from './components/TradingEngineSymbolsGrid';
 import TradingEngineOrdersGrid from './components/TradingEngineOrdersGrid';
-import TradingEngineNewSymbol from './routes/TradingEngineNewSymbol';
+import TradingEngineNewSymbol from './routes/TradingEngineSymbol/routes/TradinEngineNewSymbol';
+import TradingEngineEditSymbol from './routes/TradingEngineSymbol/routes/TradinEngineEditSymbol';
 import TradingEngineSecuritiesGrid from './components/TradingEngineSecuritiesGrid';
 import TradingEngineGroup from './routes/TradingEngineGroup';
 
@@ -31,7 +32,8 @@ class TradingEngineAdmin extends PureComponent {
             <Suspense fallback={null}>
               <Switch>
                 <Route exact path={`${path}/symbols`} component={TradingEngineSymbolsGrid} />
-                <Route path={`${path}/symbols/new-symbol`} component={TradingEngineNewSymbol} />
+                <Route path={`${path}/symbols/new`} component={TradingEngineNewSymbol} />
+                <Route path={`${path}/symbols/:id`} component={TradingEngineEditSymbol} />
                 <Route path={`${path}/orders`} component={TradingEngineOrdersGrid} />
                 <Route path={`${path}/securities`} component={TradingEngineSecuritiesGrid} />
                 <Route path={`${path}/groups`} component={TradingEngineGroup} />

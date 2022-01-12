@@ -20,7 +20,7 @@ interface Props {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
-  onSuccess: (modifiedSecurities: GroupSecurity) => void,
+  onSuccess: (modifiedSecurity: GroupSecurity) => void,
 }
 
 const validate = createValidator(
@@ -40,13 +40,13 @@ const GroupSecurityCustomizationModal = ({
   onCloseModal,
   onSuccess,
 }: Props) => {
-  const handleSubmit = (modifiedSecurities: GroupSecurity) => {
+  const handleSubmit = (modifiedSecurity: GroupSecurity) => {
     notify({
       level: LevelType.SUCCESS,
       title: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.TITLE'),
       message: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
     });
-    onSuccess(modifiedSecurities);
+    onSuccess(modifiedSecurity);
     onCloseModal();
   };
 

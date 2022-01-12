@@ -1482,4 +1482,57 @@ export default [
       },
     ],
   },
+  // ============================================= //
+  // ============ IP White List =========== //
+  // ============================================= //
+  {
+    id: 'ip-white-list',
+    actions: {
+      view: {
+        action: 'brand-config-service.ip-white-list.search',
+        state: false,
+      },
+    },
+    permissions: [
+      // List Ips in Whitelist
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'brand-config-service.ip-white-list.search',
+            state: false,
+          },
+        },
+      },
+      // add new IP address to whitelist
+      {
+        id: 'create',
+        actions: {
+          edit: {
+            action: 'brand-config-service.ip-white-list.add',
+            state: false,
+          },
+        },
+      },
+      // remove IP adddress from whitelist
+      {
+        id: 'delete',
+        actions: {
+          edit: {
+            action: 'brand-config-service.ip-white-list.delete',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'editDescription',
+        actions: {
+          edit: {
+            action: 'brand-config-service.ip-white-list.editDescription',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
 ];
