@@ -55,9 +55,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
     try {
       await createSymbol({
         variables: {
-          args: {
-            ...decodeNullValues(rest),
-          },
+          args: decodeNullValues(rest),
         },
       });
 
@@ -105,12 +103,12 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
                 description: ['required'],
                 securityName: ['required'],
                 symbolType: ['required'],
-                baseCurrency: ['required'],
+                baseCurrency: ({ symbolType }: FormValues) => [symbolType !== SymbolType.CFD && 'required'],
                 quoteCurrency: ['required'],
                 backgroundColor: ['required'],
                 bidSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
                 askSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
-                stopsLevel: ['required', 'numeric', 'min:1', 'max:100000'],
+                stopsLevel: ['required', 'integer', 'min:1', 'max:100000'],
                 lotSize: ['required', 'numeric', 'min:1', 'max:10000000000'],
                 percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
                 'filtration.filterSmoothing': ['required'],

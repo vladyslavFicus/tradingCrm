@@ -273,8 +273,28 @@ const getFirstErrors = errors => Object.keys(errors).reduce((result, current) =>
   [current]: errors[current][0],
 }), {});
 
+/**
+ * Execute validator rule for field as a function with input if it provided as function
+ *
+ * @param rules
+ * @param input
+ */
+const parseFunctionRules = (rules, input) => Object.keys(rules).reduce((acc, curr) => {
+  const rule = rules[curr];
+
+  if (typeof rule === 'function' && rule(input)) {
+    acc[curr] = rule(input);
+  } else {
+    acc[curr] = rule;
+  }
+
+  return acc;
+}, {});
+
 const createValidator = (rules, attributeLabels = {}, multipleErrors = true, customErrors = {}) => (data) => {
-  const validation = new Validator(data, rules, customErrors);
+  const parsedRules = parseFunctionRules(rules, data);
+
+  const validation = new Validator(data, parsedRules, customErrors);
   validation.setAttributeNames(attributeLabels);
 
   if (validation.fails()) {
