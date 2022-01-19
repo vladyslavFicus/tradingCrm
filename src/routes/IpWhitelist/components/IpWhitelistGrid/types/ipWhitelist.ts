@@ -1,6 +1,7 @@
-import { Query, Pageable, Page } from 'types';
+import { Query, Page } from 'types';
+import { Pageable } from 'types/query';
 
-export interface IpWitelistAddress {
+export interface IpWhitelistAddress {
   id: string,
   ip: string,
   createdAt: string,
@@ -8,7 +9,7 @@ export interface IpWitelistAddress {
 }
 
 export interface IpWitelististSearchData {
-  ipWhitelistSearch: Pageable<IpWitelistAddress>
+  ipWhitelistSearch: Pageable<IpWhitelistAddress>
 }
 
 export interface IpWhitelistSearchArg {

@@ -107,7 +107,7 @@ const validator = createValidator(
 );
 
 class TradingEngineEditSymbol extends PureComponent<Props> {
-  handleSubmit = async ({ marginCalculation, profitCalculation, ...rest }: FormValues) => {
+  handleSubmit = async (values: FormValues) => {
     const {
       notify,
       editSymbol,
@@ -116,7 +116,7 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
     try {
       await editSymbol({
         variables: {
-          args: decodeNullValues(rest),
+          args: decodeNullValues(values),
         },
       });
 
@@ -190,8 +190,6 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
                 lotSize: lotSize || 0,
                 percentage: percentage || 0,
                 securityName: securityName || '',
-                marginCalculation: symbolType || SymbolType.FOREX,
-                profitCalculation: symbolType || SymbolType.FOREX,
                 swapConfigs: {
                   enable: swapConfigs?.enable || false,
                   type: swapConfigs?.type || SwapType.POINTS,
@@ -242,7 +240,9 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
                     </div>
 
                     <div className="TradingEngineEditSymbol__column">
-                      <CalculationSettings />
+                      <CalculationSettings
+                        {...formik}
+                      />
                     </div>
 
                     <div className="TradingEngineEditSymbol__column">

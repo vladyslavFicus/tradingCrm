@@ -67,7 +67,5 @@ export interface FormValues {
   stopsLevel: number,
   lotSize: number,
   percentage: number,
-  marginCalculation: SymbolType,
-  profitCalculation: SymbolType,
   symbolSessions: SymbolSession[],
 }

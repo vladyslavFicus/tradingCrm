@@ -1,4 +1,4 @@
-import { Query, Pageable, Page, Sort } from 'types';
+import { Query, Page, Sort, Pageable } from 'types';
 
 export interface IpWhitelistFilters {
   filters?: {
@@ -7,7 +7,7 @@ export interface IpWhitelistFilters {
   sorst?: Sort[],
 }
 
-export interface IpWitelistAddress {
+export interface IpWhitelistAddress {
   id: string,
   ip: string,
   createdAt: string,
@@ -15,7 +15,7 @@ export interface IpWitelistAddress {
 }
 
 export interface IpWitelististSearchData {
-  ipWhitelistSearch: Pageable<IpWitelistAddress>
+  ipWhitelistSearch: Pageable<IpWhitelistAddress>
 }
 
 export interface IpWhitelistSearchArg {

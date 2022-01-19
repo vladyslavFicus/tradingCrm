@@ -9,7 +9,7 @@ import {
   FormikTextAreaField,
 } from 'components/Formik';
 import { backgroundColor, symbolTypeLabels } from '../../constants';
-import { FormValues, SymbolType } from '../../../../types';
+import { FormValues } from '../../../../types';
 import SymbolQuery from './graphql/SymbolQuery';
 import './SymbolSettings.scss';
 
@@ -31,15 +31,6 @@ const SymbolSettings = (props: WithApolloClient<Props>) => {
     initialValues,
     values,
   } = props;
-
-  const onChangeSymbolType = (value: SymbolType) => {
-    setValues({
-      ...values,
-      symbolType: value,
-      marginCalculation: value,
-      profitCalculation: value,
-    });
-  };
 
   const onChangeSymbolSource = async (symbolName: string) => {
     // Set field value before to avoid delay while symbol fetching for BE
@@ -139,7 +130,6 @@ const SymbolSettings = (props: WithApolloClient<Props>) => {
           className="SymbolSettings__field"
           component={FormikSelectField}
           searchable
-          customOnChange={onChangeSymbolType}
         >
           {symbolTypeLabels.map(({ name, value }) => (
             <option key={value} value={value}>

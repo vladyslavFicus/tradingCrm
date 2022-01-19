@@ -45,7 +45,7 @@ interface Props {
 }
 
 class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> {
-  handleSubmit = async ({ marginCalculation, profitCalculation, ...rest }: FormValues) => {
+  handleSubmit = async (values: FormValues) => {
     const {
       notify,
       history,
@@ -55,7 +55,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
     try {
       await createSymbol({
         variables: {
-          args: decodeNullValues(rest),
+          args: decodeNullValues(values),
         },
       });
 
@@ -166,8 +166,6 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
             lotSize: 100000,
             percentage: 100.0,
             securityName: 'Indices',
-            marginCalculation: SymbolType.FOREX,
-            profitCalculation: SymbolType.FOREX,
             swapConfigs: {
               enable: true,
               type: SwapType.POINTS,
@@ -187,7 +185,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
           }}
           onSubmit={this.handleSubmit}
         >
-          {(formik : FormikProps<FormValues>) => {
+          {(formik: FormikProps<FormValues>) => {
             const symbolSessionContainsErrors = formik.values?.symbolSessions.filter(({ error }) => error);
 
             return (
@@ -218,7 +216,9 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
                 </div>
 
                 <div className="TradingEngineNewSymbol__column">
-                  <CalculationSettings />
+                  <CalculationSettings
+                    {...formik}
+                  />
                 </div>
 
                 <div className="TradingEngineNewSymbol__column">

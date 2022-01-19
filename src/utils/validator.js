@@ -174,6 +174,9 @@ function customValueTypeValidator(inputValue, _, attribute) {
   return false;
 }
 
+// eslint-disable-next-line
+const isIPValidator = ip => ip.match(/\b(?!(255\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168))(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/);
+
 function listedIPsValidator(listOfIPs) {
   return listOfIPs.reduce((acc, ip) => {
     // eslint-disable-next-line
@@ -267,6 +270,7 @@ Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must
 Validator.register('periodGreaterOrSame', periodGreaterOrSameValidator, 'The :attribute must be greater');
 Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');
 Validator.register("listedIP's", listedIPsValidator, 'The IP address must be valid. Example: 101.220.33.40');
+Validator.register('IP', isIPValidator, 'The IP address must be valid. Example: 101.220.33.40');
 
 const getFirstErrors = errors => Object.keys(errors).reduce((result, current) => ({
   ...result,

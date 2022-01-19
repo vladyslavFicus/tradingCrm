@@ -4,73 +4,88 @@ import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { State, Sort } from 'types';
+import { withModals } from 'hoc';
+import { Modal, Sort, State } from 'types';
+import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
-import permissions from 'config/permissions';
+import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
 import IpWhitelistQuery from './graphql/IpWhitelistQuery';
 import IpWhitelistFilter from './components/IpWhitelistFilter';
-import { WitelististSearchQueryResult, IpWitelistAddress, IpWhitelistFilters } from './types';
+import {
+  WitelististSearchQueryResult,
+  IpWhitelistAddress,
+  IpWhitelistFilters,
+} from './types';
 import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistGrid.scss';
 
+
 interface Props {
   ipWhitelistQuery: WitelististSearchQueryResult,
+  modals: {
+    updateDescriptionModal: Modal<{
+      item: IpWhitelistAddress,
+      onSuccess: () => void
+    }>,
+  }
 }
 
-const DescriptionColumnRender = ({ description }: IpWitelistAddress) => (
-  <div className="IpWhitelistGrid__cell-primary">
-    {description}
-  </div>
-);
-
-const CreatedAtColumnRender = ({ createdAt }: IpWitelistAddress) => (
-  <div className="IpWhitelistGrid__cell-primary">
-    <div className="IpWhitelistGrid__cell-primary-date">{moment.utc(createdAt).local().format('DD.MM.YYYY')}</div>
-    <div className="IpWhitelistGrid__cell-primary-time">
-      {moment.utc(createdAt).local().format('HH:mm:ss')}
-    </div>
-  </div>
-);
-
-const AddressColumnRender = ({ ip }: IpWitelistAddress) => (
-  <div className="IpWhitelistGrid__cell-primary">
-    {ip}
-  </div>
-);
-
-const ActionsColumn = ({ item }: { item: IpWitelistAddress }) => (
-  <div className="IpWhitelistGrid__cell-primary">
-    <PermissionContent permissions={permissions.IP_WHITELIST.DELETE_IP_ADDRESS}>
-      <Button
-        transparent
-      >
-        <i
-          onClick={() => console.log('not implemented yet', item)}
-          className="IpWhitelistGrid__action-icon fa fa-trash color-danger"
-        />
-      </Button>
-    </PermissionContent>
-    <PermissionContent permissions={permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION}>
-      <Button
-        transparent
-      >
-        <i
-          onClick={() => console.log('not implemented yet', item)}
-          className="IpWhitelistGrid__action-icon fa fa-edit"
-        />
-      </Button>
-    </PermissionContent>
-  </div>
-);
-
-const IpWhitelistGrid = ({ ipWhitelistQuery }: Props) => {
+const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal } }: Props) => {
   const { ipWhitelistSearch = { content: [], last: true, totalElements: 0, number: 0 } } = ipWhitelistQuery.data || {};
   const { content, last, totalElements } = ipWhitelistSearch;
   const { state } = useLocation<State<IpWhitelistFilters>>();
   const history = useHistory();
+
+  const descriptionColumnRender = (item: IpWhitelistAddress) => (
+    <div className="IpWhitelistGrid__cell-primary">
+      {item.description}
+    </div>
+  );
+
+  const createdAtColumnRender = (item: IpWhitelistAddress) => (
+    <div className="IpWhitelistGrid__cell-primary">
+      <div className="IpWhitelistGrid__cell-primary-date">
+        {moment.utc(item.createdAt).local().format('DD.MM.YYYY')}
+      </div>
+      <div className="IpWhitelistGrid__cell-primary-time">
+        {moment.utc(item.createdAt).local().format('HH:mm:ss')}
+      </div>
+    </div>
+  );
+
+  const addressColumnRender = (item: IpWhitelistAddress) => (
+    <div className="IpWhitelistGrid__cell-primary">
+      {item.ip}
+    </div>
+  );
+
+  const actionsColumnRender = (item: IpWhitelistAddress) => (
+    <div className="IpWhitelistGrid__cell-primary">
+      <PermissionContent permissions={permissions.IP_WHITELIST.DELETE_IP_ADDRESS}>
+        <Button
+          transparent
+        >
+          <i
+            onClick={() => console.log('not implemented yet', item)}
+            className="IpWhitelistGrid__action-icon fa fa-trash color-danger"
+          />
+        </Button>
+      </PermissionContent>
+      <PermissionContent permissions={permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION}>
+        <Button
+          transparent
+        >
+          <i
+            onClick={() => updateDescriptionModal.show({ item, onSuccess: ipWhitelistQuery.refetch })}
+            className="IpWhitelistGrid__action-icon fa fa-edit"
+          />
+        </Button>
+      </PermissionContent>
+    </div>
+  );
 
   const handleSort = (sorts: Sort[]) => {
     history.replace({
@@ -130,21 +145,21 @@ const IpWhitelistGrid = ({ ipWhitelistQuery }: Props) => {
         >
           <Column
             header={I18n.t('IP_WHITELIST.GRID.IP_ADDRESS')}
-            render={AddressColumnRender}
+            render={addressColumnRender}
           />
           <Column
             header={I18n.t('IP_WHITELIST.GRID.CREATED_AT')}
-            render={CreatedAtColumnRender}
+            render={createdAtColumnRender}
             sortBy="createdAt"
           />
           <Column
             header={I18n.t('IP_WHITELIST.GRID.DESCRIPTION')}
-            render={DescriptionColumnRender}
+            render={descriptionColumnRender}
             sortBy="description"
           />
           <Column
             header={I18n.t('IP_WHITELIST.GRID.ACTION')}
-            render={ActionsColumn}
+            render={actionsColumnRender}
           />
         </Table>
       </div>
@@ -152,7 +167,10 @@ const IpWhitelistGrid = ({ ipWhitelistQuery }: Props) => {
   );
 };
 
-export default compose<React.ComponentType<Props>>(
+export default compose(
+  withModals({
+    updateDescriptionModal: WhiteListUpdateDescriptionModal,
+  }),
   withRequests({
     ipWhitelistQuery: IpWhitelistQuery,
   }),

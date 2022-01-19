@@ -3683,7 +3683,7 @@
         "LONG_POSITION_SWAP": "Long position swap",
         "SHORT_POSITION_SWAP": "Short position swap",
         "MARGIN_PERCENTAGE": "Margin percentage",
-         "NOTIFICATION": {
+        "NOTIFICATION": {
           "SUCCESS": "Symbol has been successfully added to symbol table",
           "FAILED_EXIST": "Symbol with this name already exists."
         }
@@ -4388,6 +4388,18 @@
         "CREATION_DATE_LABEL": "Date of creation",
         "SEARCH_BY_IP": "Search",
         "SEARCH_BY_IP_PLACEHOLDER": "Search by IP"
+      }
+    },
+    "MODALS": {
+      "UPDATE_DESCRIPTION_MODAL": {
+        "TITLE": "Update IP address description",
+        "IP_ADDRESS": "IP address",
+        "DESCRIPTION": "Description",
+        "UPDATE_BUTTON": "Update",
+        "NOTIFICATIONS": {
+          "IP_UPDATED": "IP address updated",
+          "IP_NOT_UPDATED": "Error while updating IP address"
+        }
       }
     }
   },

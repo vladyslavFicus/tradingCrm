@@ -1,14 +1,15 @@
 import React from 'react';
 import I18n from 'i18n';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import {
   FormikInputField,
-  FormikSelectField,
 } from 'components/Formik';
+import Select from 'components/Select';
 import { marginCalculationLabels, profitCalculationLabels } from '../../constants';
+import { FormValues } from '../../../../types';
 import './CalculationSettings.scss';
 
-const FiltrationSettings = () => (
+const FiltrationSettings = (props: FormikProps<FormValues>) => (
   <div className="FiltrationSettings">
     <div className="CalculationSettings__header">
       <div className="CalculationSettings__section-title">
@@ -33,36 +34,32 @@ const FiltrationSettings = () => (
     </div>
     <div className="CalculationSettings__field-container">
 
-      <Field
-        name="marginCalculation"
+      <Select
         disabled
+        value={props.values.symbolType}
         label={I18n.t('TRADING_ENGINE.SYMBOL.MARGIN_CALCULATION_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        className="CalculationSettings__field"
-        component={FormikSelectField}
-        searchable
+        customClassName="CalculationSettings__field"
       >
         {marginCalculationLabels.map(({ name, value }) => (
           <option key={name} value={value}>
             {I18n.t(name)}
           </option>
         ))}
-      </Field>
-      <Field
-        name="profitCalculation"
+      </Select>
+      <Select
         disabled
+        value={props.values.symbolType}
         label={I18n.t('TRADING_ENGINE.SYMBOL.PROFIT_CALCULATION_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        className="CalculationSettings__field"
-        component={FormikSelectField}
-        searchable
+        customClassName="CalculationSettings__field"
       >
         {profitCalculationLabels.map(({ name, value }) => (
           <option key={value} value={value}>
             {I18n.t(name)}
           </option>
         ))}
-      </Field>
+      </Select>
     </div>
   </div>
 );
