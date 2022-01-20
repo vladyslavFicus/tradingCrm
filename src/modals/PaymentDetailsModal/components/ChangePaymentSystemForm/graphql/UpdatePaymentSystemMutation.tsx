@@ -10,7 +10,7 @@ export interface Props {
 const REQUEST = gql`
   mutation ChangePaymentSystemForm_UpdatePaymentSystem(
     $paymentId: String!,
-    $paymentSystem: String,
+    $paymentSystem: String!,
   ) {
     payment {
       changePaymentSystem (
