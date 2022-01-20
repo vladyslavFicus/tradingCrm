@@ -47,6 +47,7 @@ export const salesStatuses = {
   POTENTIAL_FRAUD: 'CONSTANTS.SALES_STATUSES.POTENTIAL_FRAUD',
   CALL_BACK_INSFF: 'CONSTANTS.SALES_STATUSES.CALL_BACK_INSFF',
   MEDIA: 'CONSTANTS.SALES_STATUSES.MEDIA',
+  PENDING: 'CONSTANTS.SALES_STATUSES.PENDING',
 };
 
 export const salesStatusesColor = {
@@ -97,4 +98,5 @@ export const salesStatusesColor = {
   POTENTIAL_FRAUD: 'color-danger',
   CALL_BACK_INSFF: 'color-info',
   MEDIA: 'color-info',
+  PENDING: 'color-warning',
 };

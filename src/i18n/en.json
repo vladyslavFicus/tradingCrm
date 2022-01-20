@@ -1338,7 +1338,8 @@
       "PUBLIC_NUMBER": "Public number",
       "POTENTIAL_FRAUD": "Potential fraud",
       "CALL_BACK_INSFF": "Callback insff",
-      "MEDIA": "Media"
+      "MEDIA": "Media",
+      "PENDING": "Pending"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
