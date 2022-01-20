@@ -72,6 +72,7 @@ const departments = keyMirror({
   COMPLIANCE: null,
   DEALING: null,
   IB: null,
+  PAYMENT: null,
 });
 
 const departmentsLabels = {
@@ -93,6 +94,7 @@ const departmentsLabels = {
   [departments.COMPLIANCE]: 'CONSTANTS.OPERATORS.DEPARTMENTS.COMPLIANCE',
   [departments.DEALING]: 'CONSTANTS.OPERATORS.DEPARTMENTS.DEALING',
   [departments.IB]: 'CONSTANTS.OPERATORS.DEPARTMENTS.IB',
+  [departments.PAYMENT]: 'CONSTANTS.OPERATORS.DEPARTMENTS.PAYMENT',
 };
 
 const roles = keyMirror({
