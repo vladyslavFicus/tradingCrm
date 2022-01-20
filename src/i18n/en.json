@@ -1153,7 +1153,8 @@
         "DEALING": "Dealing",
         "IB": "IB",
         "RBAC": "RBAC",
-        "TE": "Trading Engine"
+        "TE": "Trading Engine",
+        "PAYMENT": "Payment"
       },
       "ROLES": {
         "EXECUTIVE": "Executive",
