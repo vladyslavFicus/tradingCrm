@@ -20,7 +20,7 @@ export interface IpWitelististSearchData {
 
 export interface IpWhitelistSearchArg {
   args: {
-    search?: string,
+    ip?: string,
     page: Page
   }
 }

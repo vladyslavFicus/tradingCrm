@@ -4400,6 +4400,16 @@
           "IP_UPDATED": "IP address updated",
           "IP_NOT_UPDATED": "Error while updating IP address"
         }
+      },
+      "ADD_IP_MODAL": {
+        "TITLE": "Add new IP address",
+        "IP_ADDRESS": "IP address",
+        "DESCRIPTION": "Description",
+        "ADD_BUTTON": "Add",
+        "NOTIFICATIONS": {
+          "IP_ADDED": "IP address added",
+          "IP_NOT_ADDED": "Error while adding IP address"
+        }
       }
     }
   },

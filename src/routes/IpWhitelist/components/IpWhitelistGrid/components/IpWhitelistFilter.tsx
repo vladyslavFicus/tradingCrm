@@ -11,7 +11,7 @@ import { IpWhitelistSearchArg, IpWitelististSearchData, IpWhitelistFilters } fro
 import './IpWhitelistFilter.scss';
 
 interface Props {
-  refetch: (variables:IpWhitelistSearchArg) => Promise<ApolloQueryResult<IpWitelististSearchData>>,
+  refetch: (variables: IpWhitelistSearchArg) => Promise<ApolloQueryResult<IpWitelististSearchData>>,
 }
 
 const IpWhitelistFilter = ({ refetch }: Props) => {

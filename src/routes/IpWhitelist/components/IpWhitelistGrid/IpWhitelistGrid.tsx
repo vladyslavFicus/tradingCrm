@@ -12,6 +12,7 @@ import Tabs from 'components/Tabs';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
+import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
 import IpWhitelistQuery from './graphql/IpWhitelistQuery';
 import IpWhitelistFilter from './components/IpWhitelistFilter';
 import {
@@ -22,10 +23,12 @@ import {
 import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistGrid.scss';
 
-
 interface Props {
   ipWhitelistQuery: WitelististSearchQueryResult,
   modals: {
+    addAddressModal: Modal<{
+      onSuccess: () => void
+    }>,
     updateDescriptionModal: Modal<{
       item: IpWhitelistAddress,
       onSuccess: () => void
@@ -33,7 +36,7 @@ interface Props {
   }
 }
 
-const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal } }: Props) => {
+const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal, addAddressModal } }: Props) => {
   const { ipWhitelistSearch = { content: [], last: true, totalElements: 0, number: 0 } } = ipWhitelistQuery.data || {};
   const { content, last, totalElements } = ipWhitelistSearch;
   const { state } = useLocation<State<IpWhitelistFilters>>();
@@ -124,16 +127,14 @@ const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal } 
         <PermissionContent permissions={permissions.IP_WHITELIST.ADD_IP_ADDRESS}>
           <button
             className="IpWhitelistGrid__header-button"
-            onClick={() => console.log('not implemented yet')}
+            onClick={() => addAddressModal.show({ onSuccess: ipWhitelistQuery.refetch })}
             type="button"
           >
             {I18n.t('IP_WHITELIST.GRID.ADD_IP')}
           </button>
         </PermissionContent>
       </div>
-
       <IpWhitelistFilter refetch={ipWhitelistQuery.refetch} />
-
       <div className="IpWhitelistGrid">
         <Table
           items={content}
@@ -170,6 +171,7 @@ const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal } 
 export default compose(
   withModals({
     updateDescriptionModal: WhiteListUpdateDescriptionModal,
+    addAddressModal: WhiteListAddIpModal,
   }),
   withRequests({
     ipWhitelistQuery: IpWhitelistQuery,
