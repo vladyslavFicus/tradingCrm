@@ -1938,6 +1938,7 @@
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
     "HEADER_PAYMENT_METHOD": "Payment method",
+    "PAYMENT_SYSTEM": "Payment system",
     "REJECTION_REASON": "Rejection reason",
     "CHANGE_PAYMENT_METHOD": "Change payment method",
     "CHANGE_STATUS": "Change status",
@@ -1960,7 +1961,9 @@
       "REJECT_FAILED": "Failed to reject payment",
       "REJECT_SUCCESS": "Payment successfully rejected",
       "APPROVE_FAILED": "Failed to approve payment",
-      "APPROVE_SUCCESS": "Payment successfully approved"
+      "APPROVE_SUCCESS": "Payment successfully approved",
+      "UPDATE_SYSTEM_ERROR": "Update of the payment system is failed",
+      "UPDATE_SYSTEM_SUCCESS": "Update of the payment system is successfully"
     },
     "ORIGINAL_AGENT": "Original Agent",
     "CREATION_TIME": "Creation time"
@@ -2759,6 +2762,7 @@
         "TYPE": "Payment Type",
         "AMOUNT": "Amount",
         "PAYMENT_METHOD": "Payment method",
+        "PAYMENT_SYSTEM": "Payment system",
         "EXTERNAL_REF": "External reference ID",
         "EXPIRATION_DATE": "Expiration date & time",
         "FROM_ACC": "From account",

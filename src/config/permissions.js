@@ -101,6 +101,7 @@ export default {
     REJECT: 'payment.rejectPayment',
     CHANGE_STATUS: 'payment.changePaymentStatus',
     CHANGE_METHOD: 'payment.changePaymentMethod',
+    CHANGE_SYSTEM: 'payment.changePaymentSystem',
     CHANGE_ORIGINAL_AGENT: 'payment.changePaymentAgent',
     CHANGE_CREATION_TIME: 'payment.utils.changeDatetime',
     CHANGE_SHOW_FTD_TO_AFFILIATE: 'payment.changeShowFtdToAffiliate',

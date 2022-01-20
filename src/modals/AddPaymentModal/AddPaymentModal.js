@@ -19,13 +19,16 @@ import Currency from 'components/Amount/Currency';
 import AccountsSelectField from './components/AccountsSelectField';
 import { validation } from './utils';
 import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
-import { ManualPaymentMethodsQuery, AddNote, AddPayment } from './graphql';
+import { ManualPaymentMethodsQuery, AddNote, AddPayment, PaymentSystemsQuery } from './graphql';
 import './AddPaymentModal.scss';
 
 class AddPaymentModal extends PureComponent {
   static propTypes = {
     manualPaymentMethods: PropTypes.query({
       manualPaymentMethods: PropTypes.response(PropTypes.paymentMethods),
+    }).isRequired,
+    paymentSystems: PropTypes.query({
+      paymentSystems: PropTypes.response(PropTypes.arrayOf(PropTypes.string)),
     }).isRequired,
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -166,10 +169,15 @@ class AddPaymentModal extends PureComponent {
         data: manualPaymentMethodsData,
         loading: manualMethodsLoading,
       },
+      paymentSystems: {
+        data: paymentSystemsData,
+        loading: paymentSystemsLoading,
+      },
     } = this.props;
     const { errorMessage } = this.state;
 
     const manualMethods = manualPaymentMethodsData?.manualPaymentMethods || [];
+    const paymentSystems = paymentSystemsData?.paymentSystems || [];
 
     return (
       <Modal contentClassName="AddPaymentModal" toggle={onCloseModal} isOpen>
@@ -309,6 +317,33 @@ class AddPaymentModal extends PureComponent {
                         </When>
                       </Choose>
                     </div>
+                    <If condition={
+                      (paymentType === 'DEPOSIT'
+                        && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values.paymentMethod))
+                      || (paymentType === 'WITHDRAW')
+                    }
+                    >
+                      <div className="AddPaymentModal__row">
+                        <Field
+                          name="paymentSystem"
+                          label={attributeLabels.paymentSystem}
+                          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                          className="AddPaymentModal__field"
+                          component={FormikSelectField}
+                          disabled={paymentSystemsLoading}
+                        >
+                          {[
+                            <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
+                            ...paymentSystems.map(({ paymentSystem }) => (
+                              <option key={paymentSystem} value={paymentSystem}>
+                                {paymentSystem}
+                              </option>
+                            )),
+                            <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                          ]}
+                        </Field>
+                      </div>
+                    </If>
                     <div className="AddPaymentModal__row">
                       <Field
                         name="amount"
@@ -398,6 +433,7 @@ export default compose(
   withRouter,
   withRequests({
     manualPaymentMethods: ManualPaymentMethodsQuery,
+    paymentSystems: PaymentSystemsQuery,
     addPayment: AddPayment,
     addNote: AddNote,
   }),

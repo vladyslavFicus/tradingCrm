@@ -21,12 +21,12 @@ import ShortLoader from 'components/ShortLoader';
 import IpFlag from 'components/IpFlag';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
-import Permissions from 'utils/permissions';
 import formatLabel from 'utils/formatLabel';
 import { createValidator, translateLabels } from 'utils/validator';
 import ChangePaymentStatusForm from './components/ChangePaymentStatusForm';
 import ApprovePaymentForm from './components/ApprovePaymentForm';
 import RejectPaymentForm from './components/RejectPaymentForm';
+import ChangePaymentSystemForm from './components/ChangePaymentSystemForm';
 import getProfileQuery from './graphql/getProfileQuery';
 import ChangeCreationTimeMutation from './graphql/ChangeCreationTimeMutation';
 import './PaymentDetailsModal.scss';
@@ -155,12 +155,10 @@ class PaymentDetailsModal extends PureComponent {
   renderDateAndTimeBlock = () => {
     const {
       payment: { creationTime },
-      permission: {
-        permissions: currentPermission,
-      },
+      permission,
     } = this.props;
 
-    const canChangeCreationTime = new Permissions(permissions.PAYMENT.CHANGE_CREATION_TIME).check(currentPermission);
+    const canChangeCreationTime = permission.allows(permissions.PAYMENT.CHANGE_CREATION_TIME);
 
     return (
       <div className="PaymentDetailsModal__block">
@@ -358,18 +356,17 @@ class PaymentDetailsModal extends PureComponent {
         paymentType,
         withdrawStatus,
       },
-      permission: {
-        permissions: currentPermission,
-      },
+      permission,
     } = this.props;
 
     const inPendingStatus = statusMapper.PENDING.includes(status);
     const isWithdraw = paymentType === tradingTypes.WITHDRAW;
 
-    const canApprove = new Permissions(permissions.PAYMENT.APPROVE).check(currentPermission);
-    const canReject = new Permissions(permissions.PAYMENT.REJECT).check(currentPermission);
-    const canChangeStatus = new Permissions(permissions.PAYMENT.CHANGE_STATUS).check(currentPermission);
-    const canChangeMethod = new Permissions(permissions.PAYMENT.CHANGE_METHOD).check(currentPermission);
+    const canApprove = permission.allows(permissions.PAYMENT.APPROVE);
+    const canReject = permission.allows(permissions.PAYMENT.REJECT);
+    const canChangeStatus = permission.allows(permissions.PAYMENT.CHANGE_STATUS);
+    const canChangeMethod = permission.allows(permissions.PAYMENT.CHANGE_METHOD);
+    const canChangeSystem = permission.allows(permissions.PAYMENT.CHANGE_SYSTEM);
 
     return (
       <Modal
@@ -432,6 +429,15 @@ class PaymentDetailsModal extends PureComponent {
                       onSuccess={this.onAcceptSuccess}
                     />
                   </If>
+                </div>
+              </If>
+
+              <If condition={canChangeSystem}>
+                <div className="PaymentDetailsModal__row">
+                  <ChangePaymentSystemForm
+                    onSuccess={onSuccess}
+                    paymentId={paymentId}
+                  />
                 </div>
               </If>
             </Otherwise>

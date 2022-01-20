@@ -16,6 +16,7 @@ const REQUEST = gql`
     $profileUUID: String
     $source: String
     $target: String
+    $paymentSystem: String
   ) {
     payment {
       createPayment(
@@ -30,6 +31,7 @@ const REQUEST = gql`
         country: $country
         paymentMethod: $paymentMethod
         profileUUID: $profileUUID
+        paymentSystem: $paymentSystem
       ) {
         paymentId
       }
