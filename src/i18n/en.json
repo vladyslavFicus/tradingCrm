@@ -5153,7 +5153,8 @@
           "reject": "Reject payment",
           "changeStatus": "Change payment status",
           "changeMethod": "Change payment method",
-          "changeAgent": "Payment original agent"
+          "changeAgent": "Payment original agent",
+          "changeSystem": "Edit PSP on payment"
         }
       },
       "callbacks": {

@@ -1080,6 +1080,16 @@ export default [
           },
         },
       },
+      // Change payment system
+      {
+        id: 'changeSystem',
+        actions: {
+          edit: {
+            action: 'payment.changePaymentSystem',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
