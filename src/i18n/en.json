@@ -4408,6 +4408,15 @@
           "IP_NOT_UPDATED": "Error while updating IP address"
         }
       },
+      "DELETE_MODAL": {
+        "HEADER": "Delete IP - Confirmation",
+        "ACTION_TEXT": "Are you sure you want to delete IP address %{ip} ?",
+        "DELETE": "Delete",
+        "NOTIFICATIONS": {
+          "IP_DELETED": "IP address deleted from whitelist",
+          "IP_NOT_DELETED": "Error while deleting IP address from whitelist"
+        }
+      },
       "ADD_IP_MODAL": {
         "TITLE": "Add new IP address",
         "IP_ADDRESS": "IP address",

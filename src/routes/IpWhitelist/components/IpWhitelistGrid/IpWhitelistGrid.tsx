@@ -2,17 +2,20 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
+import { MutationOptions, MutationResult } from 'react-apollo';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { withModals } from 'hoc';
-import { Modal, Sort, State } from 'types';
+import { withModals, withNotifications } from 'hoc';
+import { LevelType, Modal, Notify, Sort, State } from 'types';
 import permissions from 'config/permissions';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
 import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
+import IpWhitelistDeleteIpMutation from './graphql/IpWhitelistDeleteMutation';
 import IpWhitelistQuery from './graphql/IpWhitelistQuery';
 import IpWhitelistFilter from './components/IpWhitelistFilter';
 import {
@@ -25,6 +28,7 @@ import './IpWhitelistGrid.scss';
 
 interface Props {
   ipWhitelistQuery: WitelististSearchQueryResult,
+  notify: Notify,
   modals: {
     addAddressModal: Modal<{
       onSuccess: () => void
@@ -33,14 +37,42 @@ interface Props {
       item: IpWhitelistAddress,
       onSuccess: () => void
     }>,
-  }
+    deleteModal: Modal<{
+      onSubmit: (item: IpWhitelistAddress) => void,
+      modalTitle: string,
+      actionText: string,
+      submitButtonLabel: string,
+    }>,
+  },
+  deleteIpMutation: (options: MutationOptions) => MutationResult<Boolean>
 }
 
-const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal, addAddressModal } }: Props) => {
+const IpWhitelistGrid = (props: Props) => {
+  const { ipWhitelistQuery, notify, modals, deleteIpMutation } = props;
+  const { updateDescriptionModal, deleteModal, addAddressModal } = modals;
   const { ipWhitelistSearch = { content: [], last: true, totalElements: 0, number: 0 } } = ipWhitelistQuery.data || {};
   const { content, last, totalElements } = ipWhitelistSearch;
   const { state } = useLocation<State<IpWhitelistFilters>>();
   const history = useHistory();
+
+  const handleDeleteIp = ({ uuid, ip }: IpWhitelistAddress) => async () => {
+    try {
+      await deleteIpMutation({ variables: { uuid } });
+      deleteModal.hide();
+      ipWhitelistQuery.refetch();
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.NOTIFICATIONS.IP_DELETED', { ip }),
+      });
+    } catch (e) {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.NOTIFICATIONS.IP_NOT_DELETED'),
+      });
+    }
+  };
 
   const descriptionColumnRender = (item: IpWhitelistAddress) => (
     <div className="IpWhitelistGrid__cell-primary">
@@ -72,7 +104,12 @@ const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal, a
           transparent
         >
           <i
-            onClick={() => console.log('not implemented yet', item)}
+            onClick={() => deleteModal.show({
+              onSubmit: handleDeleteIp(item),
+              modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
+              actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.ACTION_TEXT', { ip: item.ip }),
+              submitButtonLabel: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.DELETE'),
+            })}
             className="IpWhitelistGrid__action-icon fa fa-trash color-danger"
           />
         </Button>
@@ -168,12 +205,15 @@ const IpWhitelistGrid = ({ ipWhitelistQuery, modals: { updateDescriptionModal, a
   );
 };
 
-export default compose(
+export default compose<React.ComponentType<Props>>(
+  withNotifications,
   withModals({
+    deleteModal: ConfirmActionModal,
     updateDescriptionModal: WhiteListUpdateDescriptionModal,
     addAddressModal: WhiteListAddIpModal,
   }),
   withRequests({
     ipWhitelistQuery: IpWhitelistQuery,
+    deleteIpMutation: IpWhitelistDeleteIpMutation,
   }),
 )(IpWhitelistGrid);

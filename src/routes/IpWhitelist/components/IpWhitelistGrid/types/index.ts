@@ -8,7 +8,7 @@ export interface IpWhitelistFilters {
 }
 
 export interface IpWhitelistAddress {
-  id: string,
+  uuid: string,
   ip: string,
   createdAt: string,
   description?: string,
