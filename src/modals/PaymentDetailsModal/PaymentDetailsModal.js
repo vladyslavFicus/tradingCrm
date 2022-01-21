@@ -46,6 +46,7 @@ class PaymentDetailsModal extends PureComponent {
     }).isRequired,
     changeCreationTime: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    paymentMethod: PropTypes.string.isRequired,
   };
 
   onAcceptSuccess = () => {
@@ -354,6 +355,7 @@ class PaymentDetailsModal extends PureComponent {
         status,
         paymentId,
         paymentType,
+        paymentMethod,
         withdrawStatus,
       },
       permission,
@@ -432,7 +434,9 @@ class PaymentDetailsModal extends PureComponent {
                 </div>
               </If>
 
-              <If condition={canChangeSystem}>
+              <If condition={canChangeSystem
+                && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(paymentMethod)}
+              >
                 <div className="PaymentDetailsModal__row">
                   <ChangePaymentSystemForm
                     onSuccess={onSuccess}
