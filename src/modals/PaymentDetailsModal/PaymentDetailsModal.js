@@ -435,7 +435,8 @@ class PaymentDetailsModal extends PureComponent {
               </If>
 
               <If condition={canChangeSystem
-                && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(paymentMethod)}
+                && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(paymentMethod)
+                && (paymentType === 'DEPOSIT' || paymentType === 'WITHDRAW')}
               >
                 <div className="PaymentDetailsModal__row">
                   <ChangePaymentSystemForm
