@@ -318,9 +318,8 @@ class AddPaymentModal extends PureComponent {
                       </Choose>
                     </div>
                     <If condition={
-                      (paymentType === 'DEPOSIT'
-                        && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values.paymentMethod))
-                      || (paymentType === 'WITHDRAW')
+                      paymentType === 'DEPOSIT'
+                        && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values.paymentMethod)
                     }
                     >
                       <div className="AddPaymentModal__row">
