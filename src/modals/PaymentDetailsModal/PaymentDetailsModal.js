@@ -357,6 +357,7 @@ class PaymentDetailsModal extends PureComponent {
         paymentType,
         paymentMethod,
         withdrawStatus,
+        paymentAggregator,
       },
       permission,
     } = this.props;
@@ -435,7 +436,9 @@ class PaymentDetailsModal extends PureComponent {
               </If>
 
               <If condition={canChangeSystem
-                && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(paymentMethod)}
+                && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(paymentMethod)
+                && (paymentType === 'DEPOSIT' || paymentType === 'WITHDRAW')
+                && paymentAggregator === 'MANUAL'}
               >
                 <div className="PaymentDetailsModal__row">
                   <ChangePaymentSystemForm
