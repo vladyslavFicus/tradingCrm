@@ -20,9 +20,9 @@ const GroupArchivingForm = () => (
         component={FormikSelectField}
         className="GroupArchivingForm__field"
       >
-        {enumToArray(ArchivePeriodDays).map(key => (
-          <option key={ArchivePeriodDays[key]} value={ArchivePeriodDays[key]}>
-            {key === 'DISABLED' ? I18n.t('COMMON.DISABLED') : ArchivePeriodDays[key]}
+        {enumToArray(ArchivePeriodDays).map(value => (
+          <option key={value} value={value}>
+            {ArchivePeriodDays[value] === 'DISABLED' ? I18n.t('COMMON.DISABLED') : value}
           </option>
         ))}
       </Field>
@@ -32,9 +32,9 @@ const GroupArchivingForm = () => (
         component={FormikSelectField}
         className="GroupArchivingForm__field"
       >
-        {enumToArray(ArchiveMaxBalance).map(key => (
-          <option key={ArchiveMaxBalance[key]} value={ArchiveMaxBalance[key]}>
-            {ArchiveMaxBalance[key]}
+        {enumToArray(ArchiveMaxBalance).map(value => (
+          <option key={value} value={value}>
+            {value}
           </option>
         ))}
       </Field>

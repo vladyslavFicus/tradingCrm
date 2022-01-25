@@ -57,9 +57,9 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
     setFieldValue('groupSecurities', [...groupSecurities, {
       security,
       show: true,
-      spreadDiff: SpreadDiff.SPRED_0,
+      spreadDiff: SpreadDiff.SPREAD_0,
       lotMin: LotMin.MIN_0_01,
-      lotMax: LotMax.MAX_1000_0,
+      lotMax: LotMax.MAX_100_0,
       lotStep: LotStep.STEP_0_01,
       commissionBase: 0,
       commissionType: GroupCommissionType.PIPS,

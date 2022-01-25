@@ -10,7 +10,7 @@ import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import { Button } from 'components/UI';
 import {
-  GroupSecurity, SpreadDiff, LotMin, LotMax, LotStep,
+  GroupSecurity, LotMin, LotMax, LotStep,
   GroupCommissionType, GroupCommissionLots,
 } from '../../types';
 import './GroupSecurityCustomizationModal.scss';
@@ -25,10 +25,18 @@ interface Props {
 
 const validate = createValidator(
   {
+    spreadDiff: ['required', 'integer', 'min:0', 'max:100000'],
     commissionBase: ['required', 'numeric', 'min:-100000', 'max:100000'],
+    lotMin: ['lessOrSame:lotMax'],
+    lotStep: ['lessOrSame:lotMin'],
+    lotMax: ['greaterOrSame:lotMin'],
   },
   {
+    spreadDiff: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.SPREAD_DIFFERENCE'),
     commissionBase: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.STANDART'),
+    lotMin: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MIN'),
+    lotStep: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_STEP'),
+    lotMax: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MAX'),
   },
   false,
 );
@@ -59,12 +67,10 @@ const GroupSecurityCustomizationModal = ({
       <Formik
         initialValues={groupSecurity}
         validate={validate}
-        validateOnChange={false}
-        validateOnBlur={false}
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting }) => (
+        {({ dirty, isSubmitting, isValid }) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.TITLE')}
@@ -85,16 +91,11 @@ const GroupSecurityCustomizationModal = ({
               <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="spreadDiff"
-                  label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.SPRED_DIFFERENCE')}
+                  type="number"
+                  label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.SPREAD_DIFFERENCE')}
                   className="GroupSecurityCustomizationModal__field"
-                  component={FormikSelectField}
-                >
-                  {enumToArray(SpreadDiff).map(key => (
-                    <option key={SpreadDiff[key]} value={SpreadDiff[key]}>
-                      {SpreadDiff[key]}
-                    </option>
-                  ))}
-                </Field>
+                  component={FormikInputField}
+                />
               </div>
 
               <div className="GroupSecurityCustomizationModal__title">
@@ -108,9 +109,9 @@ const GroupSecurityCustomizationModal = ({
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
-                  {enumToArray(LotMin).map(key => (
-                    <option key={LotMin[key]} value={LotMin[key]}>
-                      {LotMin[key]}
+                  {enumToArray(LotMin).map(value => (
+                    <option key={value} value={value}>
+                      {value}
                     </option>
                   ))}
                 </Field>
@@ -120,9 +121,9 @@ const GroupSecurityCustomizationModal = ({
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
-                  {enumToArray(LotMax).map(key => (
-                    <option key={LotMax[key]} value={LotMax[key]}>
-                      {LotMax[key]}
+                  {enumToArray(LotMax).map(value => (
+                    <option key={value} value={value}>
+                      {value}
                     </option>
                   ))}
                 </Field>
@@ -132,9 +133,9 @@ const GroupSecurityCustomizationModal = ({
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
                 >
-                  {enumToArray(LotStep).map(key => (
-                    <option key={LotStep[key]} value={LotStep[key]}>
-                      {LotStep[key]}
+                  {enumToArray(LotStep).map(value => (
+                    <option key={value} value={value}>
+                      {value}
                     </option>
                   ))}
                 </Field>
@@ -151,7 +152,6 @@ const GroupSecurityCustomizationModal = ({
                   className="GroupSecurityCustomizationModal__field--small"
                   classNameError="GroupSecurityCustomizationModal__field--errorMessage"
                   component={FormikInputField}
-                  digitsAfterDot={2}
                   type="number"
                 />
                 <Field
@@ -188,7 +188,7 @@ const GroupSecurityCustomizationModal = ({
               </Button>
               <Button
                 type="submit"
-                disabled={!dirty || isSubmitting}
+                disabled={!dirty || isSubmitting || !isValid}
                 primary
               >
                 {I18n.t('COMMON.SAVE')}

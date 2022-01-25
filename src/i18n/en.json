@@ -3671,7 +3671,7 @@
         "TITLE": "Securities customization",
         "DESCRIPTION": "Setting parameters of trading with symbols of the group. Appoint type of order execution, spread and communication.",
         "ENABLE": "Enable",
-        "SPRED_DIFFERENCE": "Spread difference",
+        "SPREAD_DIFFERENCE": "Spread difference",
         "LOTS": "Lots",
         "LOT_MIN": "Minimum",
         "LOT_MAX": "Maximum",
@@ -4307,7 +4307,7 @@
       "MONEY": "$",
       "PIPS": "pt, points",
       "PERCENT": "%",
-      "PER_LOT": "per deal",
+      "PER_LOT": "per lot",
       "PER_DEAL": "per deal",
       "NOTIFICATION": {
         "CREATE": {

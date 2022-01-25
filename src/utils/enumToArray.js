@@ -21,12 +21,12 @@
  *
  * Use it like this:
  *
- * enumToArray(MyEnum).map(key => (
- * <option key={MyEnum[key]} value={MyEnum[key]}>
- *  {MyEnum[key]}
+ * enumToArray(MyEnum).map(value => (
+ * <option key={value} value={value}>
+ *  {value}
  * </option>
  * ))
  */
 export default enumme => Object.keys(enumme)
-  .filter(value => Number.isNaN(Number(value)) === false)
+  .filter(value => !!Number.isNaN(+value))
   .map(key => enumme[key]);

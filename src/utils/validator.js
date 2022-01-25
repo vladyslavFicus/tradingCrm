@@ -94,7 +94,7 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
 
   const greaterValue = Number(get(this.validator.input, requirement));
 
-  if (greaterValue !== 0 && value > greaterValue) {
+  if (value > greaterValue) {
     const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
     const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
 
@@ -109,11 +109,6 @@ function lessOrSameValidator(inputValue, requirement, attribute) {
 
 function greaterOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
-  const lessValue = Number(get(this.validator.input, requirement));
-
-  if (Number.isNaN(lessValue)) {
-    return true;
-  }
 
   if (Number.isNaN(value)) {
     this.validator.errors.add(attribute, 'Value must be a number');
@@ -121,7 +116,19 @@ function greaterOrSameValidator(inputValue, requirement, attribute) {
     return false;
   }
 
-  return lessValue === 0 || value >= lessValue;
+  const lessValue = Number(get(this.validator.input, requirement));
+
+  if (value < lessValue) {
+    const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
+    const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
+
+    this.validator.errors.add(attribute,
+      `The "${currentAttributeLabel}" must be greater than or same "${targetAttributeLabel}"`);
+
+    return false;
+  }
+
+  return true;
 }
 
 function periodGreaterOrSameValidator(inputValue, requirement, attribute) {

@@ -63,9 +63,9 @@ const GroupCommonForm = ({ formik: { initialValues: { groupName } } }: Props) =>
         component={FormikSelectField}
         className="GroupCommonForm__field"
       >
-        {enumToArray(DefaultLeverage).map(key => (
-          <option key={DefaultLeverage[key]} value={DefaultLeverage[key]}>
-            1:{DefaultLeverage[key]}
+        {enumToArray(DefaultLeverage).map(value => (
+          <option key={value} value={value}>
+            1:{value}
           </option>
         ))}
       </Field>

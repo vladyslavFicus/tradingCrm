@@ -53,7 +53,7 @@ export enum DefaultLeverage {
 }
 
 export enum SpreadDiff {
-  SPRED_0 = 0,
+  SPREAD_0 = 0,
 }
 
 export enum LotMin {
@@ -61,25 +61,18 @@ export enum LotMin {
   MIN_0_10 = 0.10,
   MIN_1_00 = 1.00,
   MIN_10_0 = 10.0,
-  MIN_100 = 100.0,
 }
 
 export enum LotMax {
-  MAX_0_1 = 0.1,
   MAX_1_0 = 1.0,
   MAX_10_0 = 10.0,
   MAX_100_0 = 100.0,
-  MAX_500_0 = 500.0,
-  MAX_1000_0 = 1000.0,
-  MAX_10000_0 = 10000.0,
 }
 
 export enum LotStep {
   STEP_0_01 = 0.01,
   STEP_0_1 = 0.1,
   STEP_1_0 = 1.0,
-  STEP_10_0 = 10.0,
-  STEP_100_0 = 100.0,
 }
 
 export interface GroupSecurity {

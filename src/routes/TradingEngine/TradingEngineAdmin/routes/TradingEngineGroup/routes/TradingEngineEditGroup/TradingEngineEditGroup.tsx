@@ -101,7 +101,7 @@ const TradingEngineEditGroup = ({
           <Form>
             <GroupProfileHeader formik={formikBag} />
             <Choose>
-              <When condition={loading}>
+              <When condition={loading && !data?.tradingEngineAdminGroup}>
                 <ShortLoader className="TradingEngineEditGroup__loader" />
               </When>
               <Otherwise>
