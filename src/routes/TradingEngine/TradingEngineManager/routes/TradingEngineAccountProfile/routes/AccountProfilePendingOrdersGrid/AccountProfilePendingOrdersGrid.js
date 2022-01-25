@@ -250,12 +250,12 @@ class AccountProfilePendingOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ type, symbol, digits, groupSpread }) => {
+              render={({ type, symbol, digits, symbolConfig }) => {
                 const currentSymbol = this.state.symbolsPrices[symbol];
 
                 // Get current BID and ASK prices with applied group spread
-                const currentPriceBid = round(currentSymbol?.bid - groupSpread.bidAdjustment, digits);
-                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+                const currentPriceBid = round(currentSymbol?.bid - symbolConfig.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + symbolConfig.askAdjustment, digits);
 
                 return (
                   <div className="AccountProfilePendingOrdersGrid__cell-value">

@@ -12,16 +12,6 @@ export const REQUEST = gql`
       uuid
       login
       currency
-      allowedSymbols {
-        name
-        description
-        digits
-        lotSize
-        groupSpread(identifier: $identifier) {
-          bidAdjustment
-          askAdjustment
-        }
-      }
     }
   }
 `;

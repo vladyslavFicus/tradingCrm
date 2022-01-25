@@ -23,7 +23,6 @@ const REQUEST = gql`
       marginRate
       volumeUnits
       volumeLots
-      lotSize
       commission
       swaps
       status
@@ -47,10 +46,8 @@ const REQUEST = gql`
       account {
         currency
       }
-      symbolEntity {
+      symbolConfig {
         lotSize
-      }
-      groupSpread {
         bidAdjustment
         askAdjustment
       }

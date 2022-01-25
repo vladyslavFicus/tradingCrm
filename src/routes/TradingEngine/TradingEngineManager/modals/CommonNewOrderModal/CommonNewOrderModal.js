@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { compose, withApollo } from 'react-apollo';
 import { parseErrors, withRequests } from 'apollo';
@@ -27,6 +28,7 @@ import { step, placeholder } from 'routes/TradingEngine/utils/inputHelper';
 import { calculatePnL, determineOrderType } from 'routes/TradingEngine/utils/formulas';
 import CreateOrderMutation from './graphql/CreateOrderMutation';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
+import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import './CommonNewOrderModal.scss';
 
 class CommonNewOrderModal extends PureComponent {
@@ -45,6 +47,7 @@ class CommonNewOrderModal extends PureComponent {
   state = {
     login: null,
     account: null,
+    allowedSymbols: [],
     currentSymbolPrice: null,
     loading: false,
     formError: null,
@@ -62,7 +65,7 @@ class CommonNewOrderModal extends PureComponent {
     });
   };
 
-  getCurrentSymbol = symbol => this.state.account?.allowedSymbols?.find(({ name }) => name === symbol);
+  getCurrentSymbol = symbol => this.state.allowedSymbols.find(({ name }) => name === symbol);
 
   /**
    * Get current BID price with applied group spread
@@ -77,7 +80,7 @@ class CommonNewOrderModal extends PureComponent {
     const currentSymbol = this.getCurrentSymbol(symbol);
 
     return round(
-      (currentSymbolPrice?.bid || 0) - (currentSymbol?.groupSpread?.bidAdjustment || 0),
+      (currentSymbolPrice?.bid || 0) - (currentSymbol?.config?.bidAdjustment || 0),
       currentSymbol?.digits,
     );
   };
@@ -95,7 +98,7 @@ class CommonNewOrderModal extends PureComponent {
     const currentSymbol = this.getCurrentSymbol(symbol);
 
     return round(
-      (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0),
+      (currentSymbolPrice?.ask || 0) + (currentSymbol?.config?.askAdjustment || 0),
       currentSymbol?.digits,
     );
   };
@@ -105,6 +108,7 @@ class CommonNewOrderModal extends PureComponent {
       login,
       loading: true,
       account: null,
+      allowedSymbols: [],
     });
 
     try {
@@ -118,13 +122,36 @@ class CommonNewOrderModal extends PureComponent {
         fetchPolicy: 'network-only',
       });
 
-      this.setState({ account: tradingEngineAccount, formError: null });
+      const allowedSymbols = await this.loadAllowedSymbols(tradingEngineAccount.uuid);
+
+      this.setState({ account: tradingEngineAccount, allowedSymbols, formError: null });
     } catch (_) {
       this.setState({ formError: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ERROR') });
     } finally {
       this.setState({ loading: false });
     }
   }
+
+  /**
+   * Load allowed symbols list for account
+   *
+   * @param accountUuid
+   *
+   * @return {Promise<*>}
+   */
+  loadAllowedSymbols = async (accountUuid) => {
+    const {
+      data: {
+        tradingEngineAccountSymbols,
+      },
+    } = await this.props.client.query({
+      query: TradingEngineAccountSymbolsQuery,
+      variables: { accountUuid },
+      fetchPolicy: 'network-only',
+    });
+
+    return tradingEngineAccountSymbols;
+  };
 
   handleSubmit = async (values) => {
     const {
@@ -218,6 +245,7 @@ class CommonNewOrderModal extends PureComponent {
     const {
       login: _login,
       account,
+      allowedSymbols,
       currentSymbolPrice,
       loading,
       formError,
@@ -236,7 +264,7 @@ class CommonNewOrderModal extends PureComponent {
           initialValues={{
             login: _login,
             volumeLots: 1,
-            symbol: account?.allowedSymbols[0]?.name,
+            symbol: allowedSymbols[0]?.name,
             autoOpenPrice: true,
             pendingOrder: false,
           }}
@@ -441,7 +469,7 @@ class CommonNewOrderModal extends PureComponent {
                         customOnChange={value => this.onChangeSymbol(value, values, setValues)}
                         searchable
                       >
-                        {(account?.allowedSymbols || []).map(({ name, description }) => (
+                        {allowedSymbols.map(({ name, description }) => (
                           <option key={name} value={name}>
                             {`${name}  ${description}`}
                           </option>
@@ -532,7 +560,7 @@ class CommonNewOrderModal extends PureComponent {
                                 currentPriceAsk,
                                 openPrice: sellPrice,
                                 volume: volumeLots,
-                                lotSize: currentSymbol?.lotSize,
+                                lotSize: currentSymbol?.config?.lotSize,
                                 exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                               })
                               : 0}
@@ -550,7 +578,7 @@ class CommonNewOrderModal extends PureComponent {
                                 currentPriceAsk,
                                 openPrice: buyPrice,
                                 volume: volumeLots,
-                                lotSize: currentSymbol?.lotSize,
+                                lotSize: currentSymbol?.config?.lotSize,
                                 exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                               })
                               : 0}

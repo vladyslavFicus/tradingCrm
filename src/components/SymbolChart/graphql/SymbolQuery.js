@@ -4,10 +4,10 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const REQUEST = gql`
-  query TradingEngine_SymbolQuery($symbol: String!, $identifier: String) {
+  query TradingEngine_SymbolQuery($symbol: String!, $accountUuid: String) {
     tradingEngineSymbol(symbol: $symbol) {
       digits
-      groupSpread(identifier: $identifier) {
+      config(accountUuid: $accountUuid) {
         bidAdjustment
         askAdjustment
       }
@@ -19,7 +19,7 @@ const SymbolQuery = ({ children, symbol, accountUuid }) => (
   <Query
     query={REQUEST}
     fetchPolicy="cache-and-network"
-    variables={{ symbol, identifier: accountUuid }}
+    variables={{ symbol, accountUuid }}
     skip={!symbol || !accountUuid}
   >
     {children}

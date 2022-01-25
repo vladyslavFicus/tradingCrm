@@ -25,7 +25,7 @@ class SymbolChart extends PureComponent {
     }).isRequired,
     symbolQuery: PropTypes.query({
       digits: PropTypes.string,
-      groupSpread: PropTypes.shape({
+      config: PropTypes.shape({
         bidAdjustment: PropTypes.number,
         askAdjustment: PropTypes.number,
       }),
@@ -50,11 +50,11 @@ class SymbolChart extends PureComponent {
   addGroupSpread = (item) => {
     const {
       digits,
-      groupSpread,
+      config,
     } = this.props.symbolQuery.data?.tradingEngineSymbol || {};
 
-    const bid = round(item.bid - groupSpread?.bidAdjustment, digits);
-    const ask = round(item.ask + groupSpread?.askAdjustment, digits);
+    const bid = round(item.bid - config?.bidAdjustment, digits);
+    const ask = round(item.ask + config?.askAdjustment, digits);
 
     return { ...item, bid, ask };
   };

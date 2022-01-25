@@ -952,7 +952,6 @@ PropTypes.order = PropTypes.shape({
   closeRate: PropTypes.number,
   volumeUnits: PropTypes.number,
   volumeLots: PropTypes.number,
-  lotSize: PropTypes.number,
   commission: PropTypes.number,
   swaps: PropTypes.number,
   pnl: PropTypes.shape({
@@ -968,6 +967,19 @@ PropTypes.order = PropTypes.shape({
   comment: PropTypes.string,
   reason: PropTypes.string,
   leverage: PropTypes.number,
+});
+
+PropTypes.symbolConfig = PropTypes.shape({
+  lotSize: PropTypes.number,
+  bidAdjustment: PropTypes.number,
+  askAdjustment: PropTypes.number,
+});
+
+PropTypes.accountSymbol = PropTypes.shape({
+  name: PropTypes.string,
+  description: PropTypes.string,
+  digits: PropTypes.number,
+  config: PropTypes.symbolConfig,
 });
 
 export default PropTypes;

@@ -21,7 +21,6 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       marginRate
       volumeUnits
       volumeLots
-      lotSize
       commission
       swaps
       status
@@ -40,10 +39,8 @@ const REQUEST = gql`query TradingEngine_TradingEngineOrdersQuery(
       account {
         currency
       }
-      symbolEntity {
+      symbolConfig {
         lotSize
-      }
-      groupSpread {
         bidAdjustment
         askAdjustment
       }

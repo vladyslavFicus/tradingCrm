@@ -280,20 +280,19 @@ class EditOrderModal extends PureComponent {
       accountLogin,
       accountUuid,
       account,
-      symbolEntity,
-      groupSpread,
+      symbolConfig,
       direction,
     } = data?.tradingEngineOrder || {};
 
     const { currentSymbolPrice, initialSymbolPrice } = this.state;
 
     // Get current BID and ASK prices with applied group spread
-    const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (groupSpread?.bidAdjustment || 0), digits);
-    const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
+    const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
+    const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
 
     // Get initial BID and ASK prices with applied group spread
-    const initialPriceBid = round((initialSymbolPrice?.bid || 0) - (groupSpread?.bidAdjustment || 0), digits);
-    const initialPriceAsk = round((initialSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
+    const initialPriceBid = round((initialSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
+    const initialPriceAsk = round((initialSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
 
     const decimalsSettings = {
       decimalsLimit: digits,
@@ -366,7 +365,7 @@ class EditOrderModal extends PureComponent {
                         currentPriceAsk,
                         openPrice: values.openPrice,
                         volume: volumeLots,
-                        lotSize: symbolEntity.lotSize,
+                        lotSize: symbolConfig.lotSize,
                         exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                       });
 
@@ -672,7 +671,7 @@ class EditOrderModal extends PureComponent {
                                     currentPriceBid={_values.closePrice || 0}
                                     currentPriceAsk={_values.closePrice || 0}
                                     volume={volumeLots}
-                                    lotSize={symbolEntity.lotSize}
+                                    lotSize={symbolConfig.lotSize}
                                     exchangeRate={this.state.currentSymbolPrice?.pnlRates[account.currency]}
                                     loaderSize={16}
                                   />

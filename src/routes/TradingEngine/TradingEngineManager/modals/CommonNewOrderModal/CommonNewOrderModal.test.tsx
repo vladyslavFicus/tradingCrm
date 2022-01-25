@@ -7,6 +7,7 @@ import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
 import { round } from 'utils/round';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
+import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import CommonNewOrderModal from './CommonNewOrderModal';
 
 // Mocks
@@ -38,17 +39,27 @@ const apolloMockFactory = (data = {}) => [{
         balance: 100.53,
         login: 100,
         currency: 'USD',
-        allowedSymbols: [{
-          name: 'EURUSD',
-          description: 'EURUSD description',
-          digits: 5,
-          lotSize: 10000,
-          groupSpread: {
-            bidAdjustment: 0,
-            askAdjustment: 0,
-          },
-        }],
       },
+      ...data,
+    },
+  },
+}, {
+  request: {
+    query: TradingEngineAccountSymbolsQuery,
+    variables: { accountUuid: 'UUID' },
+  },
+  result: {
+    data: {
+      tradingEngineAccountSymbols: [{
+        name: 'EURUSD',
+        description: 'EURUSD description',
+        digits: 5,
+        config: {
+          lotSize: 10000,
+          bidAdjustment: 0,
+          askAdjustment: 0,
+        },
+      }],
       ...data,
     },
   },
@@ -477,27 +488,16 @@ it('Render CommonNewOrderModal and applying group spread for chosen symbol', asy
   const digits = 5;
 
   const apolloMockResponseData = {
-    tradingEngineAccount: {
-      _id: 'UUID',
-      uuid: 'UUID',
-      name: 'My USD account',
-      group: 'USD_GROUP',
-      accountType: 'LIVE',
-      credit: 4.11,
-      balance: 100.53,
-      login: 100,
-      currency: 'USD',
-      allowedSymbols: [{
-        name: 'EURUSD',
-        description: 'EURUSD description',
-        digits,
+    tradingEngineAccountSymbols: [{
+      name: 'EURUSD',
+      description: 'EURUSD description',
+      digits,
+      config: {
         lotSize: 10000,
-        groupSpread: {
-          bidAdjustment,
-          askAdjustment,
-        },
-      }],
-    },
+        bidAdjustment,
+        askAdjustment,
+      },
+    }],
   };
 
   // Act

@@ -229,15 +229,14 @@ class EditOrderModal extends PureComponent {
       accountUuid,
       accountLogin,
       account,
-      symbolEntity,
-      groupSpread,
+      symbolConfig,
     } = data?.tradingEngineOrder || {};
 
     const { currentSymbolPrice } = this.state;
 
     // Get current BID and ASK prices with applied group spread
-    const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (groupSpread?.bidAdjustment || 0), digits);
-    const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (groupSpread?.askAdjustment || 0), digits);
+    const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
+    const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
 
     const decimalsSettings = {
       decimalsLimit: digits,
@@ -307,7 +306,7 @@ class EditOrderModal extends PureComponent {
                 currentPriceAsk,
                 openPrice: values.openPrice,
                 volume: values.volumeLots,
-                lotSize: symbolEntity?.lotSize,
+                lotSize: symbolConfig?.lotSize,
                 exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
               });
 

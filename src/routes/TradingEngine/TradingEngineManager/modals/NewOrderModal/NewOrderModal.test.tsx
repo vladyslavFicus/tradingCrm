@@ -7,6 +7,7 @@ import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
 import { round } from 'utils/round';
 import { REQUEST as TradingEngineAccountQuery } from './graphql/TradingEngineAccountQuery';
+import { REQUEST as TradingEngineAccountSymbolsQuery } from './graphql/TradingEngineAccountSymbolsQuery';
 import NewOrderModal from './NewOrderModal';
 
 // Mocks
@@ -32,19 +33,29 @@ const apolloMockFactory = (data = {}) => [{
       tradingEngineAccount: {
         _id: 'UUID',
         uuid: 'UUID',
-        login: 100,
+        login: 100500,
         currency: 'USD',
-        allowedSymbols: [{
-          name: 'EURUSD',
-          description: 'EURUSD description',
-          digits: 5,
-          lotSize: 10000,
-          groupSpread: {
-            bidAdjustment: 0,
-            askAdjustment: 0,
-          },
-        }],
       },
+      ...data,
+    },
+  },
+}, {
+  request: {
+    query: TradingEngineAccountSymbolsQuery,
+    variables: { accountUuid: props.accountUuid },
+  },
+  result: {
+    data: {
+      tradingEngineAccountSymbols: [{
+        name: 'EURUSD',
+        description: 'EURUSD description',
+        digits: 5,
+        config: {
+          lotSize: 10000,
+          bidAdjustment: 0,
+          askAdjustment: 0,
+        },
+      }],
       ...data,
     },
   },
@@ -443,22 +454,16 @@ it('Render NewOrderModal and applying group spread for chosen symbol', async () 
   const digits = 5;
 
   const apolloMockResponseData = {
-    tradingEngineAccount: {
-      _id: 'UUID',
-      uuid: 'UUID',
-      login: 100,
-      currency: 'USD',
-      allowedSymbols: [{
-        name: 'EURUSD',
-        description: 'EURUSD description',
-        digits,
+    tradingEngineAccountSymbols: [{
+      name: 'EURUSD',
+      description: 'EURUSD description',
+      digits,
+      config: {
         lotSize: 10000,
-        groupSpread: {
-          bidAdjustment,
-          askAdjustment,
-        },
-      }],
-    },
+        bidAdjustment,
+        askAdjustment,
+      },
+    }],
   };
 
   // Act

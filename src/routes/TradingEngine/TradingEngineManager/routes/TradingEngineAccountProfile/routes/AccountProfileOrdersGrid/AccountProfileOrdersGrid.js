@@ -254,12 +254,12 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
-              render={({ type, symbol, openPrice, volumeLots, digits, account, symbolEntity, groupSpread }) => {
+              render={({ type, symbol, openPrice, volumeLots, digits, account, symbolConfig }) => {
                 const currentSymbol = this.state.symbolsPrices[symbol];
 
                 // Get current BID and ASK prices with applied group spread
-                const currentPriceBid = round(currentSymbol?.bid - groupSpread.bidAdjustment, digits);
-                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+                const currentPriceBid = round(currentSymbol?.bid - symbolConfig.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + symbolConfig.askAdjustment, digits);
 
                 return (
                   <div className="TradingEngineOrdersGrid__cell-value">
@@ -269,7 +269,7 @@ class AccountProfileOrdersGrid extends PureComponent {
                       currentPriceBid={currentPriceBid}
                       currentPriceAsk={currentPriceAsk}
                       volume={volumeLots}
-                      lotSize={symbolEntity.lotSize}
+                      lotSize={symbolConfig.lotSize}
                       exchangeRate={currentSymbol?.pnlRates[account.currency]}
                     />
                   </div>
@@ -278,12 +278,12 @@ class AccountProfileOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.PRICE')}
-              render={({ type, symbol, digits, groupSpread }) => {
+              render={({ type, symbol, digits, symbolConfig }) => {
                 const currentSymbol = this.state.symbolsPrices[symbol];
 
                 // Get current BID and ASK prices with applied group spread
-                const currentPriceBid = round(currentSymbol?.bid - groupSpread.bidAdjustment, digits);
-                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+                const currentPriceBid = round(currentSymbol?.bid - symbolConfig.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + symbolConfig.askAdjustment, digits);
 
                 return (
                   <div className="AccountProfileOrdersGrid__cell-value">

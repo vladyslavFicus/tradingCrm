@@ -511,6 +511,20 @@ type HierarchyUser__statistics {
   totalSubordinatesCount: Int
 }
 
+type IpWhitelistAddress {
+  brandId: String
+  createdAt: String!
+  description: String
+  ip: String!
+  uuid: String!
+}
+
+type IpWhitelistMutation {
+  add(description: String, ip: String!): IpWhitelistAddress
+  delete(uuid: String!): Boolean
+  edit(description: String, uuid: String): IpWhitelistAddress
+}
+
 type Lead {
   _id: ID!
   acquisition: HierarchyUserAcquisition
@@ -585,6 +599,7 @@ type Mutation {
   file: FileMutation
   filterSet: FilterSetMutation
   hierarchy: HierarchyMutation
+  ipWhitelist: IpWhitelistMutation
   leads: LeadMutation
   note: NoteMutation
   notificationCenter: NotificationCenterMutation
@@ -717,6 +732,16 @@ type Pageable__Feed {
 
 type Pageable__File {
   content: [File]
+  last: Boolean!
+  number: Int
+  page: Int!
+  size: Int!
+  totalElements: Int
+  totalPages: Int
+}
+
+type Pageable__IpWhitelistAddress {
+  content: [IpWhitelistAddress]
   last: Boolean!
   number: Int
   page: Int!
@@ -1100,6 +1125,7 @@ type ProfileView {
   fullName: String
   languageCode: String!
   lastActivity: ProfileView__LastActivity
+  lastCall: ProfileView__LastCall
   lastName: String
   lastNote: Note
   lastSignInSessions: [ProfileView__Sessions]
@@ -1143,6 +1169,12 @@ type ProfileView__LastActivity {
   eventType: String
   eventValue: String
   location: String
+}
+
+type ProfileView__LastCall {
+  callSystem: String
+  date: String
+  operatorUuid: String
 }
 
 type ProfileView__PaymentDetails {
@@ -1315,6 +1347,7 @@ type Query {
   filesCategories: FilesCategories
   filterSet(uuid: String!): Object
   filterSets(type: FilterSet__Types__Enum): FilterSet
+  ipWhitelistSearch(args: IpWhitelistSearch__Input): Pageable__IpWhitelistAddress
   isDefaultAuthority(department: String!, role: String!): Boolean
   lead(uuid: String!): Lead
   leads(args: LeadSearch__Input): Pageable__Lead
@@ -1350,6 +1383,7 @@ type Query {
   tradingEngineAccountStatistic(accountUuid: String!): TradingEngineAccountStatistic
   tradingEngineAccountSymbols(accountUuid: String!): [TradingEngineAccountSymbol]
   tradingEngineAccounts(args: TradingEngineSearch__Input): Pageable__TradingEngineAccount
+  tradingEngineAdminGroup(groupName: String!): TradingEngineGroup
   tradingEngineAdminGroups(args: TradingEngineGroupsSearch__Input): Pageable__TradingEngineGroup
   tradingEngineAdminSymbol(symbolName: String!): TradingEngineAdminSymbol
   tradingEngineAdminSymbols(args: TradingEngineSymbols__Input): Pageable__TradingEngineAdminSymbolSearch
@@ -1585,7 +1619,6 @@ type TradingActivityMutation {
 type TradingEngineAccount {
   _id: ID!
   accountType: String
-  allowedSymbols: [TradingEngineAccountSymbol]
   balance: Float
   comment: String
   credit: Float
@@ -1619,16 +1652,29 @@ type TradingEngineAccountStatistic {
 }
 
 type TradingEngineAccountSymbol {
+  config(accountUuid: String): TradingEngineAccountSymbolConfig
   description: String!
   digits: Int
-  groupSpread(group: String, identifier: String): TradingEngineGroupSpread
-  lotSize: Int
   name: String!
 }
 
+type TradingEngineAccountSymbolConfig {
+  askAdjustment: Float
+  bidAdjustment: Float
+  groupName: String
+  lotMax: Float
+  lotMin: Float
+  lotSize: Float
+  lotStep: Float
+  symbol: String
+}
+
 type TradingEngineAdminMutation {
+  createGroup(args: TradingEngineCreateGroupAdmin__Input): Boolean
   createSecurity(description: String, name: String!): Boolean
   createSymbol(args: TradingEngineCreateSymbolAdmin__Input): Boolean
+  deleteGroup(groupName: String!): Boolean
+  editGroup(args: TradingEngineEditGroupAdmin__Input): Boolean
   editOrder(args: TradingEngineEditOrderAdmin__Input): Boolean
   editSecurity(description: String, name: String!, securityName: String!): Boolean
   editSymbol(args: TradingEngineEditSymbolAdmin__Input): Boolean
@@ -1644,7 +1690,7 @@ type TradingEngineAdminSymbol {
   digits: Int!
   filtration: TradingEngineAdminSymbol__Filtration!
   lotSize: Int!
-  percentage: Int!
+  percentage: Float!
   quoteCurrency: String!
   securityName: String!
   source: String
@@ -1659,6 +1705,7 @@ type TradingEngineAdminSymbolSearch {
   askSpread: Float
   bidSpread: Float
   digits: Int
+  percentage: Float
   securityName: String
   stopsLevel: Float
   swapConfigs: TradingEngineAdminSymbolSearch__SwapConfigs
@@ -1705,23 +1752,38 @@ type TradingEngineCredit {
 }
 
 type TradingEngineGroup {
-  brand: String
-  groupName: String
+  archiveMaxBalance: Int
+  archivePeriodDays: Int
+  currency: String!
+  defaultLeverage: Int
+  description: String
+  enable: Boolean
+  groupMargins: [TradingEngineGroup__GroupMargins]
+  groupName: String!
   groupSecurities: [TradingEngineGroup__GroupSecurities]
+  hedgeProhibited: Boolean
   marginCallLevel: Int
   stopoutLevel: Int
+  useSwap: Boolean
 }
 
-type TradingEngineGroupSpread {
-  askAdjustment: Float
-  bidAdjustment: Float
-  groupName: String
+type TradingEngineGroup__GroupMargins {
+  percentage: Float
+  swapLong: Float
+  swapShort: Float
   symbol: String
 }
 
 type TradingEngineGroup__GroupSecurities {
+  commissionBase: Float
+  commissionLots: Commission__Lots__Enum
+  commissionType: Commission__Type__Enum
+  lotMax: Float
+  lotMin: Float
+  lotStep: Float
   security: TradingEngineSecurity
   show: Boolean
+  spreadDiff: Int
 }
 
 type TradingEngineHistory {
@@ -1766,7 +1828,6 @@ type TradingEngineOrder {
   digits: Float
   direction: String
   group: String
-  groupSpread: TradingEngineGroupSpread
   id: Int
   leverage: Int
   lotSize: Float
@@ -1781,7 +1842,7 @@ type TradingEngineOrder {
   swaps: Float
   symbol: String
   symbolAlias: String
-  symbolEntity: TradingEngineSymbol
+  symbolConfig: TradingEngineAccountSymbolConfig
   takeProfit: Float
   time: TradingEngineOrder__Time
   tradeId: String
@@ -1812,6 +1873,7 @@ type TradingEngineSecurities {
 
 type TradingEngineSecurity {
   description: String
+  id: Int
   name: String
   symbols: [String]
 }
@@ -1823,10 +1885,9 @@ type TradingEngineSource {
 type TradingEngineSymbol {
   ask: Float
   bid: Float
+  config(accountUuid: String): TradingEngineAccountSymbolConfig
   digits: Float
-  groupSpread(group: String, identifier: String): TradingEngineGroupSpread
   long: Float
-  lotSize: Float
   name: String
   securities: String
   short: Float
@@ -1858,6 +1919,17 @@ enum Callback__Status__Enum {
   PENDING
   REJECTED
   SUCCESS
+}
+
+enum Commission__Lots__Enum {
+  DEAL
+  LOT
+}
+
+enum Commission__Type__Enum {
+  MONEY
+  PERCENT
+  PIPS
 }
 
 enum Desk__Types__Enum {
@@ -2001,6 +2073,7 @@ input ClientSearch__Input {
   isReferrered: Boolean
   kycStatuses: [String]
   languages: [String]
+  lastCallDateRange: ClientSearch__Input__LastCallDateRange
   lastLoginDateRange: ClientSearch__Input__LastLoginDateRange
   lastModificationDateRange: ClientSearch__Input__LastModificationDateRange
   lastNoteDateRange: ClientSearch__Input__LastNoteDateRange
@@ -2042,6 +2115,11 @@ input ClientSearch__Input__FirstDepositDateRange {
 }
 
 input ClientSearch__Input__FirstNoteDateRange {
+  from: String
+  to: String
+}
+
+input ClientSearch__Input__LastCallDateRange {
   from: String
   to: String
 }
@@ -2184,6 +2262,17 @@ input FileUpload__Input {
   fileUuid: String!
   title: String!
   verificationType: String!
+}
+
+input IpWhitelistSearch__Input {
+  creationDateRange: IpWhitelist__Creation__DateRange__Input
+  ip: String
+  page: Page__Input
+}
+
+input IpWhitelist__Creation__DateRange__Input {
+  from: String
+  to: String
 }
 
 input LeadSearch__Input {
@@ -2364,6 +2453,22 @@ input Sort__Input {
   direction: String
 }
 
+input TradingEngineCreateGroupAdmin__Input {
+  archiveMaxBalance: Int
+  archivePeriodDays: Int
+  currency: String!
+  defaultLeverage: Int
+  description: String
+  enable: Boolean
+  groupMargins: [TradingEngineGroup__GroupMargins__Input]
+  groupName: String!
+  groupSecurities: [TradingEngineGroup__GroupSecurity__Input]
+  hedgeProhibited: Boolean
+  marginCallLevel: Int
+  stopoutLevel: Int
+  useSwap: Boolean
+}
+
 input TradingEngineCreateSymbolAdmin__Filtration__Input {
   discardFiltrationLevel: Int!
   filterSmoothing: Int!
@@ -2382,7 +2487,7 @@ input TradingEngineCreateSymbolAdmin__Input {
   digits: Int!
   filtration: TradingEngineCreateSymbolAdmin__Filtration__Input!
   lotSize: Int!
-  percentage: Int!
+  percentage: Float!
   quoteCurrency: String!
   securityName: String!
   source: String
@@ -2410,6 +2515,21 @@ input TradingEngineCreateSymbolAdmin__SymbolSessions__Input {
   dayOfWeek: TradingEngine__DaysOfWeek__Enum!
   quote: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
   trade: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
+}
+
+input TradingEngineEditGroupAdmin__Input {
+  archiveMaxBalance: Int
+  archivePeriodDays: Int
+  defaultLeverage: Int
+  description: String
+  enable: Boolean
+  groupMargins: [TradingEngineGroup__GroupMargins__Input]
+  groupName: String!
+  groupSecurities: [TradingEngineGroup__GroupSecurity__Input]
+  hedgeProhibited: Boolean
+  marginCallLevel: Int
+  stopoutLevel: Int
+  useSwap: Boolean
 }
 
 input TradingEngineEditOrderAdmin__Input {
@@ -2447,7 +2567,7 @@ input TradingEngineEditSymbolAdmin__Input {
   digits: Int!
   filtration: TradingEngineEditSymbolAdmin__Filtration__Input!
   lotSize: Int!
-  percentage: Int!
+  percentage: Float!
   quoteCurrency: String!
   securityName: String!
   source: String
@@ -2470,6 +2590,25 @@ input TradingEngineEditSymbolAdmin__SymbolSessions__Input {
   dayOfWeek: TradingEngine__DaysOfWeek__Enum!
   quote: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
   trade: TradingEngineCreateSymbolAdmin__SymbolSessionsTime__Input
+}
+
+input TradingEngineGroup__GroupMargins__Input {
+  percentage: Float
+  swapLong: Float
+  swapShort: Float
+  symbol: String
+}
+
+input TradingEngineGroup__GroupSecurity__Input {
+  commissionBase: Float
+  commissionLots: Commission__Lots__Enum
+  commissionType: Commission__Type__Enum
+  lotMax: Float
+  lotMin: Float
+  lotStep: Float
+  securityId: Int
+  show: Boolean
+  spreadDiff: Int
 }
 
 input TradingEngineGroupsSearch__Input {

@@ -263,16 +263,19 @@ class TradingEngineOrdersGrid extends PureComponent {
             />
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.P&L')}
-              render={({ symbol, type, status, openPrice, volumeLots, digits, symbolEntity, groupSpread, account }) => {
+              render={({ symbol, type, status, openPrice, volumeLots, digits, symbolConfig, account }) => {
                 const currentSymbol = this.state.symbolsPrices[symbol];
 
                 // Get current BID and ASK prices with applied group spread
-                const currentPriceBid = round(currentSymbol?.bid - groupSpread.bidAdjustment, digits);
-                const currentPriceAsk = round(currentSymbol?.ask + groupSpread.askAdjustment, digits);
+                const currentPriceBid = round(currentSymbol?.bid - symbolConfig?.bidAdjustment, digits);
+                const currentPriceAsk = round(currentSymbol?.ask + symbolConfig?.askAdjustment, digits);
 
                 return (
                   <div className="TradingEngineOrdersGrid__cell-value">
                     <Choose>
+                      <When condition={!symbolConfig}>
+                        <i className="icon icon-alert" />
+                      </When>
                       <When condition={status === 'OPEN'}>
                         <PnL
                           type={type}
@@ -280,7 +283,7 @@ class TradingEngineOrdersGrid extends PureComponent {
                           currentPriceBid={currentPriceBid}
                           currentPriceAsk={currentPriceAsk}
                           volume={volumeLots}
-                          lotSize={symbolEntity.lotSize}
+                          lotSize={symbolConfig.lotSize}
                           exchangeRate={currentSymbol?.pnlRates[account.currency]}
                         />
                       </When>

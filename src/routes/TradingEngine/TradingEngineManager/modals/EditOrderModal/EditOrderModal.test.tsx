@@ -39,12 +39,12 @@ const apolloMockResponseData = {
   commission: 0,
   digits: 5,
   direction: 'BUY',
-  groupSpread: {
+  symbolConfig: {
+    lotSize: 100000,
     bidAdjustment: 0,
     askAdjustment: 0,
   },
   id: 143749,
-  lotSize: 100000,
   marginRate: null,
   openPrice: 1.1345,
   status: 'OPEN',
@@ -52,9 +52,6 @@ const apolloMockResponseData = {
   swaps: 0,
   symbol: 'EURUSD',
   symbolAlias: 'EURUSD',
-  symbolEntity: {
-    lotSize: 100000,
-  },
   takeProfit: null,
   time: {
     closing: null,

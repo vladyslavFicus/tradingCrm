@@ -26,6 +26,7 @@ import SymbolPricesStream from 'routes/TradingEngine/components/SymbolPricesStre
 import { step, placeholder } from 'routes/TradingEngine/utils/inputHelper';
 import { calculatePnL, determineOrderType } from 'routes/TradingEngine/utils/formulas';
 import TradingEngineAccountQuery from './graphql/TradingEngineAccountQuery';
+import TradingEngineAccountSymbolsQuery from './graphql/TradingEngineAccountSymbolsQuery';
 import createOrderMutation from './graphql/CreateOrderMutation';
 import './NewOrderModal.scss';
 
@@ -39,6 +40,7 @@ class NewOrderModal extends PureComponent {
     notify: PropTypes.func.isRequired,
     createOrder: PropTypes.func.isRequired,
     tradingEngineAccountQuery: PropTypes.query(PropTypes.tradingEngineAccount).isRequired,
+    tradingEngineAccountSymbolsQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.accountSymbol)).isRequired,
   };
 
   state = {
@@ -46,9 +48,9 @@ class NewOrderModal extends PureComponent {
   };
 
   getCurrentSymbol = (symbol) => {
-    const account = this.props.tradingEngineAccountQuery?.data?.tradingEngineAccount;
+    const allowedSymbols = this.props.tradingEngineAccountSymbolsQuery?.data?.tradingEngineAccountSymbols;
 
-    return account?.allowedSymbols?.find(({ name }) => name === symbol);
+    return allowedSymbols?.find(({ name }) => name === symbol);
   }
 
   /**
@@ -64,7 +66,7 @@ class NewOrderModal extends PureComponent {
     const currentSymbol = this.getCurrentSymbol(symbol);
 
     return round(
-      (currentSymbolPrice?.bid || 0) - (currentSymbol?.groupSpread?.bidAdjustment || 0),
+      (currentSymbolPrice?.bid || 0) - (currentSymbol?.config?.bidAdjustment || 0),
       currentSymbol?.digits,
     );
   };
@@ -82,7 +84,7 @@ class NewOrderModal extends PureComponent {
     const currentSymbol = this.getCurrentSymbol(symbol);
 
     return round(
-      (currentSymbolPrice?.ask || 0) + (currentSymbol?.groupSpread?.askAdjustment || 0),
+      (currentSymbolPrice?.ask || 0) + (currentSymbol?.config?.askAdjustment || 0),
       currentSymbol?.digits,
     );
   };
@@ -191,11 +193,13 @@ class NewOrderModal extends PureComponent {
       isOpen,
       onCloseModal,
       tradingEngineAccountQuery,
+      tradingEngineAccountSymbolsQuery,
     } = this.props;
 
     const { currentSymbolPrice } = this.state;
 
     const account = tradingEngineAccountQuery.data?.tradingEngineAccount;
+    const allowedSymbols = tradingEngineAccountSymbolsQuery.data?.tradingEngineAccountSymbols || [];
 
     return (
       <Modal className="NewOrderModal" toggle={onCloseModal} isOpen={isOpen} keyboard={false}>
@@ -209,7 +213,7 @@ class NewOrderModal extends PureComponent {
           initialValues={{
             login: account?.login,
             volumeLots: 1,
-            symbol: account?.allowedSymbols[0]?.name,
+            symbol: allowedSymbols[0]?.name,
             autoOpenPrice: true,
             pendingOrder: false,
           }}
@@ -354,7 +358,7 @@ class NewOrderModal extends PureComponent {
                         customOnChange={value => this.onChangeSymbol(value, values, setValues)}
                         searchable
                       >
-                        {(account?.allowedSymbols || []).map(({ name, description }) => (
+                        {(allowedSymbols || []).map(({ name, description }) => (
                           <option key={name} value={name}>
                             {`${name}  ${description}`}
                           </option>
@@ -442,7 +446,7 @@ class NewOrderModal extends PureComponent {
                                 currentPriceAsk,
                                 openPrice: sellPrice,
                                 volume: volumeLots,
-                                lotSize: currentSymbol?.lotSize,
+                                lotSize: currentSymbol?.config?.lotSize,
                                 exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                               })
                               : 0}
@@ -460,7 +464,7 @@ class NewOrderModal extends PureComponent {
                                 currentPriceAsk,
                                 openPrice: buyPrice,
                                 volume: volumeLots,
-                                lotSize: currentSymbol?.lotSize,
+                                lotSize: currentSymbol?.config?.lotSize,
                                 exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                               })
                               : 0}
@@ -552,5 +556,6 @@ export default compose(
   withRequests({
     createOrder: createOrderMutation,
     tradingEngineAccountQuery: TradingEngineAccountQuery,
+    tradingEngineAccountSymbolsQuery: TradingEngineAccountSymbolsQuery,
   }),
 )(NewOrderModal);

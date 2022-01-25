@@ -12,16 +12,6 @@ export default gql`query TradingEngine_AccountQuery($identifier: String!) {
     credit
     balance
     accountType
-    allowedSymbols {
-      name
-      description
-      digits
-      lotSize
-      groupSpread(identifier: $identifier) {
-        bidAdjustment
-        askAdjustment
-      }
-    }
   }
 }
 `;
