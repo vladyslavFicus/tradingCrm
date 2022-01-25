@@ -290,7 +290,7 @@ class EditOrderModal extends PureComponent {
               volumeLots: [
                 'required',
                 'numeric',
-                'min:0.01',
+                `min:${symbolConfig?.lotStep}`,
                 `max:${symbolConfig?.lotMax}`,
                 `step:${symbolConfig?.lotStep}`,
               ],
@@ -347,10 +347,10 @@ class EditOrderModal extends PureComponent {
                         <Field
                           name="volumeLots"
                           type="number"
-                          step={symbolConfig?.lotStep}
                           placeholder="0.00"
-                          min={0.01}
+                          min={symbolConfig?.lotStep}
                           max={symbolConfig?.lotMax}
+                          step={symbolConfig?.lotStep}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                           className="AdminEditOrderModal__field"
                           component={FormikInputField}
