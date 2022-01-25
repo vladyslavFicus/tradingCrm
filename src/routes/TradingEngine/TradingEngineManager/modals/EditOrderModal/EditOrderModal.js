@@ -597,13 +597,19 @@ class EditOrderModal extends PureComponent {
                           closePrice: direction === OrderDirection.SELL ? initialPriceAsk : initialPriceBid,
                         }}
                         validate={createValidator({
-                          volumeLots: ['required', 'numeric', `max:${volumeLots}`, 'min:0.01'],
+                          volumeLots: [
+                            'required',
+                            'numeric',
+                            'min:0.01',
+                            `max:${volumeLots}`,
+                            `step:${symbolConfig.lotStep}`,
+                          ],
                         }, {
                           volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-                        })}
+                        }, false)}
                         onSubmit={this.handleCloseOrder}
                       >
-                        {({ values: _values, setFieldValue }) => (
+                        {({ values: _values, setFieldValue, isValid }) => (
                           <Form>
                             <fieldset className="EditOrderModal__fieldset">
                               <legend className="EditOrderModal__fieldset-title">
@@ -614,10 +620,10 @@ class EditOrderModal extends PureComponent {
                                 <Field
                                   name="volumeLots"
                                   type="number"
-                                  step="0.01"
+                                  step={symbolConfig.lotStep}
                                   placeholder="0.00"
                                   min={0.01}
-                                  max={1000}
+                                  max={volumeLots}
                                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                                   className="EditOrderModal__field EditOrderModal__field--volumeLots"
                                   classNameError="EditOrderModal__field--customError"
@@ -652,7 +658,7 @@ class EditOrderModal extends PureComponent {
                                 </Button>
                                 <Button
                                   type="submit"
-                                  disabled={!initialSymbolPrice}
+                                  disabled={!initialSymbolPrice || !isValid}
                                   className="EditOrderModal__button"
                                   danger
                                 >

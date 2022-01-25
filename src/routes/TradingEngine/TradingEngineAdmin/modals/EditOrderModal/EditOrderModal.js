@@ -67,7 +67,7 @@ class EditOrderModal extends PureComponent {
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CHANGE_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
-      className: 'EditOrderModal__confirmation-modal',
+      className: 'AdminEditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
           await editOrder({
@@ -113,7 +113,7 @@ class EditOrderModal extends PureComponent {
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.REOPEN_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
-      className: 'EditOrderModal__confirmation-modal',
+      className: 'AdminEditOrderModal__confirmation-modal',
       onSubmit: async () => {
         try {
           await reopenOrder({
@@ -252,7 +252,7 @@ class EditOrderModal extends PureComponent {
     const isDisabled = status === OrderStatus.CANCELED;
 
     return (
-      <Modal className="EditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="AdminEditOrderModal" toggle={onCloseModal} isOpen={isOpen}>
 
         {/* Subscribe to symbol prices stream only for open orders */}
         <If condition={symbol && status === OrderStatus.OPEN}>
@@ -270,7 +270,7 @@ class EditOrderModal extends PureComponent {
             symbol,
           })}
         </ModalHeader>
-        <div className="EditOrderModal__inner-wrapper">
+        <div className="AdminEditOrderModal__inner-wrapper">
           <SymbolChart accountUuid={accountUuid} symbol={symbol} />
           <Formik
             initialValues={{
@@ -287,14 +287,20 @@ class EditOrderModal extends PureComponent {
               closeTime: time?.closing,
             }}
             validate={createValidator({
-              volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
+              volumeLots: [
+                'required',
+                'numeric',
+                'min:0.01',
+                `max:${symbolConfig?.lotMax}`,
+                `step:${symbolConfig?.lotStep}`,
+              ],
             }, {
               volumeLots: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
-            })}
+            }, false)}
             onSubmit={values => this.handleEditOrder(values, status)}
             enableReinitialize
           >
-            {({ values, isSubmitting, dirty }) => {
+            {({ values, isSubmitting, dirty, isValid }) => {
               const currentClosePrice = type === OrderType.SELL ? currentPriceAsk : currentPriceBid;
 
               // Close price is custom typed in priority or value returned from BE or calculated manually on FE side
@@ -313,15 +319,15 @@ class EditOrderModal extends PureComponent {
               return (
                 <Form>
                   <ModalBody>
-                    <fieldset className="EditOrderModal__fieldset">
-                      <legend className="EditOrderModal__fieldset-title">
+                    <fieldset className="AdminEditOrderModal__fieldset">
+                      <legend className="AdminEditOrderModal__fieldset-title">
                         {accountLogin}
                       </legend>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Field
                           name="reason"
                           component={FormikSelectField}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                         >
@@ -333,20 +339,20 @@ class EditOrderModal extends PureComponent {
                           disabled
                           name="type"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           value={I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`)}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Field
                           name="volumeLots"
                           type="number"
-                          step="0.01"
+                          step={symbolConfig?.lotStep}
                           placeholder="0.00"
                           min={0.01}
-                          max={1000}
+                          max={symbolConfig?.lotMax}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           component={FormikInputField}
                           disabled={isDisabled}
                         />
@@ -354,7 +360,7 @@ class EditOrderModal extends PureComponent {
                           disabled
                           name="symbol"
                           component={FormikSelectField}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SYMBOL')}
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                         >
@@ -363,10 +369,10 @@ class EditOrderModal extends PureComponent {
                           ))}
                         </Field>
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Field
                           name="openTime"
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_TIME')}
                           component={FormikDatePicker}
                           withTime
@@ -379,20 +385,20 @@ class EditOrderModal extends PureComponent {
                           step="0.00001"
                           placeholder={`0.${'0'.repeat(digits || 4)}`}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           component={FormikInputDecimalsField}
                           disabled={isDisabled}
                           {...decimalsSettings}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Field
                           name="stopLoss"
                           type="number"
                           step="0.00001"
                           placeholder={`0.${'0'.repeat(digits || 4)}`}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.STOP_LOSS')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           component={FormikInputDecimalsField}
                           disabled={isDisabled}
                           {...decimalsSettings}
@@ -403,17 +409,17 @@ class EditOrderModal extends PureComponent {
                           step="0.00001"
                           placeholder={`0.${'0'.repeat(digits || 4)}`}
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TAKE_PROFIT')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           component={FormikInputDecimalsField}
                           disabled={isDisabled}
                           {...decimalsSettings}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <If condition={status === OrderStatus.CLOSED}>
                           <Field
                             name="closeTime"
-                            className="EditOrderModal__field"
+                            className="AdminEditOrderModal__field"
                             label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_TIME')}
                             component={FormikDatePicker}
                             withTime
@@ -427,17 +433,17 @@ class EditOrderModal extends PureComponent {
                           step="0.00001"
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_PRICE')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           value={_closePrice}
                           component={FormikInputField}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Input
                           disabled
                           name="openRate"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_RATE')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           value={openRate}
                         />
                         <Input
@@ -445,18 +451,18 @@ class EditOrderModal extends PureComponent {
                           name="closeRate"
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_RATE')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           value={closeRate || 0}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Field
                           name="commission"
                           type="number"
                           step="0.00001"
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMISSION')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           component={FormikInputField}
                           disabled={isDisabled}
                         />
@@ -466,44 +472,44 @@ class EditOrderModal extends PureComponent {
                           step="0.00001"
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SWAPS')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           component={FormikInputField}
                           disabled={isDisabled}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Input
                           disabled
                           name="profit"
                           placeholder="0.00"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.PROFIT')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           value={status === OrderStatus.OPEN ? floatingPnL : pnl?.gross?.toFixed(2)}
                         />
                         <Input
                           disabled
                           name="margin"
                           label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.MARGIN')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           value={margin}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container">
+                      <div className="AdminEditOrderModal__field-container">
                         <Field
                           name="comment"
                           label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
-                          className="EditOrderModal__field"
+                          className="AdminEditOrderModal__field"
                           maxLength={1000}
                           component={FormikTextAreaField}
                           disabled={isDisabled}
                         />
                       </div>
-                      <div className="EditOrderModal__field-container EditOrderModal__field-container-button">
+                      <div className="AdminEditOrderModal__field-container AdminEditOrderModal__field-container-button">
                         <Button
                           type="submit"
-                          className="EditOrderModal__button"
+                          className="AdminEditOrderModal__button"
                           danger
-                          disabled={!dirty || isSubmitting || isDisabled}
+                          disabled={!dirty || isSubmitting || isDisabled || !isValid}
                         >
                           {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
                         </Button>
@@ -511,14 +517,14 @@ class EditOrderModal extends PureComponent {
                           <Button
                             primary
                             onClick={this.handleReopenOrder}
-                            className="EditOrderModal__button"
-                            disabled={isSubmitting}
+                            className="AdminEditOrderModal__button"
+                            disabled={isSubmitting || !isValid}
                           >
                             {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REOPEN')}
                           </Button>
                         </If>
                         <Button
-                          className="EditOrderModal__button"
+                          className="AdminEditOrderModal__button"
                           dangerOutline
                           onClick={this.handleDeleteOrder}
                           disabled={isDisabled || isSubmitting}

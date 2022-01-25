@@ -2,6 +2,7 @@ import Validator from 'validatorjs';
 import I18n from 'i18n-js';
 import { get, zipObjectDeep } from 'lodash';
 import moment from 'moment';
+import BigNumber from 'bignumber.js';
 
 function nextDateValidator(value, requirement) {
   return value >= this.validator.input[requirement];
@@ -263,6 +264,41 @@ function validTimeRange(value, compareFieldKey) {
   return momentEnd.isAfter(momentStart);
 }
 
+/**
+ * Step validator, entered next value should be greater or less on STEP value
+ *
+ * @param inputValue
+ * @param requirement
+ * @param attribute
+ *
+ * @return {boolean}
+ */
+function step(inputValue, requirement, attribute) {
+  const value = Number(inputValue);
+
+  if (Number.isNaN(value)) {
+    this.validator.errors.add(attribute, 'Value must be a number');
+
+    return false;
+  }
+
+  const stepValue = Number(requirement);
+
+  // Need to use BigNumber because this library can work with floating point number and can right divide (0.3 % 0.1)
+  const remainderValue = new BigNumber(value).mod(stepValue).toNumber();
+
+  if (remainderValue !== 0) {
+    const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
+
+    this.validator.errors.add(attribute,
+      `The ${currentAttributeLabel} must be changed with step ${stepValue.toFixed(2)}`);
+
+    return false;
+  }
+
+  return true;
+}
+
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
@@ -278,6 +314,7 @@ Validator.register('periodGreaterOrSame', periodGreaterOrSameValidator, 'The :at
 Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');
 Validator.register("listedIP's", listedIPsValidator, 'The IP address must be valid. Example: 101.220.33.40');
 Validator.register('IP', isIPValidator, 'The IP address must be valid. Example: 101.220.33.40');
+Validator.register('step', step, 'The :attribute value must be changed with step');
 
 const getFirstErrors = errors => Object.keys(errors).reduce((result, current) => ({
   ...result,

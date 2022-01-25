@@ -154,38 +154,94 @@ class NewOrderModal extends PureComponent {
     }
   }
 
-  handleAutoOpenPrice = (value, symbol, setFieldValue) => () => {
-    const autoOpenPrice = !value;
+  handleAutoOpenPrice = (values, setValues) => () => {
+    const autoOpenPrice = !values.autoOpenPrice;
 
-    const currentPriceBid = this.getCurrentPriceBid(symbol);
+    const currentPriceBid = this.getCurrentPriceBid(values.symbol);
 
     // If auto open price is turned on --> remove openPrice, in other case set real BID price to openPrice field
     const openPrice = !autoOpenPrice ? currentPriceBid : undefined;
 
-    setFieldValue('autoOpenPrice', autoOpenPrice);
-    setFieldValue('openPrice', openPrice);
+    setValues({
+      ...values,
+      autoOpenPrice,
+      openPrice,
+    });
   };
 
-  handlePendingOrder = (value, symbol, openPrice, setFieldValue) => () => {
-    const pendingOrder = !value;
+  handlePendingOrder = (values, setValues) => () => {
+    const pendingOrder = !values.pendingOrder;
+    let { autoOpenPrice, openPrice } = values;
 
     // If pending order is turned on --> turn off auto open price and set real BID price to openPrice field
     if (pendingOrder) {
-      const currentPriceBid = this.getCurrentPriceBid(symbol);
+      const currentPriceBid = this.getCurrentPriceBid(values.symbol);
 
-      setFieldValue('autoOpenPrice', false);
+      autoOpenPrice = false;
 
       // Set openPrice only if field is empty
-      if (!openPrice) {
-        setFieldValue('openPrice', currentPriceBid);
+      if (!values.openPrice) {
+        openPrice = currentPriceBid;
       }
     }
 
-    setFieldValue('pendingOrder', pendingOrder);
+    setValues({
+      ...values,
+      pendingOrder,
+      autoOpenPrice,
+      openPrice,
+    });
   };
 
   handleSymbolsPricesTick = (currentSymbolPrice) => {
     this.setState({ currentSymbolPrice });
+  };
+
+  validate = (values) => {
+    const currentSymbol = this.getCurrentSymbol(values.symbol);
+    const { lotMin = 0, lotMax = 1000, lotStep = 1 } = currentSymbol?.config || {};
+
+    return createValidator({
+      volumeLots: ['required', 'numeric', `min:${lotMin}`, `max:${lotMax}`, `step:${lotStep}`],
+      symbol: ['required', 'string'],
+      ...!values.autoOpenPrice && {
+        openPrice: 'required',
+      },
+      stopLoss: [
+        `max:${
+          values.direction === 'BUY'
+          && !values.autoOpenPrice
+          && values.openPrice
+            ? values.openPrice
+            : 999999
+        }`,
+        `min:${
+          values.direction === 'SELL'
+          && !values.autoOpenPrice
+          && values.openPrice
+            ? values.openPrice : 0
+        }`,
+      ],
+      takeProfit: [
+        `max:${
+          values.direction === 'SELL'
+          && !values.autoOpenPrice
+          && values.openPrice
+            ? values.openPrice
+            : 999999
+        }`,
+        `min:${
+          values.direction === 'BUY'
+          && !values.autoOpenPrice
+          && values.openPrice
+            ? values.openPrice
+            : 0
+        }`,
+      ],
+    }, {
+      volumeLots: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME'),
+      openPrice: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE'),
+    }, false)(values);
   };
 
   render() {
@@ -212,58 +268,16 @@ class NewOrderModal extends PureComponent {
         <Formik
           initialValues={{
             login: account?.login,
-            volumeLots: 1,
             symbol: allowedSymbols[0]?.name,
+            volumeLots: allowedSymbols[0]?.config?.lotMin,
             autoOpenPrice: true,
             pendingOrder: false,
           }}
-          validate={values => createValidator({
-            volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
-            symbol: ['required', 'string'],
-            ...!values.autoOpenPrice && {
-              openPrice: 'required',
-            },
-            stopLoss: [
-              `max:${
-              values.direction === 'BUY'
-              && !values.autoOpenPrice
-              && values.openPrice
-                ? values.openPrice
-                : 999999
-            }`,
-              `min:${
-              values.direction === 'SELL'
-              && !values.autoOpenPrice
-              && values.openPrice
-                ? values.openPrice : 0
-            }`,
-            ],
-            takeProfit: [
-              `max:${
-              values.direction === 'SELL'
-              && !values.autoOpenPrice
-              && values.openPrice
-                ? values.openPrice
-                : 999999
-            }`,
-              `min:${
-              values.direction === 'BUY'
-              && !values.autoOpenPrice
-              && values.openPrice
-                ? values.openPrice
-                : 0
-            }`,
-            ],
-          }, {
-            volumeLots: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME'),
-            openPrice: I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.OPEN_PRICE'),
-          }, false)(values)}
-          validateOnChange={false}
-          validateOnBlur={false}
+          validate={this.validate}
           enableReinitialize
           onSubmit={this.handleSubmit}
         >
-          {({ isSubmitting, values, setFieldValue, setValues, handleSubmit }) => {
+          {({ isSubmitting, isValid, values, setFieldValue, setValues, handleSubmit }) => {
             const {
               autoOpenPrice,
               openPrice,
@@ -298,8 +312,12 @@ class NewOrderModal extends PureComponent {
             });
 
             // Get status of buttons SELL and BUY
-            const isSellDisabled = isSubmitting || !sellPrice || (pendingOrder && openPrice === currentPriceBid);
-            const isBuyDisabled = isSubmitting || !buyPrice || (pendingOrder && openPrice === currentPriceAsk);
+            const isSellDisabled = (
+              isSubmitting || !isValid || !sellPrice || (pendingOrder && openPrice === currentPriceBid)
+            );
+            const isBuyDisabled = (
+              isSubmitting || !isValid || !buyPrice || (pendingOrder && openPrice === currentPriceAsk)
+            );
 
             const decimalsSettings = {
               decimalsLimit: currentSymbol?.digits,
@@ -343,9 +361,9 @@ class NewOrderModal extends PureComponent {
                         label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.VOLUME')}
                         className="NewOrderModal__field"
                         placeholder="0.00"
-                        step="0.01"
-                        min={0.01}
-                        max={1000}
+                        step={currentSymbol?.config?.lotStep}
+                        min={currentSymbol?.config?.lotMin}
+                        max={currentSymbol?.config?.lotMax}
                         component={FormikInputField}
                       />
                     </div>
@@ -422,13 +440,13 @@ class NewOrderModal extends PureComponent {
                           disabled={pendingOrder}
                           className="NewOrderModal__auto-checkbox"
                           component={FormikCheckbox}
-                          onChange={this.handleAutoOpenPrice(autoOpenPrice, symbol, setFieldValue)}
+                          onChange={this.handleAutoOpenPrice(values, setValues)}
                         />
                         <Field
                           name="pendingOrder"
                           label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.PENDING_ORDER')}
                           component={FormikCheckbox}
-                          onChange={this.handlePendingOrder(pendingOrder, symbol, openPrice, setFieldValue)}
+                          onChange={this.handlePendingOrder(values, setValues)}
                         />
                       </div>
                     </div>

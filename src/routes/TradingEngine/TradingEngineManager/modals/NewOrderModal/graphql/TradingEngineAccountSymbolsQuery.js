@@ -13,6 +13,9 @@ export const REQUEST = gql`
       digits
       config(accountUuid: $accountUuid) {
         lotSize
+        lotMin
+        lotMax
+        lotStep
         bidAdjustment
         askAdjustment
       }

@@ -41,6 +41,7 @@ const apolloMockResponseData = {
   direction: 'BUY',
   symbolConfig: {
     lotSize: 100000,
+    lotStep: 0.01,
     bidAdjustment: 0,
     askAdjustment: 0,
   },
@@ -61,7 +62,7 @@ const apolloMockResponseData = {
   },
   tradeType: 'MARKET',
   type: 'BUY',
-  volumeLots: 0.01,
+  volumeLots: 0.08,
   volumeUnits: 1000,
 };
 
@@ -137,8 +138,8 @@ it('Render EditOrderModal', async () => {
   } = apolloMockResponseData;
 
   // Arrange
-  const floatingPnL = '17.58';
-  const netPnL = '17.58';
+  const floatingPnL = '140.63';
+  const netPnL = '140.63';
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -210,7 +211,7 @@ it('Render EditOrderModal for OPEN order with BUY type', async () => {
   const ask = 1.1552;
   const bid = 1.1548;
 
-  const pnl = '17.58';
+  const pnl = '140.63';
 
   const newAsk = 1.1555;
   const newBid = 1.1545;
@@ -258,7 +259,7 @@ it('Render EditOrderModal for OPEN order with SELL type', async () => {
   const ask = 1.1552;
   const bid = 1.1548;
 
-  const pnl = '-17.93';
+  const pnl = '-143.40';
 
   const newAsk = 1.1555;
   const newBid = 1.1545;
@@ -388,4 +389,41 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
 
   await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newBid.toFixed(5)}`));
   expect(screen.getByTestId('activationPrice')).toHaveValue(newBid);
+});
+
+it('Render EditOrderModal and configure volumeLots field for partial close order', async () => {
+  // Arrange
+  const ask = 1.1552;
+  const bid = 1.1548;
+  const { volumeLots } = apolloMockResponseData;
+
+  // Act
+  render(<EditOrderModal {...props} />);
+
+  // Wait for order loading
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  // Wait while rsocket tick will be accepted by component
+  await waitFor(() => screen.getByText(`Close ${volumeLots} at ${bid.toFixed(5)}`));
+
+  expect(screen.getByLabelText(/Volume/)).toBeEnabled();
+  expect(screen.getByLabelText(/Volume/)).toHaveValue(volumeLots);
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('min', '0.01');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('max', volumeLots.toString());
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('step', '0.01');
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
+  await screen.findAllByText(/The Volume must be at least 0.01./);
+  expect(screen.getByText(`Close 0.00 at ${bid.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
+  await screen.findAllByText(`The Volume may not be greater than ${volumeLots}.`);
+  expect(screen.getByText(`Close 10001.00 at ${bid.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
+  await screen.findAllByText(/The Volume must be changed with step 0.01/);
+  expect(screen.getByText(`Close 0.01 at ${bid.toFixed(5)}`)).toBeDisabled();
 });

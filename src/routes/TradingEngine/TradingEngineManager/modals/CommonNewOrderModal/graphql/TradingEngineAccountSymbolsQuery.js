@@ -10,6 +10,9 @@ export default gql`
       digits
       config(accountUuid: $accountUuid) {
         lotSize
+        lotMin
+        lotStep
+        lotMax
         bidAdjustment
         askAdjustment
       }

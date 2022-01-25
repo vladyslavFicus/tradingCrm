@@ -1,4 +1,4 @@
-.EditOrderModal {
+.AdminEditOrderModal {
   width: 1230px;
 
   &__inner-wrapper {
@@ -11,7 +11,7 @@
     width: 600px;
     display: flex;
     flex: 1 1;
-    align-items: flex-end;
+    align-items: flex-start;
 
     &:not(:last-child) {
       margin-bottom: 20px;

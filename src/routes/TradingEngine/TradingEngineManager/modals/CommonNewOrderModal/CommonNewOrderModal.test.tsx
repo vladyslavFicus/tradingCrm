@@ -1,5 +1,5 @@
 import React from 'react';
-import { render as testingLibraryRender, screen, fireEvent } from '@testing-library/react';
+import { render as testingLibraryRender, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 import StorageProvider from 'providers/StorageProvider';
@@ -56,6 +56,9 @@ const apolloMockFactory = (data = {}) => [{
         digits: 5,
         config: {
           lotSize: 10000,
+          lotMin: 0.01,
+          lotStep: 0.01,
+          lotMax: 100,
           bidAdjustment: 0,
           askAdjustment: 0,
         },
@@ -160,7 +163,9 @@ it('Render CommonNewOrderModal and click on "Auto" checkbox', async () => {
   expect(screen.getByLabelText(/Open price/)).toBeDisabled();
   expect(screen.getByLabelText(/Pending order/)).not.toBeChecked();
 
-  fireEvent.click(screen.getByLabelText(/Auto/));
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/Auto/));
+  });
 
   expect(screen.getByLabelText(/Auto/)).not.toBeChecked();
   expect(screen.getByLabelText(/Open price/)).toBeEnabled();
@@ -190,7 +195,9 @@ it('Render CommonNewOrderModal and click on "Auto" checkbox and "Update" button'
   // Wait while rsocket tick will be accepted by component
   await screen.findByText(`Sell at ${bid.toFixed(5)}`);
 
-  fireEvent.click(screen.getByLabelText(/Auto/));
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/Auto/));
+  });
 
   // Publish tick message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask: newAsk, bid: newBid }));
@@ -236,7 +243,9 @@ it('Render CommonNewOrderModal and click on "Pending order" checkbox', async () 
   expect(screen.getByLabelText(/Sell P&L/)).toBeInTheDocument();
   expect(screen.getByLabelText(/Buy P&L/)).toBeInTheDocument();
 
-  fireEvent.click(screen.getByLabelText(/Pending order/));
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/Pending order/));
+  });
 
   expect(screen.getByLabelText(/Pending order/)).toBeChecked();
   expect(screen.getByLabelText(/Auto/)).not.toBeChecked();
@@ -279,14 +288,18 @@ it('Render CommonNewOrderModal and click on "Pending order" checkbox double time
   expect(screen.getByLabelText(/Open price/)).toBeDisabled();
   expect(screen.getByLabelText(/Pending order/)).not.toBeChecked();
 
-  fireEvent.click(screen.getByLabelText(/Pending order/));
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/Pending order/));
+  });
 
   expect(screen.getByLabelText(/Pending order/)).toBeChecked();
   expect(screen.getByLabelText(/Auto/)).not.toBeChecked();
   expect(screen.getByLabelText(/Auto/)).toBeDisabled();
   expect(screen.getByLabelText(/Open price/)).toBeEnabled();
 
-  fireEvent.click(screen.getByLabelText(/Pending order/));
+  await act(async () => {
+    fireEvent.click(screen.getByLabelText(/Pending order/));
+  });
 
   expect(screen.getByLabelText(/Pending order/)).not.toBeChecked();
   expect(screen.getByLabelText(/Auto/)).not.toBeChecked();
@@ -494,6 +507,9 @@ it('Render CommonNewOrderModal and applying group spread for chosen symbol', asy
       digits,
       config: {
         lotSize: 10000,
+        lotMin: 0.01,
+        lotStep: 0.01,
+        lotMax: 100,
         bidAdjustment,
         askAdjustment,
       },
@@ -522,4 +538,48 @@ it('Render CommonNewOrderModal and applying group spread for chosen symbol', asy
   expect(screen.getByText(`Sell at ${sellPrice.toFixed(5)}`)).toBeInTheDocument();
   expect(screen.getByText(`Buy at ${buyPrice.toFixed(5)}`)).toBeInTheDocument();
   expect(screen.getByLabelText('Open price')).toHaveValue(sellPrice);
+});
+
+it('Render CommonNewOrderModal and configure volumeLots field', async () => {
+  // Arrange
+  const ask = 1.1552;
+  const bid = 1.1548;
+
+  // Act
+  render(<CommonNewOrderModal {...props} />);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
+
+  // Wait for symbols loading
+  await screen.findAllByText(/EURUSD description/);
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  // Wait while rsocket tick will be accepted by component
+  await screen.findByText(`Sell at ${bid.toFixed(5)}`);
+
+  expect(screen.getByLabelText(/Volume/)).toBeEnabled();
+  expect(screen.getByLabelText(/Volume/)).toHaveValue(0.01);
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('min', '0.01');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('max', '100');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('step', '0.01');
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeEnabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
+  await screen.findAllByText(/The Volume must be at least 0.01./);
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
+  await screen.findAllByText(/The Volume may not be greater than 100./);
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
+  await screen.findAllByText(/The Volume must be changed with step 0.01/);
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
 });

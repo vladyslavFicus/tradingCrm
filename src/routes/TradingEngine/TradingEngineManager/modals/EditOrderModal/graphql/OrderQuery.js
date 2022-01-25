@@ -39,6 +39,7 @@ export const REQUEST = gql`
       }
       symbolConfig {
         lotSize
+        lotStep
         bidAdjustment
         askAdjustment
       }
