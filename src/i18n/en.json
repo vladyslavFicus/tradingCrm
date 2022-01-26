@@ -1100,7 +1100,10 @@
         "ORDER_CLOSED": "Order closed",
         "EMAIL_SENT": "Email sent",
         "CDE_RULE_CREATED_EVENT": "CDE rule created",
-        "CDE_RULE_UPDATED_EVENT": "CDE rule updated"
+        "CDE_RULE_UPDATED_EVENT": "CDE rule updated",
+        "WHITELIST_IP_CREATED": "IP address added",
+        "WHITELIST_IP_DELETED": "IP address deleted",
+        "WHITELIST_IP_UPDATED": "IP address updated"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -4382,7 +4385,17 @@
       "FEED": "Feed"
     },
     "FEED": {
-      "HEADLINE": "Feed"
+      "HEADLINE": "Feed",
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+          "ACTION_TYPE": "Action type",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
+      }
     },
     "GRID": {
       "HEADLINE": "IP Whitelist",
@@ -4525,7 +4538,7 @@
       "TEAM_BODY": "Team creation flow"
     },
     "PROFILE_RULE_TOOLTIP": {
-      "DESK": "﻿Desk doesn't have teams or no operators in underlying teams",
+      "DESK": "Desk doesn't have teams or no operators in underlying teams",
       "TEAM": "Team doesn't have operators"
     },
     "PROFILE_RULE_TAB": {

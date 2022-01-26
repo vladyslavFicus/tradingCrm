@@ -1,19 +1,48 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
+import { withRequests } from 'apollo';
 import Tabs from 'components/Tabs';
+import ListView from 'components/ListView';
+import FeedItem from 'components/FeedItem';
+import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
+import { Feed, WitelististFeedsQueryResult } from './types';
+import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
 import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistFeed.scss';
 
-const IpWhitelistFeed = () => (
-  <div className="IpWhitelistFeed">
-    <Tabs items={ipWhitelistTabs} className="IpWhitelistFeed__tabs" />
-    <div className="IpWhitelistFeed__card">
-      <div className="IpWhitelistFeed__headline">
-        {I18n.t('IP_WHITELIST.FEED.HEADLINE')}
-      </div>
-      {/* // TODO: FS-4082 [BE] Add feeds (create, delete)  */}
-    </div>
-  </div>
-);
+interface Props {
+  ipWhitelistFeedsQuery: WitelististFeedsQueryResult
+}
 
-export default IpWhitelistFeed;
+const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
+  const { content, last, number = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
+
+  return (
+    <div className="IpWhitelistFeed">
+      <Tabs items={ipWhitelistTabs} className="IpWhitelistFeed__tabs" />
+      <div className="IpWhitelistFeed__card">
+        <div className="IpWhitelistFeed__headline">
+          {I18n.t('IP_WHITELIST.FEED.HEADLINE')}
+        </div>
+      </div>
+      <IpWhitelistFeedsFilters refetch={ipWhitelistFeedsQuery.refetch} />
+      <div className="IpWhitelistFeed__grid">
+        <ListView
+          dataSource={content || []}
+          activePage={number + 1}
+          last={last}
+          totalPages={totalElements}
+          render={(feed: Feed, key: string) => <FeedItem key={key} data={feed} />}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default compose(
+  React.memo,
+  withRequests({
+    ipWhitelistFeedsQuery: IpWhitelistFeedsQuery,
+  }),
+)(IpWhitelistFeed);
