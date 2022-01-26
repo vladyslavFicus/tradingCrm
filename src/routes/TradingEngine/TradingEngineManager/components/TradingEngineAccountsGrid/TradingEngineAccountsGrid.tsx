@@ -88,7 +88,7 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
     }
   };
 
-  renderTradingAccountColumn = ({ uuid, name, accountType, platformType }: TradingAccountItem) => (
+  renderTradingAccountColumn = ({ uuid, name, accountType }: TradingAccountItem) => (
     <Fragment>
       <Badge
         text={I18n.t(accountTypesLabels[accountType].label)}
@@ -100,7 +100,7 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
         </div>
       </Badge>
       <div className="TradingEngineAccountsGrid__text-secondary">
-        <Uuid uuid={uuid} uuidPrefix={platformType} />
+        <Uuid uuid={uuid} uuidPrefix="WT" />
       </div>
     </Fragment>
   );

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { getBrand } from 'config';
 import { withModals, withNotifications } from 'hoc';
+import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -144,7 +145,7 @@ class ClientTradingAccountsGrid extends PureComponent {
         </div>
       </Badge>
       <div className="ClientTradingAccountsGrid__cell-sub-value">
-        <Uuid uuid={accountUUID} uuidPrefix={platformType} />
+        <Uuid uuid={accountUUID} uuidPrefix={getPlatformTypeLabel(platformType)} />
       </div>
     </Fragment>
   );
@@ -313,7 +314,7 @@ class ClientTradingAccountsGrid extends PureComponent {
   );
 
   renderServerColumn = ({ accountType, platformType }) => (
-    <div className="ClientTradingAccountsGrid__cell-main-value">{platformType} {accountType}</div>
+    <div className="ClientTradingAccountsGrid__cell-main-value">{getPlatformTypeLabel(platformType)} {accountType}</div>
   );
 
   renderActionsColumn = (

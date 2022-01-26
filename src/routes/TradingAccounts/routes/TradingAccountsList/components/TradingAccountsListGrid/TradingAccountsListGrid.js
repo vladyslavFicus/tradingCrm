@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import moment from 'moment';
 import PropTypes from 'constants/propTypes';
+import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
@@ -76,7 +77,7 @@ class TradingAccountsListGrid extends PureComponent {
         </div>
       </Badge>
       <div className="font-size-11">
-        <Uuid uuid={uuid} uuidPrefix={platformType} />
+        <Uuid uuid={uuid} uuidPrefix={getPlatformTypeLabel(platformType)} />
       </div>
     </Fragment>
   );

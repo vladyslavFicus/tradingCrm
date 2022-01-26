@@ -6,6 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
+import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import PropTypes from 'constants/propTypes';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { Button } from 'components/UI';
@@ -115,7 +116,7 @@ class ChangeLeverageModal extends PureComponent {
                   </div>
                 </Badge>
                 <div className="ChangeLeverageModal__account-details">
-                  {platformType}ID - {login}
+                  {getPlatformTypeLabel(platformType)} ID - {login}
                 </div>
                 <div className="ChangeLeverageModal__account-details">
                   {group}

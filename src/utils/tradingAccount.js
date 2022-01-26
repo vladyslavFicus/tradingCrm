@@ -39,7 +39,17 @@ const getAvailableAccountTypes = (_platformType) => {
   });
 };
 
+/**
+ * Get label for platform type
+ *
+ * @param platformType
+ *
+ * @return {*}
+ */
+const getPlatformTypeLabel = platformType => platformTypes.find(({ value }) => platformType === value)?.label;
+
 export {
   getAvailablePlatformTypes,
   getAvailableAccountTypes,
+  getPlatformTypeLabel,
 };

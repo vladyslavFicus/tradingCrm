@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Badge from 'components/Badge';
+import { getPlatformTypeLabel } from 'utils/tradingAccount';
 
 class PlatformTypeBadge extends PureComponent {
   static propTypes = {
@@ -17,7 +18,7 @@ class PlatformTypeBadge extends PureComponent {
 
     return (
       <Badge
-        text={platformType}
+        text={getPlatformTypeLabel(platformType)}
         backgroundColor={platformType === 'MT5' ? '#8bc34a' : '#f3c331'}
         color="#000"
         {...props}
