@@ -11,7 +11,6 @@ import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
-import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
 import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
@@ -100,29 +99,23 @@ const IpWhitelistGrid = (props: Props) => {
   const actionsColumnRender = (item: IpWhitelistAddress) => (
     <div className="IpWhitelistGrid__cell-primary">
       <PermissionContent permissions={permissions.IP_WHITELIST.DELETE_IP_ADDRESS}>
-        <Button
-          transparent
-        >
-          <i
-            onClick={() => deleteModal.show({
-              onSubmit: handleDeleteIp(item),
-              modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
-              actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.ACTION_TEXT', { ip: item.ip }),
-              submitButtonLabel: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.DELETE'),
-            })}
-            className="IpWhitelistGrid__action-icon fa fa-trash color-danger"
-          />
-        </Button>
+
+        <i
+          onClick={() => deleteModal.show({
+            onSubmit: handleDeleteIp(item),
+            modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
+            actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.ACTION_TEXT', { ip: item.ip }),
+            submitButtonLabel: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.DELETE'),
+          })}
+          className="IpWhitelistGrid__action-icon fa fa-trash color-danger"
+        />
+
       </PermissionContent>
       <PermissionContent permissions={permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION}>
-        <Button
-          transparent
-        >
-          <i
-            onClick={() => updateDescriptionModal.show({ item, onSuccess: ipWhitelistQuery.refetch })}
-            className="IpWhitelistGrid__action-icon fa fa-edit"
-          />
-        </Button>
+        <i
+          onClick={() => updateDescriptionModal.show({ item, onSuccess: ipWhitelistQuery.refetch })}
+          className="IpWhitelistGrid__action-icon fa fa-edit"
+        />
       </PermissionContent>
     </div>
   );
@@ -172,35 +165,33 @@ const IpWhitelistGrid = (props: Props) => {
         </PermissionContent>
       </div>
       <IpWhitelistFilter refetch={ipWhitelistQuery.refetch} />
-      <div className="IpWhitelistGrid">
-        <Table
-          items={content}
-          loading={ipWhitelistQuery.loading}
-          onMore={handlePageChanged}
-          hasMore={!last}
-          stickyFromTop={123}
-          onSort={handleSort}
-        >
-          <Column
-            header={I18n.t('IP_WHITELIST.GRID.IP_ADDRESS')}
-            render={addressColumnRender}
-          />
-          <Column
-            header={I18n.t('IP_WHITELIST.GRID.CREATED_AT')}
-            render={createdAtColumnRender}
-            sortBy="createdAt"
-          />
-          <Column
-            header={I18n.t('IP_WHITELIST.GRID.DESCRIPTION')}
-            render={descriptionColumnRender}
-            sortBy="description"
-          />
-          <Column
-            header={I18n.t('IP_WHITELIST.GRID.ACTION')}
-            render={actionsColumnRender}
-          />
-        </Table>
-      </div>
+      <Table
+        items={content}
+        loading={ipWhitelistQuery.loading}
+        onMore={handlePageChanged}
+        hasMore={!last}
+        stickyFromTop={123}
+        onSort={handleSort}
+      >
+        <Column
+          header={I18n.t('IP_WHITELIST.GRID.IP_ADDRESS')}
+          render={addressColumnRender}
+        />
+        <Column
+          header={I18n.t('IP_WHITELIST.GRID.CREATED_AT')}
+          render={createdAtColumnRender}
+          sortBy="createdAt"
+        />
+        <Column
+          header={I18n.t('IP_WHITELIST.GRID.DESCRIPTION')}
+          render={descriptionColumnRender}
+          sortBy="description"
+        />
+        <Column
+          header={I18n.t('IP_WHITELIST.GRID.ACTION')}
+          render={actionsColumnRender}
+        />
+      </Table>
     </div>
   );
 };
