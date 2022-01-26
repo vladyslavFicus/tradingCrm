@@ -23,11 +23,11 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
-import { Column, Table } from 'components/Table';
+import { Column, AdjustableTable } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
-import { MAX_SELECTED_CLIENTS } from '../../constants';
+import { MAX_SELECTED_CLIENTS, defaultColumnsSet } from '../../constants';
 import './ClientsGrid.scss';
 
 class ClientsGrid extends PureComponent {
@@ -432,7 +432,9 @@ class ClientsGrid extends PureComponent {
 
     return (
       <div className="ClientsGrid">
-        <Table
+        <AdjustableTable
+          type="CLIENT"
+          defaultColumnsSet={defaultColumnsSet}
           stickyFromTop={157}
           items={content}
           totalCount={totalElements}
@@ -447,68 +449,82 @@ class ClientsGrid extends PureComponent {
           onSelectError={this.handleSelectError}
         >
           <Column
+            name="firstName"
             sortBy="firstName"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
             render={this.renderClientColumn}
           />
           <Column
+            name="warning"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.WARNING')}
             render={this.renderWarningColumn}
           />
           <Column
+            name="lastActivityDate"
             sortBy="lastActivity.date"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_ACTIVITY')}
             render={this.renderLastActivityColumn}
           />
           <Column
+            name="addressCountryCode"
             sortBy="address.countryCode"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={this.renderCountryColumn}
           />
           <If condition={isBalanceAvailable}>
             <Column
+              name="balance"
               sortBy="balance.amount"
               header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
               render={this.renderBalanceColumn}
             />
           </If>
           <Column
+            name="depositsCount"
             sortBy="paymentDetails.depositsCount"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
             render={this.renderDepositColumn}
           />
           <Column
+            name="affiliateReferrer"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
             render={this.renderAffiliateOrReferrerColumn}
           />
           <Column
+            name="sales"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
             render={this.renderSalesColumn}
           />
           <Column
+            name="retention"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
             render={this.renderRetentionColumn}
           />
           <Column
+            name="registrationDate"
             sortBy="registrationDetails.registrationDate"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDateColumn}
           />
           <Column
+            name="lastNoteChangedAt"
             sortBy="lastNote.changedAt"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_NOTE')}
             render={this.renderLastNoteColumn}
           />
           <Column
+            name="lastCallDate"
             sortBy="lastCall.date"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.LAST_CALL')}
             render={this.renderLastCallColumn}
           />
           <Column
+            name="status"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
-        </Table>
+
+        </AdjustableTable>
       </div>
     );
   }

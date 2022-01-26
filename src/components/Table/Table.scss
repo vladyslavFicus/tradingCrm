@@ -279,4 +279,36 @@
       }
     }
   }
+
+  &__settings_block{
+    display:block;
+    // width:40px;
+    // height:40px;
+    border: none;
+    text-align:center;
+    text-decoration:none;
+    font-size:20px;
+    font-weight:bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translateY(-40px);
+    z-index: 2;
+    margin-left: 12px;
+  }
+  &__save_button{
+    margin-left: 11px;
+    width: auto;
+    display: block;
+  }
+
+  &__select-block {
+    width: 300px;
+  }
+
+  &__select-block-container {
+    max-height: 300px;
+  }
 }

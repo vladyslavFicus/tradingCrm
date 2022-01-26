@@ -69,8 +69,8 @@ class Select extends PureComponent {
 
   static defaultProps = {
     name: undefined,
-    onChange: () => {},
-    onRealtimeChange: () => {},
+    onChange: () => { },
+    onRealtimeChange: () => { },
     showSearch: null,
     placeholder: 'Any',
     multiple: false,
@@ -258,7 +258,7 @@ class Select extends PureComponent {
       this.updateState({
         options: [...this.state.options, ...deletedOptions],
         originalSelectedOptions: newOriginalSelectedOptions,
-        selectedOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
+        toSelectOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
       });
 
       this.props.onRealtimeChange(newOriginalSelectedOptions.map(item => item.value));

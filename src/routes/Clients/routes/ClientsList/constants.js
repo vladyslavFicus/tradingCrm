@@ -79,6 +79,11 @@ const assignStatuses = [
   },
 ];
 
+const defaultColumnsSet = [
+  'FIRSTNAME', 'lastActivityDate', 'addressCountryCode', 'sales', 'WARNING', 'balance', 'depositsCount',
+  'status',
+];
+
 export {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
@@ -86,4 +91,5 @@ export {
   attributeLabels,
   assignStatuses,
   radioSelect,
+  defaultColumnsSet,
 };

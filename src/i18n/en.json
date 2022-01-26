@@ -443,6 +443,12 @@
       "CANCEL_NOTIFICATION": "Cancel limit"
     }
   },
+  "GRID_CONFIG": {
+    "NOTIFICATIONS": {
+      "SETTINGS_UPDATED": "Columns settings for this grid updated",
+      "SETTINGS_NOT_UPDATED": "Columns settings for this grid not updated"
+    }
+  },
   "COMMON": {
     "NAME": "Name",
     "TEAM": "Team",
