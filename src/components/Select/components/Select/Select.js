@@ -212,11 +212,11 @@ class Select extends PureComponent {
   handleSelectSingleOption = (option) => {
     if (option.props.disabled) return;
 
-    this.updateState({ toSelectOptions: [option] }, this.handleClose);
+    this.updateState({ toSelectOptions: [option], dirty: true }, this.handleClose);
   };
 
   handleSelectMultipleOptions = (options) => {
-    this.updateState({ toSelectOptions: options });
+    this.updateState({ toSelectOptions: options, dirty: true });
 
     this.props.onRealtimeChange(options.map(item => item.value));
   };
@@ -227,6 +227,7 @@ class Select extends PureComponent {
       toSelectOptions: [],
       selectedOptions: [],
       originalSelectedOptions: [],
+      dirty: true,
     });
 
     this.props.onRealtimeChange([]);
@@ -238,11 +239,11 @@ class Select extends PureComponent {
 
     // If not all options selected --> select all
     if (toSelectOptions.length !== notDisabledOptions.length) {
-      this.updateState({ toSelectOptions: notDisabledOptions });
+      this.updateState({ toSelectOptions: notDisabledOptions, dirty: true });
 
       this.props.onRealtimeChange([...this.state.selectedOptions, ...notDisabledOptions].map(item => item.value));
     } else {
-      this.updateState({ toSelectOptions: [] });
+      this.updateState({ toSelectOptions: [], dirty: true });
 
       this.props.onRealtimeChange([]);
     }
@@ -258,7 +259,8 @@ class Select extends PureComponent {
       this.updateState({
         options: [...this.state.options, ...deletedOptions],
         originalSelectedOptions: newOriginalSelectedOptions,
-        toSelectOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
+        selectedOptions: filterOptionsByQuery(query, newOriginalSelectedOptions),
+        dirty: true,
       });
 
       this.props.onRealtimeChange(newOriginalSelectedOptions.map(item => item.value));
@@ -292,9 +294,9 @@ class Select extends PureComponent {
   };
 
   handleClose = () => {
-    const { toSelectOptions, originalOptions, originalSelectedOptions } = this.state;
-    const { multiple, value } = this.props;
-    let newValue = (multiple
+    const { toSelectOptions, originalOptions, originalSelectedOptions, dirty } = this.state;
+    const { multiple } = this.props;
+    const newValue = (multiple
       ? [...originalSelectedOptions, ...toSelectOptions]
       : [...toSelectOptions]).map(option => option.value);
 
@@ -305,10 +307,11 @@ class Select extends PureComponent {
           options: originalOptions,
           toSelectOptions: [],
           selectedOptions: [...originalSelectedOptions],
+          dirty: false,
         }, () => {
-          if (!shallowEqual(multiple ? value : [value], newValue)) {
-            newValue = Array.isArray(newValue) && !newValue.length ? undefined : newValue;
-
+          if (dirty) {
+            // keep this line
+            // newValue = Array.isArray(newValue) && !newValue.length ? undefined : newValue;
             if (multiple) {
               this.props.onChange(newValue);
             } else if (newValue) {
@@ -386,6 +389,7 @@ class Select extends PureComponent {
       selectedOptions: newSelectedOptions,
       originalSelectedOptions: newSelectedOptions,
       toSelectOptions: [],
+      dirty: true,
     }, () => {
       this.props.onChange(newSelectedOptions.map(o => o.value));
     });
@@ -401,7 +405,7 @@ class Select extends PureComponent {
     if (['Escape', 'Tab'].includes(e.code) && this.state.opened) {
       e.stopPropagation();
 
-      this.updateState({ toSelectOptions: [] }, this.handleClose);
+      this.updateState({ toSelectOptions: [], dirty: true }, this.handleClose);
 
       return;
     }
@@ -449,7 +453,7 @@ class Select extends PureComponent {
 
       const nextOption = this.state.options[nextOptionIndex];
 
-      this.updateState({ toSelectOptions: [nextOption] }, () => {
+      this.updateState({ toSelectOptions: [nextOption], dirty: true }, () => {
         const optionTop = this.activeOptionRef.offsetTop;
         const optionHeight = this.activeOptionRef.offsetHeight + 10; // 10 is padding for option
         const containerScrollTop = this.optionsContainerRef.scrollTop;
