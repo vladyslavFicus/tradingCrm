@@ -69,8 +69,8 @@ class Select extends PureComponent {
 
   static defaultProps = {
     name: undefined,
-    onChange: () => { },
-    onRealtimeChange: () => { },
+    onChange: () => {},
+    onRealtimeChange: () => {},
     showSearch: null,
     placeholder: 'Any',
     multiple: false,
