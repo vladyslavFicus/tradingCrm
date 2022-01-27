@@ -79,9 +79,9 @@ const assignStatuses = [
   },
 ];
 
-const defaultColumnsSet = [
-  'FIRSTNAME', 'LASTACTIVITYDATE', 'ADDRESSCOUNTRYCODE', 'SALES', 'WARNING', 'BALANCE', 'DEPOSITSCOUNT',
-  'AFFILIATEREFERRER', 'SALES', 'RETENTION', 'REGISTRATIONDATE', 'LASTNOTECHANGEDAT', 'LASTCALLDATE', 'STATUS',
+const defaultColumns = [
+  'firstName', 'warning', 'lastActivityDate', 'addressCountryCode', 'balance', 'depositsCount', 'affiliateReferrer',
+  'sales', 'retention', 'registrationDate', 'lastNoteChangedAt', 'lastCallDate', 'status',
 ];
 
 export {
@@ -91,5 +91,5 @@ export {
   attributeLabels,
   assignStatuses,
   radioSelect,
-  defaultColumnsSet,
+  defaultColumns,
 };

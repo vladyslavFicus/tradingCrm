@@ -27,7 +27,7 @@ import { Column, AdjustableTable } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
-import { MAX_SELECTED_CLIENTS, defaultColumnsSet } from '../../constants';
+import { MAX_SELECTED_CLIENTS, defaultColumns } from '../../constants';
 import './ClientsGrid.scss';
 
 class ClientsGrid extends PureComponent {
@@ -434,7 +434,7 @@ class ClientsGrid extends PureComponent {
       <div className="ClientsGrid">
         <AdjustableTable
           type="CLIENT"
-          defaultColumnsSet={defaultColumnsSet}
+          defaultColumns={defaultColumns}
           stickyFromTop={157}
           items={content}
           totalCount={totalElements}

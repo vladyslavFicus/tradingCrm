@@ -9,7 +9,6 @@ import Select from 'components/Select';
 import CreateGridConfigMutation from '../graphql/CreateGridConfigMutation';
 import UpdateGridConfigMutation from '../graphql/UpdateGridConfigMutation';
 import { GridConfigType } from '../types';
-
 import './GridConfig.scss';
 
 type AvailableColumns = {
@@ -18,9 +17,9 @@ type AvailableColumns = {
 }
 
 interface Props {
-  сolumnsSet: [string]
-  onUpdate: (values: [string]) => void;
-  notify: Notify
+  сolumnsSet: [string],
+  onUpdate: (values: [string]) => void,
+  notify: Notify,
   createGridConfig: (options: MutationOptions) => MutationResult<GridConfigType>,
   updateGridConfig: (options: MutationOptions) => MutationResult<Boolean>,
   availableColumnsSet: [AvailableColumns]
@@ -33,8 +32,9 @@ interface Props {
 const GridConfig = (props: Props) => {
   const { gridConfig, onUpdate, сolumnsSet, availableColumnsSet, notify, updateGridConfig, createGridConfig } = props;
 
-  const saveOrCreateGridConfig = async (values: any) => {
+  const saveOrCreateGridConfig = async (values: [string]) => {
     try {
+      console.log('sdfsdfsdfsdf');
       if (gridConfig?.uuid) {
         await updateGridConfig({ variables: { ...gridConfig, columns: values } });
       } else {
@@ -52,8 +52,6 @@ const GridConfig = (props: Props) => {
         message: I18n.t('GRID_CONFIG.NOTIFICATIONS.SETTINGS_NOT_UPDATED'),
       });
     }
-
-    return values;
   };
 
   return (
@@ -65,13 +63,11 @@ const GridConfig = (props: Props) => {
         onRealtimeChange={onUpdate}
         customSelectBlockClassName="GridConfig__select-block"
         customSelectBlockContainerClassName="GridConfig__select-block-container"
-        customArrowComponent={
-          <i className="fa fa-settings" />
-        }
+        customArrowComponent={<i className="fa fa-settings" />}
       >
         {
           availableColumnsSet.map(({ name, header }) => (
-            <option key={name} value={name.toUpperCase()}>{header}</option>
+            <option key={name} value={name}>{header}</option>
           ))
         }
       </Select>
