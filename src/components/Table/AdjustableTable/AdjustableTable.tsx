@@ -1,10 +1,12 @@
 import { withRequests } from 'apollo';
+import I18n from 'i18n-js';
 import React, { useMemo, useState } from 'react';
 import { compose, QueryResult } from 'react-apollo';
 import { Column, Table } from '..';
 import GridConfigQuery from './graphql/GridConfigQuery';
 import GridConfig from './GridConfig';
 import { QueryResultType } from './types';
+import './AdjustableTable.scss';
 
 const getColumns = (children: React.ReactNode) => useMemo(
   () => React.Children.toArray(children).filter(child => React.isValidElement(child) && child.type === Column),
@@ -21,7 +23,7 @@ interface Props {
 const AdjustableTable = ({ type, defaultColumnsSet, children, gridConfigQuery, ...props }: Props) => {
   const gridConfig = gridConfigQuery.data?.gridConfig || {};
   const [selectedColumns, updateColumns] = useState();
-  const columns = selectedColumns || gridConfig?.columns || defaultColumnsSet.map(item => item.toUpperCase());
+  const columns = selectedColumns || gridConfig?.columns || defaultColumnsSet;
 
   const isColumnEnabled = (name: string) => !name || (name
     && columns.map((item: any) => item.toUpperCase()).includes(name.toUpperCase()));
@@ -45,7 +47,7 @@ const AdjustableTable = ({ type, defaultColumnsSet, children, gridConfigQuery, .
         </Table>
       </If>
       <If condition={!isMoreThanOneColumnVisible}>
-        Please select the columns you need in the table settings.
+        <div className="AdjustableTable__no_columns">{I18n.t('GRID_CONFIG.NO_SELECTED_COLUMN_MESSAGE')}.</div>
       </If>
     </React.Fragment>
   );

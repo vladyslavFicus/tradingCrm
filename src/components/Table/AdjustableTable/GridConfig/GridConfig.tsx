@@ -31,8 +31,7 @@ interface Props {
 }
 
 const GridConfig = (props: Props) => {
-  const { gridConfig, onUpdate, сolumnsSet, availableColumnsSet, notify } = props;
-  const { updateGridConfig, createGridConfig } = props;
+  const { gridConfig, onUpdate, сolumnsSet, availableColumnsSet, notify, updateGridConfig, createGridConfig } = props;
 
   const saveOrCreateGridConfig = async (values: any) => {
     try {
@@ -53,6 +52,7 @@ const GridConfig = (props: Props) => {
         message: I18n.t('GRID_CONFIG.NOTIFICATIONS.SETTINGS_NOT_UPDATED'),
       });
     }
+
     return values;
   };
 
