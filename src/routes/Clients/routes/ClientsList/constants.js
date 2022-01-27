@@ -80,8 +80,8 @@ const assignStatuses = [
 ];
 
 const defaultColumnsSet = [
-  'FIRSTNAME', 'lastActivityDate', 'addressCountryCode', 'sales', 'WARNING', 'balance', 'depositsCount',
-  'status',
+  'FIRSTNAME', 'LASTACTIVITYDATE', 'ADDRESSCOUNTRYCODE', 'SALES', 'WARNING', 'BALANCE', 'DEPOSITSCOUNT',
+  'AFFILIATEREFERRER', 'SALES', 'RETENTION', 'REGISTRATIONDATE', 'LASTNOTECHANGEDAT', 'LASTCALLDATE', 'STATUS',
 ];
 
 export {

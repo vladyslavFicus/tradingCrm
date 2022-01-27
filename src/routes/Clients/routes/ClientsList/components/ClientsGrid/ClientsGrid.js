@@ -523,7 +523,6 @@ class ClientsGrid extends PureComponent {
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
           />
-
         </AdjustableTable>
       </div>
     );
