@@ -37,6 +37,12 @@ const REQUEST = gql`
   }
 `;
 
+const defaultSorts = [
+  { column: 'operatorStatus', direction: 'ASC' },
+  { column: 'firstName', direction: 'ASC' },
+  { column: 'lastName', direction: 'ASC' },
+];
+
 const OperatorsQuery = ({ children, location: { state } }) => (
   <Query
     query={REQUEST}
@@ -45,7 +51,7 @@ const OperatorsQuery = ({ children, location: { state } }) => (
       page: {
         from: 0,
         size: 20,
-        sorts: state?.sorts?.length ? state.sorts : undefined,
+        sorts: state?.sorts?.length ? state.sorts : defaultSorts,
       },
     }}
     fetchPolicy="cache-and-network"
