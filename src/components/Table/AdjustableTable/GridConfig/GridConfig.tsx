@@ -34,7 +34,6 @@ const GridConfig = (props: Props) => {
 
   const saveOrCreateGridConfig = async (values: [string]) => {
     try {
-      console.log('sdfsdfsdfsdf');
       if (gridConfig?.uuid) {
         await updateGridConfig({ variables: { ...gridConfig, columns: values } });
       } else {
