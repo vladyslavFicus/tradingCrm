@@ -1342,7 +1342,8 @@
       "POTENTIAL_FRAUD": "Potential fraud",
       "CALL_BACK_INSFF": "Callback insff",
       "MEDIA": "Media",
-      "PENDING": "Pending"
+      "PENDING": "Pending",
+      "DIFFERENT_VOICE": "Different Voice"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",

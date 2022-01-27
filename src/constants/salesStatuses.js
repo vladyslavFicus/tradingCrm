@@ -48,6 +48,7 @@ export const salesStatuses = {
   CALL_BACK_INSFF: 'CONSTANTS.SALES_STATUSES.CALL_BACK_INSFF',
   MEDIA: 'CONSTANTS.SALES_STATUSES.MEDIA',
   PENDING: 'CONSTANTS.SALES_STATUSES.PENDING',
+  DIFFERENT_VOICE: 'CONSTANTS.SALES_STATUSES.DIFFERENT_VOICE',
 };
 
 export const salesStatusesColor = {
@@ -98,5 +99,6 @@ export const salesStatusesColor = {
   POTENTIAL_FRAUD: 'color-danger',
   CALL_BACK_INSFF: 'color-info',
   MEDIA: 'color-info',
+  DIFFERENT_VOICE: 'color-info',
   PENDING: 'color-warning',
 };
