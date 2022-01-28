@@ -221,7 +221,7 @@ class ClientHeader extends PureComponent {
         <div className="ClientHeader__topic">
           <div className="ClientHeader__title">
             <span>{`${firstName} ${lastName}`}</span>
-            <span>{` (${age || '?' }) `}</span>
+            <span>{` (${age || '?'}) `}</span>
 
             <If condition={profileVerified}>
               <i className="fa fa-check ClientHeader__title-verified" />
@@ -237,14 +237,16 @@ class ClientHeader extends PureComponent {
 
         <div className="ClientHeader__actions">
 
-          <Button
-            small
-            commonOutline
-            className="ClientHeader__action"
-            onClick={this.handleOpenAddCallbackModal}
-          >
-            {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
-          </Button>
+          <PermissionContent permissions={permissions.CALLBACKS.CREATE_CALLBACK}>
+            <Button
+              small
+              commonOutline
+              className="ClientHeader__action"
+              onClick={this.handleOpenAddCallbackModal}
+            >
+              {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
+            </Button>
+          </PermissionContent>
 
           <If condition={clientLoginLocked && status?.type !== 'BLOCKED'}>
             <Button
