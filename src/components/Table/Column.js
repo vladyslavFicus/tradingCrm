@@ -6,6 +6,7 @@ Column.propTypes = {
   sortBy: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Item key to make it column sortable by
   width: PropTypes.number, // Width of column in px
   header: PropTypes.string, // Column label
+  name: PropTypes.string, // Required when used inside AdjustableTable component to identify each column
   render: PropTypes.func.isRequired, // Custom component to render column
 };
 
