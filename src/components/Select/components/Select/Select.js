@@ -296,7 +296,7 @@ class Select extends PureComponent {
   handleClose = () => {
     const { toSelectOptions, originalOptions, originalSelectedOptions, dirty } = this.state;
     const { multiple } = this.props;
-    const newValue = (multiple
+    let newValue = (multiple
       ? [...originalSelectedOptions, ...toSelectOptions]
       : [...toSelectOptions]).map(option => option.value);
 
@@ -310,8 +310,7 @@ class Select extends PureComponent {
           dirty: false,
         }, () => {
           if (dirty) {
-            // keep this line
-            // newValue = Array.isArray(newValue) && !newValue.length ? undefined : newValue;
+            newValue = Array.isArray(newValue) && !newValue.length && !multiple ? undefined : newValue;
             if (multiple) {
               this.props.onChange(newValue);
             } else if (newValue) {
