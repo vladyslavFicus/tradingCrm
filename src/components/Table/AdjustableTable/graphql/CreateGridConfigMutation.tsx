@@ -7,7 +7,7 @@ interface Props {
   children: ApolloComponentFn,
 }
 
-const REQUEST = gql`mutation createGridConfig($type: GridConfig__Types__Enum!, $columns: [String]!) {
+const REQUEST = gql`mutation CreateGridConfig($type: GridConfig__Types__Enum!, $columns: [String]!) {
   gridConfig {
     create(columns: $columns, type: $type) {
       uuid

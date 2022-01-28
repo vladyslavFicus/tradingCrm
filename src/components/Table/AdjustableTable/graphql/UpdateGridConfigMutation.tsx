@@ -7,7 +7,7 @@ interface Props {
   children: ApolloComponentFn,
 }
 
-const REQUEST = gql`mutation updateGridConfig($uuid: String!, $columns: [String]!) {
+const REQUEST = gql`mutation UpdateGridConfig($uuid: String!, $columns: [String]!) {
   gridConfig {
     update(columns: $columns, uuid: $uuid)
   }
