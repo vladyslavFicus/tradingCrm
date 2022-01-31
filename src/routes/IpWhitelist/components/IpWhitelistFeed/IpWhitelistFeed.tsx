@@ -22,12 +22,14 @@ const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
   const { state } = useLocation<State<IpWhitelistFeedFilters>>();
 
   const handlePageChanged = () => {
-    const { loadMore } = ipWhitelistFeedsQuery;
+    const { loadMore, loading } = ipWhitelistFeedsQuery;
     const filters = state?.filters || {};
-    loadMore({
-      ...filters,
-      page: page + 1,
-    });
+    if (!loading) {
+      loadMore({
+        ...filters,
+        page: page + 1,
+      });
+    }
   };
 
   return (
