@@ -310,7 +310,7 @@ class Select extends PureComponent {
           dirty: false,
         }, () => {
           if (dirty) {
-            newValue = Array.isArray(newValue) && !newValue.length && !multiple ? undefined : newValue;
+            newValue = Array.isArray(newValue) && !newValue.length ? undefined : newValue;
             if (multiple) {
               this.props.onChange(newValue);
             } else if (newValue) {

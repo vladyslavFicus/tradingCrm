@@ -32,7 +32,7 @@ interface Props {
 const GridConfig = (props: Props) => {
   const { gridConfig, onUpdate, сolumnsSet, availableColumnsSet, notify, updateGridConfig, createGridConfig } = props;
 
-  const saveOrCreateGridConfig = async (values: [string]) => {
+  const saveOrCreateGridConfig = async (values: [string?] = []) => {
     try {
       if (gridConfig?.uuid) {
         await updateGridConfig({ variables: { ...gridConfig, columns: values } });
