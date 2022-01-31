@@ -5,7 +5,6 @@ import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import EventEmitter, { CLIENT_RELOAD, CALLBACK_CREATED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
-import { CONDITIONS } from 'utils/permissions';
 import permissions from 'config/permissions';
 import CreateCallbackModal from 'modals/CreateCallbackModal';
 import TabHeader from 'components/TabHeader';
@@ -57,12 +56,7 @@ class ClientCallbacksTab extends PureComponent {
           title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}
           className="ClientCallbacksTab__header"
         >
-          <PermissionContent
-            permissions={[
-              permissions.CALLBACKS.CREATE_CALLBACK,
-            ]}
-            permissionsCondition={CONDITIONS.OR}
-          >
+          <PermissionContent permissions={permissions.CALLBACKS.CREATE_CALLBACK}>
             <Button
               small
               commonOutline
