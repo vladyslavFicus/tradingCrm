@@ -14,6 +14,7 @@ import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
 import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
+import { ipWhitelistTabs } from '../../constants';
 import IpWhitelistDeleteIpMutation from './graphql/IpWhitelistDeleteMutation';
 import IpWhitelistQuery from './graphql/IpWhitelistQuery';
 import IpWhitelistFilter from './components/IpWhitelistFilter';
@@ -22,7 +23,6 @@ import {
   IpWhitelistAddress,
   IpWhitelistFilters,
 } from './types';
-import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistGrid.scss';
 
 interface Props {
@@ -131,8 +131,10 @@ const IpWhitelistGrid = (props: Props) => {
 
   const handlePageChanged = () => {
     const { number = 0 } = ipWhitelistSearch;
-    const { loadMore, variables: { args: { page: { size } } } } = ipWhitelistQuery;
-    const { sorts = [], filters = {} } = state;
+    const { loadMore, variables } = ipWhitelistQuery;
+    const filters = state?.filters || {};
+    const size = variables?.args?.page?.size;
+    const sorts = state?.sorts;
 
     loadMore({
       args: {

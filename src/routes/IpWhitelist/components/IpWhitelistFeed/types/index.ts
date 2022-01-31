@@ -32,8 +32,8 @@ export interface IpWhitelistFeedsSearchArg {
   args: {
     searchBy?: string,
     auditLogType?: string,
-    creationDateFrom: string,
-    creationDateTo: string,
+    creationDateFrom?: string,
+    creationDateTo?: string,
     page: number,
   }
 }

@@ -2,11 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
+import { useLocation } from 'react-router-dom';
+import { State } from 'types';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
-import { Feed, WitelististFeedsQueryResult } from './types';
+import { Feed, WitelististFeedsQueryResult, IpWhitelistFeedFilters } from './types';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
 import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistFeed.scss';
@@ -17,6 +19,18 @@ interface Props {
 
 const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
   const { content, last, number = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
+  const { state } = useLocation<State<IpWhitelistFeedFilters>>();
+
+  const handlePageChanged = () => {
+    const { loadMore } = ipWhitelistFeedsQuery;
+    const filters = state?.filters || {};
+    loadMore({
+      args: {
+        ...filters,
+        page: number + 1,
+      },
+    });
+  };
 
   return (
     <div className="IpWhitelistFeed">
@@ -33,6 +47,9 @@ const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
           activePage={number + 1}
           last={last}
           totalPages={totalElements}
+          onPageChange={handlePageChanged}
+          lazyLoad
+          showNoResults={!ipWhitelistFeedsQuery.loading && !content?.length}
           render={(feed: Feed, key: string) => <FeedItem key={key} data={feed} />}
         />
       </div>
