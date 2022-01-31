@@ -18,17 +18,15 @@ interface Props {
 }
 
 const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
-  const { content, last, number = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
+  const { content, last, page = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
   const { state } = useLocation<State<IpWhitelistFeedFilters>>();
 
   const handlePageChanged = () => {
     const { loadMore } = ipWhitelistFeedsQuery;
     const filters = state?.filters || {};
     loadMore({
-      args: {
-        ...filters,
-        page: number + 1,
-      },
+      ...filters,
+      page: page + 1,
     });
   };
 
@@ -44,7 +42,7 @@ const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
       <div className="IpWhitelistFeed__grid">
         <ListView
           dataSource={content || []}
-          activePage={number + 1}
+          activePage={page + 1}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}
