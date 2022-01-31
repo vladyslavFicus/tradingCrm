@@ -13,7 +13,7 @@ import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import SymbolsQuery from './graphql/SymbolsQuery';
-import { SymbolEntity, Margin } from '../../types';
+import { SymbolEntity, Margin, GroupSecurity } from '../../types';
 import './GroupNewSymbolModal.scss';
 
 interface SymbolsData {
@@ -39,6 +39,7 @@ interface Props {
   symbolsQuery: SymbolsQueryResult,
   groupMargin?: Margin,
   groupMargins: Margin[],
+  groupSecurities: GroupSecurity[],
 }
 
 const validate = createValidator(
@@ -65,6 +66,7 @@ const GroupNewSymbolModal = ({
   symbolsQuery,
   groupMargin,
   groupMargins,
+  groupSecurities,
 }: Props) => {
   const { data, loading } = symbolsQuery;
   const symbolsData = data?.tradingEngineAdminSymbols?.content || [];
@@ -84,9 +86,15 @@ const GroupNewSymbolModal = ({
     value: string,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
   ) => {
-    const { symbol, percentage, swapConfigs } = symbols.find((_symbol: SymbolEntity) => _symbol.symbol === value) || {};
+    const {
+      symbol,
+      securityId,
+      percentage,
+      swapConfigs,
+    } = symbols.find((_symbol: SymbolEntity) => _symbol.symbol === value) || {};
 
     setFieldValue('symbol', symbol);
+    setFieldValue('securityId', securityId);
     setFieldValue('percentage', percentage || 0);
     setFieldValue('swapLong', swapConfigs?.long || 0);
     setFieldValue('swapShort', swapConfigs?.short || 0);
@@ -102,6 +110,7 @@ const GroupNewSymbolModal = ({
         initialValues={
           groupMargin || {
             symbol: '',
+            securityId: -1,
             percentage: 0,
             swapLong: 0,
             swapShort: 0,
@@ -131,6 +140,21 @@ const GroupNewSymbolModal = ({
             <Choose>
               <When condition={loading}>
                 <ShortLoader className="GroupNewSymbolModal__loader" />
+              </When>
+              <When condition={groupSecurities.length === 0}>
+                <ModalBody>
+                  <div className="GroupNewSymbolModal__description">
+                    {I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.CHOOSE_AT_LEAST_1_SECURITY')}
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    onClick={onCloseModal}
+                    commonOutline
+                  >
+                    {I18n.t('COMMON.CANCEL')}
+                  </Button>
+                </ModalFooter>
               </When>
               <Otherwise>
                 <ModalBody>

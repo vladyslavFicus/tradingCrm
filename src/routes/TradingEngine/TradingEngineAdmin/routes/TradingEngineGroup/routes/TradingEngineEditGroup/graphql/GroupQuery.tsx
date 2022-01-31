@@ -40,6 +40,7 @@ const REQUEST = gql`
       }
       groupMargins {
         symbol
+        securityId
         percentage
         swapShort
         swapLong

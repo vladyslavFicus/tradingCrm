@@ -19,13 +19,13 @@
       font-weight: 700;
     }
   }
-  
+
   &__edit-button {
     margin-right: 15px;
   }
 
   &__scrollableTarget {
-    height: 300px;
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     border: 1px solid #dfe4ed;

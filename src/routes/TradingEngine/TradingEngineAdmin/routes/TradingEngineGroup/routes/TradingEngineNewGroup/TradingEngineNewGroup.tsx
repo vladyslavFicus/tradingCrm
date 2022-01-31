@@ -22,6 +22,7 @@ import {
   ArchiveMaxBalance,
   DefaultLeverage,
   GroupSecurity,
+  Margin,
   Group,
 } from '../../types';
 import { groupNamePattern } from '../../constants';
@@ -65,6 +66,9 @@ const TradingEngineNewGroup = ({
             groupSecurities: group?.groupSecurities?.map((groupSecurity: GroupSecurity) => ({
               securityId: groupSecurity.security.id,
               ...omit(groupSecurity, 'security'),
+            })) || [],
+            groupMargins: group?.groupMargins?.map((groupMargin: Margin) => ({
+              ...omit(groupMargin, 'securityId'),
             })) || [],
           },
         },

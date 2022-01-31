@@ -17,7 +17,7 @@ import GroupArchivingForm from '../../components/GroupArchivingForm';
 import GroupMarginsForm from '../../components/GroupMarginsForm';
 import GroupSecuritiesGrid from '../../components/GroupSecuritiesGrid';
 import GroupSymbolsGrid from '../../components/GroupSymbolsGrid';
-import { GroupSecurity, Group } from '../../types';
+import { GroupSecurity, Margin, Group } from '../../types';
 import { groupNamePattern } from '../../constants';
 import GroupQuery from './graphql/GroupQuery';
 import EditGroupMutation from './graphql/EditGroupMutation';
@@ -69,6 +69,9 @@ const TradingEngineEditGroup = ({
             groupSecurities: group?.groupSecurities?.map((groupSecurity: GroupSecurity) => ({
               securityId: groupSecurity.security.id,
               ...omit(groupSecurity, 'security'),
+            })) || [],
+            groupMargins: group?.groupMargins?.map((groupMargin: Margin) => ({
+              ...omit(groupMargin, 'securityId'),
             })) || [],
           },
         },

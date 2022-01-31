@@ -3697,6 +3697,7 @@
         "TITLE": "Add new symbol",
         "EDIT_TITLE": "Edit symbol",
         "DESCRIPTION": "Setting swaps and margin calculation parameters for individual symbol.",
+        "CHOOSE_AT_LEAST_1_SECURITY": "Choose at least 1 security in table above to add new symbol override.",
         "SYMBOL": "Symbol",
         "LONG_POSITION_SWAP": "Long position swap",
         "SHORT_POSITION_SWAP": "Short position swap",
@@ -4370,8 +4371,8 @@
           }
         }
       },
-      "SYMBOLS_TABLE": {
-        "TITLE": "Symbols",
+      "SYMBOL_OVERRIDES_TABLE": {
+        "TITLE": "Symbol overrides",
         "SYMBOL": "Symbol",
         "LONG": "Long",
         "SHORT": "Short",
