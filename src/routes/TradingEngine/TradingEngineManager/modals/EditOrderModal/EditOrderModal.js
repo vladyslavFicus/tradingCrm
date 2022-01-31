@@ -229,14 +229,12 @@ class EditOrderModal extends PureComponent {
           onSuccess();
           onCloseModal();
         } catch (e) {
-          const { error } = parseErrors(e);
+          const { message } = parseErrors(e);
 
           notify({
             level: 'error',
             title: I18n.t('COMMON.ERROR'),
-            message: error === 'error.trading.account.free-margin.not-enough'
-              ? I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.NOT_ENOUGH_FREE_MARGIN')
-              : I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.PENDING_FAILED'),
+            message,
           });
         }
       },

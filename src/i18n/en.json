@@ -1872,6 +1872,18 @@
       "max-file-size": {
         "exceeded": "File must be less than %{size} MB"
       }
+    },
+    "trading": {
+      "group": {
+        "hedge": {
+          "prohibited": "Hedge is prohibited for the account group"
+        }
+      },
+      "account": {
+        "free-margin": {
+          "not-enough": "Not enough free margin"
+        }
+      }
     }
   },
   "lead": {
@@ -3507,9 +3519,7 @@
         "SELL_PNL": "Sell P&L",
         "BUY_PNL": "Buy P&L",
         "NOTIFICATION": {
-          "SUCCESS": "Order has been successfully created",
-          "FAILED": "Order creation failed",
-          "NOT_ENOUGH_FREE_MARGIN": "Not enough free margin"
+          "SUCCESS": "Order has been successfully created"
         }
       },
       "COMMON_NEW_ORDER_MODAL": {
@@ -3542,9 +3552,7 @@
           "CREDIT": "Credit"
         },
         "NOTIFICATION": {
-          "SUCCESS": "Order has been successfully created",
-          "FAILED": "Order creation failed",
-          "NOT_ENOUGH_FREE_MARGIN": "Not enough free margin"
+          "SUCCESS": "Order has been successfully created"
         }
       },
       "EDIT_ORDER_MODAL": {
@@ -3608,9 +3616,7 @@
           "CLOSE_FAILED": "Order close failed",
           "CANCEL_SUCCESS": "Order has been successfully canceled",
           "CANCEL_FAILED": "Order cancel failed",
-          "PENDING_SUCCESS": "Pending order has been successfully activated",
-          "PENDING_FAILED": "Pending order activation failed",
-          "NOT_ENOUGH_FREE_MARGIN": "Not enough free margin"
+          "PENDING_SUCCESS": "Pending order has been successfully activated"
         },
         "REASONS": {
           "CLIENT": "Client",
