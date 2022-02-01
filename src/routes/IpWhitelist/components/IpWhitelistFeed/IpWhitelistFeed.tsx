@@ -44,7 +44,6 @@ const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
       <div className="IpWhitelistFeed__grid">
         <ListView
           dataSource={content || []}
-          activePage={page + 1}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}
