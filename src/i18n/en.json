@@ -3853,6 +3853,10 @@
     },
     "EDIT_SYMBOL": {
       "TITLE": "Edit symbol",
+      "INFO_MESSAGE": {
+        "SOURCE_SYMBOL": "Changing the settings on this symbol will change the settings of digits, type, base currency, quote currency, sessions on dependent symbols.",
+        "DEPENDENT_SYMBOL": "For this symbol, such parameters as digits, type, base currency, quote currency, sessions are determined by the source symbol."
+      },
       "NOTIFICATION": {
         "SUCCESS": "Symbol has been successfully updated",
         "FAILED": "Symbol update failed"
