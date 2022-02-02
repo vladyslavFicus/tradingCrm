@@ -197,6 +197,29 @@ class LeadsGrid extends PureComponent {
     );
   }
 
+  renderLastCall = ({ lastCall }) => {
+    const { date, callSystem } = lastCall || {};
+
+    return (
+      <Choose>
+        <When condition={lastCall}>
+          <div className="LeadsGrid__text-primary">
+            {moment.utc(date).local().format('DD.MM.YYYY')}
+          </div>
+          <div className="LeadsGrid__text-secondary">
+            {moment.utc(date).local().format('HH:mm:ss')}
+          </div>
+          <div className="LeadsGrid__text-secondary">
+            {callSystem}
+          </div>
+        </When>
+        <Otherwise>
+          <GridEmptyValue />
+        </Otherwise>
+      </Choose>
+    );
+  }
+
   renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
     <>
       <div className={classNames('LeadsGrid__status-title', leadStatuses[status].color)}>
@@ -280,6 +303,11 @@ class LeadsGrid extends PureComponent {
             header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
             sortBy="lastNote.changedAt"
             render={this.renderLastNote}
+          />
+          <Column
+            header={I18n.t('LEADS.GRID_HEADER.LAST_CALL')}
+            sortBy="lastCall.date"
+            render={this.renderLastCall}
           />
           <Column
             header={I18n.t('LEADS.GRID_HEADER.STATUS')}
