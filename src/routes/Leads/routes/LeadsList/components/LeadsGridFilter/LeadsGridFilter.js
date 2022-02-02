@@ -337,8 +337,8 @@ class LeadsGridFilter extends PureComponent {
                   label={I18n.t(attributeLabels.lastCallDateRange)}
                   component={FormikDateRangePicker}
                   fieldsNames={{
-                    from: 'lastCallDateRange.from',
-                    to: 'lastCallDateRange.to',
+                    from: 'lastCallDateFrom',
+                    to: 'lastCallDateTo',
                   }}
                   anchorDirection="right"
                   withFocus
