@@ -9,7 +9,7 @@ export interface Props {
 
 const REQUEST = gql`mutation IpWhitelist_AddIpMutation(
    $ip: String!
-   $description: String
+   $description: String!
 ) {
   ipWhitelist {
     add(

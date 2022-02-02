@@ -9,7 +9,7 @@ interface Props {
 
 const REQUEST = gql`mutation IpWhitelist_EditIpMutation(
    $uuid: String!
-   $description: String
+   $description: String!
 ) {
   ipWhitelist {
     edit(
