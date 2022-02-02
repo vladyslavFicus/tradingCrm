@@ -5,8 +5,10 @@ import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import EventEmitter, { CLIENT_RELOAD, CALLBACK_CREATED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
+import permissions from 'config/permissions';
 import CreateCallbackModal from 'modals/CreateCallbackModal';
 import TabHeader from 'components/TabHeader';
+import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';
@@ -54,13 +56,15 @@ class ClientCallbacksTab extends PureComponent {
           title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}
           className="ClientCallbacksTab__header"
         >
-          <Button
-            small
-            commonOutline
-            onClick={this.handleOpenAddCallbackModal}
-          >
-            {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
-          </Button>
+          <PermissionContent permissions={permissions.CALLBACKS.CREATE_CALLBACK}>
+            <Button
+              small
+              commonOutline
+              onClick={this.handleOpenAddCallbackModal}
+            >
+              {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
+            </Button>
+          </PermissionContent>
         </TabHeader>
 
         <ClientCallbacksGridFilter handleRefetch={clientCallbacksQuery.refetch} />

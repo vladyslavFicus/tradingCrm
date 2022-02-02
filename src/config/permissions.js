@@ -161,6 +161,9 @@ export default {
   },
   CALLBACKS: {
     LIST: 'callback.searchCallbacks',
+    CREATE_CALLBACK: 'callback.createCallback',
+    DELETE_CALLBACK: 'callback.deleteCallback',
+    UPDATE_CALLBACK: 'callback.updateCallback',
   },
   CLIENTS_DISTRIBUTION: {
     LIST: 'clients-distributor.searchRules',
