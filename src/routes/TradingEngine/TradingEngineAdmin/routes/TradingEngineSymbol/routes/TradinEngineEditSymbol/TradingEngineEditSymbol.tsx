@@ -220,7 +220,7 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
                       </span>
                       <div className="TradingEngineEditSymbol__info-message">
                         <Choose>
-                          <When condition={symbolsSources.length > 0}>
+                          <When condition={!!source}>
                             {I18n.t('TRADING_ENGINE.EDIT_SYMBOL.INFO_MESSAGE.DEPENDENT_SYMBOL')}
                           </When>
                           <Otherwise>
