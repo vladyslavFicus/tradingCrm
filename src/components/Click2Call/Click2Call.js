@@ -30,7 +30,7 @@ const TOOLTIP_STYLE = {
 
 const debounceDelay = 3000;
 
-const sendAnalytics = ({ uuid, providerName }) => Trackify.click('CLICK_TO_CALL', {
+const sendAnalytics = ({ uuid, type, providerName }) => Trackify.click(`CLICK_TO_CALL_${type}`, {
   eventLabel: uuid,
   eventValue: providerName,
 });
@@ -72,7 +72,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.clickToCall({ variables: { uuid, field, type } });
-      sendAnalytics({ uuid, providerName: 'DIDLOGIC' });
+      sendAnalytics({ uuid, type, providerName: 'DIDLOGIC' });
     } catch (e) {
       notify({
         level: 'error',
@@ -87,7 +87,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.asteriskCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'ASTERISK' });
+      sendAnalytics({ uuid, type, providerName: 'ASTERISK' });
     } catch (e) {
       notify({
         level: 'error',
@@ -102,7 +102,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.commpeakCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'COMMPEAK' });
+      sendAnalytics({ uuid, type, providerName: 'COMMPEAK' });
     } catch (e) {
       notify({
         level: 'error',
@@ -117,7 +117,7 @@ class Click2Call extends PureComponent {
 
     try {
       await this.props.coperatoCreateCall({ variables: { uuid, field, type, prefix } });
-      sendAnalytics({ uuid, providerName: 'COPERATO' });
+      sendAnalytics({ uuid, type, providerName: 'COPERATO' });
     } catch (e) {
       notify({
         level: 'error',

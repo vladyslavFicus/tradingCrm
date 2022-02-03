@@ -60,6 +60,10 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
           }
         }
       }
+      lastCall {
+        date
+        callSystem
+      }
     }
   }
 }`;

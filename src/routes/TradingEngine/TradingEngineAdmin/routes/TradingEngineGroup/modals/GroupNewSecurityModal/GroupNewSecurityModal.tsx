@@ -57,7 +57,7 @@ const GroupNewSecurityModal = ({
   };
 
   const handleSecurityChange = (
-    value: string,
+    value: number,
     setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
   ) => {
     const { id, name } = securities.find(security => security.id === value) || {};
@@ -74,7 +74,7 @@ const GroupNewSecurityModal = ({
     >
       <Formik
         initialValues={{
-          id: '',
+          id: -1, // Should be -1 here because security with id=0 is available and we shouldn't choose it by default
           name: '',
         }}
         validate={validate}
@@ -112,7 +112,7 @@ const GroupNewSecurityModal = ({
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
                     searchable
-                    customOnChange={(id: string) => handleSecurityChange(id, setFieldValue)}
+                    customOnChange={(id: number) => handleSecurityChange(id, setFieldValue)}
                   >
                     {securities.map(({ id, name }) => (
                       <option key={id} value={id}>

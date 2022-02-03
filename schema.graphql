@@ -1021,7 +1021,8 @@ type PaymentMutation {
   changeOriginalAgent(agentId: String, agentName: String, paymentId: String!): Boolean
   changePaymentMethod(paymentId: String!, paymentMethod: String): Boolean
   changePaymentStatus(paymentId: String!, paymentStatus: String): Boolean
-  createPayment(accountUUID: String, amount: Float!, country: String, expirationDate: String, externalReference: String, login: Int, paymentMethod: String, paymentType: String!, profileUUID: String, source: String, target: String): Payment
+  changePaymentSystem(paymentId: String!, paymentSystem: String!): Boolean
+  createPayment(accountUUID: String, amount: Float!, country: String, expirationDate: String, externalReference: String, login: Int, paymentMethod: String, paymentSystem: String, paymentType: String!, profileUUID: String, source: String, target: String): Payment
   disableShowFtdToAffiliate(profileUuid: String!): Boolean
   enableShowFtdToAffiliate(profileUuid: String!): Boolean
 }
@@ -1050,6 +1051,10 @@ type PaymentStatistic__Entry {
 type PaymentStatistic__Total {
   totalAmount: Float
   totalCount: Int
+}
+
+type PaymentSystem {
+  paymentSystem: String
 }
 
 type Payment__ClientProfile {
@@ -1366,6 +1371,7 @@ type Query {
   partner(uuid: String!): Partner
   partners(brandId: String, country: String, page: Page__Input, registrationDateFrom: String, registrationDateTo: String, searchBy: String, status: String): Pageable__Partner
   paymentMethods: [String]
+  paymentSystems: [PaymentSystem]
   payments(args: PaymentSearch__Input): Pageable__Payment
   paymentsStatistic(additionalStatistics: [PaymentStatisticDateRange__Input], dateFrom: String, dateTo: String, detalization: StatisticDetalization__Enum, paymentStatus: String, paymentType: String, profileId: String): PaymentStatistic
   permission: [String]
@@ -1706,6 +1712,7 @@ type TradingEngineAdminSymbolSearch {
   bidSpread: Float
   digits: Int
   percentage: Float
+  securityId: Int
   securityName: String
   stopsLevel: Float
   swapConfigs: TradingEngineAdminSymbolSearch__SwapConfigs
@@ -1758,23 +1765,24 @@ type TradingEngineGroup {
   defaultLeverage: Int
   description: String
   enable: Boolean
-  groupMargins: [TradingEngineGroup__GroupMargins]
+  groupMargins: [TradingEngineGroup__GroupMargin]
   groupName: String!
-  groupSecurities: [TradingEngineGroup__GroupSecurities]
+  groupSecurities: [TradingEngineGroup__GroupSecurity]
   hedgeProhibited: Boolean
   marginCallLevel: Int
   stopoutLevel: Int
   useSwap: Boolean
 }
 
-type TradingEngineGroup__GroupMargins {
+type TradingEngineGroup__GroupMargin {
   percentage: Float
+  securityId: Int
   swapLong: Float
   swapShort: Float
   symbol: String
 }
 
-type TradingEngineGroup__GroupSecurities {
+type TradingEngineGroup__GroupSecurity {
   commissionBase: Float
   commissionLots: Commission__Lots__Enum
   commissionType: Commission__Type__Enum
@@ -2648,6 +2656,7 @@ input TradingEngineSearch__Time__Input {
 
 input TradingEngineSymbols__Input {
   page: Page__Input
+  securityNames: [String]
   symbolNames: [String]
 }
 

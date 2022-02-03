@@ -33,9 +33,17 @@ type Props = {
   onCloseModal: () => void,
 };
 
-const validate = createValidator({ ip: ['required', 'IP'] }, {
-  ip: 'IP_WHITELIST.MODALS.ADD_IP_MODAL.IP_ADDRESS',
-}, false);
+const validate = createValidator(
+  {
+    ip: ['required', 'IP'],
+    description: ['required', 'string', 'min:3'],
+  },
+  {
+    ip: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.IP_ADDRESS'),
+    description: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.DESCRIPTION'),
+  },
+  false,
+);
 
 const WhiteListUpdateDescriptionModal = ({ item, isOpen, notify, onSuccess, editIp, onCloseModal }: Props) => {
   const handleSubmit = async ({ description, uuid }: IpWhitelistAddress) => {

@@ -32,6 +32,7 @@ const attributeLabels = {
   registrationDateRange: 'LEADS.FILTER.REGISTRATION_DATE_RANGE',
   lastNoteDateRange: 'LEADS.FILTER.LAST_NOTE_DATE_RANGE',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
+  lastCallDateRange: 'LEADS.FILTER.LAST_CALL_DATE_RANGE',
 };
 
 class LeadsGridFilter extends PureComponent {
@@ -327,6 +328,19 @@ class LeadsGridFilter extends PureComponent {
                     from: 'lastNoteDateFrom',
                     to: 'lastNoteDateTo',
                   }}
+                  withFocus
+                />
+
+                <Field
+                  name="lastCallDateRange"
+                  className="LeadsGridFilter__field LeadsGridFilter__date-range"
+                  label={I18n.t(attributeLabels.lastCallDateRange)}
+                  component={FormikDateRangePicker}
+                  fieldsNames={{
+                    from: 'lastCallDateFrom',
+                    to: 'lastCallDateTo',
+                  }}
+                  anchorDirection="right"
                   withFocus
                 />
 

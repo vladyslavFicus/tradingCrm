@@ -29,13 +29,11 @@ export interface IpWitelististFeedsData {
 }
 
 export interface IpWhitelistFeedsSearchArg {
-  args: {
-    searchBy?: string,
-    auditLogType?: string,
-    creationDateFrom: string,
-    creationDateTo: string,
-    page: number,
-  }
+  searchBy?: string,
+  auditLogType?: string,
+  creationDateFrom?: string,
+  creationDateTo?: string,
+  page: number,
 }
 
 export interface WitelististFeedsQueryResult extends Query<IpWitelististFeedsData, IpWhitelistFeedsSearchArg> { }

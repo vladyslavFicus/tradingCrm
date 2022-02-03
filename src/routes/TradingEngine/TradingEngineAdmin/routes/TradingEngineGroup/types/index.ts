@@ -1,5 +1,5 @@
 export interface Security {
-  id: string,
+  id: number,
   name: string,
 }
 
@@ -95,12 +95,14 @@ export interface SwapConfigs {
 export interface SymbolEntity {
   symbolId: number,
   symbol: string,
+  securityId: number,
   percentage: number,
   swapConfigs: SwapConfigs
 }
 
 export interface Margin {
   symbol: string,
+  securityId: number,
   percentage: number,
   swapShort: number,
   swapLong: number,
