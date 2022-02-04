@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { compose, withApollo } from 'react-apollo';
+import { withApollo } from '@apollo/client/react/hoc';
+import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';

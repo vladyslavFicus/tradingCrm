@@ -71,6 +71,7 @@ class HierarchyItemUser extends PureComponent {
                   target={`branch-${branchUUID}-${uuid}`}
                   placement="bottom"
                   delay={{ show: 100 }}
+                  fade={false}
                 >
                   {authorities.map(_authority => (
                     <div

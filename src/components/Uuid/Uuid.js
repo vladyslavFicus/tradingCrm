@@ -4,6 +4,7 @@ import CopyToClipboard from '../CopyToClipboard';
 import { shortify } from '../../utils/uuid';
 
 const Uuid = ({
+  id,
   uuid: inputUUID,
   uuidPrefix,
   uuidPostfix,
@@ -30,12 +31,13 @@ const Uuid = ({
       notificationMessage={notificationMessage}
       className={className}
     >
-      <span>{title || shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}</span>
+      <span id={id}>{title || shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}</span>
     </CopyToClipboard>
   );
 };
 
 Uuid.propTypes = {
+  id: PropTypes.string,
   uuid: PropTypes.string.isRequired,
   uuidPrefix: PropTypes.string,
   uuidPostfix: PropTypes.string,
@@ -50,6 +52,7 @@ Uuid.propTypes = {
 };
 
 Uuid.defaultProps = {
+  id: null,
   uuidPrefix: null,
   uuidPostfix: null,
   uuidPartsCount: 2,

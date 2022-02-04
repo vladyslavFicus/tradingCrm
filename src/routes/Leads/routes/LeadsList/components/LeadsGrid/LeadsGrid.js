@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { NetworkStatus } from 'apollo-client';
+import { NetworkStatus } from '@apollo/client';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
@@ -43,7 +43,7 @@ class LeadsGrid extends PureComponent {
       },
       leadsQuery: {
         data,
-        loadMore,
+        fetchMore,
         variables,
       },
     } = this.props;
@@ -53,13 +53,15 @@ class LeadsGrid extends PureComponent {
     const sorts = state?.sorts;
     const size = variables?.args?.page?.size;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: currentPage + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          page: {
+            from: currentPage + 1,
+            size,
+            sorts,
+          },
         },
       },
     });
@@ -185,6 +187,7 @@ class LeadsGrid extends PureComponent {
               target={`note-${uuid}`}
               placement="bottom-start"
               delay={{ show: 350, hide: 250 }}
+              fade={false}
             >
               {content}
             </UncontrolledTooltip>

@@ -32,13 +32,15 @@ class NotificationsGrid extends PureComponent {
 
     const filters = location.state?.filters || {};
 
-    notificationCenterQuery.loadMore({
-      args: {
-        ...filters,
-        hierarchical: true,
-        page: {
-          from: currentPage + 1,
-          size: 20,
+    notificationCenterQuery.fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          hierarchical: true,
+          page: {
+            from: currentPage + 1,
+            size: 20,
+          },
         },
       },
     });

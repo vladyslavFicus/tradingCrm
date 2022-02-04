@@ -174,7 +174,7 @@ PropTypes.paymentEntity = PropTypes.shape({
   paymentMetadata: PropTypes.shape({
     clientIp: PropTypes.string,
     mobile: PropTypes.bool,
-    userAgent: PropTypes.string.isRequired,
+    userAgent: PropTypes.string,
     country: PropTypes.string,
   }),
   originalAgent: PropTypes.shape({

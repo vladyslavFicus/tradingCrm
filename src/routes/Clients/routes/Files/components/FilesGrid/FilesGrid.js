@@ -20,7 +20,7 @@ class FilesGrid extends PureComponent {
     const {
       filesQuery,
       filesQuery: {
-        loadMore,
+        fetchMore,
         loading,
       },
     } = this.props;
@@ -28,7 +28,7 @@ class FilesGrid extends PureComponent {
     const page = get(filesQuery, 'data.files.number') || 0;
 
     if (!loading) {
-      loadMore(page + 1);
+      fetchMore({ variables: { page: page + 1 } });
     }
   };
 

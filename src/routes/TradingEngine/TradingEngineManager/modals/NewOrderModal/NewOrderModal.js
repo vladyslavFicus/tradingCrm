@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, withApollo } from 'react-apollo';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
 import { parseErrors, withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import Hotkeys from 'react-hot-keys';

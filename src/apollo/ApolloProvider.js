@@ -1,20 +1,26 @@
 import React, { PureComponent } from 'react';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { split, from, ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
-import { BatchHttpLink } from 'apollo-link-batch-http';
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider as OriginalApolloProvider,
+  createHttpLink,
+  split,
+  from,
+} from '@apollo/client';
+import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { onError } from '@apollo/client/link/error';
+import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries';
 import { createUploadLink } from 'apollo-upload-client';
-import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
-import { onError } from 'apollo-link-error';
-import { getMainDefinition } from 'apollo-utilities';
-import { ApolloProvider as OriginalApolloProvider, compose } from 'react-apollo';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { sha256 } from 'crypto-hash/browser';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import { getGraphQLUrl, getGraphQLSubscriptionUrl, getVersion } from 'config';
 import { withModals } from 'hoc';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
 import onRefreshToken from 'apollo/utils/onRefreshToken';
+import inMemoryCache from 'apollo/utils/inMemoryCache';
 import AuthLink from 'apollo/links/AuthLink';
 import WebSocketLink from 'apollo/links/WebSocketLink';
 import { withStorage } from 'providers/StorageProvider';
@@ -113,20 +119,27 @@ class ApolloProvider extends PureComponent {
     });
 
     // ========= Persisted query link ========= //
-    const persistedQueryLink = createPersistedQueryLink();
+    const persistedQueryLink = createPersistedQueryLink({ sha256 });
 
     return new ApolloClient({
       link: from([createOmitTypenameLink, authLink, errorLink, persistedQueryLink, transportLink]),
-      cache: new InMemoryCache(),
+      cache: inMemoryCache,
 
       // Query deduplication should be turned off because request cancellation not working with turned it on
       // It isn't good way, but no any solution to cancel *-ALL-* pending requests for this time
       // https://github.com/apollographql/apollo-client/issues/4150#issuecomment-487412557
       queryDeduplication: false,
+      connectToDevTools: true,
+      defaultOptions: {
+        watchQuery: {
+          fetchPolicy: 'cache-first',
+          nextFetchPolicy: 'cache-only',
+        },
+      },
     });
   }
 
-  client = this.constructor.createClient(this.props);
+  client = ApolloProvider.createClient(this.props);
 
   render() {
     const { modals } = this.props;

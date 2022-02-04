@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
@@ -46,7 +46,6 @@ class PaymentDetailsModal extends PureComponent {
     }).isRequired,
     changeCreationTime: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
-    paymentMethod: PropTypes.string.isRequired,
   };
 
   onAcceptSuccess = () => {
@@ -80,13 +79,14 @@ class PaymentDetailsModal extends PureComponent {
   };
 
   renderChangeOriginalAgentBlock = () => {
-    const { payment: { paymentId, originalAgent } } = this.props;
+    const { payment: { paymentId, originalAgent }, onSuccess } = this.props;
 
     return (
       <div className="PaymentDetailsModal__block PaymentDetailsModal__one-third">
         <ChangeOriginalAgent
           paymentId={paymentId}
           originalAgent={originalAgent}
+          onSuccess={onSuccess}
         />
       </div>
     );
@@ -266,6 +266,7 @@ class PaymentDetailsModal extends PureComponent {
             placement="bottom"
             target={tooltipId}
             delay={{ show: 350, hide: 250 }}
+            fade={false}
           >
             {userAgent || 'User agent not defined'}
           </UncontrolledTooltip>

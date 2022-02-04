@@ -3,7 +3,7 @@ import { set, cloneDeep } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { NetworkStatus } from 'apollo-client';
+import { NetworkStatus } from '@apollo/client';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -34,14 +34,16 @@ class NotificationCenterTable extends PureComponent {
     const {
       notifications: {
         data,
-        loadMore,
+        fetchMore,
         variables: { args },
       },
     } = this.props;
 
     const page = data?.notificationCenter?.number || 0;
 
-    loadMore(set({ args: cloneDeep(args) }, 'args.page.from', page + 1));
+    fetchMore({
+      variables: set({ args: cloneDeep(args) }, 'args.page.from', page + 1),
+    });
   };
 
   handleSelectError = (select) => {

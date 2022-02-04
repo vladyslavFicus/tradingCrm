@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';

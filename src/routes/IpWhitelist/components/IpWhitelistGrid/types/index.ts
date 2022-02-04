@@ -25,4 +25,4 @@ export interface IpWhitelistSearchArg {
   }
 }
 
-export interface WitelististSearchQueryResult extends Query<IpWitelististSearchData, IpWhitelistSearchArg> { }
+export interface IpWhitelistSearchQueryResult extends Query<IpWitelististSearchData, IpWhitelistSearchArg> { }

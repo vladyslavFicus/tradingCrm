@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import Hotkeys from 'react-hot-keys';
 import { withRouter } from 'react-router-dom';
 import { withLazyStreams } from 'rsocket';
@@ -49,7 +49,7 @@ class TradingEngineOrdersGrid extends PureComponent {
       },
       ordersQuery: {
         data,
-        loadMore,
+        fetchMore,
         variables,
       },
     } = this.props;
@@ -59,14 +59,16 @@ class TradingEngineOrdersGrid extends PureComponent {
     const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
 
-    loadMore({
-      args: {
-        orderStatuses: ['PENDING', 'OPEN'],
-        ...filters,
-        page: {
-          from: currentPage + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          orderStatuses: ['PENDING', 'OPEN'],
+          ...filters,
+          page: {
+            from: currentPage + 1,
+            size,
+            sorts,
+          },
         },
       },
     });

@@ -18,7 +18,7 @@ class NotificationCenterForm extends PureComponent {
     this.props.onSubmit(notificationTypes, read);
   };
 
-  onReset = () => {
+  handleReset = () => {
     this.props.onSubmit([]);
   };
 
@@ -28,12 +28,11 @@ class NotificationCenterForm extends PureComponent {
     return (
       <Formik
         onSubmit={this.onSubmit}
-        onReset={this.onReset}
         initialValues={{
           notificationTypes: [],
         }}
       >
-        {({ dirty, handleReset }) => (
+        {({ dirty }) => (
           <Form className={classNames('NotificationCenterForm', className)}>
             <div className="NotificationCenterForm__field">
               <Field
@@ -70,7 +69,7 @@ class NotificationCenterForm extends PureComponent {
             <div className="NotificationCenterForm__button-group">
               <Button
                 className="NotificationCenterForm__button"
-                onClick={handleReset}
+                onClick={this.handleReset}
                 disabled={!dirty}
                 primary
               >

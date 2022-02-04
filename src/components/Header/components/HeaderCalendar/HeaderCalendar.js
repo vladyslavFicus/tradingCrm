@@ -31,14 +31,22 @@ class HeaderCalendar extends PureComponent {
             <i className="fa fa-calendar" />
           </button>
           <Popover
-            className="HeaderCalendar__popover"
+            popperClassName="HeaderCalendar__popper"
             toggle={this.handleToggleState}
             target="id-toggle-button"
             placement="bottom"
             isOpen={isOpen}
             trigger="legacy"
+            modifiers={[{
+              name: 'preventOverflow',
+              options: {
+                altAxis: true,
+                padding: 10,
+              },
+            }]}
           >
             <CallbacksCalendar
+              connectionKey="HEADER_CALLBACKS_CALENDAR"
               calendarClassName="HeaderCalendar__view"
               componentRef={(ref) => { this.callbacksCalendar = ref; }}
             />

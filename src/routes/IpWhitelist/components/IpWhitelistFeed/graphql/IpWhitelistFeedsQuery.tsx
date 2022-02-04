@@ -1,6 +1,6 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 import { LocationState } from 'types';
 import { getBrand } from 'config';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';

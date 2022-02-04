@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
@@ -32,7 +32,6 @@ class FileGrid extends PureComponent {
     verificationType: PropTypes.string.isRequired,
     verificationStatus: PropTypes.string,
     documentType: PropTypes.string.isRequired,
-    handlePageChanged: PropTypes.func.isRequired,
     onStatusActionClick: PropTypes.func.isRequired,
     onVerificationTypeActionClick: PropTypes.func.isRequired,
     onChangeFileStatusActionClick: PropTypes.func.isRequired,
@@ -273,7 +272,6 @@ class FileGrid extends PureComponent {
       data,
       verificationType,
       verificationStatus,
-      handlePageChanged,
     } = this.props;
 
     return (
@@ -287,10 +285,7 @@ class FileGrid extends PureComponent {
       >
         {this.renderGridHeader()}
 
-        <Table
-          items={data}
-          handlePageChanged={handlePageChanged}
-        >
+        <Table items={data}>
           <Column
             header={I18n.t('FILES.GRID.COLUMN.NAME')}
             render={this.renderFileName}

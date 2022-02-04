@@ -1,4 +1,4 @@
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink } from '@apollo/client';
 import AuthInjectTokenLink from './AuthInjectTokenLink';
 import AuthRefreshTokenLink from './AuthRefreshTokenLink';
 

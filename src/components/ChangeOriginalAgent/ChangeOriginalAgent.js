@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
@@ -37,6 +37,7 @@ class ChangeOriginalAgent extends PureComponent {
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
+    onSuccess: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -44,7 +45,7 @@ class ChangeOriginalAgent extends PureComponent {
   };
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
-    const { paymentId, notify, changeOriginalAgent } = this.props;
+    const { paymentId, notify, changeOriginalAgent, onSuccess } = this.props;
     const operatorsList = this.getOperatorsList();
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
@@ -64,6 +65,7 @@ class ChangeOriginalAgent extends PureComponent {
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
 
+      onSuccess();
       resetForm({ values: { agentId } });
     } catch (e) {
       notify({

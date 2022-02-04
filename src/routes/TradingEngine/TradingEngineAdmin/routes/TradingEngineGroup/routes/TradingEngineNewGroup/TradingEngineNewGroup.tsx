@@ -5,7 +5,7 @@ import { omit } from 'lodash';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Formik, Form, FormikProps } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
-import { MutationResult, MutationOptions } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { getBrand } from 'config';
 import { withNotifications } from 'hoc';
 import { Notify, LevelType } from 'types/notify';
@@ -31,7 +31,7 @@ import './TradingEngineNewGroup.scss';
 
 interface Props {
   notify: Notify,
-  createGroup: (options: MutationOptions) => MutationResult<{ createGroup: null }>,
+  createGroup: (options: BaseMutationOptions) => MutationResult<{ createGroup: null }>,
 }
 
 const validator = createValidator(

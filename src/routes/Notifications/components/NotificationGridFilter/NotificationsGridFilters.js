@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { intersection } from 'lodash';
 import { Formik, Form, Field } from 'formik';
@@ -120,8 +120,8 @@ class NotificationsFilters extends PureComponent {
       >
         {({ values, isSubmitting, resetForm, dirty }) => {
           const desksUuids = values.operatorDesks || [];
-          const desks = desksAndTeamsQuery.data.userBranches?.DESK || [];
-          const teams = desksAndTeamsQuery.data.userBranches?.TEAM || [];
+          const desks = desksAndTeamsQuery.data?.userBranches?.DESK || [];
+          const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
           const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const operatorsOptions = this.filterOperators(values);

@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';

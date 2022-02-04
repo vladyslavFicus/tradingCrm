@@ -1,6 +1,6 @@
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';

@@ -33,7 +33,7 @@ class RangeGroup extends PureComponent {
     return (
       <div className={classNames('form-group', className)}>
         <FieldLabel label={label} addon={labelAddon} />
-        <div className="row no-gutters range-group">
+        <div className="row g-0 range-group">
           <div className="col">{fromElement}</div>
           <div
             className={classNames(

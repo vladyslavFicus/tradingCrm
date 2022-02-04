@@ -74,7 +74,7 @@ class FilterSets extends PureComponent {
             <i className="FilterSets__head-icon icon icon-arrow-down" />
           </DropdownToggle>
 
-          <DropdownMenu className="FilterSets__dropdown" right>
+          <DropdownMenu className="FilterSets__dropdown" end>
             <FilterSetsDropdown
               filterSetsList={filterSetsList}
               activeFilterSet={activeFilterSet}

@@ -84,12 +84,11 @@ class MiniProfile extends PureComponent {
       >
         {isHovered && (
           <Popover
-            placement={placement}
             isOpen
-            target={this.target}
-            className="mini-profile-popover"
-            container={this.target}
             hideArrow
+            placement={placement}
+            target={this.target}
+            popperClassName="mini-profile-popover"
             trigger="legacy"
           >
             <PopoverBody>{this.popoverView()}</PopoverBody>

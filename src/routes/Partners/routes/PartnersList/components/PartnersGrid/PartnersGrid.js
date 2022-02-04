@@ -23,17 +23,19 @@ class PartnersGrid extends PureComponent {
     const {
       partnersQuery: {
         variables,
-        loadMore,
+        fetchMore,
         data,
       },
     } = this.props;
 
     const page = data?.partners?.number || 0;
 
-    loadMore({
-      page: {
-        ...variables.page,
-        from: page + 1,
+    fetchMore({
+      variables: {
+        page: {
+          ...variables.page,
+          from: page + 1,
+        },
       },
     });
   };

@@ -12,6 +12,7 @@
   &:disabled, [disabled], :disabled:hover, [disabled]:hover {
     background: #D3D3D3;
     color: #fff;
+    pointer-events: none;
   }
 
   &:focus {

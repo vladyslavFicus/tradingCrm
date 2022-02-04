@@ -71,8 +71,7 @@ class PinnedNotes extends PureComponent {
         targetUUID={targetUUID}
         targetType={targetType}
         note={item}
-        placement="bottom-start"
-        hideArrow
+        placement="top-start"
       >
         <div className="PinnedNotes__item">
           <If condition={changedBy}>

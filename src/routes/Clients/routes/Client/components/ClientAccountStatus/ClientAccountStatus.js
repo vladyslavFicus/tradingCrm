@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';

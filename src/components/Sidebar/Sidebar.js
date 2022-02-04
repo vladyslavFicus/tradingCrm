@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { TimelineLite as TimeLineLite } from 'gsap';
 import PropTypes from 'constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from 'config/menu';

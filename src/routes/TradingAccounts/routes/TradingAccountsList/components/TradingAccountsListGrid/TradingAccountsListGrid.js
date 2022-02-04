@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
@@ -44,7 +44,7 @@ class TradingAccountsListGrid extends PureComponent {
       },
       tradingAccountsData,
       tradingAccountsData: {
-        loadMore,
+        fetchMore,
         variables,
       },
     } = this.props;
@@ -52,14 +52,16 @@ class TradingAccountsListGrid extends PureComponent {
     const page = get(tradingAccountsData, 'data.tradingAccounts.number') || 0;
     const filters = state?.filters;
     const sorts = state?.sorts;
-    const size = variables?.args?.page?.size;
+    const size = variables?.page?.size;
 
-    loadMore({
-      ...filters,
-      page: {
-        from: page + 1,
-        size,
-        sorts,
+    fetchMore({
+      variables: {
+        ...filters,
+        page: {
+          from: page + 1,
+          size,
+          sorts,
+        },
       },
     });
   };

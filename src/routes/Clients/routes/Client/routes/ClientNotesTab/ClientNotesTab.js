@@ -46,11 +46,15 @@ class ClientNotesTab extends PureComponent {
     const {
       notesQuery: {
         data,
-        loadMore,
+        fetchMore,
       },
     } = this.props;
 
-    loadMore(data.notes.number + 1);
+    fetchMore({
+      variables: {
+        page: data.notes.number + 1,
+      },
+    });
   };
 
   renderItem = note => <NoteItem note={note} />;

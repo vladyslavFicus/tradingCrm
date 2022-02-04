@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { MutationOptions, MutationResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
@@ -29,7 +29,7 @@ type Props = {
   isOpen: boolean,
   notify: Notify,
   onSuccess: () => void,
-  editIp: (options: MutationOptions) => MutationResult<IpWhitelistEditResponse>,
+  editIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistEditResponse>,
   onCloseModal: () => void,
 };
 

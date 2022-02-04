@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';

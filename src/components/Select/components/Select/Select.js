@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import onClickOutside from 'react-onclickoutside';
 import { isObject, difference } from 'lodash';
 import shallowEqual from 'utils/shallowEqual';

@@ -56,9 +56,16 @@ class NotificationCenter extends PureComponent {
           isOpen={isOpen}
           toggle={enableToggle ? this.toggle : () => {}}
           placement="bottom"
-          className="NotificationCenter__popover"
+          popperClassName="NotificationCenter__popper"
           innerClassName="NotificationCenter__popover-inner"
           trigger="manual"
+          modifiers={[{
+            name: 'preventOverflow',
+            options: {
+              altAxis: true,
+              padding: 10,
+            },
+          }]}
         >
           <NotificationCenterContent
             close={this.close}

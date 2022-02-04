@@ -22,7 +22,7 @@ class FieldLabel extends PureComponent {
       <If condition={label}>
         <Choose>
           <When condition={addon}>
-            <div className={classNames('row no-gutters', className)}>
+            <div className={classNames('row g-0', className)}>
               <label className="col">{label}</label>
               <div className="col-auto pl-1">
                 {addon}

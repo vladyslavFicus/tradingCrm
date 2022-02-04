@@ -15,13 +15,17 @@ class DistributionRuleFeedsList extends PureComponent {
     const {
       feedsQuery: {
         data,
-        loadMore,
+        fetchMore,
       },
     } = this.props;
 
     const currentPage = data?.feeds?.page || 0;
 
-    loadMore(currentPage + 1);
+    fetchMore({
+      variables: {
+        page: currentPage + 1,
+      },
+    });
   };
 
   render() {

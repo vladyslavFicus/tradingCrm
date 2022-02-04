@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';

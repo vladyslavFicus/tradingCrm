@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
@@ -180,21 +180,24 @@ class HierarchyProfileRules extends PureComponent {
 
     return (
       <>
-        <Button
-          id="add-rule"
-          type="submit"
-          onClick={this.openCreateRuleModal}
-          disabled={disabled}
-          commonOutline
-          small
-        >
-          {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
-        </Button>
+        <span id="add-rule">
+          <Button
+            type="submit"
+            onClick={this.openCreateRuleModal}
+            disabled={disabled}
+            commonOutline
+            small
+          >
+            {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
+          </Button>
+        </span>
 
         <If condition={disabled && tooltipMessage}>
           <UncontrolledTooltip
             placement="bottom"
             target="add-rule"
+            delay={{ show: 350, hide: 250 }}
+            fade={false}
           >
             {tooltipMessage}
           </UncontrolledTooltip>

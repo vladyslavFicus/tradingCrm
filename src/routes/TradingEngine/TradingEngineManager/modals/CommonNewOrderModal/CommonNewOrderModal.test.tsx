@@ -1,7 +1,7 @@
 import React from 'react';
 import { render as testingLibraryRender, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/client/testing';
 import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';

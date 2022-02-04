@@ -97,7 +97,7 @@ class ClientsGrid extends PureComponent {
               return (
                 <Choose>
                   <When condition={paymentDetails.lastDepositTime}>
-                    <div className="font-weight-700">{paymentDetails.depositsCount}</div>
+                    <div className="DashboardClientsGrid__text-primary">{paymentDetails.depositsCount}</div>
                     <div className="font-size-11">
                       {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}
                       {' '}
@@ -203,7 +203,9 @@ class ClientsGrid extends PureComponent {
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={({ registrationDetails: { registrationDate } }) => (
               <Fragment>
-                <div className="font-weight-700">{moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
+                <div className="DashboardClientsGrid__text-primary">
+                  {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
+                </div>
                 <div className="font-size-11">
                   {moment.utc(registrationDate).local().format('HH:mm:ss')}
                 </div>

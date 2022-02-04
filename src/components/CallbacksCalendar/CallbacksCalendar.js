@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -11,6 +11,8 @@ import './CallbacksCalendar.scss';
 
 class CallbacksCalendar extends PureComponent {
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
+    connectionKey: PropTypes.string, // Need to use for Apollo Cache to store results in different fields for same query
     callbacksQuery: PropTypes.query(PropTypes.pageable(PropTypes.callback)).isRequired,
     modals: PropTypes.shape({
       callbackDetails: PropTypes.modalType,
@@ -21,6 +23,7 @@ class CallbacksCalendar extends PureComponent {
   };
 
   static defaultProps = {
+    connectionKey: null,
     calendarClassName: null,
     componentRef: () => {},
     renderTopContent: null,
@@ -34,8 +37,8 @@ class CallbacksCalendar extends PureComponent {
   getCalendarEvents = entities => entities.map(callback => ({
     title: `${moment.utc(callback.callbackTime)
       .local().format('HH:mm')} ${callback.client && callback.client.fullName}`,
-    start: new Date(callback.callbackTime),
-    end: new Date(callback.callbackTime),
+    start: moment.utc(callback.callbackTime).toDate(),
+    end: moment.utc(callback.callbackTime).toDate(),
     callback,
   }));
 

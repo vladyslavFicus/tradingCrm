@@ -30,14 +30,18 @@ class ClientFeedsTab extends PureComponent {
       feedsQuery: {
         data,
         loading,
-        loadMore,
+        fetchMore,
       },
     } = this.props;
 
     const currentPage = data?.feeds?.page || 0;
 
     if (!loading) {
-      loadMore(currentPage + 1);
+      fetchMore({
+        variables: {
+          page: currentPage + 1,
+        },
+      });
     }
   };
 

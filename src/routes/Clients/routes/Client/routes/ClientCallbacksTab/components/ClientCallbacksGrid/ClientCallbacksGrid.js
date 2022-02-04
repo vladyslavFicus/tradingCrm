@@ -27,13 +27,17 @@ class ClientCallbacksGrid extends PureComponent {
     const {
       clientCallbacksQuery: {
         data,
-        loadMore,
+        fetchMore,
       },
     } = this.props;
 
     const currentPage = data?.callbacks?.page || 0;
 
-    loadMore(currentPage + 1);
+    fetchMore({
+      variables: {
+        page: currentPage + 1,
+      },
+    });
   };
 
   handleOpenDetailsModal = (callbackId) => {
@@ -149,7 +153,7 @@ class ClientCallbacksGrid extends PureComponent {
     return (
       <div className="ClientCallbacksGrid">
         <Table
-          stickyFromTop={189}
+          stickyFromTop={188}
           items={content}
           loading={loading}
           hasMore={!last}

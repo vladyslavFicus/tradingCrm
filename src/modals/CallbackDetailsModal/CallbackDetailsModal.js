@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
@@ -27,6 +27,8 @@ const attributeLabels = {
   status: I18n.t('CALLBACKS.MODAL.STATUS'),
   reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
+
+const DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 class CallbackDetailsModal extends PureComponent {
   static propTypes = {
@@ -60,7 +62,7 @@ class CallbackDetailsModal extends PureComponent {
         variables: {
           ...values,
           callbackId,
-          callbackTime: moment(values.callbackTime).utc().format(),
+          callbackTime: moment(values.callbackTime, DATETIME_FORMAT).utc().format(DATETIME_FORMAT),
         },
       });
 
@@ -125,7 +127,7 @@ class CallbackDetailsModal extends PureComponent {
           <Otherwise>
             <Formik
               initialValues={{
-                callbackTime,
+                callbackTime: moment.utc(callbackTime).local().format(DATETIME_FORMAT),
                 operatorId,
                 status,
                 reminder,
@@ -188,7 +190,6 @@ class CallbackDetailsModal extends PureComponent {
                       label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                       component={FormikDatePicker}
                       withTime
-                      withUtc
                     />
 
                     <Field

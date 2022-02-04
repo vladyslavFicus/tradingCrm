@@ -1,9 +1,14 @@
 @import "../../styles/helpers/variables";
 
 .NotePopover {
-  width: 100%;
-  max-width: 475px;
-  background-color: $color-paper;
+  z-index: 1060;
+
+  &__popper {
+    width: 100%;
+    max-width: 475px;
+    right: 10px;
+    background-color: $color-paper;
+  }
 
   &__header,
   &__title {
@@ -47,6 +52,10 @@
     font-size: 12px;
   }
 
+  &__text-primary {
+    font-weight: 700;
+  }
+
   & label {
     font-size: 13px;
     margin-bottom: 2px;
@@ -74,21 +83,5 @@
       linear-gradient(to right, white 0px, transparent 0px),
       linear-gradient(to left, white 0px, transparent 0px),
       repeating-linear-gradient($color-paper, $color-paper 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
-  }
-
-  &.bs-popover-top .arrow:after {
-    border-top-color: $color-paper;
-  }
-
-  &.bs-popover-right .arrow:after {
-    border-right-color: $color-paper;
-  }
-
-  &.bs-popover-bottom .arrow:after {
-    border-bottom-color: $color-paper;
-  }
-
-  &.bs-popover-left .arrow:after {
-    border-left-color: $color-paper;
   }
 }

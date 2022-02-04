@@ -1,6 +1,6 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 import { NoteFragment } from 'apollo/fragments/notes';
 import PropTypes from 'constants/propTypes';
 
@@ -65,8 +65,6 @@ const FilesByProfileUuidQuery = ({
     variables={{
       ...query?.filters,
       clientUuid,
-      page: 0,
-      size: 20,
     }}
     fetchPolicy="network-only"
   >

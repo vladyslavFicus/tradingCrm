@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { set } from 'lodash';
+import { cloneDeep, set } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -50,13 +50,16 @@ class PaymentsListGrid extends PureComponent {
     const {
       paymentsQuery,
       paymentsQuery: {
-        loadMore,
+        fetchMore,
+        variables,
       },
     } = this.props;
 
     const page = paymentsQuery?.data?.payments?.number || 0;
 
-    loadMore(variables => set(variables, 'args.page.from', page + 1));
+    fetchMore({
+      variables: set(cloneDeep(variables), 'args.page.from', page + 1),
+    });
   };
 
   handleSort = (sorts) => {

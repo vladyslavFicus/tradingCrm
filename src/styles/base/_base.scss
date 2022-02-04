@@ -1,3 +1,10 @@
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;900&family=Roboto+Mono&display=swap);
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
@@ -12,7 +19,6 @@ html {
 body {
   background-color: #f2f2f2;
   color: #333;
-  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   line-height: 1.5;
   overflow-x: auto;
@@ -27,11 +33,11 @@ body {
   }
 }
 
-a, i {
-  position: relative;
-}
-
 small {
   font-size: 11px;
   color: $color-default;
+}
+
+legend {
+  float: inherit;
 }

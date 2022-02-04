@@ -147,6 +147,7 @@ class Input extends PureComponent {
               <i className="input__icon-info fa fa-info-circle" />
             </span>
             <UncontrolledTooltip
+              fade={false}
               target={uniqueId}
             >
               {labelTooltip}
@@ -157,7 +158,7 @@ class Input extends PureComponent {
           <If condition={showWarningMessage}>
             <UncontrolledTooltip
               target={this.id}
-              trigger="focus"
+              fade={false}
               isOpenDefault
             >
               {warningMessage}

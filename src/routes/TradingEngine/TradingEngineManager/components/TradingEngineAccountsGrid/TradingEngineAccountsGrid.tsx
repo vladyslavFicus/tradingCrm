@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import moment from 'moment';
@@ -47,23 +47,25 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
       },
       accounts: {
         data,
-        loadMore,
+        fetchMore,
         variables,
       },
     } = this.props;
 
     const currentPage = data?.tradingEngineAccounts?.number || 0;
     const filters = state?.filters || {};
-    const size = variables?.args?.page?.size;
+    const size = variables?.args?.page?.size || 20;
     const sorts = state?.sorts;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: currentPage + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          page: {
+            from: currentPage + 1,
+            size,
+            sorts,
+          },
         },
       },
     });

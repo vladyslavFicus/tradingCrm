@@ -78,7 +78,8 @@
         "js": "never",
         "jsx": "never",
         "ts": "never",
-        "tsx": "never"
+        "tsx": "never",
+        "cjs": "never"
       }
     ],
 
@@ -108,7 +109,8 @@
   "globals": {
     "window": false,
     "document": false,
-    "fetch": false
+    "fetch": false,
+    "ExtractApolloTypeFromArray": false
   },
   "settings": {
     "import/resolver": {

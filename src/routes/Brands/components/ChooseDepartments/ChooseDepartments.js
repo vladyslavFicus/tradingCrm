@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';

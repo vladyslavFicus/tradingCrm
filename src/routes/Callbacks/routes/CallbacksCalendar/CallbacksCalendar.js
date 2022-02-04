@@ -29,6 +29,7 @@ class CallbacksCalendar extends PureComponent {
   render() {
     return (
       <CallbacksCalendarComponent
+        connectionKey="COMMON_CALLBACKS_CALENDAR"
         calendarClassName="CallbacksCalendar__calendar"
         renderTopContent={this.renderTopContent}
       />

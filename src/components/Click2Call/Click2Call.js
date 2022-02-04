@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { getClickToCall } from 'config';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { debounce } from 'lodash';
 import ToolTip from 'react-portal-tooltip';
 import { withRequests } from 'apollo';

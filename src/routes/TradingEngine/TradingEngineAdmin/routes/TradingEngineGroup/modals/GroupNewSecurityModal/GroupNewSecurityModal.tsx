@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import { QueryResult } from 'react-apollo';
+import { QueryResult } from '@apollo/client';
 import { withRequests } from 'apollo';
 import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';

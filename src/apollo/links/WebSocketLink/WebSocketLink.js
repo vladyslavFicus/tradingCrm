@@ -1,4 +1,4 @@
-import { ApolloLink, Observable } from 'apollo-link';
+import { ApolloLink, Observable } from '@apollo/client';
 import { print } from 'graphql';
 import { createClient, CloseCode } from 'graphql-ws';
 

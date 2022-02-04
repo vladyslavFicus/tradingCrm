@@ -1,6 +1,6 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 import { RouteComponentProps } from 'react-router-dom';
 import { State } from 'types';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';

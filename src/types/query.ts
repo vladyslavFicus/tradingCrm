@@ -1,5 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
-import { QueryResult } from 'react-apollo';
+import { QueryResult, ApolloQueryResult } from '@apollo/client';
 
 export interface Pageable<TContent> {
   content: TContent[],

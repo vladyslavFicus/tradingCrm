@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
-import { MutationOptions, MutationResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
@@ -19,14 +19,14 @@ import IpWhitelistDeleteIpMutation from './graphql/IpWhitelistDeleteMutation';
 import IpWhitelistQuery from './graphql/IpWhitelistQuery';
 import IpWhitelistFilter from './components/IpWhitelistFilter';
 import {
-  WitelististSearchQueryResult,
+  IpWhitelistSearchQueryResult,
   IpWhitelistAddress,
   IpWhitelistFilters,
 } from './types';
 import './IpWhitelistGrid.scss';
 
 interface Props {
-  ipWhitelistQuery: WitelististSearchQueryResult,
+  ipWhitelistQuery: IpWhitelistSearchQueryResult,
   notify: Notify,
   modals: {
     addAddressModal: Modal<{
@@ -43,7 +43,7 @@ interface Props {
       submitButtonLabel: string,
     }>,
   },
-  deleteIpMutation: (options: MutationOptions) => MutationResult<Boolean>
+  deleteIpMutation: (options: BaseMutationOptions) => MutationResult<Boolean>
 }
 
 const IpWhitelistGrid = (props: Props) => {
@@ -131,18 +131,20 @@ const IpWhitelistGrid = (props: Props) => {
 
   const handlePageChanged = () => {
     const { number = 0 } = ipWhitelistSearch;
-    const { loadMore, variables } = ipWhitelistQuery;
+    const { fetchMore, variables } = ipWhitelistQuery;
     const filters = state?.filters || {};
     const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: number + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          page: {
+            from: number + 1,
+            size,
+            sorts,
+          },
         },
       },
     });

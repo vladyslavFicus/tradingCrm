@@ -16,7 +16,7 @@ class PartnerFeedsList extends PureComponent {
     const {
       feedsQuery: {
         data,
-        loadMore,
+        fetchMore,
         loading,
       },
     } = this.props;
@@ -24,7 +24,11 @@ class PartnerFeedsList extends PureComponent {
     const currentPage = get(data, 'feeds.page') || 0;
 
     if (!loading) {
-      loadMore(currentPage + 1);
+      fetchMore({
+        variables: {
+          page: currentPage + 1,
+        },
+      });
     }
   };
 

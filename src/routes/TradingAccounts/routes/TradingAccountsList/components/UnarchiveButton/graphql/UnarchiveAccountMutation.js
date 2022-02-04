@@ -1,5 +1,5 @@
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Mutation } from '@apollo/client/react/components';
 import PropTypes from 'prop-types';
 import React from 'react';
 

@@ -35,6 +35,7 @@ const FiltrationSettings = (props: FormikProps<FormValues>) => (
     <div className="CalculationSettings__field-container">
 
       <Select
+        // @ts-ignore
         disabled
         value={props.values.symbolType}
         label={I18n.t('TRADING_ENGINE.SYMBOL.MARGIN_CALCULATION_LABEL')}
@@ -48,6 +49,7 @@ const FiltrationSettings = (props: FormikProps<FormValues>) => (
         ))}
       </Select>
       <Select
+        // @ts-ignore
         disabled
         value={props.values.symbolType}
         label={I18n.t('TRADING_ENGINE.SYMBOL.PROFIT_CALCULATION_LABEL')}

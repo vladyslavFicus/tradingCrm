@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
-import { set } from 'lodash';
+import { cloneDeep, set } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { Table, Column } from 'components/Table';
@@ -27,13 +27,16 @@ class TradingEngineSymbols extends PureComponent {
     const {
       symbolsQuery,
       symbolsQuery: {
-        loadMore,
+        fetchMore,
+        variables,
       },
     } = this.props;
 
     const page = symbolsQuery?.data?.tradingEngineSymbols?.number || 0;
 
-    loadMore(variables => set(variables, 'args.page.from', page + 1));
+    fetchMore({
+      variables: set(cloneDeep(variables), 'args.page.from', page + 1),
+    });
   };
 
   handleSymbolsPricesTick = (symbolsPrices) => {

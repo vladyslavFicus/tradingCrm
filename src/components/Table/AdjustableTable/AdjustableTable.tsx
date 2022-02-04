@@ -2,7 +2,7 @@ import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import React, { useMemo, useState } from 'react';
 import compose from 'compose-function';
-import { QueryResult } from 'react-apollo';
+import { QueryResult } from '@apollo/client';
 import { Column, Table } from '..';
 import GridConfigQuery from './graphql/GridConfigQuery';
 import GridConfig from './GridConfig';
@@ -61,7 +61,7 @@ const AdjustableTable = ({ type, defaultColumns, children, gridConfigQuery, ...p
     <React.Fragment>
       <GridConfig
         gridConfig={{ uuid: gridConfig?.uuid, type }}
-        сolumnsSet={columns}
+        columnsSet={columns}
         onUpdate={updateColumns}
         availableColumnsSet={columnsWithTitle}
       />

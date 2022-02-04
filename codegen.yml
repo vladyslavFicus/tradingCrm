@@ -1,0 +1,31 @@
+schema:
+  - "http://localhost:3333/gql":
+      headers:
+        "x-client-application": "qa"
+overwrite: true
+documents: "src/**/*.gql"
+
+generates:
+  src/__generated__/types.ts:
+    plugins:
+      - typescript
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      folder: __generated__
+      extension: .tsx
+      baseTypesPath: __generated__/types.ts
+    plugins:
+      - add:
+          content:
+            - '// 🛑 NOTICE: __generated__ folders should be added to .gitignore'
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      documentMode: 'documentNodeImportFragments'
+      skipTypename: true
+      omitOperationSuffix: true
+      avoidOptionals: true
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

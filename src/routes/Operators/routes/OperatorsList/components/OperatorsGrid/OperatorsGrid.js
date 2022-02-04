@@ -24,17 +24,19 @@ class OperatorsGrid extends PureComponent {
     const {
       operatorsQuery: {
         variables,
-        loadMore,
+        fetchMore,
         data,
       },
     } = this.props;
 
     const page = data?.operators?.number || 0;
 
-    loadMore({
-      page: {
-        ...variables.page,
-        from: page + 1,
+    fetchMore({
+      variables: {
+        page: {
+          ...variables.page,
+          from: page + 1,
+        },
       },
     });
   };

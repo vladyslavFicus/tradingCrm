@@ -4,7 +4,7 @@ import I18n from 'i18n';
 import compose from 'compose-function';
 import { parseErrors, withRequests } from 'apollo';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -41,7 +41,7 @@ interface Props {
   notify: Notify,
   symbolsSourcesQuery: QueryResult<SymbolSourcesData>,
   securitiesQuery: QueryResult<SecurityData>,
-  createSymbol: (options: MutationOptions) => MutationResult<CreateSymbolResponse>,
+  createSymbol: (options: BaseMutationOptions) => MutationResult<CreateSymbolResponse>,
 }
 
 class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> {
@@ -165,7 +165,7 @@ class TradingEngineNewSymbol extends PureComponent<Props & RouteComponentProps> 
             stopsLevel: 10,
             lotSize: 100000,
             percentage: 100.0,
-            securityName: 'Indices',
+            securityName: '',
             swapConfigs: {
               enable: true,
               type: SwapType.POINTS,

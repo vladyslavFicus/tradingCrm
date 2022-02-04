@@ -2,13 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { useLocation } from 'react-router-dom';
-import { State } from 'types';
+import { cloneDeep, set } from 'lodash';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
-import { Feed, WitelististFeedsQueryResult, IpWhitelistFeedFilters } from './types';
+import { Feed, WitelististFeedsQueryResult } from './types';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
 import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistFeed.scss';
@@ -18,18 +17,14 @@ interface Props {
 }
 
 const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
-  const { content, last, page = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
-  const { state } = useLocation<State<IpWhitelistFeedFilters>>();
+  const { content, last, number = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
 
   const handlePageChanged = () => {
-    const { loadMore, loading } = ipWhitelistFeedsQuery;
-    const filters = state?.filters || {};
-    if (!loading) {
-      loadMore({
-        ...filters,
-        page: page + 1,
-      });
-    }
+    const { fetchMore, variables = {} } = ipWhitelistFeedsQuery;
+
+    fetchMore({
+      variables: set(cloneDeep(variables), 'page', number + 1),
+    });
   };
 
   return (

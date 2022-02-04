@@ -66,7 +66,7 @@ const PlayerMiniProfile = ({ miniProfile }) => {
         <label className="mini-profile-label">{renderLabel(statusType, userStatusNames)}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.PLAYER')}</div>
         <div className="mini-profile-title">
-          <span className="font-weight-700">{`${firstName} ${lastName}`}</span> {age && `(${age})`}
+          <span className="mini-profile-title-name">{`${firstName} ${lastName}`}</span> {age && `(${age})`}
           {KYCStatus === 'APPROVED' && <i className="fa fa-check text-success margin-left-5" />}
           <NoteIcon type="pinned" className="mini-profile__note-icon" />
         </div>

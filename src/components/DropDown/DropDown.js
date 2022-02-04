@@ -60,7 +60,10 @@ class DropDown extends PureComponent {
             <i className="fa fa-caret-down" />
           </If>
         </DropdownToggle>
-        <DropdownMenu className="drop-down" right={rightPlacement}>
+        <DropdownMenu
+          className="drop-down"
+          end={rightPlacement}
+        >
           {children}
         </DropdownMenu>
       </Dropdown>

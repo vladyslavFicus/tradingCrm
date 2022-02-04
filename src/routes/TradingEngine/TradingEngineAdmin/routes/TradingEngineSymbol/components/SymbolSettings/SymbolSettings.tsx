@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n';
-import { withApollo, WithApolloClient } from 'react-apollo';
+import { ApolloClient } from '@apollo/client';
+import { withApollo } from '@apollo/client/react/hoc';
 import compose from 'compose-function';
 import { Field, FormikProps } from 'formik';
 import {
@@ -14,6 +15,7 @@ import SymbolQuery from './graphql/SymbolQuery';
 import './SymbolSettings.scss';
 
 interface Props extends FormikProps<FormValues> {
+  client: ApolloClient<{}>,
   symbolsSources: {
     sourceName: string,
   }[],
@@ -22,7 +24,7 @@ interface Props extends FormikProps<FormValues> {
   }[],
 }
 
-const SymbolSettings = (props: WithApolloClient<Props>) => {
+const SymbolSettings = (props: Props) => {
   const {
     symbolsSources,
     securities,
@@ -113,7 +115,6 @@ const SymbolSettings = (props: WithApolloClient<Props>) => {
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
-          withAnyOption
           searchable
         >
           {securities.map(({ name }) => (
@@ -161,7 +162,6 @@ const SymbolSettings = (props: WithApolloClient<Props>) => {
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSelectField}
-          withAnyOption
           searchable
         >
           {backgroundColor.map(({ name, value }) => (

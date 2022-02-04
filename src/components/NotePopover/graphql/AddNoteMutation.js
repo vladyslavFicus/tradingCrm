@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Mutation } from '@apollo/client/react/components';
 import { NoteFragment } from 'apollo/fragments/notes';
 import { ENTITIES } from './constants';
 
@@ -13,19 +13,14 @@ const addToApolloCache = targetUUID => (cache, { data: { note: { add: data } } }
     });
 
     ENTITIES.forEach((entity) => {
-      const item = cache.data.get(`${entity}:${targetUUID}`);
-
-      if (item) {
-        cache.data.set(`${entity}:${targetUUID}`, {
-          ...item,
-          note: {
-            generated: false,
-            id: `${data.__typename}:${data.noteId}`,
-            type: 'id',
-            typename: data.__typename,
+      cache.modify({
+        id: `${entity}:${targetUUID}`,
+        fields: {
+          note(_, { toReference }) {
+            return toReference(`${data.__typename}:${data.noteId}`);
           },
-        });
-      }
+        },
+      });
     });
   }
 };

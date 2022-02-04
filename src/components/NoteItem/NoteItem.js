@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -85,36 +85,32 @@ class NoteItem extends PureComponent {
               <Uuid uuid={targetUUID} uuidPrefix={entitiesPrefixes[targetType]} />
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <div className="NoteItem__body">
-                <If condition={subject}>
-                  <div className="NoteItem__subject">{subject}</div>
-                </If>
-                <div className="NoteItem__content">{content}</div>
-                <If condition={pinned}>
-                  <span className="note-item__pinned-note-badge">
-                    {I18n.t('COMMON.PINNED')}
-                  </span>
-                </If>
-              </div>
+          <div className="NoteItem__body-container">
+            <div className="NoteItem__body">
+              <If condition={subject}>
+                <div className="NoteItem__subject">{subject}</div>
+              </If>
+              <div className="NoteItem__content">{content}</div>
+              <If condition={pinned}>
+                <span className="note-item__pinned-note-badge">
+                  {I18n.t('COMMON.PINNED')}
+                </span>
+              </If>
             </div>
-            <div className="d-inline-block">
-              <ActionsDropDown
-                items={[
-                  {
-                    label: I18n.t('COMMON.ACTIONS.EDIT'),
-                    onClick: this.handleEditNote,
-                    permissions: new Permissions(permissions.NOTES.UPDATE_NOTE),
-                  },
-                  {
-                    label: I18n.t('COMMON.ACTIONS.DELETE'),
-                    onClick: this.handleRemoveNote,
-                    permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
-                  },
-                ]}
-              />
-            </div>
+            <ActionsDropDown
+              items={[
+                {
+                  label: I18n.t('COMMON.ACTIONS.EDIT'),
+                  onClick: this.handleEditNote,
+                  permissions: new Permissions(permissions.NOTES.UPDATE_NOTE),
+                },
+                {
+                  label: I18n.t('COMMON.ACTIONS.DELETE'),
+                  onClick: this.handleRemoveNote,
+                  permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
+                },
+              ]}
+            />
           </div>
         </div>
       </div>

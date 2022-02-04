@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { compose, withApollo } from 'react-apollo';
+import { withApollo } from '@apollo/client/react/hoc';
+import compose from 'compose-function';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';

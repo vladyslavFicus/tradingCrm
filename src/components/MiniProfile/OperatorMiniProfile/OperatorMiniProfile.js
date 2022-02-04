@@ -78,7 +78,7 @@ OperatorMiniProfile.propTypes = {
   miniProfile: PropTypes.shape({
     data: PropTypes.shape({
       operator: PropTypes.operator,
-    }).isRequired,
+    }),
     loading: PropTypes.bool.isRequired,
   }),
 };

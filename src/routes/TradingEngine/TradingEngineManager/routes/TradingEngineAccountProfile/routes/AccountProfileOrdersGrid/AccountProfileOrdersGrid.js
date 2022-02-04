@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import withModals from 'hoc/withModals';
 import PropTypes from 'constants/propTypes';
@@ -64,7 +64,7 @@ class AccountProfileOrdersGrid extends PureComponent {
       },
       orders: {
         data,
-        loadMore,
+        fetchMore,
         variables,
       },
       orderStatuses,
@@ -75,15 +75,17 @@ class AccountProfileOrdersGrid extends PureComponent {
     const size = variables?.args?.page?.size;
     const sorts = state?.sorts;
 
-    loadMore({
-      args: {
-        orderStatuses,
-        accountUuid: id,
-        ...filters,
-        page: {
-          from: currentPage + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          orderStatuses,
+          accountUuid: id,
+          ...filters,
+          page: {
+            from: currentPage + 1,
+            size,
+            sorts,
+          },
         },
       },
     });

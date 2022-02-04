@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { intersection } from 'lodash';
 import classNames from 'classnames';
 import { Formik, Form } from 'formik';
@@ -167,13 +167,12 @@ class ClientsGridFilter extends PureComponent {
         <Formik
           enableReinitialize
           onSubmit={this.handleSubmit}
-          onReset={this.handleReset}
           initialValues={state?.filters || {}}
           validate={createValidator({
             searchLimit: ['numeric', 'greater:0', `max:${MAX_SELECTED_CLIENTS}`],
           }, translateLabels(attributeLabels))}
         >
-          {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
+          {({ values, setValues, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
             const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
             const teamsOptions = desksUuids.length ? teamsByDesks : teams;
@@ -796,7 +795,7 @@ class ClientsGridFilter extends PureComponent {
                       />
 
                       <Button
-                        onClick={handleReset}
+                        onClick={this.handleReset}
                         className="ClientsGridFilter__button"
                         disabled={clientsLoading || isSubmitting || !Object.keys(values).length}
                         primary

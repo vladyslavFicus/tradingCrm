@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import { get } from 'lodash';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
 
 const REQUEST = gql`query getRules(
   $uuid: [String]

@@ -4,7 +4,7 @@ import compose from 'compose-function';
 import { omit } from 'lodash';
 import { Formik, Form, FormikProps } from 'formik';
 import { withRequests, hasErrorPath } from 'apollo';
-import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client';
 import { withNotifications } from 'hoc';
 import NotFound from 'routes/NotFound';
 import { Notify, LevelType } from 'types/notify';
@@ -25,7 +25,7 @@ import './TradingEngineEditGroup.scss';
 
 interface Props {
   notify: Notify,
-  editGroup: (options: MutationOptions) => MutationResult<{ editGroup: null }>,
+  editGroup: (options: BaseMutationOptions) => MutationResult<{ editGroup: null }>,
   groupQuery: QueryResult<{ tradingEngineAdminGroup: Group }>,
 }
 

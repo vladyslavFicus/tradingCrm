@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { MutationResult, MutationOptions } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 import { withNotifications, withModals } from 'hoc';
 import { State, Sort, Modal } from 'types';
@@ -24,7 +24,7 @@ interface ConfirmationModalProps {
 interface Props {
   groupsListQuery: GroupsQueryResult,
   notify: Notify,
-  deleteGroup: (options: MutationOptions) => MutationResult<{ deleteGroup: null }>,
+  deleteGroup: (options: BaseMutationOptions) => MutationResult<{ deleteGroup: null }>,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,
   },
@@ -92,19 +92,21 @@ const GroupsGrid = ({
   };
 
   const handlePageChanged = () => {
-    const { loadMore, variables } = groupsListQuery;
+    const { fetchMore, variables } = groupsListQuery;
 
     const filters = state?.filters || {};
-    const size = variables?.args?.page?.size;
+    const size = variables?.args?.page?.size || 20;
     const sorts = state?.sorts;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: number + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          page: {
+            from: number + 1,
+            size,
+            sorts,
+          },
         },
       },
     });

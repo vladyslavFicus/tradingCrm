@@ -25,16 +25,13 @@ class IpFlag extends PureComponent {
     return (
       <span>
         <i
-          id={`tooltip-${id}`}
+          id={`ipflag-${id}`}
           className={classNames('fs-icon', { [`fs-${country ? country.toLowerCase() : ''}`]: country })}
         />
         <UncontrolledTooltip
           placement="top"
-          target={`tooltip-${id}`}
-          delay={{
-            show: 350,
-            hide: 250,
-          }}
+          target={`ipflag-${id}`}
+          fade={false}
         >
           <Choose>
             <When condition={ip}>

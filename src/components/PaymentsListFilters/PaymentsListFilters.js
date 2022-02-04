@@ -3,7 +3,8 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { intersection } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import { compose, withApollo } from 'react-apollo';
+import { withApollo } from '@apollo/client/react/hoc';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import { getBrand } from 'config';
@@ -177,10 +178,9 @@ class PaymentsListFilters extends PureComponent {
         <Formik
           enableReinitialize
           onSubmit={this.handleSubmit}
-          onReset={this.handleReset}
           initialValues={state?.filters || { accountType: 'LIVE' }}
         >
-          {({ values, setValues, handleReset, handleSubmit, isSubmitting, dirty }) => {
+          {({ values, setValues, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
             const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
             const teamsOptions = desksUuids.length ? teamsByDesks : teams;
@@ -523,7 +523,7 @@ class PaymentsListFilters extends PureComponent {
                       />
 
                       <Button
-                        onClick={handleReset}
+                        onClick={this.handleReset}
                         className="PaymentsListFilters__button"
                         disabled={paymentsLoading || isSubmitting || !this.checkIsDirty(values)}
                         primary

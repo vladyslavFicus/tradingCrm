@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { withRequests, parseErrors } from 'apollo';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
 import { Button } from 'components/UI';

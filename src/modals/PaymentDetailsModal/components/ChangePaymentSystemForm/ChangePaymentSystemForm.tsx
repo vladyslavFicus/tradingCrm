@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
-import { MutationOptions, MutationResult, QueryResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
@@ -32,7 +32,7 @@ interface Props {
   notify: Notify,
   onSuccess: () => void,
   paymentSystemsQuery: QueryResult<PaymentSystemsData>,
-  updatePaymentSystem: (options: MutationOptions) => MutationResult<UpdatePaymentSystemResponse>,
+  updatePaymentSystem: (options: BaseMutationOptions) => MutationResult<UpdatePaymentSystemResponse>,
 }
 
 class ChangePaymentSystemForm extends PureComponent<Props> {

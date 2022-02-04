@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
 import compose from 'compose-function';
-import { MutationOptions, MutationResult, QueryResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
@@ -27,7 +27,7 @@ interface SecurityData {
 
 interface Props {
   notify: Notify,
-  editSecurity: (options: MutationOptions) => MutationResult<EditSecurityResponse>,
+  editSecurity: (options: BaseMutationOptions) => MutationResult<EditSecurityResponse>,
   securityQuery: QueryResult<SecurityData>,
   onCloseModal: () => void,
   onSuccess: () => void,

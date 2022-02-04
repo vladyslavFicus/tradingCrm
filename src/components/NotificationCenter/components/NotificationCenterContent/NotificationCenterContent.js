@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { NetworkStatus } from 'apollo-client';
-import { compose } from 'react-apollo';
+import { NetworkStatus } from '@apollo/client';
+import compose from 'compose-function';
 import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';

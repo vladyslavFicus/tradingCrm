@@ -3,7 +3,8 @@ import I18n from 'i18n-js';
 import { get, set, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
-import { compose, withApollo } from 'react-apollo';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
 import classNames from 'classnames';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -59,13 +60,15 @@ class DistributionRules extends PureComponent {
       rules: {
         data,
         variables: { args },
-        loadMore,
+        fetchMore,
       },
     } = this.props;
 
     const page = get(data, 'distributionRules.number') || 0;
 
-    loadMore(set({ args: { ...cloneDeep(args), page: page + 1 } }));
+    fetchMore({
+      variables: set({ args: { ...cloneDeep(args), page: page + 1 } }),
+    });
   };
 
   handleStartMigration = async (uuid) => {

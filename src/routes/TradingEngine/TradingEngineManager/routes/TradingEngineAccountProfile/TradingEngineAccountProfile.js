@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Redirect, Switch, withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import Helmet from 'react-helmet';
 import { withStorage } from 'providers/StorageProvider';

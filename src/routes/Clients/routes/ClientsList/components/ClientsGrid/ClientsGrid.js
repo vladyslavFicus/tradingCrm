@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
-import { NetworkStatus } from 'apollo-client';
+import compose from 'compose-function';
+import { NetworkStatus } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
@@ -62,7 +62,7 @@ class ClientsGrid extends PureComponent {
       },
       clientsQuery: {
         data,
-        loadMore,
+        fetchMore,
         variables,
       },
     } = this.props;
@@ -72,13 +72,15 @@ class ClientsGrid extends PureComponent {
     const sorts = state?.sorts;
     const size = variables?.args?.page?.size;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: currentPage + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          page: {
+            from: currentPage + 1,
+            size,
+            sorts,
+          },
         },
       },
     });
@@ -177,7 +179,7 @@ class ClientsGrid extends PureComponent {
     );
   };
 
-  renderAffiliateOrReferrerColumn = ({ affiliate, referrer }) => {
+  renderAffiliateOrReferrerColumn = ({ uuid, affiliate, referrer }) => {
     const { uuid: affiliateUuid, source, campaignId, partner } = affiliate || {};
     const { uuid: referrerUuid, fullName: referrerName } = referrer || {};
 
@@ -197,8 +199,9 @@ class ClientsGrid extends PureComponent {
             </div>
           </If>
           <If condition={source}>
-            <div id={`source-${affiliateUuid}`}>
+            <div>
               <Uuid
+                id={`source-${uuid}`}
                 className="ClientsGrid__text-secondary"
                 uuidPostfix="..."
                 length={45}
@@ -206,16 +209,18 @@ class ClientsGrid extends PureComponent {
               />
             </div>
             <UncontrolledTooltip
-              placement="bottom-start"
-              target={`source-${affiliateUuid}`}
-              delay={{ show: 350, hide: 250 }}
+              placement="bottom"
+              target={`source-${uuid}`}
+              delay={{ show: 0, hide: 0 }}
+              fade={false}
             >
               {source}
             </UncontrolledTooltip>
           </If>
           <If condition={campaignId}>
-            <div id={`campaignId-${affiliateUuid}`}>
+            <div>
               <Uuid
+                id={`campaignId-${uuid}`}
                 className="ClientsGrid__text-secondary"
                 uuidPostfix="..."
                 length={12}
@@ -223,9 +228,10 @@ class ClientsGrid extends PureComponent {
               />
             </div>
             <UncontrolledTooltip
-              placement="bottom-start"
-              target={`campaignId-${affiliateUuid}`}
-              delay={{ show: 350, hide: 250 }}
+              placement="bottom"
+              target={`campaignId-${uuid}`}
+              delay={{ show: 0, hide: 0 }}
+              fade={false}
             >
               {campaignId}
             </UncontrolledTooltip>
@@ -354,6 +360,7 @@ class ClientsGrid extends PureComponent {
               placement="bottom-start"
               target={`note-${uuid}`}
               delay={{ show: 350, hide: 250 }}
+              fade={false}
             >
               {content}
             </UncontrolledTooltip>

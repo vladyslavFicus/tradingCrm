@@ -56,9 +56,10 @@ class ClientLastActivity extends PureComponent {
             </span>
             <span id="location" className="ClientLastActivity__text-secondary"> {location}</span>
             <UncontrolledTooltip
-              placement="bottom-start"
+              placement="bottom"
               target="location"
               delay={{ show: 350, hide: 250 }}
+              fade={false}
             >
               {location}
             </UncontrolledTooltip>

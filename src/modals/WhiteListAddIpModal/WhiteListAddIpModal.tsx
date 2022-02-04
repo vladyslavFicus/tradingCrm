@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { MutationOptions, MutationResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { Notify, LevelType } from 'types/notify';
@@ -40,7 +40,7 @@ type Props = {
   onCloseModal: () => void,
   isOpen: boolean,
   notify: Notify,
-  addIp: (options: MutationOptions) => MutationResult<IpWhitelistAddress>,
+  addIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistAddress>,
   onSuccess: () => void,
 };
 

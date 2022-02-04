@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import compose from 'compose-function';
-import { MutationResult, MutationOptions } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
@@ -19,7 +19,7 @@ interface CreateSecurityResponse {
 
 interface Props {
   notify: Notify,
-  createSecurity: (options: MutationOptions) => MutationResult<CreateSecurityResponse>,
+  createSecurity: (options: BaseMutationOptions) => MutationResult<CreateSecurityResponse>,
   onCloseModal: () => void,
   onSuccess: () => void,
 }

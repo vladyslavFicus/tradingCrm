@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { Formik, Form, Field } from 'formik';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';

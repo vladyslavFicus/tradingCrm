@@ -28,7 +28,7 @@ class CallbacksGrid extends PureComponent {
     const {
       callbacksData,
       callbacksData: {
-        loadMore,
+        fetchMore,
         loading,
       },
     } = this.props;
@@ -36,7 +36,11 @@ class CallbacksGrid extends PureComponent {
     const currentPage = get(callbacksData, 'data.callbacks.page') || 0;
 
     if (!loading) {
-      loadMore(currentPage + 1);
+      fetchMore({
+        variables: {
+          page: currentPage + 1,
+        },
+      });
     }
   };
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query } from '@apollo/client/react/components';
+import { gql } from '@apollo/client';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
 interface Props {

@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';

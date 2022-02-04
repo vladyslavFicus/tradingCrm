@@ -3,7 +3,7 @@ import { withNotifications } from 'hoc';
 import I18n from 'i18n-js';
 import React from 'react';
 import compose from 'compose-function';
-import { MutationOptions, MutationResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { LevelType, Notify } from 'types';
 import Select from 'components/Select';
 import CreateGridConfigMutation from '../graphql/CreateGridConfigMutation';
@@ -17,11 +17,11 @@ type AvailableColumns = {
 }
 
 interface Props {
-  сolumnsSet: [string],
+  columnsSet: [string],
   onUpdate: (values: [string]) => void,
   notify: Notify,
-  createGridConfig: (options: MutationOptions) => MutationResult<GridConfigType>,
-  updateGridConfig: (options: MutationOptions) => MutationResult<Boolean>,
+  createGridConfig: (options: BaseMutationOptions) => MutationResult<GridConfigType>,
+  updateGridConfig: (options: BaseMutationOptions) => MutationResult<Boolean>,
   availableColumnsSet: [AvailableColumns]
   gridConfig: {
     type: string,
@@ -30,7 +30,15 @@ interface Props {
 }
 
 const GridConfig = (props: Props) => {
-  const { gridConfig, onUpdate, сolumnsSet, availableColumnsSet, notify, updateGridConfig, createGridConfig } = props;
+  const {
+    gridConfig,
+    onUpdate,
+    columnsSet = [],
+    availableColumnsSet,
+    notify,
+    updateGridConfig,
+    createGridConfig,
+  } = props;
 
   const saveOrCreateGridConfig = async (values: [string?] = []) => {
     try {
@@ -56,8 +64,9 @@ const GridConfig = (props: Props) => {
   return (
     <div className="GridConfig">
       <Select
+        // @ts-ignore
         multiple
-        value={сolumnsSet}
+        value={columnsSet}
         onChange={saveOrCreateGridConfig}
         onRealtimeChange={onUpdate}
         customSelectBlockClassName="GridConfig__select-block"

@@ -38,7 +38,7 @@ class LeadNotesTab extends PureComponent {
 
     const page = notes.data.notes.number + 1;
 
-    notes.loadMore({ page });
+    notes.fetchMore({ variables: { page } });
   };
 
   renderItem = note => <NoteItem note={note} />;

@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Mutation } from '@apollo/client/react/components';
 import { ENTITIES } from './constants';
 
 const removeFromApolloCache = targetUUID => (cache, { data: { note: { remove: data } } }) => {
-  if (data) {
-    ENTITIES.forEach((entity) => {
-      const item = cache.data.get(`${entity}:${targetUUID}`);
+  cache.evict({ id: `${data.__typename}:${data.noteId}` });
 
-      if (item) {
-        cache.data.set(`${entity}:${targetUUID}`, {
-          ...item,
-          note: null,
-        });
-
-        cache.data.delete(`${data.__typename}:${data.noteId}`);
-      }
+  ENTITIES.forEach((entity) => {
+    cache.modify({
+      id: `${entity}:${targetUUID}`,
+      fields: {
+        note() {
+          return null;
+        },
+      },
     });
-  }
+  });
 };
 
 const MUTATION = gql`mutation removeNote(

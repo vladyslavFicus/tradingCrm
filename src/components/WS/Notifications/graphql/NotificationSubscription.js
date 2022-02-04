@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Subscription } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Subscription } from '@apollo/client/react/components';
 
 const REQUEST = gql`
   subscription MainLayout__NotificationSubscription {

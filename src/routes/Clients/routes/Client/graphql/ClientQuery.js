@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'constants/propTypes';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 import { ContactsFragment } from 'apollo/fragments/contacts';
 import { AddressFragment } from 'apollo/fragments/address';
 
@@ -145,6 +145,7 @@ const REQUEST = gql`
         type
       }
       profileView {
+        uuid
         balance {
           amount
           credit

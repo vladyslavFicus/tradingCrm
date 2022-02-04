@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { gql } from '@apollo/client';
+import { Query } from '@apollo/client/react/components';
 import { NoteFragment } from 'apollo/fragments/notes';
 
 const REQUEST = gql`
@@ -24,7 +24,7 @@ const REQUEST = gql`
       changedAtFrom: $changedAtFrom
       targetType: $targetType
       department: $department
-    ) {
+    ) @connection(key: "ClientNotes") {
       size
       page
       totalElements

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
 import { withNotifications } from 'hoc';
@@ -51,6 +51,15 @@ class UpdateRuleModal extends PureComponent {
     validationOnChangeEnabled: false,
     validationSchedulesEnabled: false,
   };
+
+  componentDidUpdate(prevProps) {
+    const rule = this.props.rulesQuery.data?.rules?.['0'];
+
+    // Enable schedule validation if it already enabled on BE side
+    if (prevProps.rulesQuery.loading && !this.props.rulesQuery.loading && rule.enableSchedule) {
+      this.enableSchedulesValidation();
+    }
+  }
 
   enableSchedulesValidation = () => {
     this.setState({ validationSchedulesEnabled: true });

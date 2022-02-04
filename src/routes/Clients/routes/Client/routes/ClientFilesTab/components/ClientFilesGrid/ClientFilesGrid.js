@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
@@ -59,19 +59,6 @@ class ClientFilesGrid extends PureComponent {
 
   refetchFiles = () => {
     this.props.filesByProfileUuidQuery.refetch();
-  };
-
-  handlePageChanged = () => {
-    const {
-      filesByProfileUuidQuery: {
-        loadMore,
-        loading,
-      },
-    } = this.props;
-
-    if (!loading) {
-      loadMore();
-    }
   };
 
   handleFiltersChanged = (filters = {}) => this.props.history.replace({ query: { filters } });
@@ -222,7 +209,6 @@ class ClientFilesGrid extends PureComponent {
                     updateFileMeta={updateFileMeta}
                     documentType={documentType}
                     tokenRenew={tokenRenew}
-                    handlePageChanged={this.handlePageChanged}
                     onStatusActionClick={this.handleStatusActionClick}
                     onVerificationTypeActionClick={this.handleVerificationTypeClick}
                     onChangeFileStatusActionClick={this.handleChangeFileStatusClick}

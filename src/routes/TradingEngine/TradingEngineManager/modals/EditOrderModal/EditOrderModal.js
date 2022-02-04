@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { compose, withApollo } from 'react-apollo';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
 import { parseErrors, withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import moment from 'moment';

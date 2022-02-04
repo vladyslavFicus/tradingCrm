@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -29,7 +29,7 @@ class TradingEngineSymbols extends PureComponent {
 
       symbolsQuery: {
         data,
-        loadMore,
+        fetchMore,
         variables: {
           args: {
             page: {
@@ -44,13 +44,15 @@ class TradingEngineSymbols extends PureComponent {
     const filters = state?.filters || {};
     const sorts = state?.sorts;
 
-    loadMore({
-      args: {
-        ...filters,
-        page: {
-          from: currentPage + 1,
-          size,
-          sorts,
+    fetchMore({
+      variables: {
+        args: {
+          ...filters,
+          page: {
+            from: currentPage + 1,
+            size,
+            sorts,
+          },
         },
       },
     });

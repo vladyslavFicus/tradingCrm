@@ -4,7 +4,7 @@ import I18n from 'i18n';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { RouteComponentProps } from 'react-router-dom';
-import { MutationResult, MutationOptions, QueryResult } from 'react-apollo';
+import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
@@ -48,7 +48,7 @@ interface Props extends RouteComponentProps {
   symbolsSourcesQuery: QueryResult<SymbolSourcesData>,
   securitiesQuery: QueryResult<SecurityData>,
   symbolQuery: QueryResult<SymbolsData>,
-  editSymbol: (options: MutationOptions) => MutationResult<CreateSymbolResponse>,
+  editSymbol: (options: BaseMutationOptions) => MutationResult<CreateSymbolResponse>,
 }
 
 const validator = createValidator(
@@ -111,6 +111,7 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
     const {
       notify,
       editSymbol,
+      symbolQuery,
     } = this.props;
 
     try {
@@ -119,6 +120,8 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
           args: decodeNullValues(values),
         },
       });
+
+      await symbolQuery.refetch();
 
       notify({
         level: LevelType.SUCCESS,
@@ -172,8 +175,6 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
           <Otherwise>
             <Formik
               enableReinitialize
-              validateOnBlur={false}
-              validateOnChange={false}
               validate={validator}
               initialValues={{
                 symbol: symbol || '',
@@ -224,7 +225,12 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
                           className="TradingEngineEditSymbol__button"
                           small
                           primary
-                          disabled={(!formik.dirty && !formik.isSubmitting) || symbolSessionContainsErrors.length > 0}
+                          disabled={
+                            !formik.dirty
+                            || formik.isSubmitting
+                            || !formik.isValid
+                            || symbolSessionContainsErrors.length > 0
+                          }
                         >
                           {I18n.t('COMMON.SAVE_CHANGES')}
                         </Button>

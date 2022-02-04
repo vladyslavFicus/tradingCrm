@@ -1,6 +1,6 @@
 import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import Helmet from 'react-helmet';
 import { withRequests, hasErrorPath } from 'apollo';
 import Trackify from '@hrzn/trackify';

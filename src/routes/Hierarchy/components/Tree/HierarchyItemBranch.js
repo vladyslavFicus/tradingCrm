@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withApollo, compose } from 'react-apollo';
+import { withApollo } from '@apollo/client/react/hoc';
+import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Link } from 'components/Link';
 import CircleLoader from 'components/CircleLoader';
@@ -193,7 +194,7 @@ class HierarchyItemBranch extends PureComponent {
                     className="HierarchyItemBranch__manager-title HierarchyItemBranch__link"
                   >
                     <OperatorIcon id={`manager-${manager.uuid}`} className="HierarchyItemBranch__manager-icon" />
-                    <UncontrolledTooltip target={`manager-${manager.uuid}`}>
+                    <UncontrolledTooltip target={`manager-${manager.uuid}`} fade={false}>
                       {manager.fullName}
                     </UncontrolledTooltip>
                   </Link>

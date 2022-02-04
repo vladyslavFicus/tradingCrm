@@ -27,13 +27,17 @@ class TradingActivityGrid extends PureComponent {
     const {
       tradingActivityQuery: {
         data,
-        loadMore,
+        fetchMore,
       },
     } = this.props;
 
-    const page = data?.tradingActivity?.number || 0;
+    const currentPage = data?.tradingActivity?.number || 0;
 
-    loadMore(page + 1);
+    fetchMore({
+      variables: {
+        page: currentPage + 1,
+      },
+    });
   };
 
   showChangeOriginalAgentModal = (tradeId, originalAgent, platformType) => {

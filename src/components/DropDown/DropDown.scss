@@ -1,12 +1,12 @@
 .drop-down {
-  top: 100% !important;
-  margin-top: -2px;
+  inset: auto 0 auto auto !important;
   padding: 10px;
   border-color: #9b9b9b;
   box-shadow: 0 2px 23px 0 #ededed;
   transform: none !important;
   transition: 200ms ease;
   z-index: 1;
+  margin: 0;
   .dropdown-item {
     padding: 4px 7px;
     border-radius: 3px;

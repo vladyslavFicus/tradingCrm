@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { v4 } from 'uuid';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
+import { debounce } from 'lodash';
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import moment from 'moment';
@@ -259,10 +260,10 @@ class NotePopover extends PureComponent {
         </div>
         <If condition={changedBy}>
           <div className="NotePopover__author">
-            {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={changedBy} className="font-weight-700" />
+            {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={changedBy} className="NotePopover__text-primary" />
           </div>
         </If>
-        <div className="row no-gutters NotePopover__subtitle">
+        <div className="row NotePopover__subtitle">
           <div className="col-auto">
             <If condition={changedAt}>
               <Choose>
@@ -293,11 +294,7 @@ class NotePopover extends PureComponent {
     );
   };
 
-  setIsDirty = (dirty) => {
-    this.setState({
-      isDirty: dirty,
-    });
-  };
+  setIsDirty = debounce(dirty => this.setState({ isDirty: dirty }), 100);
 
   renderItemId = (targetUUID) => {
     const [targetType] = targetUUID.split('-', 1);
@@ -334,8 +331,16 @@ class NotePopover extends PureComponent {
         toggle={() => this.handleClose()}
         onClick={this.handlePopoverClick}
         className={classNames('NotePopover', className)}
+        popperClassName={classNames('NotePopover__popper', className)}
         hideArrow={hideArrow}
         trigger="legacy"
+        modifiers={[{
+          name: 'preventOverflow',
+          options: {
+            altAxis: true,
+            padding: 10,
+          },
+        }]}
       >
         <Formik
           initialValues={note || INITIAL_VALUES}
@@ -365,10 +370,10 @@ class NotePopover extends PureComponent {
                     maxLength={MAX_CONTENT_LENGTH}
                     disabled={note && !updateAllowed}
                   />
-                  <div className="row no-gutters align-items-center">
+                  <div className="row align-items-center">
                     <div className="col-auto">
                       <div className="font-size-11">
-                        <span className="font-weight-700">
+                        <span className="NotePopover__text-primary">
                           {values && values.content ? values.content.length : 0}
                         </span>/{MAX_CONTENT_LENGTH}
                       </div>
@@ -396,7 +401,7 @@ class NotePopover extends PureComponent {
                             type="submit"
                             primary
                             small
-                            className="text-uppercase font-weight-700"
+                            className="text-uppercase NotePopover__text-primary"
                             disabled={!dirty || isSubmitting || !isValid}
                           >
                             {I18n.t('COMMON.BUTTONS.UPDATE')}
@@ -407,7 +412,7 @@ class NotePopover extends PureComponent {
                             type="submit"
                             primary
                             small
-                            className="text-uppercase font-weight-700"
+                            className="text-uppercase NotePopover__text-primary"
                             disabled={!dirty || isSubmitting || !isValid}
                           >
                             {I18n.t('COMMON.BUTTONS.SAVE')}

@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useHistory, useLocation, withRouter } from 'react-router-dom';
-import { compose, QueryResult } from 'react-apollo';
+import compose from 'compose-function';
+import { QueryResult, ApolloQueryResult } from '@apollo/client';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { ApolloQueryResult } from 'apollo-client';
 import { State } from 'types';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';

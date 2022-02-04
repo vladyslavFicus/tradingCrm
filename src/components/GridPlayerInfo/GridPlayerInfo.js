@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'constants/propTypes';
 import MiniProfile from 'components/MiniProfile';
 import Uuid from 'components/Uuid';
+import './GridPlayerInfo.scss';
 
 class GridPlayerInfo extends PureComponent {
   static propTypes = {
@@ -18,7 +19,7 @@ class GridPlayerInfo extends PureComponent {
 
   static defaultProps = {
     id: null,
-    mainInfoClassName: 'font-weight-700 cursor-pointer',
+    mainInfoClassName: 'GridPlayerInfo__text-primary cursor-pointer',
   };
 
   handleClick = (e) => {

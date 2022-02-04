@@ -1,7 +1,7 @@
 import React, { PureComponent, Suspense } from 'react';
 import I18n from 'i18n-js';
 import { isEqual, cloneDeep } from 'lodash';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Redirect, Switch } from 'react-router-dom';
 import { withRequests, parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
@@ -75,9 +75,9 @@ class DistributionRule extends PureComponent {
       DistributionRule.initialState = {
         ...initialState,
         generalSettings: {
-          countries: countries && countries.sort((a, b) => a.localeCompare(b)),
-          languages: languages && languages.sort((a, b) => a.localeCompare(b)),
-          salesStatuses: salesStatuses && salesStatuses.sort((a, b) => a.localeCompare(b)),
+          countries: countries && countries.slice().sort((a, b) => a.localeCompare(b)),
+          languages: languages && languages.slice().sort((a, b) => a.localeCompare(b)),
+          salesStatuses: salesStatuses && salesStatuses.slice().sort((a, b) => a.localeCompare(b)),
           targetSalesStatus,
           registrationPeriodInHours,
           registrationDateRange,

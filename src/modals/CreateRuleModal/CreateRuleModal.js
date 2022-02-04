@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { compose } from 'react-apollo';
+import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
