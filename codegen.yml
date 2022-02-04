@@ -1,7 +1,5 @@
 schema:
-  - "http://localhost:3333/gql":
-      headers:
-        "x-client-application": "qa"
+  - graphql.schema.json
 overwrite: true
 documents: "src/**/*.gql"
 
@@ -26,6 +24,3 @@ generates:
       skipTypename: true
       omitOperationSuffix: true
       avoidOptionals: true
-  ./graphql.schema.json:
-    plugins:
-      - "introspection"

@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently -k \"npm:codegen -- --watch\" \"craco start\"",
+    "start": "npm run schema && concurrently -k \"npm:codegen -- --watch\" \"craco start\"",
     "build": "npm run codegen & craco build",
     "test": "craco test",
     "test:jenkins": "echo no jenkins test",
     "eslint": "node_modules/.bin/eslint 'src/**/*.{js,jsx,ts,tsx}' --resolve-plugins-relative-to=./node_modules/react-scripts/config --cache",
     "sentry-release": "node docker/scripts/sentry-release",
     "analyse": "node analyse.js",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "schema": "graphql-codegen -c ./codegen.download.yml"
   },
   "author": "nassoft",
   "license": "MIT",
