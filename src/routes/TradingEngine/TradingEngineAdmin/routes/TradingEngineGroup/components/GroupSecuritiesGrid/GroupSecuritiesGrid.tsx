@@ -151,11 +151,11 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
           />
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.COMMISSION')}
-            render={({ lotMin, commissionType, commissionLots, lotMax }: GroupSecurity) => (
+            render={({ commissionBase, commissionType, commissionLots }: GroupSecurity) => (
               <div className="GroupsGrid__cell-primary">
                 {`
-                ${lotMin} ${I18n.t(`TRADING_ENGINE.GROUP.${commissionType}`)} / 
-                ${lotMax} ${I18n.t(`TRADING_ENGINE.GROUP.PER_${commissionLots}`)}
+                ${commissionBase} ${I18n.t(`TRADING_ENGINE.GROUP.${commissionType}`)} / 
+                ${I18n.t(`TRADING_ENGINE.GROUP.PER_${commissionLots}`)}
               `}
               </div>
             )}
