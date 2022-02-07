@@ -17,7 +17,6 @@ const REQUEST = gql`
       enable
       margin
       profileUuid
-      profileFullName
       registrationDate
       leverage
       balance

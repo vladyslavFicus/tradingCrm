@@ -1637,7 +1637,6 @@ type TradingEngineAccount {
   login: Int
   margin: Float
   name: String
-  profileFullName: String
   profileUuid: String
   readOnly: Boolean
   registrationDate: String

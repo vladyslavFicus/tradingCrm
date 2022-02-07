@@ -23,7 +23,6 @@ const REQUEST = gql`
         group
         credit
         profileUuid
-        profileFullName
         registrationDate
         leverage
         balance
