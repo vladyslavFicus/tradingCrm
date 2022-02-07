@@ -10,6 +10,7 @@ const REQUEST = gql`
     ) {
       _id
       uuid
+      name
       login
       group
       credit

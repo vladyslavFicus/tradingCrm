@@ -123,17 +123,6 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
     });
   };
 
-  renderClientColumn = ({ profileUuid, profileFullName }: TradingAccountItem) => (
-    <>
-      <div className="TradingEngineAccountsGrid__text-primary">
-        {profileFullName}
-      </div>
-      <div className="TradingEngineAccountsGrid__text-secondary">
-        <Uuid uuid={profileUuid} />
-      </div>
-    </>
-  );
-
   render() {
     const {
       location: { state },
