@@ -219,6 +219,16 @@ class TradingEngineEditSymbol extends PureComponent<Props> {
                       <span className="TradingEngineEditSymbol__title">
                         {I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE')}
                       </span>
+                      <div className="TradingEngineEditSymbol__info-message">
+                        <Choose>
+                          <When condition={!!source}>
+                            {I18n.t('TRADING_ENGINE.EDIT_SYMBOL.INFO_MESSAGE.DEPENDENT_SYMBOL')}
+                          </When>
+                          <Otherwise>
+                            {I18n.t('TRADING_ENGINE.EDIT_SYMBOL.INFO_MESSAGE.SOURCE_SYMBOL')}
+                          </Otherwise>
+                        </Choose>
+                      </div>
                       <div className="TradingEngineEditSymbol__actions">
                         <Button
                           type="submit"
