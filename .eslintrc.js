@@ -52,7 +52,6 @@ module.exports = {
         'KnownTypeNamesRule',
         'LoneAnonymousOperationRule',
         'NoFragmentCyclesRule',
-        // 'NoUndefinedVariablesRule',
         'NoUnusedVariablesRule',
         'OverlappingFieldsCanBeMergedRule',
         'PossibleFragmentSpreadsRule',
