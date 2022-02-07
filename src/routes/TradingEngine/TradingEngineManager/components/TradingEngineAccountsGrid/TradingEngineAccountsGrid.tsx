@@ -202,11 +202,6 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
               render={this.renderTradingAccountColumn}
             />
             <Column
-              sortBy="profileFullName"
-              header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.PROFILE')}
-              render={this.renderClientColumn}
-            />
-            <Column
               sortBy="registrationDate"
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.DATE')}
               render={({ registrationDate }) => (

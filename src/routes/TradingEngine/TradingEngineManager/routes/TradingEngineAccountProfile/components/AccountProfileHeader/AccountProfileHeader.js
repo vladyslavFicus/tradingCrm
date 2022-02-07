@@ -22,7 +22,6 @@ class AccountProfileHeader extends PureComponent {
     account: PropTypes.shape({
       uuid: PropTypes.string,
       login: PropTypes.number,
-      name: PropTypes.string,
       profileUuid: PropTypes.string,
     }),
   }
@@ -61,7 +60,6 @@ class AccountProfileHeader extends PureComponent {
     } = this.props;
 
     const {
-      name,
       login,
       profileUuid,
     } = account;
@@ -77,7 +75,6 @@ class AccountProfileHeader extends PureComponent {
         <div className="AccountProfileHeader__topic">
           <div className="AccountProfileHeader__title">
             <Uuid uuid={login.toString()} uuidPrefix="WT" />
-            <div>{name}</div>
           </div>
 
           <div className="AccountProfileHeader__uuid">
