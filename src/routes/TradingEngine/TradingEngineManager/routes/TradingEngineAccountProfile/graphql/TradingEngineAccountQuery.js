@@ -16,7 +16,6 @@ const REQUEST = gql`
       credit
       enable
       profileUuid
-      profileFullName
       registrationDate
       leverage
       balance

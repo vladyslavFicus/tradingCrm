@@ -125,17 +125,6 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
     });
   };
 
-  renderClientColumn = ({ profileUuid, profileFullName }: TradingAccountItem) => (
-    <>
-      <div className="TradingEngineAccountsGrid__text-primary">
-        {profileFullName}
-      </div>
-      <div className="TradingEngineAccountsGrid__text-secondary">
-        <Uuid uuid={profileUuid} />
-      </div>
-    </>
-  );
-
   render() {
     const {
       location: { state },
@@ -202,11 +191,6 @@ class TradingEngineAccountsGrid extends PureComponent<Props & RouteComponentProp
             <Column
               header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.ACCOUNT_ID')}
               render={this.renderTradingAccountColumn}
-            />
-            <Column
-              sortBy="profileFullName"
-              header={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.PROFILE')}
-              render={this.renderClientColumn}
             />
             <Column
               sortBy="registrationDate"

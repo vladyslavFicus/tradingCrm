@@ -7,7 +7,6 @@ export interface TradingAccountItem {
   group: string,
   platformType: string,
   profileUuid: string,
-  profileFullName: string,
   registrationDate: string,
   leverage: number,
   balance: number,
