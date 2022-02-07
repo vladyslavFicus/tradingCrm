@@ -193,7 +193,6 @@ PropTypes.tradingEngineAccount = PropTypes.shape({
   uuid: PropTypes.string,
   profileUuid: PropTypes.string,
   brandId: PropTypes.string,
-  profileFullName: PropTypes.string,
   serverId: PropTypes.number,
   login: PropTypes.number,
   accountType: PropTypes.string,
