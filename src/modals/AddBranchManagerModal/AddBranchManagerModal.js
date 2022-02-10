@@ -47,7 +47,7 @@ class AddBranchManagerModal extends PureComponent {
     const operators = branchUsersQuery?.data?.branchUsers || [];
 
     return operators
-      .filter(({ uuid, operator: { operatorStatus } }) => operatorStatus === 'ACTIVE' && !managers.includes(uuid))
+      .filter(({ uuid, operator: { operatorStatus } }) => operatorStatus === 'ACTIVE' && !managers?.includes(uuid))
       .sort((a, b) => a.operator.fullName.localeCompare(b.operator.fullName));
   }
 
