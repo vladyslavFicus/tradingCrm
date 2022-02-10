@@ -35,15 +35,19 @@ class AddBranchManagerModal extends PureComponent {
       branchType: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
+    managers: PropTypes.arrayOf(PropTypes.string),
   };
 
-  getOperators = () => {
-    const { branchUsersQuery } = this.props;
+  static defaultProps = {
+    managers: [],
+  }
 
+  getOperators = () => {
+    const { branchUsersQuery, managers } = this.props;
     const operators = branchUsersQuery?.data?.branchUsers || [];
 
     return operators
-      .filter(({ operator: { operatorStatus } }) => operatorStatus === 'ACTIVE')
+      .filter(({ uuid, operator: { operatorStatus } }) => operatorStatus === 'ACTIVE' && !managers.includes(uuid))
       .sort((a, b) => a.operator.fullName.localeCompare(b.operator.fullName));
   }
 

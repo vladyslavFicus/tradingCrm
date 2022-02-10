@@ -10,9 +10,11 @@ const REQUEST = gql`
     branchInfo (
       branchId: $branchId,
     ) {
-      manager
-      operator {
+      managers
+      operators {
+        uuid
         fullName
+        operatorStatus
       }
     }
   }

@@ -10,7 +10,7 @@ const REQUEST = gql`
       name
       brandId
       branchType
-      manager {
+      managers {
         uuid
         fullName
       }

@@ -27,16 +27,16 @@ class HierarchyItemBranch extends PureComponent {
     branchType: PropTypes.string.isRequired,
     childrenCount: PropTypes.number,
     usersCount: PropTypes.number,
-    manager: PropTypes.shape({
+    managers: PropTypes.arrayOf(PropTypes.shape({
       uuid: PropTypes.string,
       fullName: PropTypes.string,
-    }),
+    })),
   };
 
   static defaultProps = {
     childrenCount: 0,
     usersCount: 0,
-    manager: null,
+    managers: [],
   };
 
   state = {
@@ -152,7 +152,7 @@ class HierarchyItemBranch extends PureComponent {
   render() {
     const {
       uuid,
-      manager,
+      managers,
       brandId,
       branchType,
       childrenCount,
@@ -187,17 +187,19 @@ class HierarchyItemBranch extends PureComponent {
             <div className="HierarchyItemBranch__manager">
               {I18n.t('HIERARCHY.TREE.MANAGER')}:&nbsp;
               <Choose>
-                <When condition={manager}>
-                  <Link
-                    to={`/operators/${manager.uuid}`}
-                    target="_blank"
-                    className="HierarchyItemBranch__manager-title HierarchyItemBranch__link"
-                  >
-                    <OperatorIcon id={`manager-${manager.uuid}`} className="HierarchyItemBranch__manager-icon" />
-                    <UncontrolledTooltip target={`manager-${manager.uuid}`} fade={false}>
-                      {manager.fullName}
-                    </UncontrolledTooltip>
-                  </Link>
+                <When condition={managers?.length > 0}>
+                  {managers.map(manager => (
+                    <Link
+                      to={`/operators/${manager.uuid}`}
+                      target="_blank"
+                      className="HierarchyItemBranch__manager-title HierarchyItemBranch__link"
+                    >
+                      <OperatorIcon id={`manager-${manager.uuid}`} className="HierarchyItemBranch__manager-icon" />
+                      <UncontrolledTooltip target={`manager-${manager.uuid}`} fade={false}>
+                        {manager.fullName}
+                      </UncontrolledTooltip>
+                    </Link>
+                  ))}
                 </When>
                 <Otherwise>
                   {I18n.t('HIERARCHY.TREE.MANAGER_NOT_SELECTED')}

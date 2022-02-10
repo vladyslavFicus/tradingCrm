@@ -2,18 +2,17 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import AddBranchManagerModal from 'modals/AddBranchManagerModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import RemoveBranchManagerModal from 'modals/RemoveBranchManagerModal';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
 import BranchHeaderPlaceholder from './components/BranchHeaderPlaceholder';
 import getBranchManagerQuery from './graphql/getBranchManagerQuery';
-import removeBranchManagerMutation from './graphql/removeBranchManagerMutation';
 import './BranchHeader.scss';
 
 const branchUuidPrefixes = {
@@ -32,83 +31,59 @@ class BranchHeader extends PureComponent {
       country: PropTypes.string,
       branchType: PropTypes.string,
     }).isRequired,
-    branchManager: PropTypes.shape({
+    branchManagers: PropTypes.shape({
       data: PropTypes.shape({
         branchInfo: PropTypes.shape({
-          manager: PropTypes.string,
-          operator: PropTypes.shape({
+          managers: PropTypes.arrayOf(PropTypes.string),
+          operators: PropTypes.arrayOf(PropTypes.shape({
+            uuid: PropTypes.string,
             fullName: PropTypes.string,
-          }),
+          })),
         }),
       }),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     modals: PropTypes.shape({
       addBranchManagerModal: PropTypes.modalType,
-      removeManagerConfirmModal: PropTypes.modalType,
+      removeBranchManagerModal: PropTypes.modalType,
     }).isRequired,
-    removeBranchManager: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   refetchBranchManagerInfo = () => {
-    this.props.branchManager.refetch();
+    this.props.branchManagers.refetch();
   };
 
-  removeManager = async () => {
+  handleOpenConfirmActionModal = (operators) => {
     const {
-      notify,
-      branchId,
-      removeBranchManager,
-      modals: { removeManagerConfirmModal },
+      branchData: { uuid, name, branchType },
+      modals: { removeBranchManagerModal },
     } = this.props;
 
-    try {
-      await removeBranchManager({ variables: { branchUuid: branchId } });
-
-      notify({
-        level: 'success',
-        title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.TITLE'),
-        message: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.DESC'),
-      });
-
-      removeManagerConfirmModal.hide();
-      this.refetchBranchManagerInfo();
-    } catch {
-      notify({
-        level: 'error',
-        title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.FAILED.TITLE'),
-        message: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.FAILED.DESC'),
-      });
-    }
-  };
-
-  handleOpenConfirmActionModal = () => {
-    const {
-      modals: { removeManagerConfirmModal },
-    } = this.props;
-
-    removeManagerConfirmModal.show({
-      onSubmit: this.removeManager,
-      modalTitle: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.TITLE'),
-      actionText: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.DESCRIPTION'),
-      submitButtonLabel: I18n.t('ACTIONS_LABELS.REMOVE'),
+    removeBranchManagerModal.show({
+      title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.TITLE'),
+      description: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.DESCRIPTION'),
+      branch: { uuid, name, branchType },
+      operators,
+      onSuccess: this.refetchBranchManagerInfo,
     });
   };
 
-  handleOpenManagerModal = (modalType) => {
+  handleOpenManagerModal = () => {
     const {
       branchData: { uuid, name, branchType },
       modals: { addBranchManagerModal },
+      branchManagers,
     } = this.props;
+    const managerData = branchManagers?.data?.branchInfo || {};
 
     addBranchManagerModal.show({
-      title: I18n.t(`MODALS.ADD_BRANCH_MANAGER_MODAL.${modalType}_TITLE`),
+      title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.ADD_TITLE'),
       description: I18n.t(
-        `MODALS.ADD_BRANCH_MANAGER_MODAL.${modalType}_TO_${branchType}`,
+        `MODALS.ADD_BRANCH_MANAGER_MODAL.ADD_TO_${branchType}`,
         { branch: name },
       ),
       branch: { uuid, name, branchType },
+      managers: managerData.managers,
       onSuccess: () => this.refetchBranchManagerInfo(),
     });
   };
@@ -120,13 +95,12 @@ class BranchHeader extends PureComponent {
         country,
         branchType,
       },
-      branchManager,
+      branchManagers,
       branchId,
       loading,
     } = this.props;
 
-    const managerData = branchManager?.data?.branchInfo || {};
-
+    const managerData = branchManagers?.data?.branchInfo || {};
     return (
       <div className="BranchHeader">
         <div className="BranchHeader__left">
@@ -140,16 +114,18 @@ class BranchHeader extends PureComponent {
 
             <div className="BranchHeader__manager">
               <Choose>
-                <When condition={managerData.manager}>
+                <When condition={managerData.operators}>
                   <span>{I18n.t('BRANCH_MANAGER_INFO.MANAGED_BY')}: </span>
-                  <span>
-                    <Link
-                      className="BranchHeader__manager-link"
-                      to={`/operators/${managerData.manager}/profile`}
-                    >
-                      {managerData.operator.fullName}
-                    </Link>
-                  </span>
+                  {managerData.operators.map(({ uuid, fullName }) => (
+                    <div key={uuid}>
+                      <Link
+                        className="BranchHeader__manager-link"
+                        to={`/operators/${uuid}/profile`}
+                      >
+                        {fullName}
+                      </Link>
+                    </div>
+                  ))}
                 </When>
                 <Otherwise>
                   <span>{I18n.t('BRANCH_MANAGER_INFO.NO_MANAGER')}</span>
@@ -161,12 +137,12 @@ class BranchHeader extends PureComponent {
 
         <If condition={!loading}>
           <div className="BranchHeader__right">
-            <If condition={managerData.manager}>
+            <If condition={managerData.operators}>
               <PermissionContent permissions={permissions.HIERARCHY.REMOVE_BRAND_MANAGER}>
                 <Button
                   commonOutline
                   className="BranchHeader__button"
-                  onClick={this.handleOpenConfirmActionModal}
+                  onClick={() => this.handleOpenConfirmActionModal(managerData.operators)}
                 >
                   {I18n.t('COMMON.REMOVE_BRANCH_MANAGER')}
                 </Button>
@@ -177,9 +153,9 @@ class BranchHeader extends PureComponent {
               <Button
                 commonOutline
                 className="BranchHeader__button"
-                onClick={() => this.handleOpenManagerModal(!managerData.manager ? 'ADD' : 'CHANGE')}
+                onClick={this.handleOpenManagerModal}
               >
-                {I18n.t(!managerData.manager ? 'COMMON.ADD_MANAGER_TO_BRANCH' : 'COMMON.CHANGE_BRANCH_MANAGER')}
+                {I18n.t('COMMON.ADD_MANAGER_TO_BRANCH')}
               </Button>
             </PermissionContent>
           </div>
@@ -190,13 +166,11 @@ class BranchHeader extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
-    branchManager: getBranchManagerQuery,
-    removeBranchManager: removeBranchManagerMutation,
+    branchManagers: getBranchManagerQuery,
   }),
   withModals({
     addBranchManagerModal: AddBranchManagerModal,
-    removeManagerConfirmModal: ConfirmActionModal,
+    removeBranchManagerModal: RemoveBranchManagerModal,
   }),
 )(BranchHeader);
