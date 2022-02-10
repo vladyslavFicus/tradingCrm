@@ -9,6 +9,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { shortifyInMiddle } from 'utils/stringFormat';
+import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
 import NoteButton from 'components/NoteButton';
@@ -129,16 +130,16 @@ class FileGrid extends PureComponent {
     return (
       <div className="FileGrid__header">
         <div className="FileGrid__header-left">
-          <div className="FileGrid__header-category">{ I18n.t(`FILES.CATEGORY.${verificationType}`) }</div>
+          <div className="FileGrid__header-category">{I18n.t(`FILES.CATEGORY.${verificationType}`)}</div>
           <If condition={verificationType !== 'OTHER'}>
             <div className="FileGrid__header-separator" />
-            <div className="FileGrid__header-document-type">{ I18n.t(`FILES.DOCUMENTS_TYPE.${documentType}`) }</div>
+            <div className="FileGrid__header-document-type">{I18n.t(`FILES.DOCUMENTS_TYPE.${documentType}`)}</div>
           </If>
         </div>
         <If condition={verificationType !== 'OTHER'}>
           <div className="FileGrid__header-right">
             <div className="FileGrid__header-status">
-              <span className="FileGrid__header-status-label">{ I18n.t('FILES.CHANGE_VERIFICATION_STATUS') }:</span>
+              <span className="FileGrid__header-status-label">{I18n.t('FILES.CHANGE_VERIFICATION_STATUS')}:</span>
               <Select
                 value={selectedVerificationStatusValue || verificationStatus || ''}
                 customClassName="FileGrid__header-status-dropdown"
@@ -160,28 +161,36 @@ class FileGrid extends PureComponent {
   }
 
   renderMoveFileDropdown = ({ uuid, uploadBy }) => {
-    const { categories, verificationType, documentType } = this.props;
+    const { categories, verificationType, documentType, permission: { allows } } = this.props;
+    const isAvailableToUpdate = allows(permissions.USER_PROFILE.UPLOAD_FILE);
 
     return (
       <MoveFileDropDown
         onMoveChange={this.onVerificationTypeChange(uuid)}
         categories={categories}
         uuid={uuid}
-        disabled={uploadBy.indexOf('OPERATOR') === -1}
+        disabled={!isAvailableToUpdate || uploadBy.indexOf('OPERATOR') === -1}
         verificationType={verificationType}
         documentType={documentType}
       />
     );
   }
 
-  renderChangeStatusFile = ({ uuid, status }) => (
-    <ChangeFileStatusDropDown
-      onChangeStatus={this.onFileStatusChange}
-      statusesFile={statusesFile}
-      uuid={uuid}
-      status={status}
-    />
-  )
+  renderChangeStatusFile = ({ uuid, status }) => {
+    const { permission: { allows } } = this.props;
+    const isAvailableToUpdate = allows(permissions.USER_PROFILE.UPLOAD_FILE);
+
+    return (
+      <ChangeFileStatusDropDown
+        onChangeStatus={this.onFileStatusChange}
+        statusesFile={statusesFile}
+        uuid={uuid}
+        disabled={!isAvailableToUpdate}
+        status={status}
+      />
+    );
+  }
+
 
   renderFileName = (data) => {
     const {
@@ -228,7 +237,9 @@ class FileGrid extends PureComponent {
 
   renderActions = data => (
     <>
-      <EditButton onClick={() => this.handleRenameFile(data)} />
+      <PermissionContent permissions={permissions.USER_PROFILE.UPLOAD_FILE}>
+        <EditButton onClick={() => this.handleRenameFile(data)} />
+      </PermissionContent>
       {' '}
       <DownloadButton onClick={() => this.props.onDownloadFileClick(data)} />
       {' '}
@@ -325,4 +336,5 @@ export default compose(
     deleteFileModal: DeleteModal,
     renameFileModal: RenameModal,
   }),
+  withPermission,
 )(FileGrid);
