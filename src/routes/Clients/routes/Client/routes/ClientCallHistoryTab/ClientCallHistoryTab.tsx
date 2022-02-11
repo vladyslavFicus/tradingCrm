@@ -16,7 +16,14 @@ const ClientCallHistoryTab = (props: RouteComponentProps<{ id: string }>) => {
   const callHistory = useCallHistoryQuery({
     variables: {
       uuid,
-      args: { ...state?.filters },
+      args: {
+        ...state?.filters,
+        page: {
+          from: 0,
+          size: 20,
+          sorts: state?.sorts,
+        },
+      },
     },
   });
 

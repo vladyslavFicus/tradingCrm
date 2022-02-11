@@ -165,6 +165,9 @@ export default {
     DELETE_CALLBACK: 'callback.deleteCallback',
     UPDATE_CALLBACK: 'callback.updateCallback',
   },
+  CALL_HISTORY: {
+    LIST: 'analytics.searchCallHistory',
+  },
   CLIENTS_DISTRIBUTION: {
     LIST: 'clients-distributor.searchRules',
     CREATE_RULE: 'clients-distributor.createRule',

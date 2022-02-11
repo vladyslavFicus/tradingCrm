@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
+import { useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
 import I18n from 'i18n-js';
+import { Sort, State } from 'types';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import {
@@ -19,6 +21,8 @@ type CallHistoryType = ExtractApolloTypeFromPageable<CallHistoryQuery['callHisto
 
 const ClientCallHistoryGrid = ({ callHistory }: Props) => {
   const { content = [], last = false } = callHistory?.data?.callHistory || {};
+  const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
+  const history = useHistory();
 
   const handlePageChanged = () => {
     const { data, variables, fetchMore, loading } = callHistory;
@@ -58,17 +62,28 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
     </div>
   );
 
+  const handleSort = (sorts: Sort[]) => {
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
+    });
+  };
+
   return (
     <div className="ClientCallHistoryGrid">
       <Table
         stickyFromTop={188}
         items={content}
         loading={callHistory.loading}
-        hasMore={!last && !callHistory.loading}
+        hasMore={!last}
+        onSort={handleSort}
         onMore={handlePageChanged}
       >
         <Column
           header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.CALL_DATE')}
+          sortBy="createdAt"
           render={renderDateTime}
         />
         <Column
