@@ -27,7 +27,7 @@ export const clientTabs = [
   }, {
     url: '/clients/:id/call-history',
     label: 'CLIENT_PROFILE.TABS.CALL_HISTORY',
-    permission: new Permissions(permissions.CALL_HISTORY.LIST),
+    permissions: new Permissions(permissions.CALL_HISTORY.LIST),
   }, {
     url: '/clients/:id/notes',
     label: 'CLIENT_PROFILE.TABS.NOTES',
