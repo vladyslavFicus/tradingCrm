@@ -132,7 +132,7 @@ class ApolloProvider extends PureComponent {
       connectToDevTools: true,
       defaultOptions: {
         watchQuery: {
-          fetchPolicy: 'cache-first',
+          fetchPolicy: 'cache-and-network',
           nextFetchPolicy: 'cache-only',
         },
       },

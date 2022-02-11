@@ -30,6 +30,7 @@ import ClientPaymentsTab from './routes/ClientPaymentsTab';
 import ClientTradingActivityTab from './routes/ClientTradingActivityTab';
 import ClientTradingAccountsTab from './routes/ClientTradingAccountsTab';
 import ClientCallbacksTab from './routes/ClientCallbacksTab';
+import ClientCallHistoryTab from './routes/ClientCallHistoryTab';
 import ClientNotesTab from './routes/ClientNotesTab';
 import ClientFilesTab from './routes/ClientFilesTab';
 import ClientFeedsTab from './routes/ClientFeedsTab';
@@ -174,6 +175,7 @@ class Client extends PureComponent {
               <Route path={`${path}/trading-activity`} component={ClientTradingActivityTab} />
               <Route path={`${path}/accounts`} component={ClientTradingAccountsTab} />
               <Route path={`${path}/callbacks`} component={ClientCallbacksTab} />
+              <Route path={`${path}/call-history`} component={ClientCallHistoryTab} />
               <Route path={`${path}/notes`} component={ClientNotesTab} />
               <Route path={`${path}/files`} component={ClientFilesTab} />
               <Route path={`${path}/feed`} component={ClientFeedsTab} />

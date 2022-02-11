@@ -8,3 +8,4 @@ declare var Otherwise: React.FC;
 
 // Extract single type from array when requested array of types
 type ExtractApolloTypeFromArray<T> = NonNullable<NonNullable<T>[number]>;
+type ExtractApolloTypeFromPageable<T> = NonNullable<NonNullable<NonNullable<T>['content']>[number]>;

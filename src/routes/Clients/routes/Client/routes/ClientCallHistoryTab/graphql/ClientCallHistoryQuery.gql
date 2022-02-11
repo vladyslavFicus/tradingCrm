@@ -1,0 +1,17 @@
+query CallHistoryQuery($uuid: String!, $args: CallHistorySearch__Input!) {
+  callHistory(uuid: $uuid, args: $args) {
+    page
+    last
+    content {
+      createdAt
+      uuid
+      operatorUuid
+      callSystem
+      createdAt
+      operator {
+        uuid
+        fullName
+      }
+    }
+  }
+}

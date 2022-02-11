@@ -2627,10 +2627,26 @@
       "TRANSACTIONS": "Transactions",
       "ACCOUNTS": "Accounts",
       "CALLBACKS": "Callbacks",
+      "CALL_HISTORY": "Call history",
       "FILES": "Files",
       "NOTES": "Notes",
       "FEED": "Feed",
       "REFERRALS": "Referrals"
+    },
+    "CALL_HISTORY": {
+      "GRID": {
+        "HEADER": {
+          "CALL_DATE": "Date and Time",
+          "VOIP": "VoIP",
+          "OPERATOR": "Operator"
+        },
+        "FILTERS": {
+          "SEARCH_BY": "Search By",
+          "SEARCH_BY_PLACEHOLDER": "Operator ID",
+          "CALL_SYSTEM": "VoIP",
+          "DATE_RANGE": "Date & time range"
+        }
+      }
     },
     "PROFILE": {
       "TITLE": "Profile",

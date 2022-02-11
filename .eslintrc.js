@@ -140,6 +140,7 @@ module.exports = {
     document: false,
     fetch: false,
     ExtractApolloTypeFromArray: false,
+    ExtractApolloTypeFromPageable: false,
   },
   settings: {
     'import/resolver': {

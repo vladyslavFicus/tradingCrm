@@ -314,7 +314,7 @@ class Table extends PureComponent {
       customClassNameRow,
     } = this.props;
 
-    if (loading && !items.length) {
+    if (loading) {
       return (
         <tr className="Table__body-row">
           <td colSpan={columns.length} className="Table__cell Table__body-cell">
@@ -387,7 +387,7 @@ class Table extends PureComponent {
   };
 
   render() {
-    const { hasMore, onMore, items, scrollableTarget } = this.props;
+    const { loading, hasMore, onMore, items, scrollableTarget } = this.props;
 
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === Column);
 
@@ -396,7 +396,7 @@ class Table extends PureComponent {
         <InfiniteScroll
           dataLength={items.length}
           next={onMore}
-          hasMore={hasMore}
+          hasMore={!loading && hasMore}
           scrollableTarget={scrollableTarget}
           loader={<ShortPreloader className="Table--loader" />}
           style={{ overflow: 'unset' }}
