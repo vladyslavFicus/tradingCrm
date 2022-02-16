@@ -6,7 +6,7 @@ import { statuses, statusMapper } from 'constants/payment';
 
 const REQUEST = gql`
   query PaymentsQuery($args: PaymentSearch__Input) {
-    payments(args: $args) {
+    payments(args: $args) @connection(key: $connectionKey) {
       last
       content {
         _id
@@ -75,7 +75,7 @@ const REQUEST = gql`
   }
 `;
 
-const PaymentsQuery = ({ children, paymentTypes, size }) => (
+const PaymentsQuery = ({ children, paymentTypes, size, connectionKey }) => (
   <Query
     query={REQUEST}
     variables={{
@@ -87,6 +87,7 @@ const PaymentsQuery = ({ children, paymentTypes, size }) => (
         statuses: statusMapper[statuses.COMPLETED],
         paymentTypes,
       },
+      connectionKey,
     }}
     errorPolicy="all"
   >
@@ -98,6 +99,7 @@ PaymentsQuery.propTypes = {
   children: PropTypes.func.isRequired,
   size: PropTypes.number.isRequired,
   paymentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  connectionKey: PropTypes.string.isRequired,
 };
 
 export default PaymentsQuery;

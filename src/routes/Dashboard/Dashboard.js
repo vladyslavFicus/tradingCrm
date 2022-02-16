@@ -59,6 +59,7 @@ class Dashboard extends PureComponent {
           <PaymentsGrid
             size={GRID_SIZE}
             paymentTypes={[tradingTypes.DEPOSIT]}
+            connectionKey="DASHBOARD_DEPOSITS"
           />
 
           <div className="Dashboard__topic">
@@ -67,6 +68,7 @@ class Dashboard extends PureComponent {
           <PaymentsGrid
             size={GRID_SIZE}
             paymentTypes={[tradingTypes.WITHDRAW]}
+            connectionKey="DASHBOARD_WITHDRAWALS"
           />
         </PermissionContent>
 
