@@ -479,7 +479,7 @@ class EditOrderModal extends PureComponent {
                                 name="netPnL"
                                 value={
                                   status === OrderStatus.OPEN
-                                    ? (floatingPnL - commission - swaps).toFixed(2)
+                                    ? (floatingPnL + commission + swaps).toFixed(2)
                                     : '-'
                                 }
                                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
