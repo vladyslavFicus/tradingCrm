@@ -47,8 +47,6 @@ class PermissionsSetting extends PureComponent {
 
   state = {
     shadowActions: null,
-    role: null,
-    department: null,
     shouldUpdate: false,
   };
 
@@ -64,10 +62,8 @@ class PermissionsSetting extends PureComponent {
     const { actionsQuery } = props;
 
     const authorityActions = actionsQuery.data?.authorityActions || [];
-    const shouldInit = !actionsQuery.loading
-      && (state.department !== props.department || state.role !== props.role);
 
-    if (shouldInit || state.shouldUpdate) {
+    if (!actionsQuery.loading || state.shouldUpdate) {
       const shadowActions = rbac.map((section) => {
         const [sectionKey] = Object.keys(section?.actions || {});
         const _section = { ...section };
