@@ -1377,7 +1377,12 @@
       "WRONG_NUMBER": "Wrong number",
       "MEDIA": "Media",
       "WIRE_SENT": "Wire Sent",
-      "SCHATAP": "Schatap"
+      "SCHATAP": "Schatap",
+      "CALL_AGAIN": "Call again",
+      "AWAITING_DEPOSIT": "Awaiting deposit",
+      "IN_THE_MONEY": "In the money",
+      "BURNED": "Burned",
+      "MONEY_CALL": "Money call"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
