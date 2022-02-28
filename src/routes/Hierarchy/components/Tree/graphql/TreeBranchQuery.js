@@ -23,6 +23,7 @@ export const REQUEST = gql`
         operator {
           fullName
           authorities(brand: $brand) {
+            id
             brand
             department
             role

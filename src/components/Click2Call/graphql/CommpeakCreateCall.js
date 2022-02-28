@@ -20,7 +20,8 @@ const REQUEST = gql`
         )
       }
     }
-  }`;
+  }
+`;
 
 const CommpeakCreateCall = ({ children }) => (
   <Mutation mutation={REQUEST}>

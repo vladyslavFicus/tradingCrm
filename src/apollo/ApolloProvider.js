@@ -134,6 +134,7 @@ class ApolloProvider extends PureComponent {
         watchQuery: {
           fetchPolicy: 'cache-and-network',
           nextFetchPolicy: 'cache-only',
+          errorPolicy: 'all',
         },
       },
     });

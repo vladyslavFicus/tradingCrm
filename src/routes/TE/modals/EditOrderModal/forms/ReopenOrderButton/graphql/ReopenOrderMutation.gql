@@ -1,0 +1,5 @@
+mutation ReopenOrderMutation($orderId: Int!) {
+  tradingEngine {
+    reopenOrder(orderId: $orderId)
+  }
+}

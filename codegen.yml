@@ -7,6 +7,10 @@ generates:
   src/__generated__/types.ts:
     plugins:
       - typescript
+    config:
+      skipDocumentsValidation: true
+      namingConvention:
+        enumValues: keep
   src/:
     preset: near-operation-file
     presetConfig:

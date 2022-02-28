@@ -17,7 +17,8 @@ const REQUEST = gql`mutation ClientFilesTab_UpdateFileStatusMutation(
       verificationStatus: $verificationStatus
     )
   }
-}`;
+}
+`;
 
 const UpdateFileStatusMutation = ({ children, match: { params: { id } } }) => (
   <Mutation mutation={REQUEST} variables={{ uuid: id }}>{children}</Mutation>

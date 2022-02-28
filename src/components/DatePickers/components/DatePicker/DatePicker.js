@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import momentPropTypes from 'react-moment-proptypes';
 import { isEqual } from 'lodash';
+import { v4 } from 'uuid';
 import { Button } from 'components/UI';
 import DateCalendarPicker from '../DateCalendarPicker';
 import DateTimePicker from '../DateTimePicker';
@@ -59,6 +60,8 @@ class DatePicker extends PureComponent {
     withTime: false,
     withUtc: false,
   };
+
+  id = `datepicker-${v4()}`;
 
   state = {
     selectedDate: undefined,
@@ -311,7 +314,7 @@ class DatePicker extends PureComponent {
     return (
       <div className={classNames('DatePicker', className)}>
         <If condition={label}>
-          <div className="DatePicker__label">{label}</div>
+          <label className="DatePicker__label" htmlFor={this.id}>{label}</label>
         </If>
 
         <div className="DatePicker__input-container">
@@ -326,6 +329,7 @@ class DatePicker extends PureComponent {
             <div className="DatePicker__input-left">
               <input
                 type="text"
+                id={this.id}
                 placeholder={placeholder}
                 onChange={this.handleInputDateChange}
                 value={selectedDate || ''}

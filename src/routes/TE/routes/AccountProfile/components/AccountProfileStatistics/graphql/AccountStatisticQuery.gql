@@ -1,0 +1,17 @@
+query AccountStatisticQuery($accountUuid: String!) {
+  tradingEngine{
+    accountStatistic (
+      accountUuid: $accountUuid
+    ) {
+      depositsSum
+      withdrawalsSum
+      balance
+      credit
+      margin
+      freeMargin
+      marginLevel
+      equity
+      openPnl
+    }
+  }
+}

@@ -14,7 +14,8 @@ const NoteFragment = gql`fragment NoteFragment on Note {
   operator {
     fullName
   }
-}`;
+}
+`;
 
 export {
   NoteFragment,

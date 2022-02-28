@@ -11,7 +11,7 @@ import {
   reasons as blockReasons,
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
 } from 'constants/user';
-import { orderTypes, orderStatuses } from 'routes/TradingEngine/constants/order';
+import { orderTypes, orderStatuses } from 'routes/TE/constants';
 import { documentsType, categories } from 'constants/files';
 import {
   methodsLabels as paymentMethodsLabels,

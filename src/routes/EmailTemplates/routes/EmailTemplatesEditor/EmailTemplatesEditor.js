@@ -3,17 +3,17 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import PropTypes from 'constants/propTypes';
 import { Button } from 'reactstrap';
-import { withRequests } from 'apollo';
 import { Field, Form, Formik } from 'formik';
+import PropTypes from 'constants/propTypes';
+import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { Link } from 'components/Link';
 import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
+import { validator } from '../../utils';
 import EmailTemplateUpdateMutation from './graphql/EmailTemplateUpdateMutation';
 import EmailTemplateQuery from './graphql/EmailTemplateQuery';
-import { validator } from '../../utils';
 import './EmailTemplatesEditor.scss';
 
 class EmailTemplatesEditor extends PureComponent {

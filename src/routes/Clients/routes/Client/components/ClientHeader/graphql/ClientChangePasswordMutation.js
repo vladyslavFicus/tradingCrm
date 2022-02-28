@@ -14,7 +14,8 @@ const REQUEST = gql`
         newPassword: $newPassword
       )
     }
-  }`;
+  }
+`;
 
 const ClientChangePasswordMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

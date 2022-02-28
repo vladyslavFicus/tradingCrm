@@ -32,4 +32,5 @@ export default gql`query DistributionRuleClientsAmountQuery(
     desks: $desks
     teams: $teams
   )
-}`;
+}
+`;

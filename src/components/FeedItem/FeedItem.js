@@ -8,8 +8,8 @@ import { types, typesLabels, typesClassNames } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import parseJson from 'utils/parseJson';
 import { Button } from 'components/UI';
-import FeedContent from './FeedContent';
 import Uuid from '../Uuid';
+import FeedContent from './FeedContent';
 import './FeedItem.scss';
 
 class FeedItem extends PureComponent {

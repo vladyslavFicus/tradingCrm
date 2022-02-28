@@ -10,7 +10,8 @@ const REQUEST = gql`query PaymentSystemQuery {
   paymentSystems {
     paymentSystem
   }
-}`;
+}
+`;
 
 const PaymentSystemsQuery = ({ children }: Props) => (
   <Query query={REQUEST} fetchPolicy="network-only">

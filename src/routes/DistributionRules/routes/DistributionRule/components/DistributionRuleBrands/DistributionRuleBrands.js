@@ -5,11 +5,11 @@ import { withApollo } from '@apollo/client/react/hoc';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
+import { distributionRuleClientsAmountQuery } from '../../graphql';
 import MigrationButton from './components/MigrationButton';
 import MigrationBrandCard from './components/MigrationBrandCard';
 import AddSourceBrandModal from './components/AddSourceBrandModal';
 import AddTargetBrandModal from './components/AddTargetBrandModal';
-import { distributionRuleClientsAmountQuery } from '../../graphql';
 import BrandsQuery from './graphql/BrandsQuery';
 import './DistributionRuleBrands.scss';
 

@@ -19,7 +19,8 @@ const REQUEST = gql`mutation ClientFilesTab_UpdateFileMetaMutation(
       status: $status
     )
   }
-}`;
+}
+`;
 
 const UpdateFileMetaMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>{children}</Mutation>

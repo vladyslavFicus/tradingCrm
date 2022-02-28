@@ -10,8 +10,8 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
-import UpdateDeskMutation from './graphql/UpdateDeskMutation';
 import { deskTypes } from '../../constants';
+import UpdateDeskMutation from './graphql/UpdateDeskMutation';
 import './UpdateDeskModal.scss';
 
 const attributeLabels = {

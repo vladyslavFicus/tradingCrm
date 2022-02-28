@@ -9,7 +9,8 @@ const REQUEST = gql`query AddTargetBrandModal_PartnersQuery {
     fullName
     brand
   }
-}`;
+}
+`;
 
 const PartnersQuery = ({ children }) => (
   <Query query={REQUEST}>

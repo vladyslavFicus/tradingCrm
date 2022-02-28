@@ -98,16 +98,32 @@ const sidebarTopMenu = [{
   url: '/distribution',
   permissions: new Permissions(permissions.CLIENTS_DISTRIBUTION.LIST),
 }, {
-  label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE',
+  label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.TITLE',
   icon: 'icon-trading-engine',
   items: [{
-    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_MANAGER',
-    url: '/trading-engine-manager',
-    permissions: new Permissions(permissions.WE_TRADING.MANAGER_EDIT_ORDER),
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.ACCOUNTS',
+    url: '/trading-engine/accounts',
+    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
   }, {
-    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE_ADMIN',
-    url: '/trading-engine-admin',
-    permissions: new Permissions(permissions.WE_TRADING.ADMIN_EDIT_ORDER),
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.ORDERS',
+    url: '/trading-engine/orders',
+    permissions: new Permissions(permissions.WE_TRADING.ORDERS_LIST),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.QUOTES',
+    url: '/trading-engine/quotes',
+    permissions: new Permissions(permissions.WE_TRADING.SYMBOLS_LIST),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.SYMBOLS',
+    url: '/trading-engine/symbols',
+    permissions: new Permissions(permissions.WE_TRADING.SYMBOLS_LIST),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.GROUPS',
+    url: '/trading-engine/groups',
+    permissions: new Permissions(permissions.WE_TRADING.GROUPS_LIST),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.SECURITIES',
+    url: '/trading-engine/securities',
+    permissions: new Permissions(permissions.WE_TRADING.SECURITIES_LIST),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.IP_WHITELIST',

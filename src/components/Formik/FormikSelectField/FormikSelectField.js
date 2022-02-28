@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { getIn } from 'formik';
 import { eq, isNil } from 'lodash';
 import I18n from 'i18n-js';
+import { v4 } from 'uuid';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
 
@@ -59,6 +60,8 @@ class FormikSelectField extends PureComponent {
     withFocus: false,
   };
 
+  id = `select-${v4()}`;
+
   onHandleChange = (value) => {
     const {
       customOnChange,
@@ -109,7 +112,7 @@ class FormikSelectField extends PureComponent {
       )}
       >
         <If condition={label}>
-          <label>{label}</label>
+          <label htmlFor={this.id}>{label}</label>
         </If>
 
         <div>
@@ -132,6 +135,16 @@ class FormikSelectField extends PureComponent {
               ]
             }
           </Select>
+
+          {/* Hidden input for tests */}
+          <input
+            id={this.id}
+            type="text"
+            disabled={disabled}
+            defaultValue={value}
+            style={{ display: 'none' }}
+          />
+
           <If condition={showErrorMessage && customTouched && error}>
             <div className="form-row">
               <div className="col form-control-feedback">

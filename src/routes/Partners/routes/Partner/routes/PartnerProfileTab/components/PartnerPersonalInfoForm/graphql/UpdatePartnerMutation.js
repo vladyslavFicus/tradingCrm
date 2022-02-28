@@ -29,7 +29,8 @@ const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
       cdeAffiliate: $cdeAffiliate
     )
   }
-}`;
+}
+`;
 
 const UpdatePartnerMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

@@ -5,7 +5,8 @@ import { Query } from '@apollo/client/react/components';
 
 const REQUEST = gql`query PaymentMethodsQuery {
   paymentMethods
-}`;
+}
+`;
 
 const PaymentMethodsQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="cache-and-network">

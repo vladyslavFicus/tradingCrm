@@ -7,6 +7,7 @@ import './Button.scss';
 class Button extends PureComponent {
   static propTypes = {
     children: PropTypes.any.isRequired,
+    autoFocus: PropTypes.bool,
     className: PropTypes.string,
     type: PropTypes.string,
     submitting: PropTypes.bool,
@@ -26,6 +27,7 @@ class Button extends PureComponent {
 
   static defaultProps = {
     className: null,
+    autoFocus: false,
     type: 'button',
     submitting: false,
     disabled: false,
@@ -41,6 +43,15 @@ class Button extends PureComponent {
     small: false,
     stopPropagation: false,
   };
+
+  buttonRef = React.createRef();
+
+  componentDidMount() {
+    // Enable autofocus on next tick (because in the same tick it isn't working)
+    if (this.props.autoFocus) {
+      setTimeout(() => this.buttonRef.current.focus(), 0);
+    }
+  }
 
   /**
    * Should be here to prevent synthetic event errors
@@ -81,6 +92,7 @@ class Button extends PureComponent {
       <button
         type="button"
         {...props}
+        ref={this.buttonRef}
         onClick={this.onClick}
         className={
           classNames(

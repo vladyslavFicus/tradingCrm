@@ -17,7 +17,8 @@ const REQUEST = gql`query LeadsGridFilter_DesksAndTeamsQuery {
       }
     }
   }
-}`;
+}
+`;
 
 const DesksAndTeamsQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="network-only">{children}</Query>

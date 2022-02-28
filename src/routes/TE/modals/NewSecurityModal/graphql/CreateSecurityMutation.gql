@@ -1,0 +1,11 @@
+mutation CreateSecurityMutation(
+   $name: String!
+   $description: String
+) {
+  tradingEngine {
+    createSecurity(
+      name: $name
+      description: $description
+    )
+  }
+}

@@ -12,7 +12,8 @@ const REQUEST = gql`query BranchInfoQuery(
   ) {
     defaultUser
   }
-}`;
+}
+`;
 
 const BranchInfoQuery = ({
   children,

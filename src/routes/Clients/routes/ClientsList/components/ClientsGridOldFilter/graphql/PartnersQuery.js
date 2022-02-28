@@ -22,7 +22,8 @@ const REQUEST = gql`query ClientsGridOldFilter_PartnersQuery(
       fullName
     }
   }
-}`;
+}
+`;
 
 const PartnersQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="cache-and-network">

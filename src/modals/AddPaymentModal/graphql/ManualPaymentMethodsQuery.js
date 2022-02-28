@@ -5,7 +5,8 @@ import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query ManualPaymentMethodsQuery {
   manualPaymentMethods
-}`;
+}
+`;
 
 const ManualPaymentMethodsQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="network-only">

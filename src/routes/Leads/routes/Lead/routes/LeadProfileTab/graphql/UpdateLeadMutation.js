@@ -29,7 +29,8 @@ const REQUEST = gql`mutation LeadProfileTab_UpdateLeadMutation(
       city: $city
     )
   }
-}`;
+}
+`;
 
 const UpdateLeadMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

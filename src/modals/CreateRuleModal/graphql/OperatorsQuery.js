@@ -19,7 +19,8 @@ const REQUEST = gql`query RuleModal_OperatorsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

@@ -22,8 +22,19 @@ export const routePermissions = {
   '/roles-and-permissions': permissions.AUTH.UPDATE_ACTIONS,
 
   // Trading Engine
-  '/trading-engine-manager': permissions.WE_TRADING.MANAGER_EDIT_ORDER,
-  '/trading-engine-admin': permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+  '/trading-engine/accounts': permissions.WE_TRADING.ACCOUNTS_LIST,
+  '/trading-engine/accounts/:id/orders': permissions.WE_TRADING.ORDERS_LIST,
+  '/trading-engine/orders': permissions.WE_TRADING.ORDERS_LIST,
+  '/trading-engine/quotes': permissions.WE_TRADING.SYMBOLS_LIST,
+  '/trading-engine/symbols': permissions.WE_TRADING.SYMBOLS_LIST,
+  '/trading-engine/symbols/new': permissions.WE_TRADING.CREATE_SYMBOL,
+  '/trading-engine/symbols/:id': permissions.WE_TRADING.EDIT_SYMBOL,
+  '/trading-engine/groups': permissions.WE_TRADING.GROUPS_LIST,
+  '/trading-engine/groups/new': permissions.WE_TRADING.CREATE_GROUP,
+  '/trading-engine/groups/:id': permissions.WE_TRADING.EDIT_GROUP,
+  '/trading-engine/securities': permissions.WE_TRADING.SECURITIES_LIST,
+  '/trading-engine/accounts/:id/transactions': permissions.WE_TRADING.TRANSACTIONS_LIST,
+  '/trading-engine/accounts/:id/feed': permissions.AUDIT.AUDIT_LOGS,
 
   '/ip-whitelist/list': permissions.IP_WHITELIST.LIST,
   '/ip-whitelist/feed': permissions.AUDIT.AUDIT_LOGS,

@@ -9,9 +9,9 @@ import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField, FormikInputField, FormikCheckbox } from 'components/Formik';
 import { Button } from 'components/UI';
+import { baseUnits, modalFieldsNames } from '../../constants';
 import operatorsByBrandQuery from './graphql/operatorsByBrandQuery';
 import PartnersQuery from './graphql/PartnersQuery';
-import { baseUnits, modalFieldsNames } from '../../constants';
 import './AddTargetBrandModal.scss';
 
 class AddTargetBrandModal extends PureComponent {

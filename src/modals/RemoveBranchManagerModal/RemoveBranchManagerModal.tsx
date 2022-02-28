@@ -1,10 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
-import { parseErrors } from 'apollo';
 import { ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import { Button } from 'components/UI';

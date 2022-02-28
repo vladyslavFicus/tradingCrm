@@ -5,7 +5,8 @@ import { Query } from '@apollo/client/react/components';
 
 const REQUEST = gql`query NotificationGridFilters_NotificationTypesQuery {
   notificationCenterTypes
-}`;
+}
+`;
 
 const NotificationTypesQuery = ({ children }) => (
   <Query query={REQUEST}>

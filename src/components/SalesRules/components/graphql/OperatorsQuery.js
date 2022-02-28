@@ -32,7 +32,8 @@ const REQUEST = gql`query OperatorsQuery(
       operatorStatus
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

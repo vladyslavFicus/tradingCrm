@@ -32,9 +32,6 @@ import PermissionContent from 'components/PermissionContent';
 import ReactSwitch from 'components/ReactSwitch';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
-import OperatorsQuery from './graphql/OperatorsQuery';
-import PartnersQuery from './graphql/PartnersQuery';
 import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
@@ -43,6 +40,9 @@ import {
   assignStatuses,
   radioSelect,
 } from '../../constants';
+import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
+import OperatorsQuery from './graphql/OperatorsQuery';
+import PartnersQuery from './graphql/PartnersQuery';
 import './ClientsGridOldFilter.scss';
 
 class ClientsGridOldFilter extends PureComponent {

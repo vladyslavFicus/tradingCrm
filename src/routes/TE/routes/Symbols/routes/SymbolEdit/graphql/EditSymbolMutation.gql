@@ -1,0 +1,5 @@
+mutation EditSymbolMutation($args: TradingEngineEditSymbol__Input) {
+  tradingEngine {
+    editSymbol(args: $args)
+  }
+}

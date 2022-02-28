@@ -14,7 +14,8 @@ const REQUEST = gql`
       name: $name
     )
   }
-}`;
+}
+`;
 
 const RenameTradingAccountMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

@@ -1,15 +1,15 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
 import { cloneDeep, set } from 'lodash';
+import { withRequests } from 'apollo';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
+import { ipWhitelistTabs } from '../../constants';
 import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
 import { Feed, WitelististFeedsQueryResult } from './types';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
-import { ipWhitelistTabs } from '../../constants';
 import './IpWhitelistFeed.scss';
 
 interface Props {

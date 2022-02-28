@@ -1,0 +1,30 @@
+query HistoryQuery(
+  $args: TradingEngineHistorySearch__Input
+) {
+  tradingEngine{
+    history(args: $args) {
+      content {
+        id
+        accountLogin
+        type
+        closingTime
+        openingTime
+        symbol
+        volume
+        closePrice
+        profit
+        deletedAt
+        openPrice
+        stopLoss
+        takeProfit
+        swaps
+        status
+      }
+      page
+      number
+      totalElements
+      size
+      last
+    }
+  }
+}

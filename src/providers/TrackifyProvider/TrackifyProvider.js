@@ -1,8 +1,8 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Trackify from '@hrzn/trackify';
-import { withRequests } from 'apollo';
 import compose from 'compose-function';
+import { withRequests } from 'apollo';
 import { getVersion } from 'config';
 import { withStorage } from 'providers/StorageProvider';
 import TrackifyMutation from './graphql/TrackifyMutation';

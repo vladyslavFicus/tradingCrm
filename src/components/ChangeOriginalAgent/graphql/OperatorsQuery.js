@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from '@apollo/client';
-import PropTypes from 'constants/propTypes';
 import { Query } from '@apollo/client/react/components';
+import PropTypes from 'constants/propTypes';
 
 export const REQUEST = gql`query ChangeOriginalAgent_getOperators (
   $page: Page__Input
@@ -18,7 +18,8 @@ export const REQUEST = gql`query ChangeOriginalAgent_getOperators (
       operatorStatus
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

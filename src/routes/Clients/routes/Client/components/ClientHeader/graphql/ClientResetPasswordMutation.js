@@ -11,7 +11,8 @@ const REQUEST = gql`
     auth {
       resetUserPassword(userUuid: $playerUUID)
     }
-  }`;
+  }
+`;
 
 const ClientResetPasswordMutation = ({ children }) => (
   <Mutation mutation={REQUEST} variables={{ brandId: getBrand().id }}>

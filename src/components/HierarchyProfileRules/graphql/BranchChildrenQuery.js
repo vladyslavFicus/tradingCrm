@@ -12,7 +12,8 @@ const REQUEST = gql`query BranchChildrenQuery(
   ) {
     uuid
   }
-}`;
+}
+`;
 
 const BranchChildrenQuery = ({
   children,

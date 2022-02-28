@@ -9,7 +9,7 @@ module.exports = {
   ],
   plugins: [
     'jsx-control-statements',
-    'graphql',
+    'json-format',
   ],
   overrides: [
     // Typescript linting
@@ -39,36 +39,44 @@ module.exports = {
         'import/export': 2,
       },
     },
+    // GraphQL linting
+    {
+      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+      processor: '@graphql-eslint/graphql',
+    },
+    {
+      files: ['*.gql', '*.graphql'],
+      extends: ['plugin:@graphql-eslint/operations-recommended'],
+      parserOptions: {
+        skipGraphQLConfig: true,
+        schema: './graphql.schema.json',
+        operations: [
+          './src/**/*.gql',
+          './src/**/*.js',
+          './src/**/*.jsx',
+          './src/**/*.ts',
+          './src/**/*.tsx',
+        ],
+      },
+      rules: {
+        'no-trailing-spaces': 0,
+        'no-multiple-empty-lines': 0,
+        '@graphql-eslint/no-anonymous-operations': 'error',
+        '@graphql-eslint/known-directives': 0,
+        '@graphql-eslint/no-undefined-variables': 0,
+        '@graphql-eslint/naming-convention': [
+          'error',
+          {
+            OperationDefinition: {
+              forbiddenPrefixes: [''],
+              forbiddenSuffixes: [''],
+            },
+          },
+        ],
+      },
+    },
   ],
   rules: {
-    'graphql/template-strings': ['error', {
-      env: 'apollo',
-      schemaJson: require('./graphql.schema.json'),
-      validators: [
-        'ExecutableDefinitionsRule',
-        'FieldsOnCorrectTypeRule',
-        'FragmentsOnCompositeTypesRule',
-        'KnownArgumentNamesRule',
-        'KnownTypeNamesRule',
-        'LoneAnonymousOperationRule',
-        'NoFragmentCyclesRule',
-        'NoUnusedVariablesRule',
-        'OverlappingFieldsCanBeMergedRule',
-        'PossibleFragmentSpreadsRule',
-        'ProvidedRequiredArgumentsRule',
-        'ScalarLeafsRule',
-        'SingleFieldSubscriptionsRule',
-        'UniqueArgumentNamesRule',
-        'UniqueDirectivesPerLocationRule',
-        'UniqueFragmentNamesRule',
-        'UniqueInputFieldNamesRule',
-        'UniqueOperationNamesRule',
-        'UniqueVariableNamesRule',
-        'ValuesOfCorrectTypeRule',
-        'VariablesAreInputTypesRule',
-        'VariablesInAllowedPositionRule',
-      ],
-    }],
     // START: Workaround for babel-eslint https://github.com/babel/babel-eslint/issues/799
     indent: [
       'error',
@@ -134,6 +142,8 @@ module.exports = {
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'react/sort-comp': 0,
     'import/no-cycle': 0,
+    'import/order': ['error', { groups: ['external', 'builtin', 'internal', 'parent', 'sibling', 'index'] }],
+    'key-spacing': ['error', { singleLine: { beforeColon: false, afterColon: true } }],
   },
   globals: {
     window: false,
@@ -141,6 +151,7 @@ module.exports = {
     fetch: false,
     ExtractApolloTypeFromArray: false,
     ExtractApolloTypeFromPageable: false,
+    HTMLInputElement: false,
   },
   settings: {
     'import/resolver': {
@@ -149,5 +160,7 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
+    'json/sort-package-json': 'standard',
+    'json/json-with-comments-files': ['**/tsconfig.json', '.vscode/**'],
   },
 };

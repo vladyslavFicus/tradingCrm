@@ -17,7 +17,8 @@ const REQUEST = gql`query ClientsGridFilter_DesksAndTeamsQuery {
       }
     }
   }
-}`;
+}
+`;
 
 const DesksAndTeamsQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="cache-and-network">

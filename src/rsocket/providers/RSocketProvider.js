@@ -6,8 +6,8 @@ import compose from 'compose-function';
 import { withRequests } from 'apollo';
 import { getRSocketUrl } from 'config';
 import { withStorage } from 'providers/StorageProvider';
-import TokenRefreshMutation from './graphql/TokenRefreshMutation';
 import RSocketReconnectableClient from '../lib/RSocketReconnectableClient';
+import TokenRefreshMutation from './graphql/TokenRefreshMutation';
 
 export const RSocketContext = React.createContext();
 

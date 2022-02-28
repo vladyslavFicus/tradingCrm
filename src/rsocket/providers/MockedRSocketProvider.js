@@ -72,7 +72,7 @@ RSocketMockedProvider.publish = (request) => {
     onNext,
   } = request;
 
-  const subscriber = _subscribers.find((_subscriber) => {
+  const subscribers = _subscribers.filter((_subscriber) => {
     const isRouteEqual = _subscriber.route === route;
     const isDataEqual = isEqual(_subscriber.payload.data, data);
     const isMetadataEqual = isEqual(_subscriber.payload.metadata, metadata);
@@ -80,12 +80,12 @@ RSocketMockedProvider.publish = (request) => {
     return isRouteEqual && isDataEqual && isMetadataEqual;
   });
 
-  if (!subscriber) {
+  if (!subscribers.length) {
     throw new Error('RSocket Subscriber not found for provided request');
   }
 
   // Publish message to subscriber
-  subscriber.subscriber.onNext(onNext);
+  subscribers.forEach(({ subscriber }) => subscriber.onNext(onNext));
 };
 
 export default RSocketMockedProvider;

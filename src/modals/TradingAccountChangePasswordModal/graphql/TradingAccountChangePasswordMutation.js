@@ -16,7 +16,8 @@ const REQUEST = gql`
       accountUUID: $accountUUID
     )
   }
-}`;
+}
+`;
 
 const TradingAccountChangePasswordMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

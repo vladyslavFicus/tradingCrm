@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'constants/propTypes';
+import I18n from 'i18n-js';
+import { withApollo } from '@apollo/client/react/hoc';
 import compose from 'compose-function';
 import { parseErrors, withRequests } from 'apollo';
-import { withApollo } from '@apollo/client/react/hoc';
+import PropTypes from 'constants/propTypes';
 import { withNotifications } from 'hoc';
 import { Button } from 'components/UI';
-import I18n from 'i18n-js';
 import UnarchiveAccountMutation from './graphql/UnarchiveAccountMutation';
 
 class UnarchiveButton extends PureComponent {

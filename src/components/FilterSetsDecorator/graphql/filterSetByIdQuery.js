@@ -6,4 +6,5 @@ export default gql`query filterSetByIdQuery(
   filterSet(
     uuid: $uuid
   )
-}`;
+}
+`;

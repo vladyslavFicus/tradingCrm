@@ -1,8 +1,8 @@
-import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
 import React, { useMemo, useState } from 'react';
 import compose from 'compose-function';
 import { QueryResult } from '@apollo/client';
+import { withRequests } from 'apollo';
 import { Column, Table } from '..';
 import GridConfigQuery from './graphql/GridConfigQuery';
 import GridConfig from './GridConfig';

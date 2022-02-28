@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'constants/propTypes';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import { withRequests } from 'apollo';
-import RegisteredUsersStatistic from './graphql/RegisteredUsersStatistic';
 import Chart from '../Chart';
 import { getChartSelectOptions } from '../dashboardChartsUtils';
+import RegisteredUsersStatistic from './graphql/RegisteredUsersStatistic';
 
 class RegistrationsChart extends PureComponent {
   static propTypes = {

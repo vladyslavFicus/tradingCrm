@@ -85,7 +85,8 @@ const REQUEST = gql`query TradingActivityQuery(
     size
     last
   }
-}`;
+}
+`;
 
 const TradingActivityQuery = ({
   children,

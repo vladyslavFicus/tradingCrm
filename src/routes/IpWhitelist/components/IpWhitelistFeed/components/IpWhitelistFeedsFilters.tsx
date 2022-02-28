@@ -12,8 +12,8 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { typesLabels } from 'constants/audit';
-import IpWhitelistFiltersQuery from './graphql/IpWhitelistFiltersQuery';
 import { IpWhitelistFeedFilters } from '../types';
+import IpWhitelistFiltersQuery from './graphql/IpWhitelistFiltersQuery';
 import './IpWhitelistFeedsFilters.scss';
 
 type FeedTypes = { feedTypes?: { [key: string]: string } };

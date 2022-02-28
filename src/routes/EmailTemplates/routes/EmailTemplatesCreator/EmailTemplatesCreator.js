@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { Button } from 'reactstrap';
-import { withRequests } from 'apollo';
 import { Field, Form, Formik } from 'formik';
+import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
-import EmailTemplateCreateMutation from './graphql/EmailTemplateCreateMutation';
 import { validator } from '../../utils';
+import EmailTemplateCreateMutation from './graphql/EmailTemplateCreateMutation';
 import './EmailTemplatesCreator.scss';
 
 class EmailTemplatesCreator extends PureComponent {

@@ -16,9 +16,9 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
+import { leadAccountStatuses } from '../../constants';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
-import { leadAccountStatuses } from '../../constants';
 import './LeadsGridFilter.scss';
 
 const attributeLabels = {

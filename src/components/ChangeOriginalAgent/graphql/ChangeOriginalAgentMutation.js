@@ -16,7 +16,8 @@ const REQUEST = gql`
         agentName: $agentName
       )
     }
-  }`;
+  }
+`;
 
 const ChangeOriginalAgentMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

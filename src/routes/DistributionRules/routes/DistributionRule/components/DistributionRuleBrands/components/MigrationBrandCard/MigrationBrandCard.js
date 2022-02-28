@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import PropTypes from 'constants/propTypes';
 import classNames from 'classnames';
+import PropTypes from 'constants/propTypes';
 import { EditButton, RemoveButton } from 'components/UI';
 import './MigrationBrandCard.scss';
 

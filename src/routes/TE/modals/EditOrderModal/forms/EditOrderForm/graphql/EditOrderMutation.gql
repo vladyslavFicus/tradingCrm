@@ -1,0 +1,18 @@
+mutation EditOrderMutation(
+  $orderId: Int!
+  $openPrice: Float
+  $stopLoss: Float
+  $takeProfit: Float
+  $comment: String
+) {
+  tradingEngine {
+    editOrder(
+      orderId: $orderId
+      openPrice: $openPrice
+      stopLoss: $stopLoss
+      takeProfit: $takeProfit
+      comment: $comment
+    )
+  }
+}
+

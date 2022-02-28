@@ -10,7 +10,8 @@ const authoritiesOptionsPermission = new Permissions(permissions.AUTH.GET_AUTHOR
 
 const REQUEST = gql`query AuthoritiesOptionsQuery_NotesGridFilter {
   authoritiesOptions
-}`;
+}
+`;
 
 const AuthoritiesOptionsQuery = ({ children, permission }) => (
   <Query query={REQUEST} skip={!authoritiesOptionsPermission.check(permission.permissions)}>

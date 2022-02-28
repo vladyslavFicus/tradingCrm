@@ -1,0 +1,23 @@
+query SymbolsQuery($args: TradingEngineSymbols__Input) {
+  tradingEngine {
+    symbols(args: $args) {
+      content {
+        symbol
+        securityName
+        askSpread
+        bidSpread
+        stopsLevel
+        digits
+        swapConfigs {
+          long
+          short
+        }
+      }
+      page
+      number
+      totalElements
+      size
+      last
+    }
+  }
+}

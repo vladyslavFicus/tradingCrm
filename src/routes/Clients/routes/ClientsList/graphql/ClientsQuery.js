@@ -100,7 +100,8 @@ const REQUEST = gql`query ClientsList_ClientsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const ClientsQuery = ({ children, location: { state } }) => {
   const filters = state?.filters;

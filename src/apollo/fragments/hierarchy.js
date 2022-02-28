@@ -9,7 +9,8 @@ const HierarchyBranchFragment = gql`fragment HierarchyBranchFragment on Hierarch
   deskType
   language
   defaultBranch
-}`;
+}
+`;
 
 export {
   HierarchyBranchFragment,

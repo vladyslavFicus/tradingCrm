@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withRequests } from 'apollo';
 import {
   Accordion,
   AccordionItem,
@@ -9,10 +8,11 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import ShortLoader from 'components/ShortLoader';
-import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
 import PermissionsSetting from '../components/PermissionsSetting';
+import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
 import './RolesAndPermissions.scss';
 
 class RolesAndPermissions extends PureComponent {

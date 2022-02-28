@@ -44,7 +44,8 @@ const REQUEST = gql`query FeedsQuery_Feeds(
       uuid
     }
   }
-}`;
+}
+`;
 
 const FeedsQuery = ({
   children,

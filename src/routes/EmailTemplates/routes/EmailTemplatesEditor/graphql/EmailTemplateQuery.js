@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from '@apollo/client';
-import PropTypes from 'constants/propTypes';
 import { Query } from '@apollo/client/react/components';
+import PropTypes from 'constants/propTypes';
 
 export const query = gql`
   query EmailTemplatesEditor_getEmailTemplate(

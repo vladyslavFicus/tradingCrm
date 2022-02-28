@@ -8,8 +8,8 @@ import { departmentsLabels, rolesLabels } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
 import renderLabel from 'utils/renderLabel';
 import ShortLoader from 'components/ShortLoader';
-import OperatorMiniProfileQuery from './graphql/OperatorMiniProfileQuery';
 import { operatorStatusNames } from '../constants';
+import OperatorMiniProfileQuery from './graphql/OperatorMiniProfileQuery';
 
 const OperatorMiniProfile = ({ miniProfile: { data, loading } }) => {
   if (loading) {

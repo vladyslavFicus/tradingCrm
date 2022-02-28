@@ -23,7 +23,8 @@ const MUTATION = gql`mutation UpdateTradingAccountModalMutation_createTradingAcc
       amount: $amount,
     )
   }
-}`;
+}
+`;
 
 const UpdateTradingAccountModalMutation = ({ children }) => (
   <Mutation mutation={MUTATION}>

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import OperatorFeedsFilterForm from './components/OperatorFeedsFilterForm';
 import OperatorFeedsList from './components/OperatorFeedsList';

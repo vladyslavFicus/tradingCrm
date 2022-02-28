@@ -10,7 +10,8 @@ const REQUEST = gql`
     feedTypes (
       uuid: $uuid
     )
-}`;
+}
+`;
 
 const FeedTypesQuery = ({ children, match: { params: { id } } }) => (
   <Query query={REQUEST} variables={{ uuid: id }}>

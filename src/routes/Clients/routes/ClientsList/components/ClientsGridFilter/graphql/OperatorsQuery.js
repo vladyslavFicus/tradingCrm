@@ -19,7 +19,8 @@ const REQUEST = gql`query ClientsGridFilter_OperatorsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

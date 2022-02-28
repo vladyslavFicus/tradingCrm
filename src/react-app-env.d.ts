@@ -1,4 +1,5 @@
 /* eslint-disable */
+/// <reference types="react-scripts" />
 
 // ==== Conditional rendering declarations ==== //
 declare var If: React.FC<{ condition: boolean }>;

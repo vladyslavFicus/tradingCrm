@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { getClickToCall } from 'config';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { debounce } from 'lodash';
 import ToolTip from 'react-portal-tooltip';
-import { withRequests } from 'apollo';
 import Trackify from '@hrzn/trackify';
+import { withRequests } from 'apollo';
+import { getClickToCall } from 'config';
 import PropTypes from 'constants/propTypes';
 import withNotifications from 'hoc/withNotifications';
 import DidlogicCreateCall from './graphql/DidlogicCreateCall';

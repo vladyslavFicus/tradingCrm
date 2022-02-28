@@ -9,7 +9,8 @@ const REQUEST = gql`mutation DeleteRule(
   rule {
     deleteRule(uuid: $uuid)
   }
-}`;
+}
+`;
 
 const DeleteRule = ({ children }) => (
   <Mutation mutation={REQUEST}>

@@ -27,7 +27,8 @@ const MUTATION = gql`mutation removeNote(
       noteId
     }
   }
-}`;
+}
+`;
 
 const RemoveNoteMutation = ({ children, targetUUID }) => (
   <Mutation mutation={MUTATION} update={removeFromApolloCache(targetUUID)}>

@@ -6,7 +6,7 @@ import { Query } from '@apollo/client/react/components';
 const REQUEST = gql`query NotificationGridFilters_OperatorsQuery(
   $page: Page__Input
 ) {
-  operators(page: $page)  {
+  operators(page: $page) {
     content {
       uuid
       fullName
@@ -19,7 +19,8 @@ const REQUEST = gql`query NotificationGridFilters_OperatorsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

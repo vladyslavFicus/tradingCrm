@@ -10,7 +10,8 @@ const REQUEST = gql`
     auth {
       unlockLogin(uuid: $playerUUID)
     }
-  }`;
+  }
+`;
 
 const ClientUnlockLoginMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

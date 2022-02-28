@@ -10,7 +10,8 @@ const REQUEST = gql`query DistributionRulesList_PartnersQuery {
       fullName
     }
   }
-}`;
+}
+`;
 
 const PartnersQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="cache-and-network">

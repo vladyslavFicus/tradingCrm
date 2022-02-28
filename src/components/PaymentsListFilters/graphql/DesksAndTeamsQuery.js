@@ -17,7 +17,8 @@ const REQUEST = gql`query PaymentListFilters_DesksAndTeamsQuery {
       }
     }
   }
-}`;
+}
+`;
 
 const DesksAndTeamsQuery = ({ children }) => (
   <Query query={REQUEST} fetchPolicy="cache-and-network">

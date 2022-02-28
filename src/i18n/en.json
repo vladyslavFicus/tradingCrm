@@ -34,10 +34,18 @@
       "NOTIFICATIONS": "Notifications",
       "ROLES_AND_PERMISSIONS": "Roles & Permissions",
       "CLIENTS_DISTRIBUTION": "Clients Distribution",
-      "TRADING_ENGINE": "Trading Engine",
       "TRADING_ENGINE_MANAGER": "TE Manager",
       "TRADING_ENGINE_ADMIN": "TE Admin",
-      "IP_WHITELIST": "IP Whitelist"
+      "IP_WHITELIST": "IP Whitelist",
+      "TRADING_ENGINE": {
+        "TITLE": "Trading Engine",
+        "ACCOUNTS": "Accounts",
+        "ORDERS": "Orders",
+        "QUOTES": "Quotes",
+        "SYMBOLS": "Symbols",
+        "GROUPS": "Groups",
+        "SECURITIES": "Securities"
+      }
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -3469,6 +3477,7 @@
     "TABS": {
       "ACCOUNTS": "Accounts",
       "ORDERS": "Orders",
+      "QUOTES": "Quotes",
       "SYMBOLS": "Symbols",
       "SECURITIES": "Securities",
       "GROUPS": "Groups"
@@ -3739,6 +3748,7 @@
     },
     "ACCOUNTS": {
       "HEADLINE": "Trading accounts",
+      "NEW_ORDER": "+ New order",
       "GRID": {
         "ACCOUNT_ID": "Trading acc",
         "PROFILE": "Client",
@@ -3885,6 +3895,14 @@
         "FAILED": "Symbol update failed"
       }
     },
+    "QUOTES": {
+      "HEADLINE": "Quotes",
+      "GRID": {
+        "SYMBOL": "Symbol",
+        "BID": "Bid",
+        "ASK": "Ask"
+      }
+    },
     "SYMBOLS": {
       "NEW_SYMBOL": "+ New symbol",
       "HEADLINE": "Symbols",
@@ -3952,6 +3970,7 @@
     },
     "ORDERS": {
       "HEADLINE": "Orders",
+      "NEW_ORDER": "+ New order",
       "GRID": {
         "TRADE": "Trade",
         "DEAL": "Deal",
@@ -3972,7 +3991,8 @@
         "LOTS": "Lots",
         "COMMISSION": "Commission",
         "PROFIT": "Profit",
-        "GROUP": "Group"
+        "GROUP": "Group",
+        "INSTRUMENT_CONFIGURATION_PROBLEM": "Instrument configuration problem"
       },
       "STATUSES": {
         "OPEN": "Open",
@@ -4037,6 +4057,7 @@
       }
     },
     "ACCOUNT_PROFILE": {
+      "TITLE": "Account profile",
       "NEW_ORDER": "New order",
       "CREDIT": "Credit",
       "ALLOW_TRADING": "Allow trading",

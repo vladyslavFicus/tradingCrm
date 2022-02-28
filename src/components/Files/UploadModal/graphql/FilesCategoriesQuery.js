@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from '@apollo/client';
-import PropTypes from 'constants/propTypes';
 import { Query } from '@apollo/client/react/components';
+import PropTypes from 'constants/propTypes';
 
 export const REQUEST = gql`query FilesCategoriesQuery {
   filesCategories {
@@ -9,7 +9,8 @@ export const REQUEST = gql`query FilesCategoriesQuery {
     ADDRESS_VERIFICATION
     OTHER
   }
-}`;
+}
+`;
 
 const FilesCategoriesQuery = ({ children }) => (
   <Query query={REQUEST}>

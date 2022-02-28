@@ -13,7 +13,8 @@ const REQUEST = gql`
         phoneVerified
       }
     }
-  }`;
+  }
+`;
 
 const VerifyPhoneMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { withRequests } from 'apollo';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import CallbacksGridFilter from './components/CallbacksGridFilter';

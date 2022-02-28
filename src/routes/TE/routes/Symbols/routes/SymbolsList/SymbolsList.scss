@@ -1,0 +1,21 @@
+.SymbolsList {
+  border: 1px solid #dfe4ed;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 47px;
+    height: 80px;
+    padding: 25px;
+    background-color: #fff;
+    border-bottom: 1px solid #dfe4ed;
+    font-size: 20px;
+    z-index: 3;
+  }
+
+  &__cell-primary {
+    font-weight: 700;
+  }
+}

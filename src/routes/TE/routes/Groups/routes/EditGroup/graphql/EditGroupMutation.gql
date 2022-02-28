@@ -1,0 +1,7 @@
+mutation EditGroupMutation(
+  $args: TradingEngineEditGroup__Input!
+  ) {
+  tradingEngine {
+    editGroup(args: $args)
+  }
+}

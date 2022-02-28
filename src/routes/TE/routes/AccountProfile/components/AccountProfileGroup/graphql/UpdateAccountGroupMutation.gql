@@ -1,0 +1,14 @@
+mutation UpdateAccountGroupMutation(
+   $accountUuid: String!
+   $group: String!
+) {
+  tradingEngine {
+    updateAccountGroup(
+      accountUuid: $accountUuid
+      group: $group
+    ) {
+      _id
+      group
+    }
+  }
+}

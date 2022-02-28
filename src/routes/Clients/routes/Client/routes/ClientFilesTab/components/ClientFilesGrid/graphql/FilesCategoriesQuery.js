@@ -9,7 +9,8 @@ const REQUEST = gql`query ClientFilesTab_FilesCategoriesQuery {
     ADDRESS_VERIFICATION
     OTHER
   }
-}`;
+}
+`;
 
 const FilesCategoriesQuery = ({ children }) => (
   <Query query={REQUEST}>

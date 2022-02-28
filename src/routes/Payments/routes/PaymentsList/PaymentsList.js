@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withRequests } from 'apollo';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';

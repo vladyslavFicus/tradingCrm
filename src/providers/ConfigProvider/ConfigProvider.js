@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import config from 'config';
 import PropTypes from 'prop-types';
+import config from 'config';
 import { withRequests } from 'apollo';
 import Preloader from 'components/Preloader';
 import ConfigQuery from './graphql/ConfigQuery';

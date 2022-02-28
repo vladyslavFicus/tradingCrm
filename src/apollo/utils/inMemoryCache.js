@@ -24,11 +24,21 @@ export default new InMemoryCache({
         tradingEngineOrders: pagination('args.page.from'),
         tradingEngineTransactions: pagination('args.page.from'),
         tradingEngineHistory: pagination('args.page.from'),
-        tradingEngineSymbols: pagination('args.page.from'),
         tradingEngineAdminSymbols: pagination('args.page.from'),
         tradingEngineAdminGroups: pagination('args.page.from'),
         ipWhitelistSearch: pagination('args.page.from'),
         callHistory: pagination('args.page.from'),
+      },
+    },
+    TradingEngineQuery: {
+      merge: true,
+      fields: {
+        symbols: pagination('args.page.from'),
+        groups: pagination('args.page.from'),
+        orders: pagination('args.page.from'),
+        accounts: pagination('args.page.from'),
+        transactions: pagination('args.page.from'),
+        history: pagination('args.page.from'),
       },
     },
 
@@ -67,6 +77,9 @@ export default new InMemoryCache({
       merge: true,
     },
     TradingEngineAccountSymbolConfig: {
+      merge: true,
+    },
+    TradingEngineSecurity: {
       merge: true,
     },
     HierarchyBranch: {

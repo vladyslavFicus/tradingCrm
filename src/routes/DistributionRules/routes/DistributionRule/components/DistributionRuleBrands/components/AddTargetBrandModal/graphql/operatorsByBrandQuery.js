@@ -11,4 +11,5 @@ export default gql`query DistributionRule_OperatorsByBrandQuery(
     uuid
     fullName
   }
-}`;
+}
+`;

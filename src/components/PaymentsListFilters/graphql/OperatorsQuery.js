@@ -19,7 +19,8 @@ const REQUEST = gql`query PaymentsListFilters_OperatorsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

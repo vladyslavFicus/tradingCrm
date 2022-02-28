@@ -15,7 +15,8 @@ const REQUEST = gql`mutation OperatorDepartmnets_removeAuthority(
       role: $role
     )
   }
-}`;
+}
+`;
 
 const RemoveAuthorityMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

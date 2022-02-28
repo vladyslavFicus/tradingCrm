@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'constants/propTypes';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
+import PropTypes from 'constants/propTypes';
 import { withRequests } from 'apollo';
 import Chart from '../Chart';
 import { getChartSelectOptions, mapTotalObject } from '../dashboardChartsUtils';

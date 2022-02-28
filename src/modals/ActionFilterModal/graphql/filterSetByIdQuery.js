@@ -6,4 +6,5 @@ export default gql`query getFilterSetById(
   filterSet(
     uuid: $uuid
   )
-}`;
+}
+`;

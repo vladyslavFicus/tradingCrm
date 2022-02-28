@@ -14,7 +14,8 @@ const REQUEST = gql`
         creationTime: $creationTime
       )
     }
-  }`;
+  }
+`;
 
 const ChangeCreationTimeMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

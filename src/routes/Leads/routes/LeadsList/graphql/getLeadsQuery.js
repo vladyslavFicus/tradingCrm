@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'constants/propTypes';
 import { gql } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
+import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`query LeadsList_getLeadsQuery(
   $args: LeadSearch__Input
@@ -66,7 +66,8 @@ const REQUEST = gql`query LeadsList_getLeadsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const getLeadsQuery = ({ children, location: { state } }) => {
   const filters = state?.filters;

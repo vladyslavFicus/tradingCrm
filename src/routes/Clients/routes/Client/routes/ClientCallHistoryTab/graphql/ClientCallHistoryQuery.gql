@@ -3,7 +3,6 @@ query CallHistoryQuery($uuid: String!, $args: CallHistorySearch__Input!) {
     page
     last
     content {
-      createdAt
       uuid
       operatorUuid
       callSystem

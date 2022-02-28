@@ -37,7 +37,8 @@ const REQUEST = gql`query RulesQuery(
     updatedBy
     createdBy
   }
-}`;
+}
+`;
 
 const RulesQuery = ({
   children,

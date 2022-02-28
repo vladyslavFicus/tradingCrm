@@ -1,0 +1,40 @@
+query GroupQuery($groupName: String!) {
+  tradingEngine{
+    group(
+      groupName: $groupName
+    ) {
+      enable
+      groupName
+      description
+      currency
+      defaultLeverage
+      useSwap
+      hedgeProhibited
+      archivePeriodDays
+      archiveMaxBalance
+      marginCallLevel
+      stopoutLevel
+      groupSecurities {
+        security {
+          id
+          name
+        }
+        show
+        spreadDiff
+        lotMin
+        lotMax
+        lotStep
+        commissionBase
+        commissionType
+        commissionLots
+      }
+      groupMargins {
+        symbol
+        securityId
+        percentage
+        swapShort
+        swapLong
+      }
+    }
+  }
+}

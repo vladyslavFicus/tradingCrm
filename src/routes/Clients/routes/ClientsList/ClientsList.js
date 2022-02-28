@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
 import { NetworkStatus } from '@apollo/client';
+import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
 import ClientsGrid from './components/ClientsGrid';

@@ -1,9 +1,9 @@
-import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import I18n from 'i18n-js';
 import React from 'react';
 import compose from 'compose-function';
 import { BaseMutationOptions, MutationResult } from '@apollo/client';
+import { withNotifications } from 'hoc';
+import { withRequests } from 'apollo';
 import { LevelType, Notify } from 'types';
 import Select from 'components/Select';
 import CreateGridConfigMutation from '../graphql/CreateGridConfigMutation';

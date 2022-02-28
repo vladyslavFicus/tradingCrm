@@ -15,7 +15,8 @@ const REQUEST = gql`mutation OperatorDepartmnets_addAuthority(
       role: $role
     )
   }
-}`;
+}
+`;
 
 const AddAuthorityMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

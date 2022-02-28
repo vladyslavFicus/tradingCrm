@@ -21,6 +21,8 @@ class Chart extends PureComponent {
       symbol: PropTypes.string.isRequired,
     }),
     chartConfig: PropTypes.object,
+    bidLineColor: PropTypes.string,
+    askLineColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -28,6 +30,8 @@ class Chart extends PureComponent {
     height: 600,
     chartNextTickItem: undefined,
     chartConfig: {},
+    bidLineColor: '#ff0000',
+    askLineColor: '#2196f3',
   }
 
   chart = null;
@@ -53,7 +57,7 @@ class Chart extends PureComponent {
   }
 
   initializationChart = () => {
-    const { width, height, chartData, chartConfig } = this.props;
+    const { width, height, chartData, chartConfig, bidLineColor, askLineColor } = this.props;
     const chartOptions = {
       width,
       height,
@@ -66,8 +70,8 @@ class Chart extends PureComponent {
     };
 
     this.chart = createChart(document.getElementById('symbol_chart'), chartOptions);
-    this.bidLine = this.chart.addLineSeries({ lineWidth: 1 });
-    this.askLine = this.chart.addLineSeries({ lineWidth: 1, color: 'red' });
+    this.bidLine = this.chart.addLineSeries({ lineWidth: 1, color: bidLineColor });
+    this.askLine = this.chart.addLineSeries({ lineWidth: 1, color: askLineColor });
 
     this.updateChartData(chartData);
   }

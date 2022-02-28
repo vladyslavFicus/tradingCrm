@@ -14,7 +14,8 @@ const REQUEST = gql`
         role: $role
       )
     }
-  }`;
+  }
+`;
 
 const ResetPermissionMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

@@ -1,0 +1,45 @@
+.SymbolEdit {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125);
+
+  &__actions {
+    display: flex;
+  }
+
+  &__loading {
+    padding: 43px;
+  }
+
+  &__column {
+    padding: 20px 25px;
+  }
+
+  &__button {
+    margin: 25px 0 25px auto;
+    order: 2;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 48px;
+    height: 110px;
+    padding: 25px;
+    background-color: #fff;
+    border-bottom: 1px solid #dfe4ed;
+    z-index: 3;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__info-message {
+    width: 400px;
+    font-weight: 600;
+    color: #c0bdd0;
+    margin: 0 10px 0 auto;
+  }
+}

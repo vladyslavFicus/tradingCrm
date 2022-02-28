@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { callbacksStatuses, reminderValues } from 'constants/callbacks';
 import { targetTypes } from 'constants/note';

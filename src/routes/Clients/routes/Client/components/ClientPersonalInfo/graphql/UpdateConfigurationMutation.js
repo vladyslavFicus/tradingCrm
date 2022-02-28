@@ -17,7 +17,8 @@ const REQUEST = gql`mutation UpdateConfigurationMutation(
       fatca: $fatca,
     )
   }
-}`;
+}
+`;
 
 const UpdateConfigurationMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

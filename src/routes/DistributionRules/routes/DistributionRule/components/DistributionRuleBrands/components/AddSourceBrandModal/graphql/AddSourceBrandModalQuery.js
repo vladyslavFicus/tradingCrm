@@ -24,7 +24,8 @@ const REQUEST = gql`query AddSourceBrandModalQuery($brandId: String) {
       brand
     }
   }
-}`;
+}
+`;
 
 const AddSourceBrandModalQuery = ({ children, initialValues }) => (
   <Query

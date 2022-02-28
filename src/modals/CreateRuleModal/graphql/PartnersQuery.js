@@ -10,7 +10,8 @@ const REQUEST = gql`query PartnersQuery {
       fullName
     }
   }
-}`;
+}
+`;
 
 const PartnersQuery = ({ children }) => (
   <Query

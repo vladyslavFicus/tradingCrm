@@ -17,7 +17,8 @@ const REQUEST = gql`query TradingActivityGridFilter_OperatorsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

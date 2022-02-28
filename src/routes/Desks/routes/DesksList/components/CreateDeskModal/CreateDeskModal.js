@@ -11,8 +11,8 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
-import CreateDeskMutation from './graphql/CreateDeskMutation';
 import { deskTypes } from '../../constants';
+import CreateDeskMutation from './graphql/CreateDeskMutation';
 import './CreateDeskModal.scss';
 
 const attributeLabels = {

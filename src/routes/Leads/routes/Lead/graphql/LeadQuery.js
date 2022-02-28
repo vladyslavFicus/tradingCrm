@@ -48,7 +48,8 @@ const REQUEST = gql`query LeadProfileQuery(
       salesStatus
     }
   }
-}`;
+}
+`;
 
 const LeadProfileQuery = ({
   match: { params: { id } },

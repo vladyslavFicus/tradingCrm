@@ -22,14 +22,14 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
 import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
-import infoConfig from './constants';
-import './SalesRules.scss';
 import {
   OperatorsQuery,
   PartnersQuery,
   GetRulesQuery,
   DeleteRuleMutation,
 } from '../graphql';
+import infoConfig from './constants';
+import './SalesRules.scss';
 
 class SalesRules extends PureComponent {
   static propTypes = {

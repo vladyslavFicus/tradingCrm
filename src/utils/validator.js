@@ -336,6 +336,11 @@ const parseFunctionRules = (rules, input) => Object.keys(rules).reduce((acc, cur
     acc[curr] = rule;
   }
 
+  // Remove undefined and null items from array of rules
+  if (Array.isArray(acc[curr])) {
+    acc[curr] = acc[curr].filter(v => v);
+  }
+
   return acc;
 }, {});
 

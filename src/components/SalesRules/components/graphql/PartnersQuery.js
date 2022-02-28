@@ -31,7 +31,8 @@ const REQUEST = gql`query PartnersQuery(
       country
     }
   }
-}`;
+}
+`;
 
 const PartnersQuery = ({ children }) => (
   <Query query={REQUEST}>

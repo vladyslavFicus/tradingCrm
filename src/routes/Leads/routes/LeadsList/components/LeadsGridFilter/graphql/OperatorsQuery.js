@@ -19,7 +19,8 @@ const REQUEST = gql`query LeadsGridFilter_OperatorsQuery(
       }
     }
   }
-}`;
+}
+`;
 
 const OperatorsQuery = ({ children }) => (
   <Query

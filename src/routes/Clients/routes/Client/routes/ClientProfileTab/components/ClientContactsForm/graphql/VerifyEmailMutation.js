@@ -13,7 +13,8 @@ const REQUEST = gql`
         emailVerified
       }
     }
-  }`;
+  }
+`;
 
 const VerifyEmailMutation = ({ children }) => (
   <Mutation mutation={REQUEST}>

@@ -18,7 +18,8 @@ const REQUEST = gql`
         )
       }
     }
-  }`;
+  }
+`;
 
 const DidlogicCreateCall = ({ children }) => (
   <Mutation mutation={REQUEST}>

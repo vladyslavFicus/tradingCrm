@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'constants/propTypes';
 import { gql } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
+import PropTypes from 'constants/propTypes';
 
 const REQUEST = gql`
   query ClientHeader_ClientLockStatusQuery(
@@ -10,7 +10,8 @@ const REQUEST = gql`
     loginLock(uuid: $playerUUID) {
       lock
     }
-  }`;
+  }
+`;
 
 const ClientLockStatusQuery = ({ children, client }) => (
   <Query query={REQUEST} variables={{ playerUUID: client.uuid }}>

@@ -20,7 +20,8 @@ const REQUEST = gql`
         )
       }
     }
-  }`;
+  }
+`;
 
 const CoperatoCreateCall = ({ children }) => (
   <Mutation mutation={REQUEST}>

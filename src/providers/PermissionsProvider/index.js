@@ -5,3 +5,4 @@ export {
   PermissionConsumer,
   PermissionPropTypes,
 } from './PermissionProvider';
+export { default as MockedPermissionProvider } from './MockedPermissionProvider';

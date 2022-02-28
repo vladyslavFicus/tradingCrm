@@ -112,8 +112,9 @@ class ConfirmActionModal extends PureComponent {
             {cancelButtonLabel}
           </Button>
           <Button
-            type="submit"
+            autoFocus
             dangerOutline
+            type="submit"
             disabled={isSubmitting}
             onClick={this.handleSubmit}
           >

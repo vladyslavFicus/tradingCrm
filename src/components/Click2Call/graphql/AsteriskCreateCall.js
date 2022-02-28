@@ -20,7 +20,8 @@ const REQUEST = gql`
         )
       }
     }
-  }`;
+  }
+`;
 
 const AsteriskCreateCall = ({ children }) => (
   <Mutation mutation={REQUEST}>
