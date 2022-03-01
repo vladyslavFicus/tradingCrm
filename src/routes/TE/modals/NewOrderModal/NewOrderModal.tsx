@@ -173,7 +173,8 @@ const NewOrderModal = (props: Props) => {
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
 
-      onSuccess();
+      if (typeof onSuccess === 'function') { onSuccess(); }
+
       onCloseModal();
     } catch (e) {
       const { message } = parseErrors(e);
