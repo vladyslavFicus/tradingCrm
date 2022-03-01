@@ -20,7 +20,7 @@ import './AccountProfileHistoryGrid.scss';
 type Props = {
   modals: {
     editOrderModal: Modal<{
-      orderId: number,
+      id: number,
       onSuccess: Function,
     }>
   }
@@ -72,7 +72,7 @@ const AccountProfileHistoryGrid = (props: Props) => {
 
     if (isShowClosedOrderModal) {
       props.modals.editOrderModal.show({
-        orderId,
+        id: orderId,
         onSuccess: historyQuery.refetch,
       });
     }
