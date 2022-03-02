@@ -29,13 +29,7 @@ class Dashboard extends PureComponent {
       <Fragment>
         {/* Redirect to TE Manager or to TE Admin only for brand "trading-engine" */}
         <If condition={this.props.brand.id === 'trading-engine'}>
-          <PermissionContent permissions={permissions.WE_TRADING.MANAGER_EDIT_ORDER}>
-            <Redirect to="/trading-engine-manager" />
-          </PermissionContent>
-
-          <PermissionContent permissions={permissions.WE_TRADING.ADMIN_EDIT_ORDER}>
-            <Redirect to="/trading-engine-admin" />
-          </PermissionContent>
+          <Redirect to="/trading-engine" />
         </If>
 
         <div className="Dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
