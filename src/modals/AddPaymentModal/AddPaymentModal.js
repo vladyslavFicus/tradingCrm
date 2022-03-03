@@ -338,7 +338,7 @@ class AddPaymentModal extends PureComponent {
                                 {paymentSystem}
                               </option>
                             )),
-                            <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                            <option key="OTHER" value="OTHER">{I18n.t('COMMON.OTHER')}</option>,
                           ]}
                         </Field>
                       </div>
