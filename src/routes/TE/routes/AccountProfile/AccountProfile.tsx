@@ -39,7 +39,7 @@ const AccountProfile = (props: Props) => {
 
   return (
     <div className="AccountProfile">
-      <Helmet title={I18n.t('ACCOUNT_PROFILE.TITLE')} />
+      <Helmet title={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.TITLE')} />
 
       <Choose>
         <When condition={accountQuery.loading}>

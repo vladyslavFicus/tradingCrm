@@ -74,6 +74,7 @@ const SymbolsFilter = (props: Props) => {
               searchable
               withFocus
               multiple
+              disabled={symbolsQuery.loading}
             >
               {symbols.map(({ symbol }) => (
                 <option key={symbol} value={symbol}>
