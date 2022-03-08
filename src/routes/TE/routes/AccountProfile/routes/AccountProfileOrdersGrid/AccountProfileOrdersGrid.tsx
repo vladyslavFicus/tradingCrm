@@ -269,25 +269,6 @@ const AccountProfileOrdersGrid = (props: Props) => {
             }}
           />
           <Column
-            sortBy="closingTime"
-            header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.CLOSING_TIME')}
-            render={({ time: { closing } }) => (
-              <Choose>
-                <When condition={closing}>
-                  <div className="AccountProfileOrdersGrid__cell-value">
-                    {moment.utc(closing).local().format('DD.MM.YYYY')}
-                  </div>
-                  <div className="AccountProfileOrdersGrid__cell-value-add">
-                    {moment.utc(closing).local().format('HH:mm:ss')}
-                  </div>
-                </When>
-                <Otherwise>
-                  <span>&mdash;</span>
-                </Otherwise>
-              </Choose>
-            )}
-          />
-          <Column
             header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.STATUS')}
             render={({ status }: Order) => (
               <div className={tradeStatusesColor[status]}>
