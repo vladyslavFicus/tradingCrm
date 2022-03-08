@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
 import { useHistory, useLocation } from 'react-router-dom';
+import { usePermission } from 'providers/PermissionsProvider';
 import { withNotifications, withModals } from 'hoc';
 import { State, Sort, Modal } from 'types';
 import permissions from 'config/permissions';
@@ -42,6 +43,7 @@ const GroupsGrid = ({
   const { state } = useLocation<State<GroupsQueryVariables>>();
   const history = useHistory();
   const [deleteGroup] = useDeleteGroupMutation();
+  const permission = usePermission();
 
   const { loading, data: groupsListData, refetch } = groupsListQuery || {};
   const {
@@ -156,28 +158,33 @@ const GroupsGrid = ({
             </Choose>
           )}
         />
-        <Column
-          width={120}
-          header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
-          render={({ groupName }: GroupType) => (
-            <>
-              <PermissionContent permissions={permissions.WE_TRADING.EDIT_GROUP}>
-                <EditButton
-                  onClick={() => handleEditGroupClick(groupName)}
-                  className="GroupsGrid__edit-button"
-                />
-              </PermissionContent>
-              <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
-                <Button
-                  transparent
-                  onClick={() => handleDeleteGroupModal(groupName)}
-                >
-                  <i className="fa fa-trash btn-transparent color-danger" />
-                </Button>
-              </PermissionContent>
-            </>
-          )}
-        />
+        <If condition={
+          permission.allows(permissions.WE_TRADING.EDIT_GROUP)
+          || permission.allows(permissions.WE_TRADING.DELETE_GROUP)}
+        >
+          <Column
+            width={120}
+            header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
+            render={({ groupName }: GroupType) => (
+              <>
+                <PermissionContent permissions={permissions.WE_TRADING.EDIT_GROUP}>
+                  <EditButton
+                    onClick={() => handleEditGroupClick(groupName)}
+                    className="GroupsGrid__edit-button"
+                  />
+                </PermissionContent>
+                <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
+                  <Button
+                    transparent
+                    onClick={() => handleDeleteGroupModal(groupName)}
+                  >
+                    <i className="fa fa-trash btn-transparent color-danger" />
+                  </Button>
+                </PermissionContent>
+              </>
+            )}
+          />
+        </If>
       </Table>
     </div>
   );
