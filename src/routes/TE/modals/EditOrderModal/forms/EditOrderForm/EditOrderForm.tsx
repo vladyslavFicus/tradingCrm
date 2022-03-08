@@ -107,11 +107,16 @@ const EditOrderForm = (props: Props) => {
 
   // Permissions
   const isAdminEditAllowed = permission.allows(permissions.WE_TRADING.ADMIN_EDIT_ORDER);
-  const isEditAllowed = permission.allows(permissions.WE_TRADING.MANAGER_EDIT_ORDER) || isAdminEditAllowed;
+  const isManagerEditAllowed = permission.allows(permissions.WE_TRADING.MANAGER_EDIT_ORDER);
   const isReopenAllowed = permission.allows(permissions.WE_TRADING.ORDER_REOPEN);
   const isCancelAllowed = permission.allows(permissions.WE_TRADING.ORDER_CANCEL);
 
-  const isOrderEditDisabled = order.status === OrderStatus.CANCELED || !order.symbolConfig;
+  const isEditAllowed = isManagerEditAllowed || isAdminEditAllowed;
+
+  // Edit disabled for CANCELED order or for CLOSED order if no exist ADMIN_EDIT permission or symbolConfig is empty
+  const isOrderEditDisabled = order.status === OrderStatus.CANCELED
+  || (order.status === OrderStatus.CLOSED && !isAdminEditAllowed)
+  || !order.symbolConfig;
 
   const handleEditOrder = async (values: FormValues) => {
     confirmationModal.show({
