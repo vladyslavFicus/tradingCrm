@@ -360,8 +360,7 @@ it('Render EditOrderModal with admin edit order permission', async () => {
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots);
   expect(screen.getByLabelText('Symbol')).toBeDisabled();
   expect(screen.getByLabelText('Symbol')).toHaveValue(symbol);
-  expect(screen.getByLabelText('Close Price')).toBeDisabled();
-  expect(screen.getByLabelText('Close Price')).toHaveValue(bid);
+  expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open conversation rate')).toBeDisabled();
   expect(screen.getByLabelText('Open conversation rate')).toHaveValue(openRate);
   expect(screen.getByLabelText('Close conversation rate')).toBeDisabled();
@@ -465,9 +464,16 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for MANA
 
   const order = {
     status: 'CLOSED',
+    closePrice: 1.1360,
     pnl: {
       net: Number(netPnL),
       gross: Number(floatingPnL),
+    },
+    time: {
+      closing: '2021-11-19T15:13:19.29864',
+      creation: '2021-11-18T15:13:19.29864',
+      expiration: null,
+      modification: null,
     },
   };
 
@@ -503,6 +509,12 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for MANA
   expect(screen.getByLabelText('Stop Loss')).toHaveValue(stopLoss);
   expect(screen.getByLabelText('Take profit')).toBeDisabled();
   expect(screen.getByLabelText('Take profit')).toHaveValue(takeProfit);
+  expect(screen.getByLabelText('Close Price')).toBeDisabled();
+  expect(screen.getByLabelText('Close Price')).toHaveValue(order.closePrice);
+  expect(screen.getByLabelText('Close time')).toBeDisabled();
+  expect(screen.getByLabelText('Close time')).toHaveValue(
+    moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
+  );
   expect(screen.getByLabelText('Commission')).toBeDisabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeDisabled();

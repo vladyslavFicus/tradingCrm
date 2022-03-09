@@ -329,11 +329,10 @@ const EditOrderForm = (props: Props) => {
                 />
               </div>
 
-              {/* Only who has permissions to admin edit order can see these data */}
-              <If condition={isAdminEditAllowed}>
+              <If condition={status === OrderStatus.CLOSED}>
                 <div className="EditOrderModal__field-container">
                   <Field
-                    disabled={status === OrderStatus.OPEN || isOrderEditDisabled}
+                    disabled={isOrderEditDisabled}
                     name="closePrice"
                     type="number"
                     step="0.00001"
@@ -343,16 +342,15 @@ const EditOrderForm = (props: Props) => {
                     value={_closePrice}
                     component={FormikInputField}
                   />
-                  <If condition={status === OrderStatus.CLOSED}>
-                    <Field
-                      name="closeTime"
-                      className="EditOrderModal__field"
-                      label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_TIME')}
-                      component={FormikDatePicker}
-                      withTime
-                      withUtc
-                    />
-                  </If>
+                  <Field
+                    disabled={isOrderEditDisabled}
+                    name="closeTime"
+                    className="EditOrderModal__field"
+                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_TIME')}
+                    component={FormikDatePicker}
+                    withTime
+                    withUtc
+                  />
                 </div>
               </If>
 
