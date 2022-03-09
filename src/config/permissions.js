@@ -200,6 +200,9 @@ export default {
     ORDER_CLOSE: 'we-trading.closeOrder',
     ORDER_ACTIVATE: 'we-trading.activateOrder',
   },
+  LIQUIDITY_PROVIDER_ADAPTER: {
+    RESTART_STREAMING: 'liquidity-provider-adapter.admin.restartStreaming',
+  },
   IP_WHITELIST: {
     LIST: 'brand-config-service.ip-white-list.search',
     ADD_IP_ADDRESS: 'brand-config-service.ip-white-list.add',

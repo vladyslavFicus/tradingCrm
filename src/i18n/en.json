@@ -3897,10 +3897,15 @@
     },
     "QUOTES": {
       "HEADLINE": "Quotes",
+      "RESTART_STREAMING": "Reconnect streaming",
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",
         "ASK": "Ask"
+      },
+      "NOTIFICATION": {
+        "RESTART_STREAMING_SUCCESS": "Reconnect streaming successful.",
+        "RESTART_STREAMING_FAILED": "Reconnect streaming failed."
       }
     },
     "SYMBOLS": {
