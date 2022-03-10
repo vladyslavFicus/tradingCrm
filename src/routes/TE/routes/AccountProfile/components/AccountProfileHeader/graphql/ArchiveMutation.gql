@@ -1,0 +1,11 @@
+mutation ArchiveMutation(
+   $uuid: String!
+   $enabled: Boolean!
+) {
+  tradingEngine {
+    setAccountArchiveStatus(
+      uuid: $uuid
+      enabled: $enabled
+    )
+  }
+}
