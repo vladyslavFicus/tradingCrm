@@ -35,6 +35,7 @@ const OperatorsQuery = ({ children }) => (
       },
     }}
     fetchPolicy="cache-and-network"
+    context={{ batch: false }}
   >
     {children}
   </Query>
