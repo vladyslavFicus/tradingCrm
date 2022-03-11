@@ -199,6 +199,7 @@ export default {
     ORDER_CANCEL: 'we-trading.cancelOrder',
     ORDER_CLOSE: 'we-trading.closeOrder',
     ORDER_ACTIVATE: 'we-trading.activateOrder',
+    OPERATORS_LIST: 'we-trading.findOperators',
   },
   LIQUIDITY_PROVIDER_ADAPTER: {
     RESTART_STREAMING: 'liquidity-provider-adapter.admin.restartStreaming',

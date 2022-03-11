@@ -39,6 +39,7 @@ export default new InMemoryCache({
         accounts: pagination('args.page.from'),
         transactions: pagination('args.page.from'),
         history: pagination('args.page.from'),
+        operators: pagination('args.page.from'),
       },
     },
 

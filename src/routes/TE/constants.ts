@@ -32,6 +32,11 @@ const tradingEngineTabs = [
     label: 'TRADING_ENGINE.TABS.SECURITIES',
     permissions: new Permissions(permissions.WE_TRADING.SECURITIES_LIST),
   },
+  {
+    url: '/trading-engine/operators',
+    label: 'TRADING_ENGINE.TABS.OPERATORS',
+    permissions: new Permissions(permissions.WE_TRADING.OPERATORS_LIST),
+  },
 ];
 
 const securityNamePattern = '/^[A-Za-z0-9.*@+-_!=]*$/';

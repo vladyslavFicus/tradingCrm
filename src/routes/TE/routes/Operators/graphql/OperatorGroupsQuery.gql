@@ -1,0 +1,20 @@
+query OperatorsQuery($args: TradingEngineOperatorSearch__Input!) {
+  tradingEngine {
+    operators(args: $args) {
+      content{
+        uuid
+        lastName
+        firstName
+        role
+        status
+        groupNames
+        registrationDate
+      }
+      page
+      number
+      totalElements
+      size
+      last
+    }
+  }
+}
