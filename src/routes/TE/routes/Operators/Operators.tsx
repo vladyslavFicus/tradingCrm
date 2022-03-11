@@ -31,7 +31,7 @@ const Operators = () => {
   const { state } = useLocation<State<OperatorsQueryVariables['args']>>();
   const history = useHistory();
 
-  const accountsQuery = useOperatorsQuery({
+  const operatorsQuery = useOperatorsQuery({
     variables: {
       args: {
         ...state?.filters,
@@ -44,10 +44,10 @@ const Operators = () => {
     },
   });
 
-  const { content = [], last = true, totalElements } = accountsQuery.data?.tradingEngine.operators || {};
+  const { content = [], last = true, totalElements } = operatorsQuery.data?.tradingEngine.operators || {};
 
   const handlePageChanged = () => {
-    const { data, variables, fetchMore } = accountsQuery;
+    const { data, variables, fetchMore } = operatorsQuery;
 
     const page = data?.tradingEngine.operators.number || 0;
 
@@ -100,14 +100,14 @@ const Operators = () => {
         </PermissionContent>
       </div>
 
-      <OperatorsFilter onRefresh={accountsQuery.refetch} />
+      <OperatorsFilter onRefresh={operatorsQuery.refetch} />
 
       <div className="Operators">
         <Table
           stickyFromTop={125}
           items={content}
           sorts={state?.sorts}
-          loading={accountsQuery.loading}
+          loading={operatorsQuery.loading}
           hasMore={!last}
           onMore={handlePageChanged}
           onSort={handleSort}
