@@ -4374,7 +4374,8 @@
       "NOTIFICATION": {
         "DELETE": {
           "SUCCESS": "Group deleted successfully",
-          "FAILED": "Group did not delete for some reasons"
+          "FAILED": "Group did not delete for some reasons",
+          "HAS_ACCOUNTS": "{{accountsCount}} accounts are assigned on {{groupName}} group. Please remove all assigned accounts to delete group."
         }
       }
     },

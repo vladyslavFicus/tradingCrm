@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
 import { useHistory, useLocation } from 'react-router-dom';
+import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
 import { withNotifications, withModals } from 'hoc';
 import { State, Sort, Modal } from 'types';
@@ -64,10 +65,17 @@ const GroupsGrid = ({
         message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.SUCCESS'),
       });
     } catch (e) {
+      const error = parseErrors(e);
+
       notify({
         level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.FAILED'),
+        message: error.error === 'error.group.has.accounts'
+          ? I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.HAS_ACCOUNTS', {
+            accountsCount: error.errorParameters.assignedAccountsCount,
+            groupName,
+          })
+          : I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.FAILED'),
       });
     }
   };
