@@ -3644,6 +3644,7 @@
           "FAILED": "Order update failed",
           "REOPEN_SUCCESS": "Order has been successfully reopened",
           "REOPEN_FAILED": "Order reopen failed",
+          "REOPEN_FAILED_SYMBOL_NOT_FOUND": "Symbol not found. Order cannot be reopened.",
           "CLOSE_SUCCESS": "Order has been successfully closed",
           "CLOSE_FAILED": "Order close failed",
           "CANCEL_SUCCESS": "Order has been successfully canceled",

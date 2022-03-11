@@ -109,7 +109,7 @@ const AccountProfileHistoryGrid = (props: Props) => {
                     onClick={() => handleClosedOrderModal(order)
                     }
                   >
-                    TR - {orderId}
+                    TR-{orderId}
                   </div>
                   <Uuid
                     uuid={`${orderId}`}

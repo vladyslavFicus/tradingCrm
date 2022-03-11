@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
+import { parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { LevelType, Modal, Notify } from 'types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -53,11 +54,15 @@ const ReopenOrderButton = (props: Props) => {
           });
 
           onSuccess(true);
-        } catch (_) {
+        } catch (e) {
+          const error = parseErrors(e);
+
           notify({
-            level: LevelType.SUCCESS,
+            level: LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
-            message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.REOPEN_FAILED'),
+            message: error.error === 'error.order.symbol.not.related'
+              ? I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.REOPEN_FAILED_SYMBOL_NOT_FOUND')
+              : I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.REOPEN_FAILED'),
           });
         }
       },
