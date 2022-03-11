@@ -4,8 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
 import enumToArray from 'utils/enumToArray';
-// eslint-disable-next-line camelcase
-import { TradingEngine__OperatorStatuses__Enum } from '__generated__/types';
+import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import {
   FormikInputField,
   FormikSelectField,
@@ -113,7 +112,7 @@ const OperatorsFilter = (props: Props) => {
               withFocus
               multiple
             >
-              {enumToArray(TradingEngine__OperatorStatuses__Enum).map(status => (
+              {enumToArray(OperatorStatusesEnum).map(status => (
                 <option key={status} value={status}>
                   {I18n.t(status)}
                 </option>

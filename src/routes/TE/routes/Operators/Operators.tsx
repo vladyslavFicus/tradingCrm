@@ -21,7 +21,6 @@ import './Operators.scss';
 
 type Operator = ExtractApolloTypeFromPageable<OperatorsQuery['tradingEngine']['operators']>;
 
-
 export const statusesColor: Record<string, string> = {
   INACTIVE: 'color-info',
   CLOSED: 'color-danger',
@@ -77,7 +76,7 @@ const Operators = () => {
     </Link>
   );
 
-  const handleNewOrderClick = () => true;
+  const handleNewOperatorClick = () => true;
 
   return (
     <div className="card">
@@ -87,11 +86,11 @@ const Operators = () => {
         <span className="font-size-20">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.OPERATORS.HEADLINE')}
         </span>
-        <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>
+        <PermissionContent permissions={permissions.WE_TRADING.OPERATORS_ADD_NEW}>
           <div className="Operators__actions">
             <Button
               className="Operators__action"
-              onClick={handleNewOrderClick}
+              onClick={handleNewOperatorClick}
               commonOutline
               small
             >

@@ -4459,7 +4459,7 @@
       "ADD_OPERATOR": "Add new operator",
       "GRID": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "uuid,name, phone, email",
+        "SEARCH_BY_PLACEHOLDER": "uuid, name, phone, email",
         "GROUP": "Group",
         "GROUPS": "Groups",
         "STATUS": "Status",
