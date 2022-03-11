@@ -4074,13 +4074,18 @@
       "DISABLE": "Disable",
       "ENABLE": "Enable",
       "ACCOUNT_HAS_OPEN_ORDERS": "This account has open orders on it. If you change the group all these orders will be closed to zero. Do you really want to proceed?",
+      "ARCHIVE": "Archive",
+      "UNARCHIVE": "Unarchive",
       "NOTIFICATIONS": {
         "CHANGE_GROUP_SUCCESS": "Account group changed successfully",
         "CHANGE_GROUP_ERROR": "Failed to change account group",
         "CHANGE_STATUS_SUCCESS": "Account status changed successfully",
         "CHANGE_STATUS_ERROR": "Failed to change account status",
         "CHANGE_LEVERAGE_SUCCESS": "Account leverage changed successfully",
-        "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage"
+        "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage",
+        "ARCHIVE": "Account is archived successfully",
+        "UNARCHIVE": "Account is unarchived successfully",
+        "ACCOUNT_DISABLE_PROHIBITED": "Please close the orders to archive the account"
       },
       "TABS": {
         "ORDERS": "Orders",

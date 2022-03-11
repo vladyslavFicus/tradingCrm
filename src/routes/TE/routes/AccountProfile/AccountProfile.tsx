@@ -46,7 +46,7 @@ const AccountProfile = (props: Props) => {
           <ShortLoader />
         </When>
         <Otherwise>
-          <AccountProfileHeader account={account} />
+          <AccountProfileHeader account={account} handleRefetch={accountQuery.refetch} />
 
           <div className="AccountProfile__content">
             <div className="AccountProfile__info">
