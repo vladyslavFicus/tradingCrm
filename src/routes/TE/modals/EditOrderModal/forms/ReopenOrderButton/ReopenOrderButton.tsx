@@ -57,10 +57,18 @@ const ReopenOrderButton = (props: Props) => {
         } catch (e) {
           const error = parseErrors(e);
 
+          // Is symbol not found by route order -> account group -> group-securities -> symbol
+          const isSymbolRouteNotFound = [
+            'error.symbol.not.found',
+            'error.symbol.disabled',
+            'error.order.symbol.not.related',
+            'error.trading.order.group-security.disabled',
+          ].includes(error.error);
+
           notify({
             level: LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
-            message: error.error === 'error.order.symbol.not.related'
+            message: isSymbolRouteNotFound
               ? I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.REOPEN_FAILED_SYMBOL_NOT_FOUND')
               : I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.REOPEN_FAILED'),
           });
