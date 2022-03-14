@@ -83,7 +83,7 @@ const Operators = () => {
       <Tabs items={tradingEngineTabs} />
 
       <div className="Operators__header">
-        <span className="font-size-20">
+        <span className="Operators__title">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.OPERATORS.HEADLINE')}
         </span>
         <PermissionContent permissions={permissions.WE_TRADING.OPERATORS_ADD_NEW}>
