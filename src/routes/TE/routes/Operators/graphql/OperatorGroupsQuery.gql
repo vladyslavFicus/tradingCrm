@@ -1,7 +1,7 @@
 query OperatorsQuery($args: TradingEngineOperatorSearch__Input!) {
   tradingEngine {
     operators(args: $args) {
-      content{
+      content {
         uuid
         lastName
         firstName

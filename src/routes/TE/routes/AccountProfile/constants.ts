@@ -23,11 +23,6 @@ export const accountProfileTabs = [
     permissions: new Permissions(permissions.WE_TRADING.ORDERS_LIST),
   },
   {
-    url: '/trading-engine/operators',
-    label: 'TRADING_ENGINE.ACCOUNT_PROFILE.TABS.OPERATORS',
-    permissions: new Permissions(permissions.WE_TRADING.OPERATORS_LIST),
-  },
-  {
     url: '/trading-engine/accounts/:id/feed',
     label: 'TRADING_ENGINE.ACCOUNT_PROFILE.TABS.FEED',
     permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),

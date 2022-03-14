@@ -1,8 +1,0 @@
-const accountTypes = {
-  LIVE: 'TRADING_ENGINE.ACCOUNTS.FORM.ACCOUNT_TYPE.LIVE',
-  DEMO: 'TRADING_ENGINE.ACCOUNTS.FORM.ACCOUNT_TYPE.DEMO',
-};
-
-export {
-  accountTypes,
-};

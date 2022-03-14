@@ -1,9 +1,0 @@
-query GroupsQuery {
-  tradingEngine {
-    operatorGroups {
-      accessibleGroupNames
-      writeableRoles
-      readableRoles
-    }
-  }
-}

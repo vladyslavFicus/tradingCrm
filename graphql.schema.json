@@ -33632,22 +33632,6 @@
         "description": null,
         "fields": [
           {
-            "name": "accessData",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "OperatorAccess",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "email",
             "description": null,
             "args": [],
@@ -33744,9 +33728,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "ENUM",
-              "name": "TradingEngine__OperatorGroups__Enum",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TradingEngine__OperatorRoles__Enum",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -33756,9 +33744,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "ENUM",
-              "name": "TradingEngine__OperatorStatuses__Enum",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TradingEngine__OperatorStatuses__Enum",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -34877,7 +34869,7 @@
             "deprecationReason": null
           },
           {
-            "name": "operatorGroups",
+            "name": "operatorAccessData",
             "description": null,
             "args": [],
             "type": {
@@ -36661,7 +36653,7 @@
       },
       {
         "kind": "ENUM",
-        "name": "TradingEngine__OperatorGroups__Enum",
+        "name": "TradingEngine__OperatorRoles__Enum",
         "description": null,
         "fields": null,
         "inputFields": null,

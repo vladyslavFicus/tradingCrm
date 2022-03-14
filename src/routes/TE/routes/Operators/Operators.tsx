@@ -65,6 +65,8 @@ const Operators = () => {
     });
   };
 
+  const handleNewOperatorClick = () => true;
+
   const renderOperatorColumn = ({ uuid, firstName, lastName }: Operator) => (
     <Link to={`/trading-engine/operators/${uuid}`} target="_blank">
       <div className="Operators__text-primary">
@@ -76,13 +78,11 @@ const Operators = () => {
     </Link>
   );
 
-  const handleNewOperatorClick = () => true;
-
   return (
-    <div className="card">
+    <div className="Operators">
       <Tabs items={tradingEngineTabs} />
 
-      <div className="Operators__header card-heading card-heading--is-sticky">
+      <div className="Operators__header">
         <span className="font-size-20">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.OPERATORS.HEADLINE')}
         </span>
@@ -102,63 +102,61 @@ const Operators = () => {
 
       <OperatorsFilter onRefresh={operatorsQuery.refetch} />
 
-      <div className="Operators">
-        <Table
-          stickyFromTop={125}
-          items={content}
-          sorts={state?.sorts}
-          loading={operatorsQuery.loading}
-          hasMore={!last}
-          onMore={handlePageChanged}
-          onSort={handleSort}
-        >
-          <Column
-            sortBy="uuid"
-            header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.OPERATOR')}
-            render={renderOperatorColumn}
-          />
-          <Column
-            sortBy="role"
-            header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.ROLE')}
-            render={({ role }) => (
-              <div className="Operators__text-primary">
-                {role}
+      <Table
+        stickyFromTop={125}
+        items={content}
+        sorts={state?.sorts}
+        loading={operatorsQuery.loading}
+        hasMore={!last}
+        onMore={handlePageChanged}
+        onSort={handleSort}
+      >
+        <Column
+          sortBy="firstName"
+          header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.OPERATOR')}
+          render={renderOperatorColumn}
+        />
+        <Column
+          sortBy="role"
+          header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.ROLE')}
+          render={({ role }: Operator) => (
+            <div className="Operators__text-primary">
+              {role}
+            </div>
+          )}
+        />
+        <Column
+          header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.GROUPS')}
+          render={({ groupNames }: Operator) => (
+            <div className="Operators__text-primary">
+              {groupNames}
+            </div>
+          )}
+        />
+        <Column
+          sortBy="registrationDate"
+          header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.REGISTRATION_DATE')}
+          render={({ registrationDate }: Operator) => (
+            <>
+              <div className="Accounts__text-primary">
+                {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
               </div>
-            )}
-          />
-          <Column
-            header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.GROUPS')}
-            render={({ groupNames }) => (
-              <div className="Operators__text-primary">
-                {groupNames}
+              <div className="Accounts__text-secondary">
+                {moment.utc(registrationDate).local().format('HH:mm:ss')}
               </div>
-            )}
-          />
-          <Column
-            sortBy="registrationDate"
-            header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.REGISTRATION_DATE')}
-            render={({ registrationDate }) => (
-              <If condition={registrationDate}>
-                <div className="Accounts__text-primary">
-                  {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
-                </div>
-                <div className="Accounts__text-secondary">
-                  {moment.utc(registrationDate).local().format('HH:mm:ss')}
-                </div>
-              </If>
-            )}
-          />
-          <Column
-            sortBy="status"
-            header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.STATUS')}
-            render={({ status }) => (
-              <div className={statusesColor[status]}>
-                <strong>{I18n.t(`TRADING_ENGINE.OPERATORS.STATUSES.${status}`)}</strong>
-              </div>
-            )}
-          />
-        </Table>
-      </div>
+            </>
+          )}
+        />
+        <Column
+          sortBy="status"
+          header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.STATUS')}
+          render={({ status }: Operator) => (
+            <div className={statusesColor[status]}>
+              <strong>{I18n.t(`TRADING_ENGINE.OPERATORS.STATUSES.${status}`)}</strong>
+            </div>
+          )}
+        />
+      </Table>
     </div>
   );
 };

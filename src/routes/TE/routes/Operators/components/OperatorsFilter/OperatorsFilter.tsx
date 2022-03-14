@@ -12,7 +12,7 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
+import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import './OperatorsFilter.scss';
 
 interface Props {
@@ -37,9 +37,9 @@ const OperatorsFilter = (props: Props) => {
 
   const history = useHistory();
   const { state } = useLocation<State<FormValues>>();
-  const groupsQuery = useGroupsQuery();
+  const operatorAccessDataQuery = useOperatorAccessDataQuery();
 
-  const groups = groupsQuery.data?.tradingEngine.operatorGroups.accessibleGroupNames || [];
+  const groups = operatorAccessDataQuery.data?.tradingEngine.operatorAccessData.accessibleGroupNames || [];
 
   // ===== Handlers ===== //
   const handleSubmit = (values: FormValues) => {
