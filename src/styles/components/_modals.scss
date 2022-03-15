@@ -6,11 +6,6 @@
   &-dialog {
     width: 600px;
   }
-  &.fade {
-    .modal-dialog {
-      transform: translateY(10%);
-    }
-  }
   &.fade.show {
     opacity: 1;
   }

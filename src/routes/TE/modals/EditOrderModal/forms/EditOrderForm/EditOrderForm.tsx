@@ -15,7 +15,7 @@ import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSel
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
-import { calculatePnL } from 'routes/TE/utils/formulas';
+import { calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import ReopenOrderButton from '../ReopenOrderButton';
 import CancelOrderButton from '../CancelOrderButton';
@@ -82,6 +82,7 @@ const EditOrderForm = (props: Props) => {
     accountLogin,
     account,
     symbolConfig,
+    symbolEntity,
   } = order;
 
   const permission = usePermission();
@@ -212,6 +213,16 @@ const EditOrderForm = (props: Props) => {
           volume: values.volume,
           lotSize: symbolConfig?.lotSize,
           exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
+        });
+
+        const floatingMargin = calculateMargin({
+          symbolType: symbolEntity?.symbolType,
+          openPrice: values.openPrice,
+          volume: values.volume,
+          lotSize: symbolConfig?.lotSize,
+          leverage: account.leverage,
+          marginRate: currentSymbolPrice?.marginRates[account.currency],
+          percentage: symbolConfig?.percentage,
         });
 
         return (
@@ -413,41 +424,44 @@ const EditOrderForm = (props: Props) => {
                 />
               </div>
 
-              <div className="EditOrderModal__field-container">
-                <Input
-                  disabled
-                  name="pnl"
-                  value={status === OrderStatus.OPEN ? floatingPnL.toFixed(2) : pnl?.gross?.toFixed(2)}
-                  label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.FLOATING_PL')}
-                  className="EditOrderModal__field"
-                />
+              <If condition={order.status !== OrderStatus.PENDING}>
+                <div className="EditOrderModal__field-container">
+                  <Input
+                    disabled
+                    name="pnl"
+                    value={status === OrderStatus.OPEN ? floatingPnL.toFixed(2) : pnl?.gross?.toFixed(2)}
+                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.FLOATING_PL')}
+                    className="EditOrderModal__field"
+                  />
 
-                <Input
-                  disabled
-                  name="netPnL"
-                  value={
-                    status === OrderStatus.OPEN
-                      ? (floatingPnL + commission + swaps).toFixed(2)
-                      : (pnl.gross + commission + swaps).toFixed(2)
-                  }
-                  label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
-                  className="EditOrderModal__field"
-                />
+                  <Input
+                    disabled
+                    name="netPnL"
+                    value={
+                      status === OrderStatus.OPEN
+                        ? (floatingPnL + commission + swaps).toFixed(2)
+                        : (pnl.gross + commission + swaps).toFixed(2)
+                    }
+                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
+                    className="EditOrderModal__field"
+                  />
 
-                <Input
-                  disabled
-                  name="margin"
-                  type="number"
-                  label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.MARGIN')}
-                  className="EditOrderModal__field"
-                  value={margin}
-                />
-              </div>
+                  <Input
+                    disabled
+                    name="margin"
+                    type="number"
+                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.MARGIN')}
+                    className="EditOrderModal__field"
+                    // Show floating required margin only for OPEN orders. In other cases show value from BE.
+                    value={status === OrderStatus.OPEN ? floatingMargin : margin}
+                  />
+                </div>
+              </If>
 
               <div className="EditOrderModal__field-container">
                 <Field
                   name="comment"
-                  label={I18n.t('TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.COMMENT')}
+                  label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMENT')}
                   className="EditOrderModal__field"
                   component={FormikInputField}
                   maxLength={1000}

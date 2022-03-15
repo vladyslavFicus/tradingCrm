@@ -40,6 +40,7 @@ const apolloMockFactory = (data = {}) => [{
           balance: 100.53,
           login: 100,
           currency: 'USD',
+          leverage: 100,
         },
         ...data,
       },
@@ -57,6 +58,7 @@ const apolloMockFactory = (data = {}) => [{
           name: 'EURUSD',
           description: 'EURUSD description',
           digits: 5,
+          symbolType: 'FOREX',
           config: {
             lotSize: 10000,
             lotMin: 0.01,
@@ -64,6 +66,7 @@ const apolloMockFactory = (data = {}) => [{
             lotMax: 100,
             bidAdjustment: 0,
             askAdjustment: 0,
+            percentage: 100,
           },
         }],
         ...data,
@@ -248,6 +251,10 @@ it('Render NewOrderModal and click on "Pending order" checkbox', async () => {
   expect(screen.getByLabelText(/Pending order/)).not.toBeChecked();
   expect(screen.getByLabelText(/Sell P&L/)).toBeInTheDocument();
   expect(screen.getByLabelText(/Buy P&L/)).toBeInTheDocument();
+  expect(screen.getByLabelText(/Sell required margin/)).toBeInTheDocument();
+  expect(screen.getByLabelText(/Sell required margin/)).toHaveValue('1.15');
+  expect(screen.getByLabelText(/Buy required margin/)).toBeInTheDocument();
+  expect(screen.getByLabelText(/Buy required margin/)).toHaveValue('1.15');
 
   await act(async () => {
     fireEvent.click(screen.getByLabelText(/Pending order/));
@@ -259,6 +266,8 @@ it('Render NewOrderModal and click on "Pending order" checkbox', async () => {
   expect(screen.getByLabelText(/Open price/)).toBeEnabled();
   expect(screen.queryByLabelText(/Sell P&L/)).not.toBeInTheDocument();
   expect(screen.queryByLabelText(/Buy P&L/)).not.toBeInTheDocument();
+  expect(screen.queryByLabelText(/Sell required margin/)).not.toBeInTheDocument();
+  expect(screen.queryByLabelText(/Buy required margin/)).not.toBeInTheDocument();
 
   // Sell and Buy buttons should have openPrice value in text
   // Should be disabled cause openPrice === sellPrice and it can't be executable for pending order

@@ -9,6 +9,7 @@ query AccountQuery($identifier: String!) {
       credit
       balance
       accountType
+      leverage
     }
   }
 }

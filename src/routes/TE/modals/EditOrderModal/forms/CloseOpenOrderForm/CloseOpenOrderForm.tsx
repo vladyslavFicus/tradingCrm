@@ -203,7 +203,7 @@ const CloseOpenOrderForm = (props: Props) => {
               </Button>
             </div>
             <div className="EditOrderModal__field-container">
-              <div className="EditOrderModal__close-pnl">
+              <div className="EditOrderModal__additional-info">
                 {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.WITH_PNL')}&nbsp;
                 <PnL
                   type={type}

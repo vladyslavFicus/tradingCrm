@@ -4,6 +4,7 @@ query AccountSymbolsQuery($accountUuid: String!) {
       name
       description
       digits
+      symbolType
       config(accountUuid: $accountUuid) {
         lotSize
         lotMin
@@ -11,6 +12,7 @@ query AccountSymbolsQuery($accountUuid: String!) {
         lotMax
         bidAdjustment
         askAdjustment
+        percentage
       }
     }
   }

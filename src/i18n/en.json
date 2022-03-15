@@ -3528,32 +3528,6 @@
           }
         }
       },
-      "NEW_ORDER_MODAL": {
-        "TITLE": "New order",
-        "LOGIN": "Login",
-        "VOLUME": "Volume",
-        "REQUESTED_VOLUME": "Requested volume",
-        "SYMBOL": "Symbol",
-        "COMMENT": "Comment",
-        "STOP_LOSS": "Stop Loss",
-        "TAKE_PROFIT": "Take profit",
-        "OPEN_PRICE": "Open price",
-        "UPDATE": "Update",
-        "AUTO": "Auto",
-        "PENDING_ORDER": "Pending order",
-        "SELL_MARKET_AT": "Sell at {{value}}",
-        "BUY_MARKET_AT": "Buy at {{value}}",
-        "SELL_LIMIT_AT": "Sell Limit at {{value}}",
-        "BUY_LIMIT_AT": "Buy Limit at {{value}}",
-        "SELL_STOP_AT": "Sell Stop at {{value}}",
-        "BUY_STOP_AT": "Buy Stop at {{value}}",
-        "ERROR": "This account doesn't exist",
-        "SELL_PNL": "Sell P&L",
-        "BUY_PNL": "Buy P&L",
-        "NOTIFICATION": {
-          "SUCCESS": "Order has been successfully created"
-        }
-      },
       "COMMON_NEW_ORDER_MODAL": {
         "TITLE": "New order",
         "LOGIN": "Login",
@@ -3577,6 +3551,8 @@
         "ERROR": "This account doesn't exist",
         "SELL_PNL": "Sell P&L",
         "BUY_PNL": "Buy P&L",
+        "SELL_MARGIN": "Sell required margin",
+        "BUY_MARGIN": "Buy required margin",
         "ACCOUNT": {
           "NAME": "Name",
           "GROUP": "Group",
@@ -3622,6 +3598,7 @@
         "BUTTON_ACTIVATE_PENDING_ORDER": "Activate {{volumeLots}} at {{activationPrice}}",
         "BUTTON_CLOSE_ORDER": "Close {{volumeLots}} at {{closePrice}}",
         "WITH_PNL": "with P&L:",
+        "REQUIRED_MARGIN": "Required margin:",
         "PENDING_ORDER": "Pending order",
         "CONFIRMATION": {
           "CHANGE_ORDER_TITLE": "Change order",

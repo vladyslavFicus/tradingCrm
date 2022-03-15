@@ -79,6 +79,12 @@ export default new InMemoryCache({
     TradingEngineAccountSymbolConfig: {
       merge: true,
     },
+    TradingEngineAccount: {
+      merge: true,
+    },
+    TradingEngineOrder__Time: {
+      merge: true,
+    },
     TradingEngineSecurity: {
       merge: true,
     },
