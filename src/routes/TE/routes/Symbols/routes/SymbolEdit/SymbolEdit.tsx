@@ -1,15 +1,17 @@
 import React from 'react';
-import { Formik, Form, FormikProps } from 'formik';
+import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import compose from 'compose-function';
 import { useParams } from 'react-router-dom';
 import I18n from 'i18n';
-import { withNotifications } from 'hoc';
+import { withNotifications, withModals } from 'hoc';
 import { parseErrors } from 'apollo';
+import { Modal } from 'types';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Notify, LevelType } from 'types/notify';
 import SymbolSettings from '../../components/SymbolSettings';
 import CalculationSettings from '../../components/CalculationSettings';
@@ -20,11 +22,14 @@ import { DayOfWeek, FormValues, SwapType, SymbolType } from '../../types';
 import { useSymbolQuery } from './graphql/__generated__/SymbolQuery';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
-import { useEditSymbolMutation, EditSymbolMutationVariables } from './graphql/__generated__/EditSymbolMutation';
+import { useEditSymbolMutation } from './graphql/__generated__/EditSymbolMutation';
 import './SymbolEdit.scss';
 
 interface Props {
   notify: Notify,
+  modals: {
+    confirmationModal: Modal,
+  },
 }
 
 const validator = createValidator(
@@ -83,7 +88,7 @@ const validator = createValidator(
 );
 
 const SymbolEdit = (props: Props) => {
-  const { notify } = props;
+  const { notify, modals: { confirmationModal } } = props;
 
   const { id } = useParams<{ id: string }>();
 
@@ -115,11 +120,11 @@ const SymbolEdit = (props: Props) => {
   } = symbolQuery.data?.tradingEngine.symbol || {};
 
   // ==== Handlers ==== //
-  const handleSubmit = async (values: EditSymbolMutationVariables['args']) => {
+  const handleSubmit = async (values: FormValues, formik: FormikHelpers<FormValues>, force = false) => {
     try {
       await editSymbol({
         variables: {
-          args: decodeNullValues(values),
+          args: decodeNullValues({ ...values, force }),
         },
       });
 
@@ -131,11 +136,23 @@ const SymbolEdit = (props: Props) => {
         message: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.SUCCESS'),
       });
     } catch (e) {
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE'),
-        message: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.FAILED'),
-      });
+      const error = parseErrors(e);
+
+      // Open confirmation modal to confirm force closing orders
+      if (error.error === 'error.symbol.has.opened.orders') {
+        confirmationModal.show({
+          actionText: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.FAILED_SYMBOL_HAS_ORDERS'),
+          submitButtonLabel: I18n.t('COMMON.YES'),
+          cancelButtonLabel: I18n.t('COMMON.NO'),
+          onSubmit: () => handleSubmit(values, formik, true),
+        });
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE'),
+          message: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.FAILED'),
+        });
+      }
     }
   };
 
@@ -185,7 +202,7 @@ const SymbolEdit = (props: Props) => {
                 filterSmoothing: filtration?.filterSmoothing || 0,
               },
               symbolSessions: symbolSessions || [],
-            }}
+            } as FormValues}
             onSubmit={handleSubmit}
           >
             {(formik : FormikProps<FormValues>) => {
@@ -266,4 +283,7 @@ const SymbolEdit = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
+  withModals({
+    confirmationModal: ConfirmActionModal,
+  }),
 )(SymbolEdit);

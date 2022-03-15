@@ -3893,7 +3893,8 @@
       },
       "NOTIFICATION": {
         "SUCCESS": "Symbol has been successfully updated",
-        "FAILED": "Symbol update failed"
+        "FAILED": "Symbol update failed",
+        "FAILED_SYMBOL_HAS_ORDERS": "This symbol has open orders on it. If you change the security all these orders will be closed to zero. Do you really want to proceed?"
       }
     },
     "QUOTES": {
