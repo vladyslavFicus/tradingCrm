@@ -4396,7 +4396,11 @@
         },
         "EDIT": {
           "SUCCESS": "Group has been successfully edited",
-          "FAILED": "Group edit failed"
+          "FAILED": "Group edit failed",
+          "FAILED_ORDERS_EXIST": {
+            "one": "There are open orders with the symbols from {{securities}} security. If you delete this security all these orders will be closed to zero. Do you really want to proceed?",
+            "other": "There are open orders with the symbols from {{securities}} securities. If you delete this securities all these orders will be closed to zero. Do you really want to proceed?"
+          }
         }
       },
       "COMMON_GROUP_FORM": {

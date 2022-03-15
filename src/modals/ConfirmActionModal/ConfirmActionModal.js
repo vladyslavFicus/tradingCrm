@@ -18,6 +18,7 @@ class ConfirmActionModal extends PureComponent {
     submitButtonLabel: PropTypes.string,
     cancelButtonLabel: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     onCloseModal: PropTypes.func.isRequired,
     onCloseCallback: PropTypes.func,
     className: PropTypes.string,
@@ -28,6 +29,7 @@ class ConfirmActionModal extends PureComponent {
     fullName: '',
     additionalText: null,
     onCloseCallback: () => {},
+    onCancel: () => {},
     modalTitle: I18n.t('MODALS.CONFIRM_ACTION_MODAL.TITLE'),
     actionText: I18n.t('MODALS.CONFIRM_ACTION_MODAL.DESCRIPTION'),
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
@@ -39,11 +41,12 @@ class ConfirmActionModal extends PureComponent {
     isSubmitting: false,
   };
 
-  handleClose = () => {
-    const { onCloseModal, onCloseCallback } = this.props;
+  handleClose = async () => {
+    const { onCloseModal, onCloseCallback, onCancel } = this.props;
 
-    onCloseModal();
-    onCloseCallback();
+    await onCancel();
+    await onCloseModal();
+    await onCloseCallback();
   }
 
   handleSubmit = async () => {

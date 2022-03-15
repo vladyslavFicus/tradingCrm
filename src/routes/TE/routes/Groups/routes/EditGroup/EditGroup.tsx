@@ -3,13 +3,15 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
-import { Formik, Form, FormikProps } from 'formik';
-import { hasErrorPath } from 'apollo';
-import { withNotifications } from 'hoc';
+import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
+import { hasErrorPath, parseErrors } from 'apollo';
+import { withNotifications, withModals } from 'hoc';
 import NotFound from 'routes/NotFound';
+import { Modal } from 'types';
 import { Notify, LevelType } from 'types/notify';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import GroupProfileHeader from '../../components/GroupProfileHeader';
 import GroupCommonForm from '../../components/GroupCommonForm';
 import GroupPermissionsForm from '../../components/GroupPermissionsForm';
@@ -25,6 +27,9 @@ import './EditGroup.scss';
 
 interface Props {
   notify: Notify,
+  modals: {
+    confirmationModal: Modal,
+  },
 }
 
 const validator = createValidator(
@@ -44,7 +49,9 @@ const validator = createValidator(
   },
 );
 
-const EditGroup = ({ notify }: Props) => {
+const EditGroup = (props: Props) => {
+  const { notify, modals: { confirmationModal } } = props;
+
   const { id: groupName } = useParams<{ id: string }>();
 
   const groupQuery = useGroupQuery({ variables: { groupName } });
@@ -56,7 +63,7 @@ const EditGroup = ({ notify }: Props) => {
     return <NotFound />;
   }
 
-  const handleSubmit = async (group: FormValues) => {
+  const handleSubmit = async (group: FormValues, formik: FormikHelpers<FormValues>, force = false) => {
     try {
       await editGroup({
         variables: {
@@ -71,6 +78,7 @@ const EditGroup = ({ notify }: Props) => {
             groupMargins: group?.groupMargins?.map(groupMargin => ({
               ...omit(groupMargin, 'securityId'),
             })) || [],
+            force,
           },
         },
       });
@@ -80,13 +88,32 @@ const EditGroup = ({ notify }: Props) => {
         title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
         message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.SUCCESS'),
       });
+
       refetch();
     } catch (e) {
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
-        message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.FAILED'),
-      });
+      const errors = parseErrors(e);
+
+      const securities = Object.keys(errors.errorParameters);
+
+      // Open confirmation modal to confirm force closing orders
+      if (errors.error === 'error.group-security.has.opened.orders') {
+        confirmationModal.show({
+          actionText: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.FAILED_ORDERS_EXIST', {
+            securities: securities.join(', '),
+            count: securities.length,
+          }),
+          submitButtonLabel: I18n.t('COMMON.YES'),
+          cancelButtonLabel: I18n.t('COMMON.NO'),
+          onSubmit: () => handleSubmit(group, formik, true),
+          onCancel: formik.resetForm,
+        });
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
+          message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.FAILED'),
+        });
+      }
     }
   };
 
@@ -125,4 +152,7 @@ const EditGroup = ({ notify }: Props) => {
 export default compose(
   React.memo,
   withNotifications,
+  withModals({
+    confirmationModal: ConfirmActionModal,
+  }),
 )(EditGroup);
