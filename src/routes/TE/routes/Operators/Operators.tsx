@@ -7,6 +7,7 @@ import moment from 'moment';
 import permissions from 'config/permissions';
 import { Sort, State } from 'types';
 import { Button } from 'components/UI';
+import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
@@ -109,7 +110,7 @@ const Operators = () => {
                 {`${firstName} ${lastName}`}
               </div>
               <div className="Operators__text-secondary">
-                {uuid}
+                <Uuid uuid={uuid} />
               </div>
             </Link>
           )}
