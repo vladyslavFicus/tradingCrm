@@ -18,7 +18,7 @@ interface Props {
   loaderSize?: number,
 }
 
-function Margin(props: Props) {
+const Margin = (props: Props) => {
   const {
     symbolType,
     openPrice,
@@ -64,7 +64,7 @@ function Margin(props: Props) {
       <MarginDebug {...props} />
     </>
   );
-}
+};
 
 Margin.defaultProps = {
   symbolType: null,

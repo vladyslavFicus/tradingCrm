@@ -15,7 +15,7 @@ interface Props {
   marginRate?: number,
 }
 
-function MarginDebug(props: Props) {
+const MarginDebug = (props: Props) => {
   const {
     symbolType,
     openPrice,
@@ -82,7 +82,7 @@ function MarginDebug(props: Props) {
       </div>
     </DebugContainer>
   );
-}
+};
 
 MarginDebug.defaultProps = {
   symbolType: null,
