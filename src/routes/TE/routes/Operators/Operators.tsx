@@ -67,17 +67,6 @@ const Operators = () => {
 
   const handleNewOperatorClick = () => true;
 
-  const renderOperatorColumn = ({ uuid, firstName, lastName }: Operator) => (
-    <Link to={`/trading-engine/operators/${uuid}`} target="_blank">
-      <div className="Operators__text-primary">
-        {`${firstName} ${lastName}`}
-      </div>
-      <div className="Operators__text-secondary">
-        {uuid}
-      </div>
-    </Link>
-  );
-
   return (
     <div className="Operators">
       <Tabs items={tradingEngineTabs} />
@@ -114,7 +103,16 @@ const Operators = () => {
         <Column
           sortBy="firstName"
           header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.OPERATOR')}
-          render={renderOperatorColumn}
+          render={({ uuid, firstName, lastName }: Operator) => (
+            <Link to={`/trading-engine/operators/${uuid}`} target="_blank">
+              <div className="Operators__text-primary">
+                {`${firstName} ${lastName}`}
+              </div>
+              <div className="Operators__text-secondary">
+                {uuid}
+              </div>
+            </Link>
+          )}
         />
         <Column
           sortBy="role"

@@ -21,12 +21,9 @@ interface Props {
 
 interface FormValues {
   keyword?: string,
-  orderStatuses?: string[],
-  openingDateRange?: {
-    from?: string,
-    to?: string,
-  },
-  closingDateRange?: {
+  statuses?: string[],
+  groupNames?: string[],
+  registrationDateRange?: {
     from?: string,
     to?: string,
   },
