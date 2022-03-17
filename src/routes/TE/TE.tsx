@@ -8,6 +8,7 @@ import Orders from './routes/Orders';
 import Securities from './routes/Securities';
 import Groups from './routes/Groups';
 import Accounts from './routes/Accounts';
+import Operators from './routes/Operators';
 import AccountProfile from './routes/AccountProfile';
 import './TE.scss';
 
@@ -27,6 +28,7 @@ const TE = () => {
               <Route path={`${path}/accounts/:id`} component={AccountProfile} />
               <Route path={`${path}/accounts`} component={Accounts} />
               <Route path={`${path}/groups`} component={Groups} />
+              <Route path={`${path}/operators`} component={Operators} />
               <Redirect to={`${url}/orders`} />
             </Switch>
           </Suspense>

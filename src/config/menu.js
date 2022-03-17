@@ -124,6 +124,10 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.SECURITIES',
     url: '/trading-engine/securities',
     permissions: new Permissions(permissions.WE_TRADING.SECURITIES_LIST),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.OPERATORS',
+    url: '/trading-engine/operators',
+    permissions: new Permissions(permissions.WE_TRADING.OPERATORS_LIST),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.IP_WHITELIST',

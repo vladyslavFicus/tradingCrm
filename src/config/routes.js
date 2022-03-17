@@ -35,6 +35,7 @@ export const routePermissions = {
   '/trading-engine/securities': permissions.WE_TRADING.SECURITIES_LIST,
   '/trading-engine/accounts/:id/transactions': permissions.WE_TRADING.TRANSACTIONS_LIST,
   '/trading-engine/accounts/:id/feed': permissions.AUDIT.AUDIT_LOGS,
+  '/trading-engine/operators': permissions.WE_TRADING.OPERATORS_LIST,
 
   '/ip-whitelist/list': permissions.IP_WHITELIST.LIST,
   '/ip-whitelist/feed': permissions.AUDIT.AUDIT_LOGS,

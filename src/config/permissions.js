@@ -199,6 +199,9 @@ export default {
     ORDER_CANCEL: 'we-trading.cancelOrder',
     ORDER_CLOSE: 'we-trading.closeOrder',
     ORDER_ACTIVATE: 'we-trading.activateOrder',
+    OPERATORS_LIST: 'we-trading.findOperators',
+    OPERATORS_ADD_NEW: 'we-trading.createOperator',
+    OPERATORS_CHANGE_ROLE: 'we-trading.changeOperatorRole',
     UPDATE_ACCOUNT_ENABLE: 'we-trading.updateAccountEnable',
   },
   LIQUIDITY_PROVIDER_ADAPTER: {

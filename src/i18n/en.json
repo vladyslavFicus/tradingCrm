@@ -44,7 +44,8 @@
         "QUOTES": "Quotes",
         "SYMBOLS": "Symbols",
         "GROUPS": "Groups",
-        "SECURITIES": "Securities"
+        "SECURITIES": "Securities",
+        "OPERATORS": "Operators"
       }
     },
     "BOTTOM_MENU": {
@@ -3480,7 +3481,8 @@
       "QUOTES": "Quotes",
       "SYMBOLS": "Symbols",
       "SECURITIES": "Securities",
-      "GROUPS": "Groups"
+      "GROUPS": "Groups",
+      "OPERATORS": "Operators"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
     "MODALS": {
@@ -4434,6 +4436,25 @@
             "DESCRIPTION": "Are you sure that you want to delete symbol {{symbol}}?"
           }
         }
+      }
+    },
+    "OPERATORS": {
+      "HEADLINE": "Dealing operators",
+      "ADD_OPERATOR": "Add new operator",
+      "GRID": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "uuid, name, phone, email",
+        "GROUP": "Group",
+        "GROUPS": "Groups",
+        "STATUS": "Status",
+        "REGISTRATION_DATE_RANGE_LABEL": "Registration date",
+        "REGISTRATION_DATE": "Registration date",
+        "OPERATOR": "Operator",
+        "ROLE": "Role"
+      },
+      "STATUSES": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
       }
     }
   },
