@@ -27,7 +27,7 @@ import { OrderDirection } from 'types/trading-engine';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import SymbolPricesStream, { SymbolPrice } from 'routes/TE/components/SymbolPricesStream';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
-import { calculatePnL, determineOrderType } from 'routes/TE/utils/formulas';
+import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
 import { useAccountQueryLazyQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQueryLazyQuery } from './graphql/__generated__/AccountSymbolsQuery';
 import { useCreateOrderMutation } from './graphql/__generated__/CreateOrderMutation';
@@ -589,6 +589,44 @@ const NewOrderModal = (props: Props) => {
                         className="NewOrderModal__field"
                       />
                     </div>
+                    <div className="NewOrderModal__field-container">
+                      <Input
+                        disabled
+                        name="sellMargin"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_MARGIN')}
+                        value={
+                          (account && currentSymbol && currentSymbolPrice)
+                            ? calculateMargin({
+                              symbolType: currentSymbol.symbolType,
+                              openPrice: sellPrice,
+                              volume: volumeLots,
+                              lotSize: currentSymbol.config?.lotSize,
+                              leverage: account.leverage,
+                              marginRate: currentSymbolPrice.marginRates[account.currency],
+                              percentage: currentSymbol.config?.percentage,
+                            })
+                            : 0}
+                        className="NewOrderModal__field"
+                      />
+                      <Input
+                        disabled
+                        name="buyMargin"
+                        label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_MARGIN')}
+                        value={
+                          (account && currentSymbol && currentSymbolPrice)
+                            ? calculateMargin({
+                              symbolType: currentSymbol.symbolType,
+                              openPrice: buyPrice,
+                              volume: volumeLots,
+                              lotSize: currentSymbol.config?.lotSize,
+                              leverage: account.leverage,
+                              marginRate: currentSymbolPrice.marginRates[account.currency],
+                              percentage: currentSymbol.config?.percentage,
+                            })
+                            : 0}
+                        className="NewOrderModal__field"
+                      />
+                    </div>
                   </If>
                   <div className="NewOrderModal__field-container">
                     <Field
@@ -640,7 +678,7 @@ const NewOrderModal = (props: Props) => {
                     >
                       {I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_${sellType}_AT`, {
                         value: (sellPrice || 0).toFixed(currentSymbol?.digits),
-                        type: I18n.t(`TRADING_ENGINE.MODALS.NEW_ORDER_MODAL.${sellType}`),
+                        type: I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.${sellType}`),
                       })}
                     </Button>
                     <Button

@@ -33,6 +33,7 @@ const props = {
 const apolloMockResponseData = {
   account: {
     currency: 'EUR',
+    leverage: 100,
   },
   accountLogin: 144354,
   accountUuid: 'WET-4fdfd959-e853-4cca-bfc8-6469fa6acd16',
@@ -47,6 +48,10 @@ const apolloMockResponseData = {
     lotMax: 100,
     bidAdjustment: 0,
     askAdjustment: 0,
+    percentage: 100,
+  },
+  symbolEntity: {
+    symbolType: 'FOREX',
   },
   id: 143749,
   marginRate: null,
@@ -154,13 +159,13 @@ it('Render EditOrderModal without any permissions', async () => {
     stopLoss,
     takeProfit,
     comment,
-    margin,
     time,
   } = apolloMockResponseData;
 
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
+  const floatingMargin = 80;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -201,7 +206,7 @@ it('Render EditOrderModal without any permissions', async () => {
   expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
   expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
   expect(screen.getByLabelText('Margin')).toBeDisabled();
-  expect(screen.getByLabelText('Margin')).toHaveValue(margin);
+  expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
   expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
@@ -221,13 +226,13 @@ it('Render EditOrderModal with manager edit order permission', async () => {
     stopLoss,
     takeProfit,
     comment,
-    margin,
     time,
   } = apolloMockResponseData;
 
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
+  const floatingMargin = 80;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -272,7 +277,7 @@ it('Render EditOrderModal with manager edit order permission', async () => {
   expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
   expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
   expect(screen.getByLabelText('Margin')).toBeDisabled();
-  expect(screen.getByLabelText('Margin')).toHaveValue(margin);
+  expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeEnabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
   expect(screen.queryByTestId('updateOrder')).toBeInTheDocument();
@@ -292,7 +297,6 @@ it('Render EditOrderModal with admin edit order permission', async () => {
     stopLoss,
     takeProfit,
     comment,
-    margin,
     time,
     reason,
     openRate,
@@ -302,6 +306,7 @@ it('Render EditOrderModal with admin edit order permission', async () => {
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
+  const floatingMargin = 80;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -346,7 +351,7 @@ it('Render EditOrderModal with admin edit order permission', async () => {
   expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
   expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
   expect(screen.getByLabelText('Margin')).toBeDisabled();
-  expect(screen.getByLabelText('Margin')).toHaveValue(margin);
+  expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeEnabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
   expect(screen.queryByTestId('updateOrder')).toBeInTheDocument();
@@ -379,13 +384,13 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
     stopLoss,
     takeProfit,
     comment,
-    margin,
     time,
   } = apolloMockResponseData;
 
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
+  const floatingMargin = 80;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -430,7 +435,7 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
   expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
   expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
   expect(screen.getByLabelText('Margin')).toBeDisabled();
-  expect(screen.getByLabelText('Margin')).toHaveValue(margin);
+  expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
   expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
@@ -787,10 +792,12 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots);
   expect(screen.getByLabelText('Volume')).toBeDisabled();
+  expect(screen.queryByLabelText('Floating P/L')).not.toBeInTheDocument();
+  expect(screen.queryByLabelText('Net Floating P/L')).not.toBeInTheDocument();
+  expect(screen.queryByLabelText('Margin')).not.toBeInTheDocument();
   expect(screen.getByTestId('activationPrice')).toHaveValue(openPrice);
-  const updateButton = screen.getByRole('button', { name: 'Update' });
-  expect(updateButton).toBeInTheDocument();
-  await waitFor(() => expect(updateButton).toBeEnabled());
+  expect(screen.getByRole('button', { name: 'Update' })).toBeInTheDocument();
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Update' })).toBeEnabled());
 
   await act(async () => {
     // Wait while rsocket tick will be accepted by component
@@ -798,10 +805,11 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
   });
 
-  fireEvent.click(updateButton);
+  fireEvent.click(screen.getByRole('button', { name: 'Update' }));
 
   await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newAsk.toFixed(5)}`));
   expect(screen.getByTestId('activationPrice')).toHaveValue(newAsk);
+  expect(screen.getByTestId('Margin')).toHaveTextContent('80.00');
 });
 
 it('Render EditOrderModal for PENDING order with SELL type', async () => {
@@ -839,10 +847,13 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots);
   expect(screen.getByLabelText('Volume')).toBeDisabled();
+  expect(screen.queryByLabelText('Floating P/L')).not.toBeInTheDocument();
+  expect(screen.queryByLabelText('Net Floating P/L')).not.toBeInTheDocument();
+  expect(screen.queryByLabelText('Margin')).not.toBeInTheDocument();
   expect(screen.getByTestId('activationPrice')).toHaveValue(openPrice);
-  const updateButton = screen.getByRole('button', { name: 'Update' });
-  expect(updateButton).toBeInTheDocument();
-  await waitFor(() => expect(updateButton).toBeEnabled());
+  expect(screen.getByRole('button', { name: 'Update' })).toBeInTheDocument();
+
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Update' })).toBeEnabled());
 
   await act(async () => {
     // Wait while rsocket tick will be accepted by component
@@ -850,10 +861,11 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
   });
 
-  fireEvent.click(updateButton);
+  fireEvent.click(screen.getByRole('button', { name: 'Update' }));
 
   await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newBid.toFixed(5)}`));
   expect(screen.getByTestId('activationPrice')).toHaveValue(newBid);
+  expect(screen.getByTestId('Margin')).toHaveTextContent('80.00');
 });
 
 it('Render EditOrderModal and configure volumeLots field for partial close order', async () => {

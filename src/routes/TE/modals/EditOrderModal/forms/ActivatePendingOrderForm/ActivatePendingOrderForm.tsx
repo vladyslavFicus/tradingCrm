@@ -12,6 +12,7 @@ import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { OrderDirection } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
+import Margin from 'routes/TE/components/Margin';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useActivatePendingOrderMutation } from './graphql/__generated__/ActivatePendingOrderMutation';
@@ -48,6 +49,8 @@ const ActivatePendingOrderForm = (props: Props) => {
     openPrice,
     direction,
     symbolConfig,
+    symbolEntity,
+    account,
   } = order;
 
   const [activatePendingOrder] = useActivatePendingOrderMutation();
@@ -122,7 +125,7 @@ const ActivatePendingOrderForm = (props: Props) => {
       })}
       onSubmit={handleActivatePendingOrder}
     >
-      {({ values: _values, setFieldValue }) => (
+      {({ values, setFieldValue }) => (
         <Form>
           <fieldset className="EditOrderModal__fieldset">
             <legend className="EditOrderModal__fieldset-title">
@@ -174,10 +177,25 @@ const ActivatePendingOrderForm = (props: Props) => {
                 danger
               >
                 {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_ACTIVATE_PENDING_ORDER', {
-                  volumeLots: Number(_values.volumeLots).toFixed(2),
-                  activationPrice: (_values.activationPrice || 0).toFixed(digits),
+                  volumeLots: Number(values.volumeLots).toFixed(2),
+                  activationPrice: (values.activationPrice || 0).toFixed(digits),
                 })}
               </Button>
+            </div>
+            <div className="EditOrderModal__field-container">
+              <div className="EditOrderModal__additional-info">
+                {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REQUIRED_MARGIN')}&nbsp;
+                <Margin
+                  symbolType={symbolEntity?.symbolType}
+                  openPrice={values.activationPrice}
+                  volume={values.volumeLots}
+                  lotSize={symbolConfig?.lotSize}
+                  leverage={account.leverage}
+                  marginRate={currentSymbolPrice?.marginRates[account.currency]}
+                  percentage={symbolConfig?.percentage}
+                  loaderSize={16}
+                />
+              </div>
             </div>
           </fieldset>
         </Form>

@@ -36,6 +36,7 @@ query OrderQuery($orderId: Int!) {
       type
       account {
         currency
+        leverage
       }
       symbolConfig {
         lotSize
@@ -43,6 +44,10 @@ query OrderQuery($orderId: Int!) {
         lotMax
         bidAdjustment
         askAdjustment
+        percentage
+      }
+      symbolEntity {
+         symbolType
       }
     }
   }
