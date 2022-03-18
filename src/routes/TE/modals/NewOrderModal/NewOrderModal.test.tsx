@@ -520,6 +520,7 @@ it('Render NewOrderModal and applying group spread for chosen symbol', async () 
       name: 'EURUSD',
       description: 'EURUSD description',
       digits,
+      symbolType: 'FOREX',
       config: {
         lotSize: 10000,
         lotMin: 0.01,
@@ -527,6 +528,7 @@ it('Render NewOrderModal and applying group spread for chosen symbol', async () 
         lotMax: 100,
         bidAdjustment,
         askAdjustment,
+        percentage: 100,
       },
     }],
   };

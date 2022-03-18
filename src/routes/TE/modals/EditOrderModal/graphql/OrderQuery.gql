@@ -16,6 +16,7 @@ query OrderQuery($orderId: Int!) {
       openRate
       closeRate
       margin
+      marginRate
       pnl {
         gross
         net

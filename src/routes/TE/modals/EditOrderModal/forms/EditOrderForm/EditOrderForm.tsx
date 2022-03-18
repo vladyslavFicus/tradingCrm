@@ -77,6 +77,7 @@ const EditOrderForm = (props: Props) => {
     openRate,
     closeRate,
     margin,
+    marginRate,
     pnl,
     comment,
     accountLogin,
@@ -221,7 +222,7 @@ const EditOrderForm = (props: Props) => {
           volume: values.volume,
           lotSize: symbolConfig?.lotSize,
           leverage: account.leverage,
-          marginRate: currentSymbolPrice?.marginRates[account.currency],
+          marginRate,
           percentage: symbolConfig?.percentage,
         });
 

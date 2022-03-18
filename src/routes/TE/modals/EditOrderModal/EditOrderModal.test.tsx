@@ -54,7 +54,7 @@ const apolloMockResponseData = {
     symbolType: 'FOREX',
   },
   id: 143749,
-  marginRate: null,
+  marginRate: 0.91,
   openPrice: 1.1345,
   status: 'OPEN',
   stopLoss: null,
@@ -165,7 +165,7 @@ it('Render EditOrderModal without any permissions', async () => {
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -232,7 +232,7 @@ it('Render EditOrderModal with manager edit order permission', async () => {
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -306,7 +306,7 @@ it('Render EditOrderModal with admin edit order permission', async () => {
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -390,7 +390,7 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
   // Arrange
   const floatingPnL = '140.63';
   const netPnL = '140.63';
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
