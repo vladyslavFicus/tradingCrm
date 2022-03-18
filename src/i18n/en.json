@@ -3724,6 +3724,16 @@
           "SUCCESS": "Symbol has been successfully added to symbol table",
           "FAILED_EXIST": "Symbol with this name already exists."
         }
+      },
+      "NEW_OPERATOR_MODAL": {
+        "TITLE": "New operator",
+        "NOTE": "Note",
+        "NOTE_MESSAGE": "You will be able to set groups in the operator`s profile once it`s created",
+        "NOTIFICATION": {
+          "SUCCESS": "Operator has been successfully created",
+          "FAILED": "Operator creation failed",
+          "FAILED_EXIST": "Operator with this email already exists."
+        }
       }
     },
     "ACCOUNTS": {

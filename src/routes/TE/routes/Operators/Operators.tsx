@@ -4,13 +4,15 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
 import moment from 'moment';
+import { withModals } from 'hoc';
 import permissions from 'config/permissions';
-import { Sort, State } from 'types';
+import { Modal, Sort, State } from 'types';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
+import NewOperatorModal from 'routes/TE/modals/NewOperatorModal';
 import { tradingEngineTabs } from '../../constants';
 import OperatorsFilter from './components/OperatorsFilter';
 import {
@@ -28,7 +30,13 @@ export const statusesColor: Record<string, string> = {
   ACTIVE: 'color-success',
 };
 
-const Operators = () => {
+interface Props {
+  modals: {
+    newOperatorModal: Modal,
+  },
+}
+
+const Operators = ({ modals: { newOperatorModal } }: Props) => {
   const { state } = useLocation<State<OperatorsQueryVariables['args']>>();
   const history = useHistory();
 
@@ -66,7 +74,7 @@ const Operators = () => {
     });
   };
 
-  const handleNewOperatorClick = () => true;
+  const handleNewOperatorClick = () => newOperatorModal.show({ onSuccess: operatorsQuery.refetch });
 
   return (
     <div className="Operators">
@@ -162,5 +170,7 @@ const Operators = () => {
 
 export default compose(
   React.memo,
-  // add new operator modals
+  withModals({
+    newOperatorModal: NewOperatorModal,
+  }),
 )(Operators);

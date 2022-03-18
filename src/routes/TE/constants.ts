@@ -63,10 +63,14 @@ const orderStatuses = {
   CANCELED: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.CANCELED',
 };
 
+const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+const passwordMaxSize = 16;
 
 export {
   tradingEngineTabs,
   securityNamePattern,
   orderTypes,
   orderStatuses,
+  passwordPattern,
+  passwordMaxSize,
 };
