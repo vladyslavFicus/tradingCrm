@@ -8,6 +8,7 @@ query SymbolsQuery($args: TradingEngineSymbols__Input) {
         bidSpread
         stopsLevel
         digits
+        source
         swapConfigs {
           long
           short

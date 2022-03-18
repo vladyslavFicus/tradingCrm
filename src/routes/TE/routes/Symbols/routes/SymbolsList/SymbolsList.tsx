@@ -10,6 +10,7 @@ import Tabs from 'components/Tabs';
 import { Button } from 'components/UI';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
+import Badge from 'components/Badge';
 import { tradingEngineTabs } from 'routes/TE/constants';
 import SymbolsFilter from './components/SymbolsFilter';
 import { useSymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
@@ -90,22 +91,41 @@ const SymbolsList = () => {
       >
         <Column
           header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SYMBOL')}
-          render={({ symbol }) => (
-            <Choose>
-              <When condition={permission.allows(permissions.WE_TRADING.EDIT_SYMBOL)}>
-                <Link to={`/trading-engine/symbols/${symbol}`} target="_blank">
+          render={({ symbol, source }) => {
+            const render = (
+              <Choose>
+                <When condition={permission.allows(permissions.WE_TRADING.EDIT_SYMBOL)}>
+                  <Link to={`/trading-engine/symbols/${symbol}`} target="_blank">
+                    <div className="SymbolsList__cell-primary">
+                      {symbol}
+                    </div>
+                  </Link>
+                </When>
+                <Otherwise>
                   <div className="SymbolsList__cell-primary">
                     {symbol}
                   </div>
-                </Link>
-              </When>
-              <Otherwise>
-                <div className="SymbolsList__cell-primary">
-                  {symbol}
-                </div>
-              </Otherwise>
-            </Choose>
-          )}
+                </Otherwise>
+              </Choose>
+            );
+
+            return (
+              <Choose>
+                {/* Show source badge for source symbols only */}
+                <When condition={!source}>
+                  <Badge
+                    info
+                    text={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SOURCE')}
+                  >
+                    {render}
+                  </Badge>
+                </When>
+                <Otherwise>
+                  {render}
+                </Otherwise>
+              </Choose>
+            );
+          }}
         />
         <Column
           header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.SECURITIES')}

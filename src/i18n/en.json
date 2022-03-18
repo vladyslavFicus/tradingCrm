@@ -3904,6 +3904,7 @@
       "HEADLINE": "Symbols",
       "GRID": {
         "SYMBOL": "Symbol",
+        "SOURCE": "Source",
         "BID": "Bid",
         "ASK": "Ask",
         "SECURITIES": "Securities",
