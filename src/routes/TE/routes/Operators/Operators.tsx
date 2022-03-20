@@ -136,7 +136,7 @@ const Operators = ({ modals: { newOperatorModal } }: Props) => {
           header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.GROUPS')}
           render={({ groupNames }: Operator) => (
             <div className="Operators__text-primary">
-              {groupNames}
+              ${groupNames.join(', ')};
             </div>
           )}
         />
