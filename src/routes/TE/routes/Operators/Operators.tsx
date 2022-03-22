@@ -113,14 +113,16 @@ const Operators = ({ modals: { newOperatorModal } }: Props) => {
           sortBy="firstName"
           header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.OPERATOR')}
           render={({ uuid, firstName, lastName }: Operator) => (
-            <Link to={`/trading-engine/operators/${uuid}`} target="_blank">
-              <div className="Operators__text-primary">
-                {`${firstName} ${lastName}`}
-              </div>
-              <div className="Operators__text-secondary">
+            <>
+              <Link to={`/trading-engine/operators/${uuid}`} target="_blank">
+                <div className="Operators__text-primary">
+                  {`${firstName} ${lastName}`}
+                </div>
+              </Link>
+              <div className="Operators__uuid">
                 <Uuid uuid={uuid} />
               </div>
-            </Link>
+            </>
           )}
         />
         <Column
