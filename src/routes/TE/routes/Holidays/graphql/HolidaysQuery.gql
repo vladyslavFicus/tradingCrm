@@ -1,0 +1,20 @@
+query HolidaysQuery($args: TradingEngineHolidays__Input) {
+  tradingEngine {
+    holidays(args: $args) {
+      content {
+        id
+        date
+        timeRange {
+          from
+          to
+        }
+        description
+      }
+      page
+      number
+      totalElements
+      size
+      last
+    }
+  }
+}

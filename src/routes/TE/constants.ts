@@ -33,6 +33,11 @@ const tradingEngineTabs = [
     permissions: new Permissions(permissions.WE_TRADING.SECURITIES_LIST),
   },
   {
+    url: '/trading-engine/holidays',
+    label: 'TRADING_ENGINE.TABS.HOLIDAYS',
+    permissions: new Permissions(permissions.WE_TRADING.HOLIDAYS_LIST),
+  },
+  {
     url: '/trading-engine/operators',
     label: 'TRADING_ENGINE.TABS.OPERATORS',
     permissions: new Permissions(permissions.WE_TRADING.OPERATORS_LIST),

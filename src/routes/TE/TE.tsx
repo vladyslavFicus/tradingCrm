@@ -8,6 +8,7 @@ import Orders from './routes/Orders';
 import Securities from './routes/Securities';
 import Groups from './routes/Groups';
 import Accounts from './routes/Accounts';
+import Holidays from './routes/Holidays';
 import Operators from './routes/Operators';
 import AccountProfile from './routes/AccountProfile';
 import './TE.scss';
@@ -18,21 +19,20 @@ const TE = () => {
   return (
     <RSocketProvider>
       <div className="TradingEngine">
-        <div className="Client__tab-content">
-          <Suspense fallback={null}>
-            <Switch>
-              <Route path={`${path}/orders`} component={Orders} />
-              <Route path={`${path}/quotes`} component={Quotes} />
-              <Route path={`${path}/symbols`} component={Symbols} />
-              <Route path={`${path}/securities`} component={Securities} />
-              <Route path={`${path}/accounts/:id`} component={AccountProfile} />
-              <Route path={`${path}/accounts`} component={Accounts} />
-              <Route path={`${path}/groups`} component={Groups} />
-              <Route path={`${path}/operators`} component={Operators} />
-              <Redirect to={`${url}/orders`} />
-            </Switch>
-          </Suspense>
-        </div>
+        <Suspense fallback={null}>
+          <Switch>
+            <Route path={`${path}/orders`} component={Orders} />
+            <Route path={`${path}/quotes`} component={Quotes} />
+            <Route path={`${path}/symbols`} component={Symbols} />
+            <Route path={`${path}/securities`} component={Securities} />
+            <Route path={`${path}/accounts/:id`} component={AccountProfile} />
+            <Route path={`${path}/accounts`} component={Accounts} />
+            <Route path={`${path}/groups`} component={Groups} />
+            <Route path={`${path}/holidays`} component={Holidays} />
+            <Route path={`${path}/operators`} component={Operators} />
+            <Redirect to={`${url}/orders`} />
+          </Switch>
+        </Suspense>
       </div>
     </RSocketProvider>
   );

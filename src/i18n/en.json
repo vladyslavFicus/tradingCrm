@@ -45,6 +45,7 @@
         "SYMBOLS": "Symbols",
         "GROUPS": "Groups",
         "SECURITIES": "Securities",
+        "HOLIDAYS": "Holidays",
         "OPERATORS": "Operators"
       }
     },
@@ -3482,6 +3483,7 @@
       "SYMBOLS": "Symbols",
       "SECURITIES": "Securities",
       "GROUPS": "Groups",
+      "HOLIDAYS": "Holidays",
       "OPERATORS": "Operators"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
@@ -4447,6 +4449,19 @@
             "DESCRIPTION": "Are you sure that you want to delete symbol {{symbol}}?"
           }
         }
+      }
+    },
+    "HOLIDAYS": {
+      "HEADLINE": "Holidays",
+      "GRID": {
+        "DAY": "Day",
+        "FROM": "From",
+        "TO": "To",
+        "DESCRIPTION": "Description"
+      },
+      "FILTER_FORM": {
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Description"
       }
     },
     "OPERATORS": {

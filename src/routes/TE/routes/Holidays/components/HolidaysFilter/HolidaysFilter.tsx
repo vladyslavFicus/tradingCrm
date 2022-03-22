@@ -1,0 +1,100 @@
+import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import I18n from 'i18n-js';
+import { Formik, Form, Field } from 'formik';
+import { State } from 'types';
+import {
+  FormikInputField,
+} from 'components/Formik';
+import { decodeNullValues } from 'components/Formik/utils';
+import { Button, RefreshButton } from 'components/UI';
+import './HolidaysFilter.scss';
+
+interface Props {
+  onRefresh: () => void,
+}
+
+interface FormValues {
+  description?: string,
+}
+
+const HolidaysFilter = (props: Props) => {
+  const { onRefresh } = props;
+
+  const history = useHistory();
+  const { state } = useLocation<State<FormValues>>();
+
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
+    history.replace({
+      state: {
+        ...state,
+        filters: decodeNullValues(values),
+      },
+    });
+  };
+
+  const handleReset = (resetForm: Function) => {
+    history.replace({
+      state: {
+        ...state,
+        filters: null,
+      },
+    });
+
+    resetForm();
+  };
+
+  return (
+    <Formik
+      enableReinitialize
+      initialValues={state?.filters || {}}
+      onSubmit={handleSubmit}
+    >
+      {({
+        isSubmitting,
+        resetForm,
+        values,
+        dirty,
+      }) => (
+        <Form className="HolidaysFilter">
+          <div className="HolidaysFilter__fields">
+            <Field
+              name="description"
+              label={I18n.t('TRADING_ENGINE.HOLIDAYS.FILTER_FORM.DESCRIPTION')}
+              placeholder={I18n.t('TRADING_ENGINE.HOLIDAYS.FILTER_FORM.DESCRIPTION_PLACEHOLDER')}
+              className="HolidaysFilter__field HolidaysFilter__field--large"
+              component={FormikInputField}
+              addition={<i className="icon icon-search" />}
+              withFocus
+            />
+          </div>
+          <div className="HolidaysFilter__buttons">
+            <RefreshButton
+              className="HolidaysFilter__button"
+              onClick={onRefresh}
+            />
+            <Button
+              className="HolidaysFilter__button"
+              onClick={() => handleReset(resetForm)}
+              disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
+              primary
+            >
+              {I18n.t('COMMON.RESET')}
+            </Button>
+            <Button
+              className="HolidaysFilter__button"
+              type="submit"
+              disabled={!dirty || isSubmitting}
+              primary
+            >
+              {I18n.t('COMMON.APPLY')}
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export default React.memo(HolidaysFilter);

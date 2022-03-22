@@ -125,6 +125,10 @@ const sidebarTopMenu = [{
     url: '/trading-engine/securities',
     permissions: new Permissions(permissions.WE_TRADING.SECURITIES_LIST),
   }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.HOLIDAYS',
+    url: '/trading-engine/holidays',
+    permissions: new Permissions(permissions.WE_TRADING.HOLIDAYS_LIST),
+  }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.OPERATORS',
     url: '/trading-engine/operators',
     permissions: new Permissions(permissions.WE_TRADING.OPERATORS_LIST),

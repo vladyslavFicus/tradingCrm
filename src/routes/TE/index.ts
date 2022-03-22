@@ -1,1 +1,3 @@
-export { default } from './TE';
+import { lazy } from 'react';
+
+export default lazy(() => import('./TE'));

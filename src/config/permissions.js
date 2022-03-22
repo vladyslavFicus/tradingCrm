@@ -203,6 +203,7 @@ export default {
     OPERATORS_ADD_NEW: 'we-trading.createOperator',
     OPERATORS_CHANGE_ROLE: 'we-trading.changeOperatorRole',
     UPDATE_ACCOUNT_ENABLE: 'we-trading.updateAccountEnable',
+    HOLIDAYS_LIST: 'we-trading.findHolidays',
   },
   LIQUIDITY_PROVIDER_ADAPTER: {
     RESTART_STREAMING: 'liquidity-provider-adapter.admin.restartStreaming',
