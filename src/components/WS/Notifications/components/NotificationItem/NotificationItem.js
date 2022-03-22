@@ -50,6 +50,9 @@ class NotificationItem extends PureComponent {
       case 'WITHDRAWAL':
         icon = <WithdrawalIcon />;
         break;
+      case 'AUTH':
+        icon = <ClientIcon />;
+        break;
       default:
         break;
     }
@@ -90,7 +93,17 @@ class NotificationItem extends PureComponent {
             </div>
           </div>
           <div className="NotificationItem__body">
-            {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
+            <Choose>
+              {/* Render custom subtitle for individual type or subtype */}
+              <When condition={subtype === 'PASSWORD_EXPIRATION_NOTIFICATION'}>
+                {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`, {
+                  date: moment.utc(details.expirationTime).local().format('DD.MM.YYYY'),
+                })}
+              </When>
+              <Otherwise>
+                {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
+              </Otherwise>
+            </Choose>
           </div>
 
           {/* Render custom details for individual type or subtype */}

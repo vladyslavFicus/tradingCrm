@@ -4569,7 +4569,8 @@
       "CALLBACK": "Callback",
       "CLIENT": "Client",
       "TRADING": "Trading",
-      "CLIENTS_DISTRIBUTOR": "CDE"
+      "CLIENTS_DISTRIBUTOR": "CDE",
+      "AUTH": "Auth"
     },
     "SUBTYPES": {
       "WITHDRAWAL_REQUEST_STATUS_FINANCE_TO_EXECUTE": "Withdrawal request status finance to execute",
@@ -4596,7 +4597,8 @@
       "CLIENT_ASSIGNED": "Client assigned",
       "MARGIN_CALL": "Margin level under 100%",
       "BULK_CLIENTS_ASSIGNED": "Bulk assigned",
-      "CLIENTS_DISTRIBUTOR_MIGRATION_FINISHED": "Migration finished"
+      "CLIENTS_DISTRIBUTOR_MIGRATION_FINISHED": "Migration finished",
+      "PASSWORD_EXPIRATION_NOTIFICATION": "Your password will expire {{date}}. Make sure to change it."
     },
     "DETAILS": {
       "CALLBACK_TIME": "Callback time: %{time}",

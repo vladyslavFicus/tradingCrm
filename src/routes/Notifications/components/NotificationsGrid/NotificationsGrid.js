@@ -55,9 +55,21 @@ class NotificationsGrid extends PureComponent {
 
   renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
-      <div className="NotificationsGrid__text-primary">
-        {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
-      </div>
+      <Choose>
+        {/* Render custom subtitle for individual type or subtype */}
+        <When condition={subtype === 'PASSWORD_EXPIRATION_NOTIFICATION'}>
+          <div className="NotificationsGrid__text-primary">
+            {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`, {
+              date: moment.utc(details.expirationTime).local().format('DD.MM.YYYY'),
+            })}
+          </div>
+        </When>
+        <Otherwise>
+          <div className="NotificationsGrid__text-primary">
+            {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
+          </div>
+        </Otherwise>
+      </Choose>
 
       <If condition={type === 'CLIENTS_DISTRIBUTOR'}>
         <div>
