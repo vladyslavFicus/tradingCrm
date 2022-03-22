@@ -55,21 +55,9 @@ class NotificationsGrid extends PureComponent {
 
   renderNotificationTypeDetails = ({ type, details, subtype }) => (
     <Fragment>
-      <Choose>
-        {/* Render custom subtitle for individual type or subtype */}
-        <When condition={subtype === 'PASSWORD_EXPIRATION_NOTIFICATION'}>
-          <div className="NotificationsGrid__text-primary">
-            {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`, {
-              date: moment.utc(details.expirationTime).local().format('DD.MM.YYYY'),
-            })}
-          </div>
-        </When>
-        <Otherwise>
-          <div className="NotificationsGrid__text-primary">
-            {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
-          </div>
-        </Otherwise>
-      </Choose>
+      <div className="NotificationsGrid__text-primary">
+        {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
+      </div>
 
       <If condition={type === 'CLIENTS_DISTRIBUTOR'}>
         <div>
@@ -101,6 +89,14 @@ class NotificationsGrid extends PureComponent {
       <If condition={subtype === 'BULK_CLIENTS_ASSIGNED'}>
         <div className="NotificationsGrid__text-subtype">
           {I18n.t('NOTIFICATION_CENTER.DETAILS.CLIENTS_COUNT', { clientsCount: details.clientsCount })}
+        </div>
+      </If>
+
+      <If condition={subtype === 'PASSWORD_EXPIRATION_NOTIFICATION'}>
+        <div className="NotificationsGrid__text-subtype">
+          {I18n.t('NOTIFICATION_CENTER.DETAILS.PASSWORD_EXPIRATION', {
+            date: moment.utc(details.expirationTime).local().format('DD.MM.YYYY'),
+          })}
         </div>
       </If>
     </Fragment>

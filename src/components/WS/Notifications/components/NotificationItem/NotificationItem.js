@@ -93,17 +93,7 @@ class NotificationItem extends PureComponent {
             </div>
           </div>
           <div className="NotificationItem__body">
-            <Choose>
-              {/* Render custom subtitle for individual type or subtype */}
-              <When condition={subtype === 'PASSWORD_EXPIRATION_NOTIFICATION'}>
-                {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`, {
-                  date: moment.utc(details.expirationTime).local().format('DD.MM.YYYY'),
-                })}
-              </When>
-              <Otherwise>
-                {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
-              </Otherwise>
-            </Choose>
+            {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
           </div>
 
           {/* Render custom details for individual type or subtype */}
@@ -128,6 +118,14 @@ class NotificationItem extends PureComponent {
           <If condition={subtype === 'BULK_CLIENTS_ASSIGNED'}>
             <div className="NotificationItem__subtitle">
               {I18n.t('NOTIFICATION_CENTER.DETAILS.CLIENTS_COUNT', { clientsCount: details.clientsCount })}
+            </div>
+          </If>
+
+          <If condition={subtype === 'PASSWORD_EXPIRATION_NOTIFICATION'}>
+            <div className="NotificationItem__subtitle">
+              {I18n.t('NOTIFICATION_CENTER.DETAILS.PASSWORD_EXPIRATION', {
+                date: moment.utc(details.expirationTime).local().format('DD.MM.YYYY'),
+              })}
             </div>
           </If>
         </div>

@@ -4598,11 +4598,12 @@
       "MARGIN_CALL": "Margin level under 100%",
       "BULK_CLIENTS_ASSIGNED": "Bulk assigned",
       "CLIENTS_DISTRIBUTOR_MIGRATION_FINISHED": "Migration finished",
-      "PASSWORD_EXPIRATION_NOTIFICATION": "Your password will expire {{date}}. Make sure to change it."
+      "PASSWORD_EXPIRATION_NOTIFICATION": "Password expiration"
     },
     "DETAILS": {
       "CALLBACK_TIME": "Callback time: %{time}",
-      "CLIENTS_COUNT": "{{clientsCount}} clients"
+      "CLIENTS_COUNT": "{{clientsCount}} clients",
+      "PASSWORD_EXPIRATION": "Your password will expire {{date}}. Make sure to change it."
     },
     "TOOLTIP": {
       "HEADLINE": "Notifications found",
