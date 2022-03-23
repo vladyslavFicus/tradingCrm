@@ -1,0 +1,8 @@
+mutation DeleteSymbolMutation(
+  $symbolName: String!
+  $force: Boolean
+) {
+  tradingEngine {
+    deleteSymbol(symbolName: $symbolName, force: $force)
+  }
+}

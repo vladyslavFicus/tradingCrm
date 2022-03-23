@@ -3866,6 +3866,17 @@
         "ORANGE": "orange",
         "GREEN": "green",
         "AQUAMARINE": "aquamarine"
+      },
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete symbol",
+          "DESCRIPTION": "Do you really want to delete {{symbol}} symbol?",
+          "DESCRIPTION_DELETE_SYMBOL": "The {{orders}} orders are open with this symbol. If you delete this symbol all this order will be close to zero . Do you really want to disable this symbol?"
+        }
+      },
+      "NOTIFICATION": {
+        "SUCCESS": "Symbol has been successfully deleted",
+        "FAILED": "Symbol deletion is failed"
       }
     },
     "NEW_SYMBOL": {
@@ -3905,6 +3916,7 @@
       "NEW_SYMBOL": "+ New symbol",
       "HEADLINE": "Symbols",
       "GRID": {
+        "ACTIONS": "Actions",
         "SYMBOL": "Symbol",
         "SOURCE": "Source",
         "BID": "Bid",

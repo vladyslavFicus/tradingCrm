@@ -18,4 +18,8 @@
   &__cell-primary {
     font-weight: 700;
   }
+
+  &--is-disabled {
+    opacity: 0.5;
+  }
 }
