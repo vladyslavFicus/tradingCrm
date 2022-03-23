@@ -1,0 +1,45 @@
+.DealingOperatorAdditionalInfo {
+  width: calc(33.3% - 10px);
+
+  &__title,
+  &__content-title {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow-y: auto;
+
+    &-title {
+      margin-bottom: 5px;
+    }
+  }
+
+  &__authority {
+    background-color: #333;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    padding: 5px 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &-role {
+      font-weight: 700;
+      line-height: 1.5em;
+      text-align: left;
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+}

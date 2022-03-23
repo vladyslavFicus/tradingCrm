@@ -4480,7 +4480,54 @@
       },
       "STATUSES": {
         "ACTIVE": "Active",
-        "INACTIVE": "Inactive"
+        "INACTIVE": "Inactive",
+        "CLOSED": "Closed"
+      }
+    },
+    "OPERATOR_PROFILE": {
+      "TITLE": "Operator profile",
+      "RESET_PASSWORD": "Reset password",
+      "CHANGE_PASSWORD": "Change password",
+      "UNLOCK": "Unlock login",
+      "TABS": {
+        "PROFILE": "Profile",
+        "FEED": "Feed"
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_SUCCESS": "The operator was successfully updated",
+        "UPDATE_ERROR": "Updating of operator has failed"
+      },
+      "PERSONAL_FORM": {
+        "ROLE": "Role",
+        "PHONE": "Phone",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "GROUPS": "Assigned groups"
+      },
+      "FEED": {
+        "TITLE": "Feed",
+        "FILTER_FORM": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+          "ACTION_TYPE": "Action type",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
+      },
+      "DETAILS": {
+        "ADDITIONAL_INFORMATION": "Additional information",
+        "PERSONAL_INFORMATION": "Personal information",
+        "ROLE": "Role",
+        "CONTACTS": "Contacts",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "REGISTRATION_DATE": "Registration date"
+      },
+      "CLOSE_REASONS": {
+        "PENDING_INVESTIGATION": "Pending investigation",
+        "TERMINATED": "Terminated"
       }
     }
   },

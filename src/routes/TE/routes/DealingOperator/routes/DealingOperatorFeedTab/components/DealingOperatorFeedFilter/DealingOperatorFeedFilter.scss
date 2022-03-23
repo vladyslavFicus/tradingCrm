@@ -1,0 +1,31 @@
+.DealingOperatorFeedFilter {
+  display: grid;
+  grid-column-gap: 15px;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 20px 25px;
+  background-color: #f2f4f8;
+
+  &__field {
+    grid-column: span 2;
+
+    &--date-range {
+      grid-column: span 4;
+    }
+  }
+
+  &__buttons-group {
+    grid-column: 10 / 13;
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 21px;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

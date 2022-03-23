@@ -10,6 +10,7 @@ import Groups from './routes/Groups';
 import Accounts from './routes/Accounts';
 import Holidays from './routes/Holidays';
 import Operators from './routes/Operators';
+import OperatorProfile from './routes/DealingOperator';
 import AccountProfile from './routes/AccountProfile';
 import './TE.scss';
 
@@ -29,6 +30,7 @@ const TE = () => {
             <Route path={`${path}/accounts`} component={Accounts} />
             <Route path={`${path}/groups`} component={Groups} />
             <Route path={`${path}/holidays`} component={Holidays} />
+            <Route path={`${path}/operators/:id`} component={OperatorProfile} />
             <Route path={`${path}/operators`} component={Operators} />
             <Redirect to={`${url}/orders`} />
           </Switch>

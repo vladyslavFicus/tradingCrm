@@ -1,0 +1,15 @@
+query OperatorProfileQuery($uuid: String!) {
+  tradingEngine {
+    operator(uuid: $uuid) {
+      uuid
+      email
+      firstName
+      lastName
+      status
+      role
+      groupNames
+      registrationDate
+      phone
+    }
+  }
+}

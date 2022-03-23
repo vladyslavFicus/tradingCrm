@@ -1,0 +1,26 @@
+.DealingOperator {
+  background-color: #fff;
+  margin: 0 auto;
+  min-width: 960px;
+
+  &__content {
+    padding-bottom: 50px;
+    background: linear-gradient(180deg,#fff,#fff 0,#f8f8f8 100%,#f8f8f8 0);
+  }
+
+  &__info {
+    display: flex;
+    padding: 20px 25px 10px;
+  }
+
+  &__details {
+    display: flex;
+    padding: 10px 25px;
+  }
+
+  &__tab-content {
+    background-color: #fff;
+    padding: 25px;
+  }
+
+}
