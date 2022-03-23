@@ -4507,7 +4507,37 @@
       },
       "NOTIFICATIONS": {
         "UPDATE_SUCCESS": "The operator was successfully updated",
-        "UPDATE_ERROR": "Updating of operator has failed"
+        "UPDATE_ERROR": "Updating of operator has failed",
+        "CHANGE_PASSWORD": {
+          "SUCCESS": {
+            "TITLE": "Success",
+            "MESSAGE": "Password changed successfully"
+          },
+          "ERROR": {
+            "TITLE": "Error",
+            "MESSAGE": "Failed to change password"
+          }
+        },
+        "RESET_PASSWORD": {
+          "SUCCESS": {
+            "TITLE": "Success",
+            "MESSAGE": "Reset password link has been successfully sent via email"
+          },
+          "ERROR": {
+            "TITLE": "Error",
+            "MESSAGE": "Failed to send reset password link via email"
+          }
+        },
+        "UNLOCK": {
+          "SUCCESS": {
+            "TITLE": "Success",
+            "MESSAGE": "Operator unlocked successfully"
+          },
+          "ERROR": {
+            "TITLE": "Error",
+            "MESSAGE": "Failed to unlock operator"
+          }
+        }
       },
       "PERSONAL_FORM": {
         "ROLE": "Role",
