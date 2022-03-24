@@ -4575,6 +4575,9 @@
       "CLOSE_REASONS": {
         "PENDING_INVESTIGATION": "Pending investigation",
         "TERMINATED": "Terminated"
+      },
+      "ACTIVATE_REASONS": {
+        "ACTIVATE": "Activate reason"
       }
     }
   },
