@@ -3731,8 +3731,9 @@
       },
       "NEW_OPERATOR_MODAL": {
         "TITLE": "New operator",
-        "NOTE": "Note",
-        "NOTE_MESSAGE": "You will be able to set groups in the operator`s profile once it`s created",
+        "NOTE": "Warning",
+        "GROUPS": "Groups",
+        "NOTE_MESSAGE": "An operator without specified groups will not be visible. In the future, to add groups for this operator, you will need to contact support.",
         "NOTIFICATION": {
           "SUCCESS": "Operator has been successfully created",
           "FAILED": "Operator creation failed",

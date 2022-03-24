@@ -29,6 +29,7 @@ interface FormValues {
   role: string,
   email: string,
   phone: string,
+  groupNames: string[],
 }
 
 const attributeLabels = {
@@ -38,6 +39,7 @@ const attributeLabels = {
   phone: 'COMMON.PHONE',
   role: 'COMMON.ROLE',
   password: 'COMMON.PASSWORD',
+  groups: 'TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.GROUPS',
 };
 
 const validate = createValidator(
@@ -63,6 +65,7 @@ const NewOperatorModal = (props: Props) => {
   const history = useHistory();
 
   const rolesOptions = groupsQuery.data?.tradingEngine.operatorAccessData.writeableRoles || [];
+  const accessibleGroupNames = groupsQuery.data?.tradingEngine.operatorAccessData.accessibleGroupNames || [];
 
   const handleSubmit = async (values: FormValues) => {
     try {
@@ -104,6 +107,7 @@ const NewOperatorModal = (props: Props) => {
           role: '',
           email: '',
           phone: '',
+          groupNames: [],
         }}
         validate={validate}
         validateOnBlur={false}
@@ -179,9 +183,30 @@ const NewOperatorModal = (props: Props) => {
                     </option>
                   ))}
                 </Field>
+                <Field
+                  name="groupNames"
+                  className="NewOperatorModal__wide_field"
+                  label={I18n.t(attributeLabels.groups)}
+                  placeholder={
+                    rolesOptions.length
+                      ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+                      : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+                  }
+                  component={FormikSelectField}
+                  disabled={isSubmitting || !rolesOptions.length}
+                  searchable
+                  multiple
+                  multipleLabel
+                >
+                  {accessibleGroupNames.map(group => (
+                    <option key={group} value={group}>
+                      {group}
+                    </option>
+                  ))}
+                </Field>
               </ModalBody>
               <ModalFooter>
-                <div className="CreateOperatorModal__note">
+                <div className="NewOperatorModal__note">
                   <b>{I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE')}</b>
                   {': '}
                   {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE_MESSAGE')}

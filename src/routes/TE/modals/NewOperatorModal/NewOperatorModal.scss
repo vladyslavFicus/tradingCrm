@@ -13,10 +13,22 @@
     }
   }
 
+  &__wide_field {
+    display: inline-block;
+    vertical-align: top;
+
+    margin-right: 15px;
+    width: calc(100% - 7.5px);
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+
   &__note {
-    color: #6c757d;
-    font-size: 12px;
-    max-width: 50%;
+    color: #d0021b;
+    font-size: 14px;
+    max-width: 90%;
   }
 
   &__buttons {
