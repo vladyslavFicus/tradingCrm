@@ -10,13 +10,13 @@ import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { Account } from '../../AccountProfile';
 import { useUpdateAccountGroupMutation } from './graphql/__generated__/UpdateAccountGroupMutation';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './AccountProfileGroup.scss';
 
 type Props = {
-  group: string,
-  accountUuid: string,
+  account: Account,
   notify: Notify,
   modals: {
     confirmationModal: Modal,
@@ -25,7 +25,10 @@ type Props = {
 
 const AccountProfileGroup = (props: Props) => {
   const {
-    group = '',
+    account: {
+      group,
+      enable,
+    },
     modals: { confirmationModal },
   } = props;
 
@@ -54,11 +57,11 @@ const AccountProfileGroup = (props: Props) => {
   };
 
   const handleGroupChange = async (value: string, force = false) => {
-    const { accountUuid, notify } = props;
+    const { account, notify } = props;
     try {
       await updateAccountGroup({
         variables: {
-          accountUuid,
+          accountUuid: account.uuid,
           group: value,
           force,
         },
@@ -104,7 +107,7 @@ const AccountProfileGroup = (props: Props) => {
 
   return (
     <Choose>
-      <When condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_GROUP)}>
+      <When condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_GROUP) && enable}>
         <div
           onClick={toggleDropdown}
           className={

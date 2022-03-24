@@ -136,7 +136,11 @@ const NewOrderModal = (props: Props) => {
     if (data?.tradingEngine.account) {
       setFormError('');
 
-      const { uuid } = data?.tradingEngine.account;
+      const { uuid, enable } = data?.tradingEngine.account;
+
+      if (!enable) {
+        setFormError(I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT_ARCHIVED'));
+      }
 
       // Load symbols for selected account
       await getAccountSymbols({ variables: { accountUuid: uuid } });
@@ -357,6 +361,8 @@ const NewOrderModal = (props: Props) => {
             !account || isSubmitting || !isValid || !buyPrice || (pendingOrder && openPrice === currentPriceAsk)
           );
 
+          const isAccountArchived = !account?.enable;
+
           const decimalsSettings = {
             decimalsLimit: currentSymbol?.digits,
             decimalsWarningMessage: I18n.t('TRADING_ENGINE.DECIMALS_WARNING_MESSAGE', {
@@ -411,7 +417,7 @@ const NewOrderModal = (props: Props) => {
                       </Button>
                     </If>
                   </div>
-                  <If condition={!!account}>
+                  <If condition={!!account && !isAccountArchived}>
                     <div className="NewOrderModal__field-container">
                       <div className="NewOrderModal__account">
                         <div>
@@ -460,7 +466,7 @@ const NewOrderModal = (props: Props) => {
                       min={currentSymbol?.config?.lotMin}
                       max={currentSymbol?.config?.lotMax}
                       component={FormikInputField}
-                      disabled={!account || accountSymbolsQuery.loading}
+                      disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                     />
                   </div>
                   <div className="NewOrderModal__field-container">
@@ -469,7 +475,7 @@ const NewOrderModal = (props: Props) => {
                       label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                       className="NewOrderModal__field"
                       component={FormikSelectField}
-                      disabled={!account || accountSymbolsQuery.loading}
+                      disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                       customOnChange={(value: string) => onChangeSymbol(value, values, setValues)}
                       searchable
                     >
@@ -491,7 +497,7 @@ const NewOrderModal = (props: Props) => {
                       min={0}
                       max={999999}
                       component={FormikInputDecimalsField}
-                      disabled={!account || accountSymbolsQuery.loading}
+                      disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                       {...decimalsSettings}
                     />
                     <Field
@@ -504,7 +510,7 @@ const NewOrderModal = (props: Props) => {
                       min={0}
                       max={999999}
                       component={FormikInputDecimalsField}
-                      disabled={!account || accountSymbolsQuery.loading}
+                      disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                       {...decimalsSettings}
                     />
                   </div>
@@ -519,7 +525,7 @@ const NewOrderModal = (props: Props) => {
                       min={0}
                       max={999999}
                       value={sellPrice}
-                      disabled={autoOpenPrice || !account}
+                      disabled={autoOpenPrice || !account || isAccountArchived}
                       component={FormikInputDecimalsField}
                       {...decimalsSettings}
                     />
@@ -527,7 +533,7 @@ const NewOrderModal = (props: Props) => {
                       className="NewOrderModal__button NewOrderModal__button--small"
                       type="button"
                       primaryOutline
-                      disabled={autoOpenPrice || !account}
+                      disabled={autoOpenPrice || !account || isAccountArchived}
                       onClick={() => setFieldValue('openPrice', currentPriceBid)}
                     >
                       {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
@@ -539,14 +545,14 @@ const NewOrderModal = (props: Props) => {
                         className="NewOrderModal__auto-checkbox"
                         component={FormikCheckbox}
                         onChange={handleAutoOpenPrice(values, setValues)}
-                        disabled={!account || pendingOrder}
+                        disabled={!account || pendingOrder || isAccountArchived}
                       />
                       <Field
                         name="pendingOrder"
                         label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.PENDING_ORDER')}
                         component={FormikCheckbox}
                         onChange={handlePendingOrder(values, setValues)}
-                        disabled={!account}
+                        disabled={!account || isAccountArchived}
                       />
                     </div>
                   </div>
@@ -635,11 +641,11 @@ const NewOrderModal = (props: Props) => {
                       className="NewOrderModal__field"
                       maxLength={1000}
                       component={FormikTextAreaField}
-                      disabled={!account}
+                      disabled={!account || isAccountArchived}
                     />
                   </div>
                   <div className="NewOrderModal__field-container">
-                    <If condition={!!account}>
+                    <If condition={!!account && !isAccountArchived}>
                       {/* Sell order by CTRL+S pressing */}
                       <Hotkeys
                         keyName="ctrl+s"
@@ -669,7 +675,7 @@ const NewOrderModal = (props: Props) => {
                     <Button
                       className="NewOrderModal__button"
                       danger
-                      disabled={isSellDisabled}
+                      disabled={isSellDisabled || isAccountArchived}
                       onClick={() => {
                         setFieldValue('type', sellType);
                         setFieldValue('direction', OrderDirection.SELL);
@@ -684,7 +690,7 @@ const NewOrderModal = (props: Props) => {
                     <Button
                       className="NewOrderModal__button"
                       primary
-                      disabled={isBuyDisabled}
+                      disabled={isBuyDisabled || isAccountArchived}
                       onClick={() => {
                         setFieldValue('type', buyType);
                         setFieldValue('direction', OrderDirection.BUY);

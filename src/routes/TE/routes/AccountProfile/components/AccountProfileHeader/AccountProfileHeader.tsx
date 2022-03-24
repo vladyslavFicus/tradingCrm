@@ -11,9 +11,12 @@ import permissions from 'config/permissions';
 // import { CONDITIONS } from 'utils/permissions';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
+import Badge from 'components/Badge';
 import PermissionContent from 'components/PermissionContent';
 // import CreditModal from 'routes/TradingEngine/TradingEngineManager/modals/CreditModal';
 import NewOrderModal from 'routes/TE/modals/NewOrderModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { Account } from '../../AccountProfile';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
 import './AccountProfileHeader.scss';
 
@@ -21,26 +24,25 @@ type Props = {
   modals: {
     creditModal: Modal,
     newOrderModal: Modal,
+    confirmationModal: Modal,
   }
-  account: {
-    uuid: string,
-    login: number,
-    name: string,
-    profileUuid: string,
-    enable: boolean,
-  }
+  account: Account,
   notify: Notify,
   handleRefetch: Function,
 }
 
 const AccountProfileHeader = (props: Props) => {
+  const {
+    modals: {
+      confirmationModal,
+      newOrderModal,
+    },
+  } = props;
+
   const [archive] = useArchiveMutation();
 
   const handleNewOrderClick = () => {
     const {
-      modals: {
-        newOrderModal,
-      },
       account: {
         login,
       },
@@ -52,7 +54,7 @@ const AccountProfileHeader = (props: Props) => {
     });
   };
 
-  const handleArchiveClick = async (enabled: boolean) => {
+  const handleArchiveAccount = async (enabled: boolean) => {
     const {
       account: {
         uuid,
@@ -89,30 +91,45 @@ const AccountProfileHeader = (props: Props) => {
     }
   };
 
+  const handleArchiveClick = (enabled: boolean) => {
+    confirmationModal.show({
+      onSubmit: () => handleArchiveAccount(enabled),
+      modalTitle: I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+      actionText: I18n.t(
+        `TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.${enabled ? 'UNARCHIVE_TEXT' : 'ARCHIVE_TEXT'}`,
+      ),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
+  };
+
   const { account } = props;
   const {
-    name = '',
-    login = '',
-    profileUuid = '',
+    name,
+    login,
     enable,
   } = account;
 
   return (
     <div className="AccountProfileHeader">
-      {/* Hotkey on F9 button to open new order modal */}
-      <Hotkeys
-        keyName="f9"
-        onKeyUp={handleNewOrderClick}
-      />
-
       <div className="AccountProfileHeader__topic">
         <div className="AccountProfileHeader__title">
-          <Uuid uuid={login.toString()} uuidPrefix="WT" />
-          <div>{name}</div>
+          <Choose>
+            <When condition={!account.enable}>
+              <Badge
+                danger
+                text={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ARCHIVED')}
+              >
+                <div>{name}</div>
+              </Badge>
+            </When>
+            <Otherwise>
+              <div>{name}</div>
+            </Otherwise>
+          </Choose>
         </div>
 
         <div className="AccountProfileHeader__uuid">
-          <Uuid uuid={profileUuid} uuidPrefix="PL" />
+          <Uuid uuid={login.toString()} uuidPrefix="WT" />
         </div>
       </div>
 
@@ -122,21 +139,32 @@ const AccountProfileHeader = (props: Props) => {
             className="AccountProfileHeader__action"
             onClick={() => handleArchiveClick(!enable)}
             commonOutline
+            danger
             small
           >
             {I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.${enable ? 'ARCHIVE' : 'UNARCHIVE'}`)}
           </Button>
         </PermissionContent>
-        <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>
-          <Button
-            className="AccountProfileHeader__action"
-            onClick={handleNewOrderClick}
-            commonOutline
-            small
-          >
-            {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NEW_ORDER')}
-          </Button>
-        </PermissionContent>
+
+        {/* New order creation is possible only for active account */}
+        <If condition={account.enable}>
+          <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>
+            {/* Hotkey on F9 button to open new order modal */}
+            <Hotkeys
+              keyName="f9"
+              onKeyUp={handleNewOrderClick}
+            />
+
+            <Button
+              className="AccountProfileHeader__action"
+              onClick={handleNewOrderClick}
+              commonOutline
+              small
+            >
+              {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NEW_ORDER')}
+            </Button>
+          </PermissionContent>
+        </If>
 
         {/* <PermissionContent */}
         {/*   permissions={[ */}
@@ -164,6 +192,7 @@ export default compose(
   withNotifications,
   withModals({
     newOrderModal: NewOrderModal,
+    confirmationModal: ConfirmActionModal,
     // creditModal: CreditModal,
   }),
 )(AccountProfileHeader);

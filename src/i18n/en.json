@@ -3553,6 +3553,7 @@
         "SELL_STOP_AT": "Sell Stop at {{value}}",
         "BUY_STOP_AT": "Buy Stop at {{value}}",
         "ERROR": "This account doesn't exist",
+        "ACCOUNT_ARCHIVED": "This account is archived",
         "SELL_PNL": "Sell P&L",
         "BUY_PNL": "Buy P&L",
         "SELL_MARGIN": "Sell required margin",
@@ -3743,7 +3744,7 @@
       "NEW_ORDER": "+ New order",
       "GRID": {
         "ACCOUNT_ID": "Trading acc",
-        "PROFILE": "Client",
+        "ARCHIVED": "Archived",
         "DATE": "Date",
         "LEVERAGE": "Leverage",
         "BALANCE": "Balance",
@@ -4080,6 +4081,7 @@
       "ACCOUNT_HAS_OPEN_ORDERS": "This account has open orders on it. If you change the group all these orders will be closed to zero. Do you really want to proceed?",
       "ARCHIVE": "Archive",
       "UNARCHIVE": "Unarchive",
+      "ARCHIVED": "Archived",
       "NOTIFICATIONS": {
         "CHANGE_GROUP_SUCCESS": "Account group changed successfully",
         "CHANGE_GROUP_ERROR": "Failed to change account group",
@@ -4089,7 +4091,9 @@
         "CHANGE_LEVERAGE_ERROR": "Failed to change account leverage",
         "ARCHIVE": "Account is archived successfully",
         "UNARCHIVE": "Account is unarchived successfully",
-        "ACCOUNT_DISABLE_PROHIBITED": "Please close the orders to archive the account"
+        "ACCOUNT_DISABLE_PROHIBITED": "Please close the orders to archive the account",
+        "ARCHIVE_TEXT": "Do you really want to archive an account?",
+        "UNARCHIVE_TEXT": "Do you really want to unarchive an account?"
       },
       "TABS": {
         "ORDERS": "Orders",

@@ -34,6 +34,7 @@ const apolloMockResponseData = {
   account: {
     currency: 'EUR',
     leverage: 100,
+    enable: true,
   },
   accountLogin: 144354,
   accountUuid: 'WET-4fdfd959-e853-4cca-bfc8-6469fa6acd16',
@@ -905,4 +906,216 @@ it('Render EditOrderModal and configure volumeLots field for partial close order
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
   await screen.findAllByText(/The Volume must be changed with step 0.01/);
   expect(screen.getByText(`Close 0.01 at ${bid.toFixed(5)}`)).toBeDisabled();
+});
+
+it('Render EditOrderModal with all permissions for CLOSED order for MANGER for archived account', async () => {
+  const {
+    id,
+    type,
+    volumeLots,
+    symbol,
+    commission,
+    openPrice,
+    swaps,
+    stopLoss,
+    takeProfit,
+    comment,
+    margin,
+  } = apolloMockResponseData;
+
+  // Arrange
+  const floatingPnL = '140.63';
+  const netPnL = '140.63';
+
+  const ask = 1.15520;
+  const bid = 1.15480;
+
+  const order = {
+    status: 'CLOSED',
+    closePrice: 1.1360,
+    pnl: {
+      net: Number(netPnL),
+      gross: Number(floatingPnL),
+    },
+    time: {
+      closing: '2021-11-19T15:13:19.29864',
+      creation: '2021-11-18T15:13:19.29864',
+      expiration: null,
+      modification: null,
+    },
+    account: {
+      currency: 'EUR',
+      leverage: 100,
+      enable: false,
+    },
+  };
+
+  const _permissions = [
+    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    permissions.WE_TRADING.ORDER_REOPEN,
+    permissions.WE_TRADING.ORDER_CLOSE,
+    permissions.WE_TRADING.ORDER_CANCEL,
+  ];
+
+  // Act
+  render(<EditOrderModal {...props} />, order, _permissions);
+
+  // Wait for order loading
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  await act(async () => {
+    // We should wait 500 ms (update interval in useSymbolsStream) to notify component about changes
+    await new Promise(res => setTimeout(res, 500));
+  });
+
+  expect(screen.getByLabelText('Order')).toBeDisabled();
+  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
+  expect(screen.getByLabelText('Open price')).toBeDisabled();
+  expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
+  expect(screen.getByLabelText('Open time')).toBeDisabled();
+  expect(screen.getByLabelText('Open time')).toHaveValue(
+    moment.utc(order.time.creation).local(false).format('DD.MM.YYYY HH:mm:ss'),
+  );
+  expect(screen.queryByLabelText('Expiry')).toBeNull();
+  expect(screen.getByLabelText('Stop Loss')).toBeDisabled();
+  expect(screen.getByLabelText('Stop Loss')).toHaveValue(stopLoss);
+  expect(screen.getByLabelText('Take profit')).toBeDisabled();
+  expect(screen.getByLabelText('Take profit')).toHaveValue(takeProfit);
+  expect(screen.getByLabelText('Close Price')).toBeDisabled();
+  expect(screen.getByLabelText('Close Price')).toHaveValue(order.closePrice);
+  expect(screen.getByLabelText('Close time')).toBeDisabled();
+  expect(screen.getByLabelText('Close time')).toHaveValue(
+    moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
+  );
+  expect(screen.getByLabelText('Commission')).toBeDisabled();
+  expect(screen.getByLabelText('Commission')).toHaveValue(commission);
+  expect(screen.getByLabelText('Swaps')).toBeDisabled();
+  expect(screen.getByLabelText('Swaps')).toHaveValue(swaps);
+  expect(screen.getByLabelText('Floating P/L')).toBeDisabled();
+  expect(screen.getByLabelText('Floating P/L')).toHaveValue(floatingPnL);
+  expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
+  expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
+  expect(screen.getByLabelText('Margin')).toBeDisabled();
+  expect(screen.getByLabelText('Margin')).toHaveValue(margin);
+  expect(screen.getByLabelText('Comment')).toBeDisabled();
+  expect(screen.getByLabelText('Comment')).toHaveValue(comment);
+  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
+});
+
+it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for archived account', async () => {
+  const {
+    id,
+    type,
+    volumeLots,
+    symbol,
+    commission,
+    openPrice,
+    swaps,
+    stopLoss,
+    takeProfit,
+    comment,
+    margin,
+    openRate,
+    closeRate,
+    reason,
+  } = apolloMockResponseData;
+
+  // Arrange
+  const floatingPnL = '140.63';
+  const netPnL = '140.63';
+
+  const ask = 1.15520;
+  const bid = 1.15480;
+
+  const order = {
+    status: 'CLOSED',
+    closePrice: 1.1360,
+    pnl: {
+      net: Number(netPnL),
+      gross: Number(floatingPnL),
+    },
+    time: {
+      closing: '2021-11-19T15:13:19.29864',
+      creation: '2021-11-18T15:13:19.29864',
+      expiration: null,
+      modification: null,
+    },
+    account: {
+      currency: 'EUR',
+      leverage: 100,
+      enable: false,
+    },
+  };
+
+  const _permissions = [
+    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+    permissions.WE_TRADING.ORDER_REOPEN,
+    permissions.WE_TRADING.ORDER_CLOSE,
+    permissions.WE_TRADING.ORDER_CANCEL,
+  ];
+
+  // Act
+  render(<EditOrderModal {...props} />, order, _permissions);
+
+  // Wait for order loading
+  await waitForElementToBeRemoved(() => screen.getByText(/Loading.../));
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  await act(async () => {
+    // We should wait 500 ms (update interval in useSymbolsStream) to notify component about changes
+    await new Promise(res => setTimeout(res, 500));
+  });
+
+  expect(screen.getByLabelText('Order')).toBeDisabled();
+  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
+  expect(screen.getByLabelText('Reason')).toBeDisabled();
+  expect(screen.getByLabelText('Reason')).toHaveValue(reason);
+  expect(screen.getByLabelText('Volume')).toBeDisabled();
+  expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots);
+  expect(screen.getByLabelText('Symbol')).toBeDisabled();
+  expect(screen.getByLabelText('Symbol')).toHaveValue(symbol);
+  expect(screen.getByLabelText('Open price')).toBeDisabled();
+  expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
+  expect(screen.getByLabelText('Open time')).toBeDisabled();
+  expect(screen.getByLabelText('Open time')).toHaveValue(
+    moment.utc(order.time.creation).local(false).format('DD.MM.YYYY HH:mm:ss'),
+  );
+  expect(screen.queryByLabelText('Expiry')).toBeNull();
+  expect(screen.getByLabelText('Stop Loss')).toBeDisabled();
+  expect(screen.getByLabelText('Stop Loss')).toHaveValue(stopLoss);
+  expect(screen.getByLabelText('Take profit')).toBeDisabled();
+  expect(screen.getByLabelText('Take profit')).toHaveValue(takeProfit);
+  expect(screen.getByLabelText('Close Price')).toBeDisabled();
+  expect(screen.getByLabelText('Close Price')).toHaveValue(order.closePrice);
+  expect(screen.getByLabelText('Close time')).toBeDisabled();
+  expect(screen.getByLabelText('Close time')).toHaveValue(
+    moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
+  );
+  expect(screen.getByLabelText('Open conversation rate')).toBeDisabled();
+  expect(screen.getByLabelText('Open conversation rate')).toHaveValue(openRate);
+  expect(screen.getByLabelText('Close conversation rate')).toBeDisabled();
+  expect(screen.getByLabelText('Close conversation rate')).toHaveValue(closeRate);
+  expect(screen.getByLabelText('Commission')).toBeDisabled();
+  expect(screen.getByLabelText('Commission')).toHaveValue(commission);
+  expect(screen.getByLabelText('Swaps')).toBeDisabled();
+  expect(screen.getByLabelText('Swaps')).toHaveValue(swaps);
+  expect(screen.getByLabelText('Floating P/L')).toBeDisabled();
+  expect(screen.getByLabelText('Floating P/L')).toHaveValue(floatingPnL);
+  expect(screen.getByLabelText('Net Floating P/L')).toBeDisabled();
+  expect(screen.getByLabelText('Net Floating P/L')).toHaveValue(netPnL);
+  expect(screen.getByLabelText('Margin')).toBeDisabled();
+  expect(screen.getByLabelText('Margin')).toHaveValue(margin);
+  expect(screen.getByLabelText('Comment')).toBeDisabled();
+  expect(screen.getByLabelText('Comment')).toHaveValue(comment);
+  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });

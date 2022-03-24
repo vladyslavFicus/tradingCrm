@@ -97,10 +97,22 @@ const Accounts = (props: Props) => {
     </Fragment>
   );
 
-  const renderLoginColumn = ({ login, group, uuid }: Account) => (
+  const renderLoginColumn = ({ login, group, uuid, enable }: Account) => (
     <Link to={`/trading-engine/accounts/${uuid}`} target="_blank">
       <div className="Accounts__text-primary">
-        {login}
+        <Choose>
+          <When condition={!enable}>
+            <Badge
+              danger
+              text={I18n.t('TRADING_ENGINE.ACCOUNTS.GRID.ARCHIVED')}
+            >
+              {login}
+            </Badge>
+          </When>
+          <Otherwise>
+            {login}
+          </Otherwise>
+        </Choose>
       </div>
       <div className="Accounts__text-secondary">
         {group}

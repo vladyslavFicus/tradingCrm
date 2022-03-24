@@ -12,6 +12,7 @@ query AccountsQuery($args: TradingEngineAccountSearch__Input) {
         leverage
         balance
         accountType
+        enable
       }
       page
       number

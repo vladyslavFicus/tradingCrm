@@ -7,17 +7,18 @@ import { LevelType, Notify } from 'types';
 import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { Account } from '../../AccountProfile';
 import { useUpdateAccountReadonlyMutation } from './graphql/__generated__/UpdateAccountReadonlyMutation';
 import './AccountProfileStatus.scss';
 
 type Props = {
-  enable: boolean,
-  accountUuid: string,
+  account: Account,
   notify: Notify,
 }
 
 const AccountProfileStatus = (props: Props) => {
-  const { enable = true } = props;
+  const { enable, readOnly } = props.account;
+
   const [isDropDownOpen, setDropdownState] = useState(false);
   const [updateAccountReadonly] = useUpdateAccountReadonlyMutation();
   const permission = usePermission();
@@ -31,12 +32,12 @@ const AccountProfileStatus = (props: Props) => {
   };
 
   const handleStatusChange = async (action: boolean) => {
-    const { notify, accountUuid } = props;
+    const { notify, account } = props;
 
     try {
       await updateAccountReadonly({
         variables: {
-          accountUuid,
+          accountUuid: account.uuid,
           readOnly: action,
         },
       });
@@ -58,14 +59,14 @@ const AccountProfileStatus = (props: Props) => {
   const renderLabel = () => (
     <div className="AccountProfileStatus__label">
       <div className="AccountProfileStatus__status">
-        {I18n.t(`COMMON.${enable ? 'DISABLED' : 'ENABLED'}`)}
+        {I18n.t(`COMMON.${readOnly ? 'DISABLED' : 'ENABLED'}`)}
       </div>
     </div>
   );
 
   return (
     <Choose>
-      <When condition={permission.allows(permissions.WE_TRADING.ACCOUNT_READ_ONLY)}>
+      <When condition={permission.allows(permissions.WE_TRADING.ACCOUNT_READ_ONLY) && enable}>
         <div
           onClick={toggleDropdown}
           className={

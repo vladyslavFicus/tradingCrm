@@ -41,6 +41,7 @@ const apolloMockFactory = (data = {}) => [{
           login: 100,
           currency: 'USD',
           leverage: 100,
+          enable: true,
         },
         ...data,
       },
@@ -137,6 +138,7 @@ it('Render NewOrderModal and wait for symbols and ticks from rsocket', async () 
   await screen.findByText(`Sell at ${bid.toFixed(5)}`);
 
   // Assert
+  expect(screen.queryByText('This account is archived')).not.toBeInTheDocument();
   expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeInTheDocument();
   expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeInTheDocument();
   expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeEnabled();
@@ -526,9 +528,9 @@ it('Render NewOrderModal and applying group spread for chosen symbol', async () 
         lotMin: 0.01,
         lotStep: 0.01,
         lotMax: 100,
+        percentage: 100,
         bidAdjustment,
         askAdjustment,
-        percentage: 100,
       },
     }],
   };
@@ -612,13 +614,73 @@ it('Render NewOrderModal without login in props', async () => {
 
 it('Render NewOrderModal with login in props', async () => {
   // Arrange
-  const login = '100500';
+  const login = 'UUID';
 
   // Act
   render(<NewOrderModal {...props} login={login} />);
+
+  // Wait for symbols loading
+  await screen.findAllByText(/EURUSD description/);
 
   // Assert
   expect(screen.getByLabelText('Login')).toBeDisabled();
   expect(screen.getByLabelText('Login')).toHaveValue(login);
   expect(screen.queryByRole('button', { name: 'Upload' })).not.toBeInTheDocument();
+});
+
+it('Render NewOrderModal for archived account', async () => {
+  // Arrange
+  const ask = 1.1552;
+  const bid = 1.1548;
+
+  const apolloMockResponseData = {
+    account: {
+      _id: 'UUID',
+      uuid: 'UUID',
+      name: 'My USD account',
+      group: 'USD_GROUP',
+      accountType: 'LIVE',
+      credit: 4.11,
+      balance: 100.53,
+      login: 100,
+      currency: 'USD',
+      leverage: 100,
+      enable: false,
+    },
+  };
+
+  // Act
+  render(<NewOrderModal {...props} />, apolloMockResponseData);
+
+  fireEvent.change(screen.getByLabelText('Login'), { target: { value: 'UUID' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Upload' }));
+
+  // Wait for symbols loading
+  await screen.findAllByText(/EURUSD description/);
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  // Wait while rsocket tick will be accepted by component
+  await screen.findByText(`Sell at ${bid.toFixed(5)}`);
+
+  // Assert
+  expect(screen.getByText('This account is archived')).toBeInTheDocument();
+  expect(screen.getByLabelText('Login')).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Upload' })).toBeEnabled();
+  expect(screen.getByLabelText('Volume')).toBeDisabled();
+  expect(screen.getByLabelText('Symbol')).toBeDisabled();
+  expect(screen.getByLabelText('Take profit')).toBeDisabled();
+  expect(screen.getByLabelText('Stop Loss')).toBeDisabled();
+  expect(screen.getByLabelText('Open price')).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Update' })).toBeDisabled();
+  expect(screen.getByLabelText(/Auto/)).toBeDisabled();
+  expect(screen.getByLabelText(/Pending order/)).toBeDisabled();
+  expect(screen.getByLabelText(/Sell P&L/)).toBeDisabled();
+  expect(screen.getByLabelText(/Buy P&L/)).toBeDisabled();
+  expect(screen.getByLabelText(/Sell required margin/)).toBeDisabled();
+  expect(screen.getByLabelText(/Buy required margin/)).toBeDisabled();
+  expect(screen.getByLabelText('Comment')).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
 });

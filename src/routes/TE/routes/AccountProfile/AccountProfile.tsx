@@ -19,8 +19,10 @@ import AccountProfileTransactionsGrid from './routes/AccountProfileTransactionsG
 import AccountProfileFeedGrid from './routes/AccountProfileFeedGrid';
 import AccountProfileHistoryGrid from './routes/AccountProfileHistoryGrid';
 import { accountProfileTabs } from './constants';
-import { useAccountQuery } from './graphql/__generated__/AccountQuery';
+import { useAccountQuery, AccountQuery } from './graphql/__generated__/AccountQuery';
 import './AccountProfile.scss';
+
+export type Account = AccountQuery['tradingEngine']['account'];
 
 type Props = {
   storage: Storage,
@@ -30,7 +32,7 @@ const AccountProfile = (props: Props) => {
   const { id } = useParams<{ id: string }>();
   const { path, url } = useRouteMatch();
   const accountQuery = useAccountQuery({ variables: { identifier: id } });
-  const account = accountQuery.data?.tradingEngine.account;
+  const account = accountQuery.data?.tradingEngine.account as Account;
 
   useEffect(() => {
     // Save last opened account to storage to open it later by request
@@ -50,13 +52,13 @@ const AccountProfile = (props: Props) => {
 
           <div className="AccountProfile__content">
             <div className="AccountProfile__info">
-              <AccountProfileStatus enable={account?.readOnly} accountUuid={account?.uuid} />
-              <AccountProfileGroup group={account?.group} accountUuid={account?.uuid} />
-              <AccountProfileLeverage leverage={account?.leverage} accountUuid={account?.uuid} />
-              <AccountProfileRegistered registrationDate={account?.registrationDate || ''} />
+              <AccountProfileStatus account={account} />
+              <AccountProfileGroup account={account} />
+              <AccountProfileLeverage account={account} />
+              <AccountProfileRegistered account={account} />
             </div>
 
-            <AccountProfileStatistics uuid={account?.uuid || ''} />
+            <AccountProfileStatistics account={account} />
           </div>
 
           <Tabs items={accountProfileTabs} />

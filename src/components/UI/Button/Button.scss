@@ -105,6 +105,7 @@
     &:hover,
     &:not(:disabled):not(.disabled):active {
       background-image: linear-gradient(to left, #F78717, #F55000);
+      color: #fff;
     }
 
     &:disabled, [disabled], :disabled:hover, [disabled]:hover {

@@ -7,18 +7,24 @@ import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import { leverages } from './constants';
+import { Account } from '../../AccountProfile';
 import { useUpdateAccountLeverageMutation } from './graphql/__generated__/UpdateAccountLeverageMutation';
+import { leverages } from './constants';
 import './AccountProfileLeverage.scss';
 
 type Props = {
-  leverage: number,
-  accountUuid: string,
+  account: Account,
   notify: Notify,
 }
 
 const AccountProfileLeverage = (props: Props) => {
-  const { leverage = 0 } = props;
+  const {
+    account: {
+      leverage,
+      enable,
+    },
+  } = props;
+
   const [isDropDownOpen, setDropDownState] = useState(false);
   const [updateAccountLeverage] = useUpdateAccountLeverageMutation();
   const permission = usePermission();
@@ -32,11 +38,11 @@ const AccountProfileLeverage = (props: Props) => {
   };
 
   const handleLeverageChange = async (value: number) => {
-    const { notify, accountUuid } = props;
+    const { notify, account } = props;
     try {
       await updateAccountLeverage({
         variables: {
-          accountUuid,
+          accountUuid: account.uuid,
           leverage: value,
         },
       });
@@ -65,7 +71,7 @@ const AccountProfileLeverage = (props: Props) => {
 
   return (
     <Choose>
-      <When condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_LEVERAGE)}>
+      <When condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_LEVERAGE) && enable}>
         <div
           onClick={toggleDropdown}
           className={

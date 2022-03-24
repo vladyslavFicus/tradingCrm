@@ -1,14 +1,14 @@
-
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { withStreams } from 'rsocket';
+import { Account } from '../../AccountProfile';
 import { useAccountStatisticQuery, AccountStatisticQuery } from './graphql/__generated__/AccountStatisticQuery';
 import './AccountProfileStatistics.scss';
 
 type Props = {
-  uuid: string
+  account: Account,
   statistic$: {
     data: {
       depositsSum: number;
@@ -25,12 +25,9 @@ type Props = {
 type AccountStatistic = AccountStatisticQuery['tradingEngine']['accountStatistic'];
 
 const AccountProfileStatistics = (props: Props) => {
-  const { uuid } = props;
-  const statisticQuery = useAccountStatisticQuery({
-    variables: { accountUuid: uuid },
-    skip: !uuid,
-    fetchPolicy: 'network-only',
-  });
+  const { account: { uuid } } = props;
+
+  const statisticQuery = useAccountStatisticQuery({ variables: { accountUuid: uuid } });
 
   const statistic = statisticQuery.data?.tradingEngine.accountStatistic || {} as AccountStatistic;
   const statistic$ = props.statistic$?.data;
@@ -161,11 +158,10 @@ const AccountProfileStatistics = (props: Props) => {
 
 export default compose(
   React.memo,
-  withStreams(({ uuid }: { uuid: string }) => ({
+  withStreams(({ account }: Props) => ({
     statistic$: {
       route: 'streamAccountStatistics',
-      data: { accountUuid: uuid },
-      skip: !uuid,
+      data: { accountUuid: account.uuid },
     },
   })),
 )(AccountProfileStatistics);

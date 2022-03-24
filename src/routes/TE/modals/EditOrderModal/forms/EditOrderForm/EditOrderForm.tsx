@@ -115,10 +115,14 @@ const EditOrderForm = (props: Props) => {
 
   const isEditAllowed = isManagerEditAllowed || isAdminEditAllowed;
 
-  // Edit disabled for CANCELED order or for CLOSED order if no exist ADMIN_EDIT permission or symbolConfig is empty
+  /**
+   * Edit disabled for CANCELED order or for CLOSED order if no exist ADMIN_EDIT permission or symbolConfig is empty
+   * and if account is archived
+   */
   const isOrderEditDisabled = order.status === OrderStatus.CANCELED
   || (order.status === OrderStatus.CLOSED && !isAdminEditAllowed)
-  || !order.symbolConfig;
+  || !order.symbolConfig
+  || !account.enable;
 
   const handleEditOrder = async (values: FormValues) => {
     confirmationModal.show({
@@ -470,8 +474,11 @@ const EditOrderForm = (props: Props) => {
                 />
               </div>
 
+              {/* Hide buttons for canceled order, if doesn't have permission for one of action or account archived */}
               <If condition={
-                status !== OrderStatus.CANCELED && (isEditAllowed || isReopenAllowed || isCancelAllowed)
+                status !== OrderStatus.CANCELED
+                && (isEditAllowed || isReopenAllowed || isCancelAllowed)
+                && account.enable
               }
               >
                 <div className="EditOrderModal__field-container EditOrderModal__field-container-button">

@@ -68,7 +68,7 @@ class Input extends PureComponent {
   componentDidMount() {
     // Enable autofocus on next tick (because in the same tick it isn't working)
     if (this.props.autoFocus) {
-      setTimeout(() => this.inputRef.current.focus(), 0);
+      setTimeout(() => this.inputRef.current?.focus(), 0);
     }
   }
 

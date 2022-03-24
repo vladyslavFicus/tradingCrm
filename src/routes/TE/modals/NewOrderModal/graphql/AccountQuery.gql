@@ -10,6 +10,7 @@ query AccountQuery($identifier: String!) {
       balance
       accountType
       leverage
+      enable
     }
   }
 }
