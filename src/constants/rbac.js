@@ -159,6 +159,16 @@ export default [
           },
         },
       },
+      // Allow/prohibit deposit
+      {
+        id: 'payment-changeAllowDeposit',
+        actions: {
+          edit: {
+            action: 'profile.admin.updateDepositEnabledConfig',
+            state: false,
+          },
+        },
+      },
       // Payment enable show FTD to affiliate
       {
         id: 'payment-enableShowFtdToAffiliate',

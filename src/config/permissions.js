@@ -60,6 +60,7 @@ export default {
     UPDATE_EMAIL: 'profile.admin.updateProfileEmail',
     VERIFY_PHONE: 'profile.admin.verifyPhone',
     VERIFY_EMAIL: 'profile.admin.verifyEmail',
+    DEPOSIT_ENABLED_CONFIG: 'profile.admin.updateDepositEnabledConfig',
     RESET_PASSWORD: 'auth2.user.resetPassword',
     CHANGE_PASSWORD: 'auth2.client.changePassword',
     CHANGE_ACQUISITION: 'hierarchy-updater.user.bulkUpdateAcquisition',

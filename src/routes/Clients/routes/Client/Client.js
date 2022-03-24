@@ -36,6 +36,7 @@ import ClientFilesTab from './routes/ClientFilesTab';
 import ClientFeedsTab from './routes/ClientFeedsTab';
 import ClientReferralsTab from './routes/ClientReferralsTab';
 import { clientTabs } from './constants';
+import ClientDepositSwitcher from './components/ClientDepositSwitcher';
 import ClientQuery from './graphql/ClientQuery';
 import './Client.scss';
 
@@ -96,6 +97,7 @@ class Client extends PureComponent {
       profileView,
       tradingAccounts,
       registrationDetails,
+      configuration,
     } = client || {};
 
     const {
@@ -148,6 +150,10 @@ class Client extends PureComponent {
               <ClientReferrals clientUuid={uuid} />
             </PermissionContent>
           </div>
+
+          <PermissionContent permissions={permissions.USER_PROFILE.DEPOSIT_ENABLED_CONFIG}>
+            <ClientDepositSwitcher uuid={uuid} enabled={configuration.depositEnabled} />
+          </PermissionContent>
 
           <HideDetails>
             <div className="Client__details">

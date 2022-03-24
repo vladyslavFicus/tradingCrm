@@ -2790,6 +2790,7 @@
           "OFFLINE": "Offline"
         }
       },
+      "CAN_DEPOSIT": "Can deposit",
       "REGISTERED": {
         "TITLE": "Registered"
       },
@@ -5266,6 +5267,7 @@
           "payment-changeStatus": "Change payment status",
           "payment-changeMethod": "Change payment method",
           "payment-changeAgent": "Payment original agent",
+          "payment-changeAllowDeposit": "Allow/prohibit deposit",
           "payment-enableShowFtdToAffiliate": "Affiliate settings",
           "resetPassword": "Reset password",
           "changePassword": "Change password for client",
