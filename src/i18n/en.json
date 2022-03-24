@@ -3874,7 +3874,7 @@
         "DELETE": {
           "TITLE": "Delete symbol",
           "DESCRIPTION": "Do you really want to delete {{symbol}} symbol?",
-          "DESCRIPTION_DELETE_SYMBOL": "The {{orders}} orders are open with this symbol. If you delete this symbol all this order will be close to zero . Do you really want to disable this symbol?"
+          "DESCRIPTION_DELETE_SYMBOL": "{{orders}} orders are open on this symbol. If you delete the symbol all orders will be closed to zero. Do you want to proceed?"
         }
       },
       "NOTIFICATION": {
