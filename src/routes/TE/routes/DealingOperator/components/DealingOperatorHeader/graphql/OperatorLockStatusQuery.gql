@@ -1,0 +1,9 @@
+query OperatorLockStatus(
+  $uuid: String!
+) {
+  loginLock(
+    uuid: $uuid
+  ) {
+    lock
+  }
+}
