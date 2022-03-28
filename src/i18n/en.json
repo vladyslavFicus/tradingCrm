@@ -4511,6 +4511,8 @@
         "PROFILE": "Profile",
         "FEED": "Feed"
       },
+      "NOTE": "Warning",
+      "NOTE_MESSAGE": "An operator without specified groups will not be visible. In the future, to add groups for this operator, you will need to contact support.",
       "NOTIFICATIONS": {
         "UPDATE_SUCCESS": "The operator was successfully updated",
         "UPDATE_ERROR": "Updating of operator has failed",

@@ -72,8 +72,11 @@ const NewOperatorModal = (props: Props) => {
       const result = await createOperatorMutation({ variables: { args: values } });
       const uuid = result.data?.tradingEngine.createOperator.uuid;
 
-      history.push(`/trading-engine/operators/${uuid}`);
+      if (values.groupNames.length > 0) {
+        history.push(`/trading-engine/operators/${uuid}/profile`);
+      }
 
+      onSuccess();
       onCloseModal();
 
       notify({
@@ -114,7 +117,7 @@ const NewOperatorModal = (props: Props) => {
         validateOnChange={false}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting, setFieldValue, values }) => (
           <>
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE')}
@@ -206,11 +209,13 @@ const NewOperatorModal = (props: Props) => {
                 </Field>
               </ModalBody>
               <ModalFooter>
-                <div className="NewOperatorModal__note">
-                  <b>{I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE')}</b>
-                  {': '}
-                  {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE_MESSAGE')}
-                </div>
+                <If condition={values.groupNames.length === 0}>
+                  <div className="NewOperatorModal__note">
+                    <b>{I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE')}</b>
+                    {': '}
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE_MESSAGE')}
+                  </div>
+                </If>
                 <div className="NewOperatorModal__buttons">
                   <Button
                     onClick={onCloseModal}
@@ -226,7 +231,14 @@ const NewOperatorModal = (props: Props) => {
                     disabled={isSubmitting}
                     type="submit"
                   >
-                    {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+                    <Choose>
+                      <When condition={values.groupNames.length === 0}>
+                        {I18n.t('COMMON.BUTTONS.CREATE')}
+                      </When>
+                      <Otherwise>
+                        {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+                      </Otherwise>
+                    </Choose>
                   </Button>
                 </div>
               </ModalFooter>
