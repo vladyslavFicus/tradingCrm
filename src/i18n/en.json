@@ -4603,6 +4603,7 @@
     "GRID": {
       "HEADLINE": "IP Whitelist",
       "ADD_IP": "Add new IP",
+      "DELETE_IPS": "Delete IPs",
       "DESCRIPTION": "Description",
       "ACTION": "Action",
       "IP_ADDRESS": "IP address",
@@ -4631,6 +4632,15 @@
         "NOTIFICATIONS": {
           "IP_DELETED": "IP address deleted from whitelist",
           "IP_NOT_DELETED": "Error while deleting IP address from whitelist"
+        }
+      },
+      "DELETE_MANY_MODAL": {
+        "HEADER": "Delete IPs - Confirmation",
+        "ACTION_TEXT": "Are you sure you want to delete IPs addresses %{ips} ?",
+        "DELETE": "Delete",
+        "NOTIFICATIONS": {
+          "IP_DELETED": "IPs addresses deleted from whitelist",
+          "IP_NOT_DELETED": "Error while deleting IPs addresses from whitelist"
         }
       },
       "ADD_IP_MODAL": {

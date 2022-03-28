@@ -3,6 +3,11 @@
     margin-left: 0;
   }
 
+  &__buttons-container {
+    display: flex;
+    margin-left: auto;
+  }
+
   &__headline {
     font-size: 20px;
   }
@@ -16,7 +21,7 @@
     top: 48px;
     z-index: 2;
   }
-     
+
   &--sticky {
     position: sticky;
   }
@@ -35,7 +40,7 @@
 
   &__header-button {
     padding: 8px 16px;
-    margin-left: auto;
+    margin-left: 15px;
     border: 1px solid #9b9b9b;
     border-radius: 3px;
     color: #9b9b9b;
@@ -48,7 +53,7 @@
 
   &__action-icon {
     font-size: 16px;
-    cursor: pointer;  
+    cursor: pointer;
     padding: 10px;
   }
 }
