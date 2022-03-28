@@ -1,0 +1,7 @@
+mutation CreateHolidayMutation($args: TradingEngineCreateHoliday__Input!) {
+  tradingEngine {
+    createHoliday(args: $args) {
+      id
+    }
+  }
+}

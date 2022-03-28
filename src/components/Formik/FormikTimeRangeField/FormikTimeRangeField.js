@@ -53,8 +53,8 @@ class FormikTimeRangeField extends PureComponent {
       <TimeRange
         {...timeRangeProps}
         fieldsValues={{
-          from: values[fieldsNames?.from],
-          to: values[fieldsNames?.to],
+          from: get(values, fieldsNames?.from),
+          to: get(values, fieldsNames?.to),
         }}
         error={this.getFieldsError()}
         onChangeFrom={(value) => {
