@@ -29,7 +29,14 @@ const HolidayHeader = ({ formik }: Props) => {
         )}
       >
         <div className="HolidayHeader__title">
-          {date || I18n.t('TRADING_ENGINE.HOLIDAY.NEW_HOLIDAY')}
+          <Choose>
+            <When condition={!!date}>
+              {date}
+            </When>
+            <Otherwise>
+              {I18n.t('TRADING_ENGINE.HOLIDAY.NEW_HOLIDAY')}
+            </Otherwise>
+          </Choose>
         </div>
       </ReactPlaceholder>
       <Button

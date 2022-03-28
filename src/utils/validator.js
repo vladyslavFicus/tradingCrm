@@ -259,7 +259,7 @@ function validTimeRange(value, compareFieldKey) {
   }
 
   const momentStart = moment(value, DATE_TIME_BASE_FORMAT);
-  const momentEnd = moment(this.validator.input[compareFieldKey], DATE_TIME_BASE_FORMAT);
+  const momentEnd = moment(get(this.validator.input, compareFieldKey), DATE_TIME_BASE_FORMAT);
 
   return momentEnd.isAfter(momentStart);
 }

@@ -7,8 +7,9 @@ import { State, Sort } from 'types';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button, EditButton } from 'components/UI';
 import Tabs from 'components/Tabs';
+import { usePermission } from 'providers/PermissionsProvider';
 import { tradingEngineTabs } from 'routes/TE/constants';
 import HolidaysFilter from './components/HolidaysFilter';
 import { useHolidaysQuery, HolidaysQuery, HolidaysQueryVariables } from './graphql/__generated__/HolidaysQuery';
@@ -19,6 +20,7 @@ type Holiday = ExtractApolloTypeFromPageable<HolidaysQuery['tradingEngine']['hol
 const Holidays = () => {
   const history = useHistory();
   const { state } = useLocation<State<HolidaysQueryVariables['args']>>();
+  const permission = usePermission();
 
   const holidaysQuery = useHolidaysQuery({
     variables: {
@@ -56,6 +58,10 @@ const Holidays = () => {
 
   const handleCreateClick = () => {
     history.push('/trading-engine/holidays/new');
+  };
+
+  const handleHolidayEditClick = (id: string) => {
+    history.push(`/trading-engine/holidays/${id}`);
   };
 
   return (
@@ -124,6 +130,33 @@ const Holidays = () => {
             </div>
           )}
         />
+        <If condition={
+          permission.allows(permissions.WE_TRADING.HOLIDAYS_EDIT)
+          || permission.allows(permissions.WE_TRADING.HOLIDAYS_DELETE)}
+        >
+          <Column
+            width={120}
+            header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
+            render={({ id }: Holiday) => (
+              <>
+                <PermissionContent permissions={permissions.WE_TRADING.EDIT_GROUP}>
+                  <EditButton
+                    onClick={() => handleHolidayEditClick(id)}
+                    className="HolidaysList__edit-button"
+                  />
+                </PermissionContent>
+                <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
+                  <Button
+                    transparent
+                    onClick={() => console.log('DELETE HOLIDAY')}
+                  >
+                    <i className="fa fa-trash btn-transparent color-danger" />
+                  </Button>
+                </PermissionContent>
+              </>
+            )}
+          />
+        </If>
       </Table>
     </div>
   );

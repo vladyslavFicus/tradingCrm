@@ -13,6 +13,7 @@ class FormikCheckbox extends PureComponent {
       errors: PropTypes.objectOf(
         PropTypes.oneOfType([
           PropTypes.string,
+          PropTypes.object,
           PropTypes.arrayOf(PropTypes.string),
         ]),
       ).isRequired,

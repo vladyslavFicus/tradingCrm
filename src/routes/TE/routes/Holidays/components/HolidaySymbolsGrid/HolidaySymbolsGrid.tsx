@@ -7,9 +7,10 @@ import { Modal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button } from 'components/UI';
+import CircleLoader from 'components/CircleLoader';
 import HolidayNewSymbolModal from '../../modals/HolidayNewSymbolModal';
 import { FormValues } from '../../types';
-import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
+import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidaySymbolsGrid.scss';
 
 interface ConfirmationModalProps {
@@ -44,34 +45,18 @@ const HolidaySymbolsGrid = (props: Props) => {
     },
   } = props;
 
-  const symbolsQuery = useSymbolsQuery({
-    variables: {
-      args: {
-        page: {
-          from: 0,
-          size: 1000000,
-        },
-      },
-    },
-  });
+  const symbolsSourcesQuery = useSymbolsSourcesQuery();
 
-  const serverSymbols = symbolsQuery.data?.tradingEngine.symbols.content || [];
+  const serverSymbolSources = symbolsSourcesQuery.data?.tradingEngine.symbolsSources || [];
 
   // Construct an object with source symbol as a key and array of followed symbols as a value
   const symbolSources = useMemo(
-    () => serverSymbols.reduce<{ [key: string]: string[] }>((acc, curr) => {
-      if (curr.source) {
-        // Create new array of followed symbols for source symbol
-        if (!acc[curr.source]) {
-          acc[curr.source] = [];
-        }
-
-        acc[curr.source].push(curr.symbol);
-      }
+    () => serverSymbolSources.reduce<{ [key: string]: string[] }>((acc, curr) => {
+      acc[curr.sourceName] = curr.children;
 
       return acc;
     }, {}),
-    [serverSymbols],
+    [serverSymbolSources],
   );
 
   const handleDeleteHolidaySymbol = (symbol: string) => {
@@ -114,54 +99,51 @@ const HolidaySymbolsGrid = (props: Props) => {
           {I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.ADD_SYMBOL')}
         </Button>
       </div>
-      <div
-        id="holiday-symbols-table-scrollable-target"
-        className="HolidaySymbolsGrid__scrollableTarget"
+      <Table
+        stickyFromTop={0}
+        items={[...values.symbols].sort()}
       >
-        <Table
-          stickyFromTop={0}
-          items={values.symbols}
-          scrollableTarget="holiday-symbols-table-scrollable-target"
-        >
-          <Column
-            header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.SYMBOL')}
-            render={(symbol: string) => (
-              <div className="HolidaySymbolsGrid__cell-primary">
-                {symbol}
-              </div>
-            )}
-          />
-          <Column
-            header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.AFFECTED_SYMBOLS')}
-            render={(symbol: string) => (
-              <div className="HolidaySymbolsGrid__cell-primary">
-                <Choose>
-                  <When condition={!!symbolSources[symbol]}>
-                    {symbolSources[symbol].join(', ')}
-                  </When>
-                  <Otherwise>
-                    &mdash;
-                  </Otherwise>
-                </Choose>
-              </div>
-            )}
-          />
-          <Column
-            width={120}
-            header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.ACTIONS')}
-            render={(symbol: string) => (
-              <>
-                <Button
-                  transparent
-                  onClick={() => handleDeleteHolidaySymbolClick(symbol)}
-                >
-                  <i className="fa fa-trash btn-transparent color-danger" />
-                </Button>
-              </>
-            )}
-          />
-        </Table>
-      </div>
+        <Column
+          header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.SYMBOL')}
+          render={(symbol: string) => (
+            <div className="HolidaySymbolsGrid__cell-primary">
+              {symbol}
+            </div>
+          )}
+        />
+        <Column
+          header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.AFFECTED_SYMBOLS')}
+          render={(symbol: string) => (
+            <div className="HolidaySymbolsGrid__cell-primary">
+              <Choose>
+                <When condition={symbolsSourcesQuery.loading}>
+                  <CircleLoader />
+                </When>
+                <When condition={symbolSources[symbol].length > 0}>
+                  {symbolSources[symbol].join(', ')}
+                </When>
+                <Otherwise>
+                  &mdash;
+                </Otherwise>
+              </Choose>
+            </div>
+          )}
+        />
+        <Column
+          width={120}
+          header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.ACTIONS')}
+          render={(symbol: string) => (
+            <>
+              <Button
+                transparent
+                onClick={() => handleDeleteHolidaySymbolClick(symbol)}
+              >
+                <i className="fa fa-trash btn-transparent color-danger" />
+              </Button>
+            </>
+          )}
+        />
+      </Table>
     </div>
   );
 };

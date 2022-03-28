@@ -26,9 +26,9 @@ const HolidayCommonForm = () => (
     </div>
     <div className="HolidayCommonForm__fields">
       <Field
-        label={I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.DESCRIPTION')}
         name="description"
         type="text"
+        label={I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.DESCRIPTION')}
         component={FormikInputField}
         className="HolidayCommonForm__field HolidayCommonForm__field--large"
       />

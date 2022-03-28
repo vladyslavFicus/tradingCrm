@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import { differenceWith } from 'lodash';
+import { differenceWith, sortBy } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Button } from 'components/UI';
@@ -10,7 +10,7 @@ import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
-import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
+import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidayNewSymbolModal.scss';
 
 interface Props {
@@ -44,25 +44,17 @@ const HolidayNewSymbolModal = (props: Props) => {
     symbols: selectedSymbols,
   } = props;
 
-  const symbolsQuery = useSymbolsQuery({
-    variables: {
-      args: {
-        page: {
-          from: 0,
-          size: 1000000,
-        },
-      },
-    },
-  });
+  const symbolsSourcesQuery = useSymbolsSourcesQuery();
 
-  const { data, loading } = symbolsQuery;
+  const { data, loading } = symbolsSourcesQuery;
 
-  const symbolsData = data?.tradingEngine.symbols?.content || [];
-  const symbols = differenceWith(
-    symbolsData,
+  const symbolsSourcesData = data?.tradingEngine.symbolsSources || [];
+
+  const symbolsSources = sortBy(differenceWith(
+    symbolsSourcesData,
     selectedSymbols,
-    (symbol, selectedSymbol) => symbol.symbol === selectedSymbol,
-  );
+    (symbol, selectedSymbol) => symbol.sourceName === selectedSymbol,
+  ), 'sourceName');
 
   const handleSubmit = (values: FormValues) => {
     notify({
@@ -131,9 +123,10 @@ const HolidayNewSymbolModal = (props: Props) => {
                       customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
                       searchable
                     >
-                      {symbols.map(({ symbol }) => (
-                        <option key={symbol} value={symbol}>
-                          {symbol}
+                      {symbolsSources.map(({ sourceName, children }) => (
+                        <option key={sourceName} value={sourceName}>
+                          {/* Here we should to construct string depends from children existing */}
+                          {`${sourceName}${children.length > 0 ? ` → ${children.join(', ')}` : ''}`}
                         </option>
                       ))}
                     </Field>

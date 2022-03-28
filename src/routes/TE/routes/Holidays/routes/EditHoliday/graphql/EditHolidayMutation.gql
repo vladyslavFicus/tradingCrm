@@ -1,0 +1,16 @@
+mutation EditHolidayMutation($args: TradingEngineEditHoliday__Input!) {
+  tradingEngine {
+    editHoliday(args: $args) {
+      id
+      date
+      enabled
+      annual
+      description
+      timeRange {
+        from
+        to
+      }
+      symbols
+    }
+  }
+}
