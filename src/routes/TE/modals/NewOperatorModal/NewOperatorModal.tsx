@@ -1,16 +1,18 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { useHistory } from 'react-router-dom';
 import compose from 'compose-function';
+import { Modal as ModalType } from 'types';
 import { generate } from 'utils/password';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { withModals, withNotifications } from 'hoc';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import { useCreateOperatorMutation } from './graphql/__generated__/CreateOperatorMutation';
@@ -20,6 +22,9 @@ interface Props {
   notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
+  modals: {
+    confirmationModal: ModalType,
+  }
 }
 
 interface FormValues {
@@ -59,7 +64,7 @@ const validate = createValidator(
 );
 
 const NewOperatorModal = (props: Props) => {
-  const { onCloseModal, onSuccess, notify } = props;
+  const { onCloseModal, onSuccess, notify, modals: { confirmationModal } } = props;
   const groupsQuery = useOperatorAccessDataQuery();
   const [createOperatorMutation] = useCreateOperatorMutation();
   const history = useHistory();
@@ -67,9 +72,9 @@ const NewOperatorModal = (props: Props) => {
   const rolesOptions = groupsQuery.data?.tradingEngine.operatorAccessData.writeableRoles || [];
   const accessibleGroupNames = groupsQuery.data?.tradingEngine.operatorAccessData.accessibleGroupNames || [];
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (values: FormValues, helpers: FormikHelpers<any>, existsInCrm = false) => {
     try {
-      const result = await createOperatorMutation({ variables: { args: values } });
+      const result = await createOperatorMutation({ variables: { args: { ...values, existsInCrm } } });
       const uuid = result.data?.tradingEngine.createOperator.uuid;
 
       if (values.groupNames.length > 0) {
@@ -90,13 +95,22 @@ const NewOperatorModal = (props: Props) => {
     } catch (e) {
       const error = parseErrors(e);
 
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE'),
-        message: error.error === 'error.external-api.error.validation.email.exists'
-          ? I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED_EXIST')
-          : I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED'),
-      });
+      if (error.error === 'error.external-api.error.validation.email.exists') {
+        confirmationModal.show({
+          onSubmit: () => handleSubmit(values, helpers, true),
+          modalTitle: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.CONFIRMATION.TITLE'),
+          actionText: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.CONFIRMATION.DESCRIPTION'),
+          submitButtonLabel: I18n.t('COMMON.OK'),
+        });
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE'),
+          message: error.error === 'error.operator.already.exists'
+            ? I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED_EXIST')
+            : I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED'),
+        });
+      }
     }
   };
 
@@ -252,5 +266,8 @@ const NewOperatorModal = (props: Props) => {
 
 export default compose(
   React.memo,
+  withModals({
+    confirmationModal: ConfirmActionModal,
+  }),
   withNotifications,
 )(NewOperatorModal);

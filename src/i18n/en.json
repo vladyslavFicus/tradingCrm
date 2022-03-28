@@ -3738,6 +3738,10 @@
           "SUCCESS": "Operator has been successfully created",
           "FAILED": "Operator creation failed",
           "FAILED_EXIST": "Operator with this email already exists."
+        },
+        "CONFIRMATION": {
+          "TITLE": "Existing operator",
+          "DESCRIPTION": "Operator exits in another brand. Would you like to add permissions for this operator to have access to Trading Engine?"
         }
       }
     },
