@@ -13,8 +13,8 @@ interface Props {
 
 const ClientDepositSwitcher = ({ uuid, enabled }: Props) => {
   const [updateConfigurationDeposit] = useUpdateConfigurationDepositMutation();
-  const handleSetupDepositMutation = () => updateConfigurationDeposit({
-    variables: { playerUUID: uuid, enabled: !enabled },
+  const handleSetupDepositMutation = (value: boolean) => updateConfigurationDeposit({
+    variables: { playerUUID: uuid, enabled: value },
   });
 
   return (
