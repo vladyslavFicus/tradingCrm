@@ -1120,7 +1120,9 @@
         "CDE_RULE_UPDATED_EVENT": "CDE rule updated",
         "WHITELIST_IP_CREATED": "IP address added",
         "WHITELIST_IP_DELETED": "IP address deleted",
-        "WHITELIST_IP_UPDATED": "IP address updated"
+        "WHITELIST_IP_UPDATED": "IP address updated",
+        "PLAYER_PROFILE_DEPOSIT_AVAILABILITY_CHANGED": "Deposit availability changed",
+        "TRADING_ACCOUNT_STATUS_CHANGED": "Trading account status changed"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
