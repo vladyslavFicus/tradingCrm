@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify, Sort, State } from 'types';
+import { LevelType, Modal, Notify, Sort, State, TableSelection } from 'types';
 import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
@@ -15,7 +15,7 @@ import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionMo
 import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
 import { ipWhitelistTabs } from '../../constants';
 import { useDeleteIpMutation } from './graphql/__generated__/IpWhitelistDeleteMutation';
-import { useDeleteManyIpMutation } from './graphql/__generated__/ipWhiteistDeleteManyMutations';
+import { useDeleteManyIpMutation } from './graphql/__generated__/IpWhitelistDeleteManyMutations';
 import {
   useIpWhitelistSearchQuery,
   IpWhitelistSearchQuery,
@@ -66,26 +66,34 @@ const IpWhitelistGrid = (props: Props) => {
   const { ipWhitelistSearch = { content: [], last: true, totalElements: 0, number: 0 } } = ipWhitelistQuery.data || {};
   const { content = [], last = true, totalElements } = ipWhitelistQuery.data?.ipWhitelistSearch || {};
   const history = useHistory();
-  const [selectedIps, setSelectedIps] = useState<string[]>([]);
+  const [selected, setSelected] = useState<TableSelection | null>(null);
 
-  const handleSelect = ({ touched }: { touched: number[] }) => {
-    if (!content) {
-      return;
-    }
-    setSelectedIps(touched.map(it => content[it]!.uuid));
-  };
+  const getIpsListFromSelectedItems = ({ all, touched }: TableSelection) => (
+    all ? content : touched.map(idx => content[idx])
+  );
+
+  const getFieldsFromSelected = useMemo(
+    () => (fieldName: 'ip' | 'uuid') => (
+      selected ? getIpsListFromSelectedItems(selected).map(item => item[fieldName]) : []
+    ),
+    [selected],
+  );
+
 
   const handleDeleteManyIps = async () => {
     try {
       await deleteManyIpMutation({
-        variables: { uuids: selectedIps },
+        variables: { uuids: getFieldsFromSelected('uuid') },
       });
+
+      selected?.reset();
+      ipWhitelistQuery.refetch();
 
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.NOTIFICATIONS.IP_DELETED',
-          { ips: selectedIps.join(' ') }),
+          { ips: getFieldsFromSelected('ip').join(', ') }),
       });
     } catch (e) {
       notify({
@@ -96,7 +104,6 @@ const IpWhitelistGrid = (props: Props) => {
     }
 
     deleteModal.hide();
-    ipWhitelistQuery.refetch();
   };
 
 
@@ -213,7 +220,7 @@ const IpWhitelistGrid = (props: Props) => {
             >
               {I18n.t('IP_WHITELIST.GRID.ADD_IP')}
             </Button>
-            <If condition={!!selectedIps.length}>
+            <If condition={!!selected?.selected}>
               <Button
                 className="IpWhitelistGrid__header-button"
                 onClick={() => deleteModal.show({
@@ -221,7 +228,7 @@ const IpWhitelistGrid = (props: Props) => {
                   modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.HEADER'),
                   actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.ACTION_TEXT',
                     {
-                      ips: selectedIps.join(' '),
+                      ips: getFieldsFromSelected('ip').join(', '),
                     }),
                   submitButtonLabel: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.DELETE'),
                 })}
@@ -241,7 +248,7 @@ const IpWhitelistGrid = (props: Props) => {
         hasMore={!last}
         stickyFromTop={123}
         onSort={handleSort}
-        onSelect={handleSelect}
+        onSelect={setSelected}
         withMultiSelect
       >
         <Column
