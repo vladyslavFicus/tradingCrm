@@ -223,7 +223,7 @@ const NewOperatorModal = (props: Props) => {
                 </Field>
               </ModalBody>
               <ModalFooter>
-                <If condition={values.groupNames.length === 0}>
+                <If condition={!values.groupNames?.length}>
                   <div className="NewOperatorModal__note">
                     <b>{I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE')}</b>
                     {': '}
@@ -246,7 +246,7 @@ const NewOperatorModal = (props: Props) => {
                     type="submit"
                   >
                     <Choose>
-                      <When condition={values.groupNames.length === 0}>
+                      <When condition={!values.groupNames?.length}>
                         {I18n.t('COMMON.BUTTONS.CREATE')}
                       </When>
                       <Otherwise>

@@ -205,7 +205,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
                 ))}
               </Field>
             </div>
-            <If condition={values.groupNames.length === 0}>
+            <If condition={!values.groupNames?.length}>
               <div className="DealingOperatorProfileForm__note">
                 <b>{I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTE')}</b>
                 {': '}
