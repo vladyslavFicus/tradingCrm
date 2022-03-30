@@ -4482,11 +4482,24 @@
         "DAY": "Day",
         "FROM": "From",
         "TO": "To",
-        "DESCRIPTION": "Description"
+        "DESCRIPTION": "Description",
+        "ACTIONS": "Actions"
       },
       "FILTER_FORM": {
         "DESCRIPTION": "Description",
         "DESCRIPTION_PLACEHOLDER": "Description"
+      },
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete holiday",
+          "DESCRIPTION": "Are you sure that you want to delete holiday {{date}}?"
+        }
+      },
+      "NOTIFICATION": {
+        "DELETE": {
+          "SUCCESS": "Holiday deleted successfully",
+          "FAILED": "Holiday delete failed"
+        }
       }
     },
     "HOLIDAY": {

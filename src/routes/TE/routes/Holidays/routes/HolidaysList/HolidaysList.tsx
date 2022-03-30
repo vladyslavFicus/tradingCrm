@@ -1,26 +1,49 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
 import { useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { State, Sort } from 'types';
+import { State, Sort, Modal, LevelType, Notify } from 'types';
+import { withModals, withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
 import { Button, EditButton } from 'components/UI';
 import Tabs from 'components/Tabs';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { usePermission } from 'providers/PermissionsProvider';
 import { tradingEngineTabs } from 'routes/TE/constants';
 import HolidaysFilter from './components/HolidaysFilter';
 import { useHolidaysQuery, HolidaysQuery, HolidaysQueryVariables } from './graphql/__generated__/HolidaysQuery';
+import { useDeleteHolidayMutation } from './graphql/__generated__/DeleteHolidayMutation';
 import './HolidaysList.scss';
 
 type Holiday = ExtractApolloTypeFromPageable<HolidaysQuery['tradingEngine']['holidays']>;
 
-const Holidays = () => {
+interface ConfirmationModalProps {
+  onSubmit: () => void,
+  modalTitle: string,
+  actionText: string,
+  submitButtonLabel: string,
+}
+
+interface Props {
+  notify: Notify,
+  modals: {
+    confirmationModal: Modal<ConfirmationModalProps>,
+  },
+}
+
+const Holidays = (props: Props) => {
+  const { modals: { confirmationModal }, notify } = props;
+
   const history = useHistory();
   const { state } = useLocation<State<HolidaysQueryVariables['args']>>();
+
   const permission = usePermission();
+
+  const [deleteHoliday] = useDeleteHolidayMutation();
 
   const holidaysQuery = useHolidaysQuery({
     variables: {
@@ -60,8 +83,38 @@ const Holidays = () => {
     history.push('/trading-engine/holidays/new');
   };
 
-  const handleHolidayEditClick = (id: string) => {
-    history.push(`/trading-engine/holidays/${id}`);
+  const handleHolidayEditClick = (holiday: Holiday) => {
+    history.push(`/trading-engine/holidays/${holiday.id}`);
+  };
+
+  const handleDeleteHoliday = async (id: string) => {
+    try {
+      await deleteHoliday({ variables: { id } });
+
+      await holidaysQuery.refetch();
+      confirmationModal.hide();
+
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.HOLIDAYS.NOTIFICATION.DELETE.SUCCESS'),
+      });
+    } catch (e) {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('TRADING_ENGINE.HOLIDAYS.NOTIFICATION.DELETE.FAILED'),
+      });
+    }
+  };
+
+  const handleHolidayDeleteClick = (holiday: Holiday) => {
+    confirmationModal.show({
+      onSubmit: () => handleDeleteHoliday(holiday.id),
+      modalTitle: I18n.t('TRADING_ENGINE.HOLIDAYS.CONFIRMATION.DELETE.TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.HOLIDAYS.CONFIRMATION.DELETE.DESCRIPTION', { date: holiday.date }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
   };
 
   return (
@@ -136,19 +189,19 @@ const Holidays = () => {
         >
           <Column
             width={120}
-            header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
-            render={({ id }: Holiday) => (
+            header={I18n.t('TRADING_ENGINE.HOLIDAYS.GRID.ACTIONS')}
+            render={(holiday: Holiday) => (
               <>
-                <PermissionContent permissions={permissions.WE_TRADING.EDIT_GROUP}>
+                <PermissionContent permissions={permissions.WE_TRADING.HOLIDAYS_EDIT}>
                   <EditButton
-                    onClick={() => handleHolidayEditClick(id)}
+                    onClick={() => handleHolidayEditClick(holiday)}
                     className="HolidaysList__edit-button"
                   />
                 </PermissionContent>
-                <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
+                <PermissionContent permissions={permissions.WE_TRADING.HOLIDAYS_DELETE}>
                   <Button
                     transparent
-                    onClick={() => console.log('DELETE HOLIDAY')}
+                    onClick={() => handleHolidayDeleteClick(holiday)}
                   >
                     <i className="fa fa-trash btn-transparent color-danger" />
                   </Button>
@@ -162,4 +215,10 @@ const Holidays = () => {
   );
 };
 
-export default React.memo(Holidays);
+export default compose(
+  React.memo,
+  withNotifications,
+  withModals({
+    confirmationModal: ConfirmActionModal,
+  }),
+)(Holidays);
