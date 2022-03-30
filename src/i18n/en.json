@@ -3487,6 +3487,9 @@
       "OPERATORS": "Operators"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
+    "SYMBOL_CHART": {
+      "HOLIDAY_WARNING": "{{date}} from {{from}} to {{to}} UTC time"
+    },
     "MODALS": {
       "CREDIT": {
         "TITLE": "Credit in / Credit out",

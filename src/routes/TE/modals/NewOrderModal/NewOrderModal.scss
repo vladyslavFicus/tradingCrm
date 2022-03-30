@@ -4,11 +4,6 @@
   &__inner-wrapper {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-
-    .modal-body {
-      flex: initial;
-    }
   }
 
   &__field-container {
@@ -86,10 +81,5 @@
 
   &__account-label {
     font-weight: 600;
-  }
-
-  .modal-body {
-    padding-top: 20px;
-    padding-bottom: 20px;
   }
 }
