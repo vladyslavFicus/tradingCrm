@@ -86,6 +86,7 @@ const REQUEST = gql`
         crs
         fatca
         internalTransfer
+        depositEnabled
         gdpr {
           sms
           email

@@ -1,0 +1,11 @@
+mutation ChangeOperatorStatusMutation (
+  $uuid: String!
+  $status: TradingEngine__OperatorStatuses__Enum!
+  $reason: String!
+) {
+  tradingEngine {
+    changeOperatorStatus(uuid: $uuid, status: $status, reason: $reason) {
+      status
+    }
+  }
+}

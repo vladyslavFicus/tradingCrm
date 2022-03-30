@@ -16,6 +16,7 @@ import { Operator } from '../../DealingOperator';
 import { useChangeOperatorPasswordMutation } from './graphql/__generated__/ChangeOperatorPasswordMutation';
 import { useResetOperatorPasswordMutation } from './graphql/__generated__/ResetOperatorPasswordMutation';
 import { useUnlockOperatorLoginMutation } from './graphql/__generated__/UnlockOperatorLoginMutation';
+import { useOperatorLockStatus } from './graphql/__generated__/OperatorLockStatusQuery';
 import './DealingOperatorHeader.scss';
 
 type Props = {
@@ -33,6 +34,8 @@ const DealingOperatorHeader = (props: Props) => {
   const [changePasswordMutation] = useChangeOperatorPasswordMutation();
   const [resetPasswordMutation] = useResetOperatorPasswordMutation();
   const [unlockOperatorLoginMutation] = useUnlockOperatorLoginMutation();
+  const operatorLockStatusQuery = useOperatorLockStatus({ variables: { uuid: operator.uuid } });
+  const operatorLoginLocked = operatorLockStatusQuery.data?.loginLock?.lock || false;
 
   const handleChangePassword = async ({ newPassword }: any) => {
     try {
@@ -94,6 +97,7 @@ const DealingOperatorHeader = (props: Props) => {
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.MESSAGE'),
       });
 
+      operatorLockStatusQuery.refetch();
       EventEmitter.emit(OPERATOR_RELOAD);
     } catch (e) {
       notify({
@@ -133,7 +137,7 @@ const DealingOperatorHeader = (props: Props) => {
 
       <div className="DealingOperatorHeader__actions">
         <PermissionContent permissions={permissions.WE_TRADING.OPERATORS_UNLOCK}>
-          <If condition={status !== 'CLOSED'}>
+          <If condition={operatorLoginLocked && status !== 'CLOSED'}>
             <Button
               className="DealingOperatorHeader__action"
               onClick={handleUnlockOperatorLogin}

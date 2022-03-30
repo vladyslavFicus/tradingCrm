@@ -4,6 +4,7 @@ import { Page } from './page';
 import { LevelType, Notify } from './notify';
 import { Modal } from './modal';
 import { Query, Pageable } from './query';
+import { TableSelection } from './table';
 
 export type {
   Sort,
@@ -14,6 +15,7 @@ export type {
   Modal,
   Query,
   Pageable,
+  TableSelection,
 };
 
 export {

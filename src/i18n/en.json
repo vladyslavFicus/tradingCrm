@@ -1120,7 +1120,9 @@
         "CDE_RULE_UPDATED_EVENT": "CDE rule updated",
         "WHITELIST_IP_CREATED": "IP address added",
         "WHITELIST_IP_DELETED": "IP address deleted",
-        "WHITELIST_IP_UPDATED": "IP address updated"
+        "WHITELIST_IP_UPDATED": "IP address updated",
+        "PLAYER_PROFILE_DEPOSIT_AVAILABILITY_CHANGED": "Deposit availability changed",
+        "TRADING_ACCOUNT_STATUS_CHANGED": "Trading account status changed"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -2790,6 +2792,7 @@
           "OFFLINE": "Offline"
         }
       },
+      "CAN_DEPOSIT": "Can deposit",
       "REGISTERED": {
         "TITLE": "Registered"
       },
@@ -3741,12 +3744,17 @@
       },
       "NEW_OPERATOR_MODAL": {
         "TITLE": "New operator",
-        "NOTE": "Note",
-        "NOTE_MESSAGE": "You will be able to set groups in the operator`s profile once it`s created",
+        "NOTE": "Warning",
+        "GROUPS": "Groups",
+        "NOTE_MESSAGE": "An operator without specified groups will not be visible. In the future, to add groups for this operator, you will need to contact support.",
         "NOTIFICATION": {
           "SUCCESS": "Operator has been successfully created",
           "FAILED": "Operator creation failed",
           "FAILED_EXIST": "Operator with this email already exists."
+        },
+        "CONFIRMATION": {
+          "TITLE": "Existing operator",
+          "DESCRIPTION": "Operator exits in another brand. Would you like to add permissions for this operator to have access to Trading Engine?"
         }
       }
     },
@@ -3883,7 +3891,7 @@
         "DELETE": {
           "TITLE": "Delete symbol",
           "DESCRIPTION": "Do you really want to delete {{symbol}} symbol?",
-          "DESCRIPTION_DELETE_SYMBOL": "The {{orders}} orders are open with this symbol. If you delete this symbol all this order will be close to zero . Do you really want to disable this symbol?"
+          "DESCRIPTION_DELETE_SYMBOL": "{{orders}} orders are open on this symbol. If you delete the symbol all orders will be closed to zero. Do you want to proceed?"
         }
       },
       "NOTIFICATION": {
@@ -4569,6 +4577,8 @@
         "PROFILE": "Profile",
         "FEED": "Feed"
       },
+      "NOTE": "Warning",
+      "NOTE_MESSAGE": "An operator without specified groups will not be visible. In the future, to add groups for this operator, you will need to contact support.",
       "NOTIFICATIONS": {
         "UPDATE_SUCCESS": "The operator was successfully updated",
         "UPDATE_ERROR": "Updating of operator has failed",
@@ -4634,6 +4644,9 @@
       "CLOSE_REASONS": {
         "PENDING_INVESTIGATION": "Pending investigation",
         "TERMINATED": "Terminated"
+      },
+      "ACTIVATE_REASONS": {
+        "ACTIVATE": "Activate reason"
       }
     }
   },
@@ -4658,6 +4671,7 @@
     "GRID": {
       "HEADLINE": "IP Whitelist",
       "ADD_IP": "Add new IP",
+      "DELETE_IPS": "Delete IPs",
       "DESCRIPTION": "Description",
       "ACTION": "Action",
       "IP_ADDRESS": "IP address",
@@ -4686,6 +4700,15 @@
         "NOTIFICATIONS": {
           "IP_DELETED": "IP address deleted from whitelist",
           "IP_NOT_DELETED": "Error while deleting IP address from whitelist"
+        }
+      },
+      "DELETE_MANY_MODAL": {
+        "HEADER": "Delete IPs - Confirmation",
+        "ACTION_TEXT": "Are you sure you want to delete IPs addresses %{ips} ?",
+        "DELETE": "Delete",
+        "NOTIFICATIONS": {
+          "IP_DELETED": "IPs addresses deleted from whitelist",
+          "IP_NOT_DELETED": "Error while deleting IPs addresses from whitelist"
         }
       },
       "ADD_IP_MODAL": {
@@ -5326,6 +5349,7 @@
           "payment-changeStatus": "Change payment status",
           "payment-changeMethod": "Change payment method",
           "payment-changeAgent": "Payment original agent",
+          "payment-changeAllowDeposit": "Allow/prohibit deposit",
           "payment-enableShowFtdToAffiliate": "Affiliate settings",
           "resetPassword": "Reset password",
           "changePassword": "Change password for client",

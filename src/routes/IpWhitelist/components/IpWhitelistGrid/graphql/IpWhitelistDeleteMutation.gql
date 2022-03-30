@@ -1,0 +1,9 @@
+mutation DeleteIpMutation(
+  $uuid: String!
+) {
+  ipWhitelist {
+    delete(
+      uuid: $uuid
+    )
+  }
+}

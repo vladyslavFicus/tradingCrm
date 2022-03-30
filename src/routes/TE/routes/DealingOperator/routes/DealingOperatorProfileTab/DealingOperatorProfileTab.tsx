@@ -108,13 +108,12 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
         onSubmit={values => handleUpdateOperator(values)}
         enableReinitialize
       >
-        {({ isSubmitting, dirty }) => (
+        {({ isSubmitting, dirty, values }) => (
           <Form className="DealingOperatorProfileForm">
             <div className="DealingOperatorProfileForm__header">
               <div className="DealingOperatorProfileForm__title">
                 {I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.DETAILS.PERSONAL_INFORMATION')}
               </div>
-
               <div className="DealingOperatorProfileForm__actions">
                 <If condition={dirty && !isSubmitting && !isReadOnly}>
                   <Button
@@ -206,6 +205,13 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
                 ))}
               </Field>
             </div>
+            <If condition={!values.groupNames?.length}>
+              <div className="DealingOperatorProfileForm__note">
+                <b>{I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTE')}</b>
+                {': '}
+                {I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTE_MESSAGE')}
+              </div>
+            </If>
           </Form>
         )}
       </Formik>

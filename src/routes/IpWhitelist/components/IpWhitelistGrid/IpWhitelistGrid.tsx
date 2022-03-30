@@ -1,32 +1,32 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
-import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import compose from 'compose-function';
-import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify, Sort, State } from 'types';
+import { LevelType, Modal, Notify, Sort, State, TableSelection } from 'types';
 import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
+import Button from 'components/UI/Button';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
 import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
 import { ipWhitelistTabs } from '../../constants';
-import IpWhitelistDeleteIpMutation from './graphql/IpWhitelistDeleteMutation';
-import IpWhitelistQuery from './graphql/IpWhitelistQuery';
-import IpWhitelistFilter from './components/IpWhitelistFilter';
+import { useDeleteIpMutation } from './graphql/__generated__/IpWhitelistDeleteMutation';
+import { useDeleteManyIpMutation } from './graphql/__generated__/IpWhitelistDeleteManyMutations';
 import {
-  IpWhitelistSearchQueryResult,
-  IpWhitelistAddress,
-  IpWhitelistFilters,
-} from './types';
+  useIpWhitelistSearchQuery,
+  IpWhitelistSearchQuery,
+  IpWhitelistSearchQueryVariables,
+} from './graphql/__generated__/IpWhitelistQuery';
+import IpWhitelistFilter from './components/IpWhitelistFilter';
 import './IpWhitelistGrid.scss';
 
+type IpWhitelistAddress = ExtractApolloTypeFromPageable<IpWhitelistSearchQuery['ipWhitelistSearch']>;
+
 interface Props {
-  ipWhitelistQuery: IpWhitelistSearchQueryResult,
   notify: Notify,
   modals: {
     addAddressModal: Modal<{
@@ -42,17 +42,70 @@ interface Props {
       actionText: string,
       submitButtonLabel: string,
     }>,
-  },
-  deleteIpMutation: (options: BaseMutationOptions) => MutationResult<Boolean>
+  }
 }
 
 const IpWhitelistGrid = (props: Props) => {
-  const { ipWhitelistQuery, notify, modals, deleteIpMutation } = props;
+  const { notify, modals } = props;
+  const { state } = useLocation<State<IpWhitelistSearchQueryVariables['args']>>();
+  const [deleteManyIpMutation] = useDeleteManyIpMutation();
+  const [deleteIpMutation] = useDeleteIpMutation();
+  const ipWhitelistQuery = useIpWhitelistSearchQuery({
+    variables: {
+      args: {
+        ...state?.filters,
+        page: {
+          from: 0,
+          size: 20,
+          sorts: state?.sorts,
+        },
+      },
+    },
+  });
   const { updateDescriptionModal, deleteModal, addAddressModal } = modals;
   const { ipWhitelistSearch = { content: [], last: true, totalElements: 0, number: 0 } } = ipWhitelistQuery.data || {};
-  const { content, last, totalElements } = ipWhitelistSearch;
-  const { state } = useLocation<State<IpWhitelistFilters>>();
+  const { content = [], last = true, totalElements } = ipWhitelistQuery.data?.ipWhitelistSearch || {};
   const history = useHistory();
+  const [selected, setSelected] = useState<TableSelection | null>(null);
+
+  const getIpsListFromSelectedItems = ({ all, touched }: TableSelection) => (
+    all ? content : touched.map(idx => content[idx])
+  );
+
+  const getFieldsFromSelected = useMemo(
+    () => (fieldName: 'ip' | 'uuid') => (
+      selected ? getIpsListFromSelectedItems(selected).map(item => item[fieldName]) : []
+    ),
+    [selected],
+  );
+
+
+  const handleDeleteManyIps = async () => {
+    try {
+      await deleteManyIpMutation({
+        variables: { uuids: getFieldsFromSelected('uuid') },
+      });
+
+      selected?.reset();
+      ipWhitelistQuery.refetch();
+
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.NOTIFICATIONS.IP_DELETED',
+          { ips: getFieldsFromSelected('ip').join(', ') }),
+      });
+    } catch (e) {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.NOTIFICATIONS.IP_NOT_DELETED'),
+      });
+    }
+
+    deleteModal.hide();
+  };
+
 
   const handleDeleteIp = ({ uuid, ip }: IpWhitelistAddress) => async () => {
     try {
@@ -159,13 +212,32 @@ const IpWhitelistGrid = (props: Props) => {
           {I18n.t('IP_WHITELIST.GRID.HEADLINE')}
         </div>
         <PermissionContent permissions={permissions.IP_WHITELIST.ADD_IP_ADDRESS}>
-          <button
-            className="IpWhitelistGrid__header-button"
-            onClick={() => addAddressModal.show({ onSuccess: ipWhitelistQuery.refetch })}
-            type="button"
-          >
-            {I18n.t('IP_WHITELIST.GRID.ADD_IP')}
-          </button>
+          <div className="IpWhitelistGrid__buttons-container">
+            <Button
+              className="IpWhitelistGrid__header-button"
+              onClick={() => addAddressModal.show({ onSuccess: ipWhitelistQuery.refetch })}
+              type="button"
+            >
+              {I18n.t('IP_WHITELIST.GRID.ADD_IP')}
+            </Button>
+            <If condition={!!selected?.selected}>
+              <Button
+                className="IpWhitelistGrid__header-button"
+                onClick={() => deleteModal.show({
+                  onSubmit: handleDeleteManyIps,
+                  modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.HEADER'),
+                  actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.ACTION_TEXT',
+                    {
+                      ips: getFieldsFromSelected('ip').join(', '),
+                    }),
+                  submitButtonLabel: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.DELETE'),
+                })}
+                type="button"
+              >
+                {I18n.t('IP_WHITELIST.GRID.DELETE_IPS')}
+              </Button>
+            </If>
+          </div>
         </PermissionContent>
       </div>
       <IpWhitelistFilter refetch={ipWhitelistQuery.refetch} />
@@ -176,6 +248,8 @@ const IpWhitelistGrid = (props: Props) => {
         hasMore={!last}
         stickyFromTop={123}
         onSort={handleSort}
+        onSelect={setSelected}
+        withMultiSelect
       >
         <Column
           header={I18n.t('IP_WHITELIST.GRID.IP_ADDRESS')}
@@ -206,9 +280,5 @@ export default compose<React.ComponentType<Props>>(
     deleteModal: ConfirmActionModal,
     updateDescriptionModal: WhiteListUpdateDescriptionModal,
     addAddressModal: WhiteListAddIpModal,
-  }),
-  withRequests({
-    ipWhitelistQuery: IpWhitelistQuery,
-    deleteIpMutation: IpWhitelistDeleteIpMutation,
   }),
 )(IpWhitelistGrid);

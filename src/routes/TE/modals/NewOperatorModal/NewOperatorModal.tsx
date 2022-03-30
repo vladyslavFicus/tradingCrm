@@ -1,16 +1,18 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { useHistory } from 'react-router-dom';
 import compose from 'compose-function';
+import { Modal as ModalType } from 'types';
 import { generate } from 'utils/password';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { withModals, withNotifications } from 'hoc';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import { useCreateOperatorMutation } from './graphql/__generated__/CreateOperatorMutation';
@@ -20,6 +22,9 @@ interface Props {
   notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
+  modals: {
+    confirmationModal: ModalType,
+  }
 }
 
 interface FormValues {
@@ -29,6 +34,7 @@ interface FormValues {
   role: string,
   email: string,
   phone: string,
+  groupNames: string[],
 }
 
 const attributeLabels = {
@@ -38,6 +44,7 @@ const attributeLabels = {
   phone: 'COMMON.PHONE',
   role: 'COMMON.ROLE',
   password: 'COMMON.PASSWORD',
+  groups: 'TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.GROUPS',
 };
 
 const validate = createValidator(
@@ -57,20 +64,24 @@ const validate = createValidator(
 );
 
 const NewOperatorModal = (props: Props) => {
-  const { onCloseModal, onSuccess, notify } = props;
+  const { onCloseModal, onSuccess, notify, modals: { confirmationModal } } = props;
   const groupsQuery = useOperatorAccessDataQuery();
   const [createOperatorMutation] = useCreateOperatorMutation();
   const history = useHistory();
 
   const rolesOptions = groupsQuery.data?.tradingEngine.operatorAccessData.writeableRoles || [];
+  const accessibleGroupNames = groupsQuery.data?.tradingEngine.operatorAccessData.accessibleGroupNames || [];
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (values: FormValues, helpers: FormikHelpers<any>, existsInCrm = false) => {
     try {
-      const result = await createOperatorMutation({ variables: { args: values } });
+      const result = await createOperatorMutation({ variables: { args: { ...values, existsInCrm } } });
       const uuid = result.data?.tradingEngine.createOperator.uuid;
 
-      history.push(`/trading-engine/operators/${uuid}`);
+      if (values.groupNames.length > 0) {
+        history.push(`/trading-engine/operators/${uuid}/profile`);
+      }
 
+      onSuccess();
       onCloseModal();
 
       notify({
@@ -84,13 +95,22 @@ const NewOperatorModal = (props: Props) => {
     } catch (e) {
       const error = parseErrors(e);
 
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE'),
-        message: error.error === 'error.external-api.error.validation.email.exists'
-          ? I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED_EXIST')
-          : I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED'),
-      });
+      if (error.error === 'error.external-api.error.validation.email.exists') {
+        confirmationModal.show({
+          onSubmit: () => handleSubmit(values, helpers, true),
+          modalTitle: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.CONFIRMATION.TITLE'),
+          actionText: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.CONFIRMATION.DESCRIPTION'),
+          submitButtonLabel: I18n.t('COMMON.OK'),
+        });
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE'),
+          message: error.error === 'error.operator.already.exists'
+            ? I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED_EXIST')
+            : I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED'),
+        });
+      }
     }
   };
 
@@ -104,13 +124,14 @@ const NewOperatorModal = (props: Props) => {
           role: '',
           email: '',
           phone: '',
+          groupNames: [],
         }}
         validate={validate}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting, setFieldValue, values }) => (
           <>
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE')}
@@ -179,13 +200,36 @@ const NewOperatorModal = (props: Props) => {
                     </option>
                   ))}
                 </Field>
+                <Field
+                  name="groupNames"
+                  className="NewOperatorModal__wide_field"
+                  label={I18n.t(attributeLabels.groups)}
+                  placeholder={
+                    rolesOptions.length
+                      ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
+                      : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
+                  }
+                  component={FormikSelectField}
+                  disabled={isSubmitting || !rolesOptions.length}
+                  searchable
+                  multiple
+                  multipleLabel
+                >
+                  {accessibleGroupNames.map(group => (
+                    <option key={group} value={group}>
+                      {group}
+                    </option>
+                  ))}
+                </Field>
               </ModalBody>
               <ModalFooter>
-                <div className="CreateOperatorModal__note">
-                  <b>{I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE')}</b>
-                  {': '}
-                  {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE_MESSAGE')}
-                </div>
+                <If condition={!values.groupNames?.length}>
+                  <div className="NewOperatorModal__note">
+                    <b>{I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE')}</b>
+                    {': '}
+                    {I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTE_MESSAGE')}
+                  </div>
+                </If>
                 <div className="NewOperatorModal__buttons">
                   <Button
                     onClick={onCloseModal}
@@ -201,7 +245,14 @@ const NewOperatorModal = (props: Props) => {
                     disabled={isSubmitting}
                     type="submit"
                   >
-                    {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+                    <Choose>
+                      <When condition={!values.groupNames?.length}>
+                        {I18n.t('COMMON.BUTTONS.CREATE')}
+                      </When>
+                      <Otherwise>
+                        {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+                      </Otherwise>
+                    </Choose>
                   </Button>
                 </div>
               </ModalFooter>
@@ -215,5 +266,8 @@ const NewOperatorModal = (props: Props) => {
 
 export default compose(
   React.memo,
+  withModals({
+    confirmationModal: ConfirmActionModal,
+  }),
   withNotifications,
 )(NewOperatorModal);
