@@ -10,6 +10,7 @@ import permissions from 'config/permissions';
 import Tabs from 'components/Tabs';
 import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
+import { getBrand } from 'config';
 import ShortLoader from 'components/ShortLoader';
 import Route from 'components/Route';
 import PermissionContent from 'components/PermissionContent';
@@ -84,6 +85,8 @@ class Client extends PureComponent {
       match: { path, url },
     } = this.props;
 
+    const brand = getBrand();
+
     const client = clientQuery.data?.profile;
     const clientError = hasErrorPath(clientQuery.error, 'profile');
     const isLoading = clientQuery.loading;
@@ -151,9 +154,12 @@ class Client extends PureComponent {
             </PermissionContent>
           </div>
 
-          <PermissionContent permissions={permissions.USER_PROFILE.DEPOSIT_ENABLED_CONFIG}>
-            <ClientDepositSwitcher uuid={uuid} enabled={configuration.depositEnabled} />
-          </PermissionContent>
+          {/* Show "Can Deposit" switcher only in case when deposits disabled for brand without operator approval */}
+          <If condition={brand.profile.isDepositEnabled === false}>
+            <PermissionContent permissions={permissions.USER_PROFILE.DEPOSIT_ENABLED_CONFIG}>
+              <ClientDepositSwitcher uuid={uuid} enabled={configuration.depositEnabled} />
+            </PermissionContent>
+          </If>
 
           <HideDetails>
             <div className="Client__details">

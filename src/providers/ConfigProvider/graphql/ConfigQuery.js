@@ -25,6 +25,9 @@ const REQUEST = gql`
       payment {
         reasons
       }
+      profile {
+        isDepositEnabled
+      }
       mt4 {
         leveragesChangingRequest
         live {
