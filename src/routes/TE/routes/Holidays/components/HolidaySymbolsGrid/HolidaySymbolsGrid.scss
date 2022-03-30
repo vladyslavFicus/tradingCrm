@@ -23,12 +23,4 @@
   &__edit-button {
     margin-right: 15px;
   }
-
-  &__scrollableTarget {
-    max-height: 500px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border: 1px solid #dfe4ed;
-    border-top: none;
-  }
 }

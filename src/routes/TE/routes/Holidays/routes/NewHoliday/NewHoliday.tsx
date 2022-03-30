@@ -21,6 +21,9 @@ const validator = createValidator(
   {
     description: ['required'],
     date: ['required', 'date'],
+    timeRange: {
+      from: ['required', 'validTimeRange:timeRange.to'],
+    },
   },
   {
     description: I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.DESCRIPTION'),
@@ -70,7 +73,7 @@ const NewHoliday = (props: Props) => {
           date: '',
           timeRange: {
             from: '00:00',
-            to: '00:00',
+            to: '23:59',
           },
           symbols: [],
         }}
