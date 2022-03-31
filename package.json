@@ -17,7 +17,7 @@
   "author": "nassoft",
   "license": "MIT",
   "dependencies": {
-    "@apollo/client": "^3.5.9",
+    "@apollo/client": "^3.5.10",
     "@babel/runtime": "^7.15.3",
     "@craco/craco": "^5.8.0",
     "@hrzn/react-big-calendar": "^0.20.3",

@@ -1,4 +1,4 @@
-.Holidays {
+.HolidaysList {
   border: 1px solid #dfe4ed;
 
   &__header {
@@ -28,5 +28,9 @@
 
   &__cell-value-add {
     font-size: 11px;
+  }
+
+  &__edit-button {
+    padding: 12px 15px;
   }
 }

@@ -3490,6 +3490,9 @@
       "OPERATORS": "Operators"
     },
     "DECIMALS_WARNING_MESSAGE": "Symbol %{symbol} should be quoted to %{digits} decimals",
+    "SYMBOL_CHART": {
+      "HOLIDAY_WARNING": "{{date}} from {{from}} to {{to}} UTC time"
+    },
     "MODALS": {
       "CREDIT": {
         "TITLE": "Credit in / Credit out",
@@ -3729,6 +3732,14 @@
         "NOTIFICATION": {
           "SUCCESS": "Symbol has been successfully added to symbol table",
           "FAILED_EXIST": "Symbol with this name already exists."
+        }
+      },
+      "HOLIDAY_NEW_SYMBOL_MODAL": {
+        "TITLE": "Add new symbol",
+        "DESCRIPTION": "System will applies the holiday to selected symbol at the selected date and time.",
+        "SYMBOL": "Symbol",
+        "NOTIFICATION": {
+          "SUCCESS": "Symbol has been successfully added to symbols table"
         }
       },
       "NEW_OPERATOR_MODAL": {
@@ -4477,15 +4488,64 @@
     },
     "HOLIDAYS": {
       "HEADLINE": "Holidays",
+      "NEW_HOLIDAY": "+ New holiday",
       "GRID": {
         "DAY": "Day",
         "FROM": "From",
         "TO": "To",
-        "DESCRIPTION": "Description"
+        "DESCRIPTION": "Description",
+        "ACTIONS": "Actions"
       },
       "FILTER_FORM": {
         "DESCRIPTION": "Description",
         "DESCRIPTION_PLACEHOLDER": "Description"
+      },
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete holiday",
+          "DESCRIPTION": "Are you sure that you want to delete holiday {{date}}?"
+        }
+      },
+      "NOTIFICATION": {
+        "DELETE": {
+          "SUCCESS": "Holiday deleted successfully",
+          "FAILED": "Holiday delete failed"
+        }
+      }
+    },
+    "HOLIDAY": {
+      "NEW_HOLIDAY": "New holiday",
+      "NOTIFICATION": {
+        "CREATE": {
+          "SUCCESS": "Holiday has been successfully created",
+          "FAILED": "Holiday creation failed"
+        },
+        "EDIT": {
+          "SUCCESS": "Holiday has been successfully edited",
+          "FAILED": "Holiday edit failed"
+        }
+      },
+      "COMMON_HOLIDAY_FORM": {
+        "TITLE": "Common",
+        "ENABLE": "Enable",
+        "DESCRIPTION": "Description",
+        "EVERY_YEAR": "Every year",
+        "DATE": "Date",
+        "TIME_FROM": "Time from",
+        "TIME_TO": "Time to"
+      },
+      "SYMBOLS_TABLE": {
+        "TITLE": "Symbols",
+        "ADD_SYMBOL": "Add symbol",
+        "SYMBOL": "Symbol",
+        "AFFECTED_SYMBOLS": "Affected symbols",
+        "ACTIONS": "Actions",
+        "CONFIRMATION": {
+          "DELETE": {
+            "TITLE": "Delete symbol",
+            "DESCRIPTION": "Do you really want to delete {{symbol}} symbol?"
+          }
+        }
       }
     },
     "OPERATORS": {

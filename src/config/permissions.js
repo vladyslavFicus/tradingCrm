@@ -212,6 +212,9 @@ export default {
     OPERATORS_CHANGE_PASSWORD: 'auth2.operator.changePassword',
     UPDATE_ACCOUNT_ENABLE: 'we-trading.updateAccountEnable',
     HOLIDAYS_LIST: 'we-trading.findHolidays',
+    HOLIDAYS_CREATE: 'we-trading.createHoliday',
+    HOLIDAYS_EDIT: 'we-trading.updateHoliday',
+    HOLIDAYS_DELETE: 'we-trading.deleteHoliday',
   },
   LIQUIDITY_PROVIDER_ADAPTER: {
     RESTART_STREAMING: 'liquidity-provider-adapter.admin.restartStreaming',

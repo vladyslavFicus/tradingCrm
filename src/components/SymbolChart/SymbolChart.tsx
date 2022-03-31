@@ -1,10 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
+import I18n from 'i18n-js';
+import moment from 'moment';
 import { round } from 'utils/round';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import Chart from './components/Chart';
 import { ReactComponent as SymbolChartIcon } from './SymbolChartIcon.svg';
 import { useSymbolQuery, SymbolQueryQueryResult } from './graphql/__generated__/SymbolQuery';
+import { ReactComponent as WarningIcon } from './img/warning.svg';
 import './SymbolChart.scss';
 
 interface Props {
@@ -58,6 +61,8 @@ const SymbolChart = (props: Props) => {
     skip: !symbol || !accountUuid,
   });
 
+  const currentHolidays = symbolQuery.data?.tradingEngine.symbol.currentHolidays || [];
+
   const chartData = getChartData(symbolQuery);
 
   const nextTickItem = useSymbolPricesStream(symbol);
@@ -74,11 +79,29 @@ const SymbolChart = (props: Props) => {
           <>
             <div className="SymbolChart__label">{symbol}</div>
             <Chart
+              key={symbol}
               chartData={chartData}
               chartNextTickItem={nextTickItem}
               bidLineColor={bidLineColor}
               askLineColor={askLineColor}
             />
+            <If condition={currentHolidays.length > 0}>
+              <div className="SymbolChart__error-container">
+                <WarningIcon className="SymbolChart__error-icon" />
+                <div>
+                  {currentHolidays.map((holiday, index) => (
+                    <div key={index}>
+                      <b>{holiday.description}</b>:&nbsp;
+                      {I18n.t('TRADING_ENGINE.SYMBOL_CHART.HOLIDAY_WARNING', {
+                        date: moment(holiday.date).format('DD/MM/YYYY'),
+                        from: moment(holiday.timeRange.from, 'HH:mm:ss').format('HH:mm'),
+                        to: moment(holiday.timeRange.to, 'HH:mm:ss').format('HH:mm'),
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </If>
           </>
         </Otherwise>
       </Choose>

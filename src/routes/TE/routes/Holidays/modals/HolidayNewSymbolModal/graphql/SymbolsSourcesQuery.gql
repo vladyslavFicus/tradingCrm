@@ -1,0 +1,8 @@
+query SymbolsSourcesQuery {
+  tradingEngine {
+    symbolsSources {
+      sourceName
+      children
+    }
+  }
+}

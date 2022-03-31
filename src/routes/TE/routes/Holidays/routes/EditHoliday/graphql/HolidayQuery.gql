@@ -1,0 +1,16 @@
+query HolidayQuery($id: ID!) {
+  tradingEngine {
+    holiday(id: $id) {
+      id
+      date
+      description
+      annual
+      enabled
+      symbols
+      timeRange {
+        from
+        to
+      }
+    }
+  }
+}

@@ -12,6 +12,15 @@ query SymbolQuery($symbol: String!, $accountUuid: String!, $pricesSize: Int!) {
         bid
         time
       }
+      currentHolidays {
+        id
+        description
+        date
+        timeRange {
+          from
+          to
+        }
+      }
     }
   }
 }
