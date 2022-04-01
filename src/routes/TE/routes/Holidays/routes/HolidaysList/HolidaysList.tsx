@@ -163,7 +163,7 @@ const Holidays = (props: Props) => {
           header={I18n.t('TRADING_ENGINE.HOLIDAYS.GRID.FROM')}
           render={({ timeRange: { from } }: Holiday) => (
             <div className="HolidaysList__cell-value">
-              {from}
+              {moment(from, 'HH:mm:ss').format('HH:mm')}
             </div>
           )}
         />
@@ -171,7 +171,7 @@ const Holidays = (props: Props) => {
           header={I18n.t('TRADING_ENGINE.HOLIDAYS.GRID.TO')}
           render={({ timeRange: { to } }: Holiday) => (
             <div className="HolidaysList__cell-value">
-              {to}
+              {moment(to, 'HH:mm:ss').format('HH:mm')}
             </div>
           )}
         />

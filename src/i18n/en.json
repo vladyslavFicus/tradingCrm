@@ -4498,7 +4498,8 @@
       },
       "FILTER_FORM": {
         "DESCRIPTION": "Description",
-        "DESCRIPTION_PLACEHOLDER": "Description"
+        "DESCRIPTION_PLACEHOLDER": "Description",
+        "DATE_TIME_RANGE": "Date & time range"
       },
       "CONFIRMATION": {
         "DELETE": {

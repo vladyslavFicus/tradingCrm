@@ -198,9 +198,11 @@ class DateRangePicker extends PureComponent {
 
     const momentDate = this.getValidMomentDate(date);
 
-    // # If date is valid, conver date to 'YYYY-MM-DDTHH:mm:ss[Z]'
+    // # If date is valid, convert date to 'YYYY-MM-DDTHH:mm:ss[Z]'
     if (momentDate) {
-      return withUtc ? momentDate.utc().format() : momentDate.format();
+      return withUtc
+        ? momentDate.utc().format(DATE_TIME_BASE_FORMAT)
+        : momentDate.local().format(DATE_TIME_BASE_FORMAT);
     }
 
     // # If date is not valid return provided value

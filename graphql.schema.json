@@ -33646,10 +33646,57 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "TradingEngineHolidays__DateTimeRange__Input",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "from",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "to",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "TradingEngineHolidays__Input",
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "dateTimeRange",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TradingEngineHolidays__DateTimeRange__Input",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "description",
             "description": null,

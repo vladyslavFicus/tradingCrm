@@ -5,6 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
 import {
   FormikInputField,
+  FormikDateRangePicker,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
@@ -16,6 +17,10 @@ interface Props {
 
 interface FormValues {
   description?: string,
+  dateTimeRange?: {
+    from?: string,
+    to?: string,
+  },
 }
 
 const HolidaysFilter = (props: Props) => {
@@ -66,6 +71,18 @@ const HolidaysFilter = (props: Props) => {
               className="HolidaysFilter__field HolidaysFilter__field--large"
               component={FormikInputField}
               addition={<i className="icon icon-search" />}
+              withFocus
+            />
+            <Field
+              name="dateTimeRange"
+              className="HolidaysFilter__field HolidaysFilter__field--large"
+              label={I18n.t('TRADING_ENGINE.HOLIDAYS.FILTER_FORM.DATE_TIME_RANGE')}
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'dateTimeRange.from',
+                to: 'dateTimeRange.to',
+              }}
+              withUtc={false}
               withFocus
             />
           </div>
