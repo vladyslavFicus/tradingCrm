@@ -40,6 +40,7 @@
       "TRADING_ENGINE": {
         "TITLE": "Trading Engine",
         "ACCOUNTS": "Accounts",
+        "MARGIN_CALLS": "Margin calls",
         "ORDERS": "Orders",
         "QUOTES": "Quotes",
         "SYMBOLS": "Symbols",
@@ -3481,6 +3482,7 @@
   "TRADING_ENGINE": {
     "TABS": {
       "ACCOUNTS": "Accounts",
+      "MARGIN_CALLS": "Margin calls",
       "ORDERS": "Orders",
       "QUOTES": "Quotes",
       "SYMBOLS": "Symbols",
@@ -3786,6 +3788,21 @@
         "STATUS": {
           "ARCHIVED": "Archived",
           "NOT_ARCHIVED": "Not archived"
+        }
+      }
+    },
+    "MARGIN_CALLS": {
+      "HEADLINE": "Margin calls",
+      "GRID": {
+        "TRADING_ACC": "Trading acc",
+        "LOGIN": "Login",
+        "MARGIN_LEVEL": "Margin level"
+      },
+      "FORM": {
+        "FIELDS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "WT login",
+          "GROUPS": "Groups"
         }
       }
     },

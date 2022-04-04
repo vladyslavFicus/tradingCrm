@@ -105,6 +105,10 @@ const sidebarTopMenu = [{
     url: '/trading-engine/accounts',
     permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
   }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.MARGIN_CALLS',
+    url: '/trading-engine/margin-calls',
+    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
+  }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.ORDERS',
     url: '/trading-engine/orders',
     permissions: new Permissions(permissions.WE_TRADING.ORDERS_LIST),
@@ -161,7 +165,10 @@ const sidebarBottomMenu = [{
 
 const operatorTabs = (isSales) => {
   const tabs = [
-    { label: 'OPERATOR_PROFILE.TABS.PROFILE', url: '/operators/:id/profile' },
+    {
+      label: 'OPERATOR_PROFILE.TABS.PROFILE',
+      url: '/operators/:id/profile',
+    },
     {
       label: 'OPERATOR_PROFILE.TABS.FEED',
       url: '/operators/:id/feed',
@@ -182,7 +189,10 @@ const operatorTabs = (isSales) => {
 };
 
 const partnerTabs = [
-  { label: 'PARTNER_PROFILE.TABS.PROFILE', url: '/partners/:id/profile' },
+  {
+    label: 'PARTNER_PROFILE.TABS.PROFILE',
+    url: '/partners/:id/profile',
+  },
   {
     label: 'PARTNER_PROFILE.TABS.SALES_RULES',
     url: '/partners/:id/sales-rules',

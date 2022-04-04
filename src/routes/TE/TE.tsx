@@ -8,6 +8,7 @@ import Orders from './routes/Orders';
 import Securities from './routes/Securities';
 import Groups from './routes/Groups';
 import Accounts from './routes/Accounts';
+import MarginCalls from './routes/MarginCalls';
 import Holidays from './routes/Holidays';
 import Operators from './routes/Operators';
 import OperatorProfile from './routes/DealingOperator';
@@ -28,6 +29,7 @@ const TE = () => {
             <Route path={`${path}/securities`} component={Securities} />
             <Route path={`${path}/accounts/:id`} component={AccountProfile} />
             <Route path={`${path}/accounts`} component={Accounts} />
+            <Route path={`${path}/margin-calls`} component={MarginCalls} />
             <Route path={`${path}/groups`} component={Groups} />
             <Route path={`${path}/holidays`} component={Holidays} />
             <Route path={`${path}/operators/:id`} component={OperatorProfile} />
