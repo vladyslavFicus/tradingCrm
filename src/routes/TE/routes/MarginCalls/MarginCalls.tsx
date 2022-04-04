@@ -82,7 +82,8 @@ const MarginCalls = () => {
           onSort={handleSort}
           customClassNameRow={({ groupEntity: { marginCallLevel }, marginLevel }: Account) => (
             classNames({
-              'MarginCalls__row MarginCalls__row--in-margin-call': Number(marginLevel.toFixed(2)) <= marginCallLevel,
+              'MarginCalls__row MarginCalls__row--in-margin-call':
+                Number((marginLevel * 100).toFixed(2)) <= marginCallLevel,
             })
           )}
         >
@@ -122,7 +123,7 @@ const MarginCalls = () => {
             sortBy="marginLevel"
             header={I18n.t('TRADING_ENGINE.MARGIN_CALLS.GRID.MARGIN_LEVEL')}
             render={({ marginLevel }: Account) => (
-              <div className="MarginCalls__text-primary">{marginLevel?.toFixed(2)}%</div>
+              <div className="MarginCalls__text-primary">{(marginLevel * 100).toFixed(2)}%</div>
             )}
           />
         </Table>
