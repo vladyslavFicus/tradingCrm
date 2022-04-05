@@ -10,7 +10,10 @@ const REQUEST = gql`
     loginLock(
       uuid: $uuid
     ) {
-      lock
+      isLocked
+      locks {
+        lockReason
+      }
     }
   }
 `;

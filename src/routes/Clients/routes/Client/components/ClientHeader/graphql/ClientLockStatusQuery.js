@@ -8,7 +8,10 @@ const REQUEST = gql`
     $playerUUID: String!
   ) {
     loginLock(uuid: $playerUUID) {
-      lock
+      isLocked
+      locks {
+        lockReason
+      }
     }
   }
 `;

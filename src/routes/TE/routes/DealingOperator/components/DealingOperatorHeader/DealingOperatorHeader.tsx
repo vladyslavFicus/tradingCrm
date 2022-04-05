@@ -10,6 +10,8 @@ import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
+import { LoginLock } from '__generated__/types';
+import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Operator } from '../../DealingOperator';
@@ -35,7 +37,7 @@ const DealingOperatorHeader = (props: Props) => {
   const [resetPasswordMutation] = useResetOperatorPasswordMutation();
   const [unlockOperatorLoginMutation] = useUnlockOperatorLoginMutation();
   const operatorLockStatusQuery = useOperatorLockStatus({ variables: { uuid: operator.uuid } });
-  const operatorLoginLocked = operatorLockStatusQuery.data?.loginLock?.lock || false;
+  const locks = operatorLockStatusQuery.data?.loginLock as LoginLock;
 
   const handleChangePassword = async ({ newPassword }: any) => {
     try {
@@ -137,7 +139,7 @@ const DealingOperatorHeader = (props: Props) => {
 
       <div className="DealingOperatorHeader__actions">
         <PermissionContent permissions={permissions.WE_TRADING.OPERATORS_UNLOCK}>
-          <If condition={operatorLoginLocked && status !== 'CLOSED'}>
+          <If condition={isMaxLoginAttemptReached(locks) && status !== 'CLOSED'}>
             <Button
               className="DealingOperatorHeader__action"
               onClick={handleUnlockOperatorLogin}

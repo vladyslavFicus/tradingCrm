@@ -4,6 +4,9 @@ query OperatorLockStatus(
   loginLock(
     uuid: $uuid
   ) {
-    lock
+    isLocked
+    locks {
+      lockReason
+    }
   }
 }

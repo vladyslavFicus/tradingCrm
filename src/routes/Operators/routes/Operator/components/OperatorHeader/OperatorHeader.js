@@ -6,6 +6,7 @@ import { withRequests, parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -23,7 +24,10 @@ class OperatorHeader extends PureComponent {
     operator: PropTypes.operator.isRequired,
     operatorLockStatus: PropTypes.query({
       loginLock: PropTypes.shape({
-        lock: PropTypes.bool,
+        isLocked: PropTypes.bool,
+        lockReason: PropTypes.arrayOf(PropTypes.shape({
+          lockReason: PropTypes.string,
+        })),
       }),
     }).isRequired,
     modals: PropTypes.shape({
@@ -168,7 +172,7 @@ class OperatorHeader extends PureComponent {
       operatorLockStatus,
     } = this.props;
 
-    const operatorLoginLocked = operatorLockStatus.data?.loginLock?.lock || false;
+    const locks = operatorLockStatus.data?.loginLock;
 
     return (
       <div className="OperatorHeader">
@@ -186,7 +190,9 @@ class OperatorHeader extends PureComponent {
         </div>
 
         <div className="OperatorHeader__actions">
-          <If condition={operatorLoginLocked && operatorStatus !== 'CLOSED'}>
+          <If
+            condition={isMaxLoginAttemptReached(locks) && operatorStatus !== 'CLOSED'}
+          >
             <Button
               className="OperatorHeader__action"
               onClick={this.handleUnlockOperatorLogin}

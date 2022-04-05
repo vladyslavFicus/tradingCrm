@@ -8,6 +8,7 @@ import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import customTimeout from 'utils/customTimeout';
+import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import { withPermission } from 'providers/PermissionsProvider';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -214,7 +215,7 @@ class ClientHeader extends PureComponent {
     const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
     const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_PASSWORD]);
 
-    const clientLoginLocked = clientLockStatusQuery.data?.loginLock?.lock || false;
+    const locks = clientLockStatusQuery.data?.loginLock;
 
     return (
       <div className="ClientHeader">
@@ -248,7 +249,7 @@ class ClientHeader extends PureComponent {
             </Button>
           </PermissionContent>
 
-          <If condition={clientLoginLocked && status?.type !== 'BLOCKED'}>
+          <If condition={isMaxLoginAttemptReached(locks) && status?.type !== 'BLOCKED'}>
             <Button
               className="ClientHeader__action"
               onClick={this.handleUnlockClientLogin}

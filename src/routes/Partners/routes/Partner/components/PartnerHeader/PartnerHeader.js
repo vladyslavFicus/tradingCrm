@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withRequests, parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
+import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
@@ -117,7 +118,7 @@ class PartnerHeader extends PureComponent {
       partnerLockStatus,
     } = this.props;
 
-    const partnerLoginLocked = get(partnerLockStatus, 'data.loginLock.lock') || false;
+    const locks = get(partnerLockStatus, 'data.loginLock') || false;
 
     return (
       <div className="PartnerHeader">
@@ -135,7 +136,7 @@ class PartnerHeader extends PureComponent {
         </div>
 
         <div className="PartnerHeader__actions">
-          <If condition={partnerLoginLocked && status !== 'CLOSED'}>
+          <If condition={isMaxLoginAttemptReached(locks) && status !== 'CLOSED'}>
             <Button
               className="PartnerHeader__action"
               onClick={this.handleUnlockPartnerLogin}
