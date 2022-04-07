@@ -222,6 +222,22 @@ const AccountProfileOrdersGrid = (props: Props) => {
             )}
           />
           <Column
+            sortBy="commission"
+            header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.COMMISSION')}
+            render={({ commission }: Order) => (
+              <div className="AccountProfileOrdersGrid__cell-value">
+                <Choose>
+                  <When condition={!!commission}>
+                    {commission}
+                  </When>
+                  <Otherwise>
+                    &mdash;
+                  </Otherwise>
+                </Choose>
+              </div>
+            )}
+          />
+          <Column
             header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.P&L')}
             render={({ type, symbol, openPrice, volumeLots, digits, account, symbolConfig }: Order) => {
               const { bid = 0, ask = 0, pnlRates = {} } = symbolsPrices[symbol] || {};

@@ -4183,7 +4183,8 @@
           "STATUS": "Status",
           "TRANSACTION": "Transaction",
           "AMOUNT": "Amount",
-          "TIME": "Time"
+          "TIME": "Time",
+          "COMMISSION": "Commission"
         },
         "FILTER_FORM": {
           "SEARCH_BY": "Search by",
