@@ -11,14 +11,12 @@ type Props = {
   account: Account,
   statistic$: {
     data: {
-      depositsSum: number;
-      credit: number;
-      balance: number;
-      margin: number;
-      freeMargin: number;
-      marginLevel: number;
-      equity: number;
-      openPnL: number;
+      balance: number,
+      margin: number,
+      freeMargin: number,
+      marginLevel: number,
+      equity: number,
+      openPnL: number,
     },
   },
 };
@@ -35,7 +33,7 @@ const AccountProfileStatistics = (props: Props) => {
   const depositsSum = Number(statistic.depositsSum).toFixed(2);
   const withdrawalsSum = Number(statistic.withdrawalsSum).toFixed(2);
   const credit = Number(statistic?.credit).toFixed(2);
-  const balance = Number(statistic?.balance).toFixed(2);
+  const balance = Number(statistic$?.balance ?? statistic?.balance).toFixed(2);
   const equity = Number(statistic$?.equity ?? statistic.equity).toFixed(2);
   const margin = Number(statistic$?.margin ?? statistic.margin).toFixed(2);
   const freeMargin = Number(statistic$?.freeMargin ?? statistic.freeMargin).toFixed(2);

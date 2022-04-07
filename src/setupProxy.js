@@ -32,6 +32,9 @@ module.exports = (app) => {
   // Proxy-passing /rsocket web-socket (rsocket) requests to /we-trading-socket-gateway endpoint
   app.use(createProxyMiddleware('/rsocket', {
     target: process.env.RSOCKET_URL,
+    headers: {
+      Connection: 'keep-alive',
+    },
     pathRewrite: {
       '^/rsocket': '',
     },
