@@ -32,6 +32,7 @@ const REQUEST = gql`query FeedsQuery_Feeds(
     sortDirection: $sortDirection,
     targetUUID: $targetUUID,
     auditLogType: $auditLogType,
+    auditCategory: WHITELIST,
   ) {
     page
     size

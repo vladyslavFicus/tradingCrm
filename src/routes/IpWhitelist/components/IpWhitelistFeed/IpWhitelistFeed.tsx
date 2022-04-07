@@ -8,12 +8,12 @@ import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import { ipWhitelistTabs } from '../../constants';
 import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
-import { Feed, WitelististFeedsQueryResult } from './types';
+import { Feed, WitelistFeedsQueryResult } from './types';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
 import './IpWhitelistFeed.scss';
 
 interface Props {
-  ipWhitelistFeedsQuery: WitelististFeedsQueryResult
+  ipWhitelistFeedsQuery: WitelistFeedsQueryResult
 }
 
 const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {

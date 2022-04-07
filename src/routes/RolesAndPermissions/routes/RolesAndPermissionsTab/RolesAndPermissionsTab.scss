@@ -1,0 +1,113 @@
+.RolesAndPermissionsTab {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: 5px;
+
+  .accordion {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+  }
+
+  .accordion__item+.accordion__item {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  &__header {
+    border-bottom: 1px solid #dfe4ed;
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 25px;
+    background-color: #f8f7f7;
+  }
+
+  &__authorities {
+    width: 20%;
+    margin-right: 40px;
+  }
+
+  &__authority-title {
+    color: #333;
+    border: none;
+    display: flex;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 900;
+    background-color: #FFF;
+    padding: 10px 0 10px 25px;
+    justify-content: space-between;
+
+    &:after {
+      display: inline-block;
+      content: '';
+      height: 10px;
+      width: 10px;
+      margin-top: 5px;
+      margin-right: 12px;
+      border-bottom: 1px solid #9B9B9B;
+      border-right: 1px solid #9B9B9B;
+      transform: rotate(-45deg);
+    }
+
+    &[aria-expanded='true']::after,
+    &[aria-selected='true']::after {
+      transform: rotate(45deg);
+    }
+  }
+
+  &__authority {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    padding: 0 10px 0 20px;
+    background-color: #FFF;
+    animation: fadein 0.35s ease-in;
+
+    &--active {
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      background-image: linear-gradient(to left, #24bdee, #4a90e2);
+
+      &:after {
+        content: '\2714';
+        margin-left: auto;
+      }
+    }
+
+    &:before {
+      content: '\00B7';
+      font-size: 20px;
+      padding: 5px;
+      font-weight: 900;
+    }
+  }
+
+  &__permissions {
+    width: 80%;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

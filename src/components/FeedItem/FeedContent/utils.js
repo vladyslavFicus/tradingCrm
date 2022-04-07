@@ -4,6 +4,7 @@ import { toNumber, startCase } from 'lodash';
 import humanizeDuration from 'humanize-duration';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
+import rbac from 'constants/rbac';
 import {
   genders,
   statuses,
@@ -54,6 +55,25 @@ const translateObject = obj => Object.keys(obj).reduce((acc, key) => ({
   [key]: i18n.t(obj[key]),
 }), {});
 
+const rbacLocaleString = (section, permission) => i18n.t(
+  `ROLES_AND_PERMISSIONS.SECTIONS.${section}.PERMISSIONS.${permission}`,
+);
+
+export const translateRbac = () => {
+  const result = {};
+  rbac.forEach(({ id: sId, permissions }) => permissions.forEach(({ id: pId, actions }) => {
+    const actionType = actions.view || actions.edit;
+    result[actionType.action] = rbacLocaleString(sId, pId);
+  }));
+
+  // additional permissions which not founded in regular permissions
+  result['hierarchy.branch.getUserBranches'] = rbacLocaleString('hierarchy', 'list');
+
+  return result;
+};
+
+const rbacI18 = translateRbac();
+
 const translateValue = (value) => {
   const detailsValues = {
     ...(transformConstFromArr(COUNTRY_SPECIFIC_IDENTIFIER_TYPES, countryIdentifierTypesPath)),
@@ -80,6 +100,7 @@ const translateValue = (value) => {
     CORPORATE_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_PROFESSIONAL'),
     'Phone verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_PHONE'),
     'E-mail verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL'),
+    ...rbacI18,
   };
 
   return detailsValues[value] || value;

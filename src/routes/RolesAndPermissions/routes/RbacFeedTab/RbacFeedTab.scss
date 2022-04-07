@@ -1,0 +1,41 @@
+.RbacFeedTab {
+
+  &__tabs {
+    margin-left: 0;
+  }
+
+  &__headline {
+    font-size: 20px;
+  }
+
+  &__card {
+    padding: 20px;
+    background-color: #fff;
+    position: sticky;
+    top: 48px;
+    z-index: 2;
+  }
+
+  &__cell-primary {
+    font-weight: 700;
+  }
+
+  &__header-button {
+    padding: 8px 16px;
+    margin-left: auto;
+    border: 1px solid #9b9b9b;
+    border-radius: 3px;
+    color: #9b9b9b;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+  }
+
+  &__grid {
+    padding-right: 25px;
+    padding-left: 25px;
+    background-color: #fff;
+  }
+}
