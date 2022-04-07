@@ -29,6 +29,8 @@ const REQUEST = gql`
       permission {
         allowedIpAddresses
         forbiddenCountries
+        restrictedSources
+        restrictedReferrals
         showSalesStatus
         showFTDAmount
         showKycStatus

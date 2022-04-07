@@ -34,6 +34,8 @@ const attributeLabels = {
   phone: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.PHONE',
   allowedIpAddresses: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.WHITE_LISTED_IP',
   forbiddenCountries: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES',
+  restrictedSources: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_SOURCES',
+  restrictedReferrals: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_REFERRALS',
   showNotes: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_NOTES',
   showFTDAmount: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_FTD_AMOUNT',
   showKycStatus: 'PARTNERS.PROFILE.CONTACTS.FORM.LABELS.SHOW_KYC_STATUS',
@@ -65,6 +67,8 @@ class PartnerPersonalInfoForm extends PureComponent {
   handleSubmit = async ({
     allowedIpAddresses,
     forbiddenCountries,
+    restrictedSources,
+    restrictedReferrals,
     showNotes,
     showSalesStatus,
     showFTDAmount,
@@ -86,6 +90,8 @@ class PartnerPersonalInfoForm extends PureComponent {
           permission: {
             allowedIpAddresses,
             forbiddenCountries: forbiddenCountries || [],
+            restrictedSources: restrictedSources || [],
+            restrictedReferrals: restrictedReferrals || [],
             showNotes,
             showSalesStatus,
             showFTDAmount,
@@ -325,6 +331,24 @@ class PartnerPersonalInfoForm extends PureComponent {
                     </option>
                   ))}
                 </Field>
+
+                <Field
+                  name="restrictedSources"
+                  className="PartnerPersonalInfoForm__field"
+                  label={I18n.t(attributeLabels.restrictedSources)}
+                  placeholder={I18n.t(attributeLabels.restrictedSources)}
+                  component={FormikMultiInputField}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
+
+                <Field
+                  name="restrictedReferrals"
+                  className="PartnerPersonalInfoForm__field"
+                  label={I18n.t(attributeLabels.restrictedReferrals)}
+                  placeholder={I18n.t(attributeLabels.restrictedReferrals)}
+                  component={FormikMultiInputField}
+                  disabled={isSubmitting || this.isReadOnly}
+                />
 
                 <Field
                   name="showNotes"

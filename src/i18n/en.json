@@ -2239,6 +2239,8 @@
             "PHONE": "Phone",
             "WHITE_LISTED_IP": "White listed IPs",
             "RESTRICTED_COUNTRIES": "Restricted countries",
+            "RESTRICTED_SOURCES": "Restricted sources",
+            "RESTRICTED_REFERRALS": "Restricted referrals",
             "SHOW_NOTES": "Show notes",
             "SHOW_SALES_STATUS": "Show sales status",
             "SHOW_FTD_AMOUNT": "Show FTD Amount",
