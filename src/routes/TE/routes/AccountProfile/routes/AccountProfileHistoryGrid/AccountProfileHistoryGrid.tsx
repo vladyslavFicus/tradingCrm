@@ -268,6 +268,20 @@ const AccountProfileHistoryGrid = (props: Props) => {
             )}
           />
           <Column
+            sortBy="commission "
+            header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.COMMISSION')}
+            render={({ commission }) => (
+              <Choose>
+                <When condition={commission}>
+                  <div className="AccountProfileHistoryGrid__cell-value">{commission}</div>
+                </When>
+                <Otherwise>
+                  <span>&mdash;</span>
+                </Otherwise>
+              </Choose>
+            )}
+          />
+          <Column
             sortBy="closingPrice"
             header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.CLOSING_PRICE')}
             render={({ closePrice }) => (

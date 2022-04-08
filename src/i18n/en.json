@@ -4327,6 +4327,7 @@
           "SYMBOL": "Symbol",
           "TRADING_ACC": "Trading Acc.",
           "OPEN_PRICE": "Open price",
+          "COMMISSION": "Commission",
           "CLOSING_PRICE": "Close price",
           "VOLUME": "Volume",
           "SWAP": "Swap",
