@@ -62,12 +62,23 @@ const rbacLocaleString = (section, permission) => i18n.t(
 export const translateRbac = () => {
   const result = {};
   rbac.forEach(({ id: sId, permissions }) => permissions.forEach(({ id: pId, actions }) => {
-    const actionType = actions.view || actions.edit;
-    result[actionType.action] = rbacLocaleString(sId, pId);
+    if (actions?.view?.action) {
+      result[actions?.view?.action] = rbacLocaleString(sId, pId);
+    }
+
+    if (actions?.edit?.action) {
+      result[actions?.edit?.action] = rbacLocaleString(sId, pId);
+    }
   }));
 
   // additional permissions which not founded in regular permissions
   result['hierarchy.branch.getUserBranches'] = rbacLocaleString('hierarchy', 'list');
+  result['operator-config.getFilterSetsList'] = rbacLocaleString('operator-config', 'list');
+  result['operator-config.createFilterSet'] = rbacLocaleString('operator-config', 'create');
+  result['operator-config.getFilterSet'] = rbacLocaleString('operator-config', 'read');
+  result['operator-config.updateFilterSet'] = rbacLocaleString('operator-config', 'update');
+  result['operator-config.deleteFilterSet'] = rbacLocaleString('operator-config', 'delete');
+  result['operator-config.changeFilterSetFavouriteStatus'] = rbacLocaleString('operator-config', 'setFavourite');
 
   return result;
 };

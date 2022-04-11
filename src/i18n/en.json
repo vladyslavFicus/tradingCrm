@@ -5586,6 +5586,16 @@
         "PERMISSIONS": {
           "list": "Show hierarchy tree"
         }
+      },
+      "operator-config": {
+        "PERMISSIONS": {
+          "list": "View filter sets",
+          "create": "Add new filter set",
+          "read": "Get filter set",
+          "update": "Edit filter set",
+          "delete": "Delete filter set",
+          "setFavourite": "Set filter set as favourite"
+        }
       }
     }
   }
