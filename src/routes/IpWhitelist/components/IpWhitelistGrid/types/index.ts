@@ -14,7 +14,7 @@ export interface IpWhitelistAddress {
   description?: string,
 }
 
-export interface IpWitelististSearchData {
+export interface IpWhitelistSearchData {
   ipWhitelistSearch: Pageable<IpWhitelistAddress>
 }
 
@@ -25,4 +25,4 @@ export interface IpWhitelistSearchArg {
   }
 }
 
-export interface IpWhitelistSearchQueryResult extends Query<IpWitelististSearchData, IpWhitelistSearchArg> { }
+export interface IpWhitelistSearchQueryResult extends Query<IpWhitelistSearchData, IpWhitelistSearchArg> { }

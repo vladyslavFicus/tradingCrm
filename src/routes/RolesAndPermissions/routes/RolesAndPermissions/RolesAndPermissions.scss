@@ -1,14 +1,18 @@
 .RolesAndPermissions {
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
   border-radius: 5px;
+
+  &__tabs {
+    margin-left: 0;
+  }
 
   .accordion {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 2px;
   }
 
-  .accordion__item + .accordion__item {
+  .accordion__item+.accordion__item {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 
@@ -60,6 +64,7 @@
       border-right: 1px solid #9B9B9B;
       transform: rotate(-45deg);
     }
+
     &[aria-expanded='true']::after,
     &[aria-selected='true']::after {
       transform: rotate(45deg);
@@ -110,4 +115,3 @@
     opacity: 1;
   }
 }
-

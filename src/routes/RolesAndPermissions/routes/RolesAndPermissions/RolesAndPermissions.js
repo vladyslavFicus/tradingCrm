@@ -9,9 +9,11 @@ import {
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
+import Tabs from 'components/Tabs';
 import PropTypes from 'constants/propTypes';
 import ShortLoader from 'components/ShortLoader';
-import PermissionsSetting from '../components/PermissionsSetting';
+import { rbacTabs } from '../../constants';
+import PermissionsSetting from './components/PermissionsSetting';
 import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
 import './RolesAndPermissions.scss';
 
@@ -44,6 +46,8 @@ class RolesAndPermissions extends PureComponent {
 
     return (
       <div className="RolesAndPermissions">
+        <Tabs items={rbacTabs} className="RolesAndPermissions__tabs" />
+
         <div className="RolesAndPermissions__header">
           <div className="RolesAndPermissions__title">{I18n.t('ROLES_AND_PERMISSIONS.TITLE')}</div>
         </div>

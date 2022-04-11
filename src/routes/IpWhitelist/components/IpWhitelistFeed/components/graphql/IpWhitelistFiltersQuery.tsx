@@ -8,6 +8,9 @@ const REQUEST = gql`
   query IpWhitelist_FeedFilter($uuid: String!) {
     feedTypes (
       uuid: $uuid
+      filters: {
+        auditCategory: WHITELIST
+      }
     )
   }
 `;

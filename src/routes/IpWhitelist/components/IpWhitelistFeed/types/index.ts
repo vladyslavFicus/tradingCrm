@@ -24,7 +24,7 @@ export interface Feed {
   uuid: string,
 }
 
-export interface IpWitelististFeedsData {
+export interface IpWhitelistFeedsData {
   feeds: Pageable<Feed>
 }
 
@@ -36,4 +36,4 @@ export interface IpWhitelistFeedsSearchArg {
   page: number,
 }
 
-export interface WitelististFeedsQueryResult extends Query<IpWitelististFeedsData, IpWhitelistFeedsSearchArg> { }
+export interface WhitelistFeedsQueryResult extends Query<IpWhitelistFeedsData, IpWhitelistFeedsSearchArg> { }

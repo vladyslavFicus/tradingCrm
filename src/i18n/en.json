@@ -5337,9 +5337,26 @@
       "ENABLED": "Enabled",
       "DISABLED": "Disabled"
     },
+    "TABS": {
+      "PERMISSIONS": "Roles and Permissions",
+      "FEED": "Feed"
+    },
     "UPDATE_PERMISSIONS": {
       "ERROR": "Change permission is failed",
       "RESET_ERROR": "Reset to default permission is failed"
+    },
+    "FEED": {
+      "HEADLINE": "Feed",
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID",
+          "ACTION_TYPE": "Action type",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
+      }
     },
     "TABLE": {
       "ACTION": "Action",
@@ -5564,6 +5581,21 @@
           "create": "Add new IP address",
           "editDescription": "Edit  IP address description",
           "delete": "Delete IP address"
+        }
+      },
+      "hierarchy": {
+        "PERMISSIONS": {
+          "list": "Show hierarchy tree"
+        }
+      },
+      "operator-config": {
+        "PERMISSIONS": {
+          "list": "View filter sets",
+          "create": "Add new filter set",
+          "read": "Get filter set",
+          "update": "Edit filter set",
+          "delete": "Delete filter set",
+          "setFavourite": "Set filter set as favourite"
         }
       }
     }
