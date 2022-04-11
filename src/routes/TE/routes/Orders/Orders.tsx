@@ -342,7 +342,7 @@ const Orders = (props: Props) => {
           )}
         />
         <Column
-          header={I18n.t('TRADING_ENGINE.ORDERS.GRID.PROFIT')}
+          header={I18n.t('TRADING_ENGINE.ORDERS.GRID.PNL')}
           render={({
             id,
             type,

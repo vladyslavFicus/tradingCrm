@@ -4040,7 +4040,7 @@
         "LOGIN": "Login",
         "LOTS": "Lots",
         "COMMISSION": "Commission",
-        "PROFIT": "Profit",
+        "PNL": "P/L",
         "GROUP": "Group",
         "INSTRUMENT_CONFIGURATION_PROBLEM": "Instrument configuration problem"
       },
