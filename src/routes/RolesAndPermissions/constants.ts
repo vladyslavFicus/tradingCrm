@@ -1,7 +1,7 @@
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 
-export const RbacTabs = [
+export const rbacTabs = [
   {
     url: '/roles-and-permissions/permissions',
     label: 'ROLES_AND_PERMISSIONS.TABS.PERMISSIONS',

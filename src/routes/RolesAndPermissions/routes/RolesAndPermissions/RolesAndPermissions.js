@@ -15,9 +15,9 @@ import ShortLoader from 'components/ShortLoader';
 import { RbacTabs } from '../../constants';
 import PermissionsSetting from './components/PermissionsSetting';
 import AuthorityOptionsQuery from './graphql/AuthorityOptionsQuery';
-import './RolesAndPermissionsTab.scss';
+import './RolesAndPermissions.scss';
 
-class RolesAndPermissionsTab extends PureComponent {
+class RolesAndPermissions extends PureComponent {
   static propTypes = {
     authoritiesQuery: PropTypes.query({
       authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
@@ -45,26 +45,26 @@ class RolesAndPermissionsTab extends PureComponent {
     const authorities = authoritiesQuery.data?.authoritiesOptions || {};
 
     return (
-      <div className="RolesAndPermissionsTab">
-        <Tabs items={RbacTabs} className="RolesAndPermissionsTab__tabs" />
+      <div className="RolesAndPermissions">
+        <Tabs items={RbacTabs} className="RolesAndPermissions__tabs" />
 
-        <div className="RolesAndPermissionsTab__header">
-          <div className="RolesAndPermissionsTab__title">{I18n.t('ROLES_AND_PERMISSIONS.TITLE')}</div>
+        <div className="RolesAndPermissions__header">
+          <div className="RolesAndPermissions__title">{I18n.t('ROLES_AND_PERMISSIONS.TITLE')}</div>
         </div>
-        <div className="RolesAndPermissionsTab__content">
+        <div className="RolesAndPermissions__content">
           <Choose>
             <When condition={authoritiesQuery.loading}>
               <ShortLoader />
             </When>
             <Otherwise>
-              <div className="RolesAndPermissionsTab__authorities">
+              <div className="RolesAndPermissions__authorities">
                 <Accordion allowZeroExpanded>
                   {Object.entries(authorities)
                     .filter(([department]) => department !== 'CASHIR')
                     .map(([department, roles]) => (
                       <AccordionItem key={department}>
                         <AccordionItemHeading>
-                          <AccordionItemButton className="RolesAndPermissionsTab__authority-title">
+                          <AccordionItemButton className="RolesAndPermissions__authority-title">
                             {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${department}`)}
                           </AccordionItemButton>
                         </AccordionItemHeading>
@@ -72,8 +72,8 @@ class RolesAndPermissionsTab extends PureComponent {
                           <AccordionItemPanel
                             key={`${department}-${role}`}
                             onClick={() => this.handleSelectAuthority(department, role)}
-                            className={classNames('RolesAndPermissionsTab__authority', {
-                              'RolesAndPermissionsTab__authority--active':
+                            className={classNames('RolesAndPermissions__authority', {
+                              'RolesAndPermissions__authority--active':
                                 department === activeDepartment && role === activeRole,
                             })}
                           >
@@ -85,7 +85,7 @@ class RolesAndPermissionsTab extends PureComponent {
                   }
                 </Accordion>
               </div>
-              <div className="RolesAndPermissionsTab__permissions">
+              <div className="RolesAndPermissions__permissions">
                 <PermissionsSetting department={activeDepartment} role={activeRole} />
               </div>
             </Otherwise>
@@ -98,4 +98,4 @@ class RolesAndPermissionsTab extends PureComponent {
 
 export default withRequests({
   authoritiesQuery: AuthorityOptionsQuery,
-})(RolesAndPermissionsTab);
+})(RolesAndPermissions);

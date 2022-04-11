@@ -7,10 +7,10 @@ import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import { State } from 'types';
-import { RbacTabs } from '../../constants';
+import { rbacTabs } from '../../constants';
 import RbacFeedsFilters from './components/RbacFeedsFilters';
 import { useRbacFeedsQuery, RbacFeedsQuery, RbacFeedsQueryVariables } from './graphql/__generated__/RbacFeedsQuery';
-import './RbacFeedTab.scss';
+import './RbacFeed.scss';
 
 type Feed = ExtractApolloTypeFromPageable<RbacFeedsQuery['feeds']>
 
@@ -26,7 +26,7 @@ const RbacFeed = () => {
     },
   });
 
-  const { content, last, number = 0, totalElements } = rbacFeedsQuery?.data?.feeds || {};
+  const { content = [], last, number = 0, totalElements } = rbacFeedsQuery?.data?.feeds || {};
 
   const handlePageChanged = () => {
     const { fetchMore, variables = {} } = rbacFeedsQuery;
@@ -37,17 +37,17 @@ const RbacFeed = () => {
   };
 
   return (
-    <div className="RbacFeedTab">
-      <Tabs items={RbacTabs} className="RbacFeedTab__tabs" />
-      <div className="RbacFeedTab__card">
-        <div className="RbacFeedTab__headline">
+    <div className="RbacFeed">
+      <Tabs items={rbacTabs} className="RbacFeed__tabs" />
+      <div className="RbacFeed__card">
+        <div className="RbacFeed__headline">
           {I18n.t('ROLES_AND_PERMISSIONS.FEED.HEADLINE')}
         </div>
       </div>
       <RbacFeedsFilters refetch={rbacFeedsQuery.refetch} />
-      <div className="RbacFeedTab__grid">
+      <div className="RbacFeed__grid">
         <ListView
-          dataSource={content || []}
+          dataSource={content}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}

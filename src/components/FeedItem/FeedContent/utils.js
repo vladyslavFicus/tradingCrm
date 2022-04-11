@@ -72,7 +72,7 @@ export const translateRbac = () => {
   return result;
 };
 
-const rbacI18 = translateRbac();
+const rbacI18n = translateRbac();
 
 const translateValue = (value) => {
   const detailsValues = {
@@ -100,7 +100,7 @@ const translateValue = (value) => {
     CORPORATE_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_PROFESSIONAL'),
     'Phone verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_PHONE'),
     'E-mail verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL'),
-    ...rbacI18,
+    ...rbacI18n,
   };
 
   return detailsValues[value] || value;

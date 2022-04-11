@@ -10,8 +10,6 @@ import { createValidator } from 'utils/validator';
 import { RbacFeedsQueryVariables } from '../graphql/__generated__/RbacFeedsQuery';
 import './RbacFeedsFilters.scss';
 
-
-// type FeedTypes = { feedTypes?: { [key: string]: string } };
 type Props = {
   refetch: () => void,
 };

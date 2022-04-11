@@ -42,10 +42,3 @@ query RbacFeedsQuery(
   }
 }
 
-    #   ...state?.filters,
-    #   targetUUID: getBrand().id,
-    #   limit: 20,
-    #   page: 0,
-    # }}
-    # fetchPolicy="cache-and-network"
-
