@@ -4162,7 +4162,7 @@
           "MARGIN": "Margin",
           "FREE_MARGIN": "Free margin",
           "MARGIN_LEVEL": "Margin level",
-          "OPEN_PnL": "Open P/L"
+          "OPEN_PnL": "Net open P/L"
         },
         "HEADLINE": "Orders",
         "GRID": {
