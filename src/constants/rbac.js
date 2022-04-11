@@ -13,12 +13,12 @@ export default [
     additional: {
       permissions: [
         // filter-set
-        'filter-sets.getFilterSet',
-        'filter-sets.updateFilterSet',
-        'filter-sets.deleteFilterSet',
-        'filter-sets.getFilterSetsList',
-        'filter-sets.createFilterSet',
-        'filter-sets.changeFilterSetFavouriteStatus',
+        'operator-config.getFilterSet',
+        'operator-config.updateFilterSet',
+        'operator-config.deleteFilterSet',
+        'operator-config.getFilterSetsList',
+        'operator-config.createFilterSet',
+        'operator-config.changeFilterSetFavouriteStatus',
         // affiliate
         'affiliate.searchAffiliate',
         // operator
