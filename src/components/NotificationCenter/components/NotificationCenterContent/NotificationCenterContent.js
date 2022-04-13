@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
+import { get, isString } from 'lodash';
 import I18n from 'i18n-js';
 import { NetworkStatus } from '@apollo/client';
 import compose from 'compose-function';
@@ -41,12 +41,26 @@ class NotificationCenterContent extends PureComponent {
     select: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.wrapperRef = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  handleClickOutside(event) {
+    if (isString(event.target.className) && event.target.className.includes('NotificationCenterTrigger')) return;
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+      this.props.close();
+    }
+  }
+
   componentDidMount() {
-    document.addEventListener('click', this.onCloseHandler);
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.onCloseHandler);
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   componentDidUpdate(prevProps) {
@@ -63,30 +77,6 @@ class NotificationCenterContent extends PureComponent {
     this.setState({ select });
   };
 
-  /**
-   * Manual control closing of popover with notifications to prevent close when clicked
-   * on content inside NotificationCenterContainer and inside Notifications__toast elements.
-   *
-   * @param e
-   */
-  onCloseHandler = (e) => {
-    const element = e.target;
-    const notificationCenterTrigger = document.getElementById('NotificationCenterTrigger');
-    const notificationCenterContainer = document.getElementById('NotificationCenterContainer');
-    const notificationWSContainers = [...document.getElementsByClassName('Notifications__toast')];
-
-    const shouldClose = !(
-      element === notificationCenterTrigger
-      || element === notificationCenterContainer
-      || (notificationCenterContainer && notificationCenterContainer.contains(element))
-      || notificationWSContainers.includes(element)
-      || notificationWSContainers.some(container => container.contains(element))
-    );
-
-    if (shouldClose) {
-      this.props.close();
-    }
-  };
 
   onSubmit = (notificationTypes, read) => {
     const {
@@ -195,7 +185,7 @@ class NotificationCenterContent extends PureComponent {
     const { showNotificationsPopUp } = get(notificationsConfiguration, 'data.notificationCenterConfiguration') || {};
 
     return (
-      <div className="NotificationCenterContent">
+      <div ref={this.wrapperRef} className="NotificationCenterContent">
         <div className="NotificationCenterContent__header">
           <div>
             <div className="NotificationCenterContent__headline">
