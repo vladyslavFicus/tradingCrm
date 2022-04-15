@@ -3,12 +3,12 @@ import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
 import DistributionRulesList from './routes/DistributionRulesList';
-import DistributionRule from './routes/DistributionRule';
+import DistributionRuleNEW from './routes/DistributionRuleNEW';
 
 const DistributionRules = ({ match: { path, url } }) => (
   <Switch>
     <Route path={`${path}/list`} component={DistributionRulesList} />
-    <Route path={`${path}/:id/rule`} component={DistributionRule} />
+    <Route path={`${path}/:id/rule`} component={DistributionRuleNEW} />
     <Redirect to={`${url}/list`} />
   </Switch>
 );

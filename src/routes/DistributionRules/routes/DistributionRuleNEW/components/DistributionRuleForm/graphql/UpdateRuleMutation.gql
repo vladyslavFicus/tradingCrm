@@ -1,0 +1,5 @@
+mutation UpdateRuleMutation($args: DistributionRuleUpdate__Input) {
+  distributionRule {
+    updateRule(args: $args)
+  }
+}

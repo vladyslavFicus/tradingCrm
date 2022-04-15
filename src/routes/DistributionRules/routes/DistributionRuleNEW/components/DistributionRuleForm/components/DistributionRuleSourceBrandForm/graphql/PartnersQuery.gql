@@ -1,0 +1,8 @@
+query PartnersQuery($brandId: String, $page: Page__Input) {
+  partners(brandId: $brandId, page: $page) {
+    content {
+      uuid
+      fullName
+    }
+  }
+}

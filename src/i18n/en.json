@@ -616,6 +616,7 @@
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
       "SELECT_PHONE_NUMBER": "-- Select phone number --",
+      "SELECT_BRAND": "-- Select brand --",
       "NO_ITEMS": "-- No items --"
     },
     "SEARCH_BY": {

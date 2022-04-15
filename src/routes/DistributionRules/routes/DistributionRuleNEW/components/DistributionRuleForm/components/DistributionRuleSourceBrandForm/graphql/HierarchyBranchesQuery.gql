@@ -1,0 +1,15 @@
+query HierarchyBranchesQuery($brandId: String) {
+  userBranches(brandId: $brandId) {
+    DESK {
+      name
+      uuid
+    }
+    TEAM {
+      name
+      uuid
+      parentBranch {
+        uuid
+      }
+    }
+  }
+}

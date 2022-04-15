@@ -1,4 +1,4 @@
-export const salesStatuses = {
+export const salesStatuses: Record<string, string> = {
   CALLBACK: 'CONSTANTS.SALES_STATUSES.CALLBACK',
   CONVERTED: 'CONSTANTS.SALES_STATUSES.CONVERTED',
   DEPOSITOR: 'CONSTANTS.SALES_STATUSES.DEPOSITOR',

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { omit, get, set } from 'lodash';
+import deepMerge from 'deepmerge';
 import { DateRangePicker } from 'components/DatePickers';
 
 class FormikDateRangePicker extends PureComponent {
@@ -73,7 +74,7 @@ class FormikDateRangePicker extends PureComponent {
       <DateRangePicker
         {...dateRangePickerProps}
         error={this.getFieldsError()}
-        additionalValue={fieldsNames.additional ? values[fieldsNames.additional] : null}
+        additionalValue={fieldsNames.additional ? get(values, fieldsNames.additional) : null}
         dateRange={{
           from: get(values, fieldsNames.from),
           to: get(values, fieldsNames.to),
@@ -85,7 +86,7 @@ class FormikDateRangePicker extends PureComponent {
           set(newValues, fieldsNames.to, _values.to);
           set(newValues, fieldsNames.additional, _values.additional);
 
-          setValues({ ...values, ...newValues });
+          setValues(deepMerge(values, newValues));
         }}
         withFocus={this.getPickerFocusState()}
       />

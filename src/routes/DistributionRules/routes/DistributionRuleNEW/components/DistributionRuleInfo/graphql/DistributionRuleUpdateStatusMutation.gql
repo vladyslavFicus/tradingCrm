@@ -1,0 +1,16 @@
+mutation DistributionRuleUpdateStatus(
+  $uuid: String!
+  $ruleStatus: String!
+) {
+  distributionRule {
+    updateRuleStatus(
+      uuid: $uuid
+      ruleStatus: $ruleStatus
+    ) {
+      _id
+      status
+      statusChangedAt
+      updatedAt
+    }
+  }
+}

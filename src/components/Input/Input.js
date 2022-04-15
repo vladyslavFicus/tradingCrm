@@ -92,6 +92,12 @@ class Input extends PureComponent {
     onKeyDown(e);
   };
 
+  onAdditionClick = (e) => {
+    this.props.onAdditionClick(e);
+
+    this.inputRef.current.focus();
+  };
+
   render() {
     const {
       name,
@@ -177,7 +183,7 @@ class Input extends PureComponent {
               className={classNames(additionClassName, 'input__addition', {
                 'input__addition--right': additionPosition === 'right',
               })}
-              onClick={onAdditionClick}
+              onClick={this.onAdditionClick}
             >
               {addition}
             </div>

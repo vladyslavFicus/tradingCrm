@@ -1,11 +1,12 @@
 import keyMirror from 'keymirror';
+import { DistributionRule__Statuses__Enum as DistributionRuleStatuses } from '__generated__/types';
 
 const statuses = keyMirror({
   ACTIVE: null,
   INACTIVE: null,
 });
 
-const clientDistributionStatuses = {
+const clientDistributionStatuses: Record<DistributionRuleStatuses, { label: string, color: string }> = {
   [statuses.ACTIVE]: {
     label: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
     color: 'color-success',
@@ -16,12 +17,12 @@ const clientDistributionStatuses = {
   },
 };
 
-const statusesLabels = {
+const statusesLabels: Record<DistributionRuleStatuses, string> = {
   [statuses.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
   [statuses.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };
 
-const executionPeriodInHours = [
+const executionPeriodInHours: Array<{ label: string, value: number, i18nValue: number }> = [
   {
     label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.EXECUTION_TIME.N_HOURS',
     value: 3,

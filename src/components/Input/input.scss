@@ -99,7 +99,7 @@ $input-height: 40px;
     bottom: 0;
     left: 0;
     height: 40px;
-    width: 40px;
+    min-width: 40px;
 
     &:hover {
       color: #9b9b9b;
@@ -109,11 +109,15 @@ $input-height: 40px;
       position: static;
       width: auto;
       display: flex;
+      justify-content: center;
       align-items: center;
       flex: 0 0 auto;
       padding: 0 8px;
-      margin-left: 10px;
+      margin-left: -3px;
       user-select: none;
+      border-radius: 0 3px 3px 0;
+      background: #fff;
+      z-index: 1;
     }
   }
 }
