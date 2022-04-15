@@ -1,4 +1,4 @@
-export const salesStatuses = {
+export const salesStatuses: Record<string, string> = {
   CALLBACK: 'CONSTANTS.SALES_STATUSES.CALLBACK',
   CONVERTED: 'CONSTANTS.SALES_STATUSES.CONVERTED',
   DEPOSITOR: 'CONSTANTS.SALES_STATUSES.DEPOSITOR',
@@ -51,7 +51,7 @@ export const salesStatuses = {
   DIFFERENT_VOICE: 'CONSTANTS.SALES_STATUSES.DIFFERENT_VOICE',
 };
 
-export const salesStatusesColor = {
+export const salesStatusesColor: Record<string, string> = {
   NEW: 'color-info',
   NO_ANSWER: 'color-danger',
   NO_ANSWER_2: 'color-danger',

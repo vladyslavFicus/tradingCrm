@@ -1,0 +1,8 @@
+query AcquisitionStatusesQuery($brandId: String!, $args: AcquisitionStatuses__Input) {
+  settings {
+    acquisitionStatuses(brandId: $brandId, args: $args) {
+      type
+      status
+    }
+  }
+}
