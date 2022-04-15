@@ -1,24 +1,24 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { intersection } from 'lodash';
+import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import { salesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses } from 'constants/retentionStatuses';
+import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
+import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { deskTypes, isLead } from 'constants/hierarchyTypes';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import renderLabel from 'utils/renderLabel';
 import EventEmitter, { ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import BulkUpdateClientsAcquisitionMutation from './graphql/BulkUpdateClientsAcquisitionMutation';
 import BulkUpdateLeadsAcquisitionMutation from './graphql/BulkUpdateLeadsAcquisitionMutation';
 import UpdateAcquisitionMutation from './graphql/UpdateAcquisitionMutation';
 import OperatorsSubordinatesQuery from './graphql/OperatorsSubordinatesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
+import AcquisitionStatusesQuery from './graphql/AcquisitionStatusesQuery';
 
 const attributeLabels = type => ({
   desk: `CLIENTS.MODALS.${type}_MODAL.DESK`,
@@ -38,6 +38,16 @@ class RepresentativeUpdateModal extends PureComponent {
       userBranches: PropTypes.shape({
         DESK: PropTypes.arrayOf(PropTypes.branchHierarchyType),
         TEAM: PropTypes.arrayOf(PropTypes.branchHierarchyType),
+      }),
+    }).isRequired,
+    acquisitionStatusesQuery: PropTypes.query({
+      settings: PropTypes.shape({
+        acquisitionStatuses: PropTypes.arrayOf(
+          PropTypes.shape({
+            type: PropTypes.string.isRequired,
+            status: PropTypes.string.isRequired,
+          }),
+        ),
       }),
     }).isRequired,
     operatorsSubordinatesQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.operator)).isRequired,
@@ -268,6 +278,7 @@ class RepresentativeUpdateModal extends PureComponent {
       onCloseModal,
       desksAndTeamsQuery,
       operatorsSubordinatesQuery,
+      acquisitionStatusesQuery,
       configs: { multiAssign },
     } = this.props;
 
@@ -276,8 +287,12 @@ class RepresentativeUpdateModal extends PureComponent {
     // Filtering desks by type (Sales / Retention)
     const desks = allDesks.filter(({ deskType }) => deskType === deskTypes[type]);
 
+    const salesStatuses = sortBy(acquisitionStatusesQuery.data?.settings.salesStatuses || [], 'status');
+    const retentionStatuses = sortBy(acquisitionStatusesQuery.data?.settings.retentionStatuses || [], 'status');
+
     const isDesksAndTeamsLoading = desksAndTeamsQuery.loading;
     const isOperatorsLoading = operatorsSubordinatesQuery.loading;
+    const isAcquisitionStatusesLoading = acquisitionStatusesQuery.loading;
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen}>
@@ -366,20 +381,21 @@ class RepresentativeUpdateModal extends PureComponent {
                     label={I18n.t(attributeLabels(type).status)}
                     component={FormikSelectField}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    disabled={isAcquisitionStatusesLoading}
                     searchable
                   >
                     <Choose>
                       <When condition={type === deskTypes.SALES}>
-                        {Object.keys(salesStatuses).map(value => (
-                          <option key={value} value={value}>
-                            {I18n.t(renderLabel(value, salesStatuses))}
+                        {salesStatuses.map(({ status }) => (
+                          <option key={status} value={status}>
+                            {I18n.t(staticSalesStatuses[status])}
                           </option>
                         ))}
                       </When>
                       <Otherwise>
-                        {Object.keys(retentionStatuses).map(value => (
-                          <option key={value} value={value}>
-                            {I18n.t(renderLabel(value, retentionStatuses))}
+                        {retentionStatuses.map(({ status }) => (
+                          <option key={status} value={status}>
+                            {I18n.t(staticRetentionStatuses[status])}
                           </option>
                         ))}
                       </Otherwise>
@@ -413,6 +429,7 @@ export default compose(
   withRequests({
     operatorsSubordinatesQuery: OperatorsSubordinatesQuery,
     desksAndTeamsQuery: DesksAndTeamsQuery,
+    acquisitionStatusesQuery: AcquisitionStatusesQuery,
     updateLeadOrClientAcquisition: UpdateAcquisitionMutation,
     bulkUpdateLeadsAcquisition: BulkUpdateLeadsAcquisitionMutation,
     bulkUpdateClientsAcquisition: BulkUpdateClientsAcquisitionMutation,

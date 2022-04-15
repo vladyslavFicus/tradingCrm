@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import { withApollo } from '@apollo/client/react/hoc';
 import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
-import { intersection } from 'lodash';
+import { intersection, sortBy } from 'lodash';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { getAvailableLanguages } from 'config';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import { salesStatuses } from 'constants/salesStatuses';
+import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -19,6 +19,7 @@ import countries from 'utils/countryList';
 import { leadAccountStatuses } from '../../constants';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
+import AcquisitionStatusesQuery from './graphql/AcquisitionStatusesQuery';
 import './LeadsGridFilter.scss';
 
 const attributeLabels = {
@@ -48,12 +49,18 @@ class LeadsGridFilter extends PureComponent {
     operatorsQuery: PropTypes.query({
       operators: PropTypes.pageable(PropTypes.operator),
     }).isRequired,
+    acquisitionStatusesQuery: PropTypes.query({
+      settings: PropTypes.shape({
+        acquisitionStatuses: PropTypes.arrayOf(
+          PropTypes.shape({
+            type: PropTypes.string.isRequired,
+            status: PropTypes.string.isRequired,
+          }),
+        ),
+      }),
+    }).isRequired,
     handleRefetch: PropTypes.func.isRequired,
   };
-
-  get leadsSalesStatuses() {
-    return salesStatuses;
-  }
 
   filterOperatorsByBranch = ({ operators, uuids }) => (
     operators.filter((operator) => {
@@ -118,10 +125,14 @@ class LeadsGridFilter extends PureComponent {
     const {
       handleRefetch,
       desksAndTeamsQuery,
+      acquisitionStatusesQuery,
       operatorsQuery: { loading: isOperatorsLoading },
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
+      acquisitionStatusesQuery: { loading: isAcquisitionStatusesLoading },
       location: { state },
     } = this.props;
+
+    const salesStatuses = sortBy(acquisitionStatusesQuery.data?.settings.salesStatuses || [], 'status');
 
     return (
       <Formik
@@ -280,16 +291,16 @@ class LeadsGridFilter extends PureComponent {
                   label={I18n.t(attributeLabels.salesStatuses)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
+                  disabled={isAcquisitionStatusesLoading}
                   searchable
                   withFocus
                   multiple
                 >
-                  {Object.entries(this.leadsSalesStatuses)
-                    .map(([key, value]) => (
-                      <option key={key} value={key}>
-                        {I18n.t(value)}
-                      </option>
-                    ))}
+                  {salesStatuses.map(({ status }) => (
+                    <option key={status} value={status}>
+                      {I18n.t(staticSalesStatuses[status])}
+                    </option>
+                  ))}
                 </Field>
 
                 <Field
@@ -395,5 +406,6 @@ export default compose(
   withRequests({
     desksAndTeamsQuery: DesksAndTeamsQuery,
     operatorsQuery: OperatorsQuery,
+    acquisitionStatusesQuery: AcquisitionStatusesQuery,
   }),
 )(LeadsGridFilter);
