@@ -51,7 +51,7 @@ export const salesStatuses: Record<string, string> = {
   DIFFERENT_VOICE: 'CONSTANTS.SALES_STATUSES.DIFFERENT_VOICE',
 };
 
-export const salesStatusesColor = {
+export const salesStatusesColor: Record<string, string> = {
   NEW: 'color-info',
   NO_ANSWER: 'color-danger',
   NO_ANSWER_2: 'color-danger',

@@ -43,6 +43,7 @@ export default {
     ADD_BRAND_MANAGER: 'hierarchy-updater.branch.addBranchManager',
     REMOVE_BRAND_MANAGER: 'hierarchy-updater.branch.removeBranchManager',
     UPDATE_USER_BRANCH: 'hierarchy-updater.user.updateUserBranch',
+    GET_ACQUISITION_STATUSES: 'hierarchy-updater.acquisition.getStatuses',
   },
   SALES_RULES: {
     GET_RULES: 'rules-profile.searchRules',

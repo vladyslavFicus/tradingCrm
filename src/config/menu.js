@@ -143,17 +143,21 @@ const sidebarTopMenu = [{
   url: '/ip-whitelist',
   permissions: new Permissions(permissions.IP_WHITELIST.LIST),
 }, {
-  label: 'SIDEBAR.TOP_MENU.SETTINGS',
+  label: 'SIDEBAR.TOP_MENU.SETTINGS.TITLE',
   icon: 'icon-settings',
   isOpen: false,
   items: [{
-    label: 'SIDEBAR.TOP_MENU.EMAIL_TEMPLATES',
+    label: 'SIDEBAR.TOP_MENU.SETTINGS.EMAIL_TEMPLATES',
     url: '/email-templates',
     permissions: new Permissions(permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE),
   }, {
-    label: 'SIDEBAR.TOP_MENU.ROLES_AND_PERMISSIONS',
+    label: 'SIDEBAR.TOP_MENU.SETTINGS.ROLES_AND_PERMISSIONS',
     url: '/roles-and-permissions',
     permissions: new Permissions(permissions.AUTH.UPDATE_ACTIONS),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.SETTINGS.ACQUISITION_STATUSES',
+    url: '/settings/acquisition-statuses',
+    permissions: new Permissions(permissions.HIERARCHY.GET_ACQUISITION_STATUSES),
   }],
 }];
 

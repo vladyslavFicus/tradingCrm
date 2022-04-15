@@ -14,7 +14,6 @@
       "COUNTRIES": "Countries",
       "CLIENTS_SEARCH": "Clients' search",
       "PLAYERS_KYC_REQUEST": "KYC requests",
-      "SETTINGS": "Settings",
       "MANAGEMENT": "Management",
       "HIERARCHY": "Hierarchy",
       "OFFICES": "Offices",
@@ -29,14 +28,18 @@
       },
       "SEARCH_CLIENTS": "Search clients",
       "KYC_DOCUMENTS": "KYC documents",
-      "EMAIL_TEMPLATES": "Email templates",
       "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications",
-      "ROLES_AND_PERMISSIONS": "Roles & Permissions",
       "CLIENTS_DISTRIBUTION": "Clients Distribution",
       "TRADING_ENGINE_MANAGER": "TE Manager",
       "TRADING_ENGINE_ADMIN": "TE Admin",
       "IP_WHITELIST": "IP Whitelist",
+      "SETTINGS": {
+        "TITLE": "Settings",
+        "ROLES_AND_PERMISSIONS": "Roles & Permissions",
+        "EMAIL_TEMPLATES": "Email templates",
+        "ACQUISITION_STATUSES": "Acquisition statuses"
+      },
       "TRADING_ENGINE": {
         "TITLE": "Trading Engine",
         "ACCOUNTS": "Accounts",
@@ -4670,6 +4673,25 @@
       },
       "ACTIVATE_REASONS": {
         "ACTIVATE": "Activate reason"
+      }
+    }
+  },
+  "SETTINGS": {
+    "ACQUISITION_STATUSES": {
+      "HEADLINE": "Acquisition statuses",
+      "TYPES": {
+        "SALES": "Sales",
+        "RETENTION": "Retention"
+      },
+      "GRID": {
+        "STATUS_NAME": "Status name",
+        "ACQUISITION": "Acquisition",
+        "ACTIONS": "Actions"
+      },
+      "FORM": {
+        "FIELDS": {
+          "ACQUISITION_STATUS": "Acquisition status"
+        }
       }
     }
   },

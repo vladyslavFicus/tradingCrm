@@ -1,4 +1,4 @@
-export const retentionStatuses = {
+export const retentionStatuses: Record<string, string> = {
   ACTIVE: 'CONSTANTS.RETENTION_STATUSES.ACTIVE',
   ACTIVE_VIP: 'CONSTANTS.RETENTION_STATUSES.ACTIVE_VIP',
   CALLBACK: 'CONSTANTS.RETENTION_STATUSES.CALLBACK',
@@ -31,7 +31,7 @@ export const retentionStatuses = {
   MONEY_CALL: 'CONSTANTS.RETENTION_STATUSES.MONEY_CALL',
 };
 
-export const retentionStatusesColor = {
+export const retentionStatusesColor: Record<string, string> = {
   NEW: 'color-info',
   CALLBACK: 'color-info',
   NEVER_ANSWER: 'color-danger',
