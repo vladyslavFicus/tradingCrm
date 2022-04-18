@@ -52,7 +52,7 @@ $input-height: 40px;
       background-color: #f6f6f6;
 
       & + .input__addition {
-        border-color: #f6f6f6;
+        border-color: #cfcfcf;
       }
     }
 
@@ -158,7 +158,7 @@ $input-height: 40px;
 
   &--is-disabled {
     .input__control {
-      border-color: #edeff5;
+      border-color: #cfcfcf;
       -webkit-text-fill-color: #92959f;
       -webkit-opacity: 1;
     }

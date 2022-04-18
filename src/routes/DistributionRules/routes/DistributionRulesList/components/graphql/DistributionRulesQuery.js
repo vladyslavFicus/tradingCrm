@@ -13,17 +13,7 @@ const REQUEST = gql`query DistributionRules__GetDistributionRules($args: Distrib
       createdBy
       statusChangedAt
       createdAt
-      countries
-      languages
-      salesStatuses
-      targetSalesStatus
-      registrationPeriodInHours
-      registrationDateRange {
-        from
-        to
-      }
       executionType
-      executionPeriodInHours
       latestMigration {
         uuid
         startDate
@@ -34,6 +24,15 @@ const REQUEST = gql`query DistributionRules__GetDistributionRules($args: Distrib
       sourceBrandConfigs {
         uuid
         brand
+        countries
+        languages
+        salesStatuses
+        timeInCurrentStatusInHours
+        registrationPeriodInHours
+        registrationDateRange {
+          from
+          to
+        }
         distributionUnit {
           quantity
           baseUnit
@@ -43,6 +42,7 @@ const REQUEST = gql`query DistributionRules__GetDistributionRules($args: Distrib
       targetBrandConfigs {
         uuid
         brand
+        targetSalesStatus
         distributionUnit {
           quantity
           baseUnit
@@ -65,7 +65,7 @@ const GetDistributionRulesQuery = ({ children, location: { query } }) => (
     query={REQUEST}
     variables={{
       args: {
-        ...query && query.filters,
+        ...query?.filters,
         page: 0,
         size: 10,
       },

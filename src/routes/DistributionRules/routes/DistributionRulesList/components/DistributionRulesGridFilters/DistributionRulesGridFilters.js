@@ -7,7 +7,7 @@ import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
-import { statusesLabels, executionPeriodInHours as executionPeriodInHoursOptions } from 'constants/clientsDistribution';
+import { statusesLabels, timeInCurrentStatusInHours } from 'constants/clientsDistribution';
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import FiltersToggler from 'components/FiltersToggler';
@@ -203,7 +203,7 @@ class DistributionRulesFilters extends PureComponent {
                   withFocus
                   multiple
                 >
-                  {executionPeriodInHoursOptions.map(({ label, value, i18nValue }) => (
+                  {timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
                     <option key={value} value={value}>
                       {I18n.t(label, { value: i18nValue })}
                     </option>
