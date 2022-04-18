@@ -40,6 +40,11 @@ module.exports = (app) => {
     },
     ws: true,
     changeOrigin: true,
+    onProxyReqWs(proxyReq, req, socket) {
+      socket.on('error', () => {
+        // Skip to do something to prevent webpack-dev-server crashing
+      });
+    },
   }));
 
   // Proxy for cloud static resources

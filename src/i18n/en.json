@@ -4679,6 +4679,7 @@
   "SETTINGS": {
     "ACQUISITION_STATUSES": {
       "HEADLINE": "Acquisition statuses",
+      "ADD_STATUS": "+ Add status",
       "TYPES": {
         "SALES": "Sales",
         "RETENTION": "Retention"
@@ -4691,6 +4692,34 @@
       "FORM": {
         "FIELDS": {
           "ACQUISITION_STATUS": "Acquisition status"
+        }
+      },
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete acquisition status",
+          "DESCRIPTION": "Are you sure that you want to delete acquisition status {{type}} ➝ {{status}}?"
+        }
+      },
+      "NOTIFICATION": {
+        "DELETE": {
+          "SUCCESS": "Acquisition status deleted successfully",
+          "FAILED": "Acquisition status delete failed",
+          "HAS_CLIENTS": "This status applies to {{count}} clients. Please reassign the clients to delete this status.",
+          "HAS_LEADS": "This status applies to {{count}} leads. Please reassign the leads to delete this status.",
+          "HAS_CDE_RULES": "This status applies to {{count}} client distribution rules. Please remove this status from the rules to delete it."
+        }
+      },
+      "MODALS": {
+        "NEW_ACQUISITION_STATUS": {
+          "TITLE": "Add acquisition status",
+          "FORM": {
+            "ACQUISITION": "Acquisition",
+            "STATUS": "Status"
+          },
+          "NOTIFICATION": {
+            "SUCCESS": "Acquisition status added successfully",
+            "FAILED": "Acquisition status adding failed"
+          }
         }
       }
     }

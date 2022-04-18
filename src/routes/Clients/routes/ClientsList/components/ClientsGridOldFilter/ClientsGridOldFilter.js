@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
-import { intersection } from 'lodash';
+import { intersection, sortBy } from 'lodash';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import Trackify from '@hrzn/trackify';
@@ -12,8 +12,8 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/user';
 import { statuses as operatorsStasuses } from 'constants/operators';
-import { salesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses } from 'constants/retentionStatuses';
+import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
+import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import { warningLabels } from 'constants/warnings';
 import { filterSetTypes } from 'constants/filterSet';
@@ -43,6 +43,7 @@ import {
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
 import PartnersQuery from './graphql/PartnersQuery';
+import AcquisitionStatusesQuery from './graphql/AcquisitionStatusesQuery';
 import './ClientsGridOldFilter.scss';
 
 class ClientsGridOldFilter extends PureComponent {
@@ -62,6 +63,16 @@ class ClientsGridOldFilter extends PureComponent {
     }).isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
+    }).isRequired,
+    acquisitionStatusesQuery: PropTypes.query({
+      settings: PropTypes.shape({
+        acquisitionStatuses: PropTypes.arrayOf(
+          PropTypes.shape({
+            type: PropTypes.string.isRequired,
+            status: PropTypes.string.isRequired,
+          }),
+        ),
+      }),
     }).isRequired,
     handleRefetch: PropTypes.func.isRequired,
   };
@@ -153,17 +164,21 @@ class ClientsGridOldFilter extends PureComponent {
       location: { state },
       auth: { role, department },
       clientsLoading,
-      partnersQuery,
       handleRefetch,
+      partnersQuery,
       desksAndTeamsQuery,
+      acquisitionStatusesQuery,
       partnersQuery: { loading: isPartnersLoading },
       operatorsQuery: { loading: isOperatorsLoading },
       desksAndTeamsQuery: { loading: isDesksAndTeamsLoading },
+      acquisitionStatusesQuery: { loading: isAcquisitionStatusesLoading },
     } = this.props;
 
     const desks = desksAndTeamsQuery.data?.userBranches?.DESK || [];
     const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
     const partners = partnersQuery.data?.partners?.content || [];
+    const salesStatuses = sortBy(acquisitionStatusesQuery.data?.settings.salesStatuses || [], 'status');
+    const retentionStatuses = sortBy(acquisitionStatusesQuery.data?.settings.retentionStatuses || [], 'status');
 
     return (
       <FiltersToggler hideButton viewPortMarginTop={156}>
@@ -464,13 +479,14 @@ class ClientsGridOldFilter extends PureComponent {
                       label={I18n.t(attributeLabels.salesStatuses)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
+                      disabled={isAcquisitionStatusesLoading}
                       searchable
                       withFocus
                       multiple
                     >
-                      {Object.keys(salesStatuses).map(status => (
+                      {salesStatuses.map(({ status }) => (
                         <option key={status} value={status}>
-                          {I18n.t(salesStatuses[status])}
+                          {I18n.t(staticSalesStatuses[status])}
                         </option>
                       ))}
                     </Field>
@@ -481,13 +497,14 @@ class ClientsGridOldFilter extends PureComponent {
                       label={I18n.t(attributeLabels.retentionStatuses)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
+                      disabled={isAcquisitionStatusesLoading}
                       searchable
                       withFocus
                       multiple
                     >
-                      {Object.keys(retentionStatuses).map(status => (
+                      {retentionStatuses.map(({ status }) => (
                         <option key={status} value={status}>
-                          {I18n.t(retentionStatuses[status])}
+                          {I18n.t(staticRetentionStatuses[status])}
                         </option>
                       ))}
                     </Field>
@@ -780,5 +797,6 @@ export default compose(
     desksAndTeamsQuery: DesksAndTeamsQuery,
     operatorsQuery: OperatorsQuery,
     partnersQuery: PartnersQuery,
+    acquisitionStatusesQuery: AcquisitionStatusesQuery,
   }),
 )(ClientsGridOldFilter);

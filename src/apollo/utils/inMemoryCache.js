@@ -96,5 +96,8 @@ export default new InMemoryCache({
     Partner: {
       merge: true,
     },
+    SettingsQuery: {
+      merge: true,
+    },
   },
 });

@@ -4,7 +4,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import enumToArray from 'utils/enumToArray';
 import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
@@ -68,11 +67,12 @@ const AcquisitionStatusesFilter = (props: Props) => {
               withFocus
               withAnyOption
             >
-              {enumToArray(AcquisitionStatusTypes).map(type => (
-                <option key={type} value={type}>
-                  {I18n.t(`SETTINGS.ACQUISITION_STATUSES.TYPES.${type}`)}
-                </option>
-              ))}
+              <option key={AcquisitionStatusTypes.SALES} value={AcquisitionStatusTypes.SALES}>
+                {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.SALES')}
+              </option>
+              <option key={AcquisitionStatusTypes.RETENTION} value={AcquisitionStatusTypes.RETENTION}>
+                {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.RETENTION')}
+              </option>
             </Field>
           </div>
           <div className="AcquisitionStatusesFilter__buttons">
