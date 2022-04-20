@@ -38,18 +38,19 @@ const DistributionRule = () => {
           <DistributionRuleHeader distributionRule={distributionRule} />
           <DistributionRuleInfo distributionRule={distributionRule} />
 
-          <Tabs items={distributionRuleTabs} />
+          <Tabs
+            className="DistributionRule__tabs"
+            items={distributionRuleTabs}
+          />
 
-          <div className="DistributionRule__content">
-            <Suspense fallback={null}>
-              <Switch>
-                <Route path={`${path}/general`} component={DistributionRuleGeneral} />
-                <Route path={`${path}/feed`} component={DistributionRuleFeeds} />
+          <Suspense fallback={null}>
+            <Switch>
+              <Route path={`${path}/general`} component={DistributionRuleGeneral} />
+              <Route path={`${path}/feed`} component={DistributionRuleFeeds} />
 
-                <Redirect to={`${url}/general`} />
-              </Switch>
-            </Suspense>
-          </div>
+              <Redirect to={`${url}/general`} />
+            </Switch>
+          </Suspense>
         </div>
       </Otherwise>
     </Choose>
