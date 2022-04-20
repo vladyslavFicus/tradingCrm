@@ -619,6 +619,7 @@
       "SELECT_OFFICE": "-- Select office --",
       "SELECT_TEAM": "-- Select team --",
       "SELECT_PHONE_NUMBER": "-- Select phone number --",
+      "SELECT_BRAND": "-- Select brand --",
       "NO_ITEMS": "-- No items --"
     },
     "SEARCH_BY": {
@@ -3413,7 +3414,7 @@
         "EXECUTION_TIME": "Time in Current Sales Status",
         "REGISTRATION_DATE_RANGE": "Registration date",
         "LAST_NOTE_DATE_RANGE": "Last note date",
-        "EXECUTION_TYPE": "Rule Execution Type",
+        "EXECUTION_TYPE": "Rule Execution Type*",
         "LANGUAGE": "Language*",
         "AFFILIATE": "Affiliate",
         "FIRST_TIME_DEPOSIT": "First time deposit",
@@ -3423,11 +3424,6 @@
         "EXECUTION_TYPE": {
           "AUTO": "Auto",
           "MANUAL": "Manual"
-        },
-        "EXECUTION_TIME": {
-          "N_HOURS": "%{value} hours",
-          "DAY": "1 Day",
-          "N_DAYS": "%{value} Days"
         },
         "REGISTRATION_TIME": {
           "LAST_TWO_HOURS": "Last 2 hours",
@@ -3463,7 +3459,12 @@
         "AFFILIATE": "Affiliate*",
         "COPY_SOURCE": "Copy source",
         "DESKS": "Desks",
-        "TEAMS": "Teams"
+        "TEAMS": "Teams",
+        "TIME_IN_CURRENT_STATUS": {
+          "N_HOURS": "%{value} hours",
+          "DAY": "1 Day",
+          "N_DAYS": "%{value} Days"
+        }
       },
       "SORT_METHOD": {
         "RANDOM": "Random",

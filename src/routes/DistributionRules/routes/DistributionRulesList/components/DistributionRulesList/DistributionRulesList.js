@@ -20,7 +20,7 @@ import { Button } from 'components/UI';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import ClientsDistributionModal from 'modals/ClientsDistributionModal';
+import CreateRuleModal from '../../modals/CreateRuleModal';
 import DistributionRulesFilters from '../DistributionRulesGridFilters';
 import {
   DistributionRulesQuery,
@@ -43,7 +43,7 @@ class DistributionRules extends PureComponent {
     }).isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
-      clientsDistributionModal: PropTypes.modalType,
+      createRuleModal: PropTypes.modalType,
     }).isRequired,
     location: PropTypes.shape({
       query: PropTypes.object,
@@ -101,17 +101,10 @@ class DistributionRules extends PureComponent {
 
   handleCreateRule = () => {
     const {
-      modals: { clientsDistributionModal },
+      modals: { createRuleModal },
     } = this.props;
 
-    clientsDistributionModal.show({
-      action: 'CREATE',
-      onSuccess: (uuid) => {
-        clientsDistributionModal.hide();
-
-        this.props.history.push(`/distribution/${uuid}/rule`);
-      },
-    });
+    createRuleModal.show();
   }
 
   handleStartMigrationClick = async ({ uuid, name, targetBrandConfigs, sourceBrandConfigs }) => {
@@ -250,58 +243,70 @@ class DistributionRules extends PureComponent {
 
   renderToBrands = ({ targetBrandConfigs }) => this.renderBrands(targetBrandConfigs);
 
-  renderCountry = ({ countries }) => (
-    <Choose>
-      <When condition={countries}>
-        {countries.slice(0, 3).map(country => (
-          <CountryLabelWithFlag
-            key={country}
-            code={country}
-            height="14"
-          />
-        ))}
-        {countries.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: countries.length - 3 })}
-      </When>
-      <Otherwise>
-        <span>&mdash;</span>
-      </Otherwise>
-    </Choose>
-  );
+  renderCountry = ({ sourceBrandConfigs }) => {
+    const countries = sourceBrandConfigs && sourceBrandConfigs[0]?.countries;
 
-  renderLanguages = ({ languages }) => (
-    <Choose>
-      <When condition={languages}>
-        {languages.slice(0, 3).map(locale => (
-          <div key={locale} className="font-weight-600">
-            {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-          </div>
-        ))}
-        {languages.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: languages.length - 3 })}
-      </When>
-      <Otherwise>
-        <span>&mdash;</span>
-      </Otherwise>
-    </Choose>
-  );
+    return (
+      <Choose>
+        <When condition={countries}>
+          {countries.slice(0, 3).map(country => (
+            <CountryLabelWithFlag
+              key={country}
+              code={country}
+              height="14"
+            />
+          ))}
+          {countries.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: countries.length - 3 })}
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  }
 
-  renderSalesStatus = ({ salesStatuses: statuses }) => (
-    <Choose>
-      <When condition={statuses}>
-        {statuses.slice(0, 3).map(status => (
-          <div
-            key={status}
-            className="font-weight-600"
-          >
-            {I18n.t(salesStatuses[status])}
-          </div>
-        ))}
-        {statuses.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: statuses.length - 3 })}
-      </When>
-      <Otherwise>
-        <span>&mdash;</span>
-      </Otherwise>
-    </Choose>
-  );
+  renderLanguages = ({ sourceBrandConfigs }) => {
+    const languages = sourceBrandConfigs && sourceBrandConfigs[0]?.languages;
+
+    return (
+      <Choose>
+        <When condition={languages}>
+          {languages.slice(0, 3).map(locale => (
+            <div key={locale} className="font-weight-600">
+              {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
+            </div>
+          ))}
+          {languages.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: languages.length - 3 })}
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  }
+
+  renderSalesStatus = ({ sourceBrandConfigs }) => {
+    const statuses = sourceBrandConfigs && sourceBrandConfigs[0]?.salesStatuses;
+
+    return (
+      <Choose>
+        <When condition={statuses}>
+          {statuses.slice(0, 3).map(status => (
+            <div
+              key={status}
+              className="font-weight-600"
+            >
+              {I18n.t(salesStatuses[status])}
+            </div>
+          ))}
+          {statuses.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: statuses.length - 3 })}
+        </When>
+        <Otherwise>
+          <span>&mdash;</span>
+        </Otherwise>
+      </Choose>
+    );
+  }
 
   renderCreatedTime = ({ createdAt }) => (
     <>
@@ -314,20 +319,22 @@ class DistributionRules extends PureComponent {
     </>
   );
 
-  renderExecutionTime = ({ executionPeriodInHours }) => {
-    const { time, type } = executionPeriodInHours >= 24
+  renderTimeInStatus = ({ sourceBrandConfigs }) => {
+    const timeInCurrentStatusInHours = sourceBrandConfigs && sourceBrandConfigs[0]?.timeInCurrentStatusInHours;
+
+    const { time, type } = timeInCurrentStatusInHours >= 24
       ? {
-        time: Math.floor(executionPeriodInHours / 24),
-        type: executionPeriodInHours / 24 > 1 ? 'DAYS' : 'DAY',
+        time: Math.floor(timeInCurrentStatusInHours / 24),
+        type: timeInCurrentStatusInHours / 24 > 1 ? 'DAYS' : 'DAY',
       }
       : {
-        time: executionPeriodInHours,
-        type: executionPeriodInHours > 1 ? 'HOURS' : 'HOUR',
+        time: timeInCurrentStatusInHours,
+        type: timeInCurrentStatusInHours > 1 ? 'HOURS' : 'HOUR',
       };
 
     return (
       <Choose>
-        <When condition={executionPeriodInHours}>
+        <When condition={timeInCurrentStatusInHours}>
           <div className="font-weight-700">
             {`${time} ${I18n.t(`COMMON.${type}`)}`}
           </div>
@@ -448,7 +455,7 @@ class DistributionRules extends PureComponent {
           />
           <Column
             header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.TIME_IN_STATUS')}
-            render={this.renderExecutionTime}
+            render={this.renderTimeInStatus}
           />
           <Column
             header={I18n.t('CLIENTS_DISTRIBUTION.GRID_HEADER.LAST_TIME_EXECUTED')}
@@ -473,7 +480,7 @@ export default compose(
   withRouter,
   withModals({
     confirmActionModal: ConfirmActionModal,
-    clientsDistributionModal: ClientsDistributionModal,
+    createRuleModal: CreateRuleModal,
   }),
   withNotifications,
   withRequests({

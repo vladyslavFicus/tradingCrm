@@ -1,0 +1,14 @@
+query DistributionRuleQuery($uuid: String!) {
+  distributionRule (uuid: $uuid) {
+    _id
+    uuid
+    name
+    status
+    statusChangedAt
+    createdAt
+    updatedAt
+    latestMigration {
+      startDate
+    }
+  }
+}

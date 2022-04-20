@@ -1,15 +1,9 @@
 .DistributionRule {
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    padding: 5px 25px 30px;
-  }
-  
-  &__actions-btn {
-    margin-right: 15px;
+  background: #fff;
+  border: 1px solid #dfe4ed;
 
-    &:last-child {
-      margin-right: 0;
-    }
+  &__tabs {
+    margin-top: 25px;
+    margin-left: 0;
   }
 }

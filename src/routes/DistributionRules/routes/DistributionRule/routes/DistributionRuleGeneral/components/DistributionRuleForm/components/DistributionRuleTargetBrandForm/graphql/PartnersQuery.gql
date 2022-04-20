@@ -1,0 +1,7 @@
+query PartnersQuery {
+  cdePartners {
+    uuid
+    fullName
+    brand
+  }
+}
