@@ -18,10 +18,16 @@
 
   &__fields {
     display: grid;
-    flex-flow: row wrap;
-    width: 100%;
-    grid-gap: 15px;
-    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+    column-gap: 15px;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  &__field {
+    grid-column: span 2;
+
+    &--large {
+      grid-column: span 4;
+    }
   }
 
   &__form {

@@ -1,33 +1,55 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import I18n from 'i18n-js';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { FormikInputField } from 'components/Formik';
+import { State } from 'types';
+import {
+  FormikDateRangePicker,
+  FormikInputField,
+  FormikSelectField,
+} from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
+import { statuses } from '../../constants';
+import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './AccountsFilter.scss';
+
+interface Props {
+  handleRefetch: () => void,
+  loading: boolean,
+}
 
 interface InitialFormValues {
   keyword?: string,
+  enabled?: boolean,
+  groups?: string[],
+  registrationDateRange?: {
+    from?: string,
+    to?: string,
+  },
 }
 
-interface LocationState {
-  filters?: InitialFormValues | null,
-}
+const AccountsFilter = (props: Props) => {
+  const { handleRefetch, loading } = props;
 
-interface Props extends RouteComponentProps<any, any, LocationState> {
-  loading: boolean,
-  handleRefetch: () => void,
-}
+  const history = useHistory();
+  const { state } = useLocation<State<InitialFormValues>>();
 
-class AccountsFilter extends PureComponent<Props> {
-  static defaultProps = {
-    loading: false,
-  };
+  const groupsQuery = useGroupsQuery({
+    variables: {
+      args: {
+        page: {
+          from: 0,
+          size: 100000,
+        },
+      },
+    },
+  });
 
-  handleSubmit = (values: InitialFormValues) => {
-    const { history, location: { state } } = this.props;
+  const groups = groupsQuery.data?.tradingEngine.groups.content || [];
 
+  // ===== Handlers ===== //
+  const handleSubmit = (values: InitialFormValues) => {
     history.replace({
       state: {
         ...state,
@@ -36,9 +58,7 @@ class AccountsFilter extends PureComponent<Props> {
     });
   };
 
-  handleReset = (resetForm: () => void) => {
-    const { history, location: { state } } = this.props;
-
+  const handleReset = (resetForm: () => void) => {
     history.replace({
       state: {
         ...state,
@@ -49,65 +69,103 @@ class AccountsFilter extends PureComponent<Props> {
     resetForm();
   };
 
-  render() {
-    const {
-      loading,
-      handleRefetch,
-      location: { state },
-    } = this.props;
+  return (
+    <Formik
+      enableReinitialize
+      initialValues={state?.filters || {}}
+      onSubmit={handleSubmit}
+    >
+      {({
+        isSubmitting,
+        resetForm,
+        values,
+        dirty,
+      }) => (
+        <Form className="AccountsFilter__form">
+          <div className="AccountsFilter__fields">
+            <Field
+              name="keyword"
+              label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY')}
+              placeholder={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
+              className="AccountsFilter__field AccountsFilter__field--large"
+              component={FormikInputField}
+              addition={<i className="icon icon-search" />}
+              withFocus
+            />
+            <Field
+              name="enabled"
+              label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.STATUS')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              className="AccountsFilter__field"
+              component={FormikSelectField}
+              withAnyOption
+              withFocus
+              boolean
+            >
+              {statuses.map(({ value, label }) => (
+                // @ts-ignore because in tsx file Field can't set BOOLEAN to option value
+                <option key={`archived-${value}`} value={value}>
+                  {I18n.t(label)}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="groups"
+              label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.GROUPS')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              className="AccountsFilter__field"
+              component={FormikSelectField}
+              searchable
+              withFocus
+              multiple
+              disabled={groupsQuery.loading}
+            >
 
-    return (
-      <Formik
-        enableReinitialize
-        initialValues={state?.filters || {}}
-        onSubmit={this.handleSubmit}
-      >
-        {({
-          isSubmitting,
-          resetForm,
-          values,
-          dirty,
-        }) => (
-          <Form className="AccountsFilter__form">
-            <div className="AccountsFilter__fields">
-              <Field
-                name="keyword"
-                label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY')}
-                placeholder={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
-                className="form-group filter-row__big"
-                component={FormikInputField}
-                addition={<i className="icon icon-search" />}
-                withFocus
-              />
-            </div>
-            <div className="AccountsFilter__buttons">
-              <RefreshButton
-                className="AccountsFilter__button"
-                onClick={handleRefetch}
-              />
+              {groups.map(({ groupName }) => (
+                <option key={groupName} value={groupName}>
+                  {groupName}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="registrationDateRange"
+              className="AccountsFilter__field AccountsFilter__field--large"
+              label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.REGISTRATION_DATE_RANGE')}
+              component={FormikDateRangePicker}
+              fieldsNames={{
+                from: 'registrationDateRange.from',
+                to: 'registrationDateRange.to',
+              }}
+              withFocus
+            />
+          </div>
+          <div className="AccountsFilter__buttons">
+            <RefreshButton
+              className="AccountsFilter__button"
+              onClick={handleRefetch}
+            />
 
-              <Button
-                className="AccountsFilter__button"
-                onClick={() => this.handleReset(resetForm)}
-                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
-                primary
-              >
-                {I18n.t('COMMON.RESET')}
-              </Button>
-              <Button
-                className="AccountsFilter__button"
-                type="submit"
-                disabled={loading || isSubmitting || !dirty}
-                primary
-              >
-                {I18n.t('COMMON.APPLY')}
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    );
-  }
-}
+            <Button
+              className="AccountsFilter__button"
+              onClick={() => handleReset(resetForm)}
+              disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
+              primary
+            >
+              {I18n.t('COMMON.RESET')}
+            </Button>
+            <Button
+              className="AccountsFilter__button"
+              type="submit"
+              disabled={loading || isSubmitting || !dirty}
+              primary
+            >
+              {I18n.t('COMMON.APPLY')}
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-export default withRouter(AccountsFilter);
+export default React.memo(AccountsFilter);

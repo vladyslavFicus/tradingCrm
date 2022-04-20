@@ -3784,7 +3784,9 @@
           "SEARCH_BY": "Search by",
           "SEARCH_BY_PLACEHOLDER": "WT login, Client's Full Name",
           "ACCOUNT_TYPE": "Account type",
-          "STATUS": "Status"
+          "STATUS": "Status",
+          "REGISTRATION_DATE_RANGE": "Registration date",
+          "GROUPS": "Groups"
         },
         "ACCOUNT_TYPE": {
           "DEMO": "Demo",

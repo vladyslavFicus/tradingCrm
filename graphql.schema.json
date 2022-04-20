@@ -30329,6 +30329,18 @@
             "deprecationReason": null
           },
           {
+            "name": "registrationDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TradingEngineSearch__Time__Input",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "symbol",
             "description": null,
             "type": {
