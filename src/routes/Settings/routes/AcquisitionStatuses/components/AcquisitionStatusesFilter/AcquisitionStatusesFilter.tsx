@@ -4,12 +4,13 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './AcquisitionStatusesFilter.scss';
 
 type FormValues = {
+  statusName?: string,
   type?: AcquisitionStatusTypes,
 }
 
@@ -58,6 +59,16 @@ const AcquisitionStatusesFilter = (props: Props) => {
       }) => (
         <Form className="AcquisitionStatusesFilter">
           <div className="AcquisitionStatusesFilter__fields">
+            <Field
+              name="statusName"
+              className="AcquisitionStatusesFilter__field"
+              label={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.SEARCH_BY')}
+              placeholder={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
+              addition={<i className="icon icon-search" />}
+              component={FormikInputField}
+              maxLength={200}
+              withFocus
+            />
             <Field
               name="type"
               label={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.ACQUISITION_STATUS')}
