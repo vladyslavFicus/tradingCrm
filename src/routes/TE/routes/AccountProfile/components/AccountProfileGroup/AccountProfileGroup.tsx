@@ -6,6 +6,7 @@ import compose from 'compose-function';
 import { parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { LevelType, Modal, Notify } from 'types';
+import Input from 'components/Input';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -33,6 +34,7 @@ const AccountProfileGroup = (props: Props) => {
   } = props;
 
   const [isDropDownOpen, setDropdownState] = React.useState(false);
+  const [searchVal, setSearchVal] = React.useState('');
   const [updateAccountGroup] = useUpdateAccountGroupMutation();
   const permission = usePermission();
 
@@ -53,6 +55,7 @@ const AccountProfileGroup = (props: Props) => {
       e.stopPropagation();
     }
 
+    setSearchVal('');
     setDropdownState(!isDropDownOpen);
   };
 
@@ -97,6 +100,8 @@ const AccountProfileGroup = (props: Props) => {
     }
   };
 
+  const filteredGroupNames = groups.filter(item => item.groupName.toLowerCase().includes(searchVal.toLowerCase()));
+
   const renderLabel = () => (
     <div className="AccountProfileGroup__label">
       <div className="AccountProfileGroup__status">
@@ -129,15 +134,31 @@ const AccountProfileGroup = (props: Props) => {
               <i className="AccountProfileGroup__arrow fa fa-angle-down" />
             </DropdownToggle>
             <DropdownMenu className="AccountProfileGroup__dropdown-menu">
-              {groups.map(({ groupName }) => (
-                <DropdownItem
-                  key={groupName}
-                  className="AccountProfileGroup__dropdown-item"
-                  onClick={() => handleGroupChange(groupName)}
+              <div className="AccountProfileGroup__wrapper">
+                <div
+                  className="AccountProfileGroup__filter"
+                  onClick={((e: React.MouseEvent<HTMLInputElement>) => e.stopPropagation())}
                 >
-                  {I18n.t(groupName)}
-                </DropdownItem>
-              ))}
+                  <Input
+                    autoFocus
+                    name="groupName"
+                    className="AccountProfileGroup__filter-input"
+                    addition={<i className="icon icon-search" />}
+                    value={searchVal}
+                    onChange={((e: React.ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value))}
+                    placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.SEARCH')}
+                  />
+                </div>
+                {filteredGroupNames.map(({ groupName }) => (
+                  <DropdownItem
+                    key={groupName}
+                    className="AccountProfileGroup__dropdown-item"
+                    onClick={() => handleGroupChange(groupName)}
+                  >
+                    {groupName}
+                  </DropdownItem>
+                ))}
+              </div>
             </DropdownMenu>
           </Dropdown>
         </div>

@@ -23,6 +23,24 @@
     }
   }
 
+  &__wrapper {
+    position: relative;
+    max-height: 300px;
+  }
+
+  &__filter {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border-bottom: solid 1px #eee;
+    padding: 10px;
+    z-index: 3;
+  }
+
+  &__filter-input {
+    margin-bottom: 0;
+  }
+
   &__title {
     color: #666;
     font-size: 11px;
