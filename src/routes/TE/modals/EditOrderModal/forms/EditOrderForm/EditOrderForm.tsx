@@ -22,7 +22,7 @@ import CancelOrderButton from '../CancelOrderButton';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useEditOrderMutation } from './graphql/__generated__/EditOrderMutation';
 import { useEditOrderAdminMutation } from './graphql/__generated__/EditOrderAdminMutation';
-import { reasons } from './constants';
+import { reasons, types } from './constants';
 
 interface Props {
   order: OrderQuery['tradingEngine']['order'],
@@ -76,9 +76,7 @@ const EditOrderForm = (props: Props) => {
     closePrice,
     openRate,
     closeRate,
-    margin,
     marginRate,
-    pnl,
     comment,
     accountLogin,
     account,
@@ -177,6 +175,7 @@ const EditOrderForm = (props: Props) => {
       initialValues={{
         symbol,
         swaps,
+        type,
         reason,
         comment,
         openPrice,
@@ -211,13 +210,15 @@ const EditOrderForm = (props: Props) => {
         const _closePrice = values.closePrice ?? closePrice ?? currentClosePrice;
 
         const floatingPnL = calculatePnL({
-          type,
-          currentPriceBid,
-          currentPriceAsk,
+          type: values.type,
+          // Using current bit and ask price for open orders only and use 'closePrice' for closed orders
+          currentPriceBid: status === OrderStatus.OPEN ? currentPriceBid : values.closePrice || 0,
+          currentPriceAsk: status === OrderStatus.OPEN ? currentPriceAsk : values.closePrice || 0,
           openPrice: values.openPrice,
           volume: values.volume,
           lotSize: symbolConfig?.lotSize,
-          exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
+          // Using current pnl exchange rate price for open orders only and use 'closeRate' for closed orders
+          exchangeRate: status === OrderStatus.OPEN ? currentSymbolPrice?.pnlRates[account.currency] : closeRate || 0,
         });
 
         const floatingMargin = calculateMargin({
@@ -226,7 +227,8 @@ const EditOrderForm = (props: Props) => {
           volume: values.volume,
           lotSize: symbolConfig?.lotSize,
           leverage: account.leverage,
-          marginRate,
+          // Using current margin rate price for open orders only and use 'marginRate' for closed orders
+          marginRate: status === OrderStatus.OPEN ? currentSymbolPrice?.marginRates[account.currency] : marginRate,
           percentage: symbolConfig?.percentage,
         });
 
@@ -250,9 +252,27 @@ const EditOrderForm = (props: Props) => {
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ORDER')}
                   className="EditOrderModal__field"
                 />
+              </div>
 
-                {/* Only who has permissions to admin edit order can see these data */}
-                <If condition={isAdminEditAllowed}>
+              {/* Only who has permissions to admin edit order can see these data */}
+              <If condition={isAdminEditAllowed}>
+                <div className="EditOrderModal__field-container">
+                  {/* Show "type" field only for OPEN and CLOSED order status */}
+                  <If condition={[OrderStatus.OPEN, OrderStatus.CLOSED].includes(status)}>
+                    <Field
+                      name="type"
+                      component={FormikSelectField}
+                      className="EditOrderModal__field"
+                      label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      disabled={isOrderEditDisabled}
+                    >
+                      {types.map(({ value, label }) => (
+                        <option key={value} value={value}>{I18n.t(label)}</option>
+                      ))}
+                    </Field>
+                  </If>
+
                   <Field
                     name="reason"
                     component={FormikSelectField}
@@ -265,8 +285,8 @@ const EditOrderForm = (props: Props) => {
                       <option key={value} value={value}>{I18n.t(label)}</option>
                     ))}
                   </Field>
-                </If>
-              </div>
+                </div>
+              </If>
 
               {/* Only who has permissions to admin edit order can see these data */}
               <If condition={isAdminEditAllowed}>
@@ -344,6 +364,16 @@ const EditOrderForm = (props: Props) => {
                   {...decimalsSettings}
                 />
               </div>
+
+              {/* Show warning about stop loss and take profit only for OPEN orders if someone changed order type */}
+              {/* And Stop Loss or Take Profit was defined on order */}
+              <If condition={status === OrderStatus.OPEN && values.type !== type && (!!stopLoss || !!takeProfit)}>
+                <div className="EditOrderModal__field-container">
+                  <div className="EditOrderModal__warning-message">
+                    {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.STOP_LOSS_TAKE_PROFIT_WARNING_MESSAGE')}
+                  </div>
+                </div>
+              </If>
 
               <If condition={status === OrderStatus.CLOSED}>
                 <div className="EditOrderModal__field-container">
@@ -434,7 +464,8 @@ const EditOrderForm = (props: Props) => {
                   <Input
                     disabled
                     name="pnl"
-                    value={status === OrderStatus.OPEN ? floatingPnL.toFixed(2) : pnl?.gross?.toFixed(2)}
+                    type="number"
+                    value={floatingPnL.toFixed(2)}
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.FLOATING_PL')}
                     className="EditOrderModal__field"
                   />
@@ -442,11 +473,8 @@ const EditOrderForm = (props: Props) => {
                   <Input
                     disabled
                     name="netPnL"
-                    value={
-                      status === OrderStatus.OPEN
-                        ? (floatingPnL + commission + swaps).toFixed(2)
-                        : (pnl.gross + commission + swaps).toFixed(2)
-                    }
+                    type="number"
+                    value={(floatingPnL + commission + swaps).toFixed(2)}
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
                     className="EditOrderModal__field"
                   />
@@ -457,8 +485,7 @@ const EditOrderForm = (props: Props) => {
                     type="number"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.MARGIN')}
                     className="EditOrderModal__field"
-                    // Show floating required margin only for OPEN orders. In other cases show value from BE.
-                    value={status === OrderStatus.OPEN ? floatingMargin : margin}
+                    value={floatingMargin}
                   />
                 </div>
               </If>

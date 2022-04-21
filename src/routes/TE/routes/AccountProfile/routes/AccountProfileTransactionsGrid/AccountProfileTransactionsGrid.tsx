@@ -60,7 +60,7 @@ const AccountProfileTransactionsGrid = () => {
 
       <div>
         <Table
-          stickyFromTop={152}
+          stickyFromTop={124}
           items={content}
           loading={transactionsQuery.loading}
           hasMore={!last}

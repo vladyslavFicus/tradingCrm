@@ -4,9 +4,7 @@ query OrderQuery($orderId: Int!) {
       id
       accountLogin
       accountUuid
-      tradeType
       symbol
-      symbolAlias
       direction
       digits
       takeProfit
@@ -15,13 +13,7 @@ query OrderQuery($orderId: Int!) {
       closePrice
       openRate
       closeRate
-      margin
       marginRate
-      pnl {
-        gross
-        net
-      }
-      volumeUnits
       volumeLots
       commission
       swaps

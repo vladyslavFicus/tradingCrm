@@ -141,7 +141,8 @@ class FormikSelectField extends PureComponent {
             id={this.id}
             type="text"
             disabled={disabled}
-            defaultValue={value}
+            onChange={() => {}}
+            value={value}
             style={{ display: 'none' }}
           />
 

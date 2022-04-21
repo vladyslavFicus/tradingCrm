@@ -3619,6 +3619,7 @@
         "WITH_PNL": "with P&L:",
         "REQUIRED_MARGIN": "Required margin:",
         "PENDING_ORDER": "Pending order",
+        "STOP_LOSS_TAKE_PROFIT_WARNING_MESSAGE": "Check the Take Profit and Stop Loss values before changing the order direction",
         "CONFIRMATION": {
           "CHANGE_ORDER_TITLE": "Change order",
           "CHANGE_ORDER_TEXT": "Do you really want to change open price, stop loss, take profit, comment of order #{{id}}?",
@@ -3651,6 +3652,10 @@
           "CLIENT": "Client",
           "OPERATOR": "Operator",
           "SYSTEM": "System"
+        },
+        "TYPES": {
+          "SELL": "Sell",
+          "BUY": "Buy"
         }
       },
       "CLOSED_ORDER_MODAL": {

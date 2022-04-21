@@ -30508,7 +30508,7 @@
             "deprecationReason": null
           },
           {
-            "name": "registrationDate",
+            "name": "registrationDateRange",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -36297,8 +36297,8 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "TradingEngine__OrderStatuses__Enum",
                 "ofType": null
               }
             },
@@ -39095,6 +39095,41 @@
           },
           {
             "name": "INACTIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "TradingEngine__OrderStatuses__Enum",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "CANCELED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CLOSED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OPEN",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PENDING",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
