@@ -1,0 +1,17 @@
+mutation CommpeakCreateCallMutation(
+  $uuid: String!
+  $phoneType: Click2CallPhone__Type__Enum!
+  $customerType: Click2CallCustomer__Type__Enum!
+  $prefix: String!
+) {
+  clickToCall {
+    commpeak {
+      createCall(
+        uuid: $uuid
+        phoneType: $phoneType
+        customerType: $customerType
+        prefix: $prefix
+      )
+    }
+  }
+}

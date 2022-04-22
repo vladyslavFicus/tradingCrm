@@ -7,6 +7,10 @@ import Trackify from '@hrzn/trackify';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
+import {
+  Click2CallPhone__Type__Enum as PhoneType,
+  Click2CallCustomer__Type__Enum as CustomerType,
+} from '__generated__/types';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import Sms from 'components/Sms';
@@ -82,8 +86,7 @@ class ClientPersonalInfo extends PureComponent {
     const { clientInfo: { uuid }, notify } = this.props;
 
     try {
-      const { data:
-        { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
+      const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
         query: ProfilePhonesQuery,
         variables: { playerUUID: uuid },
       });
@@ -108,8 +111,7 @@ class ClientPersonalInfo extends PureComponent {
     const { clientInfo: { uuid }, notify } = this.props;
 
     try {
-      const { data: {
-        profileContacts: { email } } } = await this.props.client.query({
+      const { data: { profileContacts: { email } } } = await this.props.client.query({
         query: ProfileEmailQuery,
         variables: { playerUUID: uuid },
         fetchPolicy: 'network-only',
@@ -134,8 +136,7 @@ class ClientPersonalInfo extends PureComponent {
     const { clientInfo: { uuid }, notify } = this.props;
 
     try {
-      const { data: {
-        profileContacts: { additionalEmail } } } = await this.props.client.query({
+      const { data: { profileContacts: { additionalEmail } } } = await this.props.client.query({
         query: ProfileAdditionalEmailQuery,
         variables: { playerUUID: uuid },
         fetchPolicy: 'network-only',
@@ -253,7 +254,7 @@ class ClientPersonalInfo extends PureComponent {
                   onClick={this.getProfilePhones}
                 />
                 <Sms uuid={uuid} field="contacts.phone" type="PROFILE" />
-                <Click2Call uuid={uuid} field="contacts.phone" type="PROFILE" />
+                <Click2Call uuid={uuid} phoneType={PhoneType.PHONE} customerType={CustomerType.PROFILE} />
               </>
             )}
             className="ClientPersonalInfo__contacts"
@@ -264,7 +265,7 @@ class ClientPersonalInfo extends PureComponent {
             additional={(
               <>
                 <Sms uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
-                <Click2Call uuid={uuid} field="contacts.additionalPhone" type="PROFILE" />
+                <Click2Call uuid={uuid} phoneType={PhoneType.ADDITIONAL_PHONE} customerType={CustomerType.PROFILE} />
               </>
             )}
             className="ClientPersonalInfo__contacts"

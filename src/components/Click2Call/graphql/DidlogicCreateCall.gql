@@ -1,0 +1,15 @@
+mutation DidLogicCreateCallMutation(
+  $uuid: String!
+  $phoneType: Click2CallPhone__Type__Enum!
+  $customerType: Click2CallCustomer__Type__Enum!
+) {
+  clickToCall {
+    didlogic {
+      createCall(
+        uuid: $uuid
+        phoneType: $phoneType
+        customerType: $customerType
+      )
+    }
+  }
+}

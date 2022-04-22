@@ -2,6 +2,10 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
+import {
+  Click2CallPhone__Type__Enum as PhoneType,
+  Click2CallCustomer__Type__Enum as CustomerType,
+} from '__generated__/types';
 import Uuid from 'components/Uuid';
 import PropTypes from 'constants/propTypes';
 import Click2Call from 'components/Click2Call';
@@ -60,13 +64,13 @@ class LeadPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
             value={phone}
-            additional={<Click2Call uuid={uuid} field="phone" type="LEAD" />}
+            additional={<Click2Call uuid={uuid} phoneType={PhoneType.PHONE} type={CustomerType.LEAD} />}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.MOBILE')}
             value={mobile}
-            additional={<Click2Call uuid={uuid} field="mobile" type="LEAD" />}
+            additional={<Click2Call uuid={uuid} phoneType={PhoneType.ADDITIONAL_PHONE} type={CustomerType.LEAD} />}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
