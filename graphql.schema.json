@@ -30554,7 +30554,7 @@
             "deprecationReason": null
           },
           {
-            "name": "registrationDate",
+            "name": "registrationDateRange",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
