@@ -170,7 +170,7 @@ export default {
     UPDATE_CALLBACK: 'callback.updateCallback',
   },
   CALL_HISTORY: {
-    LIST: 'analytics.searchCallHistory',
+    LIST: 'click-to-call.searchCallHistory',
   },
   CLIENTS_DISTRIBUTION: {
     LIST: 'clients-distributor.searchRules',
