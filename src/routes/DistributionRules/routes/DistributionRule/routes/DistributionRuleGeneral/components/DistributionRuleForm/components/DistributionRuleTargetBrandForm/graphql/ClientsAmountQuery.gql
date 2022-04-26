@@ -9,7 +9,7 @@ query ClientsAmountQuery(
   $registrationDateRange: DistributionRule__DateRange__Input
   $lastNotePeriodInHours: Int
   $lastNoteDateRange: DistributionRule__DateRange__Input
-  $executionPeriodInHours: Int
+  $timeInCurrentStatusInHours: Int
   $affiliateUuids: [String]
   $desks: [String]
   $teams: [String]
@@ -25,7 +25,7 @@ query ClientsAmountQuery(
     registrationDateRange: $registrationDateRange
     lastNotePeriodInHours: $lastNotePeriodInHours
     lastNoteDateRange: $lastNoteDateRange
-    executionPeriodInHours: $executionPeriodInHours
+    timeInCurrentStatusInHours: $timeInCurrentStatusInHours
     affiliateUuids: $affiliateUuids
     desks: $desks
     teams: $teams

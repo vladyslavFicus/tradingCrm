@@ -89,7 +89,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       registrationDateRange: sourceBrandConfig?.registrationDateRange || null,
       lastNotePeriodInHours: sourceBrandConfig?.lastNotePeriodInHours || null,
       lastNoteDateRange: sourceBrandConfig?.lastNoteDateRange || null,
-      executionPeriodInHours: sourceBrandConfig?.timeInCurrentStatusInHours || null,
+      timeInCurrentStatusInHours: sourceBrandConfig?.timeInCurrentStatusInHours || null,
       firstTimeDeposit: sourceBrandConfig?.firstTimeDeposit || null,
       desks: sourceBrandConfig?.desks || null,
       teams: sourceBrandConfig?.teams || null,

@@ -439,7 +439,7 @@ PropTypes.ruleClientsDistributionType = PropTypes.shape({
     to: PropTypes.string,
   }),
   lastNotePeriodInHours: PropTypes.number,
-  executionPeriodInHours: PropTypes.number,
+  timeInCurrentStatusInHours: PropTypes.number,
   latestMigration: PropTypes.shape({
     uuid: PropTypes.string,
     startDate: PropTypes.string,
