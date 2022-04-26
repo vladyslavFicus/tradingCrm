@@ -160,7 +160,7 @@ it('Render EditOrderModal without any permissions', async () => {
   // Arrange
   const floatingPnL = 140.63;
   const netPnL = 140.63;
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -227,7 +227,7 @@ it('Render EditOrderModal with MANAGER edit order permission', async () => {
   // Arrange
   const floatingPnL = 140.63;
   const netPnL = 140.63;
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -302,7 +302,7 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
   // Arrange
   const floatingPnL = 140.63;
   const netPnL = 140.63;
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;
@@ -388,7 +388,7 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
   // Arrange
   const floatingPnL = 140.63;
   const netPnL = 140.63;
-  const floatingMargin = 80;
+  const floatingMargin = 72.8;
 
   const ask = 1.15520;
   const bid = 1.15480;

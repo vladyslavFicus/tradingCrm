@@ -227,8 +227,8 @@ const EditOrderForm = (props: Props) => {
           volume: values.volume,
           lotSize: symbolConfig?.lotSize,
           leverage: account.leverage,
-          // Using current margin rate price for open orders only and use 'marginRate' for closed orders
-          marginRate: status === OrderStatus.OPEN ? currentSymbolPrice?.marginRates[account.currency] : marginRate,
+          // Using historical "marginRate" to calculate margin. Because "marginRate" unchanged during the time.
+          marginRate,
           percentage: symbolConfig?.percentage,
         });
 
