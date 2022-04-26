@@ -44,8 +44,8 @@ export default {
     REMOVE_BRAND_MANAGER: 'hierarchy-updater.branch.removeBranchManager',
     UPDATE_USER_BRANCH: 'hierarchy-updater.user.updateUserBranch',
     GET_ACQUISITION_STATUSES: 'hierarchy-updater.acquisition.getStatuses',
-    CREATE_ACQUISITION_STATUS: 'hierarchy-updater.acquisition.updateStatusesForBrand',
-    DELETE_ACQUISITION_STATUS: 'hierarchy-updater.acquisition.updateStatusesForBrand',
+    CREATE_ACQUISITION_STATUS: 'hierarchy-updater.acquisition.addStatusForBrand',
+    DELETE_ACQUISITION_STATUS: 'hierarchy-updater.acquisition.deleteStatusForBrand',
   },
   SALES_RULES: {
     GET_RULES: 'rules-profile.searchRules',

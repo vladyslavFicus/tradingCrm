@@ -5654,6 +5654,14 @@
           "delete": "Delete filter set",
           "setFavourite": "Set filter set as favourite"
         }
+      },
+      "acquisition-statuses": {
+        "TITLE": "Acquisition statuses",
+        "PERMISSIONS": {
+          "list": "View acquisition statuses",
+          "create": "Add new acquisition status",
+          "delete": "Delete acquisition status"
+        }
       }
     }
   }

@@ -1555,4 +1555,48 @@ export default [
       },
     ],
   },
+  // ============================================= //
+  // ============ Acquisition statuses =========== //
+  // ============================================= //
+  {
+    id: 'acquisition-statuses',
+    actions: {
+      view: {
+        action: 'hierarchy-updater.acquisition.getStatuses',
+        state: false,
+      },
+    },
+    permissions: [
+      // List acquisition statuses
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'hierarchy-updater.acquisition.getStatuses',
+            state: false,
+          },
+        },
+      },
+      // Add new acquisition status
+      {
+        id: 'create',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.acquisition.addStatusForBrand',
+            state: false,
+          },
+        },
+      },
+      // Delete acquisition status
+      {
+        id: 'delete',
+        actions: {
+          edit: {
+            action: 'hierarchy-updater.acquisition.deleteStatusForBrand',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
 ];
