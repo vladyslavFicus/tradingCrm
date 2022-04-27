@@ -1,6 +1,7 @@
 import React, { PureComponent, Suspense } from 'react';
 import classNames from 'classnames';
 import { getBrand } from 'config';
+import RSocketProvider from 'rsocket';
 import PropTypes from 'constants/propTypes';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
@@ -111,9 +112,11 @@ class MainLayout extends PureComponent {
  * @constructor
  */
 const MainLayoutContainer = props => (
-  <ConfigProvider>
-    <MainLayout {...props} />
-  </ConfigProvider>
+  <RSocketProvider>
+    <ConfigProvider>
+      <MainLayout {...props} />
+    </ConfigProvider>
+  </RSocketProvider>
 );
 
 export default withStorage(['auth'])(MainLayoutContainer);

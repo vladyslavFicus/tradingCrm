@@ -2859,6 +2859,8 @@
         "SERVER": "Server",
         "BALANCE/EQUITY": "Balance",
         "LEVERAGE": "Leverage",
+        "MARGIN_LEVEL": "Margin level",
+        "PROFIT": "Profit",
         "CREDIT": "Credit",
         "TRADING_STATUS": "Trading status",
         "ACC_TYPE": "Account Type"

@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
+import { withStreams } from 'rsocket';
 import { getBrand } from 'config';
 import { withModals, withNotifications } from 'hoc';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
@@ -19,6 +20,7 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
+import CircleLoader from 'components/CircleLoader';
 import RenameTradingAccountModal from 'modals/RenameTradingAccountModal';
 import ChangeLeverageModal from 'modals/ChangeLeverageModal';
 import TradingAccountChangePasswordModal from 'modals/TradingAccountChangePasswordModal';
@@ -45,6 +47,11 @@ class ClientTradingAccountsGrid extends PureComponent {
     clientTradingAccountsQuery: PropTypes.query({
       clientTradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
     }).isRequired,
+    statistics$: PropTypes.object,
+  };
+
+  static defaultProps = {
+    statistics$: {},
   };
 
   handleSetTradingAccountReadonly = (accountUUID, readOnly) => async () => {
@@ -174,6 +181,50 @@ class ClientTradingAccountsGrid extends PureComponent {
   renderCreditColumn = ({ credit, currency }) => (
     <div className="ClientTradingAccountsGrid__cell-main-value">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
   );
+
+  renderMarginLevelColumn = ({ login, platformType }) => {
+    const statistic$ = this.props.statistics$[login];
+
+    return (
+      <Choose>
+        {/* All accounts except WET doesn't support account statistic */}
+        <When condition={platformType !== 'WET'}>
+          <span>&mdash;</span>
+        </When>
+        {/* Show loader while no data provided from rsocket */}
+        <When condition={!statistic$}>
+          <CircleLoader />
+        </When>
+        <When condition={!!statistic$}>
+          <div className="ClientTradingAccountsGrid__cell-main-value">
+            {Number(statistic$.marginLevel * 100).toFixed(2)}%
+          </div>
+        </When>
+      </Choose>
+    );
+  }
+
+  renderProfitColumn = ({ login, platformType }) => {
+    const statistic$ = this.props.statistics$[login];
+
+    return (
+      <Choose>
+        {/* All accounts except WET doesn't support account statistic */}
+        <When condition={platformType !== 'WET'}>
+          <span>&mdash;</span>
+        </When>
+        {/* Show loader while no data provided from rsocket */}
+        <When condition={!statistic$}>
+          <CircleLoader />
+        </When>
+        <When condition={!!statistic$}>
+          <div className="ClientTradingAccountsGrid__cell-main-value">
+            {Number(statistic$.openPnL).toFixed(2)}
+          </div>
+        </When>
+      </Choose>
+    );
+  }
 
   renderLeverageColumn = (tradingAccount) => {
     const { leverage, accountUUID } = tradingAccount;
@@ -446,6 +497,14 @@ class ClientTradingAccountsGrid extends PureComponent {
             render={this.renderLeverageColumn}
           />
           <Column
+            header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.MARGIN_LEVEL')}
+            render={this.renderMarginLevelColumn}
+          />
+          <Column
+            header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.PROFIT')}
+            render={this.renderProfitColumn}
+          />
+          <Column
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS')}
             render={this.renderTradingStatusColumn}
           />
@@ -475,4 +534,16 @@ export default compose(
     rejectChangingLeverage: RejectChangingLeverageMutation,
     toggleDisabledTradingAccount: ToggleDisabledTradingAccountMutation,
   }),
+  withStreams(({ clientTradingAccountsQuery }) => ({
+    statistics$: {
+      route: 'streamLoginsStatistics',
+      data: {
+        login: (clientTradingAccountsQuery.data?.clientTradingAccounts || [])
+          .filter(({ platformType }) => platformType === 'WET')
+          .map(({ login }) => login),
+      },
+      accumulator: (curr, next) => ({ ...curr, [next.data.login]: next.data }),
+      skip: !(clientTradingAccountsQuery.data?.clientTradingAccounts || []).length,
+    },
+  })),
 )(ClientTradingAccountsGrid);
