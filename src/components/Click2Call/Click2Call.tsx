@@ -76,7 +76,7 @@ const Click2Call = (props: Props) => {
           await didlogicCreateCall({ variables: { uuid, phoneType, customerType } });
           break;
         case Click2CallProviders.ASTERISK:
-          await asteriskCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
+          await asteriskCreateCall({ variables: { uuid, phoneType, customerType, prefix: prefix.toString() } });
           break;
         case Click2CallProviders.COMMPEAK:
           await commpeakCreateCall({ variables: { uuid, phoneType, customerType, prefix } });

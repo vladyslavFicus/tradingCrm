@@ -64,13 +64,19 @@ class LeadPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
             value={phone}
-            additional={<Click2Call uuid={uuid} phoneType={PhoneType.PHONE} type={CustomerType.LEAD} />}
+            additional={<Click2Call uuid={uuid} phoneType={PhoneType.PHONE} customerType={CustomerType.LEAD} />}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.MOBILE')}
             value={mobile}
-            additional={<Click2Call uuid={uuid} phoneType={PhoneType.ADDITIONAL_PHONE} type={CustomerType.LEAD} />}
+            additional={(
+              <Click2Call
+                uuid={uuid}
+                phoneType={PhoneType.ADDITIONAL_PHONE}
+                customerType={CustomerType.LEAD}
+              />
+            )}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
