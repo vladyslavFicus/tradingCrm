@@ -103,7 +103,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
 
       <div>
         <Table
-          stickyFromTop={152}
+          stickyFromTop={124}
           items={content}
           loading={ordersQuery.loading}
           hasMore={!last}

@@ -85,6 +85,7 @@
   &__fieldset {
     border: 1px solid #ccc;
     padding: 0 20px 20px 20px;
+    border-radius: 3px;
   }
 
   &__fieldset-title {
@@ -96,6 +97,13 @@
     top: 50%;
     transform: translateY(-50%)!important;
     margin: 0 auto;
+  }
+
+  &__warning-message {
+    width: 100%;
+    padding: 10px 10px;
+    background: #ffcac8;
+    border-radius: 3px;
   }
 
   .modal-body {

@@ -1,18 +1,14 @@
-import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
+import {
+  TradingEngine__OperationTypes__Enum as OrderType,
+  TradingEngine__OrderStatuses__Enum as OrderStatus,
+} from '__generated__/types';
 
-export { OrderType };
+export { OrderType, OrderStatus };
 
 export enum OrderTypeOnCreation {
   MARKET = 'MARKET',
   STOP = 'STOP',
   LIMIT = 'LIMIT',
-}
-
-export enum OrderStatus {
-  OPEN = 'OPEN',
-  CLOSED = 'CLOSED',
-  PENDING = 'PENDING',
-  CANCELED = 'CANCELED',
 }
 
 export enum OrderDirection {

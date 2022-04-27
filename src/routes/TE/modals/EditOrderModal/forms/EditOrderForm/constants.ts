@@ -12,3 +12,14 @@ export const reasons = [
     label: 'TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASONS.SYSTEM',
   },
 ];
+
+export const types = [
+  {
+    value: 'SELL',
+    label: 'TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPES.SELL',
+  },
+  {
+    value: 'BUY',
+    label: 'TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPES.BUY',
+  },
+];

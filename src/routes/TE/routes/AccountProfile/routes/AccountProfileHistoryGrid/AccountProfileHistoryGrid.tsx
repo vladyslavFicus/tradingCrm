@@ -88,7 +88,7 @@ const AccountProfileHistoryGrid = (props: Props) => {
 
       <div>
         <Table
-          stickyFromTop={152}
+          stickyFromTop={124}
           items={content}
           loading={historyQuery.loading}
           hasMore={!last}
