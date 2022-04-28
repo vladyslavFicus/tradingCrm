@@ -8,11 +8,6 @@ const tradingEngineTabs = [
     permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
   },
   {
-    url: '/trading-engine/margin-calls',
-    label: 'TRADING_ENGINE.TABS.MARGIN_CALLS',
-    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
-  },
-  {
     url: '/trading-engine/orders',
     label: 'TRADING_ENGINE.TABS.ORDERS',
     permissions: new Permissions(permissions.WE_TRADING.ORDERS_LIST),
@@ -21,6 +16,11 @@ const tradingEngineTabs = [
     url: '/trading-engine/quotes',
     label: 'TRADING_ENGINE.TABS.QUOTES',
     permissions: new Permissions(permissions.WE_TRADING.SYMBOLS_LIST),
+  },
+  {
+    url: '/trading-engine/margin-calls',
+    label: 'TRADING_ENGINE.TABS.MARGIN_CALLS',
+    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
   },
   {
     url: '/trading-engine/symbols',

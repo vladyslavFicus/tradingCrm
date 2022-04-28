@@ -105,10 +105,6 @@ const sidebarTopMenu = [{
     url: '/trading-engine/accounts',
     permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
   }, {
-    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.MARGIN_CALLS',
-    url: '/trading-engine/margin-calls',
-    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
-  }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.ORDERS',
     url: '/trading-engine/orders',
     permissions: new Permissions(permissions.WE_TRADING.ORDERS_LIST),
@@ -116,6 +112,10 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.QUOTES',
     url: '/trading-engine/quotes',
     permissions: new Permissions(permissions.WE_TRADING.SYMBOLS_LIST),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.MARGIN_CALLS',
+    url: '/trading-engine/margin-calls',
+    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
   }, {
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.SYMBOLS',
     url: '/trading-engine/symbols',
