@@ -4,6 +4,7 @@ query GroupsQuery($args: TradingEngineGroupsSearch__Input) {
       content {
         groupName
         description
+        currency
         marginCallLevel
         stopoutLevel
         groupSecurities {

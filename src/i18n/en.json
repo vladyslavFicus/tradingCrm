@@ -4419,6 +4419,7 @@
       "GRID": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
+        "CURRENCY": "Group Currency",
         "MC_SO": "MC/SO",
         "SECURITIES": "Securities",
         "ACTIONS": "Actions"

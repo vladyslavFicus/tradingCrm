@@ -144,6 +144,15 @@ const GroupsGrid = ({
           )}
         />
         <Column
+          width={300}
+          header={I18n.t('TRADING_ENGINE.GROUPS.GRID.CURRENCY')}
+          render={({ currency }: GroupType) => (
+            <div className="GroupsGrid__cell-primary">
+              {currency}
+            </div>
+          )}
+        />
+        <Column
           width={100}
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.MC_SO')}
           render={({ marginCallLevel, stopoutLevel }: GroupType) => (
