@@ -536,7 +536,7 @@ export default compose(
   }),
   withStreams(({ clientTradingAccountsQuery }) => ({
     statistics$: {
-      route: 'streamLoginsStatistics',
+      route: 'streamAccountStatisticsByLogins',
       data: {
         login: (clientTradingAccountsQuery.data?.clientTradingAccounts || [])
           .filter(({ platformType }) => platformType === 'WET')
