@@ -538,7 +538,7 @@ export default compose(
     statistics$: {
       route: 'streamAccountStatisticsByLogins',
       data: {
-        login: (clientTradingAccountsQuery.data?.clientTradingAccounts || [])
+        logins: (clientTradingAccountsQuery.data?.clientTradingAccounts || [])
           .filter(({ platformType }) => platformType === 'WET')
           .map(({ login }) => login),
       },
