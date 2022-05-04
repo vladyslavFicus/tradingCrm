@@ -1,0 +1,18 @@
+query ClickToCallConfigsQuery(
+  $uuid: String!
+  $customerType: ClickToCall__Customer__Type__Enum!
+  $phoneType: ClickToCall__Phone__Type__Enum!
+) {
+  clickToCall {
+    configs {
+      callSystem
+      prefixes {
+        label
+        prefix
+      }
+      additionalFields(uuid: $uuid, customerType: $customerType, phoneType: $phoneType) {
+        phone
+      }
+    }
+  }
+}

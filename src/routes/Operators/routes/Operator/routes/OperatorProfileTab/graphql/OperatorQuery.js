@@ -16,12 +16,7 @@ const REQUEST = gql`
       lastName
       operatorStatus
       phoneNumber
-      clickToCall {
-        didlogicPhone
-        asteriskPhone
-        commpeakPhone
-        coperatoPhone
-      }
+      clickToCall
       registeredBy
       registrationDate
       statusChangeAuthor

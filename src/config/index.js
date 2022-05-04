@@ -100,13 +100,6 @@ const getPaymentReason = () => config.brand?.payment?.reasons;
 const getAvailableLanguages = () => config.brand?.locales?.languages || [];
 
 /**
- * Get click to call credentials
- *
- * @return {any}
- */
-const getClickToCall = () => config.brand?.clickToCall;
-
-/**
  * Get backoffice brand
  *
  * @return {*}
@@ -143,7 +136,6 @@ export {
   getApiRoot,
   getBrand,
   setBrand,
-  getClickToCall,
   getAvailableLanguages,
   getVersion,
   getGraphQLUrl,

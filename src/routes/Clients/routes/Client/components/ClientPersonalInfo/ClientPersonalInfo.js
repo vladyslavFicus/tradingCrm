@@ -8,8 +8,8 @@ import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import {
-  Click2CallPhone__Type__Enum as PhoneType,
-  Click2CallCustomer__Type__Enum as CustomerType,
+  ClickToCall__Phone__Type__Enum as PhoneType,
+  ClickToCall__Customer__Type__Enum as CustomerType,
 } from '__generated__/types';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';

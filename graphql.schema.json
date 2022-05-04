@@ -297,7 +297,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallCustomer__Type__Enum",
+                    "name": "ClickToCall__Customer__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -313,7 +313,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallPhone__Type__Enum",
+                    "name": "ClickToCall__Phone__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -2639,49 +2639,269 @@
         "possibleTypes": null
       },
       {
-        "kind": "ENUM",
-        "name": "Click2CallCustomer__Type__Enum",
+        "kind": "OBJECT",
+        "name": "ClearVoiceMutation",
         "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
+        "fields": [
           {
-            "name": "LEAD",
+            "name": "createCall",
             "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PROFILE",
-            "description": null,
+            "args": [
+              {
+                "name": "customerType",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "ClickToCall__Customer__Type__Enum",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "phoneType",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "ClickToCall__Phone__Type__Enum",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "prefix",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "uuid",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
             "isDeprecated": false,
             "deprecationReason": null
           }
         ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
         "possibleTypes": null
       },
       {
-        "kind": "ENUM",
-        "name": "Click2CallPhone__Type__Enum",
+        "kind": "OBJECT",
+        "name": "ClickToCallConfig",
         "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
+        "fields": [
           {
-            "name": "ADDITIONAL_PHONE",
+            "name": "additionalFields",
             "description": null,
+            "args": [
+              {
+                "name": "customerType",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "ClickToCall__Customer__Type__Enum",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "phoneType",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "ClickToCall__Phone__Type__Enum",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "uuid",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ClickToCallConfig__AdditionalFields",
+              "ofType": null
+            },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "PHONE",
+            "name": "callSystem",
             "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ClickToCall__CallSystem__Enum",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "prefixes",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ClickToCallConfig__Prefix",
+                    "ofType": null
+                  }
+                }
+              }
+            },
             "isDeprecated": false,
             "deprecationReason": null
           }
         ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ClickToCallConfig__AdditionalFields",
+        "description": null,
+        "fields": [
+          {
+            "name": "phone",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ClickToCallConfig__Prefix",
+        "description": null,
+        "fields": [
+          {
+            "name": "label",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "prefix",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -2699,6 +2919,22 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "AsteriskMutation",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clearvoice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ClearVoiceMutation",
                 "ofType": null
               }
             },
@@ -2757,6 +2993,128 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ClickToCallQuery",
+        "description": null,
+        "fields": [
+          {
+            "name": "configs",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ClickToCallConfig",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "ClickToCall__CallSystem__Enum",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "ASTERISK",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CLEAR_VOICE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "COMMPEAK",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "COPERATO",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "DIDLOGIC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "ClickToCall__Customer__Type__Enum",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "LEAD",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PROFILE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "ClickToCall__Phone__Type__Enum",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "ADDITIONAL_PHONE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PHONE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -3743,7 +4101,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallCustomer__Type__Enum",
+                    "name": "ClickToCall__Customer__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -3759,7 +4117,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallPhone__Type__Enum",
+                    "name": "ClickToCall__Phone__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -3831,7 +4189,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallCustomer__Type__Enum",
+                    "name": "ClickToCall__Customer__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -3847,7 +4205,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallPhone__Type__Enum",
+                    "name": "ClickToCall__Phone__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -4475,7 +4833,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallCustomer__Type__Enum",
+                    "name": "ClickToCall__Customer__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -4491,7 +4849,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Click2CallPhone__Type__Enum",
+                    "name": "ClickToCall__Phone__Type__Enum",
                     "ofType": null
                   }
                 },
@@ -13150,8 +13508,8 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "Operator__ClickToCall",
+              "kind": "SCALAR",
+              "name": "Object",
               "ofType": null
             },
             "isDeprecated": false,
@@ -13820,8 +14178,8 @@
                 "name": "clickToCall",
                 "description": null,
                 "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "OperatorUpdate__ClickToCall__Input",
+                  "kind": "SCALAR",
+                  "name": "Object",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -13992,124 +14350,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "OperatorUpdate__ClickToCall__Input",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "asteriskPhone",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "commpeakPhone",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "coperatoPhone",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "didlogicPhone",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Operator__ClickToCall",
-        "description": null,
-        "fields": [
-          {
-            "name": "asteriskPhone",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "commpeakPhone",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "coperatoPhone",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "didlogicPhone",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -24073,6 +24313,22 @@
                     "ofType": null
                   }
                 }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clickToCall",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ClickToCallQuery",
+                "ofType": null
               }
             },
             "isDeprecated": false,

@@ -2093,11 +2093,7 @@
           "FIRST_NAME": "First name",
           "LAST_NAME": "Last name",
           "COUNTRY": "Country",
-          "PHONE": "Phone",
-          "DIDLOGIC": "DID Logic SIP",
-          "ASTERISK": "Asterisk SIP",
-          "COMMPEAK": "Commpeak SIP",
-          "COPERATO": "Coperato SIP"
+          "PHONE": "Phone"
         }
       }
     },

@@ -3,8 +3,8 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
 import {
-  Click2CallPhone__Type__Enum as PhoneType,
-  Click2CallCustomer__Type__Enum as CustomerType,
+  ClickToCall__Phone__Type__Enum as PhoneType,
+  ClickToCall__Customer__Type__Enum as CustomerType,
 } from '__generated__/types';
 import Uuid from 'components/Uuid';
 import PropTypes from 'constants/propTypes';

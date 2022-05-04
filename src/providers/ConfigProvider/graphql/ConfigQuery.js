@@ -55,21 +55,6 @@ const REQUEST = gql`
           enabled
         }
       }
-      clickToCall {
-        isActive
-        asterisk {
-          isActive
-          prefixes
-        }
-        commpeak {
-          isActive
-          prefixes
-        }
-        coperato {
-          isActive
-          prefixes
-        }
-      }
       sms {
         coperato {
           isActive
