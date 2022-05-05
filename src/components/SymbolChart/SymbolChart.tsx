@@ -5,8 +5,9 @@ import moment from 'moment';
 import { round } from 'utils/round';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import Chart from './components/Chart';
-import { ReactComponent as SymbolChartIcon } from './SymbolChartIcon.svg';
 import { useSymbolQuery, SymbolQueryQueryResult } from './graphql/__generated__/SymbolQuery';
+import { ReactComponent as SymbolChartIcon } from './img/SymbolChartIcon.svg';
+import { ReactComponent as SymbolChartLoadingIcon } from './img/SymbolChartLoadingIcon.svg';
 import { ReactComponent as WarningIcon } from './img/warning.svg';
 import './SymbolChart.scss';
 
@@ -15,11 +16,13 @@ interface Props {
   accountUuid: string,
   askLineColor?: string,
   bidLineColor?: string,
+  loading?: boolean, // Custom loader controlled outside
 }
 
 const defaultProps = {
   askLineColor: undefined,
   bidLineColor: undefined,
+  loading: false,
 };
 
 /**
@@ -50,7 +53,13 @@ const getChartData = (symbolQuery: SymbolQueryQueryResult) => {
 };
 
 const SymbolChart = (props: Props) => {
-  const { symbol, accountUuid, askLineColor, bidLineColor } = props;
+  const {
+    symbol,
+    accountUuid,
+    askLineColor,
+    bidLineColor,
+    loading = false,
+  } = props;
 
   const symbolQuery = useSymbolQuery({
     variables: {
@@ -67,12 +76,17 @@ const SymbolChart = (props: Props) => {
 
   const nextTickItem = useSymbolPricesStream(symbol);
 
-  const isLoading = !symbol || !accountUuid || symbolQuery.loading;
+  const isLoading = !symbol || !accountUuid || symbolQuery.loading || loading;
 
   return (
     <div className={classNames('SymbolChart', { 'SymbolChart--loading': isLoading })}>
       <Choose>
-        <When condition={isLoading}>
+        {/* Show animated image when query in flight or loading was provided outside */}
+        <When condition={symbolQuery.loading || loading}>
+          <SymbolChartLoadingIcon className="SymbolChart__icon" />
+        </When>
+        {/* Show static image when accountUuid or symbols wasn't provided */}
+        <When condition={!accountUuid}>
           <SymbolChartIcon className="SymbolChart__icon" />
         </When>
         <Otherwise>

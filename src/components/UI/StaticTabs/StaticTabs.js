@@ -11,35 +11,63 @@ class StaticTabs extends PureComponent {
       PropTypes.arrayOf(PropTypes.element),
       PropTypes.element,
     ]).isRequired,
+    navClassName: PropTypes.string,
+    navItemClassName: PropTypes.string,
+    contentClassName: PropTypes.string,
+    onTabChanged: PropTypes.func,
   }
+
+  static defaultProps = {
+    navClassName: null,
+    navItemClassName: null,
+    contentClassName: null,
+    onTabChanged: () => {},
+  };
 
   state = {
     activeIndex: 0,
   };
 
+  onTabChanged = (activeIndex) => {
+    // Notify parent when tab changed
+    if (this.state.activeIndex !== activeIndex) {
+      this.props.onTabChanged();
+    }
+
+    this.setState({ activeIndex });
+  };
+
   render() {
+    const {
+      children,
+      navClassName,
+      navItemClassName,
+      contentClassName,
+    } = this.props;
+
     const { activeIndex } = this.state;
-    const children = React.Children
-      .toArray(this.props.children)
+
+    const _children = React.Children
+      .toArray(children)
       .filter(child => child.type === StaticTabsItem);
 
     return (
       <div className="StaticTabs">
-        <div className="StaticTabs__nav">
-          {children.map(({ props: { label } }, index) => (
+        <div className={classNames('StaticTabs__nav', navClassName)}>
+          {_children.map(({ props: { label } }, index) => (
             <Button
               key={index}
-              className={classNames('StaticTabs__nav-item', {
+              className={classNames('StaticTabs__nav-item', navItemClassName, {
                 'StaticTabs__nav-item--active': activeIndex === index,
               })}
-              onClick={() => this.setState({ activeIndex: index })}
+              onClick={() => this.onTabChanged(index)}
             >
               {label}
             </Button>
           ))}
         </div>
-        <div className="StaticTabs__content">
-          {children.filter((_, index) => activeIndex === index)}
+        <div className={classNames('StaticTabs__content', contentClassName)}>
+          {_children.filter((_, index) => activeIndex === index)}
         </div>
       </div>
     );
