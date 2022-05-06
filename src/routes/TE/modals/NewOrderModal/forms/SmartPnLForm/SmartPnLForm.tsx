@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
@@ -22,16 +22,16 @@ import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculateClosePrice, calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
-import { Account } from '../../NewOrderModal';
 import { useCreateClosedOrderMutation } from './graphql/__generated__/CreateClosedOrderMutation';
+import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
+import './SmartPnLForm.scss';
 
 type Props = {
   notify: Notify
-  account?: Account
-  symbol?: string,
-  onSymbolChanged: (symbol: string) => void
-  onSuccess: (orderId: number) => void
+  accountUuid?: string
+  onSymbolChanged?: (symbol: string) => void
+  onSuccess?: (orderId: number) => void
 };
 
 type FormValues = {
@@ -51,27 +51,35 @@ type FormValues = {
 const SmartPnLForm = (props: Props) => {
   const {
     notify,
-    account,
-    symbol,
-    onSymbolChanged,
-    onSuccess,
+    accountUuid,
+    onSymbolChanged = () => {},
+    onSuccess = () => {},
   } = props;
 
+  const [symbol, setSymbol] = useState<string>();
+
   const [createClosedOrder] = useCreateClosedOrderMutation();
+
+  const accountQuery = useAccountQuery({
+    variables: { identifier: accountUuid as string },
+    skip: !accountUuid,
+  });
 
   const accountSymbolsQuery = useAccountSymbolsQuery({
     fetchPolicy: 'cache-and-network',
     variables: {
-      accountUuid: account?.uuid as string,
+      accountUuid: accountUuid as string,
     },
-    skip: !account,
+    skip: !accountUuid,
     onCompleted({ tradingEngine: { accountSymbols } }) {
+      setSymbol(accountSymbols[0]?.name);
       onSymbolChanged(accountSymbols[0]?.name);
     },
   });
 
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
+  const account = accountQuery.data?.tradingEngine.account;
   const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
   const isAccountArchived = !account?.enable;
 
@@ -218,6 +226,7 @@ const SmartPnLForm = (props: Props) => {
   };
 
   const onChangeSymbol = (value: string, values: FormValues, setValues: Function) => {
+    setSymbol(value);
     onSymbolChanged(value);
 
     setValues({
@@ -240,10 +249,10 @@ const SmartPnLForm = (props: Props) => {
       openTime: ['dateWithTime', `validDateTimeRange:${moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]')}`],
       symbol: ['required', 'string'],
       ...!values.sellAutoOpenPrice && {
-        sellOpenPrice: 'required',
+        sellOpenPrice: ['required', 'min:0'],
       },
       ...!values.buyAutoOpenPrice && {
-        buyOpenPrice: 'required',
+        buyOpenPrice: ['required', 'min:0'],
       },
       commission: ['required', 'numeric'],
       swaps: ['required', 'numeric'],
@@ -351,8 +360,8 @@ const SmartPnLForm = (props: Props) => {
         });
 
         // Get status of buttons SELL and BUY
-        const isSellDisabled = !account || isSubmitting || !isValid || !sellPrice;
-        const isBuyDisabled = !account || isSubmitting || !isValid || !buyPrice;
+        const isSellDisabled = !account || isSubmitting || !isValid || !sellPrice || sellClosePrice < 0;
+        const isBuyDisabled = !account || isSubmitting || !isValid || !buyPrice || buyClosePrice < 0;
 
         const decimalsSettings = {
           decimalsLimit: currentSymbol?.digits,
@@ -365,12 +374,12 @@ const SmartPnLForm = (props: Props) => {
 
         return (
           <Form>
-            <div className="NewOrderModal__field-container NewOrderModal__field-container--column">
+            <div className="SmartPnLForm__field-container SmartPnLForm__field-container--column">
               <Field
                 name="pnl"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.EXPECTED_PNL')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 placeholder="0.00"
                 component={FormikInputField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
@@ -383,18 +392,18 @@ const SmartPnLForm = (props: Props) => {
                 && !!currentSymbolPrice
               }
               >
-                <div className="NewOrderModal__field-hint">
+                <div className="SmartPnLForm__field-hint">
                   {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.REAL_RECEIVED_PNL')}:
                   SELL = <strong>{sellPnl}</strong>, BUY = <strong>{buyPnl}</strong>
                 </div>
               </If>
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <Field
                 name="volumeLots"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 placeholder="0.00"
                 step={currentSymbol?.config?.lotStep}
                 min={currentSymbol?.config?.lotMin}
@@ -404,7 +413,7 @@ const SmartPnLForm = (props: Props) => {
               />
               <Field
                 name="openTime"
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_TIME')}
                 component={FormikDatePicker}
                 maxDate={moment()}
@@ -413,11 +422,11 @@ const SmartPnLForm = (props: Props) => {
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <Field
                 name="symbol"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 component={FormikSelectField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                 customOnChange={(value: string) => onChangeSymbol(value, values, setValues)}
@@ -432,12 +441,12 @@ const SmartPnLForm = (props: Props) => {
             </div>
 
             {/* SELL information row */}
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <Field
                 name="sellOpenPrice"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE_SELL')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
                 min={0}
@@ -449,7 +458,7 @@ const SmartPnLForm = (props: Props) => {
               />
               <Button
                 data-testid="sellPriceUpdate"
-                className="NewOrderModal__button NewOrderModal__button--small"
+                className="SmartPnLForm__button SmartPnLForm__button--small"
                 type="button"
                 primaryOutline
                 disabled={sellAutoOpenPrice || !account || isAccountArchived}
@@ -457,12 +466,12 @@ const SmartPnLForm = (props: Props) => {
               >
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
               </Button>
-              <div className="NewOrderModal__checkbox-container NewOrderModal__checkbox-container--smart-pnl">
+              <div className="SmartPnLForm__checkbox-container">
                 <Field
                   data-testid="sellAutoOpenPrice"
                   name="sellAutoOpenPrice"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
-                  className="NewOrderModal__auto-checkbox"
+                  className="SmartPnLForm__auto-checkbox"
                   component={FormikCheckbox}
                   onChange={handleSellAutoOpenPrice(values, setValues)}
                   disabled={!account || isAccountArchived}
@@ -474,17 +483,20 @@ const SmartPnLForm = (props: Props) => {
                 name="sellClosePrice"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.CLOSE_PRICE_SELL')}
                 value={sellClosePrice}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
+                error={sellClosePrice < 0
+                  && I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.CLOSE_PRICE_NEGATIVE_ERROR')
+                }
               />
             </div>
 
             {/* BUY information row */}
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <Field
                 name="buyOpenPrice"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE_BUY')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
                 min={0}
@@ -496,7 +508,7 @@ const SmartPnLForm = (props: Props) => {
               />
               <Button
                 data-testid="buyPriceUpdate"
-                className="NewOrderModal__button NewOrderModal__button--small"
+                className="SmartPnLForm__button SmartPnLForm__button--small"
                 type="button"
                 primaryOutline
                 disabled={buyAutoOpenPrice || !account || isAccountArchived}
@@ -504,12 +516,12 @@ const SmartPnLForm = (props: Props) => {
               >
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
               </Button>
-              <div className="NewOrderModal__checkbox-container NewOrderModal__checkbox-container--smart-pnl">
+              <div className="SmartPnLForm__checkbox-container SmartPnLForm__checkbox-container--smart-pnl">
                 <Field
                   data-testid="buyAutoOpenPrice"
                   name="buyAutoOpenPrice"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
-                  className="NewOrderModal__auto-checkbox"
+                  className="SmartPnLForm__auto-checkbox"
                   component={FormikCheckbox}
                   onChange={handleBuyAutoOpenPrice(values, setValues)}
                   disabled={!account || isAccountArchived}
@@ -521,17 +533,20 @@ const SmartPnLForm = (props: Props) => {
                 name="buyClosePrice"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.CLOSE_PRICE_BUY')}
                 value={buyClosePrice}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
+                error={buyClosePrice < 0
+                  && I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.CLOSE_PRICE_NEGATIVE_ERROR')
+                }
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <Field
                 name="commission"
                 type="number"
                 step="0.00001"
                 placeholder="0.00"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMISSION')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 component={FormikInputField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
@@ -541,12 +556,12 @@ const SmartPnLForm = (props: Props) => {
                 step="0.00001"
                 placeholder="0.00"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SWAPS')}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
                 component={FormikInputField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <Input
                 disabled
                 name="sellMargin"
@@ -563,7 +578,7 @@ const SmartPnLForm = (props: Props) => {
                       percentage: currentSymbol.config?.percentage,
                     })
                     : 0}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
               />
               <Input
                 disabled
@@ -581,10 +596,10 @@ const SmartPnLForm = (props: Props) => {
                       percentage: currentSymbol.config?.percentage,
                     })
                     : 0}
-                className="NewOrderModal__field"
+                className="SmartPnLForm__field"
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="SmartPnLForm__field-container">
               <If condition={!!account && !isAccountArchived}>
                 {/* Sell order by CTRL+S pressing */}
                 <Hotkeys
@@ -611,7 +626,7 @@ const SmartPnLForm = (props: Props) => {
                 />
               </If>
               <Button
-                className="NewOrderModal__button"
+                className="SmartPnLForm__button"
                 danger
                 disabled={isSellDisabled || isAccountArchived}
                 onClick={() => {
@@ -625,7 +640,7 @@ const SmartPnLForm = (props: Props) => {
                 })}
               </Button>
               <Button
-                className="NewOrderModal__button"
+                className="SmartPnLForm__button"
                 primary
                 disabled={isBuyDisabled || isAccountArchived}
                 onClick={() => {
@@ -646,8 +661,9 @@ const SmartPnLForm = (props: Props) => {
 };
 
 SmartPnLForm.defaultProps = {
-  account: null,
-  symbol: null,
+  accountUuid: null,
+  onSymbolChanged: () => {},
+  onSuccess: () => {},
 };
 
 export default compose(

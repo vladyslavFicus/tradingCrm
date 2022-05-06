@@ -4,6 +4,8 @@ import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Storage } from 'types/storage';
+import permissions from 'config/permissions';
+import { usePermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
@@ -32,6 +34,7 @@ const NewOrderModal = (props: Props) => {
     login: propsLogin = '',
   } = props;
 
+  const permission = usePermission();
   const [login, setLogin] = useState<string>(propsLogin);
   const [symbol, setSymbol] = useState<string>('');
   const [formError, setFormError] = useState<string>('');
@@ -166,28 +169,39 @@ const NewOrderModal = (props: Props) => {
             </If>
 
             <StaticTabs
+              hideIfOne
               navClassName="NewOrderModal__tabs-nav"
               navItemClassName="NewOrderModal__tabs-nav-item"
+              navActiveItemClassName="NewOrderModal__tabs-nav-item--active"
               contentClassName="NewOrderModal__tabs-content"
-              onTabChanged={() => setSymbol('')} // Clear symbol selection when changed tab
             >
-              <StaticTabsItem label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.SMART_PNL')}>
-                <SmartPnLForm
-                  account={account}
-                  symbol={symbol}
-                  onSymbolChanged={setSymbol}
-                  onSuccess={handleOnSuccess}
-                />
-              </StaticTabsItem>
+              {/* General new order tab */}
+              <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+                <StaticTabsItem
+                  data-testid="generalNewOrder"
+                  label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.NEW_ORDER')}
+                >
+                  <GeneralNewOrderForm
+                    accountUuid={account?.uuid}
+                    onSymbolChanged={setSymbol}
+                    onSuccess={handleOnSuccess}
+                  />
+                </StaticTabsItem>
+              </If>
 
-              <StaticTabsItem label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.NEW_ORDER')}>
-                <GeneralNewOrderForm
-                  account={account}
-                  symbol={symbol}
-                  onSymbolChanged={setSymbol}
-                  onSuccess={handleOnSuccess}
-                />
-              </StaticTabsItem>
+              {/* Smart P/L tab */}
+              <If condition={permission.allows(permissions.WE_TRADING.CREATE_CLOSED_ORDER)}>
+                <StaticTabsItem
+                  data-testid="smartPnlNewOrder"
+                  label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.SMART_PNL')}
+                >
+                  <SmartPnLForm
+                    accountUuid={account?.uuid}
+                    onSymbolChanged={setSymbol}
+                    onSuccess={handleOnSuccess}
+                  />
+                </StaticTabsItem>
+              </If>
             </StaticTabs>
           </div>
         </div>

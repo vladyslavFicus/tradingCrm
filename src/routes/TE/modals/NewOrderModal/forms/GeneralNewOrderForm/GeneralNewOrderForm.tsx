@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
@@ -22,16 +22,16 @@ import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
-import { Account } from '../../NewOrderModal';
 import { useCreateOrderMutation } from './graphql/__generated__/CreateOrderMutation';
+import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
+import './GeneralNewOrderForm.scss';
 
 type Props = {
   notify: Notify
-  account?: Account
-  symbol?: string,
-  onSymbolChanged: (symbol: string) => void
-  onSuccess: (orderId: number) => void
+  accountUuid?: string
+  onSymbolChanged?: (symbol: string) => void
+  onSuccess?: (orderId: number) => void
 };
 
 type FormValues = {
@@ -50,27 +50,35 @@ type FormValues = {
 const GeneralNewOrderForm = (props: Props) => {
   const {
     notify,
-    account,
-    symbol,
-    onSymbolChanged,
-    onSuccess,
+    accountUuid,
+    onSymbolChanged = () => {},
+    onSuccess = () => {},
   } = props;
 
+  const [symbol, setSymbol] = useState<string>();
+
   const [createOrder] = useCreateOrderMutation();
+
+  const accountQuery = useAccountQuery({
+    variables: { identifier: accountUuid as string },
+    skip: !accountUuid,
+  });
 
   const accountSymbolsQuery = useAccountSymbolsQuery({
     fetchPolicy: 'cache-and-network',
     variables: {
-      accountUuid: account?.uuid as string,
+      accountUuid: accountUuid as string,
     },
-    skip: !account,
+    skip: !accountUuid,
     onCompleted({ tradingEngine: { accountSymbols } }) {
+      setSymbol(accountSymbols[0]?.name);
       onSymbolChanged(accountSymbols[0]?.name);
     },
   });
 
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
+  const account = accountQuery.data?.tradingEngine.account;
   const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
   const isAccountArchived = !account?.enable;
 
@@ -186,6 +194,7 @@ const GeneralNewOrderForm = (props: Props) => {
   };
 
   const onChangeSymbol = (value: string, values: FormValues, setValues: Function) => {
+    setSymbol(value);
     onSymbolChanged(value);
 
     setValues({
@@ -321,12 +330,12 @@ const GeneralNewOrderForm = (props: Props) => {
 
         return (
           <Form>
-            <div className="NewOrderModal__field-container">
+            <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="volumeLots"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
-                className="NewOrderModal__field"
+                className="GeneralNewOrderForm__field"
                 placeholder="0.00"
                 step={currentSymbol?.config?.lotStep}
                 min={currentSymbol?.config?.lotMin}
@@ -335,11 +344,11 @@ const GeneralNewOrderForm = (props: Props) => {
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="symbol"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
-                className="NewOrderModal__field"
+                className="GeneralNewOrderForm__field"
                 component={FormikSelectField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                 customOnChange={(value: string) => onChangeSymbol(value, values, setValues)}
@@ -352,12 +361,12 @@ const GeneralNewOrderForm = (props: Props) => {
                 ))}
               </Field>
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="takeProfit"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
-                className="NewOrderModal__field"
+                className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
                 min={0}
@@ -370,7 +379,7 @@ const GeneralNewOrderForm = (props: Props) => {
                 name="stopLoss"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
-                className="NewOrderModal__field"
+                className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
                 min={0}
@@ -380,12 +389,12 @@ const GeneralNewOrderForm = (props: Props) => {
                 {...decimalsSettings}
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="openPrice"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
-                className="NewOrderModal__field"
+                className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
                 min={0}
@@ -396,7 +405,7 @@ const GeneralNewOrderForm = (props: Props) => {
                 {...decimalsSettings}
               />
               <Button
-                className="NewOrderModal__button NewOrderModal__button--small"
+                className="GeneralNewOrderForm__button GeneralNewOrderForm__button--small"
                 type="button"
                 primaryOutline
                 disabled={autoOpenPrice || !account || isAccountArchived}
@@ -404,11 +413,11 @@ const GeneralNewOrderForm = (props: Props) => {
               >
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
               </Button>
-              <div className="NewOrderModal__checkbox-container">
+              <div className="GeneralNewOrderForm__checkbox-container">
                 <Field
                   name="autoOpenPrice"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
-                  className="NewOrderModal__auto-checkbox"
+                  className="GeneralNewOrderForm__auto-checkbox"
                   component={FormikCheckbox}
                   onChange={handleAutoOpenPrice(values, setValues)}
                   disabled={!account || pendingOrder || isAccountArchived}
@@ -423,7 +432,7 @@ const GeneralNewOrderForm = (props: Props) => {
               </div>
             </div>
             <If condition={!pendingOrder}>
-              <div className="NewOrderModal__field-container">
+              <div className="GeneralNewOrderForm__field-container">
                 <Input
                   disabled
                   name="sellPnl"
@@ -440,7 +449,7 @@ const GeneralNewOrderForm = (props: Props) => {
                         exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                       })
                       : 0}
-                  className="NewOrderModal__field"
+                  className="GeneralNewOrderForm__field"
                 />
                 <Input
                   disabled
@@ -458,10 +467,10 @@ const GeneralNewOrderForm = (props: Props) => {
                         exchangeRate: currentSymbolPrice?.pnlRates[account.currency],
                       })
                       : 0}
-                  className="NewOrderModal__field"
+                  className="GeneralNewOrderForm__field"
                 />
               </div>
-              <div className="NewOrderModal__field-container">
+              <div className="GeneralNewOrderForm__field-container">
                 <Input
                   disabled
                   name="sellMargin"
@@ -478,7 +487,7 @@ const GeneralNewOrderForm = (props: Props) => {
                         percentage: currentSymbol.config?.percentage,
                       })
                       : 0}
-                  className="NewOrderModal__field"
+                  className="GeneralNewOrderForm__field"
                 />
                 <Input
                   disabled
@@ -496,21 +505,21 @@ const GeneralNewOrderForm = (props: Props) => {
                         percentage: currentSymbol.config?.percentage,
                       })
                       : 0}
-                  className="NewOrderModal__field"
+                  className="GeneralNewOrderForm__field"
                 />
               </div>
             </If>
-            <div className="NewOrderModal__field-container">
+            <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="comment"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMENT')}
-                className="NewOrderModal__field"
+                className="GeneralNewOrderForm__field"
                 maxLength={1000}
                 component={FormikTextAreaField}
                 disabled={!account || isAccountArchived}
               />
             </div>
-            <div className="NewOrderModal__field-container">
+            <div className="GeneralNewOrderForm__field-container">
               <If condition={!!account && !isAccountArchived}>
                 {/* Sell order by CTRL+S pressing */}
                 <Hotkeys
@@ -539,7 +548,7 @@ const GeneralNewOrderForm = (props: Props) => {
                 />
               </If>
               <Button
-                className="NewOrderModal__button"
+                className="GeneralNewOrderForm__button"
                 danger
                 disabled={isSellDisabled || isAccountArchived}
                 onClick={() => {
@@ -554,7 +563,7 @@ const GeneralNewOrderForm = (props: Props) => {
                 })}
               </Button>
               <Button
-                className="NewOrderModal__button"
+                className="GeneralNewOrderForm__button"
                 primary
                 disabled={isBuyDisabled || isAccountArchived}
                 onClick={() => {
@@ -576,8 +585,9 @@ const GeneralNewOrderForm = (props: Props) => {
 };
 
 GeneralNewOrderForm.defaultProps = {
-  account: null,
-  symbol: null,
+  accountUuid: null,
+  onSymbolChanged: () => {},
+  onSuccess: () => {},
 };
 
 export default compose(

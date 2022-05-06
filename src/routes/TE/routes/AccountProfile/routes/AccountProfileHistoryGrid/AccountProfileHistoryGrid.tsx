@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { cloneDeep, set } from 'lodash';
@@ -8,6 +8,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Modal, Sort, State } from 'types';
 import withModals from 'hoc/withModals';
 import { OrderStatus } from 'types/trading-engine';
+import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
@@ -45,6 +46,14 @@ const AccountProfileHistoryGrid = (props: Props) => {
         },
       },
     },
+  });
+
+  useEffect(() => {
+    EventEmitter.on(ORDER_RELOAD, historyQuery.refetch);
+
+    return () => {
+      EventEmitter.off(ORDER_RELOAD, historyQuery.refetch);
+    };
   });
 
   const { content = [], last = true, totalElements } = historyQuery.data?.tradingEngine.history || {};
@@ -268,7 +277,7 @@ const AccountProfileHistoryGrid = (props: Props) => {
             )}
           />
           <Column
-            sortBy="commission "
+            sortBy="commission"
             header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.GRID.COMMISSION')}
             render={({ commission }) => (
               <Choose>

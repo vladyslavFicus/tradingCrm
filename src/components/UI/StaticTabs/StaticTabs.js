@@ -13,14 +13,18 @@ class StaticTabs extends PureComponent {
     ]).isRequired,
     navClassName: PropTypes.string,
     navItemClassName: PropTypes.string,
+    navActiveItemClassName: PropTypes.string,
     contentClassName: PropTypes.string,
     onTabChanged: PropTypes.func,
+    hideIfOne: PropTypes.bool, // Hide tab button if only one tab provided
   }
 
   static defaultProps = {
     navClassName: null,
     navItemClassName: null,
+    navActiveItemClassName: null,
     contentClassName: null,
+    hideIfOne: false,
     onTabChanged: () => {},
   };
 
@@ -42,7 +46,9 @@ class StaticTabs extends PureComponent {
       children,
       navClassName,
       navItemClassName,
+      navActiveItemClassName,
       contentClassName,
+      hideIfOne,
     } = this.props;
 
     const { activeIndex } = this.state;
@@ -53,19 +59,24 @@ class StaticTabs extends PureComponent {
 
     return (
       <div className="StaticTabs">
-        <div className={classNames('StaticTabs__nav', navClassName)}>
-          {_children.map(({ props: { label } }, index) => (
-            <Button
-              key={index}
-              className={classNames('StaticTabs__nav-item', navItemClassName, {
-                'StaticTabs__nav-item--active': activeIndex === index,
-              })}
-              onClick={() => this.onTabChanged(index)}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
+        {/* Show tab buttons only if hideIfOne flag not provided */}
+        <If condition={!(hideIfOne && _children.length === 1)}>
+          <div className={classNames('StaticTabs__nav', navClassName)}>
+            {_children.map(({ props: { label, ...rest } }, index) => (
+              <Button
+                key={index}
+                className={classNames('StaticTabs__nav-item', navItemClassName, {
+                  'StaticTabs__nav-item--active': activeIndex === index,
+                  [navActiveItemClassName]: activeIndex === index,
+                })}
+                onClick={() => this.onTabChanged(index)}
+                {...rest}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        </If>
         <div className={classNames('StaticTabs__content', contentClassName)}>
           {_children.filter((_, index) => activeIndex === index)}
         </div>

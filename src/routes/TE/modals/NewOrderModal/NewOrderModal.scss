@@ -15,15 +15,6 @@
     &:not(:last-child) {
       margin-bottom: 20px;
     }
-
-    &--half {
-      width: calc(50% - 7.5px);
-    }
-
-    &--column {
-      flex-direction: column;
-      align-items: flex-start;
-    }
   }
 
   &__error {
@@ -35,52 +26,13 @@
 
   &__field {
     width: 100%;
-    margin-right: 15px;
     margin-bottom: 0;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &--center {
-      margin-bottom: 8px;
-    }
-
-    .input__error, .DatePicker__input-error {
-      position: absolute;
-      white-space: pre;
-    }
-  }
-
-  &__field-hint {
-    color: #2196f3;
-  }
-
-  &__checkbox-container {
-    display: flex;
-    width: 100%;
-    top: 4px;
-
-    &--smart-pnl {
-      width: 55%;
-    }
-  }
-
-  &__auto-checkbox {
-    margin-right: 35px;
   }
 
   &__button {
-    width: 100%;
+    width: 33%;
     text-align: center;
-
-    &:not(:last-child) {
-      margin-right: 15px;
-    }
-
-    &--small {
-      width: 33%;
-    }
+    margin-left: 15px;
   }
 
   &__account {
@@ -111,6 +63,12 @@
 
     &:hover {
       background: #f0f0f0;
+    }
+
+    &--active {
+      &:hover {
+        background: #ffffff;
+      }
     }
   }
 

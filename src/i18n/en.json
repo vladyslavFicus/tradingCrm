@@ -3563,6 +3563,7 @@
         "OPEN_PRICE_BUY": "Buy open price",
         "CLOSE_PRICE_SELL": "Sell close price",
         "CLOSE_PRICE_BUY": "Buy close price",
+        "CLOSE_PRICE_NEGATIVE_ERROR": "The price can not be negative",
         "UPDATE": "Update",
         "UPLOAD": "Upload",
         "AUTO": "Auto",
