@@ -1,4 +1,5 @@
 import React from 'react';
+import { startCase } from 'lodash';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
@@ -10,7 +11,7 @@ import {
   CallHistoryQueryQueryResult,
   CallHistoryQueryVariables,
 } from '../../graphql/__generated__/ClientCallHistoryQuery';
-import { CallSystems } from '../../constants';
+import { useClickToCallConfigQuery } from './graphql/__generated__/ClickToCallConfigQuery';
 import './ClientCallHistoryGridFilter.scss';
 
 type Props = {
@@ -20,6 +21,10 @@ type Props = {
 const ClientCallHistoryGridFilter = ({ callHistory }: Props) => {
   const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
   const history = useHistory();
+
+  const clickToCallConfigQuery = useClickToCallConfigQuery();
+
+  const CallSystems = (clickToCallConfigQuery?.data?.clickToCall.configs || []).map(config => config.callSystem);
 
   const handleSubmit = (values: CallHistoryQueryVariables['args']) => {
     history.replace({
@@ -66,6 +71,7 @@ const ClientCallHistoryGridFilter = ({ callHistory }: Props) => {
           />
           <Field
             name="callSystems"
+            disabled={clickToCallConfigQuery.loading}
             className="ClientCallHistoryGridFilter__field ClientCallHistoryGridFilter__select"
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             label={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_SYSTEM')}
@@ -74,8 +80,10 @@ const ClientCallHistoryGridFilter = ({ callHistory }: Props) => {
             multiple
             withFocus
           >
-            {CallSystems.map(provider => (
-              <option key={provider} value={provider}>{I18n.t(provider)}</option>
+            {CallSystems.map(callSystem => (
+              <option key={callSystem} value={callSystem}>
+                {startCase(callSystem.toLowerCase())}
+              </option>
             ))}
           </Field>
           <Field

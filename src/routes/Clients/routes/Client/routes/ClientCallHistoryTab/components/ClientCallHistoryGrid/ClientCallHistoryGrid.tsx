@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
-import { cloneDeep, set } from 'lodash';
+import { cloneDeep, set, startCase } from 'lodash';
 import I18n from 'i18n-js';
 import { Sort, State } from 'types';
 import { Table, Column } from 'components/Table';
@@ -36,7 +36,7 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
 
   const renderVoIP = ({ callSystem }: CallHistoryType) => (
     <div className="ClientCallHistoryGrid__info-main">
-      {callSystem}
+      {startCase(callSystem.toLowerCase())}
     </div>
   );
 
