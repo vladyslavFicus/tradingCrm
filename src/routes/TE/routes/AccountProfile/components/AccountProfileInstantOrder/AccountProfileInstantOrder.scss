@@ -1,0 +1,53 @@
+.AccountProfileInstantOrder {
+  z-index: 10;
+
+  &__open-button {
+    position: fixed;
+    top: calc(50% - 25px);
+    right: 0;
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    cursor: pointer;
+    background: #000;
+    border-radius: 10px 0 0 10px;
+    box-shadow: -2px 2px 5px #555;
+    fill: #fff;
+
+    &:hover {
+      background: #222;
+    }
+  }
+
+  &__window {
+    display: none;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    background: #fff;
+    box-shadow: 0 0 8px #888;
+
+    &--open {
+      display: block;
+    }
+  }
+
+  &__window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    background: #4a90e2;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  &__window-header-close-button {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__window-content {
+    padding: 15px;
+  }
+}

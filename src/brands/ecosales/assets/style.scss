@@ -115,6 +115,14 @@
   }
 }
 
+.AccountProfileInstantOrder__open-button {
+  background-color: #154b98 !important;
+
+  &:hover {
+    background-color: #1753a8 !important;
+  }
+}
+
 .preloader {
   background-color: rgba(21, 75, 152, 1);
 }

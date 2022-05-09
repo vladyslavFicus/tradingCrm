@@ -14,6 +14,7 @@ import AccountProfileGroup from './components/AccountProfileGroup';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
 import AccountProfileRegistered from './components/AccountProfileRegistered';
 import AccountProfileStatistics from './components/AccountProfileStatistics';
+import InstantOrder from './components/AccountProfileInstantOrder';
 import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
 import AccountProfileTransactionsGrid from './routes/AccountProfileTransactionsGrid';
 import AccountProfileFeedGrid from './routes/AccountProfileFeedGrid';
@@ -48,6 +49,9 @@ const AccountProfile = (props: Props) => {
           <ShortLoader />
         </When>
         <Otherwise>
+          {/* Instant order button on whole account profile page */}
+          <InstantOrder accountUuid={account.uuid} />
+
           <AccountProfileHeader account={account} handleRefetch={accountQuery.refetch} />
 
           <div className="AccountProfile__content">

@@ -32,7 +32,7 @@ class InputDecimals extends React.Component {
 
   static getDerivedStateFromProps({ value, decimalsLimit, decimalsLengthDefault }, state) {
     if (!value) {
-      return state;
+      return { value };
     }
     const stringValue = value.toString();
     const [digits, decimals] = stringValue.split(/[,.]/);

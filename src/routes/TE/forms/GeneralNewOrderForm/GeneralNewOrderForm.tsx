@@ -6,6 +6,7 @@ import compose from 'compose-function';
 import { LevelType, Notify } from 'types';
 import { parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
+import { withStorage } from 'providers/StorageProvider';
 import {
   FormikCheckbox,
   FormikInputDecimalsField,
@@ -16,6 +17,7 @@ import {
 import { Button } from 'components/UI';
 import Input from 'components/Input';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
+import { Storage } from 'types/storage';
 import { OrderDirection } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
@@ -28,10 +30,12 @@ import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQu
 import './GeneralNewOrderForm.scss';
 
 type Props = {
+  storage: Storage
   notify: Notify
   accountUuid?: string
   onSymbolChanged?: (symbol: string) => void
-  onSuccess?: (orderId: number) => void
+  onSuccess?: () => void
+  hotKeysEnabled?: boolean
 };
 
 type FormValues = {
@@ -49,10 +53,12 @@ type FormValues = {
 
 const GeneralNewOrderForm = (props: Props) => {
   const {
+    storage,
     notify,
     accountUuid,
     onSymbolChanged = () => {},
     onSuccess = () => {},
+    hotKeysEnabled = true,
   } = props;
 
   const [symbol, setSymbol] = useState<string>();
@@ -136,13 +142,20 @@ const GeneralNewOrderForm = (props: Props) => {
 
       const orderId = data?.tradingEngine.createOrder.id;
 
+      // Save last created order to storage to open it later by request
+      storage.set('TE.lastCreatedOrderId', orderId);
+
+      // Reset form after submission
+      formikHelpers.resetForm();
+      setSymbol(allowedSymbols[0]?.name);
+
+      onSuccess();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
-
-      onSuccess(orderId as number);
     } catch (e) {
       const { message } = parseErrors(e);
 
@@ -520,7 +533,7 @@ const GeneralNewOrderForm = (props: Props) => {
               />
             </div>
             <div className="GeneralNewOrderForm__field-container">
-              <If condition={!!account && !isAccountArchived}>
+              <If condition={!!account && !isAccountArchived && hotKeysEnabled}>
                 {/* Sell order by CTRL+S pressing */}
                 <Hotkeys
                   keyName="ctrl+s"
@@ -588,9 +601,11 @@ GeneralNewOrderForm.defaultProps = {
   accountUuid: null,
   onSymbolChanged: () => {},
   onSuccess: () => {},
+  hotKeysEnabled: true,
 };
 
 export default compose(
   React.memo,
   withNotifications,
+  withStorage,
 )(GeneralNewOrderForm);
