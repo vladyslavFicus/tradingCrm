@@ -285,7 +285,7 @@ class ClientTradingAccountsGrid extends PureComponent {
           >
             {`${I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.SINCE')} ${
               moment.utc(createDate).local().format('DD.MM.YYYY HH:mm')
-              }`}
+            }`}
           </div>
         </If>
         <If condition={status === 'PENDING'}>

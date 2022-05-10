@@ -2,6 +2,7 @@ module.exports = {
   parser: 'babel-eslint',
   env: {
     jest: true,
+    browser: true,
   },
   extends: [
     'airbnb',
@@ -77,36 +78,6 @@ module.exports = {
     },
   ],
   rules: {
-    // START: Workaround for babel-eslint https://github.com/babel/babel-eslint/issues/799
-    indent: [
-      'error',
-      2,
-      {
-        SwitchCase: 1,
-        VariableDeclarator: 1,
-        outerIIFEBody: 1,
-        FunctionDeclaration: {
-          parameters: 1,
-          body: 1,
-        },
-        FunctionExpression: {
-          parameters: 1,
-          body: 1,
-        },
-        CallExpression: {
-          arguments: 1,
-        },
-        ArrayExpression: 1,
-        ObjectExpression: 1,
-        ImportDeclaration: 1,
-        flatTernaryExpressions: false,
-        ignoredNodes: ['TemplateLiteral', 'JSXElement', 'JSXElement > *', 'JSXAttribute', 'JSXIdentifier', 'JSXNamespacedName', 'JSXMemberExpression', 'JSXSpreadAttribute', 'JSXExpressionContainer', 'JSXOpeningElement', 'JSXClosingElement', 'JSXFragment', 'JSXOpeningFragment', 'JSXClosingFragment', 'JSXText', 'JSXEmptyExpression', 'JSXSpreadChild'],
-        ignoreComments: false,
-      },
-    ],
-    'template-curly-spacing': 'off',
-    // END: Workaround
-
     // Fix error on importing .ts|.tsx files
     'import/extensions': [
       'error',
@@ -146,12 +117,8 @@ module.exports = {
     'key-spacing': ['error', { singleLine: { beforeColon: false, afterColon: true } }],
   },
   globals: {
-    window: false,
-    document: false,
-    fetch: false,
     ExtractApolloTypeFromArray: false,
     ExtractApolloTypeFromPageable: false,
-    HTMLInputElement: false,
   },
   settings: {
     'import/resolver': {
