@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
+import { startCase } from 'lodash';
 import compose from 'compose-function';
 import { NetworkStatus } from '@apollo/client';
 import classNames from 'classnames';
@@ -386,7 +387,7 @@ class ClientsGrid extends PureComponent {
             {moment.utc(date).local().format('HH:mm:ss')}
           </div>
           <div className="ClientsGrid__text-secondary">
-            {callSystem}
+            {startCase(callSystem.toLowerCase())}
           </div>
         </When>
         <Otherwise>

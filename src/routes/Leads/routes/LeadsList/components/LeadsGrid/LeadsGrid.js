@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import { startCase } from 'lodash';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import moment from 'moment';
@@ -112,6 +113,17 @@ class LeadsGrid extends PureComponent {
     </>
   );
 
+  renderAffiliate = ({ affiliate, source }) => (
+    <>
+      <div className="LeadsGrid__primary">
+        {affiliate}
+      </div>
+      <div className="LeadsGrid__secondary">
+        {source}
+      </div>
+    </>
+  );
+
   renderCountry = ({ country, language }) => (
     <Choose>
       <When condition={country}>
@@ -206,14 +218,14 @@ class LeadsGrid extends PureComponent {
     return (
       <Choose>
         <When condition={lastCall}>
-          <div className="LeadsGrid__text-primary">
+          <div className="LeadsGrid__primary">
             {moment.utc(date).local().format('DD.MM.YYYY')}
           </div>
-          <div className="LeadsGrid__text-secondary">
+          <div className="LeadsGrid__secondary">
             {moment.utc(date).local().format('HH:mm:ss')}
           </div>
-          <div className="LeadsGrid__text-secondary">
-            {callSystem}
+          <div className="LeadsGrid__secondary">
+            {startCase(callSystem.toLowerCase())}
           </div>
         </When>
         <Otherwise>
@@ -296,6 +308,10 @@ class LeadsGrid extends PureComponent {
           <Column
             header={I18n.t('LEADS.GRID_HEADER.SALES')}
             render={this.renderSales}
+          />
+          <Column
+            header={I18n.t('LEADS.GRID_HEADER.AFFILIATE')}
+            render={this.renderAffiliate}
           />
           <Column
             sortBy="registrationDate"
