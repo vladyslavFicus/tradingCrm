@@ -4,8 +4,7 @@ import I18n from 'i18n';
 import {
   FormikInputField,
 } from 'components/Formik';
-import Select from 'components/Select';
-import { marginCalculationLabels, profitCalculationLabels } from '../../constants';
+import Input from 'components/Input';
 import { FormValues } from '../../types';
 import './CalculationSettings.scss';
 
@@ -33,35 +32,16 @@ const FiltrationSettings = (props: FormikProps<FormValues>) => (
       />
     </div>
     <div className="CalculationSettings__field-container">
-
-      <Select
-        // @ts-ignore
+      <Input
         disabled
-        value={props.values.symbolType}
-        label={I18n.t('TRADING_ENGINE.SYMBOL.MARGIN_CALCULATION_LABEL')}
-        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        customClassName="CalculationSettings__field"
-      >
-        {marginCalculationLabels.map(({ name, value }) => (
-          <option key={name} value={value}>
-            {I18n.t(name)}
-          </option>
-        ))}
-      </Select>
-      <Select
-        // @ts-ignore
+        value={I18n.t(`TRADING_ENGINE.SYMBOL.CALCULATION_LABELS.MARGIN_CALCULATION_${props.values.symbolType}`)}
+        className="CalculationSettings__field"
+      />
+      <Input
         disabled
-        value={props.values.symbolType}
-        label={I18n.t('TRADING_ENGINE.SYMBOL.PROFIT_CALCULATION_LABEL')}
-        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        customClassName="CalculationSettings__field"
-      >
-        {profitCalculationLabels.map(({ name, value }) => (
-          <option key={value} value={value}>
-            {I18n.t(name)}
-          </option>
-        ))}
-      </Select>
+        value={I18n.t(`TRADING_ENGINE.SYMBOL.CALCULATION_LABELS.PROFIT_CALCULATION_${props.values.symbolType}`)}
+        className="CalculationSettings__field"
+      />
     </div>
   </div>
 );

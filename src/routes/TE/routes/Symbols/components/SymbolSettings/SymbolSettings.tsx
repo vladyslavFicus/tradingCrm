@@ -6,7 +6,7 @@ import {
   FormikSelectField,
   FormikTextAreaField,
 } from 'components/Formik';
-import { backgroundColor, symbolTypeLabels } from '../../constants';
+import { backgroundColor } from '../../constants';
 import { FormValues } from '../../types';
 import { useSymbolQueryLazyQuery } from './graphql/__generated__/SymbolQuery';
 import './SymbolSettings.scss';
@@ -81,14 +81,8 @@ const SymbolSettings = (props: Props) => {
           name="digits"
           label={I18n.t('TRADING_ENGINE.SYMBOL.DIGITS_LABEL')}
           className="SymbolSettings__field"
-          component={FormikSelectField}
-        >
-          {[0, 1, 2, 3, 4, 5, 6, 7].map(i => (
-            <option key={i} value={i}>
-              {i}
-            </option>
-          ))}
-        </Field>
+          component={FormikInputField}
+        />
       </div>
       <div className="SymbolSettings__field-container">
         <Field
@@ -119,15 +113,9 @@ const SymbolSettings = (props: Props) => {
           label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
-          component={FormikSelectField}
+          component={FormikInputField}
           searchable
-        >
-          {symbolTypeLabels.map(({ name, value }) => (
-            <option key={value} value={value}>
-              {I18n.t(name)}
-            </option>
-          ))}
-        </Field>
+        />
       </div>
       <div className="SymbolSettings__field-container">
         <Field
