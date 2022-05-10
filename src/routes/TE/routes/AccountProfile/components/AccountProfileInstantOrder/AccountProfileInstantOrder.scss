@@ -1,6 +1,4 @@
 .AccountProfileInstantOrder {
-  z-index: 10;
-
   &__open-button {
     position: fixed;
     top: calc(50% - 25px);
@@ -8,6 +6,7 @@
     height: 50px;
     width: 50px;
     padding: 10px;
+    z-index: 15;
     cursor: pointer;
     background: #000;
     border-radius: 10px 0 0 10px;
@@ -20,15 +19,12 @@
   }
 
   &__window {
-    display: none;
-    position: fixed;
-    right: 15px;
-    bottom: 15px;
+    visibility: hidden;
     background: #fff;
     box-shadow: 0 0 8px #888;
 
     &--open {
-      display: block;
+      visibility: visible;
     }
   }
 
@@ -40,6 +36,7 @@
     background: #4a90e2;
     color: #fff;
     font-size: 16px;
+    cursor: move;
   }
 
   &__window-header-close-button {
@@ -50,4 +47,8 @@
   &__window-content {
     padding: 15px;
   }
+}
+
+.react-draggable-dragging {
+  user-select: none !important;
 }
