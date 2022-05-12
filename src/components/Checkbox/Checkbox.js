@@ -55,6 +55,7 @@ class Checkbox extends PureComponent {
       className,
       onChange,
       vertical,
+      ...rest
     } = this.props;
 
     return (
@@ -80,6 +81,7 @@ class Checkbox extends PureComponent {
             disabled={disabled}
             type="checkbox"
             checked={value}
+            {...rest}
           />
           <span
             className="Checkbox__icon"

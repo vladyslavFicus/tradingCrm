@@ -3551,12 +3551,22 @@
         "TITLE": "New order",
         "LOGIN": "Login",
         "VOLUME": "Volume",
-        "REQUESTED_VOLUME": "Requested volume",
+        "OPEN_TIME": "Open time",
+        "OPEN_TIME_ERROR": "Open time can not be in future",
+        "EXPECTED_PNL": "Expected P/L",
+        "REAL_RECEIVED_PNL": "Real received P/L",
         "SYMBOL": "Symbol",
         "COMMENT": "Comment",
+        "COMMISSION": "Commission",
+        "SWAPS": "Swaps",
         "STOP_LOSS": "Stop Loss",
         "TAKE_PROFIT": "Take profit",
         "OPEN_PRICE": "Open price",
+        "OPEN_PRICE_SELL": "Sell open price",
+        "OPEN_PRICE_BUY": "Buy open price",
+        "CLOSE_PRICE_SELL": "Sell close price",
+        "CLOSE_PRICE_BUY": "Buy close price",
+        "CLOSE_PRICE_NEGATIVE_ERROR": "The price can not be negative",
         "UPDATE": "Update",
         "UPLOAD": "Upload",
         "AUTO": "Auto",
@@ -3581,6 +3591,10 @@
         },
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created"
+        },
+        "TABS": {
+          "NEW_ORDER": "New order",
+          "SMART_PNL": "Smart P/L"
         }
       },
       "EDIT_ORDER_MODAL": {

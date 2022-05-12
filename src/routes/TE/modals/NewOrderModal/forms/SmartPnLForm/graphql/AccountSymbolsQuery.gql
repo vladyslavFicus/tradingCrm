@@ -1,0 +1,19 @@
+query AccountSymbolsQuery($accountUuid: String!) {
+  tradingEngine {
+    accountSymbols(accountUuid: $accountUuid) {
+      name
+      description
+      digits
+      symbolType
+      config(accountUuid: $accountUuid) {
+        lotSize
+        lotMin
+        lotStep
+        lotMax
+        bidAdjustment
+        askAdjustment
+        percentage
+      }
+    }
+  }
+}
