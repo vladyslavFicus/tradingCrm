@@ -186,11 +186,19 @@ const Holidays = (props: Props) => {
         <Column
           header={I18n.t('TRADING_ENGINE.HOLIDAYS.GRID.SYMBOLS')}
           render={({ symbols }: Holiday) => (
-            <div className="HolidaysList__cell-value">
-              {symbols}
-            </div>
+            <Choose>
+              <When condition={symbols.length > 0}>
+                <div className="HolidaysList__cell-value">
+                  {symbols.join(', ')}
+                </div>
+              </When>
+              <Otherwise>
+                <span>&mdash;</span>
+              </Otherwise>
+            </Choose>
           )}
         />
+
         <If condition={
           permission.allows(permissions.WE_TRADING.HOLIDAYS_EDIT)
           || permission.allows(permissions.WE_TRADING.HOLIDAYS_DELETE)}
