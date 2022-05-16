@@ -51,8 +51,8 @@ const GeneralNewOrderForm = (props: Props) => {
   const {
     notify,
     accountUuid,
-    onSymbolChanged = () => {},
-    onSuccess = () => {},
+    onSymbolChanged = () => { },
+    onSuccess = () => { },
   } = props;
 
   const [symbol, setSymbol] = useState<string>();
@@ -220,27 +220,27 @@ const GeneralNewOrderForm = (props: Props) => {
       },
       stopLoss: [
         `max:${values.direction === 'BUY'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice
           : 999999
         }`,
         `min:${values.direction === 'SELL'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice : 0
         }`,
       ],
       takeProfit: [
         `max:${values.direction === 'SELL'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice
           : 999999
         }`,
         `min:${values.direction === 'BUY'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice
           : 0
         }`,
@@ -363,9 +363,9 @@ const GeneralNewOrderForm = (props: Props) => {
             </div>
             <div className="GeneralNewOrderForm__field-container">
               <Field
-                name="takeProfit"
+                name="stopLoss"
                 type="number"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
@@ -376,9 +376,9 @@ const GeneralNewOrderForm = (props: Props) => {
                 {...decimalsSettings}
               />
               <Field
-                name="stopLoss"
+                name="takeProfit"
                 type="number"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
@@ -586,8 +586,8 @@ const GeneralNewOrderForm = (props: Props) => {
 
 GeneralNewOrderForm.defaultProps = {
   accountUuid: null,
-  onSymbolChanged: () => {},
-  onSuccess: () => {},
+  onSymbolChanged: () => { },
+  onSuccess: () => { },
 };
 
 export default compose(
