@@ -20,7 +20,7 @@ import './NewOrderModal.scss';
 export type Account = AccountQuery['tradingEngine']['account'];
 
 interface Props {
-  onSuccess: () => void,
+  onSuccess?: () => void,
   onCloseModal: () => void,
   storage: Storage,
   login?: string,
@@ -29,7 +29,7 @@ interface Props {
 const NewOrderModal = (props: Props) => {
   const {
     onCloseModal,
-    onSuccess,
+    onSuccess = () => {},
     storage,
     login: propsLogin = '',
   } = props;
@@ -212,6 +212,7 @@ const NewOrderModal = (props: Props) => {
 
 NewOrderModal.defaultProps = {
   login: '',
+  onSuccess: () => {},
 };
 
 export default compose(
