@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
 import { withNotifications, withModals } from 'hoc';
@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import { LevelType, Notify } from 'types/notify';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { EditButton, Button } from 'components/UI';
+import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { GroupsQueryQueryResult, GroupsQuery, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import { useDeleteGroupMutation } from './graphql/__generated__/DeleteGroupMutation';
@@ -89,10 +89,6 @@ const GroupsGrid = ({
     });
   };
 
-  const handleEditGroupClick = (groupName: string) => {
-    history.push(`/trading-engine/groups/${groupName}`);
-  };
-
   const handleSort = (sorts: Sort) => {
     history.replace({
       state: {
@@ -129,9 +125,22 @@ const GroupsGrid = ({
           sortBy="groupName"
           header={I18n.t('TRADING_ENGINE.GROUPS.GRID.NAME')}
           render={({ groupName }: GroupType) => (
-            <div className="GroupsGrid__cell-primary">
-              {groupName}
-            </div>
+            <>
+              <Choose>
+                <When condition={permission.allows(permissions.WE_TRADING.EDIT_GROUP)}>
+                  <Link to={`/trading-engine/groups/${groupName}`} target="_blank">
+                    <div className="GroupsGrid__cell-primary">
+                      {groupName}
+                    </div>
+                  </Link>
+                </When>
+                <Otherwise>
+                  <div className="GroupsGrid__cell-primary">
+                    {groupName}
+                  </div>
+                </Otherwise>
+              </Choose>
+            </>
           )}
         />
         <Column
@@ -176,20 +185,13 @@ const GroupsGrid = ({
           )}
         />
         <If condition={
-          permission.allows(permissions.WE_TRADING.EDIT_GROUP)
-          || permission.allows(permissions.WE_TRADING.DELETE_GROUP)}
+         permission.allows(permissions.WE_TRADING.DELETE_GROUP)}
         >
           <Column
             width={120}
             header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
             render={({ groupName }: GroupType) => (
               <>
-                <PermissionContent permissions={permissions.WE_TRADING.EDIT_GROUP}>
-                  <EditButton
-                    onClick={() => handleEditGroupClick(groupName)}
-                    className="GroupsGrid__edit-button"
-                  />
-                </PermissionContent>
                 <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
                   <Button
                     transparent
