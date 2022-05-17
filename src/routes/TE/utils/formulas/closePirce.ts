@@ -28,7 +28,8 @@ export const calculateClosePrice = (args: CalculateClosePriceArguments): number 
 
   let closePrice = 0;
 
-  if (!!pnl && !!openPrice && !!volume && !!exchangeRate) {
+  // PNL argument can be 0, but other arguments can't to right calculation of close price
+  if (pnl !== null && !!openPrice && !!volume && !!exchangeRate) {
     // Calculate close price for SELL orders
     if (direction === OrderDirection.SELL) {
       closePrice = -(pnl / (lotSize * volume) / exchangeRate) + openPrice;
