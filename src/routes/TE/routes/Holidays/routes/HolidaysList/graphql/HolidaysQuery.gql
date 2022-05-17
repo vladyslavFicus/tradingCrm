@@ -9,6 +9,7 @@ query HolidaysQuery($args: TradingEngineHolidays__Input) {
           to
         }
         description
+        symbols
       }
       page
       number

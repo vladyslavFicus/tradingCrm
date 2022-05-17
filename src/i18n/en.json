@@ -4543,6 +4543,7 @@
         "FROM": "From",
         "TO": "To",
         "DESCRIPTION": "Description",
+        "SYMBOLS": "Symbols",
         "ACTIONS": "Actions"
       },
       "FILTER_FORM": {
