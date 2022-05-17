@@ -51,8 +51,8 @@ const GeneralNewOrderForm = (props: Props) => {
   const {
     notify,
     accountUuid,
-    onSymbolChanged = () => { },
-    onSuccess = () => { },
+    onSymbolChanged = () => {},
+    onSuccess = () => {},
   } = props;
 
   const [symbol, setSymbol] = useState<string>();
@@ -220,27 +220,27 @@ const GeneralNewOrderForm = (props: Props) => {
       },
       stopLoss: [
         `max:${values.direction === 'BUY'
-          && !values.autoOpenPrice
-          && values.openPrice
+        && !values.autoOpenPrice
+        && values.openPrice
           ? values.openPrice
           : 999999
         }`,
         `min:${values.direction === 'SELL'
-          && !values.autoOpenPrice
-          && values.openPrice
+        && !values.autoOpenPrice
+        && values.openPrice
           ? values.openPrice : 0
         }`,
       ],
       takeProfit: [
         `max:${values.direction === 'SELL'
-          && !values.autoOpenPrice
-          && values.openPrice
+        && !values.autoOpenPrice
+        && values.openPrice
           ? values.openPrice
           : 999999
         }`,
         `min:${values.direction === 'BUY'
-          && !values.autoOpenPrice
-          && values.openPrice
+        && !values.autoOpenPrice
+        && values.openPrice
           ? values.openPrice
           : 0
         }`,
@@ -586,8 +586,8 @@ const GeneralNewOrderForm = (props: Props) => {
 
 GeneralNewOrderForm.defaultProps = {
   accountUuid: null,
-  onSymbolChanged: () => { },
-  onSuccess: () => { },
+  onSymbolChanged: () => {},
+  onSuccess: () => {},
 };
 
 export default compose(
