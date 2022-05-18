@@ -17,20 +17,20 @@ interface Props {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
-  onSuccess: (symbol: string) => void,
+  onSuccess: (symbols: string[]) => void,
   symbols: string[],
 }
 
 interface FormValues {
-  symbol: string,
+  symbols: string[],
 }
 
 const validate = createValidator(
   {
-    symbol: 'required',
+    symbols: 'required',
   },
   {
-    symbol: I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.SYMBOL'),
+    symbols: I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.SYMBOL'),
   },
   false,
 );
@@ -62,18 +62,9 @@ const HolidayNewSymbolModal = (props: Props) => {
       title: I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.TITLE'),
       message: I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.NOTIFICATION.SUCCESS'),
     });
-
-    onSuccess(values.symbol);
+    onSuccess(values.symbols);
     onCloseModal();
   };
-
-  const handleSymbolChange = (
-    value: string,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ) => {
-    setFieldValue('symbol', value);
-  };
-
   return (
     <Modal
       className="HolidayNewSymbolModal"
@@ -82,7 +73,7 @@ const HolidayNewSymbolModal = (props: Props) => {
     >
       <Formik
         initialValues={{
-          symbol: '',
+          symbols: [],
         }}
         validate={validate}
         validateOnChange={false}
@@ -90,7 +81,7 @@ const HolidayNewSymbolModal = (props: Props) => {
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setFieldValue }: FormikProps<FormValues>) => (
+        {({ dirty, isSubmitting }: FormikProps<FormValues>) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               <Choose>
@@ -115,13 +106,13 @@ const HolidayNewSymbolModal = (props: Props) => {
 
                   <div className="HolidayNewSymbolModal__fields">
                     <Field
-                      name="symbol"
+                      name="symbols"
                       label={I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.SYMBOL')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="HolidayNewSymbolModal__field--large"
                       component={FormikSelectField}
-                      customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
                       searchable
+                      multiple
                     >
                       {symbolsSources.map(({ sourceName, children }) => (
                         <option key={sourceName} value={sourceName}>

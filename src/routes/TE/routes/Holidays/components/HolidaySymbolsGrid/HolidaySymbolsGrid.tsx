@@ -21,7 +21,7 @@ interface ConfirmationModalProps {
 }
 
 interface HolidayNewSymbolModalProps {
-  onSuccess: (symbol: string) => void,
+  onSuccess: (symbols: string[]) => void,
   symbols: string[],
 }
 
@@ -69,8 +69,8 @@ const HolidaySymbolsGrid = (props: Props) => {
 
   const handleNewHolidaySymbolClick = () => {
     holidayNewSymbolModal.show({
-      onSuccess: (symbol: string) => {
-        setFieldValue('symbols', [...values.symbols, symbol]);
+      onSuccess: (symbols: string[]) => {
+        setFieldValue('symbols', [...values.symbols, ...symbols]);
       },
       symbols: values.symbols,
     });
