@@ -17,13 +17,12 @@ interface Props {
   askLineColor?: string,
   bidLineColor?: string,
   loading?: boolean, // Custom loader controlled outside
+  width?: number,
+  height?: number,
+  className?: string,
 }
 
-const defaultProps = {
-  askLineColor: undefined,
-  bidLineColor: undefined,
-  loading: false,
-};
+const DISABLED_CHART_LINE_COLOR = '#808080';
 
 /**
  * Get chart data helper with applied group spread on each price
@@ -59,6 +58,9 @@ const SymbolChart = (props: Props) => {
     askLineColor,
     bidLineColor,
     loading = false,
+    width,
+    height,
+    className,
   } = props;
 
   const symbolQuery = useSymbolQuery({
@@ -79,7 +81,7 @@ const SymbolChart = (props: Props) => {
   const isLoading = !symbol || !accountUuid || symbolQuery.loading || loading;
 
   return (
-    <div className={classNames('SymbolChart', { 'SymbolChart--loading': isLoading })}>
+    <div className={classNames('SymbolChart', { 'SymbolChart--loading': isLoading }, className)}>
       <Choose>
         {/* Show animated image when query in flight or loading was provided outside */}
         <When condition={symbolQuery.loading || loading}>
@@ -96,8 +98,10 @@ const SymbolChart = (props: Props) => {
               key={symbol}
               chartData={chartData}
               chartNextTickItem={nextTickItem}
-              bidLineColor={bidLineColor}
-              askLineColor={askLineColor}
+              bidLineColor={currentHolidays.length ? DISABLED_CHART_LINE_COLOR : bidLineColor}
+              askLineColor={currentHolidays.length ? DISABLED_CHART_LINE_COLOR : askLineColor}
+              width={width}
+              height={height}
             />
             <If condition={currentHolidays.length > 0}>
               <div className="SymbolChart__error-container">
@@ -123,6 +127,13 @@ const SymbolChart = (props: Props) => {
   );
 };
 
-SymbolChart.defaultProps = defaultProps;
+SymbolChart.defaultProps = {
+  askLineColor: undefined,
+  bidLineColor: undefined,
+  loading: false,
+  width: undefined,
+  height: undefined,
+  className: null,
+};
 
 export default React.memo(SymbolChart);

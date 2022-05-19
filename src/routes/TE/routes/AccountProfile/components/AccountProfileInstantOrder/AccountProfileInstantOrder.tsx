@@ -5,6 +5,7 @@ import { Rnd } from 'react-rnd';
 import permissions from 'config/permissions';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import PermissionContent from 'components/PermissionContent';
+import SymbolChart from 'components/SymbolChart';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
 import { ReactComponent as InstantIcon } from './img/instant.svg';
 import './AccountProfileInstantOrder.scss';
@@ -16,7 +17,9 @@ type Props = {
 const AccountProfileInstantOrder = (props: Props) => {
   const { accountUuid } = props;
 
+  const [symbol, setSymbol] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [size, setSize] = useState({ width: 0, height: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const windowRef = useRef<HTMLDivElement>(null);
@@ -30,6 +33,8 @@ const AccountProfileInstantOrder = (props: Props) => {
       x: window.innerWidth - (width + 120),
       y: window.innerHeight - (height + 110),
     });
+
+    setSize({ width, height });
   }, [windowRef]);
 
   // ===== Handlers ===== //
@@ -42,7 +47,7 @@ const AccountProfileInstantOrder = (props: Props) => {
   return (
     <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>
       <div className="AccountProfileInstantOrder">
-        {/* Open/close instant order window by SHIFT+A hot key */}
+        {/* Open/close instant order window by CTRL+X hot key */}
         <Hotkeys keyName="ctrl+x" filter={() => true} onKeyUp={() => setIsOpen(!isOpen)} />
 
         <If condition={!isOpen}>
@@ -77,9 +82,18 @@ const AccountProfileInstantOrder = (props: Props) => {
               </div>
             </div>
             <div className="AccountProfileInstantOrder__window-content">
+              <SymbolChart
+                className="AccountProfileInstantOrder__chart"
+                symbol={symbol}
+                accountUuid={accountUuid}
+                loading={!symbol}
+                width={(size.width - 55) / 2} // 30px padding of window content and 25px margin-right from chart
+                height={size.height / 2}
+              />
               <GeneralNewOrderForm
                 accountUuid={accountUuid}
                 hotKeysEnabled={isOpen}
+                onSymbolChanged={setSymbol}
                 onSuccess={onSuccess}
               />
             </div>

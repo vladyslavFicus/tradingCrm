@@ -3,7 +3,7 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  flex: 1;
+  width: 100%;
   margin-top: 12px;
 
   &--loading {
@@ -28,10 +28,10 @@
   &__error-container {
     display: flex;
     align-items: center;
+    width: 100%;
     padding: 10px 15px;
     border-radius: 5px;
     margin-top: 15px;
-    margin-right: 30px;
     background: #ffcac8;
     box-shadow: 1px 2px 3px #777;
     word-break: break-word;

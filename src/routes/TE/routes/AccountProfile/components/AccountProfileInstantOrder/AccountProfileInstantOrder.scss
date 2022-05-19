@@ -19,6 +19,7 @@
   }
 
   &__window {
+    width: 800px;
     visibility: hidden;
     background: #fff;
     box-shadow: 0 0 8px #888;
@@ -45,7 +46,12 @@
   }
 
   &__window-content {
+    display: flex;
     padding: 15px;
+  }
+
+  &__chart {
+    margin-right: 25px;
   }
 }
 

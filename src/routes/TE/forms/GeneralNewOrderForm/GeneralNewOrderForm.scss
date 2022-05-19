@@ -1,8 +1,8 @@
 .GeneralNewOrderForm {
+  width: 100%;
+
   &__field-container {
-    width: 600px;
     display: flex;
-    flex: 1 1;
     align-items: flex-end;
 
     &:not(:last-child) {
@@ -25,13 +25,13 @@
     }
   }
 
-  &__checkbox-container {
-    display: flex;
-    width: 100%;
-    top: 4px;
+  &__pending-order-checkbox {
+    margin-top: 10px;
+    margin-bottom: 0;
   }
 
   &__auto-checkbox {
+    top: 4px;
     margin-right: 35px;
   }
 

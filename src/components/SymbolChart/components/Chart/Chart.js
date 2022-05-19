@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { createChart } from 'lightweight-charts';
 import { isEqual } from 'lodash';
+import { v4 } from 'uuid';
 import PropTypes from 'constants/propTypes';
 import { countPrecisionAndMinMove, chartTimeFormatting } from './utils';
 
@@ -34,6 +35,8 @@ class Chart extends PureComponent {
     askLineColor: '#2196f3',
   }
 
+  id = v4();
+
   chart = null;
 
   bidLine = null;
@@ -44,15 +47,22 @@ class Chart extends PureComponent {
     this.initializationChart();
   }
 
-  componentDidUpdate({ chartData: prevChartData }) {
-    const { chartNextTickItem, chartData } = this.props;
+  componentDidUpdate(prevProps) {
+    const { chartData: prevChartData, width: prevWidth, height: prevHeight } = prevProps;
+    const { chartNextTickItem, chartData, height, width } = this.props;
 
     if (!isEqual(chartData, prevChartData)) {
       this.updateChartData(chartData);
     }
 
+    // Update and apply next tick for chart
     if (chartNextTickItem) {
       this.updateNextTickItem(chartNextTickItem);
+    }
+
+    // Update size of chart when new sizes received
+    if (prevWidth !== width || prevHeight !== height) {
+      this.updateChartSize(width, height);
     }
   }
 
@@ -69,7 +79,8 @@ class Chart extends PureComponent {
       ...chartConfig,
     };
 
-    this.chart = createChart(document.getElementById('symbol_chart'), chartOptions);
+    this.chart = createChart(document.getElementById(this.id), chartOptions);
+
     this.bidLine = this.chart.addLineSeries({ lineWidth: 1, color: bidLineColor });
     this.askLine = this.chart.addLineSeries({ lineWidth: 1, color: askLineColor });
 
@@ -100,6 +111,7 @@ class Chart extends PureComponent {
 
     this.bidLine.applyOptions({ priceFormat });
     this.askLine.applyOptions({ priceFormat });
+
     this.askLine.setData(ask);
     this.bidLine.setData(bid);
   }
@@ -109,9 +121,13 @@ class Chart extends PureComponent {
     this.askLine.update({ time: chartTimeFormatting(dateTime), value: ask });
   }
 
+  updateChartSize = (width, height) => {
+    this.chart.applyOptions({ width, height });
+  };
+
   render() {
     return (
-      <div id="symbol_chart" className="ChartWrapper" />
+      <div id={this.id} className="ChartWrapper" />
     );
   }
 }

@@ -12,7 +12,6 @@ import {
   FormikInputDecimalsField,
   FormikInputField,
   FormikSelectField,
-  FormikTextAreaField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
@@ -342,7 +341,17 @@ const GeneralNewOrderForm = (props: Props) => {
         };
 
         return (
-          <Form>
+          <Form className="GeneralNewOrderForm">
+            <div className="GeneralNewOrderForm__field-container">
+              <Field
+                name="pendingOrder"
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.PENDING_ORDER')}
+                className="GeneralNewOrderForm__pending-order-checkbox"
+                component={FormikCheckbox}
+                onChange={handlePendingOrder(values, setValues)}
+                disabled={!account || isAccountArchived}
+              />
+            </div>
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="volumeLots"
@@ -376,9 +385,9 @@ const GeneralNewOrderForm = (props: Props) => {
             </div>
             <div className="GeneralNewOrderForm__field-container">
               <Field
-                name="takeProfit"
+                name="stopLoss"
                 type="number"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
@@ -389,9 +398,9 @@ const GeneralNewOrderForm = (props: Props) => {
                 {...decimalsSettings}
               />
               <Field
-                name="stopLoss"
+                name="takeProfit"
                 type="number"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
                 step={step(currentSymbol?.digits || 0)}
@@ -426,23 +435,14 @@ const GeneralNewOrderForm = (props: Props) => {
               >
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
               </Button>
-              <div className="GeneralNewOrderForm__checkbox-container">
-                <Field
-                  name="autoOpenPrice"
-                  label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
-                  className="GeneralNewOrderForm__auto-checkbox"
-                  component={FormikCheckbox}
-                  onChange={handleAutoOpenPrice(values, setValues)}
-                  disabled={!account || pendingOrder || isAccountArchived}
-                />
-                <Field
-                  name="pendingOrder"
-                  label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.PENDING_ORDER')}
-                  component={FormikCheckbox}
-                  onChange={handlePendingOrder(values, setValues)}
-                  disabled={!account || isAccountArchived}
-                />
-              </div>
+              <Field
+                name="autoOpenPrice"
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
+                className="GeneralNewOrderForm__auto-checkbox"
+                component={FormikCheckbox}
+                onChange={handleAutoOpenPrice(values, setValues)}
+                disabled={!account || pendingOrder || isAccountArchived}
+              />
             </div>
             <If condition={!pendingOrder}>
               <div className="GeneralNewOrderForm__field-container">
@@ -528,7 +528,7 @@ const GeneralNewOrderForm = (props: Props) => {
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMENT')}
                 className="GeneralNewOrderForm__field"
                 maxLength={1000}
-                component={FormikTextAreaField}
+                component={FormikInputField}
                 disabled={!account || isAccountArchived}
               />
             </div>

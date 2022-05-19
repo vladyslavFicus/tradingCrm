@@ -87,12 +87,13 @@ const NewOrderModal = (props: Props) => {
       <ModalBody>
         <div className="NewOrderModal__inner-wrapper">
           <SymbolChart
+            className="NewOrderModal__chart"
             symbol={symbol}
             accountUuid={account?.uuid || ''}
             // Show loader while account loading or symbol wasn't chosen
             loading={accountQuery.loading || (account && !symbol)}
           />
-          <div>
+          <div className="NewOrderModal__form">
             <If condition={!!formError}>
               <div className="NewOrderModal__error">
                 {formError}
@@ -107,20 +108,17 @@ const NewOrderModal = (props: Props) => {
                 className="NewOrderModal__field"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
                 onEnterPress={handleGetAccount}
-                disabled={!!props.login}
               />
-              <If condition={!props.login}>
-                <Button
-                  className="NewOrderModal__button NewOrderModal__button--small"
-                  type="button"
-                  primaryOutline
-                  submitting={accountQuery.loading}
-                  disabled={!login || accountQuery.loading}
-                  onClick={handleGetAccount}
-                >
-                  {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
-                </Button>
-              </If>
+              <Button
+                className="NewOrderModal__button NewOrderModal__button--small"
+                type="button"
+                primaryOutline
+                submitting={accountQuery.loading}
+                disabled={!login || accountQuery.loading}
+                onClick={handleGetAccount}
+              >
+                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
+              </Button>
             </div>
             <If condition={!!account && account.enable}>
               <div className="NewOrderModal__field-container">
