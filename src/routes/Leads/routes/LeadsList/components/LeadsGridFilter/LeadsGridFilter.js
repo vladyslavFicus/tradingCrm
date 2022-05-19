@@ -35,6 +35,7 @@ const attributeLabels = {
   lastNoteDateRange: 'LEADS.FILTER.LAST_NOTE_DATE_RANGE',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   lastCallDateRange: 'LEADS.FILTER.LAST_CALL_DATE_RANGE',
+  affiliate: 'LEADS.FILTER.AFFILIATE',
 };
 
 class LeadsGridFilter extends PureComponent {
@@ -365,6 +366,14 @@ class LeadsGridFilter extends PureComponent {
                   component={FormikInputField}
                   withFocus
                   min={0}
+                />
+                <Field
+                  name="affiliate"
+                  className="LeadsGridFilter__field LeadsGridFilter__search"
+                  label={I18n.t(attributeLabels.affiliate)}
+                  placeholder={I18n.t('LEADS.FILTER.AFFILIATE_PLACEHOLDER')}
+                  component={FormikInputField}
+                  withFocus
                 />
               </div>
 

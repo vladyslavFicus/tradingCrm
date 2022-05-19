@@ -3045,6 +3045,7 @@
       "LEAD": "Lead",
       "COUNTRY": "Country",
       "SALES": "Sales",
+      "AFFILIATE": "Affiliate",
       "REGISTRATION": "Registration",
       "STATUS": "Status",
       "LAST_NOTE": "Last note",
@@ -3061,7 +3062,9 @@
       "ACCOUNT_STATUS": "Account Status",
       "REGISTRATION_DATE_RANGE": "Registration date range",
       "LAST_NOTE_DATE_RANGE": "Last note date range",
-      "LAST_CALL_DATE_RANGE": "Last call date range"
+      "LAST_CALL_DATE_RANGE": "Last call date range",
+      "AFFILIATE": "Affiliate",
+      "AFFILIATE_PLACEHOLDER": "Affiliate name"
     },
     "STATUSES": {
       "NEW": "New",
@@ -4540,6 +4543,7 @@
         "FROM": "From",
         "TO": "To",
         "DESCRIPTION": "Description",
+        "SYMBOLS": "Symbols",
         "ACTIONS": "Actions"
       },
       "FILTER_FORM": {

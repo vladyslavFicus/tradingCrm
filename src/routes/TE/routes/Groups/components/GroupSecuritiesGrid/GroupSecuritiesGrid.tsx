@@ -32,7 +32,7 @@ interface ConfirmationModalProps {
 }
 
 interface GroupNewSecurityModalProps {
-  onSuccess: (security: Security) => void,
+  onSuccess: (securities: Security[]) => void,
   groupSecurities: GroupSecurity[],
 }
 
@@ -56,9 +56,9 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const groupSecurities = values?.groupSecurities || [];
   const groupMargins = values?.groupMargins || [];
 
-  const handleNewGroupSecurity = (security: Security) => {
-    setFieldValue('groupSecurities', [...groupSecurities, {
-      security,
+  const handleNewGroupSecurity = (securities: Security[]) => {
+    const newSecurities = securities.map(security => ({
+      security: { id: security.id, name: security.name },
       show: true,
       spreadDiff: SpreadDiff.SPREAD_0,
       lotMin: LotMin.MIN_0_01,
@@ -67,7 +67,9 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
       commissionBase: 0,
       commissionType: GroupCommissionType.PIPS,
       commissionLots: GroupCommissionLots.LOT,
-    }]);
+    }));
+
+    setFieldValue('groupSecurities', [...groupSecurities, ...newSecurities]);
   };
 
   const handleEditGroupSecurity = (groupSecurity: GroupSecurity) => {

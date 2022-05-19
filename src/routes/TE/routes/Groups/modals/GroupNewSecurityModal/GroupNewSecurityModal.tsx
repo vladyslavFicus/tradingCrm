@@ -13,7 +13,7 @@ import { Button } from 'components/UI';
 import {
   TradingEngineGroup__GroupSecurity as GroupSecurity,
 } from '__generated__/types';
-import { Security as FormValues } from '../../types';
+import { Security } from '../../types';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import './GroupNewSecurityModal.scss';
 
@@ -21,12 +21,16 @@ interface Props {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
-  onSuccess: (security: FormValues) => void,
+  onSuccess: (securities: Security[]) => void,
   groupSecurities: GroupSecurity[],
 }
 
+type FormValues = {
+  idx: number[]
+}
+
 const validate = createValidator({
-  id: 'required',
+  idx: 'required',
 });
 
 const GroupNewSecurityModal = ({
@@ -39,27 +43,19 @@ const GroupNewSecurityModal = ({
   const securitiesQuery = useSecuritiesQuery();
   const { data, loading } = securitiesQuery;
   const securitiesData = data?.tradingEngine.securities || [];
-  const securities = differenceWith(securitiesData, groupSecurities,
+  const securitiesDiff = differenceWith(securitiesData, groupSecurities,
     (_security, _groupSecurity) => _security.id === _groupSecurity.security.id);
 
-  const handleSubmit = (security: FormValues) => {
-    onSuccess(security);
+  const handleSubmit = ({ idx }: FormValues) => {
+    const selectedSecurities = securitiesDiff.filter(security => idx.includes(security.id));
+
+    onSuccess(selectedSecurities);
     notify({
       level: LevelType.SUCCESS,
       title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.TITLE'),
       message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
     });
     onCloseModal();
-  };
-
-  const handleSecurityChange = (
-    value: number,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ) => {
-    const { id, name } = securities.find(security => security.id === value) || {};
-
-    setFieldValue('id', id);
-    setFieldValue('name', name);
   };
 
   return (
@@ -69,17 +65,14 @@ const GroupNewSecurityModal = ({
       isOpen={isOpen}
     >
       <Formik
-        initialValues={{
-          id: -1, // Should be -1 here because security with id=0 is available and we shouldn't choose it by default
-          name: '',
-        }}
+        initialValues={{ idx: [] }}
         validate={validate}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setFieldValue }: FormikProps<FormValues>) => (
+        {({ dirty, isSubmitting }: FormikProps<FormValues>) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               <Choose>
@@ -103,14 +96,14 @@ const GroupNewSecurityModal = ({
                   </div>
 
                   <Field
-                    name="id"
+                    name="idx"
                     label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.SECURITY')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
                     searchable
-                    customOnChange={(id: number) => handleSecurityChange(id, setFieldValue)}
+                    multiple
                   >
-                    {securities.map(({ id, name }) => (
+                    {securitiesDiff.map(({ id, name }) => (
                       <option key={id} value={id}>
                         {name}
                       </option>
