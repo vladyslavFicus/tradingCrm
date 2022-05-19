@@ -42,6 +42,7 @@ const SymbolSettings = (props: Props) => {
       ...values,
       ...symbolQuery.data?.tradingEngine.symbol,
       source: symbolName, // Repeat set symbol name here because "values" object doesn't have source field yet
+      backgroundColor: backgroundColor[0]?.value, // Set field value before to avoid choosing backgroundColor for BE
     });
   };
 
@@ -132,22 +133,6 @@ const SymbolSettings = (props: Props) => {
           className="SymbolSettings__field"
           component={FormikInputField}
         />
-      </div>
-      <div className="SymbolSettings__field-container--third">
-        <Field
-          name="backgroundColor"
-          label={I18n.t('TRADING_ENGINE.SYMBOL.BACKGROUND_LABEL')}
-          placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-          className="SymbolSettings__field"
-          component={FormikSelectField}
-          searchable
-        >
-          {backgroundColor.map(({ name, value }) => (
-            <option key={name} value={value}>
-              {I18n.t(name)}
-            </option>
-          ))}
-        </Field>
       </div>
       <div className="SymbolSettings__field-container">
         <Field
