@@ -101,7 +101,7 @@ const NewOrderModal = (props: Props) => {
             </If>
             <div className="NewOrderModal__field-container">
               <Input
-                autoFocus
+                autoFocus={!props.login}
                 name="login"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LOGIN')}
                 value={login}
