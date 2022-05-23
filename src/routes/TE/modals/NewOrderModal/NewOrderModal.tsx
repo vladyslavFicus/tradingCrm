@@ -3,34 +3,30 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { Storage } from 'types/storage';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import { withStorage } from 'providers/StorageProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
 import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
 import Input from 'components/Input';
+import SmartPnLForm from 'routes/TE/forms/SmartPnLForm';
+import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
 import { useAccountQueryLazyQuery, AccountQuery } from './graphql/__generated__/AccountQuery';
-import GeneralNewOrderForm from './forms/GeneralNewOrderForm';
-import SmartPnLForm from './forms/SmartPnLForm';
 import './NewOrderModal.scss';
 
 export type Account = AccountQuery['tradingEngine']['account'];
 
 interface Props {
-  onSuccess?: () => void,
+  onSuccess: () => void,
   onCloseModal: () => void,
-  storage: Storage,
   login?: string,
 }
 
 const NewOrderModal = (props: Props) => {
   const {
     onCloseModal,
-    onSuccess = () => {},
-    storage,
+    onSuccess,
     login: propsLogin = '',
   } = props;
 
@@ -64,10 +60,7 @@ const NewOrderModal = (props: Props) => {
     }
   };
 
-  const handleOnSuccess = (orderId: number) => {
-    // Save last created order to storage to open it later by request
-    storage.set('TE.lastCreatedOrderId', orderId);
-
+  const handleOnSuccess = () => {
     onSuccess();
     onCloseModal();
   };
@@ -94,12 +87,13 @@ const NewOrderModal = (props: Props) => {
       <ModalBody>
         <div className="NewOrderModal__inner-wrapper">
           <SymbolChart
+            className="NewOrderModal__chart"
             symbol={symbol}
             accountUuid={account?.uuid || ''}
             // Show loader while account loading or symbol wasn't chosen
             loading={accountQuery.loading || (account && !symbol)}
           />
-          <div>
+          <div className="NewOrderModal__form">
             <If condition={!!formError}>
               <div className="NewOrderModal__error">
                 {formError}
@@ -107,27 +101,24 @@ const NewOrderModal = (props: Props) => {
             </If>
             <div className="NewOrderModal__field-container">
               <Input
-                autoFocus
+                autoFocus={!props.login}
                 name="login"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LOGIN')}
                 value={login}
                 className="NewOrderModal__field"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
                 onEnterPress={handleGetAccount}
-                disabled={!!props.login}
               />
-              <If condition={!props.login}>
-                <Button
-                  className="NewOrderModal__button NewOrderModal__button--small"
-                  type="button"
-                  primaryOutline
-                  submitting={accountQuery.loading}
-                  disabled={!login || accountQuery.loading}
-                  onClick={handleGetAccount}
-                >
-                  {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
-                </Button>
-              </If>
+              <Button
+                className="NewOrderModal__button NewOrderModal__button--small"
+                type="button"
+                primaryOutline
+                submitting={accountQuery.loading}
+                disabled={!login || accountQuery.loading}
+                onClick={handleGetAccount}
+              >
+                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPLOAD')}
+              </Button>
             </div>
             <If condition={!!account && account.enable}>
               <div className="NewOrderModal__field-container">
@@ -212,10 +203,8 @@ const NewOrderModal = (props: Props) => {
 
 NewOrderModal.defaultProps = {
   login: '',
-  onSuccess: () => {},
 };
 
 export default compose(
   React.memo,
-  withStorage,
 )(NewOrderModal);

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { LevelType, Notify } from 'types';
 import { parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
+import { withStorage } from 'providers/StorageProvider';
 import {
   FormikCheckbox,
   FormikInputDecimalsField,
@@ -16,6 +17,7 @@ import {
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
+import { Storage } from 'types/storage';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
@@ -28,10 +30,11 @@ import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQu
 import './SmartPnLForm.scss';
 
 type Props = {
+  storage: Storage
   notify: Notify
   accountUuid?: string
   onSymbolChanged?: (symbol: string) => void
-  onSuccess?: (orderId: number) => void
+  onSuccess?: () => void
 };
 
 type FormValues = {
@@ -50,6 +53,7 @@ type FormValues = {
 
 const SmartPnLForm = (props: Props) => {
   const {
+    storage,
     notify,
     accountUuid,
     onSymbolChanged = () => {},
@@ -177,13 +181,16 @@ const SmartPnLForm = (props: Props) => {
 
       const orderId = data?.tradingEngine.createClosedOrder.id;
 
+      // Save last created order to storage to open it later by request
+      storage.set('TE.lastCreatedOrderId', orderId);
+
+      onSuccess();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
-
-      onSuccess(orderId as number);
     } catch (e) {
       const { message } = parseErrors(e);
 
@@ -669,4 +676,5 @@ SmartPnLForm.defaultProps = {
 export default compose(
   React.memo,
   withNotifications,
+  withStorage,
 )(SmartPnLForm);

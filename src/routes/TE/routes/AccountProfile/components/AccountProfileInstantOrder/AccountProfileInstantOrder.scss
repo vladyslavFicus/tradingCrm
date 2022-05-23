@@ -1,0 +1,60 @@
+.AccountProfileInstantOrder {
+  &__open-button {
+    position: fixed;
+    top: calc(50% - 25px);
+    right: 0;
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    z-index: 15;
+    cursor: pointer;
+    background: #000;
+    border-radius: 10px 0 0 10px;
+    box-shadow: -2px 2px 5px #555;
+    fill: #fff;
+
+    &:hover {
+      background: #222;
+    }
+  }
+
+  &__window {
+    width: 800px;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0 0 8px #888;
+
+    &--open {
+      visibility: visible;
+    }
+  }
+
+  &__window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    background: #4a90e2;
+    color: #fff;
+    font-size: 16px;
+    cursor: move;
+  }
+
+  &__window-header-close-button {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__window-content {
+    display: flex;
+    padding: 15px;
+  }
+
+  &__chart {
+    margin-right: 25px;
+  }
+}
+
+.react-draggable-dragging {
+  user-select: none !important;
+}

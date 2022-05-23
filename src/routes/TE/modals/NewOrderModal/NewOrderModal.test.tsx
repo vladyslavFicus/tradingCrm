@@ -90,9 +90,9 @@ it('Render NewOrderModal with login in props', async () => {
   await screen.findByText(/My USD account/);
 
   // Assert
-  expect(screen.getByLabelText('Login')).toBeDisabled();
+  expect(screen.getByLabelText('Login')).toBeEnabled();
   expect(screen.getByLabelText('Login')).toHaveValue(login);
-  expect(screen.queryByRole('button', { name: 'Upload' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Upload' })).toBeInTheDocument();
 });
 
 it('Render NewOrderModal with create order permission', async () => {

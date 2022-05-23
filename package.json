@@ -79,6 +79,7 @@
     "react-placeholder": "^1.0.6",
     "react-portal-tooltip": "^2.4.7",
     "react-qr-code": "^2.0.3",
+    "react-rnd": "^10.3.7",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^4.0.3",
     "react-select": "^2.0.0",

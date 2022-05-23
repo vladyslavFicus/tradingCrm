@@ -82,13 +82,14 @@ const EditOrderModal = (props: Props) => {
           <ModalBody>
             <div className="EditOrderModal__inner-wrapper">
               <SymbolChart
+                className="EditOrderModal__chart"
                 accountUuid={accountUuid}
                 symbol={symbol}
                 bidLineColor={order.status === OrderStatus.CANCELED ? '#808080' : undefined}
                 askLineColor={order.status === OrderStatus.CANCELED ? '#808080' : undefined}
               />
 
-              <div>
+              <div className="EditOrderModal__form">
                 <EditOrderForm order={order} onSuccess={_onSuccess} />
 
                 <Choose>

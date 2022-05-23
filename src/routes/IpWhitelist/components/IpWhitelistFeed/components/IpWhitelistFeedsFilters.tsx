@@ -62,8 +62,7 @@ const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
       validate={
         createValidator({
           searchBy: 'string',
-          auditLogType: ['string', `in:${Object.keys(feedTypesList).join()
-            }`],
+          auditLogType: ['string', `in:${Object.keys(feedTypesList).join()}`],
           creationDateFrom: 'dateWithTime',
           creationDateTo: 'dateWithTime',
         }, false)
