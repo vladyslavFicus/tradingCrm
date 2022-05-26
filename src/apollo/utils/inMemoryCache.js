@@ -99,5 +99,8 @@ export default new InMemoryCache({
     SettingsQuery: {
       merge: true,
     },
+    Lead__Contacts: {
+      merge: true,
+    },
   },
 });

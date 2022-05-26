@@ -1,21 +1,26 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
-import { omit } from 'lodash';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { withApollo } from '@apollo/client/react/hoc';
+import Trackify from '@hrzn/trackify';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { getBrand, getAvailableLanguages } from 'config';
+import permissions from 'config/permissions';
+import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
 import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
+import Input from 'components/Input';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';
 import LeadQuery from './graphql/LeadQuery';
+import LeadEmailQuery from './graphql/LeadEmailQuery';
 import './PromoteLeadModal.scss';
 
 const attributeLabels = {
@@ -43,10 +48,18 @@ class PromoteLeadModal extends PureComponent {
     leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
     notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     promoteLead: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    permission: PropTypes.permission.isRequired,
+  };
+
+  state = {
+    email: null,
   };
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
@@ -57,14 +70,14 @@ class PromoteLeadModal extends PureComponent {
       onCloseModal,
     } = this.props;
 
-    const args = {
-      uuid: leadQuery.data?.lead?.uuid,
-      ...omit(values, ['contacts']),
-    };
-
     try {
       await promoteLead({
-        variables: { args },
+        variables: {
+          args: {
+            uuid: leadQuery.data?.lead?.uuid,
+            ...values,
+          },
+        },
       });
 
       EventEmitter.emit(LEAD_PROMOTED, leadQuery.data?.lead);
@@ -95,11 +108,35 @@ class PromoteLeadModal extends PureComponent {
     setSubmitting(false);
   };
 
+  getLeadEmail = async () => {
+    const { leadQuery, notify } = this.props;
+
+    const { uuid } = leadQuery.data?.lead || {};
+
+    try {
+      const { data: { leadContacts: { email } } } = await this.props.client.query({
+        query: LeadEmailQuery,
+        variables: { uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('LEAD_EMAILS_VIEWED', { eventLabel: uuid });
+
+      this.setState({ email });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
   render() {
     const {
       isOpen,
       leadQuery,
       onCloseModal,
+      permission,
     } = this.props;
 
     const {
@@ -124,9 +161,6 @@ class PromoteLeadModal extends PureComponent {
           initialValues={{
             address: {
               countryCode,
-            },
-            contacts: {
-              email,
             },
             gender,
             lastName,
@@ -164,12 +198,23 @@ class PromoteLeadModal extends PureComponent {
                     disabled={isLoading || isSubmitting}
                   />
 
-                  <Field
+                  <Input
+                    disabled
                     name="contacts.email"
                     className="PromoteLeadModal__field"
                     label={I18n.t(attributeLabels.email)}
-                    component={FormikInputField}
-                    disabled
+                    value={this.state.email || email}
+                    addition={
+                      permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) && (
+                        <Button
+                          className="PromoteLeadModal__show-email-button"
+                          onClick={this.getLeadEmail}
+                        >
+                          {I18n.t('COMMON.BUTTONS.SHOW')}
+                        </Button>
+                      )
+                    }
+                    additionPosition="right"
                   />
 
                   <Field
@@ -249,7 +294,9 @@ class PromoteLeadModal extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withNotifications,
+  withPermission,
   withRequests({
     leadQuery: LeadQuery,
     promoteLead: PromoteLeadMutation,

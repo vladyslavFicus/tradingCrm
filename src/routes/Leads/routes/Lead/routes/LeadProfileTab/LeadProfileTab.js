@@ -3,6 +3,8 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
+import { withApollo } from '@apollo/client/react/hoc';
+import Trackify from '@hrzn/trackify';
 import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import permissions from 'config/permissions';
@@ -16,11 +18,17 @@ import formatLabel from 'utils/formatLabel';
 import countryList, { getCountryCode } from 'utils/countryList';
 import LeadQuery from './graphql/LeadQuery';
 import UpdateLeadMutation from './graphql/UpdateLeadMutation';
+import LeadPhoneQuery from './graphql/LeadPhoneQuery';
+import LeadMobileQuery from './graphql/LeadMobileQuery';
+import LeadEmailQuery from './graphql/LeadEmailQuery';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from './constants';
 import './LeadProfileTab.scss';
 
 class LeadProfileTab extends PureComponent {
   static propTypes = {
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
     leadQuery: PropTypes.query({
       lead: PropTypes.lead,
     }).isRequired,
@@ -29,13 +37,105 @@ class LeadProfileTab extends PureComponent {
     notify: PropTypes.func.isRequired,
   };
 
+  state = {
+    email: undefined,
+    phone: undefined,
+    mobile: undefined,
+    isPhoneShown: false,
+    isMobileShown: false,
+    isEmailShown: false,
+  };
+
+  getLeadPhone = async () => {
+    const { leadQuery, notify } = this.props;
+
+    const { uuid } = leadQuery.data?.lead || {};
+
+    try {
+      const { data: { leadContacts: { phone } } } = await this.props.client.query({
+        query: LeadPhoneQuery,
+        variables: { uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('LEAD_PHONES_VIEWED', { eventLabel: uuid });
+
+      this.setState({ phone, isPhoneShown: true });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getLeadMobile = async () => {
+    const { leadQuery, notify } = this.props;
+
+    const { uuid } = leadQuery.data?.lead || {};
+
+    try {
+      const { data: { leadContacts: { mobile } } } = await this.props.client.query({
+        query: LeadMobileQuery,
+        variables: { uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('LEAD_PHONES_VIEWED', { eventLabel: uuid });
+
+      this.setState({ mobile, isMobileShown: true });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getLeadEmail = async () => {
+    const { leadQuery, notify } = this.props;
+
+    const { uuid } = leadQuery.data?.lead || {};
+
+    try {
+      const { data: { leadContacts: { email } } } = await this.props.client.query({
+        query: LeadEmailQuery,
+        variables: { uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('LEAD_EMAILS_VIEWED', { eventLabel: uuid });
+
+      this.setState({ email, isEmailShown: true });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
   handleSubmit = async (values, { setSubmitting }) => {
     const { leadQuery, updateLead, notify } = this.props;
+    const { isPhoneShown, isMobileShown, isEmailShown } = this.state;
 
     setSubmitting(false);
 
+    const phone = isPhoneShown ? values.phone : undefined;
+    const mobile = isMobileShown ? values.mobile : undefined;
+    const email = isEmailShown ? values.email : undefined;
+
     try {
-      await updateLead({ variables: values });
+      await updateLead({
+        variables: {
+          ...values,
+          phone,
+          mobile,
+          email,
+        },
+      });
+
+      this.setState({ phone, mobile, email });
 
       leadQuery.refetch();
 
@@ -86,9 +186,9 @@ class LeadProfileTab extends PureComponent {
                 brandId,
                 name,
                 surname,
-                phone,
-                mobile,
-                email,
+                phone: this.state.phone || phone,
+                mobile: this.state.mobile || mobile,
+                email: this.state.email || email,
                 country: getCountryCode(country),
                 birthDate,
                 gender,
@@ -105,7 +205,9 @@ class LeadProfileTab extends PureComponent {
                 address: 'string',
                 phone: 'string',
                 mobile: 'string',
-                email: permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) ? 'email' : 'string',
+                email: (permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) && this.state.isEmailShown)
+                  ? 'email'
+                  : 'string',
               }, translateLabels(attributeLabels), false)}
               onSubmit={this.handleSubmit}
               enableReinitialize
@@ -119,7 +221,7 @@ class LeadProfileTab extends PureComponent {
                     </div>
 
                     <If condition={dirty && !isSubmitting}>
-                      <div className="LeadPtofileTab__form-actions">
+                      <div className="LeadProfileTab__form-actions">
                         <Button
                           small
                           primary
@@ -223,7 +325,22 @@ class LeadProfileTab extends PureComponent {
                       className="LeadProfileTab__form-field"
                       label={I18n.t(attributeLabels.phone)}
                       component={FormikInputField}
-                      disabled={isSubmitting || permission.denies(permissions.LEAD_PROFILE.FIELD_PHONE)}
+                      addition={
+                        permission.allows(permissions.LEAD_PROFILE.FIELD_PHONE) && (
+                          <Button
+                            className="LeadProfileTab__show-contacts-button"
+                            onClick={this.getLeadPhone}
+                          >
+                            {I18n.t('COMMON.BUTTONS.SHOW')}
+                          </Button>
+                        )
+                      }
+                      additionPosition="right"
+                      disabled={
+                        isSubmitting
+                        || permission.denies(permissions.LEAD_PROFILE.FIELD_PHONE)
+                        || !this.state.isPhoneShown
+                      }
                     />
 
                     <Field
@@ -231,7 +348,22 @@ class LeadProfileTab extends PureComponent {
                       className="LeadProfileTab__form-field"
                       label={I18n.t(attributeLabels.mobile)}
                       component={FormikInputField}
-                      disabled={isSubmitting || permission.denies(permissions.LEAD_PROFILE.FIELD_MOBILE)}
+                      addition={
+                        permission.allows(permissions.LEAD_PROFILE.FIELD_MOBILE) && (
+                          <Button
+                            className="LeadProfileTab__show-contacts-button"
+                            onClick={this.getLeadMobile}
+                          >
+                            {I18n.t('COMMON.BUTTONS.SHOW')}
+                          </Button>
+                        )
+                      }
+                      additionPosition="right"
+                      disabled={
+                        isSubmitting
+                        || permission.denies(permissions.LEAD_PROFILE.FIELD_MOBILE)
+                        || !this.state.isMobileShown
+                      }
                     />
 
                     <Field
@@ -240,7 +372,22 @@ class LeadProfileTab extends PureComponent {
                       className="LeadProfileTab__form-field"
                       label={I18n.t(attributeLabels.email)}
                       component={FormikInputField}
-                      disabled={isSubmitting || permission.denies(permissions.LEAD_PROFILE.FIELD_EMAIL)}
+                      addition={
+                        permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) && (
+                          <Button
+                            className="LeadProfileTab__show-contacts-button"
+                            onClick={this.getLeadEmail}
+                          >
+                            {I18n.t('COMMON.BUTTONS.SHOW')}
+                          </Button>
+                        )
+                      }
+                      additionPosition="right"
+                      disabled={
+                        isSubmitting
+                        || permission.denies(permissions.LEAD_PROFILE.FIELD_EMAIL)
+                        || !this.state.isEmailShown
+                      }
                     />
                   </div>
                 </Form>
@@ -254,6 +401,7 @@ class LeadProfileTab extends PureComponent {
 }
 
 export default compose(
+  withApollo,
   withPermission,
   withNotifications,
   withRequests({

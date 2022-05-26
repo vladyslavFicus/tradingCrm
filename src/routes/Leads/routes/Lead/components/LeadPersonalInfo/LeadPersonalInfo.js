@@ -1,22 +1,83 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
+import { withApollo } from '@apollo/client/react/hoc';
+import Trackify from '@hrzn/trackify';
 import Flag from 'react-country-flag';
+import { withNotifications } from 'hoc';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
 } from '__generated__/types';
+import permissions from 'config/permissions';
+import { CONDITIONS } from 'utils/permissions';
+import PermissionContent from 'components/PermissionContent';
+import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import PropTypes from 'constants/propTypes';
 import Click2Call from 'components/Click2Call';
 import { PersonalInformationItem } from 'components/Information';
 import countryList, { getCountryCode } from 'utils/countryList';
+import LeadPhonesQuery from '../../graphql/LeadPhonesQuery';
+import LeadEmailQuery from '../../graphql/LeadEmailQuery';
 import './LeadPersonalInfo.scss';
 
 class LeadPersonalInfo extends PureComponent {
   static propTypes = {
     lead: PropTypes.lead.isRequired,
+    notify: PropTypes.func.isRequired,
+    client: PropTypes.shape({
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
+
+  state = {
+    email: undefined,
+    phone: undefined,
+    mobile: undefined,
+  };
+
+  getLeadPhones = async () => {
+    const { lead: { uuid }, notify } = this.props;
+
+    try {
+      const { data: { leadContacts: { phone, mobile } } } = await this.props.client.query({
+        query: LeadPhonesQuery,
+        variables: { uuid },
+      });
+
+      Trackify.click('LEAD_PHONES_VIEWED', { eventLabel: uuid });
+
+      this.setState({ phone, mobile });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
+
+  getLeadEmail = async () => {
+    const { lead: { uuid }, notify } = this.props;
+
+    try {
+      const { data: { leadContacts: { email } } } = await this.props.client.query({
+        query: LeadEmailQuery,
+        variables: { uuid },
+        fetchPolicy: 'network-only',
+      });
+
+      Trackify.click('LEAD_EMAILS_VIEWED', { eventLabel: uuid });
+
+      this.setState({ email });
+    } catch {
+      notify({
+        level: 'error',
+        title: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+  }
 
   render() {
     const {
@@ -63,13 +124,28 @@ class LeadPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.PHONE')}
-            value={phone}
-            additional={<Click2Call uuid={uuid} phoneType={PhoneType.PHONE} customerType={CustomerType.LEAD} />}
+            value={this.state.phone || phone}
+            additional={(
+              <>
+                <PermissionContent
+                  permissions={[permissions.LEAD_PROFILE.FIELD_PHONE, permissions.LEAD_PROFILE.FIELD_MOBILE]}
+                  permissionsCondition={CONDITIONS.OR}
+                >
+                  <Button
+                    className="LeadPersonalInfo__show-contacts-button"
+                    onClick={this.getLeadPhones}
+                  >
+                    {I18n.t('COMMON.BUTTONS.SHOW')}
+                  </Button>
+                </PermissionContent>
+                <Click2Call uuid={uuid} phoneType={PhoneType.PHONE} customerType={CustomerType.LEAD} />
+              </>
+            )}
             className="LeadPersonalInfo__phone"
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.MOBILE')}
-            value={mobile}
+            value={this.state.mobile || mobile}
             additional={(
               <Click2Call
                 uuid={uuid}
@@ -81,7 +157,17 @@ class LeadPersonalInfo extends PureComponent {
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.EMAIL')}
-            value={email}
+            value={this.state.email || email}
+            additional={(
+              <PermissionContent permissions={[permissions.LEAD_PROFILE.FIELD_EMAIL]}>
+                <Button
+                  className="LeadPersonalInfo__show-contacts-button"
+                  onClick={this.getLeadEmail}
+                >
+                  {I18n.t('COMMON.BUTTONS.SHOW')}
+                </Button>
+              </PermissionContent>
+            )}
           />
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.COUNTRY')}
@@ -141,4 +227,7 @@ class LeadPersonalInfo extends PureComponent {
   }
 }
 
-export default LeadPersonalInfo;
+export default compose(
+  withApollo,
+  withNotifications,
+)(LeadPersonalInfo);

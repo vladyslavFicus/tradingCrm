@@ -37,4 +37,16 @@
       height: 10px;
     }
   }
+
+  &__show-contacts-button {
+    padding: 0 7px;
+    margin-left: 5px;
+    border-radius: 10px;
+    font-size: 11px;
+
+    &:hover {
+      border-color: #555;
+      color: #555;
+    }
+  }
 }

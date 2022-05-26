@@ -528,7 +528,8 @@
       "ADD_FILTER": "+ Filter",
       "OLD_FILTERS": "Old filters",
       "DOWNLOAD": "Download",
-      "SEND": "Send"
+      "SEND": "Send",
+      "SHOW": "Show"
     },
     "ACTIONS": {
       "ON": "Turn on",
