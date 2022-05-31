@@ -11,6 +11,7 @@ const REQUEST = gql`
     $registrationDateFrom: String
     $registrationDateTo: String
     $page: Page__Input
+    $authorities: TradingEngineOperatorSearch__Authorities__Input
   ) {
     operators(
       searchBy: $searchBy
@@ -19,6 +20,7 @@ const REQUEST = gql`
       registrationDateFrom: $registrationDateFrom
       registrationDateTo: $registrationDateTo
       page: $page
+      authorities: $authorities
     ) {
       page
       number
