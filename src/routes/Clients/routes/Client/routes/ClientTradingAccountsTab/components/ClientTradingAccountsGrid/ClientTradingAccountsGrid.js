@@ -20,7 +20,6 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
-import CircleLoader from 'components/CircleLoader';
 import RenameTradingAccountModal from 'modals/RenameTradingAccountModal';
 import ChangeLeverageModal from 'modals/ChangeLeverageModal';
 import TradingAccountChangePasswordModal from 'modals/TradingAccountChangePasswordModal';
@@ -191,15 +190,11 @@ class ClientTradingAccountsGrid extends PureComponent {
         <When condition={platformType !== 'WET'}>
           <span>&mdash;</span>
         </When>
-        {/* Show loader while no data provided from rsocket */}
-        <When condition={!statistic$}>
-          <CircleLoader />
-        </When>
-        <When condition={!!statistic$}>
+        <Otherwise>
           <div className="ClientTradingAccountsGrid__cell-main-value">
-            {Number(statistic$.marginLevel * 100).toFixed(2)}%
+            {Number((statistic$?.marginLevel || 0) * 100).toFixed(2)}%
           </div>
-        </When>
+        </Otherwise>
       </Choose>
     );
   }
@@ -213,15 +208,11 @@ class ClientTradingAccountsGrid extends PureComponent {
         <When condition={platformType !== 'WET'}>
           <span>&mdash;</span>
         </When>
-        {/* Show loader while no data provided from rsocket */}
-        <When condition={!statistic$}>
-          <CircleLoader />
-        </When>
-        <When condition={!!statistic$}>
+        <Otherwise>
           <div className="ClientTradingAccountsGrid__cell-main-value">
-            {Number(statistic$.openPnL).toFixed(2)}
+            {Number(statistic$?.openPnL || 0).toFixed(2)}
           </div>
-        </When>
+        </Otherwise>
       </Choose>
     );
   }
@@ -283,9 +274,9 @@ class ClientTradingAccountsGrid extends PureComponent {
               )
             }
           >
-            {`${I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.SINCE')} ${
-              moment.utc(createDate).local().format('DD.MM.YYYY HH:mm')
-            }`}
+            {`${I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.SINCE')}
+              ${moment.utc(createDate).local().format('DD.MM.YYYY HH:mm')}`
+            }
           </div>
         </If>
         <If condition={status === 'PENDING'}>
