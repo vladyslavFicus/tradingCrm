@@ -530,6 +530,16 @@ export default [
           },
         },
       },
+      // Upload leads from file
+      {
+        id: 'upload',
+        actions: {
+          edit: {
+            action: 'lead-updater.uploadLeadsFromFile',
+            state: false,
+          },
+        },
+      },
       // Promote lead to client
       {
         id: 'promote',
