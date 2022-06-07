@@ -5,14 +5,6 @@ module.exports = {
   babel: {
     plugins: ['jsx-control-statements'],
   },
-  eslint: {
-    mode: 'file',
-    loaderOptions: (options) => {
-      delete options['ignore'];
-
-      return options;
-    },
-  },
   webpack: {
     plugins: [
       ...whenDev(() => [new HardSourceWebpackPlugin()], []),

@@ -18,9 +18,9 @@ import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constant
 import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
-import GridStatus from 'components/GridStatus';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
+import GridStatus from 'components/GridStatus';
 import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';

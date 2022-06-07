@@ -7,6 +7,7 @@ import PropTypes from 'constants/propTypes';
 import TradingAccountsListFilters from './components/TradingAccountsListFilters';
 import TradingAccountsListGrid from './components/TradingAccountsListGrid';
 import TradingAccountsListQuery from './graphql/TradingAccountsListQuery';
+import './TradingAccountsList.scss';
 
 class TradingAccountsList extends PureComponent {
   static propTypes = {
@@ -24,9 +25,9 @@ class TradingAccountsList extends PureComponent {
     const totalElements = get(tradingAccountsData, 'data.tradingAccounts.totalElements') || 0;
 
     return (
-      <div className="card">
-        <div className="card-heading card-heading--is-sticky">
-          <span className="font-size-20">
+      <div className="TradingAccountsList">
+        <div className="TradingAccountsList__header">
+          <span>
             <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ACCOUNTS.HEADLINE')}
           </span>
         </div>

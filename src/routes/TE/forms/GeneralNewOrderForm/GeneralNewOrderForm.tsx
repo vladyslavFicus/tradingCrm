@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
@@ -11,10 +11,11 @@ import {
   FormikCheckbox,
   FormikInputDecimalsField,
   FormikInputField,
-  FormikSelectField,
+  FormikSelectTreeField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
+import { Node } from 'components/SelectTree';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { Storage } from 'types/storage';
 import { OrderDirection } from 'types/trading-engine';
@@ -75,17 +76,42 @@ const GeneralNewOrderForm = (props: Props) => {
       accountUuid: accountUuid as string,
     },
     skip: !accountUuid,
-    onCompleted({ tradingEngine: { accountSymbols } }) {
-      setSymbol(accountSymbols[0]?.name);
-      onSymbolChanged(accountSymbols[0]?.name);
+    onCompleted({ tradingEngine: { symbols } }) {
+      setSymbol(symbols.content[0]?.name);
+      onSymbolChanged(symbols.content[0]?.name);
     },
   });
 
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
   const account = accountQuery.data?.tradingEngine.account;
-  const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
+  const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.symbols.content || [];
   const isAccountArchived = !account?.enable;
+
+  // Symbol tree to render inside SelectTree component
+  const allowedSymbolsTree = useMemo(
+    () => {
+      const result: { [key: string]: Node } = {};
+
+      allowedSymbols.forEach(({ name, description, securityName }) => {
+        if (!result[securityName]) {
+          result[securityName] = {
+            label: securityName,
+            value: securityName,
+            children: [],
+          };
+        }
+
+        result[securityName].children?.push({
+          label: `${name} ${description}`,
+          value: name,
+        });
+      });
+
+      return Object.values(result);
+    },
+    [allowedSymbols],
+  );
 
   // ===== Getters ===== ///
   /**
@@ -354,6 +380,17 @@ const GeneralNewOrderForm = (props: Props) => {
             </div>
             <div className="GeneralNewOrderForm__field-container">
               <Field
+                name="symbol"
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
+                className="GeneralNewOrderForm__field"
+                component={FormikSelectTreeField}
+                disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
+                onChange={(value: string) => onChangeSymbol(value, values, setValues)}
+                nodes={allowedSymbolsTree}
+              />
+            </div>
+            <div className="GeneralNewOrderForm__field-container">
+              <Field
                 name="volumeLots"
                 type="number"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
@@ -365,23 +402,6 @@ const GeneralNewOrderForm = (props: Props) => {
                 component={FormikInputField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
-            </div>
-            <div className="GeneralNewOrderForm__field-container">
-              <Field
-                name="symbol"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
-                className="GeneralNewOrderForm__field"
-                component={FormikSelectField}
-                disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
-                customOnChange={(value: string) => onChangeSymbol(value, values, setValues)}
-                searchable
-              >
-                {allowedSymbols.map(({ name, description }) => (
-                  <option key={name} value={name}>
-                    {`${name}  ${description}`}
-                  </option>
-                ))}
-              </Field>
             </div>
             <div className="GeneralNewOrderForm__field-container">
               <Field

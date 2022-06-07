@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { v4 } from 'uuid';
 import deleteFromArray from 'utils/deleteFromArray';
+import './SelectMultipleOptions.scss';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
 });
 
 class SelectMultipleOptions extends PureComponent {
@@ -79,12 +80,7 @@ class SelectMultipleOptions extends PureComponent {
         {
           headerButtonClassName && headerButtonOnClick && headerButtonIconClassName && headerButtonText
           && (
-            <button
-              type="button"
-              className={headerButtonClassName}
-              onClick={headerButtonOnClick}
-              tabIndex={-1}
-            >
+            <button type="button" className={headerButtonClassName} onClick={headerButtonOnClick}>
               <i className={headerButtonIconClassName} /> {headerButtonText}
             </button>
           )
@@ -96,9 +92,10 @@ class SelectMultipleOptions extends PureComponent {
             key: option.key,
             className: classNames(
               option.props.className,
-              'custom-control custom-checkbox select-block-option',
+              'SelectMultipleOptions__item',
               {
-                'is-selected': isActive,
+                'SelectMultipleOptions__item--unchecked': !isActive,
+                'SelectMultipleOptions__item--checked': isActive,
                 'is-disabled': option.props.disabled,
               },
             ),
@@ -111,16 +108,22 @@ class SelectMultipleOptions extends PureComponent {
           return (
             <div {...optionProps}>
               <input
+                hidden
                 type="checkbox"
-                className="custom-control-input"
                 id={`${uniq}-${option.value}`}
                 checked={isActive}
                 onChange={e => this.handleChange(e, option)}
                 disabled={option.props.disabled}
-                tabIndex={-1}
               />
-              <label className="custom-control-label" htmlFor={`${uniq}-${option.value}`}>
-                {option.label}
+              <label className="SelectMultipleOptions__item__label" htmlFor={`${uniq}-${option.value}`}>
+                <i
+                  className={classNames('SelectMultipleOptions__item__icon', {
+                    'fa fa-square-o': !isActive,
+                    'fa fa-check-square': isActive,
+                    'is-disabled': option.props.disabled,
+                  })}
+                />
+                <span>{option.label}</span>
               </label>
             </div>
           );

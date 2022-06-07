@@ -39,21 +39,24 @@ const apolloMockFactory = (data = {}) => [{
   result: {
     data: {
       tradingEngine: {
-        accountSymbols: [{
-          name: 'EURUSD',
-          description: 'EURUSD description',
-          digits: 5,
-          symbolType: 'FOREX',
-          config: {
-            lotSize: 10000,
-            lotMin: 0.01,
-            lotStep: 0.01,
-            lotMax: 100,
-            bidAdjustment: 0,
-            askAdjustment: 0,
-            percentage: 100,
-          },
-        }],
+        symbols: {
+          content: [{
+            name: 'EURUSD',
+            description: 'EURUSD description',
+            digits: 5,
+            symbolType: 'FOREX',
+            securityName: 'Forex',
+            config: {
+              lotSize: 10000,
+              lotMin: 0.01,
+              lotStep: 0.01,
+              lotMax: 100,
+              bidAdjustment: 0,
+              askAdjustment: 0,
+              percentage: 100,
+            },
+          }],
+        },
         ...data,
       },
     },
@@ -321,21 +324,24 @@ it('Render SmartPnLForm and applying group spread for chosen symbol', async () =
   const digits = 5;
 
   const apolloMockResponseData = {
-    accountSymbols: [{
-      name: 'EURUSD',
-      description: 'EURUSD description',
-      digits,
-      symbolType: 'FOREX',
-      config: {
-        lotSize: 10000,
-        lotMin: 0.01,
-        lotStep: 0.01,
-        lotMax: 100,
-        percentage: 100,
-        bidAdjustment,
-        askAdjustment,
-      },
-    }],
+    symbols: {
+      content: [{
+        name: 'EURUSD',
+        description: 'EURUSD description',
+        digits,
+        symbolType: 'FOREX',
+        securityName: 'Forex',
+        config: {
+          lotSize: 10000,
+          lotMin: 0.01,
+          lotStep: 0.01,
+          lotMax: 100,
+          percentage: 100,
+          bidAdjustment,
+          askAdjustment,
+        },
+      }],
+    },
   };
 
   // Act

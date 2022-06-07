@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
@@ -12,11 +12,12 @@ import {
   FormikCheckbox,
   FormikInputDecimalsField,
   FormikInputField,
-  FormikSelectField,
   FormikDatePicker,
+  FormikSelectTreeField,
 } from 'components/Formik';
 import { Button } from 'components/UI';
 import Input from 'components/Input';
+import { Node } from 'components/SelectTree';
 import { Storage } from 'types/storage';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';
@@ -75,19 +76,44 @@ const SmartPnLForm = (props: Props) => {
       accountUuid: accountUuid as string,
     },
     skip: !accountUuid,
-    onCompleted({ tradingEngine: { accountSymbols } }) {
-      setSymbol(accountSymbols[0]?.name);
-      onSymbolChanged(accountSymbols[0]?.name);
+    onCompleted({ tradingEngine: { symbols } }) {
+      setSymbol(symbols.content[0]?.name);
+      onSymbolChanged(symbols.content[0]?.name);
     },
   });
 
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
   const account = accountQuery.data?.tradingEngine.account;
-  const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
+  const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.symbols.content || [];
   const isAccountArchived = !account?.enable;
 
   const exchangeRate = currentSymbolPrice?.pnlRates[account?.currency as string] || 0;
+
+  // Symbol tree to render inside SelectTree component
+  const allowedSymbolsTree = useMemo(
+    () => {
+      const result: { [key: string]: Node } = {};
+
+      allowedSymbols.forEach(({ name, description, securityName }) => {
+        if (!result[securityName]) {
+          result[securityName] = {
+            label: securityName,
+            value: securityName,
+            children: [],
+          };
+        }
+
+        result[securityName].children?.push({
+          label: `${name} ${description}`,
+          value: name,
+        });
+      });
+
+      return Object.values(result);
+    },
+    [allowedSymbols],
+  );
 
   // ===== Getters ===== ///
   /**
@@ -381,29 +407,16 @@ const SmartPnLForm = (props: Props) => {
 
         return (
           <Form>
-            <div className="SmartPnLForm__field-container SmartPnLForm__field-container--column">
+            <div className="SmartPnLForm__field-container">
               <Field
-                name="pnl"
-                type="number"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.EXPECTED_PNL')}
+                name="symbol"
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                 className="SmartPnLForm__field"
-                placeholder="0.00"
-                component={FormikInputField}
+                component={FormikSelectTreeField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
+                onChange={(value: string) => onChangeSymbol(value, values, setValues)}
+                nodes={allowedSymbolsTree}
               />
-              <If condition={
-                !Object.keys(errors).length
-                && !!account
-                && !accountSymbolsQuery.loading
-                && !isAccountArchived
-                && !!currentSymbolPrice
-              }
-              >
-                <div className="SmartPnLForm__field-hint">
-                  {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.REAL_RECEIVED_PNL')}:
-                  SELL = <strong>{sellPnl}</strong>, BUY = <strong>{buyPnl}</strong>
-                </div>
-              </If>
             </div>
             <div className="SmartPnLForm__field-container">
               <Field
@@ -429,22 +442,30 @@ const SmartPnLForm = (props: Props) => {
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
             </div>
-            <div className="SmartPnLForm__field-container">
+
+            <div className="SmartPnLForm__field-container SmartPnLForm__field-container--column">
               <Field
-                name="symbol"
-                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
+                name="pnl"
+                type="number"
+                label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.EXPECTED_PNL')}
                 className="SmartPnLForm__field"
-                component={FormikSelectField}
+                placeholder="0.00"
+                component={FormikInputField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
-                customOnChange={(value: string) => onChangeSymbol(value, values, setValues)}
-                searchable
+              />
+              <If condition={
+                !Object.keys(errors).length
+                && !!account
+                && !accountSymbolsQuery.loading
+                && !isAccountArchived
+                && !!currentSymbolPrice
+              }
               >
-                {allowedSymbols.map(({ name, description }) => (
-                  <option key={name} value={name}>
-                    {`${name}  ${description}`}
-                  </option>
-                ))}
-              </Field>
+                <div className="SmartPnLForm__field-hint">
+                  {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.REAL_RECEIVED_PNL')}:
+                  SELL = <strong>{sellPnl}</strong>, BUY = <strong>{buyPnl}</strong>
+                </div>
+              </If>
             </div>
 
             {/* SELL information row */}

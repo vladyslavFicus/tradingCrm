@@ -345,8 +345,8 @@ class SalesRules extends PureComponent {
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
-      <div className={classNames('SalesRules card', { 'no-borders': isTab })}>
-        <div className="card-heading card-heading--is-sticky">
+      <div className={classNames('SalesRules', { 'no-borders': isTab })}>
+        <div className="SalesRules__header">
           <ReactPlaceholder
             ready={!isLoadingRules}
             customPlaceholder={(
@@ -355,23 +355,21 @@ class SalesRules extends PureComponent {
               </div>
             )}
           >
-            <span className="font-size-20">
+            <span>
               <strong>{entities.length} </strong>
               {I18n.t('SALES_RULES.TITLE')}
             </span>
           </ReactPlaceholder>
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
-            <div className="ml-auto">
-              <Button
-                id="add-rule"
-                type="submit"
-                small
-                commonOutline
-                onClick={this.openCreateRuleModal}
-              >
-                {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
-              </Button>
-            </div>
+            <Button
+              id="add-rule"
+              type="submit"
+              small
+              commonOutline
+              onClick={this.openCreateRuleModal}
+            >
+              {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
+            </Button>
           </PermissionContent>
         </div>
 

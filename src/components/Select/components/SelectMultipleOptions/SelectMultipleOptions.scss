@@ -1,0 +1,35 @@
+.SelectMultipleOptions {
+  &__item {
+    display: block;
+    margin-bottom: 5px;
+
+    &--unchecked {
+      color: #4a4a4a;
+
+      &:hover {
+        color: #000000;
+      }
+    }
+
+    &--checked {
+      color: #4990e2;
+
+      &:hover {
+        color: #000000;
+      }
+    }
+
+    &__icon {
+      font-size: 17px;
+      margin-right: 5px;
+    }
+
+    &__label {
+      display: block;
+      font-weight: 600;
+      font-size: 15px;
+
+      letter-spacing: 0.4px;
+    }
+  }
+}

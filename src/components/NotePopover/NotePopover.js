@@ -263,8 +263,8 @@ class NotePopover extends PureComponent {
             {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={changedBy} className="NotePopover__text-primary" />
           </div>
         </If>
-        <div className="row NotePopover__subtitle">
-          <div className="col-auto">
+        <div className="NotePopover__subtitle-container">
+          <div>
             <If condition={changedAt}>
               <Choose>
                 <When condition={changedAt}>
@@ -279,7 +279,7 @@ class NotePopover extends PureComponent {
               {' '} {I18n.t('COMMON.TO')} {this.renderItemId(targetUUID)}
             </If>
           </div>
-          <div className="col-auto ml-auto">
+          <div>
             <If condition={deleteAllowed}>
               <Button
                 onClick={() => this.handleRemoveNote(noteId || uuid)}
@@ -370,9 +370,9 @@ class NotePopover extends PureComponent {
                     maxLength={MAX_CONTENT_LENGTH}
                     disabled={note && !updateAllowed}
                   />
-                  <div className="row align-items-center">
-                    <div className="col-auto">
-                      <div className="font-size-11">
+                  <div className="NotePopover__footer">
+                    <div>
+                      <div className="NotePopover__content-size">
                         <span className="NotePopover__text-primary">
                           {values && values.content ? values.content.length : 0}
                         </span>/{MAX_CONTENT_LENGTH}
@@ -380,17 +380,16 @@ class NotePopover extends PureComponent {
                       <If condition={!note || updateAllowed}>
                         <Field
                           name="pinned"
-                          wrapperClassName="margin-top-5"
                           label={I18n.t(attributeLabels.pin)}
                           component={FormikSwitchField}
                         />
                       </If>
                     </div>
-                    <div className="col text-right">
+                    <div>
                       <Button
                         commonOutline
                         small
-                        className="margin-right-10"
+                        className="NotePopover__cancel-btn"
                         onClick={() => this.handleClose(true)}
                       >
                         {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -401,7 +400,7 @@ class NotePopover extends PureComponent {
                             type="submit"
                             primary
                             small
-                            className="text-uppercase NotePopover__text-primary"
+                            className="NotePopover__text-primary"
                             disabled={!dirty || isSubmitting || !isValid}
                           >
                             {I18n.t('COMMON.BUTTONS.UPDATE')}
@@ -412,7 +411,7 @@ class NotePopover extends PureComponent {
                             type="submit"
                             primary
                             small
-                            className="text-uppercase NotePopover__text-primary"
+                            className="NotePopover__text-primary"
                             disabled={!dirty || isSubmitting || !isValid}
                           >
                             {I18n.t('COMMON.BUTTONS.SAVE')}

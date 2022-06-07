@@ -27,7 +27,13 @@
     line-height: normal;
   }
 
-  &__subtitle {
+  &__text-primary {
+    font-weight: 700;
+  }
+
+  &__subtitle-container {
+    display: flex;
+    justify-content: space-between;
     font-size: 11px;
   }
 
@@ -43,6 +49,10 @@
     font-size: 14px;
   }
 
+  &__content-size {
+    margin-right: 10px;
+  }
+
   &__pin-label {
     display: inline-block;
     padding: 0;
@@ -52,8 +62,14 @@
     font-size: 12px;
   }
 
-  &__text-primary {
-    font-weight: 700;
+  &__cancel-btn {
+    margin-right: 10px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   & label {

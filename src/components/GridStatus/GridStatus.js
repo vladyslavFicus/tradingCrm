@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import './GridStatus.scss';
 
 class GridStatus extends PureComponent {
   static propTypes = {
@@ -36,12 +37,12 @@ class GridStatus extends PureComponent {
     return (
       <div className={wrapperClassName ? `grid-status-border ${wrapperClassName}` : ''}>
         <If condition={statusLabel}>
-          <div className={classNames(colorClassName, 'text-uppercase font-weight-700')}>
+          <div className={classNames(colorClassName, 'GridStatus__primary')}>
             {statusLabel}
           </div>
         </If>
         <If condition={info}>
-          <div className="font-size-11">
+          <div className="GridStatus__secondary">
             <Choose>
               <When condition={infoLabel && typeof infoLabel === 'function'}>
                 {infoLabel(info)}

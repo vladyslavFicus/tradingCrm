@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { uniqBy } from 'lodash';
+import Flag from 'react-country-flag';
 import PropTypes from 'constants/propTypes';
 import CopyToClipboard from 'components/CopyToClipboard';
 import './ClientLastIps.scss';
@@ -29,7 +30,15 @@ class ClientLastIps extends PureComponent {
           {
             uniqueIps.map(({ ip, countryCode }) => (
               <div className="ClientLastIps__ip" key={ip}>
-                <i className={`ClientLastIps__ip-flag fs-icon fs-${countryCode.toLowerCase()}`} />
+                <Flag
+                  svg
+                  countryCode={countryCode}
+                  className="ClientLastIps__ip-flag"
+                  style={{
+                    width: '1.5em',
+                    height: '1.5em',
+                  }}
+                />
                 <CopyToClipboard
                   text={ip}
                   withNotification

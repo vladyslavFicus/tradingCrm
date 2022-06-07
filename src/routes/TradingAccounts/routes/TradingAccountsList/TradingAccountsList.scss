@@ -1,4 +1,4 @@
-.SalesRules {
+.TradingAccountsList {
   &__header {
     display: flex;
     align-items: center;
@@ -10,9 +10,5 @@
     border-bottom: 1px solid #dfe4ed;
     font-size: 20px;
     z-index: 3;
-  }
-
-  &__edit-button {
-    padding: 8px 16px;
   }
 }

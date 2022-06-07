@@ -146,18 +146,18 @@ class DistributionRules extends PureComponent {
   renderRule = ({ uuid, name, createdBy }) => (
     <Fragment>
       <div
-        className="font-weight-700 DistributionRulesList__rule-name"
+        className="DistributionRulesList__primary DistributionRulesList__rule-name"
         onClick={() => this.handleRowClick(uuid)}
       >
         {name}
       </div>
       <If condition={uuid}>
-        <div className="font-size-11">
+        <div className="DistributionRulesList__secondary">
           <Uuid uuid={uuid} uuidPrefix="RL" />
         </div>
       </If>
       <If condition={createdBy}>
-        <div className="font-size-11">
+        <div className="DistributionRulesList__secondary">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
@@ -193,7 +193,7 @@ class DistributionRules extends PureComponent {
   renderOrder = ({ order }) => (
     <Choose>
       <When condition={order}>
-        <span className="font-weight-700">{order}</span>
+        <span className="DistributionRulesList__primary">{order}</span>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -203,18 +203,18 @@ class DistributionRules extends PureComponent {
 
   renderStatus = ({ status, statusChangedAt, executionType }) => (
     <>
-      <div className={classNames('text-uppercase font-weight-700', clientDistributionStatuses[status].color)}>
+      <div className={classNames('DistributionRulesList__primary', clientDistributionStatuses[status].color)}>
         {I18n.t(clientDistributionStatuses[status].label)}
       </div>
 
       <If condition={statusChangedAt}>
-        <div className="font-size-11">
+        <div className="DistributionRulesList__secondary">
           {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY HH:mm:ss') })}
         </div>
       </If>
 
       <If condition={executionType}>
-        <div className="font-size-11">
+        <div className="DistributionRulesList__secondary">
           {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
         </div>
       </If>
@@ -226,8 +226,8 @@ class DistributionRules extends PureComponent {
       <When condition={brands}>
         {brands.map(({ brand, distributionUnit: { baseUnit, quantity } }) => (
           <div key={brand}>
-            <div className="font-weight-700">{brand}</div>
-            <div className="font-size-11">
+            <div className="DistributionRulesList__primary">{brand}</div>
+            <div className="DistributionRulesList__secondary">
               {`${quantity}${baseUnit === 'PERCENTAGE' ? '%' : ''} ${I18n.t('COMMON.CLIENTS')}`}
             </div>
           </div>
@@ -272,7 +272,7 @@ class DistributionRules extends PureComponent {
       <Choose>
         <When condition={languages}>
           {languages.slice(0, 3).map(locale => (
-            <div key={locale} className="font-weight-600">
+            <div key={locale}>
               {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
             </div>
           ))}
@@ -310,10 +310,10 @@ class DistributionRules extends PureComponent {
 
   renderCreatedTime = ({ createdAt }) => (
     <>
-      <div className="font-weight-700">
+      <div className="DistributionRulesList__primary">
         {moment.utc(createdAt).local().format('DD.MM.YYYY')}
       </div>
-      <div className="font-size-11">
+      <div className="DistributionRulesList__secondary">
         {moment.utc(createdAt).local().format('HH:mm:ss')}
       </div>
     </>
@@ -335,7 +335,7 @@ class DistributionRules extends PureComponent {
     return (
       <Choose>
         <When condition={timeInCurrentStatusInHours}>
-          <div className="font-weight-700">
+          <div className="DistributionRulesList__primary">
             {`${time} ${I18n.t(`COMMON.${type}`)}`}
           </div>
         </When>
@@ -349,10 +349,10 @@ class DistributionRules extends PureComponent {
   renderLastTimeExecuted = ({ latestMigration }) => (
     <Choose>
       <When condition={latestMigration}>
-        <div className="font-weight-700">
+        <div className="DistributionRulesList__primary">
           {moment.utc(latestMigration.startDate).local().format('DD.MM.YYYY')}
         </div>
-        <div className="font-size-11">
+        <div className="DistributionRulesList__secondary">
           {moment.utc(latestMigration.startDate).local().format('HH:mm:ss')}
         </div>
       </When>
@@ -383,14 +383,14 @@ class DistributionRules extends PureComponent {
 
     return (
       <div className="DistributionRulesList">
-        <div className="card-heading card-heading--is-sticky">
+        <div className="DistributionRulesList__header">
           <ReactPlaceholder
             ready={!loading}
             customPlaceholder={(
               <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
             )}
           >
-            <span className="font-size-20">
+            <span>
               <strong>{totalElements} </strong>
               {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
             </span>

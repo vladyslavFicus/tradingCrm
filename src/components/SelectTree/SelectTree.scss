@@ -1,0 +1,115 @@
+.SelectTree {
+  width: 100%;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    width: 0;
+    min-width: 100%;
+    height: auto;
+    min-height: 40px;
+    line-height: 1.5;
+    color: #4a4a4a;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    padding: 7px 30px 7px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    cursor: pointer;
+
+    &:focus {
+      border-color: #4990e2;
+      box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
+    }
+
+    &--disabled {
+      pointer-events: none;
+      background-color: #f6f6f6;
+      border: 1px solid #cfcfcf;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    cursor: pointer;
+    transition: all .2s;
+    font-size: 16px;
+    color: #cfcfcf;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 95%;
+    width: 100%;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #9b9b9b;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px 0 #ededed;
+    transition: all 0.25s ease;
+    z-index: 2;
+  }
+
+  &__dropdown-content {
+    padding: 0 10px 10px 5px;
+  }
+
+  &__search-input {
+    position: sticky;
+    top: 0;
+    padding: 10px 5px;
+    margin-bottom: 0;
+    background: #fff;
+    z-index: 2;
+
+    .input__control, .input__addition {
+      height: 35px;
+    }
+  }
+
+  &__not-found {
+    margin: 0 10px;
+    font-size: 12px;
+    color: #6c757d;
+  }
+}
+
+.rct-node-icon {
+  color: #4a90e2;
+}
+
+.rct-node-clickable {
+  display: block;
+
+  &:hover, &:focus {
+    background: rgba(44, 144, 232, 0.1);
+  }
+}
+
+.rct-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.rct-checkbox {
+  display: none;
+}

@@ -35,4 +35,12 @@
       cursor: pointer;
     }
   }
+
+  &__primary {
+    font-weight: 700;
+
+    &--pointer {
+      cursor: pointer;
+    }
+  }
 }

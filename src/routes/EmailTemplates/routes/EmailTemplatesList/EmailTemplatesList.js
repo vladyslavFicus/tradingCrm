@@ -37,19 +37,19 @@ class EmailTemplatesList extends PureComponent {
 
   renderTemplate = ({ id, name }) => (
     <div
-      className="font-weight-700 cursor-pointer"
+      className="EmailTemplatesList__primary EmailTemplatesList__primary--pointer"
       onClick={() => this.handleTemplateClick(id)}
     >
       {name}
     </div>
   );
 
-  renderSubject = ({ subject }) => <div className="font-weight-700">{subject}</div>;
+  renderSubject = ({ subject }) => <div className="EmailTemplatesList__primary">{subject}</div>;
 
   renderRemoveIcon = ({ id }) => (
     <button
       type="button"
-      className="fa fa-trash btn-transparent color-danger margin-right-15"
+      className="fa fa-trash color-danger"
       onClick={(e) => {
         e.stopPropagation();
         this.handleDeleteTemplateClick(id);

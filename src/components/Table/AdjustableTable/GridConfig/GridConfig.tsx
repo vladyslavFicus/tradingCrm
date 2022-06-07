@@ -71,7 +71,7 @@ const GridConfig = (props: Props) => {
         onRealtimeChange={onUpdate}
         customSelectBlockClassName="GridConfig__select-block"
         customSelectBlockContainerClassName="GridConfig__select-block-container"
-        customArrowComponent={<i className="fa fa-settings" />}
+        customArrowComponent={<i className="fa fa-cog" />}
       >
         {
           availableColumnsSet.map(({ name, header }) => (

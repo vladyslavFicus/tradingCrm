@@ -125,7 +125,7 @@ const Accounts = (props: Props) => {
   };
 
   return (
-    <div className="card">
+    <div className="Accounts">
       {/* Hotkey on F9 button to open new order modal */}
       <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>
         <Hotkeys
@@ -139,8 +139,8 @@ const Accounts = (props: Props) => {
 
       <Tabs items={tradingEngineTabs} />
 
-      <div className="Accounts__header card-heading card-heading--is-sticky">
-        <span className="font-size-20">
+      <div className="Accounts__header">
+        <span>
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNTS.HEADLINE')}
         </span>
         <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>

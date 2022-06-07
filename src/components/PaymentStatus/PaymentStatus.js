@@ -7,6 +7,7 @@ import { withdrawStatusesLabels, withdrawStatusesColors } from 'constants/paymen
 import { getTradingStatusProps } from 'utils/paymentHelpers';
 import FailedStatusIcon from 'components/FailedStatusIcon';
 import Uuid from 'components/Uuid';
+import './PaymentStatus.scss';
 
 class PaymentStatus extends PureComponent {
   static propTypes = {
@@ -42,7 +43,7 @@ class PaymentStatus extends PureComponent {
 
     return (
       <Fragment>
-        <div className={classNames(color, 'font-weight-700 text-uppercase status')}>
+        <div className={classNames(color, 'PaymentStatus__primary')}>
           {I18n.t(label)}
           <If condition={declineReason}>
             <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>

@@ -804,6 +804,11 @@
     "DATE_RANGE": {
       "START_DATE": "Start date",
       "END_DATE": "End date"
+    },
+    "SELECT_TREE": {
+      "PLACEHOLDER": "--Select--",
+      "SEARCH_PLACEHOLDER": "Search",
+      "OPTIONS_NOT_FOUND": "Available options by query \"{{search}}\" not found..."
     }
   },
   "BRANDS": {

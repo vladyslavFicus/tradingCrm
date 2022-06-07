@@ -1,4 +1,4 @@
-.SalesRules {
+.Hierarchy {
   &__header {
     display: flex;
     align-items: center;
@@ -12,7 +12,8 @@
     z-index: 3;
   }
 
-  &__edit-button {
-    padding: 8px 16px;
+  &__content {
+    background: #ffffff;
+    padding: 10px 25px 25px 25px;
   }
 }

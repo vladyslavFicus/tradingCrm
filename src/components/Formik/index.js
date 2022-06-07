@@ -10,6 +10,7 @@ import FormikHtmlEditorField from './FormikHtmlEditorField';
 import FormikTimeRangeField from './FormikTimeRangeField';
 import FormikInputRangeField from './FormikInputRangeField';
 import FormikInputDecimalsField from './FormikInputDecimalsField';
+import FormikSelectTreeField from './FormikSelectTreeField';
 
 export {
   FormikCheckbox,
@@ -24,4 +25,5 @@ export {
   FormikTimeRangeField,
   FormikInputRangeField,
   FormikInputDecimalsField,
+  FormikSelectTreeField,
 };

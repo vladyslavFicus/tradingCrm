@@ -9,7 +9,7 @@
 
     .Select__content {
       opacity: 1;
-      visibility: visible;
+      display: block;
     }
   }
 
@@ -56,7 +56,7 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     opacity: 0;
-    visibility: hidden;
+    display: none;
     background-color: #fff;
     box-shadow: 0 5px 15px 0 #ededed;
     transition: all .25s ease;
@@ -125,6 +125,8 @@
   }
 
   &__label {
+    width: 0;
+    min-width: 100%;
     position: relative;
     padding-right: 30px;
     white-space: nowrap;
@@ -145,15 +147,6 @@
     transition: all .2s;
     font-size: 16px;
     color: #cfcfcf;
-
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'backofficeMonolith' !important;
-    speak: never;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
 
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;

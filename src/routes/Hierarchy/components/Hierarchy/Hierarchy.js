@@ -5,6 +5,7 @@ import PropTypes from 'constants/propTypes';
 import ShortLoader from 'components/ShortLoader';
 import HierarchyItemBranch from '../Tree/HierarchyItemBranch';
 import TreeTopQuery from './graphql/TreeTopQuery';
+import './Hierarchy.scss';
 
 class Hierarchy extends PureComponent {
   static propTypes = {
@@ -17,13 +18,13 @@ class Hierarchy extends PureComponent {
     const branches = treeTopQuery.data?.treeTop || [];
 
     return (
-      <div className="card">
-        <div className="card-heading">
-          <span className="font-size-20">
+      <div className="Hierarchy">
+        <div className="Hierarchy__header">
+          <span>
             {I18n.t('HIERARCHY.TREE.HEADING')}
           </span>
         </div>
-        <div className="card-body">
+        <div className="Hierarchy__content">
           <Choose>
             <When condition={treeTopQuery.loading}>
               <ShortLoader />

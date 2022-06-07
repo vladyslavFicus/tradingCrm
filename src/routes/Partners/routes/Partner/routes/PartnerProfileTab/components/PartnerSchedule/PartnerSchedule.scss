@@ -1,6 +1,10 @@
 .PartnerSchedule {
   margin-top: 25px;
 
+  &__primary {
+    font-weight: 700;
+  }
+
   &--is-disabled {
     td:not(:last-child) {
       opacity: 0.5;

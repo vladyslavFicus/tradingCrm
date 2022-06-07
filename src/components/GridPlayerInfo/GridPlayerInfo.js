@@ -19,7 +19,7 @@ class GridPlayerInfo extends PureComponent {
 
   static defaultProps = {
     id: null,
-    mainInfoClassName: 'GridPlayerInfo__text-primary cursor-pointer',
+    mainInfoClassName: 'GridPlayerInfo__text-primary',
   };
 
   handleClick = (e) => {
