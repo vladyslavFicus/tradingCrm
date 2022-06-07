@@ -16,6 +16,7 @@ query AccountSymbolsQuery($accountUuid: String!) {
         digits
         symbolType
         securityName
+        baseCurrency
         config(accountUuid: $accountUuid) {
           lotSize
           lotMin

@@ -46,6 +46,7 @@ const apolloMockFactory = (data = {}) => [{
             digits: 5,
             symbolType: 'FOREX',
             securityName: 'Forex',
+            baseCurrency: 'EUR',
             config: {
               lotSize: 10000,
               lotMin: 0.01,
@@ -482,6 +483,7 @@ it('Render GeneralNewOrderForm and applying group spread for chosen symbol', asy
         digits,
         symbolType: 'FOREX',
         securityName: 'Forex',
+        baseCurrency: 'EUR',
         config: {
           lotSize: 10000,
           lotMin: 0.01,
@@ -597,6 +599,143 @@ it('Render GeneralNewOrderForm for archived account', async () => {
   expect(screen.getByLabelText(/Sell required margin/)).toBeDisabled();
   expect(screen.getByLabelText(/Buy required margin/)).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+});
+
+it('Render GeneralNewOrderForm and calculate units for FOREX symbols', async () => {
+  // Arrange
+  const ask = 1.1552;
+  const bid = 1.1548;
+
+  // Act
+  render(<GeneralNewOrderForm accountUuid={accountUuid} />);
+
+  // Wait for symbols loading
+  await screen.findAllByText(/EURUSD description/);
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
+
+  // Wait while rsocket tick will be accepted by component
+  await screen.findByText(`Sell at ${bid.toFixed(5)}`);
+
+  expect(screen.getByLabelText(/Volume/)).toBeEnabled();
+  expect(screen.getByLabelText(/Volume/)).toHaveValue(0.01);
+  await screen.findByText(/100 EUR/); // Wait for volume in units calculation
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('min', '0.01');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('max', '100');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('step', '0.01');
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeEnabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
+  await screen.findAllByText(/The Volume must be at least 0.01./);
+  expect(screen.queryByText(/10 EUR/)).not.toBeInTheDocument(); // Hide units text when error on volume field
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
+  await screen.findAllByText(/The Volume may not be greater than 100./);
+  expect(screen.queryByText(/100 010 000 EUR/)).not.toBeInTheDocument(); // Hide units text when error on volume field
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
+  await screen.findAllByText(/The Volume must be changed with step 0.01/);
+  expect(screen.queryByText(/120 EUR/)).not.toBeInTheDocument(); // Hide units text when error on volume field
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+});
+
+it('Render GeneralNewOrderForm and calculate units for CFD symbols', async () => {
+  // Arrange
+  const ask = 1.1552;
+  const bid = 1.1548;
+
+  const apolloMockResponseData = {
+    symbols: {
+      content: [{
+        name: 'APPLE',
+        description: 'APPLE description',
+        digits: 5,
+        symbolType: 'CFD',
+        securityName: 'Indices',
+        baseCurrency: null,
+        config: {
+          lotSize: 10000,
+          lotMin: 0.01,
+          lotStep: 0.01,
+          lotMax: 100,
+          bidAdjustment: 0,
+          askAdjustment: 0,
+          percentage: 100,
+        },
+      }],
+    },
+  };
+
+  const rsocketMock = {
+    request: {
+      route: 'streamAllSymbolPrices',
+      data: { symbols: ['APPLE'] },
+    },
+    onNext: {
+      data: {
+        symbol: 'APPLE',
+        ask: 1.1552,
+        bid: 1.1548,
+        dateTime: '2021-11-04T17:41:11.829',
+        pnlRates: {
+          GBP: 0.7412239089184061,
+          USD: 1,
+          EUR: 0.8659658116697554,
+        },
+        marginRates: {
+          GBP: 0.85603,
+          USD: 1.15478,
+          EUR: 1,
+        },
+      },
+    },
+  };
+
+  // Act
+  render(<GeneralNewOrderForm accountUuid={accountUuid} />, apolloMockResponseData);
+
+  // Wait for symbols loading
+  await screen.findAllByText(/APPLE description/);
+
+  // Publish message to rsocket
+  MockedRSocketProvider.publish(rsocketMock);
+
+  // Wait while rsocket tick will be accepted by component
+  await screen.findByText(`Sell at ${bid.toFixed(5)}`);
+
+  expect(screen.getByLabelText(/Volume/)).toBeEnabled();
+  expect(screen.getByLabelText(/Volume/)).toHaveValue(0.01);
+  await screen.findByText(/100 APPLE/); // Wait for volume in units calculation
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('min', '0.01');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('max', '100');
+  expect(screen.getByLabelText(/Volume/)).toHaveAttribute('step', '0.01');
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeEnabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
+  await screen.findAllByText(/The Volume must be at least 0.01./);
+  expect(screen.queryByText(/10 APPLE/)).not.toBeInTheDocument(); // Hide units text when error on volume field
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
+  await screen.findAllByText(/The Volume may not be greater than 100./);
+  expect(screen.queryByText(/100 010 000 APPLE/)).not.toBeInTheDocument(); // Hide units text when error on volume field
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+
+  fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
+  await screen.findAllByText(/The Volume must be changed with step 0.01/);
+  expect(screen.queryByText(/120 APPLE/)).not.toBeInTheDocument(); // Hide units text when error on volume field
   expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
   expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
 });

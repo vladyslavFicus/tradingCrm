@@ -313,6 +313,7 @@ const GeneralNewOrderForm = (props: Props) => {
         isSubmitting,
         isValid,
         values,
+        errors,
         setFieldValue,
         setValues,
         handleSubmit: formikHandleSubmit,
@@ -402,6 +403,18 @@ const GeneralNewOrderForm = (props: Props) => {
                 component={FormikInputField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
               />
+              <div className="GeneralNewOrderForm__field">
+                {/* Show volume in units only if symbol was loaded and error for volume field is absent */}
+                <If condition={!!currentSymbol && !errors.volumeLots}>
+                  <div className="GeneralNewOrderForm__units">
+                    {I18n.toNumber(values.volumeLots * (currentSymbol?.config?.lotSize || 0), {
+                      delimiter: ' ',
+                      strip_insignificant_zeros: true,
+                    })}&nbsp;
+                    {currentSymbol?.baseCurrency || currentSymbol?.name}
+                  </div>
+                </If>
+              </div>
             </div>
             <div className="GeneralNewOrderForm__field-container">
               <Field
