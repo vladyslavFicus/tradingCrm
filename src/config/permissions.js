@@ -113,7 +113,7 @@ export default {
     DISABLE_SHOW_FTD_TO_AFFILIATE: 'payment.disableShowFtdToAffiliate',
   },
   PAYMENTS: {
-    PAYMENTS_LIST: 'payment.searchPayments',
+    PAYMENTS_LIST: 'payment-view.searchPayments',
   },
   AUDIT: {
     AUDIT_LOGS: 'audit.searchAudit',
@@ -159,8 +159,8 @@ export default {
   },
   DASHBOARD: {
     REGISTRATION_STATISTICS: 'profileview.admin.getRegistrationStatistics',
-    PAYMENT_STATISTICS: 'payment.getStatistics',
-    PAYMENTS_LIST: 'payment.searchPayments',
+    PAYMENT_STATISTICS: 'payment-view.getStatistics',
+    PAYMENTS_LIST: 'payment-view.searchPayments',
     PROFILES_LIST: 'profileview.admin.pageableSearch',
   },
   CALLBACKS: {

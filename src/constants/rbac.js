@@ -1035,7 +1035,7 @@ export default [
     id: 'payments',
     actions: {
       view: {
-        action: 'payment.searchPayments',
+        action: 'payment-view.searchPayments',
         state: false,
       },
     },
@@ -1045,7 +1045,7 @@ export default [
         id: 'list',
         actions: {
           view: {
-            action: 'payment.searchPayments',
+            action: 'payment-view.searchPayments',
             state: false,
           },
         },
