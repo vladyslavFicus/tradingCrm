@@ -62,6 +62,15 @@ class OperatorsGridFilter extends PureComponent {
     setSubmitting(false);
   };
 
+  // With customOnChange because Formik can't delete nested object from values
+  handleDepartmentFieldChange = (value, setFieldValue) => {
+    if (value) {
+      setFieldValue('authorities.department', value);
+    } else {
+      setFieldValue('authorities', undefined);
+    }
+  }
+
   render() {
     const {
       location: { state },
@@ -84,9 +93,10 @@ class OperatorsGridFilter extends PureComponent {
           isSubmitting,
           resetForm,
           values,
+          setFieldValue,
           dirty,
         }) => {
-          const availableRoles = values?.authorities?.department ? authorities[values.authorities.department] : [];
+          const availableRoles = values?.authorities?.department ? authorities[values?.authorities?.department] : [];
 
           return (
             <Form className="OperatorsGridFilter__form">
@@ -152,6 +162,10 @@ class OperatorsGridFilter extends PureComponent {
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                   component={FormikSelectField}
                   disabled={isSubmitting}
+                  withAnyOption
+                  customOnChange={value => this.handleDepartmentFieldChange(value, setFieldValue)}
+                  searchable
+                  withFocus
                 >
                   {Object.keys(availableDepartments).map(department => (
                     <option key={department} value={department}>
