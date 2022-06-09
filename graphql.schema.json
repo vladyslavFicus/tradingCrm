@@ -1310,6 +1310,18 @@
             "deprecationReason": null
           },
           {
+            "name": "clientPortalLanding",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BrandConfigProvider__ClientPortalLanding",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "currencies",
             "description": null,
             "args": [],
@@ -1594,6 +1606,29 @@
         "fields": [
           {
             "name": "url",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "BrandConfigProvider__ClientPortalLanding",
+        "description": null,
+        "fields": [
+          {
+            "name": "signUp",
             "description": null,
             "args": [],
             "type": {

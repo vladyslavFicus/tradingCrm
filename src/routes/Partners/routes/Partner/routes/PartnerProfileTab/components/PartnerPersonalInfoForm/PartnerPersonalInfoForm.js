@@ -261,10 +261,17 @@ class PartnerPersonalInfoForm extends PureComponent {
                       notificationLevel="success"
                       notificationTitle={I18n.t('COMMON.NOTIFICATIONS.COPIED')}
                       notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_LINK')}
-                      text={`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}
+                      text={
+                        brand.clientPortalLanding.signUp
+                          ? `${brand.clientPortalLanding.signUp}/e/${values.externalAffiliateId}`
+                          : `${brand.clientPortal.url}/e/${values.externalAffiliateId}`}
                     >
                       <span className="PartnerPersonalInfoForm__ib-link">
-                        {`${brand.clientPortal.url}/e/${values.externalAffiliateId}`}
+                        {
+                          brand.clientPortalLanding.signUp
+                            ? `${brand.clientPortalLanding.signUp}/e/${values.externalAffiliateId}`
+                            : `${brand.clientPortal.url}/e/${values.externalAffiliateId}`
+                        }
                       </span>
                     </CopyToClipboard>
                     &nbsp;)

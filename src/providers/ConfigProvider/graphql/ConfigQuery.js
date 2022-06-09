@@ -66,6 +66,9 @@ const REQUEST = gql`
       clientPortal {
         url
       }
+      clientPortalLanding {
+        signUp
+      }
       affiliate {
         restriction {
           minFtdDeposit
