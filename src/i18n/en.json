@@ -5513,7 +5513,7 @@
           "list": "List of leads",
           "profile": "Lead's profile",
           "promote": "Promote lead to client",
-          "upload": "Upload leads to client",
+          "upload": "Upload leads from file",
           "phone": "Phone",
           "mobile": "Mobile",
           "email": "Email"
