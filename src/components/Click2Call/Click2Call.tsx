@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { debounce } from 'lodash';
 import { StatefulToolTip } from 'react-portal-tooltip';
+import jwtDecode from 'jwt-decode';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import {
@@ -10,13 +11,13 @@ import {
   ClickToCall__Customer__Type__Enum as CustomerType,
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
+import { withStorage } from 'providers/StorageProvider';
 import CircleLoader from 'components/CircleLoader';
 import { useClickToCallConfigsQuery } from './graphql/__generated__/ClickToCallConfigsQuery';
 import { useDidLogicCreateCallMutation } from './graphql/__generated__/DidlogicCreateCall';
 import { useNewtelCreateCallMutation } from './graphql/__generated__/NewtelCreateCall';
 import { useCommpeakCreateCallMutation } from './graphql/__generated__/CommpeakCreateCall';
 import { useCoperatoCreateCallMutation } from './graphql/__generated__/CoperatoCreateCall';
-import { useClearVoiceCreateCallMutation } from './graphql/__generated__/ClearVoiceCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import didlogicIcon from './icons/didlogic.png';
 import newtelIcon from './icons/newtel.png';
@@ -51,26 +52,32 @@ type Props = {
   notify: Notify,
   phoneType: PhoneType,
   uuid: string,
+  token: string,
 }
 
 const Click2Call = (props: Props) => {
-  const { uuid, customerType, phoneType, notify } = props;
+  const { uuid, customerType, phoneType, token, notify } = props;
 
-  const configsQuery = useClickToCallConfigsQuery({
-    variables: {
-      uuid,
-      customerType,
-      phoneType,
-    },
-  });
+  const configsQuery = useClickToCallConfigsQuery();
 
   const [didlogicCreateCall] = useDidLogicCreateCallMutation();
   const [newtelCreateCall] = useNewtelCreateCallMutation();
   const [commpeakCreateCall] = useCommpeakCreateCallMutation();
   const [coperatoCreateCall] = useCoperatoCreateCallMutation();
-  const [clearVoiceCreateCall] = useClearVoiceCreateCallMutation();
 
   const configs = configsQuery.data?.clickToCall.configs || [];
+
+  // Get info from JWT token
+  const { uuid: operatorUuid, brandId } = useMemo(() => jwtDecode<{ brandId: string, uuid: string }>(token), [token]);
+
+  // ===== Getters ===== //
+  const getClearVoiceUrl = (prefix: string) => {
+    const url = `tel:${uuid}&${customerType}&${phoneType}&${operatorUuid}&${brandId}&${prefix}`;
+
+    return url
+      .replaceAll('-', '*')
+      .replaceAll('_', '+'); // Replaces described in FS-5182 task
+  };
 
   // ===== Handlers ===== //
   const handleCreateCall = (callSystem: CallSystem, options?: ProviderOptionsType) => debounce(async () => {
@@ -90,10 +97,8 @@ const Click2Call = (props: Props) => {
         case CallSystem.COPERATO:
           await coperatoCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
           break;
-        case CallSystem.CLEAR_VOICE:
-          await clearVoiceCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
+        default:
           break;
-        default: break;
       }
     } catch (e) {
       notify({
@@ -117,7 +122,7 @@ const Click2Call = (props: Props) => {
           style={TOOLTIP_STYLE}
         >
           <div className="Click2Call__submenu">
-            {configs.map(({ callSystem, prefixes, additionalFields }) => (
+            {configs.map(({ callSystem, prefixes }) => (
               <Choose>
                 {/* Show DIDLOGIC call system without prefixes */}
                 <When condition={callSystem === CallSystem.DIDLOGIC}>
@@ -139,8 +144,7 @@ const Click2Call = (props: Props) => {
                         <a
                           key={`${prefix}-${index}`}
                           className="Click2Call__submenu-item-prefix"
-                          href={`tel:${prefix}${additionalFields?.phone}`}
-                          onClick={handleCreateCall(callSystem, { prefix })}
+                          href={getClearVoiceUrl(prefix)}
                         >
                           {label}
                         </a>
@@ -178,4 +182,5 @@ const Click2Call = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
+  withStorage(['token']),
 )(Click2Call);
