@@ -204,9 +204,18 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
         disabled={operatorsByBrandQuery.loading || !operators.length || !isEditEnabled}
         searchable
       >
-        {operators.map(({ uuid, fullName }) => (
-          <option key={uuid} value={uuid}>{fullName}</option>
-        ))}
+        {[
+          <option
+            key="__CURRENT__"
+            value={undefined}
+            className="DistributionRuleTargetBrandForm__field--highlight"
+          >
+            {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
+          </option>,
+          ...operators.map(({ uuid, fullName }) => (
+            <option key={uuid} value={uuid}>{fullName}</option>
+          )),
+        ]}
       </Field>
 
       <Field
