@@ -13,13 +13,13 @@ import {
 import CircleLoader from 'components/CircleLoader';
 import { useClickToCallConfigsQuery } from './graphql/__generated__/ClickToCallConfigsQuery';
 import { useDidLogicCreateCallMutation } from './graphql/__generated__/DidlogicCreateCall';
-import { useAsteriskCreateCallMutation } from './graphql/__generated__/AsteriskCreateCall';
+import { useNewtelCreateCallMutation } from './graphql/__generated__/NewtelCreateCall';
 import { useCommpeakCreateCallMutation } from './graphql/__generated__/CommpeakCreateCall';
 import { useCoperatoCreateCallMutation } from './graphql/__generated__/CoperatoCreateCall';
 import { useClearVoiceCreateCallMutation } from './graphql/__generated__/ClearVoiceCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import didlogicIcon from './icons/didlogic.png';
-import asteriskIcon from './icons/asterisk.png';
+import newtelIcon from './icons/newtel.png';
 import commpeakIcon from './icons/commpeak.png';
 import coperatoIcon from './icons/coperato.png';
 import clearvoiceIcon from './icons/clearvoice.png';
@@ -27,7 +27,7 @@ import './Click2Call.scss';
 
 const ICONS: Record<CallSystem, string> = {
   [CallSystem.DIDLOGIC]: didlogicIcon,
-  [CallSystem.ASTERISK]: asteriskIcon,
+  [CallSystem.NEWTEL]: newtelIcon,
   [CallSystem.COMMPEAK]: commpeakIcon,
   [CallSystem.COPERATO]: coperatoIcon,
   [CallSystem.CLEAR_VOICE]: clearvoiceIcon,
@@ -65,7 +65,7 @@ const Click2Call = (props: Props) => {
   });
 
   const [didlogicCreateCall] = useDidLogicCreateCallMutation();
-  const [asteriskCreateCall] = useAsteriskCreateCallMutation();
+  const [newtelCreateCall] = useNewtelCreateCallMutation();
   const [commpeakCreateCall] = useCommpeakCreateCallMutation();
   const [coperatoCreateCall] = useCoperatoCreateCallMutation();
   const [clearVoiceCreateCall] = useClearVoiceCreateCallMutation();
@@ -81,8 +81,8 @@ const Click2Call = (props: Props) => {
         case CallSystem.DIDLOGIC:
           await didlogicCreateCall({ variables: { uuid, phoneType, customerType } });
           break;
-        case CallSystem.ASTERISK:
-          await asteriskCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
+        case CallSystem.NEWTEL:
+          await newtelCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
           break;
         case CallSystem.COMMPEAK:
           await commpeakCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
