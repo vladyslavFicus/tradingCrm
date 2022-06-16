@@ -207,7 +207,8 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
         {[
           <option
             key="__CURRENT__"
-            value={undefined}
+            // @ts-ignore Because in .tsx files value can't be as option value
+            value={null}
             className="DistributionRuleTargetBrandForm__field--highlight"
           >
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}

@@ -107,7 +107,7 @@ const DistributionRuleForm = (props: Props) => {
             brand: targetBrandConfig?.brand || '',
             targetSalesStatus: targetBrandConfig?.targetSalesStatus || null,
             affiliateUuid: targetBrandConfig?.affiliateUuid || '',
-            operator: targetBrandConfig?.operator || '',
+            operator: targetBrandConfig?.operator || null,
             copyAffiliateSource: targetBrandConfig?.copyAffiliateSource || false,
             distributionUnit: {
               quantity: targetBrandConfig?.distributionUnit?.quantity || null,
