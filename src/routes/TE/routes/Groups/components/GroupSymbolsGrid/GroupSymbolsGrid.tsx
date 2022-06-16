@@ -2,26 +2,27 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { FormikProps } from 'formik';
+import classNames from 'classnames';
 import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button, EditButton } from 'components/UI';
 import GroupNewSymbolModal from '../../modals/GroupNewSymbolModal';
-import { Margin, GroupSecurity, FormValues } from '../../types';
+import { GroupSymbol, GroupSecurity, FormValues } from '../../types';
 import './GroupSymbolsGrid.scss';
 
 interface ConfirmationModalProps {
-  onSubmit: (symbol: Margin) => void,
+  onSubmit: (symbol: GroupSymbol) => void,
   modalTitle: string,
   actionText: string,
   submitButtonLabel: string,
 }
 
 interface GroupNewSymbolModalProps {
-  onSuccess: (symbol: Margin) => void,
-  groupMargin?: Margin,
-  groupMargins?: Margin[],
+  onSuccess: (symbol: GroupSymbol) => void,
+  groupSymbol?: GroupSymbol,
+  groupSymbols?: GroupSymbol[],
   groupSecurities?: GroupSecurity[],
 }
 
@@ -36,45 +37,45 @@ interface Props {
 const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const { confirmationModal, groupNewSymbolModal } = modals;
   const { values, setFieldValue } = formik;
-  const groupMargins = values?.groupMargins || [];
+  const groupSymbols = values?.groupSymbols || [];
   const groupSecurities = values?.groupSecurities || [];
 
-  const handleNewGroupSymbol = (symbol: Margin) => {
-    setFieldValue('groupMargins', [...groupMargins, symbol]);
+  const handleNewGroupSymbol = (symbol: GroupSymbol) => {
+    setFieldValue('groupSymbols', [...groupSymbols, symbol]);
   };
 
-  const handleEditGroupSymbol = (groupMargin: Margin) => {
-    const modifiedGroupMargins = groupMargins.map((_groupMargin: Margin) => (
-      _groupMargin.symbol === groupMargin.symbol
-        ? groupMargin
-        : _groupMargin
+  const handleEditGroupSymbol = (groupSymbol: GroupSymbol) => {
+    const modifiedGroupSymbols = groupSymbols.map((_groupSymbol: GroupSymbol) => (
+      _groupSymbol.symbol === groupSymbol.symbol
+        ? groupSymbol
+        : _groupSymbol
     ));
-    setFieldValue('groupMargins', modifiedGroupMargins);
+    setFieldValue('groupSymbols', modifiedGroupSymbols);
   };
 
   const handleDeleteGroupSymbol = (id: string) => {
-    const modifiedGroupMargins = groupMargins.filter(({ symbol }: Margin) => symbol !== id);
-    setFieldValue('groupMargins', modifiedGroupMargins);
+    const modifiedGroupSymbols = groupSymbols.filter(({ symbol }: GroupSymbol) => symbol !== id);
+    setFieldValue('groupSymbols', modifiedGroupSymbols);
     confirmationModal.hide();
   };
 
   const handleNewGroupSymbolModal = () => {
     groupNewSymbolModal.show({
       onSuccess: handleNewGroupSymbol,
-      groupMargins,
+      groupSymbols,
       groupSecurities,
     });
   };
 
-  const handleEditGroupSymbolModal = (symbol: Margin) => {
+  const handleEditGroupSymbolModal = (symbol: GroupSymbol) => {
     groupNewSymbolModal.show({
       onSuccess: handleEditGroupSymbol,
-      groupMargin: symbol,
+      groupSymbol: symbol,
       groupSecurities,
     });
   };
 
-  const handleDeleteGroupSymbolModal = ({ symbol }: Margin) => {
+  const handleDeleteGroupSymbolModal = ({ symbol }: GroupSymbol) => {
     confirmationModal.show({
       onSubmit: () => handleDeleteGroupSymbol(symbol),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.CONFIRMATION.DELETE.TITLE'),
@@ -103,20 +104,32 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
       >
         <Table
           stickyFromTop={0}
-          items={groupMargins}
+          items={groupSymbols}
           scrollableTarget="group-symbols-table-scrollable-target"
         >
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.SYMBOL')}
-            render={({ symbol }: Margin) => (
+            render={({ symbol }: GroupSymbol) => (
               <div className="GroupSymbolsGrid__cell-primary">
                 {symbol}
               </div>
             )}
           />
           <Column
+            header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.STATUS')}
+            render={({ enabled }: GroupSymbol) => (
+              <div
+                className={classNames('GroupSymbolsGrid__cell-primary', {
+                  'GroupSymbolsGrid__cell-disabled': enabled,
+                })}
+              >
+                {I18n.t(`TRADING_ENGINE.GROUP.${enabled ? 'ENABLED' : 'DISABLED'}`)}
+              </div>
+            )}
+          />
+          <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.LONG')}
-            render={({ swapLong }: Margin) => (
+            render={({ swapLong }: GroupSymbol) => (
               <div className="GroupSymbolsGrid__cell-primary">
                 {swapLong}
               </div>
@@ -124,7 +137,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           />
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.SHORT')}
-            render={({ swapShort }: Margin) => (
+            render={({ swapShort }: GroupSymbol) => (
               <div className="GroupSymbolsGrid__cell-primary">
                 {swapShort}
               </div>
@@ -132,7 +145,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           />
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.PERCENTAGE')}
-            render={({ percentage }: Margin) => (
+            render={({ percentage }: GroupSymbol) => (
               <div className="GroupSymbolsGrid__cell-primary">
                 {percentage}
               </div>
@@ -141,7 +154,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           <Column
             width={120}
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.ACTIONS')}
-            render={(symbol: Margin) => (
+            render={(symbol: GroupSymbol) => (
               <>
                 <EditButton
                   onClick={() => handleEditGroupSymbolModal(symbol)}

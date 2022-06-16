@@ -94,12 +94,13 @@ export interface SymbolEntity {
   swapConfigs: SwapConfigs
 }
 
-export interface Margin {
+export interface GroupSymbol {
   symbol: string,
   securityId: number,
   percentage: number,
   swapShort: number,
   swapLong: number,
+  enabled: boolean,
 }
 
 export interface FormValues {
@@ -115,5 +116,5 @@ export interface FormValues {
   marginCallLevel: number,
   stopoutLevel: number,
   groupSecurities: GroupSecurity[] | null,
-  groupMargins: Margin[] | null
+  groupSymbols: GroupSymbol[] | null
 }

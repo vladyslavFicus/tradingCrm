@@ -18,6 +18,10 @@
     &-primary {
       font-weight: 700;
     }
+
+    &-disabled {
+      color: grey;
+    }
   }
 
   &__edit-button {

@@ -75,8 +75,8 @@ const EditGroup = (props: Props) => {
               ...omit(groupSecurity, 'security'),
               securityId: groupSecurity.security.id,
             })) || [],
-            groupMargins: group?.groupMargins?.map(groupMargin => ({
-              ...omit(groupMargin, 'securityId'),
+            groupSymbols: group?.groupSymbols?.map(groupSymbols => ({
+              ...omit(groupSymbols, 'securityId'),
             })) || [],
             force,
           },
@@ -106,6 +106,12 @@ const EditGroup = (props: Props) => {
           cancelButtonLabel: I18n.t('COMMON.NO'),
           onSubmit: () => handleSubmit(group, formik, true),
           onCancel: formik.resetForm,
+        });
+      } else if (errors.error === 'error.group-symbol.basic.disable.prohibited') {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
+          message: errors.message,
         });
       } else {
         notify({

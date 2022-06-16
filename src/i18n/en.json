@@ -4471,6 +4471,8 @@
       "PERCENT": "%",
       "PER_LOT": "per lot",
       "PER_DEAL": "per deal",
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled",
       "NOTIFICATION": {
         "CREATE": {
           "SUCCESS": "Group has been successfully created",
@@ -4528,6 +4530,7 @@
       "SYMBOL_OVERRIDES_TABLE": {
         "TITLE": "Symbol overrides",
         "SYMBOL": "Symbol",
+        "STATUS": "Status",
         "LONG": "Long",
         "SHORT": "Short",
         "PERCENTAGE": "Percentage",

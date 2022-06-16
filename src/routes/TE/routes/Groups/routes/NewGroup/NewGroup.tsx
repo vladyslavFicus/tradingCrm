@@ -57,8 +57,8 @@ const NewGroup = ({ notify }: Props) => {
               ...omit(groupSecurity, 'security'),
               securityId: groupSecurity.security.id,
             })) || [],
-            groupMargins: values?.groupMargins?.map(groupMargin => ({
-              ...omit(groupMargin, 'securityId'),
+            groupSymbols: values?.groupSymbols?.map(groupSymbols => ({
+              ...omit(groupSymbols, 'securityId'),
             })) || [],
           },
         },
@@ -100,7 +100,7 @@ const NewGroup = ({ notify }: Props) => {
           marginCallLevel: 50,
           stopoutLevel: 30,
           groupSecurities: [],
-          groupMargins: [],
+          groupSymbols: [],
         }}
         validate={validator}
         enableReinitialize

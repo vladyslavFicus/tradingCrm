@@ -54,7 +54,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const { groupNewSecurityModal, groupSecurityCustomizationModal, confirmationModal } = modals;
   const { values, setFieldValue } = formik;
   const groupSecurities = values?.groupSecurities || [];
-  const groupMargins = values?.groupMargins || [];
+  const groupSymbols = values?.groupSymbols || [];
 
   const handleNewGroupSecurity = (securities: Security[]) => {
     const newSecurities = securities.map(security => ({
@@ -83,10 +83,10 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
 
   const handleDeleteGroupSecurity = (id: number) => {
     const modifiedGroupSecurities = groupSecurities.filter(groupSecurity => groupSecurity.security.id !== id);
-    const modifiedGroupMargins = groupMargins.filter(groupMargin => groupMargin.securityId !== id);
+    const modifiedGroupSymbols = groupSymbols.filter(groupSymbol => groupSymbol.securityId !== id);
 
     setFieldValue('groupSecurities', modifiedGroupSecurities);
-    setFieldValue('groupMargins', modifiedGroupMargins);
+    setFieldValue('groupSymbols', modifiedGroupSymbols);
 
     confirmationModal.hide();
   };

@@ -7,24 +7,26 @@ import { Formik, Form, Field, FormikProps } from 'formik';
 import { Button } from 'components/UI';
 import { LevelType, Notify } from 'types/notify';
 import {
-  TradingEngineGroup__GroupMargin as Margin,
+  TradingEngineGroup__GroupSymbol as GroupSymbol,
   TradingEngineGroup__GroupSecurity as GroupSecurity,
 } from '__generated__/types';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
 import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
 
 import './GroupNewSymbolModal.scss';
+
+const baseSymbols = ['EURUSD', 'EURGBP', 'GBPUSD'];
 
 interface Props {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
-  onSuccess: (symbol: Margin) => void,
-  groupMargin?: Margin,
-  groupMargins: Margin[],
+  onSuccess: (symbol: GroupSymbol) => void,
+  groupSymbol?: GroupSymbol,
+  groupSymbols: GroupSymbol[],
   groupSecurities: GroupSecurity[],
 }
 
@@ -49,8 +51,8 @@ const GroupNewSymbolModal = ({
   notify,
   onCloseModal,
   onSuccess,
-  groupMargin,
-  groupMargins,
+  groupSymbol,
+  groupSymbols,
   groupSecurities,
 }: Props) => {
   const symbolsQuery = useSymbolsQuery({
@@ -67,9 +69,9 @@ const GroupNewSymbolModal = ({
 
   const { data, loading } = symbolsQuery;
   const symbolsData = data?.tradingEngine.symbols?.content || [];
-  const symbols = differenceWith(symbolsData, groupMargins, (_symbol, _margins) => _symbol.symbol === _margins.symbol);
+  const symbols = differenceWith(symbolsData, groupSymbols, (_symbol, _margins) => _symbol.symbol === _margins.symbol);
 
-  const handleSubmit = (symbol: Margin) => {
+  const handleSubmit = (symbol: GroupSymbol) => {
     notify({
       level: LevelType.SUCCESS,
       title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE'),
@@ -78,6 +80,7 @@ const GroupNewSymbolModal = ({
     onSuccess(symbol);
     onCloseModal();
   };
+
 
   const handleSymbolChange = (
     value: string,
@@ -105,12 +108,13 @@ const GroupNewSymbolModal = ({
     >
       <Formik
         initialValues={
-          groupMargin || {
+          groupSymbol || {
             symbol: '',
             securityId: -1,
             percentage: 0,
             swapLong: 0,
             swapShort: 0,
+            enabled: true,
           }}
         validate={validate}
         validateOnChange={false}
@@ -118,7 +122,7 @@ const GroupNewSymbolModal = ({
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, setFieldValue }: FormikProps<Margin>) => (
+        {({ dirty, isSubmitting, setFieldValue, values }: FormikProps<GroupSymbol>) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               <Choose>
@@ -126,7 +130,7 @@ const GroupNewSymbolModal = ({
                   {I18n.t('COMMON.LOADING')}
                 </When>
                 <Otherwise>
-                  {groupMargin
+                  {groupSymbol
                     ? I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.EDIT_TITLE')
                     : I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.TITLE')
                   }
@@ -158,7 +162,13 @@ const GroupNewSymbolModal = ({
                   <div className="GroupNewSymbolModal__description">
                     {I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.DESCRIPTION')}
                   </div>
-
+                  <Field
+                    name="enabled"
+                    component={FormikCheckbox}
+                    label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.ENABLE')}
+                    className="GroupNewSymbolModal__field  GroupNewSymbolModal__field--center"
+                    disabled={baseSymbols.includes(values.symbol)}
+                  />
                   <div className="GroupNewSymbolModal__fields">
                     <Field
                       name="symbol"
@@ -168,7 +178,7 @@ const GroupNewSymbolModal = ({
                       component={FormikSelectField}
                       customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
                       searchable
-                      disabled={Boolean(groupMargin)}
+                      disabled={Boolean(groupSymbol)}
                     >
                       {symbols.map(({ symbol }) => (
                         <option key={symbol} value={symbol}>
@@ -228,7 +238,7 @@ const GroupNewSymbolModal = ({
 };
 
 GroupNewSymbolModal.defaultProps = {
-  groupMargin: null,
+  groupSymbol: null,
 };
 
 export default compose(

@@ -28,12 +28,13 @@ query GroupQuery($groupName: String!) {
         commissionType
         commissionLots
       }
-      groupMargins {
+      groupSymbols {
         symbol
         securityId
         percentage
         swapShort
         swapLong
+        enabled
       }
     }
   }
