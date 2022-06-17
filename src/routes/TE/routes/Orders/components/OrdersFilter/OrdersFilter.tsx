@@ -12,6 +12,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { statuses } from '../../attributes/constants';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
+import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
 import './OrdersFilter.scss';
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 interface FormValues {
   keyword?: string,
   orderStatuses?: string[],
+  symbol?: string,
   openingDateRange?: {
     from?: string,
     to?: string,
@@ -47,7 +49,19 @@ const OrdersFilter = (props: Props) => {
     },
   });
 
+  const symbolsQuery = useSymbolsQuery({
+    variables: {
+      args: {
+        page: {
+          from: 0,
+          size: 100000,
+        },
+      },
+    },
+  });
+
   const groups = groupsQuery.data?.tradingEngine.groups.content || [];
+  const symbols = symbolsQuery.data?.tradingEngine.symbols.content || [];
 
   // ===== Handlers ===== //
   const handleSubmit = (values: FormValues) => {
@@ -122,6 +136,22 @@ const OrdersFilter = (props: Props) => {
               {statuses.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {I18n.t(label)}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="symbol"
+              label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              className="OrdersFilter__field"
+              component={FormikSelectField}
+              searchable
+              withFocus
+              disabled={symbolsQuery.loading}
+            >
+              {symbols.map(({ symbol }) => (
+                <option key={symbol} value={symbol}>
+                  {symbol}
                 </option>
               ))}
             </Field>
