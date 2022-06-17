@@ -35,7 +35,11 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
   } = props;
 
   // If target source form enabled to edit
-  const isEditEnabled = !getIn(errors, 'sourceBrandConfig');
+  const isEditEnabled = !!sourceBrandConfig?.brand
+    && !!sourceBrandConfig?.salesStatuses?.length
+    && !!sourceBrandConfig?.countries?.length
+    && !!sourceBrandConfig?.languages?.length
+    && !getIn(errors, 'sourceBrandConfig');
 
 
   // We should fetching and showing clients count only in case when filled all mandatory fields
