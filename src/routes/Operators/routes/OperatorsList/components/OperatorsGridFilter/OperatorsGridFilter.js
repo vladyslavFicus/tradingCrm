@@ -66,6 +66,7 @@ class OperatorsGridFilter extends PureComponent {
   handleDepartmentFieldChange = (value, setFieldValue) => {
     if (value) {
       setFieldValue('authorities.department', value);
+      setFieldValue('authorities.roles', undefined);
     } else {
       setFieldValue('authorities', undefined);
     }
@@ -96,7 +97,7 @@ class OperatorsGridFilter extends PureComponent {
           setFieldValue,
           dirty,
         }) => {
-          const availableRoles = values?.authorities?.department ? authorities[values?.authorities?.department] : [];
+          const availableRoles = authorities[values?.authorities?.department] || [];
 
           return (
             <Form className="OperatorsGridFilter__form">
