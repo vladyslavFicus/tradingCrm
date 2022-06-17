@@ -24,7 +24,6 @@ class FormikSelectField extends PureComponent {
     withAnyOption: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
     customOnChange: PropTypes.func,
-    customTouched: PropTypes.bool,
     singleOptionComponent: PropTypes.func,
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -40,6 +39,7 @@ class FormikSelectField extends PureComponent {
       errors: PropTypes.object.isRequired,
       touched: PropTypes.object.isRequired,
       setFieldValue: PropTypes.func.isRequired,
+      setFieldTouched: PropTypes.func.isRequired,
       initialValues: PropTypes.object,
     }).isRequired,
   }
@@ -47,7 +47,6 @@ class FormikSelectField extends PureComponent {
   static defaultProps = {
     className: '',
     customOnChange: null,
-    customTouched: true,
     disabled: false,
     label: null,
     multiple: false,
@@ -62,18 +61,19 @@ class FormikSelectField extends PureComponent {
 
   id = `select-${v4()}`;
 
-  onHandleChange = (value) => {
+  onHandleChange = async (value) => {
     const {
       customOnChange,
       field: { name },
-      form: { setFieldValue },
+      form: { setFieldValue, setFieldTouched },
     } = this.props;
 
     if (customOnChange) {
-      customOnChange(value);
+      await customOnChange(value);
     } else {
-      setFieldValue(name, value);
+      await setFieldValue(name, value);
     }
+    setFieldTouched(name, true);
   }
 
   render() {
@@ -87,6 +87,7 @@ class FormikSelectField extends PureComponent {
       },
       form: {
         errors,
+        touched,
         initialValues,
       },
       label,
@@ -95,21 +96,22 @@ class FormikSelectField extends PureComponent {
       placeholder,
       searchable,
       showErrorMessage,
-      customTouched,
       singleOptionComponent,
       withAnyOption,
       withFocus,
     } = this.props;
 
     const error = getIn(errors, name);
+    const isTouched = getIn(touched, name);
 
     return (
-      <div className={classNames(
-        className,
-        'form-group',
-        { 'has-danger': showErrorMessage && error },
-        { 'is-disabled': disabled },
-      )}
+      <div className={
+        classNames(
+          className,
+          'form-group',
+          { 'has-danger': showErrorMessage && error && isTouched },
+          { 'is-disabled': disabled },
+        )}
       >
         <If condition={label}>
           <label htmlFor={this.id}>{label}</label>
@@ -146,7 +148,7 @@ class FormikSelectField extends PureComponent {
             style={{ display: 'none' }}
           />
 
-          <If condition={showErrorMessage && customTouched && error}>
+          <If If condition={showErrorMessage && isTouched && error}>
             <div className="form-row">
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />

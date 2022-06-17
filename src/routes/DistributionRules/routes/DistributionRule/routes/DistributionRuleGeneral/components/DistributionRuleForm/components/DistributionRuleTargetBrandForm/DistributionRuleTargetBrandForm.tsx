@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormikProps } from 'formik';
+import { Field, FormikProps, getIn } from 'formik';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { sortBy } from 'lodash';
@@ -30,14 +30,13 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
         sourceBrandConfig,
         targetBrandConfig,
       },
+      errors,
     },
   } = props;
 
   // If target source form enabled to edit
-  const isEditEnabled = !!sourceBrandConfig?.brand
-    && !!sourceBrandConfig?.salesStatuses?.length
-    && !!sourceBrandConfig?.countries?.length
-    && !!sourceBrandConfig?.languages?.length;
+  const isEditEnabled = !getIn(errors, 'sourceBrandConfig');
+
 
   // We should fetching and showing clients count only in case when filled all mandatory fields
   const isClientsAmountAvailable = isEditEnabled && !!targetBrandConfig?.brand;

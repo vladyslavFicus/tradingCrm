@@ -13,6 +13,8 @@ class FormikInputField extends PureComponent {
     form: PropTypes.shape({
       errors: PropTypes.object.isRequired,
       initialValues: PropTypes.object,
+      touched: PropTypes.object.isRequired,
+      setFieldTouched: PropTypes.func.isRequired,
     }).isRequired,
     type: PropTypes.string,
     withFocus: PropTypes.bool,
@@ -29,16 +31,22 @@ class FormikInputField extends PureComponent {
     return value !== undefined && value !== null;
   };
 
+  handleChange = async (e) => {
+    const { field: { onChange, name }, form: { setFieldTouched } } = this.props;
+    await onChange(e);
+    setFieldTouched(name, true);
+  }
+
   render() {
     const {
       field: {
         name,
         value,
-        onChange,
       },
       form: {
         errors,
         initialValues,
+        touched,
       },
       withFocus,
       ...input
@@ -48,9 +56,9 @@ class FormikInputField extends PureComponent {
       <Input
         name={name}
         value={value !== null ? value : ''}
-        onChange={onChange}
-        error={get(errors, name)}
+        error={get(touched, name) && get(errors, name)}
         isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
+        onChange={this.handleChange}
         {...omit(input, ['staticContext'])}
       />
     );

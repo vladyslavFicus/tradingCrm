@@ -74,7 +74,6 @@ const DistributionRuleForm = (props: Props) => {
     <div className="DistributionRuleForm">
       <Formik
         enableReinitialize
-        validateOnChange={false}
         initialValues={{
           executionType: distributionRule?.executionType || 'MANUAL',
           sourceBrandConfig: {

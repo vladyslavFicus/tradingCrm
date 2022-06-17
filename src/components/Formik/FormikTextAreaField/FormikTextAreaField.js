@@ -12,18 +12,26 @@ class FormikTextAreaField extends PureComponent {
     }).isRequired,
     form: PropTypes.shape({
       errors: PropTypes.object.isRequired,
+      touched: PropTypes.object.isRequired,
+      setFieldTouched: PropTypes.func.isRequired,
     }).isRequired,
   };
+
+  handleChange = async (e) => {
+    const { field: { onChange, name }, form: { setFieldTouched } } = this.props;
+    await onChange(e);
+    setFieldTouched(name, true);
+  }
 
   render() {
     const {
       field: {
         name,
         value,
-        onChange,
       },
       form: {
         errors,
+        touched,
       },
       ...textarea
     } = this.props;
@@ -32,8 +40,8 @@ class FormikTextAreaField extends PureComponent {
       <TextArea
         name={name}
         value={value !== null ? value : ''}
-        onChange={onChange}
-        error={get(errors, name)}
+        onChange={this.handleChange}
+        error={get(touched, name) && get(errors, name)}
         {...textarea}
       />
     );
