@@ -61,6 +61,7 @@ export enum LotMax {
   MAX_1_0 = 1.0,
   MAX_10_0 = 10.0,
   MAX_100_0 = 100.0,
+  MAX_1000_0 = 1000.0,
 }
 
 export enum LotStep {
