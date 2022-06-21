@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 
 const types = keyMirror({
   AFFILIATE_ACCOUNT_CREATED: null,
+  AFFILIATE_STATUS_UPDATED: null,
   AFFILIATE_UPDATED: null,
   AFFILIATE_FTD_CREATED: null,
   AFFILIATE_FTD_UPDATED: null,
@@ -80,6 +81,7 @@ const types = keyMirror({
 });
 const typesLabels = {
   [types.AFFILIATE_ACCOUNT_CREATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_ACCOUNT_CREATED',
+  [types.AFFILIATE_STATUS_UPDATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_STATUS_UPDATED',
   [types.AFFILIATE_UPDATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_UPDATED',
   [types.AFFILIATE_FTD_CREATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_FTD_CREATED',
   [types.AFFILIATE_FTD_UPDATED]: 'CONSTANTS.AUDIT.TYPES.AFFILIATE_FTD_UPDATED',
@@ -160,6 +162,7 @@ const typesLabels = {
 };
 const typesClassNames = {
   [types.AFFILIATE_ACCOUNT_CREATED]: 'green',
+  [types.AFFILIATE_STATUS_UPDATED]: 'black',
   [types.AFFILIATE_UPDATED]: 'blue',
   [types.LOG_IN]: 'blue',
   [types.LOG_OUT]: '',
