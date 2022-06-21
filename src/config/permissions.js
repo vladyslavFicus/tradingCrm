@@ -193,6 +193,7 @@ export default {
     CREATE_CLOSED_ORDER: 'we-trading.createClosedOrder',
     CREATE_SECURITIES: 'we-trading.createSecurity',
     EDIT_SECURITIES: 'we-trading.updateSecurity',
+    DELETE_SECURITY: 'we-trading.deleteSecurity',
     CREATE_GROUP: 'we-trading.createGroup',
     EDIT_GROUP: 'we-trading.updateGroup',
     DELETE_GROUP: 'we-trading.deleteGroup',

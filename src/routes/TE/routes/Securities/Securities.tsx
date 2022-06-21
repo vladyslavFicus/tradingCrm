@@ -1,21 +1,22 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import withModals from 'hoc/withModals';
+import { LevelType, Notify } from 'types';
+import { parseErrors } from 'apollo';
+import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Button } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Modal } from 'types/modal';
 import EditSecurityModal from 'routes/TE/modals/EditSecurityModal';
 import NewSecurityModal from 'routes/TE/modals/NewSecurityModal';
 import { tradingEngineTabs } from '../../constants';
-import {
-  useSecuritiesQuery,
-  SecuritiesQuery,
-} from './graphql/__generated__/SecuritiesQuery';
+import { useSecuritiesQuery, SecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
+import { useDeleteSecurityMutation } from './graphql/__generated__/DeleteSecurityMutation';
 import './Securities.scss';
 
 type Security = ExtractApolloTypeFromArray<SecuritiesQuery['tradingEngine']['securities']>;
@@ -24,28 +25,89 @@ interface Props {
   modals: {
     newSecurityModal: Modal,
     editSecurityModal: Modal,
+    confirmationModal: Modal,
   },
+  notify: Notify,
 }
 
 const Securities = (props: Props) => {
-  const { data, loading, refetch } = useSecuritiesQuery();
+  const {
+    modals: {
+      newSecurityModal,
+      editSecurityModal,
+      confirmationModal,
+    },
+    notify,
+  } = props;
+
   const permission = usePermission();
+
+  const { data, loading, refetch } = useSecuritiesQuery();
+
+  const [deleteSecurity] = useDeleteSecurityMutation();
 
   const securities = data?.tradingEngine.securities || [];
 
-  const handleNewSecuritiesClick = () => {
-    const {
-      modals: {
-        newSecurityModal,
-      },
-    } = props;
+  const allowsEditSecurities = permission.allows(permissions.WE_TRADING.EDIT_SECURITIES);
 
+  // ===== Handlers ===== //
+  const handleNewSecurityClick = () => {
     newSecurityModal.show({
       onSuccess: refetch,
     });
   };
 
-  const allowsEditSecurities = permission.allows(permissions.WE_TRADING.EDIT_SECURITIES);
+  const handleDeleteSecurity = async (securityName: string) => {
+    try {
+      await deleteSecurity({ variables: { securityName } });
+
+      await refetch();
+      confirmationModal.hide();
+
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('TRADING_ENGINE.SECURITIES.NOTIFICATION.DELETE.SUCCESS'),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      let message = I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.FAILED');
+
+      // If security has symbols
+      if (error.error === 'error.security.has.symbols') {
+        message = I18n.t('TRADING_ENGINE.SECURITIES.NOTIFICATION.DELETE.HAS_SYMBOLS', {
+          symbolsCount: error.errorParameters['error.security.has.symbols'].split(',').length,
+          symbols: error.errorParameters['error.security.has.symbols'],
+          securityName,
+        });
+      }
+
+      // If security assigned to group
+      if (error.error === 'error.security.has.group.securities') {
+        message = I18n.t('TRADING_ENGINE.SECURITIES.NOTIFICATION.DELETE.HAS_GROUP_SECURITIES', {
+          groupsCount: error.errorParameters['error.security.has.group.securities'].split(',').length,
+          groups: error.errorParameters['error.security.has.group.securities'],
+          securityName,
+        });
+      }
+
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message,
+      });
+    }
+  };
+
+  const handleDeleteSecurityClick = (securityName: string) => {
+    confirmationModal.show({
+      onSubmit: () => handleDeleteSecurity(securityName),
+      modalTitle: I18n.t('TRADING_ENGINE.SECURITIES.CONFIRMATION.DELETE.TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.SECURITIES.CONFIRMATION.DELETE.DESCRIPTION', { securityName }),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
+  };
 
   return (
     <div className="Securities">
@@ -58,7 +120,7 @@ const Securities = (props: Props) => {
 
         <PermissionContent permissions={permissions.WE_TRADING.CREATE_SECURITIES}>
           <Button
-            onClick={handleNewSecuritiesClick}
+            onClick={handleNewSecurityClick}
             commonOutline
             small
           >
@@ -78,7 +140,7 @@ const Securities = (props: Props) => {
           render={({ name }: Security) => (
             <div
               className="Securities__cell-primary Securities__cell-primary--pointer"
-              onClick={allowsEditSecurities ? () => props.modals.editSecurityModal.show({
+              onClick={allowsEditSecurities ? () => editSecurityModal.show({
                 name,
                 onSuccess: refetch,
               }) : () => {}}
@@ -118,6 +180,24 @@ const Securities = (props: Props) => {
             </div>
           )}
         />
+        <If condition={permission.allows(permissions.WE_TRADING.DELETE_SECURITY)}>
+          <Column
+            width={120}
+            header={I18n.t('TRADING_ENGINE.SECURITIES.GRID.ACTIONS')}
+            render={({ name }: Security) => (
+              <>
+                <PermissionContent permissions={permissions.WE_TRADING.DELETE_SECURITY}>
+                  <Button
+                    transparent
+                    onClick={() => handleDeleteSecurityClick(name)}
+                  >
+                    <i className="fa fa-trash btn-transparent color-danger" />
+                  </Button>
+                </PermissionContent>
+              </>
+            )}
+          />
+        </If>
       </Table>
     </div>
   );
@@ -125,8 +205,10 @@ const Securities = (props: Props) => {
 
 export default compose(
   React.memo,
+  withNotifications,
   withModals({
     newSecurityModal: NewSecurityModal,
     editSecurityModal: EditSecurityModal,
+    confirmationModal: ConfirmActionModal,
   }),
 )(Securities);

@@ -3847,7 +3847,22 @@
       "GRID": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "SYMBOLS": "Symbols"
+        "SYMBOLS": "Symbols",
+        "ACTIONS": "Actions"
+      },
+      "CONFIRMATION": {
+        "DELETE": {
+          "TITLE": "Delete security",
+          "DESCRIPTION": "Are you sure that you want to delete security {{securityName}}?"
+        }
+      },
+      "NOTIFICATION": {
+        "DELETE": {
+          "SUCCESS": "Security deleted successfully",
+          "FAILED": "Security did not delete for some reasons",
+          "HAS_SYMBOLS": "{{symbolsCount}} symbols are assigned on {{securityName}} security. Please remove all assigned symbols to delete the security. {{symbols}}.",
+          "HAS_GROUP_SECURITIES": "{{securityName}} security is added to {{groupsCount}} groups. Please remove all assigned groups to delete the security. {{groups}}."
+        }
       }
     },
     "SYMBOL": {
