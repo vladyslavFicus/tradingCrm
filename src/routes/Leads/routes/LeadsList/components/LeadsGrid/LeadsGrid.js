@@ -115,12 +115,20 @@ class LeadsGrid extends PureComponent {
 
   renderAffiliate = ({ affiliate, source }) => (
     <>
-      <div className="LeadsGrid__primary">
-        {affiliate}
-      </div>
-      <div className="LeadsGrid__secondary">
-        {source}
-      </div>
+      <Choose>
+        <When condition={affiliate || source}>
+          <div className="LeadsGrid__primary">
+            {affiliate}
+          </div>
+          <div className="LeadsGrid__secondary">
+            {source}
+          </div>
+        </When>
+        <Otherwise>
+          <GridEmptyValue />
+        </Otherwise>
+      </Choose>
+
     </>
   );
 
