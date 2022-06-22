@@ -6,6 +6,7 @@ import { State } from 'types';
 import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
+import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import './SymbolsFilter.scss';
 
@@ -28,7 +29,10 @@ const SymbolsFilter = (props: Props) => {
     },
   });
 
+  const securitiesQuery = useSecuritiesQuery();
+
   const symbols = symbolsQuery.data?.tradingEngine.symbols.content || [];
+  const securities = securitiesQuery.data?.tradingEngine.securities || [];
 
   // ======= Handlers ======= //
   const handleSubmit = (values: SymbolsQueryVariables['args']) => {
@@ -79,6 +83,22 @@ const SymbolsFilter = (props: Props) => {
               {symbols.map(({ symbol }) => (
                 <option key={symbol} value={symbol}>
                   {symbol}
+                </option>
+              ))}
+            </Field>
+            <Field
+              name="securityNames"
+              label={I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              className="SymbolsFilter__field"
+              component={FormikSelectField}
+              searchable
+              withFocus
+              multiple
+            >
+              {securities.map(({ name, id }) => (
+                <option key={id} value={name}>
+                  {name}
                 </option>
               ))}
             </Field>
