@@ -257,6 +257,15 @@ const Orders = (props: Props) => {
           )}
         />
         <Column
+          sortBy="closingPrice"
+          header={I18n.t('TRADING_ENGINE.ORDERS.GRID.CLOSE_PRICE')}
+          render={({ closePrice, digits }: Order) => (
+            <div className="Orders__cell-value">
+              {closePrice !== null ? closePrice.toFixed(digits) : '-'}
+            </div>
+          )}
+        />
+        <Column
           sortBy="stopLoss"
           header={I18n.t('TRADING_ENGINE.ORDERS.GRID.S/L')}
           render={({ stopLoss }: Order) => (
