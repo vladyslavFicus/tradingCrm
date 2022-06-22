@@ -2,6 +2,13 @@
   background-color: #fff;
   padding: 25px;
 
+  &__row {
+    // On hover we dont need to change bg color when Row is Disabled
+    &--disabled{
+      background-color: rgb(128 128 128 / 26%) !important;
+    }  
+  }
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -19,7 +26,7 @@
       font-weight: 700;
     }
 
-    &-disabled {
+    &--disabled {
       color: grey;
     }
   }

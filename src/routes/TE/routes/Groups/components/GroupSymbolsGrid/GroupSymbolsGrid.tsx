@@ -106,6 +106,11 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           stickyFromTop={0}
           items={groupSymbols}
           scrollableTarget="group-symbols-table-scrollable-target"
+          customClassNameRow={({ enabled }: GroupSymbol) => (
+            classNames({
+              'GroupSymbolsGrid__row--disabled': !enabled,
+            }))
+          }
         >
           <Column
             header={I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.SYMBOL')}
@@ -120,7 +125,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
             render={({ enabled }: GroupSymbol) => (
               <div
                 className={classNames('GroupSymbolsGrid__cell-primary', {
-                  'GroupSymbolsGrid__cell-disabled': enabled,
+                  'GroupSymbolsGrid__cell--disabled': !enabled,
                 })}
               >
                 {I18n.t(`TRADING_ENGINE.GROUP.${enabled ? 'ENABLED' : 'DISABLED'}`)}
