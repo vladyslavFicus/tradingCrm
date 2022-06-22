@@ -5,9 +5,16 @@ import { Query } from '@apollo/client/react/components';
 
 const REQUEST = gql`query ClientsGridOldFilter_DesksAndTeamsQuery {
   userBranches {
+    OFFICE {
+      name
+      uuid
+    }
     DESK {
       name
       uuid
+      parentBranch {
+        uuid
+      }
     }
     TEAM {
       name

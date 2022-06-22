@@ -176,6 +176,7 @@ class ClientsGridOldFilter extends PureComponent {
 
     const desks = desksAndTeamsQuery.data?.userBranches?.DESK || [];
     const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
+    const offices = desksAndTeamsQuery.data?.userBranches?.OFFICE || [];
     const partners = partnersQuery.data?.partners?.content || [];
     const salesStatuses = sortBy(acquisitionStatusesQuery.data?.settings.salesStatuses || [], 'status');
     const retentionStatuses = sortBy(acquisitionStatusesQuery.data?.settings.retentionStatuses || [], 'status');
@@ -192,7 +193,10 @@ class ClientsGridOldFilter extends PureComponent {
         >
           {({ values, setValues, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
-            const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
+            const officesUuids = values.offices || [];
+            const desksByOffices = desks.filter(desk => officesUuids.includes(desk.parentBranch?.uuid));
+            const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch?.uuid));
+            const desksOptions = officesUuids.length ? desksByOffices : desks;
             const teamsOptions = desksUuids.length ? teamsByDesks : teams;
             const operatorsOptions = this.filterOperators(values);
             const languagesOptions = ['other', ...getAvailableLanguages()];
@@ -307,23 +311,40 @@ class ClientsGridOldFilter extends PureComponent {
                     </Field>
 
                     <Field
+                      name="offices"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.offices)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withFocus
+                      multiple
+                      searchable
+                    >
+                      {offices.map(({ name, uuid }) => (
+                        <option key={uuid} value={uuid}>
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
                       name="desks"
                       className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.desks)}
                       placeholder={
                         I18n.t(
-                          (!isDesksAndTeamsLoading && desks.length === 0)
+                          (!isDesksAndTeamsLoading && desksOptions.length === 0)
                             ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
                       component={FormikSelectField}
-                      disabled={isDesksAndTeamsLoading || desks.length === 0}
+                      disabled={isDesksAndTeamsLoading || desksOptions.length === 0}
                       searchable
                       withFocus
                       multiple
                     >
-                      {desks.map(({ uuid, name }) => (
+                      {desksOptions.map(({ uuid, name }) => (
                         <option key={uuid} value={uuid}>{name}</option>
                       ))}
                     </Field>
