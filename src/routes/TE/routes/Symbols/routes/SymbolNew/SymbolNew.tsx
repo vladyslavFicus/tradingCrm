@@ -84,7 +84,7 @@ const SymbolNew = (props: Props) => {
               backgroundColor: ['required'],
               bidSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
               askSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
-              stopsLevel: ['required', 'integer', 'min:1', 'max:100000'],
+              stopsLevel: ['required', 'integer', 'min:0', 'max:100000'],
               lotSize: ['required', 'numeric', 'min:1', 'max:10000000000'],
               percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
               'filtration.filterSmoothing': ['required'],
