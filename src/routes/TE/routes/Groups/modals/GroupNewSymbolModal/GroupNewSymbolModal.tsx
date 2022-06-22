@@ -166,7 +166,7 @@ const GroupNewSymbolModal = ({
                     name="enabled"
                     component={FormikCheckbox}
                     label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.ENABLE')}
-                    className="GroupNewSymbolModal__field  GroupNewSymbolModal__field--hide"
+                    className="GroupNewSymbolModal__field  GroupNewSymbolModal__field--center"
                     disabled={baseSymbols.includes(values.symbol)}
                   />
                   <div className="GroupNewSymbolModal__fields">
