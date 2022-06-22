@@ -93,7 +93,6 @@ const SymbolNew = (props: Props) => {
               'filtration.softFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
               'filtration.hardFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
               'filtration.discardFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
-              'swapConfigs.rollover': ['required'],
               'swapConfigs.type': ['required'],
               'swapConfigs.long': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
               'swapConfigs.short': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],

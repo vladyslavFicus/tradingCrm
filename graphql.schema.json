@@ -32068,13 +32068,9 @@
             "name": "rollover",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TradingEngine__DaysOfWeek__Enum",
-                "ofType": null
-              }
+              "kind": "ENUM",
+              "name": "TradingEngine__DaysOfWeek__Enum",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -33278,13 +33274,9 @@
             "name": "rollover",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TradingEngine__DaysOfWeek__Enum",
-                "ofType": null
-              }
+              "kind": "ENUM",
+              "name": "TradingEngine__DaysOfWeek__Enum",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -38966,13 +38958,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TradingEngine__DaysOfWeek__Enum",
-                "ofType": null
-              }
+              "kind": "ENUM",
+              "name": "TradingEngine__DaysOfWeek__Enum",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

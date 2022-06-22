@@ -18,7 +18,7 @@ import CalculationSettings from '../../components/CalculationSettings';
 import SwapsSettings from '../../components/SwapsSettings';
 import SessionsSettings from '../../components/SessionsSettings';
 import FiltrationSettings from '../../components/FiltrationSettings';
-import { DayOfWeek, FormValues, SwapType, SymbolType } from '../../types';
+import { FormValues, SwapType, SymbolType } from '../../types';
 import { useSymbolQuery } from './graphql/__generated__/SymbolQuery';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
@@ -53,7 +53,6 @@ const validator = createValidator(
     'filtration.softFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
     'filtration.hardFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
     'filtration.discardFiltrationLevel': ['required', 'numeric', 'min:0', 'max:99999999999999999999'],
-    'swapConfigs.rollover': ['required'],
     'swapConfigs.type': ['required'],
     'swapConfigs.long': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
     'swapConfigs.short': ['required', 'numeric', 'min:-10000000000', 'max:10000000000'],
@@ -191,7 +190,7 @@ const SymbolEdit = (props: Props) => {
                 type: swapConfigs?.type || SwapType.POINTS,
                 long: swapConfigs?.long || 0.000000,
                 short: swapConfigs?.short || 0.000000,
-                rollover: swapConfigs?.rollover || DayOfWeek.WEDNESDAY,
+                rollover: swapConfigs?.rollover,
               },
               filtration: {
                 softFiltrationLevel: filtration?.softFiltrationLevel || 0,

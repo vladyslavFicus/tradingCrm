@@ -61,6 +61,7 @@ const SwapsSettings = () => (
         searchable
       >
         {rolloverLabels.map(({ name, value }) => (
+          // @ts-ignore Because in .tsx files value can't be as option value
           <option key={value} value={value}>
             {I18n.t(name)}
           </option>

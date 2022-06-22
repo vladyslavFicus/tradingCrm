@@ -64,6 +64,10 @@ const rolloverLabels = [
     name: 'TRADING_ENGINE.SYMBOL.WEEK.SUNDAY',
     value: 'SUNDAY',
   },
+  {
+    name: 'TRADING_ENGINE.SYMBOL.WEEK.NONE',
+    value: null,
+  },
 ];
 
 const backgroundColor = [
