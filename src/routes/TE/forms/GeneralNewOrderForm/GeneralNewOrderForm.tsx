@@ -258,27 +258,27 @@ const GeneralNewOrderForm = (props: Props) => {
       },
       stopLoss: [
         `max:${values.direction === 'BUY'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice
           : 999999
         }`,
         `min:${values.direction === 'SELL'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice : 0
         }`,
       ],
       takeProfit: [
         `max:${values.direction === 'SELL'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice
           : 999999
         }`,
         `min:${values.direction === 'BUY'
-        && !values.autoOpenPrice
-        && values.openPrice
+          && !values.autoOpenPrice
+          && values.openPrice
           ? values.openPrice
           : 0
         }`,

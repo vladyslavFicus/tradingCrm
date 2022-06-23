@@ -148,7 +148,7 @@ class FormikSelectField extends PureComponent {
             style={{ display: 'none' }}
           />
 
-          <If If condition={showErrorMessage && isTouched && error}>
+          <If condition={showErrorMessage && isTouched && error}>
             <div className="form-row">
               <div className="col form-control-feedback">
                 <i className="icon icon-alert" />

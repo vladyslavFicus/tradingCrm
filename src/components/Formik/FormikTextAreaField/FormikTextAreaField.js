@@ -14,6 +14,7 @@ class FormikTextAreaField extends PureComponent {
       errors: PropTypes.object.isRequired,
       touched: PropTypes.object.isRequired,
       setFieldTouched: PropTypes.func.isRequired,
+      initialValues: PropTypes.object,
     }).isRequired,
   };
 
@@ -32,16 +33,19 @@ class FormikTextAreaField extends PureComponent {
       form: {
         errors,
         touched,
+        initialValues,
       },
       ...textarea
     } = this.props;
+
+    const isErrorMessageVisible = get(initialValues, name) === undefined || get(touched, name);
 
     return (
       <TextArea
         name={name}
         value={value !== null ? value : ''}
         onChange={this.handleChange}
-        error={get(touched, name) && get(errors, name)}
+        error={isErrorMessageVisible && get(errors, name)}
         {...textarea}
       />
     );

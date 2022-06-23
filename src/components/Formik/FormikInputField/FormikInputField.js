@@ -52,11 +52,13 @@ class FormikInputField extends PureComponent {
       ...input
     } = this.props;
 
+    const isErrorMessageVisible = get(initialValues, name) === undefined || get(touched, name);
+
     return (
       <Input
         name={name}
         value={value !== null ? value : ''}
-        error={get(touched, name) && get(errors, name)}
+        error={isErrorMessageVisible && get(errors, name)}
         isFocused={withFocus && this.isValueExist() && eq(get(initialValues, name), value)}
         onChange={this.handleChange}
         {...omit(input, ['staticContext'])}
