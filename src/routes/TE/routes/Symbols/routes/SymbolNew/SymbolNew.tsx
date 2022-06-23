@@ -208,7 +208,9 @@ const SymbolNew = (props: Props) => {
               </div>
 
               <div className="SymbolNew__column">
-                <FiltrationSettings />
+                <FiltrationSettings
+                  {...formik}
+                />
               </div>
             </Form>
           );

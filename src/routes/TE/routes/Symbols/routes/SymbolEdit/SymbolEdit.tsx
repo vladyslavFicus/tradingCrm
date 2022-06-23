@@ -267,7 +267,9 @@ const SymbolEdit = (props: Props) => {
                   </div>
 
                   <div className="SymbolEdit__column">
-                    <FiltrationSettings />
+                    <FiltrationSettings
+                      {...formik}
+                    />
                   </div>
                 </Form>
               );

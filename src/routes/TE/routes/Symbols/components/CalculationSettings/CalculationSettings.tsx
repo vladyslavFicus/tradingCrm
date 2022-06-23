@@ -8,8 +8,8 @@ import Input from 'components/Input';
 import { FormValues } from '../../types';
 import './CalculationSettings.scss';
 
-const FiltrationSettings = (props: FormikProps<FormValues>) => (
-  <div className="FiltrationSettings">
+const CalculationSettings = (props: FormikProps<FormValues>) => (
+  <div className="CalculationSettings">
     <div className="CalculationSettings__header">
       <div className="CalculationSettings__section-title">
         {I18n.t('TRADING_ENGINE.SYMBOL.CALCULATION')}
@@ -46,4 +46,4 @@ const FiltrationSettings = (props: FormikProps<FormValues>) => (
   </div>
 );
 
-export default React.memo(FiltrationSettings);
+export default React.memo(CalculationSettings);
