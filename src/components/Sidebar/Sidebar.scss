@@ -13,4 +13,21 @@
   &:hover {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
   }
+
+  .Scrollbars {
+    .ScrollbarContainer {
+      &::-webkit-scrollbar {
+        width: 15px;
+      }
+    }
+    .TrackHorizontal {
+      display: none;
+    }
+    .ThumbHorizontal {
+      display: none;
+    }
+    .ThumbVertical {
+      background-color: rgba(223, 228, 237, 0.25);
+    }
+  }
 }

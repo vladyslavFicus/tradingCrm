@@ -70,9 +70,11 @@ class Sidebar extends PureComponent {
         onMouseLeave={this.close}
       >
         <Scrollbars
-          renderTrackHorizontal={props => <div {...props} style={{ display: 'none' }} />}
-          renderThumbHorizontal={props => <div {...props} style={{ display: 'none' }} />}
-          renderThumbVertical={props => <div {...props} style={{ backgroundColor: 'rgba(223, 228, 237, 0.25)' }} />}
+          className="Scrollbars"
+          renderView={props => <div {...props} className="ScrollbarContainer" />}
+          renderTrackHorizontal={props => <div {...props} className="TrackHorizontal" />}
+          renderThumbHorizontal={props => <div {...props} className="ThumbHorizontal" />}
+          renderThumbVertical={props => <div {...props} className="ThumbVertical" />}
           style={{ height: 'calc(100% - 48px)' }}
         >
           <SidebarNav
