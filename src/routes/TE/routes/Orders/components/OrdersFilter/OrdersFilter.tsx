@@ -147,6 +147,7 @@ const OrdersFilter = (props: Props) => {
               component={FormikSelectField}
               searchable
               withFocus
+              withAnyOption
               disabled={symbolsQuery.loading}
             >
               {symbols.map(({ symbol }) => (
