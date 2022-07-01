@@ -13,9 +13,11 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Notify, LevelType } from 'types/notify';
+import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import SymbolSettings from '../../components/SymbolSettings';
 import CalculationSettings from '../../components/CalculationSettings';
 import SwapsSettings from '../../components/SwapsSettings';
+import VolumeSettings from '../../components/VolumeSettings';
 import SessionsSettings from '../../components/SessionsSettings';
 import FiltrationSettings from '../../components/FiltrationSettings';
 import { FormValues, SwapType, SymbolType } from '../../types';
@@ -47,6 +49,9 @@ const validator = createValidator(
     stopsLevel: ['required', 'integer', 'min:0', 'max:100000'],
     lotSize: ['required', 'numeric', 'min:1', 'max:10000000000'],
     percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
+    lotMin: ['lessOrSame:lotMax'],
+    lotMax: ['greaterOrSame:lotMin'],
+    lotStep: ['lessOrSame:lotMin'],
     'filtration.filterSmoothing': ['required'],
     'filtration.softFilter': ['required'],
     'filtration.hardFilter': ['required'],
@@ -111,6 +116,9 @@ const SymbolEdit = (props: Props) => {
     askSpread,
     stopsLevel,
     lotSize,
+    lotMin,
+    lotMax,
+    lotStep,
     percentage,
     securityName,
     swapConfigs,
@@ -185,6 +193,9 @@ const SymbolEdit = (props: Props) => {
               lotSize: lotSize || 0,
               percentage: percentage || 0,
               securityName: securityName || '',
+              lotMin: lotMin || LotMin.MIN_0_01,
+              lotMax: lotMax || LotMax.MAX_1000_0,
+              lotStep: lotStep || LotStep.STEP_0_01,
               swapConfigs: {
                 enable: swapConfigs?.enable || false,
                 type: swapConfigs?.type || SwapType.POINTS,
@@ -248,6 +259,10 @@ const SymbolEdit = (props: Props) => {
                       securities={securities}
                       {...formik}
                     />
+                  </div>
+
+                  <div className="SymbolEdit__column">
+                    <VolumeSettings />
                   </div>
 
                   <div className="SymbolEdit__column">

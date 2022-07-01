@@ -3868,6 +3868,7 @@
     "SYMBOL": {
       "SYMBOL": "Symbol",
       "CALCULATION": "Calculation",
+      "VOLUMES": "Volumes",
       "CALCULATION_LABELS": {
         "PROFIT_CALCULATION_FOREX": "Forex [(close_price - open_price) * contract_size * lots]",
         "PROFIT_CALCULATION_CFD": "CFD [ (close_price - open_price) * contract_size * lots ]",
@@ -3890,6 +3891,9 @@
         "FOREX": "Forex",
         "CFD": "CFD"
       },
+      "LOT_MIN": "Minimum",
+      "LOT_MAX": "Maximum",
+      "LOT_STEP": "Step",
       "SOURCE_LABEL": "Source",
       "DIGITS_LABEL": "Digits",
       "DESCRIPTION_LABEL": "Description",

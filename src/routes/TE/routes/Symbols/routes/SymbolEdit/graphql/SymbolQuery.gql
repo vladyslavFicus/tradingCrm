@@ -13,6 +13,9 @@ query SymbolQuery($symbolName: String!) {
       percentage
       baseCurrency
       quoteCurrency
+      lotMin
+      lotMax
+      lotStep
       symbolType
       filtration {
         filterSmoothing

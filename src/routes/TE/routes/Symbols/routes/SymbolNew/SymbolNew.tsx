@@ -9,8 +9,10 @@ import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
 import { Notify, LevelType } from 'types/notify';
+import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';
 import SymbolSettings from '../../components/SymbolSettings';
+import VolumeSettings from '../../components/VolumeSettings';
 import CalculationSettings from '../../components/CalculationSettings';
 import SwapsSettings from '../../components/SwapsSettings';
 import SessionsSettings from '../../components/SessionsSettings';
@@ -86,6 +88,9 @@ const SymbolNew = (props: Props) => {
               askSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
               stopsLevel: ['required', 'integer', 'min:0', 'max:100000'],
               lotSize: ['required', 'numeric', 'min:1', 'max:10000000000'],
+              lotMin: ['lessOrSame:lotMax'],
+              lotMax: ['greaterOrSame:lotMin'],
+              lotStep: ['lessOrSame:lotMin'],
               percentage: ['required', 'numeric', 'min:1', 'max:10000000000'],
               'filtration.filterSmoothing': ['required'],
               'filtration.softFilter': ['required'],
@@ -141,6 +146,9 @@ const SymbolNew = (props: Props) => {
           lotSize: 100000,
           percentage: 100.0,
           securityName: '',
+          lotMin: LotMin.MIN_0_01,
+          lotMax: LotMax.MAX_1000_0,
+          lotStep: LotStep.STEP_0_01,
           swapConfigs: {
             enable: true,
             type: SwapType.POINTS,
@@ -195,6 +203,10 @@ const SymbolNew = (props: Props) => {
                 <CalculationSettings
                   {...formik}
                 />
+              </div>
+
+              <div className="SymbolNew__column">
+                <VolumeSettings />
               </div>
 
               <div className="SymbolNew__column">

@@ -49,4 +49,7 @@ export interface FormValues {
   lotSize: number,
   percentage: number,
   symbolSessions: SymbolSession[],
+  lotMin: number,
+  lotMax: number,
+  lotStep: number,
 }
