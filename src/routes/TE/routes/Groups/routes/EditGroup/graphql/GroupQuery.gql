@@ -20,6 +20,7 @@ query GroupQuery($groupName: String!) {
           name
         }
         show
+        defaultLots
         spreadDiff
         lotMin
         lotMax

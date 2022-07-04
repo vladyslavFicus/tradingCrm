@@ -73,6 +73,7 @@ export enum LotStep {
 export interface GroupSecurity {
   security: Security,
   show: boolean,
+  defaultLots: boolean,
   spreadDiff: SpreadDiff,
   lotMin: LotMin,
   lotMax: LotMax,

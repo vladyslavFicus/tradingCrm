@@ -73,7 +73,7 @@ const GroupSecurityCustomizationModal = ({
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ dirty, isSubmitting, isValid }) => (
+        {({ dirty, isSubmitting, isValid, values }) => (
           <Form>
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.TITLE')}
@@ -105,12 +105,19 @@ const GroupSecurityCustomizationModal = ({
                 {I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOTS')}
               </div>
 
+              <Field
+                name="defaultLots"
+                label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.DEFAULT')}
+                className="GroupSecurityCustomizationModal__field"
+                component={FormikCheckbox}
+              />
               <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="lotMin"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MIN')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
+                  disabled={values.defaultLots}
                 >
                   {enumToArray(LotMin).map(value => (
                     <option key={value} value={value}>
@@ -123,6 +130,7 @@ const GroupSecurityCustomizationModal = ({
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MAX')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
+                  disabled={values.defaultLots}
                 >
                   {enumToArray(LotMax).map(value => (
                     <option key={value} value={value}>
@@ -135,6 +143,7 @@ const GroupSecurityCustomizationModal = ({
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_STEP')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
+                  disabled={values.defaultLots}
                 >
                   {enumToArray(LotStep).map(value => (
                     <option key={value} value={value}>

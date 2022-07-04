@@ -3744,6 +3744,7 @@
         "TITLE": "Securities customization",
         "DESCRIPTION": "Setting parameters of trading with symbols of the group. Appoint type of order execution, spread and communication.",
         "ENABLE": "Enable",
+        "DEFAULT": "Default",
         "SPREAD_DIFFERENCE": "Spread difference",
         "LOTS": "Lots",
         "LOT_MIN": "Minimum",
