@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { withStreams } from 'rsocket';
+import EventEmitter, { TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { Account } from '../../AccountProfile';
 import { useAccountStatisticQuery, AccountStatisticQuery } from './graphql/__generated__/AccountStatisticQuery';
 import './AccountProfileStatistics.scss';
@@ -39,6 +40,14 @@ const AccountProfileStatistics = (props: Props) => {
   const freeMargin = Number(statistic$?.freeMargin ?? statistic.freeMargin).toFixed(2);
   const marginLevel = Number((statistic$?.marginLevel ?? statistic.marginLevel) * 100).toFixed(2);
   const openPnL = Number(statistic$?.openPnL ?? statistic.openPnl).toFixed(2);
+
+  useEffect(() => {
+    EventEmitter.on(TRANSACTION_CREATED, statisticQuery.refetch);
+
+    return () => {
+      EventEmitter.off(TRANSACTION_CREATED, statisticQuery.refetch);
+    };
+  }, []);
 
   return (
     <div className="AccountProfileStatistics">

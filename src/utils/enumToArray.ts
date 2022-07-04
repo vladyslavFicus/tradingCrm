@@ -27,6 +27,6 @@
  * </option>
  * ))
  */
-export default enumme => Object.keys(enumme)
+export default <T>(enumme: T) => Object.keys(enumme)
   .filter(value => !!Number.isNaN(+value))
-  .map(key => enumme[key]);
+  .map(key => enumme[key as keyof T]);

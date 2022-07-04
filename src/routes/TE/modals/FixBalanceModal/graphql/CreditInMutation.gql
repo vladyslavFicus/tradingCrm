@@ -1,0 +1,8 @@
+mutation CreditInMutation($accountUuid: String!, $amount: Float!) {
+  tradingEngine {
+    createCreditIn(accountUuid: $accountUuid, amount: $amount) {
+      _id
+      credit
+    }
+  }
+}

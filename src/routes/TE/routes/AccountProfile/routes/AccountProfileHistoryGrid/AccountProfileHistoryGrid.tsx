@@ -8,7 +8,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Modal, Sort, State } from 'types';
 import withModals from 'hoc/withModals';
 import { OrderStatus } from 'types/trading-engine';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
+import EventEmitter, { ORDER_RELOAD, TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
@@ -50,11 +50,13 @@ const AccountProfileHistoryGrid = (props: Props) => {
 
   useEffect(() => {
     EventEmitter.on(ORDER_RELOAD, historyQuery.refetch);
+    EventEmitter.on(TRANSACTION_CREATED, historyQuery.refetch);
 
     return () => {
       EventEmitter.off(ORDER_RELOAD, historyQuery.refetch);
+      EventEmitter.off(TRANSACTION_CREATED, historyQuery.refetch);
     };
-  });
+  }, []);
 
   const { content = [], last = true, totalElements } = historyQuery.data?.tradingEngine.history || {};
 

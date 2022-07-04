@@ -1,0 +1,8 @@
+mutation CreditOutMutation($accountUuid: String!, $amount: Float!) {
+  tradingEngine {
+    createCreditOut(accountUuid: $accountUuid, amount: $amount) {
+      _id
+      credit
+    }
+  }
+}

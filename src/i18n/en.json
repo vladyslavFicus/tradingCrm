@@ -3792,6 +3792,29 @@
           "TITLE": "Existing operator",
           "DESCRIPTION": "Operator exits in another brand. Would you like to add permissions for this operator to have access to Trading Engine?"
         }
+      },
+      "FIX_ORDER_MODAL": {
+        "TITLE": "Balance correction",
+        "LOGIN": "Login",
+        "OPERATION": "Operation",
+        "OPERATIONS": {
+          "CORRECTION_IN": "Correction in",
+          "CORRECTION_OUT": "Correction out",
+          "CREDIT_IN": "Credit in",
+          "CREDIT_OUT": "Credit out"
+        },
+        "AMOUNT": "Amount",
+        "ERRORS": {
+          "ACCOUNT_ARCHIVED": "This account is archived",
+          "ENTER_CORRECT_AMOUNT": "Enter the correct amount"
+        },
+        "ACCOUNT": {
+          "NAME": "Name",
+          "GROUP": "Group",
+          "BALANCE": "Balance",
+          "CREDIT": "Credit",
+          "FREE_MARGIN": "Free margin"
+        }
       }
     },
     "ACCOUNTS": {
@@ -4164,6 +4187,7 @@
       "TITLE": "Account profile",
       "NEW_ORDER": "New order",
       "CREDIT": "Credit",
+      "FIX_BALANCE": "Fix balance",
       "ALLOW_TRADING": "Allow trading",
       "GROUP": "Group",
       "SEARCH": "Search",

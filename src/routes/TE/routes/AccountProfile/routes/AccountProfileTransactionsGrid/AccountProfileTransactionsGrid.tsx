@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { cloneDeep, set } from 'lodash';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import EventEmitter, { TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import { Sort, State } from 'types';
@@ -33,6 +34,14 @@ const AccountProfileTransactionsGrid = () => {
   });
 
   const { content = [], last = true, totalElements } = transactionsQuery.data?.tradingEngine.transactions || {};
+
+  useEffect(() => {
+    EventEmitter.on(TRANSACTION_CREATED, transactionsQuery.refetch);
+
+    return () => {
+      EventEmitter.off(TRANSACTION_CREATED, transactionsQuery.refetch);
+    };
+  }, []);
 
   const handlePageChanged = () => {
     const { data, variables, fetchMore } = transactionsQuery;

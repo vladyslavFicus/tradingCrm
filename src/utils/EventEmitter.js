@@ -37,5 +37,6 @@ export const FILTERS_TOGGLER_IN_VIEWPORT = 'FILTERS_TOGGLER_IN_VIEWPORT';
 // ---- Trading engine events ---- //
 export const ORDER_RELOAD = 'ORDER_RELOAD';
 export const OPERATOR_RELOAD = 'OPERATOR_RELOAD';
+export const TRANSACTION_CREATED = 'TRANSACTION_CREATED';
 
 export default new EventEmitter();

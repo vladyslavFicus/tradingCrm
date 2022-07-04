@@ -179,6 +179,8 @@ export default {
   WE_TRADING: {
     CREDIT_IN: 'we-trading.creditIn',
     CREDIT_OUT: 'we-trading.creditOut',
+    CORRECTION_IN: 'we-trading.correctionIn',
+    CORRECTION_OUT: 'we-trading.correctionOut',
     MANAGER_EDIT_ORDER: 'we-trading.updateOrder',
     ADMIN_EDIT_ORDER: 'we-trading.admin.updateOrder',
     ACCOUNTS_LIST: 'we-trading.findAccounts',
