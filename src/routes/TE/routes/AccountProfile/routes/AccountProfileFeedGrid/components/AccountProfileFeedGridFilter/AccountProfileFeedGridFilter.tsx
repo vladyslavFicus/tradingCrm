@@ -91,6 +91,7 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
             name="auditLogType"
             label={I18n.t(attributeLabels.actionType)}
             component={FormikSelectField}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             className="AccountProfileFeedGridFilter__field"
             withAnyOption
             withFocus
