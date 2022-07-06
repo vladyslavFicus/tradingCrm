@@ -73,6 +73,7 @@ const departments = keyMirror({
   DEALING: null,
   IB: null,
   PAYMENT: null,
+  COMPLETE: null,
 });
 
 const departmentsLabels = {
@@ -95,6 +96,7 @@ const departmentsLabels = {
   [departments.DEALING]: 'CONSTANTS.OPERATORS.DEPARTMENTS.DEALING',
   [departments.IB]: 'CONSTANTS.OPERATORS.DEPARTMENTS.IB',
   [departments.PAYMENT]: 'CONSTANTS.OPERATORS.DEPARTMENTS.PAYMENT',
+  [departments.COMPLETE]: 'CONSTANTS.OPERATORS.DEPARTMENTS.COMPLETE',
 };
 
 const roles = keyMirror({
@@ -110,6 +112,10 @@ const roles = keyMirror({
   AFFILIATE: null,
   PLAYER: null,
   AGENT: null,
+  SALES_LEAD_MANAGER: null,
+  SALES_MANAGER: null,
+  SHIFT_RETENTION: null,
+  SHIFT_SALES: null,
 });
 
 const rolesLabels = {
@@ -125,6 +131,10 @@ const rolesLabels = {
   [roles.AFFILIATE]: 'CONSTANTS.OPERATORS.ROLES.AFFILIATE',
   [roles.PLAYER]: 'CONSTANTS.OPERATORS.ROLES.PLAYER',
   [roles.AGENT]: 'CONSTANTS.OPERATORS.ROLES.AGENT',
+  [roles.SALES_LEAD_MANAGER]: 'CONSTANTS.OPERATORS.ROLES.SALES_LEAD_MANAGER',
+  [roles.SALES_MANAGER]: 'CONSTANTS.OPERATORS.ROLES.SALES_MANAGER',
+  [roles.SHIFT_RETENTION]: 'CONSTANTS.OPERATORS.ROLES.SHIFT_RETENTION',
+  [roles.SHIFT_SALES]: 'CONSTANTS.OPERATORS.ROLES.SHIFT_SALES',
 };
 
 const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';

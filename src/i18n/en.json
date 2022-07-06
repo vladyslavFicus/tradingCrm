@@ -1191,6 +1191,7 @@
         "IB": "IB",
         "RBAC": "RBAC",
         "TE": "Trading Engine",
+        "COMPLETE": "Complete",
         "PAYMENT": "Payment"
       },
       "ROLES": {
@@ -1207,6 +1208,10 @@
         "PLAYER": "Player",
         "AGENT": "Agent",
         "RBAC": "RBAC",
+        "SALES_LEAD_MANAGER": "Sales Lead Manager",
+        "SALES_MANAGER": "Sales Manager",
+        "SHIFT_RETENTION": "Shift Retention",
+        "SHIFT_SALES": "Shift Sales",
         "ADMINISTRATION": "Administration"
       }
     },
