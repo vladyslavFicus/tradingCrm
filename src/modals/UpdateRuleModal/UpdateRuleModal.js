@@ -19,7 +19,7 @@ import RuleSettings from 'components/RuleSettings';
 import RuleSchedule from './components/RuleSchedule';
 import {
   UpdateRuleMutation,
-  OperatorsQuery,
+  OperatorsSubordinatesQuery,
   PartnersQuery,
   RulesQuery,
 } from './graphql';
@@ -37,8 +37,8 @@ class UpdateRuleModal extends PureComponent {
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
     }).isRequired,
-    operatorsQuery: PropTypes.query({
-      operators: PropTypes.pageable(PropTypes.operatorsListEntity),
+    operatorsSubordinatesQuery: PropTypes.query({
+      operatorsSubordinates: PropTypes.arrayOf(PropTypes.operatorsListEntity),
     }).isRequired,
     rulesQuery: PropTypes.query({
       rules: PropTypes.arrayOf(PropTypes.ruleType),
@@ -137,8 +137,8 @@ class UpdateRuleModal extends PureComponent {
     const {
       onCloseModal,
       isOpen,
-      operatorsQuery: {
-        data: operatorsQueryData,
+      operatorsSubordinatesQuery: {
+        data: operatorsSubordinatesData,
       },
       partnersQuery: {
         data: partnersQueryData,
@@ -153,7 +153,7 @@ class UpdateRuleModal extends PureComponent {
       validationSchedulesEnabled,
     } = this.state;
 
-    const operators = operatorsQueryData?.operators?.content || [];
+    const operators = operatorsSubordinatesData?.operatorsSubordinates || [];
     const partners = partnersQueryData?.partners?.content || [];
 
     const {
@@ -281,7 +281,7 @@ export default compose(
   withNotifications,
   withRequests({
     updateRuleMutation: UpdateRuleMutation,
-    operatorsQuery: OperatorsQuery,
+    operatorsSubordinatesQuery: OperatorsSubordinatesQuery,
     partnersQuery: PartnersQuery,
     rulesQuery: RulesQuery,
   }),

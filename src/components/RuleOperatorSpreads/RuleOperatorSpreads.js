@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, FieldArray } from 'formik';
 import PropTypes from 'constants/propTypes';
-import { isSales } from 'constants/hierarchyTypes';
 import { attributeLabels } from 'constants/ruleModal';
 import {
   FormikInputField,
@@ -61,7 +60,6 @@ class RuleOperatorSpreads extends PureComponent {
                     searchable
                   >
                     {operators
-                      .filter(({ hierarchy: { userType } }) => isSales(userType))
                       .map(({ uuid, fullName }) => (
                         <option
                           key={uuid}
