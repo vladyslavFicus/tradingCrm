@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
+import { orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import compose from 'compose-function';
 import { LevelType, Notify } from 'types';
@@ -76,24 +77,28 @@ const GeneralNewOrderForm = (props: Props) => {
       accountUuid: accountUuid as string,
     },
     skip: !accountUuid,
-    onCompleted({ tradingEngine: { symbols } }) {
-      setSymbol(symbols.content[0]?.name);
-      onSymbolChanged(symbols.content[0]?.name);
+    onCompleted({ tradingEngine: { accountSymbols } }) {
+      const sortedAllowedSymbols = orderBy(accountSymbols, ['securityName', 'name'], ['asc', 'asc']);
+
+      setSymbol(sortedAllowedSymbols[0]?.name);
+      onSymbolChanged(sortedAllowedSymbols[0]?.name);
     },
   });
 
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
   const account = accountQuery.data?.tradingEngine.account;
-  const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.symbols.content || [];
+  const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
   const isAccountArchived = !account?.enable;
 
   // Symbol tree to render inside SelectTree component
   const allowedSymbolsTree = useMemo(
     () => {
+      const sortedAllowedSymbols = orderBy(allowedSymbols, ['securityName', 'name'], ['asc', 'asc']);
+
       const result: { [key: string]: Node } = {};
 
-      allowedSymbols.forEach(({ name, description, securityName }) => {
+      sortedAllowedSymbols.forEach(({ name, description, securityName }) => {
         if (!result[securityName]) {
           result[securityName] = {
             label: securityName,

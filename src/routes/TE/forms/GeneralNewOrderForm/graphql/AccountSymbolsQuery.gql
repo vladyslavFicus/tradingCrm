@@ -1,31 +1,20 @@
 query AccountSymbolsQuery($accountUuid: String!) {
   tradingEngine {
-    symbols(args: {
-      accountUuid: $accountUuid
-      page: {
-        size: 1000000
-        sorts: [
-          { column: "securityName", direction: "ASC" }
-          { column: "symbol", direction: "ASC" }
-        ]
-      }
-    }) {
-      content {
-        name
-        description
-        digits
-        symbolType
-        securityName
-        baseCurrency
-        config(accountUuid: $accountUuid) {
-          lotSize
-          lotMin
-          lotStep
-          lotMax
-          bidAdjustment
-          askAdjustment
-          percentage
-        }
+    accountSymbols(accountUuid: $accountUuid) {
+      name
+      description
+      digits
+      symbolType
+      securityName
+      baseCurrency
+      config(accountUuid: $accountUuid) {
+        lotSize
+        lotMin
+        lotStep
+        lotMax
+        bidAdjustment
+        askAdjustment
+        percentage
       }
     }
   }

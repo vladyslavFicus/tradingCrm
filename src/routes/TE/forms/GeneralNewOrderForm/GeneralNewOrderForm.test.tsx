@@ -39,25 +39,23 @@ const apolloMockFactory = (data = {}) => [{
   result: {
     data: {
       tradingEngine: {
-        symbols: {
-          content: [{
-            name: 'EURUSD',
-            description: 'EURUSD description',
-            digits: 5,
-            symbolType: 'FOREX',
-            securityName: 'Forex',
-            baseCurrency: 'EUR',
-            config: {
-              lotSize: 10000,
-              lotMin: 0.01,
-              lotStep: 0.01,
-              lotMax: 100,
-              bidAdjustment: 0,
-              askAdjustment: 0,
-              percentage: 100,
-            },
-          }],
-        },
+        accountSymbols: [{
+          name: 'EURUSD',
+          description: 'EURUSD description',
+          digits: 5,
+          symbolType: 'FOREX',
+          securityName: 'Forex',
+          baseCurrency: 'EUR',
+          config: {
+            lotSize: 10000,
+            lotMin: 0.01,
+            lotStep: 0.01,
+            lotMax: 100,
+            bidAdjustment: 0,
+            askAdjustment: 0,
+            percentage: 100,
+          },
+        }],
         ...data,
       },
     },
@@ -476,25 +474,23 @@ it('Render GeneralNewOrderForm and applying group spread for chosen symbol', asy
   const digits = 5;
 
   const apolloMockResponseData = {
-    symbols: {
-      content: [{
-        name: 'EURUSD',
-        description: 'EURUSD description',
-        digits,
-        symbolType: 'FOREX',
-        securityName: 'Forex',
-        baseCurrency: 'EUR',
-        config: {
-          lotSize: 10000,
-          lotMin: 0.01,
-          lotStep: 0.01,
-          lotMax: 100,
-          percentage: 100,
-          bidAdjustment,
-          askAdjustment,
-        },
-      }],
-    },
+    accountSymbols: [{
+      name: 'EURUSD',
+      description: 'EURUSD description',
+      digits,
+      symbolType: 'FOREX',
+      securityName: 'Forex',
+      baseCurrency: 'EUR',
+      config: {
+        lotSize: 10000,
+        lotMin: 0.01,
+        lotStep: 0.01,
+        lotMax: 100,
+        percentage: 100,
+        bidAdjustment,
+        askAdjustment,
+      },
+    }],
   };
 
   // Act
@@ -654,25 +650,23 @@ it('Render GeneralNewOrderForm and calculate units for CFD symbols', async () =>
   const bid = 1.1548;
 
   const apolloMockResponseData = {
-    symbols: {
-      content: [{
-        name: 'APPLE',
-        description: 'APPLE description',
-        digits: 5,
-        symbolType: 'CFD',
-        securityName: 'Indices',
-        baseCurrency: null,
-        config: {
-          lotSize: 10000,
-          lotMin: 0.01,
-          lotStep: 0.01,
-          lotMax: 100,
-          bidAdjustment: 0,
-          askAdjustment: 0,
-          percentage: 100,
-        },
-      }],
-    },
+    accountSymbols: [{
+      name: 'APPLE',
+      description: 'APPLE description',
+      digits: 5,
+      symbolType: 'CFD',
+      securityName: 'Indices',
+      baseCurrency: null,
+      config: {
+        lotSize: 10000,
+        lotMin: 0.01,
+        lotStep: 0.01,
+        lotMax: 100,
+        bidAdjustment: 0,
+        askAdjustment: 0,
+        percentage: 100,
+      },
+    }],
   };
 
   const rsocketMock = {
