@@ -19,6 +19,7 @@ import { warningLabels } from 'constants/warnings';
 import { filterSetTypes } from 'constants/filterSet';
 import { withStorage } from 'providers/StorageProvider';
 import { withPermission } from 'providers/PermissionsProvider';
+import enumToArray from 'utils/enumToArray';
 import {
   FormikInputField,
   FormikSelectField,
@@ -38,6 +39,7 @@ import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
   activityStatuses,
+  assignStatusesLabels,
   attributeLabels,
   assignStatuses,
   radioSelect,
@@ -138,7 +140,7 @@ class ClientsGridFilter extends PureComponent {
     history.replace({
       state: {
         ...state,
-        filters: null,
+        filters: { assignStatus: assignStatuses.ASSIGNED },
         selectedFilterSet: null,
       },
     });
@@ -182,7 +184,9 @@ class ClientsGridFilter extends PureComponent {
         <Formik
           enableReinitialize
           onSubmit={this.handleSubmit}
-          initialValues={state?.filters || {}}
+          initialValues={state?.filters || {
+            assignStatus: assignStatuses.ASSIGNED,
+          }}
           validate={createValidator({
             searchLimit: ['numeric', 'greater:0', `max:${MAX_SELECTED_CLIENTS}`],
           }, translateLabels(attributeLabels))}
@@ -571,14 +575,12 @@ class ClientsGridFilter extends PureComponent {
                         name="assignStatus"
                         className="ClientsGridFilter__field ClientsGridFilter__select"
                         label={I18n.t(attributeLabels.assignStatus)}
-                        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                         component={FormikSelectField}
-                        withAnyOption
                         withFocus
                       >
-                        {assignStatuses.map(({ value, label }) => (
+                        {enumToArray(assignStatuses).map(value => (
                           <option key={value} value={value}>
-                            {I18n.t(label)}
+                            {I18n.t(assignStatusesLabels[value])}
                           </option>
                         ))}
                       </Field>

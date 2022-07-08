@@ -69,16 +69,15 @@ const acquisitionStatuses = [
   },
 ];
 
-const assignStatuses = [
-  {
-    value: 'ASSIGNED',
-    label: 'COMMON.ASSIGN',
-  },
-  {
-    value: 'UNASSIGNED',
-    label: 'COMMON.UN_ASSIGN',
-  },
-];
+const assignStatuses = {
+  ASSIGNED: 'ASSIGNED',
+  UNASSIGNED: 'UNASSIGNED',
+};
+
+const assignStatusesLabels = {
+  ASSIGNED: 'COMMON.ASSIGN',
+  UNASSIGNED: 'COMMON.UN_ASSIGN',
+};
 
 const defaultColumns = [
   'firstName', 'warning', 'lastActivityDate', 'addressCountryCode', 'balance', 'depositsCount', 'affiliateReferrer',
@@ -91,6 +90,7 @@ export {
   activityStatuses,
   attributeLabels,
   assignStatuses,
+  assignStatusesLabels,
   radioSelect,
   defaultColumns,
 };

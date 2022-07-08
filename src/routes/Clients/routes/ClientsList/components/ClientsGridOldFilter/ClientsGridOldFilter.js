@@ -18,6 +18,7 @@ import { kycStatusesLabels } from 'constants/kycStatuses';
 import { warningLabels } from 'constants/warnings';
 import { filterSetTypes } from 'constants/filterSet';
 import { withStorage } from 'providers/StorageProvider';
+import enumToArray from 'utils/enumToArray';
 import {
   FormikInputField,
   FormikSelectField,
@@ -38,6 +39,7 @@ import {
   activityStatuses,
   attributeLabels,
   assignStatuses,
+  assignStatusesLabels,
   radioSelect,
 } from '../../constants';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
@@ -142,7 +144,7 @@ class ClientsGridOldFilter extends PureComponent {
     history.replace({
       state: {
         ...state,
-        filters: null,
+        filters: { assignStatus: assignStatuses.ASSIGNED },
         selectedFilterSet: null,
       },
     });
@@ -186,7 +188,9 @@ class ClientsGridOldFilter extends PureComponent {
         <Formik
           enableReinitialize
           onSubmit={this.handleSubmit}
-          initialValues={state?.filters || {}}
+          initialValues={state?.filters || {
+            assignStatus: assignStatuses.ASSIGNED,
+          }}
           validate={createValidator({
             searchLimit: ['numeric', 'greater:0', `max:${MAX_SELECTED_CLIENTS}`],
           }, translateLabels(attributeLabels))}
@@ -543,12 +547,11 @@ class ClientsGridOldFilter extends PureComponent {
                         label={I18n.t(attributeLabels.assignStatus)}
                         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                         component={FormikSelectField}
-                        withAnyOption
                         withFocus
                       >
-                        {assignStatuses.map(({ value, label }) => (
+                        {enumToArray(assignStatuses).map(value => (
                           <option key={value} value={value}>
-                            {I18n.t(label)}
+                            {I18n.t(assignStatusesLabels[value])}
                           </option>
                         ))}
                       </Field>
