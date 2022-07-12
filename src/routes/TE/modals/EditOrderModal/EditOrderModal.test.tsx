@@ -364,10 +364,10 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
   expect(screen.getByLabelText('Symbol')).toBeDisabled();
   expect(screen.getByLabelText('Symbol')).toHaveValue(symbol);
   expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
-  expect(screen.getByLabelText('Open conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open conversation rate')).toHaveValue(openRate);
-  expect(screen.getByLabelText('Close conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close conversation rate')).toHaveValue(closeRate);
+  expect(screen.getByLabelText('Open rate')).toBeDisabled();
+  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
+  expect(screen.getByLabelText('Close rate')).toBeDisabled();
+  expect(screen.getByLabelText('Close rate')).toHaveValue(closeRate);
 });
 
 it('Render EditOrderModal with cancel order permission for OPEN order', async () => {
@@ -612,10 +612,10 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
   expect(screen.getByLabelText('Close time')).toHaveValue(
     moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
   );
-  expect(screen.getByLabelText('Open conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open conversation rate')).toHaveValue(openRate);
-  expect(screen.getByLabelText('Close conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close conversation rate')).toHaveValue(order.closeRate);
+  expect(screen.getByLabelText('Open rate')).toBeDisabled();
+  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
+  expect(screen.getByLabelText('Close rate')).toBeDisabled();
+  expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeEnabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeEnabled();
@@ -1082,10 +1082,10 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
   expect(screen.getByLabelText('Take profit')).toHaveValue(takeProfit);
   expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Close time')).not.toBeInTheDocument();
-  expect(screen.getByLabelText('Open conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open conversation rate')).toHaveValue(openRate);
-  expect(screen.getByLabelText('Close conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close conversation rate')).toHaveValue(order.closeRate);
+  expect(screen.getByLabelText('Open rate')).toBeDisabled();
+  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
+  expect(screen.getByLabelText('Close rate')).toBeDisabled();
+  expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeDisabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeDisabled();
@@ -1290,10 +1290,10 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
   expect(screen.getByLabelText('Close time')).toHaveValue(
     moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
   );
-  expect(screen.getByLabelText('Open conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open conversation rate')).toHaveValue(openRate);
-  expect(screen.getByLabelText('Close conversation rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close conversation rate')).toHaveValue(order.closeRate);
+  expect(screen.getByLabelText('Open rate')).toBeDisabled();
+  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
+  expect(screen.getByLabelText('Close rate')).toBeDisabled();
+  expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeDisabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeDisabled();
