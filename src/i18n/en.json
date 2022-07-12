@@ -1414,7 +1414,13 @@
       "AWAITING_DEPOSIT": "Awaiting deposit",
       "IN_THE_MONEY": "In the money",
       "BURNED": "Burned",
-      "MONEY_CALL": "Money call"
+      "MONEY_CALL": "Money call",
+      "DUPLICATE": "Duplicate",
+      "FRAUD_CLIENT": "Fraud client",
+      "WORKING": "Working",
+      "WORKING_HP": "Working HP",
+      "FLIPPED": "Flipped",
+      "NOT_REACHABLE": "Not reachable"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
