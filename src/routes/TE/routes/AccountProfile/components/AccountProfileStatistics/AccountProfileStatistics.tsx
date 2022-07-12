@@ -41,7 +41,7 @@ const AccountProfileStatistics = (props: Props) => {
   const freeMargin = Number(statistic$?.freeMargin ?? statistic.freeMargin).toFixed(2);
   const marginLevel = Number((statistic$?.marginLevel ?? statistic.marginLevel) * 100).toFixed(2);
   const openPnL = Number(statistic$?.openPnL ?? statistic.openPnl).toFixed(2);
-  const closedPnL = Number(statistic$?.closedPnL ?? statistic.closedPnl).toFixed(2);
+  const closedPnL = Number(statistic$?.closedPnL ?? statistic.closedPnL).toFixed(2);
 
   useEffect(() => {
     EventEmitter.on(TRANSACTION_CREATED, statisticQuery.refetch);
