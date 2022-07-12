@@ -18,6 +18,7 @@ type Props = {
       marginLevel: number,
       equity: number,
       openPnL: number,
+      closedPnL: number,
     },
   },
 };
@@ -40,6 +41,7 @@ const AccountProfileStatistics = (props: Props) => {
   const freeMargin = Number(statistic$?.freeMargin ?? statistic.freeMargin).toFixed(2);
   const marginLevel = Number((statistic$?.marginLevel ?? statistic.marginLevel) * 100).toFixed(2);
   const openPnL = Number(statistic$?.openPnL ?? statistic.openPnl).toFixed(2);
+  const closedPnL = Number(statistic$?.closedPnL ?? statistic.closedPnl).toFixed(2);
 
   useEffect(() => {
     EventEmitter.on(TRANSACTION_CREATED, statisticQuery.refetch);
@@ -154,6 +156,18 @@ const AccountProfileStatistics = (props: Props) => {
             })}
             >
               {openPnL !== 'NaN' ? openPnL : '...'}
+            </span>
+          </div>
+          <div>
+            <strong>
+              {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATISTICS.CLOSED_PnL')}:&nbsp;
+            </strong>
+            <span className={classNames({
+              'AccountProfileStatistics__value--positive': Number(closedPnL) > 0,
+              'AccountProfileStatistics__value--negative': Number(closedPnL) < 0,
+            })}
+            >
+              {closedPnL !== 'NaN' ? closedPnL : '...'}
             </span>
           </div>
         </div>

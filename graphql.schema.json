@@ -30932,6 +30932,18 @@
             "deprecationReason": null
           },
           {
+            "name": "closedPnl",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "withdrawalsSum",
             "description": null,
             "args": [],

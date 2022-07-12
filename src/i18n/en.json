@@ -4249,7 +4249,8 @@
           "MARGIN": "Margin",
           "FREE_MARGIN": "Free margin",
           "MARGIN_LEVEL": "Margin level",
-          "OPEN_PnL": "Net open P/L"
+          "OPEN_PnL": "Net open P/L",
+          "CLOSED_PnL": "Net closed P/L"
         },
         "HEADLINE": "Orders",
         "GRID": {

@@ -219,6 +219,7 @@ PropTypes.tradingEngineAccountStatistic = PropTypes.shape({
   marginLevel: PropTypes.number.isRequired,
   equity: PropTypes.number.isRequired,
   openPnl: PropTypes.number.isRequired,
+  closedPnl: PropTypes.number.isRequired,
 });
 
 PropTypes.paymentMethodLimit = PropTypes.shape({

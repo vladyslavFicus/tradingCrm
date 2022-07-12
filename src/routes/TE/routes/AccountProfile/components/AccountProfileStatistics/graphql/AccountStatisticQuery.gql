@@ -12,6 +12,7 @@ query AccountStatisticQuery($accountUuid: String!) {
       marginLevel
       equity
       openPnl
+      closedPnL
     }
   }
 }
