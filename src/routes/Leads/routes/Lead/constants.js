@@ -1,6 +1,13 @@
+import Permissions from 'utils/permissions';
+import permissions from 'config/permissions';
+
 const leadTabs = [{
   label: 'LEAD_PROFILE.TABS.PROFILE',
   url: '/leads/:id/profile',
+}, {
+  url: '/leads/:id/call-history',
+  label: 'LEAD_PROFILE.TABS.CALL_HISTORY',
+  permissions: new Permissions(permissions.CALL_HISTORY.LIST),
 }, {
   label: 'LEAD_PROFILE.TABS.NOTES',
   url: '/leads/:id/notes',

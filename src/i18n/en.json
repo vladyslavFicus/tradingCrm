@@ -3108,6 +3108,21 @@
       "PROMOTE_TO_CLIENT": "Promote to client",
       "REGISTERED": "Registered"
     },
+    "CALL_HISTORY": {
+      "GRID": {
+        "FILTERS": {
+          "SEARCH_BY": "Search By",
+          "SEARCH_BY_PLACEHOLDER": "Operator ID",
+          "CALL_SYSTEM": "VoIP",
+          "DATE_RANGE": "Date & time range"
+        },
+        "HEADER": {
+          "CALL_DATE": "Date and Time",
+          "VOIP": "VoIP",
+          "OPERATOR": "Operator"
+        }
+      }
+    },
     "DETAILS": {
       "PERSONAL_INFORMATION": "Personal details",
       "EMAIL": "Email",
@@ -3147,7 +3162,8 @@
     "TABS": {
       "PROFILE": "Profile",
       "NOTES": "Notes",
-      "FEEDS": "Feeds"
+      "FEEDS": "Feeds",
+      "CALL_HISTORY": "Call history"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",
