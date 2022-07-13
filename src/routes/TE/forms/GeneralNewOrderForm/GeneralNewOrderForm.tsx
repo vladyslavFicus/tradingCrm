@@ -79,9 +79,11 @@ const GeneralNewOrderForm = (props: Props) => {
     skip: !accountUuid,
     onCompleted({ tradingEngine: { accountSymbols } }) {
       const sortedAllowedSymbols = orderBy(accountSymbols, ['securityName', 'name'], ['asc', 'asc']);
+      const defaultSymbol = accountSymbols.find(_symbol => _symbol.name === 'EURUSD');
+      const firstSymbol = sortedAllowedSymbols[0];
 
-      setSymbol(sortedAllowedSymbols[0]?.name);
-      onSymbolChanged(sortedAllowedSymbols[0]?.name);
+      setSymbol(defaultSymbol?.name || firstSymbol?.name);
+      onSymbolChanged(defaultSymbol?.name || firstSymbol?.name);
     },
   });
 
@@ -177,7 +179,11 @@ const GeneralNewOrderForm = (props: Props) => {
 
       // Reset form after submission
       formikHelpers.resetForm();
-      setSymbol(allowedSymbols[0]?.name);
+      const defaultSymbol = allowedSymbols.find(_symbol => _symbol.name === 'EURUSD');
+      const sortedAllowedSymbols = orderBy(allowedSymbols, ['securityName', 'name'], ['asc', 'asc']);
+      const firstSymbol = sortedAllowedSymbols[0];
+
+      setSymbol(defaultSymbol?.name || firstSymbol?.name);
 
       onSuccess();
 

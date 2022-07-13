@@ -78,10 +78,12 @@ const SmartPnLForm = (props: Props) => {
     },
     skip: !accountUuid,
     onCompleted({ tradingEngine: { accountSymbols } }) {
+      const defaultSymbol = accountSymbols.find(_symbol => _symbol.name === 'EURUSD');
       const sortedAllowedSymbols = orderBy(accountSymbols, ['securityName', 'name'], ['asc', 'asc']);
+      const firstSymbol = sortedAllowedSymbols[0];
 
-      setSymbol(sortedAllowedSymbols[0]?.name);
-      onSymbolChanged(sortedAllowedSymbols[0]?.name);
+      setSymbol(defaultSymbol?.name || firstSymbol?.name);
+      onSymbolChanged(defaultSymbol?.name || firstSymbol?.name);
     },
   });
 
