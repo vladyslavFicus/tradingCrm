@@ -143,27 +143,27 @@ const AccountProfileHeader = (props: Props) => {
           </Button>
         </PermissionContent>
 
+        <PermissionContent
+          permissions={[
+            permissions.WE_TRADING.CREDIT_IN,
+            permissions.WE_TRADING.CREDIT_OUT,
+            permissions.WE_TRADING.CORRECTION_IN,
+            permissions.WE_TRADING.CORRECTION_OUT,
+          ]}
+          permissionsCondition={CONDITIONS.OR}
+        >
+          <Button
+            className="AccountProfileHeader__action"
+            onClick={handleFixBalanceClick}
+            commonOutline
+            small
+          >
+            {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FIX_BALANCE')}
+          </Button>
+        </PermissionContent>
+
         {/* New order creation is possible only for active account */}
         <If condition={enable}>
-          <PermissionContent
-            permissions={[
-              permissions.WE_TRADING.CREDIT_IN,
-              permissions.WE_TRADING.CREDIT_OUT,
-              permissions.WE_TRADING.CORRECTION_IN,
-              permissions.WE_TRADING.CORRECTION_OUT,
-            ]}
-            permissionsCondition={CONDITIONS.OR}
-          >
-            <Button
-              className="AccountProfileHeader__action"
-              onClick={handleFixBalanceClick}
-              commonOutline
-              small
-            >
-              {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FIX_BALANCE')}
-            </Button>
-          </PermissionContent>
-
           <PermissionContent permissions={permissions.WE_TRADING.CREATE_ORDER}>
             {/* Hotkey on F9 button to open new order modal */}
             <Hotkeys

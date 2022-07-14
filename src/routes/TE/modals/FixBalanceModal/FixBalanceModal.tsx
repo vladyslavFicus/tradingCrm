@@ -155,11 +155,6 @@ const FixBalanceModal = (props: Props) => {
             <ModalBody>
               <div className="FixBalanceModal__inner-wrapper">
                 <div className="FixBalanceModal__form">
-                  <If condition={!!account && !account?.enable}>
-                    <div className="FixBalanceModal__error">
-                      {I18n.t('TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.ERRORS.ACCOUNT_ARCHIVED')}
-                    </div>
-                  </If>
                   <Choose>
                     <When condition={accountQuery.loading}>
                       <div className="FixBalanceModal__field-container">
@@ -168,7 +163,7 @@ const FixBalanceModal = (props: Props) => {
                         </div>
                       </div>
                     </When>
-                    <When condition={!!account && account.enable}>
+                    <When condition={!!account}>
                       <div className="FixBalanceModal__field-container">
                         <div className="FixBalanceModal__account">
                           <div>
@@ -229,7 +224,7 @@ const FixBalanceModal = (props: Props) => {
                       name="operation"
                       label={I18n.t('TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.OPERATION')}
                       className="FixBalanceModal__field"
-                      disabled={accountQuery.loading || !account?.enable}
+                      disabled={accountQuery.loading}
                       component={FormikSelectField}
                     >
                       {allowedOperations.map(operation => (
@@ -250,7 +245,7 @@ const FixBalanceModal = (props: Props) => {
                       max={1000000}
                       component={FormikInputField}
                       className="FixBalanceModal__field"
-                      disabled={accountQuery.loading || !account?.enable}
+                      disabled={accountQuery.loading}
                     />
                   </div>
                 </div>

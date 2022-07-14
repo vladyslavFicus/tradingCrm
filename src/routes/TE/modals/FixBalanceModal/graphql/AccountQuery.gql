@@ -8,7 +8,6 @@ query AccountQuery($identifier: String!) {
       credit
       balance
       accountType
-      enable
       statistic {
         freeMargin
       }
