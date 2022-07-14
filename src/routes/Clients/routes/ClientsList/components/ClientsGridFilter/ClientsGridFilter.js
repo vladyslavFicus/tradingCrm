@@ -173,6 +173,7 @@ class ClientsGridFilter extends PureComponent {
       acquisitionStatusesQuery: { loading: isAcquisitionStatusesLoading },
     } = this.props;
 
+    const offices = desksAndTeamsQuery.data?.userBranches?.OFFICE || [];
     const desks = desksAndTeamsQuery.data?.userBranches?.DESK || [];
     const teams = desksAndTeamsQuery.data?.userBranches?.TEAM || [];
     const partners = partnersQuery.data?.partners?.content || [];
@@ -193,6 +194,9 @@ class ClientsGridFilter extends PureComponent {
         >
           {({ values, setValues, handleSubmit, isSubmitting, dirty }) => {
             const desksUuids = values.desks || [];
+            const officesUuids = values.offices || [];
+            const desksByOffices = desks.filter(desk => officesUuids.includes(desk.parentBranch?.uuid));
+            const desksOptions = officesUuids.length ? desksByOffices : desks;
             const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
             const teamsOptions = desksUuids.length ? teamsByDesks : teams;
             const operatorsOptions = this.filterOperators(values);
@@ -267,6 +271,7 @@ class ClientsGridFilter extends PureComponent {
                         lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
                         lastCallDateRange: I18n.t(attributeLabels.lastCallDateRange),
                         searchLimit: I18n.t(attributeLabels.searchLimit),
+                        offices: I18n.t(attributeLabels.offices),
                       }}
                     />
                   </>
@@ -362,23 +367,40 @@ class ClientsGridFilter extends PureComponent {
                     </Field>
 
                     <Field
+                      name="offices"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.offices)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withFocus
+                      multiple
+                      searchable
+                    >
+                      {offices.map(({ name, uuid }) => (
+                        <option key={uuid} value={uuid}>
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
                       name="desks"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
                       label={I18n.t(attributeLabels.desks)}
                       placeholder={
                         I18n.t(
-                          (!isDesksAndTeamsLoading && desks.length === 0)
+                          (!isDesksAndTeamsLoading && desksOptions.length === 0)
                             ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
                       component={FormikSelectField}
-                      disabled={isDesksAndTeamsLoading || desks.length === 0}
+                      disabled={isDesksAndTeamsLoading || desksOptions.length === 0}
                       searchable
                       withFocus
                       multiple
                     >
-                      {desks.map(({ uuid, name }) => (
+                      {desksOptions.map(({ uuid, name }) => (
                         <option key={uuid} value={uuid}>{name}</option>
                       ))}
                     </Field>
