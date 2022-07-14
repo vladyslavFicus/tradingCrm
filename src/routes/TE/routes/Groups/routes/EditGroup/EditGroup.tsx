@@ -93,14 +93,13 @@ const EditGroup = (props: Props) => {
     } catch (e) {
       const errors = parseErrors(e);
 
-      const securities = Object.keys(errors.errorParameters);
+      const groupEditErrorMessage = Object.keys(errors.errorParameters);
 
       // Open confirmation modal to confirm force closing orders
-      if (errors.error === 'error.group-security.has.opened.orders') {
+      if (errors.error === 'error.group-relations.have.opened.orders') {
         confirmationModal.show({
           actionText: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.FAILED_ORDERS_EXIST', {
-            securities: securities.join(', '),
-            count: securities.length,
+            data: groupEditErrorMessage.join(', '),
           }),
           submitButtonLabel: I18n.t('COMMON.YES'),
           cancelButtonLabel: I18n.t('COMMON.NO'),
