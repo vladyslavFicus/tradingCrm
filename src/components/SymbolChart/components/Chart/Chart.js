@@ -112,6 +112,10 @@ class Chart extends PureComponent {
     this.bidLine.applyOptions({ priceFormat });
     this.askLine.applyOptions({ priceFormat });
 
+    // Clear state before applying new data on chart
+    this.askLine.setData([]);
+    this.bidLine.setData([]);
+
     // We need to use render N-times and use instruments for real-time update chart instead of this.bidLine.setData(...)
     // because it doesn't work correctly with ticks more often than 1 per second.
     chartData.forEach((tick) => {
