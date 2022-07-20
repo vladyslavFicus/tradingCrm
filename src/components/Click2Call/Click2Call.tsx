@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { debounce } from 'lodash';
-import { StatefulToolTip } from 'react-portal-tooltip';
+import ToolTip from 'react-portal-tooltip';
 import jwtDecode from 'jwt-decode';
+import classNames from 'classnames';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import {
@@ -24,6 +25,7 @@ import newtelIcon from './icons/newtel.png';
 import commpeakIcon from './icons/commpeak.png';
 import coperatoIcon from './icons/coperato.png';
 import clearvoiceIcon from './icons/clearvoice.png';
+import callstartedIcon from './icons/callstarted.png';
 import './Click2Call.scss';
 
 const ICONS: Record<CallSystem, string> = {
@@ -80,8 +82,13 @@ const Click2Call = (props: Props) => {
   };
 
   // ===== Handlers ===== //
+  const [disabled, setDisabled] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const handleCreateCall = (callSystem: CallSystem, options?: ProviderOptionsType) => debounce(async () => {
     const { prefix = '' } = options || {};
+
+    setDisabled(true);
+    setTimeout(() => { setDisabled(false); }, 3000);
 
     try {
       switch (callSystem) {
@@ -106,6 +113,7 @@ const Click2Call = (props: Props) => {
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
+      setDisabled(false);
     }
   }, 3000, { leading: true, trailing: false });
 
@@ -115,65 +123,85 @@ const Click2Call = (props: Props) => {
         <CircleLoader className="Click2Call__loader" size={18} />
       </When>
       <When condition={configs.length > 0}>
-        <StatefulToolTip
-          parent={<PhoneSVG className="Click2Call__icon" />}
+        <PhoneSVG
+          id="PhoneSVG"
+          className="Click2Call__icon"
+          // Use this method because have trouble with ToolTip and we need here MouseEvent for re-render
+          onMouseEnter={() => setIsActive(true)}
+          onMouseLeave={() => setIsActive(false)}
+        />
+        <ToolTip
+          parent="#PhoneSVG"
           position="right"
           arrow="top"
           style={TOOLTIP_STYLE}
+          active={isActive}
         >
-          <div className="Click2Call__submenu">
-            {configs.map(({ callSystem, prefixes }) => (
-              <Choose>
-                {/* Show DIDLOGIC call system without prefixes */}
-                <When condition={callSystem === CallSystem.DIDLOGIC}>
-                  <div
-                    key={callSystem}
-                    className="Click2Call__submenu-item"
-                    onClick={handleCreateCall(callSystem)}
-                  >
-                    <img src={ICONS[callSystem]} alt="" />
-                  </div>
-                </When>
+          <div
+            // Use this method because have trouble with ToolTip and we need here MouseEvent for re-render
+            onMouseEnter={() => setIsActive(true)}
+            onMouseLeave={() => setIsActive(false)}
+            className={classNames('Click2Call__submenu', { 'Click2Call__submenu--disabled': disabled })}
+          >
+            <Choose>
+              <When condition={!disabled}>
+                {configs.map(({ callSystem, prefixes }) => (
+                  <Choose>
+                    {/* Show DIDLOGIC call system without prefixes */}
+                    <When condition={callSystem === CallSystem.DIDLOGIC}>
+                      <div
+                        key={callSystem}
+                        className="Click2Call__submenu-item"
+                        onClick={handleCreateCall(callSystem)}
+                      >
+                        <img src={ICONS[callSystem]} alt="" />
+                      </div>
+                    </When>
 
-                {/* Show link to make a call in OS by tel protocol for CLEAR VOICE call system */}
-                <When condition={callSystem === CallSystem.CLEAR_VOICE}>
-                  <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
-                    <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
-                    <div className="Click2Call__submenu-item-prefixes">
-                      {prefixes.map(({ label, prefix }, index) => (
-                        <a
-                          key={`${prefix}-${index}`}
-                          className="Click2Call__submenu-item-prefix"
-                          href={getClearVoiceUrl(prefix)}
-                        >
-                          {label}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </When>
+                    {/* Show link to make a call in OS by tel protocol for CLEAR VOICE call system */}
+                    <When condition={callSystem === CallSystem.CLEAR_VOICE}>
+                      <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
+                        <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
+                        <div className="Click2Call__submenu-item-prefixes">
+                          {prefixes.map(({ label, prefix }, index) => (
+                            <a
+                              key={`${prefix}-${index}`}
+                              className="Click2Call__submenu-item-prefix"
+                              href={getClearVoiceUrl(prefix)}
+                            >
+                              {label}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </When>
 
-                {/* Other call systems */}
-                <Otherwise>
-                  <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
-                    <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
-                    <div className="Click2Call__submenu-item-prefixes">
-                      {prefixes.map(({ label, prefix }, index) => (
-                        <span
-                          key={`${prefix}-${index}`}
-                          className="Click2Call__submenu-item-prefix"
-                          onClick={handleCreateCall(callSystem, { prefix })}
-                        >
-                          {label}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Otherwise>
-              </Choose>
-            ))}
+                    {/* Other call systems */}
+                    <Otherwise>
+                      <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
+                        <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
+                        <div className="Click2Call__submenu-item-prefixes">
+                          {prefixes.map(({ label, prefix }, index) => (
+                            <span
+                              key={`${prefix}-${index}`}
+                              className="Click2Call__submenu-item-prefix"
+                              onClick={handleCreateCall(callSystem, { prefix })}
+                            >
+                              {label}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </Otherwise>
+                  </Choose>
+                ))}
+              </When>
+              <When condition={disabled}>
+                <img src={callstartedIcon} alt="Call Started" />
+              </When>
+            </Choose>
           </div>
-        </StatefulToolTip>
+        </ToolTip>
       </When>
     </Choose>
   );

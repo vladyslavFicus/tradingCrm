@@ -5,6 +5,13 @@
 
   &__submenu {
     width: 300px;
+    
+    &--disabled {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 520px;
+    }
   }
 
   &__submenu-item {
