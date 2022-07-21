@@ -361,10 +361,6 @@ export default [
             action: 'backoffice-graphql.profile.field.email',
             state: false,
           },
-          edit: {
-            action: 'profile.admin.updateProfileEmail',
-            state: false,
-          },
         },
       },
       // Additional email
