@@ -11,6 +11,7 @@ import ShortLoader from 'components/ShortLoader';
 import AccountProfileHeader from './components/AccountProfileHeader';
 import AccountProfileStatus from './components/AccountProfileStatus';
 import AccountProfileGroup from './components/AccountProfileGroup';
+import AccountProfileCurrency from './components/AccountProfileCurrency';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
 import AccountProfileRegistered from './components/AccountProfileRegistered';
 import AccountProfileStatistics from './components/AccountProfileStatistics';
@@ -58,6 +59,7 @@ const AccountProfile = (props: Props) => {
             <div className="AccountProfile__info">
               <AccountProfileStatus account={account} />
               <AccountProfileGroup account={account} />
+              <AccountProfileCurrency account={account} />
               <AccountProfileLeverage account={account} />
               <AccountProfileRegistered account={account} />
             </div>

@@ -4223,6 +4223,7 @@
       "SEARCH": "Search",
       "LEVERAGE": "Leverage",
       "REGISTERED": "Registered",
+      "CURRENCY": "Currency",
       "DISABLE": "Disable",
       "ENABLE": "Enable",
       "ACCOUNT_HAS_OPEN_ORDERS": "This account has open orders on it. If you change the group all these orders will be closed to zero. Do you really want to proceed?",
