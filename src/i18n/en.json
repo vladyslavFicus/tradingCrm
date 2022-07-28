@@ -1137,7 +1137,12 @@
         "WHITELIST_IP_DELETED": "IP address deleted",
         "WHITELIST_IP_UPDATED": "IP address updated",
         "PLAYER_PROFILE_DEPOSIT_AVAILABILITY_CHANGED": "Deposit availability changed",
-        "TRADING_ACCOUNT_STATUS_CHANGED": "Trading account status changed"
+        "TRADING_ACCOUNT_STATUS_CHANGED": "Trading account status changed",
+        "OPERATOR_AUTHORITY_ADDED": "Operator - Authority added",
+        "OPERATOR_AUTHORITY_DELETED": "Operator - Authority deleted",
+        "OPERATOR_TYPE_UPDATED": "Hierarchy changed",
+        "OPERATOR_BRANCH_ADDED": "Operator - Branch added",
+        "OPERATOR_BRANCH_DELETED": "Operator - Branch deleted"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
