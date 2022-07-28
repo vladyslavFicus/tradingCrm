@@ -144,7 +144,7 @@ class ClientsGridOldFilter extends PureComponent {
     history.replace({
       state: {
         ...state,
-        filters: { assignStatus: assignStatuses.ASSIGNED },
+        filters: null,
         selectedFilterSet: null,
       },
     });
@@ -188,9 +188,7 @@ class ClientsGridOldFilter extends PureComponent {
         <Formik
           enableReinitialize
           onSubmit={this.handleSubmit}
-          initialValues={state?.filters || {
-            assignStatus: assignStatuses.ASSIGNED,
-          }}
+          initialValues={state?.filters || {}}
           validate={createValidator({
             searchLimit: ['numeric', 'greater:0', `max:${MAX_SELECTED_CLIENTS}`],
           }, translateLabels(attributeLabels))}
@@ -543,10 +541,11 @@ class ClientsGridOldFilter extends PureComponent {
                     >
                       <Field
                         name="assignStatus"
-                        className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
+                        className="ClientsGridFilter__field ClientsGridFilter__select"
                         label={I18n.t(attributeLabels.assignStatus)}
                         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                         component={FormikSelectField}
+                        withAnyOption
                         withFocus
                       >
                         {enumToArray(assignStatuses).map(value => (

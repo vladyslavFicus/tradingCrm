@@ -2,7 +2,6 @@ import React from 'react';
 import { Query } from '@apollo/client/react/components';
 import { gql } from '@apollo/client';
 import PropTypes from 'constants/propTypes';
-import { assignStatuses } from '../constants';
 
 const REQUEST = gql`query ClientsList_ClientsQuery(
   $args: ClientSearch__Input
@@ -115,8 +114,6 @@ const ClientsQuery = ({ children, location: { state } }) => {
       variables={{
         args: {
           ...filters,
-          // crutch to cast  assign status 'assigned' to 'undefined' because BE logic
-          assignStatus: filters?.assignStatus === assignStatuses.ASSIGNED ? undefined : filters?.assignStatus,
           page: {
             from: 0,
             size,
