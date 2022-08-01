@@ -3442,7 +3442,8 @@
         "STATUS_SINCE": "since",
         "CREATED": "Created",
         "UPDATED": "Updated",
-        "LAST_EXECUTION": "Last time executed"
+        "LAST_EXECUTION": "Last time executed",
+        "ACTION": "Action"
       },
       "STATUS": {
         "ACTIVE": "Active",

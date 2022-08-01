@@ -7,11 +7,15 @@ import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from
 import { LevelType, Notify } from 'types';
 import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
+import { Button } from 'components/UI';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatuses } from '__generated__/types';
 import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import { DistributionRuleType } from '../../DistributionRule';
 import { useDistributionRuleUpdateStatus } from './graphql/__generated__/DistributionRuleUpdateStatusMutation';
+import { useDistributionRuleMigrationMutation } from './graphql/__generated__/DistributionRuleMigrationMutation';
+import { ReactComponent as PlayIcon } from './play-icon.svg';
 import './DistributionRuleInfo.scss';
+
 
 type Props = {
   notify: Notify,
@@ -28,10 +32,12 @@ const DistributionRuleInfo = (props: Props) => {
       createdAt,
       updatedAt,
       latestMigration,
+      executionType,
     },
   } = props;
 
   const [updateRuleStatus] = useDistributionRuleUpdateStatus();
+  const [startMigrationRule] = useDistributionRuleMigrationMutation();
 
   // ===== Handlers ===== //
   const handleUpdateRuleStatus = async (ruleStatus: DistributionRuleStatuses) => {
@@ -74,6 +80,25 @@ const DistributionRuleInfo = (props: Props) => {
       </div>
     </div>
   );
+
+  const handleStartMigration = async () => {
+    try {
+      await startMigrationRule({ variables: { uuid } });
+
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_SUCCESSFUL'),
+      });
+    } catch (e) {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ERROR'),
+      });
+    }
+  };
+
 
   return (
     <div className="DistributionRuleInfo">
@@ -128,6 +153,18 @@ const DistributionRuleInfo = (props: Props) => {
       </If>
       <If condition={!!latestMigration?.startDate}>
         {renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.LAST_EXECUTION'), latestMigration?.startDate || '')}
+      </If>
+      <If condition={status === DistributionRuleStatuses.ACTIVE && executionType === 'MANUAL'}>
+        <Button
+          transparent
+          className="DistributionRuleInfo__action"
+          onClick={handleStartMigration}
+        >
+          <div className="DistributionRuleInfo__item-label">
+            {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.ACTION')}
+          </div>
+          <PlayIcon className="DistributionRulesList__actions-icon" />
+        </Button>
       </If>
     </div>
   );

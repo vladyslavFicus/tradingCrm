@@ -83,4 +83,12 @@
       }
     }
   }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0px 10px 12px;
+    flex-direction: column;
+  }
 }
