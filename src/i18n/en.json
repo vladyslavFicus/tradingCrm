@@ -3745,6 +3745,14 @@
           "CANCEL_FAILED": "Deal cancel failed"
         }
       },
+      "CLOSE_ORDER": {
+        "TITLE": "Close order ",
+        "DESCRIPTION": "Do you really want to close order #{{id}} {{direction}} {{symbol}} using market price?",
+        "NOTIFICATION": {
+          "CLOSE_SUCCESS": "Deal has been successfully closed",
+          "CLOSE_FAILED": "Deal close failed"
+        }
+      },
       "NEW_SECURITY_MODAL": {
         "TITLE": "New Security",
         "NAME": "Name",
@@ -4155,7 +4163,8 @@
         "COMMISSION": "Commission",
         "PNL": "P/L",
         "GROUP": "Group",
-        "INSTRUMENT_CONFIGURATION_PROBLEM": "Instrument configuration problem"
+        "INSTRUMENT_CONFIGURATION_PROBLEM": "Instrument configuration problem",
+        "ACTIONS": "Actions"
       },
       "STATUSES": {
         "OPEN": "Open",

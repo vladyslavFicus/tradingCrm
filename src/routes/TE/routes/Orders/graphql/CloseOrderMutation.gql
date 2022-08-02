@@ -1,0 +1,5 @@
+mutation CloseOrderMutation($orderId: Int!) {
+  tradingEngine {
+    closeOrder(orderId: $orderId)
+  }
+}

@@ -192,6 +192,7 @@ export default {
     CREATE_SYMBOL: 'we-trading.createSymbol',
     EDIT_SYMBOL: 'we-trading.updateSymbol',
     CREATE_ORDER: 'we-trading.createOrder',
+    CLOSE_ORDER: 'we-trading.closeOrder',
     CREATE_CLOSED_ORDER: 'we-trading.createClosedOrder',
     CREATE_SECURITIES: 'we-trading.createSecurity',
     EDIT_SECURITIES: 'we-trading.updateSecurity',

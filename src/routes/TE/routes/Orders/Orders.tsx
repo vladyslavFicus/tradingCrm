@@ -7,25 +7,29 @@ import Hotkeys from 'react-hot-keys';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { withNotifications, withModals } from 'hoc';
+import { LevelType, Notify, Modal, State, Sort } from 'types';
 import permissions from 'config/permissions';
+import { usePermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
-import withModals from 'hoc/withModals';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
-import { Modal, State, Sort } from 'types';
 import { Storage } from 'types/storage';
 import PnL from 'routes/TE/components/PnL';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import NewOrderModal from 'routes/TE/modals/NewOrderModal';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
+import { TradingEngine__OrderStatuses__Enum as OrderStatus } from '__generated__/types';
 import { tradingEngineTabs } from '../../constants';
 import OrdersFilter from './components/OrdersFilter';
 import { types, tradeStatusesColor } from './attributes/constants';
 import { getTypeColor } from './attributes/utils';
+import { useCloseOrderMutation } from './graphql/__generated__/CloseOrderMutation';
 import { useOrdersQuery, OrdersQuery, OrdersQueryVariables } from './graphql/__generated__/OrdersQuery';
 import { ReactComponent as ErrorIcon } from './img/error.svg';
 import './Orders.scss';
@@ -37,7 +41,9 @@ interface Props {
   modals: {
     newOrderModal: Modal,
     editOrderModal: Modal,
+    confirmationModal: Modal,
   },
+  notify: Notify,
 }
 
 const Orders = (props: Props) => {
@@ -46,11 +52,16 @@ const Orders = (props: Props) => {
     modals: {
       newOrderModal,
       editOrderModal,
+      confirmationModal,
     },
+    notify,
   } = props;
 
   const history = useHistory();
   const { state } = useLocation<State<OrdersQueryVariables['args']>>();
+
+  const permission = usePermission();
+  const [closeOrder] = useCloseOrderMutation();
 
   const ordersQuery = useOrdersQuery({
     variables: {
@@ -69,7 +80,7 @@ const Orders = (props: Props) => {
 
   // Subscribe to symbol prices stream on opened positions
   const symbolsPrices = useSymbolsPricesStream(
-    content.filter(({ status }) => status === 'OPEN').map(({ symbol }) => symbol),
+    content.filter(({ status }) => status === OrderStatus.OPEN).map(({ symbol }) => symbol),
   );
 
   // ==== Handlers ==== //
@@ -106,6 +117,37 @@ const Orders = (props: Props) => {
   const handleNewOrderClick = () => {
     newOrderModal.show({
       onSuccess: ordersQuery.refetch,
+    });
+  };
+
+  const handleCloseOrderClick = async (order: Order) => {
+    confirmationModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.DESCRIPTION', order),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'Orders__confirmation-modal',
+      onSubmit: async () => {
+        try {
+          await closeOrder({
+            variables: { orderId: order.id },
+          });
+
+          notify({
+            level: LevelType.SUCCESS,
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
+          });
+
+          ordersQuery.refetch();
+        } catch (_) {
+          notify({
+            level: LevelType.ERROR,
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_FAILED'),
+          });
+        }
+      },
     });
   };
 
@@ -375,7 +417,7 @@ const Orders = (props: Props) => {
               <div className="Orders__cell-value">
                 <Choose>
                   {/* If "symbolConfig" not available for order */}
-                  <When condition={status === 'OPEN' && !symbolConfig}>
+                  <When condition={status === OrderStatus.OPEN && !symbolConfig}>
                     <ErrorIcon id={`order-profit-${id}`} className="Orders__instrument-configuration-problem" />
                     <UncontrolledTooltip
                       placement="top"
@@ -384,7 +426,7 @@ const Orders = (props: Props) => {
                       {I18n.t('TRADING_ENGINE.ORDERS.GRID.INSTRUMENT_CONFIGURATION_PROBLEM')}
                     </UncontrolledTooltip>
                   </When>
-                  <When condition={status === 'OPEN'}>
+                  <When condition={status === OrderStatus.OPEN}>
                     <PnL
                       type={type}
                       openPrice={openPrice}
@@ -395,7 +437,7 @@ const Orders = (props: Props) => {
                       exchangeRate={pnlRates[account.currency]}
                     />
                   </When>
-                  <When condition={status === 'CLOSED'}>
+                  <When condition={status === OrderStatus.CLOSED}>
                     {pnl?.gross?.toFixed(2)}
                   </When>
                   <Otherwise>
@@ -414,6 +456,24 @@ const Orders = (props: Props) => {
             </div>
           )}
         />
+        <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER)}>
+          <Column
+            header={I18n.t('TRADING_ENGINE.ORDERS.GRID.ACTIONS')}
+            render={(order: Order) => (
+              <If condition={order.status === OrderStatus.OPEN}>
+                <PermissionContent permissions={permissions.WE_TRADING.CLOSE_ORDER}>
+                  <Button
+                    type="submit"
+                    onClick={() => handleCloseOrderClick(order)}
+                    danger
+                  >
+                    {I18n.t('COMMON.CLOSE')}
+                  </Button>
+                </PermissionContent>
+              </If>
+            )}
+          />
+        </If>
       </Table>
     </div>
   );
@@ -422,8 +482,10 @@ const Orders = (props: Props) => {
 export default compose(
   React.memo,
   withStorage,
+  withNotifications,
   withModals({
     newOrderModal: NewOrderModal,
     editOrderModal: EditOrderModal,
+    confirmationModal: ConfirmActionModal,
   }),
 )(Orders);

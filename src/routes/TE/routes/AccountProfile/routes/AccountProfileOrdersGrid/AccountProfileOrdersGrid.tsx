@@ -5,8 +5,12 @@ import I18n from 'i18n-js';
 import { cloneDeep, set } from 'lodash';
 import compose from 'compose-function';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { State, Sort, Modal } from 'types';
-import withModals from 'hoc/withModals';
+import { withNotifications, withModals } from 'hoc';
+import { LevelType, Notify, State, Sort, Modal } from 'types';
+import { Button } from 'components/UI';
+import permissions from 'config/permissions';
+import { usePermission } from 'providers/PermissionsProvider';
+import PermissionContent from 'components/PermissionContent';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
@@ -15,10 +19,12 @@ import PnL from 'routes/TE/components/PnL';
 import CurrentPrice from 'routes/TE/components/CurrentPrice';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { getTypeColor } from '../../attributes/utils';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import { useOrdersQuery, OrdersQuery, OrdersQueryVariables } from './graphql/__generated__/OrdersQuery';
+import { useCloseOrderMutation } from './graphql/__generated__/CloseOrderMutation';
 import './AccountProfileOrdersGrid.scss';
 
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;
@@ -27,7 +33,9 @@ interface Props {
   orderStatuses: [string],
   modals: {
     editOrderModal: Modal,
+    confirmationModal: Modal,
   },
+  notify: Notify,
 }
 
 const AccountProfileOrdersGrid = (props: Props) => {
@@ -35,12 +43,17 @@ const AccountProfileOrdersGrid = (props: Props) => {
     orderStatuses,
     modals: {
       editOrderModal,
+      confirmationModal,
     },
+    notify,
   } = props;
 
   const { id: accountUuid } = useParams<{ id: string }>();
   const history = useHistory();
   const { state } = useLocation<State<OrdersQueryVariables['args']>>();
+
+  const permission = usePermission();
+  const [closeOrder] = useCloseOrderMutation();
 
   const ordersQuery = useOrdersQuery({
     variables: {
@@ -89,6 +102,37 @@ const AccountProfileOrdersGrid = (props: Props) => {
       state: {
         ...state,
         sorts,
+      },
+    });
+  };
+
+  const handleCloseOrderClick = (order: Order) => {
+    confirmationModal.show({
+      modalTitle: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.TITLE'),
+      actionText: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.DESCRIPTION', order),
+      submitButtonLabel: I18n.t('COMMON.YES'),
+      cancelButtonLabel: I18n.t('COMMON.NO'),
+      className: 'AccountProfileOrdersGrid__confirmation-modal',
+      onSubmit: async () => {
+        try {
+          await closeOrder({
+            variables: { orderId: order.id },
+          });
+
+          notify({
+            level: LevelType.SUCCESS,
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
+          });
+
+          ordersQuery.refetch();
+        } catch (_) {
+          notify({
+            level: LevelType.ERROR,
+            title: I18n.t('COMMON.ERROR'),
+            message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_FAILED'),
+          });
+        }
       },
     });
   };
@@ -292,6 +336,22 @@ const AccountProfileOrdersGrid = (props: Props) => {
               </div>
             )}
           />
+          <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER)}>
+            <Column
+              header={I18n.t('TRADING_ENGINE.ORDERS.GRID.ACTIONS')}
+              render={(order: Order) => (
+                <PermissionContent permissions={permissions.WE_TRADING.CLOSE_ORDER}>
+                  <Button
+                    type="submit"
+                    onClick={() => handleCloseOrderClick(order)}
+                    danger
+                  >
+                    {I18n.t('COMMON.CLOSE')}
+                  </Button>
+                </PermissionContent>
+              )}
+            />
+          </If>
         </Table>
       </div>
     </div>
@@ -300,7 +360,9 @@ const AccountProfileOrdersGrid = (props: Props) => {
 
 export default compose(
   React.memo,
+  withNotifications,
   withModals({
     editOrderModal: EditOrderModal,
+    confirmationModal: ConfirmActionModal,
   }),
 )(AccountProfileOrdersGrid);
