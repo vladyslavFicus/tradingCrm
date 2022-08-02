@@ -4,7 +4,10 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
 import classNames from 'classnames';
 import { Sort, State } from 'types';
-import { TradingEngine__AccountTypes__Enum as AccountTypes } from '__generated__/types';
+import {
+  TradingEngine__AccountTypes__Enum as AccountTypes,
+  TradingEngine__OrderStatuses__Enum as OrderStatus,
+} from '__generated__/types';
 import { accountTypesLabels } from 'constants/accountTypes';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
@@ -28,6 +31,7 @@ const MarginCalls = () => {
   const accountsQuery = useAccountsQuery({
     variables: {
       args: {
+        orderStatuses: [OrderStatus.OPEN],
         ...state?.filters,
         page: {
           from: 0,
