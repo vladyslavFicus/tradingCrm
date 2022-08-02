@@ -3630,7 +3630,7 @@
           "NAME": "Name",
           "GROUP": "Group",
           "BALANCE": "Balance",
-          "CREDIT": "Credit"
+          "FREE_MARGIN": "Free margin"
         },
         "NOTIFICATION": {
           "SUCCESS": "Order has been successfully created"

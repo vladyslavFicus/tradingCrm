@@ -42,6 +42,9 @@ const apolloMockFactory = (data = {}) => [{
           currency: 'USD',
           leverage: 100,
           enable: true,
+          statistic: {
+            freeMargin: 100,
+          },
         },
         ...data,
       },

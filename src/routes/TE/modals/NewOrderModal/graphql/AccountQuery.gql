@@ -11,6 +11,9 @@ query AccountQuery($identifier: String!) {
       accountType
       leverage
       enable
+      statistic {
+        freeMargin
+      }
     }
   }
 }

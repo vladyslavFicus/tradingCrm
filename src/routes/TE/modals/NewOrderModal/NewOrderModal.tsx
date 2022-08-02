@@ -146,13 +146,19 @@ const NewOrderModal = (props: Props) => {
                       <span className="NewOrderModal__account-label">
                         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.BALANCE')}:
                       </span>
-                      &nbsp;{I18n.toCurrency(account?.balance || 0, { unit: '' })}
+                      &nbsp;{I18n.toCurrency(
+                        account?.balance || 0,
+                        { unit: account?.currency, format: '%u %n' },
+                      )}
                     </div>
                     <div>
                       <span className="NewOrderModal__account-label">
-                        {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.CREDIT')}:
+                        {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.ACCOUNT.FREE_MARGIN')}:
                       </span>
-                      &nbsp;{I18n.toCurrency(account?.credit || 0, { unit: '' })}
+                      &nbsp;{I18n.toCurrency(
+                        account?.statistic.freeMargin || 0,
+                        { unit: account?.currency, format: '%u %n' },
+                      )}
                     </div>
                   </div>
                 </div>
