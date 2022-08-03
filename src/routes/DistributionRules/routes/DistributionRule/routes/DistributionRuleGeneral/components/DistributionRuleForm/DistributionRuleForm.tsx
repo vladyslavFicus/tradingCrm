@@ -161,13 +161,18 @@ const DistributionRuleForm = (props: Props) => {
                 name="executionType"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                className="DistributionRuleSettings__form-field"
+                className="DistributionRuleForm__form-field"
                 component={FormikSelectField}
               >
                 {executionTypes.map(({ label, value }) => (
                   <option key={value} value={value}>{I18n.t(label)}</option>
                 ))}
               </Field>
+              <If condition={formik.dirty}>
+                <div className="DistributionRuleForm__not-saved-message">
+                  {I18n.t('CLIENTS_DISTRIBUTION.RULE.NOT_SAVED')}
+                </div>
+              </If>
             </div>
 
             <div className="DistributionRuleForm__brands">

@@ -18,6 +18,13 @@
     border-radius: 3px;
   }
 
+  &__not-saved-message {
+    color: #ff0000;
+    grid-column: 3 / 4;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
   &__fieldset-title {
     width: auto;
     color: #888;

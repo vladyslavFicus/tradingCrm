@@ -3416,7 +3416,8 @@
     },
     "NOTIFICATIONS": {
       "MIGRATION_SUCCESSFUL": "Migration started successfully",
-      "MIGRATION_ERROR": "Migration started failed"
+      "MIGRATION_ERROR": "Migration started failed",
+      "MIGRATION_ALREADY_IN_PROGRESS": "Migration has already been executed and is currently in progress."
     },
     "MODAL": {
       "FIELDS": {
@@ -3449,6 +3450,7 @@
         "ACTIVE": "Active",
         "INACTIVE": "Inactive"
       },
+      "NOT_SAVED": "To save changes please press save button",
       "GENERAL_INFO": "General information",
       "FEED": "Feed",
       "FILTERS_LABELS": {

@@ -91,10 +91,13 @@ const DistributionRuleInfo = (props: Props) => {
         message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_SUCCESSFUL'),
       });
     } catch (e) {
+      const { error } = parseErrors(e);
       notify({
         level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ERROR'),
+        message: error === 'error.validation.execution.already-in-progress'
+          ? I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ALREADY_IN_PROGRESS')
+          : I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ERROR'),
       });
     }
   };
