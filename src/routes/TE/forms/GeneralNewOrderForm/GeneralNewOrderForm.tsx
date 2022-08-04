@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { orderBy } from 'lodash';
+import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import compose from 'compose-function';
 import { LevelType, Notify } from 'types';
@@ -92,6 +92,12 @@ const GeneralNewOrderForm = (props: Props) => {
   const account = accountQuery.data?.tradingEngine.account;
   const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
   const isAccountArchived = !account?.enable;
+
+  const favoriteSymbols = useMemo(() => intersectionWith(
+    ['EURUSD', 'GBPUSD', 'AUDUSD', 'USDCHF', 'USDCAD', 'BRENT', 'BTCUSD', 'ETHUSD', 'APPLE', 'AMAZON'],
+    allowedSymbols,
+    (item, { name }) => item === name,
+  ), [allowedSymbols]);
 
   // Symbol tree to render inside SelectTree component
   const allowedSymbolsTree = useMemo(
@@ -395,6 +401,7 @@ const GeneralNewOrderForm = (props: Props) => {
                 name="symbol"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                 className="GeneralNewOrderForm__field"
+                favorites={favoriteSymbols}
                 component={FormikSelectTreeField}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                 onChange={(value: string) => onChangeSymbol(value, values, setValues)}
