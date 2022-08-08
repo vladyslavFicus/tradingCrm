@@ -19,12 +19,14 @@ import { useDidLogicCreateCallMutation } from './graphql/__generated__/DidlogicC
 import { useNewtelCreateCallMutation } from './graphql/__generated__/NewtelCreateCall';
 import { useCommpeakCreateCallMutation } from './graphql/__generated__/CommpeakCreateCall';
 import { useCoperatoCreateCallMutation } from './graphql/__generated__/CoperatoCreateCall';
+import { useSquaretalkCreateCallMutation } from './graphql/__generated__/SquaretalkCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import didlogicIcon from './icons/didlogic.png';
 import newtelIcon from './icons/newtel.png';
 import commpeakIcon from './icons/commpeak.png';
 import coperatoIcon from './icons/coperato.png';
 import clearvoiceIcon from './icons/clearvoice.png';
+import squaretalkIcon from './icons/squaretalk.png';
 import callstartedIcon from './icons/callstarted.png';
 import './Click2Call.scss';
 
@@ -34,6 +36,7 @@ const ICONS: Record<CallSystem, string> = {
   [CallSystem.COMMPEAK]: commpeakIcon,
   [CallSystem.COPERATO]: coperatoIcon,
   [CallSystem.CLEAR_VOICE]: clearvoiceIcon,
+  [CallSystem.SQUARETALK]: squaretalkIcon,
 };
 
 const TOOLTIP_STYLE = {
@@ -66,6 +69,7 @@ const Click2Call = (props: Props) => {
   const [newtelCreateCall] = useNewtelCreateCallMutation();
   const [commpeakCreateCall] = useCommpeakCreateCallMutation();
   const [coperatoCreateCall] = useCoperatoCreateCallMutation();
+  const [squaretalkCreateCall] = useSquaretalkCreateCallMutation();
 
   const configs = configsQuery.data?.clickToCall.configs || [];
 
@@ -103,6 +107,9 @@ const Click2Call = (props: Props) => {
           break;
         case CallSystem.COPERATO:
           await coperatoCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
+          break;
+        case CallSystem.SQUARETALK:
+          await squaretalkCreateCall({ variables: { uuid, phoneType, customerType } });
           break;
         default:
           break;
@@ -147,14 +154,14 @@ const Click2Call = (props: Props) => {
               <When condition={!disabled}>
                 {configs.map(({ callSystem, prefixes }) => (
                   <Choose>
-                    {/* Show DIDLOGIC call system without prefixes */}
-                    <When condition={callSystem === CallSystem.DIDLOGIC}>
+                    {/* Show call systems without prefixes */}
+                    <When condition={[CallSystem.DIDLOGIC, CallSystem.SQUARETALK].includes(callSystem)}>
                       <div
                         key={callSystem}
                         className="Click2Call__submenu-item"
                         onClick={handleCreateCall(callSystem)}
                       >
-                        <img src={ICONS[callSystem]} alt="" />
+                        <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
                       </div>
                     </When>
 
