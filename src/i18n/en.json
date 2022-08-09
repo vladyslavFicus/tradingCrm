@@ -1387,7 +1387,8 @@
       "CALL_BACK_INSFF": "Callback insff",
       "MEDIA": "Media",
       "PENDING": "Pending",
-      "DIFFERENT_VOICE": "Different Voice"
+      "DIFFERENT_VOICE": "Different Voice",
+      "DEPOSIT_WITH_ME": "Deposit with me" 
     },
     "RETENTION_STATUSES": {
       "NEW": "New",

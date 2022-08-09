@@ -1033,7 +1033,8 @@
       "TEST": "测试",
       "DEPOSITOR": "存款人",
       "DO_NOT_CALL": "Do not call",
-      "INVALID_COUNTRY": "国家无效"
+      "INVALID_COUNTRY": "国家无效",
+      "DEPOSIT_WITH_ME": "存款"
     },
     "RETENTION_STATUSES": {
       "NEW": "新",

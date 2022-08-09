@@ -49,6 +49,7 @@ export const salesStatuses: Record<string, string> = {
   MEDIA: 'CONSTANTS.SALES_STATUSES.MEDIA',
   PENDING: 'CONSTANTS.SALES_STATUSES.PENDING',
   DIFFERENT_VOICE: 'CONSTANTS.SALES_STATUSES.DIFFERENT_VOICE',
+  DEPOSIT_WITH_ME: 'CONSTANTS.SALES_STATUSES.DEPOSIT_WITH_ME',
 };
 
 export const salesStatusesColor: Record<string, string> = {
@@ -100,5 +101,6 @@ export const salesStatusesColor: Record<string, string> = {
   CALL_BACK_INSFF: 'color-info',
   MEDIA: 'color-info',
   DIFFERENT_VOICE: 'color-info',
+  DEPOSIT_WITH_ME: 'color-info',
   PENDING: 'color-warning',
 };
