@@ -147,6 +147,9 @@ const Click2Call = (props: Props) => {
           active={isActive}
         >
           <div
+            // Use this method because have trouble with showing call inside ToolTip(without it can't see start calling)
+            onMouseEnter={() => setIsActive(true)}
+            onMouseLeave={() => setIsActive(false)}
             className={classNames('Click2Call__submenu', { 'Click2Call__submenu--disabled': disabled })}
           >
             <Choose>
