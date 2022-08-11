@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { debounce } from 'lodash';
 import ToolTip from 'react-portal-tooltip';
 import jwtDecode from 'jwt-decode';
 import classNames from 'classnames';
+import { v4 } from 'uuid';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import {
@@ -61,6 +62,7 @@ type Props = {
 }
 
 const Click2Call = (props: Props) => {
+  const idRef = useRef(`click2call-${v4()}`);
   const { uuid, customerType, phoneType, token, notify } = props;
 
   const configsQuery = useClickToCallConfigsQuery();
@@ -131,23 +133,20 @@ const Click2Call = (props: Props) => {
       </When>
       <When condition={configs.length > 0}>
         <PhoneSVG
-          id="PhoneSVG"
+          id={idRef.current}
           className="Click2Call__icon"
           // Use this method because have trouble with ToolTip and we need here MouseEvent for re-render
-          onMouseEnter={() => setIsActive(true)}
+          onClick={() => setIsActive(true)}
           onMouseLeave={() => setIsActive(false)}
         />
         <ToolTip
-          parent="#PhoneSVG"
+          parent={`#${idRef.current}`}
           position="right"
           arrow="top"
           style={TOOLTIP_STYLE}
           active={isActive}
         >
           <div
-            // Use this method because have trouble with ToolTip and we need here MouseEvent for re-render
-            onMouseEnter={() => setIsActive(true)}
-            onMouseLeave={() => setIsActive(false)}
             className={classNames('Click2Call__submenu', { 'Click2Call__submenu--disabled': disabled })}
           >
             <Choose>
