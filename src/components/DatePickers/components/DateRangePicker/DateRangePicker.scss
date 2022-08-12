@@ -182,7 +182,7 @@
     display: grid;
     grid-gap: 25px;
     grid-template-columns: 350px;
-    z-index: 2;
+    z-index: 3;
 
     &--with-additional {
       grid-template-columns: 350px 350px;
