@@ -9,6 +9,7 @@
   background-color: #000;
   overflow-x: hidden;
   box-shadow: none;
+  z-index: 52;
   transition: box-shadow .3s ease-in-out;
   &:hover {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
