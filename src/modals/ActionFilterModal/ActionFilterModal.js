@@ -80,7 +80,7 @@ class ActionFilterModal extends PureComponent {
       setErrors({
         submit: error === 'filter.set.not.unique'
           ? I18n.t('FILTER_SET.CREATE.FAILED_EXIST')
-          : I18n.t('FILTER_SET.CREATE.FAILED_DESC', { desc: error }),
+          : I18n.t('FILTER_SET.CREATE.FAILED_UNIQUE'),
       });
 
       notify({

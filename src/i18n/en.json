@@ -5231,9 +5231,9 @@
     },
     "CREATE": {
       "FAILED": "Creating new filter set failed",
-      "FAILED_DESC": "Creating failed with error - %{desc}",
       "SUCCESS": "Filter %{name} created successfully",
-      "FAILED_EXIST": "Filter with this name already exists."
+      "FAILED_EXIST": "Filter with this name already exists.",
+      "FAILED_UNIQUE": "Filter set is not unique"
     },
     "UPDATE_MODAL": {
       "HEADER": "Update filter set",
@@ -5243,7 +5243,6 @@
     },
     "UPDATE": {
       "FAILED": "Updating filter set failed",
-      "FAILED_DESC": "Updating failed with error - %{desc}",
       "SUCCESS": "Filter %{name} updated successfully"
     },
     "BUTTONS": {
