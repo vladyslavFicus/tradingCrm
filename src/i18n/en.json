@@ -4597,7 +4597,8 @@
       "ARCHIVING_GROUP_FORM": {
         "TITLE": "Archiving",
         "INACTIVITY_PERIOD": "Inactivity period (days)",
-        "MAXIMUM_BAlANCE": "Maximum balance"
+        "MAXIMUM_BAlANCE": "Maximum balance",
+        "ENABLE": "Enable"
       },
       "MARGINS_GROUP_FORM": {
         "TITLE": "Margins",

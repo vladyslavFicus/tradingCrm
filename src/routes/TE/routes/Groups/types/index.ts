@@ -9,7 +9,7 @@ export interface Security {
 }
 
 export enum ArchivePeriodDays {
-  DISABLED = 0,
+  PERIOD_30 = 30,
   PERIOD_90 = 90,
   PERIOD_180 = 180,
   PERIOD_365 = 365,
@@ -114,9 +114,10 @@ export interface FormValues {
   useSwap: boolean,
   hedgeProhibited: boolean,
   archivePeriodDays: ArchivePeriodDays,
+  archivationEnabled: boolean,
   archiveMaxBalance: ArchiveMaxBalance,
   marginCallLevel: number,
   stopoutLevel: number,
   groupSecurities: GroupSecurity[] | null,
-  groupSymbols: GroupSymbol[] | null
+  groupSymbols: GroupSymbol[] | null,
 }

@@ -12,6 +12,7 @@ query GroupQuery($groupName: String!) {
       hedgeProhibited
       archivePeriodDays
       archiveMaxBalance
+      archivationEnabled
       marginCallLevel
       stopoutLevel
       groupSecurities {

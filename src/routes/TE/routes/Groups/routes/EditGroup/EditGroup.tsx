@@ -140,7 +140,7 @@ const EditGroup = (props: Props) => {
               <Otherwise>
                 <GroupCommonForm formik={formikBag} />
                 <GroupPermissionsForm />
-                <GroupArchivingForm />
+                <GroupArchivingForm formik={formikBag} />
                 <GroupMarginsForm />
                 <GroupSecuritiesGrid formik={formikBag} />
                 <GroupSymbolsGrid formik={formikBag} />

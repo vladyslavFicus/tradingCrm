@@ -16,7 +16,7 @@ import GroupArchivingForm from '../../components/GroupArchivingForm';
 import GroupMarginsForm from '../../components/GroupMarginsForm';
 import GroupSecuritiesGrid from '../../components/GroupSecuritiesGrid';
 import GroupSymbolsGrid from '../../components/GroupSymbolsGrid';
-import { ArchivePeriodDays, ArchiveMaxBalance, DefaultLeverage, FormValues } from '../../types';
+import { ArchiveMaxBalance, DefaultLeverage, FormValues } from '../../types';
 import { groupNamePattern } from '../../constants';
 import { useCreateGroupMutation } from './graphql/__generated__/CreateGroupMutation';
 import './NewGroup.scss';
@@ -95,8 +95,9 @@ const NewGroup = ({ notify }: Props) => {
           defaultLeverage: DefaultLeverage.LEVERAGE_100,
           useSwap: true,
           hedgeProhibited: false,
-          archivePeriodDays: ArchivePeriodDays.DISABLED,
+          archivePeriodDays: 0,
           archiveMaxBalance: ArchiveMaxBalance.MAX_0,
+          archivationEnabled: false,
           marginCallLevel: 50,
           stopoutLevel: 30,
           groupSecurities: [],
@@ -111,7 +112,7 @@ const NewGroup = ({ notify }: Props) => {
             <GroupProfileHeader formik={formikBag} />
             <GroupCommonForm formik={formikBag} />
             <GroupPermissionsForm />
-            <GroupArchivingForm />
+            <GroupArchivingForm formik={formikBag} />
             <GroupMarginsForm />
             <GroupSecuritiesGrid formik={formikBag} />
             <GroupSymbolsGrid formik={formikBag} />

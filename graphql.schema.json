@@ -31485,6 +31485,22 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "archivationEnabled",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "archiveMaxBalance",
             "description": null,
             "type": {
@@ -32615,6 +32631,22 @@
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "archivationEnabled",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "archiveMaxBalance",
             "description": null,
@@ -33778,6 +33810,22 @@
         "name": "TradingEngineGroup",
         "description": null,
         "fields": [
+          {
+            "name": "archivationEnabled",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "archiveMaxBalance",
             "description": null,
