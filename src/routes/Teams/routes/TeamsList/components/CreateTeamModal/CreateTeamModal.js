@@ -142,6 +142,7 @@ export default compose(
     validateOnBlur: false,
     validate: values => createValidator({
       teamName: ['required', 'string'],
+      officeUuid: ['required', 'string'],
       deskUuid: ['required', 'string'],
     }, translateLabels(attributeLabels))(values),
     handleSubmit: async (values, { props, setSubmitting }) => {

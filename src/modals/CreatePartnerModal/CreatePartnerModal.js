@@ -31,7 +31,7 @@ const validate = createValidator({
   email: ['required', 'email'],
   password: ['required', `regex:${getBrand().password.pattern}`],
   phone: ['required', 'min:3'],
-  externalAffiliateId: ['min:3'],
+  externalAffiliateId: ['required', 'min:3'],
   public: ['boolean'],
 }, translateLabels(attributeLabels), false);
 

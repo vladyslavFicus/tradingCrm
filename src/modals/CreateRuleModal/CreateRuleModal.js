@@ -159,13 +159,14 @@ class CreateRuleModal extends PureComponent {
             const errors = createValidator({
               name: ['required', 'string'],
               priority: ['required', `in:${priorities.join()}`],
-              countries: [`in:${Object.keys(countryList).join()}`],
-              languages: [`in:${getAvailableLanguages().join()}`],
+              type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
+              countries: ['required', `in:${Object.keys(countryList).join()}`],
+              languages: ['required', `in:${getAvailableLanguages().join()}`],
+              affiliateUUIDs: 'required',
               'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
               ...withOperatorSpreads && {
                 'operatorSpreads.0.parentUser': 'required',
               },
-              type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
             }, translateLabels(attributeLabels), false, customErrors)(values);
 
             return extraValidation(values, errors, { withOperatorSpreads });

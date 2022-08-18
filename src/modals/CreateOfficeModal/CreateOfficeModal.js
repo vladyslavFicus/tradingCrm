@@ -69,7 +69,10 @@ class CreateOfficeModal extends PureComponent {
         toggle={onCloseModal}
       >
         <Formik
-          initialValues={{}}
+          initialValues={{
+            name: '',
+            country: '',
+          }}
           validate={createValidator({
             name: ['required', 'string'],
             country: ['required', 'string'],

@@ -26,7 +26,7 @@ const validate = createValidator({
   name: ['required', 'string'],
   deskType: ['required', 'string'],
   officeUuid: ['required', 'string'],
-  language: ['required', `in:${getAvailableLanguages().join()}`],
+  language: ['required', 'string'],
 }, translateLabels(attributeLabels), false);
 
 class CreateDeskModal extends PureComponent {
@@ -81,7 +81,12 @@ class CreateDeskModal extends PureComponent {
     return (
       <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
-          initialValues={{}}
+          initialValues={{
+            name: '',
+            deskType: '',
+            officeUuid: '',
+            language: '',
+          }}
           validate={validate}
           validateOnChange={false}
           validateOnBlur={false}

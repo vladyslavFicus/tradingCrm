@@ -139,7 +139,13 @@ class CreateOperatorModal extends PureComponent {
     return (
       <Modal className="CreateOperatorModal" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
-          initialValues={{}}
+          initialValues={{
+            userType: '',
+            department: '',
+            role: '',
+            branchType: '',
+            branchId: '',
+          }}
           validate={validate}
           validateOnChange={false}
           validateOnBlur={false}
