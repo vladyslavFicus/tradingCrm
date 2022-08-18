@@ -41,6 +41,7 @@ const validator = createValidator(
     description: ['required'],
     securityName: ['required'],
     symbolType: ['required'],
+    defaultFiltration: ['required'],
     baseCurrency: ({ symbolType }: FormValues) => [symbolType !== SymbolType.CFD && 'required'],
     quoteCurrency: ['required'],
     backgroundColor: ['required'],
@@ -99,6 +100,7 @@ const SymbolEdit = (props: Props) => {
   const symbolQuery = useSymbolQuery({ variables: { symbolName: id } });
   const securitiesQuery = useSecuritiesQuery();
   const symbolsSourcesQuery = useSymbolsSourcesQuery();
+
   const [editSymbol] = useEditSymbolMutation();
 
   const symbolsSources = symbolsSourcesQuery.data?.tradingEngine.symbolsSources || [];
@@ -123,7 +125,9 @@ const SymbolEdit = (props: Props) => {
     securityName,
     swapConfigs,
     filtration,
+    sourceSymbol,
     symbolSessions,
+    defaultFiltration,
   } = symbolQuery.data?.tradingEngine.symbol || {};
 
   // ==== Handlers ==== //
@@ -203,6 +207,7 @@ const SymbolEdit = (props: Props) => {
                 short: swapConfigs?.short || 0.000000,
                 rollover: swapConfigs?.rollover,
               },
+              defaultFiltration,
               filtration: {
                 softFiltrationLevel: filtration?.softFiltrationLevel || 0,
                 softFilter: filtration?.softFilter || 0,
@@ -218,6 +223,31 @@ const SymbolEdit = (props: Props) => {
             {(formik : FormikProps<FormValues>) => {
               // @ts-expect-error 'error' field inside symbolSessions from SessionsSettings component state
               const symbolSessionContainsErrors = formik.values?.symbolSessions.filter(({ error }) => error);
+
+              // We don't need to send a source symbol object during the request(InitialValues)
+              // so we changed the filtration values
+              const handleDefaultFiltration = () => {
+                if (formik.values.defaultFiltration) {
+                  formik.setValues({
+                    ...formik.values,
+                    filtration: formik.initialValues.filtration,
+                    defaultFiltration: false,
+                  });
+                } else {
+                  formik.setValues({
+                    ...formik.values,
+                    defaultFiltration: true,
+                    filtration: {
+                      softFiltrationLevel: sourceSymbol?.filtration?.softFiltrationLevel || 0,
+                      softFilter: sourceSymbol?.filtration?.softFilter || 0,
+                      hardFiltrationLevel: sourceSymbol?.filtration?.hardFiltrationLevel || 0,
+                      hardFilter: sourceSymbol?.filtration?.hardFilter || 0,
+                      discardFiltrationLevel: sourceSymbol?.filtration?.discardFiltrationLevel || 0,
+                      filterSmoothing: sourceSymbol?.filtration?.filterSmoothing || 0,
+                    },
+                  });
+                }
+              };
 
               return (
                 <Form className="SymbolEdit__content">
@@ -255,9 +285,9 @@ const SymbolEdit = (props: Props) => {
 
                   <div className="SymbolEdit__column">
                     <SymbolSettings
+                      {...formik}
                       symbolsSources={symbolsSources}
                       securities={securities}
-                      {...formik}
                     />
                   </div>
 
@@ -284,6 +314,7 @@ const SymbolEdit = (props: Props) => {
                   <div className="SymbolEdit__column">
                     <FiltrationSettings
                       {...formik}
+                      handleDefaultFiltration={handleDefaultFiltration}
                     />
                   </div>
                 </Form>

@@ -52,4 +52,5 @@ export interface FormValues {
   lotMin: number,
   lotMax: number,
   lotStep: number,
+  defaultFiltration: boolean,
 }

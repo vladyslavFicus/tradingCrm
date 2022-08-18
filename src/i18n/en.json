@@ -3981,6 +3981,7 @@
       "MARGIN_CALCULATION_LABEL": "Margin calculation",
       "PROFIT_CALCULATION_LABEL": "Profit calculation",
       "ENABLE_LABEL": "Enable",
+      "DEFAULT": "Default",
       "LONG_POSITIONS_LABEL": "Long positions",
       "SHORT_POSITIONS_LABEL": "Short positions",
       "3_DAYS_SWAP_LABEL": "3-days swap",

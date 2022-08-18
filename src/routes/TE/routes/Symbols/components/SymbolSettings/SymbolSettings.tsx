@@ -6,9 +6,7 @@ import {
   FormikSelectField,
   FormikTextAreaField,
 } from 'components/Formik';
-import { backgroundColor } from '../../constants';
 import { FormValues } from '../../types';
-import { useSymbolQueryLazyQuery } from './graphql/__generated__/SymbolQuery';
 import './SymbolSettings.scss';
 
 interface Props extends FormikProps<FormValues> {
@@ -18,32 +16,22 @@ interface Props extends FormikProps<FormValues> {
   securities: {
     name: string,
   }[],
+  handleChangeSymbolSource?: (symbolName: string) => void,
 }
 
 const SymbolSettings = (props: Props) => {
   const {
     symbolsSources,
     securities,
-    setValues,
+    handleChangeSymbolSource = () => {},
     setFieldValue,
     initialValues,
-    values,
   } = props;
-
-  const [getSymbolQuery] = useSymbolQueryLazyQuery();
 
   const onChangeSymbolSource = async (symbolName: string) => {
     // Set field value before to avoid delay while symbol fetching for BE
     setFieldValue('source', symbolName);
-
-    const symbolQuery = await getSymbolQuery({ variables: { symbolName } });
-
-    setValues({
-      ...values,
-      ...symbolQuery.data?.tradingEngine.symbol,
-      source: symbolName, // Repeat set symbol name here because "values" object doesn't have source field yet
-      backgroundColor: backgroundColor[0]?.value, // Set field value before to avoid choosing backgroundColor for BE
-    });
+    handleChangeSymbolSource(symbolName);
   };
 
   return (
@@ -159,6 +147,10 @@ const SymbolSettings = (props: Props) => {
       </div>
     </div>
   );
+};
+
+SymbolSettings.defaultProps = {
+  handleChangeSymbolSource: () => {},
 };
 
 export default React.memo(SymbolSettings);

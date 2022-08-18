@@ -17,6 +17,17 @@ query SymbolQuery($symbolName: String!) {
       lotMax
       lotStep
       symbolType
+      sourceSymbol {
+        filtration {
+          filterSmoothing
+          discardFiltrationLevel
+          softFilter
+          softFiltrationLevel
+          hardFilter
+          hardFiltrationLevel
+        }
+      }
+      defaultFiltration
       filtration {
         filterSmoothing
         discardFiltrationLevel

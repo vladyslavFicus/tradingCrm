@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, FormikProps } from 'formik';
 import compose from 'compose-function';
 import { useHistory } from 'react-router-dom';
@@ -17,12 +17,14 @@ import CalculationSettings from '../../components/CalculationSettings';
 import SwapsSettings from '../../components/SwapsSettings';
 import SessionsSettings from '../../components/SessionsSettings';
 import FiltrationSettings from '../../components/FiltrationSettings';
+import { backgroundColor } from '../../constants';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
+import { SymbolQuery, useSymbolQueryLazyQuery } from './graphql/__generated__/SymbolQuery';
 import { useCreateSymbolMutation, CreateSymbolMutationVariables } from './graphql/__generated__/CreateSymbolMutation';
 import './SymbolNew.scss';
 
-interface Props {
+interface Props extends FormikProps<FormValues> {
   notify: Notify,
 }
 
@@ -30,8 +32,13 @@ const SymbolNew = (props: Props) => {
   const { notify } = props;
 
   const history = useHistory();
+
+  const [currentSourceSymbol, setCurrentSourceSymbol] = useState<SymbolQuery['tradingEngine']['symbol']>();
+
   const securitiesQuery = useSecuritiesQuery();
   const symbolsSourcesQuery = useSymbolsSourcesQuery();
+
+  const [getSymbolQuery] = useSymbolQueryLazyQuery();
   const [createSymbol] = useCreateSymbolMutation();
 
   const symbolsSources = symbolsSourcesQuery.data?.tradingEngine.symbolsSources || [];
@@ -84,6 +91,7 @@ const SymbolNew = (props: Props) => {
               baseCurrency: ({ symbolType }: FormValues) => [symbolType !== SymbolType.CFD && 'required'],
               quoteCurrency: ['required'],
               backgroundColor: ['required'],
+              defaultFiltration: ['required'],
               bidSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
               askSpread: ['required', 'numeric', 'min:-99999999999', 'max:999999999999'],
               stopsLevel: ['required', 'integer', 'min:0', 'max:100000'],
@@ -149,6 +157,7 @@ const SymbolNew = (props: Props) => {
           lotMin: LotMin.MIN_0_01,
           lotMax: LotMax.MAX_1000_0,
           lotStep: LotStep.STEP_0_01,
+          defaultFiltration: true,
           swapConfigs: {
             enable: true,
             type: SwapType.POINTS,
@@ -172,6 +181,46 @@ const SymbolNew = (props: Props) => {
           // @ts-expect-error 'error' field inside symbolSessions from SessionsSettings component state
           const symbolSessionContainsErrors = formik.values?.symbolSessions.filter(({ error }) => error);
 
+          // We don't need to send a source symbol object during the request(InitialValues)
+          // so we changed the filtration values
+          const handleDefaultFiltration = () => {
+            if (formik.values.defaultFiltration) {
+              formik.setValues({
+                ...formik.values,
+                filtration: formik.initialValues.filtration,
+                defaultFiltration: false,
+              });
+            } else {
+              formik.setValues({
+                ...formik.values,
+                defaultFiltration: true,
+                filtration: {
+                  softFiltrationLevel: currentSourceSymbol?.filtration?.softFiltrationLevel || 0,
+                  softFilter: currentSourceSymbol?.filtration?.softFilter || 0,
+                  hardFiltrationLevel: currentSourceSymbol?.filtration?.hardFiltrationLevel || 0,
+                  hardFilter: currentSourceSymbol?.filtration?.hardFilter || 0,
+                  discardFiltrationLevel: currentSourceSymbol?.filtration?.discardFiltrationLevel || 0,
+                  filterSmoothing: currentSourceSymbol?.filtration?.filterSmoothing || 0,
+                },
+              });
+            }
+          };
+
+          // We need a value so that when switching the default of the checkbox,
+          // we can reach the values of the source symbol
+          const handleChangeSymbolSource = async (symbolName: string) => {
+            const symbolQuery = await getSymbolQuery({ variables: { symbolName } });
+
+            setCurrentSourceSymbol(symbolQuery?.data?.tradingEngine.symbol);
+
+            formik.setValues({
+              ...formik.values,
+              ...symbolQuery.data?.tradingEngine.symbol,
+              source: symbolName, // Repeat set symbol name here because "values" object doesn't have source field yet
+              backgroundColor: backgroundColor[0]?.value, // Set field value before to avoid choosing backgroundColor
+            });
+          };
+
           return (
             <Form className="SymbolNew__content">
               <div className="SymbolNew__header">
@@ -193,9 +242,10 @@ const SymbolNew = (props: Props) => {
 
               <div className="SymbolNew__column">
                 <SymbolSettings
+                  {...formik}
                   symbolsSources={symbolsSources}
                   securities={securities}
-                  {...formik}
+                  handleChangeSymbolSource={handleChangeSymbolSource}
                 />
               </div>
 
@@ -222,6 +272,7 @@ const SymbolNew = (props: Props) => {
               <div className="SymbolNew__column">
                 <FiltrationSettings
                   {...formik}
+                  handleDefaultFiltration={handleDefaultFiltration}
                 />
               </div>
             </Form>

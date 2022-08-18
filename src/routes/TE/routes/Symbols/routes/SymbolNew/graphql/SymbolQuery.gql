@@ -1,0 +1,14 @@
+query SymbolQuery($symbolName: String!) {
+  tradingEngine {
+    symbol(symbolName: $symbolName) {
+      filtration {
+        filterSmoothing
+        discardFiltrationLevel
+        softFilter
+        softFiltrationLevel
+        hardFilter
+        hardFiltrationLevel
+      }
+    }
+  }
+}
