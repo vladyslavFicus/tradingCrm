@@ -73,7 +73,7 @@ const AccountProfile = (props: Props) => {
             <Switch>
               <Route
                 path={`${path}/orders`}
-                render={() => <AccountProfileOrdersGrid orderStatuses={['OPEN']} />}
+                render={() => <AccountProfileOrdersGrid orderStatuses={['OPEN']} showCloseButtonColumn />}
               />
               <Route
                 path={`${path}/pending-orders`}

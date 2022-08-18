@@ -31,6 +31,7 @@ type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders'
 
 interface Props {
   orderStatuses: [string],
+  showCloseButtonColumn?: boolean,
   modals: {
     editOrderModal: Modal,
     confirmationModal: Modal,
@@ -41,6 +42,7 @@ interface Props {
 const AccountProfileOrdersGrid = (props: Props) => {
   const {
     orderStatuses,
+    showCloseButtonColumn = false,
     modals: {
       editOrderModal,
       confirmationModal,
@@ -336,7 +338,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
               </div>
             )}
           />
-          <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER)}>
+          <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER) && showCloseButtonColumn}>
             <Column
               header={I18n.t('TRADING_ENGINE.ORDERS.GRID.ACTIONS')}
               render={(order: Order) => (
@@ -356,6 +358,10 @@ const AccountProfileOrdersGrid = (props: Props) => {
       </div>
     </div>
   );
+};
+
+AccountProfileOrdersGrid.defaultProps = {
+  showCloseButtonColumn: false,
 };
 
 export default compose(
