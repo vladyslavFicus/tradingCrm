@@ -41,7 +41,6 @@ const validator = createValidator(
     description: ['required'],
     securityName: ['required'],
     symbolType: ['required'],
-    defaultFiltration: ['required'],
     baseCurrency: ({ symbolType }: FormValues) => [symbolType !== SymbolType.CFD && 'required'],
     quoteCurrency: ['required'],
     backgroundColor: ['required'],
