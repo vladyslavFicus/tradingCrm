@@ -184,26 +184,18 @@ const SymbolNew = (props: Props) => {
           // We don't need to send a source symbol object during the request(InitialValues)
           // so we changed the filtration values
           const handleDefaultFiltration = () => {
-            if (formik.values.defaultFiltration) {
-              formik.setValues({
-                ...formik.values,
-                filtration: formik.initialValues.filtration,
-                defaultFiltration: false,
-              });
-            } else {
-              formik.setValues({
-                ...formik.values,
-                defaultFiltration: true,
-                filtration: {
-                  softFiltrationLevel: currentSourceSymbol?.filtration?.softFiltrationLevel || 0,
-                  softFilter: currentSourceSymbol?.filtration?.softFilter || 0,
-                  hardFiltrationLevel: currentSourceSymbol?.filtration?.hardFiltrationLevel || 0,
-                  hardFilter: currentSourceSymbol?.filtration?.hardFilter || 0,
-                  discardFiltrationLevel: currentSourceSymbol?.filtration?.discardFiltrationLevel || 0,
-                  filterSmoothing: currentSourceSymbol?.filtration?.filterSmoothing || 0,
-                },
-              });
-            }
+            formik.setValues({
+              ...formik.values,
+              defaultFiltration: !formik.values.defaultFiltration,
+              filtration: {
+                softFiltrationLevel: currentSourceSymbol?.filtration?.softFiltrationLevel || 0,
+                softFilter: currentSourceSymbol?.filtration?.softFilter || 0,
+                hardFiltrationLevel: currentSourceSymbol?.filtration?.hardFiltrationLevel || 0,
+                hardFilter: currentSourceSymbol?.filtration?.hardFilter || 0,
+                discardFiltrationLevel: currentSourceSymbol?.filtration?.discardFiltrationLevel || 0,
+                filterSmoothing: currentSourceSymbol?.filtration?.filterSmoothing || 0,
+              },
+            });
           };
 
           // We need a value so that when switching the default of the checkbox,
