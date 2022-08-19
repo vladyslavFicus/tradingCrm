@@ -32,7 +32,7 @@ const GroupArchivingForm = (props: Props) => {
             name="archivePeriodDays"
             component={FormikSelectField}
             className="GroupArchivingForm__field"
-            disabled={formik.values.archivationEnabled}
+            disabled={!formik.values.archivationEnabled}
           >
             {enumToArray(ArchivePeriodDays).map(value => (
               <option key={value} value={value}>
@@ -45,7 +45,7 @@ const GroupArchivingForm = (props: Props) => {
             name="archiveMaxBalance"
             component={FormikSelectField}
             className="GroupArchivingForm__field"
-            disabled={formik.values.archivationEnabled}
+            disabled={!formik.values.archivationEnabled}
           >
             {enumToArray(ArchiveMaxBalance).map(value => (
               <option key={value} value={value}>
