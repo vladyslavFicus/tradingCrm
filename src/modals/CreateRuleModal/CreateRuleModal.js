@@ -160,9 +160,8 @@ class CreateRuleModal extends PureComponent {
               name: ['required', 'string'],
               priority: ['required', `in:${priorities.join()}`],
               type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
-              countries: ['required', `in:${Object.keys(countryList).join()}`],
-              languages: ['required', `in:${getAvailableLanguages().join()}`],
-              affiliateUUIDs: 'required',
+              countries: `in:${Object.keys(countryList).join()}`,
+              languages: `in:${getAvailableLanguages().join()}`,
               'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
               ...withOperatorSpreads && {
                 'operatorSpreads.0.parentUser': 'required',
