@@ -730,7 +730,8 @@
       "GR": "Greek",
       "PL": "Polish",
       "RO": "Romanian",
-      "PT": "Portuguese"
+      "PT": "Portuguese",
+      "CS": "Czech"
     },
     "COMMENT": "Comment",
     "UPLOAD": "Upload",
