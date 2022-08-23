@@ -14,6 +14,7 @@ import AccountProfileGroup from './components/AccountProfileGroup';
 import AccountProfileCurrency from './components/AccountProfileCurrency';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
 import AccountProfileRegistered from './components/AccountProfileRegistered';
+import AccountProfileCountry from './components/AccountProfileCountry';
 import AccountProfileStatistics from './components/AccountProfileStatistics';
 import InstantOrder from './components/AccountProfileInstantOrder';
 import AccountProfileOrdersGrid from './routes/AccountProfileOrdersGrid';
@@ -65,6 +66,7 @@ const AccountProfile = (props: Props) => {
               <AccountProfileCurrency account={account} />
               <AccountProfileLeverage account={account} />
               <AccountProfileRegistered account={account} />
+              <AccountProfileCountry account={account} />
             </div>
 
             <AccountProfileStatistics account={account} />

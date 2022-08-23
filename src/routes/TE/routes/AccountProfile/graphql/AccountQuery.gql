@@ -15,6 +15,7 @@ query AccountQuery($identifier: String!) {
       balance
       accountType
       readOnly
+      country
       currency
     }
   }
