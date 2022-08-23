@@ -117,9 +117,9 @@ const EditOrderForm = (props: Props) => {
    * and if account is archived
    */
   const isOrderEditDisabled = order.status === OrderStatus.CANCELED
-  || (order.status === OrderStatus.CLOSED && !isAdminEditAllowed)
-  || !order.symbolConfig
-  || !account.enable;
+    || (order.status === OrderStatus.CLOSED && !isAdminEditAllowed)
+    || !order.symbolConfig
+    || !account.enable;
 
   const handleEditOrder = async (values: FormValues) => {
     confirmationModal.show({
@@ -195,6 +195,8 @@ const EditOrderForm = (props: Props) => {
           `max:${symbolConfig?.lotMax}`,
           `step:${symbolConfig?.lotStep}`,
         ],
+        stopLoss: 'between:0,999999',
+        takeProfit: 'between:0,999999',
       }, {
         openPrice: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE'),
         volume: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME'),
