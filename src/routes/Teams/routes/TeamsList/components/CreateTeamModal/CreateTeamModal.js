@@ -153,7 +153,7 @@ export default compose(
         notify,
       } = props;
 
-      setSubmitting(false);
+      setSubmitting(true);
 
       try {
         await createTeam({ variables: values });
@@ -172,6 +172,8 @@ export default compose(
           title: I18n.t('TEAMS.MODAL.NOTIFICATIONS.ERROR.TITLE'),
           message: I18n.t('TEAMS.MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
         });
+      } finally {
+        setSubmitting(false);
       }
     },
   }),

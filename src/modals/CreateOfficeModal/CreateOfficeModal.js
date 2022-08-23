@@ -35,7 +35,7 @@ class CreateOfficeModal extends PureComponent {
       onCloseModal,
     } = this.props;
 
-    setSubmitting(false);
+    setSubmitting(true);
 
     try {
       await createOffice({ variables: values });
@@ -54,6 +54,8 @@ class CreateOfficeModal extends PureComponent {
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.ERROR'),
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 

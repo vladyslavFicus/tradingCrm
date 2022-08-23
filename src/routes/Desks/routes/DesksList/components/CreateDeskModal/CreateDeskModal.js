@@ -47,7 +47,7 @@ class CreateDeskModal extends PureComponent {
       notify,
     } = this.props;
 
-    setSubmitting(false);
+    setSubmitting(true);
 
     try {
       await createDesk({ variables: values });
@@ -66,6 +66,8 @@ class CreateDeskModal extends PureComponent {
         title: I18n.t('DESKS.MODAL.NOTIFICATIONS.ERROR'),
         message: I18n.t('COMMON.FAIL'),
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
