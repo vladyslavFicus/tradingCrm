@@ -8,8 +8,8 @@ import { Storage } from 'types/storage';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import ShortLoader from 'components/ShortLoader';
-import AccountProfileHeader from './components/AccountProfileHeader';
 import AccountProfileStatus from './components/AccountProfileStatus';
+import AccountProfileHeader from './components/AccountProfileHeader';
 import AccountProfileGroup from './components/AccountProfileGroup';
 import AccountProfileCurrency from './components/AccountProfileCurrency';
 import AccountProfileLeverage from './components/AccountProfileLeverage';
@@ -53,7 +53,10 @@ const AccountProfile = (props: Props) => {
           {/* Instant order button on whole account profile page */}
           <InstantOrder accountUuid={account.uuid} />
 
-          <AccountProfileHeader account={account} handleRefetch={accountQuery.refetch} />
+          <AccountProfileHeader
+            account={account}
+            handleRefetch={accountQuery.refetch}
+          />
 
           <div className="AccountProfile__content">
             <div className="AccountProfile__info">
@@ -73,11 +76,15 @@ const AccountProfile = (props: Props) => {
             <Switch>
               <Route
                 path={`${path}/orders`}
-                render={() => <AccountProfileOrdersGrid orderStatuses={['OPEN']} showCloseButtonColumn />}
+                render={() => (
+                  <AccountProfileOrdersGrid orderStatus="OPEN" key="OPEN" />
+                )}
               />
               <Route
                 path={`${path}/pending-orders`}
-                render={() => <AccountProfileOrdersGrid orderStatuses={['PENDING']} />}
+                render={() => (
+                  <AccountProfileOrdersGrid orderStatus="PENDING" key="PENDING" />
+                )}
               />
               <Route
                 path={`${path}/transactions`}

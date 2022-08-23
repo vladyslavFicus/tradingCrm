@@ -1,0 +1,7 @@
+mutation BulkCloseOrderMutation(
+  $args: TradingEngineOrderAccountBulkClose__Input!
+) {
+  tradingEngine {
+    bulkCloseOrders(args: $args)
+  }
+}

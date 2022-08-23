@@ -711,6 +711,7 @@
     "OPERATORS_FOUND": "Operators found",
     "PARTNERS_FOUND": "Partners found",
     "CLIENTS_SELECTED": "Clients selected",
+    "ORDERS_SELECTED": "Orders selected",
     "UNLIMITED": "Unlimited",
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
     "AND_N_MORE": "and %{value} more ...",
@@ -3752,6 +3753,9 @@
       "CLOSE_ORDER": {
         "TITLE": "Close order ",
         "DESCRIPTION": "Do you really want to close order #{{id}} {{direction}} {{symbol}} using market price?",
+        "CLOSE_BY_STOP_LOSS": "Do you want to close orders by Stop Loss? Warning: only orders with set Stop Loss will be close",
+        "CLOSE_BY_TAKE_PROFIT": "Do you want to close orders by Take Profit? Warning: only orders with set Take Profit will be close",
+        "CLOSE_BY_MARKET_PRICE": "Do you really want to close orders using market price?",
         "NOTIFICATION": {
           "CLOSE_SUCCESS": "Deal has been successfully closed",
           "CLOSE_FAILED": "Deal close failed"
@@ -3866,6 +3870,7 @@
       }
     },
     "ACCOUNTS": {
+      "BULK_ACTIONS": "Bulk actions",
       "HEADLINE": "Trading accounts",
       "NEW_ORDER": "+ New order",
       "GRID": {
@@ -4250,6 +4255,9 @@
       "ARCHIVE": "Archive",
       "UNARCHIVE": "Unarchive",
       "ARCHIVED": "Archived",
+      "BULK_CLOSE_BY_TP": "Close by Take Profit",
+      "BULK_CLOSE_BY_SL": "Close by Stop Loss",
+      "BULK_CLOSE_BY_MP": "Close by using market price",
       "NOTIFICATIONS": {
         "CHANGE_GROUP_SUCCESS": "Account group changed successfully",
         "CHANGE_GROUP_ERROR": "Failed to change account group",

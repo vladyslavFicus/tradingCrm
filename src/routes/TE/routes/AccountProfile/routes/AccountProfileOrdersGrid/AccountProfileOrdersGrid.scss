@@ -1,7 +1,20 @@
 .AccountProfileOrdersGrid {
+  &__header {
+    padding: 12px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__title {
+    display: block;
     font-size: 20px;
     padding: 20px;
+  }
+
+  &__selected {
+    color: #0cb56c;
+    font-size: 14px;
   }
 
   &__cell-value {

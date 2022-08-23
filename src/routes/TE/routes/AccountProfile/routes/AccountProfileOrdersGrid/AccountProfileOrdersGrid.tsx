@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
@@ -21,16 +21,18 @@ import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { tradeStatusesColor, types } from '../../attributes/constants';
+import { MAX_SELECTED_ACCOUNT_ORDERS } from '../../constants';
 import { getTypeColor } from '../../attributes/utils';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
+import AccountProfileBulkActions from './components/AccountProfileBulkActions';
 import { useOrdersQuery, OrdersQuery, OrdersQueryVariables } from './graphql/__generated__/OrdersQuery';
 import { useCloseOrderMutation } from './graphql/__generated__/CloseOrderMutation';
 import './AccountProfileOrdersGrid.scss';
 
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;
 
-interface Props {
-  orderStatuses: [string],
+type Props = {
+  orderStatus: string,
   showCloseButtonColumn?: boolean,
   modals: {
     editOrderModal: Modal,
@@ -41,7 +43,7 @@ interface Props {
 
 const AccountProfileOrdersGrid = (props: Props) => {
   const {
-    orderStatuses,
+    orderStatus,
     showCloseButtonColumn = false,
     modals: {
       editOrderModal,
@@ -53,6 +55,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
   const { id: accountUuid } = useParams<{ id: string }>();
   const history = useHistory();
   const { state } = useLocation<State<OrdersQueryVariables['args']>>();
+  const [select, setSelect] = useState({ selected: 0 });
 
   const permission = usePermission();
   const [closeOrder] = useCloseOrderMutation();
@@ -60,7 +63,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
   const ordersQuery = useOrdersQuery({
     variables: {
       args: {
-        orderStatuses,
+        orderStatuses: [orderStatus],
         accountUuid,
         ...state?.filters,
         page: {
@@ -79,7 +82,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
     content.map(({ symbol }) => symbol),
   );
 
-  const refetchOrders = () => ordersQuery.refetch();
+  const refetchOrders = () => { setSelect({ selected: 0 }); ordersQuery.refetch(); };
 
   useEffect(() => {
     EventEmitter.on(ORDER_RELOAD, refetchOrders);
@@ -141,8 +144,22 @@ const AccountProfileOrdersGrid = (props: Props) => {
 
   return (
     <div className="AccountProfileOrdersGrid">
-      <div className="AccountProfileOrdersGrid__title">
-        <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}
+      <div className="AccountProfileOrdersGrid__header">
+        <div className="AccountProfileOrdersGrid__title">
+          <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}<br />
+          <If condition={!!select.selected}>
+            <div className="AccountProfileOrdersGrid__selected">
+              <strong>{select.selected}</strong> {I18n.t('COMMON.ORDERS_SELECTED')}
+            </div>
+          </If>
+        </div>
+        <div className="AccountProfileOrdersGrid__actions">
+          <PermissionContent permissions={permissions.WE_TRADING.BULK_ORDER_CLOSE}>
+            <If condition={!!select.selected}>
+              <AccountProfileBulkActions select={select} ordersQuery={ordersQuery} />
+            </If>
+          </PermissionContent>
+        </div>
       </div>
 
       <AccountProfileOrdersGridFilter onRefresh={refetchOrders} />
@@ -153,9 +170,13 @@ const AccountProfileOrdersGrid = (props: Props) => {
           items={content}
           loading={ordersQuery.loading}
           hasMore={!last}
+          withMultiSelect
+          maxSelectCount={MAX_SELECTED_ACCOUNT_ORDERS}
           sorts={state?.sorts}
           onSort={handleSort}
+          onSelect={setSelect}
           onMore={handlePageChanged}
+          totalCount={totalElements}
         >
           <Column
             sortBy="id"

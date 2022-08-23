@@ -1,0 +1,24 @@
+.AccountProfileBulkActions {
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(81, 135, 189, .05);
+  border: 1px solid #5187bd;
+  border-radius: 5px;
+
+  &__title {
+    top: 2px;
+    margin-right: 15px;
+    color: #5187bd;
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+
+  &__button {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}

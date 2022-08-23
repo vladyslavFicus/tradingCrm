@@ -1,6 +1,8 @@
 import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 
+export const MAX_SELECTED_ACCOUNT_ORDERS = 1000;
+
 export const accountProfileTabs = [
   {
     url: '/trading-engine/accounts/:id/orders',

@@ -129,7 +129,6 @@ const AccountProfileHeader = (props: Props) => {
           <Uuid uuid={login.toString()} uuidPrefix="WT" />
         </div>
       </div>
-
       <div className="AccountProfileHeader__actions">
         <PermissionContent permissions={permissions.WE_TRADING.UPDATE_ACCOUNT_ENABLE}>
           <Button

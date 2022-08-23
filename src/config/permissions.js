@@ -207,6 +207,7 @@ export default {
     ORDER_REOPEN: 'we-trading.reopenOrder',
     ORDER_CANCEL: 'we-trading.cancelOrder',
     ORDER_CLOSE: 'we-trading.closeOrder',
+    BULK_ORDER_CLOSE: 'we-trading.bulkCloseOrders',
     ORDER_ACTIVATE: 'we-trading.activateOrder',
     DELETE_SYMBOL: 'we-trading.deleteSymbol',
     OPERATORS_LIST: 'we-trading.findOperators',
