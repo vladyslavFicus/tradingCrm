@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { orderBy } from 'lodash';
+import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import compose from 'compose-function';
 import moment from 'moment';
@@ -94,6 +94,12 @@ const SmartPnLForm = (props: Props) => {
   const isAccountArchived = !account?.enable;
 
   const exchangeRate = currentSymbolPrice?.pnlRates[account?.currency as string] || 0;
+
+  const favoriteSymbols = useMemo(() => intersectionWith(
+    ['EURUSD', 'GBPUSD', 'AUDUSD', 'USDCHF', 'USDCAD', 'BRENT', 'BTCUSD', 'ETHUSD', 'APPLE', 'AMAZON'],
+    allowedSymbols,
+    (item, { name }) => item === name,
+  ), [allowedSymbols]);
 
   // Symbol tree to render inside SelectTree component
   const allowedSymbolsTree = useMemo(
@@ -420,6 +426,7 @@ const SmartPnLForm = (props: Props) => {
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                 className="SmartPnLForm__field"
                 component={FormikSelectTreeField}
+                favorites={favoriteSymbols}
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                 onChange={(value: string) => onChangeSymbol(value, values, setValues)}
                 nodes={allowedSymbolsTree}
