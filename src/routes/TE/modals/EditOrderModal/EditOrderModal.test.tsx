@@ -64,7 +64,6 @@ const apolloMockResponseData = {
   swaps: 0,
   symbol: 'EURUSD',
   takeProfit: null,
-  openRate: 1,
   closeRate: 0,
   reason: 'OPERATOR',
   time: {
@@ -295,7 +294,6 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
     comment,
     time,
     reason,
-    openRate,
     closeRate,
   } = apolloMockResponseData;
 
@@ -365,7 +363,6 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
   expect(screen.getByLabelText('Symbol')).toHaveValue(symbol);
   expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
   expect(screen.getByLabelText('Close rate')).toBeDisabled();
   expect(screen.getByLabelText('Close rate')).toHaveValue(closeRate);
 });
@@ -546,7 +543,6 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
     stopLoss,
     takeProfit,
     comment,
-    openRate,
     reason,
   } = apolloMockResponseData;
 
@@ -613,7 +609,6 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
     moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
   );
   expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
   expect(screen.getByLabelText('Close rate')).toBeDisabled();
   expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeEnabled();
@@ -1009,7 +1004,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
     stopLoss,
     takeProfit,
     comment,
-    openRate,
     reason,
   } = apolloMockResponseData;
 
@@ -1083,7 +1077,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
   expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Close time')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
   expect(screen.getByLabelText('Close rate')).toBeDisabled();
   expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeDisabled();
@@ -1212,7 +1205,6 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
     stopLoss,
     takeProfit,
     comment,
-    openRate,
     reason,
   } = apolloMockResponseData;
 
@@ -1291,7 +1283,6 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
     moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
   );
   expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Open rate')).toHaveValue(openRate);
   expect(screen.getByLabelText('Close rate')).toBeDisabled();
   expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeDisabled();

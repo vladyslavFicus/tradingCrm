@@ -74,7 +74,6 @@ const EditOrderForm = (props: Props) => {
     volumeLots,
     openPrice,
     closePrice,
-    openRate,
     closeRate,
     marginRate,
     comment,
@@ -239,21 +238,6 @@ const EditOrderForm = (props: Props) => {
                 {accountLogin}
               </legend>
 
-              <div className="EditOrderModal__field-container">
-                <Input
-                  disabled
-                  name="order"
-                  value={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TITLE', {
-                    id,
-                    type: I18n.t(`TRADING_ENGINE.ORDERS.FILTER_FORM.TYPES.${type}`),
-                    volumeLots,
-                    symbol,
-                  })}
-                  label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.ORDER')}
-                  className="EditOrderModal__field"
-                />
-              </div>
-
               {/* Only who has permissions to admin edit order can see these data */}
               <If condition={isAdminEditAllowed}>
                 <div className="EditOrderModal__field-container">
@@ -409,29 +393,6 @@ const EditOrderForm = (props: Props) => {
                     value={moment.utc(time.expiration).local().format('DD.MM.YYYY HH:mm:ss')}
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.EXPIRY')}
                     className="EditOrderModal__field"
-                  />
-                </div>
-              </If>
-
-              {/* Only who has permissions to admin edit order can see these data */}
-              <If condition={isAdminEditAllowed}>
-                <div className="EditOrderModal__field-container">
-                  <Input
-                    disabled
-                    name="openRate"
-                    type="number"
-                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_RATE')}
-                    className="EditOrderModal__field"
-                    value={openRate}
-                  />
-                  <Input
-                    disabled
-                    name="closeRate"
-                    type="number"
-                    placeholder="0.00"
-                    label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_RATE')}
-                    className="EditOrderModal__field"
-                    value={closeRate || 0}
                   />
                 </div>
               </If>

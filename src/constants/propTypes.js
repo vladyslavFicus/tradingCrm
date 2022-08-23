@@ -948,7 +948,6 @@ PropTypes.order = PropTypes.shape({
   openPrice: PropTypes.number,
   closePrice: PropTypes.number,
   margin: PropTypes.number,
-  openRate: PropTypes.number,
   closeRate: PropTypes.number,
   volumeUnits: PropTypes.number,
   volumeLots: PropTypes.number,
