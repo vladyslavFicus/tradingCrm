@@ -172,19 +172,6 @@ const NewOrderModal = (props: Props) => {
               navActiveItemClassName="NewOrderModal__tabs-nav-item--active"
               contentClassName="NewOrderModal__tabs-content"
             >
-              {/* General new order tab */}
-              <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
-                <StaticTabsItem
-                  data-testid="generalNewOrder"
-                  label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.NEW_ORDER')}
-                >
-                  <GeneralNewOrderForm
-                    accountUuid={account?.uuid}
-                    onSymbolChanged={setSymbol}
-                    onSuccess={handleOnSuccess}
-                  />
-                </StaticTabsItem>
-              </If>
 
               {/* Smart P/L tab */}
               <If condition={permission.allows(permissions.WE_TRADING.CREATE_CLOSED_ORDER)}>
@@ -193,6 +180,20 @@ const NewOrderModal = (props: Props) => {
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.SMART_PNL')}
                 >
                   <SmartPnLForm
+                    accountUuid={account?.uuid}
+                    onSymbolChanged={setSymbol}
+                    onSuccess={handleOnSuccess}
+                  />
+                </StaticTabsItem>
+              </If>
+
+              {/* General new order tab */}
+              <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+                <StaticTabsItem
+                  data-testid="generalNewOrder"
+                  label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.NEW_ORDER')}
+                >
+                  <GeneralNewOrderForm
                     accountUuid={account?.uuid}
                     onSymbolChanged={setSymbol}
                     onSuccess={handleOnSuccess}
