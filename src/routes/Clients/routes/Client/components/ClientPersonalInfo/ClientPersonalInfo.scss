@@ -10,7 +10,7 @@
     height: 200px;
     padding: 7px;
     background-color: #fff;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
     border-radius: 5px;
     font-size: 13px;
   }
@@ -25,5 +25,11 @@
     &--inactive {
       color: #666;
     }
+  }
+}
+
+.EmailSelectModal {
+  &__button {
+    color: #666;
   }
 }

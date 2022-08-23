@@ -12,6 +12,7 @@ import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'comp
 import EmailPreview from 'components/EmailPreview';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailSendMutation from './graphql/EmailSendMutation';
+import '../../ClientPersonalInfo.scss';
 
 class EmailSelectModal extends PureComponent {
   static propTypes = {
@@ -168,7 +169,13 @@ class EmailSelectModal extends PureComponent {
                 </If>
               </ModalBody>
               <ModalFooter>
-                <Button onClick={onCloseModal}>{I18n.t('COMMON.BUTTONS.CANCEL')}</Button>
+                <Button
+                  onClick={onCloseModal}
+                  className="EmailSelectModal__button"
+                  commonOutline
+                >
+                  {I18n.t('COMMON.BUTTONS.CANCEL')}
+                </Button>
                 <Button type="submit" color="primary">
                   {I18n.t('EMAILS.MODALS.BUTTONS.SEND')}
                 </Button>
