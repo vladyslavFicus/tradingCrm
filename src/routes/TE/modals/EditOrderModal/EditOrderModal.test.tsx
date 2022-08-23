@@ -16,7 +16,6 @@ import { MockedPermissionProvider } from 'providers/PermissionsProvider';
 import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
-import capitalize from 'utils/capitalize';
 import { OrderQueryDocument } from './graphql/__generated__/OrderQuery';
 import EditOrderModal from './EditOrderModal';
 
@@ -143,10 +142,6 @@ const render = (
 
 it('Render EditOrderModal without any permissions', async () => {
   const {
-    id,
-    type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -178,8 +173,6 @@ it('Render EditOrderModal without any permissions', async () => {
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.getByLabelText('Open price')).toBeDisabled();
   expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
   expect(screen.getByLabelText('Open time')).toBeDisabled();
@@ -210,10 +203,6 @@ it('Render EditOrderModal without any permissions', async () => {
 
 it('Render EditOrderModal with MANAGER edit order permission', async () => {
   const {
-    id,
-    type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -249,8 +238,6 @@ it('Render EditOrderModal with MANAGER edit order permission', async () => {
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.queryByLabelText('Type')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open price')).toBeEnabled();
   expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
@@ -282,7 +269,6 @@ it('Render EditOrderModal with MANAGER edit order permission', async () => {
 
 it('Render EditOrderModal with ADMIN edit order permission', async () => {
   const {
-    id,
     type,
     volumeLots,
     symbol,
@@ -294,7 +280,6 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
     comment,
     time,
     reason,
-    closeRate,
   } = apolloMockResponseData;
 
   // Arrange
@@ -323,8 +308,6 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.getByLabelText('Type')).toBeEnabled();
   expect(screen.getByLabelText('Type')).toHaveValue(type);
   expect(screen.getByLabelText('Open price')).toBeEnabled();
@@ -362,17 +345,10 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
   expect(screen.getByLabelText('Symbol')).toBeDisabled();
   expect(screen.getByLabelText('Symbol')).toHaveValue(symbol);
   expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
-  expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toHaveValue(closeRate);
 });
 
 it('Render EditOrderModal with cancel order permission for OPEN order', async () => {
   const {
-    id,
-    type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -408,8 +384,6 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.getByLabelText('Open price')).toBeDisabled();
   expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
   expect(screen.getByLabelText('Open time')).toBeDisabled();
@@ -441,10 +415,6 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
 
 it('Render EditOrderModal with reopen order permission for CLOSED order for MANAGER', async () => {
   const {
-    id,
-    type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -493,8 +463,6 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for MANA
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.queryByLabelText('Type')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open price')).toBeDisabled();
   expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
@@ -533,10 +501,7 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for MANA
 
 it('Render EditOrderModal with reopen order permission for CLOSED order for ADMIN', async () => {
   const {
-    id,
     type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -585,8 +550,6 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.getByLabelText('Type')).toBeEnabled();
   expect(screen.getByLabelText('Type')).toHaveValue(type);
   expect(screen.getByLabelText('Reason')).toBeEnabled();
@@ -608,9 +571,6 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
   expect(screen.getByLabelText('Close time')).toHaveValue(
     moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
   );
-  expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeEnabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeEnabled();
@@ -901,10 +861,6 @@ it('Render EditOrderModal and configure volumeLots field for partial close order
 
 it('Render EditOrderModal with all permissions for CANCELED order for MANGER', async () => {
   const {
-    id,
-    type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -959,8 +915,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for MANGER', a
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.queryByLabelText('Type')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open price')).toBeDisabled();
   expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
@@ -994,8 +948,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for MANGER', a
 
 it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', async () => {
   const {
-    id,
-    type,
     volumeLots,
     symbol,
     commission,
@@ -1054,8 +1006,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.queryByLabelText('Type')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Reason')).toBeDisabled();
   expect(screen.getByLabelText('Reason')).toHaveValue(reason);
@@ -1076,9 +1026,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
   expect(screen.getByLabelText('Take profit')).toHaveValue(takeProfit);
   expect(screen.queryByLabelText('Close Price')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Close time')).not.toBeInTheDocument();
-  expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeDisabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeDisabled();
@@ -1098,10 +1045,6 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
 
 it('Render EditOrderModal with all permissions for CLOSED order for MANGER for archived account', async () => {
   const {
-    id,
-    type,
-    volumeLots,
-    symbol,
     commission,
     openPrice,
     swaps,
@@ -1156,8 +1099,6 @@ it('Render EditOrderModal with all permissions for CLOSED order for MANGER for a
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.queryByLabelText('Type')).not.toBeInTheDocument();
   expect(screen.getByLabelText('Open price')).toBeDisabled();
   expect(screen.getByLabelText('Open price')).toHaveValue(openPrice);
@@ -1195,7 +1136,6 @@ it('Render EditOrderModal with all permissions for CLOSED order for MANGER for a
 
 it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for archived account', async () => {
   const {
-    id,
     type,
     volumeLots,
     symbol,
@@ -1255,8 +1195,6 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
     await new Promise(res => setTimeout(res, 500));
   });
 
-  expect(screen.getByLabelText('Order')).toBeDisabled();
-  expect(screen.getByLabelText('Order')).toHaveValue(`Deal #${id}, ${capitalize(type)} ${volumeLots} ${symbol}`);
   expect(screen.getByLabelText('Type')).toBeDisabled();
   expect(screen.getByLabelText('Type')).toHaveValue(type);
   expect(screen.getByLabelText('Reason')).toBeDisabled();
@@ -1282,9 +1220,6 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
   expect(screen.getByLabelText('Close time')).toHaveValue(
     moment.utc(order.time.closing).local(false).format('DD.MM.YYYY HH:mm:ss'),
   );
-  expect(screen.getByLabelText('Open rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toBeDisabled();
-  expect(screen.getByLabelText('Close rate')).toHaveValue(order.closeRate);
   expect(screen.getByLabelText('Commission')).toBeDisabled();
   expect(screen.getByLabelText('Commission')).toHaveValue(commission);
   expect(screen.getByLabelText('Swaps')).toBeDisabled();
