@@ -164,10 +164,12 @@ export default {
     PROFILES_LIST: 'profileview.admin.pageableSearch',
   },
   CALLBACKS: {
-    LIST: 'callback.searchCallbacks',
-    CREATE_CALLBACK: 'callback.createCallback',
-    DELETE_CALLBACK: 'callback.deleteCallback',
-    UPDATE_CALLBACK: 'callback.updateCallback',
+    CLIENT: {
+      LIST: 'callback.searchClientCallbacks',
+      CREATE_CALLBACK: 'callback.createClientCallback',
+      DELETE_CALLBACK: 'callback.deleteClientCallback',
+      UPDATE_CALLBACK: 'callback.updateClientCallback',
+    },
   },
   CALL_HISTORY: {
     LIST: 'click-to-call.searchCallHistory',

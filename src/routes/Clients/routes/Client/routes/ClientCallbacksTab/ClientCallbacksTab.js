@@ -56,13 +56,13 @@ class ClientCallbacksTab extends PureComponent {
           title={I18n.t('CLIENT_PROFILE.TABS.CALLBACKS')}
           className="ClientCallbacksTab__header"
         >
-          <PermissionContent permissions={permissions.CALLBACKS.CREATE_CALLBACK}>
+          <PermissionContent permissions={permissions.CALLBACKS.CLIENT.CREATE_CALLBACK}>
             <Button
               small
               commonOutline
               onClick={this.handleOpenAddCallbackModal}
             >
-              {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
+              {I18n.t('CLIENT_PROFILE.CALLBACKS.CLIENT.ADD_CALLBACK')}
             </Button>
           </PermissionContent>
         </TabHeader>

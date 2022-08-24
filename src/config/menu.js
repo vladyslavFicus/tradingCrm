@@ -86,7 +86,7 @@ const sidebarTopMenu = [{
   label: 'SIDEBAR.TOP_MENU.CALLBACKS',
   icon: 'icon-callbacks',
   url: '/callbacks/list',
-  permissions: new Permissions(permissions.CALLBACKS.LIST),
+  permissions: new Permissions(permissions.CALLBACKS.CLIENT.LIST),
 }, {
   label: 'SIDEBAR.TOP_MENU.NOTIFICATIONS',
   icon: 'icon-notifications',

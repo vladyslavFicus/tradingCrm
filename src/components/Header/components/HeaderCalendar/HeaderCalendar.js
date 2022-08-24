@@ -20,7 +20,7 @@ class HeaderCalendar extends PureComponent {
     const { isOpen } = this.state;
 
     return (
-      <PermissionContent permissions={permissions.CALLBACKS.LIST}>
+      <PermissionContent permissions={permissions.CALLBACKS.CLIENT.LIST}>
         <div className="HeaderCalendar">
           <button
             className="HeaderCalendar__head"

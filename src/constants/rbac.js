@@ -1115,7 +1115,7 @@ export default [
     id: 'callbacks',
     actions: {
       view: {
-        action: 'callback.searchCallbacks',
+        action: 'callback.searchClientCallbacks',
         state: false,
       },
     },
@@ -1125,7 +1125,7 @@ export default [
         id: 'list',
         actions: {
           view: {
-            action: 'callback.searchCallbacks',
+            action: 'callback.searchClientCallbacks',
             state: false,
           },
         },
