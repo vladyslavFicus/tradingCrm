@@ -62,7 +62,7 @@ class ClientCallbacksTab extends PureComponent {
               commonOutline
               onClick={this.handleOpenAddCallbackModal}
             >
-              {I18n.t('CLIENT_PROFILE.CALLBACKS.CLIENT.ADD_CALLBACK')}
+              {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
             </Button>
           </PermissionContent>
         </TabHeader>

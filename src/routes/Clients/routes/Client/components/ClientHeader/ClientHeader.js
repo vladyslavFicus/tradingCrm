@@ -245,7 +245,7 @@ class ClientHeader extends PureComponent {
               className="ClientHeader__action"
               onClick={this.handleOpenAddCallbackModal}
             >
-              {I18n.t('CLIENT_PROFILE.CALLBACKS.CLIENT.ADD_CALLBACK')}
+              {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
             </Button>
           </PermissionContent>
 
