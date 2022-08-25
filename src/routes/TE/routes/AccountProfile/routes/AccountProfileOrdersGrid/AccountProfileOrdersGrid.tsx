@@ -6,7 +6,7 @@ import { cloneDeep, set } from 'lodash';
 import compose from 'compose-function';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { withNotifications, withModals } from 'hoc';
-import { LevelType, Notify, State, Sort, Modal } from 'types';
+import { LevelType, Notify, State, Sort, Modal, TableSelection } from 'types';
 import { Button } from 'components/UI';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -55,7 +55,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
   const { id: accountUuid } = useParams<{ id: string }>();
   const history = useHistory();
   const { state } = useLocation<State<OrdersQueryVariables['args']>>();
-  const [select, setSelect] = useState({ selected: 0 });
+  const [select, setSelect] = useState<TableSelection | null>(null);
 
   const permission = usePermission();
   const [closeOrder] = useCloseOrderMutation();
@@ -82,7 +82,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
     content.map(({ symbol }) => symbol),
   );
 
-  const refetchOrders = () => { setSelect({ selected: 0 }); ordersQuery.refetch(); };
+  const refetchOrders = () => { select?.reset(); ordersQuery.refetch(); };
 
   useEffect(() => {
     EventEmitter.on(ORDER_RELOAD, refetchOrders);
@@ -147,16 +147,19 @@ const AccountProfileOrdersGrid = (props: Props) => {
       <div className="AccountProfileOrdersGrid__header">
         <div className="AccountProfileOrdersGrid__title">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}<br />
-          <If condition={!!select.selected}>
+          <If condition={!!select?.selected}>
             <div className="AccountProfileOrdersGrid__selected">
-              <strong>{select.selected}</strong> {I18n.t('COMMON.ORDERS_SELECTED')}
+              <strong>{select?.selected}</strong> {I18n.t('COMMON.ORDERS_SELECTED')}
             </div>
           </If>
         </div>
         <div className="AccountProfileOrdersGrid__actions">
           <PermissionContent permissions={permissions.WE_TRADING.BULK_ORDER_CLOSE}>
-            <If condition={!!select.selected}>
-              <AccountProfileBulkActions select={select} ordersQuery={ordersQuery} />
+            <If condition={!!select?.selected}>
+              <AccountProfileBulkActions
+                select={select}
+                ordersQuery={ordersQuery}
+              />
             </If>
           </PermissionContent>
         </div>
