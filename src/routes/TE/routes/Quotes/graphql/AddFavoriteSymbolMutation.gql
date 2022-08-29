@@ -1,0 +1,9 @@
+mutation AddFavoriteSymbolMutation(
+  $symbol: String!
+) {
+  tradingEngine {
+    addFavoriteSymbols(
+      symbol: $symbol
+    )
+  }
+}

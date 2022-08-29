@@ -75,6 +75,7 @@ const orderStatuses = {
 
 const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
 const passwordMaxSize = 16;
+const maxSelectedFavortieSymbols = 10;
 
 export {
   tradingEngineTabs,
@@ -83,4 +84,5 @@ export {
   orderStatuses,
   passwordPattern,
   passwordMaxSize,
+  maxSelectedFavortieSymbols,
 };
