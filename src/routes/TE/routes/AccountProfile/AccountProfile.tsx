@@ -8,6 +8,7 @@ import { Storage } from 'types/storage';
 import Tabs from 'components/Tabs';
 import Route from 'components/Route';
 import ShortLoader from 'components/ShortLoader';
+import { TradingEngine__OrderStatuses__Enum as OrderStatuses } from '__generated__/types';
 import AccountProfileStatus from './components/AccountProfileStatus';
 import AccountProfileHeader from './components/AccountProfileHeader';
 import AccountProfileGroup from './components/AccountProfileGroup';
@@ -79,13 +80,13 @@ const AccountProfile = (props: Props) => {
               <Route
                 path={`${path}/orders`}
                 render={() => (
-                  <AccountProfileOrdersGrid orderStatus="OPEN" key="OPEN" />
+                  <AccountProfileOrdersGrid orderStatus={OrderStatuses.OPEN} key="OPEN" />
                 )}
               />
               <Route
                 path={`${path}/pending-orders`}
                 render={() => (
-                  <AccountProfileOrdersGrid orderStatus="PENDING" key="PENDING" />
+                  <AccountProfileOrdersGrid orderStatus={OrderStatuses.PENDING} key="PENDING" />
                 )}
               />
               <Route

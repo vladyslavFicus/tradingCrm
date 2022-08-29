@@ -20,6 +20,7 @@ import CurrentPrice from 'routes/TE/components/CurrentPrice';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { TradingEngine__OrderStatuses__Enum as OrderStatuses } from '__generated__/types';
 import { tradeStatusesColor, types } from '../../attributes/constants';
 import { MAX_SELECTED_ACCOUNT_ORDERS } from '../../constants';
 import { getTypeColor } from '../../attributes/utils';
@@ -32,7 +33,7 @@ import './AccountProfileOrdersGrid.scss';
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;
 
 type Props = {
-  orderStatus: string,
+  orderStatus: OrderStatuses,
   showCloseButtonColumn?: boolean,
   modals: {
     editOrderModal: Modal,
@@ -153,16 +154,13 @@ const AccountProfileOrdersGrid = (props: Props) => {
             </div>
           </If>
         </div>
-        <div className="AccountProfileOrdersGrid__actions">
-          <PermissionContent permissions={permissions.WE_TRADING.BULK_ORDER_CLOSE}>
-            <If condition={!!select?.selected}>
-              <AccountProfileBulkActions
-                select={select}
-                ordersQuery={ordersQuery}
-              />
-            </If>
-          </PermissionContent>
-        </div>
+        <PermissionContent permissions={permissions.WE_TRADING.BULK_ORDER_CLOSE}>
+          <If condition={!!select?.selected && orderStatus === OrderStatuses.OPEN}>
+            <div className="AccountProfileOrdersGrid__actions">
+              <AccountProfileBulkActions select={select} ordersQuery={ordersQuery} />
+            </div>
+          </If>
+        </PermissionContent>
       </div>
 
       <AccountProfileOrdersGridFilter onRefresh={refetchOrders} />
