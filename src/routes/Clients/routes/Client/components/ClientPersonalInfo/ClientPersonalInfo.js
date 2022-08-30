@@ -4,6 +4,7 @@ import { withApollo } from '@apollo/client/react/hoc';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
+import { UncontrolledTooltip } from 'reactstrap';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
@@ -218,6 +219,9 @@ class ClientPersonalInfo extends PureComponent {
       .check(permission.permissions)
       && getBrand().email.templatedEmails;
 
+    const lengthOfValue = 28;
+
+    const changeLength = value => `${value.slice(0, lengthOfValue)}...`;
     return (
       <div className="ClientPersonalInfo">
         <div className="ClientPersonalInfo__title">
@@ -322,30 +326,130 @@ class ClientPersonalInfo extends PureComponent {
               <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_SOURCE}>
-              <PersonalInformationItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
-                value={affiliate.source || (
-                  <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
-                    {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
-                  </span>
-                )}
-              />
+              <Choose>
+                <When condition={affiliate.source && affiliate.source.length < lengthOfValue}>
+                  <PersonalInformationItem
+                    label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
+                    value={affiliate.source || (
+                      <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
+                        {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
+                      </span>
+                    )}
+                  />
+                </When>
+                <When condition={affiliate.source && affiliate.source.length >= lengthOfValue}>
+                  <PersonalInformationItem
+                    label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
+                    value={(
+                      <>
+                        <span
+                          id="source-tooltip"
+                        >
+                          {changeLength(affiliate.source)}
+                        </span>
+                        <UncontrolledTooltip
+                          placement="top-start"
+                          target="source-tooltip"
+                          delay={{ show: 350, hide: 250 }}
+                          fade={false}
+                        >
+                          {affiliate.source}
+                        </UncontrolledTooltip>
+                      </>
+                    ) || (
+                    <span
+                      className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive"
+                    >
+                      {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
+                    </span>
+                    )}
+                  />
+                </When>
+              </Choose>
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_REFERRAL}>
-              <PersonalInformationItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
-                value={affiliate.referral || (
-                  <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
-                    {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
-                  </span>
-                )}
-              />
+              <Choose>
+                <When condition={affiliate.referral && affiliate.referral.length < lengthOfValue}>
+                  <PersonalInformationItem
+                    label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
+                    value={affiliate.referral || (
+                      <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
+                        {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
+                      </span>
+                    )}
+                  />
+                </When>
+                <When condition={affiliate.referral && affiliate.referral.length >= lengthOfValue}>
+                  <PersonalInformationItem
+                    label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
+                    value={(
+                      <>
+                        <span
+                          id="refferal-tooltip"
+                        >
+                          {changeLength(affiliate.referral)}
+                        </span>
+                        <UncontrolledTooltip
+                          placement="top-start"
+                          target="refferal-tooltip"
+                          delay={{ show: 350, hide: 250 }}
+                          fade={false}
+                        >
+                          {affiliate.referral}
+                        </UncontrolledTooltip>
+                      </>
+                    ) || (
+                    <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
+                      {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
+                    </span>
+                    )}
+                  />
+                </When>
+              </Choose>
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_CAMPAIGN_ID}>
-              <PersonalInformationItem
-                label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
-                value={affiliate.campaignId}
-              />
+              <Choose>
+                <When condition={affiliate.campaignId && affiliate.campaignId.length < lengthOfValue}>
+                  <PersonalInformationItem
+                    label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
+                    value={(affiliate.campaignId) || (
+                      <span
+                        className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive"
+                      >
+                        {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
+                      </span>
+                    )}
+                  />
+                </When>
+                <When condition={affiliate.campaignId && affiliate.campaignId.length >= lengthOfValue}>
+                  <PersonalInformationItem
+                    label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
+                    value={(
+                      <>
+                        <span
+                          id="campaignId-tooltip"
+                        >
+                          {changeLength(affiliate.campaignId)}
+                        </span>
+                        <UncontrolledTooltip
+                          placement="top-start"
+                          target="campaignId-tooltip"
+                          delay={{ show: 350, hide: 250 }}
+                          fade={false}
+                        >
+                          {affiliate.campaignId}
+                        </UncontrolledTooltip>
+                      </>
+                    ) || (
+                    <span
+                      className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive"
+                    >
+                      {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
+                    </span>
+                    )}
+                  />
+                </When>
+              </Choose>
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_SMS}>
               <PersonalInformationItem
