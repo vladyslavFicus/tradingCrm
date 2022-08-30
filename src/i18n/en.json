@@ -4082,8 +4082,8 @@
         "RESTART_STREAMING_FAILED": "Reconnect streaming failed.",
         "MAX_COUNT_FAVORITE": "Favourite symbol count exceeded",
         "FAVORITE_SYMBOLS_FAILED": "Something went wrong",
-        "FAVORITE_SYMBOLS_ADDED": "{{symbol}} successfylly added to Favorites",
-        "FAVORITE_SYMBOLS_REMOVED": "{{symbol}} successfylly removed from Favorites"
+        "FAVORITE_SYMBOLS_ADDED": "{{symbol}} successfully added to Favorites",
+        "FAVORITE_SYMBOLS_REMOVED": "{{symbol}} successfully removed from Favorites"
       }
     },
     "SYMBOLS": {
