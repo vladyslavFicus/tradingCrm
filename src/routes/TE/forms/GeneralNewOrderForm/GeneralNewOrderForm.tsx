@@ -25,6 +25,7 @@ import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
+import { useFavoriteSymbolDataQuery } from 'routes/TE/routes/Quotes/graphql/__generated__/getFavoriteSymbols';
 import { useCreateOrderMutation } from './graphql/__generated__/CreateOrderMutation';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
@@ -93,8 +94,11 @@ const GeneralNewOrderForm = (props: Props) => {
   const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
   const isAccountArchived = !account?.enable;
 
+  const favoriteSymbolsQuery = useFavoriteSymbolDataQuery();
+  const favoriteSymbolsData = favoriteSymbolsQuery.data?.tradingEngine.favoriteSymbolData || [];
+
   const favoriteSymbols = useMemo(() => intersectionWith(
-    ['EURUSD', 'GBPUSD', 'AUDUSD', 'USDCHF', 'USDCAD', 'BRENT', 'BTCUSD', 'ETHUSD', 'APPLE', 'AMAZON'],
+    favoriteSymbolsData,
     allowedSymbols,
     (item, { name }) => item === name,
   ), [allowedSymbols]);
