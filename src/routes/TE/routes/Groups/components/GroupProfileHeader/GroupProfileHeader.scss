@@ -17,4 +17,21 @@
   &__uuid {
     color: #827ca1;
   }
+
+  &__select {
+    width: 25%;
+    margin-left: 50%;
+    display: flex;
+    flex-direction: column;
+
+    &-label {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+  }
+
+  &__button {
+    margin-top: 25px;
+  }
 }

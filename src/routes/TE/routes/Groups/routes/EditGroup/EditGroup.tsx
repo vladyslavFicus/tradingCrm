@@ -21,9 +21,9 @@ import GroupSecuritiesGrid from '../../components/GroupSecuritiesGrid';
 import GroupSymbolsGrid from '../../components/GroupSymbolsGrid';
 import { groupNamePattern } from '../../constants';
 import { FormValues } from '../../types';
-import { useEditGroupMutation } from './graphql/__generated__/EditGroupMutation';
-import { useGroupQuery } from './graphql/__generated__/GroupQuery';
 import './EditGroup.scss';
+import { useGroupQuery } from './graphql/__generated__/GroupQuery';
+import { useEditGroupMutation } from './graphql/__generated__/EditGroupMutation';
 
 interface Props {
   notify: Notify,

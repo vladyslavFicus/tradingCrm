@@ -4584,6 +4584,7 @@
       "PER_DEAL": "per deal",
       "ENABLED": "Enabled",
       "DISABLED": "Disabled",
+      "TEMPLATES": "Group templates",
       "NOTIFICATION": {
         "CREATE": {
           "SUCCESS": "Group has been successfully created",
@@ -4602,7 +4603,8 @@
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "DEPOSIT_CURRENCY": "Deposit currency",
-        "LEVERAGE_BY_DEFAULT": "Leverage by default"
+        "LEVERAGE_BY_DEFAULT": "Leverage by default",
+        "GROUP_TEMPLATE": "--Groups--"
       },
       "PERMISSIONS_GROUP_FORM": {
         "TITLE": "Permissions",
