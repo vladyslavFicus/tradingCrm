@@ -7,8 +7,8 @@ import { omit } from 'lodash';
 import Select from 'components/Select';
 import { Button } from 'components/UI';
 import { FormValues } from '../../types';
-import './GroupProfileHeader.scss';
 import { useNewGroupTemplatesQuery, NewGroupTemplatesQuery } from './graphql/__generated__/NewGroupTemplatesQuery';
+import './GroupProfileHeader.scss';
 
 interface Props {
   formik: FormikProps<FormValues>,
