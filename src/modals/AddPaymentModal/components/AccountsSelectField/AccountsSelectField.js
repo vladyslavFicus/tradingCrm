@@ -68,7 +68,7 @@ class AccountsSelectField extends PureComponent {
           </PlatformTypeBadge>
           <div className={classNames({ 'color-danger': Number(account.balance) === 0 })}>
             {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}:&nbsp;
-            {account.currency} {I18n.toCurrency(account.balance, { unit: '' })}
+            {account.currency} {I18n.toCurrency(account.balance, { unit: '', precision: 5 })}
           </div>
           <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {account.group}</div>
           <If condition={[paymentTypes.CREDIT_IN.name, paymentTypes.CREDIT_OUT.name].includes(paymentType)}>
