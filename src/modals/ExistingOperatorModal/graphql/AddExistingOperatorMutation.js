@@ -9,6 +9,7 @@ const REQUEST = gql`
     $department: String!
     $email: String!
     $role: String!
+    $userType: String!
   ) {
     operator {
       addExistingOperator(
@@ -16,6 +17,7 @@ const REQUEST = gql`
         department: $department
         role: $role
         branchId: $branchId
+        userType: $userType
       ) {
         uuid
       }

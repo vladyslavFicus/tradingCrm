@@ -20,6 +20,7 @@ class ExistingOperatorModal extends PureComponent {
     department: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
+    userType: PropTypes.string.isRequired,
     addExistingOperator: PropTypes.func.isRequired,
   };
 
@@ -31,6 +32,7 @@ class ExistingOperatorModal extends PureComponent {
       role,
       branchId,
       onCloseModal,
+      userType,
       notify,
       history,
     } = this.props;
@@ -42,6 +44,7 @@ class ExistingOperatorModal extends PureComponent {
           department,
           role,
           branchId,
+          userType,
         },
       });
 

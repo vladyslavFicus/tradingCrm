@@ -105,10 +105,10 @@ class CreateOperatorModal extends PureComponent {
       const { error } = parseErrors(e);
 
       if (error === 'error.validation.email.exists') {
-        const { email, department, role, branchId } = values || {};
+        const { email, department, role, branchId, userType } = values || {};
 
         onCloseModal();
-        onExists({ email, department, role, branchId });
+        onExists({ email, department, role, branchId, userType });
       } else {
         notify({
           level: 'error',
