@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
 import ReactPlaceholder from 'react-placeholder';
@@ -18,22 +18,25 @@ type Group = ExtractApolloTypeFromPageable<NewGroupTemplatesQuery['tradingEngine
 
 const GroupProfileHeader = ({ formik }: Props) => {
   const { dirty, isSubmitting, isValid, setValues, values } = formik;
+  const [templateNameGroup, setTemplateName] = useState<String | null>(null);
   const groupTemplates = useNewGroupTemplatesQuery({
     variables: {
       args: {
         page: {
           from: 0,
-          size: 1000,
+          size: 10000,
         },
       },
     },
   });
   const content = groupTemplates.data?.tradingEngine.groups.content || [];
-  const { groupName, description } = values;
+  const { groupName, description, enable } = values;
 
-  const onChangeHandler = (group: Group) => {
+  const onChangeHandler = (templateName: String) => {
+    const group = content.find(item => item.groupName === templateName);
     const template = omit(group, ['groupName']);
-    setValues({ groupName, description, ...template });
+    setTemplateName(templateName);
+    setValues({ groupName, description, enable, ...template });
   };
 
   return (
@@ -57,20 +60,24 @@ const GroupProfileHeader = ({ formik }: Props) => {
         <div
           className="GroupProfileHeader__select"
         >
-          <span className="GroupProfileHeader__select-label">
-            {I18n.t('TRADING_ENGINE.GROUP.TEMPLATES')}
-          </span>
-          <Select
-            // @ts-ignore
-            onChange={onChangeHandler}
-            placeholder={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.GROUP_TEMPLATE')}
-          >
-            {content.map((group: any) => (
-              <option key={group.groupName} value={group}>
-                {group.groupName}
-              </option>
-            ))}
-          </Select>
+          <If condition={!groupName}>
+            <span className="GroupProfileHeader__select-label">
+              {I18n.t('TRADING_ENGINE.GROUP.TEMPLATES')}
+            </span>
+            <Select
+              // Required because the Select component is not the TS component and doesn't support typing
+              // @ts-ignore
+              onChange={onChangeHandler}
+              value={templateNameGroup}
+              placeholder={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.GROUP_TEMPLATE')}
+            >
+              {content.map((group: Group) => (
+                <option key={group.groupName} value={group.groupName}>
+                  {group.groupName}
+                </option>
+              ))}
+            </Select>
+          </If>
         </div>
       </If>
       <Button

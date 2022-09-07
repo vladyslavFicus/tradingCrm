@@ -6,7 +6,6 @@ query NewGroupTemplatesQuery($args: TradingEngineGroupsSearch__Input) {
         defaultLeverage
         currency
         useSwap
-        enable
         archivationEnabled
         hedgeProhibited
         archivePeriodDays
@@ -14,7 +13,7 @@ query NewGroupTemplatesQuery($args: TradingEngineGroupsSearch__Input) {
         marginCallLevel
         stopoutLevel
         groupSecurities {
-           security{
+          security {
             name
             id
           }
@@ -28,7 +27,7 @@ query NewGroupTemplatesQuery($args: TradingEngineGroupsSearch__Input) {
           commissionBase
           commissionType
         }
-        groupSymbols{
+        groupSymbols {
           symbol
           securityId
           swapShort

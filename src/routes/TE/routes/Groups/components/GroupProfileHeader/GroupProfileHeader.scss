@@ -23,12 +23,12 @@
     margin-left: 50%;
     display: flex;
     flex-direction: column;
+  }
 
-    &-label {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
+  &__select-label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
   }
 
   &__button {
