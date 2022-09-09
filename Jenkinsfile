@@ -1,3 +1,3 @@
 @Library("orchestra") _
 
-cdnServiceBuild(promoteTo: 'dev01', promoteStack: 'cdn')
+cdnServiceBuild(promoteTo: 'qa01', promoteStack: 'cdn')
