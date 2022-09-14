@@ -362,7 +362,7 @@ class ClientPersonalInfo extends PureComponent {
                 value={(
                   <>
                     <CopyToClipboard
-                      text={affiliate.source}
+                      text={affiliate.referral}
                       withNotification={this.props.notify}
                       notificationLevel="info"
                       notificationTitle="COMMON.NOTIFICATIONS.COPIED"
@@ -397,7 +397,7 @@ class ClientPersonalInfo extends PureComponent {
                 value={(
                   <>
                     <CopyToClipboard
-                      text={affiliate.source}
+                      text={affiliate.campaignId}
                       withNotification={this.props.notify}
                       notificationLevel="info"
                       notificationTitle="COMMON.NOTIFICATIONS.COPIED"
