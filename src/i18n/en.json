@@ -1390,7 +1390,8 @@
       "MEDIA": "Media",
       "PENDING": "Pending",
       "DIFFERENT_VOICE": "Different Voice",
-      "DEPOSIT_WITH_ME": "Deposit with me"
+      "DEPOSIT_WITH_ME": "Deposit with me",
+      "FROST": "Frost"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",

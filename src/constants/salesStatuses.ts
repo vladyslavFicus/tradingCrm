@@ -50,6 +50,7 @@ export const salesStatuses: Record<string, string> = {
   PENDING: 'CONSTANTS.SALES_STATUSES.PENDING',
   DIFFERENT_VOICE: 'CONSTANTS.SALES_STATUSES.DIFFERENT_VOICE',
   DEPOSIT_WITH_ME: 'CONSTANTS.SALES_STATUSES.DEPOSIT_WITH_ME',
+  FROST: 'CONSTANTS.SALES_STATUSES.FROST',
 };
 
 export const salesStatusesColor: Record<string, string> = {
@@ -103,4 +104,5 @@ export const salesStatusesColor: Record<string, string> = {
   DIFFERENT_VOICE: 'color-info',
   DEPOSIT_WITH_ME: 'color-info',
   PENDING: 'color-warning',
+  FROST: 'color-info',
 };
