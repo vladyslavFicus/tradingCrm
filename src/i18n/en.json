@@ -552,6 +552,7 @@
     "BALANCE": "Balance",
     "NOTIFICATIONS": {
       "COPIED": "Copied",
+      "CLIPPED_VALUE_MESSAGE": "Full value has been copied to clipboard",
       "COPY_FULL_UUID": {
         "TITLE": "Copied",
         "MESSAGE": "Full UUID has been copied to clipboard"

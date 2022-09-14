@@ -13,6 +13,7 @@ import {
   ClickToCall__Customer__Type__Enum as CustomerType,
 } from '__generated__/types';
 import Uuid from 'components/Uuid';
+import CopyToClipboard from 'components/CopyToClipboard';
 import Click2Call from 'components/Click2Call';
 import Sms from 'components/Sms';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -219,9 +220,6 @@ class ClientPersonalInfo extends PureComponent {
       .check(permission.permissions)
       && getBrand().email.templatedEmails;
 
-    const lengthOfValue = 28;
-
-    const changeLength = value => `${value.slice(0, lengthOfValue)}...`;
     return (
       <div className="ClientPersonalInfo">
         <div className="ClientPersonalInfo__title">
@@ -326,130 +324,109 @@ class ClientPersonalInfo extends PureComponent {
               <strong>{I18n.t('CLIENT_PROFILE.DETAILS.AFFILIATE_ID')}</strong>: <Uuid uuid={affiliate.uuid} />
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_SOURCE}>
-              <Choose>
-                <When condition={affiliate.source && affiliate.source.length < lengthOfValue}>
-                  <PersonalInformationItem
-                    label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
-                    value={affiliate.source || (
-                      <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
-                        {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
-                      </span>
-                    )}
-                  />
-                </When>
-                <When condition={affiliate.source && affiliate.source.length >= lengthOfValue}>
-                  <PersonalInformationItem
-                    label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
-                    value={(
-                      <>
-                        <span
-                          id="source-tooltip"
-                        >
-                          {changeLength(affiliate.source)}
-                        </span>
-                        <UncontrolledTooltip
-                          placement="top-start"
-                          target="source-tooltip"
-                          delay={{ show: 350, hide: 250 }}
-                          fade={false}
-                        >
-                          {affiliate.source}
-                        </UncontrolledTooltip>
-                      </>
-                    ) || (
-                    <span
-                      className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive"
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.SOURCE')}
+                value={(
+                  <>
+                    <CopyToClipboard
+                      text={affiliate.source}
+                      withNotification={this.props.notify}
+                      notificationLevel="info"
+                      notificationTitle="COMMON.NOTIFICATIONS.COPIED"
+                      notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                     >
+                      <span id="source-tooltip">
+                        {affiliate.source}
+                      </span>
+                    </CopyToClipboard>
+                    <UncontrolledTooltip
+                      placement="top-start"
+                      target="source-tooltip"
+                      delay={{ show: 350, hide: 250 }}
+                      fade={false}
+                    >
+                      {affiliate.source}
+                    </UncontrolledTooltip>
+                  </>
+                )
+                  || (
+                    <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
                       {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
                     </span>
-                    )}
-                  />
-                </When>
-              </Choose>
+                  )}
+              />
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_REFERRAL}>
-              <Choose>
-                <When condition={affiliate.referral && affiliate.referral.length < lengthOfValue}>
-                  <PersonalInformationItem
-                    label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
-                    value={affiliate.referral || (
-                      <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
-                        {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
+                value={(
+                  <>
+                    <CopyToClipboard
+                      text={affiliate.source}
+                      withNotification={this.props.notify}
+                      notificationLevel="info"
+                      notificationTitle="COMMON.NOTIFICATIONS.COPIED"
+                      notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
+                    >
+                      <span
+                        id="refferal-tooltip"
+                      >
+                        {affiliate.referral}
                       </span>
-                    )}
-                  />
-                </When>
-                <When condition={affiliate.referral && affiliate.referral.length >= lengthOfValue}>
-                  <PersonalInformationItem
-                    label={I18n.t('CLIENT_PROFILE.DETAILS.REFERRAL')}
-                    value={(
-                      <>
-                        <span
-                          id="refferal-tooltip"
-                        >
-                          {changeLength(affiliate.referral)}
-                        </span>
-                        <UncontrolledTooltip
-                          placement="top-start"
-                          target="refferal-tooltip"
-                          delay={{ show: 350, hide: 250 }}
-                          fade={false}
-                        >
-                          {affiliate.referral}
-                        </UncontrolledTooltip>
-                      </>
-                    ) || (
+                    </CopyToClipboard>
+                    <UncontrolledTooltip
+                      placement="top-start"
+                      target="refferal-tooltip"
+                      delay={{ show: 350, hide: 250 }}
+                      fade={false}
+                    >
+                      {affiliate.referral}
+                    </UncontrolledTooltip>
+                  </>
+                )
+                  || (
                     <span className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive">
                       {I18n.t('CLIENT_PROFILE.DETAILS.NO_REFERRAL')}
                     </span>
-                    )}
-                  />
-                </When>
-              </Choose>
+                  )}
+              />
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_CAMPAIGN_ID}>
-              <Choose>
-                <When condition={affiliate.campaignId && affiliate.campaignId.length < lengthOfValue}>
-                  <PersonalInformationItem
-                    label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
-                    value={(affiliate.campaignId) || (
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
+                value={(
+                  <>
+                    <CopyToClipboard
+                      text={affiliate.source}
+                      withNotification={this.props.notify}
+                      notificationLevel="info"
+                      notificationTitle="COMMON.NOTIFICATIONS.COPIED"
+                      notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
+                    >
                       <span
-                        className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive"
+                        id="campaignId-tooltip"
                       >
-                        {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
+                        {affiliate.campaignId}
                       </span>
-                    )}
-                  />
-                </When>
-                <When condition={affiliate.campaignId && affiliate.campaignId.length >= lengthOfValue}>
-                  <PersonalInformationItem
-                    label={I18n.t('CLIENT_PROFILE.DETAILS.CAMPAIGN_ID')}
-                    value={(
-                      <>
-                        <span
-                          id="campaignId-tooltip"
-                        >
-                          {changeLength(affiliate.campaignId)}
-                        </span>
-                        <UncontrolledTooltip
-                          placement="top-start"
-                          target="campaignId-tooltip"
-                          delay={{ show: 350, hide: 250 }}
-                          fade={false}
-                        >
-                          {affiliate.campaignId}
-                        </UncontrolledTooltip>
-                      </>
-                    ) || (
+                    </CopyToClipboard>
+                    <UncontrolledTooltip
+                      placement="top-start"
+                      target="campaignId-tooltip"
+                      delay={{ show: 350, hide: 250 }}
+                      fade={false}
+                    >
+                      {affiliate.campaignId}
+                    </UncontrolledTooltip>
+                  </>
+                )
+                  || (
                     <span
                       className="ClientPersonalInfo__value ClientPersonalInfo__value--inactive"
                     >
                       {I18n.t('CLIENT_PROFILE.DETAILS.NO_SOURCE')}
                     </span>
-                    )}
-                  />
-                </When>
-              </Choose>
+                  )}
+              />
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.AFFILIATE_FIELD_SMS}>
               <PersonalInformationItem

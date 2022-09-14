@@ -3,6 +3,12 @@
   justify-content: space-between;
   align-items: center;
 
+  &__content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &__additional {
     display: flex;
     align-items: center;
