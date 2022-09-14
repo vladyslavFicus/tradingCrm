@@ -1391,7 +1391,8 @@
       "PENDING": "Pending",
       "DIFFERENT_VOICE": "Different Voice",
       "DEPOSIT_WITH_ME": "Deposit with me",
-      "FROST": "Frost"
+      "FROST": "Frost",
+      "REFERRAL": "Referral"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
