@@ -2,6 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { get } from 'lodash';
+import { getBrand } from 'config';
 import { tradingTypes } from 'constants/payment';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -25,6 +27,8 @@ class Dashboard extends PureComponent {
   };
 
   render() {
+    const config = get(getBrand(), 'backoffice.dashboards.default', {});
+
     return (
       <Fragment>
         {/* Redirect to TE Manager or to TE Admin only for brand "trading-engine" */}
@@ -34,17 +38,19 @@ class Dashboard extends PureComponent {
 
         <div className="Dashboard__topic">{I18n.t('COMMON.DASHBOARD')}</div>
 
-        <div className="Dashboard__charts">
-          <PermissionContent permissions={permissions.DASHBOARD.REGISTRATION_STATISTICS}>
-            <RegistrationsChart />
-          </PermissionContent>
-          <PermissionContent permissions={permissions.DASHBOARD.PAYMENT_STATISTICS}>
-            <DepositAmountChart />
-            <DepositCountChart />
-            <WithdrawsAmountChart />
-            <WithdrawsCountChart />
-          </PermissionContent>
-        </div>
+        <If condition={!config?.hideCharts}>
+          <div className="Dashboard__charts">
+            <PermissionContent permissions={permissions.DASHBOARD.REGISTRATION_STATISTICS}>
+              <RegistrationsChart />
+            </PermissionContent>
+            <PermissionContent permissions={permissions.DASHBOARD.PAYMENT_STATISTICS}>
+              <DepositAmountChart />
+              <DepositCountChart />
+              <WithdrawsAmountChart />
+              <WithdrawsCountChart />
+            </PermissionContent>
+          </div>
+        </If>
 
         <PermissionContent permissions={permissions.DASHBOARD.PAYMENTS_LIST}>
           <div className="Dashboard__topic">

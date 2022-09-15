@@ -1198,6 +1198,18 @@
             "deprecationReason": null
           },
           {
+            "name": "backoffice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BrandConfigProvider__Backoffice",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "clickToCall",
             "description": null,
             "args": [],
@@ -1406,6 +1418,29 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "BrandConfigProvider__Backoffice",
+        "description": null,
+        "fields": [
+          {
+            "name": "dashboards",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Object",
               "ofType": null
             },
             "isDeprecated": false,

@@ -8,6 +8,9 @@ const REQUEST = gql`
   query ConfigQuery($brandId: String!) {
     config(brandId: $brandId) {
       env
+      backoffice {
+        dashboards
+      }
       currencies {
         base
         supported
