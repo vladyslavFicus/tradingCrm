@@ -80,7 +80,7 @@ const AccountProfile = (props: Props) => {
               <Route
                 path={`${path}/orders`}
                 render={() => (
-                  <AccountProfileOrdersGrid orderStatus={OrderStatuses.OPEN} key="OPEN" />
+                  <AccountProfileOrdersGrid orderStatus={OrderStatuses.OPEN} key="OPEN" showCloseButtonColumn />
                 )}
               />
               <Route
