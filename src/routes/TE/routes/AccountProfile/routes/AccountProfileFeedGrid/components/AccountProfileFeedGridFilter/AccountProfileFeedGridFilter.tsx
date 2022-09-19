@@ -82,8 +82,16 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
             name="searchBy"
             className="AccountProfileFeedGridFilter__field"
             label={I18n.t(attributeLabels.searchBy)}
-            placeholder={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
+            placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FEED.FILTER_FORM.LABELS.SEARCH_BY_PLACEHOLDER')}
             addition={<i className="icon icon-search" />}
+            component={FormikInputField}
+            withFocus
+          />
+          <Field
+            name="details.orderId"
+            className="AccountProfileFeedGridFilter__field"
+            label={I18n.t(attributeLabels.orderId)}
+            placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FEED.FILTER_FORM.LABELS.ORDER_ID')}
             component={FormikInputField}
             withFocus
           />
@@ -102,7 +110,7 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
           </Field>
           <Field
             className="AccountProfileFeedGridFilter__field AccountProfileFeedGridFilter__field--date-range"
-            label={I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
+            label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
               from: 'creationDateFrom',

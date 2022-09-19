@@ -8,6 +8,7 @@ query FeedsQuery (
   $sortDirection: String,
   $targetUUID: String,
   $auditLogType: String,
+  $details: Object,
 ) {
   feeds (
     searchBy: $searchBy,
@@ -19,6 +20,7 @@ query FeedsQuery (
     sortDirection: $sortDirection,
     targetUUID: $targetUUID,
     auditLogType: $auditLogType,
+    details: $details,
   ) {
     content {
       id

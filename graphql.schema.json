@@ -25053,6 +25053,18 @@
                 "deprecationReason": null
               },
               {
+                "name": "details",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Object",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "limit",
                 "description": null,
                 "type": {

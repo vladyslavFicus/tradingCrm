@@ -4290,10 +4290,11 @@
         "FILTER_FORM": {
           "LABELS": {
             "SEARCH_BY": "Search by",
-            "SEARCH_BY_PLACEHOLDER": "Action ID, Account ID, IP",
+            "SEARCH_BY_PLACEHOLDER": "Action ID, Account ID",
             "ACTION_TYPES": "Action types",
             "CREATION_DATE_FROM": "Creation date from",
             "CREATION_DATE_TO": "Creation date to",
+            "ORDER_ID": "Order ID",
             "ACTION_DATE_RANGE": "Action date range"
           }
         }
