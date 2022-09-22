@@ -11,7 +11,9 @@ type Props = {
 }
 
 const GroupArchivingForm = (props: Props) => {
-  const { formik } = props;
+  const { formik: { initialValues: { enabled }, values: { archivationEnabled } } } = props;
+
+  const archived = !enabled;
 
   return (
     <div className="GroupArchivingForm">
@@ -21,6 +23,7 @@ const GroupArchivingForm = (props: Props) => {
           component={FormikCheckbox}
           label={I18n.t('TRADING_ENGINE.GROUP.ARCHIVING_GROUP_FORM.ENABLE')}
           className="GroupArchivingForm__field"
+          disabled={archived}
         />
         <div className="GroupArchivingForm__wrapper">
           <div className="GroupArchivingForm__title">
@@ -32,7 +35,7 @@ const GroupArchivingForm = (props: Props) => {
             name="archivePeriodDays"
             component={FormikSelectField}
             className="GroupArchivingForm__field"
-            disabled={!formik.values.archivationEnabled}
+            disabled={!archivationEnabled || archived}
           >
             {enumToArray(ArchivePeriodDays).map(value => (
               <option key={value} value={value}>
@@ -45,7 +48,7 @@ const GroupArchivingForm = (props: Props) => {
             name="archiveMaxBalance"
             component={FormikSelectField}
             className="GroupArchivingForm__field"
-            disabled={!formik.values.archivationEnabled}
+            disabled={!archivationEnabled || archived}
           >
             {enumToArray(ArchiveMaxBalance).map(value => (
               <option key={value} value={value}>

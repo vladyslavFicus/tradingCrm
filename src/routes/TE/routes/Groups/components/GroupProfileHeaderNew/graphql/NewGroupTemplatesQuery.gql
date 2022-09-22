@@ -6,7 +6,9 @@ query NewGroupTemplatesQuery($args: TradingEngineGroupsSearch__Input) {
         defaultLeverage
         currency
         useSwap
+        enabled
         archivationEnabled
+        accountCreationAllowed
         hedgeProhibited
         archivePeriodDays
         archiveMaxBalance

@@ -109,7 +109,7 @@ export interface FormValues {
   groupName: string,
   currency: string,
   description: string | null,
-  enable: boolean,
+  enabled: boolean,
   defaultLeverage: DefaultLeverage,
   useSwap: boolean,
   hedgeProhibited: boolean,
@@ -120,4 +120,5 @@ export interface FormValues {
   stopoutLevel: number,
   groupSecurities: GroupSecurity[] | null,
   groupSymbols: GroupSymbol[] | null,
+  accountCreationAllowed: boolean,
 }

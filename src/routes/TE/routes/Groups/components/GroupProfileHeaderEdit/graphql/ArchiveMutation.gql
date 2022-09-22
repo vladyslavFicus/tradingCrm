@@ -1,0 +1,13 @@
+mutation ArchiveMutation(
+   $groupName: String!
+   $enabled: Boolean!
+   $force: Boolean
+) {
+  tradingEngine {
+    archiveGroup(
+      groupName: $groupName
+      enabled: $enabled
+      force: $force
+    )
+  }
+}

@@ -80,14 +80,21 @@ const AccountProfileHeader = (props: Props) => {
       });
     } catch (e) {
       const error = parseErrors(e);
-
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('COMMON.ERROR'),
-        message: error.error === 'error.account.disable.prohibited'
-          ? I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.ACCOUNT_DISABLE_PROHIBITED')
-          : I18n.t('COMMON.FAILED'),
-      });
+      if (error.error === 'error.group.disabled') {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('COMMON.ERROR'),
+          message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.ACCOUNT_DISABLE_GROUP'),
+        });
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('COMMON.ERROR'),
+          message: error.error === 'error.account.disable.prohibited'
+            ? I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.ACCOUNT_DISABLE_PROHIBITED')
+            : I18n.t('COMMON.FAILED'),
+        });
+      }
     }
   };
 

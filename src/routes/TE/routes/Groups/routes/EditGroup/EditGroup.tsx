@@ -12,7 +12,7 @@ import { Notify, LevelType } from 'types/notify';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import GroupProfileHeader from '../../components/GroupProfileHeader';
+import GroupProfileHeaderEdit from '../../components/GroupProfileHeaderEdit';
 import GroupCommonForm from '../../components/GroupCommonForm';
 import GroupPermissionsForm from '../../components/GroupPermissionsForm';
 import GroupArchivingForm from '../../components/GroupArchivingForm';
@@ -29,6 +29,7 @@ interface Props {
   notify: Notify,
   modals: {
     confirmationModal: Modal,
+    confirmationOpenOrderModal: Modal,
   },
 }
 
@@ -56,6 +57,7 @@ const EditGroup = (props: Props) => {
 
   const groupQuery = useGroupQuery({ variables: { groupName } });
   const [editGroup] = useEditGroupMutation();
+
   const { data, loading, error, refetch } = groupQuery;
   const groupError = hasErrorPath(error, 'tradingEngineGroup');
 
@@ -132,16 +134,16 @@ const EditGroup = (props: Props) => {
       >
         {(formikBag: FormikProps<FormValues>) => (
           <Form>
-            <GroupProfileHeader formik={formikBag} />
+            <GroupProfileHeaderEdit formik={formikBag} onArchived={refetch} />
             <Choose>
               <When condition={loading && !data?.tradingEngine.group}>
                 <ShortLoader className="EditGroup__loader" />
               </When>
               <Otherwise>
                 <GroupCommonForm formik={formikBag} />
-                <GroupPermissionsForm />
+                <GroupPermissionsForm formik={formikBag} />
                 <GroupArchivingForm formik={formikBag} />
-                <GroupMarginsForm />
+                <GroupMarginsForm formik={formikBag} />
                 <GroupSecuritiesGrid formik={formikBag} />
                 <GroupSymbolsGrid formik={formikBag} />
               </Otherwise>
@@ -159,5 +161,6 @@ export default compose(
   withNotifications,
   withModals({
     confirmationModal: ConfirmActionModal,
+    confirmationOpenOrderModal: ConfirmActionModal,
   }),
 )(EditGroup);

@@ -10,7 +10,7 @@ import {
 } from '__generated__/types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { EditButton, Button } from 'components/UI';
+import { EditButton, TrashButton, Button } from 'components/UI';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
 import GroupSecurityCustomizationModal from '../../modals/GroupSecurityCustomizationModal';
 import {
@@ -51,10 +51,17 @@ interface Props {
 }
 
 const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
-  const { groupNewSecurityModal, groupSecurityCustomizationModal, confirmationModal } = modals;
+  const {
+    groupNewSecurityModal,
+    groupSecurityCustomizationModal,
+    confirmationModal,
+  } = modals;
+
   const { values, setFieldValue } = formik;
+
   const groupSecurities = values?.groupSecurities || [];
   const groupSymbols = values?.groupSymbols || [];
+  const archived = !values.enabled;
 
   const handleNewGroupSecurity = (securities: Security[]) => {
     const newSecurities = securities.map(security => ({
@@ -122,6 +129,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.TITLE')}
         </span>
         <Button
+          disabled={archived}
           onClick={handleNewGroupSecurityModal}
           commonOutline
           small
@@ -171,15 +179,17 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
             render={(security: GroupSecurity) => (
               <>
                 <EditButton
+                  disabled={archived}
                   onClick={() => handleEditGroupSecurityModal(security)}
                   className="GroupSecuritiesGrid__edit-button"
                 />
-                <Button
-                  transparent
+                <TrashButton
+                  disabled={archived}
                   onClick={() => handleDeleteGroupSecurityModal(security)}
+                  className="GroupSecuritiesGrid__delete-button"
                 >
                   <i className="fa fa-trash btn-transparent color-danger" />
-                </Button>
+                </TrashButton>
               </>
             )}
           />

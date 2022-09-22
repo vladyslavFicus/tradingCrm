@@ -3,6 +3,7 @@ query GroupsQuery($args: TradingEngineGroupsSearch__Input) {
     groups(args: $args) {
       content {
         groupName
+        enabled
         description
         currency
         marginCallLevel

@@ -1,15 +1,10 @@
 .TrashButton {
   padding: 0;
   border: none;
+  background: none !important;
 
-  &:disabled {
-    background: transparent;
-
-    .TrashButton {
-      &__icon {
-        opacity: .4;
-      }
-    }
+  &--disabled {
+    opacity: 0.6;
   }
 
   &__icon {

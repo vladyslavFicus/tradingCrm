@@ -38,6 +38,7 @@ const AccountsFilter = (props: Props) => {
   const groupsQuery = useGroupsQuery({
     variables: {
       args: {
+        enabled: true,
         page: {
           from: 0,
           size: 100000,
@@ -120,7 +121,6 @@ const AccountsFilter = (props: Props) => {
               multiple
               disabled={groupsQuery.loading}
             >
-
               {groups.map(({ groupName }) => (
                 <option key={groupName} value={groupName}>
                   {groupName}

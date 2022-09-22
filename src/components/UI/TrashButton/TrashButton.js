@@ -7,18 +7,21 @@ import './TrashButton.scss';
 class TrashButton extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
     className: '',
+    disabled: false,
   }
 
   render() {
-    const { className, ...props } = this.props;
+    const { className, disabled, ...props } = this.props;
 
     return (
       <Button
-        className={classNames('TrashButton', className)}
+        disabled={disabled}
+        className={classNames('TrashButton', { 'TrashButton--disabled': disabled }, className)}
         {...props}
       >
         <i className="TrashButton__icon fa fa-trash" />

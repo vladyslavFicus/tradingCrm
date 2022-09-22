@@ -1,0 +1,45 @@
+.GroupProfileHeaderNew {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 48px;
+  z-index: 3;
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  &__uuid {
+    color: #827ca1;
+  }
+
+  &__select {
+    width: 300px;
+    margin-right: 25px;
+  }
+
+  &__select-label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__button {
+    margin-top: 25px;
+    
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}

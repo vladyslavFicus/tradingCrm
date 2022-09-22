@@ -7,18 +7,21 @@ import './RemoveButton.scss';
 class RemoveButton extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
     className: '',
+    disabled: false,
   }
 
   render() {
-    const { className, ...props } = this.props;
+    const { className, disabled, ...props } = this.props;
 
     return (
       <Button
-        className={classNames('RemoveButton', className)}
+        disabled={disabled}
+        className={classNames('RemoveButton', { 'RemoveButton--disabled': disabled }, className)}
         {...props}
       >
         <i className="RemoveButton__icon icon icon-times" />

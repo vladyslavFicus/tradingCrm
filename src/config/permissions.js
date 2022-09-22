@@ -222,6 +222,7 @@ export default {
     OPERATORS_RESET_PASSWORD: 'auth2.user.resetPassword',
     OPERATORS_CHANGE_PASSWORD: 'auth2.operator.changePassword',
     UPDATE_ACCOUNT_ENABLE: 'we-trading.updateAccountEnable',
+    UPDATE_GROUP_ENABLE: 'we-trading.updateGroupEnable',
     HOLIDAYS_LIST: 'we-trading.findHolidays',
     HOLIDAYS_CREATE: 'we-trading.createHoliday',
     HOLIDAYS_EDIT: 'we-trading.updateHoliday',

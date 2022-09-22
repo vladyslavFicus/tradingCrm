@@ -6,6 +6,10 @@
     color: #d70000;
   }
 
+  &--disabled {
+    opacity: 0.6;
+  }
+
   &__icon {
     display: block;
     line-height: 1;

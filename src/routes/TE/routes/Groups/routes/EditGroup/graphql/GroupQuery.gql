@@ -3,9 +3,10 @@ query GroupQuery($groupName: String!) {
     group(
       groupName: $groupName
     ) {
-      enable
+      accountCreationAllowed
       groupName
       description
+      enabled
       currency
       defaultLeverage
       useSwap

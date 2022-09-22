@@ -7,7 +7,7 @@ import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, EditButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/UI';
 import GroupNewSymbolModal from '../../modals/GroupNewSymbolModal';
 import { GroupSymbol, GroupSecurity, FormValues } from '../../types';
 import './GroupSymbolsGrid.scss';
@@ -35,10 +35,16 @@ interface Props {
 }
 
 const GroupSymbolsGrid = ({ modals, formik }: Props) => {
-  const { confirmationModal, groupNewSymbolModal } = modals;
+  const {
+    confirmationModal,
+    groupNewSymbolModal,
+  } = modals;
+
   const { values, setFieldValue } = formik;
+
   const groupSymbols = values?.groupSymbols || [];
   const groupSecurities = values?.groupSecurities || [];
+  const archived = !values.enabled;
 
   const handleNewGroupSymbol = (symbol: GroupSymbol) => {
     setFieldValue('groupSymbols', [...groupSymbols, symbol]);
@@ -91,6 +97,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
           {I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.TITLE')}
         </span>
         <Button
+          disabled={archived}
           onClick={handleNewGroupSymbolModal}
           commonOutline
           small
@@ -162,15 +169,17 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
             render={(symbol: GroupSymbol) => (
               <>
                 <EditButton
+                  disabled={archived}
                   onClick={() => handleEditGroupSymbolModal(symbol)}
                   className="GroupSymbolsGrid__edit-button"
                 />
-                <Button
-                  transparent
+                <TrashButton
+                  disabled={archived}
                   onClick={() => handleDeleteGroupSymbolModal(symbol)}
+                  className="GroupSymbolsGrid__delete-button"
                 >
                   <i className="fa fa-trash btn-transparent color-danger" />
-                </Button>
+                </TrashButton>
               </>
             )}
           />

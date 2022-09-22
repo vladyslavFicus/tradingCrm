@@ -4276,6 +4276,7 @@
         "ARCHIVE": "Account is archived successfully",
         "UNARCHIVE": "Account is unarchived successfully",
         "ACCOUNT_DISABLE_PROHIBITED": "Please close the orders to archive the account",
+        "ACCOUNT_DISABLE_GROUP": "To unarchive account please unarchive the group.",
         "ARCHIVE_TEXT": "Do you really want to archive an account?",
         "UNARCHIVE_TEXT": "Do you really want to unarchive an account?"
       },
@@ -4549,6 +4550,8 @@
       }
     },
     "GROUPS": {
+      "ARCHIVE": "Archive",
+      "UNARCHIVE": "Unarchive",
       "HEADLINE": "Groups",
       "GRID": {
         "NAME": "Name",
@@ -4581,6 +4584,7 @@
       "GROUP": "Group",
       "NEW_GROUP": "New group",
       "INVALID_NAME": "Group name must contain only letters, numbers or . * @ + - _ ! = characters",
+      "GROUPS_HAS_OPEN_ORDERS": "This group has open  orders and active accounts. If you archive the group all these orders and account will be closed to zero. Do you really want to proceed?",
       "MONEY": "$",
       "PIPS": "pt, points",
       "PERCENT": "%",
@@ -4590,6 +4594,14 @@
       "DISABLED": "Disabled",
       "TEMPLATES": "Group templates",
       "NOTIFICATION": {
+        "ARCHIVE": "Archive",
+        "UNARCHIVE": "Unarchive",
+        "ARCHIVED": "Group is archived successfully",
+        "UNARCHIVED": "Group is unarchived successfully",
+        "ACCOUNT_DISABLE_PROHIBITED": "Please close the orders to archive the group",
+        "ARCHIVE_TEXT": "Do you really want to archive a group?",
+        "UNARCHIVE_TEXT": "Do you really want to unarchive a group?",
+        "ARCHIVE_GROUP_ERROR": "Failed to archive group",
         "CREATE": {
           "SUCCESS": "Group has been successfully created",
           "FAILED": "Group creation failed",
@@ -4604,6 +4616,7 @@
       "COMMON_GROUP_FORM": {
         "TITLE": "Common",
         "ENABLE": "Enable",
+        "ACCOUNT_CREATION_ALLOWED": "Account creation allowed",
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "DEPOSIT_CURRENCY": "Deposit currency",

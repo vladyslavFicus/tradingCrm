@@ -14,6 +14,7 @@ import { Table, Column } from 'components/Table';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { GroupsQueryQueryResult, GroupsQuery, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
+import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
 import { useDeleteGroupMutation } from './graphql/__generated__/DeleteGroupMutation';
 import './GroupsGrid.scss';
 
@@ -31,12 +32,14 @@ interface Props {
   notify: Notify,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,
+    confirmationOpenOrderModal: Modal<ConfirmationModalProps>,
   },
 }
 
 const GroupsGrid = ({
   groupsListQuery,
   modals: {
+    confirmationOpenOrderModal,
     confirmationModal,
   },
   notify,
@@ -44,6 +47,7 @@ const GroupsGrid = ({
   const { state } = useLocation<State<GroupsQueryVariables>>();
   const history = useHistory();
   const [deleteGroup] = useDeleteGroupMutation();
+  const [archiveGroup] = useArchiveMutation();
   const permission = usePermission();
 
   const { loading, data: groupsListData, refetch } = groupsListQuery || {};
@@ -78,6 +82,47 @@ const GroupsGrid = ({
           : I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.FAILED'),
       });
     }
+  };
+
+  const handleArchiveAccount = async (groupName: string, enabled: boolean, force = false) => {
+    try {
+      await archiveGroup({ variables: { groupName, enabled, force } });
+      refetch();
+
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVED' : 'ARCHIVED'}`),
+      });
+    } catch (e) {
+      const error = parseErrors(e);
+
+      if (error.error === 'error.group-relations.have.opened.orders') {
+        confirmationOpenOrderModal.show({
+          onSubmit: () => handleArchiveAccount(groupName, enabled, true),
+          actionText: I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_OPEN_ORDERS'),
+          submitButtonLabel: I18n.t('COMMON.YES'),
+          modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+        });
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('COMMON.ERROR'),
+          message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATIONS.ARCHIVE_GROUP_ERROR'),
+        });
+      }
+    }
+  };
+
+  const handleArchiveClick = (groupName: string, enabled: boolean) => {
+    confirmationModal.show({
+      onSubmit: () => handleArchiveAccount(groupName, enabled),
+      modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+      actionText: I18n.t(
+        `TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE_TEXT' : 'ARCHIVE_TEXT'}`,
+      ),
+      submitButtonLabel: I18n.t('COMMON.OK'),
+    });
   };
 
   const handleDeleteGroupModal = (groupName: string) => {
@@ -188,10 +233,9 @@ const GroupsGrid = ({
          permission.allows(permissions.WE_TRADING.DELETE_GROUP)}
         >
           <Column
-            width={120}
             header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
-            render={({ groupName }: GroupType) => (
-              <>
+            render={({ groupName, enabled }: GroupType) => (
+              <div className="GroupsGrid__cell-actions">
                 <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
                   <Button
                     transparent
@@ -200,7 +244,18 @@ const GroupsGrid = ({
                     <i className="fa fa-trash btn-transparent color-danger" />
                   </Button>
                 </PermissionContent>
-              </>
+                <PermissionContent permissions={permissions.WE_TRADING.UPDATE_GROUP_ENABLE}>
+                  <Button
+                    small
+                    danger={enabled}
+                    dangerOutline={!enabled}
+                    className="GroupsGrid__button"
+                    onClick={() => handleArchiveClick(groupName, !enabled)}
+                  >
+                    {I18n.t(`TRADING_ENGINE.GROUPS.${enabled ? 'ARCHIVE' : 'UNARCHIVE'}`)}
+                  </Button>
+                </PermissionContent>
+              </div>
             )}
           />
         </If>
@@ -212,6 +267,7 @@ const GroupsGrid = ({
 export default compose(
   React.memo,
   withModals({
+    confirmationOpenOrderModal: ConfirmActionModal,
     confirmationModal: ConfirmActionModal,
   }),
   withNotifications,

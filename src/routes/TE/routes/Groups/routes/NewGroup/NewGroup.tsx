@@ -9,7 +9,7 @@ import { getBrand } from 'config';
 import { withNotifications } from 'hoc';
 import { Notify, LevelType } from 'types/notify';
 import { createValidator } from 'utils/validator';
-import GroupProfileHeader from '../../components/GroupProfileHeader';
+import NewGroupProfileHeader from '../../components/GroupProfileHeaderNew';
 import GroupCommonForm from '../../components/GroupCommonForm';
 import GroupPermissionsForm from '../../components/GroupPermissionsForm';
 import GroupArchivingForm from '../../components/GroupArchivingForm';
@@ -88,7 +88,7 @@ const NewGroup = ({ notify }: Props) => {
     <div className="NewGroup">
       <Formik
         initialValues={{
-          enable: true,
+          accountCreationAllowed: true,
           groupName: '',
           description: '',
           currency: getBrand().currencies.base,
@@ -98,6 +98,7 @@ const NewGroup = ({ notify }: Props) => {
           archivePeriodDays: 0,
           archiveMaxBalance: ArchiveMaxBalance.MAX_0,
           archivationEnabled: false,
+          enabled: true,
           marginCallLevel: 50,
           stopoutLevel: 30,
           groupSecurities: [],
@@ -109,11 +110,11 @@ const NewGroup = ({ notify }: Props) => {
       >
         {(formikBag: FormikProps<FormValues>) => (
           <Form>
-            <GroupProfileHeader formik={formikBag} />
+            <NewGroupProfileHeader formik={formikBag} />
             <GroupCommonForm formik={formikBag} />
-            <GroupPermissionsForm />
+            <GroupPermissionsForm formik={formikBag} />
             <GroupArchivingForm formik={formikBag} />
-            <GroupMarginsForm />
+            <GroupMarginsForm formik={formikBag} />
             <GroupSecuritiesGrid formik={formikBag} />
             <GroupSymbolsGrid formik={formikBag} />
           </Form>
