@@ -41,6 +41,7 @@ const AccountProfileGroup = (props: Props) => {
   const groupsQuery = useGroupsQuery({
     variables: {
       args: {
+        enabled: true,
         page: {
           from: 0,
           size: 100000,
