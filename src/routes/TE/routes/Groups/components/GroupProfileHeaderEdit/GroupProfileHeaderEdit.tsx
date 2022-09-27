@@ -42,9 +42,9 @@ const GroupProfileHeaderEdit = (props: Props) => {
 
   const [archiveGroup] = useArchiveMutation();
 
-  const handleArchiveAccount = async (_groupName: string, _enabled: boolean, force = false) => {
+  const handleArchiveAccount = async (_enabled: boolean, force = false) => {
     try {
-      await archiveGroup({ variables: { groupName: _groupName, enabled: _enabled, force } });
+      await archiveGroup({ variables: { groupName, enabled: _enabled, force } });
 
       onArchived();
 
@@ -54,14 +54,23 @@ const GroupProfileHeaderEdit = (props: Props) => {
         message: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVED' : 'ARCHIVED'}`),
       });
     } catch (e) {
-      const errors = parseErrors(e);
+      const error = parseErrors(e);
 
-      if (errors.error === 'error.group-relations.have.opened.orders') {
+      if (error.error === 'error.group.has.active.accounts') {
+        const {
+          ordersCount,
+          accountsCount,
+        } = error.errorParameters;
+
+        const actionText = Number(ordersCount) > 0
+          ? I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS_AND_OPEN_ORDERS', { accountsCount, ordersCount })
+          : I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS', { accountsCount });
+
         confirmationOpenOrderModal.show({
-          onSubmit: () => handleArchiveAccount(groupName, _enabled, true),
-          actionText: I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_OPEN_ORDERS'),
+          actionText,
+          modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
           submitButtonLabel: I18n.t('COMMON.YES'),
-          modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+          onSubmit: () => handleArchiveAccount(_enabled, true),
         });
       } else {
         notify({
@@ -73,10 +82,10 @@ const GroupProfileHeaderEdit = (props: Props) => {
     }
   };
 
-  const handleArchiveClick = (_groupName: string, _enabled: boolean) => {
+  const handleArchiveClick = (_enabled: boolean) => {
     confirmationModal.show({
-      onSubmit: () => handleArchiveAccount(_groupName, _enabled),
-      modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+      onSubmit: () => handleArchiveAccount(_enabled),
+      modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
       actionText: I18n.t(
         `TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE_TEXT' : 'ARCHIVE_TEXT'}`,
       ),
@@ -117,7 +126,7 @@ const GroupProfileHeaderEdit = (props: Props) => {
           <PermissionContent permissions={permissions.WE_TRADING.UPDATE_GROUP_ENABLE}>
             <Button
               className="GroupProfileHeaderEdit__button"
-              onClick={() => handleArchiveClick(groupName, !enabled)}
+              onClick={() => handleArchiveClick(!enabled)}
               commonOutline
               danger
               small

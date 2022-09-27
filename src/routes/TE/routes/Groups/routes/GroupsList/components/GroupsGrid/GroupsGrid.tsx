@@ -97,18 +97,27 @@ const GroupsGrid = ({
     } catch (e) {
       const error = parseErrors(e);
 
-      if (error.error === 'error.group-relations.have.opened.orders') {
+      if (error.error === 'error.group.has.active.accounts') {
+        const {
+          ordersCount,
+          accountsCount,
+        } = error.errorParameters;
+
+        const actionText = Number(ordersCount) > 0
+          ? I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS_AND_OPEN_ORDERS', { accountsCount, ordersCount })
+          : I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS', { accountsCount });
+
         confirmationOpenOrderModal.show({
-          onSubmit: () => handleArchiveAccount(groupName, enabled, true),
-          actionText: I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_OPEN_ORDERS'),
+          actionText,
+          modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
           submitButtonLabel: I18n.t('COMMON.YES'),
-          modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+          onSubmit: () => handleArchiveAccount(groupName, enabled, true),
         });
       } else {
         notify({
           level: LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
-          message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATIONS.ARCHIVE_GROUP_ERROR'),
+          message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.ARCHIVE_GROUP_ERROR'),
         });
       }
     }
@@ -117,7 +126,7 @@ const GroupsGrid = ({
   const handleArchiveClick = (groupName: string, enabled: boolean) => {
     confirmationModal.show({
       onSubmit: () => handleArchiveAccount(groupName, enabled),
-      modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
+      modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
       actionText: I18n.t(
         `TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE_TEXT' : 'ARCHIVE_TEXT'}`,
       ),
