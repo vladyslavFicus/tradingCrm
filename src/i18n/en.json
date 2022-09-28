@@ -1393,7 +1393,8 @@
       "DIFFERENT_VOICE": "Different Voice",
       "DEPOSIT_WITH_ME": "Deposit with me",
       "FROST": "Frost",
-      "REFERRAL": "Referral"
+      "REFERRAL": "Referral",
+      "ACTIVE": "Active"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",

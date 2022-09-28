@@ -52,6 +52,7 @@ export const salesStatuses: Record<string, string> = {
   DEPOSIT_WITH_ME: 'CONSTANTS.SALES_STATUSES.DEPOSIT_WITH_ME',
   FROST: 'CONSTANTS.SALES_STATUSES.FROST',
   REFERRAL: 'CONSTANTS.SALES_STATUSES.REFERRAL',
+  ACTIVE: 'CONSTANTS.SALES_STATUSES.ACTIVE',
 };
 
 export const salesStatusesColor: Record<string, string> = {
@@ -107,4 +108,5 @@ export const salesStatusesColor: Record<string, string> = {
   PENDING: 'color-warning',
   FROST: 'color-info',
   REFERRAL: 'color-info',
+  ACTIVE: 'color-success',
 };

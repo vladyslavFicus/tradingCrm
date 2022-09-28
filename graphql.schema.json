@@ -28524,6 +28524,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "ACTIVE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "CALLBACK",
             "description": null,
             "isDeprecated": false,
