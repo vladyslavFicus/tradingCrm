@@ -36,10 +36,9 @@ class InputDecimals extends React.Component {
     }
     const stringValue = value.toString();
     const [digits, decimals] = stringValue.split(/[,.]/);
-
     if (state.blur && (value % 1 !== 0) && decimals.length > decimalsLimit) {
       return {
-        value: value.substring(0, digits.length + decimalsLimit + 1),
+        value: value.toString().substring(0, digits.length + decimalsLimit + 1),
         showWarningMessage: true,
       };
     } if (state.blur) {
