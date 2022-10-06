@@ -68,6 +68,7 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
           auditLogType: ['string', `in:${Object.keys(feedTypesList).join()}`],
           creationDateFrom: 'dateWithTime',
           creationDateTo: 'dateWithTime',
+          'details.orderId': ['numeric', 'min:0', 'max:999999999999999999'],
         }, translateLabels(attributeLabels), false)
       }
     >
