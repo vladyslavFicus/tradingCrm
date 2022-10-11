@@ -5434,9 +5434,7 @@
         "INPUT_EDITOR_PLACEHOLDER": "Start type your text here"
       },
       "BUTTONS": {
-        "SEND": "send",
-        "CREATE": "create",
-        "EDIT": "edit"
+        "SEND": "Send"
       }
     }
   },
