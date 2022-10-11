@@ -1,8 +1,15 @@
 .CallbacksCalendar {
   height: 100%;
+  background-color: var(--calendar-body-background);
 
   .rbc-header {
-    padding: 10px 0;
+    padding: 10px 0;  
+    border: 1px solid var(--calendar-divider);
+    background-color: var(--calendar-header-background);
+  }
+
+  .rbc-month-view {
+    border-color: var(--calendar-divider);
   }
 
   .rbc-row-content {
@@ -15,6 +22,7 @@
 
   .rbc-month-row {
     overflow: visible;
+    border-color: var(--calendar-divider);
   }
 
   .rbc-row-segment {
@@ -22,7 +30,40 @@
     overflow: visible;
   }
 
+  .rbc-day-bg {
+    border-color: var(--calendar-divider);
+  }
+  
   .rbc-today {
-    border: 1px solid #4a90e2;
+    background-color: var(--calendar-current-background);
+    border: 1px solid var(--calendar-current-border);
+  }
+  
+  .rbc-off-range-bg {
+    background-color: var(--calendar-background-disabled);
+  }
+
+  .rbc-off-range {
+    &> a {
+      color: var(--text-secondary);
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  .rbc-event {
+    background-color: var(--active);
+    color: var(--state-colors-content);
+  }
+
+  .rbc-time-view,
+  .rbc-time-header-content,
+  .rbc-time-content,
+  .rbc-timeslot-group,
+  .rbc-time-slot,
+  .rbc-time-content > * + * > * {
+    border-color: var(--calendar-divider);
   }
 }

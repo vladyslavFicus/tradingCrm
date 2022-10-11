@@ -98,7 +98,7 @@ class ClientPaymentsTab extends PureComponent {
           >
             <Button
               onClick={this.handleOpenAddPaymentModal}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION')}

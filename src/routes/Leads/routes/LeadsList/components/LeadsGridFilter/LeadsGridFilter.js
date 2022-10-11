@@ -276,8 +276,8 @@ class LeadsGridFilter extends PureComponent {
                     <option
                       key={uuid}
                       value={uuid}
-                      className={classNames({
-                        'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                      className={classNames('LeadsGridFilter__select-item', {
+                        'LeadsGridFilter__select-item--inactive': operatorStatus === operatorsStasuses.INACTIVE
                           || operatorStatus === operatorsStasuses.CLOSED,
                       })}
                     >

@@ -55,7 +55,7 @@ class LeadsUploadResultModal extends PureComponent {
 
         <ModalFooter>
           <Button
-            commonOutline
+            tertiary
             onClick={this.handleClose}
           >
             {I18n.t('COMMON.BUTTONS.CANCEL')}

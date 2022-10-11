@@ -3,7 +3,7 @@ import { Switch, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { parse } from 'qs';
 import Helmet from 'react-helmet';
-import { getBackofficeBrand } from 'config';
+import { getBackofficeBrand, getCrmBrandStaticFileUrl } from 'config';
 import Route from 'components/Route';
 import NotFound from 'routes/NotFound';
 import CoreLayout from 'layouts/CoreLayout';
@@ -65,7 +65,7 @@ class IndexRoute extends PureComponent {
           titleTemplate={`${getBackofficeBrand().id.toUpperCase()} | %s`}
           defaultTitle={getBackofficeBrand().id.toUpperCase()}
           link={[
-            { rel: 'shortcut icon', href: getBackofficeBrand().themeConfig.favicon },
+            { rel: 'shortcut icon', href: getCrmBrandStaticFileUrl('assets/favicon.ico') },
           ]}
         />
         <Switch>

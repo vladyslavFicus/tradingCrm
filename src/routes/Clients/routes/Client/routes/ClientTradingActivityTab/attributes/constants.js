@@ -1,8 +1,10 @@
-export const tradeStatusesColor = {
-  PENDING: 'color-info',
-  CLOSED: 'color-danger',
-  OPEN: 'color-success',
-};
+import keyMirror from 'keymirror';
+
+export const statuses = keyMirror({
+  OPEN: null,
+  CLOSED: null,
+  PENDING: null,
+});
 
 export const types = [{
   value: 'OP_BUY',
@@ -108,15 +110,4 @@ export const symbols = [{
 }, {
   value: 'USDJPY',
   label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOLS.USDJPY',
-}];
-
-export const statuses = [{
-  value: 'CLOSED',
-  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.CLOSED',
-}, {
-  value: 'OPEN',
-  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.OPEN',
-}, {
-  value: 'PENDING',
-  label: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.PENDING',
 }];

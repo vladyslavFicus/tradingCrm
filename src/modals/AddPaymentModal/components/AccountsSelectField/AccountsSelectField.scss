@@ -11,12 +11,16 @@
     &-title {
       font-size: 13px;
       font-weight: 700;
-      color: #333;
+      color: var(--text-primary);
     }
 
     &-content {
       font-size: 11px;
-      color: #333;
+      color: var(--text-primary);
     }
+  }
+
+  &__error {
+    color: var(--state-colors-danger);
   }
 }

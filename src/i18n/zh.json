@@ -2000,8 +2000,7 @@
       "NEW": "新",
       "NEVER_ANSWER": "从未应答",
       "VOICE_MAIL": "语音信箱",
-      "CONVERTED": "已转接",
-      "SELF_CONVETED": "自动转接"
+      "CONVERTED": "已转接"
     },
     "SUCCESS_PROMOTED": "潜在客户推广至 id %{id}",
     "LEADS_UPLOAD_MODAL": {

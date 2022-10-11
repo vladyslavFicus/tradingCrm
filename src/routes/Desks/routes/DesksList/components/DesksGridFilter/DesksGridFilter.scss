@@ -1,6 +1,6 @@
 .DesksGridFilter {
   &__form {
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
     padding: 20px 25px 35px;
     display: flex;
     flex: 1 0 20px;

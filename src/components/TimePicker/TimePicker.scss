@@ -7,7 +7,7 @@
     font-weight: 600;
     font-size: 15px;
     line-height: 22px;
-    color: #333333
+    color: var(--text-primary);
   }
 
   &__field {
@@ -25,13 +25,13 @@
   &__count-value {
     width: 40px;
     padding: 2px 4px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--form-border-default);
     border-radius: 3px;
     font-size: 22px;
     font-weight: 600;
     line-height: normal;
     text-align: center;
-    color: #4a4a4a;
+    color: var(--text-secondary);
   }
 
   &__count-button {
@@ -41,12 +41,17 @@
     justify-content: center;
     align-self: stretch;
     background: transparent;
+    color: var(--button-icon-button-default);
+    
+    &:hover {
+      color: var(--button-icon-button-hover);
+    }
   }
 
   &__separator {
     margin-right: 2px;
     margin-left: 2px;
     font-size: 25px;
-    color: #9b9b9b;
+    color: var(--divider);
   }
 }

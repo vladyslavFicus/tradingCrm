@@ -131,7 +131,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
         <Button
           disabled={archived}
           onClick={handleNewGroupSecurityModal}
-          commonOutline
+          tertiary
           small
         >
           {I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.ADD_SECURITY')}
@@ -187,9 +187,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
                   disabled={archived}
                   onClick={() => handleDeleteGroupSecurityModal(security)}
                   className="GroupSecuritiesGrid__delete-button"
-                >
-                  <i className="fa fa-trash btn-transparent color-danger" />
-                </TrashButton>
+                />
               </>
             )}
           />

@@ -20,7 +20,8 @@ class FilterSetsButtons extends PureComponent {
           <If condition={visible}>
             <div className={classNames('FilterSetsButtons', { 'FilterSetsButtons--disabled': disabled })}>
               <Button
-                className="FilterSetsButtons__button FilterSetsButtons__button--primary"
+                secondary
+                className="FilterSetsButtons__button"
                 onClick={createFilterSet}
               >
                 {I18n.t('FILTER_SET.BUTTONS.SAVE')}
@@ -28,14 +29,16 @@ class FilterSetsButtons extends PureComponent {
 
               <If condition={hasSelectedFilterSet}>
                 <Button
-                  className="FilterSetsButtons__button FilterSetsButtons__button--primary"
+                  secondary
+                  className="FilterSetsButtons__button"
                   onClick={updateFilterSet}
                 >
                   {I18n.t('FILTER_SET.BUTTONS.SAVE_AS')}
                 </Button>
 
                 <Button
-                  className="FilterSetsButtons__button FilterSetsButtons__button--danger"
+                  danger
+                  className="FilterSetsButtons__button"
                   onClick={deleteFilterSet}
                 >
                   {I18n.t('FILTER_SET.BUTTONS.DELETE')}

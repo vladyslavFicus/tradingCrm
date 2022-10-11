@@ -104,14 +104,14 @@ class DeleteBranchModal extends PureComponent {
 
         <ModalFooter>
           <Button
-            commonOutline
+            tertiary
             onClick={this.handleClose}
           >
             {I18n.t('COMMON.BUTTONS.CANCEL')}
           </Button>
           <Button
             type="submit"
-            dangerOutline
+            danger
             disabled={isSubmitting || errors}
             onClick={this.handleSubmit}
           >

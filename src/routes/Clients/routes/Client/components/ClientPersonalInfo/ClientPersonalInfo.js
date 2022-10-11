@@ -21,7 +21,6 @@ import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import { PersonalInformationItem } from 'components/Information';
 import PropTypes from 'constants/propTypes';
-import { statuses as kycStatuses } from 'constants/kyc';
 import { statuses as userStatuses } from 'constants/user';
 import Permissions from 'utils/permissions';
 import ProfilePhonesQuery from '../../graphql/ProfilePhonesQuery';
@@ -206,9 +205,6 @@ class ClientPersonalInfo extends PureComponent {
           crs,
           fatca,
         },
-        kyc: {
-          status,
-        },
         affiliate,
         clientType,
         referrer,
@@ -235,12 +231,10 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.DATE_OF_BIRTH')}
             value={birthDate ? moment(birthDate).format('DD.MM.YYYY') : null}
-            verified={status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.GENDER')}
             value={gender}
-            verified={status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.PHONE')}
@@ -301,17 +295,14 @@ class ClientPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.FULL_ADDRESS')}
             value={fullAddress}
-            verified={status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.COUNTRY')}
             value={countryCode}
-            verified={status === kycStatuses.VERIFIED}
           />
           <PersonalInformationItem
             label={I18n.t('CLIENT_PROFILE.DETAILS.CITY')}
             value={city}
-            verified={status === kycStatuses.VERIFIED}
           />
           <If condition={affiliate}>
             <If condition={affiliate.partner}>

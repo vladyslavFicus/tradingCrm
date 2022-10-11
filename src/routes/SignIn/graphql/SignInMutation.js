@@ -16,7 +16,6 @@ const REQUEST = gql`
         otp: $otp
       ) {
         uuid
-        brandToAuthorities
         token
       }
     }

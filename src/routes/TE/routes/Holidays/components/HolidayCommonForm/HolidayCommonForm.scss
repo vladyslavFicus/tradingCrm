@@ -1,8 +1,8 @@
 .HolidayCommonForm {
-  background-color: #fff;
+  background-color: var(--surface-frame-background);
+  border: 1px solid var(--surface-frame-border);
   padding: 25px;
   margin: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 5px;
 
   &__header {
@@ -11,7 +11,7 @@
   }
 
   &__title {
-    color: #333;
+    color: var(--text-primary);
     font-size: 18px;
     margin-bottom: 25px;
   }

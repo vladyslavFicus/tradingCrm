@@ -100,7 +100,7 @@ class RenameTradingAccountModal extends PureComponent {
                 <Button
                   className="RenameTradingAccountModal__button"
                   onClick={onCloseModal}
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

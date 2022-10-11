@@ -3,7 +3,10 @@ import 'moment/locale/zh-cn';
 import en from './en.json';
 // import zh from './zh.json';
 
+I18n.fallbacks = true;
+
 I18n.translations = { en };
+
 I18n.defaultLocale = 'en';
 
 /**

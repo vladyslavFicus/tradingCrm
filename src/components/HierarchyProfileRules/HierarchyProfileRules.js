@@ -8,7 +8,7 @@ import Permissions from 'utils/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { Table, Column } from 'components/Table';
@@ -185,7 +185,7 @@ class HierarchyProfileRules extends PureComponent {
             type="submit"
             onClick={this.openCreateRuleModal}
             disabled={disabled}
-            commonOutline
+            tertiary
             small
           >
             {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
@@ -289,20 +289,11 @@ class HierarchyProfileRules extends PureComponent {
 
   renderActions = ({ uuid }) => (
     <>
-      <Button
-        transparent
-        onClick={() => this.handleDeleteRuleClick(uuid)}
-      >
-        <i className="fa fa-trash btn-transparent color-danger" />
-      </Button>
-      <Button
-        transparent
-      >
-        <i
-          onClick={() => this.openUpdateRuleModal(uuid)}
-          className="HierarchyProfileRules__edit-icon fa fa-edit"
-        />
-      </Button>
+      <TrashButton onClick={() => this.handleDeleteRuleClick(uuid)} />
+      <EditButton
+        onClick={() => this.openUpdateRuleModal(uuid)}
+        className="HierarchyProfileRules__edit-icon"
+      />
     </>
   );
 

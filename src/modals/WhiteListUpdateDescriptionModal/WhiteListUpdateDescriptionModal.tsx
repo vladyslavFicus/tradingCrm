@@ -98,7 +98,7 @@ const WhiteListUpdateDescriptionModal = ({ item, isOpen, notify, onSuccess, edit
               <Button
                 onClick={onCloseModal}
                 className="WhiteListUpdateDescriptionModal__button"
-                commonOutline
+                tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>

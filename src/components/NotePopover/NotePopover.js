@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withPermission } from 'providers/PermissionsProvider';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import EventEmitter, { NOTE_ADDED, NOTE_UPDATED, NOTE_REMOVED } from 'utils/EventEmitter';
@@ -281,12 +281,7 @@ class NotePopover extends PureComponent {
           </div>
           <div>
             <If condition={deleteAllowed}>
-              <Button
-                onClick={() => this.handleRemoveNote(noteId || uuid)}
-                className="NotePopover__delete-btn"
-              >
-                <i className="fa fa-trash color-danger" />
-              </Button>
+              <TrashButton onClick={() => this.handleRemoveNote(noteId || uuid)} />
             </If>
           </div>
         </div>
@@ -387,7 +382,7 @@ class NotePopover extends PureComponent {
                     </div>
                     <div>
                       <Button
-                        commonOutline
+                        tertiary
                         small
                         className="NotePopover__cancel-btn"
                         onClick={() => this.handleClose(true)}

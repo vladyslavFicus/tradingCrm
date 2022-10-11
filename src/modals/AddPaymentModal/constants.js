@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import { tradingTypes, tradingTypesLabelsWithColor } from 'constants/payment';
+import { tradingTypes, tradingTypesLabels } from 'constants/payment';
 import permissions from 'config/permissions';
 
 const TRANSFER = 'TRANSFER';
@@ -33,6 +33,6 @@ export const paymentTypes = {
 };
 
 export const paymentTypesLabels = {
-  ...tradingTypesLabelsWithColor,
-  [TRANSFER]: { label: 'COMMON.PAYMENT_TYPE.TRANSFER' },
+  ...tradingTypesLabels,
+  [TRANSFER]: 'COMMON.PAYMENT_TYPE.TRANSFER',
 };

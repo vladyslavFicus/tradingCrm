@@ -15,7 +15,7 @@ import {
   statuses as tradingStatuses,
   statusesLabels as tradingStatusesLabels,
   tradingTypes,
-  tradingTypesLabelsWithColor,
+  tradingTypesLabels,
 } from 'constants/payment';
 import { accountTypes } from 'constants/accountTypes';
 import { warningValues, warningLabels } from 'constants/warnings';
@@ -270,10 +270,10 @@ class PaymentsListFilters extends PureComponent {
                       multiple
                     >
                       {Object.keys(tradingTypes)
-                        .filter(value => tradingTypesLabelsWithColor[value])
+                        .filter(value => tradingTypesLabels[value])
                         .map(value => (
                           <option key={value} value={value}>
-                            {I18n.t(tradingTypesLabelsWithColor[value].label)}
+                            {I18n.t(tradingTypesLabels[value])}
                           </option>
                         ))}
                     </Field>
@@ -370,8 +370,8 @@ class PaymentsListFilters extends PureComponent {
                         <option
                           key={uuid}
                           value={uuid}
-                          className={classNames({
-                            'color-inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                          className={classNames('PaymentsListFilters__select-item', {
+                            'PaymentsListFilters__select-item--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
                           })}
                         >
                           {fullName}
@@ -480,6 +480,7 @@ class PaymentsListFilters extends PureComponent {
                         min={0}
                         placeholder="0.0"
                         component={FormikInputField}
+                        className="PaymentsListFilters__field"
                         withFocus
                       />
                       <Field
@@ -489,6 +490,7 @@ class PaymentsListFilters extends PureComponent {
                         min={0}
                         placeholder="0.0"
                         component={FormikInputField}
+                        className="PaymentsListFilters__field"
                         withFocus
                       />
                     </RangeGroup>

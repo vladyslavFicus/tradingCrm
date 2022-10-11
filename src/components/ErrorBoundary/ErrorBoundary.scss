@@ -27,7 +27,7 @@
     margin-top: 40px;
     border-radius: 5px;
     overflow-y: scroll;
-    background-color: #333;
-    color: red;
+    background-color: var(--state-colors-danger);
+    color: var(--state-colors-content);
   }
 }

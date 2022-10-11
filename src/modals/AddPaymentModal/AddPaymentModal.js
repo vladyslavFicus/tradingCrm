@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import classNames from 'classnames';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
@@ -86,14 +85,22 @@ class AddPaymentModal extends PureComponent {
       });
 
       if (note) {
-        await addNote({ variables: { ...note, targetUUID: createPayment.paymentId } });
+        await addNote({
+          variables: {
+            ...note,
+            targetUUID: createPayment.paymentId,
+          },
+        });
       }
 
       onSuccess();
       onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
-      const { code, defaultMessage } = error.errors[0] || {};
+      const {
+        code,
+        defaultMessage,
+      } = error.errors[0] || {};
 
       if (defaultMessage === 'error.validation.invalid.amount' && code) {
         this.setState({ errorMessage: I18n.t(`error.validation.invalid.amount.${code}`) });
@@ -117,13 +124,19 @@ class AddPaymentModal extends PureComponent {
     }
   };
 
-  getSourceAccount = ({ accountUUID, source }) => {
+  getSourceAccount = ({
+    accountUUID,
+    source,
+  }) => {
     const { tradingAccounts } = this.props.profile;
 
     return tradingAccounts.find(account => [accountUUID, source].includes(account.accountUUID));
   };
 
-  handlePaymentTypeChanged = (value, { setFieldValue, resetForm }) => {
+  handlePaymentTypeChanged = (value, {
+    setFieldValue,
+    resetForm,
+  }) => {
     this.resetErrorMessage();
     resetForm();
     setFieldValue('paymentType', value);
@@ -215,7 +228,10 @@ class AddPaymentModal extends PureComponent {
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
                     customOnChange={value => (
-                      this.handlePaymentTypeChanged(value, { setFieldValue, resetForm })
+                      this.handlePaymentTypeChanged(value, {
+                        setFieldValue,
+                        resetForm,
+                      })
                     )}
                     showErrorMessage={false}
                   >
@@ -224,172 +240,170 @@ class AddPaymentModal extends PureComponent {
                       .filter(({ permission }) => (new Permissions(permission)).check(permissions))
                       .map(({ name }) => (
                         <option key={name} value={name}>
-                          {I18n.t(paymentTypesLabels[name].label)}
+                          {I18n.t(paymentTypesLabels[name])}
                         </option>
                       ))}
                   </Field>
-                  <div
-                    className={classNames('AddPaymentModal__payment-fields', {
-                      'AddPaymentModal__payment-fields--visible': paymentType,
-                    })}
-                  >
-                    <div className="AddPaymentModal__row AddPaymentModal__row--v-align-center">
-                      <Choose>
-                        <When
-                          condition={[paymentTypes.DEPOSIT.name, paymentTypes.CREDIT_IN.name].includes(paymentType)}
-                        >
-                          <Field
-                            name="paymentMethod"
-                            label={attributeLabels.paymentMethod}
-                            className="AddPaymentModal__field"
-                            placeholder={I18n.t(
-                              'PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL',
-                            )}
-                            disabled={manualMethodsLoading}
-                            component={FormikSelectField}
-                            showErrorMessage={false}
+                  <If condition={paymentType}>
+                    <div>
+                      <div className="AddPaymentModal__row AddPaymentModal__row--v-align-center">
+                        <Choose>
+                          <When
+                            condition={[paymentTypes.DEPOSIT.name, paymentTypes.CREDIT_IN.name].includes(paymentType)}
                           >
-                            {paymentMethods.map(item => (
-                              <option key={item} value={item}>
-                                {manualPaymentMethodsLabels[item]
-                                  ? I18n.t(manualPaymentMethodsLabels[item])
-                                  : item
-                                }
-                              </option>
-                            ))}
-                          </Field>
-                          <div className="AddPaymentModal__direction-icon">
-                            <i className="icon-arrow-down" />
-                          </div>
-                          <AccountsSelectField
-                            className="AddPaymentModal__field"
-                            name="accountUUID"
-                            label="toAcc"
-                            values={values}
-                            tradingAccounts={tradingAccounts}
-                          />
-                        </When>
-                        <When condition={paymentType === paymentTypes.WITHDRAW.name}>
-                          <AccountsSelectField
-                            className="AddPaymentModal__field"
-                            name="accountUUID"
-                            label="fromAcc"
-                            values={values}
-                            tradingAccounts={tradingAccounts}
-                          />
-                        </When>
-                        <When condition={paymentType === paymentTypes.TRANSFER.name}>
-                          <AccountsSelectField
-                            className="AddPaymentModal__field"
-                            name="source"
-                            label="fromAcc"
-                            values={values}
-                            tradingAccounts={tradingAccounts}
-                          />
-                          <div className="AddPaymentModal__direction-icon">
-                            <i className="icon-arrow-down" />
-                          </div>
-                          <AccountsSelectField
-                            className="AddPaymentModal__field"
-                            name="target"
-                            label="toAcc"
-                            values={values}
-                            tradingAccounts={tradingAccounts}
-                          />
-                        </When>
-                        <When condition={paymentType === paymentTypes.CREDIT_IN.name}>
-                          <AccountsSelectField
-                            className="AddPaymentModal__field"
-                            name="accountUUID"
-                            label="toAcc"
-                            values={values}
-                            tradingAccounts={tradingAccounts}
-                          />
-                        </When>
-                        <When condition={paymentType === paymentTypes.CREDIT_OUT.name}>
-                          <AccountsSelectField
-                            className="AddPaymentModal__field"
-                            name="accountUUID"
-                            label="fromAcc"
-                            values={values}
-                            tradingAccounts={tradingAccounts}
-                          />
-                        </When>
-                      </Choose>
-                    </div>
-                    <If condition={
-                      paymentType === 'DEPOSIT'
+                            <Field
+                              name="paymentMethod"
+                              label={attributeLabels.paymentMethod}
+                              className="AddPaymentModal__field"
+                              placeholder={I18n.t(
+                                'PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL',
+                              )}
+                              disabled={manualMethodsLoading}
+                              component={FormikSelectField}
+                              showErrorMessage={false}
+                            >
+                              {paymentMethods.map(item => (
+                                <option key={item} value={item}>
+                                  {manualPaymentMethodsLabels[item]
+                                    ? I18n.t(manualPaymentMethodsLabels[item])
+                                    : item
+                                  }
+                                </option>
+                              ))}
+                            </Field>
+                            <div className="AddPaymentModal__direction-icon">
+                              <i className="icon-arrow-down" />
+                            </div>
+                            <AccountsSelectField
+                              className="AddPaymentModal__field"
+                              name="accountUUID"
+                              label="toAcc"
+                              values={values}
+                              tradingAccounts={tradingAccounts}
+                            />
+                          </When>
+                          <When condition={paymentType === paymentTypes.WITHDRAW.name}>
+                            <AccountsSelectField
+                              className="AddPaymentModal__field"
+                              name="accountUUID"
+                              label="fromAcc"
+                              values={values}
+                              tradingAccounts={tradingAccounts}
+                            />
+                          </When>
+                          <When condition={paymentType === paymentTypes.TRANSFER.name}>
+                            <AccountsSelectField
+                              className="AddPaymentModal__field"
+                              name="source"
+                              label="fromAcc"
+                              values={values}
+                              tradingAccounts={tradingAccounts}
+                            />
+                            <div className="AddPaymentModal__direction-icon">
+                              <i className="icon-arrow-down" />
+                            </div>
+                            <AccountsSelectField
+                              className="AddPaymentModal__field"
+                              name="target"
+                              label="toAcc"
+                              values={values}
+                              tradingAccounts={tradingAccounts}
+                            />
+                          </When>
+                          <When condition={paymentType === paymentTypes.CREDIT_IN.name}>
+                            <AccountsSelectField
+                              className="AddPaymentModal__field"
+                              name="accountUUID"
+                              label="toAcc"
+                              values={values}
+                              tradingAccounts={tradingAccounts}
+                            />
+                          </When>
+                          <When condition={paymentType === paymentTypes.CREDIT_OUT.name}>
+                            <AccountsSelectField
+                              className="AddPaymentModal__field"
+                              name="accountUUID"
+                              label="fromAcc"
+                              values={values}
+                              tradingAccounts={tradingAccounts}
+                            />
+                          </When>
+                        </Choose>
+                      </div>
+                      <If condition={
+                        paymentType === 'DEPOSIT'
                         && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values.paymentMethod)
-                    }
-                    >
+                      }
+                      >
+                        <div className="AddPaymentModal__row">
+                          <Field
+                            name="paymentSystem"
+                            label={attributeLabels.paymentSystem}
+                            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                            className="AddPaymentModal__field"
+                            component={FormikSelectField}
+                            disabled={paymentSystemsLoading}
+                          >
+                            {[
+                              <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
+                              ...paymentSystems.map(({ paymentSystem }) => (
+                                <option key={paymentSystem} value={paymentSystem}>
+                                  {paymentSystem}
+                                </option>
+                              )),
+                              <option key="OTHER" value="OTHER">{I18n.t('COMMON.OTHER')}</option>,
+                            ]}
+                          </Field>
+                        </div>
+                      </If>
                       <div className="AddPaymentModal__row">
                         <Field
-                          name="paymentSystem"
-                          label={attributeLabels.paymentSystem}
-                          placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                          className="AddPaymentModal__field"
-                          component={FormikSelectField}
-                          disabled={paymentSystemsLoading}
-                        >
-                          {[
-                            <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                            ...paymentSystems.map(({ paymentSystem }) => (
-                              <option key={paymentSystem} value={paymentSystem}>
-                                {paymentSystem}
-                              </option>
-                            )),
-                            <option key="OTHER" value="OTHER">{I18n.t('COMMON.OTHER')}</option>,
-                          ]}
-                        </Field>
-                      </div>
-                    </If>
-                    <div className="AddPaymentModal__row">
-                      <Field
-                        name="amount"
-                        type="number"
-                        label={attributeLabels.amount}
-                        className="AddPaymentModal__field AddPaymentModal__field--small"
-                        placeholder="0.00"
-                        step="0.01"
-                        min={0}
-                        max={999999}
-                        addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol />}
-                        component={FormikInputField}
-                        showErrorMessage={false}
-                      />
-                      <If condition={paymentType === paymentTypes.DEPOSIT.name}>
-                        <Field
-                          name="externalReference"
-                          type="text"
-                          label={attributeLabels.externalReference}
-                          className="AddPaymentModal__field"
+                          name="amount"
+                          type="number"
+                          label={attributeLabels.amount}
+                          className="AddPaymentModal__field AddPaymentModal__field--small"
+                          placeholder="0.00"
+                          step="0.01"
+                          min={0}
+                          max={999999}
+                          addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol />}
                           component={FormikInputField}
                           showErrorMessage={false}
                         />
-                      </If>
-                      <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
-                        <Field
-                          name="expirationDate"
-                          label={attributeLabels.expirationDate}
-                          className="AddPaymentModal__field"
-                          component={FormikDatePicker}
-                          showErrorMessage={false}
-                          withTime
-                          withUtc
+                        <If condition={paymentType === paymentTypes.DEPOSIT.name}>
+                          <Field
+                            name="externalReference"
+                            type="text"
+                            label={attributeLabels.externalReference}
+                            className="AddPaymentModal__field"
+                            component={FormikInputField}
+                            showErrorMessage={false}
+                          />
+                        </If>
+                        <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
+                          <Field
+                            name="expirationDate"
+                            label={attributeLabels.expirationDate}
+                            className="AddPaymentModal__field"
+                            component={FormikDatePicker}
+                            showErrorMessage={false}
+                            withTime
+                            withUtc
+                          />
+                        </If>
+                      </div>
+                      <div className="AddPaymentModal__row AddPaymentModal__row--h-align-center">
+                        <NoteButton
+                          manual
+                          ref={(ref) => { this.noteButton = ref; }}
+                          placement="bottom"
+                          playerUUID={uuid}
+                          targetUUID={uuid}
+                          targetType={targetTypes.PAYMENT}
                         />
-                      </If>
+                      </div>
                     </div>
-                    <div className="AddPaymentModal__row AddPaymentModal__row--h-align-center">
-                      <NoteButton
-                        manual
-                        ref={(ref) => { this.noteButton = ref; }}
-                        placement="bottom"
-                        playerUUID={uuid}
-                        targetUUID={uuid}
-                        targetType={targetTypes.PAYMENT}
-                      />
-                    </div>
-                  </div>
+                  </If>
                 </ModalBody>
                 <ModalFooter className="AddPaymentModal__footer">
                   <div className="AddPaymentModal__footer-message">
@@ -403,7 +417,7 @@ class AddPaymentModal extends PureComponent {
                     <Button
                       className="AddPaymentModal__button"
                       onClick={onCloseModal}
-                      commonOutline
+                      tertiary
                     >
                       {I18n.t('COMMON.CANCEL')}
                     </Button>

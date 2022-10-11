@@ -1,13 +1,13 @@
 .ClientLastIps {
   &__title {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 11px;
     text-transform: uppercase;
   }
 
   &__content {
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
     border-radius: 5px;
     font-size: 13px;
     padding: 7px;

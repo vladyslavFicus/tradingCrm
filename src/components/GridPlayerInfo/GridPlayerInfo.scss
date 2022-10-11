@@ -1,6 +1,13 @@
 .GridPlayerInfo {
+  max-width: 200px;
+  color: var(--text-primary);
+
   &__text-primary {
     font-weight: 700;
     cursor: pointer;
+  }
+
+  &__text-secondary {
+    font-size: 11px;
   }
 }

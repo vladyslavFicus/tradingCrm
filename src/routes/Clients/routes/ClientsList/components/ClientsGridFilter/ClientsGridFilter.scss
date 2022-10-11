@@ -1,7 +1,7 @@
 .ClientsGridFilter {
   &__form {
     padding: 10px 25px 20px;
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
   }
 
   &__fields {
@@ -35,6 +35,12 @@
 
   &__select {
     grid-column: span 2;
+  }
+
+  &__select-item {
+    &--inactive {
+      color: var(--form-color-disabled) !important;
+    }
   }
 
   &__range-inputs {
@@ -77,13 +83,10 @@
     margin-right: 20px;
 
     .ReactSwitch__label {
-      color: #4990e2;
+      color: var(--accent);
       font-size: 12px;
       font-weight: 600;
     }
 
-    .ReactSwitch__button--on {
-      background-image: linear-gradient(to left, #24bdee, #4a90e2);
-    }
   }
 }

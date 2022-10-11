@@ -23,7 +23,7 @@
   &__message {
     margin: -20px 0 20px;
     font-size: 14px;
-    color: #2196f3;
+    color: var(--accent);
   }
 
   &__message-spinner {
@@ -38,7 +38,7 @@
       top: 0;
       left: 0;
       content: '...';
-      color: #2196f3;
+      color: var(--accent);
       animation: spinner steps(3) 1.5s infinite;
     }
   }
@@ -46,7 +46,7 @@
   &__absolute-clients-count {
     margin-top: -20px;
     margin-bottom: 10px;
-    color: #2196f3;
+    color: var(--accent);
   }
 }
 

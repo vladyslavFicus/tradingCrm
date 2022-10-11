@@ -148,7 +148,7 @@ const Accounts = (props: Props) => {
             <Button
               className="Accounts__action"
               onClick={handleNewOrderClick}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('TRADING_ENGINE.ACCOUNTS.NEW_ORDER')}

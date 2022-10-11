@@ -1,7 +1,7 @@
 .PartnerSchedule {
   margin-top: 25px;
 
-  &__primary {
+  &__general {
     font-weight: 700;
   }
 
@@ -27,6 +27,6 @@
   &__heading {
     font-size: 18px;
     font-weight: normal;
-    color: #333;
+    color: var(--text-primary);
   }
 }

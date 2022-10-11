@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FieldLabel } from 'components/Forms';
 import MultiInput from '../../MultiInput';
+import './FormikMultiInputField.scss';
 
 class FormikMultiInputField extends PureComponent {
   static propTypes = {
@@ -106,7 +107,7 @@ class FormikMultiInputField extends PureComponent {
     } = this.props;
 
     const groupClassName = classNames(
-      'form-group',
+      'FormikMultiInputField',
       className,
       { 'has-danger': errors },
       { 'is-disabled': disabled },
@@ -117,19 +118,19 @@ class FormikMultiInputField extends PureComponent {
         <FieldLabel
           label={label}
           addon={labelAddon}
-          className={labelClassName}
+          className={classNames('FormikMultiInputField__label', labelClassName)}
         />
         {this.renderInput()}
         <If condition={helpText || (showErrorMessage && errors[name])}>
-          <div className="form-row">
+          <div>
             <If condition={showErrorMessage && errors[name]}>
-              <div className="col form-control-feedback">
+              <div>
                 <i className="icon icon-alert" />
                 {errors[name]}
               </div>
             </If>
             <If condition={helpText}>
-              <div className="col form-group-help">
+              <div>
                 {helpText}
               </div>
             </If>

@@ -66,20 +66,20 @@ class AccountsSelectField extends PureComponent {
           <PlatformTypeBadge platformType={account.platformType} center>
             {account.login}
           </PlatformTypeBadge>
-          <div className={classNames({ 'color-danger': Number(account.balance) === 0 })}>
+          <div className={classNames({ AccountsSelectField__error: Number(account.balance) === 0 })}>
             {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.BALANCE')}:&nbsp;
             {account.currency} {I18n.toCurrency(account.balance, { unit: '', precision: 5 })}
           </div>
           <div>{I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.GROUP')}: {account.group}</div>
           <If condition={[paymentTypes.CREDIT_IN.name, paymentTypes.CREDIT_OUT.name].includes(paymentType)}>
-            <div className={classNames({ 'color-danger': Number(account.credit) === 0 })}>
+            <div className={classNames({ AccountsSelectField__error: Number(account.credit) === 0 })}>
               {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.CREDIT')}:&nbsp;
               {account.currency} {I18n.toCurrency(account.credit, { unit: '' })}
             </div>
           </If>
         </div>
         <If condition={isInsufficientBalance || isInsufficientCredit}>
-          <div className="color-danger">
+          <div className="AccountsSelectField__error">
             {I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY')}
           </div>
         </If>

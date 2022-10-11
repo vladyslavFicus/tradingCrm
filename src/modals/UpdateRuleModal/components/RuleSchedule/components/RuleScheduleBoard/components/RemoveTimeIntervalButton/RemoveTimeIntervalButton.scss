@@ -2,19 +2,28 @@
   position: relative;
   padding: 0;
   border: none;
+  background: transparent;
 
   &:disabled {
-    background: transparent;
     cursor: default;
-  }
-
-  &:disabled &__icon {
-    fill: #DDDDDD;
   }
 
   &__icon {
     display: block;
     line-height: 1;
+    fill: var(--button-icon-button-default);
+  }
+
+  &:hover &__icon {
+    fill: var(--button-icon-button-hover);
+  }
+
+  &:focus &__icon {
+    fill: var(--button-icon-button-focus);
+  }
+
+  &:disabled &__icon {
+    fill: var(--button-icon-button-disabled);
   }
 
   &:after {

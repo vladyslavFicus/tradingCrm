@@ -3,11 +3,11 @@
     cursor: pointer;
   }
 
-  &__primary {
+  &__general {
     font-weight: 700;
   }
 
-  &__secondary {
+  &__additional {
     font-size: 11px;
   }
 
@@ -31,10 +31,18 @@
     &-title {
       font-weight: 700;
       text-transform: uppercase;
+
+      &--new {
+        color: var(--state-colors-info);
+      }
+
+      &--converted {
+        color: var(--state-colors-success);
+      }
     }
 
     &-converted {
-      color: #333;
+      color: var(--text-primary);
     }
 
     &-converted,

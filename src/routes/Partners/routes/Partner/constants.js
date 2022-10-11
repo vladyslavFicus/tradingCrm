@@ -17,12 +17,6 @@ const statusesLabels = {
   [statuses.CLOSED]: 'PARTNERS.STATUSES.CLOSED',
 };
 
-const statusColorNames = {
-  [statuses.INACTIVE]: 'color-default',
-  [statuses.ACTIVE]: 'color-success',
-  [statuses.CLOSED]: 'color-danger',
-};
-
 const closeReasons = {
   'PARTNER_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION': 'PARTNER_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION',
   'PARTNER_PROFILE.CLOSE_REASONS.TERMINATED': 'PARTNER_PROFILE.CLOSE_REASONS.TERMINATED',
@@ -48,7 +42,6 @@ const statusActions = [
 ];
 
 export {
-  statusColorNames,
   statusesLabels,
   statusActions,
   statuses,

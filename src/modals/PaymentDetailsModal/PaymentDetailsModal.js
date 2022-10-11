@@ -279,7 +279,6 @@ class PaymentDetailsModal extends PureComponent {
     const {
       payment: {
         creationTime,
-        withdrawStatus,
         paymentId,
         status,
       },
@@ -292,7 +291,6 @@ class PaymentDetailsModal extends PureComponent {
         </div>
         <div className="PaymentDetailsModal__block-status">
           <PaymentStatus
-            withdrawStatus={withdrawStatus}
             creationTime={creationTime}
             paymentId={paymentId}
             status={status}
@@ -357,7 +355,6 @@ class PaymentDetailsModal extends PureComponent {
         paymentId,
         paymentType,
         paymentMethod,
-        withdrawStatus,
         paymentAggregator,
       },
       permission,
@@ -429,7 +426,6 @@ class PaymentDetailsModal extends PureComponent {
                   <If condition={canApprove}>
                     <ApprovePaymentForm
                       paymentId={paymentId}
-                      withdrawStatus={withdrawStatus}
                       onSuccess={this.onAcceptSuccess}
                     />
                   </If>
@@ -455,7 +451,7 @@ class PaymentDetailsModal extends PureComponent {
         <ModalFooter>
           <Button
             onClick={onCloseModal}
-            common
+            secondary
           >
             {I18n.t('COMMON.DEFER')}
           </Button>

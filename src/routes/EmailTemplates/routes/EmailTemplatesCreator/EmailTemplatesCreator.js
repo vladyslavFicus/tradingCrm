@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
+import { Button } from 'components/UI';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import { Link } from 'components/Link';
 import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
 import { validator } from '../../utils';
@@ -56,6 +55,10 @@ class EmailTemplatesCreator extends PureComponent {
     }
   };
 
+  handleGoToEmailTemplatesClick = () => {
+    this.props.history.push('/email-templates/list');
+  };
+
   render() {
     return (
       <div className="EmailTemplatesCreator">
@@ -63,9 +66,13 @@ class EmailTemplatesCreator extends PureComponent {
           <span className="EmailTemplatesCreator__header-title">
             {I18n.t('EMAILS.EMAIL_TEMPLATES.CREATOR.TITLE')}
           </span>
-          <Link to="/email-templates/list" className="EmailTemplatesCreator__header-link">
+          <Button
+            tertiary
+            className="EmailTemplatesCreator__header-link"
+            onClick={this.handleGoToEmailTemplatesClick}
+          >
             {I18n.t('EMAILS.EMAIL_TEMPLATES.LINK_GO_TO_EMAIL_TEMPLATES')}
-          </Link>
+          </Button>
         </div>
         <div className="EmailTemplatesCreator__body">
           <Formik
@@ -101,7 +108,7 @@ class EmailTemplatesCreator extends PureComponent {
                     label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_SUBJECT_LABEL')}
                     component={FormikInputField}
                   />
-                  <Button type="submit" color="primary" disabled={!dirty && isValid}>
+                  <Button type="submit" primary disabled={!dirty && isValid}>
                     {I18n.t('EMAILS.EMAIL_TEMPLATES.CREATOR.BUTTONS.CREATE')}
                   </Button>
                 </div>

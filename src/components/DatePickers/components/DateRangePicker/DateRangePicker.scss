@@ -8,7 +8,7 @@
   }
 
   &__input {
-    background-color: #fff;
+    background-color: var(--form-background-default);
     display: flex;
     justify-content: space-between;
     height: 40px;
@@ -20,11 +20,11 @@
       & .DateRangePicker__input {
         &-left,
         &-right {
-          border-color: #4990e2;
+          border-color: var(--form-border-hover);
         }
 
         &-calendar {
-          color: #aaa;
+          color: var(--form-icon-button-hover);
         }
       }
     }
@@ -34,11 +34,11 @@
       & .DateRangePicker__input {
         &-left,
         &-right {
-          border-color: #4990e2;
+          border-color: var(--form-border-focus);
         }
 
         &-calendar {
-          color: #aaa;
+          color: var(--form-icon-button-focus);
         }
       }
     }
@@ -48,7 +48,7 @@
       & .DateRangePicker__input {
         &-left,
         &-right {
-          border-color: #d0011b;
+          border-color: var(--state-colors-danger);
         }
       }
     }
@@ -60,15 +60,15 @@
       & .DateRangePicker__input {
         &-left,
         &-right {
-          border-color: #cfcfcf;
-          background-color: #f6f6f6;
+          border-color: var(--form-border-disabled);
+          background-color: var(--form-background-disabled);
         }
 
         &-additional-value,
         &-devider,
         &-date,
         &-calendar {
-          color: #bec2d5;
+          color: var(--form-color-disabled);
         }
       }
     }
@@ -81,15 +81,15 @@
 
     &-left {
       border-radius: 3px 0 0 3px;
-      border: 1px solid  #cfcfcf;
+      border: 1px solid var(--form-border-default);
       width: calc(100% - 40px);
     }
 
     &-right {
       border-radius: 0 3px 3px 0;
-      border: 1px solid #cfcfcf;
+      border: 1px solid var(--form-border-default);
       border-left: none;
-      color: #cfcfcf;
+      color: var(--form-icon-button-default);
       line-height: 42px;
       padding: 0 8px;
       text-align: center;
@@ -98,7 +98,7 @@
       width: 40px;
 
       &:hover {
-        color: #9b9b9b;
+        color: var(--form-icon-button-hover);
       }
     }
 
@@ -112,7 +112,7 @@
     }
 
     &-additional-value {
-      color: #4a4a4a;
+      color: var(--form-color-hover);
       padding: 0 8px;
     }
 
@@ -123,7 +123,7 @@
     }
 
     &-devider {
-      color: #9b9b9b;
+      color: var(--divider);
       margin: 0 2px;
     }
 
@@ -132,19 +132,19 @@
       min-width: 140px;
 
       &--in-focus {
-        background-color: rgba(lightskyblue, .2);
+        background-color: var(--dropdown-options-background-hover);
       }
 
       & input {
         background-color: transparent;
-        color: #4a4a4a;
+        color: var(--form-color-default);
         padding: 0 6px 0 8px;
 
         display: block;
         width: 100%;
 
         &::placeholder {
-          color: #9b9b9b;
+          color: var(--form-color-placeholder);
         }
       }
     }
@@ -154,7 +154,7 @@
     }
 
     &-error {
-      color: #d0021b;
+      color: var(--state-colors-danger);
       font-size: 12px;
       position: absolute;
       top: calc(100% + 4px);
@@ -170,8 +170,8 @@
   }
 
   &__popup {
-    background-color: #fff;
-    border: 1px solid #cfcfcf;
+    background-color: var(--form-background-default);
+    border: 1px solid var(--form-border-default);
     border-radius: 5px;
     padding: 15px;
 

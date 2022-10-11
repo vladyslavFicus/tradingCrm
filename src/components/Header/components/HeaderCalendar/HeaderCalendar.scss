@@ -4,7 +4,7 @@
 
   &__head {
     background-color: transparent;
-    color: #ccc;
+    color: var(--navigation-secondary-color);
     font-size: 18px;
     line-height: 50px;
     text-align: center;
@@ -13,12 +13,12 @@
     width: 40px;
 
     &:hover {
-      color: #fff;
+      color: var(--navigation-primary-color);
     }
   }
 
   &__popper {
-    max-width: inherit;
+    max-width: none !important;
     z-index: 6;
   }
 

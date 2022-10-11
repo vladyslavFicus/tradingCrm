@@ -46,7 +46,7 @@ class UnarchiveButton extends PureComponent {
 
   render() {
     return (
-      <Button onClick={this.unarchiveAccount}>
+      <Button tertiary onClick={this.unarchiveAccount}>
         {I18n.t('TRADING_ACCOUNTS.GRID.UNARCHIVE.BUTTON')}
       </Button>
     );

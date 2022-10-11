@@ -24,10 +24,10 @@ class PartnerRegistrationInfo extends PureComponent {
 
         <If condition={createdAt}>
           <>
-            <div className="PartnerRegistrationInfo__primary">
+            <div className="PartnerRegistrationInfo__general">
               {moment.utc(createdAt).local().fromNow()}
             </div>
-            <div className="PartnerRegistrationInfo__secondary">
+            <div className="PartnerRegistrationInfo__additional">
               {I18n.t('COMMON.ON')} {moment.utc(createdAt).local().format('DD.MM.YYYY HH:mm')}
             </div>
           </>

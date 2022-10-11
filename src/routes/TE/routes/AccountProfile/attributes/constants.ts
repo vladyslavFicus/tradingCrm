@@ -55,9 +55,3 @@ export const statuses = [{
   value: 'PENDING',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.PENDING',
 }];
-
-export const tradeStatusesColor: Record<string, string> = {
-  PENDING: 'color-info',
-  CLOSED: 'color-danger',
-  OPEN: 'color-success',
-};

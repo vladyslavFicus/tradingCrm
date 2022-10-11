@@ -143,7 +143,7 @@ class ChangeLeverageModal extends PureComponent {
                   <Button
                     className="ChangeLeverageModal__button"
                     onClick={onCloseModal}
-                    commonOutline
+                    tertiary
                   >
                     {I18n.t('COMMON.CANCEL')}
                   </Button>

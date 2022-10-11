@@ -1,5 +1,5 @@
 .DealingOperatorAccountStatus {
-  border-right: 1px solid #dfe4ed;
+  border-right: 1px solid var(--divider);
   padding: 5px 0;
   flex: 1;
   min-height: 60px;
@@ -16,7 +16,7 @@
 
   &--with-open-dropdown {
     &:before {
-      background-color: #01a8fe;
+      background-color: var(--active);
     }
 
     & .DealingOperatorAccountStatus__arrow {
@@ -25,7 +25,7 @@
   }
 
   &__title {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 11px;
     text-transform: uppercase;
   }
@@ -33,15 +33,28 @@
   &__status {
     font-size: 13px;
     font-weight: 700;
+    text-transform: uppercase;
+
+    &--inactive {
+      color: var(--state-colors-info);
+    }
+
+    &--active {
+      color: var(--state-colors-success);
+    }
+
+    &--closed {
+      color: var(--state-colors-danger);
+    }
   }
 
-  &__secondary {
-    color: #333;
+  &__additional {
+    color: var(--text-primary);
     font-size: 11px;
   }
 
   &__arrow {
-    color: #999;
+    color: var(--button-icon-button-default);
     transition: transform 0.2s;
     position: absolute;
     top: 3px;
@@ -50,8 +63,8 @@
 
   &__dropdown {
     &-menu {
-      border: 1px solid #eee;
-      box-shadow: 4px 4px 4px rgba(0,0,0,.15);
+      border-color: var(--dropdown-surface-border);
+      background-color: var(--dropdown-surface-background);
       padding: 0;
       top: 120% !important;
       left: auto !important;
@@ -61,9 +74,16 @@
 
     &-item {
       padding: 10px 15px;
+      color: var(--dropdown-options-color-default);
 
       &:hover {
-        background-color: #f2f2f2;
+        background: var(--dropdown-options-background-hover);
+        color: var(--dropdown-options-color-hover);
+      }
+  
+      &:focus {
+        background: var(--dropdown-options-background-focus);
+        color: var(--dropdown-options-color-focus);
       }
     }
   }

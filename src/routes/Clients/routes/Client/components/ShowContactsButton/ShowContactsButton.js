@@ -24,6 +24,7 @@ class ShowContactsButton extends PureComponent {
         permissionsCondition={CONDITIONS.OR}
       >
         <Button
+          tertiary
           className="ShowClientPhone__button"
           onClick={onClick}
         >

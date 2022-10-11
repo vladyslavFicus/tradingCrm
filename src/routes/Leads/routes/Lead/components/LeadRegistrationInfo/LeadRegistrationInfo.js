@@ -23,10 +23,10 @@ class LeadRegistrationInfo extends PureComponent {
         </div>
 
         <If condition={registrationDate}>
-          <div className="LeadRegistrationInfo__primary">
+          <div className="LeadRegistrationInfo__general">
             {moment.utc(registrationDate).local().fromNow()}
           </div>
-          <div className="LeadRegistrationInfo__secondary">
+          <div className="LeadRegistrationInfo__additional">
             {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
           </div>
         </If>

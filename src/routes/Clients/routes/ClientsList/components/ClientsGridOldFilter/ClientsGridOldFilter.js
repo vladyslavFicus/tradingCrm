@@ -394,8 +394,8 @@ class ClientsGridOldFilter extends PureComponent {
                         <option
                           key={uuid}
                           value={uuid}
-                          className={classNames({
-                            'color-inactive': operatorStatus === operatorsStasuses.INACTIVE
+                          className={classNames('ClientsGridOldFilter__select-item', {
+                            'ClientsGridOldFilter__select-item--inactive': operatorStatus === operatorsStasuses.INACTIVE
                               || operatorStatus === operatorsStasuses.CLOSED,
                           })}
                         >
@@ -618,6 +618,7 @@ class ClientsGridOldFilter extends PureComponent {
                         min={0}
                         placeholder="0.0"
                         component={FormikInputField}
+                        className="ClientsGridOldFilter__field"
                         withFocus
                       />
                       <Field
@@ -627,6 +628,7 @@ class ClientsGridOldFilter extends PureComponent {
                         min={0}
                         placeholder="0.0"
                         component={FormikInputField}
+                        className="ClientsGridOldFilter__field"
                         withFocus
                       />
                     </RangeGroup>
@@ -642,6 +644,7 @@ class ClientsGridOldFilter extends PureComponent {
                         placeholder="0"
                         min={0}
                         component={FormikInputField}
+                        className="ClientsGridOldFilter__field"
                         withFocus
                       />
                       <Field
@@ -650,6 +653,7 @@ class ClientsGridOldFilter extends PureComponent {
                         min={0}
                         placeholder="0"
                         component={FormikInputField}
+                        className="ClientsGridOldFilter__field"
                         withFocus
                       />
                     </RangeGroup>

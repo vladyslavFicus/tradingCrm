@@ -2,11 +2,11 @@
   font-weight: 700;
 
   &--positive {
-    color: #0cb56c;
+    color: var(--state-colors-success);
   }
 
   &--negative {
-    color: #ef393f;
+    color: var(--state-colors-danger);
   }
 
   &__loader {

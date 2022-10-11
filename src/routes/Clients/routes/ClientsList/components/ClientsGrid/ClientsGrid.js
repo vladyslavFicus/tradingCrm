@@ -7,21 +7,18 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
-import { getBrand } from 'config';
+import { getBrand, getBackofficeBrand } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { warningLabels } from 'constants/warnings';
-import { statusColorNames, statusesLabels } from 'constants/user';
-import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
-import { lastActivityStatusesLabels, lastActivityStatusesColors } from 'constants/lastActivity';
+import { statuses, statusesLabels } from 'constants/user';
+import { lastActivityStatusesLabels } from 'constants/lastActivity';
 import { withPermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
-import GridStatus from 'components/GridStatus';
-import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
+import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { Column, AdjustableTable } from 'components/Table';
@@ -123,12 +120,17 @@ class ClientsGrid extends PureComponent {
     const activityStatus = online ? 'ONLINE' : 'OFFLINE';
 
     return (
-      <GridStatus
-        statusLabel={I18n.t(lastActivityStatusesLabels[activityStatus])}
-        colorClassName={lastActivityStatusesColors[activityStatus]}
-        infoLabel={date => date.fromNow()}
-        info={localTime}
-      />
+      <>
+        <div
+          className={classNames('ClientsGrid__text-primary', 'ClientsGrid__text-primary--uppercase', {
+            'ClientsGrid__last-activity--offline': !online,
+            'ClientsGrid__last-activity--online': online,
+          })}
+        >
+          {I18n.t(lastActivityStatusesLabels[activityStatus])}
+        </div>
+        <div className="ClientsGrid__text-secondary">{localTime?.fromNow()}</div>
+      </>
     );
   };
 
@@ -260,61 +262,25 @@ class ClientsGrid extends PureComponent {
     );
   }
 
-  renderSalesColumn = ({ acquisition }) => {
-    const { acquisitionStatus, salesStatus, salesOperator } = acquisition || {};
-    const colorClassName = salesStatusesColor[salesStatus];
+  renderSalesColumn = ({ acquisition }) => (
+    <GridAcquisitionStatus
+      active={acquisition?.acquisitionStatus === 'SALES'}
+      acquisition="SALES"
+      status={acquisition?.salesStatus}
+      fullName={acquisition?.salesOperator?.fullName}
+      hierarchy={acquisition?.salesOperator?.hierarchy}
+    />
+  );
 
-    return (
-      <Choose>
-        <When condition={salesStatus}>
-          <GridStatus
-            colorClassName={colorClassName}
-            wrapperClassName={classNames({ [`border-${colorClassName}`]: acquisitionStatus === 'SALES' })}
-            statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
-            info={(
-              <If condition={salesOperator}>
-                <GridStatusDeskTeam
-                  fullName={salesOperator.fullName}
-                  hierarchy={salesOperator.hierarchy}
-                />
-              </If>
-            )}
-          />
-        </When>
-        <Otherwise>
-          <GridEmptyValue />
-        </Otherwise>
-      </Choose>
-    );
-  }
-
-  renderRetentionColumn = ({ acquisition }) => {
-    const { acquisitionStatus, retentionStatus, retentionOperator } = acquisition || {};
-    const colorClassName = retentionStatusesColor[retentionStatus];
-
-    return (
-      <Choose>
-        <When condition={retentionStatus}>
-          <GridStatus
-            colorClassName={colorClassName}
-            wrapperClassName={classNames({ [`border-${colorClassName}`]: acquisitionStatus === 'RETENTION' })}
-            statusLabel={I18n.t(renderLabel(retentionStatus, retentionStatuses))}
-            info={(
-              <If condition={retentionOperator}>
-                <GridStatusDeskTeam
-                  fullName={retentionOperator.fullName}
-                  hierarchy={retentionOperator.hierarchy}
-                />
-              </If>
-            )}
-          />
-        </When>
-        <Otherwise>
-          <GridEmptyValue />
-        </Otherwise>
-      </Choose>
-    );
-  }
+  renderRetentionColumn = ({ acquisition }) => (
+    <GridAcquisitionStatus
+      active={acquisition?.acquisitionStatus === 'RETENTION'}
+      acquisition="RETENTION"
+      status={acquisition?.retentionStatus}
+      fullName={acquisition?.retentionOperator?.fullName}
+      hierarchy={acquisition?.retentionOperator?.hierarchy}
+    />
+  );
 
   renderRegistrationDateColumn = ({ registrationDetails }) => {
     const { registrationDate } = registrationDetails || {};
@@ -401,16 +367,28 @@ class ClientsGrid extends PureComponent {
     const { changedAt, type } = status || {};
 
     return (
-      <GridStatus
-        colorClassName={statusColorNames[type]}
-        statusLabel={I18n.t(renderLabel(type, statusesLabels))}
-        info={changedAt}
-        infoLabel={date => (
-          I18n.t('COMMON.SINCE', {
-            date: moment.utc(date).local().format('DD.MM.YYYY HH:mm'),
-          })
-        )}
-      />
+      <>
+        <div
+          className={classNames(
+            'ClientsGrid__text-primary',
+            'ClientsGrid__text-primary--uppercase',
+            'ClientsGrid__status',
+            {
+              'ClientsGrid__status--verified': type === statuses.VERIFIED,
+              'ClientsGrid__status--not-verified': type === statuses.NOT_VERIFIED,
+              'ClientsGrid__status--blocked': type === statuses.BLOCKED,
+            },
+          )}
+        >
+          {I18n.t(renderLabel(type, statusesLabels))}
+        </div>
+
+        <div className="ClientsGrid__text-secondary">
+          {I18n.t('COMMON.SINCE', {
+            date: moment.utc(changedAt).local().format('DD.MM.YYYY HH:mm'),
+          })}
+        </div>
+      </>
     );
   }
 
@@ -437,12 +415,14 @@ class ClientsGrid extends PureComponent {
 
     // Show loader only if initial load or new variables was applied
     const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(clientsQuery.networkStatus);
+    const columnsOrder = getBackofficeBrand()?.tables?.clients?.columnsOrder;
 
     return (
       <div className="ClientsGrid">
         <AdjustableTable
           type="CLIENT"
           defaultColumns={defaultColumns}
+          columnsOrder={columnsOrder}
           stickyFromTop={157}
           items={content}
           totalCount={totalElements}

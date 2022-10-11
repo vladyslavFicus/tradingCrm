@@ -151,7 +151,7 @@ class PartnerHeader extends PureComponent {
             <Button
               className="PartnerHeader__action"
               onClick={this.handleOpenChangePasswordModal}
-              common
+              secondary
               small
             >
               {I18n.t('PARTNER_PROFILE.CHANGE_PASSWORD')}

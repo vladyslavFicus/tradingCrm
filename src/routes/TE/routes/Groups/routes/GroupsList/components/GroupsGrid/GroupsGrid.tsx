@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import { LevelType, Notify } from 'types/notify';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { GroupsQueryQueryResult, GroupsQuery, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
@@ -246,18 +246,16 @@ const GroupsGrid = ({
             render={({ groupName, enabled }: GroupType) => (
               <div className="GroupsGrid__cell-actions">
                 <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
-                  <Button
-                    transparent
+                  <TrashButton
+                    className="GroupsGrid__trash"
                     onClick={() => handleDeleteGroupModal(groupName)}
-                  >
-                    <i className="fa fa-trash btn-transparent color-danger" />
-                  </Button>
+                  />
                 </PermissionContent>
                 <PermissionContent permissions={permissions.WE_TRADING.UPDATE_GROUP_ENABLE}>
                   <Button
                     small
                     danger={enabled}
-                    dangerOutline={!enabled}
+                    tertiary={!enabled}
                     className="GroupsGrid__button"
                     onClick={() => handleArchiveClick(groupName, !enabled)}
                   >

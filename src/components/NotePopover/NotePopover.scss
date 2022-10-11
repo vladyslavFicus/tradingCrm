@@ -1,25 +1,28 @@
-@import "../../styles/helpers/variables";
-
 .NotePopover {
   z-index: 1060;
 
   &__popper {
-    width: 100%;
-    max-width: 475px;
+    min-width: 475px;
     right: 10px;
-    background-color: $color-paper;
+    background-color: var(--surface-note) !important;
+
+    .popover-arrow:after {
+      border-top-color: var(--surface-note) !important;
+      border-bottom-color: var(--surface-note) !important;
+    }
   }
 
   &__header,
   &__title {
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
   }
 
   &__header {
-    background-color: transparent;
-    border-bottom: 0;
-    border-radius: 0;
-    padding: 0;
+    background-color: transparent !important;
+    border-bottom: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
   }
 
   &__title {
@@ -40,13 +43,6 @@
   &__author {
     font-size: 13px;
     line-height: normal;
-  }
-
-  &__delete-btn {
-    padding: 0;
-    border: 0;
-    background-color: transparent;
-    font-size: 14px;
   }
 
   &__content-size {
@@ -79,7 +75,7 @@
 
   input,
   textarea {
-    border-color: #ccc;
+    border-color: var(--form-border-default);
     border-radius: 0;
     font-size: 14px;
     line-height: 21px;
@@ -87,7 +83,7 @@
   }
 
   input {
-    background-color: transparent !important;
+    background: var(--surface-note);
     height: 26px;
   }
 
@@ -95,9 +91,10 @@
     margin-bottom: 8px;
     height: 200px;
     background-attachment: local;
-    background-image:
-      linear-gradient(to right, white 0px, transparent 0px),
-      linear-gradient(to left, white 0px, transparent 0px),
-      repeating-linear-gradient($color-paper, $color-paper 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
+    background: var(--surface-note);
+  }
+
+  .popover-body {
+    color: var(--text-primary);
   }
 }

@@ -1,14 +1,11 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
-import { Button } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
+import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
-import { Link } from 'components/Link';
 import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
 import { validator } from '../../utils';
@@ -66,6 +63,10 @@ class EmailTemplatesEditor extends PureComponent {
     }
   };
 
+  handleGoToEmailTemplatesClick = () => {
+    this.props.history.push('/email-templates/list');
+  };
+
   render() {
     const {
       emailTemplateQuery,
@@ -81,22 +82,16 @@ class EmailTemplatesEditor extends PureComponent {
     return (
       <div className="EmailTemplatesEditor">
         <div className="EmailTemplatesEditor__header">
-          <ReactPlaceholder
-            ready={!loading}
-            customPlaceholder={(
-              <div>
-                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-                <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
-              </div>
-            )}
+          <span className="EmailTemplatesEditor__header-title">
+            {I18n.t('EMAILS.EMAIL_TEMPLATES.EDITOR.TITLE')}
+          </span>
+          <Button
+            tertiary
+            className="EmailTemplatesEditor__header-link"
+            onClick={this.handleGoToEmailTemplatesClick}
           >
-            <span className="EmailTemplatesEditor__header-title">
-              {I18n.t('EMAILS.EMAIL_TEMPLATES.EDITOR.TITLE')}
-            </span>
-          </ReactPlaceholder>
-          <Link to="/email-templates/list" className="EmailTemplatesEditor__header-link">
             {I18n.t('EMAILS.EMAIL_TEMPLATES.LINK_GO_TO_EMAIL_TEMPLATES')}
-          </Link>
+          </Button>
         </div>
         <div className="EmailTemplatesEditor__body">
           <Formik
@@ -133,7 +128,7 @@ class EmailTemplatesEditor extends PureComponent {
                     label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_SUBJECT_LABEL')}
                     component={FormikInputField}
                   />
-                  <Button type="submit" color="primary" disabled={!dirty && isValid}>
+                  <Button type="submit" primary disabled={!dirty && isValid}>
                     {I18n.t('EMAILS.EMAIL_TEMPLATES.EDITOR.BUTTONS.UPDATE')}
                   </Button>
                 </div>

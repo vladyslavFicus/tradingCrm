@@ -145,7 +145,7 @@ class KYCNote extends PureComponent {
             </div>
             <div className="KYCNote__buttons-wrapper">
               <Button
-                common
+                secondary
                 onClick={handleReset}
                 disabled={!dirty || isFormDisabled}
               >

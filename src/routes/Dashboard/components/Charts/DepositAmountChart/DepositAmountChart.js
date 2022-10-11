@@ -40,7 +40,7 @@ class DepositAmountChart extends PureComponent {
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={depositPaymentsStatistic.loading}
-        chartAndTextColor="#1565d6"
+        chartAndTextColor="var(--state-colors-info)"
         lineDataKey="amount"
         xDataKey="entryDate"
         withCurrency

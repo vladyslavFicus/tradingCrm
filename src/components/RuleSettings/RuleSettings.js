@@ -53,7 +53,7 @@ class RuleSettings extends PureComponent {
     return (
       <div className="RuleSettings">
         <If condition={errors.submit}>
-          <div className="mb-2 text-center color-danger RuleSettings__message-error">
+          <div className="mb-2 text-center RuleSettings__message-error">
             {errors.submit}
           </div>
         </If>

@@ -27,7 +27,7 @@
     font-size: 15px;
     font-weight: 700;
     line-height: 1.3em;
-    color: #ff0000;
+    color: var(--state-colors-danger);
   }
 
   &__errors-list {
@@ -43,6 +43,6 @@
   }
 
   .modal-header {
-    background-color: #ff8041;
+    background: var(--window-header-background-warning);
   }
 }

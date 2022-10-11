@@ -1,3 +1,7 @@
+.IpWhitelist{
+  border: 1px solid var(--surface-page-border);
+}
+
 .IpWhitelistGrid {
   &__tabs {
     margin-left: 0;
@@ -16,7 +20,7 @@
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--surface-page-background);
     position: sticky;
     top: 48px;
     z-index: 2;
@@ -39,16 +43,7 @@
   }
 
   &__header-button {
-    padding: 8px 16px;
     margin-left: 15px;
-    border: 1px solid #9b9b9b;
-    border-radius: 3px;
-    color: #9b9b9b;
-    background-color: #fff;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.1s ease-in-out;
-    cursor: pointer;
   }
 
   &__action-icon {

@@ -12,7 +12,7 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
 import Badge from 'components/Badge';
@@ -145,7 +145,7 @@ const SymbolsList = ({
           <Link to="/trading-engine/symbols/new">
             <Button
               className="SymbolsList__action"
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('TRADING_ENGINE.SYMBOLS.NEW_SYMBOL')}
@@ -319,12 +319,7 @@ const SymbolsList = ({
           render={({ symbol, enabled }: SymbolType) => (
             <If condition={enabled}>
               <PermissionContent permissions={permissions.WE_TRADING.DELETE_SYMBOL}>
-                <Button
-                  transparent
-                  onClick={() => handleDeleteSymbolClick(symbol)}
-                >
-                  <i className="fa fa-trash btn-transparent color-danger" />
-                </Button>
+                <TrashButton onClick={() => handleDeleteSymbolClick(symbol)} />
               </PermissionContent>
             </If>
           )}

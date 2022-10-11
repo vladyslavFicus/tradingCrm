@@ -1,10 +1,8 @@
-$border: 1px solid #DFE4ED;
-
 .RuleScheduleBoard {
   margin-bottom: 10px;
-  border: $border;
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: var(--surface-page-background);
+  border-bottom: 1px solid var(--divider);
 
   &__header, &__footer {
     padding: 20px 15px;
@@ -19,8 +17,8 @@ $border: 1px solid #DFE4ED;
   }
 
   &__body {
-    border-top: $border;
-    border-bottom: $border;
+    border-top: 1px solid var(--surface-page-border);
+    border-bottom: 1px solid var(--divider);
   }
 
   &__remove-shedule {
@@ -50,10 +48,10 @@ $border: 1px solid #DFE4ED;
   &__time-interval {
     position: relative;
     padding: 20px 15px 0px;
-    border-bottom: $border;
+    border-bottom: 1px solid var(--divider);
 
     &:last-child {
-      border: none;
+      border: none; 
     }
   }
 
@@ -68,7 +66,7 @@ $border: 1px solid #DFE4ED;
     left: 0;
     bottom: 0;
     font-size: 12px;
-    color: #d0011b;
+    color: var(--state-colors-danger);
   }
 
   &__error-message-icon {

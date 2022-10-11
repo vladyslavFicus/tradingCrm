@@ -55,7 +55,7 @@ class DesksList extends PureComponent {
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <Button
               onClick={this.handleOpenAddDeskModal}
-              commonOutline
+              tertiary
             >
               {I18n.t('DESKS.ADD_DESK')}
             </Button>

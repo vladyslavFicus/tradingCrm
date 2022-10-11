@@ -1,10 +1,10 @@
 .Files {
-  background-color: #fff;
+  background-color: var(--surface-page-background);
   border-radius: 5px;
 
   &__header {
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     padding: 25px;
     position: sticky;
     top: 48px;

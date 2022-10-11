@@ -6,17 +6,16 @@ import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import { withApollo } from '@apollo/client/react/hoc';
 import classNames from 'classnames';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
-import { clientDistributionStatuses } from 'constants/clientsDistribution';
+import { statuses, clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
+import Placeholder from 'components/Placeholder';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -146,18 +145,18 @@ class DistributionRules extends PureComponent {
   renderRule = ({ uuid, name, createdBy }) => (
     <Fragment>
       <div
-        className="DistributionRulesList__primary DistributionRulesList__rule-name"
+        className="DistributionRulesList__general DistributionRulesList__rule-name"
         onClick={() => this.handleRowClick(uuid)}
       >
         {name}
       </div>
       <If condition={uuid}>
-        <div className="DistributionRulesList__secondary">
+        <div className="DistributionRulesList__additional">
           <Uuid uuid={uuid} uuidPrefix="RL" />
         </div>
       </If>
       <If condition={createdBy}>
-        <div className="DistributionRulesList__secondary">
+        <div className="DistributionRulesList__additional">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
@@ -167,7 +166,7 @@ class DistributionRules extends PureComponent {
   renderActions = ({ latestMigration, status, executionType, ...rest }) => (
     <If condition={status !== 'INACTIVE'}>
       <Button
-        transparent
+        icon
         stopPropagation
         className="DistributionRulesList__action"
         onClick={
@@ -193,7 +192,7 @@ class DistributionRules extends PureComponent {
   renderOrder = ({ order }) => (
     <Choose>
       <When condition={order}>
-        <span className="DistributionRulesList__primary">{order}</span>
+        <span className="DistributionRulesList__general">{order}</span>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -203,18 +202,26 @@ class DistributionRules extends PureComponent {
 
   renderStatus = ({ status, statusChangedAt, executionType }) => (
     <>
-      <div className={classNames('DistributionRulesList__primary', clientDistributionStatuses[status].color)}>
-        {I18n.t(clientDistributionStatuses[status].label)}
+      <div
+        className={classNames(
+          'DistributionRulesList__general',
+          'DistributionRulesList__status', {
+            'DistributionRulesList__status--active': status === statuses.ACTIVE,
+            'DistributionRulesList__status--inactive': status === statuses.INACTIVE,
+          },
+        )}
+      >
+        {I18n.t(clientDistributionStatuses[status])}
       </div>
 
       <If condition={statusChangedAt}>
-        <div className="DistributionRulesList__secondary">
+        <div className="DistributionRulesList__additional">
           {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY HH:mm:ss') })}
         </div>
       </If>
 
       <If condition={executionType}>
-        <div className="DistributionRulesList__secondary">
+        <div className="DistributionRulesList__additional">
           {I18n.t(`CLIENTS_DISTRIBUTION.EXECUTION_TYPE.${executionType}`)}
         </div>
       </If>
@@ -226,8 +233,8 @@ class DistributionRules extends PureComponent {
       <When condition={brands}>
         {brands.map(({ brand, distributionUnit: { baseUnit, quantity } }) => (
           <div key={brand}>
-            <div className="DistributionRulesList__primary">{brand}</div>
-            <div className="DistributionRulesList__secondary">
+            <div className="DistributionRulesList__general">{brand}</div>
+            <div className="DistributionRulesList__additional">
               {`${quantity}${baseUnit === 'PERCENTAGE' ? '%' : ''} ${I18n.t('COMMON.CLIENTS')}`}
             </div>
           </div>
@@ -286,12 +293,12 @@ class DistributionRules extends PureComponent {
   }
 
   renderSalesStatus = ({ sourceBrandConfigs }) => {
-    const statuses = sourceBrandConfigs && sourceBrandConfigs[0]?.salesStatuses;
+    const _statuses = sourceBrandConfigs && sourceBrandConfigs[0]?.salesStatuses;
 
     return (
       <Choose>
-        <When condition={statuses}>
-          {statuses.slice(0, 3).map(status => (
+        <When condition={_statuses}>
+          {_statuses.slice(0, 3).map(status => (
             <div
               key={status}
               className="font-weight-600"
@@ -299,7 +306,7 @@ class DistributionRules extends PureComponent {
               {I18n.t(salesStatuses[status])}
             </div>
           ))}
-          {statuses.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: statuses.length - 3 })}
+          {_statuses.length > 3 && I18n.t('COMMON.AND_N_MORE', { value: _statuses.length - 3 })}
         </When>
         <Otherwise>
           <span>&mdash;</span>
@@ -310,10 +317,10 @@ class DistributionRules extends PureComponent {
 
   renderCreatedTime = ({ createdAt }) => (
     <>
-      <div className="DistributionRulesList__primary">
+      <div className="DistributionRulesList__general">
         {moment.utc(createdAt).local().format('DD.MM.YYYY')}
       </div>
-      <div className="DistributionRulesList__secondary">
+      <div className="DistributionRulesList__additional">
         {moment.utc(createdAt).local().format('HH:mm:ss')}
       </div>
     </>
@@ -335,7 +342,7 @@ class DistributionRules extends PureComponent {
     return (
       <Choose>
         <When condition={timeInCurrentStatusInHours}>
-          <div className="DistributionRulesList__primary">
+          <div className="DistributionRulesList__general">
             {`${time} ${I18n.t(`COMMON.${type}`)}`}
           </div>
         </When>
@@ -349,10 +356,10 @@ class DistributionRules extends PureComponent {
   renderLastTimeExecuted = ({ latestMigration }) => (
     <Choose>
       <When condition={latestMigration}>
-        <div className="DistributionRulesList__primary">
+        <div className="DistributionRulesList__general">
           {moment.utc(latestMigration.startDate).local().format('DD.MM.YYYY')}
         </div>
-        <div className="DistributionRulesList__secondary">
+        <div className="DistributionRulesList__additional">
           {moment.utc(latestMigration.startDate).local().format('HH:mm:ss')}
         </div>
       </When>
@@ -384,22 +391,20 @@ class DistributionRules extends PureComponent {
     return (
       <div className="DistributionRulesList">
         <div className="DistributionRulesList__header">
-          <ReactPlaceholder
+          <Placeholder
             ready={!loading}
-            customPlaceholder={(
-              <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-            )}
+            rows={[{ width: 220, height: 20 }]}
           >
             <span>
               <strong>{totalElements} </strong>
               {I18n.t('CLIENTS_DISTRIBUTION.TITLE')}
             </span>
-          </ReactPlaceholder>
+          </Placeholder>
           <PermissionContent permissions={permissions.CLIENTS_DISTRIBUTION.CREATE_RULE}>
             <div className="ml-auto">
               <Button
                 small
-                commonOutline
+                tertiary
                 onClick={this.handleCreateRule}
               >
                 {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}

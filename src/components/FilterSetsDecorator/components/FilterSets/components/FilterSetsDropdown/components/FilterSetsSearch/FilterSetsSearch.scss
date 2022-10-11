@@ -1,6 +1,6 @@
 .FilterSetsSearch {
   padding: 10px 5px;
-  background-color: #eeeeee;
+  background-color: var(--surface-filters-background);
 
   &__field-wrapper {
     position: relative;
@@ -16,7 +16,7 @@
     right: 5px;
     z-index: 1;
     font-size: 14px;
-    color: #cfcfcf;
+    color: var(--dropdown-options-color-default);
     cursor: pointer;
   }
 }

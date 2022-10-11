@@ -90,9 +90,9 @@ class PinnedNotes extends PureComponent {
             </div>
           </If>
 
-          <small>
+          <span className="PinnedNotes__item-time">
             {changedAtLabel} {I18n.t('COMMON.TO')} {this.renderItemId(targetUUID)}
-          </small>
+          </span>
 
           <div className="PinnedNotes__item-subject">{subject}</div>
           <div className="PinnedNotes__item-content">{content}</div>

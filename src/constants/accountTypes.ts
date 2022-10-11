@@ -25,16 +25,8 @@ const leverageStatuses = keyMirror({
   FAILED: null,
 });
 
-const leverageStatusesColor = {
-  [leverageStatuses.PENDING]: 'color-info',
-  [leverageStatuses.COMPLETED]: 'color-success',
-  [leverageStatuses.FAILED]: 'color-danger',
-  [leverageStatuses.CANCELED]: 'color-warning',
-  [leverageStatuses.REJECTED]: 'color-danger',
-};
-
 export {
   accountTypesLabels,
   accountTypes,
-  leverageStatusesColor,
+  leverageStatuses,
 };

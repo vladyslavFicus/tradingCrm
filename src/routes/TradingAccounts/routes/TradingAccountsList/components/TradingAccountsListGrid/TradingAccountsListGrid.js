@@ -74,11 +74,11 @@ class TradingAccountsListGrid extends PureComponent {
         success={accountType === 'LIVE' && !archived}
         danger={archived}
       >
-        <div className="TradingAccountsListGrid__primary">
+        <div className="TradingAccountsListGrid__general">
           {name}
         </div>
       </Badge>
-      <div className="TradingAccountsListGrid__secondary">
+      <div className="TradingAccountsListGrid__additional">
         <Uuid uuid={uuid} uuidPrefix={getPlatformTypeLabel(platformType)} />
       </div>
     </Fragment>
@@ -86,19 +86,19 @@ class TradingAccountsListGrid extends PureComponent {
 
   renderLoginColumn = ({ login, group, platformType }) => (
     <Fragment>
-      <div className="TradingAccountsListGrid__primary">
+      <div className="TradingAccountsListGrid__general">
         <PlatformTypeBadge platformType={platformType}>
           {login}
         </PlatformTypeBadge>
       </div>
-      <div className="TradingAccountsListGrid__secondary">
+      <div className="TradingAccountsListGrid__additional">
         {group}
       </div>
     </Fragment>
   );
 
   renderCreditColumn = ({ credit, currency }) => (
-    <div className="TradingAccountsListGrid__primary">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
+    <div className="TradingAccountsListGrid__general">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
   );
 
   renderUnarchivedButton = ({ archived, uuid }) => archived && <UnarchiveButton uuid={uuid} />;
@@ -169,10 +169,10 @@ class TradingAccountsListGrid extends PureComponent {
             header={I18n.t('TRADING_ACCOUNTS.GRID.DATE')}
             render={({ createdAt }) => (
               <If condition={createdAt}>
-                <div className="TradingAccountsListGrid__primary">
+                <div className="TradingAccountsListGrid__general">
                   {moment.utc(createdAt).local().format('DD.MM.YYYY')}
                 </div>
-                <div className="TradingAccountsListGrid__secondary">
+                <div className="TradingAccountsListGrid__additional">
                   {moment.utc(createdAt).local().format('HH:mm:ss')}
                 </div>
               </If>
@@ -187,7 +187,7 @@ class TradingAccountsListGrid extends PureComponent {
             header={I18n.t('TRADING_ACCOUNTS.GRID.LEVERAGE')}
             render={({ leverage }) => (
               <If condition={leverage}>
-                <div className="TradingAccountsListGrid__primary">{leverage}</div>
+                <div className="TradingAccountsListGrid__general">{leverage}</div>
               </If>
             )}
           />
@@ -195,7 +195,7 @@ class TradingAccountsListGrid extends PureComponent {
             sortBy="balance"
             header={I18n.t('TRADING_ACCOUNTS.GRID.BALANCE')}
             render={({ balance, currency }) => (
-              <div className="TradingAccountsListGrid__primary">
+              <div className="TradingAccountsListGrid__general">
                 {currency} {I18n.toCurrency(balance, { unit: '' })}
               </div>
             )}

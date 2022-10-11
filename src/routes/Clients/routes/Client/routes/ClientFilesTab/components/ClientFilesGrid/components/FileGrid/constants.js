@@ -64,12 +64,6 @@ const statusesFile = [
   },
 ];
 
-const categoryStatusesColor = {
-  PENDING: 'color-info',
-  REJECTED: 'color-danger',
-  APPROVED: 'color-success',
-};
-
-export { attributeLabels, statusesCategory, statusesFile, categoryStatusesColor };
+export { attributeLabels, statusesCategory, statusesFile };
 
 export default attributeLabels;

@@ -1,10 +1,8 @@
-@import "../../styles/helpers/variables";
-
 .FeedItem {
   display: flex;
   align-items: flex-start;
   padding: 10px 0;
-  border-bottom: solid 1px #eee;
+  border-bottom: solid 1px var(--divider);
 
   &:last-child {
     border-bottom: none;
@@ -32,18 +30,6 @@
     font-size: 14px;
     font-weight: 700;
     padding: 0;
-
-    &.red {
-      color: red;
-    }
-
-    &.blue {
-      color: #003399;
-    }
-
-    &.green {
-      color: #009900;
-    }
   }
 
   &__uuid {
@@ -51,7 +37,7 @@
     max-width: none;
     width: auto;
     font-size: 11px;
-    color: #999;
+    color: var(--text-tertiary);
   }
 
   &__author {
@@ -65,15 +51,29 @@
   &__author-name {
     font-weight: 700;
 
-    &.blue {
-      color: $color-primary;
+    &--system {
+      padding: 1px 4px;
+      border-radius: 4px;
+      font-size: 10px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      background: var(--state-colors-success);
+      color: var(--state-colors-content);
+    }
+
+    &--me {
+      color: var(--state-colors-info);
+    }
+
+    &--someone {
+      color: var(--state-colors-warning);
     }
   }
 
   &__creation-date {
     display: inline-block;
     font-size: 11px;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   &__creation-date-from {
@@ -88,7 +88,19 @@
     background: none;
     text-decoration: underline;
     font-size: 11px;
-    color: #666;
+    color: var(--link-default);
+
+    &:hover {
+      color: var(--link-hover);
+    }
+  
+    &:focus {
+      color: var(--link-focus);
+    }
+
+    &:disabled {
+      color: var(--link-disabled);
+    }
 
     i {
       display: inline-block;
@@ -98,11 +110,11 @@
   }
 
   &__content {
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
     margin-top: 5px;
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 3px;
-    background-color: #f8fafd;
     font-size: 12px;
     line-height: 1.4;
     overflow: hidden;
@@ -120,7 +132,7 @@
   &__rejection {
     margin-top: 10px;
     font-style: italic;
-    color: #000;
+    color: var(--text-primary);
   }
 
   &__letters-icon {
@@ -135,18 +147,18 @@
     text-transform: uppercase;
     font-size: 22px;
     font-weight: 600;
-    color: #fff;
+    color: var(--state-colors-content);
 
-    &.blue {
-      background-color: $color-primary;
+    &--system {
+      background-color: var(--state-colors-success);
     }
 
-    &.green {
-      background-color: green;
+    &--me {
+      background-color: var(--state-colors-info);
     }
 
-    &.orange {
-      background-color: #ff9900;
+    &--someone {
+      background-color: var(--state-colors-warning);
     }
   }
 }

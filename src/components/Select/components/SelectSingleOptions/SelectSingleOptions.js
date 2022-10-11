@@ -1,6 +1,7 @@
 import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import './SelectSingleOptions.scss';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string,
@@ -21,8 +22,8 @@ class SelectSingleOptions extends PureComponent {
   };
 
   static defaultProps = {
-    className: 'select-block__options',
-    optionClassName: 'select-block__options-item',
+    className: 'SelectSingleOptions',
+    optionClassName: 'SelectSingleOptions__item',
     options: [],
     selectedOption: undefined,
     optionComponent: null,

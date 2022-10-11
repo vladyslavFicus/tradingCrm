@@ -1,4 +1,10 @@
 .SalesRules {
+  border: 1px solid var(--surface-page-border);
+
+  &--no-borders {
+    border: none;
+  }
+
   &__header {
     display: flex;
     align-items: center;
@@ -6,13 +12,26 @@
     position: sticky;
     top: 47px;
     padding: 25px;
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     font-size: 20px;
     z-index: 4;
   }
 
   &__edit-button {
-    padding: 8px 16px;
+    margin-left: 16px;
+  }
+
+  &__text-primary {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__text-secondary {
+    font-size: 12px;
+  }
+
+  &__uuid {
+    white-space: nowrap;
   }
 }

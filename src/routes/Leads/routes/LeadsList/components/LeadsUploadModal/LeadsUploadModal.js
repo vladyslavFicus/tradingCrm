@@ -109,7 +109,7 @@ class LeadsUploadModal extends PureComponent {
             </div>
             <div className="LeadsUploadModal__desc-subtitle">
               {`${I18n.t('LEADS.LEADS_UPLOAD_MODAL.SAMPLE_CSV')}: `}
-              <a href="/uploads/leads-upload.csv" target="_blank">leads-upload.csv</a>
+              <a href="/uploads/leads/sample.csv" target="_blank">sample.csv</a>
             </div>
           </div>
 
@@ -135,6 +135,7 @@ class LeadsUploadModal extends PureComponent {
               <div className="LeadsUploadModal__dropzone-info">
                 <p>{I18n.t('FILE_DROPZONE.DRAG_HERE_OR')}</p>
                 <Button
+                  secondary
                   submitting={submitting}
                   className={classNames('LeadsUploadModal__dropzone-button', {
                     'LeadsUploadModal__dropzone-button--submitting': submitting,
@@ -148,7 +149,7 @@ class LeadsUploadModal extends PureComponent {
         </ModalBody>
         <ModalFooter>
           <Button
-            common
+            secondary
             onClick={onCloseModal}
           >
             {I18n.t('COMMON.CANCEL')}

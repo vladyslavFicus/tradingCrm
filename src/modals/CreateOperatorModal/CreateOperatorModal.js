@@ -304,7 +304,7 @@ class CreateOperatorModal extends PureComponent {
                     <Button
                       onClick={onCloseModal}
                       className="CreateOperatorModal__button"
-                      commonOutline
+                      tertiary
                     >
                       {I18n.t('COMMON.BUTTONS.CANCEL')}
                     </Button>

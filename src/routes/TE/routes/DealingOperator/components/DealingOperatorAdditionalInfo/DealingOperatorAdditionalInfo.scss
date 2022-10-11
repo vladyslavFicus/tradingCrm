@@ -3,14 +3,14 @@
 
   &__title,
   &__content-title {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 11px;
     text-transform: uppercase;
   }
 
   &__content {
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
     border-radius: 5px;
     font-size: 13px;
     padding: 7px;
@@ -25,7 +25,7 @@
   }
 
   &__authority {
-    background-color: #333;
+    background-color: var(--hint-background);
     border-radius: 5px;
     margin-bottom: 7px;
     padding: 5px 10px;
@@ -38,7 +38,7 @@
       font-weight: 700;
       line-height: 1.5em;
       text-align: left;
-      color: #fff;
+      color: var(--state-colors-content);
       font-size: 14px;
     }
   }

@@ -73,8 +73,8 @@ class SelectMultipleOptions extends PureComponent {
     }
 
     return (
-      <div className={className}>
-        <div className="select-block__heading">
+      <div className={classNames('SelectMultipleOptions', className)}>
+        <div className="SelectMultipleOptions__header">
           {headerText}
         </div>
         {

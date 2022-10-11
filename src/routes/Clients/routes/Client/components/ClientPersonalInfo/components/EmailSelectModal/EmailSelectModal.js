@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
@@ -10,6 +10,7 @@ import { injectName } from 'utils/injectName';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'components/Formik';
 import EmailPreview from 'components/EmailPreview';
+import { Button } from 'components/UI';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailSendMutation from './graphql/EmailSendMutation';
 import '../../ClientPersonalInfo.scss';
@@ -70,17 +71,14 @@ class EmailSelectModal extends PureComponent {
     }
   };
 
-  onChangeNameField = (value, setValues, options) => {
-    const { subject, text } = options.find(({ name }) => name === value);
+  onChangeNameField = (templateId, setValues, options) => {
+    const { subject, text } = options.find(({ id }) => id === templateId);
 
-    setValues(
-      {
-        subject,
-        text,
-        name: value,
-      },
-      false,
-    );
+    setValues({
+      templateId,
+      subject,
+      text,
+    });
   };
 
   render() {
@@ -111,43 +109,44 @@ class EmailSelectModal extends PureComponent {
         <ModalHeader toggle={onCloseModal}>{I18n.t('EMAILS.MODALS.EMAIL_SELECT.TITLE')}</ModalHeader>
         <Formik
           initialValues={{
-            name: '',
+            templateId: '',
             subject: '',
             text: '',
           }}
           onSubmit={this.sendEmail}
           validate={createValidator({
+            templateId: 'required',
             subject: 'required|min:2',
             text: 'required|min:20',
           })}
           validateOnChange={false}
         >
-          {({ values, setValues }) => (
+          {({ values, setValues, handleSubmit }) => (
             <Form>
               <ModalBody>
                 <Field
-                  name="name"
+                  name="templateId"
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_SELECT_LABEL')}
                   component={FormikSelectField}
                   customOnChange={value => this.onChangeNameField(value, setValues, optionsWithCustomEmail)}
                 >
                   {optionsWithCustomEmail.map(({ id, name }) => (
-                    <option key={id} value={name}>
+                    <option key={id} value={id}>
                       {name}
                     </option>
                   ))}
                 </Field>
-                <If condition={values.name}>
+                <If condition={values.templateId}>
                   <div>
                     <Field
                       name="subject"
                       label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_SUBJECT_LABEL')}
-                      disabled={values.name !== 'Custom email'}
+                      disabled={values.templateId !== -1}
                       component={FormikInputField}
                     />
                     <Choose>
-                      <When condition={values.name === 'Custom email'}>
+                      <When condition={values.templateId === -1}>
                         <Field
                           name="text"
                           label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_EDITOR_LABEL')}
@@ -170,13 +169,15 @@ class EmailSelectModal extends PureComponent {
               </ModalBody>
               <ModalFooter>
                 <Button
+                  tertiary
                   onClick={onCloseModal}
-                  className="EmailSelectModal__button"
-                  commonOutline
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
-                <Button type="submit" color="primary">
+                <Button
+                  primary
+                  onClick={handleSubmit}
+                >
                   {I18n.t('EMAILS.MODALS.BUTTONS.SEND')}
                 </Button>
               </ModalFooter>

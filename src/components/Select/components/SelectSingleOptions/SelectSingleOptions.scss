@@ -1,0 +1,39 @@
+.SelectSingleOptions {
+  position: relative;
+  cursor: pointer;
+
+  &__item {
+    margin-bottom: 1px;
+    padding: 3px 5px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dropdown-options-color-default);
+
+    &:hover:not(.is-disabled) {
+      border-radius: 5px;
+      background-color: var(--dropdown-options-background-hover);
+      color: var(--dropdown-options-color-hover);
+    }
+
+    &.is-selected {
+      color: var(--dropdown-options-color-focus);
+      border: none;
+      border-radius: 3px;
+      background: var(--dropdown-options-background-focus)
+    }
+
+    &.is-selected:hover {
+      border: none;
+      border-radius: 3px;
+      color: var(--dropdown-options-color-focus);
+      background: var(--dropdown-options-background-focus)
+    }
+
+    &.is-disabled {
+      cursor: default;
+      color: var(--dropdown-options-color-disabled);
+    }
+  }
+}

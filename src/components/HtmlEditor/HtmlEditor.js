@@ -32,6 +32,25 @@ class HtmlEditor extends PureComponent {
     return null;
   }
 
+  componentDidMount() {
+    document.querySelectorAll('.HtmlEditor .rdw-option-wrapper img').forEach((item) => {
+      // All the icons that are set via <img src=''> in the HtmlEditor,
+      // we loop through them and extract the base64 code from the src="..." attribute, then convert it to a plain <svg>
+      const svg = item.getAttribute('src');
+      const parent = item.parentNode;
+      const base64 = 'data:image/svg+xml;base64,';
+
+      if (svg.includes(base64) === true) {
+        const replaceSvg = svg.slice(base64.length).replace(/[=]/g, '');
+        const convertToSvg = window.atob(replaceSvg);
+        const newStrObject = new DOMParser().parseFromString(convertToSvg, 'text/xml');
+        const newSvg = newStrObject.getElementsByTagName('svg')[0];
+
+        parent.append(newSvg);
+      }
+    });
+  }
+
   constructor(props) {
     super(props);
 

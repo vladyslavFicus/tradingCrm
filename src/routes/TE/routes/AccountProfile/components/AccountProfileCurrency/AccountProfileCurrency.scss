@@ -4,12 +4,12 @@
   min-height: 60px;
 
   &__title {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 11px;
     text-transform: uppercase;
   }
 
-  &__primary {
+  &__general {
     font-size: 13px;
     font-weight: 700;
   }

@@ -7,8 +7,12 @@
 
   &__cell-actions {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+  }
+
+  &__trash {
+    margin-right: 15px;
   }
 
   &__button {

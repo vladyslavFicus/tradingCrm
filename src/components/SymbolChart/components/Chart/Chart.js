@@ -71,6 +71,19 @@ class Chart extends PureComponent {
     const chartOptions = {
       width,
       height,
+      layout: {
+        backgroundColor: getComputedStyle(document.querySelector(':root'))
+          .getPropertyValue('--surface-frame-background'),
+        textColor: getComputedStyle(document.querySelector(':root')).getPropertyValue('--text-secondary'),
+      },
+      grid: {
+        vertLines: {
+          color: getComputedStyle(document.querySelector(':root')).getPropertyValue('--surface-frame-border'),
+        },
+        horzLines: {
+          color: getComputedStyle(document.querySelector(':root')).getPropertyValue('--surface-frame-border'),
+        },
+      },
       timeScale: {
         rightOffset: 2,
         timeVisible: true,

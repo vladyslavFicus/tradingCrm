@@ -19,7 +19,7 @@ class HeaderLogout extends PureComponent {
         onClick={this.handleLogoutClick}
         title="Log out"
       >
-        <i className="fa fa-sign-out" />
+        <i className="icon-signout" />
       </div>
     );
   }

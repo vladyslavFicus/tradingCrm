@@ -1,5 +1,5 @@
 .Securities {
-  border: 1px solid #dfe4ed;
+  border: 1px solid var(--divider);
 
   &__header {
     display: flex;
@@ -8,7 +8,7 @@
     position: sticky;
     top: 47px;
     padding: 25px;
-    background-color: #fff;
+    background-color: var(--surface-page-background);
     font-size: 20px;
     z-index: 3;
   }

@@ -118,7 +118,7 @@ class UpdateOfficeModal extends PureComponent {
                 <Button
                   className="UpdateOfficeModal__button"
                   onClick={onCloseModal}
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

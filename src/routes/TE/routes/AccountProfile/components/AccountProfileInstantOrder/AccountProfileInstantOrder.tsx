@@ -55,12 +55,16 @@ const AccountProfileInstantOrder = (props: Props) => {
             <InstantIcon />
           </div>
         </If>
+
+        {/* Special drag container to drag window by it bounds */}
+        <div className="AccountProfileInstantOrder__drag-container" />
+
         <Rnd
-          bounds="body"
+          bounds=".AccountProfileInstantOrder__drag-container"
           enableUserSelectHack={false}
           enableResizing={false}
           position={position}
-          style={{ position: 'fixed', inset: 'unset', zIndex: isOpen ? 10 : -1 }}
+          style={{ position: 'fixed', inset: 'unset', zIndex: isOpen ? 100 : -1 }}
           dragHandleClassName="AccountProfileInstantOrder__window-header"
           onDragStop={(e, d) => {
             setPosition({ x: d.x, y: d.y });

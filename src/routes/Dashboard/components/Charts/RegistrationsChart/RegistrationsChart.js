@@ -43,7 +43,7 @@ class RegistrationsChart extends PureComponent {
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={registeredUsersStatistic.loading}
-        chartAndTextColor="#c51d98"
+        chartAndTextColor="var(--state-colors-danger)"
         lineDataKey="entries"
         xDataKey="entryDate"
       />

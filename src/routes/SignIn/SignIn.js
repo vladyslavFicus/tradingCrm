@@ -5,7 +5,7 @@ import compose from 'compose-function';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { getBackofficeBrand } from 'config';
+import { getCrmBrandStaticFileUrl } from 'config';
 import { withModals } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
@@ -103,14 +103,14 @@ class SignIn extends PureComponent {
       otpSecret,
     } = this.state;
 
-    const backofficeLogo = getBackofficeBrand().themeConfig.logo;
-
     return (
       <div className="SignIn">
         <div className="SignIn__logo">
-          <If condition={backofficeLogo}>
-            <img src={backofficeLogo} alt="logo" />
-          </If>
+          <img
+            alt="logo"
+            src={getCrmBrandStaticFileUrl('assets/logo.svg')}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
         </div>
 
         <Formik
@@ -126,7 +126,7 @@ class SignIn extends PureComponent {
           {({ isSubmitting }) => (
             <Form className="SignIn__form">
               <If condition={formError}>
-                <div className="SignIn__form-error alert alert-warning">
+                <div className="SignIn__form-error">
                   {formError}
                 </div>
               </If>

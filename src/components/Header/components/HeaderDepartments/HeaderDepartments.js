@@ -52,10 +52,10 @@ class HeaderDepartments extends PureComponent {
     const { brand, auth } = this.props;
     const { isOpen } = this.state;
 
-    const departments = brand?.departments || [];
+    const authorities = brand?.authorities || [];
 
-    const currentDepartment = departments.find(({ department }) => auth.department === department);
-    const departmentsLeft = departments.filter(({ department }) => auth.department !== department);
+    const currentDepartment = authorities.find(({ department }) => auth.department === department);
+    const departmentsLeft = authorities.filter(({ department }) => auth.department !== department);
 
     if (!currentDepartment) return null;
 

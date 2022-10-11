@@ -1,6 +1,5 @@
 import {
   statusMapper,
-  statusesColor,
   statusesLabels,
 } from 'constants/payment';
 import renderLabel from '../renderLabel';
@@ -24,6 +23,5 @@ export const getTradingStatusProps = (status) => {
   return {
     status: statusName,
     label: renderLabel(statusName, statusesLabels),
-    color: statusesColor[statusName],
   };
 };

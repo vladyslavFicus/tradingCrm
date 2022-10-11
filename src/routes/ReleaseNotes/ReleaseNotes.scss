@@ -6,8 +6,9 @@
   &__item {
     margin-bottom: 25px;
     padding: 0 15px;
-    background-color: rgba(#ccc, .2);
-
+    background-color: var(--surface-frame-background);
+    border: solid 1px var(--surface-frame-border);
+   
     &-headline {
       padding: 15px 0;
       cursor: pointer;

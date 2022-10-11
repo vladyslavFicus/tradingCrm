@@ -16,13 +16,13 @@
     }
 
     &-name {
-      color: #0190da;
+      color: var(--accent);
     }
 
     &-remove {
       margin-left: 15px;
       top: 1px;
-      color: #fb434a;
+      color: var(--state-colors-danger);
       cursor: pointer;
     }
   }

@@ -134,7 +134,7 @@ class UpdateDeskModal extends PureComponent {
                 <Button
                   onClick={onCloseModal}
                   className="UpdateDeskModal__button"
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

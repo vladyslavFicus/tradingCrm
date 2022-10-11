@@ -1,4 +1,6 @@
 .Hierarchy {
+  border: 1px solid var(--surface-page-border);
+
   &__header {
     display: flex;
     align-items: center;
@@ -6,14 +8,14 @@
     position: sticky;
     top: 47px;
     padding: 25px;
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     font-size: 20px;
     z-index: 3;
   }
 
   &__content {
-    background: #ffffff;
+    background: var(--surface-page-background);
     padding: 10px 25px 25px 25px;
   }
 }

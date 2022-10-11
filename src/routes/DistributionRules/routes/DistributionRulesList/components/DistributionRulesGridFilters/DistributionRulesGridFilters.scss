@@ -1,6 +1,6 @@
 .DistributionRulesFilters {
   &__form {
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -26,5 +26,21 @@
   &__date-range,
   &__search {
     grid-column: span 4;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px 15px 0;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }

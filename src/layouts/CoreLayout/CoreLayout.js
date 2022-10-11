@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from 'constants/propTypes';
-import 'styles/main.scss';
 
 class CoreLayout extends PureComponent {
   static propTypes = {

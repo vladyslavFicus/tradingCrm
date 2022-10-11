@@ -1,22 +1,29 @@
 .SelectMultipleOptions {
+  position: relative;
+  cursor: pointer;
+
+  &__header {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: var(--dropdown-multioptions-default);
+    text-transform: uppercase;
+  }
+
   &__item {
     display: block;
     margin-bottom: 5px;
 
     &--unchecked {
-      color: #4a4a4a;
+      color: var(--dropdown-multioptions-default);
 
       &:hover {
-        color: #000000;
+        color: var(--dropdown-multioptions-hover);
       }
     }
 
     &--checked {
-      color: #4990e2;
-
-      &:hover {
-        color: #000000;
-      }
+      color: var(--dropdown-multioptions-selected);
     }
 
     &__icon {

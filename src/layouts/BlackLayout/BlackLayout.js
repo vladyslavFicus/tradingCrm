@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { getBackofficeBrand } from 'config';
+import { getCrmBrandStaticFileUrl } from 'config';
 import './BlackLayout.scss';
 
 const BlackLayout = ({ children }) => (
   <Suspense fallback={null}>
     <div
       className="black-layout"
-      style={{ backgroundImage: `url(${getBackofficeBrand().themeConfig.authBackground})` }}
+      style={{ backgroundImage: `url(${getCrmBrandStaticFileUrl('assets/auth-background.svg')})` }}
     >
       {children}
     </div>

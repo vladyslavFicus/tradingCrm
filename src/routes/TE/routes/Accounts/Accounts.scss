@@ -1,4 +1,6 @@
 .Accounts {
+  border: 1px solid var(--surface-page-border);
+
   &__header {
     display: flex;
     align-items: center;
@@ -6,33 +8,33 @@
     position: sticky;
     top: 47px;
     padding: 25px;
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     font-size: 20px;
     z-index: 4;
   }
 
   &__header-block-small {
     font-size: 11px;
-    color: #333;
+    color: var(--text-primary);
   }
 
   &__header-block-middle {
     font-size: 13px;
     font-weight: 700;
     line-height: normal;
-    color: #333;
+    color: var(--text-primary);
   }
 
   &__partner {
     font-size: 13px;
     font-weight: 700;
     line-height: normal;
-    color: #333;
+    color: var(--text-primary);
   }
 
   &__payment-method {
-    color: #f39834;
+    color: var(--state-colors-warning);
   }
 
   &__text-primary {

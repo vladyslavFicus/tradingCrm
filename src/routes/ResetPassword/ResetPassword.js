@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import { parse } from 'qs';
 import PropTypes from 'prop-types';
 import { withRequests, parseErrors } from 'apollo';
-import { getBackofficeBrand } from 'config';
+import { getCrmBrandStaticFileUrl } from 'config';
 import { Button } from 'components/UI';
 import Preloader from 'components/Preloader';
 import Copyrights from 'components/Copyrights';
@@ -101,9 +101,11 @@ class ResetPassword extends PureComponent {
     return (
       <div className="ResetPassword">
         <div className="ResetPassword__logo">
-          <If condition={getBackofficeBrand().themeConfig.logo}>
-            <img src={getBackofficeBrand().themeConfig.logo} alt="Brand logo" />
-          </If>
+          <img
+            alt="logo"
+            src={getCrmBrandStaticFileUrl('assets/logo.svg')}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
         </div>
 
         <Choose>
@@ -136,7 +138,7 @@ class ResetPassword extends PureComponent {
                   </div>
 
                   <If condition={resetPasswordFormError}>
-                    <div className="alert alert-warning">
+                    <div className="ResetPassword__error">
                       {resetPasswordFormError}
                     </div>
                   </If>

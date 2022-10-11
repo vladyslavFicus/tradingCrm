@@ -196,7 +196,7 @@ const DistributionRuleForm = (props: Props) => {
               <Button
                 className="DistributionRuleForm__actions-btn"
                 onClick={handleCancel}
-                commonOutline
+                tertiary
               >
                 {I18n.t('COMMON.CANCEL')}
               </Button>

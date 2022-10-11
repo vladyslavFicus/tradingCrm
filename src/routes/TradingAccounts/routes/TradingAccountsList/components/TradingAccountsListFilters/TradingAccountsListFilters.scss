@@ -1,4 +1,30 @@
 .TradingAccountsListFilters {
+  &__form {
+    padding: 10px 25px 20px;
+    background-color: var(--surface-filters-background);
+  }
+
+  &__fields {
+    width: 100%;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+
+    /*
+      grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+
+      where:
+        12 - columns in a row
+        8.33% - basic column width (100% / 12)
+        15px - gap size
+        11 - count of gaps in a row
+    */
+  }
+
+  &__field {
+    grid-column: span 3;
+  }
+
   &__buttons {
     padding: 10px 15px 0;
     display: flex;

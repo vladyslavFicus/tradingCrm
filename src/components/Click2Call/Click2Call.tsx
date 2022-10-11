@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { SVGProps, useMemo, useRef, useState } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { debounce } from 'lodash';
@@ -22,27 +22,31 @@ import { useCommpeakCreateCallMutation } from './graphql/__generated__/CommpeakC
 import { useCoperatoCreateCallMutation } from './graphql/__generated__/CoperatoCreateCall';
 import { useSquaretalkCreateCallMutation } from './graphql/__generated__/SquaretalkCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
-import didlogicIcon from './icons/didlogic.png';
-import newtelIcon from './icons/newtel.png';
-import commpeakIcon from './icons/commpeak.png';
-import coperatoIcon from './icons/coperato.png';
-import clearvoiceIcon from './icons/clearvoice.png';
-import squaretalkIcon from './icons/squaretalk.png';
-import callstartedIcon from './icons/callstarted.png';
+import { ReactComponent as DidlogicIcon } from './icons/didlogic.svg';
+import { ReactComponent as NewtelIcon } from './icons/newtel.svg';
+import { ReactComponent as CommpeakIcon } from './icons/commpeak.svg';
+import { ReactComponent as CoperatoIcon } from './icons/coperato.svg';
+import { ReactComponent as ClearvoiceIcon } from './icons/clearvoice.svg';
+import { ReactComponent as SquaretalkIcon } from './icons/squaretalk.svg';
+import { ReactComponent as CallStartedIcon } from './icons/callstarted.svg';
 import './Click2Call.scss';
 
-const ICONS: Record<CallSystem, string> = {
-  [CallSystem.DIDLOGIC]: didlogicIcon,
-  [CallSystem.NEWTEL]: newtelIcon,
-  [CallSystem.COMMPEAK]: commpeakIcon,
-  [CallSystem.COPERATO]: coperatoIcon,
-  [CallSystem.CLEAR_VOICE]: clearvoiceIcon,
-  [CallSystem.SQUARETALK]: squaretalkIcon,
+const ICONS: Record<CallSystem, React.ElementType<SVGProps<SVGSVGElement>>> = {
+  [CallSystem.DIDLOGIC]: DidlogicIcon,
+  [CallSystem.NEWTEL]: NewtelIcon,
+  [CallSystem.COMMPEAK]: CommpeakIcon,
+  [CallSystem.COPERATO]: CoperatoIcon,
+  [CallSystem.CLEAR_VOICE]: ClearvoiceIcon,
+  [CallSystem.SQUARETALK]: SquaretalkIcon,
 };
 
 const TOOLTIP_STYLE = {
+  style: {
+    background: 'var(--dropdown-surface-background)',
+    borderRadius: '5px',
+  },
   arrowStyle: {
-    color: '#fff',
+    color: 'var(--dropdown-surface-background)',
     borderColor: 'none',
     marginTop: '-12px',
     left: '-12px',
@@ -88,13 +92,13 @@ const Click2Call = (props: Props) => {
   };
 
   // ===== Handlers ===== //
-  const [disabled, setDisabled] = useState(false);
+  const [isCallStarted, setIsCallStarted] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const handleCreateCall = (callSystem: CallSystem, options?: ProviderOptionsType) => debounce(async () => {
     const { prefix = '' } = options || {};
 
-    setDisabled(true);
-    setTimeout(() => { setDisabled(false); }, 3000);
+    setIsCallStarted(true);
+    setTimeout(() => { setIsCallStarted(false); }, 3000);
 
     try {
       switch (callSystem) {
@@ -122,7 +126,8 @@ const Click2Call = (props: Props) => {
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });
-      setDisabled(false);
+
+      setIsCallStarted(false);
     }
   }, 3000, { leading: true, trailing: false });
 
@@ -150,11 +155,16 @@ const Click2Call = (props: Props) => {
             // Use this method because have trouble with showing call inside ToolTip(without it can't see start calling)
             onMouseEnter={() => setIsActive(true)}
             onMouseLeave={() => setIsActive(false)}
-            className={classNames('Click2Call__submenu', { 'Click2Call__submenu--disabled': disabled })}
+            className="Click2Call__submenu"
           >
-            <Choose>
-              <When condition={!disabled}>
-                {configs.map(({ callSystem, prefixes }) => (
+            <div className={classNames('Click2Call__providers', {
+              'Click2Call__providers--call-started': isCallStarted,
+            })}
+            >
+              {configs.map(({ callSystem, prefixes }) => {
+                const ProviderIcon = ICONS[callSystem];
+
+                return (
                   <Choose>
                     {/* Show call systems without prefixes */}
                     <When condition={[CallSystem.DIDLOGIC, CallSystem.SQUARETALK].includes(callSystem)}>
@@ -163,14 +173,14 @@ const Click2Call = (props: Props) => {
                         className="Click2Call__submenu-item"
                         onClick={handleCreateCall(callSystem)}
                       >
-                        <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
+                        <ProviderIcon className="Click2Call__submenu-item-image" />
                       </div>
                     </When>
 
                     {/* Show link to make a call in OS by tel protocol for CLEAR VOICE call system */}
                     <When condition={callSystem === CallSystem.CLEAR_VOICE}>
                       <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
-                        <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
+                        <ProviderIcon className="Click2Call__submenu-item-image" />
                         <div className="Click2Call__submenu-item-prefixes">
                           {prefixes.map(({ label, prefix }, index) => (
                             <a
@@ -188,7 +198,7 @@ const Click2Call = (props: Props) => {
                     {/* Other call systems */}
                     <Otherwise>
                       <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
-                        <img className="Click2Call__submenu-item-image" src={ICONS[callSystem]} alt={callSystem} />
+                        <ProviderIcon className="Click2Call__submenu-item-image" />
                         <div className="Click2Call__submenu-item-prefixes">
                           {prefixes.map(({ label, prefix }, index) => (
                             <span
@@ -203,12 +213,14 @@ const Click2Call = (props: Props) => {
                       </div>
                     </Otherwise>
                   </Choose>
-                ))}
-              </When>
-              <When condition={disabled}>
-                <img src={callstartedIcon} alt="Call Started" />
-              </When>
-            </Choose>
+                );
+              })}
+            </div>
+
+            {/* Show call started icon instead of providers content on same width and height as were before */}
+            <If condition={isCallStarted}>
+              <CallStartedIcon className="Click2Call__call-started" />
+            </If>
           </div>
         </ToolTip>
       </When>

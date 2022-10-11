@@ -6,14 +6,14 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Modal, Sort, State } from 'types';
+import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import withModals from 'hoc/withModals';
 import { OrderStatus } from 'types/trading-engine';
 import EventEmitter, { ORDER_RELOAD, TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
-import { tradeStatusesColor, types } from '../../attributes/constants';
-import { getTypeColor } from '../../attributes/utils';
+import { types } from '../../attributes/constants';
 import AccountProfileGridFilter from './components/AccountProfileOrdersGridFilter';
 import { useHistoryQuery, HistoryQueryVariables, HistoryQuery } from './graphql/__generated__/HistoryQuery';
 import './AccountProfileHistoryGrid.scss';
@@ -139,8 +139,11 @@ const AccountProfileHistoryGrid = (props: Props) => {
               <div
                 className={
                   classNames(
-                    getTypeColor(type),
                     'AccountProfileHistoryGrid__cell-value',
+                    'AccountProfileHistoryGrid__type', {
+                      'AccountProfileHistoryGrid__type--buy': type.includes('BUY'),
+                      'AccountProfileHistoryGrid__type--sell': !type.includes('BUY'),
+                    },
                   )}
               >
                 {I18n.t(types.find(item => item.value === type)?.label || '')}
@@ -331,7 +334,12 @@ const AccountProfileHistoryGrid = (props: Props) => {
               <Choose>
                 <When condition={status}>
                   <div
-                    className={tradeStatusesColor[status]}
+                    className={classNames(
+                      'AccountProfileHistoryGrid__status',
+                      {
+                        'AccountProfileHistoryGrid__status--closed': status === OrderStatusesEnum.CLOSED,
+                      },
+                    )}
                   >
                     <strong>{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.HISTORY.STATUSES.${status}`)}</strong>
                   </div>

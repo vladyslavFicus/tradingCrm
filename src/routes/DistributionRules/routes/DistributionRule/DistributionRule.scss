@@ -1,6 +1,5 @@
 .DistributionRule {
-  background: #fff;
-  border: 1px solid #dfe4ed;
+  border: 1px solid var(--divider);
 
   &__tabs {
     margin-top: 25px;

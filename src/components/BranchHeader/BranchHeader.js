@@ -10,8 +10,8 @@ import RemoveBranchManagerModal from 'modals/RemoveBranchManagerModal';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
+import Placeholder from 'components/Placeholder';
 import { Button } from 'components/UI';
-import BranchHeaderPlaceholder from './components/BranchHeaderPlaceholder';
 import getBranchManagerQuery from './graphql/getBranchManagerQuery';
 import './BranchHeader.scss';
 
@@ -104,7 +104,10 @@ class BranchHeader extends PureComponent {
     return (
       <div className="BranchHeader">
         <div className="BranchHeader__left">
-          <BranchHeaderPlaceholder ready={!loading}>
+          <Placeholder
+            ready={!loading}
+            rows={[{ width: 220, height: 25 }, { width: 220, height: 12 }, { width: 220, height: 12 }]}
+          >
             <div className="BranchHeader__branch">
               <div className="BranchHeader__branch-name">{name}</div>
               <div className="BranchHeader__branch-uuid">
@@ -132,7 +135,7 @@ class BranchHeader extends PureComponent {
                 </Otherwise>
               </Choose>
             </div>
-          </BranchHeaderPlaceholder>
+          </Placeholder>
         </div>
 
         <If condition={!loading}>
@@ -140,7 +143,7 @@ class BranchHeader extends PureComponent {
             <If condition={managerData.operators}>
               <PermissionContent permissions={permissions.HIERARCHY.REMOVE_BRAND_MANAGER}>
                 <Button
-                  commonOutline
+                  tertiary
                   className="BranchHeader__button"
                   onClick={() => this.handleOpenConfirmActionModal(managerData.operators)}
                 >
@@ -151,7 +154,7 @@ class BranchHeader extends PureComponent {
 
             <PermissionContent permissions={permissions.HIERARCHY.ADD_BRAND_MANAGER}>
               <Button
-                commonOutline
+                tertiary
                 className="BranchHeader__button"
                 onClick={this.handleOpenManagerModal}
               >

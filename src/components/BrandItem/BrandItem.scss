@@ -3,10 +3,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #000;
-  border: solid 1px #4a4a4a;
+  background-color: var(--navigation-secondary-background);
+  border: solid 1px var(--navigation-secondary-color);
   border-radius: 3px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 25px var(--box-shadow-color);
   cursor: pointer;
   margin: 0 15px 25px;
   padding: 10px;
@@ -15,7 +15,7 @@
   width: calc(100% / 6 - 30px);
 
   &:hover {
-    border-color: #d4d4d4;
+    border-color: var(--navigation-primary-color);
   }
 
   &:last-child {
@@ -24,7 +24,7 @@
 
   &__title {
     flex: 0 0 auto;
-    color: #cfcfcf;
+    color: var(--navigation-secondary-color);
     font-size: 15px;
     font-weight: 600;
     margin-top: 10px;
@@ -43,7 +43,7 @@
 // # Modifiers
 .BrandItem {
   &--active {
-    border-color: #d4d4d4;
+    border-color: var(--navigation-primary-color);
     cursor: default;
   }
 }

@@ -2,7 +2,7 @@
   &__form {
     width: 100%;
     padding: 20px 25px 30px;
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
     display: grid;
     grid-gap: 15px;
     grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));

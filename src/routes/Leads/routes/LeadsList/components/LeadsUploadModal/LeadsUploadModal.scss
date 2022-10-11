@@ -14,7 +14,7 @@
 
     &-subtitle {
       a {
-        color: #2196f3;
+        color: var(--accent);
         text-decoration: underline;
       }
     }
@@ -23,8 +23,7 @@
   &__dropzone {
     width: 100%;
     height: 100%;
-    background-color: rgba(33, 150, 243, 0.03);
-    border: 2px dashed rgba(81, 135, 189, 0.3);
+    border: 2px dashed var(--divider);
     border-radius: 3px;
 
     &-active {
@@ -33,7 +32,6 @@
 
     &-accept {
       border-style: solid;
-      background-color: rgba(33, 150, 243, 0.06);
     }
 
     &-content {
@@ -50,7 +48,7 @@
 
     &-info {
       p {
-        color: #5187bd;
+        color: var(--accent);
         font-size: 15px;
         margin: 0;
         padding-bottom: 10px;
@@ -59,16 +57,10 @@
 
     &-button {
       background: transparent;
-      border: 1px solid #4a90e2;
       border-radius: 2.5px;
-      color: #4a90e2;
       font-size: 14px;
       font-weight: 600;
       padding: 10px 30px;
-
-      &--submitting {
-        background: #ffffff!important;
-      }
     }
 
     &--submitting {

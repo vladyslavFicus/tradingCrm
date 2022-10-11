@@ -18,12 +18,6 @@ const statusesLabels = {
   [statuses.INACTIVE]: 'OPERATORS.STATUSES.INACTIVE',
 };
 
-const statusColorNames = {
-  [statuses.ACTIVE]: 'color-success',
-  [statuses.CLOSED]: 'color-danger',
-  [statuses.INACTIVE]: 'color-default',
-};
-
 const closeReasons = {
   'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION':
     'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION',
@@ -145,7 +139,6 @@ export {
   actions,
   statuses,
   statusesLabels,
-  statusColorNames,
   statusActions,
   departments,
   departmentsLabels,

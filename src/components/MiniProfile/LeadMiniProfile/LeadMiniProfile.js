@@ -27,8 +27,6 @@ const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
       language,
       surname,
       country,
-      mobile,
-      phone,
       name,
       uuid,
       acquisition,
@@ -43,7 +41,7 @@ const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
       <div className="mini-profile-header">
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.LEADS.LEAD')}</div>
         <div className="mini-profile-title">
-          <span className="font-weight-700">
+          <span className="mini-profile-title-name">
             {name} {surname}
           </span>
         </div>
@@ -52,39 +50,31 @@ const LeadMiniProfile = ({ miniProfile: { data, loading } }) => {
           {` - ${language}`}
         </div>
       </div>
-      <div className="mini-profile-content">
-        <div className="info-block">
-          <div className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.COUNTRY')}</div>
-          <div className="info-block-content">
-            <CountryLabelWithFlag code={country} height="14" languageCode={language} />
-          </div>
-        </div>
-        <div className="info-block">
-          <div className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.SALES')}</div>
-          <div className="info-block-content">
-            <div className={classNames('font-weight-700', salesStatusesColor[salesStatus])}>
-              {I18n.t(renderLabel(salesStatus, salesStatuses))}
-            </div>
-            <div className="font-size-11">{salesAgentFullName}</div>
-          </div>
-        </div>
-        <div className="info-block">
-          <div className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.LEAD_CREATED')}</div>
-          <div className="info-block-content">
-            {moment.utc(registrationDate).local().fromNow()}
-          </div>
-        </div>
-      </div>
-      <If condition={phone || mobile}>
-        <div className="mini-profile-footer">
-          <div className="info-block">
-            <div className="info-block-label-footer">{I18n.t('MINI_PROFILE.LEADS.PHONE')}</div>
-            <div className="info-block-content-footer">
-              {phone || mobile}
-            </div>
-          </div>
-        </div>
-      </If>
+      <table className="mini-profile-content">
+        <tbody>
+          <tr className="info-block">
+            <td className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.COUNTRY')}</td>
+            <td className="info-block-content">
+              <CountryLabelWithFlag code={country} height="14" languageCode={language} />
+            </td>
+          </tr>
+          <tr className="info-block">
+            <td className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.SALES')}</td>
+            <td className="info-block-content">
+              <div className={classNames('font-weight-700', salesStatusesColor[salesStatus])}>
+                {I18n.t(renderLabel(salesStatus, salesStatuses))}
+              </div>
+              <div>{salesAgentFullName}</div>
+            </td>
+          </tr>
+          <tr className="info-block">
+            <td className="info-block-label">{I18n.t('MINI_PROFILE.LEADS.LEAD_CREATED')}</td>
+            <td className="info-block-content">
+              {moment.utc(registrationDate).local().fromNow()}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };

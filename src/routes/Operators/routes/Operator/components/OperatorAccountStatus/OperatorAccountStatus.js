@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import EventEmitter, { OPERATOR_ACCOUNT_STATUS_CHANGED } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
-import { statuses, statusesLabels, statusActions, statusColorNames } from 'constants/operators';
+import { statuses, statusesLabels, statusActions } from 'constants/operators';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
@@ -140,24 +140,30 @@ class OperatorAccountStatus extends PureComponent {
 
     return (
       <div className="OperatorAccountStatus__label">
-        <div className={classNames('OperatorAccountStatus__status', statusColorNames[operatorStatus])}>
+        <div
+          className={classNames('OperatorAccountStatus__status', {
+            'OperatorAccountStatus__status--inactive': operatorStatus === statuses.INACTIVE,
+            'OperatorAccountStatus__status--active': operatorStatus === statuses.ACTIVE,
+            'OperatorAccountStatus__status--closed': operatorStatus === statuses.CLOSED,
+          })}
+        >
           {I18n.t(statusesLabels[operatorStatus])}
         </div>
 
         <If condition={operatorStatus === statuses.ACTIVE && statusChangeDate}>
-          <div className="OperatorAccountStatus__secondary">
+          <div className="OperatorAccountStatus__additional">
             {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate).local().format('DD.MM.YYYY') })}
           </div>
         </If>
 
         <If condition={operatorStatus === statuses.CLOSED && statusChangeAuthor}>
-          <div className="OperatorAccountStatus__secondary">
+          <div className="OperatorAccountStatus__additional">
             {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
           </div>
         </If>
 
         <If condition={operatorStatus === statuses.CLOSED && statusChangeDate}>
-          <div className="OperatorAccountStatus__secondary">
+          <div className="OperatorAccountStatus__additional">
             on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
           </div>
         </If>

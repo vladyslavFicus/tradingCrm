@@ -18,7 +18,7 @@
   &--inactive {
     .FilterSets__head-value {
       font-weight: 300;
-      color: #798188;
+      color: var(--form-color-default);
     }
   }
 
@@ -32,8 +32,8 @@
     height: 39px;
     padding: .375rem .75rem;
     padding-right: 25px;
-    background-color: #ffffff;
-    border: 1px solid #cfcfcf;
+    background-color: var(--form-background-default);
+    border: 1px solid  var(--form-border-default);
     border-radius: 3px;
     font-size: 15px;
     font-weight: 600;
@@ -50,17 +50,16 @@
       top: 11px;
       right: 10px;
       font-size: 16px;
-      color: #cfcfcf;
+      color: var(--form-icon-button-default);
       transition: .2s;
     }
   }
 
   &__dropdown {
-    top: 100% !important;
     width: 100%;
     padding: 0;
     border-top: none;
     border-radius: 0 0 3px 3px;
-    border-color: #9f9f9f;
+    border-color: var(--form-border-default);
   }
 }

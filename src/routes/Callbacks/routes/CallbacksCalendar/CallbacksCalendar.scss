@@ -1,11 +1,11 @@
 .CallbacksCalendar {
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
   border-radius: 5px;
 
   &__header {
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-filters-background);
+    border-bottom: 1px solid var(--divider);
     font-size: 20px;
     padding: 25px;
     position: sticky;
@@ -19,9 +19,10 @@
   &__list {
     cursor: pointer;
     transition: color 0.1s ease;
+    color: var(--button-icon-button-default);
 
     &:hover {
-      color: #4990e2;
+      color: var(--accent);
     }
   }
 

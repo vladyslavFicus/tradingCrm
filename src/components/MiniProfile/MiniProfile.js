@@ -3,7 +3,7 @@ import { Popover, PopoverBody } from 'reactstrap';
 import PropTypes from 'constants/propTypes';
 import OperatorMiniProfile from './OperatorMiniProfile';
 import LeadMiniProfile from './LeadMiniProfile';
-import PlayerMiniProfile from './PlayerMiniProfile';
+import ClientMiniProfile from './ClientMiniProfile';
 import './MiniProfile.scss';
 
 class MiniProfile extends PureComponent {
@@ -51,8 +51,8 @@ class MiniProfile extends PureComponent {
         return <OperatorMiniProfile uuid={id} />;
       case 'lead':
         return <LeadMiniProfile uuid={id} />;
-      case 'player':
-        return <PlayerMiniProfile playerUUID={id} />;
+      case 'client':
+        return <ClientMiniProfile playerUUID={id} />;
       default:
         return null;
     }

@@ -12,11 +12,11 @@
   &:hover {
     .FilterSetsOption {
       &__name {
-        color: #000000;
+        color: var(--dropdown-multioptions-hover);
       }
 
       &__icon-symbol  {
-        fill: #5187bd;
+        fill: var(--dropdown-multioptions-selected);
       }
     }
   }
@@ -48,7 +48,7 @@
   &__icon-symbol {
     height: 14px;
     width: 14px;
-    fill: #7f7f7f;
+    fill: var(--dropdown-multioptions-default);
     transition: .2s ease;
 
     path:first-child {
@@ -57,7 +57,7 @@
   }
 
   &__name {
-    color: #4A4A4A;
+    color: var(--dropdown-multioptions-default);
     font-size: 15px;
     font-weight: 600;
     overflow: hidden;

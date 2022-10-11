@@ -1,0 +1,21 @@
+.RangeGroup {
+  margin-bottom: 0;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__container {
+    display: flex;
+  }
+
+  &__divider {
+    flex: 0;
+    margin-top: 7px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: var(--divider);
+  }
+}

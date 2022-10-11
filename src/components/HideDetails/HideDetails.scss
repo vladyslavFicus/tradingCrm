@@ -4,14 +4,26 @@
 
   &__divider {
     flex: 1;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--divider);
   }
 
   &__trigger {
     padding: 0 15px;
     text-decoration: underline;
     font-size: 11px;
-    color: #999;
+    color: var(--link-default);
     background: transparent;
+
+    &:hover {
+      color: var(--link-hover);
+    }
+
+    &:focus {
+      color: var(--link-focus);
+    }
+
+    &:disabled {
+      color: var(--link-disabled);
+    }
   }
 }

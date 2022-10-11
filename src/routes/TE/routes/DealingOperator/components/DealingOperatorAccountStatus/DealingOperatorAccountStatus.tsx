@@ -68,8 +68,14 @@ const DealingOperatorAccountStatus = (props: Props) => {
 
   const renderLabel = () => (
     <div className="DealingOperatorAccountStatus__label">
-      <div className={classNames('DealingOperatorAccountStatus__status', statusesLabels[status].color)}>
-        {I18n.t(statusesLabels[status].label)}
+      <div
+        className={classNames('DealingOperatorAccountStatus__status', {
+          'DealingOperatorAccountStatus__status--inactive': status === OperatorStatusesEnum.INACTIVE,
+          'DealingOperatorAccountStatus__status--active': status === OperatorStatusesEnum.ACTIVE,
+          'DealingOperatorAccountStatus__status--closed': status === OperatorStatusesEnum.CLOSED,
+        })}
+      >
+        {I18n.t(statusesLabels[status])}
       </div>
     </div>
   );

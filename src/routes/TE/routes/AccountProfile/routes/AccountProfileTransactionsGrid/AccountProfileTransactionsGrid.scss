@@ -2,6 +2,7 @@
   &__title {
     font-size: 20px;
     padding: 20px;
+    background: var(--surface-page-background);
   }
 
   &__cell-value {
@@ -23,5 +24,9 @@
   &__uuid {
     width: 110%;
     height: 37px;
+  }
+
+  &__type {
+    color: var(--state-colors-danger);
   }
 }

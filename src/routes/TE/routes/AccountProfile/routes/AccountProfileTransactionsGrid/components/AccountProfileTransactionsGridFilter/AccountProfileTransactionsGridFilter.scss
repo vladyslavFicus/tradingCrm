@@ -1,6 +1,6 @@
 .AccountProfileOrdersGridFilter {
   padding: 20px 25px 40px;
-  background-color: #f2f4f8;
+  background-color: var(--surface-filters-background);
 
   &__fields {
     display: grid;
@@ -17,7 +17,7 @@
   }
 
   &__field-inactive-option {
-    color: #d6d6d6;
+    color: var(--dropdown-options-color-disabled);
   }
 
   &__buttons {

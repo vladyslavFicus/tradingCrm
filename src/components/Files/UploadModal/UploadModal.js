@@ -25,6 +25,7 @@ import {
   UploadFile,
   AddNote,
 } from './graphql';
+import './UploadModal.scss';
 
 const validate = (values) => {
   const rules = {};
@@ -266,7 +267,7 @@ class UploadModal extends PureComponent {
 
     return (
       <Modal
-        className="upload-modal"
+        className="UploadModal"
         backdrop="static"
         keyboard={false}
         toggle={onCloseModal}
@@ -287,7 +288,7 @@ class UploadModal extends PureComponent {
               </ModalHeader>
               <ModalBody>
                 <div
-                  className="text-center font-weight-700"
+                  className="UploadModal__action-text"
                   dangerouslySetInnerHTML={{
                     __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
                       shortUUID: `<span class="font-weight-400">(${shortify(profileUUID)})</span>`,
@@ -301,24 +302,24 @@ class UploadModal extends PureComponent {
                       <table className="uploading-files">
                         <thead>
                           <tr>
-                            <th className="uploading-files__col uploading-files__col-number" />
-                            <th className="uploading-files__col uploading-files__col-name">
+                            <th className="UploadModal__head-cell" />
+                            <th className="UploadModal__head-cell">
                               {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
                             </th>
-                            <th className="uploading-files__col uploading-files__col-info">
+                            <th className="UploadModal__head-cell">
                               {I18n.t('FILES.UPLOAD_MODAL.FILE.FILE_INFO')}
                             </th>
-                            <th className="uploading-files__col uploading-files__col-category">
+                            <th className="UploadModal__head-cell">
                               {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
                             </th>
-                            <th className="uploading-files__col uploading-files__col-type">
+                            <th className="UploadModal__head-cell">
                               {I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE')}
                             </th>
-                            <th className="uploading-files__col uploading-files__col-status">
+                            <th className="UploadModal__head-cell">
                               {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
                             </th>
-                            <th className="uploading-files__col uploading-files__col-delete" />
-                            <th className="uploading-files__col uploading-files__col-note" />
+                            <th className="UploadModal__head-cell" />
+                            <th className="UploadModal__head-cell" />
                           </tr>
                         </thead>
                         <tbody>
@@ -363,7 +364,7 @@ class UploadModal extends PureComponent {
                 <Button
                   onClick={onCloseModal}
                   disabled={isSubmitting}
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

@@ -162,7 +162,7 @@ class OperatorDepartments extends PureComponent {
               <When condition={!isVisibleDepartmentCreationForm}>
                 <Button
                   small
-                  commonOutline
+                  tertiary
                   disabled={operatorQuery.loading}
                   className="OperatorDepartments__add-button"
                   onClick={this.toggleDepartmentCreationFormVisibility}
@@ -233,7 +233,7 @@ class OperatorDepartments extends PureComponent {
                           </Button>
 
                           <Button
-                            common
+                            secondary
                             className="OperatorDepartments__form-button"
                             onClick={this.toggleDepartmentCreationFormVisibility}
                           >

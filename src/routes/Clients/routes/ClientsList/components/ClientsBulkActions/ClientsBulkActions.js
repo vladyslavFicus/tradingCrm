@@ -60,9 +60,9 @@ class ClientsBulkActions extends PureComponent {
       header: (
         <Fragment>
           <div>{I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}</div>
-          <small className="color-yellow">
+          <div className="ClientsBulkActions__modal-subtitle">
             {selectedRowsLength} {I18n.t('COMMON.CLIENTS_SELECTED')}
-          </small>
+          </div>
         </Fragment>
       ),
     });
@@ -118,7 +118,7 @@ class ClientsBulkActions extends PureComponent {
         <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
           <If condition={department !== departments.RETENTION}>
             <Button
-              commonOutline
+              tertiary
               className="ClientsBulkActions__button"
               onClick={this.handleTriggerRepModal(deskTypes.SALES)}
             >
@@ -127,7 +127,7 @@ class ClientsBulkActions extends PureComponent {
           </If>
           <If condition={department !== departments.SALES}>
             <Button
-              commonOutline
+              tertiary
               className="ClientsBulkActions__button"
               onClick={this.handleTriggerRepModal(deskTypes.RETENTION)}
             >
@@ -138,7 +138,7 @@ class ClientsBulkActions extends PureComponent {
 
         <PermissionContent permissions={permissions.USER_PROFILE.CHANGE_ACQUISITION}>
           <Button
-            commonOutline
+            tertiary
             className="ClientsBulkActions__button"
             onClick={this.handleTriggerUpdateAcquisitionStatusModal}
           >

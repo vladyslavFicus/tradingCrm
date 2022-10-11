@@ -241,7 +241,7 @@ class ClientHeader extends PureComponent {
           <PermissionContent permissions={permissions.CALLBACKS.CLIENT.CREATE_CALLBACK}>
             <Button
               small
-              commonOutline
+              tertiary
               className="ClientHeader__action"
               onClick={this.handleOpenAddCallbackModal}
             >
@@ -253,7 +253,7 @@ class ClientHeader extends PureComponent {
             <Button
               className="ClientHeader__action"
               onClick={this.handleUnlockClientLogin}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.UNLOCK')}
@@ -268,7 +268,7 @@ class ClientHeader extends PureComponent {
             >
               <Button
                 className="ClientHeader__action"
-                commonOutline
+                tertiary
                 small
               >
                 {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
@@ -279,7 +279,7 @@ class ClientHeader extends PureComponent {
           <Button
             className="ClientHeader__action"
             onClick={this.onHandleReloadClick}
-            commonOutline
+            tertiary
             small
           >
             <i

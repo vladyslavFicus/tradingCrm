@@ -61,7 +61,7 @@ class LeadAcquisitionStatus extends PureComponent {
       desk = team ? team.parentBranch : branches?.find(branch => branch.branchType === 'DESK');
     }
 
-    const colorClassName = salesStatus && salesStatusesColor[salesStatus];
+    const color = salesStatus && salesStatusesColor[salesStatus];
 
     return (
       <div className="LeadAcquisitionStatus">
@@ -71,7 +71,7 @@ class LeadAcquisitionStatus extends PureComponent {
 
         <div className="LeadAcquisitionStatus__content">
           <div
-            className={classNames('LeadAcquisitionStatus__item', `border-${colorClassName}`)}
+            className={classNames('LeadAcquisitionStatus__item', `LeadAcquisitionStatus__item--${color}`)}
             onClick={this.handleChangeAsquisitionStatus}
           >
             <div className="LeadAcquisitionStatus__left">
@@ -80,7 +80,11 @@ class LeadAcquisitionStatus extends PureComponent {
               </div>
               <Choose>
                 <When condition={salesStatus}>
-                  <div className={classNames('LeadAcquisitionStatus__status', colorClassName)}>
+                  <div className={classNames(
+                    'LeadAcquisitionStatus__status',
+                    `LeadAcquisitionStatus__status--${color}`,
+                  )}
+                  >
                     {I18n.t(salesStatuses[salesStatus])}
                   </div>
                 </When>

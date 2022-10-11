@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Navigate } from '@hrzn/react-big-calendar';
-import classNames from 'classnames';
+import { Button } from 'components/UI';
 import './Toolbar.scss';
 
 class Toolbar extends PureComponent {
@@ -23,14 +23,15 @@ class Toolbar extends PureComponent {
 
     if (views.length > 1) {
       return views.map(name => (
-        <button
+        <Button
           key={name}
+          primary={view === name}
+          tertiary={view !== name}
           type="button"
-          className={classNames('btn', { 'btn-primary': view === name })}
           onClick={() => this.props.onView(name)}
         >
           {messages[name]}
-        </button>
+        </Button>
       ));
     }
 

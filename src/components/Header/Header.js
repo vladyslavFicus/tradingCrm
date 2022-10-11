@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import I18n from 'i18n';
 import NotificationCenter from 'components/NotificationCenter';
 import HeaderDepartments from './components/HeaderDepartments';
 import HeaderLanguages from './components/HeaderLanguages';
@@ -18,10 +17,7 @@ class Header extends PureComponent {
           <HeaderDepartments />
 
           <div className="Header__controls">
-            <If condition={Object.keys(I18n.translations).length > 1}>
-              <HeaderLanguages />
-            </If>
-
+            <HeaderLanguages />
             <NotificationCenter />
             <HeaderCalendar />
             <HeaderLogout />

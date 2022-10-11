@@ -12,7 +12,7 @@ import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__genera
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
 import { usePermission } from 'providers/PermissionsProvider';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import AcquisitionStatusesFilter from './components/AcquisitionStatusesFilter';
@@ -156,7 +156,7 @@ const AcquisitionStatuses = (props: Props) => {
           <div>
             <Button
               onClick={handleCreateClick}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('SETTINGS.ACQUISITION_STATUSES.ADD_STATUS')}
@@ -179,10 +179,10 @@ const AcquisitionStatuses = (props: Props) => {
             render={({ type, status }: AcquisitionStatus) => (
               <div className="AcquisitionStatuses__text-primary">
                 <If condition={type === AcquisitionStatusTypes.SALES}>
-                  {I18n.t(salesStatuses[status])}
+                  {I18n.t(salesStatuses[status], { defaultValue: status })}
                 </If>
                 <If condition={type === AcquisitionStatusTypes.RETENTION}>
-                  {I18n.t(retentionStatuses[status])}
+                  {I18n.t(retentionStatuses[status], { defaultValue: status })}
                 </If>
               </div>
             )}
@@ -202,12 +202,7 @@ const AcquisitionStatuses = (props: Props) => {
               render={(acquisitionStatus: AcquisitionStatus) => (
                 // All "NEW" statuses is non-deletable
                 <If condition={acquisitionStatus.status !== 'NEW'}>
-                  <Button
-                    transparent
-                    onClick={() => handleDeleteStatusClick(acquisitionStatus)}
-                  >
-                    <i className="fa fa-trash btn-transparent color-danger" />
-                  </Button>
+                  <TrashButton onClick={() => handleDeleteStatusClick(acquisitionStatus)} />
                 </If>
               )}
             />

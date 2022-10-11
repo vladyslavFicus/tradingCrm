@@ -23,10 +23,10 @@ class ClientRegistrationInfo extends PureComponent {
         </div>
 
         <If condition={registrationDate}>
-          <div className="ClientRegistrationInfo__primary">
+          <div className="ClientRegistrationInfo__general">
             {moment.utc(registrationDate).local().fromNow()}
           </div>
-          <div className="ClientRegistrationInfo__secondary">
+          <div className="ClientRegistrationInfo__additional">
             {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
           </div>
         </If>

@@ -1145,7 +1145,8 @@
         "OPERATOR_AUTHORITY_DELETED": "Operator - Authority deleted",
         "OPERATOR_TYPE_UPDATED": "Hierarchy changed",
         "OPERATOR_BRANCH_ADDED": "Operator - Branch added",
-        "OPERATOR_BRANCH_DELETED": "Operator - Branch deleted"
+        "OPERATOR_BRANCH_DELETED": "Operator - Branch deleted",
+        "LEAD_CREATED": "Lead created"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -2058,7 +2059,7 @@
     "TITLE": "Original Agent"
   },
   "MINI_PROFILE": {
-    "PLAYER": "Player",
+    "CLIENT": "Client",
     "STATUS_REASON": "Status reason",
     "BALANCE": "Balance",
     "LAST_LOGIN": "Last login",
@@ -2070,8 +2071,7 @@
       "LEAD_CREATED": "Lead created",
       "SALES": "Sales",
       "COUNTRY": "Country",
-      "LEAD": "Lead",
-      "PHONE": "Phone"
+      "LEAD": "Lead"
     },
     "NO_ACCESS": {
       "CLIENT": "You have no access to view client information"
@@ -3103,8 +3103,7 @@
       "NEW": "New",
       "NEVER_ANSWER": "Never answer",
       "VOICE_MAIL": "Voice mail",
-      "CONVERTED": "Converted",
-      "SELF_CONVETED": "self-converted"
+      "CONVERTED": "Converted"
     },
     "SUCCESS_PROMOTED": "Lead was successfully promoted",
     "LEADS_BULK_MODAL": {

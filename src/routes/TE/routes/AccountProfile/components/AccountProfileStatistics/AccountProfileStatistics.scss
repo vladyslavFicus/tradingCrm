@@ -1,8 +1,7 @@
 .AccountProfileStatistics {
-  background-color: #ffffff;
   padding: 20px 25px;
   margin-bottom: 30px;
-  box-shadow: 0 15px 10px -15px #ccc;
+  box-shadow: 0 5px 5px var(--box-shadow-color);
 
   &__statistics-block {
     display: flex;
@@ -13,7 +12,7 @@
   }
 
   &__divider {
-    border-right: 1px solid #eee;
+    border-right: 1px solid var(--divider);
     margin-right: 30px;
     margin-left: 50px;
   }
@@ -21,12 +20,12 @@
   &__value {
     &--positive {
       font-weight: 600;
-      color: #0cb56c;
+      color: var(--state-colors-success);
     }
 
     &--negative {
       font-weight: 600;
-      color: #ef393f;
+      color: var(--state-colors-danger);
     }
   }
 }

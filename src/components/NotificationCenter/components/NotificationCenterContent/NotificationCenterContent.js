@@ -212,7 +212,7 @@ class NotificationCenterContent extends PureComponent {
               <Button
                 className="NotificationCenterContent__markAsRead"
                 onClick={this.bulkUpdate}
-                commonOutline
+                tertiary
               >
                 {I18n.t('COMMON.MARK_AS_READ')}
               </Button>

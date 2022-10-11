@@ -1,16 +1,24 @@
 .Click2Call {
   &__icon {
     margin-left: 5px;
+
+    path {
+      fill: var(--state-colors-success);
+    }
   }
 
   &__submenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 300px;
-    
-    &--disabled {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 520px;
+  }
+
+  &__providers {
+    width: 100%;
+
+    &--call-started {
+      visibility: hidden;
     }
   }
 
@@ -20,11 +28,11 @@
 
     &:hover {
       cursor: pointer;
-      background-color: #eee;
+      background-color: var(--button-tertiary-background-hover);
     }
 
     &:not(:last-child) {
-      border-bottom: 1px solid #dfe4ed;
+      border-bottom: 1px solid var(--divider);
     }
 
     &--no-hover {
@@ -39,6 +47,10 @@
     display: block;
     height: 25px;
     margin: 5px auto;
+
+    path {
+      fill: var(--text-primary);
+    }
   }
 
   &__submenu-item-title {
@@ -46,7 +58,7 @@
     text-align: center;
     font-size: 16px;
     font-weight: bold;
-    color: #777;
+    color: var(--button-tertiary-color-default);
   }
 
   &__submenu-item-prefixes {
@@ -61,10 +73,10 @@
     text-align: center;
     cursor: pointer;
     font-weight: 700;
-    color: #6c757d;
+    color: var(--button-tertiary-color-default);
 
     &:not(:nth-child(4n)) {
-      border-right: 1px solid #dfe4ed;
+      border-right: 1px solid var(--divider);
     }
 
     &:last-child {
@@ -72,12 +84,25 @@
     }
 
     &:hover {
-      background-color: #eee;
-      color: #6c757d;
+      background-color: var(--button-tertiary-background-hover);
+      color: var(--button-tertiary-color-hover)
     }
   }
 
   &__loader {
     margin: 0 10px;
   }
+
+  &__call-started {
+    position: absolute;
+    height: 25px;
+
+    path {
+      fill: var(--text-primary);
+    }
+  }
+}
+
+.ToolTipPortal {
+  position: static;
 }

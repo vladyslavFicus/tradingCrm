@@ -234,7 +234,7 @@ const NewOperatorModal = (props: Props) => {
                   <Button
                     onClick={onCloseModal}
                     className="NewOperatorModal__button"
-                    commonOutline
+                    tertiary
                   >
                     {I18n.t('COMMON.BUTTONS.CANCEL')}
                   </Button>

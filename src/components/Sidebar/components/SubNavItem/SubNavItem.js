@@ -20,7 +20,7 @@ class SubNavItem extends PureComponent {
 
     return (
       <NavLink className="SubNavItem" activeClassName="SubNavItem SubNavItem--active" to={url}>
-        <i className="icon-nav-arrow-v SubNavItem__icon" />
+        <i className="icon-arrow-down SubNavItem__icon" />
         {I18n.t(label)}
       </NavLink>
     );

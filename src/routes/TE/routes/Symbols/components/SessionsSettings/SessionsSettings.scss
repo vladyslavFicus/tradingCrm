@@ -1,5 +1,6 @@
 .SessionsSettings {
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: var(--surface-frame-background);
+  border: 1px solid var(--surface-frame-border);
   border-radius: 5px;
   padding: 25px;
   margin-bottom: 20px;
@@ -10,7 +11,7 @@
   }
 
   &__section-title {
-    color: #333;
+    color: var(--text-primary);
     font-size: 18px;
     margin-bottom: 20px;
   }
@@ -38,11 +39,11 @@
   }
 
   &--is-error {
-    border: 2px solid #fb434a;
+    border: 2px solid var(--state-colors-danger);
   }
 
   &__message-error {
     padding-bottom: 5px;
-    color: #fb434a;
+    color: var(--state-colors-danger);
   }
 }

@@ -19,8 +19,10 @@ class PlatformTypeBadge extends PureComponent {
     return (
       <Badge
         text={getPlatformTypeLabel(platformType)}
-        backgroundColor={platformType === 'MT5' ? '#8bc34a' : '#f3c331'}
-        color="#000"
+        backgroundColor={
+          platformType === 'MT5' ? 'var(--state-colors-success)' : 'var(--state-colors-warning)'
+        }
+        color="var(--text-primary)"
         {...props}
       >
         {children}

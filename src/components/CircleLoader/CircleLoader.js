@@ -13,8 +13,8 @@ class CircleLoader extends PureComponent {
 
   static defaultProps = {
     size: 20,
-    color: '#3498db',
-    overlayColor: '#f3f3f3',
+    color: 'var(--accent)',
+    overlayColor: 'var(--divider)',
     className: null,
   };
 

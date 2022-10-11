@@ -253,7 +253,7 @@ const FixBalanceModal = (props: Props) => {
             </ModalBody>
             <ModalFooter>
               <Button
-                commonOutline
+                tertiary
                 onClick={onCloseModal}
               >
                 {I18n.t('COMMON.CANCEL')}

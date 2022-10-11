@@ -221,14 +221,14 @@ class DistributionRulesFilters extends PureComponent {
                 />
               </div>
 
-              <div className="filter__form-buttons">
+              <div className="DistributionRulesFilters__buttons">
                 <RefreshButton
-                  className="filter__form-button"
+                  className="DistributionRulesFilters__button"
                   onClick={handleRefetch}
                 />
 
                 <Button
-                  className="filter__form-button"
+                  className="DistributionRulesFilters__button"
                   disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   onClick={() => this.handleReset(resetForm)}
                   primary
@@ -237,7 +237,7 @@ class DistributionRulesFilters extends PureComponent {
                 </Button>
 
                 <Button
-                  className="filter__form-button"
+                  className="DistributionRulesFilters__button"
                   disabled={isSubmitting || !dirty}
                   type="submit"
                   primary

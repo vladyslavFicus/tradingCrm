@@ -69,7 +69,7 @@
     text-align: center;
     font-size: 13px;
     margin-left: 2px;
-    color: #5f5e5e;
+    color: var(--text-secondary);
   }
 
   &__button {
@@ -90,26 +90,27 @@
   }
 
   &__fieldset {
-    border: 1px solid #ccc;
+    border: 1px solid var(--surface-frame-border);
     padding: 0 20px 20px 20px;
     border-radius: 3px;
   }
 
   &__fieldset-title {
     width: auto;
+    color: var(--text-primary);
     font-size: 15px;
   }
 
   &__confirmation-modal {
     top: 50%;
-    transform: translateY(-50%)!important;
+    transform: translateY(-50%) !important;
     margin: 0 auto;
   }
 
   &__warning-message {
     width: 100%;
     padding: 10px 10px;
-    background: #ffcac8;
+    background: var(--state-colors-danger);
     border-radius: 3px;
   }
 

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
-import { withdrawStatusesLabels, withdrawStatusesColors } from 'constants/payment';
+import { statuses } from 'constants/payment';
 import { getTradingStatusProps } from 'utils/paymentHelpers';
 import FailedStatusIcon from 'components/FailedStatusIcon';
 import Uuid from 'components/Uuid';
@@ -14,7 +14,6 @@ class PaymentStatus extends PureComponent {
     paymentId: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     statusChangedAt: PropTypes.string,
-    withdrawStatus: PropTypes.string,
     declineReason: PropTypes.string,
     creationTime: PropTypes.string,
     modifiedBy: PropTypes.string,
@@ -24,26 +23,35 @@ class PaymentStatus extends PureComponent {
     modifiedBy: '',
     creationTime: '',
     declineReason: '',
-    withdrawStatus: '',
     statusChangedAt: '',
   };
 
   render() {
     const {
-      status,
       paymentId,
       modifiedBy,
       creationTime,
       declineReason,
-      withdrawStatus,
       statusChangedAt,
     } = this.props;
 
-    const { color, label } = getTradingStatusProps(status);
+    const { status, label } = getTradingStatusProps(this.props.status);
 
     return (
       <Fragment>
-        <div className={classNames(color, 'PaymentStatus__primary')}>
+        <div className={
+          classNames(
+            'PaymentStatus__general',
+            'PaymentStatus__status', {
+              'PaymentStatus__status--approved': status === statuses.APPROVED,
+              'PaymentStatus__status--pending': status === statuses.PENDING,
+              'PaymentStatus__status--rejected': status === statuses.REJECTED,
+              'PaymentStatus__status--canceled': status === statuses.CANCELED,
+              'PaymentStatus__status--failed': status === statuses.FAILED,
+              'PaymentStatus__status--completed': status === statuses.COMPLETED,
+            },
+          )}
+        >
           {I18n.t(label)}
           <If condition={declineReason}>
             <FailedStatusIcon id={`transaction-failure-reason-${paymentId}`}>
@@ -51,28 +59,16 @@ class PaymentStatus extends PureComponent {
             </FailedStatusIcon>
           </If>
         </div>
-        <If condition={withdrawStatus}>
-          <div
-            className={
-              classNames(
-                'font-size-11 text-uppercase',
-                withdrawStatusesColors[withdrawStatus],
-              )
-            }
-          >
-            {I18n.t(withdrawStatusesLabels[withdrawStatus])}
-          </div>
-        </If>
         <Choose>
           <When condition={statusChangedAt}>
-            <div className="font-size-11">
+            <div className="PaymentStatus__additional">
               {I18n.t('COMMON.DATE_ON', {
                 date: moment.utc(statusChangedAt).local().format('DD.MM.YYYY - HH:mm:ss'),
               })}
             </div>
           </When>
           <Otherwise>
-            <div className="font-size-11">
+            <div className="PaymentStatus__additional">
               {I18n.t('COMMON.DATE_ON', {
                 date: moment.utc(creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
               })}
@@ -80,7 +76,7 @@ class PaymentStatus extends PureComponent {
           </Otherwise>
         </Choose>
         <If condition={modifiedBy}>
-          <div className="font-size-11">
+          <div className="PaymentStatus__additional">
             {I18n.t('COMMON.AUTHOR_BY')}
             {' '}
             <Uuid uuid={modifiedBy} />

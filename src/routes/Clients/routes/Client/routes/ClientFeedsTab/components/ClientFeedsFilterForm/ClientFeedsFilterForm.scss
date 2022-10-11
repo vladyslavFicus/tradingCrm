@@ -3,7 +3,7 @@
   grid-column-gap: 15px;
   grid-template-columns: repeat(12, 1fr);
   padding: 20px 25px;
-  background-color: #f2f4f8;
+  background-color: var(--surface-filters-background);
 
   &__field {
     grid-column: span 2;

@@ -24,8 +24,8 @@ export const statusActions: Record<string, [{
     }],
 };
 
-export const statusesLabels: Record<string, { label: string, color: string }> = {
-  ACTIVE: { label: 'TRADING_ENGINE.OPERATORS.STATUSES.ACTIVE', color: 'color-success' },
-  INACTIVE: { label: 'TRADING_ENGINE.OPERATORS.STATUSES.INACTIVE', color: 'color-info' },
-  CLOSED: { label: 'TRADING_ENGINE.OPERATORS.STATUSES.CLOSED', color: 'color-danger' },
+export const statusesLabels: Record<string, string> = {
+  ACTIVE: 'TRADING_ENGINE.OPERATORS.STATUSES.ACTIVE',
+  INACTIVE: 'TRADING_ENGINE.OPERATORS.STATUSES.INACTIVE',
+  CLOSED: 'TRADING_ENGINE.OPERATORS.STATUSES.CLOSED',
 };

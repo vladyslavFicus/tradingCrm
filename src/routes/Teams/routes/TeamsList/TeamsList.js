@@ -55,7 +55,7 @@ class TeamsList extends PureComponent {
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <Button
               onClick={this.handleOpenAddTeamModal}
-              commonOutline
+              tertiary
             >
               {I18n.t('TEAMS.ADD_TEAM')}
             </Button>

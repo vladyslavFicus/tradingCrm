@@ -92,7 +92,7 @@ class NoteItem extends PureComponent {
               </If>
               <div className="NoteItem__content">{content}</div>
               <If condition={pinned}>
-                <span className="note-item__pinned-note-badge">
+                <span className="NoteItem__pinned-note-badge">
                   {I18n.t('COMMON.PINNED')}
                 </span>
               </If>

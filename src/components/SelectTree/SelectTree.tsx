@@ -5,7 +5,6 @@ import { v4 } from 'uuid';
 import I18n from 'i18n-js';
 import { cloneDeep } from 'lodash';
 import classNames from 'classnames';
-import { Button } from 'components/UI';
 import Input from 'components/Input';
 import {
   withFilter,
@@ -143,17 +142,19 @@ const SelectTree = (props: Props) => {
         <i className="SelectTree__icon icon icon-arrow-down" />
         {currentNode?.label || I18n.t('COMMON.SELECT_TREE.PLACEHOLDER')}
       </div>
-      {favorites.map(item => (
-        <Button
-          type="button"
-          key={item}
-          className="SelectTree__favorite-btn"
-          disabled={disabled}
-          onClick={() => onChange(item)}
-        >
-          {item}
-        </Button>
-      ))}
+      <div className="SelectTree__favorites">
+        {favorites.map(item => (
+          <div
+            key={item}
+            className={classNames('SelectTree__favorite-btn', {
+              'SelectTree__favorite-btn--active': item === currentValue,
+            })}
+            onClick={() => onChange(item)}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
 
       {/* Hidden input for tests */}
       <input

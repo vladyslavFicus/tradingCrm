@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import CircleLoader from 'components/CircleLoader';
 import HolidayNewSymbolModal from '../../modals/HolidayNewSymbolModal';
 import { FormValues } from '../../types';
@@ -93,7 +93,7 @@ const HolidaySymbolsGrid = (props: Props) => {
         </span>
         <Button
           onClick={handleNewHolidaySymbolClick}
-          commonOutline
+          tertiary
           small
         >
           {I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.ADD_SYMBOL')}
@@ -133,14 +133,7 @@ const HolidaySymbolsGrid = (props: Props) => {
           width={120}
           header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.ACTIONS')}
           render={(symbol: string) => (
-            <>
-              <Button
-                transparent
-                onClick={() => handleDeleteHolidaySymbolClick(symbol)}
-              >
-                <i className="fa fa-trash btn-transparent color-danger" />
-              </Button>
-            </>
+            <TrashButton onClick={() => handleDeleteHolidaySymbolClick(symbol)} />
           )}
         />
       </Table>

@@ -1,5 +1,5 @@
 .HeaderLogout {
-  color: #ccc;
+  color: var(--navigation-secondary-color);
   cursor: pointer;
   font-size: 22px;
   line-height: 51px;
@@ -11,6 +11,6 @@
   width: 40px;
 
   &:hover {
-    color: #fff;
+    color: var(--navigation-primary-color);
   }
 }

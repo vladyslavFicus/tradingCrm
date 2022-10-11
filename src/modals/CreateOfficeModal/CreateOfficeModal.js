@@ -115,7 +115,7 @@ class CreateOfficeModal extends PureComponent {
                 <Button
                   className="CreateOfficeModal__button"
                   onClick={onCloseModal}
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

@@ -30,10 +30,10 @@ class ConfirmActionModal extends PureComponent {
     additionalText: null,
     onCloseCallback: () => {},
     onCancel: () => {},
-    modalTitle: I18n.t('MODALS.CONFIRM_ACTION_MODAL.TITLE'),
-    actionText: I18n.t('MODALS.CONFIRM_ACTION_MODAL.DESCRIPTION'),
-    submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
-    cancelButtonLabel: I18n.t('COMMON.CANCEL'),
+    modalTitle: null,
+    actionText: null,
+    submitButtonLabel: null,
+    cancelButtonLabel: null,
     className: null,
   };
 
@@ -85,9 +85,13 @@ class ConfirmActionModal extends PureComponent {
         isOpen={isOpen}
         toggle={this.handleClose}
       >
-        <ModalHeader toggle={this.handleClose}>{modalTitle}</ModalHeader>
+        <ModalHeader toggle={this.handleClose}>
+          {modalTitle || I18n.t('MODALS.CONFIRM_ACTION_MODAL.TITLE')}
+        </ModalHeader>
         <ModalBody>
-          <div className="ConfirmActionModal__row ConfirmActionModal__action-text">{actionText}</div>
+          <div className="ConfirmActionModal__row ConfirmActionModal__action-text">
+            {actionText || I18n.t('MODALS.CONFIRM_ACTION_MODAL.DESCRIPTION')}
+          </div>
           <div className="ConfirmActionModal__row">
             <If condition={fullName}>
               <span className="ConfirmActionModal__fullname">{fullName}</span>
@@ -109,19 +113,19 @@ class ConfirmActionModal extends PureComponent {
 
         <ModalFooter>
           <Button
-            commonOutline
+            tertiary
             onClick={this.handleClose}
           >
-            {cancelButtonLabel}
+            {cancelButtonLabel || I18n.t('COMMON.CANCEL')}
           </Button>
           <Button
             autoFocus
-            dangerOutline
+            danger
             type="submit"
             disabled={isSubmitting}
             onClick={this.handleSubmit}
           >
-            {submitButtonLabel}
+            {submitButtonLabel || I18n.t('COMMON.BUTTONS.CONFIRM')}
           </Button>
         </ModalFooter>
       </Modal>

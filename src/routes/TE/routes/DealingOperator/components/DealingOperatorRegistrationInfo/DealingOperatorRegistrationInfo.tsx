@@ -14,10 +14,10 @@ const DealingOperatorRegistrationInfo = ({ operator: { registrationDate = '' } }
       {I18n.t('COMMON.REGISTERED')}
     </div>
     <If condition={!!registrationDate}>
-      <div className="DealingOperatorRegistrationInfo__primary">
+      <div className="DealingOperatorRegistrationInfo__general">
         {moment.utc(registrationDate).local().fromNow()}
       </div>
-      <div className="DealingOperatorRegistrationInfo__secondary">
+      <div className="DealingOperatorRegistrationInfo__additional">
         {I18n.t('COMMON.ON')} {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
       </div>
     </If>

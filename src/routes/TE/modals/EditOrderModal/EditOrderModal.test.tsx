@@ -9,7 +9,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { MockedProvider } from '@apollo/client/testing';
+import MockedApolloProvider from 'apollo/MockedApolloProvider';
 import { OrderType } from 'types/trading-engine';
 import permissions from 'config/permissions';
 import { MockedPermissionProvider } from 'providers/PermissionsProvider';
@@ -127,7 +127,7 @@ const render = (
 ) => testingLibraryRender(
   <BrowserRouter>
     <StorageProvider>
-      <MockedProvider mocks={apolloMockFactory(apolloMockData)} addTypename={false}>
+      <MockedApolloProvider mocks={apolloMockFactory(apolloMockData)}>
         <MockedRSocketProvider>
           <MockedPermissionProvider permissions={_permissions}>
             <CoreLayout>
@@ -135,7 +135,7 @@ const render = (
             </CoreLayout>
           </MockedPermissionProvider>
         </MockedRSocketProvider>
-      </MockedProvider>
+      </MockedApolloProvider>
     </StorageProvider>
   </BrowserRouter>,
 );

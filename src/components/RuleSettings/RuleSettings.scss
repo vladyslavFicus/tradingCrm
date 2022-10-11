@@ -1,5 +1,7 @@
 .RuleSettings {
   &__message-error {
+    color: var(--state-colors-danger);
+
     & > div {
       text-align: center;
     }

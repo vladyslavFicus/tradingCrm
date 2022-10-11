@@ -1,11 +1,11 @@
 .UpdateAcquisitionStatusModal {
   &__selected-clients {
-    color: #ffff00;
+    color: var(--state-colors-content);
     font-size: 11px;
   }
 
   &__error {
-    color: #fb434a;
+    color: var(--state-colors-danger);
     margin-bottom: 2px;
     text-align: center;
   }

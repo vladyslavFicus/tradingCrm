@@ -141,7 +141,7 @@ const AccountProfileHeader = (props: Props) => {
           <Button
             className="AccountProfileHeader__action"
             onClick={() => handleArchiveClick(!enable)}
-            commonOutline
+            tertiary
             danger
             small
           >
@@ -161,7 +161,7 @@ const AccountProfileHeader = (props: Props) => {
           <Button
             className="AccountProfileHeader__action"
             onClick={handleFixBalanceClick}
-            commonOutline
+            tertiary
             small
           >
             {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FIX_BALANCE')}
@@ -180,7 +180,7 @@ const AccountProfileHeader = (props: Props) => {
             <Button
               className="AccountProfileHeader__action"
               onClick={handleNewOrderClick}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NEW_ORDER')}

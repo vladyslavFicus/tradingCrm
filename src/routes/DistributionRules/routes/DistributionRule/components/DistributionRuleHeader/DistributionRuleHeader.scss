@@ -1,6 +1,6 @@
 .DistributionRuleHeader {
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  background-color: var(--surface-page-background);
+  border-bottom: 1px solid var(--divider);
   padding: 25px;
   position: sticky;
   top: 48px;

@@ -47,7 +47,7 @@ class ClientAcquisitionStatus extends PureComponent {
       SALES: {
         status: salesStatus,
         statusTitle: salesStatuses[salesStatus],
-        statusColor: salesStatusesColor[salesStatus],
+        color: salesStatusesColor[salesStatus],
         operator: salesOperator,
         availableToUpdate: department !== 'RETENTION',
         isActive: acquisitionStatus === 'SALES',
@@ -55,7 +55,7 @@ class ClientAcquisitionStatus extends PureComponent {
       RETENTION: {
         status: retentionStatus,
         statusTitle: retentionStatuses[retentionStatus],
-        statusColor: retentionStatusesColor[retentionStatus],
+        color: retentionStatusesColor[retentionStatus],
         operator: retentionOperator,
         availableToUpdate: department !== 'SALES',
         isActive: acquisitionStatus === 'RETENTION',
@@ -96,7 +96,7 @@ class ClientAcquisitionStatus extends PureComponent {
       operator,
       isActive,
       statusTitle,
-      statusColor,
+      color,
       acquisitionType,
       availableToUpdate,
     } = item;
@@ -112,9 +112,12 @@ class ClientAcquisitionStatus extends PureComponent {
       <div
         key={acquisitionType}
         className={
-          classNames('ClientAcquisitionStatus__item', {
-            [`border-${statusColor}`]: isActive && statusColor,
-          })
+          classNames(
+            'ClientAcquisitionStatus__item',
+            `ClientAcquisitionStatus__item--${color}`, {
+              'ClientAcquisitionStatus__item--active': isActive,
+            },
+          )
         }
         onClick={() => this.handleShowRepresentativeUpdateModal(acquisitionType, availableToUpdate)}
       >
@@ -124,7 +127,11 @@ class ClientAcquisitionStatus extends PureComponent {
           </div>
           <Choose>
             <When condition={status}>
-              <div className={classNames('ClientAcquisitionStatus__status', statusColor)}>
+              <div className={classNames(
+                'ClientAcquisitionStatus__status',
+                `ClientAcquisitionStatus__status--${color}`,
+              )}
+              >
                 {I18n.t(statusTitle)}
               </div>
             </When>

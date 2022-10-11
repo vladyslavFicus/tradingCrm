@@ -193,6 +193,7 @@ class TradingActivityGridFilter extends PureComponent {
                   min={0}
                   placeholder="0"
                   component={FormikInputField}
+                  className="TradingActivityGridFilter__field"
                   withFocus
                 />
                 <Field
@@ -202,6 +203,7 @@ class TradingActivityGridFilter extends PureComponent {
                   min={0}
                   placeholder="0"
                   component={FormikInputField}
+                  className="TradingActivityGridFilter__field"
                   withFocus
                 />
               </RangeGroup>
@@ -214,9 +216,9 @@ class TradingActivityGridFilter extends PureComponent {
                 withAnyOption
                 withFocus
               >
-                {statuses.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label)}
+                {Object.keys(statuses).map(status => (
+                  <option key={status} value={status}>
+                    {I18n.t(`CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.${status}`)}
                   </option>
                 ))}
               </Field>

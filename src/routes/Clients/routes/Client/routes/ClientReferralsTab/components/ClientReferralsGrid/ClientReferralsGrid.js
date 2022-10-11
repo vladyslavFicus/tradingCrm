@@ -7,16 +7,13 @@ import { withRouter } from 'react-router-dom';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
 import renderLabel from 'utils/renderLabel';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
-import GridStatus from 'components/GridStatus';
-import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
+import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import { bonusTypes, bonusTypesColors } from './constants';
+import { bonusTypes, bonusTypesLabels } from './constants';
 import ReferralsQuery from './graphql/ReferralsQuery';
 import './ClientReferralsGrid.scss';
 
@@ -59,40 +56,17 @@ class ClientReferralsGrid extends PureComponent {
 
   renderBonusType = bonusType => (
     <div className={classNames(
-      bonusTypesColors[bonusType],
-      'ClientReferralsGrid__col-text ClientReferralsGrid__col-text--bold ClientReferralsGrid__col-text--upper',
+      'ClientReferralsGrid__col-text',
+      'ClientReferralsGrid__col-text--bold',
+      'ClientReferralsGrid__col-text--upper',
+      'ClientReferralsGrid__type', {
+        'ClientReferralsGrid__type--ftd': bonusType === bonusTypes.FTD,
+        'ClientReferralsGrid__type--registration': bonusType === bonusTypes.REGISTRATION,
+      },
     )}
     >
-      {I18n.t(renderLabel(bonusType, bonusTypes))}
+      {I18n.t(renderLabel(bonusType, bonusTypesLabels))}
     </div>
-  );
-
-  renderAcquisitionStatus = ({
-    statusLabel,
-    operator,
-    wrapperClassName,
-    colorClassName,
-  }) => (
-    <Choose>
-      <When condition={statusLabel}>
-        <GridStatus
-          wrapperClassName={wrapperClassName}
-          colorClassName={colorClassName}
-          statusLabel={statusLabel}
-          info={(
-            <If condition={operator}>
-              <GridStatusDeskTeam
-                fullName={operator.fullName}
-                hierarchy={operator.hierarchy}
-              />
-            </If>
-          )}
-        />
-      </When>
-      <Otherwise>
-        <GridEmptyValue />
-      </Otherwise>
-    </Choose>
   );
 
   render() {
@@ -184,39 +158,27 @@ class ClientReferralsGrid extends PureComponent {
           />
           <Column
             header={I18n.t('REFERRALS.GRID.SALES')}
-            render={(data) => {
-              const {
-                salesStatus,
-                salesOperator,
-                acquisitionStatus,
-              } = data?.acquisition || {};
-              const colorClassName = salesStatusesColor[salesStatus];
-
-              return this.renderAcquisitionStatus({
-                statusLabel: salesStatus ? I18n.t(renderLabel(salesStatus, salesStatuses)) : '',
-                operator: salesOperator,
-                wrapperClassName: acquisitionStatus === 'SALES' ? `border-${colorClassName}` : '',
-                colorClassName,
-              });
-            }}
+            render={({ acquisition }) => (
+              <GridAcquisitionStatus
+                active={acquisition?.acquisitionStatus === 'SALES'}
+                acquisition="SALES"
+                status={acquisition?.salesStatus}
+                fullName={acquisition?.salesOperator?.fullName}
+                hierarchy={acquisition?.salesOperator?.hierarchy}
+              />
+            )}
           />
           <Column
             header={I18n.t('REFERRALS.GRID.RETENTION')}
-            render={(data) => {
-              const {
-                retentionStatus,
-                retentionOperator,
-                acquisitionStatus,
-              } = data?.acquisition || {};
-              const colorClassName = retentionStatusesColor[retentionStatus];
-
-              return this.renderAcquisitionStatus({
-                statusLabel: retentionStatus ? I18n.t(renderLabel(retentionStatus, retentionStatuses)) : '',
-                operator: retentionOperator,
-                wrapperClassName: acquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : '',
-                colorClassName,
-              });
-            }}
+            render={({ acquisition }) => (
+              <GridAcquisitionStatus
+                active={acquisition?.acquisitionStatus === 'RETENTION'}
+                acquisition="RETENTION"
+                status={acquisition?.retentionStatus}
+                fullName={acquisition?.retentionOperator?.fullName}
+                hierarchy={acquisition?.retentionOperator?.hierarchy}
+              />
+            )}
           />
         </Table>
       </div>

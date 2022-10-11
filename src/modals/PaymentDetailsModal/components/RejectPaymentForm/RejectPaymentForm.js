@@ -94,7 +94,7 @@ class RejectPaymentForm extends PureComponent {
             </Field>
 
             <Button
-              common
+              secondary
               type="submit"
               disabled={!values.declineReason || isSubmitting}
             >

@@ -127,8 +127,8 @@ const GroupProfileHeaderEdit = (props: Props) => {
             <Button
               className="GroupProfileHeaderEdit__button"
               onClick={() => handleArchiveClick(!enabled)}
-              commonOutline
-              danger
+              danger={enabled}
+              tertiary={!enabled}
               small
             >
               {I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.${enabled ? 'ARCHIVE' : 'UNARCHIVE'}`)}

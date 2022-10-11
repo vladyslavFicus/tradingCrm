@@ -8,7 +8,7 @@ import {
   FormikInputField,
   FormikSelectField,
 } from 'components/Formik';
-import { Button } from 'components/UI';
+import { TrashButton } from 'components/UI';
 import './RuleOperatorSpreads.scss';
 
 /**
@@ -48,13 +48,15 @@ class RuleOperatorSpreads extends PureComponent {
           name={namePrefix}
           render={() => (
             <Fragment>
+              <div className="RuleOperatorSpreads__spread">
+                <div className="RuleOperatorSpreads__label">{I18n.t(attributeLabels.operator)}</div>
+                <div className="RuleOperatorSpreads__label">{I18n.t(attributeLabels.ratio)}</div>
+              </div>
               {[...operatorSpreads, ''].map((_, index) => (
-                <Fragment key={index}>
+                <div className="RuleOperatorSpreads__spread" key={index}>
                   <Field
                     name={`${namePrefix}[${index}].parentUser`}
-                    label={index === 0 ? I18n.t(attributeLabels.operator) : ''}
                     component={FormikSelectField}
-                    className="col-7"
                     disabled={disabled}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     searchable
@@ -75,34 +77,28 @@ class RuleOperatorSpreads extends PureComponent {
                     name={`${namePrefix}[${index}].percentage`}
                     type="number"
                     placeholder={index === 0 ? '100%' : '0%'}
-                    label={index === 0 ? I18n.t(attributeLabels.ratio) : ''}
                     disabled={disabled || !operatorSpreads[index]}
                     component={FormikInputField}
                     className={
-                      classNames('col-4', {
+                      classNames({
                         'input--has-error': percentageLimitError,
                       })
                     }
                   />
                   <If condition={operatorSpreads.length && operatorSpreads.length !== index}>
-                    <Button
-                      transparent
+                    <TrashButton
                       className="RuleOperatorSpreads__button"
                       onClick={() => removeOperatorSpread(index)}
-                    >
-                      <i className="fa fa-trash btn-transparent color-danger" />
-                    </Button>
+                    />
                   </If>
-                </Fragment>
+                </div>
               ))}
             </Fragment>
           )}
         />
         <If condition={percentageLimitError}>
-          <div className="RuleOperatorSpreads__percentage-error color-danger">
-            <div className="col-7">
-              {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}
-            </div>
+          <div className="RuleOperatorSpreads__percentage-error">
+            {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}
           </div>
         </If>
       </div>

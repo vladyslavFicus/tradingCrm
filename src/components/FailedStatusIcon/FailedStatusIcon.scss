@@ -1,0 +1,10 @@
+.FailedStatusIcon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  left: 6px;
+  background-image: url("./img/transaction-failed-icon.svg");
+  background-repeat: no-repeat;
+}

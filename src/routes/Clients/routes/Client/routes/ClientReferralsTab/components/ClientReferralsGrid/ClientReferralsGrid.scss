@@ -12,4 +12,14 @@
       font-weight: 700;
     }
   }
+
+  &__type {
+    &--ftd {
+      color: var(--state-colors-success);
+    }
+
+    &--registration {
+      color: var(--state-colors-warning);
+    }
+  }
 }

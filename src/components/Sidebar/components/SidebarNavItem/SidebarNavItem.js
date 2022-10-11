@@ -115,7 +115,7 @@ class SidebarNavItem extends PureComponent {
                 ref={(node) => {
                   this.icon = node;
                 }}
-                className="icon-nav-arrow-h SidebarNavItem__arrow"
+                className="icon-arrow-down SidebarNavItem__arrow"
               />
             </If>
           </button>

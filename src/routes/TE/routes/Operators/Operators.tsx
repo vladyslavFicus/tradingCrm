@@ -4,7 +4,9 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
 import moment from 'moment';
+import classNames from 'classnames';
 import { withModals } from 'hoc';
+import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import permissions from 'config/permissions';
 import { Modal, Sort, State } from 'types';
 import { Button } from 'components/UI';
@@ -23,12 +25,6 @@ import {
 import './Operators.scss';
 
 type Operator = ExtractApolloTypeFromPageable<OperatorsQuery['tradingEngine']['operators']>;
-
-export const statusesColor: Record<string, string> = {
-  INACTIVE: 'color-info',
-  CLOSED: 'color-danger',
-  ACTIVE: 'color-success',
-};
 
 interface Props {
   modals: {
@@ -89,7 +85,7 @@ const Operators = ({ modals: { newOperatorModal } }: Props) => {
             <Button
               className="Operators__action"
               onClick={handleNewOperatorClick}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('TRADING_ENGINE.OPERATORS.ADD_OPERATOR')}
@@ -147,10 +143,10 @@ const Operators = ({ modals: { newOperatorModal } }: Props) => {
           header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.REGISTRATION_DATE')}
           render={({ registrationDate }: Operator) => (
             <>
-              <div className="Accounts__text-primary">
+              <div className="Operators__text-primary">
                 {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
               </div>
-              <div className="Accounts__text-secondary">
+              <div className="Operators__text-secondary">
                 {moment.utc(registrationDate).local().format('HH:mm:ss')}
               </div>
             </>
@@ -160,7 +156,13 @@ const Operators = ({ modals: { newOperatorModal } }: Props) => {
           sortBy="status"
           header={I18n.t('TRADING_ENGINE.OPERATORS.GRID.STATUS')}
           render={({ status }: Operator) => (
-            <div className={statusesColor[status]}>
+            <div className={
+              classNames('Operators__status', {
+                'Operators__status--inactive': status === OperatorStatusesEnum.INACTIVE,
+                'Operators__status--active': status === OperatorStatusesEnum.ACTIVE,
+                'Operators__status--closed': status === OperatorStatusesEnum.CLOSED,
+              })}
+            >
               <strong>{I18n.t(`TRADING_ENGINE.OPERATORS.STATUSES.${status}`)}</strong>
             </div>
           )}

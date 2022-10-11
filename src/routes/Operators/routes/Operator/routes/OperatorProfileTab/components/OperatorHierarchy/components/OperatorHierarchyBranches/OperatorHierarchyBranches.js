@@ -244,7 +244,7 @@ class OperatorHierarchyBranches extends PureComponent {
             <When condition={!isVisibleAddBranchForm}>
               <Button
                 small
-                commonOutline
+                tertiary
                 className="OperatorHierarchyBranches__add-button"
                 onClick={this.toggleAddBranchFormVisibility}
               >
@@ -321,7 +321,7 @@ class OperatorHierarchyBranches extends PureComponent {
                         </Button>
 
                         <Button
-                          common
+                          secondary
                           className="OperatorHierarchyBranches__form-button"
                           onClick={this.toggleAddBranchFormVisibility}
                         >

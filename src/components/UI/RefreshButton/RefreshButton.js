@@ -43,7 +43,7 @@ class RefreshButton extends PureComponent {
 
     return (
       <Button
-        common
+        tertiary
         className={classNames('RefreshButton', className)}
         onClick={this.handleClick}
         {...props}

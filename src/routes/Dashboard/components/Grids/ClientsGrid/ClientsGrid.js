@@ -2,22 +2,20 @@ import React, { PureComponent, Fragment } from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { getBrand } from 'config';
+import classNames from 'classnames';
+import { getBrand, getBackofficeBrand } from 'config';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import {
-  statusColorNames as userStatusColorNames,
-  statusesLabels as userStatusesLabels,
+  statuses,
+  statusesLabels,
 } from 'constants/user';
-import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
-import { Table, Column } from 'components/Table';
+import { AdjustableTable, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import GridEmptyValue from 'components/GridEmptyValue';
-import GridStatus from 'components/GridStatus';
 import renderLabel from 'utils/renderLabel';
 import ClientsQuery from './graphql/ClientsQuery';
 import './ClientsGrid.scss';
@@ -40,20 +38,23 @@ class ClientsGrid extends PureComponent {
     } = this.props;
 
     const profiles = get(clientsQuery, 'data.profiles.content') || [];
-
+    const columnsOrder = getBackofficeBrand()?.tables?.registrations?.columnsOrder;
     return (
       <div className="DashboardClientsGrid">
-        <Table
+        <AdjustableTable
+          columnsOrder={columnsOrder}
           items={profiles}
           loading={loading}
         >
           <Column
+            name="client"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.CLIENT')}
             render={data => (
               <GridPlayerInfo profile={data} />
             )}
           />
           <Column
+            name="country"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.COUNTRY')}
             render={({ address: { countryCode }, languageCode }) => (
               <Choose>
@@ -71,6 +72,7 @@ class ClientsGrid extends PureComponent {
             )}
           />
           <Column
+            name="balance"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.BALANCE')}
             render={(data) => {
               const currency = getBrand().currencies.base;
@@ -79,7 +81,7 @@ class ClientsGrid extends PureComponent {
               return (
                 <Choose>
                   <When condition={balance.amount}>
-                    <div className="header-block-middle">
+                    <div className="DashboardClientsGrid__text-primary">
                       {currency} {I18n.toCurrency(balance.amount, { unit: '' })}
                     </div>
                   </When>
@@ -91,6 +93,7 @@ class ClientsGrid extends PureComponent {
             }}
           />
           <Column
+            name="deposits"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.DEPOSITS')}
             render={(data) => {
               const paymentDetails = get(data, 'paymentDetails') || {};
@@ -98,7 +101,7 @@ class ClientsGrid extends PureComponent {
                 <Choose>
                   <When condition={paymentDetails.lastDepositTime}>
                     <div className="DashboardClientsGrid__text-primary">{paymentDetails.depositsCount}</div>
-                    <div className="font-size-11">
+                    <div className="DashboardClientsGrid__text-secondary">
                       {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')}
                       {' '}
                       {moment(paymentDetails.lastDepositTime).format('DD.MM.YYYY')}
@@ -112,6 +115,7 @@ class ClientsGrid extends PureComponent {
             }}
           />
           <Column
+            name="affiliate"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE')}
             render={(data) => {
               const { uuid, partner } = get(data, 'affiliate') || {};
@@ -120,9 +124,9 @@ class ClientsGrid extends PureComponent {
                 <Choose>
                   <When condition={uuid}>
                     <If condition={partner}>
-                      <div className="header-block-middle">{partner.fullName}</div>
+                      <div className="DashboardClientsGrid__text-primary">{partner.fullName}</div>
                     </If>
-                    <Uuid className="header-block-small" uuid={uuid} />
+                    <Uuid className="DashboardClientsGrid__text-secondary" uuid={uuid} />
                   </When>
                   <Otherwise>
                     <GridEmptyValue />
@@ -132,100 +136,74 @@ class ClientsGrid extends PureComponent {
             }}
           />
           <Column
+            name="sales"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.SALES')}
-            render={(data) => {
-              const {
-                salesStatus,
-                salesOperator,
-                acquisitionStatus,
-              } = get(data, 'acquisition') || {};
-              const colorClassName = salesStatusesColor[salesStatus];
-
-              return (
-                <Choose>
-                  <When condition={salesStatus}>
-                    <GridStatus
-                      wrapperClassName={acquisitionStatus === 'SALES' ? `border-${colorClassName}` : ''}
-                      colorClassName={colorClassName}
-                      statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
-                      info={(
-                        <If condition={salesOperator}>
-                          <GridStatusDeskTeam
-                            fullName={salesOperator.fullName}
-                            hierarchy={salesOperator.hierarchy}
-                          />
-                        </If>
-                      )}
-                    />
-                  </When>
-                  <Otherwise>
-                    <GridEmptyValue />
-                  </Otherwise>
-                </Choose>
-              );
-            }}
+            render={({ acquisition }) => (
+              <GridAcquisitionStatus
+                active={acquisition?.acquisitionStatus === 'SALES'}
+                acquisition="SALES"
+                status={acquisition?.salesStatus}
+                fullName={acquisition?.salesOperator?.fullName}
+                hierarchy={acquisition?.salesOperator?.hierarchy}
+              />
+            )}
           />
           <Column
+            name="retention"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.RETENTION')}
-            render={(data) => {
-              const {
-                retentionStatus,
-                retentionOperator,
-                acquisitionStatus,
-              } = get(data, 'acquisition') || {};
-              const colorClassName = retentionStatusesColor[retentionStatus];
-
-              return (
-                <Choose>
-                  <When condition={retentionStatus}>
-                    <GridStatus
-                      wrapperClassName={acquisitionStatus === 'RETENTION' ? `border-${colorClassName}` : ''}
-                      colorClassName={colorClassName}
-                      statusLabel={I18n.t(renderLabel(retentionStatus, retentionStatuses))}
-                      info={(
-                        <If condition={retentionOperator}>
-                          <GridStatusDeskTeam
-                            fullName={retentionOperator.fullName}
-                            hierarchy={retentionOperator.hierarchy}
-                          />
-                        </If>
-                      )}
-                    />
-                  </When>
-                  <Otherwise>
-                    <GridEmptyValue />
-                  </Otherwise>
-                </Choose>
-              );
-            }}
+            render={({ acquisition }) => (
+              <GridAcquisitionStatus
+                active={acquisition?.acquisitionStatus === 'RETENTION'}
+                acquisition="RETENTION"
+                status={acquisition?.retentionStatus}
+                fullName={acquisition?.retentionOperator?.fullName}
+                hierarchy={acquisition?.retentionOperator?.hierarchy}
+              />
+            )}
           />
           <Column
+            name="registrationDate"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.REGISTRATION')}
             render={({ registrationDetails: { registrationDate } }) => (
               <Fragment>
                 <div className="DashboardClientsGrid__text-primary">
                   {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
                 </div>
-                <div className="font-size-11">
+                <div className="DashboardClientsGrid__text-secondary">
                   {moment.utc(registrationDate).local().format('HH:mm:ss')}
                 </div>
               </Fragment>
             )}
           />
           <Column
+            name="status"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={({ status: { type, changedAt } }) => (
-              <GridStatus
-                colorClassName={userStatusColorNames[type]}
-                statusLabel={I18n.t(renderLabel(type, userStatusesLabels))}
-                info={changedAt}
-                infoLabel={date => I18n.t('COMMON.SINCE', {
-                  date: moment.utc(date).local().format('DD.MM.YYYY HH:mm'),
-                })}
-              />
+              <>
+                <div
+                  className={classNames(
+                    'DashboardClientsGrid__text-primary',
+                    'DashboardClientsGrid__text-primary--uppercase',
+                    'DashboardClientsGrid__status',
+                    {
+                      'DashboardClientsGrid__status--verified': type === statuses.VERIFIED,
+                      'DashboardClientsGrid__status--not-verified': type === statuses.NOT_VERIFIED,
+                      'DashboardClientsGrid__status--blocked': type === statuses.BLOCKED,
+                    },
+                  )}
+                >
+                  {I18n.t(renderLabel(type, statusesLabels))}
+                </div>
+
+                <div className="DashboardClientsGrid__text-secondary">
+                  {I18n.t('COMMON.SINCE', {
+                    date: moment.utc(changedAt).local().format('DD.MM.YYYY HH:mm'),
+                  })}
+                </div>
+              </>
             )}
           />
-        </Table>
+        </AdjustableTable>
       </div>
     );
   }

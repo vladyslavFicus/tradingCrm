@@ -5,7 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withStreams } from 'rsocket';
-import { getBrand } from 'config';
+import { getBrand, getBackofficeBrand } from 'config';
 import { withModals, withNotifications } from 'hoc';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -14,8 +14,8 @@ import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import { Button } from 'components/UI';
-import { accountTypesLabels, leverageStatusesColor } from 'constants/accountTypes';
-import { Table, Column } from 'components/Table';
+import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
+import { AdjustableTable, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -259,7 +259,14 @@ class ClientTradingAccountsGrid extends PureComponent {
             classNames(
               'ClientTradingAccountsGrid__cell-main-value',
               'ClientTradingAccountsGrid__cell-main-value--upper',
-              leverageStatusesColor[status],
+              'ClientTradingAccountsGrid__leverage-status',
+              {
+                'ClientTradingAccountsGrid__leverage-status--pending': status === leverageStatuses.PENDING,
+                'ClientTradingAccountsGrid__leverage-status--completed': status === leverageStatuses.COMPLETED,
+                'ClientTradingAccountsGrid__leverage-status--canceled': status === leverageStatuses.CANCELED,
+                'ClientTradingAccountsGrid__leverage-status--rejected': status === leverageStatuses.REJECTED,
+                'ClientTradingAccountsGrid__leverage-status--failed': status === leverageStatuses.FAILED,
+              },
             )
           }
         >
@@ -283,7 +290,7 @@ class ClientTradingAccountsGrid extends PureComponent {
           <Button
             className="ClientTradingAccountsGrid__cell-button"
             onClick={this.handleRejectChangeLeverage(accountUUID)}
-            commonOutline
+            tertiary
             small
           >
             {I18n.t('COMMON.REJECT')}
@@ -291,7 +298,7 @@ class ClientTradingAccountsGrid extends PureComponent {
           <Button
             className="ClientTradingAccountsGrid__cell-button"
             onClick={this.handleApproveChangeLeverage(accountUUID)}
-            primaryOutline
+            tertiary
             small
           >
             {I18n.t('COMMON.APPROVE')}
@@ -307,9 +314,10 @@ class ClientTradingAccountsGrid extends PureComponent {
         classNames(
           'ClientTradingAccountsGrid__cell-main-value',
           'ClientTradingAccountsGrid__cell-main-value--upper',
+          'ClientTradingAccountsGrid__status',
           {
-            'color-danger': readOnly,
-            'color-success': !readOnly,
+            'ClientTradingAccountsGrid__status--disabled': readOnly,
+            'ClientTradingAccountsGrid__status--enabled': !readOnly,
           },
         )
       }
@@ -459,54 +467,69 @@ class ClientTradingAccountsGrid extends PureComponent {
       .check(currentPermissions);
 
     const tradingAccounts = data?.clientTradingAccounts || [];
+    const columnsOrder = getBackofficeBrand()?.tables?.clientTradingAccounts?.columnsOrder;
 
     return (
       <div className="ClientTradingAccountsGrid">
-        <Table
+        <AdjustableTable
+          columnsOrder={columnsOrder}
           stickyFromTop={189}
           items={tradingAccounts}
           loading={loading}
         >
           <Column
+            name="account"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_ACC')}
             render={this.renderTradingAccountColumn}
           />
           <Column
+            name="login"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LOGIN')}
             render={this.renderLoginColumn}
           />
           <Column
+            name="balance"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.BALANCE/EQUITY')}
             render={this.renderBalanceColumn}
           />
           <Column
+            name="credit"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.CREDIT')}
             render={this.renderCreditColumn}
           />
           <Column
+            name="leverage"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.LEVERAGE')}
             render={this.renderLeverageColumn}
           />
           <Column
+            name="marginLevel"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.MARGIN_LEVEL')}
             render={this.renderMarginLevelColumn}
           />
           <Column
+            name="profit"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.PROFIT')}
             render={this.renderProfitColumn}
           />
           <Column
+            name="status"
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.TRADING_STATUS')}
             render={this.renderTradingStatusColumn}
           />
           <Column
+            name=""
             header={I18n.t('CLIENT_PROFILE.ACCOUNTS.GRID_COLUMNS.SERVER')}
             render={this.renderServerColumn}
           />
           <If condition={updatePasswordPermission}>
-            <Column width={60} render={this.renderActionsColumn} />
+            <Column
+              name="actions"
+              width={60}
+              render={this.renderActionsColumn}
+            />
           </If>
-        </Table>
+        </AdjustableTable>
       </div>
     );
   }

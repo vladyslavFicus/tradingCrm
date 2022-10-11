@@ -137,7 +137,7 @@ class SessionsSettings extends PureComponent<Props> {
 
   renderActions = (value: SymbolSession, sessionType: SessionType) => (
     <Button
-      transparent
+      icon
       className="SessionsSettings__edit"
     >
       <i

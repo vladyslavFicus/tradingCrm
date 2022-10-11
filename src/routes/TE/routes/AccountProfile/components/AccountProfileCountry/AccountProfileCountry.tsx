@@ -14,7 +14,7 @@ const AccountProfileCountry = ({ account }: Props) => (
     <div className="AccountProfileCountry__title">
       {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.COUNTRY')}
     </div>
-    <div className="AccountProfileCountry__primary">
+    <div className="AccountProfileCountry__general">
       <Choose>
         <When condition={getCountryCode(account.country)}>
           <Flag

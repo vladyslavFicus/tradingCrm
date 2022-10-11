@@ -1,11 +1,11 @@
 .OfficesList {
-  background-color: #fff;
-  border: 1px solid rgba(0,0,0,.125);
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
   border-radius: 5px;
 
   &__header {
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     padding: 25px;
     display: flex;
     flex-direction: row;

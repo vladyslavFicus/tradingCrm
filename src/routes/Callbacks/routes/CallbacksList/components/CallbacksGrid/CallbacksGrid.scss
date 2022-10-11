@@ -27,15 +27,15 @@
 .CallbacksGrid {
   &__status {
     &--pending {
-      color: #0190da;
+      color: var(--state-colors-info);
     }
 
     &--rejected {
-      color: #fb434a;
+      color: var(--state-colors-danger);
     }
 
     &--success {
-      color: #46be8a;
+      color: var(--state-colors-success);
     }
   }
 }

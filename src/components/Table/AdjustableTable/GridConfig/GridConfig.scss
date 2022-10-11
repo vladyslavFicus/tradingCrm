@@ -1,5 +1,5 @@
 .GridConfig {
-  background-color: #fff;
+  background-color: var(--surface-page-background);
   width: 46px;
   height: 41px;
   font-size: 20px;
@@ -10,11 +10,11 @@
   position: absolute;
   transform: translateY(-40px);
   z-index: 2;
-  border-top: 1px solid #dfe4ed;
+  border-top: 1px solid var(--divider);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-right: 1px solid #dfe4ed;
-  border-bottom: 1px solid #dfe4ed;
+  border-right: 1px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
 
   &__select-block {
     width: 300px;

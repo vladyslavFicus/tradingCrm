@@ -116,7 +116,7 @@ const AccountProfileBulkActions = (props: Props) => {
       </div>
 
       <Button
-        commonOutline
+        tertiary
         className="AccountProfileBulkActions__button"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.MARKET_PRICE)}
       >
@@ -124,7 +124,7 @@ const AccountProfileBulkActions = (props: Props) => {
       </Button>
 
       <Button
-        commonOutline
+        tertiary
         className="AccountProfileBulkActions__button"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.TAKE_PROFIT)}
       >
@@ -132,7 +132,7 @@ const AccountProfileBulkActions = (props: Props) => {
       </Button>
 
       <Button
-        commonOutline
+        tertiary
         className="AccountProfileBulkActions__button"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.STOP_LOSS)}
       >

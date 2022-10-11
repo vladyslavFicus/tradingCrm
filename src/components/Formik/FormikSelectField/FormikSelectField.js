@@ -6,6 +6,7 @@ import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
+import './FormikSelectField.scss';
 
 class FormikSelectField extends PureComponent {
   static propTypes = {
@@ -107,14 +108,14 @@ class FormikSelectField extends PureComponent {
     return (
       <div className={
         classNames(
+          'FormikSelectField',
           className,
-          'form-group',
           { 'has-danger': showErrorMessage && error && isTouched },
           { 'is-disabled': disabled },
         )}
       >
         <If condition={label}>
-          <label htmlFor={this.id}>{label}</label>
+          <label className="FormikSelectField__label" htmlFor={this.id}>{label}</label>
         </If>
 
         <div>
@@ -149,11 +150,9 @@ class FormikSelectField extends PureComponent {
           />
 
           <If condition={showErrorMessage && isTouched && error}>
-            <div className="form-row">
-              <div className="col form-control-feedback">
-                <i className="icon icon-alert" />
-                {error}
-              </div>
+            <div className="FormikSelectField__error">
+              <i className="icon icon-alert" />
+              {error}
             </div>
           </If>
         </div>

@@ -176,7 +176,7 @@ class HierarchyItemBranch extends PureComponent {
             <div>
               {this.renderTitle()}
               <span className="HierarchyItemBranch__type">
-                {branchType}
+                {I18n.t(`COMMON.${branchType}`)}
               </span>
               <div className="HierarchyItemBranch__description">
                 {I18n.t('HIERARCHY.TREE.ITEM_DESCRIPTION', { childrenCount, usersCount })}

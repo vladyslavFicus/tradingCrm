@@ -10,12 +10,12 @@
   background-color: transparent;
   box-sizing: border-box;
   font-size: inherit;
-  color: #cccccc;
+  color: var(--navigation-secondary-color);
   cursor: pointer;
   transition: 0.2s ease;
 
   &:hover {
-    color: #ffffff;
+    color: var(--navigation-primary-color);
   }
 
   &:focus {
@@ -32,10 +32,10 @@
     padding: 2px 4px;
     min-width: 14px;
     border-radius: 6px;
-    background-color: #ff0000;
+    background-color: var(--state-colors-danger);
     text-align: center;
     font: bold 10px/1 'Open Sans', Arial, sans-serif;
-    color: #fff;
+    color: var(--state-colors-content);
   }
 
   &--beep:after {
@@ -43,6 +43,8 @@
   }
 
   &__icon {
+    font-size: 21px;
+    font-weight: bold;
     pointer-events: none;
     stroke: currentColor;
     fill: currentColor;

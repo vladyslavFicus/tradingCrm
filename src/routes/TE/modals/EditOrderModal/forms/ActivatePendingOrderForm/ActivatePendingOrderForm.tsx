@@ -160,7 +160,7 @@ const ActivatePendingOrderForm = (props: Props) => {
               />
               <Button
                 type="button"
-                primaryOutline
+                tertiary
                 className="EditOrderModal__button EditOrderModal__button--update"
                 onClick={() => {
                   const _activationPrice = direction === OrderDirection.SELL

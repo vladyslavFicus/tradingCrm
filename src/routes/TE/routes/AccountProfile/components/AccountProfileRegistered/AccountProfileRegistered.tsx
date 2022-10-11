@@ -14,10 +14,10 @@ const AccountProfileRegistered = ({ account }: Props) => (
       {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.REGISTERED')}
     </div>
 
-    <div className="AccountProfileRegistered__primary">
+    <div className="AccountProfileRegistered__general">
       {moment.utc(account.registrationDate).local().fromNow()}
     </div>
-    <div className="AccountProfileRegistered__secondary">
+    <div className="AccountProfileRegistered__additional">
       {I18n.t('COMMON.ON')} {moment.utc(account.registrationDate).local().format('DD.MM.YYYY HH:mm')}
     </div>
   </div>

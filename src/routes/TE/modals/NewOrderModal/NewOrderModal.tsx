@@ -112,7 +112,7 @@ const NewOrderModal = (props: Props) => {
               <Button
                 className="NewOrderModal__button NewOrderModal__button--small"
                 type="button"
-                primaryOutline
+                tertiary
                 submitting={accountQuery.loading}
                 disabled={!login || accountQuery.loading}
                 onClick={handleGetAccount}

@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;900&family=Roboto+Mono&display=swap');
+
+:root {
+  /* Fonts */
+  --base-font-family: 'Open Sans', sans-serif;
+
+  /* --- GLOBAL --- */
+  --accent: rgba(82, 135, 189, 1);
+  --active: rgba(1, 144, 218, 1);
+  --divider: rgba(221, 221, 221, 1);
+  --box-shadow-color: rgba(0,0,0,0.15);
+  --skeleton: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  /* --- END GLOBAL --- */
+
+  /* --- SURFACE --- */
+  --surface-filters-background: #F2F4F8;
+  --surface-page-background: #FFFFFF;
+  --surface-page-border: #DDDDDD;
+  --surface-body-background: #F2F2F2;
+  --surface-frame-background: #fff;
+  --surface-frame-border: #DDDDDD;
+  --surface-note: #FFFDE6;
+  --surface-gradient-background: linear-gradient(180deg, #FFFFFF 49.73%, #F8F8F8 100%);
+  --hint-background: #000000;
+  --hint-color: #FFFFFF;
+  /* --- END SURFACE --- */
+
+  /* --- NAVIGATION --- */  
+  --navigation-primary-background: #000000;
+  --navigation-secondary-background: #252525;
+  --navigation-secondary-color: #999999;
+  --navigation-primary-color: #FFFFFF;
+  /* --- END NAVIGATION --- */
+
+  /* --- STATE COLORS --- */
+  --state-colors-success: #46BE8A;
+  --state-colors-info: #0190DA;
+  --state-colors-none: #9B9B9B;
+  --state-colors-warning: #F39834;
+  --state-colors-danger: #FB434A;
+  --state-colors-content: #FFFFFF;
+  /* --- END STATE COLORS --- */
+
+  /* --- TEXT --- */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  /* --- END TEXT --- */
+
+  /* --- LINK --- */
+  /* ---  Default: --- */
+  --link-default: #666666;
+
+  /* ---  Hover: --- */
+  --link-hover: #333333;
+
+  /* ---  Focus: --- */
+  --link-focus: #333333;
+
+  /* ---  Disabled: --- */
+  --link-disabled: #E3E3E3;
+  /* --- END LINK --- */
+
+  /* --- BRAND GRADIENT --- */  
+  --window-header-background-info: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%);
+  --window-header-color: #fff;
+  --window-header-background-warning: #E18B5B;
+  /* --- END BRAND GRADIENT --- */
+
+  /* --- FORM --- */
+  /* ---  Placeholder: --- */
+  --form-color-placeholder: #9B9B9B;
+
+  /* ---  Default: --- */
+  --form-border-default: #CFCFCF;
+  --form-background-default: #FFFFFF;
+  --form-color-default: #4A4A4A;
+  --form-icon-button-default: #CFCFCF;
+
+  /* ---  Hover: --- */
+  --form-border-hover: #0190DA;
+  --form-background-hover: #FFFFFF;
+  --form-color-hover: #4A4A4A;
+  --form-icon-button-hover: #9B9B9B;
+
+  /* ---  Focus: --- */
+  --form-border-focus: #0190DA;
+  --form-background-focus: #FFFFFF;
+  --form-color-focus: #4A4A4A;
+  --form-icon-button-focus: #9B9B9B;
+  --form-background-selected: rgba(135, 206, 250, 0.3);
+
+  /* ---  Disabled: --- */
+  --form-border-disabled: #CFCFCF;
+  --form-background-disabled: #F6F6F6;
+  --form-color-disabled: #9B9B9B;
+  --form-icon-button-disabled: #CFCFCF;
+  /* --- END FORM --- */
+
+  /* --- DROPDOWN-SELECT --- */
+  --dropdown-surface-background: rgba(255, 255, 255, 1);
+  --dropdown-surface-border: rgba(155, 155, 155, 1);
+
+  /* ---  Default: --- */
+  --dropdown-options-background-default: #FFFFFF;
+  --dropdown-options-color-default: #333333;
+  --dropdown-options-border-default: #FFFFFF;
+
+  /* ---  Hover: --- */
+  --dropdown-options-background-hover: rgba(135, 206, 250, 0.3);
+  --dropdown-options-color-hover: #000000;
+  --dropdown-options-border-hover: #FFFFFF;
+
+  /* ---  Focus: --- */
+  --dropdown-options-background-focus: #0190DA;
+  --dropdown-options-color-focus: #FFFFFF;
+  --dropdown-options-border-focus: #FFFFFF;
+
+  /* ---  Disabled: --- */
+  --dropdown-options-background-disabled: #FFFFFF;
+  --dropdown-options-color-disabled: #B7B7B7;
+  --dropdown-options-border-disabled: #FFFFFF;
+
+  /* ---  For date picker: --- */
+  --dropdown-options-background-current-date: #E9FBE4;
+  --dropdown-options-color-current-date: #000000;
+  --dropdown-options-border-current-date: #000000;
+  /* --- END DROPDOWN-SELECT --- */
+
+  /* --- MULTIOPTIONS --- */
+  --dropdown-multioptions-default: #333333;
+  --dropdown-multioptions-hover: #000000;
+  --dropdown-multioptions-selected: #0190DA;
+  /* --- END MULTIOPTIONS --- */
+
+  /* --- BUTTON Primary --- */
+  /* ---  Default: --- */
+  --button-primary-background-default: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%);
+  --button-primary-color-default: #FFFFFF;
+  --button-primary-border-default: transparent;
+
+  /* ---  Hover: --- */
+  --button-primary-background-hover: linear-gradient(90deg, #297BDC 0%, #1DB8ED 100%);
+  --button-primary-color-hover: #FFFFFF;
+  --button-primary-border-hover: transparent;
+
+  /* ---  Focus: --- */
+  --button-primary-background-focus: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%);
+  --button-primary-color-focus: #FFFFFF;
+  --button-primary-border-focus: transparent;
+
+  /* ---  Disabled: --- */
+  --button-primary-background-disabled: #D3D3D3;
+  --button-primary-color-disabled: #FFFFFF;
+  --button-primary-border-disabled: transparent;
+  /* --- END BUTTON Primary --- */
+
+  /* --- BUTTON Secondary --- */
+  /* ---  Default: --- */
+  --button-secondary-background-default: #FFFFFF;
+  --button-secondary-color-default: #0190DA;
+  --button-secondary-border-default: #9B9B9B;
+
+  /* ---  Hover: --- */
+  --button-secondary-background-hover: #F9F9F9;
+  --button-secondary-color-hover: #0190DA;
+  --button-secondary-border-hover: #9B9B9B;
+
+  /* ---  Focus: --- */
+  --button-secondary-background-focus: #F9F9F9;
+  --button-secondary-color-focus: #0190DA;
+  --button-secondary-border-focus: #9B9B9B;
+
+  /* ---  Disabled: --- */
+  --button-secondary-background-disabled: #FFFFFF;
+  --button-secondary-color-disabled: #E3E3E3;
+  --button-secondary-border-disabled: #E3E3E3;
+  /* --- END BUTTON Secondary --- */
+
+  /* --- BUTTON Tertiary --- */
+  /* ---  Default: --- */
+  --button-tertiary-background-default: #FFFFFF;
+  --button-tertiary-color-default: #9B9B9B;
+  --button-tertiary-border-default: #9B9B9B;
+
+  /* ---  Hover: --- */
+  --button-tertiary-background-hover: #F9F9F9;
+  --button-tertiary-color-hover: #9B9B9B;
+  --button-tertiary-border-hover: #9B9B9B;
+
+  /* ---  Focus: --- */
+  --button-tertiary-background-focus: #F9F9F9;
+  --button-tertiary-color-focus: #9B9B9B;
+  --button-tertiary-border-focus: #9B9B9B;
+
+  /* ---  Disabled: --- */
+  --button-tertiary-background-disabled: #FFFFFF;
+  --button-tertiary-color-disabled: #E3E3E3;
+  --button-tertiary-border-disabled: #E3E3E3;
+  /* --- END BUTTON Tertiary --- */
+
+  /* --- BUTTON Danger --- */
+  /* ---  Default: --- */
+  --button-danger-background-default: linear-gradient(to left, #f99939, #f76b1c);
+  --button-danger-color-default: #FFFFFF;
+  --button-danger-border-default: transparent;
+
+  /* ---  Hover: --- */
+  --button-danger-background-hover: linear-gradient(to left, #F78717, #F55000);
+  --button-danger-color-hover: #FFFFFF;
+  --button-danger-border-hover: transparent;
+
+  /* ---  Focus: --- */
+  --button-danger-background-focus: linear-gradient(to left, #F78717, #F55000);
+  --button-danger-color-focus: #FFFFFF;
+  --button-danger-border-focus: transparent;
+
+  /* ---  Disabled: --- */
+  --button-danger-background-disabled: #D3D3D3;
+  --button-danger-color-disabled: #FFFFFF;
+  --button-danger-border-disabled: transparent;
+  /* --- END BUTTON Tertiary --- */
+
+  /* --- BUTTON Icon --- */
+  /* ---  Default: --- */
+  --button-icon-button-default: #666666;
+
+  /* ---  Hover: --- */
+  --button-icon-button-hover: #0190DA;
+
+  /* ---  Focus: --- */
+  --button-icon-button-focus: #0190DA;
+
+  /* ---  Disabled: --- */
+  --button-icon-button-disabled: #E3E3E3;
+  /* --- END BUTTON Icon --- */
+
+  /* --- BUTTON Icon inverse --- */
+  /* ---  Default: --- */
+  --button-icon-button-inverse-default: #FFFFFF;
+
+  /* ---  Hover: --- */
+  --button-icon-button-inverse-hover: #F5F5F5;
+
+  /* ---  Focus: --- */
+  --button-icon-button-inverse-focus: #F5F5F5;
+
+  /* ---  Disabled: --- */
+  --button-icon-button-inverse-disabled: #F5F5F5;
+  /* --- END BUTTON Icon inverse --- */
+
+  /* --- CHECKBOX --- */
+  /* ---  Unselected default: --- */
+  --checkbox-unselected-background-default: #FFFFFF;
+  --checkbox-unselected-border-default: #9B9B9B;
+  /* ---  Selected default: --- */
+  --checkbox-selected-background-default: #FFFFFF;
+  --checkbox-selected-color-default: #0190DA;
+  --checkbox-selected-border-default: #0190DA;
+  /* ---  Unselected hover: --- */
+  --checkbox-unselected-background-hover: #F9F9F9;
+  --checkbox-unselected-border-hover: #9B9B9B;
+  /* ---  Selected hover: --- */
+  --checkbox-selected-background-hover: #F9F9F9;
+  --checkbox-selected-color-hover: #0190DA;
+  --checkbox-selected-border-hover: #0190DA;
+  /* ---  Unselected focus: --- */
+  --checkbox-unselected-background-focus: #F9F9F9;
+  --checkbox-unselected-border-focus: #9B9B9B;
+  /* ---  Selected focus: --- */
+  --checkbox-selected-background-focus: #F9F9F9;
+  --checkbox-selected-color-focus: #0190DA;
+  --checkbox-selected-border-focus: #0190DA;
+  /* ---  Unselected disabled: --- */
+  --checkbox-unselected-background-disabled: #FFFFFF;
+  --checkbox-unselected-border-disabled: #E3E3E3;
+  /* ---  Selected disabled: --- */
+  --checkbox-selected-background-disabled: #FFFFFF;
+  --checkbox-selected-color-disabled: #CBDBEB;
+  --checkbox-selected-border-disabled: #CBDBEB;
+  /* --- END CHECKBOX --- */
+
+  /* --- SWITCHES --- */
+  /* ---  Unselected default: --- */
+  --switch-unselected-toggle-default: #FFFFFF;
+  --switch-unselected-background-default: #CCCCCC;
+  /* ---  Selected default: --- */
+  --switch-selected-toggle-default: #FFFFFF;
+  --switch-selected-background-default: #0190DA;
+  /* ---  Unselected hover: --- */
+  --switch-unselected-toggle-hover: #FFFFFF;
+  --switch-unselected-background-hover: #CCCCCC;
+  /* ---  Selected hover: --- */
+  --switch-selected-toggle-hover: #FFFFFF;
+  --switch-selected-background-hover: #0190DA;
+  /* ---  Unselected focus: --- */
+  --switch-unselected-toggle-focus: #FFFFFF;
+  --switch-unselected-background-focus: #CCCCCC;
+  /* ---  Selected focus: --- */
+  --switch-selected-toggle-focus: #FFFFFF;
+  --switch-selected-background-focus: #0190DA;
+  /* ---  Unselected disabled: --- */
+  --switch-unselected-toggle-disabled: #FFFFFF;
+  --switch-unselected-background-disabled: #E3E3E3;
+  /* ---  Selected disabled: --- */
+  --switch-selected-toggle-disabled: #FFFFFF;
+  --switch-selected-background-disabled: #CBDBEB;
+  /* --- END SWITCHES --- */
+
+  /* --- CARD --- */
+  --card-hover: #F8F8F8;
+  /* --- END CARD --- */
+
+  /* --- TABLE --- */
+  --table-header-background-approved: #CFFCE8;
+  --table-header-background-pending: #F5F5F5;
+  --table-header-background-rejected: #FFEAE7;
+  --table-background-default-hover: #F8F8F8;
+  --table-background-selected: #EEF3F8;
+  --table-background-selected-hover: #E5EFFA;
+  --table-background-warning: #FFFCF2;
+  --table-background-danger: #FFF8F6;
+  --table-background-success: #F8FFFA;
+  --table-background-disabled: #E1E1E1;
+  /* --- END TABLE --- */
+
+  /* --- TABS --- */
+  /* ---  Default: --- */
+  --tab-color-default: #666666;
+  --tab-background-default: transparent;
+
+  /* ---  Hover: --- */
+  --tab-color-hover: #0190DA;
+  --tab-background-hover: transparent;
+
+  /* ---  Focus --- */
+  --tab-color-focus: #0190DA;
+  --tab-background-focus: #FFFFFF;
+  /* --- END TABS --- */
+
+  /* ---  Calendar --- */
+  --calendar-header-background: #F0F2F7;
+  --calendar-body-background: #FFFFFF;
+  --calendar-background-disabled: #E1E1E1;
+  --calendar-current-background: #E7F4FE;
+  --calendar-current-border: #4384DB;
+  --calendar-divider: #D8D8D8; 
+  /* ---  END Calendar --- */
+}

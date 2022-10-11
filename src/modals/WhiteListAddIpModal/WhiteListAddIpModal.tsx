@@ -94,7 +94,7 @@ const WhiteListAddIpModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="WhiteListAddIpModal__button"
-                commonOutline
+                tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>

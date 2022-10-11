@@ -1,12 +1,13 @@
 .DistributionRuleInfo {
   display: flex;
   padding: 10px 25px;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid var(--divider);
+  background: var(--surface-page-background);
 
   &__item {
     min-width: 165px;
     padding: 10px 20px 25px;
-    border-right: 1px solid #e9e9e9;
+    border-right: 1px solid var(--divider);
 
     &:first-child {
       padding-left: 0;
@@ -16,20 +17,20 @@
   &__item-label {
     font-size: 12px;
     font-weight: 600;
-    color: #9b9b9b;
+    color: var(--text-secondary);
     text-transform: uppercase;
   }
 
   &__item-value {
     font-size: 15px;
     font-weight: 700;
-    color: #4a4a4a;
+    color: var(--text-primary);
     text-transform: uppercase;
   }
 
   &__item-small-text {
     font-size: 11px;
-    color: #4a4a4a;
+    color: var(--text-primary);
   }
 
   &__status {
@@ -46,7 +47,7 @@
     }
 
     &.show::before {
-      background-color: #01a8fe;
+      background-color: var(--active);
     }
 
     &__toggle-item {
@@ -58,7 +59,7 @@
     &__arrow {
       margin-left: 15px;
       transition: .2s;
-      color: #000000;
+      color: var(--button-icon-button-default);
     }
 
     &.show &__arrow {
@@ -66,21 +67,39 @@
     }
 
     &__dropdown-menu {
-      top: 100% !important;
       width: 100%;
-      padding: 0px;
-      border-radius: 0;
+      left: auto !important;
+      right: 0 !important;
+      padding: 0;
       border-left: none;
-      border-color: #e9e9e9;
-      box-shadow: 4px 4px 4px rgba(0,0,0,.15);
+      border-color: var(--dropdown-surface-border);
+      background-color: var(--dropdown-surface-background);
+      box-shadow: 0px 5px 25px var(--box-shadow-color);
+      z-index: 50;
     }
 
     &__dropdown-item {
       padding: 10px 20px 10px 10px;
 
       &:hover {
-        background-color: #f2f2f2;
+        background: var(--dropdown-options-background-hover);
+        color: var(--dropdown-options-color-hover);
       }
+  
+      &:focus {
+        background: var(--dropdown-options-background-focus);
+        color: var(--dropdown-options-color-focus);
+      }
+    }
+  }
+
+  &__status-item {
+    &--active {
+      color: var(--state-colors-success);
+    }
+
+    &--inactive {
+      color: var(--form-color-disabled);
     }
   }
 
@@ -90,5 +109,12 @@
     justify-content: space-around;
     padding: 0px 10px 12px;
     flex-direction: column;
+    background-color: transparent;
+    
+    &:hover {
+      svg {
+        color: var(--active);
+      }
+    }
   }
 }

@@ -3,15 +3,15 @@
 
   &__row {
     &--high {
-      background-color: #fff8f7;
+      background-color: var(--table-background-danger);
     }
 
     &--medium {
-      background-color: #fffcf2;
+      background-color: var(--table-background-warning);
     }
 
     &--low {
-      background-color: #f8fffa;
+      background-color: var(--table-background-success);
     }
   }
 
@@ -31,16 +31,20 @@
     text-transform: capitalize;
 
     &--high {
-      color: #FB434A;
+      color: var(--state-colors-danger);
     }
 
     &--medium {
-      color: #F39834;
+      color: var(--state-colors-warning);
     }
 
     &--low {
-      color: #46BE8A;
+      color: var(--state-colors-success);
     }
+  }
+
+  &__text-secondary {
+    font-size: 11px;
   }
 
   &__uuid {

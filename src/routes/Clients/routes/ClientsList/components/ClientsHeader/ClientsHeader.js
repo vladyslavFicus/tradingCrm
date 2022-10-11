@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from 'constants/propTypes';
 import { FiltersTogglerButton } from 'components/FiltersToggler';
+import Placeholder from 'components/Placeholder';
 import ClientsBulkActions from '../ClientsBulkActions';
 import './ClientsHeader.scss';
 
@@ -40,20 +39,9 @@ class ClientsHeader extends PureComponent {
     return (
       <div className="ClientsHeader">
         <div className="ClientsHeader__left">
-          <ReactPlaceholder
+          <Placeholder
             ready={!clientsQuery.loading}
-            customPlaceholder={(
-              <div>
-                <TextRow
-                  className="animated-background"
-                  style={{ width: '220px', height: '20px' }}
-                />
-                <TextRow
-                  className="animated-background"
-                  style={{ width: '220px', height: '12px' }}
-                />
-              </div>
-            )}
+            rows={[{ width: 220, height: 20 }, { width: 220, height: 12 }]}
           >
             <Choose>
               <When condition={clientsListCount}>
@@ -73,7 +61,7 @@ class ClientsHeader extends PureComponent {
                 </div>
               </Otherwise>
             </Choose>
-          </ReactPlaceholder>
+          </Placeholder>
         </div>
 
         <div className="ClientsHeader__right">

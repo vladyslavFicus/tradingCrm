@@ -4,10 +4,10 @@ import { NetworkStatus } from '@apollo/client';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
+import ClientsHeader from './components/ClientsHeader';
 import ClientsGrid from './components/ClientsGrid';
 import ClientsGridFilter from './components/ClientsGridFilter';
 import ClientsGridOldFilter from './components/ClientsGridOldFilter';
-import ClientsHeader from './components/ClientsHeader';
 import ClientsQuery from './graphql/ClientsQuery';
 import './ClientsList.scss';
 

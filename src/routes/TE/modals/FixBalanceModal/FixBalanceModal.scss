@@ -28,9 +28,8 @@
     align-items: center;
     width: 100%;
     padding: 10px 8px;
-    border: solid 1px #cfcfcf;
+    border: solid 1px var(--divider);
     border-radius: 3px;
-    box-shadow: 0 0 5px -2px #555;
 
     &--loader {
       justify-content: center;

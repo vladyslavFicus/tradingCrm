@@ -31,6 +31,7 @@ class Sms extends PureComponent {
     return (
       <If condition={isActive}>
         <Button
+          tertiary
           className="Sms__button"
           onClick={
             () => smsSendModal.show({

@@ -5,12 +5,12 @@
     }
 
     &-secondary {
-      color: #333;
+      color: var(--text-primary);
       font-size: 11px;
     }
 
     &-subtype {
-      color: #333;
+      color: var(--text-primary);
       font-size: 12px;
       margin-top: 1px;
     }
@@ -19,29 +19,29 @@
   &__row {
     &-color {
       &--high {
-        background-color: #FFF8F6;
+        background-color: var(--table-background-danger);
       }
 
       &--medium {
-        background-color: #FFFCF2;
+        background-color: var(--table-background-warning);
       }
 
       &--low {
-        background-color: #F8FFFA;
+        background-color: var(--table-background-success);
       }
     }
 
     &-priority-text {
       &--high {
-        color: #FB434A;
+        color: var(--state-colors-danger);
       }
 
       &--medium {
-        color: #F39834;
+        color: var(--state-colors-warning);
       }
 
       &--low {
-        color: #46BE8A;
+        color: var(--state-colors-success);
       }
     }
   }

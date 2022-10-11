@@ -7,6 +7,7 @@ import compose from 'compose-function';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { withNotifications, withModals } from 'hoc';
 import { LevelType, Notify, State, Sort, Modal, TableSelection } from 'types';
+import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { Button } from 'components/UI';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -14,16 +15,15 @@ import PermissionContent from 'components/PermissionContent';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
+import Placeholder from 'components/Placeholder';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import PnL from 'routes/TE/components/PnL';
 import CurrentPrice from 'routes/TE/components/CurrentPrice';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { TradingEngine__OrderStatuses__Enum as OrderStatuses } from '__generated__/types';
-import { tradeStatusesColor, types } from '../../attributes/constants';
+import { types } from '../../attributes/constants';
 import { MAX_SELECTED_ACCOUNT_ORDERS } from '../../constants';
-import { getTypeColor } from '../../attributes/utils';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
 import AccountProfileBulkActions from './components/AccountProfileBulkActions';
 import { useOrdersQuery, OrdersQuery, OrdersQueryVariables } from './graphql/__generated__/OrdersQuery';
@@ -33,7 +33,7 @@ import './AccountProfileOrdersGrid.scss';
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;
 
 type Props = {
-  orderStatus: OrderStatuses,
+  orderStatus: OrderStatusesEnum,
   showCloseButtonColumn?: boolean,
   modals: {
     editOrderModal: Modal,
@@ -146,16 +146,20 @@ const AccountProfileOrdersGrid = (props: Props) => {
   return (
     <div className="AccountProfileOrdersGrid">
       <div className="AccountProfileOrdersGrid__header">
-        <div className="AccountProfileOrdersGrid__title">
-          <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}<br />
-          <If condition={!!select?.selected}>
+        <Placeholder
+          ready={!ordersQuery.loading}
+          rows={[{ width: 115, height: 20 }, { width: 115, height: 12 }]}
+        >
+          <div className="AccountProfileOrdersGrid__title">
+            <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.HEADLINE')}<br />
             <div className="AccountProfileOrdersGrid__selected">
-              <strong>{select?.selected}</strong> {I18n.t('COMMON.ORDERS_SELECTED')}
+              <strong>{select?.selected || 0}</strong> {I18n.t('COMMON.ORDERS_SELECTED')}
             </div>
-          </If>
-        </div>
+          </div>
+        </Placeholder>
+
         <PermissionContent permissions={permissions.WE_TRADING.BULK_ORDER_CLOSE}>
-          <If condition={!!select?.selected && orderStatus === OrderStatuses.OPEN}>
+          <If condition={!!select?.selected && orderStatus === OrderStatusesEnum.OPEN}>
             <div className="AccountProfileOrdersGrid__actions">
               <AccountProfileBulkActions select={select} ordersQuery={ordersQuery} />
             </div>
@@ -207,8 +211,12 @@ const AccountProfileOrdersGrid = (props: Props) => {
             render={({ type }: Order) => (
               <div
                 className={classNames(
-                  getTypeColor(type),
                   'AccountProfileOrdersGrid__cell-value',
+                  'AccountProfileOrdersGrid__type',
+                  {
+                    'AccountProfileOrdersGrid__type--buy': type.includes('BUY'),
+                    'AccountProfileOrdersGrid__type--sell': !type.includes('BUY'),
+                  },
                 )}
               >
                 {I18n.t(types.find(item => item.value === type)?.label as string)}
@@ -355,7 +363,15 @@ const AccountProfileOrdersGrid = (props: Props) => {
           <Column
             header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.STATUS')}
             render={({ status }: Order) => (
-              <div className={tradeStatusesColor[status]}>
+              <div
+                className={classNames(
+                  'AccountProfileOrdersGrid__status',
+                  {
+                    'AccountProfileOrdersGrid__status--pending': status === OrderStatusesEnum.PENDING,
+                    'AccountProfileOrdersGrid__status--open': status === OrderStatusesEnum.OPEN,
+                  },
+                )}
+              >
                 <strong>{I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.STATUSES.${status}`)}</strong>
               </div>
             )}

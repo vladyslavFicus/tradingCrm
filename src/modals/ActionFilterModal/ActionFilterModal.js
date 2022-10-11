@@ -15,6 +15,7 @@ import filterSetByIdQuery from './graphql/filterSetByIdQuery';
 import createFilterSetMutation from './graphql/createFilterSetMutation';
 import updateFilterSetMutation from './graphql/updateFilterSetMutation';
 import { actionTypes } from './attributes';
+import './ActionFilterModal.scss';
 
 const attributeLabels = {
   name: I18n.t('FILTER_SET.CREATE_MODAL.FIELDS.FILTER_NAME'),
@@ -171,7 +172,7 @@ class ActionFilterModal extends PureComponent {
               </ModalHeader>
               <ModalBody>
                 <If condition={formError || errors.submit}>
-                  <div className="mb-2 text-center color-danger">
+                  <div className="ActionFilterModal__error">
                     {formError || errors.submit}
                   </div>
                 </If>
@@ -183,22 +184,16 @@ class ActionFilterModal extends PureComponent {
                   component={FormikInputField}
                 />
                 <If condition={action === actionTypes.CREATE}>
-                  { /* TODO backend integration */ }
-                  <div className="row">
-                    <div className="form-group col-md-6">
-                      <Field
-                        className="d-inline-block"
-                        name="favourite"
-                        component={FormikCheckbox}
-                        label={I18n.t(`FILTER_SET.${action}_MODAL.FIELDS.FAVOURITE`)}
-                      />
-                    </div>
-                  </div>
+                  <Field
+                    name="favourite"
+                    component={FormikCheckbox}
+                    label={I18n.t(`FILTER_SET.${action}_MODAL.FIELDS.FAVOURITE`)}
+                  />
                 </If>
               </ModalBody>
               <ModalFooter>
                 <Button
-                  commonOutline
+                  tertiary
                   onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}

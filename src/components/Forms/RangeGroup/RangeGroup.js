@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import FieldLabel from '../FieldLabel';
+import './RangeGroup.scss';
 
 class RangeGroup extends PureComponent {
   static propTypes = {
@@ -31,19 +32,14 @@ class RangeGroup extends PureComponent {
     const [fromElement, toElement] = React.Children.toArray(children);
 
     return (
-      <div className={classNames('form-group', className)}>
-        <FieldLabel label={label} addon={labelAddon} />
-        <div className="row g-0 range-group">
-          <div className="col">{fromElement}</div>
-          <div
-            className={classNames(
-              'col-auto px-2 range-group__divider',
-              dividerClassName,
-            )}
-          >
+      <div className={classNames('RangeGroup', className)}>
+        <FieldLabel className="RangeGroup__label" label={label} addon={labelAddon} />
+        <div className="RangeGroup__container">
+          <div>{fromElement}</div>
+          <div className={classNames('RangeGroup__divider', dividerClassName)}>
             -
           </div>
-          <div className="col">{toElement}</div>
+          <div>{toElement}</div>
         </div>
       </div>
     );

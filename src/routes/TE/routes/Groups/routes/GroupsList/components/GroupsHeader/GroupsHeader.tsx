@@ -1,11 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useHistory } from 'react-router-dom';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import permissions from 'config/permissions';
 import { Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
+import Placeholder from 'components/Placeholder';
 import { GroupsQueryQueryResult } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsHeader.scss';
 
@@ -25,29 +24,22 @@ const GroupsHeader = ({ groupsListQuery }: Props) => {
   return (
     <div className="GroupsHeader">
       <div className="GroupsHeader__left">
-        <ReactPlaceholder
+        <Placeholder
           ready={!loading}
-          customPlaceholder={(
-            <div>
-              <TextRow
-                className="animated-background"
-                style={{ width: '220px', height: '20px' }}
-              />
-            </div>
-          )}
+          rows={[{ width: 220, height: 20 }]}
         >
           <div className="GroupsHeader__title">
             <strong>{totalElements} </strong>
             {I18n.t('TRADING_ENGINE.GROUPS.HEADLINE')}
           </div>
-        </ReactPlaceholder>
+        </Placeholder>
       </div>
 
       <PermissionContent permissions={permissions.WE_TRADING.CREATE_GROUP}>
         <div className="GroupsHeader__right">
           <Button
             onClick={handleCreateClick}
-            commonOutline
+            tertiary
             small
           >
             {I18n.t('TRADING_ENGINE.GROUPS.NEW_GROUP')}

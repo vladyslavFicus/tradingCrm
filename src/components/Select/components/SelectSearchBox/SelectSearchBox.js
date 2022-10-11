@@ -24,11 +24,11 @@ class SelectSearchBox extends PureComponent {
     const { placeholder, query, onChange } = this.props;
 
     return (
-      <div className="select-search-box">
-        <i className="icon icon-search select-search-box__icon-left" />
+      <div className="SelectSearchBox">
+        <i className="icon icon-search SelectSearchBox__icon-left" />
         <input
           type="text"
-          className="form-control"
+          className="SelectSearchBox__input"
           placeholder={placeholder || I18n.t('common.select.default_placeholder')}
           onChange={onChange}
           value={query}
@@ -36,7 +36,7 @@ class SelectSearchBox extends PureComponent {
           tabIndex={-1}
         />
         <If condition={!!query}>
-          <i className="icon icon-times select-search-box__icon-right" onClick={() => onChange(null)} />
+          <i className="icon icon-times SelectSearchBox__icon-right" onClick={() => onChange(null)} />
         </If>
       </div>
     );

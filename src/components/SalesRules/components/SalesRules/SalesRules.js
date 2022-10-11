@@ -4,8 +4,6 @@ import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import classNames from 'classnames';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
@@ -13,9 +11,10 @@ import permissions from 'config/permissions';
 import countries from 'utils/countryList';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
+import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
-import { Button, EditButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -166,16 +165,16 @@ class SalesRules extends PureComponent {
 
   renderRule = ({ uuid, name, createdBy }) => (
     <Fragment>
-      <div className="font-weight-700">
+      <div className="SalesRules__text-primary">
         {name}
       </div>
       <If condition={uuid}>
-        <div className="font-size-11">
+        <div className="SalesRules__uuid SalesRules__text-secondary">
           <Uuid uuid={uuid} uuidPrefix="RL" />
         </div>
       </If>
       <If condition={createdBy}>
-        <div className="font-size-11">
+        <div className="SalesRules__uuid SalesRules__text-secondary">
           <Uuid uuid={createdBy} uuidPrefix="OP" />
         </div>
       </If>
@@ -190,7 +189,7 @@ class SalesRules extends PureComponent {
   }) => ({ [fieldName]: arr }) => (
     <Choose>
       <When condition={arr.length > 0}>
-        <div className="font-weight-700">
+        <div className="SalesRules__text-primary">
           {`${arr.length} `}
           <Choose>
             <When condition={arr.length === 1}>
@@ -201,7 +200,7 @@ class SalesRules extends PureComponent {
             </Otherwise>
           </Choose>
         </div>
-        <div className="font-size-12">
+        <div className="SalesRules__text-secondary">
           {withUpperCase ? arr.join(', ').toUpperCase() : arr.join(', ')}
         </div>
       </When>
@@ -212,7 +211,7 @@ class SalesRules extends PureComponent {
   );
 
   renderPriority = ({ priority }) => (
-    <div className="font-weight-700">
+    <div className="SalesRules__text-primary">
       {priority}
     </div>
   );
@@ -220,7 +219,7 @@ class SalesRules extends PureComponent {
   renderPartner = ({ partners }) => (
     <Choose>
       <When condition={partners.length > 0}>
-        <div className="font-weight-700">
+        <div className="SalesRules__text-primary">
           {`${partners.length} `}
           <Choose>
             <When condition={partners.length === 1}>
@@ -245,12 +244,7 @@ class SalesRules extends PureComponent {
 
   renderActions = ({ uuid }) => (
     <>
-      <Button
-        transparent
-        onClick={() => this.handleDeleteRuleClick(uuid)}
-      >
-        <i className="fa fa-trash btn-transparent color-danger" />
-      </Button>
+      <TrashButton onClick={() => this.handleDeleteRuleClick(uuid)} />
       <EditButton
         className="SalesRules__edit-button"
         onClick={() => this.openUpdateRuleModal(uuid)}
@@ -261,7 +255,7 @@ class SalesRules extends PureComponent {
   renderOperator = ({ operatorSpreads }) => (
     <Choose>
       <When condition={operatorSpreads && operatorSpreads.length > 0}>
-        <div className="font-weight-700">
+        <div className="SalesRules__text-primary">
           {`${operatorSpreads.length} `}
           <Choose>
             <When condition={operatorSpreads.length === 1}>
@@ -293,7 +287,7 @@ class SalesRules extends PureComponent {
           {operatorSpreads.map(({ operator, percentage }) => (
             <If condition={operator}>
               <div key={operator.uuid}>
-                <div className="font-weight-700">
+                <div className="SalesRules__text-primary">
                   <Choose>
                     <When condition={percentage}>
                       <span>{percentage} %</span>
@@ -345,27 +339,23 @@ class SalesRules extends PureComponent {
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
     return (
-      <div className={classNames('SalesRules', { 'no-borders': isTab })}>
+      <div className={classNames('SalesRules', { 'SalesRules--no-borders': isTab })}>
         <div className="SalesRules__header">
-          <ReactPlaceholder
+          <Placeholder
             ready={!isLoadingRules}
-            customPlaceholder={(
-              <div>
-                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-              </div>
-            )}
+            rows={[{ width: 220, height: 20 }]}
           >
             <span>
               <strong>{entities.length} </strong>
               {I18n.t('SALES_RULES.TITLE')}
             </span>
-          </ReactPlaceholder>
+          </Placeholder>
           <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
             <Button
               id="add-rule"
               type="submit"
               small
-              commonOutline
+              tertiary
               onClick={this.openCreateRuleModal}
             >
               {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}

@@ -4,29 +4,28 @@
   &__list {
     border: none;
     border-radius: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0px 5px 25px var(--box-shadow-color);
     padding: 0;
-    top: 100% !important;
     min-width: 250px;
     width: auto;
   }
 
   &-item {
-    display: flex;
+    display: flex !important;
     align-items: center;
     padding: 9px 15px;
     width: 100%;
 
     &:hover {
-      background: #eeeeee;
+      background: var(--navigation-secondary-background);
     }
 
     &:hover:not(.HeaderDepartments-item--current) &__title {
-      color: #000;
+      color: var(--navigation-primary-color);
     }
 
     &--current {
-      display: block;
+      display: block !important;
       padding-right: 30px; // Need to positioning caret
 
       &:hover {
@@ -35,7 +34,7 @@
 
       & .HeaderDepartments-item {
         &__title {
-          color: #fff;
+          color: var(--navigation-primary-color);
           font-size: 15px;
         }
       }
@@ -51,7 +50,7 @@
           }
 
           &__title {
-            color: #fff;
+            color: var(--navigation-primary-color);
           }
         }
       }
@@ -74,29 +73,44 @@
     &__title,
     &__role {
       font-weight: 600;
-      line-height: 1em;;
+      line-height: 1em;
     }
 
     &__title {
-      color: #666;
+      color: var(--text-secondary);
       font-size: 14px;
       transition: color 0.2s ease;
     }
 
     &__role {
-      color: #999;
+      color: var(--navigation-secondary-color);
       font-size: 12px;
       margin-top: 3px;
     }
 
     &__caret {
-      color: #fff;
+      color: var(--navigation-primary-color);
       font-weight: 300;
       opacity: 0.5;
       transition: opacity 0.2s ease, transform 0.2s ease;
       position: absolute;
       top: 18px;
       right: 0;
+    }
+  }
+
+  .dropdown-menu {
+    border-color: var(--dropdown-surface-border);
+    background-color: var(--dropdown-surface-background);
+
+    .dropdown-item {
+      &:hover {
+        background: var(--navigation-secondary-background);
+      }
+
+      &:focus {
+        background: var(--navigation-secondary-background);
+      }
     }
   }
 }

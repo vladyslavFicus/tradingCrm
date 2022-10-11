@@ -5,10 +5,11 @@
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 5px;
+    color: var(--text-primary);
   }
 
   &__input {
-    background-color: #fff;
+    background-color: var(--form-background-default);
     display: flex;
     justify-content: space-between;
     height: 40px;
@@ -20,11 +21,11 @@
       & .DatePicker__input {
         &-left,
         &-right {
-          border-color: #4990e2;
+          border-color: var(--form-border-hover);
         }
 
         &-calendar {
-          color: #aaa;
+          color: var(--form-icon-button-hover);
         }
       }
     }
@@ -34,11 +35,11 @@
       & .DatePicker__input {
         &-left,
         &-right {
-          border-color: #4990e2;
+          border-color: var(--form-border-hover);
         }
 
         &-calendar {
-          color: #aaa;
+          color: var(--form-icon-button-hover);
         }
       }
     }
@@ -48,7 +49,7 @@
       & .DatePicker__input {
         &-left,
         &-right {
-          border-color: #d0011b;
+          border-color: var(--state-colors-danger);
         }
       }
     }
@@ -60,13 +61,13 @@
       & .DatePicker__input {
         &-left,
         &-right {
-          border-color: #cfcfcf;
-          background-color: #f6f6f6;
+          border-color: var(--form-border-disabled);
+          background-color: var(--form-background-disabled);
         }
 
         &-date,
         &-calendar {
-          color: #bec2d5;
+          color: var(--form-color-disabled);
         }
       }
     }
@@ -79,12 +80,12 @@
 
     &-left {
       border-radius: 3px 0 0 3px;
-      border: 1px solid  #cfcfcf;
+      border: 1px solid var(--form-border-default);
       width: calc(100% - 40px);
 
       & input {
         background-color: transparent;
-        color: #4a4a4a;
+        color: 1px solid var(--form-color-default);
         font-size: 15px;
         font-weight: 600;
         letter-spacing: 0.01em;
@@ -95,16 +96,16 @@
         width: 100%;
 
         &::placeholder {
-          color: #9b9b9b;
+          color: var(--form-color-placeholder);
         }
       }
     }
 
     &-right {
       border-radius: 0 3px 3px 0;
-      border: 1px solid #cfcfcf;
+      border: 1px solid var(--form-border-default);
       border-left: none;
-      color: #cfcfcf;
+      color: var(--form-icon-button-default);
       line-height: 42px;
       padding: 0 8px;
       text-align: center;
@@ -113,7 +114,7 @@
       width: 40px;
 
       &:hover {
-        color: #9b9b9b;
+        color: var(--form-color-hover);
       }
     }
 
@@ -122,7 +123,7 @@
     }
 
     &-error {
-      color: #d0021b;
+      color: var(--state-colors-danger);
       font-size: 12px;
       margin-top: 3px;
 
@@ -137,7 +138,7 @@
   }
 
   &__popup {
-    background-color: #fff;
+    background-color: var(--form-background-default);
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 

@@ -28,7 +28,7 @@ class HeaderCalendar extends PureComponent {
             id="id-toggle-button"
             type="button"
           >
-            <i className="fa fa-calendar" />
+            <i className="icon-calendar" />
           </button>
           <Popover
             popperClassName="HeaderCalendar__popper"

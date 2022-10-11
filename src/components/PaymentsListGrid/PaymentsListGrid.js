@@ -3,14 +3,16 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { cloneDeep, set } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { getBrand } from 'config';
+import classNames from 'classnames';
+import { getBrand, getBackofficeBrand } from 'config';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import {
   aggregatorsLabels,
-  tradingTypesLabelsWithColor,
+  tradingTypes,
+  tradingTypesLabels,
 } from 'constants/payment';
-import { Table, Column } from 'components/Table';
+import { AdjustableTable, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -88,10 +90,11 @@ class PaymentsListGrid extends PureComponent {
 
     const { content = [], last = true } = paymentsQuery.data?.payments || {};
     const isLoading = paymentsQuery.loading;
-
+    const columnsOrder = getBackofficeBrand()?.tables?.payments?.columnsOrder;
     return (
       <div className="PaymentsListGrid">
-        <Table
+        <AdjustableTable
+          columnsOrder={columnsOrder}
           stickyFromTop={headerStickyFromTop}
           items={content}
           sorts={state?.sorts}
@@ -101,6 +104,7 @@ class PaymentsListGrid extends PureComponent {
           onSort={this.handleSort}
         >
           <Column
+            name="transactions"
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRANSACTIONS')}
             render={data => (
               <Fragment>
@@ -130,6 +134,7 @@ class PaymentsListGrid extends PureComponent {
           />
           <If condition={!clientView}>
             <Column
+              name="client"
               header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.CLIENT')}
               render={({ playerProfile, language, paymentId }) => (
                 <Choose>
@@ -158,6 +163,7 @@ class PaymentsListGrid extends PureComponent {
             />
           </If>
           <Column
+            name="affiliate"
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AFFILIATE')}
             render={({ partner, playerProfile: { affiliateUuid } }) => (
               <Choose>
@@ -183,6 +189,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <Column
+            name="originalAgent"
             sortBy={withSort && 'agentName'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.ORIGINAL_AGENT')}
             render={({ originalAgent }) => (
@@ -203,6 +210,7 @@ class PaymentsListGrid extends PureComponent {
           />
           <If condition={!clientView}>
             <Column
+              name="country"
               sortBy={withSort && 'playerProfileDocument.country'}
               header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.COUNTRY')}
               render={({ playerProfile: { country } }) => (
@@ -218,29 +226,46 @@ class PaymentsListGrid extends PureComponent {
             />
           </If>
           <Column
+            name="paymentType"
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_TYPE')}
-            render={({ paymentType, externalReference }) => {
-              const { label, color } = tradingTypesLabelsWithColor[paymentType];
-              return (
-                <Fragment>
-                  <div className={`PaymentsListGrid__upper PaymentsListGrid__text-primary ${color}`}>
-                    {I18n.t(label)}
+            render={({ paymentType, externalReference }) => (
+              <Fragment>
+                <div
+                  className={classNames(
+                    'PaymentsListGrid__upper',
+                    'PaymentsListGrid__text-primary',
+                    'PaymentsListGrid__type',
+                    {
+                      'PaymentsListGrid__type--deposit': paymentType === tradingTypes.DEPOSIT,
+                      'PaymentsListGrid__type--withdraw': paymentType === tradingTypes.WITHDRAW,
+                      'PaymentsListGrid__type--interest-rate': paymentType === tradingTypes.INTEREST_RATE,
+                      'PaymentsListGrid__type--demo-deposit': paymentType === tradingTypes.DEMO_DEPOSIT,
+                      'PaymentsListGrid__type--fee': paymentType === tradingTypes.FEE,
+                      'PaymentsListGrid__type--inactivity-fee': paymentType === tradingTypes.INACTIVITY_FEE,
+                      'PaymentsListGrid__type--transfer-in': paymentType === tradingTypes.TRANSFER_IN,
+                      'PaymentsListGrid__type--transfer-out': paymentType === tradingTypes.TRANSFER_OUT,
+                      'PaymentsListGrid__type--credit-in': paymentType === tradingTypes.CREDIT_IN,
+                      'PaymentsListGrid__type--credit-out': paymentType === tradingTypes.CREDIT_OUT,
+                    },
+                  )}
+                >
+                  {I18n.t(tradingTypesLabels[paymentType])}
+                </div>
+                <If condition={externalReference}>
+                  <div className="PaymentsListGrid__text-secondary PaymentsListGrid__upper">
+                    <Uuid
+                      uuid={externalReference}
+                      length={10}
+                      notificationTitle="COMMON.NOTIFICATIONS.COPY_FULL_REFERENCE_ID.TITLE"
+                      notificationMessage="COMMON.NOTIFICATIONS.COPY_FULL_REFERENCE_ID.MESSAGE"
+                    />
                   </div>
-                  <If condition={externalReference}>
-                    <div className="PaymentsListGrid__text-secondary PaymentsListGrid__upper">
-                      <Uuid
-                        uuid={externalReference}
-                        length={10}
-                        notificationTitle="COMMON.NOTIFICATIONS.COPY_FULL_REFERENCE_ID.TITLE"
-                        notificationMessage="COMMON.NOTIFICATIONS.COPY_FULL_REFERENCE_ID.MESSAGE"
-                      />
-                    </div>
-                  </If>
-                </Fragment>
-              );
-            }}
+                </If>
+              </Fragment>
+            )}
           />
           <Column
+            name="amount"
             sortBy={withSort && 'amount'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.AMOUNT')}
             render={({ currency, amount, normalizedAmount, cryptoAmount, cryptoCurrency }) => (
@@ -258,6 +283,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <Column
+            name="tradingAccount"
             sortBy={withSort && 'login'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.TRADING_ACC')}
             render={({ login, platformType, currency }) => (
@@ -272,6 +298,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <Column
+            name="paymentAggregator"
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_AGGREGATOR')}
             render={({ paymentAggregator }) => (
               <Choose>
@@ -287,6 +314,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <Column
+            name="paymentMethod"
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.PAYMENT_METHOD')}
             render={({ paymentMethod, bankName, maskedPan }) => (
               <>
@@ -308,6 +336,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <Column
+            name="creationTime"
             sortBy={withSort && 'creationTime'}
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.DATE_TIME')}
             render={({ creationTime }) => (
@@ -322,6 +351,7 @@ class PaymentsListGrid extends PureComponent {
             )}
           />
           <Column
+            name="status"
             header={I18n.t('CONSTANTS.TRANSACTIONS.GRID_COLUMNS.STATUS')}
             render={({
               status,
@@ -329,8 +359,6 @@ class PaymentsListGrid extends PureComponent {
               modifiedBy,
               creationTime,
               declineReason,
-              withdrawStatus,
-              withdrawalScheduledTime,
               statusChangedAt,
             }) => (
               <PaymentStatus
@@ -340,12 +368,11 @@ class PaymentsListGrid extends PureComponent {
                 modifiedBy={modifiedBy}
                 creationTime={creationTime}
                 statusChangedAt={statusChangedAt}
-                withdrawStatus={withdrawStatus}
-                withdrawalScheduledTime={withdrawalScheduledTime}
               />
             )}
           />
           <Column
+            name="note"
             width={50}
             render={({
               paymentId: targetUUID,
@@ -361,7 +388,7 @@ class PaymentsListGrid extends PureComponent {
               />
             )}
           />
-        </Table>
+        </AdjustableTable>
       </div>
     );
   }

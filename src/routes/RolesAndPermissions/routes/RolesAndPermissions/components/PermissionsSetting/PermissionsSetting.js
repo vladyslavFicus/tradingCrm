@@ -351,11 +351,11 @@ class PermissionsSetting extends PureComponent {
 
           <Button
             className="PermissionsSetting__panel-button-reset"
-            commonOutline
+            tertiary
             disabled={!isDefaultAuthorityQuery.data?.isDefaultAuthority}
             onClick={this.handleResetPermission}
           >
-            <i className="padding-right-10 fa fa-refresh" />
+            <i className="fa fa-refresh" />&nbsp;&nbsp;
             {I18n.t('ROLES_AND_PERMISSIONS.RESET_TO_DEFAULT')}
           </Button>
         </div>
@@ -404,7 +404,7 @@ class PermissionsSetting extends PureComponent {
                   {section.permissions.map(permission => (
                     <AccordionItemPanel
                       key={permission.id}
-                      className="PermissionsSetting__section-actions cursor-pointer"
+                      className="PermissionsSetting__section-actions"
                     >
                       <div className="PermissionsSetting__section-permission-title">
                         {I18n.t(`ROLES_AND_PERMISSIONS.SECTIONS.${section.id}.PERMISSIONS.${permission.id}`)}

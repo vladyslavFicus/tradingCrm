@@ -106,7 +106,7 @@ class PartnerSchedule extends PureComponent {
   renderDay = ({ day }) => (
     <Choose>
       <When condition={day}>
-        <div className="PartnerSchedule__primary">{I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)}</div>
+        <div className="PartnerSchedule__general">{I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)}</div>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -117,7 +117,7 @@ class PartnerSchedule extends PureComponent {
   renderHours = ({ workingHoursFrom, workingHoursTo }) => (
     <Choose>
       <When condition={workingHoursFrom && workingHoursTo}>
-        <div className="PartnerSchedule__primary">
+        <div className="PartnerSchedule__general">
           {`
             ${I18n.t('PARTNERS.SCHEDULE.FROM')} ${moment(workingHoursFrom, 'HH:mm:ss').format('HH:mm')}
             ${I18n.t('PARTNERS.SCHEDULE.TO')} ${moment(workingHoursTo, 'HH:mm:ss').format('HH:mm')}
@@ -133,7 +133,7 @@ class PartnerSchedule extends PureComponent {
   renderLimit = ({ totalLimit }) => (
     <Choose>
       <When condition={totalLimit !== null}>
-        <div className="PartnerSchedule__primary">{totalLimit}</div>
+        <div className="PartnerSchedule__general">{totalLimit}</div>
       </When>
       <Otherwise>
         <span>&mdash;</span>
@@ -144,7 +144,7 @@ class PartnerSchedule extends PureComponent {
   renderCountry = ({ countrySpreads }) => (
     <Choose>
       <When condition={countrySpreads}>
-        <div className="PartnerSchedule__primary">
+        <div className="PartnerSchedule__general">
           {countrySpreads.map(({ country, limit }) => (
             <div className="PartnerSchedule__countrySpreads" key={country}>
               <span>{countryList[country.toUpperCase()]}</span>
@@ -170,12 +170,10 @@ class PartnerSchedule extends PureComponent {
 
   renderActions = value => (
     <Button
-      transparent
+      icon
+      onClick={() => this.triggerEditScheduleModal(value)}
     >
-      <i
-        onClick={() => this.triggerEditScheduleModal(value)}
-        className="font-size-16 cursor-pointer fa fa-edit float-right"
-      />
+      <i className="fa fa-edit" />
     </Button>
   )
 
@@ -207,7 +205,6 @@ class PartnerSchedule extends PureComponent {
                   <Button
                     primary
                     type="submit"
-                    className="pull-right"
                   >
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>

@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
-import { Button } from 'components/UI';
+import { TrashButton } from 'components/UI';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import './UploadingFile.scss';
 
@@ -33,7 +33,7 @@ class UploadingFile extends PureComponent {
 
   renderStatus = (fileData) => {
     let status = (
-      <span className="color-primary">
+      <span>
         {I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADING')} - {fileData.progress}%
       </span>
     );
@@ -42,10 +42,10 @@ class UploadingFile extends PureComponent {
       status = (
         <Choose>
           <When condition={!fileData.error}>
-            <span className="color-success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
+            <span className="UploadingFile__status--success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
           </When>
           <Otherwise>
-            <span className="color-danger">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>
+            <span className="UploadingFile__status--error">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>
           </Otherwise>
         </Choose>
       );
@@ -54,7 +54,7 @@ class UploadingFile extends PureComponent {
     return (
       <>
         <div>{status}</div>
-        <div className="color-default font-size-13">({fileSize(fileData.file.size)})</div>
+        <div>({fileSize(fileData.file.size)})</div>
       </>
     );
   };
@@ -133,13 +133,10 @@ class UploadingFile extends PureComponent {
           {this.renderStatus(fileData)}
         </td>
         <td className="UploadingFile__col">
-          <Button
-            transparent
+          <TrashButton
             className="UploadingFile__removeButton"
             onClick={() => onRemoveFileClick(fileUuid)}
-          >
-            <i className="color-danger fa fa-trash" />
-          </Button>
+          />
         </td>
         <td className="UploadingFile__note">
           {

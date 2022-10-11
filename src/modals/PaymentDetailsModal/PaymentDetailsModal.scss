@@ -20,7 +20,7 @@
   }
 
   &__block {
-    border-right: 1px solid #e8e8e8;
+    border-right: 1px solid var(--divider);
     display: inline-block;
     vertical-align: top;
     padding: 0 15px;
@@ -35,14 +35,14 @@
     }
 
     &-title {
-      color: #666;
+      color: var(--text-secondary);
       font-size: 11px;
       margin-bottom: 3px;
       text-transform: uppercase;
     }
 
     &-label {
-      color: #333;
+      color: var(--text-primary);
       font-weight: 700;
       word-break: break-all;
     }
@@ -53,7 +53,7 @@
 
     &-amount,
     &-payment-status {
-      color: #3366cc;
+      color: var(--active);
       font-size: 20px;
     }
   }
@@ -84,14 +84,14 @@
 .PaymentDetailsModal {
   &__row {
     &--blue {
-      background-color: #f2f4f8;
+      background-color: var(--surface-filters-background);
       margin: 0 -15px;
       display: flex;
       justify-content: center;
     }
 
     &--with-underline {
-      border-bottom: 1px solid #e8e8e8;
+      border-bottom: 1px solid var(--divider);
     }
   }
 
@@ -104,7 +104,7 @@
 
     &-amount {
       &--red {
-        color: #fb434a;
+        color: var(--state-colors-danger);
       }
     }
   }

@@ -1,8 +1,10 @@
 .PartnersGrid {
-  background-color: #fff;
-
   &__name {
     font-weight: 700;
+
+    &:hover {
+      color: var(--accent);
+    }
   }
 
   &__uuid {
@@ -13,7 +15,7 @@
     font-weight: 700;
 
     &--affiliate {
-      color: #46be8a;
+      color: var(--state-colors-success);
     }
   }
 
@@ -33,15 +35,15 @@
       text-transform: uppercase;
 
       &--active {
-        color: #46be8a;
+        color: var(--state-colors-success);
       }
 
       &--inactive {
-        color: #666;
+        color: var(--text-secondary);
       }
 
       &--closed {
-        color: #fb434a;
+        color: var(--state-colors-danger);
       }
     }
 

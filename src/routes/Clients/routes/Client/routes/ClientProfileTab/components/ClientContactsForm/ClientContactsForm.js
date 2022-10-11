@@ -411,7 +411,7 @@ class ClientContactsForm extends PureComponent {
                     <If condition={(phone === values.phone || this.state.phone === values.phone) && phoneVerified}>
                       <Button
                         className="ClientContactsForm__field-button"
-                        verified
+                        primary
                       >
                         <i className="fa fa-check-circle-o" />
                         <span>{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}</span>
@@ -497,7 +497,7 @@ class ClientContactsForm extends PureComponent {
                     <If condition={email === values.email && emailVerified}>
                       <Button
                         className="ClientContactsForm__field-button"
-                        verified
+                        primary
                       >
                         <i className="fa fa-check-circle-o" />
                         <span>{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}</span>

@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import I18n from 'i18n-js';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
 import { Button } from 'components/UI';
+import Placeholder from 'components/Placeholder';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import LeadsUploadResultModal from 'modals/LeadsUploadResultModal';
@@ -63,7 +62,7 @@ class LeadsHeader extends PureComponent {
       header: (
         <>
           <div>{I18n.t('LEADS.LEADS_BULK_MODAL.HEADER')}</div>
-          <div className="font-size-11 color-yellow">
+          <div className="LeadsHeader__modal-subtitle">
             {select.selected} {I18n.t('LEADS.LEADS_SELECTED')}
           </div>
         </>
@@ -110,20 +109,9 @@ class LeadsHeader extends PureComponent {
     return (
       <div className="LeadsHeader">
         <div className="LeadsHeader__left">
-          <ReactPlaceholder
+          <Placeholder
             ready={!leadsQuery.loading}
-            customPlaceholder={(
-              <div>
-                <TextRow
-                  className="animated-background"
-                  style={{ width: '220px', height: '20px' }}
-                />
-                <TextRow
-                  className="animated-background"
-                  style={{ width: '220px', height: '12px' }}
-                />
-              </div>
-            )}
+            rows={[{ width: 220, height: 20 }, { width: 220, height: 12 }]}
           >
             <Choose>
               <When condition={leadsListCount}>
@@ -143,7 +131,7 @@ class LeadsHeader extends PureComponent {
                 </div>
               </Otherwise>
             </Choose>
-          </ReactPlaceholder>
+          </Placeholder>
         </div>
 
         <div className="LeadsHeader__right">
@@ -155,7 +143,7 @@ class LeadsHeader extends PureComponent {
                 </div>
 
                 <Button
-                  commonOutline
+                  tertiary
                   onClick={this.handleOpenRepresentativeModal}
                 >
                   {I18n.t('COMMON.SALES')}
@@ -166,7 +154,7 @@ class LeadsHeader extends PureComponent {
           <PermissionContent permissions={permissions.LEADS.UPLOAD_LEADS_FROM_FILE}>
             <If condition={selectedCount === 0}>
               <Button
-                commonOutline
+                tertiary
                 onClick={this.handleOpenLeadsUploadModal}
               >
                 {I18n.t('COMMON.UPLOAD')}

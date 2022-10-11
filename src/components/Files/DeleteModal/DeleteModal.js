@@ -8,6 +8,7 @@ import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import EventEmitter, { FILE_REMOVED } from 'utils/EventEmitter';
 import DeleteFileMutation from './graphql/DeleteFileMutation';
+import './DeleteModal.scss';
 
 class DeleteModal extends PureComponent {
   static propTypes = {
@@ -53,25 +54,23 @@ class DeleteModal extends PureComponent {
     } = this.props;
 
     return (
-      <Modal className="modal-danger" toggle={onCloseModal} isOpen>
-        <ModalHeader toggle={onCloseModal}>
+      <Modal className="DeleteModal" toggle={onCloseModal} isOpen>
+        <ModalHeader toggle={onCloseModal} className="DeleteModal__header">
           {I18n.t('FILES.DELETE_MODAL.TITLE')}
         </ModalHeader>
         <ModalBody className="text-center">
           <div
-            className="margin-bottom-20 font-weight-700"
             dangerouslySetInnerHTML={{
               __html: I18n.t('FILES.DELETE_MODAL.ACTION_TEXT', {
                 fileName: file.fileName,
               }),
             }}
           />
-          <div className="margin-bottom-20"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
+          <div className="DeleteModal__warning"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
         </ModalBody>
         <ModalFooter>
           <Button
-            commonOutline
-            className="mr-auto"
+            tertiary
             onClick={onCloseModal}
           >
             {I18n.t('COMMON.BUTTONS.CANCEL')}

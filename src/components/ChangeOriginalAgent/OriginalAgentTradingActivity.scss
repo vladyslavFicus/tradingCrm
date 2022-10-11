@@ -1,0 +1,16 @@
+.OriginalAgentTradingActivity {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+
+  &__label {
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--text-primary);
+  }
+
+  &__button {
+    float: right;
+  }
+}

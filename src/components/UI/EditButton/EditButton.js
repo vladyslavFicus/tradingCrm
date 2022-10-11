@@ -21,7 +21,7 @@ class EditButton extends PureComponent {
 
     return (
       <Button
-        transparent
+        icon
         disabled={disabled}
         className={classNames('EditButton', { 'EditButton--disabled': disabled }, className)}
         {...props}

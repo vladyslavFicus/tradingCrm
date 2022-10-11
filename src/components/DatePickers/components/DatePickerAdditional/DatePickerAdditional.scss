@@ -1,6 +1,6 @@
 .DatePickerAdditional {
   padding: 10px 0 0 15px;
-  border-left: 1px solid #eee;
+  border-left: 1px solid var(--divider);
 
   &__items {
     display: flex;
@@ -8,7 +8,7 @@
   }
 
   &__item {
-    color: #000;
+    color: var(--dropdown-options-color-default);
     width: 50%;
     font-size: 15px;
     line-height: 30px;
@@ -21,12 +21,13 @@
       cursor: pointer;
 
       &:hover {
-        background-color: #e4f7ff;
+        background-color: var(--dropdown-options-background-hover);
       }
     }
 
     &--selected {
-      background-color: #D6F1FF;
+      color: var(--dropdown-options-color-focus);
+      background-color: var(--dropdown-options-background-focus);
     }
   }
 }

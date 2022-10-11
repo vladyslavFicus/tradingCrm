@@ -1,5 +1,6 @@
 .SymbolNew {
-  background-color: #fff;
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
 
   &__actions {
     display: flex;
@@ -22,8 +23,8 @@
     top: 48px;
     height: 110px;
     padding: 25px;
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     z-index: 3;
   }
 

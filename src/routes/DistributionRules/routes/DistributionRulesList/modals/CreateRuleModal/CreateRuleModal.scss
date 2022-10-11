@@ -1,6 +1,6 @@
 .CreateRuleModal {
   &__error {
-    color: #fb434a;
+    color: var(--state-colors-danger);
     text-align: center;
     margin-bottom: 10px;
   }

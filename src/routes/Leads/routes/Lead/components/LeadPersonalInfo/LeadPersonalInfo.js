@@ -132,6 +132,7 @@ class LeadPersonalInfo extends PureComponent {
                   permissionsCondition={CONDITIONS.OR}
                 >
                   <Button
+                    tertiary
                     className="LeadPersonalInfo__show-contacts-button"
                     onClick={this.getLeadPhones}
                   >
@@ -161,6 +162,7 @@ class LeadPersonalInfo extends PureComponent {
             additional={(
               <PermissionContent permissions={[permissions.LEAD_PROFILE.FIELD_EMAIL]}>
                 <Button
+                  tertiary
                   className="LeadPersonalInfo__show-contacts-button"
                   onClick={this.getLeadEmail}
                 >

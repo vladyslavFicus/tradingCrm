@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { statuses, statusColorNames, statusesLabels, statusActions } from 'constants/user';
+import { statuses, statusesLabels, statusActions } from 'constants/user';
 import { withRequests } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -99,18 +99,26 @@ class ClientAccountStatus extends PureComponent {
 
     return (
       <div className="ClientAccountStatus__label">
-        <div className={classNames('ClientAccountStatus__status', statusColorNames[type])}>
+        <div
+          className={classNames(
+            'ClientAccountStatus__status', {
+              'ClientAccountStatus__status--verified': type === statuses.VERIFIED,
+              'ClientAccountStatus__status--not-verified': type === statuses.NOT_VERIFIED,
+              'ClientAccountStatus__status--blocked': type === statuses.BLOCKED,
+            },
+          )}
+        >
           {I18n.t(statusesLabels[type])}
         </div>
 
         <If condition={changedAt}>
-          <div className="ClientAccountStatus__secondary">
+          <div className="ClientAccountStatus__additional">
             {I18n.t('COMMON.SINCE', { date: moment.utc(changedAt).local().format('DD.MM.YYYY') })}
           </div>
         </If>
 
         <If condition={changedBy}>
-          <div className="ClientAccountStatus__secondary">
+          <div className="ClientAccountStatus__additional">
             {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={changedBy} uuidPrefix="OP" />
           </div>
         </If>

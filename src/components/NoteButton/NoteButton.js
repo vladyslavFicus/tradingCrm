@@ -26,7 +26,7 @@ class NoteButton extends PureComponent {
   static defaultProps = {
     targetUUID: null,
     targetType: null,
-    className: 'cursor-pointer',
+    className: null,
     message: null,
     note: null,
     preview: false,

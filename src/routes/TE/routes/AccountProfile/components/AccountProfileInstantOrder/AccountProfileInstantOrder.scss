@@ -8,21 +8,26 @@
     padding: 10px;
     z-index: 15;
     cursor: pointer;
-    background: #000;
+    background: var(--navigation-primary-background);
     border-radius: 10px 0 0 10px;
-    box-shadow: -2px 2px 5px #555;
-    fill: #fff;
+    fill: var(--navigation-secondary-color);
 
     &:hover {
-      background: #222;
+      background: var(--navigation-secondary-background);
+      fill: var(--navigation-primary-color);
     }
+  }
+
+  &__drag-container {
+    position: fixed;
+    inset: 0;
   }
 
   &__window {
     width: 800px;
     visibility: hidden;
-    background: #fff;
-    box-shadow: 0 0 8px #888;
+    background: var(--surface-page-background);
+    border: 1px solid var(--surface-page-border);
 
     &--open {
       visibility: visible;
@@ -34,8 +39,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 15px;
-    background: #4a90e2;
-    color: #fff;
+    background: var(--window-header-background-info);
+    color: var(--window-header-color);
     font-size: 16px;
     cursor: move;
   }

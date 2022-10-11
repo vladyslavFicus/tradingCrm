@@ -2,7 +2,7 @@
   border-bottom: 1px dashed transparent;
 
   &:hover {
-    border-bottom: 1px dashed rgba(187, 184, 203, 0.5);
+    border-bottom: 1px dashed var(--divider);
     cursor: pointer;
   }
 
@@ -16,7 +16,7 @@
 
 @keyframes highlights {
   from {
-    background: rgba(176, 235, 191, 0.8);
+    background: var(--accent);
   }
   to {
     background: none;

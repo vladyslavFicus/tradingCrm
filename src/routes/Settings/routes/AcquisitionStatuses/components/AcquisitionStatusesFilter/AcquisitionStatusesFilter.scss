@@ -1,6 +1,6 @@
 .AcquisitionStatusesFilter {
   padding: 20px 25px 40px;
-  background-color: #f2f4f8;
+  background-color: var(--surface-filters-background);
 
   &__fields {
     display: grid;

@@ -1,11 +1,9 @@
 .FiltersToggler {
-  background-color: #f2f4f8;
+  background-color: var(--surface-filters-background);
   height: auto;
   width: 100%;
 
   &--collapsed {
-    background-color: #fff;
-
     & .FiltersToggler__actions {
       padding-bottom: 20px;
     }
@@ -27,23 +25,18 @@
     justify-content: center;
     width: 39px;
     height: 39px;
-    background-color: #ffffff;
-    border: 1px solid #cfcfcf;
-    border-radius: 3px;
-    cursor: pointer;
+    padding: 0;
     z-index: 2;
 
     &:hover {
-      background-color: #f9fcfe;
-
       & .FiltersToggler__icon {
-        fill: #5187bd;
+        fill: var(--button-tertiary-color-hover);
       }
     }
   }
 
   &__icon {
-    fill: #cfcfcf;
+    fill: var(--button-tertiary-color-default);
     transition: color .2s ease;
     height: 17px;
     width: 8px;

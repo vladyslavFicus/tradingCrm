@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { getBackofficeBrand } from 'config';
+import { getCrmBrandStaticFileUrl } from 'config';
 import { withRequests } from 'apollo';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
@@ -10,7 +10,6 @@ import BrandItem from 'components/BrandItem';
 import Copyrights from 'components/Copyrights';
 import Preloader from 'components/Preloader';
 import BrandsQuery from './graphql/BrandsQuery';
-import { getMappedBrands } from './util';
 import './ChooseBrands.scss';
 
 class ChooseBrands extends PureComponent {
@@ -24,34 +23,25 @@ class ChooseBrands extends PureComponent {
   }
 
   componentDidUpdate() {
-    const brands = this.getBrands();
+    const brands = this.props.brandsQuery?.data?.brandToAuthorities || [];
 
     if (brands.length === 1) {
       this.handleSelectBrand(brands[0]);
     }
   }
 
-  getBrands = () => {
-    const brandToAuthorities = this.props.brandsQuery?.data?.brandToAuthorities || {};
-    const brands = this.props.brandsQuery?.data?.brands || [];
-
-    return getMappedBrands(brandToAuthorities, brands);
-  };
-
   handleSelectBrand = (brand) => {
-    const { storage, onChosen } = this.props;
+    const { brandsQuery, storage, onChosen } = this.props;
 
     storage.set('brand', brand);
 
-    onChosen(brand, this.getBrands());
+    onChosen(brand, brandsQuery?.data?.brandToAuthorities);
   }
 
   render() {
     const { brandsQuery } = this.props;
 
-    const backofficeLogo = getBackofficeBrand().themeConfig.logo;
-
-    const brands = this.getBrands();
+    const brands = brandsQuery?.data?.brandToAuthorities || [];
 
     if (brandsQuery.loading) {
       return <Preloader />;
@@ -60,9 +50,11 @@ class ChooseBrands extends PureComponent {
     return (
       <div className="ChooseBrands">
         <div className="ChooseBrands__logo">
-          <If condition={backofficeLogo}>
-            <img src={backofficeLogo} alt="logo" />
-          </If>
+          <img
+            alt="logo"
+            src={getCrmBrandStaticFileUrl('assets/logo.svg')}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
         </div>
 
         <div>

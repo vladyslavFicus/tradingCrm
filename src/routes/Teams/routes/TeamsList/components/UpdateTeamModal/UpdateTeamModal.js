@@ -94,7 +94,7 @@ class UpdateTeamModal extends PureComponent {
                 <Button
                   onClick={onCloseModal}
                   className="UpdateTeamModal__button"
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

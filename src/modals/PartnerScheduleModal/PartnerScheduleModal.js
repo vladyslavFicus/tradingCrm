@@ -9,7 +9,7 @@ import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';
 import { attributeLabels } from './constants';
@@ -31,7 +31,6 @@ class PartnerScheduleModal extends PureComponent {
     activated: PropTypes.bool.isRequired,
     day: PropTypes.string.isRequired,
     affiliateUuid: PropTypes.string.isRequired,
-    formError: PropTypes.string,
     workingHoursFrom: PropTypes.string,
     workingHoursTo: PropTypes.string,
     totalLimit: PropTypes.number,
@@ -44,7 +43,6 @@ class PartnerScheduleModal extends PureComponent {
   static defaultProps = {
     workingHoursFrom: '',
     workingHoursTo: '',
-    formError: '',
     totalLimit: 0,
   };
 
@@ -135,7 +133,6 @@ class PartnerScheduleModal extends PureComponent {
     const {
       onCloseModal,
       isOpen,
-      formError,
       day,
       workingHoursFrom,
       workingHoursTo,
@@ -159,7 +156,6 @@ class PartnerScheduleModal extends PureComponent {
         >
           {(
             {
-              errors,
               dirty,
               isValid,
               isSubmitting,
@@ -175,14 +171,9 @@ class PartnerScheduleModal extends PureComponent {
                 {`${I18n.t(`PARTNERS.SCHEDULE.WEEK.${day}`)} ${I18n.t('PARTNERS.MODALS.SCHEDULE.TITLE')}`}
               </ModalHeader>
               <ModalBody>
-                <p className="margin-bottom-15 text-center">
+                <p className="PartnerScheduleModal__description">
                   {I18n.t('PARTNERS.MODALS.SCHEDULE.MESSAGE')}
                 </p>
-                <If condition={formError || (errors && errors.submit)}>
-                  <div className="mb-2 text-center color-danger PartnerScheduleModal__message-error">
-                    {formError || errors.submit}
-                  </div>
-                </If>
                 <Field
                   component={FormikTimeRangeField}
                   fieldsNames={{
@@ -207,11 +198,14 @@ class PartnerScheduleModal extends PureComponent {
                     name="countrySpreads"
                     render={arrayHelpers => (
                       <Fragment>
+                        <div className="PartnerScheduleModal__spread">
+                          <div className="PartnerScheduleModal__label">{I18n.t(attributeLabels.country)}</div>
+                          <div className="PartnerScheduleModal__label">{I18n.t(attributeLabels.countryLimit)}</div>
+                        </div>
                         {countrySpreads.map(({ country }, index) => (
-                          <Fragment key={index}>
+                          <div className="PartnerScheduleModal__spread" key={index}>
                             <Field
                               name={`countrySpreads[${index}].country`}
-                              label={index === 0 ? I18n.t(attributeLabels.country) : ''}
                               component={FormikSelectField}
                               customOnChange={value => this.onHandleSelect(
                                 index,
@@ -220,7 +214,6 @@ class PartnerScheduleModal extends PureComponent {
                                 setFieldValue,
                                 arrayHelpers,
                               )}
-                              className="col-7"
                               disabled={isSubmitting}
                               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                               searchable
@@ -245,18 +238,16 @@ class PartnerScheduleModal extends PureComponent {
                               type="number"
                               min={0}
                               placeholder={I18n.t(attributeLabels.countryLimit)}
-                              label={index === 0 ? I18n.t(attributeLabels.countryLimit) : ''}
                               disabled={isSubmitting || !countrySpreads[index]}
                               component={FormikInputField}
                               className={
-                                classNames('col-4', {
+                                classNames({
                                   'input--has-error': limitError,
                                 })
                               }
                             />
                             <If condition={selectedCountries.length > 0 && selectedCountries.length !== index}>
-                              <Button
-                                transparent
+                              <TrashButton
                                 className="PartnerScheduleModal__button"
                                 onClick={() => {
                                   arrayHelpers.remove(index);
@@ -266,27 +257,23 @@ class PartnerScheduleModal extends PureComponent {
                                     selectedCountries,
                                   });
                                 }}
-                              >
-                                <i className="fa fa-trash btn-transparent color-danger" />
-                              </Button>
+                              />
                             </If>
-                          </Fragment>
+                          </div>
                         ))}
                       </Fragment>
                     )}
                   />
                   <If condition={limitError}>
-                    <div className="PartnerScheduleModal__limit-error color-danger">
-                      <div className="col-7">
-                        {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { currentLimitError })}
-                      </div>
+                    <div className="PartnerScheduleModal__limit-error">
+                      {I18n.t('PARTNERS.MODALS.SCHEDULE.LIMIT_ERROR', { currentLimitError })}
                     </div>
                   </If>
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button
-                  commonOutline
+                  tertiary
                   onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}

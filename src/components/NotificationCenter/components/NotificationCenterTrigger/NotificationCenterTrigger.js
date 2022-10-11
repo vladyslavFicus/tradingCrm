@@ -6,7 +6,6 @@ import { withRequests } from 'apollo';
 import { Button } from 'components/UI';
 import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import NotificationCenterUnreadQuery from '../../graphql/NotificationCenterUnreadQuery';
-import { ReactComponent as Icon } from './icon.svg';
 import './NotificationCenterTrigger.scss';
 
 class NotificationCenterTrigger extends PureComponent {
@@ -44,7 +43,7 @@ class NotificationCenterTrigger extends PureComponent {
         })}
         {...props}
       >
-        <Icon className="NotificationCenterTrigger__icon" />
+        <i className="icon-notifications NotificationCenterTrigger__icon" />
       </Button>
     );
   }

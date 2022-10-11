@@ -404,7 +404,7 @@ class RepresentativeUpdateModal extends PureComponent {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button onClick={onCloseModal} commonOutline>
+                  <Button onClick={onCloseModal} tertiary>
                     {I18n.t('COMMON.BUTTONS.CANCEL')}
                   </Button>
                   <Button

@@ -14,22 +14,4 @@
       margin-right: 0;
     }
   }
-
-  &__button--primary {
-    color: #5187bd;
-
-    &:hover {
-      border-color: #4085de;
-      color: #0190da;
-    }
-  }
-
-  &__button--danger {
-    color: #bd5151;
-
-    &:hover {
-      border-color: #fb434a;
-      color: #fb434a;
-    }
-  }
 }

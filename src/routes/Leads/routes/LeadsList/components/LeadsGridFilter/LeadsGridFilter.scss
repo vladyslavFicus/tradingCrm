@@ -1,6 +1,6 @@
 .LeadsGridFilter {
   &__form {
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
     padding: 20px 25px 35px;
     display: flex;
     align-items: flex-end;
@@ -37,6 +37,12 @@
     grid-column: span 2;
   }
 
+  &__select-item {
+    &--inactive {
+      color: var(--form-color-disabled) !important;
+    }
+  }
+
   &__date-range {
     grid-column: span 4;
   }
@@ -47,7 +53,7 @@
 
   &__buttons {
     text-align: right;
-    width: 100%;;
+    width: 100%;
   }
 
   &__button {

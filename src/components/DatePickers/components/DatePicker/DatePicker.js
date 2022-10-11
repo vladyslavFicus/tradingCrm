@@ -372,7 +372,7 @@ class DatePicker extends PureComponent {
                   <div className="DatePicker__popup-buttons">
                     <If condition={withConfirmation}>
                       <Button
-                        commonOutline
+                        tertiary
                         className="DatePicker__popup-button"
                         onClick={this.handleCancel}
                       >

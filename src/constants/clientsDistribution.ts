@@ -6,15 +6,9 @@ const statuses = keyMirror({
   INACTIVE: null,
 });
 
-const clientDistributionStatuses: Record<DistributionRuleStatuses, { label: string, color: string }> = {
-  [statuses.ACTIVE]: {
-    label: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
-    color: 'color-success',
-  },
-  [statuses.INACTIVE]: {
-    label: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
-    color: 'color-default',
-  },
+const clientDistributionStatuses: Record<DistributionRuleStatuses, string> = {
+  [statuses.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
+  [statuses.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };
 
 const statusesLabels: Record<DistributionRuleStatuses, string> = {

@@ -8,6 +8,7 @@ import { createValidator } from 'utils/validator';
 import EventEmitter, { FILE_CHANGED } from 'utils/EventEmitter';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
+import './RenameModal.scss';
 
 class RenameModal extends PureComponent {
   static propTypes = {
@@ -55,7 +56,7 @@ class RenameModal extends PureComponent {
     } = this.props;
 
     return (
-      <Modal className="modal-danger" toggle={onCloseModal} isOpen>
+      <Modal className="RenameModal" toggle={onCloseModal} isOpen>
         <Formik
           initialValues={{}}
           validate={createValidator({
@@ -64,7 +65,7 @@ class RenameModal extends PureComponent {
           onSubmit={this.onSubmit}
         >
           <Form>
-            <ModalHeader toggle={onCloseModal}>
+            <ModalHeader toggle={onCloseModal} className="RenameModal__header">
               {I18n.t('FILES.RENAME_MODAL.TITLE')}
             </ModalHeader>
             <ModalBody className="text-center">
@@ -79,7 +80,7 @@ class RenameModal extends PureComponent {
             </ModalBody>
             <ModalFooter>
               <Button
-                commonOutline
+                tertiary
                 className="mr-auto"
                 onClick={onCloseModal}
               >

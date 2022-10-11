@@ -194,7 +194,7 @@ const GroupSecurityCustomizationModal = ({
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
-                commonOutline
+                tertiary
               >
                 {I18n.t('COMMON.CANCEL')}
               </Button>

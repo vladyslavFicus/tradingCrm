@@ -127,7 +127,7 @@ const HolidayNewSymbolModal = (props: Props) => {
                 <ModalFooter>
                   <Button
                     onClick={onCloseModal}
-                    commonOutline
+                    tertiary
                   >
                     {I18n.t('COMMON.CANCEL')}
                   </Button>

@@ -190,7 +190,7 @@ class TradingAccountAddModal extends PureComponent {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  commonOutline
+                  tertiary
                   onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.CANCEL')}

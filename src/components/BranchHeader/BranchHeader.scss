@@ -1,6 +1,6 @@
 .BranchHeader {
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  background-color: var(--surface-page-background);
+  border-bottom: 1px solid var(--divider);
   padding: 12px 25px;
   display: flex;
   align-items: center;
@@ -13,7 +13,7 @@
     }
 
     &-uuid {
-      color: #827ca1;
+      color: var(--text-tertiary);
     }
   }
 
@@ -30,7 +30,7 @@
       transition: color 0.2s ease;
 
       &:hover {
-        color: #0267cc;
+        color: var(--link-hover);
       }
     }
   }

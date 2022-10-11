@@ -8,7 +8,7 @@ import { LevelType, Modal, Notify, Sort, State, TableSelection } from 'types';
 import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import Button from 'components/UI/Button';
+import { Button, TrashButton, EditButton } from 'components/UI';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
@@ -152,22 +152,20 @@ const IpWhitelistGrid = (props: Props) => {
   const actionsColumnRender = (item: IpWhitelistAddress) => (
     <div className="IpWhitelistGrid__cell-primary">
       <PermissionContent permissions={permissions.IP_WHITELIST.DELETE_IP_ADDRESS}>
-
-        <i
+        <TrashButton
+          lassName="IpWhitelistGrid__action-icon"
           onClick={() => deleteModal.show({
             onSubmit: handleDeleteIp(item),
             modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
             actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.ACTION_TEXT', { ip: item.ip }),
             submitButtonLabel: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.DELETE'),
           })}
-          className="IpWhitelistGrid__action-icon fa fa-trash color-danger"
         />
-
       </PermissionContent>
       <PermissionContent permissions={permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION}>
-        <i
+        <EditButton
+          className="IpWhitelistGrid__action-icon"
           onClick={() => updateDescriptionModal.show({ item, onSuccess: ipWhitelistQuery.refetch })}
-          className="IpWhitelistGrid__action-icon fa fa-edit"
         />
       </PermissionContent>
     </div>
@@ -214,6 +212,7 @@ const IpWhitelistGrid = (props: Props) => {
         <PermissionContent permissions={permissions.IP_WHITELIST.ADD_IP_ADDRESS}>
           <div className="IpWhitelistGrid__buttons-container">
             <Button
+              secondary
               className="IpWhitelistGrid__header-button"
               onClick={() => addAddressModal.show({ onSuccess: ipWhitelistQuery.refetch })}
               type="button"
@@ -222,6 +221,7 @@ const IpWhitelistGrid = (props: Props) => {
             </Button>
             <If condition={!!selected?.selected}>
               <Button
+                danger
                 className="IpWhitelistGrid__header-button"
                 onClick={() => deleteModal.show({
                   onSubmit: handleDeleteManyIps,

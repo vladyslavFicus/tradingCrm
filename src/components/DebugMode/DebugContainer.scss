@@ -4,16 +4,16 @@
   font-weight: normal;
   padding: 3px;
   border-radius: 5px;
-  border: 1px solid #0068ff;
+  border: 1px solid  var(--accent);
 
   &:before {
     position: absolute;
     content: 'Debug';
-    color: #fff;
+    color: var(--state-colors-content);
     border-bottom-left-radius: 5px;
     border-top-right-radius: 3px;
     padding: 2px 6px;
-    background-color: #0068ff;
+    background-color: var(--accent);
     top: 0;
     right: 0;
   }

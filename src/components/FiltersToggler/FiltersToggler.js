@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { InView } from 'react-intersection-observer';
+import { Button } from 'components/UI';
 import EventEmitter, {
   FILTERS_TOGGLER_COLLAPSED,
   FILTERS_TOGGLER_IN_VIEWPORT,
@@ -77,12 +78,13 @@ class FiltersToggler extends PureComponent {
       >
         <If condition={!hideButton}>
           <div className="FiltersToggler__actions">
-            <div
+            <Button
+              tertiary
               className="FiltersToggler__button"
               onClick={this.handleCollapse}
             >
               <SwitcherIcon className="FiltersToggler__icon" />
-            </div>
+            </Button>
           </div>
         </If>
 

@@ -13,18 +13,18 @@
 
   &__headline {
     font: 600 20px/27px 'Open Sans', Arial, sans-serif;
-    color: #333333;
+    color: var(--text-primary);
   }
 
   &__subline {
     font: 600 14px/19px 'Open Sans', Arial, sans-serif;
-    color: #5187bd;
+    color: var(--accent);
   }
 
   &__form {
     flex-shrink: 0;
     padding: 35px 20px 30px;
-    background-color: #f0f2f7;
+    background-color: var(--surface-filters-background);
   }
 
   &__table {
@@ -46,7 +46,7 @@
   align-items: center;
 
   &__title {
-    color: #9b9b9b;
+    color: var(--text-secondary);
     font-size: 13px;
     font-weight: 600;
   }
@@ -61,12 +61,11 @@
       top: 48%;
       width: 19px;
       height: 19px;
-      box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 5px 25px var(--box-shadow-color);
       transition: left .15s ease-in-out;
     }
 
     &.on {
-      background: linear-gradient(90deg, #4A90E2 0%, #24BDEE 100%), #FFF;
 
       .switch-toggle {
         left: 23px;

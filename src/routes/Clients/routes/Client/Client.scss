@@ -1,11 +1,12 @@
 .Client {
-  background-color: #fff;
+  background-color: var(--surface-page-background);
   margin: 0 auto;
   min-width: 960px;
+  border: 1px solid var(--surface-page-border);
 
   &__content {
     padding-bottom: 50px;
-    background: linear-gradient(180deg,#fff,#fff 0,#f8f8f8 100%,#f8f8f8 0);
+    background: var(--surface-gradient-background);
   }
 
   &__info {
@@ -14,7 +15,7 @@
 
     // # needs to add right border to all imported blocks in info section
     & > *:not(:last-child) {
-      border-right: 1px solid #dfe4ed;
+      border-right: 1px solid var(--divider);
     }
   }
 

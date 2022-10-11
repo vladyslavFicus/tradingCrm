@@ -1,4 +1,6 @@
 .DistributionRulesList {
+  border: 1px solid var(--surface-page-border);
+
   &__header {
     display: flex;
     align-items: center;
@@ -6,18 +8,30 @@
     position: sticky;
     top: 47px;
     padding: 25px;
-    background-color: #fff;
-    border-bottom: 1px solid #dfe4ed;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
     font-size: 20px;
     z-index: 4;
   }
 
-  &__primary {
+  &__general {
     font-weight: 700;
   }
 
-  &__secondary {
+  &__additional {
     font-size: 11px;
+  }
+
+  &__status {
+    text-transform: uppercase;
+
+    &--active {
+      color: var(--state-colors-success);
+    }
+
+    &--inactive {
+      color: var(--state-colors-none);
+    }
   }
 
   &__action {
@@ -27,8 +41,9 @@
   }
 
   &__actions-icon {
+    fill: var(--state-colors-none);
     &:hover {
-      fill: #4990e2;
+      fill: var(--state-colors-info);
     }
   }
 

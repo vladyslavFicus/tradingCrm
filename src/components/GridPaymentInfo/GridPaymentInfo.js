@@ -52,7 +52,7 @@ class GridPaymentInfo extends PureComponent {
             {shortify(paymentId, 'TA')}
           </Badge>
         </div>
-        <div className="font-size-11">
+        <div className="GridPaymentInfo__additional">
           {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={createdBy || paymentId} />
         </div>

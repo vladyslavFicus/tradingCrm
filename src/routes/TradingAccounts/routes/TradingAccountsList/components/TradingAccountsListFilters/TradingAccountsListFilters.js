@@ -66,13 +66,13 @@ class TradingAccountsListFilters extends PureComponent {
           values,
           dirty,
         }) => (
-          <Form className="filter__form">
-            <div className="filter__form-inputs">
+          <Form className="TradingAccountsListFilters__form">
+            <div className="TradingAccountsListFilters__fields">
               <Field
                 name="searchKeyword"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.SEARCH_BY')}
                 placeholder={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
-                className="form-group filter-row__big"
+                className="TradingAccountsListFilters__field"
                 component={FormikInputField}
                 addition={<i className="icon icon-search" />}
                 withFocus
@@ -81,7 +81,7 @@ class TradingAccountsListFilters extends PureComponent {
                 name="accountType"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.ACCOUNT_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="form-group filter-row__medium"
+                className="TradingAccountsListFilters__field"
                 component={FormikSelectField}
                 withAnyOption
                 withFocus
@@ -97,7 +97,7 @@ class TradingAccountsListFilters extends PureComponent {
                   name="platformType"
                   label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.PLATFORM_TYPE')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                  className="form-group filter-row__medium"
+                  className="TradingAccountsListFilters__field"
                   component={FormikSelectField}
                   withAnyOption
                   withFocus
@@ -111,7 +111,7 @@ class TradingAccountsListFilters extends PureComponent {
                 name="archived"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.STATUS')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                className="form-group filter-row__medium"
+                className="TradingAccountsListFilters__field"
                 component={FormikSelectField}
                 withAnyOption
                 withFocus

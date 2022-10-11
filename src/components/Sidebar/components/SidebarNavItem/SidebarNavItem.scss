@@ -12,16 +12,17 @@
     background: none;
     font-size: 15px;
     line-height: normal;
-    color: #ccc;
+    color: var(--navigation-secondary-color);
     transition: color .175s linear;
     cursor: pointer;
+    
     &:focus,
     &:hover {
-      color: #fff;
+      color: var(--navigation-primary-color);
     }
 
     &--active {
-      color: #fff;
+      color: var(--navigation-primary-color);
       font-weight: 600;
     }
   }
@@ -34,9 +35,9 @@
   }
 
   &__icon {
-    flex: 0 0 55px;
+    flex: 0 0 60px;
     display: inline-block;
-    width: 55px;
+    width: 60px;
     text-align: center;
     font-size: 19px;
 
@@ -59,10 +60,7 @@
   }
 
   &__arrow {
-    flex: 0 0 30px;
-    display: inline-block;
-    width: 30px;
-    text-align: center;
-    font-size: 4px;
+    margin-right: 15px;
+    font-size: 10px;
   }
 }

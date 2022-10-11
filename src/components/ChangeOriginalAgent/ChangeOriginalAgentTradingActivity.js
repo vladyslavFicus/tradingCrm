@@ -9,6 +9,7 @@ import { withRequests } from 'apollo';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import { OperatorsQuery, ChangeOriginalAgentTradingActivityMutation } from './graphql';
+import './OriginalAgentTradingActivity.scss';
 
 class ChangeOriginalAgent extends PureComponent {
   static propTypes = {
@@ -62,8 +63,8 @@ class ChangeOriginalAgent extends PureComponent {
     const operatorsList = get(operators, 'data.operators.content') || [];
 
     return (
-      <div className="col">
-        <div className="modal-tab-label">
+      <div className="OriginalAgentTradingActivity">
+        <div className="OriginalAgentTradingActivity__label">
           {I18n.t('CHANGE_ORIGINAL_AGENT.TITLE')}
         </div>
         <Formik
@@ -73,6 +74,7 @@ class ChangeOriginalAgent extends PureComponent {
           {({ isSubmitting, dirty }) => (
             <Form>
               <Field
+                searchable
                 name="agentId"
                 component={FormikSelectField}
                 disabled={loading}
@@ -84,11 +86,10 @@ class ChangeOriginalAgent extends PureComponent {
                 ))}
               </Field>
               <Button
-                small
                 primary
-                className="pull-right"
                 type="submit"
                 disabled={!dirty || isSubmitting}
+                className="OriginalAgentTradingActivity__button"
               >
                 {I18n.t('COMMON.SAVE')}
               </Button>

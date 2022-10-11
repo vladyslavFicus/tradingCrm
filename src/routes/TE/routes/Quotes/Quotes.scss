@@ -1,5 +1,5 @@
 .Quotes {
-  border: 1px solid #dfe4ed;
+  border: 1px solid var(--divider);
 
   &__header {
     display: flex;
@@ -8,7 +8,7 @@
     position: sticky;
     top: 47px;
     padding: 25px;
-    background-color: #fff;
+    background-color: var(--surface-page-background);
     font-size: 20px;
     z-index: 3;
   }
@@ -17,11 +17,6 @@
     display: flex;
     align-items: center;
     font-weight: 700;
-  }
-
-  &__cell-active {
-    opacity: 1;
-    fill: #5187bd;
   }
 
   &__cell-favroite {
@@ -33,12 +28,23 @@
   }
 
   &__cell-icon {
-      fill: #7f7f7f;
-      opacity: 0.3;
+    opacity: 0.3;
 
-      &:hover {
-        opacity: 1;
-        fill: #5187bd;
-      }
+    path {
+      fill: var(--accent);
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+  
+  &__cell-active {
+    opacity: 1;
+    fill: var(--accent);
+    
+    path {
+      fill: var(--accent);
+    }
   }
 }

@@ -30,7 +30,7 @@ class FieldLabel extends PureComponent {
             </div>
           </When>
           <Otherwise>
-            <label>{label}</label>
+            <label className={className}>{label}</label>
           </Otherwise>
         </Choose>
       </If>

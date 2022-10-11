@@ -1,21 +1,30 @@
-.select-search-box {
-  background-color: #eee;
-  border-left: 1px solid #9b9b9b;
-  border-right: 1px solid #9b9b9b;
+.SelectSearchBox {
+  background-color: var(--form-background-default);
+  border-left: 1px solid var(--form-border-default);
+  border-right: 1px solid var(--form-border-default);
   padding: 10px 5px;
-
   position: relative;
 
-  input {
+  &__input {
+    width: 100%;
+    border: 1px solid  var(--form-border-default);
+    background-color: var(--form-background-default);
+    border-radius: 3px;
+    color: var(--form-color-default);
     font-size: 13px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     padding-left: 29px;
     padding-right: 25px;
+    height: 40px;
 
-    height: 29px;
+    &:focus {
+      border-color: var(--form-border-focus);
+    }
   }
 
   i {
-    color: #cfcfcf;
+    color: var(--form-icon-button-default);
     font-size: 13px;
 
     position: absolute;

@@ -79,7 +79,7 @@ class ClientTradingAccountsTab extends PureComponent {
           <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
             <Button
               onClick={this.showTradingAccountAddModal}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('CLIENT_PROFILE.ACCOUNTS.ADD_TRADING_ACC')}

@@ -2,6 +2,7 @@
   &__cell {
     &-main-value {
       font-weight: 700;
+      color: var(--text-primary);
 
       &--upper {
         text-transform: uppercase;
@@ -26,6 +27,38 @@
       &:last-child {
         margin-right: 0;
       }
+    }
+  }
+
+  &__leverage-status {
+    &--pending {
+      color: var(--state-colors-info);
+    }
+
+    &--completed {
+      color: var(--state-colors-success);
+    }
+
+    &--canceled {
+      color: var(--state-colors-warning);
+    }
+
+    &--rejected {
+      color: var(--state-colors-danger);
+    }
+
+    &--failed {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__status {
+    &--enabled {
+      color: var(--state-colors-success);
+    }
+
+    &--disabled {
+      color: var(--state-colors-danger);
     }
   }
 }

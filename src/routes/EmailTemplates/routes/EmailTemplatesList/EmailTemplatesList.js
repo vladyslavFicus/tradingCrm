@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import ReactPlaceholder from 'react-placeholder';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import { withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
+import { TrashButton, Button } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
@@ -16,14 +15,12 @@ import './EmailTemplatesList.scss';
 class EmailTemplatesList extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    loading: PropTypes.bool,
     error: PropTypes.bool,
     emailTemplatesQuery: PropTypes.object.isRequired,
     notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    loading: false,
     error: false,
   };
 
@@ -37,25 +34,16 @@ class EmailTemplatesList extends PureComponent {
 
   renderTemplate = ({ id, name }) => (
     <div
-      className="EmailTemplatesList__primary EmailTemplatesList__primary--pointer"
+      className="EmailTemplatesList__general EmailTemplatesList__general--pointer"
       onClick={() => this.handleTemplateClick(id)}
     >
       {name}
     </div>
   );
 
-  renderSubject = ({ subject }) => <div className="EmailTemplatesList__primary">{subject}</div>;
+  renderSubject = ({ subject }) => <div className="EmailTemplatesList__general">{subject}</div>;
 
-  renderRemoveIcon = ({ id }) => (
-    <button
-      type="button"
-      className="fa fa-trash color-danger"
-      onClick={(e) => {
-        e.stopPropagation();
-        this.handleDeleteTemplateClick(id);
-      }}
-    />
-  );
+  renderRemoveIcon = ({ id }) => <TrashButton onClick={() => this.handleDeleteTemplateClick(id)} />;
 
   handleDeleteTemplateClick = async (id) => {
     const { emailTemplatesQuery, emailTemplateDeleteMutation, notify } = this.props;
@@ -80,42 +68,33 @@ class EmailTemplatesList extends PureComponent {
   };
 
   render() {
-    const { loading, error, emailTemplatesQuery } = this.props;
+    const { error, emailTemplatesQuery } = this.props;
 
     const entities = get(emailTemplatesQuery, 'data.emailTemplates') || [];
 
     return (
       <div className="EmailTemplatesList">
         <div className="EmailTemplatesList__header">
-          <ReactPlaceholder
-            ready={!loading}
-            customPlaceholder={(
-              <div>
-                <TextRow className="animated-background" style={{ width: '220px', height: '20px' }} />
-                <TextRow className="animated-background" style={{ width: '220px', height: '12px' }} />
-              </div>
-            )}
-          >
-            <span className="EmailTemplatesList__header-title">
-              <b>{entities.length}</b> {I18n.t('EMAILS.EMAIL_TEMPLATES.PLACEHOLDER')}
-            </span>
-          </ReactPlaceholder>
+          <span className="EmailTemplatesList__header-title">
+            <b>{entities.length}</b> {I18n.t('EMAILS.EMAIL_TEMPLATES.PLACEHOLDER')}
+          </span>
           <PermissionContent permissions={permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE}>
-            <button
+            <Button
               className="EmailTemplatesList__header-button"
               onClick={this.triggerCreateEmailTemplateModal}
               disabled={error}
               type="button"
+              tertiary
             >
               {I18n.t('EMAILS.EMAIL_TEMPLATES.ADD_TEMPLATE')}
-            </button>
+            </Button>
           </PermissionContent>
         </div>
 
         <Table
           stickyFromTop={126}
           items={entities}
-          loading={loading}
+          loading={emailTemplatesQuery.loading}
         >
           <Column
             header={I18n.t('EMAILS.EMAIL_TEMPLATES.GRID_HEADER.TEMPLATE')}

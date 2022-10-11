@@ -24,21 +24,21 @@
     }
 
     &-added {
-      color: #46BE8A
+      color: var(--state-colors-success);
     }
 
     &-removed {
       text-decoration: line-through;
-      color: #fb434a;
+      color: var(--state-colors-danger);
     }
 
     &-comma {
-      color: #fb434a;
+      color: var(--state-colors-danger);
     }
   }
 
   &__arrow {
-    color: #46BE8A;
+    color: var(--state-colors-success);
     font-weight: bolder;
   }
 
@@ -47,7 +47,7 @@
      margin: 5px 0;
      padding: 2px;
      text-align: center;
-     border: 2px dashed #46BE8A;
+     border: 2px dashed var(--state-colors-success);
      text-transform: uppercase;
    }
 }

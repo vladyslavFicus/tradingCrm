@@ -5,6 +5,30 @@
   justify-content: space-between;
   border: none;
   color: inherit;
+  background-color: transparent;
+  box-shadow: none;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &__icon {
+    display: block;
+    line-height: 1;
+    fill: var(--button-icon-button-default);
+  }
+
+  &:hover &__icon {
+    fill: var(--button-icon-button-hover);
+  }
+
+  &:focus &__icon {
+    fill: var(--button-icon-button-focus);
+  }
+
+  &:disabled &__icon {
+    fill: var(--button-icon-button-disabled);
+  }
 
   &__icon {
     display: block;

@@ -99,7 +99,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
         <Button
           disabled={archived}
           onClick={handleNewGroupSymbolModal}
-          commonOutline
+          tertiary
           small
         >
           {I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.ADD_SYMBOL')}
@@ -177,9 +177,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
                   disabled={archived}
                   onClick={() => handleDeleteGroupSymbolModal(symbol)}
                   className="GroupSymbolsGrid__delete-button"
-                >
-                  <i className="fa fa-trash btn-transparent color-danger" />
-                </TrashButton>
+                />
               </>
             )}
           />

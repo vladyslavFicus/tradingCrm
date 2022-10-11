@@ -54,7 +54,7 @@ class PartnersList extends PureComponent {
             <div className="PartnersList__header-right">
               <Button
                 onClick={this.handleOpenCreatePartnerModal}
-                commonOutline
+                tertiary
               >
                 {I18n.t('PARTNERS.CREATE_PARTNER_BUTTON')}
               </Button>

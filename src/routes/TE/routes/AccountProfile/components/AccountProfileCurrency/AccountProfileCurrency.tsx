@@ -13,7 +13,7 @@ const AccountProfileCurrency = ({ account }: Props) => (
       {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.CURRENCY')}
     </div>
 
-    <div className="AccountProfileCurrency__primary">
+    <div className="AccountProfileCurrency__general">
       {account.currency}
     </div>
   </div>

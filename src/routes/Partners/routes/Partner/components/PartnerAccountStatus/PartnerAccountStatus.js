@@ -12,7 +12,7 @@ import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
 import Uuid from 'components/Uuid';
-import { statuses, statusesLabels, statusActions, statusColorNames } from '../../constants';
+import { statuses, statusesLabels, statusActions } from '../../constants';
 import PartnerAccountStatusMutation from './graphql/PartnerAccountStatusMutation';
 import './PartnerAccountStatus.scss';
 
@@ -95,24 +95,30 @@ class PartnerAccountStatus extends PureComponent {
 
     return (
       <div className="PartnerAccountStatus__label">
-        <div className={classNames('PartnerAccountStatus__status', statusColorNames[status])}>
+        <div
+          className={classNames('PartnerAccountStatus__status', {
+            'PartnerAccountStatus__status--inactive': status === statuses.INACTIVE,
+            'PartnerAccountStatus__status--active': status === statuses.ACTIVE,
+            'PartnerAccountStatus__status--closed': status === statuses.CLOSED,
+          })}
+        >
           {I18n.t(statusesLabels[status])}
         </div>
 
         <If condition={status === statuses.ACTIVE && statusChangeDate}>
-          <div className="PartnerAccountStatus__secondary">
+          <div className="PartnerAccountStatus__additional">
             {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate).local().format('DD.MM.YYYY') })}
           </div>
         </If>
 
         <If condition={status === statuses.CLOSED && statusChangeAuthor}>
-          <div className="PartnerAccountStatus__secondary">
+          <div className="PartnerAccountStatus__additional">
             {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix="OP" />
           </div>
         </If>
 
         <If condition={status === statuses.CLOSED && statusChangeDate}>
-          <div className="PartnerAccountStatus__secondary">
+          <div className="PartnerAccountStatus__additional">
             on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
           </div>
         </If>

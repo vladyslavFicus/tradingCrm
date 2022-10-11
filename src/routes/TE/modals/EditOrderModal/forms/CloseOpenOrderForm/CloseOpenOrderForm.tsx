@@ -177,7 +177,7 @@ const CloseOpenOrderForm = (props: Props) => {
                 {...decimalsSettings}
               />
               <Button
-                primaryOutline
+                tertiary
                 type="button"
                 className="EditOrderModal__button EditOrderModal__button--update"
                 disabled={!initialSymbolPrice.current || !order.symbolConfig}

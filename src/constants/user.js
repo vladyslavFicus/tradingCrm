@@ -230,12 +230,6 @@ const statusActions = {
   ],
 };
 
-const statusColorNames = {
-  [statuses.VERIFIED]: 'color-success',
-  [statuses.NOT_VERIFIED]: 'color-warning',
-  [statuses.BLOCKED]: 'color-danger',
-};
-
 const actionsLabels = {
   [actions.BLOCK]: 'ACTIONS_LABELS.BLOCK',
   [actions.UNBLOCK]: 'ACTIONS_LABELS.UNBLOCK',
@@ -281,7 +275,6 @@ export {
   durationUnits,
   actions,
   statusActions,
-  statusColorNames,
   filterLabels,
   unblockReasons,
   reasons,

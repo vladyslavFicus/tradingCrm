@@ -4,7 +4,7 @@ import { size } from 'lodash';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { types, typesLabels, typesClassNames } from 'constants/audit';
+import { types, typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import parseJson from 'utils/parseJson';
 import { Button } from 'components/UI';
@@ -43,23 +43,23 @@ class FeedItem extends PureComponent {
     const parsedDetails = typeof details === 'string' ? parseJson(details) : details;
     const hasInformation = size(parsedDetails) > 0;
 
-    let color = 'green';
+    let author = 'system';
     let letter = 's';
 
     if (authorUuid && authorFullName) {
-      color = authorUuid === targetUuid ? 'blue' : 'orange';
+      author = authorUuid === targetUuid ? 'me' : 'someone';
       letter = authorFullName.split(' ').splice(0, 2).map(([word]) => word).join('');
     }
 
     return (
       <div className="FeedItem">
-        <div className={classNames('FeedItem__letters-icon', color)}>
+        <div className={classNames('FeedItem__letters-icon', `FeedItem__letters-icon--${author}`)}>
           {letter}
         </div>
         <div className="FeedItem__content-wrapper">
           <div className="FeedItem__heading">
             <div className="FeedItem__title">
-              <div className={classNames('FeedItem__status', typesClassNames[type])}>
+              <div className="FeedItem__status">
                 <Choose>
                   <When condition={type && typesLabels[type]}>
                     {I18n.t(typesLabels[type])}
@@ -74,11 +74,11 @@ class FeedItem extends PureComponent {
               </div>
             </div>
             <div className="FeedItem__author">
-              <span className={classNames('FeedItem__author-name', color)}>
+              <span className={classNames('FeedItem__author-name', `FeedItem__author-name--${author}`)}>
                 {authorFullName}
               </span>
               <If condition={authorUuid}>
-                <span className="FeedItem__dash">-</span>
+                <span className="FeedItem__dash">-</span>&nbsp;
                 <Uuid uuid={authorUuid} />
               </If>
             </div>

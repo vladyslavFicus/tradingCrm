@@ -20,4 +20,4 @@ const FormikSelectTreeField = (props: Props & FieldProps) => {
   );
 };
 
-export default FormikSelectTreeField;
+export default React.memo(FormikSelectTreeField);

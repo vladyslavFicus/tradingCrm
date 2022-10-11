@@ -218,7 +218,7 @@ class CreatePartnerModal extends PureComponent {
                 <Button
                   onClick={onCloseModal}
                   className="CreatePartnerModal__button"
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

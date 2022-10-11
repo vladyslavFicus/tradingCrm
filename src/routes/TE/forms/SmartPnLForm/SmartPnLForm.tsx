@@ -26,7 +26,7 @@ import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculateClosePrice, calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
-import { useFavoriteSymbolDataQuery } from 'routes/TE/routes/Quotes/graphql/__generated__/getFavoriteSymbols';
+import { useFavoriteSymbolsQuery } from './graphql/__generated__/FavoriteSymbolsQuery';
 import { useCreateClosedOrderMutation } from './graphql/__generated__/CreateClosedOrderMutation';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
@@ -96,7 +96,7 @@ const SmartPnLForm = (props: Props) => {
 
   const exchangeRate = currentSymbolPrice?.pnlRates[account?.currency as string] || 0;
 
-  const favoriteSymbolsQuery = useFavoriteSymbolDataQuery();
+  const favoriteSymbolsQuery = useFavoriteSymbolsQuery();
   const favoriteSymbolsData = favoriteSymbolsQuery.data?.tradingEngine.favoriteSymbolData || [];
 
   const favoriteSymbols = useMemo(() => intersectionWith(
@@ -506,7 +506,7 @@ const SmartPnLForm = (props: Props) => {
                 data-testid="sellPriceUpdate"
                 className="SmartPnLForm__button SmartPnLForm__button--small"
                 type="button"
-                primaryOutline
+                tertiary
                 disabled={sellAutoOpenPrice || !account || isAccountArchived}
                 onClick={() => setFieldValue('sellOpenPrice', currentPriceBid)}
               >
@@ -556,7 +556,7 @@ const SmartPnLForm = (props: Props) => {
                 data-testid="buyPriceUpdate"
                 className="SmartPnLForm__button SmartPnLForm__button--small"
                 type="button"
-                primaryOutline
+                tertiary
                 disabled={buyAutoOpenPrice || !account || isAccountArchived}
                 onClick={() => setFieldValue('buyOpenPrice', currentPriceAsk)}
               >

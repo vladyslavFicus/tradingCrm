@@ -14,7 +14,7 @@ import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream
 import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
 import { useSymbolsQuery, SymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import { useAddFavoriteSymbolMutation } from './graphql/__generated__/AddFavoriteSymbolMutation';
-import { useFavoriteSymbolDataQuery } from './graphql/__generated__/getFavoriteSymbols';
+import { useFavoriteSymbolsQuery } from './graphql/__generated__/FavoriteSymbolsQuery';
 import { useDeleteFavoriteSymbolMutation } from './graphql/__generated__/DeleteFavoriteSymbolMutation';
 import { useRestartStreamingMutation } from './graphql/__generated__/RestartStreamingMutation';
 import './Quotes.scss';
@@ -39,9 +39,9 @@ const Quotes = ({ notify }: Props) => {
   const { content = [], last = true, totalElements } = symbolsQuery.data?.tradingEngine.symbols || {};
   const symbolsPrices = useSymbolsPricesStream(content.map(({ name }) => name) || []);
 
-  const favoriteSymbolDataQuery = useFavoriteSymbolDataQuery();
+  const favoritesSymbolsQuery = useFavoriteSymbolsQuery();
 
-  const favoriteSymbols = favoriteSymbolDataQuery.data?.tradingEngine.favoriteSymbolData || [];
+  const favoriteSymbols = favoritesSymbolsQuery.data?.tradingEngine.favoriteSymbolData || [];
 
   const [restartStreaming, { loading: isStreamingRestarting }] = useRestartStreamingMutation();
 
@@ -82,7 +82,7 @@ const Quotes = ({ notify }: Props) => {
         });
       }
 
-      favoriteSymbolDataQuery.refetch();
+      await favoritesSymbolsQuery.refetch();
     } catch (_) {
       if (favoriteSymbols.length + 1 >= maxSelectedFavortieSymbols) {
         notify({
@@ -128,7 +128,6 @@ const Quotes = ({ notify }: Props) => {
         </span>
         <PermissionContent permissions={permissions.LIQUIDITY_PROVIDER_ADAPTER.RESTART_STREAMING}>
           <Button
-            commonOutline
             small
             danger
             disabled={isStreamingRestarting}

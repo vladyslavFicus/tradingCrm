@@ -34,38 +34,36 @@ class NotificationCenterForm extends PureComponent {
       >
         {({ dirty }) => (
           <Form className={classNames('NotificationCenterForm', className)}>
-            <div className="NotificationCenterForm__field">
-              <Field
-                name="notificationTypes"
-                label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                searchable
-                multiple
-              >
-                {notificationsTypes.map(value => (
-                  <option key={value} value={value}>
-                    {I18n.t(`NOTIFICATION_CENTER.TYPES.${value}`)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="NotificationCenterForm__field">
-              <Field
-                name="read"
-                label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.READ_UNREAD')}
-                placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                withAnyOption
-              >
-                <option key={0} value={0}>
-                  {I18n.t('NOTIFICATION_CENTER.FILTERS.UNREAD')}
+            <Field
+              name="notificationTypes"
+              label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              component={FormikSelectField}
+              className="NotificationCenterForm__field"
+              searchable
+              multiple
+            >
+              {notificationsTypes.map(value => (
+                <option key={value} value={value}>
+                  {I18n.t(`NOTIFICATION_CENTER.TYPES.${value}`)}
                 </option>
-                <option key={1} value={1}>
-                  {I18n.t('NOTIFICATION_CENTER.FILTERS.READ')}
-                </option>
-              </Field>
-            </div>
+              ))}
+            </Field>
+            <Field
+              name="read"
+              label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.READ_UNREAD')}
+              placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+              component={FormikSelectField}
+              className="NotificationCenterForm__field"
+              withAnyOption
+            >
+              <option key={0} value={0}>
+                {I18n.t('NOTIFICATION_CENTER.FILTERS.UNREAD')}
+              </option>
+              <option key={1} value={1}>
+                {I18n.t('NOTIFICATION_CENTER.FILTERS.READ')}
+              </option>
+            </Field>
             <div className="NotificationCenterForm__button-group">
               <Button
                 className="NotificationCenterForm__button"

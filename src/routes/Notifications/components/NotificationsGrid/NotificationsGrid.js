@@ -61,7 +61,7 @@ class NotificationsGrid extends PureComponent {
 
       <If condition={type === 'CLIENTS_DISTRIBUTOR'}>
         <div>
-          <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="font-size-11" />
+          <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="NotificationsGrid__text-secondary" />
         </div>
       </If>
 
@@ -134,7 +134,7 @@ class NotificationsGrid extends PureComponent {
             {fullName}
           </Link>
           <div className="NotificationsGrid__text-secondary">
-            <MiniProfile id={uuid} type="player">
+            <MiniProfile id={uuid} type="client">
               <Uuid uuid={uuid} />
             </MiniProfile>
             <If condition={languageCode}>

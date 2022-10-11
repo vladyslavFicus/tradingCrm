@@ -1,6 +1,6 @@
 .ScheduleSettingsModal {
   &--is-disabled {
-    color: #d6d6d6;
+    color: var(--text-primary);
     pointer-events: none;
   }
 

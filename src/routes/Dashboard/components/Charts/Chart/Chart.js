@@ -158,17 +158,22 @@ class Chart extends PureComponent {
                   <ResponsiveContainer className="Chart__grapfic">
                     <LineChart data={chartData}>
                       <If condition={xDataKey}>
-                        <XAxis dataKey={xDataKey} />
+                        <XAxis stroke="var(--text-tertiary)" dataKey={xDataKey} />
                       </If>
                       <YAxis
                         minTickGap={40}
                         width={this.getYAxisWidth(chartData)}
                         axisLine={false}
                         tickFormatter={this.tickFormatter}
+                        stroke="var(--text-tertiary)"
                       />
-                      <CartesianGrid stroke="#eee" horizontal={false} />
+                      <CartesianGrid stroke="var(--text-tertiary)" horizontal={false} />
                       <Tooltip
                         formatter={tooltipAmountFormatter}
+                        contentStyle={{
+                          backgroundColor: 'var(--surface-filters-background)',
+                          borderColor: 'var(--divider)',
+                        }}
                         {...(tooltipTitle && { content: createCustomTooltip(tooltipTitle) })}
                       />
                       <Line

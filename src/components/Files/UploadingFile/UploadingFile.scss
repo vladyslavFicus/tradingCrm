@@ -45,6 +45,14 @@
 
   &__status {
     width: 120px;
+
+    &--success {
+      color: var(--state-colors-success);
+    }
+
+    &--error {
+      color: var(--state-colors-danger);
+    }
   }
 
   &__removeButton {

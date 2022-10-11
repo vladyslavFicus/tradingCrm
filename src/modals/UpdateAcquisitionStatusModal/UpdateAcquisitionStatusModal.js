@@ -189,7 +189,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
               <ModalFooter>
                 <Button
                   default
-                  commonOutline
+                  tertiary
                   onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}

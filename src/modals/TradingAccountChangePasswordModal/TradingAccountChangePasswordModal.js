@@ -11,6 +11,7 @@ import { Button } from 'components/UI';
 import { FormikInputField } from 'components/Formik/index';
 import { createValidator, translateLabels } from 'utils/validator';
 import TradingAccountChangePasswordMutation from './graphql/TradingAccountChangePasswordMutation';
+import './TradingAccountChangePasswordModal.scss';
 
 const attributeLabels = {
   password: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.NEW_PASSWORD'),
@@ -73,7 +74,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
     } = this.props;
 
     return (
-      <Modal className="modal-danger" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal className="TradingAccountChangePasswordModal" toggle={onCloseModal} isOpen={isOpen}>
         <Formik
           initialValues={{
             password: '',
@@ -89,7 +90,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
         >
           {({ isSubmitting }) => (
             <Form>
-              <ModalHeader toggle={onCloseModal}>
+              <ModalHeader toggle={onCloseModal} className="TradingAccountChangePasswordModal__header">
                 {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login })}
               </ModalHeader>
               <ModalBody>
@@ -111,7 +112,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
               <ModalFooter>
                 <Button
                   onClick={onCloseModal}
-                  commonOutline
+                  tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>

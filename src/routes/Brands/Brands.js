@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { withStorage } from 'providers/StorageProvider';
 import ChooseBrands from './components/ChooseBrands';
-import ChooseDepartments from './components/ChooseDepartments';
+import ChooseDepartments from './components/ChooseAuthority';
 
 class Brands extends PureComponent {
   static propTypes = {

@@ -4,9 +4,10 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { intersection } from 'lodash';
 import { Formik, Form, Field } from 'formik';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
+import { statuses as operatorsStasuses } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
-import formatLabel from 'utils/formatLabel';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
@@ -213,7 +214,9 @@ class NotificationsFilters extends PureComponent {
                     <option
                       key={uuid}
                       value={uuid}
-                      className={operatorStatus !== 'ACTIVE' ? 'color-inactive' : ''}
+                      className={classNames('NotificationsGridFilter__select-item', {
+                        'NotificationsGridFilter__select-item--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                      })}
                     >
                       {fullName}
                     </option>
@@ -232,7 +235,9 @@ class NotificationsFilters extends PureComponent {
                   multiple
                 >
                   {notificationTypes.map(type => (
-                    <option key={type} value={type}>{formatLabel(type)}</option>
+                    <option key={type} value={type}>
+                      {I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`)}
+                    </option>
                   ))}
                 </Field>
 

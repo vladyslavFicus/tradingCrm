@@ -49,7 +49,7 @@ class OfficesList extends PureComponent {
           <PermissionContent permissions={permissions.HIERARCHY.CREATE_BRANCH}>
             <div className="OfficesList__actions">
               <Button
-                commonOutline
+                tertiary
                 onClick={this.triggerCreateOfficeModal}
               >
                 {I18n.t('OFFICES.ADD_OFFICE')}

@@ -20,7 +20,6 @@ const REQUEST = gql`
         paymentId
         paymentType
         status
-        withdrawStatus
         currency
         createdBy
         creationTime

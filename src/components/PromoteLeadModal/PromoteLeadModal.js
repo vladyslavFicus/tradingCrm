@@ -271,7 +271,7 @@ class PromoteLeadModal extends PureComponent {
               <ModalFooter>
                 <Button
                   className="PromoteLeadModal__button"
-                  commonOutline
+                  tertiary
                   onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}

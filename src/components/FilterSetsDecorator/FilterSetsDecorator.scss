@@ -1,6 +1,6 @@
 .FilterSetsDecorator {
   &__control {
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;

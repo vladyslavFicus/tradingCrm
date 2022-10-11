@@ -328,6 +328,7 @@ class LeadProfileTab extends PureComponent {
                       addition={
                         permission.allows(permissions.LEAD_PROFILE.FIELD_PHONE) && (
                           <Button
+                            tertiary
                             className="LeadProfileTab__show-contacts-button"
                             onClick={this.getLeadPhone}
                           >
@@ -351,6 +352,7 @@ class LeadProfileTab extends PureComponent {
                       addition={
                         permission.allows(permissions.LEAD_PROFILE.FIELD_MOBILE) && (
                           <Button
+                            tertiary
                             className="LeadProfileTab__show-contacts-button"
                             onClick={this.getLeadMobile}
                           >
@@ -375,6 +377,7 @@ class LeadProfileTab extends PureComponent {
                       addition={
                         permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) && (
                           <Button
+                            tertiary
                             className="LeadProfileTab__show-contacts-button"
                             onClick={this.getLeadEmail}
                           >

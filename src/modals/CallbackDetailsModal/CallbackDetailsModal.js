@@ -233,7 +233,7 @@ class CallbackDetailsModal extends PureComponent {
                   <ModalFooter>
                     <Button
                       onClick={onCloseModal}
-                      common
+                      secondary
                     >
                       {I18n.t('COMMON.CANCEL')}
                     </Button>

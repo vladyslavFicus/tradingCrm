@@ -6,7 +6,7 @@ import { parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import { Button } from 'components/UI';
+import { Button, TrashButton } from 'components/UI';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
@@ -121,7 +121,7 @@ const Securities = (props: Props) => {
         <PermissionContent permissions={permissions.WE_TRADING.CREATE_SECURITIES}>
           <Button
             onClick={handleNewSecurityClick}
-            commonOutline
+            tertiary
             small
           >
             {I18n.t('TRADING_ENGINE.SECURITIES.NEW_SECURITY')}
@@ -187,12 +187,7 @@ const Securities = (props: Props) => {
             render={({ name }: Security) => (
               <>
                 <PermissionContent permissions={permissions.WE_TRADING.DELETE_SECURITY}>
-                  <Button
-                    transparent
-                    onClick={() => handleDeleteSecurityClick(name)}
-                  >
-                    <i className="fa fa-trash btn-transparent color-danger" />
-                  </Button>
+                  <TrashButton onClick={() => handleDeleteSecurityClick(name)} />
                 </PermissionContent>
               </>
             )}

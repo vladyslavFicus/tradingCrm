@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import backofficeBrands from '../brands';
 
 const config = _.merge({
   components: {
@@ -21,7 +20,6 @@ const config = _.merge({
       ],
     },
   },
-  backofficeBrands,
 });
 
 function getApiRoot() {
@@ -112,17 +110,9 @@ const getBackofficeBrand = () => config.backofficeBrand;
  * @param brandId
  */
 const setBackofficeBrand = (brandId) => {
-  config.backofficeBrand = config.backofficeBrands[brandId];
-
-  // Set brand id to configuration for future usage
-  if (config.backofficeBrand) {
-    config.backofficeBrand.id = brandId;
-  }
-
-  // Dynamically import styles for brand if it's required
-  if (typeof _.get(config.backofficeBrand, 'importStyle') === 'function') {
-    config.backofficeBrand.importStyle();
-  }
+  config.backofficeBrand = {
+    id: brandId,
+  };
 };
 
 /**
@@ -131,6 +121,13 @@ const setBackofficeBrand = (brandId) => {
  * @return {string}
  */
 const getStaticFileUrl = (brand, file) => `/cloud-static/brands/${brand}/backoffice/${file}`;
+
+/**
+ * Get current crm brand static files url
+ *
+ * @return {string}
+ */
+const getCrmBrandStaticFileUrl = file => `/cloud-static/crm-brands/${getBackofficeBrand().id}/${file}?${Math.random()}`;
 
 export {
   getApiRoot,
@@ -144,6 +141,7 @@ export {
   getBackofficeBrand,
   setBackofficeBrand,
   getStaticFileUrl,
+  getCrmBrandStaticFileUrl,
   getRSocketUrl,
 };
 

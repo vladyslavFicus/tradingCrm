@@ -29,29 +29,25 @@ class LeadAccountStatus extends PureComponent {
         </div>
 
         <div className="LeadAccountStatus__label">
-          <div className={classNames('LeadAccountStatus__status', leadStatuses[status].color)}>
-            {I18n.t(leadStatuses[status].label)}
+          <div
+            className={classNames('LeadAccountStatus__status', {
+              'LeadAccountStatus__status--new': status === 'NEW',
+              'LeadAccountStatus__status--converted': status === 'CONVERTED',
+            })}
+          >
+            {I18n.t(leadStatuses[status])}
           </div>
 
           <If condition={statusChangedDate}>
-            <div className="LeadAccountStatus__secondary">
+            <div className="LeadAccountStatus__additional">
               {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm:ss') })}
             </div>
           </If>
 
-          <If condition={convertedToClientUuid}>
-            <Choose>
-              <When condition={convertedByOperatorUuid}>
-                <div className="LeadAccountStatus__secondary">
-                  {I18n.t('COMMON.BY')} <Uuid uuid={convertedByOperatorUuid} />
-                </div>
-              </When>
-              <Otherwise>
-                <div className="LeadAccountStatus__secondary">
-                  {I18n.t('LEADS.STATUSES.SELF_CONVETED')}
-                </div>
-              </Otherwise>
-            </Choose>
+          <If condition={convertedToClientUuid && convertedByOperatorUuid}>
+            <div className="LeadAccountStatus__additional">
+              {I18n.t('COMMON.BY')} <Uuid uuid={convertedByOperatorUuid} />
+            </div>
           </If>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render as testingLibraryRender, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { MockedProvider } from '@apollo/client/testing';
+import MockedApolloProvider from 'apollo/MockedApolloProvider';
 import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
@@ -21,6 +21,7 @@ const apolloMockFactory = (data = {}) => [{
   result: {
     data: {
       tradingEngine: {
+        __typename: 'TradingEngineQuery',
         account: {
           uuid: accountUuid,
           currency: 'USD',
@@ -39,6 +40,7 @@ const apolloMockFactory = (data = {}) => [{
   result: {
     data: {
       tradingEngine: {
+        __typename: 'TradingEngineQuery',
         accountSymbols: [{
           name: 'EURUSD',
           description: 'EURUSD description',
@@ -91,13 +93,13 @@ const rsocketMockFactory = (data = {}) => ({
 const render = (component: React.ReactElement, apolloMockData = {}) => testingLibraryRender(
   <BrowserRouter>
     <StorageProvider>
-      <MockedProvider mocks={apolloMockFactory(apolloMockData)} addTypename={false}>
+      <MockedApolloProvider mocks={apolloMockFactory(apolloMockData)}>
         <MockedRSocketProvider>
           <CoreLayout>
             {component}
           </CoreLayout>
         </MockedRSocketProvider>
-      </MockedProvider>
+      </MockedApolloProvider>
     </StorageProvider>
   </BrowserRouter>,
 );

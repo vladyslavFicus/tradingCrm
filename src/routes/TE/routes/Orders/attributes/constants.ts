@@ -46,9 +46,3 @@ export const statuses = [{
   value: 'CANCELED',
   label: 'TRADING_ENGINE.ORDERS.FILTER_FORM.STATUSES.CANCELED',
 }];
-
-export const tradeStatusesColor: Record<string, string> = {
-  PENDING: 'color-info',
-  CLOSED: 'color-danger',
-  OPEN: 'color-success',
-};

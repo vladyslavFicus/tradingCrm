@@ -52,7 +52,7 @@ class ClientFilesTab extends PureComponent {
           <PermissionContent permissions={permissions.FILES.UPLOAD_FILE}>
             <Button
               onClick={this.handleUploadFileClick}
-              primaryOutline
+              tertiary
               small
             >
               {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}

@@ -7,11 +7,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 9px 29px 9px 10px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
     border-radius: 3px;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.12);
-    border-left: 3px solid #ffa500;
+    border-left: 3px solid var(--state-colors-warning);
     z-index:  1;
   }
 
@@ -30,7 +30,7 @@
         content: "";
         width: 20px;
         height: 2px;
-        background: #bcc4d2;
+        background: var(--surface-frame-border);
         position: absolute;
         top: 35px;
         left: 30px;
@@ -38,7 +38,7 @@
 
       // Filling last child with background to hide part of parent separator depends on HierarchyItemBranch padding
       &:last-child {
-        background-color: #fff;
+        background-color: var(--surface-frame-background);
         z-index: 1;
 
         // Draw additional vertical line for last child of HierarchyItemBranch
@@ -46,7 +46,7 @@
           content: "";
           width: 2px;
           height: 35px;
-          background: #bcc4d2;
+          background: var(--surface-frame-border);
           position: absolute;
           left: 30px;
         }
@@ -65,7 +65,7 @@
     height: auto;
     left: 30px;
     bottom: 32px;
-    background: #bcc4d2;
+    background: var(--surface-frame-border);
     z-index: 0;
   }
 
@@ -73,40 +73,47 @@
     width: 45px;
     height: 45px;
     margin-right: 15px;
-
+    g {
+      fill: var(--state-colors-info);
+    }
+    
     &:hover {
-      fill: #4a90e2;
+      g {
+        fill: var(--button-icon-button-hover);
+      }
     }
   }
 
   &__title {
-    color: #2c2c2c;
+    color: var(--text-primary);
     font-size: 18px;
     font-weight: 800;
   }
 
   &__link {
+    color: var(--text-primary);
+
     &:hover {
-      color: #4a90e2;
+      color: var(--accent);
       cursor: pointer;
     }
   }
 
   &__type {
     margin-left: 5px;
-    color: #656f82;
+    color: var(--text-secondary);
     font-size: 14px;
   }
 
   &__description {
     font-size: 14px;
-    color: #656f82;
+    color: var(--text-secondary);
   }
 
   &__manager {
     display: flex;
     align-items: center;
-    color: #656f82;
+    color: var(--text-secondary);
     font-size: 14px;
     margin-bottom: 0;
     margin-right: 10px;
@@ -115,7 +122,7 @@
   &__manager-title {
     font-size: 15px;
     font-weight: bold;
-    color: #697385;
+    color: var(--text-secondary);
   }
 
   &__manager-icon {
@@ -124,6 +131,10 @@
     padding: 3px;
     margin-left: 4px;
     border-radius: 50%;
-    border: 1px solid #888;
+    border: 1px solid var(--surface-frame-border);
+
+    g {
+      fill: var(--state-colors-info);
+    }
   }
 }

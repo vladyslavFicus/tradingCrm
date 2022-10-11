@@ -1,7 +1,7 @@
 .PaymentsListFilters {
   &__form {
     padding: 20px 25px 40px;
-    background-color: #f2f4f8;
+    background-color: var(--surface-filters-background);
   }
 
   &__fields {
@@ -31,6 +31,12 @@
 
   &__select {
     grid-column: span 2;
+  }
+
+  &__select-item {
+    &--inactive {
+      color: var(--form-color-disabled) !important;
+    }
   }
 
   &__range-inputs {

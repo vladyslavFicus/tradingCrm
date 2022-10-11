@@ -113,9 +113,9 @@ class RuleSchedule extends PureComponent {
               ))}
               <div className="RuleSchedule__footer">
                 <Button
+                  tertiary
                   onClick={this.addScheduleBoard(push)}
                   disabled={hasLimitOfBoards}
-                  primaryOutline
                 >
                   {I18n.t('RULE_MODAL.SCHEDULE.ADD_SCHEDULE_BUTTON')}
                 </Button>

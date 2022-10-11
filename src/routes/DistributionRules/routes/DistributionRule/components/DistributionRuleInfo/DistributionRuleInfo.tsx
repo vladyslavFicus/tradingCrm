@@ -9,7 +9,7 @@ import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
 import { Button } from 'components/UI';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatuses } from '__generated__/types';
-import { clientDistributionStatuses } from 'constants/clientsDistribution';
+import { clientDistributionStatuses, statuses } from 'constants/clientsDistribution';
 import { DistributionRuleType } from '../../DistributionRule';
 import { useDistributionRuleUpdateStatus } from './graphql/__generated__/DistributionRuleUpdateStatusMutation';
 import { useDistributionRuleMigrationMutation } from './graphql/__generated__/DistributionRuleMigrationMutation';
@@ -115,10 +115,13 @@ const DistributionRuleInfo = (props: Props) => {
               className={classNames(
                 'DistributionRuleInfo__status__toggle-item',
                 'DistributionRuleInfo__item-value',
-                clientDistributionStatuses[status].color,
+                'DistributionRuleInfo__status-item', {
+                  'DistributionRuleInfo__status-item--active': status === statuses.ACTIVE,
+                  'DistributionRuleInfo__status-item--inactive': status === statuses.INACTIVE,
+                },
               )}
             >
-              {I18n.t(clientDistributionStatuses[status].label)}
+              {I18n.t(clientDistributionStatuses[status])}
               <i className="DistributionRuleInfo__status__arrow fa fa-angle-down" />
             </div>
             <If condition={!!statusChangedAt}>
@@ -137,11 +140,10 @@ const DistributionRuleInfo = (props: Props) => {
                   className={classNames(
                     'DistributionRuleInfo__status__dropdown-item',
                     'DistributionRuleInfo__item-value',
-                    clientDistributionStatuses[key].color,
                   )}
                   onClick={() => handleUpdateRuleStatus(key)}
                 >
-                  {I18n.t(clientDistributionStatuses[key].label)}
+                  {I18n.t(clientDistributionStatuses[key])}
                 </DropdownItem>
               ))
             }

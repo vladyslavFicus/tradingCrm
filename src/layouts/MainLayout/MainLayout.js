@@ -22,6 +22,8 @@ class MainLayout extends PureComponent {
     auth: PropTypes.auth.isRequired,
   };
 
+  _isMounted = true;
+
   state = {
     downtime: {
       title: '',
@@ -33,6 +35,10 @@ class MainLayout extends PureComponent {
     this.loadDowntime();
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   /**
    * Load downtime content from S3
    *
@@ -41,7 +47,7 @@ class MainLayout extends PureComponent {
   loadDowntime = async () => {
     const response = await fetch(`/cloud-static/DOWNTIME.json?${Math.random()}`);
 
-    if (response.status === 200) {
+    if (this._isMounted && response.status === 200) {
       const downtime = await response.json();
 
       this.setState({ downtime });

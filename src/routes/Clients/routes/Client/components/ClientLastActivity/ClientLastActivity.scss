@@ -4,7 +4,7 @@
   min-height: 60px;
 
   &__title {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 11px;
     text-transform: uppercase;
   }
@@ -14,11 +14,11 @@
     text-transform: uppercase;
 
     &--online {
-      color: #46be8a;
+      color: var(--state-colors-success);
     }
 
     &--offline {
-      color: #6c757d;
+      color: var(--state-colors-none);
     }
   }
 
@@ -28,7 +28,7 @@
   }
 
   &__text-secondary {
-    color: #333;
+    color: var(--text-primary);
     font-size: 11px;
   }
 

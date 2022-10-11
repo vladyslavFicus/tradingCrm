@@ -8,19 +8,21 @@
     &-prefix {
       font-weight: 600;
       margin-right: 6px;
+      color: var(--text-primary);
     }
 
     &-date {
-      color: #3391D8;
+      color: var(--active);
     }
   }
 
   &__input {
     & input {
-      border: solid 1px #cfcfcf;
+      background-color: var(--form-background-default);
+      border: solid 1px var(--form-border-default);
       border-radius: 3px;
       box-sizing: border-box;
-      color: #000000;
+      color: var(--form-color-default);
       font-size: 15px;
       font-weight: 600;
       letter-spacing: 0.03em;
@@ -31,16 +33,16 @@
       width: 100%;
 
       &:focus {
-        border-color: #4990e2;
+        border-color: var(--form-border-focus);
       }
 
       &:disabled {
-        background-color: #f6f6f6;
-        border-color: #edeff5;
+        background-color: var(--form-background-disabled);
+        border-color: var(--form-border-disabled);
       }
 
       &::placeholder {
-        color: #9b9b9b;
+        color: var(--form-color-placeholder);
       }
 
       &::-ms-clear {

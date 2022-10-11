@@ -39,16 +39,16 @@ class GridPlayerInfo extends PureComponent {
 
     return (
       <If condition={profile}>
-        <div className="max-width-200">
+        <div className="GridPlayerInfo">
           <div className={mainInfoClassName} onClick={this.handleClick}>
             {fullName}
           </div>
 
           <div
-            className="font-size-11"
+            className="GridPlayerInfo__text-secondary"
             id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
           >
-            <MiniProfile id={uuid} type="player">
+            <MiniProfile id={uuid} type="client">
               <Uuid uuid={uuid} />
             </MiniProfile>
             {!!languageCode && <span> - {languageCode}</span>}

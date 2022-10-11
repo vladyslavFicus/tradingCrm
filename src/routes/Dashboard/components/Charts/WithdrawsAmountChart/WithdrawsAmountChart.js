@@ -40,7 +40,7 @@ class WithdrawsAmountChart extends PureComponent {
         onSelectChange={this.handleSelectChange}
         selectOptions={getChartSelectOptions}
         loading={withdrawPaymentsStatistic.loading}
-        chartAndTextColor="#ff7a21"
+        chartAndTextColor="var(--state-colors-warning)"
         lineDataKey="amount"
         xDataKey="entryDate"
         withCurrency

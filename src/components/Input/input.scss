@@ -1,5 +1,3 @@
-@import '../../styles/helpers/mixins';
-
 $input-height: 40px;
 
 .input {
@@ -27,10 +25,11 @@ $input-height: 40px;
   }
 
   &__control {
-    border: solid 1px #cfcfcf;
+    background-color: var(--form-background-default);
+    border: solid 1px var(--form-border-default);
     border-radius: 3px;
     box-sizing: border-box;
-    color: #000000;
+    color: var(--form-color-default);
     font-size: 15px;
     padding: 0 8px;
     text-overflow: ellipsis;
@@ -39,25 +38,75 @@ $input-height: 40px;
     height: $input-height;
     width: 100%;
 
-    &:focus {
-      border-color: #4990e2;
+  &:hover {
+    background-color: var(--form-background-hover);
+    border-color: var(--form-border-hover);
+    color: var(--form-color-hover);
 
-      & + .input__addition {
-        border-color: #4990e2;
-        color: #aaa;
+    & + .input__addition {
+      background-color: var(--form-background-hover);
+      border-color: var(--form-border-hover);
+      color: var(--form-color-hover);
+
+      .icon {
+        color: var(--form-icon-button-hover);
       }
     }
+  }
+
+  &:focus {
+    background-color: var(--form-background-focus);
+    border-color: var(--form-border-focus);
+    color: var(--form-color-focus);
+
+    & + .input__addition {
+      background-color: var(--form-background-focus);
+      border-color: var(--form-border-focus);
+      color: var(--form-color-focus);
+
+      .icon {
+        color: var(--form-icon-button-focus);
+      }
+    }
+  }
 
     &:disabled {
-      background-color: #f6f6f6;
-
+      background-color: var(--form-background-disabled);
+      border-color: var(--form-border-disabled);
+      color: var(--form-color-disabled);
+  
       & + .input__addition {
-        border-color: #cfcfcf;
+        background-color: var(--form-background-disabled);
+        border-color: var(--form-border-disabled);
+        color: var(--form-color-disabled);
+        
+        .icon {
+          color: var(--form-icon-button-disabled);
+        }
       }
     }
 
-    @include placeholder {
-      color: #9b9b9b;
+    // Styles for input autocomplete data
+    &:-webkit-autofill {
+      -webkit-text-fill-color: var(--form-color-default);
+      -webkit-box-shadow: 0 0 0 1000px var(--form-background-default) inset;
+      caret-color: var(--form-color-focus);
+
+      &:focus {
+        -webkit-text-fill-color: var(--form-color-focus);
+        -webkit-box-shadow: 0 0 0 1000px var(--form-background-focus) inset;
+      }
+    }
+
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder,
+    &:-moz-placeholder {
+      color: var(--form-color-placeholder);
+    }
+
+    &[type=number]:disabled {
+      -moz-appearance: textfield;
     }
   }
 
@@ -73,7 +122,7 @@ $input-height: 40px;
   }
 
   &__error {
-    color: #d0021b;
+    color: var(--state-colors-danger);
     font-size: 12px;
     margin-top: 4px;
   }
@@ -90,10 +139,10 @@ $input-height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: transparent;
-    border: 1px solid #cfcfcf;
+    background-color: var(--form-background-default);
+    border: 1px solid var(--form-border-default);
     border-radius: 3px 0 0 3px;
-    color: #cfcfcf;
+    color: var(--form-color-default);
     cursor: pointer;
     line-height: 42px;
     text-align: center;
@@ -104,8 +153,8 @@ $input-height: 40px;
     height: 40px;
     min-width: 40px;
 
-    &:hover {
-      color: #9b9b9b;
+    .icon {
+      color: var(--form-icon-button-default);
     }
 
     &--right {
@@ -119,7 +168,7 @@ $input-height: 40px;
       margin-left: -3px;
       user-select: none;
       border-radius: 0 3px 3px 0;
-      background: #fff;
+      background: var(--form-background-default);
       z-index: 1;
     }
   }
@@ -137,16 +186,16 @@ $input-height: 40px;
     .input {
       &__control,
       &__addition {
-        border-color: #d0011b;
+        border-color: var(--state-colors-danger);
       }
 
       &__control {
         &:focus {
-          border-color: #4990e2;
+          border-color: var(--form-border-focus);
 
           & + .input__addition {
-            border-color: #4990e2;
-            color: #aaa;
+            border-color: var(--form-border-focus);
+            color: var(--form-color-focus);
           }
         }
       }
@@ -161,15 +210,15 @@ $input-height: 40px;
 
   &--is-disabled {
     .input__control {
-      border-color: #cfcfcf;
-      -webkit-text-fill-color: #92959f;
+      border-color: var(--form-border-default);
+      -webkit-text-fill-color: var(--form-color-default);
       -webkit-opacity: 1;
     }
 
     &:hover {
       .input__body {
         .input__icon {
-          border-color: #edeff5;
+          border-color: var(--form-color-hover);
         }
       }
     }
@@ -177,11 +226,11 @@ $input-height: 40px;
 
   &--is-focused {
     .input__control {
-      border-color: #4990e2;
+      border-color: var(--form-border-focus);
 
       & + .input__addition {
-        border-color: #4990e2;
-        color: #aaa;
+        border-color: var(--form-border-focus);
+        color: var(--form-color-focus)
       }
     }
   }

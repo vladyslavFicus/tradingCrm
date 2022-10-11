@@ -9,7 +9,7 @@ import { withModals, withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
-import { Button, EditButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/UI';
 import Tabs from 'components/Tabs';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -130,7 +130,7 @@ const Holidays = (props: Props) => {
           <div>
             <Button
               onClick={handleCreateClick}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('TRADING_ENGINE.HOLIDAYS.NEW_HOLIDAY')}
@@ -215,12 +215,7 @@ const Holidays = (props: Props) => {
                   />
                 </PermissionContent>
                 <PermissionContent permissions={permissions.WE_TRADING.HOLIDAYS_DELETE}>
-                  <Button
-                    transparent
-                    onClick={() => handleHolidayDeleteClick(holiday)}
-                  >
-                    <i className="fa fa-trash btn-transparent color-danger" />
-                  </Button>
+                  <TrashButton onClick={() => handleHolidayDeleteClick(holiday)} />
                 </PermissionContent>
               </>
             )}

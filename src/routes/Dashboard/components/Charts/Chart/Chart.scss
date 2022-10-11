@@ -1,6 +1,6 @@
 .Chart {
-  background-color: #fff;
-  border: 1px solid rgba(0,0,0,.125);
+  background-color: var(--surface-frame-background);
+  border: 1px solid var(--surface-frame-border);
   border-radius: 5px;
   margin-right: 25px;
   padding: 25px;
@@ -44,10 +44,10 @@
     height: 18px;
     margin-bottom: 15px;
     cursor: pointer;
-    fill: #555;
+    fill: var(--button-icon-button-default);
 
     &:hover {
-      fill: #000;
+      fill: var(--button-icon-button-hover);
     }
   }
 
@@ -71,17 +71,6 @@
   &__select {
     height: 35px;
     width: 130px;
-
-    // # need to remove rewrite this class after refacoring .form-control
-    & .form-control {
-      height: 100%;
-      min-height: 35px;
-    }
-
-    // # need to remove rewrite this class after refacoring .form-control
-    .select__toggle-icon {
-      top: 55%;
-    }
   }
 
   &__body {
@@ -126,5 +115,8 @@
         text-align: center;
       }
     }
+  }
+  .recharts-curve.recharts-tooltip-cursor {
+    stroke: var(--text-primary);
   }
 }

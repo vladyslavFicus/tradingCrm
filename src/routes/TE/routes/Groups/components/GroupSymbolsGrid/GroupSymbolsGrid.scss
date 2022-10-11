@@ -1,11 +1,10 @@
 .GroupSymbolsGrid {
-  background-color: #fff;
   padding: 25px;
 
   &__row {
     // On hover we dont need to change bg color when Row is Disabled
     &--disabled{
-      background-color: rgb(128 128 128 / 26%) !important;
+      background-color: var(--table-background-disabled) !important;
     }  
   }
 
@@ -16,7 +15,7 @@
   }
 
   &__title {
-    color: #333;
+    color: var(--text-primary);
     font-size: 18px;
     margin-bottom: 25px;
   }
@@ -39,7 +38,7 @@
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid #dfe4ed;
+    border: 1px solid var(--divider);
     border-top: none;
   }
 }

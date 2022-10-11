@@ -64,7 +64,7 @@ class OperatorsList extends PureComponent {
             <div className="OperatorsList__header-right">
               <Button
                 onClick={this.handleOpenCreateOperatorModal}
-                commonOutline
+                tertiary
               >
                 {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
               </Button>

@@ -25,7 +25,7 @@
   }
 
   &__error {
-    color: #fb434a;
+    color: var(--state-colors-danger);
     font-size: 15px;
     margin-bottom: 20px;
     text-align: center;
@@ -47,9 +47,8 @@
     justify-content: space-between;
     width: 100%;
     padding: 10px 8px;
-    border: solid 1px #cfcfcf;
+    border: 1px solid var(--divider);
     border-radius: 3px;
-    box-shadow: 0 0 5px -2px #555;
   }
 
   &__account-label {
@@ -68,19 +67,10 @@
     padding: 5px 20px;
     text-align: center;
 
-    &:hover {
-      background: #f0f0f0;
-    }
 
-    &--active {
-      &:hover {
-        background: #ffffff;
-      }
-    }
   }
 
   &__tabs-content {
-    margin-top: 10px;
-    padding: 0;
+    padding: 10px 0 0;
   }
 }

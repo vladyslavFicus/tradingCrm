@@ -110,11 +110,11 @@ class NotificationCenterTable extends PureComponent {
             render={({ type, uuid }) => (
               <If condition={type}>
                 <div>
-                  <span className="NotificationCenterTable__text-highlight">
+                  <div className="NotificationCenterTable__text-highlight">
                     {I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`)}
-                  </span>
+                  </div>
                 </div>
-                <Uuid uuid={uuid} className="font-size-11" />
+                <Uuid uuid={uuid} className="NotificationCenterTable__text-secondary" />
               </If>
             )}
           />
@@ -122,13 +122,13 @@ class NotificationCenterTable extends PureComponent {
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.NOTIFICATION_TYPE_DETAILS')}
             render={({ type, subtype, details }) => (
               <Fragment>
-                <span className="NotificationCenterTable__text-highlight">
+                <div className="NotificationCenterTable__text-highlight">
                   {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
-                </span>
+                </div>
 
                 <If condition={type === 'CLIENTS_DISTRIBUTOR'}>
                   <div>
-                    <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="font-size-11" />
+                    <Uuid uuidPrefix="RL" uuid={details.ruleUuid} className="NotificationCenterTable__text-secondary" />
                   </div>
                 </If>
 
@@ -188,7 +188,7 @@ class NotificationCenterTable extends PureComponent {
               return (
                 <Fragment>
                   <div className="NotificationCenterTable__text-highlight">{date}</div>
-                  <div className="font-size-11">{time}</div>
+                  <div className="NotificationCenterTable__text-secondary">{time}</div>
                 </Fragment>
               );
             }}

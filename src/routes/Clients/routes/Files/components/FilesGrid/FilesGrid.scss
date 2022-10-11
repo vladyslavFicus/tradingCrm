@@ -2,6 +2,9 @@
   &__client-name {
     cursor: pointer;
     font-weight: 700;
+    &:hover {
+      color: var(--accent);
+    }
   }
 
   &__time,

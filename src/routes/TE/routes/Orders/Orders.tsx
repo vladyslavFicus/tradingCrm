@@ -7,6 +7,7 @@ import Hotkeys from 'react-hot-keys';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { withNotifications, withModals } from 'hoc';
 import { LevelType, Notify, Modal, State, Sort } from 'types';
 import permissions from 'config/permissions';
@@ -24,11 +25,9 @@ import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import NewOrderModal from 'routes/TE/modals/NewOrderModal';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
-import { TradingEngine__OrderStatuses__Enum as OrderStatus } from '__generated__/types';
 import { tradingEngineTabs } from '../../constants';
 import OrdersFilter from './components/OrdersFilter';
-import { types, tradeStatusesColor } from './attributes/constants';
-import { getTypeColor } from './attributes/utils';
+import { types } from './attributes/constants';
 import { useCloseOrderMutation } from './graphql/__generated__/CloseOrderMutation';
 import { useOrdersQuery, OrdersQuery, OrdersQueryVariables } from './graphql/__generated__/OrdersQuery';
 import { ReactComponent as ErrorIcon } from './img/error.svg';
@@ -80,7 +79,7 @@ const Orders = (props: Props) => {
 
   // Subscribe to symbol prices stream on opened positions
   const symbolsPrices = useSymbolsPricesStream(
-    content.filter(({ status }) => status === OrderStatus.OPEN).map(({ symbol }) => symbol),
+    content.filter(({ status }) => status === OrderStatusesEnum.OPEN).map(({ symbol }) => symbol),
   );
 
   // ==== Handlers ==== //
@@ -165,7 +164,7 @@ const Orders = (props: Props) => {
             <Button
               className="Orders__action"
               onClick={handleNewOrderClick}
-              commonOutline
+              tertiary
               small
             >
               {I18n.t('TRADING_ENGINE.ORDERS.NEW_ORDER')}
@@ -263,8 +262,11 @@ const Orders = (props: Props) => {
           render={({ type }: Order) => (
             <div
               className={classNames(
-                getTypeColor(types.find(item => item.value === type)?.value),
                 'Orders__cell-value',
+                'Orders__type', {
+                  'Orders__type--buy': type.includes('BUY'),
+                  'Orders__type--sell': !type.includes('BUY'),
+                },
               )}
             >
               {I18n.t(types.find(item => item.value === type)?.label as string)}
@@ -417,7 +419,7 @@ const Orders = (props: Props) => {
               <div className="Orders__cell-value">
                 <Choose>
                   {/* If "symbolConfig" not available for order */}
-                  <When condition={status === OrderStatus.OPEN && !symbolConfig}>
+                  <When condition={status === OrderStatusesEnum.OPEN && !symbolConfig}>
                     <ErrorIcon id={`order-profit-${id}`} className="Orders__instrument-configuration-problem" />
                     <UncontrolledTooltip
                       placement="top"
@@ -426,7 +428,7 @@ const Orders = (props: Props) => {
                       {I18n.t('TRADING_ENGINE.ORDERS.GRID.INSTRUMENT_CONFIGURATION_PROBLEM')}
                     </UncontrolledTooltip>
                   </When>
-                  <When condition={status === OrderStatus.OPEN}>
+                  <When condition={status === OrderStatusesEnum.OPEN}>
                     <PnL
                       type={type}
                       openPrice={openPrice}
@@ -437,7 +439,7 @@ const Orders = (props: Props) => {
                       exchangeRate={pnlRates[account.currency]}
                     />
                   </When>
-                  <When condition={status === OrderStatus.CLOSED}>
+                  <When condition={status === OrderStatusesEnum.CLOSED}>
                     {pnl?.gross?.toFixed(2)}
                   </When>
                   <Otherwise>
@@ -451,7 +453,16 @@ const Orders = (props: Props) => {
         <Column
           header={I18n.t('TRADING_ENGINE.ORDERS.GRID.STATUS')}
           render={({ status }: Order) => (
-            <div className={tradeStatusesColor[status]}>
+            <div
+              className={classNames(
+                'Orders__status',
+                {
+                  'Orders__status--pending': status === OrderStatusesEnum.PENDING,
+                  'Orders__status--open': status === OrderStatusesEnum.OPEN,
+                  'Orders__status--closed': status === OrderStatusesEnum.CLOSED,
+                },
+              )}
+            >
               <strong>{I18n.t(`TRADING_ENGINE.ORDERS.STATUSES.${status}`)}</strong>
             </div>
           )}
@@ -460,7 +471,7 @@ const Orders = (props: Props) => {
           <Column
             header={I18n.t('TRADING_ENGINE.ORDERS.GRID.ACTIONS')}
             render={(order: Order) => (
-              <If condition={order.status === OrderStatus.OPEN}>
+              <If condition={order.status === OrderStatusesEnum.OPEN}>
                 <PermissionContent permissions={permissions.WE_TRADING.CLOSE_ORDER}>
                   <Button
                     type="submit"

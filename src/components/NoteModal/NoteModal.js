@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -78,11 +77,7 @@ class NoteModal extends PureComponent {
                   maxLength={MAX_NOTE_BODY_LENGTH}
                   component={FormikTextAreaField}
                 />
-                <div
-                  className={classNames({
-                    'color-danger': content && content.length > MAX_NOTE_BODY_LENGTH,
-                  })}
-                >
+                <div>
                   {`${(content && content.length) || 0}/${MAX_NOTE_BODY_LENGTH}`}
                 </div>
                 <Field
@@ -94,7 +89,7 @@ class NoteModal extends PureComponent {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  commonOutline
+                  tertiary
                   onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}

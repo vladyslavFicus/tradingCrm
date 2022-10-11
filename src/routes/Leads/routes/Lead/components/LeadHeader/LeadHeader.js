@@ -63,7 +63,7 @@ class LeadHeader extends PureComponent {
             >
               <Button
                 small
-                commonOutline
+                tertiary
                 className="LeadHeader__action"
               >
                 {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
@@ -75,7 +75,7 @@ class LeadHeader extends PureComponent {
             <PermissionContent permissions={permissions.LEADS.PROMOTE_LEAD}>
               <Button
                 small
-                commonOutline
+                tertiary
                 className="LeadHeader__action"
                 onClick={this.handlePromoteLead}
               >

@@ -1,0 +1,22 @@
+.FormikSelectField {
+  margin-bottom: 20px;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__error {
+    color: var(--state-colors-danger);
+    font-size: 12px;
+    margin-top: 3px;
+
+    i {
+      position: relative;
+      top: 2px;
+      margin-right: 5px;
+      font-size: 16px;
+    }
+  }
+}

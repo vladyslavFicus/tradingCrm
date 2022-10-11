@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'reactstrap';
+import './FailedStatusIcon.scss';
 
 class FailedStatusIcon extends PureComponent {
   static propTypes = {
@@ -13,7 +14,7 @@ class FailedStatusIcon extends PureComponent {
   };
 
   static defaultProps = {
-    iconClassName: 'transaction-failed-icon',
+    iconClassName: 'FailedStatusIcon',
     showTimeout: 350,
     hideTimeout: 250,
     onOpen: null,
@@ -38,7 +39,7 @@ class FailedStatusIcon extends PureComponent {
   render() {
     const { id, children, showTimeout, hideTimeout, iconClassName } = this.props;
     return (
-      <span className="failed-status-icon">
+      <span>
         <i id={id} className={iconClassName} />
         <Tooltip
           placement="bottom"

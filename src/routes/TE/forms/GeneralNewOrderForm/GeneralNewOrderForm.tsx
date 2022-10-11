@@ -25,7 +25,7 @@ import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
-import { useFavoriteSymbolDataQuery } from 'routes/TE/routes/Quotes/graphql/__generated__/getFavoriteSymbols';
+import { useFavoriteSymbolsQuery } from './graphql/__generated__/FavoriteSymbolsQuery';
 import { useCreateOrderMutation } from './graphql/__generated__/CreateOrderMutation';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
@@ -94,14 +94,14 @@ const GeneralNewOrderForm = (props: Props) => {
   const allowedSymbols = accountSymbolsQuery.data?.tradingEngine.accountSymbols || [];
   const isAccountArchived = !account?.enable;
 
-  const favoriteSymbolsQuery = useFavoriteSymbolDataQuery();
+  const favoriteSymbolsQuery = useFavoriteSymbolsQuery();
   const favoriteSymbolsData = favoriteSymbolsQuery.data?.tradingEngine.favoriteSymbolData || [];
 
   const favoriteSymbols = useMemo(() => intersectionWith(
     favoriteSymbolsData,
     allowedSymbols,
     (item, { name }) => item === name,
-  ), [allowedSymbols]);
+  ), [allowedSymbols, favoriteSymbolsData]);
 
   // Symbol tree to render inside SelectTree component
   const allowedSymbolsTree = useMemo(
@@ -484,7 +484,7 @@ const GeneralNewOrderForm = (props: Props) => {
               <Button
                 className="GeneralNewOrderForm__button GeneralNewOrderForm__button--small"
                 type="button"
-                primaryOutline
+                tertiary
                 disabled={autoOpenPrice || !account || isAccountArchived}
                 onClick={() => setFieldValue('openPrice', currentPriceBid)}
               >

@@ -32,7 +32,7 @@ class FileUpload extends PureComponent {
     const { label, singleMode, className } = this.props;
 
     return (
-      <label className={classNames('btn btn-default-outline btn-file', className)}>
+      <label className={classNames('FileButton', className)}>
         <input
           type="file"
           onClick={this.handleClick}

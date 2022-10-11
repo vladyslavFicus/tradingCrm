@@ -7,18 +7,16 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { NetworkStatus } from '@apollo/client';
 import { withModals } from 'hoc';
+import { getBackofficeBrand } from 'config';
 import PropTypes from 'constants/propTypes';
-import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import { Table, Column } from 'components/Table';
-import GridStatusDeskTeam from 'components/GridStatusDeskTeam';
+import { AdjustableTable, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
-import GridStatus from 'components/GridStatus';
+import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import Uuid from 'components/Uuid';
 import MiniProfile from 'components/MiniProfile';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
-import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
 import { leadStatuses } from '../../../../constants';
 import { MAX_SELECTED_LEADS } from '../../constants';
@@ -99,13 +97,13 @@ class LeadsGrid extends PureComponent {
   renderLead = ({ uuid, name, surname }) => (
     <>
       <div
-        className="LeadsGrid__primary LeadsGrid__name"
+        className="LeadsGrid__general LeadsGrid__name"
         onClick={() => this.handleRowClick(uuid)}
       >
         {name} {surname}
       </div>
 
-      <div className="LeadsGrid__secondary">
+      <div className="LeadsGrid__additional">
         <MiniProfile id={uuid} type="lead">
           <Uuid uuid={uuid} uuidPrefix="LE" />
         </MiniProfile>
@@ -117,10 +115,10 @@ class LeadsGrid extends PureComponent {
     <>
       <Choose>
         <When condition={affiliate || source}>
-          <div className="LeadsGrid__primary">
+          <div className="LeadsGrid__general">
             {affiliate}
           </div>
-          <div className="LeadsGrid__secondary">
+          <div className="LeadsGrid__additional">
             {source}
           </div>
         </When>
@@ -147,32 +145,23 @@ class LeadsGrid extends PureComponent {
     </Choose>
   );
 
-  renderSales = ({ acquisition }) => {
-    const { salesStatus, salesOperator } = acquisition || {};
-
-    return (
-      <GridStatus
-        colorClassName={salesStatusesColor[salesStatus]}
-        statusLabel={I18n.t(renderLabel(salesStatus, salesStatuses))}
-        info={(
-          <If condition={salesOperator}>
-            <GridStatusDeskTeam
-              fullName={salesOperator.fullName}
-              hierarchy={salesOperator.hierarchy}
-            />
-          </If>
-        )}
-      />
-    );
-  };
+  renderSales = ({ acquisition }) => (
+    <GridAcquisitionStatus
+      active
+      acquisition="SALES"
+      status={acquisition?.salesStatus}
+      fullName={acquisition?.salesOperator?.fullName}
+      hierarchy={acquisition?.salesOperator?.hierarchy}
+    />
+  );
 
   renderRegistrationDate = ({ registrationDate }) => (
     <>
-      <div className="LeadsGrid__primary">
+      <div className="LeadsGrid__general">
         {moment.utc(registrationDate).local().format('DD.MM.YYYY')}
       </div>
 
-      <div className="LeadsGrid__secondary">
+      <div className="LeadsGrid__additional">
         {moment.utc(registrationDate).local().format('HH:mm:ss')}
       </div>
     </>
@@ -185,11 +174,11 @@ class LeadsGrid extends PureComponent {
       <Choose>
         <When condition={content && changedAt}>
           <div className="LeadsGrid__last-note">
-            <div className="LeadsGrid__primary">
+            <div className="LeadsGrid__general">
               {moment.utc(changedAt).local().format('DD.MM.YYYY')}
             </div>
 
-            <div className="LeadsGrid__secondary">
+            <div className="LeadsGrid__additional">
               {moment.utc(changedAt).local().format('HH:mm:ss')}
             </div>
 
@@ -226,13 +215,13 @@ class LeadsGrid extends PureComponent {
     return (
       <Choose>
         <When condition={lastCall}>
-          <div className="LeadsGrid__primary">
+          <div className="LeadsGrid__general">
             {moment.utc(date).local().format('DD.MM.YYYY')}
           </div>
-          <div className="LeadsGrid__secondary">
+          <div className="LeadsGrid__additional">
             {moment.utc(date).local().format('HH:mm:ss')}
           </div>
-          <div className="LeadsGrid__secondary">
+          <div className="LeadsGrid__additional">
             {startCase(callSystem.toLowerCase())}
           </div>
         </When>
@@ -245,8 +234,13 @@ class LeadsGrid extends PureComponent {
 
   renderStatus = ({ status, statusChangedDate, convertedByOperatorUuid, convertedToClientUuid }) => (
     <>
-      <div className={classNames('LeadsGrid__status-title', leadStatuses[status].color)}>
-        {I18n.t(leadStatuses[status].label)}
+      <div
+        className={classNames('LeadsGrid__status-title', {
+          'LeadsGrid__status-title--new': status === 'NEW',
+          'LeadsGrid__status-title--converted': status === 'CONVERTED',
+        })}
+      >
+        {I18n.t(leadStatuses[status])}
       </div>
 
       <If condition={statusChangedDate}>
@@ -255,17 +249,10 @@ class LeadsGrid extends PureComponent {
         </div>
       </If>
 
-      <If condition={convertedToClientUuid}>
-        <Choose>
-          <When condition={convertedByOperatorUuid}>
-            <div className="LeadsGrid__status-operator">
-              {I18n.t('COMMON.BY')} <Uuid uuid={convertedByOperatorUuid} />
-            </div>
-          </When>
-          <Otherwise>
-            <small>{I18n.t('LEADS.STATUSES.SELF_CONVETED')}</small>
-          </Otherwise>
-        </Choose>
+      <If condition={convertedToClientUuid && convertedByOperatorUuid}>
+        <div className="LeadsGrid__status-operator">
+          {I18n.t('COMMON.BY')} <Uuid uuid={convertedByOperatorUuid} />
+        </div>
       </If>
     </>
   );
@@ -287,10 +274,12 @@ class LeadsGrid extends PureComponent {
 
     // Show loader only if initial load or new variables was applied
     const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(leadsQuery.networkStatus);
+    const columnsOrder = getBackofficeBrand()?.tables?.leads?.columnsOrder;
 
     return (
       <div className="LeadsGrid">
-        <Table
+        <AdjustableTable
+          columnsOrder={columnsOrder}
           withMultiSelect
           stickyFromTop={157}
           items={content}
@@ -305,42 +294,50 @@ class LeadsGrid extends PureComponent {
           onSelectError={this.handleSelectError}
         >
           <Column
+            name="lead"
             header={I18n.t('LEADS.GRID_HEADER.LEAD')}
             render={this.renderLead}
           />
           <Column
+            name="country"
             sortBy="country"
             header={I18n.t('LEADS.GRID_HEADER.COUNTRY')}
             render={this.renderCountry}
           />
           <Column
+            name="sales"
             header={I18n.t('LEADS.GRID_HEADER.SALES')}
             render={this.renderSales}
           />
           <Column
+            name="affiliate"
             header={I18n.t('LEADS.GRID_HEADER.AFFILIATE')}
             render={this.renderAffiliate}
           />
           <Column
+            name="registrationDate"
             sortBy="registrationDate"
             header={I18n.t('LEADS.GRID_HEADER.REGISTRATION')}
             render={this.renderRegistrationDate}
           />
           <Column
+            name="lastNote"
             header={I18n.t('LEADS.GRID_HEADER.LAST_NOTE')}
             sortBy="lastNote.changedAt"
             render={this.renderLastNote}
           />
           <Column
+            name="lastCall"
             header={I18n.t('LEADS.GRID_HEADER.LAST_CALL')}
             sortBy="lastCall.date"
             render={this.renderLastCall}
           />
           <Column
+            name="status"
             header={I18n.t('LEADS.GRID_HEADER.STATUS')}
             render={this.renderStatus}
           />
-        </Table>
+        </AdjustableTable>
       </div>
     );
   }

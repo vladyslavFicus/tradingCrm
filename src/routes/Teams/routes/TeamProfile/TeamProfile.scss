@@ -2,14 +2,15 @@
   width: 94%;
   min-width: 960px;
   margin: auto;
-  background-color: #fff;
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
 
   &__header {
     padding-bottom: 50px;
-    background: linear-gradient(180deg, white 0%, white 0%, #f8f8f8 100%, #f8f8f8 100%);
+    background: var(--surface-gradient-background);
   }
 
   &__body {
-    background-color: #fff;
+    background-color: var(--surface-page-background);
   }
 }

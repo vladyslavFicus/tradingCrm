@@ -9,7 +9,6 @@ import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import { Sort, State } from 'types';
 import { types } from '../../attributes/constants';
-import { getTypeColor } from '../../attributes/utils';
 import AccountProfileTransactionsGridFilter from './components/AccountProfileTransactionsGridFilter';
 import { TransactionsQueryVariables, useTransactionsQuery } from './graphql/__generated__/TransactionsQuery';
 import './AccountProfileTransactionsGrid.scss';
@@ -99,8 +98,8 @@ const AccountProfileTransactionsGrid = () => {
             render={({ type }) => (
               <div
                 className={classNames(
-                  getTypeColor(types.find(item => item.value === type)?.value || ''),
                   'AccountProfileTransactionsGrid__cell-value',
+                  'AccountProfileTransactionsGrid__type',
                 )}
               >
                 {I18n.t(types.find(item => item.value === type)?.label || '')}
