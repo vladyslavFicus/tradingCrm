@@ -46,6 +46,7 @@ class SessionsSettings extends PureComponent<Props> {
       symbolSessions: state.symbolSessions.map(item => ({
         dayOfWeek: item.dayOfWeek,
         ...props.values.symbolSessions.find(session => session.dayOfWeek === item.dayOfWeek),
+        ...props.values.swapConfigs?.swapDayTimes?.find(session => session.dayOfWeek === item.dayOfWeek),
       })),
     };
   }
@@ -104,18 +105,16 @@ class SessionsSettings extends PureComponent<Props> {
   );
 
   renderMultiplier = (value: SwapDayTimes) => (
-    <>
-      <Choose>
-        <When condition={!!value?.multiplier}>
-          <div className="SessionsSettings__text-primary">
-            {value?.multiplier}
-          </div>
-        </When>
-        <Otherwise>
-          <span>&mdash;</span>
-        </Otherwise>
-      </Choose>
-    </>
+    <Choose>
+      <When condition={!!value?.multiplier}>
+        <div className="SessionsSettings__text-primary">
+          {value?.multiplier}
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
   render() {
