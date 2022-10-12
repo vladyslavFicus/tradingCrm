@@ -4012,8 +4012,9 @@
       },
       "GRID_HEADER": {
         "DAY": "Day",
-        "QUOTES": "Quotes",
-        "TRADE": "Trade"
+        "PERIODS": "Periods",
+        "SWAP_TIME": "Swap time",
+        "MULTIPLAYER": "Multiplier"
       },
       "MODALS": {
         "SCHEDULE": {

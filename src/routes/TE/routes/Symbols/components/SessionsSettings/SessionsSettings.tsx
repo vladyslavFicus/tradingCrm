@@ -2,12 +2,11 @@ import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
-import moment from 'moment';
 import I18n from 'i18n';
 import { withModals } from 'hoc';
-import { Button } from 'components/UI';
 import { Modal } from 'types/modal';
 import { Table, Column } from 'components/Table';
+import { TradingEngineSymbol__SwapsConfigsSwapDayTimes as SwapDayTimes } from '__generated__/types';
 import { SymbolSession, SessionType, DayOfWeek, FormValues } from '../../types';
 import ScheduleSettingsModal from '../../modals/ScheduleSettingsModal';
 import './SessionsSettings.scss';
@@ -51,78 +50,6 @@ class SessionsSettings extends PureComponent<Props> {
     };
   }
 
-  validationSymbolSessions = (value: SymbolSession[]) => (
-    value.map((item) => {
-      // If session contains trade and does not contain quote, need to add error message
-      if (item?.trade && !item?.quote) {
-        return {
-          ...item,
-          error: I18n.t('TRADING_ENGINE.SYMBOL.SESSIONS_ERROR.QUOTE_REQUIRED_ERROR'),
-        };
-      }
-
-      // When session contains trade and quote, then need to compare time range
-      // (trading session should be <= quote session)
-      if (item?.trade && item?.quote) {
-        const {
-          trade: {
-            openTime: tradeOpenTime,
-            closeTime: tradeCloseTime,
-          },
-          quote: {
-            openTime: quoteOpenTime,
-            closeTime: quoteCloseTime,
-          },
-        } = item;
-
-        const format = 'HH:mm';
-        const quoteOpenTimeMoment = moment(quoteOpenTime, format);
-        const quoteCloseTimeMoment = moment(quoteCloseTime, format);
-        const tradeOpenTimeMoment = moment(tradeOpenTime, format);
-        const tradeCloseTimeMoment = moment(tradeCloseTime, format);
-
-        const isInRangeOpenTime = tradeOpenTimeMoment
-          .isBetween(quoteOpenTimeMoment, quoteCloseTimeMoment, undefined, '[)');
-
-        const isInRangeCloseTime = tradeCloseTimeMoment
-          .isBetween(quoteOpenTimeMoment, quoteCloseTimeMoment, undefined, '(]');
-
-        if (!isInRangeOpenTime || !isInRangeCloseTime) {
-          return {
-            ...item,
-            error: I18n.t('TRADING_ENGINE.SYMBOL.SESSIONS_ERROR.RANGE_ERROR'),
-          };
-        }
-      }
-
-      return {
-        ...item,
-        error: null,
-      };
-    })
-  )
-
-  handleSymbolSessionsChange = (value: SymbolSession) => {
-    const { symbolSessions } = this.state;
-    // Matched index for existing day in state
-    const matchIndex = symbolSessions
-      .findIndex((({ dayOfWeek }) => dayOfWeek === value.dayOfWeek));
-
-    // Add/update data for a new or existing day
-    symbolSessions.splice(matchIndex, 1, { ...symbolSessions[matchIndex], ...value });
-
-    const validatedSymbolSessions = this.validationSymbolSessions(symbolSessions);
-
-    this.setState({ symbolSessions: validatedSymbolSessions });
-
-    // Get list of days which contains data in trade or quote
-    const symbolSessionsContainWorkingHours = validatedSymbolSessions.filter(
-      item => Object.keys(item).some(i => ['trade', 'quote'].includes(i)),
-    );
-
-    this.props.setFieldValue('symbolSessions', symbolSessionsContainWorkingHours);
-  }
-
   triggerEditScheduleModal = (value: SymbolSession, sessionType: SessionType) => {
     const {
       modals: { scheduleSettings },
@@ -131,23 +58,11 @@ class SessionsSettings extends PureComponent<Props> {
     scheduleSettings.show({
       ...value,
       sessionType,
-      onSuccess: this.handleSymbolSessionsChange,
+      onSuccess: this.props.setFieldValue,
     });
   };
 
-  renderActions = (value: SymbolSession, sessionType: SessionType) => (
-    <Button
-      icon
-      className="SessionsSettings__edit"
-    >
-      <i
-        onClick={() => this.triggerEditScheduleModal(value, sessionType)}
-        className="fa fa-edit"
-      />
-    </Button>
-  );
-
-  renderDay = ({ dayOfWeek } : SymbolSession) => (
+  renderDay = ({ dayOfWeek }: SymbolSession) => (
     <Choose>
       <When condition={!!dayOfWeek}>
         <div className="SessionsSettings__day">{I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}</div>
@@ -158,43 +73,48 @@ class SessionsSettings extends PureComponent<Props> {
     </Choose>
   );
 
-  renderQuotes = (value: SymbolSession) => (
-    <>
-      <Choose>
-        <When condition={!!value?.quote}>
-          <div className="SessionsSettings__text-primary">
-            {`
-              ${I18n.t('COMMON.FROM')} ${value?.quote?.openTime}
-              ${I18n.t('COMMON.TO')} ${value?.quote?.closeTime}
-            `}
-          </div>
-        </When>
-        <Otherwise>
-          <span>&mdash;</span>
-        </Otherwise>
-      </Choose>
-
-      {this.renderActions(value, SessionType.QUOTE)}
-    </>
+  renderPeriods = (value: SymbolSession) => (
+    <Choose>
+      <When condition={!!value.periods}>
+        <div className="SessionsSettings__text-primary">
+          {value.periods!.map(period => (
+            `${I18n.t('COMMON.FROM')} ${period?.openTime}
+              ${I18n.t('COMMON.TO')} ${period?.closeTime}
+            `
+          )).join(', ')}
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
   );
 
-  renderTrade = (value: SymbolSession) => (
+  renderSwapTime = (value: SwapDayTimes) => (
+    <Choose>
+      <When condition={!!value.swapTime}>
+        <div className="SessionsSettings__text-primary">
+          {value?.swapTime}
+        </div>
+      </When>
+      <Otherwise>
+        <span>&mdash;</span>
+      </Otherwise>
+    </Choose>
+  );
+
+  renderMultiplier = (value: SwapDayTimes) => (
     <>
       <Choose>
-        <When condition={!!value?.trade}>
+        <When condition={!!value?.multiplier}>
           <div className="SessionsSettings__text-primary">
-            {`
-              ${I18n.t('COMMON.FROM')} ${value?.trade?.openTime}
-              ${I18n.t('COMMON.TO')} ${value?.trade?.closeTime}
-            `}
+            {value?.multiplier}
           </div>
         </When>
         <Otherwise>
           <span>&mdash;</span>
         </Otherwise>
       </Choose>
-
-      {this.renderActions(value, SessionType.TRADE)}
     </>
   );
 
@@ -211,7 +131,7 @@ class SessionsSettings extends PureComponent<Props> {
           ({ error, dayOfWeek }: SymbolSessionWithError) => error
             && (
               <div className="SessionsSettings__message-error" key={dayOfWeek}>
-                <strong>{I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}: </strong> { error }
+                <strong>{I18n.t(`TRADING_ENGINE.SYMBOL.WEEK.${dayOfWeek}`)}: </strong> {error}
               </div>
             ),
         )}
@@ -230,14 +150,19 @@ class SessionsSettings extends PureComponent<Props> {
             render={this.renderDay}
           />
           <Column
-            width={470}
-            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.QUOTES')}
-            render={this.renderQuotes}
+            width={450}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.PERIODS')}
+            render={this.renderPeriods}
           />
           <Column
-            width={470}
-            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.TRADE')}
-            render={this.renderTrade}
+            width={300}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.SWAP_TIME')}
+            render={this.renderSwapTime}
+          />
+          <Column
+            width={150}
+            header={I18n.t('TRADING_ENGINE.SYMBOL.GRID_HEADER.MULTIPLAYER')}
+            render={this.renderMultiplier}
           />
         </Table>
       </div>

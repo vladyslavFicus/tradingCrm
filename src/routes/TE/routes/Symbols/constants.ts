@@ -35,41 +35,6 @@ const swapTypesLabels = [
   },
 ];
 
-const rolloverLabels = [
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.MONDAY',
-    value: 'MONDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.TUESDAY',
-    value: 'TUESDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.WEDNESDAY',
-    value: 'WEDNESDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.THURSDAY',
-    value: 'THURSDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.FRIDAY',
-    value: 'FRIDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.SATURDAY',
-    value: 'SATURDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.SUNDAY',
-    value: 'SUNDAY',
-  },
-  {
-    name: 'TRADING_ENGINE.SYMBOL.WEEK.NONE',
-    value: null,
-  },
-];
-
 const backgroundColor = [
   {
     name: 'TRADING_ENGINE.SYMBOL.BACKGROUND_COLOR.RED',
@@ -142,7 +107,6 @@ export {
   profitCalculationLabels,
   marginCalculationLabels,
   swapTypesLabels,
-  rolloverLabels,
   backgroundColor,
   symbolTypeLabels,
   weekends,

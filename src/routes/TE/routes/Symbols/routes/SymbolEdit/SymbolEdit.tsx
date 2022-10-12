@@ -205,7 +205,7 @@ const SymbolEdit = (props: Props) => {
                 type: swapConfigs?.type || SwapType.POINTS,
                 long: swapConfigs?.long || 0.000000,
                 short: swapConfigs?.short || 0.000000,
-                rollover: swapConfigs?.rollover,
+                swapDayTimes: swapConfigs?.swapDayTimes,
               },
               defaultFiltration,
               filtration: {
@@ -220,7 +220,7 @@ const SymbolEdit = (props: Props) => {
             } as FormValues}
             onSubmit={handleSubmit}
           >
-            {(formik : FormikProps<FormValues>) => {
+            {(formik: FormikProps<FormValues>) => {
               // @ts-expect-error 'error' field inside symbolSessions from SessionsSettings component state
               const symbolSessionContainsErrors = formik.values?.symbolSessions.filter(({ error }) => error);
 

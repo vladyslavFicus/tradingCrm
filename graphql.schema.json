@@ -33939,18 +33939,6 @@
             "deprecationReason": null
           },
           {
-            "name": "rollover",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "TradingEngine__DaysOfWeek__Enum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "short",
             "description": null,
             "type": {
@@ -33959,6 +33947,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Float",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "swapDayTimes",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "TradingEngineSymbol__SwapsConfigsSwapDayTimes__Input",
                 "ofType": null
               }
             },
@@ -34006,24 +34010,16 @@
             "deprecationReason": null
           },
           {
-            "name": "quote",
+            "name": "periods",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TradingEngineCreateSymbol__SymbolSessionsTime__Input",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "trade",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TradingEngineCreateSymbol__SymbolSessionsTime__Input",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "TradingEngineCreateSymbol__SymbolSessionsTime__Input",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -40107,18 +40103,6 @@
             "deprecationReason": null
           },
           {
-            "name": "rollover",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "ENUM",
-              "name": "TradingEngine__DaysOfWeek__Enum",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "short",
             "description": null,
             "args": [],
@@ -40129,6 +40113,30 @@
                 "kind": "SCALAR",
                 "name": "Float",
                 "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "swapDayTimes",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "TradingEngineSymbol__SwapsConfigsSwapDayTimes",
+                    "ofType": null
+                  }
+                }
               }
             },
             "isDeprecated": false,
@@ -40154,6 +40162,124 @@
       },
       {
         "kind": "OBJECT",
+        "name": "TradingEngineSymbol__SwapsConfigsSwapDayTimes",
+        "description": null,
+        "fields": [
+          {
+            "name": "dayOfWeek",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TradingEngine__DaysOfWeek__Enum",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "multiplier",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "swapTime",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TradingEngineSymbol__SwapsConfigsSwapDayTimes__Input",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "dayOfWeek",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TradingEngine__DaysOfWeek__Enum",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "multiplier",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "swapTime",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "TradingEngineSymbol__SymbolSessions",
         "description": null,
         "fields": [
@@ -40174,25 +40300,25 @@
             "deprecationReason": null
           },
           {
-            "name": "quote",
+            "name": "periods",
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "TradingEngineSymbol__SymbolSessionsTime",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "trade",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "TradingEngineSymbol__SymbolSessionsTime",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "TradingEngineSymbol__SymbolSessionsTime",
+                    "ofType": null
+                  }
+                }
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null

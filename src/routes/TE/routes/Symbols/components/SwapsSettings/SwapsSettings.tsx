@@ -6,7 +6,7 @@ import {
   FormikCheckbox,
   FormikSelectField,
 } from 'components/Formik';
-import { swapTypesLabels, rolloverLabels } from '../../constants';
+import { swapTypesLabels } from '../../constants';
 import './SwapsSettings.scss';
 
 const SwapsSettings = () => (
@@ -52,21 +52,6 @@ const SwapsSettings = () => (
         className="SwapsSettings__field"
         component={FormikInputField}
       />
-      <Field
-        name="swapConfigs.rollover"
-        label={I18n.t('TRADING_ENGINE.SYMBOL.3_DAYS_SWAP_LABEL')}
-        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        className="SwapsSettings__field"
-        component={FormikSelectField}
-        searchable
-      >
-        {rolloverLabels.map(({ name, value }) => (
-          // @ts-ignore Because in .tsx files value can't be as option value
-          <option key={value} value={value}>
-            {I18n.t(name)}
-          </option>
-        ))}
-      </Field>
     </div>
   </div>
 );

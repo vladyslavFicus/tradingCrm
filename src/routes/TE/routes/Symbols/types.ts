@@ -3,6 +3,7 @@ import {
   TradingEngine__DaysOfWeek__Enum as DayOfWeek,
   TradingEngine__SwapTypes__Enum as SwapType,
   TradingEngineEditSymbol__SymbolSessions__Input as SymbolSession,
+  TradingEngineSymbol__SwapsConfigsSwapDayTimes as SwapDayTimes,
 } from '__generated__/types';
 
 export enum SessionType {
@@ -30,7 +31,7 @@ export interface FormValues {
   backgroundColor: string,
   swapConfigs: {
     enable: boolean,
-    rollover: DayOfWeek,
+    swapDayTimes: [SwapDayTimes],
     type: SwapType,
     long: number,
     short: number,

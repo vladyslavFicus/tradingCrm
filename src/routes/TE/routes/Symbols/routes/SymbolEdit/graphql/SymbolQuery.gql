@@ -41,16 +41,17 @@ query SymbolQuery($symbolName: String!) {
         type
         long
         short
-        rollover
+        swapDayTimes {
+          dayOfWeek
+          multiplier
+          swapTime
+        }
+
       }
       backgroundColor
       symbolSessions {
         dayOfWeek
-        quote {
-          openTime
-          closeTime
-        }
-        trade {
+        periods {
           openTime
           closeTime
         }
