@@ -85,15 +85,8 @@ const NewOrderModal = (props: Props) => {
         {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TITLE')}
       </ModalHeader>
       <ModalBody>
-        <div className="NewOrderModal__inner-wrapper">
-          <SymbolChart
-            className="NewOrderModal__chart"
-            symbol={symbol}
-            accountUuid={account?.uuid || ''}
-            // Show loader while account loading or symbol wasn't chosen
-            loading={accountQuery.loading || (account && !symbol)}
-          />
-          <div className="NewOrderModal__form">
+        <div className="NewOrderModal__container">
+          <div className="NewOrderModal__container-left">
             <If condition={!!formError}>
               <div className="NewOrderModal__error">
                 {formError}
@@ -165,6 +158,17 @@ const NewOrderModal = (props: Props) => {
               </div>
             </If>
 
+            <SymbolChart
+              symbol={symbol}
+              accountUuid={account?.uuid || ''}
+              width={574}
+              className="NewOrderModal__chart"
+              // Show loader while account loading or symbol wasn't chosen
+              loading={accountQuery.loading || (account && !symbol)}
+            />
+          </div>
+
+          <div className="NewOrderModal__container-right">
             <StaticTabs
               hideIfOne
               navClassName="NewOrderModal__tabs-nav"
