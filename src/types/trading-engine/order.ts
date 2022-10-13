@@ -15,3 +15,9 @@ export enum OrderDirection {
   BUY = 'BUY',
   SELL = 'SELL',
 }
+
+export enum OrderCloseByEnum {
+  MARKET = 'MARKET',
+  STOP_LOSS = 'STOP_LOSS',
+  TAKE_PROFIT = 'TAKE_PROFIT',
+}

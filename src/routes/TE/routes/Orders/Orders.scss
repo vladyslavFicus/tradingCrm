@@ -65,4 +65,14 @@
       color: var(--state-colors-danger);
     }
   }
+
+  &__cell-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__cell-actions-dropdown {
+    margin-left: 5px;
+  }
 }
