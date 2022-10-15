@@ -1286,7 +1286,9 @@
         "RETENTION_STATUS": "保留状态",
         "ASSIGN_STATUS": "分配状态",
         "KYC_STATUS": "KYC状态",
-        "FIRST_DEPOSIT": "第一次存款"
+        "FIRST_DEPOSIT": "第一次存款",
+        "SALES_OPERATORS": "Sales operators",
+        "RETENTION_OPERATORS": "Retention operators"
       }
     }
   },
