@@ -11,7 +11,7 @@ import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/user';
-import { statuses as operatorsStatuses } from 'constants/operators';
+import { statuses as operatorsStasuses } from 'constants/operators';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { kycStatusesLabels } from 'constants/kycStatuses';
@@ -395,70 +395,8 @@ class ClientsGridOldFilter extends PureComponent {
                           key={uuid}
                           value={uuid}
                           className={classNames('ClientsGridOldFilter__select-item', {
-                            'ClientsGridOldFilter__select-item--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
-                          })}
-                        >
-                          {fullName}
-                        </option>
-                      ))}
-                    </Field>
-
-                    <Field
-                      name="salesOperators"
-                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
-                      label={I18n.t(attributeLabels.salesOperators)}
-                      placeholder={
-                        I18n.t(
-                          (!isOperatorsLoading && operatorsOptions.length === 0)
-                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                            : 'COMMON.SELECT_OPTION.ANY',
-                        )
-                      }
-                      component={FormikSelectField}
-                      disabled={isOperatorsLoading || operatorsOptions.length === 0}
-                      searchable
-                      withFocus
-                      multiple
-                    >
-                      {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                        <option
-                          key={uuid}
-                          value={uuid}
-                          className={classNames('ClientsGridOldFilter__select-item', {
-                            'ClientsGridOldFilter__select-item--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
-                          })}
-                        >
-                          {fullName}
-                        </option>
-                      ))}
-                    </Field>
-
-                    <Field
-                      name="retentionOperators"
-                      className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
-                      label={I18n.t(attributeLabels.retentionOperators)}
-                      placeholder={
-                        I18n.t(
-                          (!isOperatorsLoading && operatorsOptions.length === 0)
-                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                            : 'COMMON.SELECT_OPTION.ANY',
-                        )
-                      }
-                      component={FormikSelectField}
-                      disabled={isOperatorsLoading || operatorsOptions.length === 0}
-                      searchable
-                      withFocus
-                      multiple
-                    >
-                      {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                        <option
-                          key={uuid}
-                          value={uuid}
-                          className={classNames('ClientsGridOldFilter__select-item', {
-                            'ClientsGridOldFilter__select-item--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
+                            'ClientsGridOldFilter__select-item--inactive': operatorStatus === operatorsStasuses.INACTIVE
+                              || operatorStatus === operatorsStasuses.CLOSED,
                           })}
                         >
                           {fullName}
