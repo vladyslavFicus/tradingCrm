@@ -3757,7 +3757,9 @@
       },
       "CLOSE_ORDER": {
         "TITLE": "Close order ",
-        "DESCRIPTION": "Do you really want to close order #{{id}} {{direction}} {{symbol}} using market price?",
+        "MARKET_DESCRIPTION": "Do you really want to close order #{{id}} {{direction}} {{symbol}} using market price?",
+        "STOP_LOSS_DESCRIPTION": "Do you really want to close order #{{id}} {{direction}} {{symbol}} by Stop Loss?",
+        "TAKE_PROFIT_DESCRIPTION": "Do you really want to close order #{{id}} {{direction}} {{symbol}} by Take Profit?",
         "CLOSE_BY_STOP_LOSS": "Do you want to close orders by Stop Loss? Warning: only orders with set Stop Loss will be close",
         "CLOSE_BY_TAKE_PROFIT": "Do you want to close orders by Take Profit? Warning: only orders with set Take Profit will be close",
         "CLOSE_BY_MARKET_PRICE": "Do you really want to close orders using market price?",
@@ -4184,7 +4186,9 @@
         "PNL": "P/L",
         "GROUP": "Group",
         "INSTRUMENT_CONFIGURATION_PROBLEM": "Instrument configuration problem",
-        "ACTIONS": "Actions"
+        "ACTIONS": "Actions",
+        "CLOSE_BY_STOP_LOSS": "Close by SL",
+        "CLOSE_BY_TAKE_PROFIT": "Close by TP"
       },
       "STATUSES": {
         "OPEN": "Open",
@@ -4336,7 +4340,10 @@
           "TRANSACTION": "Transaction",
           "AMOUNT": "Amount",
           "TIME": "Time",
-          "COMMISSION": "Commission"
+          "COMMISSION": "Commission",
+          "ACTIONS": "Actions",
+          "CLOSE_BY_STOP_LOSS": "Close by SL",
+          "CLOSE_BY_TAKE_PROFIT": "Close by TP"
         },
         "FILTER_FORM": {
           "SEARCH_BY": "Search by",

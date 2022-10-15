@@ -10,6 +10,7 @@ import { cloneDeep, set } from 'lodash';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { withNotifications, withModals } from 'hoc';
 import { LevelType, Notify, Modal, State, Sort } from 'types';
+import { OrderCloseByEnum } from 'types/trading-engine';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
@@ -19,6 +20,7 @@ import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
+import ActionsDropDown from 'components/ActionsDropDown';
 import { Storage } from 'types/storage';
 import PnL from 'routes/TE/components/PnL';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
@@ -119,17 +121,33 @@ const Orders = (props: Props) => {
     });
   };
 
-  const handleCloseOrderClick = async (order: Order) => {
+  const handleCloseOrderClick = async (order: Order, closeBy: OrderCloseByEnum) => {
     confirmationModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.TITLE'),
-      actionText: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.DESCRIPTION', order),
+      actionText: I18n.t(`TRADING_ENGINE.MODALS.CLOSE_ORDER.${closeBy}_DESCRIPTION`, order),
       submitButtonLabel: I18n.t('COMMON.YES'),
       cancelButtonLabel: I18n.t('COMMON.NO'),
       className: 'Orders__confirmation-modal',
       onSubmit: async () => {
+        // Close with price by market
+        let closePrice = null;
+
+        // Close with price by stop loss
+        if (closeBy === OrderCloseByEnum.STOP_LOSS) {
+          closePrice = order.stopLoss;
+        }
+
+        // Close with price by take profit
+        if (closeBy === OrderCloseByEnum.TAKE_PROFIT) {
+          closePrice = order.takeProfit;
+        }
+
         try {
           await closeOrder({
-            variables: { orderId: order.id },
+            variables: {
+              orderId: order.id,
+              closePrice,
+            },
           });
 
           notify({
@@ -138,7 +156,7 @@ const Orders = (props: Props) => {
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
           });
 
-          ordersQuery.refetch();
+          await ordersQuery.refetch();
         } catch (_) {
           notify({
             level: LevelType.ERROR,
@@ -469,19 +487,41 @@ const Orders = (props: Props) => {
         />
         <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER)}>
           <Column
+            width={0}
             header={I18n.t('TRADING_ENGINE.ORDERS.GRID.ACTIONS')}
             render={(order: Order) => (
-              <If condition={order.status === OrderStatusesEnum.OPEN}>
-                <PermissionContent permissions={permissions.WE_TRADING.CLOSE_ORDER}>
-                  <Button
-                    type="submit"
-                    onClick={() => handleCloseOrderClick(order)}
-                    danger
-                  >
-                    {I18n.t('COMMON.CLOSE')}
-                  </Button>
-                </PermissionContent>
-              </If>
+              <div className="Orders__cell-actions">
+                <If condition={order.status === OrderStatusesEnum.OPEN}>
+                  <PermissionContent permissions={permissions.WE_TRADING.CLOSE_ORDER}>
+                    <Button
+                      small
+                      danger
+                      type="submit"
+                      onClick={() => handleCloseOrderClick(order, OrderCloseByEnum.MARKET)}
+                    >
+                      {I18n.t('COMMON.CLOSE')}
+                    </Button>
+
+                    <ActionsDropDown
+                      className="Orders__cell-actions-dropdown"
+                      items={[
+                        ...(order.stopLoss !== null
+                          ? [{
+                            label: I18n.t('TRADING_ENGINE.ORDERS.GRID.CLOSE_BY_STOP_LOSS'),
+                            onClick: () => handleCloseOrderClick(order, OrderCloseByEnum.STOP_LOSS),
+                          }]
+                          : []),
+                        ...(order.takeProfit !== null
+                          ? [{
+                            label: I18n.t('TRADING_ENGINE.ORDERS.GRID.CLOSE_BY_TAKE_PROFIT'),
+                            onClick: () => handleCloseOrderClick(order, OrderCloseByEnum.TAKE_PROFIT),
+                          }]
+                          : []),
+                      ]}
+                    />
+                  </PermissionContent>
+                </If>
+              </div>
             )}
           />
         </If>
