@@ -87,7 +87,7 @@ const AdjustableTable = (props: Props) => {
   const gridConfig = type ? gridConfigQuery.data?.gridConfig || {} : undefined;
   const [selectedColumns, updateColumns] = useState();
 
-  const columns = selectedColumns || (!type && gridConfig?.columns) || defaultColumns || allAvailableColumns;
+  const columns = selectedColumns || (type && gridConfig?.columns) || defaultColumns || allAvailableColumns;
   const isColumnEnabled = (name: string) => !name || columns.map((item: string) => item).includes(name);
   const allColumns = sortColumns(getColumns(children), sortByName(columns, columnsOrder));
   const visibleColumns = allColumns.filter(({ props: { name } }: any) => isColumnEnabled(name));
