@@ -64,7 +64,7 @@ const CancelOrderButton = (props: Props) => {
 
   return (
     <Button
-      danger
+      secondary
       className="EditOrderModal__button"
       onClick={handleDeleteOrder}
       disabled={loading}
