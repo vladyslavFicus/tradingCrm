@@ -12,6 +12,9 @@ const REQUEST = gql`query ClientsGridFilter_DesksAndTeamsQuery {
     DESK {
       name
       uuid
+      parentBranch {
+        uuid
+      }
     }
     TEAM {
       name
