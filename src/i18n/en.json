@@ -3767,6 +3767,14 @@
           "CLOSE_FAILED": "Deal close failed"
         }
       },
+      "BULK_CANCEL_ORDERS": {
+        "TITLE": "Cancel orders",
+        "CANCEL": "Do you really want to cancel orders?",
+        "NOTIFICATION": {
+          "CANCEL_SUCCESS": "Orders has been successfully canceled",
+          "CANCEL_FAILED": "Orders cancelation failed"
+        }
+      },
       "NEW_SECURITY_MODAL": {
         "TITLE": "New Security",
         "NAME": "Name",

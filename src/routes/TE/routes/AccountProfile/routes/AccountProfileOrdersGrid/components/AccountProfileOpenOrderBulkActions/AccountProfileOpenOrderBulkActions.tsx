@@ -10,7 +10,7 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Button } from 'components/UI';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
-import './AccountProfileBulkActions.scss';
+import './AccountProfileOpenOrderBulkActions.scss';
 
 type Props = {
   modals: {
@@ -37,7 +37,7 @@ const getActionText = (type: closeByEnum) => {
   }
 };
 
-const AccountProfileBulkActions = (props: Props) => {
+const AccountProfileOpenOrderBulkActions = (props: Props) => {
   const {
     modals: {
       confirmationModal,
@@ -110,14 +110,14 @@ const AccountProfileBulkActions = (props: Props) => {
   };
 
   return (
-    <div className="AccountProfileBulkActions">
-      <div className="AccountProfileBulkActions__title">
+    <div className="AccountProfileOpenOrderBulkActions">
+      <div className="AccountProfileOpenOrderBulkActions__title">
         {I18n.t('TRADING_ENGINE.ACCOUNTS.BULK_ACTIONS')}
       </div>
 
       <Button
         tertiary
-        className="AccountProfileBulkActions__button"
+        className="AccountProfileOpenOrderBulkActions__button"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.MARKET_PRICE)}
       >
         {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.BULK_CLOSE_BY_MP')}
@@ -125,7 +125,7 @@ const AccountProfileBulkActions = (props: Props) => {
 
       <Button
         tertiary
-        className="AccountProfileBulkActions__button"
+        className="AccountProfileOpenOrderBulkActions__button"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.TAKE_PROFIT)}
       >
         {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.BULK_CLOSE_BY_TP')}
@@ -133,7 +133,7 @@ const AccountProfileBulkActions = (props: Props) => {
 
       <Button
         tertiary
-        className="AccountProfileBulkActions__button"
+        className="AccountProfileOpenOrderBulkActions__button"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.STOP_LOSS)}
       >
         {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.BULK_CLOSE_BY_SL')}
@@ -149,4 +149,4 @@ export default compose(
   withModals({
     confirmationModal: ConfirmActionModal,
   }),
-)(AccountProfileBulkActions);
+)(AccountProfileOpenOrderBulkActions);

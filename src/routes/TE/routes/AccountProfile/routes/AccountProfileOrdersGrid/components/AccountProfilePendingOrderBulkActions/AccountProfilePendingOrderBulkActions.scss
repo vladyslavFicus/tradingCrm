@@ -1,11 +1,11 @@
-.AccountProfileBulkActions {
+.AccountProfilePendingOrderBulkActions {
   display: flex;
   width: fit-content;
   flex-direction: row;
   align-items: center;
   padding: 10px 20px;
   background-color: var(--surface-filters-background);
-  border: 1px solid var(--divider);
+  border: 1px solid var(--accent);
   border-radius: 5px;
 
   &__title {

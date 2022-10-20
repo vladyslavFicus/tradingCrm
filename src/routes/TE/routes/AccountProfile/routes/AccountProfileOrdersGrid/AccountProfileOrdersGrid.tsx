@@ -27,7 +27,8 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { types } from '../../attributes/constants';
 import { MAX_SELECTED_ACCOUNT_ORDERS } from '../../constants';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
-import AccountProfileBulkActions from './components/AccountProfileBulkActions';
+import AccountProfileOpenOrderBulkActions from './components/AccountProfileOpenOrderBulkActions';
+import AccountProfilePendingOrderBulkActions from './components/AccountProfilePendingOrderBulkActions';
 import { useOrdersQuery, OrdersQuery, OrdersQueryVariables } from './graphql/__generated__/OrdersQuery';
 import { useCloseOrderMutation } from './graphql/__generated__/CloseOrderMutation';
 import './AccountProfileOrdersGrid.scss';
@@ -177,9 +178,18 @@ const AccountProfileOrdersGrid = (props: Props) => {
         </Placeholder>
 
         <PermissionContent permissions={permissions.WE_TRADING.BULK_ORDER_CLOSE}>
-          <If condition={!!select?.selected && orderStatus === OrderStatusesEnum.OPEN}>
+          <If condition={!!select?.selected}>
             <div className="AccountProfileOrdersGrid__actions">
-              <AccountProfileBulkActions select={select} ordersQuery={ordersQuery} />
+              <Choose>
+                <When condition={orderStatus === OrderStatusesEnum.OPEN}>
+                  <AccountProfileOpenOrderBulkActions select={select} ordersQuery={ordersQuery} />
+                </When>
+                <When condition={orderStatus === OrderStatusesEnum.PENDING}>
+                  <AccountProfilePendingOrderBulkActions select={select} ordersQuery={ordersQuery} />
+                </When>
+              </Choose>
+
+
             </div>
           </If>
         </PermissionContent>
