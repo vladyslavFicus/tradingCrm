@@ -446,8 +446,8 @@ class ClientsGridFilter extends PureComponent {
                         <option
                           key={uuid}
                           value={uuid}
-                          className={classNames('ClientsGridFilter__select-item', {
-                            'ClientsGridFilter__select-item--inactive': operatorStatus === operatorsStasuses.INACTIVE
+                          className={classNames('ClientsGridFilter__select-option', {
+                            'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStasuses.INACTIVE
                               || operatorStatus === operatorsStasuses.CLOSED,
                           })}
                         >

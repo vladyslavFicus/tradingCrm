@@ -167,8 +167,8 @@ class RulesFilters extends PureComponent {
                     <option
                       key={uuid}
                       value={uuid}
-                      className={classNames('RulesGridFilter__select-item', {
-                        'RulesGridFilter__select-item--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                      className={classNames('RulesGridFilter__select-option', {
+                        'RulesGridFilter__select-option--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
                       })}
                     >
                       {I18n.t(fullName)}

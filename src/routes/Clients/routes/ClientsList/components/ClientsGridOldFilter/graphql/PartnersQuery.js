@@ -20,13 +20,26 @@ const REQUEST = gql`query ClientsGridOldFilter_PartnersQuery(
     content {
       uuid
       fullName
+      status
     }
   }
 }
 `;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="cache-and-network">
+  <Query
+    query={REQUEST}
+    fetchPolicy="cache-and-network"
+    variables={{
+      page: {
+        sorts: [
+          { column: 'status', direction: 'ASC' },
+          { column: 'firstName', direction: 'ASC' },
+          { column: 'lastName', direction: 'ASC' },
+        ],
+      },
+    }}
+  >
     {children}
   </Query>
 );

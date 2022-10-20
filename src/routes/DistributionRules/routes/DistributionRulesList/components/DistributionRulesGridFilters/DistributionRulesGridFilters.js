@@ -3,6 +3,7 @@ import compose from 'compose-function';
 import { withRouter } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import PropTypes from 'constants/propTypes';
@@ -122,11 +123,21 @@ class DistributionRulesFilters extends PureComponent {
                   withFocus
                   multiple
                 >
-                  {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
-                    <option key={uuid} value={uuid}>
-                      {fullName}
-                    </option>
-                  ))}
+                  {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners]
+                    .map(({ uuid, fullName, status }) => (
+                      <option
+                        key={uuid}
+                        value={uuid}
+                        className={
+                          classNames('DistributionRulesFilters__select-option', {
+                            'DistributionRulesFilters__select-option--inactive': status === 'INACTIVE',
+                          })
+                        }
+                      >
+                        {fullName}
+                      </option>
+                    ))
+                  }
                 </Field>
                 <Field
                   name="languages"

@@ -23,6 +23,12 @@
     grid-column: span 2;
   }
 
+  &__select-option {
+    &--inactive {
+      color: var(--form-color-disabled) !important;
+    }
+  }
+
   &__date-range,
   &__search {
     grid-column: span 4;

@@ -214,8 +214,8 @@ class NotificationsFilters extends PureComponent {
                     <option
                       key={uuid}
                       value={uuid}
-                      className={classNames('NotificationsGridFilter__select-item', {
-                        'NotificationsGridFilter__select-item--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                      className={classNames('NotificationsGridFilter__select-option', {
+                        'NotificationsGridFilter__select-option--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
                       })}
                     >
                       {fullName}

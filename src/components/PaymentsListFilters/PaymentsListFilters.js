@@ -370,8 +370,8 @@ class PaymentsListFilters extends PureComponent {
                         <option
                           key={uuid}
                           value={uuid}
-                          className={classNames('PaymentsListFilters__select-item', {
-                            'PaymentsListFilters__select-item--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                          className={classNames('PaymentsListFilters__select-option', {
+                            'PaymentsListFilters__select-option--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
                           })}
                         >
                           {fullName}

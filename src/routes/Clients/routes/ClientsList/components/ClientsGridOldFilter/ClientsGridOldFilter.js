@@ -394,8 +394,9 @@ class ClientsGridOldFilter extends PureComponent {
                         <option
                           key={uuid}
                           value={uuid}
-                          className={classNames('ClientsGridOldFilter__select-item', {
-                            'ClientsGridOldFilter__select-item--inactive': operatorStatus === operatorsStasuses.INACTIVE
+                          className={classNames('ClientsGridOldFilter__select-option', {
+                            'ClientsGridOldFilter__select-option--inactive':
+                              operatorStatus === operatorsStasuses.INACTIVE
                               || operatorStatus === operatorsStasuses.CLOSED,
                           })}
                         >
@@ -422,11 +423,19 @@ class ClientsGridOldFilter extends PureComponent {
                         withFocus
                         multiple
                       >
-                        {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
-                          <option key={uuid} value={uuid}>
-                            {fullName}
-                          </option>
-                        ))}
+                        {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners]
+                          .map(({ uuid, fullName, status }) => (
+                            <option
+                              key={uuid}
+                              value={uuid}
+                              className={classNames('ClientsGridOldFilter__select-option', {
+                                'ClientsGridOldFilter__select-option--inactive': status === 'INACTIVE',
+                              })}
+                            >
+                              {fullName}
+                            </option>
+                          ))
+                        }
                       </Field>
                     </PermissionContent>
 
