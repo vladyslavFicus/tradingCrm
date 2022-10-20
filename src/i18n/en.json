@@ -3600,6 +3600,7 @@
       },
       "COMMON_NEW_ORDER_MODAL": {
         "TITLE": "New order",
+        "LEAVE_OPEN": "Leave window open after order",
         "LOGIN": "Login",
         "VOLUME": "Volume",
         "OPEN_TIME": "Open time",

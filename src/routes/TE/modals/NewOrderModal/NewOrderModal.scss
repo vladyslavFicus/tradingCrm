@@ -78,4 +78,17 @@
   &__tabs-content {
     padding: 10px 0 0;
   }
+
+  &__always-open {
+    background: var(--surface-body-background);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  &__always-open-label  {
+    .ReactSwitch__label {
+      color: var(--accent);
+    }
+  }
 }

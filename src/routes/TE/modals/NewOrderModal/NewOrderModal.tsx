@@ -7,6 +7,7 @@ import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
+import ReactSwitch from 'components/ReactSwitch';
 import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
 import Input from 'components/Input';
@@ -34,6 +35,7 @@ const NewOrderModal = (props: Props) => {
   const [login, setLogin] = useState<string>(propsLogin);
   const [symbol, setSymbol] = useState<string>('');
   const [formError, setFormError] = useState<string>('');
+  const [isAlwaysOpen, setIsAlwaysOpen] = useState(false);
 
   const [getAccount, accountQuery] = useAccountQueryLazyQuery({ fetchPolicy: 'network-only' });
 
@@ -60,9 +62,13 @@ const NewOrderModal = (props: Props) => {
     }
   };
 
+  const handleAlwaysOpenClick = () => setIsAlwaysOpen(!isAlwaysOpen);
+
   const handleOnSuccess = () => {
     onSuccess();
-    onCloseModal();
+    if (!isAlwaysOpen) {
+      onCloseModal();
+    }
   };
 
   useEffect(() => {
@@ -166,6 +172,19 @@ const NewOrderModal = (props: Props) => {
               // Show loader while account loading or symbol wasn't chosen
               loading={accountQuery.loading || (account && !symbol)}
             />
+
+            <div className="NewOrderModal__field-container NewOrderModal__always-open">
+              <div>
+                {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LEAVE_OPEN')}
+              </div>
+              <ReactSwitch
+                on={isAlwaysOpen}
+                stopPropagation
+                className="NewOrderModal__always-open-label"
+                labelPosition="left"
+                onClick={handleAlwaysOpenClick}
+              />
+            </div>
           </div>
 
           <div className="NewOrderModal__container-right">
