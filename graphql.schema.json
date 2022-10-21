@@ -28716,6 +28716,12 @@
             "deprecationReason": null
           },
           {
+            "name": "NO_POTENTIAL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "POTENTIAL_HIGH",
             "description": null,
             "isDeprecated": false,
