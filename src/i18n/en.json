@@ -1802,6 +1802,7 @@
         "TAGS": "Tags",
         "SEGMENTS": "Segments",
         "LANGUAGES": "Languages",
+        "PASSPORT_ISSUE_COUNTRY": "Passport/ID country of issue",
         "REG_DATE_RANGE": "Registration date range",
         "FIRST_DEPOSIT_DATE": "FTD date range",
         "LAST_CALL_DATE": "Last call date",
