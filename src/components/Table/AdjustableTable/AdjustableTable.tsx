@@ -1,7 +1,7 @@
 import I18n from 'i18n-js';
 import React, { useMemo, useState, isValidElement, Children, ReactElement } from 'react';
 import compose from 'compose-function';
-import { sortBy, indexOf } from 'lodash';
+import { sortBy } from 'lodash';
 import { QueryResult } from '@apollo/client';
 import { withRequests } from 'apollo';
 import { Column, Table } from '..';
@@ -13,30 +13,31 @@ import './AdjustableTable.scss';
 
 type ColumnComponents = Array<ReactElement<ColumnPropTypes>>;
 
-const sortByName = (items: any[], order: string[]) => {
-  if (!order?.length) {
-    return items;
-  }
-
-  // validate ordering
-  const validatedOrder = order.filter(i => items.indexOf(i) > -1);
-
-  return Array.from(new Set([...validatedOrder, ...items]));
-};
-
 
 const getColumns = (children: React.ReactNode) => useMemo(
   () => Children.toArray(children).filter(child => isValidElement(child) && child.type === Column) as ColumnComponents,
   [children],
 );
 
-const sortColumns = (
-  columns: ColumnComponents,
-  order: string[],
-) => useMemo(
-  () => sortBy(columns, column => indexOf(order, column.props.name as string)),
-  [columns, order],
-);
+/**
+ * Get sorted columns depends on sorting config if it exists
+ *
+ * @param columns
+ * @param columnsOrder
+ */
+const getSortedColumns = (columns: ColumnComponents, columnsOrder: string[]) => {
+  if (!columnsOrder?.length) {
+    return columns;
+  }
+
+  return sortBy(columns, (column) => {
+    const columnIndex = columnsOrder.indexOf(column.props.name as string);
+
+    // If column was not found in columnsOrder array -> put column to the end of array.
+    // If column was found in columnsOrder array -> put on that index, that determined in columnsOrder array.
+    return columnIndex === -1 ? columns.length : columnIndex;
+  });
+};
 
 interface Props {
   type: string,
@@ -89,7 +90,7 @@ const AdjustableTable = (props: Props) => {
 
   const columns = selectedColumns || (type && gridConfig?.columns) || defaultColumns || allAvailableColumns;
   const isColumnEnabled = (name: string) => !name || columns.map((item: string) => item).includes(name);
-  const allColumns = sortColumns(getColumns(children), sortByName(columns, columnsOrder));
+  const allColumns = getSortedColumns(getColumns(children), columnsOrder);
   const visibleColumns = allColumns.filter(({ props: { name } }: any) => isColumnEnabled(name));
   const columnsWithTitle = allColumns.map(({ props: { name, header } }: any) => ({ name, header }));
   const isMoreThanOneColumnVisible = visibleColumns.length > 0;
