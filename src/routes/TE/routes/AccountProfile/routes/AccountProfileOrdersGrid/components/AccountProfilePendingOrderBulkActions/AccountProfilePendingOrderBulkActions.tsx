@@ -35,14 +35,15 @@ const AccountProfilePendingOrderBulkActions = (props: Props) => {
   const [bulkCloseOrders] = useBulkCloseOrderMutation();
 
   const handleBulkCloseOrderClick = async () => {
-    const ordersData = ordersQuery.data?.tradingEngine.orders;
+    const ordersData = ordersQuery.data?.tradingEngine.orders || { content: [] };
 
     const selectedOrders = select.all
-      ? ordersData?.content
+      // Get all orders except unchecked
+      ? ordersData?.content.filter((_, index) => !select.touched.includes(index))
+      // Get only checked orders
       : select.touched.map(index => ordersData?.content[index]) as Order[];
 
-    const orders = !selectedOrders ? [] : selectedOrders
-      .map(order => ({ id: order.id }));
+    const orders = selectedOrders.map(order => ({ id: order.id }));
 
     confirmationModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.BULK_CANCEL_ORDERS.TITLE'),
