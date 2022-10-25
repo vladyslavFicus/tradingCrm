@@ -1,6 +1,6 @@
 .AuthorityItem {
-  background-color: var(--navigation-secondary-background);
-  border: solid 1px var(--navigation-secondary-color);
+  background-color: var(--unauthorized-layout-surface-background-default);
+  border: solid 1px var(--unauthorized-layout-surface-border-default);
   border-radius: 3px;
   cursor: pointer;
   margin: 15px;
@@ -12,7 +12,7 @@
   width: 250px;
 
   &:hover {
-    border-color: var(--navigation-primary-color);
+    border-color: var(--unauthorized-layout-surface-border-hover);
   }
 
   &__image {
@@ -27,7 +27,7 @@
 
   &__title,
   &__role {
-    color: var(--navigation-secondary-color);
+    color: var(--unauthorized-layout-surface-color);
     text-align: center;
   }
 

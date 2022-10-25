@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { getCrmBrandStaticFileUrl } from 'config';
-import './BlackLayout.scss';
+import './UnauthorizedLayout.scss';
 
-const BlackLayout = ({ children }) => (
+const UnauthorizedLayout = ({ children }) => (
   <Suspense fallback={null}>
     <div
-      className="black-layout"
+      className="UnauthorizedLayout"
       style={{ backgroundImage: `url(${getCrmBrandStaticFileUrl('assets/auth-background.svg')})` }}
     >
       {children}
@@ -14,8 +14,8 @@ const BlackLayout = ({ children }) => (
   </Suspense>
 );
 
-BlackLayout.propTypes = {
+UnauthorizedLayout.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default BlackLayout;
+export default UnauthorizedLayout;

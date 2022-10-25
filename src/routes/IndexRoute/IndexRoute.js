@@ -7,7 +7,7 @@ import { getBackofficeBrand, getCrmBrandStaticFileUrl } from 'config';
 import Route from 'components/Route';
 import NotFound from 'routes/NotFound';
 import CoreLayout from 'layouts/CoreLayout';
-import BlackLayout from 'layouts/BlackLayout';
+import UnauthorizedLayout from 'layouts/UnauthorizedLayout';
 import MainLayout from 'layouts/MainLayout';
 import Logout from 'routes/Logout';
 import SignIn from 'routes/SignIn';
@@ -110,11 +110,11 @@ class IndexRoute extends PureComponent {
           <Route path="/logout" component={Logout} isPrivate />
 
           {/* Public routes */}
-          <Route path="/sign-in" layout={BlackLayout} component={SignIn} isPublic />
-          <Route path="/reset-password" layout={BlackLayout} component={ResetPassword} isPublic />
+          <Route path="/sign-in" layout={UnauthorizedLayout} component={SignIn} isPublic />
+          <Route path="/reset-password" layout={UnauthorizedLayout} component={ResetPassword} isPublic />
 
           {/* Common routes */}
-          <Route path="/brands" layout={BlackLayout} component={Brands} />
+          <Route path="/brands" layout={UnauthorizedLayout} component={Brands} />
 
           {/* Not found routes */}
           <Route component={NotFound} />

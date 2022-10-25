@@ -17,25 +17,13 @@
   }
 
   &__form {
-    position: relative;
+    background-color: var(--unauthorized-layout-surface-background-default);
+    border: 1px solid var(--unauthorized-layout-surface-border-default);
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
     margin: 0 auto;
     padding: 50px 50px 30px;
     max-width: 420px;
     width: 100%;
-
-    &::before {
-      content: "";
-      background: var(--navigation-secondary-background);
-      border-radius: 5px;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: .6;
-    }
 
     &-buttons {
       display: flex;
