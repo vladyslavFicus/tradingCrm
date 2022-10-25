@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { gql } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
 
-const REQUEST = gql`query DistributionRulesList_PartnersQuery {
-  partners {
+const REQUEST = gql`query DistributionRulesList_PartnersQuery(
+  $page: Page__Input,
+) {
+  partners (page: $page) {
     content {
       uuid
       fullName

@@ -9,6 +9,7 @@ const REQUEST = gql`query ClientsGridOldFilter_PartnersQuery(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
+  $page: Page__Input,
 ) {
   partners (
     searchBy: $searchBy,
@@ -16,6 +17,7 @@ const REQUEST = gql`query ClientsGridOldFilter_PartnersQuery(
     status: $status,
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
+    page: $page,
   ) {
     content {
       uuid

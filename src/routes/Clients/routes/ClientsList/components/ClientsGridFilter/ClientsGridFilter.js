@@ -475,8 +475,15 @@ class ClientsGridFilter extends PureComponent {
                         withFocus
                         multiple
                       >
-                        {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
-                          <option key={uuid} value={uuid}>
+                        {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName, status }) => (
+                          <option
+                            key={uuid}
+                            value={uuid}
+                            className={classNames('ClientsGridFilter__select-option', {
+                              'ClientsGridFilter__select-option--inactive':
+                                ['INACTIVE', 'CLOSED'].includes(status),
+                            })}
+                          >
                             {fullName}
                           </option>
                         ))}
@@ -744,7 +751,7 @@ class ClientsGridFilter extends PureComponent {
 
                     <Field
                       name="affiliateFtdDateRange"
-                      className="ClientsGridOldFilter__field ClientsGridOldFilter__date-range"
+                      className="ClientsGridFilter__field ClientsGridFilter__date-range"
                       label={I18n.t(attributeLabels.affiliateFtdDateRange)}
                       component={FormikDateRangePicker}
                       fieldsNames={{

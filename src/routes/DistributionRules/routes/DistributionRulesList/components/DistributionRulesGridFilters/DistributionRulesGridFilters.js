@@ -130,7 +130,8 @@ class DistributionRulesFilters extends PureComponent {
                         value={uuid}
                         className={
                           classNames('DistributionRulesFilters__select-option', {
-                            'DistributionRulesFilters__select-option--inactive': status === 'INACTIVE',
+                            'DistributionRulesFilters__select-option--inactive':
+                              ['INACTIVE', 'CLOSED'].includes(status),
                           })
                         }
                       >

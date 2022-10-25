@@ -9,6 +9,7 @@ const REQUEST = gql`query ClientsGridFilter_PartnersQuery(
   $status: String,
   $registrationDateFrom: String,
   $registrationDateTo: String,
+  $page: Page__Input,
 ) {
   partners (
     searchBy: $searchBy,
@@ -16,17 +17,31 @@ const REQUEST = gql`query ClientsGridFilter_PartnersQuery(
     status: $status,
     registrationDateFrom: $registrationDateFrom,
     registrationDateTo: $registrationDateTo,
+    page: $page,
   ) {
     content {
       uuid
       fullName
+      status
     }
   }
 }
 `;
 
 const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST} fetchPolicy="cache-and-network">
+  <Query
+    query={REQUEST}
+    fetchPolicy="cache-and-network"
+    variables={{
+      page: {
+        sorts: [
+          { column: 'status', direction: 'ASC' },
+          { column: 'firstName', direction: 'ASC' },
+          { column: 'lastName', direction: 'ASC' },
+        ],
+      },
+    }}
+  >
     {children}
   </Query>
 );

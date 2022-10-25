@@ -429,7 +429,8 @@ class ClientsGridOldFilter extends PureComponent {
                               key={uuid}
                               value={uuid}
                               className={classNames('ClientsGridOldFilter__select-option', {
-                                'ClientsGridOldFilter__select-option--inactive': status === 'INACTIVE',
+                                'ClientsGridOldFilter__select-option--inactive':
+                                  ['INACTIVE', 'CLOSED'].includes(status),
                               })}
                             >
                               {fullName}
