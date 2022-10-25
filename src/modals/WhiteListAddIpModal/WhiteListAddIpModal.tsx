@@ -2,9 +2,9 @@ import React from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { BaseMutationOptions, MutationResult } from '@apollo/client';
-import { withRequests } from 'apollo';
+import { parseErrors, withRequests } from 'apollo';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { Notify, LevelType } from 'types/notify';
@@ -46,7 +46,10 @@ type Props = {
 
 const WhiteListAddIpModal = (props: Props) => {
   const { onCloseModal, isOpen, notify, onSuccess, addIp } = props;
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (
+    values: FormValues,
+    formikHelpers: FormikHelpers<FormValues>,
+  ) => {
     try {
       await addIp({ variables: values });
       notify({
@@ -58,11 +61,19 @@ const WhiteListAddIpModal = (props: Props) => {
       onCloseModal();
       onSuccess();
     } catch (e) {
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.NOTIFICATIONS.IP_NOT_ADDED'),
-      });
+      const error = parseErrors(e);
+      if (error.error === 'error.entity.already.exist') {
+        formikHelpers.setFieldError(
+          'ip',
+          I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.ERRORS.UNIQUE'),
+        );
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('COMMON.FAIL'),
+          message: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.NOTIFICATIONS.IP_NOT_ADDED'),
+        });
+      }
     }
   };
 

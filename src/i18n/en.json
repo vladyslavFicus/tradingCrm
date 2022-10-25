@@ -4974,6 +4974,9 @@
         "IP_ADDRESS": "IP address",
         "DESCRIPTION": "Description",
         "ADD_BUTTON": "Add",
+        "ERRORS": {
+          "UNIQUE": "This IP address is already in use"
+        },
         "NOTIFICATIONS": {
           "IP_ADDED": "IP address added",
           "IP_NOT_ADDED": "Error while adding IP address"
