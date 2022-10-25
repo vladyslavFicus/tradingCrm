@@ -10,6 +10,9 @@ const REQUEST = gql`
     $status: String
     $registrationDateFrom: String
     $registrationDateTo: String
+    $offices: [String]
+    $desks: [String]
+    $teams: [String]
     $page: Page__Input
     $authorities: TradingEngineOperatorSearch__Authorities__Input
   ) {
@@ -21,6 +24,9 @@ const REQUEST = gql`
       registrationDateTo: $registrationDateTo
       page: $page
       authorities: $authorities
+      offices: $offices
+      desks: $desks
+      teams: $teams
     ) {
       page
       number

@@ -2098,7 +2098,10 @@
       "REGISTRATION_DATE_RANGE": "Registration Date Range",
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Name, Phone, Email, UUID...",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "OFFICES": "Offices",
+      "DESKS": "Desks",
+      "TEAMS": "Teams"
     },
     "PROFILE": {
       "DEPARTMENTS": {

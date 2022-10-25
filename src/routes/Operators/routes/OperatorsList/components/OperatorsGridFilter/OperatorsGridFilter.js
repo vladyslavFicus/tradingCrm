@@ -17,6 +17,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import AuthoritiesOptionsQuery from './graphql/AuthoritiesOptionsQuery';
+import OfficesDesksAndTeamsQuery from './graphql/OfficesDesksAndTeamsQuery';
 import './OperatorsGridFilter.scss';
 
 const attributeLabels = {
@@ -33,6 +34,13 @@ class OperatorsGridFilter extends PureComponent {
     handleRefetch: PropTypes.func.isRequired,
     authoritiesQuery: PropTypes.query({
       authoritiesOptions: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    }).isRequired,
+    officesDesksAndTeamsQuery: PropTypes.query({
+      userBranches: PropTypes.shape({
+        OFFICE: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        TEAM: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+        DESK: PropTypes.arrayOf(PropTypes.hierarchyBranch),
+      }),
     }).isRequired,
   };
 
@@ -77,11 +85,17 @@ class OperatorsGridFilter extends PureComponent {
       location: { state },
       handleRefetch,
       authoritiesQuery,
+      officesDesksAndTeamsQuery,
+      officesDesksAndTeamsQuery: { loading: isOfficesDesksAndTeamsLoading },
     } = this.props;
 
     const authorities = authoritiesQuery?.data?.authoritiesOptions || {};
     const allDepartmentRoles = authoritiesQuery?.data?.authoritiesOptions || {};
     const availableDepartments = omit(allDepartmentRoles, unAvailableDepartments);
+
+    const desks = officesDesksAndTeamsQuery.data?.userBranches?.DESK || [];
+    const teams = officesDesksAndTeamsQuery.data?.userBranches?.TEAM || [];
+    const offices = officesDesksAndTeamsQuery.data?.userBranches?.OFFICE || [];
 
     return (
       <Formik
@@ -97,6 +111,12 @@ class OperatorsGridFilter extends PureComponent {
           setFieldValue,
           dirty,
         }) => {
+          const desksUuids = values.desks || [];
+          const officesUuids = values.offices || [];
+          const desksByOffices = desks.filter(desk => officesUuids.includes(desk.parentBranch?.uuid));
+          const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch?.uuid));
+          const desksOptions = officesUuids.length ? desksByOffices : desks;
+          const teamsOptions = desksUuids.length ? teamsByDesks : teams;
           const availableRoles = authorities[values?.authorities?.department] || [];
 
           return (
@@ -156,6 +176,67 @@ class OperatorsGridFilter extends PureComponent {
                   }}
                   withFocus
                 />
+                <Field
+                  name="offices"
+                  className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                  label={I18n.t('OPERATORS.GRID_FILTERS.OFFICES')}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  disabled={isOfficesDesksAndTeamsLoading || offices.length === 0}
+                  withFocus
+                  multiple
+                  searchable
+                >
+                  {offices.map(({ name, uuid }) => (
+                    <option key={uuid} value={uuid}>
+                      {name}
+                    </option>
+                  ))}
+                </Field>
+
+                <Field
+                  name="desks"
+                  className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                  label={I18n.t('OPERATORS.GRID_FILTERS.DESKS')}
+                  placeholder={
+                    I18n.t(
+                      (!isOfficesDesksAndTeamsLoading && desksOptions.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
+                  component={FormikSelectField}
+                  disabled={isOfficesDesksAndTeamsLoading || desksOptions.length === 0}
+                  searchable
+                  withFocus
+                  multiple
+                >
+                  {desksOptions.map(({ uuid, name }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
+
+                <Field
+                  name="teams"
+                  className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                  label={I18n.t('OPERATORS.GRID_FILTERS.TEAMS')}
+                  placeholder={
+                    I18n.t(
+                      (!isOfficesDesksAndTeamsLoading && teamsOptions.length === 0)
+                        ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                        : 'COMMON.SELECT_OPTION.ANY',
+                    )
+                  }
+                  component={FormikSelectField}
+                  disabled={isOfficesDesksAndTeamsLoading || teamsOptions.length === 0}
+                  searchable
+                  withFocus
+                  multiple
+                >
+                  {teamsOptions.map(({ uuid, name }) => (
+                    <option key={uuid} value={uuid}>{name}</option>
+                  ))}
+                </Field>
                 <Field
                   name="authorities.department"
                   className="OperatorsGridFilter__field OperatorsGridFilter__select"
@@ -228,6 +309,7 @@ class OperatorsGridFilter extends PureComponent {
 export default compose(
   withRouter,
   withRequests({
+    officesDesksAndTeamsQuery: OfficesDesksAndTeamsQuery,
     authoritiesQuery: AuthoritiesOptionsQuery,
   }),
 )(OperatorsGridFilter);
