@@ -507,7 +507,7 @@ class ClientsGridOldFilter extends PureComponent {
                     </Field>
 
                     <Field
-                      name="passportCountryOfIssue"
+                      name="passportCountriesOfIssue"
                       className="ClientsGridOldFilter__field ClientsGridOldFilter__select"
                       label={I18n.t(attributeLabels.passportCountryOfIssue)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}

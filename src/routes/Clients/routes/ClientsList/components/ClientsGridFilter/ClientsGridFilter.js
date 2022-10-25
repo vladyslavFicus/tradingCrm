@@ -246,7 +246,7 @@ class ClientsGridFilter extends PureComponent {
                         isReferrered: I18n.t(attributeLabels.isReferrered),
                         statuses: I18n.t(attributeLabels.statuses),
                         acquisitionStatus: I18n.t(attributeLabels.acquisitionStatus),
-                        passportCountryOfIssue: I18n.t(attributeLabels.passportCountryOfIssue),
+                        passportCountriesOfIssue: I18n.t(attributeLabels.passportCountryOfIssue),
                         salesStatuses: I18n.t(attributeLabels.salesStatuses),
                         retentionStatuses: I18n.t(attributeLabels.retentionStatuses),
 
@@ -557,7 +557,7 @@ class ClientsGridFilter extends PureComponent {
                     </Field>
 
                     <Field
-                      name="passportCountryOfIssue"
+                      name="passportCountriesOfIssue"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
                       label={I18n.t(attributeLabels.passportCountryOfIssue)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
