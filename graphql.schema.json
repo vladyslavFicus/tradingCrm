@@ -21028,6 +21028,18 @@
             "deprecationReason": null
           },
           {
+            "name": "localTime",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "migrationId",
             "description": null,
             "args": [],

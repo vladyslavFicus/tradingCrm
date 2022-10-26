@@ -106,7 +106,7 @@ class ClientPersonalInfo extends PureComponent {
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
-  }
+  };
 
   getProfileEmail = async () => {
     const { clientInfo: { uuid }, notify } = this.props;
@@ -131,7 +131,7 @@ class ClientPersonalInfo extends PureComponent {
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
-  }
+  };
 
   getProfileAdditionalEmail = async () => {
     const { clientInfo: { uuid }, notify } = this.props;
@@ -156,7 +156,7 @@ class ClientPersonalInfo extends PureComponent {
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
-  }
+  };
 
   triggerEmailSelectModal = () => {
     const {
@@ -178,7 +178,7 @@ class ClientPersonalInfo extends PureComponent {
     if (!uuid) return;
 
     window.open(`/clients/${uuid}/profile`, '_blank');
-  }
+  };
 
   render() {
     const {
@@ -208,6 +208,7 @@ class ClientPersonalInfo extends PureComponent {
         affiliate,
         clientType,
         referrer,
+        localTime,
       },
       permission,
     } = this.props;
@@ -426,6 +427,12 @@ class ClientPersonalInfo extends PureComponent {
               />
             </PermissionContent>
           </If>
+
+          <PersonalInformationItem
+            label={I18n.t('CLIENT_PROFILE.DETAILS.LOCAL_TIME')}
+            value={localTime}
+          />
+
           <If condition={convertedFromLeadUuid}>
             <div>
               <strong>{I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}</strong>

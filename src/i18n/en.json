@@ -2999,7 +2999,8 @@
       "WEB_COOKIES": {
         "TITLE": "Web Cookies"
       },
-      "REFERRER": "Referrer"
+      "REFERRER": "Referrer",
+      "LOCAL_TIME": "Local time"
     },
     "FATCA": {
       "TITLE": "FATCA"

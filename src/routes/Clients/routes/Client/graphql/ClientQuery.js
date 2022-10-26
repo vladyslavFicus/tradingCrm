@@ -65,6 +65,7 @@ const REQUEST = gql`
       phoneVerified
       profileVerified
       timeZone
+      localTime
       address {
         ...AddressFragment
       }
