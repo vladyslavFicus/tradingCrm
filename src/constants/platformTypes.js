@@ -5,7 +5,7 @@ const platformTypes = [{
   label: 'MT5',
   value: 'MT5',
 }, {
-  label: 'WT',
+  label: 'TE',
   value: 'WET',
 }];
 

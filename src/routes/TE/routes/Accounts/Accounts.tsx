@@ -92,7 +92,7 @@ const Accounts = (props: Props) => {
         </div>
       </Badge>
       <div className="Accounts__text-secondary">
-        <Uuid uuid={uuid} uuidPrefix="WT" />
+        <Uuid uuid={uuid} uuidPrefix="TE" />
       </div>
     </Fragment>
   );

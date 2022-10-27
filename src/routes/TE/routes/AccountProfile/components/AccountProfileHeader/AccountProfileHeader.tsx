@@ -133,7 +133,7 @@ const AccountProfileHeader = (props: Props) => {
         </div>
 
         <div className="AccountProfileHeader__uuid">
-          <Uuid uuid={login.toString()} uuidPrefix="WT" />
+          <Uuid uuid={login.toString()} uuidPrefix="TE" />
         </div>
       </div>
       <div className="AccountProfileHeader__actions">

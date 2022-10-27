@@ -118,7 +118,7 @@ const MarginCalls = () => {
                   </div>
                 </Badge>
                 <div className="MarginCalls__text-secondary">
-                  <Uuid uuid={uuid} uuidPrefix="WT" />
+                  <Uuid uuid={uuid} uuidPrefix="TE" />
                 </div>
               </>
             )}

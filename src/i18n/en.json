@@ -3908,7 +3908,7 @@
       "FORM": {
         "FIELDS": {
           "SEARCH_BY": "Search by",
-          "SEARCH_BY_PLACEHOLDER": "WT login, Account Name",
+          "SEARCH_BY_PLACEHOLDER": "TE login, Account Name",
           "ACCOUNT_TYPE": "Account type",
           "STATUS": "Status",
           "REGISTRATION_DATE_RANGE": "Registration date",
@@ -3934,7 +3934,7 @@
       "FORM": {
         "FIELDS": {
           "SEARCH_BY": "Search by",
-          "SEARCH_BY_PLACEHOLDER": "WT login",
+          "SEARCH_BY_PLACEHOLDER": "TE login",
           "GROUPS": "Groups"
         }
       }
