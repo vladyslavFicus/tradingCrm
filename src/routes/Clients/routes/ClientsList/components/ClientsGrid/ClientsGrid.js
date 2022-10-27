@@ -10,6 +10,7 @@ import { withModals } from 'hoc';
 import { getBrand, getBackofficeBrand } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
+import { targetTypes } from 'constants/note';
 import { warningLabels } from 'constants/warnings';
 import { statuses, statusesLabels } from 'constants/user';
 import { lastActivityStatusesLabels } from 'constants/lastActivity';
@@ -18,6 +19,8 @@ import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
+import Click2Call from 'components/Click2Call';
+import NoteButton from 'components/NoteButton';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
@@ -25,6 +28,11 @@ import { Column, AdjustableTable } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
+import {
+  ClickToCall__Phone__Type__Enum as PhoneType,
+  ClickToCall__Customer__Type__Enum as CustomerType,
+} from '__generated__/types';
+import PermissionContent from 'components/PermissionContent';
 import { MAX_SELECTED_CLIENTS, defaultColumns } from '../../constants';
 import './ClientsGrid.scss';
 
@@ -392,6 +400,26 @@ class ClientsGrid extends PureComponent {
     );
   }
 
+  renderActionsColumn = ({ uuid }) => (
+    <div className="ClientsGrid__actions">
+      <Click2Call
+        uuid={uuid}
+        phoneType={PhoneType.PHONE}
+        customerType={CustomerType.PROFILE}
+        position="left"
+      />
+
+      <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
+        <NoteButton
+          className="ClientsGrid__note-button"
+          targetType={targetTypes.PAYMENT}
+          targetUUID={uuid}
+          playerUUID={uuid}
+        />
+      </PermissionContent>
+    </div>
+  );
+
   render() {
     const {
       location,
@@ -510,6 +538,11 @@ class ClientsGrid extends PureComponent {
             name="status"
             header={I18n.t('CLIENTS.LIST.GRID_HEADER.STATUS')}
             render={this.renderStatusColumn}
+          />
+          <Column
+            name="actions"
+            header={I18n.t('CLIENTS.LIST.GRID_HEADER.ACTIONS')}
+            render={this.renderActionsColumn}
           />
         </AdjustableTable>
       </div>

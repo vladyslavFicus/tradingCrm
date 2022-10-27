@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { withNotifications, withModals } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
+import { targetTypes } from 'constants/note';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import customTimeout from 'utils/customTimeout';
@@ -216,7 +217,6 @@ class ClientHeader extends PureComponent {
     const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_PASSWORD]);
 
     const locks = clientLockStatusQuery.data?.loginLock;
-
     return (
       <div className="ClientHeader">
         <div className="ClientHeader__topic">
@@ -264,7 +264,7 @@ class ClientHeader extends PureComponent {
             <NotePopover
               playerUUID={uuid}
               targetUUID={uuid}
-              targetType="PLAYER"
+              targetType={targetTypes.PLAYER}
             >
               <Button
                 className="ClientHeader__action"

@@ -68,5 +68,14 @@
       color: var(--state-colors-success);
     }
   }
+
+  &__actions {
+    display: flex;
+  }
+
+  &__note-button {
+    display: flex;
+    margin-left: 15px;
+  }
 }
 

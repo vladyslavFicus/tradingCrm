@@ -7,7 +7,6 @@ import { getBrand } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import renderLabel from 'utils/renderLabel';
-import NoteIcon from 'components/NoteIcon';
 import PermissionContent from 'components/PermissionContent';
 import { statuses } from 'constants/user';
 import Uuid from 'components/Uuid';
@@ -68,7 +67,6 @@ const ClientMiniProfile = ({ miniProfile }) => {
         <div className="mini-profile-title">
           <span className="mini-profile-title-name">{`${firstName} ${lastName}`}</span> {age && `(${age})`}
           {KYCStatus === 'APPROVED' && <i className="fa fa-check text-success margin-left-5" />}
-          <NoteIcon type="pinned" className="mini-profile__note-icon" />
         </div>
         <div className="mini-profile-ids">
           <Uuid uuid={uuid} />

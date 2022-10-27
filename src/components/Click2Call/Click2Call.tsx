@@ -53,6 +53,10 @@ const TOOLTIP_STYLE = {
   },
 };
 
+type Position = 'top' | 'right' | 'bottom' | 'left';
+
+type Arrow = null | 'center' | 'top' | 'right' | 'bottom' | 'left';
+
 type ProviderOptionsType = {
   prefix?: string,
 }
@@ -63,11 +67,21 @@ type Props = {
   phoneType: PhoneType,
   uuid: string,
   token: string,
+  position?: Position,
+  arrow?: Arrow,
 }
 
 const Click2Call = (props: Props) => {
   const idRef = useRef(`click2call-${v4()}`);
-  const { uuid, customerType, phoneType, token, notify } = props;
+  const {
+    uuid,
+    customerType,
+    phoneType,
+    token,
+    notify,
+    position,
+    arrow,
+  } = props;
 
   const configsQuery = useClickToCallConfigsQuery();
 
@@ -146,8 +160,8 @@ const Click2Call = (props: Props) => {
         />
         <ToolTip
           parent={`#${idRef.current}`}
-          position="right"
-          arrow="top"
+          position={position}
+          arrow={arrow}
           style={TOOLTIP_STYLE}
           active={isActive}
         >
@@ -226,6 +240,11 @@ const Click2Call = (props: Props) => {
       </When>
     </Choose>
   );
+};
+
+Click2Call.defaultProps = {
+  position: 'right',
+  arrow: 'top',
 };
 
 export default compose(

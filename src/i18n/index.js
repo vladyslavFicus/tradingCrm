@@ -1,7 +1,6 @@
 import I18n from 'i18n-js';
 import 'moment/locale/zh-cn';
 import en from './en.json';
-// import zh from './zh.json';
 
 I18n.fallbacks = true;
 

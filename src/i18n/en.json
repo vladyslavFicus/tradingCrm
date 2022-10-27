@@ -3049,7 +3049,8 @@
         "REGISTRATION": "Registration",
         "LAST_NOTE": "Last note",
         "LAST_CALL": "Last call",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
       }
     },
     "MODALS": {
