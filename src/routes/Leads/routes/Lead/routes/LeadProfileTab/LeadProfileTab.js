@@ -16,6 +16,8 @@ import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import countryList, { getCountryCode } from 'utils/countryList';
+import { MIN_BIRTHDATE } from 'constants/user';
+import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import LeadQuery from './graphql/LeadQuery';
 import UpdateLeadMutation from './graphql/UpdateLeadMutation';
 import LeadPhoneQuery from './graphql/LeadPhoneQuery';
@@ -197,7 +199,11 @@ class LeadProfileTab extends PureComponent {
               validate={createValidator({
                 firstName: 'string',
                 lastName: 'string',
-                birthDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+                birthDate: [
+                  'date',
+                  `minDate:${MIN_BIRTHDATE}`,
+                  `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
+                ],
                 identifier: 'string',
                 country: `in:${Object.keys(countryList).join()}`,
                 city: ['string', 'min:3'],
@@ -208,7 +214,17 @@ class LeadProfileTab extends PureComponent {
                 email: (permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL) && this.state.isEmailShown)
                   ? 'email'
                   : 'string',
-              }, translateLabels(attributeLabels), false)}
+              }, translateLabels(attributeLabels), false,
+              {
+                'minDate.birthDate': I18n.t(
+                  'ERRORS.DATE.INVALID_DATE',
+                  { attributeName: I18n.t(attributeLabels.birthDate) },
+                ),
+                'maxDate.birthDate': I18n.t(
+                  'ERRORS.DATE.INVALID_DATE',
+                  { attributeName: I18n.t(attributeLabels.birthDate) },
+                ),
+              })}
               onSubmit={this.handleSubmit}
               enableReinitialize
             >
@@ -255,6 +271,7 @@ class LeadProfileTab extends PureComponent {
                       className="LeadProfileTab__form-field"
                       label={I18n.t(attributeLabels.birthDate)}
                       component={FormikDatePicker}
+                      minDate={MIN_BIRTHDATE}
                       maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                       disabled={isSubmitting}
                       closeOnSelect

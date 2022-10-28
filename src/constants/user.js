@@ -268,6 +268,8 @@ const genders = {
 
 const AGE_YEARS_CONSTRAINT = 18;
 
+const MIN_BIRTHDATE = '1900-01-01';
+
 export {
   attributeLabels,
   statuses,
@@ -281,5 +283,6 @@ export {
   actionsLabels,
   genders,
   AGE_YEARS_CONSTRAINT,
+  MIN_BIRTHDATE,
   COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
 };

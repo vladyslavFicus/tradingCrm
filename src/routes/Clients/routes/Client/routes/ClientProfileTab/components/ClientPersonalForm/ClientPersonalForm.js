@@ -11,7 +11,8 @@ import { withPermission } from 'providers/PermissionsProvider';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
-import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, AGE_YEARS_CONSTRAINT, genders } from 'constants/user';
+import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, AGE_YEARS_CONSTRAINT, genders, MIN_BIRTHDATE } from 'constants/user';
+import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/UI';
@@ -94,10 +95,24 @@ class ClientPersonalForm extends PureComponent {
             firstName: 'required',
             lastName: 'required',
             languageCode: 'required',
-            birthDate: 'date',
+            birthDate: [
+              'date',
+              `minDate:${MIN_BIRTHDATE}`,
+              `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
+            ],
             'passport.expirationDate': 'date',
             'passport.issueDate': 'date',
-          }, translateLabels(attributeLabels), false)}
+          }, translateLabels(attributeLabels), false,
+          {
+            'minDate.birthDate': I18n.t(
+              'ERRORS.DATE.INVALID_DATE',
+              { attributeName: I18n.t(attributeLabels.birthDate) },
+            ),
+            'maxDate.birthDate': I18n.t(
+              'ERRORS.DATE.INVALID_DATE',
+              { attributeName: I18n.t(attributeLabels.birthDate) },
+            ),
+          })}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
@@ -163,6 +178,7 @@ class ClientPersonalForm extends PureComponent {
                     className="ClientPersonalForm__field"
                     label={I18n.t(attributeLabels.birthDate)}
                     component={FormikDatePicker}
+                    minDate={MIN_BIRTHDATE}
                     maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                     disabled={isSubmitting || !isAvailableToUpdate}
                     closeOnSelect

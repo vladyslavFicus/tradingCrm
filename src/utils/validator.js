@@ -8,6 +8,29 @@ function nextDateValidator(value, requirement) {
   return value >= this.validator.input[requirement];
 }
 
+/**
+ * Min Date Validator, field under validation (value) must be after or equal to the given date (requirement).
+ *
+ * @param value | String Date
+ * @param requirement | String Date
+ *
+ * @return {boolean}
+ */
+function minDateValidator(value, requirement) {
+  return new Date(value).getTime() >= new Date(requirement).getTime();
+}
+/**
+ * Max Date Validator, field under validation (value) must be before or equal to the given date (requirement).
+ *
+ * @param value | String Date
+ * @param requirement | String Date
+ *
+ * @return {boolean}
+ */
+function maxDateValidator(value, requirement) {
+  return new Date(value).getTime() <= new Date(requirement).getTime();
+}
+
 function lessThanValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
@@ -300,6 +323,8 @@ function step(inputValue, requirement, attribute) {
 }
 
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
+Validator.register('minDate', minDateValidator, 'The :attribute must be equal or after :minDate.');
+Validator.register('maxDate', maxDateValidator, 'The :attribute must be equal or before :maxDate.');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
 Validator.register('daysRangeBetween', daysRangeBetweenValidator, '');
