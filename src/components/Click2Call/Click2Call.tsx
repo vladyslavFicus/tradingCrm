@@ -15,6 +15,7 @@ import {
 } from '__generated__/types';
 import { withStorage } from 'providers/StorageProvider';
 import CircleLoader from 'components/CircleLoader';
+import { Button } from 'components/UI';
 import { useClickToCallConfigsQuery } from './graphql/__generated__/ClickToCallConfigsQuery';
 import { useDidLogicCreateCallMutation } from './graphql/__generated__/DidlogicCreateCall';
 import { useNewtelCreateCallMutation } from './graphql/__generated__/NewtelCreateCall';
@@ -58,7 +59,7 @@ type Position = 'top' | 'right' | 'bottom' | 'left';
 type Arrow = null | 'center' | 'top' | 'right' | 'bottom' | 'left';
 
 type ProviderOptionsType = {
-  prefix?: string,
+  prefix?: string | null,
 }
 
 type Props = {
@@ -123,10 +124,10 @@ const Click2Call = (props: Props) => {
           await newtelCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
           break;
         case CallSystem.COMMPEAK:
-          await commpeakCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
+          await commpeakCreateCall({ variables: { uuid, phoneType, customerType, prefix: prefix as string } });
           break;
         case CallSystem.COPERATO:
-          await coperatoCreateCall({ variables: { uuid, phoneType, customerType, prefix } });
+          await coperatoCreateCall({ variables: { uuid, phoneType, customerType, prefix: prefix as string } });
           break;
         case CallSystem.SQUARETALK:
           await squaretalkCreateCall({ variables: { uuid, phoneType, customerType } });
@@ -214,6 +215,14 @@ const Click2Call = (props: Props) => {
                       <div key={callSystem} className="Click2Call__submenu-item Click2Call__submenu-item--no-hover">
                         <ProviderIcon className="Click2Call__submenu-item-image" />
                         <div className="Click2Call__submenu-item-prefixes">
+
+                          {/* Only for NEWTEL need display "auto" button with prefix null */}
+                          <If condition={callSystem === CallSystem.NEWTEL}>
+                            <Button primary onClick={handleCreateCall(callSystem, { prefix: null })}>
+                              {I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_AUTO')}
+                            </Button>
+                          </If>
+
                           {prefixes.map(({ label, prefix }, index) => (
                             <span
                               key={`${prefix}-${index}`}

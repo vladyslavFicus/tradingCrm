@@ -317,7 +317,8 @@
       "ACTIVE_PLAN": {
         "TITLE": "Active plan"
       },
-      "CLICK_TO_CALL_FAILED": "Call failed "
+      "CLICK_TO_CALL_FAILED": "Call failed ",
+      "CLICK_TO_CALL_AUTO": "Auto"
     },
     "PAYMENT_ACCOUNT": {
       "COLUMN": {
