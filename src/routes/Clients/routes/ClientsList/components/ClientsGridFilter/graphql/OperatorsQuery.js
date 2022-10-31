@@ -11,6 +11,7 @@ const REQUEST = gql`query ClientsGridFilter_OperatorsQuery(
       uuid
       fullName
       operatorStatus
+      userType
       hierarchy {
         parentBranches {
           branchType

@@ -76,6 +76,7 @@ PropTypes.operator = PropTypes.shape({
   registrationDate: PropTypes.string,
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,
+  userType: PropTypes.string,
   uuid: PropTypes.string,
   parentBranches: PropTypes.shape({
     branchType: PropTypes.string,

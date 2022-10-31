@@ -6,12 +6,13 @@ import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
+import { isSales, isRetention } from 'constants/hierarchyTypes';
 import { withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/user';
-import { statuses as operatorsStasuses } from 'constants/operators';
+import { statuses as operatorsStatuses } from 'constants/operators';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { kycStatusesLabels } from 'constants/kycStatuses';
@@ -198,6 +199,8 @@ class ClientsGridFilter extends PureComponent {
             const teamsByDesks = teams.filter(team => desksUuids.includes(team.parentBranch.uuid));
             const teamsOptions = desksUuids.length ? teamsByDesks : teams;
             const operatorsOptions = this.filterOperators(values);
+            const salesOperatorsOptions = operatorsOptions.filter(({ userType }) => isSales(userType));
+            const retentionOperatorsOptions = operatorsOptions.filter(({ userType }) => isRetention(userType));
             const languagesOptions = ['other', ...getAvailableLanguages()];
 
             return (
@@ -243,6 +246,8 @@ class ClientsGridFilter extends PureComponent {
                           permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
                           && { affiliateUuids: I18n.t(attributeLabels.affiliateUuids) }
                         ),
+                        salesOperators: I18n.t(attributeLabels.salesOperators),
+                        retentionOperators: I18n.t(attributeLabels.retentionOperators),
                         isReferrered: I18n.t(attributeLabels.isReferrered),
                         statuses: I18n.t(attributeLabels.statuses),
                         acquisitionStatus: I18n.t(attributeLabels.acquisitionStatus),
@@ -448,8 +453,70 @@ class ClientsGridFilter extends PureComponent {
                           key={uuid}
                           value={uuid}
                           className={classNames('ClientsGridFilter__select-option', {
-                            'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStasuses.INACTIVE
-                              || operatorStatus === operatorsStasuses.CLOSED,
+                            'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
+                              || operatorStatus === operatorsStatuses.CLOSED,
+                          })}
+                        >
+                          {fullName}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
+                      name="salesOperators"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.salesOperators)}
+                      placeholder={
+                        I18n.t(
+                          (!isOperatorsLoading && salesOperatorsOptions.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      component={FormikSelectField}
+                      disabled={isOperatorsLoading || salesOperatorsOptions.length === 0}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {salesOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
+                        <option
+                          key={uuid}
+                          value={uuid}
+                          className={classNames('ClientsGridFilter__select-option', {
+                            'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
+                              || operatorStatus === operatorsStatuses.CLOSED,
+                          })}
+                        >
+                          {fullName}
+                        </option>
+                      ))}
+                    </Field>
+
+                    <Field
+                      name="retentionOperators"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.retentionOperators)}
+                      placeholder={
+                        I18n.t(
+                          (!isOperatorsLoading && retentionOperatorsOptions.length === 0)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      component={FormikSelectField}
+                      disabled={isOperatorsLoading || retentionOperatorsOptions.length === 0}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {retentionOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
+                        <option
+                          key={uuid}
+                          value={uuid}
+                          className={classNames('ClientsGridFilter__select-option', {
+                            'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
+                              || operatorStatus === operatorsStatuses.CLOSED,
                           })}
                         >
                           {fullName}

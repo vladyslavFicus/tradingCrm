@@ -52,7 +52,7 @@ class Operator extends PureComponent {
 
     const operator = operatorQuery.data?.operator || {};
     const operatorError = operatorQuery.error || false;
-    const isSalesOperator = isSales(operator.hierarchy?.userType);
+    const isSalesOperator = isSales(operator.userType);
     const authorities = operator.authorities || [];
     const isLoading = operatorQuery.loading;
 

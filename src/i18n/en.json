@@ -1833,7 +1833,9 @@
         "PARTNER_TYPE": "Created by",
         "WARNING": "Warning",
         "ACTIVITY": "Activity",
-        "REFERRAL": "Referral"
+        "REFERRAL": "Referral",
+        "SALES_OPERATORS": "Sales operators",
+        "RETENTION_OPERATORS": "Retention operators"
       }
     }
   },

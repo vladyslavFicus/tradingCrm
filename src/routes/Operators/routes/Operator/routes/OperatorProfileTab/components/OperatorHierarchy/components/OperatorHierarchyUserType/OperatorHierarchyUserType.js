@@ -65,7 +65,7 @@ class OperatorHierarchyUserType extends PureComponent {
       allowToUpdateHierarchy,
     } = this.props;
 
-    const operatorUserType = operatorQuery.data?.operator?.hierarchy?.userType;
+    const operatorUserType = operatorQuery.data?.operator?.userType;
 
     const userTypesOptions = Object.keys(omit(userTypes, ['CUSTOMER', 'LEAD_CUSTOMER', 'AFFILIATE_PARTNER']));
 

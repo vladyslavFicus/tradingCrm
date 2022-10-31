@@ -81,6 +81,19 @@ export const isSales = userType => [
   userTypes.SALES_HOD,
 ].includes(userType);
 
+/**
+ * Check if userType is retention
+ *
+ * @param userType
+ *
+ * @return {boolean}
+ */
+export const isRetention = userType => [
+  userTypes.RETENTION_AGENT,
+  userTypes.RETENTION_LEAD,
+  userTypes.RETENTION_MANAGER,
+  userTypes.RETENTION_HOD,
+].includes(userType);
 
 /**
  * Check if userType is lead

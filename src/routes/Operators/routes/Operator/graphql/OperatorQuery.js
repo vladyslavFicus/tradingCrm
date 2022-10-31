@@ -22,16 +22,13 @@ const REQUEST = gql`
       statusChangeAuthor
       statusChangeDate
       statusReason
+      userType
       uuid
       authorities {
         brand
         department
         id
         role
-      }
-      hierarchy {
-        uuid
-        userType
       }
     }
   }
