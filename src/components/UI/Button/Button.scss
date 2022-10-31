@@ -1,12 +1,12 @@
 @import './button-mixin.scss';
 
-.Button {  
+.Button {
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
   padding: 9px 16px;
-  white-space: nowrap;
- 
+  position: relative;
+
   &--primary {
     border-radius: 3px;
     padding-bottom: 9px;
@@ -58,5 +58,21 @@
     padding-top: 4px;
     padding-bottom: 4px;
     font-size: 13px;
+  }
+
+  &__loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__content {
+    text-align: center;
+    white-space: nowrap;
+
+    &--submitting {
+      visibility: hidden;
+    }
   }
 }

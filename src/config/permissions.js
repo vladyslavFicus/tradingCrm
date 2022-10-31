@@ -227,6 +227,7 @@ export default {
     HOLIDAYS_CREATE: 'we-trading.createHoliday',
     HOLIDAYS_EDIT: 'we-trading.updateHoliday',
     HOLIDAYS_DELETE: 'we-trading.deleteHoliday',
+    DOWNLOAD_REPORT: 'we-trading.getAccountDetailedReport',
   },
   LIQUIDITY_PROVIDER_ADAPTER: {
     RESTART_STREAMING: 'liquidity-provider-adapter.admin.restartStreaming',

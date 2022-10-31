@@ -398,8 +398,8 @@ it('Render SmartPnLForm and configure volumeLots field', async () => {
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
   await screen.findAllByText(/The Volume must be at least 0.01./);
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
   expect(screen.getByLabelText('Sell close price')).toHaveValue(1.0548);
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
   expect(screen.getByLabelText('Buy close price')).toHaveValue(1.2552);
@@ -407,8 +407,8 @@ it('Render SmartPnLForm and configure volumeLots field', async () => {
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
   await screen.findAllByText(/The Volume may not be greater than 100./);
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
   expect(screen.getByLabelText('Sell close price')).toHaveValue(1.1548);
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
   expect(screen.getByLabelText('Buy close price')).toHaveValue(1.1552);
@@ -416,8 +416,8 @@ it('Render SmartPnLForm and configure volumeLots field', async () => {
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
   await screen.findAllByText(/The Volume must be changed with step 0.01/);
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
   expect(screen.getByLabelText('Sell close price')).toHaveValue(1.14647);
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
   expect(screen.getByLabelText('Buy close price')).toHaveValue(1.16353);
@@ -456,8 +456,8 @@ it('Render SmartPnLForm and configure fields to get negative close price', async
   });
 
   await screen.findAllByText(/The price can not be negative/);
-  expect(screen.getByText(`Sell at ${(-1.05725).toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Sell at ${(-1.05725).toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeEnabled();
   expect(screen.getByLabelText('Sell close price')).toHaveValue(-1.06725);
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
   expect(screen.getByLabelText('Buy close price')).toHaveValue(1.1652);
@@ -471,8 +471,8 @@ it('Render SmartPnLForm and configure fields to get negative close price', async
   });
 
   await screen.findAllByText(/The price can not be negative/);
-  expect(screen.getByText(`Sell at ${(-1.05725).toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${(-1.03725).toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${(-1.05725).toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${(-1.03725).toFixed(5)}`).closest('button')).toBeDisabled();
   expect(screen.getByLabelText('Sell close price')).toHaveValue(-1.06725);
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
   expect(screen.getByLabelText('Buy close price')).toHaveValue(-1.02725);
@@ -530,6 +530,6 @@ it('Render SmartPnLForm for archived account', async () => {
   expect(screen.getByLabelText('Swaps')).toBeDisabled();
   expect(screen.getByLabelText(/Sell required margin/)).toBeDisabled();
   expect(screen.getByLabelText(/Buy required margin/)).toBeDisabled();
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 });

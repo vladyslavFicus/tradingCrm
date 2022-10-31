@@ -848,15 +848,15 @@ it('Render EditOrderModal and configure volumeLots field for partial close order
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
   await screen.findAllByText(/The Volume must be at least 0.01./);
-  expect(screen.getByText(`Close 0.00 at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Close 0.00 at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
   await screen.findAllByText(`The Volume may not be greater than ${volumeLots}.`);
-  expect(screen.getByText(`Close 10001.00 at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Close 10001.00 at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
   await screen.findAllByText(/The Volume must be changed with step 0.01/);
-  expect(screen.getByText(`Close 0.01 at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Close 0.01 at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
 });
 
 it('Render EditOrderModal with all permissions for CANCELED order for MANGER', async () => {

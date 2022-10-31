@@ -249,10 +249,10 @@ it('Render GeneralNewOrderForm and click on "Pending order" checkbox', async () 
 
   // Sell and Buy buttons should have openPrice value in text
   // Should be disabled cause openPrice === sellPrice and it can't be executable for pending order
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
 
   // Buy button should have Buy Limit order type and bid (openPrice) value
-  expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`).closest('button')).toBeEnabled();
 });
 
 it('Render GeneralNewOrderForm and click on "Pending order" checkbox double times', async () => {
@@ -396,8 +396,8 @@ it('Render GeneralNewOrderForm and click on "Pending order" checkbox, ASK price 
   await screen.findByText(`Buy Stop at ${bid.toFixed(5)}`);
 
   // Assert
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy Stop at ${bid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy Stop at ${bid.toFixed(5)}`).closest('button')).toBeEnabled();
 });
 
 it('Render GeneralNewOrderForm and click on "Pending order" checkbox, ASK price changed up', async () => {
@@ -429,8 +429,8 @@ it('Render GeneralNewOrderForm and click on "Pending order" checkbox, ASK price 
   await screen.findByText(`Buy Limit at ${bid.toFixed(5)}`);
 
   // Assert
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`)).toBeEnabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy Limit at ${bid.toFixed(5)}`).closest('button')).toBeEnabled();
 });
 
 it('Render GeneralNewOrderForm and click on "Pending order" checkbox, ASK price is equal openPrice', async () => {
@@ -462,8 +462,8 @@ it('Render GeneralNewOrderForm and click on "Pending order" checkbox, ASK price 
   await screen.findByText(`Buy at ${bid.toFixed(5)}`);
 
   // Assert
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${bid.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
 });
 
 it('Render GeneralNewOrderForm and applying group spread for chosen symbol', async () => {
@@ -543,18 +543,18 @@ it('Render GeneralNewOrderForm and configure volumeLots field', async () => {
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
   await screen.findAllByText(/The Volume must be at least 0.01./);
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
   await screen.findAllByText(/The Volume may not be greater than 100./);
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
   await screen.findAllByText(/The Volume must be changed with step 0.01/);
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 });
 
 it('Render GeneralNewOrderForm for archived account', async () => {
@@ -597,8 +597,8 @@ it('Render GeneralNewOrderForm for archived account', async () => {
   expect(screen.getByLabelText(/Sell required margin/)).toBeDisabled();
   expect(screen.getByLabelText(/Buy required margin/)).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toBeDisabled();
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 });
 
 it('Render GeneralNewOrderForm and calculate units for FOREX symbols', async () => {
@@ -630,20 +630,20 @@ it('Render GeneralNewOrderForm and calculate units for FOREX symbols', async () 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
   await screen.findAllByText(/The Volume must be at least 0.01./);
   expect(screen.queryByText(/10 EUR/)).not.toBeInTheDocument(); // Hide units text when error on volume field
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
   await screen.findAllByText(/The Volume may not be greater than 100./);
   expect(screen.queryByText(/100 010 000 EUR/)).not.toBeInTheDocument(); // Hide units text when error on volume field
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
   await screen.findAllByText(/The Volume must be changed with step 0.01/);
   expect(screen.queryByText(/120 EUR/)).not.toBeInTheDocument(); // Hide units text when error on volume field
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 });
 
 it('Render GeneralNewOrderForm and calculate units for CFD symbols', async () => {
@@ -720,18 +720,18 @@ it('Render GeneralNewOrderForm and calculate units for CFD symbols', async () =>
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.001 } });
   await screen.findAllByText(/The Volume must be at least 0.01./);
   expect(screen.queryByText(/10 APPLE/)).not.toBeInTheDocument(); // Hide units text when error on volume field
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 10001 } });
   await screen.findAllByText(/The Volume may not be greater than 100./);
   expect(screen.queryByText(/100 010 000 APPLE/)).not.toBeInTheDocument(); // Hide units text when error on volume field
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 
   fireEvent.change(screen.getByLabelText('Volume'), { target: { value: 0.012 } });
   await screen.findAllByText(/The Volume must be changed with step 0.01/);
   expect(screen.queryByText(/120 APPLE/)).not.toBeInTheDocument(); // Hide units text when error on volume field
-  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`)).toBeDisabled();
-  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`)).toBeDisabled();
+  expect(screen.getByText(`Sell at ${bid.toFixed(5)}`).closest('button')).toBeDisabled();
+  expect(screen.getByText(`Buy at ${ask.toFixed(5)}`).closest('button')).toBeDisabled();
 });

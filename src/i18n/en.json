@@ -4285,6 +4285,7 @@
       "ARCHIVE": "Archive",
       "UNARCHIVE": "Unarchive",
       "ARCHIVED": "Archived",
+      "DOWNLOAD_REPORT": "Download report",
       "BULK_CLOSE_BY_TP": "Close by Take Profit",
       "BULK_CLOSE_BY_SL": "Close by Stop Loss",
       "BULK_CLOSE_BY_MP": "Close by using market price",

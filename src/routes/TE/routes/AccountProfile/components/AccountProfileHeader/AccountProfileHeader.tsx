@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import compose from 'compose-function';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
 import { Modal, Notify, LevelType } from 'types';
-import withModals from 'hoc/withModals';
 import { withNotifications } from 'hoc';
+import { getGraphQLUrl, getVersion } from 'config';
+import withModals from 'hoc/withModals';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { CONDITIONS } from 'utils/permissions';
+import downloadBlob from 'utils/downloadBlob';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
@@ -18,6 +20,7 @@ import FixBalanceModal from 'routes/TE/modals/FixBalanceModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Account } from '../../AccountProfile';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
+import { useTokenRenewMutation } from './graphql/__generated__/TokenRenewMutation';
 import './AccountProfileHeader.scss';
 
 type Props = {
@@ -34,6 +37,7 @@ type Props = {
 const AccountProfileHeader = (props: Props) => {
   const {
     account: {
+      uuid,
       name,
       login,
       enable,
@@ -45,7 +49,10 @@ const AccountProfileHeader = (props: Props) => {
     },
   } = props;
 
+  const [isReportDownloading, setIsReportDownloading] = useState(false);
+
   const [archive] = useArchiveMutation();
+  const [tokenRenew] = useTokenRenewMutation();
 
   const handleNewOrderClick = () => {
     newOrderModal.show({
@@ -56,9 +63,6 @@ const AccountProfileHeader = (props: Props) => {
 
   const handleArchiveAccount = async (enabled: boolean) => {
     const {
-      account: {
-        uuid,
-      },
       notify,
       handleRefetch,
     } = props;
@@ -113,6 +117,32 @@ const AccountProfileHeader = (props: Props) => {
     fixBalanceModal.show({ login: login.toString() });
   };
 
+  const handleDownloadReportClick = async () => {
+    setIsReportDownloading(true);
+
+    try {
+      const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
+
+      const requestUrl = `${getGraphQLUrl()}/report/${uuid}`;
+
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          'x-client-version': getVersion(),
+        },
+      });
+
+      const blobData = await response.blob();
+
+      downloadBlob(`${login}.xls`, blobData);
+    } catch (e) {
+      // Do nothing...
+    }
+
+    setIsReportDownloading(false);
+  };
+
   return (
     <div className="AccountProfileHeader">
       <div className="AccountProfileHeader__topic">
@@ -141,11 +171,22 @@ const AccountProfileHeader = (props: Props) => {
           <Button
             className="AccountProfileHeader__action"
             onClick={() => handleArchiveClick(!enable)}
-            tertiary
             danger
             small
           >
             {I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.${enable ? 'ARCHIVE' : 'UNARCHIVE'}`)}
+          </Button>
+        </PermissionContent>
+
+        <PermissionContent permissions={permissions.WE_TRADING.DOWNLOAD_REPORT}>
+          <Button
+            className="AccountProfileHeader__action"
+            onClick={handleDownloadReportClick}
+            submitting={isReportDownloading}
+            tertiary
+            small
+          >
+            {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.DOWNLOAD_REPORT')}
           </Button>
         </PermissionContent>
 

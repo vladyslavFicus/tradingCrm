@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ShortLoader from 'components/ShortLoader';
+import CircleLoader from 'components/CircleLoader';
 import './Button.scss';
 
 class Button extends PureComponent {
@@ -101,14 +101,17 @@ class Button extends PureComponent {
         }
         disabled={submitting || disabled}
       >
-        <Choose>
-          <When condition={submitting}>
-            <ShortLoader height={18} />
-          </When>
-          <Otherwise>
-            {children}
-          </Otherwise>
-        </Choose>
+        {/* Show loader if submitting === true */}
+        <If condition={submitting}>
+          <div className="Button__loader">
+            <CircleLoader />
+          </div>
+        </If>
+
+        {/* Make content invisible while submitting === true */}
+        <div className={classNames('Button__content', { 'Button__content--submitting': submitting })}>
+          {children}
+        </div>
       </button>
     );
   }
