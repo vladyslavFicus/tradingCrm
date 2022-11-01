@@ -1,5 +1,6 @@
 export const salesStatuses: Record<string, string> = {
   CALLBACK: 'CONSTANTS.SALES_STATUSES.CALLBACK',
+  CALL_AGAIN: 'CONSTANTS.SALES_STATUSES.CALL_AGAIN',
   CONVERTED: 'CONSTANTS.SALES_STATUSES.CONVERTED',
   DEPOSITOR: 'CONSTANTS.SALES_STATUSES.DEPOSITOR',
   DO_NOT_CALL: 'CONSTANTS.SALES_STATUSES.DO_NOT_CALL',
@@ -74,6 +75,7 @@ export const salesStatusesColor: Record<string, string> = {
   NEVER_ANSWER: 'danger',
   CONVERTED: 'success',
   CALLBACK: 'info',
+  CALL_AGAIN: 'info',
   POTENTIAL_HIGH: 'info',
   POTENTIAL_LOW: 'warning',
   NO_POTENTIAL: 'warning',
