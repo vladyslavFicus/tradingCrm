@@ -51,6 +51,7 @@ class ClientFilesTab extends PureComponent {
         <TabHeader title={I18n.t('FILES.TITLE')}>
           <PermissionContent permissions={permissions.FILES.UPLOAD_FILE}>
             <Button
+              data-testid="uploadFileButton"
               onClick={this.handleUploadFileClick}
               tertiary
               small

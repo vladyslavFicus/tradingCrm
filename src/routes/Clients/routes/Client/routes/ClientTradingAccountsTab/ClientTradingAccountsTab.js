@@ -78,6 +78,7 @@ class ClientTradingAccountsTab extends PureComponent {
         >
           <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
             <Button
+              data-testid="addAccountButton"
               onClick={this.showTradingAccountAddModal}
               tertiary
               small

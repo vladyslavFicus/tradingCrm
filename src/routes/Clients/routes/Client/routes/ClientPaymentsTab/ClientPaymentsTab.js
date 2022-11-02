@@ -97,6 +97,7 @@ class ClientPaymentsTab extends PureComponent {
             permissionsCondition={CONDITIONS.OR}
           >
             <Button
+              data-testid="addTransactionButton"
               onClick={this.handleOpenAddPaymentModal}
               tertiary
               small

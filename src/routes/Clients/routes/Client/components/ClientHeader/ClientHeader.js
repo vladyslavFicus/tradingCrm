@@ -240,6 +240,7 @@ class ClientHeader extends PureComponent {
 
           <PermissionContent permissions={permissions.CALLBACKS.CLIENT.CREATE_CALLBACK}>
             <Button
+              data-testid="addCallbackButton"
               small
               tertiary
               className="ClientHeader__action"
@@ -267,6 +268,7 @@ class ClientHeader extends PureComponent {
               targetType={targetTypes.PLAYER}
             >
               <Button
+                data-testid="addNoteButton"
                 className="ClientHeader__action"
                 tertiary
                 small
@@ -277,6 +279,7 @@ class ClientHeader extends PureComponent {
           </PermissionContent>
 
           <Button
+            data-testid="refreshButton"
             className="ClientHeader__action"
             onClick={this.onHandleReloadClick}
             tertiary
