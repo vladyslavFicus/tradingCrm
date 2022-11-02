@@ -12,7 +12,6 @@ import countries from 'utils/countryList';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import Button from 'components/UI/Button';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { TradingEngine__OperatorRoles__Enum as OperatorRolesEnum } from '__generated__/types';
 import { useOperatorProfileQuery } from './graphql/__generated__/OperatorProfileQuery';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import { useUpdateOperatorAndChangeRoleMutation } from './graphql/__generated__/UpdateOperatorAndChangeRoleMutation';
@@ -36,7 +35,7 @@ type FormValues = {
   lastName: string,
   phone: string,
   groupNames: string[],
-  role: OperatorRolesEnum,
+  role: string,
   email: string,
 }
 
@@ -101,7 +100,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
           firstName: operator?.firstName || '',
           lastName: operator?.lastName || '',
           email: operator?.email || '',
-          role: operator?.role || OperatorRolesEnum.AGENT,
+          role: operator?.role || 'AGENT',
           groupNames: operator?.groupNames || [],
         }}
         validate={validate}
