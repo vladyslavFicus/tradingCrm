@@ -169,6 +169,7 @@ const AccountProfileHeader = (props: Props) => {
       <div className="AccountProfileHeader__actions">
         <PermissionContent permissions={permissions.WE_TRADING.UPDATE_ACCOUNT_ENABLE}>
           <Button
+            data-testid="archiveButton"
             className="AccountProfileHeader__action"
             onClick={() => handleArchiveClick(!enable)}
             danger
@@ -180,6 +181,7 @@ const AccountProfileHeader = (props: Props) => {
 
         <PermissionContent permissions={permissions.WE_TRADING.DOWNLOAD_REPORT}>
           <Button
+            data-testid="downloadReportButton"
             className="AccountProfileHeader__action"
             onClick={handleDownloadReportClick}
             submitting={isReportDownloading}
@@ -200,6 +202,7 @@ const AccountProfileHeader = (props: Props) => {
           permissionsCondition={CONDITIONS.OR}
         >
           <Button
+            data-testid="fixBalanceButton"
             className="AccountProfileHeader__action"
             onClick={handleFixBalanceClick}
             tertiary
@@ -219,6 +222,7 @@ const AccountProfileHeader = (props: Props) => {
             />
 
             <Button
+              data-testid="newOrderButton"
               className="AccountProfileHeader__action"
               onClick={handleNewOrderClick}
               tertiary
