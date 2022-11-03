@@ -412,7 +412,7 @@ class ClientsGrid extends PureComponent {
       <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
         <NoteButton
           className="ClientsGrid__note-button"
-          targetType={targetTypes.PAYMENT}
+          targetType={targetTypes.PLAYER}
           targetUUID={uuid}
           playerUUID={uuid}
         />
