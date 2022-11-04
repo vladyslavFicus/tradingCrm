@@ -12,7 +12,7 @@ import { Table, Column } from 'components/Table';
 import { EditButton, TrashButton } from 'components/UI';
 import PermissionContent from 'components/PermissionContent';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
-import UpdateTeamModal from '../UpdateTeamModal';
+import UpdateTeamModal from 'modals/UpdateTeamModal';
 import './TeamsGrid.scss';
 
 class TeamsGrid extends PureComponent {

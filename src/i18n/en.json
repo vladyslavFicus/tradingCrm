@@ -2460,6 +2460,9 @@
         "OFFICE_NAME": "Office name",
         "COUNTRY": "Country"
       },
+      "ERRORS": {
+        "UNIQUE": "Office with this name already exists"
+      },
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully created",
         "ERROR": "Failed to create new office"
@@ -2472,9 +2475,93 @@
         "OFFICE_NAME": "Office name",
         "COUNTRY": "Country"
       },
+      "ERRORS": {
+        "UNIQUE": "Office with this name already exists"
+      },
       "NOTIFICATION": {
         "SUCCESS": "Office was successfully updated",
         "ERROR": "Failed to update an office"
+      }
+    },
+    "ADD_DESK_MODAL": {
+      "HEADER": "New desk",
+      "CREATE_BUTTON": "Create desk",
+      "LABELS": {
+        "DESK_NAME": "Desk name",
+        "OFFICE_NAME": "Office",
+        "DESK_TYPE": "Desk type",
+        "LANGUAGE": "Language",
+        "DESK_TYPE_OPTIONS": {
+          "RETENTION": "Retention",
+          "SALES": "Sales"
+        }
+      },
+      "ERRORS": {
+        "UNIQUE": "Desk with this name already exists"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully created",
+        "ERROR": "Desk creation failed"
+      }
+    },
+    "UPDATE_DESK_MODAL": {
+      "HEADER": "Update desk",
+      "UPDATE_BUTTON": "Update desk",
+      "LABELS": {
+        "DESK_NAME": "Desk name",
+        "DESK_TYPE": "Desk type",
+        "LANGUAGE": "Language"
+      },
+      "ERRORS": {
+        "UNIQUE": "Desk with this name already exists"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Desk was successfully updated",
+        "ERROR": "Desk update failed"
+      }
+    },
+    "ADD_TEAM_MODAL": {
+      "HEADER": "New team",
+      "CREATE_BUTTON": "Create team",
+      "LABELS": {
+        "TEAM_NAME": "Team name",
+        "OFFICE": "Office",
+        "DESK": "Desk"
+      },
+      "PLACEHOLDERS": {
+        "TYPE_IN_TEAM_NAME": "Type in team name",
+        "NO_OFFICE_DESK": "-- No desk for current office --",
+        "SELECT_OFFICE_FIRST": "-- Select office first --"
+      },
+      "ERRORS": {
+        "UNIQUE": "Team with this name already exists"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": {
+          "TITLE": "Creating succeed",
+          "MESSAGE": "The team was successfully created"
+        },
+        "ERROR": {
+          "TITLE": "Failure on creating",
+          "MESSAGE": "Creating of team has failed"
+        }
+      }
+    },
+    "UPDATE_TEAM_MODAL": {
+      "HEADER": "Update team",
+      "UPDATE_BUTTON": "Update team",
+      "LABELS": {
+        "TEAM_NAME": "Team name"
+      },
+      "PLACEHOLDERS": {
+        "TYPE_IN_TEAM_NAME": "Type in team name"
+      },
+      "ERRORS": {
+        "UNIQUE": "Team with this name already exists"
+      },
+      "NOTIFICATIONS": {
+        "SUCCESS": "Team was successfully updated",
+        "ERROR": "Team update failed"
       }
     },
     "DELETE_BRANCH_MODAL": {
@@ -3271,37 +3358,10 @@
       "SEARCH_BY": "Search by",
       "SEARCH_BY_PLACEHOLDER": "Desk name",
       "OFFICE": "Office",
-      "DESK_TYPE": "Desk type"
-    },
-    "MODAL": {
-      "HEADER": "New desk",
-      "CREATE_BUTTON": "Create desk",
-      "LABELS": {
-        "DESK_NAME": "Desk name",
-        "OFFICE_NAME": "Office",
-        "DESK_TYPE": "Desk type",
-        "LANGUAGE": "Language",
-        "DESK_TYPE_OPTIONS": {
-          "RETENTION": "Retention",
-          "SALES": "Sales"
-        }
-      },
-      "NOTIFICATIONS": {
-        "SUCCESS": "Desk was successfully created",
-        "ERROR": "Desk creation failed"
-      }
-    },
-    "UPDATE_MODAL": {
-      "HEADER": "Update desk",
-      "UPDATE_BUTTON": "Update desk",
-      "LABELS": {
-        "DESK_NAME": "Desk name",
-        "DESK_TYPE": "Desk type",
-        "LANGUAGE": "Language"
-      },
-      "NOTIFICATIONS": {
-        "SUCCESS": "Desk was successfully updated",
-        "ERROR": "Desk update failed"
+      "DESK_TYPE": "Desk type",
+      "DESK_TYPE_OPTIONS": {
+        "RETENTION": "Retention",
+        "SALES": "Sales"
       }
     },
     "FILTERS": {
@@ -3338,44 +3398,6 @@
       "OFFICE": "Office",
       "DESK": "Desk",
       "ACTIONS": "Actions"
-    },
-    "MODAL": {
-      "HEADER": "New team",
-      "CREATE_BUTTON": "Create team",
-      "LABELS": {
-        "TEAM_NAME": "Team name",
-        "OFFICE": "Office",
-        "DESK": "Desk"
-      },
-      "PLACEHOLDERS": {
-        "TYPE_IN_TEAM_NAME": "Type in team name",
-        "NO_OFFICE_DESK": "-- No desk for current office --",
-        "SELECT_OFFICE_FIRST": "-- Select office first --"
-      },
-      "NOTIFICATIONS": {
-        "SUCCESS": {
-          "TITLE": "Creating succeed",
-          "MESSAGE": "The team was successfully created"
-        },
-        "ERROR": {
-          "TITLE": "Failure on creating",
-          "MESSAGE": "Creating of team has failed"
-        }
-      }
-    },
-    "UPDATE_MODAL": {
-      "HEADER": "Update team",
-      "UPDATE_BUTTON": "Update team",
-      "LABELS": {
-        "TEAM_NAME": "Team name"
-      },
-      "PLACEHOLDERS": {
-        "TYPE_IN_TEAM_NAME": "Type in team name"
-      },
-      "NOTIFICATIONS": {
-        "SUCCESS": "Team was successfully updated",
-        "ERROR": "Team update failed"
-      }
     },
     "TABS": {
       "RULES": {

@@ -1,0 +1,11 @@
+mutation CreateTeamMutation(
+  $teamName: String!,
+  $deskUuid: String!,
+) {
+  hierarchy {
+    createTeam (
+      name: $teamName,
+      deskId: $deskUuid,
+    )
+  }
+}

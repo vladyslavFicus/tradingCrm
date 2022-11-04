@@ -1,0 +1,15 @@
+query DesksAndOfficesQuery {
+  userBranches {
+    OFFICE {
+      name
+      uuid
+    }
+    DESK {
+      name
+      uuid
+      parentBranch {
+        uuid
+      }
+    }
+  }
+}

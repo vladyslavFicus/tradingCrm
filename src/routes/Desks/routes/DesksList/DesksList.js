@@ -5,11 +5,11 @@ import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
+import CreateDeskModal from 'modals/CreateDeskModal';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
 import getDesksQuery from './graphql/getDesksQuery';
 import getOfficesQuery from './graphql/getOfficesQuery';
-import CreateDeskModal from './components/CreateDeskModal';
 import DesksGridFilter from './components/DesksGridFilter';
 import DesksGrid from './components/DesksGrid';
 import './DesksList.scss';
@@ -26,14 +26,12 @@ class DesksList extends PureComponent {
   handleOpenAddDeskModal = () => {
     const {
       desksData,
-      officesData,
       modals: {
         createDeskModal,
       },
     } = this.props;
 
     createDeskModal.show({
-      officesData,
       onSuccess: () => {
         desksData.refetch();
       },

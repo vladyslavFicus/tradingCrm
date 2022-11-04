@@ -12,7 +12,7 @@ import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
 import { EditButton, TrashButton } from 'components/UI';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
-import UpdateDeskModal from '../UpdateDeskModal';
+import UpdateDeskModal from 'modals/UpdateDeskModal';
 import './DesksGrid.scss';
 
 class DesksGrid extends PureComponent {
@@ -77,7 +77,7 @@ class DesksGrid extends PureComponent {
 
   renderDeskTypesCell = ({ deskType }) => (
     <div className="DesksGrid__cell-primary">
-      {I18n.t(`DESKS.MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
+      {I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
     </div>
   );
 

@@ -4,11 +4,12 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import PropTypes from 'constants/propTypes';
+import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
-import { deskTypes } from '../../constants';
+import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import './DesksGridFilter.scss';
 
 class DesksGridFilter extends PureComponent {
@@ -107,9 +108,9 @@ class DesksGridFilter extends PureComponent {
                 withAnyOption
                 withFocus
               >
-                {deskTypes.map((deskType, key) => (
-                  <option key={key} value={deskType.value}>
-                    {I18n.t(deskType.label)}
+                {enumToArray(DeskTypesEnum).map(deskType => (
+                  <option key={deskType} value={deskType}>
+                    {I18n.t(`DESKS.GRID_FILTERS.DESK_TYPE_OPTIONS.${deskType}`)}
                   </option>
                 ))}
               </Field>

@@ -7,9 +7,9 @@ import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/UI';
+import CreateTeamModal from 'modals/CreateTeamModal';
 import getTeamsQuery from './graphql/getTeamsQuery';
 import getDesksAndOfficesQuery from './graphql/getDesksAndOfficesQuery';
-import CreateTeamModal from './components/CreateTeamModal';
 import TeamsGridFilter from './components/TeamsGridFilter';
 import TeamsGrid from './components/TeamsGrid';
 import './TeamsList.scss';
@@ -26,14 +26,12 @@ class TeamsList extends PureComponent {
   handleOpenAddTeamModal = () => {
     const {
       teamsData,
-      desksAndOffices,
       modals: {
         createTeamModal,
       },
     } = this.props;
 
     createTeamModal.show({
-      desksAndOffices,
       onSuccess: () => {
         teamsData.refetch();
       },
