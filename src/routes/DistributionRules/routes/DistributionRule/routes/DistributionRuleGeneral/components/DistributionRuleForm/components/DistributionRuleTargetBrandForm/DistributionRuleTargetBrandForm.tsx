@@ -31,6 +31,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
         targetBrandConfig,
       },
       errors,
+      setFieldValue,
     },
   } = props;
 
@@ -127,6 +128,11 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
     return null;
   };
 
+  const onChangeBrand = (value: string) => {
+    setFieldValue('targetBrandConfig.brand', value);
+    setFieldValue('targetBrandConfig.affiliateUuid', '');
+  };
+
   return (
     <div className={
       classNames('DistributionRuleTargetBrandForm', {
@@ -141,6 +147,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
           component={FormikSelectField}
           disabled={brandsQuery.loading || !isEditEnabled}
           searchable
+          customOnChange={onChangeBrand}
         >
           {brands.map(brand => (
             <option key={brand.brandId} value={brand.brandId}>
