@@ -50,7 +50,7 @@ class RSocketProvider extends PureComponent {
   createClient() {
     return new RSocketClient({
       setup: {
-        keepAlive: 60000,
+        keepAlive: 20000,
         lifetime: 180000,
         dataMimeType: 'application/json',
       },

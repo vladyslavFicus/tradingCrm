@@ -1,21 +1,15 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = (app) => {
-  // Proxy-passing /api requests to /gql endpoint
+  // Proxy-passing /api requests to graphql server /api endpoint
   app.use(createProxyMiddleware('/api', {
     target: process.env.API_URL,
-    pathRewrite: {
-      '^/api': '',
-    },
     changeOrigin: true,
   }));
 
-  // Proxy-passing /ws web-socket requests to /gql endpoint
+  // Proxy-passing /ws web-socket requests to /ws endpoint
   app.use(createProxyMiddleware('/ws', {
     target: process.env.SUBSCRIPTION_URL,
-    pathRewrite: {
-      '^/ws': '',
-    },
     ws: true,
     changeOrigin: true,
   }));
