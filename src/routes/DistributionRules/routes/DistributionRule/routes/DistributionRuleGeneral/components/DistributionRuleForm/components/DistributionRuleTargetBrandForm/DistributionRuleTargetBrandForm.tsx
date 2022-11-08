@@ -94,9 +94,14 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
   });
 
   const brands = (brandsQuery.data?.brands || []).filter(({ brandId }) => brandId !== sourceBrandConfig?.brand);
-  const partners = (partnersQuery.data?.cdePartners || []).filter(({ brand }) => targetBrandConfig?.brand === brand);
+
+  const partners = (partnersQuery.data?.cdePartners || [])
+    .filter(({ brand }) => targetBrandConfig?.brand === brand);
+
   const operators = operatorsByBrandQuery.data?.operatorsByBrand || [];
+
   const clientsAmount = clientsAmountQuery.data?.distributionRuleClientsAmount || 0;
+
   const salesStatuses = sortBy(acquisitionStatusesQuery.data?.settings.acquisitionStatuses || [], 'status');
 
   // Calculating right amount of clients for migration
@@ -199,8 +204,12 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
         disabled={partnersQuery.loading || !partners.length || !isEditEnabled}
         searchable
       >
-        {partners.map(({ uuid, fullName }) => (
-          <option key={uuid} value={uuid}>
+        {partners.map(({ uuid, fullName, status }) => (
+          <option
+            key={uuid}
+            value={uuid}
+            disabled={['INACTIVE', 'CLOSED'].includes(status)}
+          >
             {fullName}
           </option>
         ))}

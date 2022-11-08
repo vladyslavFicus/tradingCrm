@@ -3,5 +3,6 @@ query PartnersQuery {
     uuid
     fullName
     brand
+    status
   }
 }

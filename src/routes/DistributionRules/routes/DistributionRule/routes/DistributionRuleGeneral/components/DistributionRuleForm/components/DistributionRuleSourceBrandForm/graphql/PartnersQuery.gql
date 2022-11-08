@@ -3,6 +3,7 @@ query PartnersQuery($brandId: String, $page: Page__Input) {
     content {
       uuid
       fullName
+      status
     }
   }
 }

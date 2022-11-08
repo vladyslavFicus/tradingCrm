@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import moment from 'moment';
 import { sortBy } from 'lodash';
 import { getAvailableLanguages } from 'config';
@@ -62,6 +63,11 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       page: {
         from: 0,
         size: 10000,
+        sorts: [
+          { column: 'status', direction: 'ASC' },
+          { column: 'firstName', direction: 'ASC' },
+          { column: 'lastName', direction: 'ASC' },
+        ],
       },
     },
     // Skip query if brand wasn't chosen
@@ -302,8 +308,16 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
         searchable
         multiple
       >
-        {[{ uuid: 'NONE', fullName: 'NONE' }, ...partners].map(({ uuid, fullName }) => (
-          <option key={uuid} value={uuid}>
+        {partners.map(({ uuid, fullName, status }) => (
+          <option
+            key={uuid}
+            value={uuid}
+            className={
+              classNames({
+                'DistributionRuleSourceBrandForm__option--inactive': ['INACTIVE', 'CLOSED'].includes(status),
+              })
+            }
+          >
             {fullName}
           </option>
         ))}

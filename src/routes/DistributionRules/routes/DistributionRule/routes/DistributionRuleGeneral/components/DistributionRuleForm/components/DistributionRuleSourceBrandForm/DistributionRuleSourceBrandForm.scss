@@ -48,6 +48,12 @@
     margin-bottom: 10px;
     color: var(--accent);
   }
+
+  &__option {
+    &--inactive {
+      color: var(--form-color-disabled) !important;
+    }
+  }
 }
 
 @keyframes spinner {
