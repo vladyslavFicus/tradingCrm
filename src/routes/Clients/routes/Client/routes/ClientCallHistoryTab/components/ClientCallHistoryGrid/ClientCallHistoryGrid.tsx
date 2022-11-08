@@ -4,12 +4,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set, startCase } from 'lodash';
 import I18n from 'i18n-js';
 import { Sort, State } from 'types';
-import { Table, Column } from 'components/Table';
+import { Column, Table } from 'components/Table';
 import Uuid from 'components/Uuid';
 import {
+  CallHistoryQuery,
   CallHistoryQueryQueryResult,
   CallHistoryQueryVariables,
-  CallHistoryQuery,
 } from '../../graphql/__generated__/ClientCallHistoryQuery';
 import './ClientCallHistoryGrid.scss';
 
@@ -35,31 +35,67 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
   };
 
   const renderVoIP = ({ callSystem }: CallHistoryType) => (
-    <div className="ClientCallHistoryGrid__info-main">
+    <div className="ClientCallHistoryGrid__info--main">
       {startCase(callSystem.toLowerCase())}
     </div>
   );
 
   const renderOperator = ({ operator }: CallHistoryType) => (
     <Fragment>
-      <div className="ClientCallHistoryGrid__info-main">
+      <div className="ClientCallHistoryGrid__info--main">
         {operator.fullName}
       </div>
-      <div className="ClientCallHistoryGrid__info-secondary">
+      <div className="ClientCallHistoryGrid__info--secondary">
         <Uuid uuid={operator.uuid || ''} />
       </div>
     </Fragment>
   );
 
-  const renderDateTime = ({ createdAt }: CallHistoryType) => (
+  const renderDateAndTime = (time: string) => (
     <div>
-      <div className="ClientCallHistoryGrid__info-main">
-        {moment.utc(createdAt).local().format('DD.MM.YYYY')}
+      <div className="ClientCallHistoryGrid__info--main">
+        {moment.utc(time).local().format('DD.MM.YYYY')}
       </div>
-      <div className="ClientCallHistoryGrid__info-secondary">
-        {moment.utc(createdAt).local().format('HH:mm:ss')}
+      <div className="ClientCallHistoryGrid__info--secondary">
+        {moment.utc(time).local().format('HH:mm:ss')}
       </div>
     </div>
+  );
+
+  const renderCreatedAt = ({ createdAt }: CallHistoryType) => renderDateAndTime(createdAt);
+
+  const renderFinishedAt = ({ finishedAt }: CallHistoryType) => (
+    <Choose>
+      <When condition={!!finishedAt}>
+        {renderDateAndTime(finishedAt as string)}
+      </When>
+      <Otherwise>
+        <div className="ClientCallHistoryGrid__info--secondary">&mdash;</div>
+      </Otherwise>
+    </Choose>
+  );
+
+  const renderCallStatus = ({ callStatus }: CallHistoryType) => (
+    <div className="ClientCallHistoryGrid__info--main">{callStatus}</div>
+  );
+
+  /**
+   * Duration field comes in minutes, so we multiply them by 60 to get hours and also add "000"
+   * as a string to convert to timestamp and render it in date format
+   *
+   * @param { duration }
+   */
+  const renderDuration = ({ duration }: CallHistoryType) => (
+    <Choose>
+      <When condition={!!duration}>
+        <div className="ClientCallHistoryGrid__info-main">
+          {moment.utc(+(duration as string) * 60 * 1000).format('HH:mm:ss')}
+        </div>
+      </When>
+      <Otherwise>
+        <div className="ClientCallHistoryGrid__info--secondary">&mdash;</div>
+      </Otherwise>
+    </Choose>
   );
 
   const handleSort = (sorts: Sort[]) => {
@@ -82,9 +118,22 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
         onMore={handlePageChanged}
       >
         <Column
-          header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.CALL_DATE')}
+          header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.CALL_STATUS')}
+          render={renderCallStatus}
+        />
+        <Column
+          header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.START_DATE')}
           sortBy="createdAt"
-          render={renderDateTime}
+          render={renderCreatedAt}
+        />
+        <Column
+          header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.FINISH_DATE')}
+          sortBy="finishedAt"
+          render={renderFinishedAt}
+        />
+        <Column
+          header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.DURATION')}
+          render={renderDuration}
         />
         <Column
           header={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.HEADER.VOIP')}

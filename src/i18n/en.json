@@ -2785,7 +2785,10 @@
     "CALL_HISTORY": {
       "GRID": {
         "HEADER": {
-          "CALL_DATE": "Date and Time",
+          "CALL_STATUS": "Call status",
+          "START_DATE": "Start date",
+          "FINISH_DATE": "Finish date",
+          "DURATION": "Duration",
           "VOIP": "VoIP",
           "OPERATOR": "Operator"
         },
@@ -3232,7 +3235,10 @@
           "DATE_RANGE": "Date & time range"
         },
         "HEADER": {
-          "CALL_DATE": "Date and Time",
+          "CALL_STATUS": "Call status",
+          "START_DATE": "Start date",
+          "FINISH_DATE": "Finish date",
+          "DURATION": "Duration",
           "VOIP": "VoIP",
           "OPERATOR": "Operator"
         }

@@ -7,6 +7,9 @@ query CallHistoryQuery($uuid: String!, $args: CallHistorySearch__Input!) {
       operatorUuid
       callSystem
       createdAt
+      finishedAt
+      callStatus
+      duration
       operator {
         uuid
         fullName
