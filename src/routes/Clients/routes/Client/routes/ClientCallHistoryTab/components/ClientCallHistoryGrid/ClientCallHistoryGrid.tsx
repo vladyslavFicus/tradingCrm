@@ -76,7 +76,9 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
   );
 
   const renderCallStatus = ({ callStatus }: CallHistoryType) => (
-    <div className="ClientCallHistoryGrid__info--main">{callStatus}</div>
+    <div className="ClientCallHistoryGrid__info--main">
+      {I18n.t(`CLIENT_PROFILE.CALL_HISTORY.STATUSES.${callStatus}`)}
+    </div>
   );
 
   /**

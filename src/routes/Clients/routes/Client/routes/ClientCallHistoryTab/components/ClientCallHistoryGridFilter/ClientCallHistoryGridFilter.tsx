@@ -99,7 +99,7 @@ const ClientCallHistoryGridFilter = ({ callHistory }: Props) => {
           >
             {enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
               <option key={callHistoryStatus} value={callHistoryStatus}>
-                {callHistoryStatus}
+                {I18n.t(`CLIENT_PROFILE.CALL_HISTORY.STATUSES.${callHistoryStatus}`)}
               </option>
             ))}
           </Field>
