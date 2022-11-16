@@ -93,7 +93,7 @@ const ClientCallHistoryGridFilter = ({ callHistory }: Props) => {
             className="ClientCallHistoryGridFilter__field ClientCallHistoryGridFilter__select"
             component={FormikSelectField}
             label={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_STATUS')}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             disabled={isSubmitting}
             withAnyOption
           >
