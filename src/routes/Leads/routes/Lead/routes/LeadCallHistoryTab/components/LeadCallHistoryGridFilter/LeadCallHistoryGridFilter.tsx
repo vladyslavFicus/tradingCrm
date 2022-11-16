@@ -93,13 +93,13 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
             className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__select"
             component={FormikSelectField}
             label={I18n.t('LEAD_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_STATUS')}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             disabled={isSubmitting}
             withAnyOption
           >
             {enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
               <option key={callHistoryStatus} value={callHistoryStatus}>
-                {callHistoryStatus}
+                {I18n.t(`LEAD_PROFILE.CALL_HISTORY.STATUSES.${callHistoryStatus}`)}
               </option>
             ))}
           </Field>

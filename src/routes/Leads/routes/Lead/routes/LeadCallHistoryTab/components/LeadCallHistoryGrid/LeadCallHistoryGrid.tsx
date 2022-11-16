@@ -76,7 +76,9 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
   );
 
   const renderCallStatus = ({ callStatus }: CallHistoryType) => (
-    <div className="LeadCallHistoryGrid__info--main">{callStatus}</div>
+    <div className="LeadCallHistoryGrid__info--main">
+      {I18n.t(`LEAD_PROFILE.CALL_HISTORY.STATUSES.${callStatus}`)}
+    </div>
   );
 
   /**
