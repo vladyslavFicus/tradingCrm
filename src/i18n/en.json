@@ -2796,6 +2796,7 @@
           "SEARCH_BY": "Search By",
           "SEARCH_BY_PLACEHOLDER": "Operator ID",
           "CALL_SYSTEM": "VoIP",
+          "CALL_STATUS": "Call status",
           "DATE_RANGE": "Date & time range"
         }
       }
@@ -3232,6 +3233,7 @@
           "SEARCH_BY": "Search By",
           "SEARCH_BY_PLACEHOLDER": "Operator ID",
           "CALL_SYSTEM": "VoIP",
+          "CALL_STATUS": "Call status",
           "DATE_RANGE": "Date & time range"
         },
         "HEADER": {

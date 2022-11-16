@@ -4,9 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { State } from 'types';
+import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
+import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import {
   CallHistoryQueryQueryResult,
   CallHistoryQueryVariables,
@@ -83,6 +85,21 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
             {callSystems.map(callSystem => (
               <option key={callSystem} value={callSystem}>
                 {startCase(callSystem.toLowerCase())}
+              </option>
+            ))}
+          </Field>
+          <Field
+            name="callStatus"
+            className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__select"
+            component={FormikSelectField}
+            label={I18n.t('LEAD_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_STATUS')}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+            disabled={isSubmitting}
+            withAnyOption
+          >
+            {enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
+              <option key={callHistoryStatus} value={callHistoryStatus}>
+                {callHistoryStatus}
               </option>
             ))}
           </Field>
