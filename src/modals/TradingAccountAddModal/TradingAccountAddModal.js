@@ -8,7 +8,12 @@ import { withRequests, parseErrors } from 'apollo';
 import { getBrand } from 'config';
 import { generate } from 'utils/password';
 import { createValidator, translateLabels } from 'utils/validator';
-import { getAvailablePlatformTypes, getAvailableAccountTypes } from 'utils/tradingAccount';
+import {
+  getAvailablePlatformTypes,
+  getAvailableAccountTypes,
+  getPlarformSupportedCurrencies,
+  getPlatformDefaultCurrency,
+} from 'utils/tradingAccount';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
@@ -70,30 +75,25 @@ class TradingAccountAddModal extends PureComponent {
     }
   };
 
-  handleChangePlatformType = ({ accountType, ...values }, setValues, setFieldValue) => (platformType) => {
+  handleChangePlatformType = ({ accountType }, setFieldValue) => (platformType) => {
     const availableAccountTypes = getAvailableAccountTypes(platformType);
 
     // If previous accountType not found for new chosen platformType --> choose first from list
     if (!availableAccountTypes.find(type => type?.value === accountType)) {
-      setValues({
-        ...values,
-        accountType: availableAccountTypes?.[0]?.value,
-        platformType,
-      });
-    } else {
-      setFieldValue('platformType', platformType);
+      setFieldValue('accountType', availableAccountTypes?.[0]?.value);
     }
+
+    setFieldValue('platformType', platformType);
+    setFieldValue('currency', getPlatformDefaultCurrency(platformType));
   };
 
   render() {
-    const {
-      isOpen,
-      onCloseModal,
-    } = this.props;
+    const { isOpen, onCloseModal } = this.props;
 
     const platformTypes = getAvailablePlatformTypes();
     const platformType = platformTypes?.[0]?.value;
-    const accountTypes = getAvailableAccountTypes(platformType);
+
+    const accountType = getAvailableAccountTypes(platformType).find(type => type?.value === 'LIVE') ? 'LIVE' : 'DEMO';
 
     return (
       <Modal
@@ -103,9 +103,9 @@ class TradingAccountAddModal extends PureComponent {
         <Formik
           initialValues={{
             platformType,
-            accountType: accountTypes.find(type => type?.value === 'LIVE') ? 'LIVE' : 'DEMO',
+            accountType,
             name: '',
-            currency: '',
+            currency: getPlatformDefaultCurrency(platformType),
             password: generate(),
           }}
           validate={validator}
@@ -113,98 +113,102 @@ class TradingAccountAddModal extends PureComponent {
           validateOnChange={false}
           onSubmit={this.onSubmit}
         >
-          {({ isSubmitting, setFieldValue, setValues, values }) => (
-            <Form>
-              <ModalHeader toggle={onCloseModal}>
-                {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE')}
-              </ModalHeader>
-              <ModalBody>
-                <If condition={platformTypes.length > 1}>
+          {({ isSubmitting, setFieldValue, values }) => {
+            const accountTypes = getAvailableAccountTypes(values.platformType);
+
+            return (
+              <Form>
+                <ModalHeader toggle={onCloseModal}>
+                  {I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE')}
+                </ModalHeader>
+                <ModalBody>
+                  <If condition={platformTypes.length > 1}>
+                    <Field
+                      name="platformType"
+                      component={FormikSelectField}
+                      label={I18n.t(attributeLabels.platformType)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      customOnChange={this.handleChangePlatformType(values, setFieldValue)}
+                    >
+                      {platformTypes.map(({ value, label }) => (
+                        <option key={value} value={value}>{label}</option>
+                      ))}
+                    </Field>
+                  </If>
+                  <If condition={accountTypes.length > 1}>
+                    <Field
+                      name="accountType"
+                      component={FormikSelectField}
+                      label={attributeLabels.accountType}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    >
+                      {accountTypes.map(({ value, label }) => (
+                        <option key={value} value={value}>{I18n.t(label)}</option>
+                      ))}
+                    </Field>
+                  </If>
+                  <If condition={values.accountType === 'DEMO'}>
+                    <Field
+                      name="amount"
+                      component={FormikSelectField}
+                      label={attributeLabels.amount}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                    >
+                      {amounts.map(value => (
+                        <option key={value} value={value}>
+                          {I18n.toNumber(value, { precision: 0 })}
+                        </option>
+                      ))}
+                    </Field>
+                  </If>
                   <Field
-                    name="platformType"
-                    component={FormikSelectField}
-                    label={I18n.t(attributeLabels.platformType)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    customOnChange={this.handleChangePlatformType(values, setValues, setFieldValue)}
-                  >
-                    {platformTypes.map(({ value, label }) => (
-                      <option key={value} value={value}>{label}</option>
-                    ))}
-                  </Field>
-                </If>
-                <If condition={accountTypes.length > 1}>
+                    name="name"
+                    type="text"
+                    label={attributeLabels.name}
+                    component={FormikInputField}
+                    placeholder={attributeLabels.name}
+                  />
                   <Field
-                    name="accountType"
+                    name="currency"
                     component={FormikSelectField}
-                    label={attributeLabels.accountType}
+                    label={attributeLabels.currency}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   >
-                    {accountTypes.map(({ value, label }) => (
-                      <option key={value} value={value}>{I18n.t(label)}</option>
-                    ))}
-                  </Field>
-                </If>
-                <If condition={values.accountType === 'DEMO'}>
-                  <Field
-                    name="amount"
-                    component={FormikSelectField}
-                    label={attributeLabels.amount}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  >
-                    {amounts.map(value => (
-                      <option key={value} value={value}>
-                        {I18n.toNumber(value, { precision: 0 })}
+                    {getPlarformSupportedCurrencies(values.platformType).map((item, index) => (
+                      <option key={index} value={item}>
+                        {item}
                       </option>
                     ))}
                   </Field>
-                </If>
-                <Field
-                  name="name"
-                  type="text"
-                  label={attributeLabels.name}
-                  component={FormikInputField}
-                  placeholder={attributeLabels.name}
-                />
-                <Field
-                  name="currency"
-                  component={FormikSelectField}
-                  label={attributeLabels.currency}
-                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                >
-                  {getBrand().currencies.supported.map((item, index) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-                <If condition={values.platformType !== 'WET'}>
-                  <Field
-                    name="password"
-                    component={FormikInputField}
-                    label={attributeLabels.password}
-                    placeholder={attributeLabels.password}
-                    addition={<span className="icon-generate-password" />}
-                    onAdditionClick={() => setFieldValue('password', generate())}
-                  />
-                </If>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  tertiary
-                  onClick={onCloseModal}
-                >
-                  {I18n.t('COMMON.CANCEL')}
-                </Button>
-                <Button
-                  type="submit"
-                  primary
-                  disabled={isSubmitting}
-                >
-                  {I18n.t('COMMON.CONFIRM')}
-                </Button>
-              </ModalFooter>
-            </Form>
-          )}
+                  <If condition={values.platformType !== 'WET'}>
+                    <Field
+                      name="password"
+                      component={FormikInputField}
+                      label={attributeLabels.password}
+                      placeholder={attributeLabels.password}
+                      addition={<span className="icon-generate-password" />}
+                      onAdditionClick={() => setFieldValue('password', generate())}
+                    />
+                  </If>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    tertiary
+                    onClick={onCloseModal}
+                  >
+                    {I18n.t('COMMON.CANCEL')}
+                  </Button>
+                  <Button
+                    type="submit"
+                    primary
+                    disabled={isSubmitting}
+                  >
+                    {I18n.t('COMMON.CONFIRM')}
+                  </Button>
+                </ModalFooter>
+              </Form>
+            );
+          }}
         </Formik>
       </Modal>
     );

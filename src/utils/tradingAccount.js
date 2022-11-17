@@ -40,6 +40,30 @@ const getAvailableAccountTypes = (_platformType) => {
 };
 
 /**
+ * Get plarform supported currencies
+ *
+ * @param platformType
+ *
+ * @return {Array<string>}
+ */
+const getPlarformSupportedCurrencies = (platformType) => {
+  const brand = getBrand();
+  return brand[platformType.toLowerCase()]?.currencies?.supported || brand.currencies.supported;
+};
+
+/**
+ * Get plarform default currency
+ *
+ * @param platformType
+ *
+ * @return {string}
+ */
+const getPlatformDefaultCurrency = (platformType) => {
+  const brand = getBrand();
+  return brand[platformType.toLowerCase()]?.currencies?.default || brand.currencies.base;
+};
+
+/**
  * Get label for platform type
  *
  * @param platformType
@@ -51,5 +75,7 @@ const getPlatformTypeLabel = platformType => platformTypes.find(({ value }) => p
 export {
   getAvailablePlatformTypes,
   getAvailableAccountTypes,
+  getPlarformSupportedCurrencies,
+  getPlatformDefaultCurrency,
   getPlatformTypeLabel,
 };

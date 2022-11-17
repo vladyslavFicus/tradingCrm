@@ -39,6 +39,10 @@ const REQUEST = gql`
         demo {
           enabled
         }
+        currencies {
+          default
+          supported
+        }
       }
       mt5 {
         leveragesChangingRequest
@@ -48,6 +52,10 @@ const REQUEST = gql`
         demo {
           enabled
         }
+        currencies {
+          default
+          supported
+        }
       }
       wet {
         leveragesChangingRequest
@@ -56,6 +64,10 @@ const REQUEST = gql`
         }
         demo {
           enabled
+        }
+        currencies {
+          default
+          supported
         }
       }
       sms {
