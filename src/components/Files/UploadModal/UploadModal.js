@@ -102,7 +102,7 @@ class UploadModal extends PureComponent {
     this.setState({ filesToUpload: updatedFilesToUpload });
   };
 
-  handleUploadFiles = async (errors, files) => {
+  handleUploadFiles = async (errors, files, setValues, values) => {
     const {
       profileUUID,
       uploadFile,
@@ -149,6 +149,11 @@ class UploadModal extends PureComponent {
 
       return !error;
     });
+
+    const initialValues = filesDataWithUuids.reduce((acc, { fileUuid }) => (
+      { ...acc, [fileUuid]: { title: '', category: '' } }), {});
+
+    setValues({ ...initialValues, ...values });
 
     this.setState(({ filesToUpload }) => ({
       filesToUpload: [...filesToUpload, ...filesDataWithUuids],
@@ -353,7 +358,7 @@ class UploadModal extends PureComponent {
                         label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
                         allowedSize={ALLOWED_FILE_MAX_SIZE}
                         allowedTypes={ALLOWED_FILE_TYPES}
-                        onChosen={this.handleUploadFiles}
+                        onChosen={(errors, files) => this.handleUploadFiles(errors, files, setValues, values)}
                         singleMode={false}
                       />
                     </div>

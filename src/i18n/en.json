@@ -866,12 +866,12 @@
     },
     "UPLOAD_MODAL": {
       "FILE": {
-        "TITLE": "Title",
+        "TITLE": "Title*",
         "TITLE_PLACEHOLDER": "File title (required)",
         "FILE_INFO": "File info",
-        "CATEGORY": "Category",
+        "CATEGORY": "Category*",
         "CATEGORY_DEFAULT_OPTION": "Choose category",
-        "DOCUMENT_TYPE": "Document type",
+        "DOCUMENT_TYPE": "Document type*",
         "DOCUMENT_TYPE_DEFAULT_OPTION": "Select document type",
         "STATUS": "Status",
         "UPLOADED": "Uploaded",
