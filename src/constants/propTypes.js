@@ -927,11 +927,6 @@ PropTypes.TableSelection = PropTypes.shape({
   reset: PropTypes.func.isRequired,
 });
 
-PropTypes.coperatorNumber = PropTypes.shape({
-  number: PropTypes.string,
-  country: PropTypes.string,
-});
-
 PropTypes.order = PropTypes.shape({
   id: PropTypes.number,
   accountLogin: PropTypes.number,

@@ -5612,6 +5612,7 @@
     }
   },
   "SMS": {
+    "SMS": "SMS",
     "SMS_SEND_MODAL": {
       "TITLE": "Send SMS to Client",
       "FROM_NUMBER": "From Number",

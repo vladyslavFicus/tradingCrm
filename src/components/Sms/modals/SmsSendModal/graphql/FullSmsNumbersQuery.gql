@@ -1,0 +1,10 @@
+query FullSmsNumbersQuery {
+  sms {
+    fullSms {
+      numbers {
+        number
+        country
+      }
+    }
+  }
+}

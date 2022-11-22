@@ -71,7 +71,7 @@ const REQUEST = gql`
         }
       }
       sms {
-        coperato {
+        fullSms {
           isActive
         }
       }
