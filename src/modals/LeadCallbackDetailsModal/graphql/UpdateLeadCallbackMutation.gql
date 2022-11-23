@@ -1,0 +1,26 @@
+mutation UpdateLeadCallbackMutation(
+  $callbackId: String!
+  $callbackTime: String
+  $operatorId: String!
+  $status: Callback__Status__Enum
+  $reminder: String
+) {
+  callback {
+    updateLeadCallback(
+      callbackId: $callbackId
+      callbackTime: $callbackTime
+      operatorId: $operatorId
+      status: $status
+      reminder: $reminder
+    ) {
+      _id
+      callbackTime
+      status
+      reminder
+      operatorId
+      operator {
+        fullName
+      }
+    }
+  }
+}

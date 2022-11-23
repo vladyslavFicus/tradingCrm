@@ -1,0 +1,36 @@
+.LeadCallbacksGrid {
+  &__info {
+    &-main {
+      font-weight: 700;
+
+      &--pointer {
+        cursor: pointer;
+      }
+    }
+
+    &-secondary {
+      font-size: 11px;
+    }
+  }
+
+  &__lead {
+    max-width: 250px;
+    cursor: pointer;
+  }
+
+  &__status {
+    text-transform: uppercase;
+
+    &--pending {
+      color: var(--state-colors-info);
+    }
+
+    &--rejected {
+      color: var(--state-colors-danger);
+    }
+
+    &--success {
+      color: var(--state-colors-success);
+    }
+  }
+}

@@ -1,0 +1,20 @@
+query ClientCallbacksQuery(
+  $callbackTimeFrom: String
+  $callbackTimeTo: String
+  $limit: Int
+) {
+  clientCallbacks(
+    callbackTimeFrom: $callbackTimeFrom
+    callbackTimeTo: $callbackTimeTo
+    limit: $limit
+  ) @connection(key: "CLIENT_CALLBACKS_HEADER_CALENDAR") {
+    content {
+      _id
+      callbackId
+      callbackTime
+      client {
+        fullName
+      }
+    }
+  }
+}

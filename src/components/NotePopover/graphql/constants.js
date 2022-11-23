@@ -1,5 +1,6 @@
 export const ENTITIES = [
   'File',
   'Payment',
-  'Callback',
+  'LeadCallback',
+  'ClientCallback',
 ];

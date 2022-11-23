@@ -3,6 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Route from 'components/Route';
 import LeadsList from './routes/LeadsList';
+import LeadCallbacks from './routes/Callbacks';
 import Lead from './routes/Lead';
 
 class Leads extends PureComponent {
@@ -19,6 +20,7 @@ class Leads extends PureComponent {
     return (
       <Switch>
         <Route path={`${path}/list`} component={LeadsList} />
+        <Route path={`${path}/callbacks`} component={LeadCallbacks} />
         <Route path={`${path}/:id`} component={Lead} />
         <Redirect to={`${url}/list`} />
       </Switch>

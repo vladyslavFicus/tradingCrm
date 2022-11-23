@@ -27,7 +27,6 @@ import SalesRules from 'components/SalesRules';
 import DistributionRules from 'routes/DistributionRules';
 import TE from 'routes/TE';
 import Settings from 'routes/Settings';
-import Callbacks from 'routes/Callbacks';
 import ReleaseNotes from 'routes/ReleaseNotes';
 import EmailTemplates from 'routes/EmailTemplates';
 import TradingAccounts from 'routes/TradingAccounts';
@@ -85,7 +84,6 @@ class IndexRoute extends PureComponent {
           <Route path="/payments" layout={MainLayout} component={Payments} isPrivate />
           <Route path="/clients" layout={MainLayout} component={Clients} isPrivate />
           <Route path="/leads" layout={MainLayout} component={Leads} isPrivate />
-          <Route path="/callbacks" layout={MainLayout} component={Callbacks} isPrivate />
           <Route path="/hierarchy" layout={MainLayout} component={Hierarchy} isPrivate />
           <Route
             path="/operators"

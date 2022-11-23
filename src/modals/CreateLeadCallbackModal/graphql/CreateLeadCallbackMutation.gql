@@ -1,0 +1,17 @@
+mutation CreateLeadCallbackMutation(
+  $userId: String!,
+  $reminder: String,
+  $operatorId: String!,
+  $callbackTime: String!,
+) {
+  callback {
+    createLeadCallback(
+      userId: $userId,
+      reminder: $reminder,
+      operatorId: $operatorId,
+      callbackTime: $callbackTime,
+    ) {
+      callbackId
+    }
+  }
+}

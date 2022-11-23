@@ -12,7 +12,7 @@ class PaymentAccount extends PureComponent {
       ? account.match(/^(mc|visa)-(\d{4})/i)
       : null;
 
-    let formatted = shortify(account, null, 2);
+    let formatted = shortify(account, '', 2);
 
     if (creditCardMatch) {
       const [, provider, lastNumbers] = creditCardMatch;

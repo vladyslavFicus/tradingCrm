@@ -9,6 +9,10 @@ const leadTabs = [{
   label: 'LEAD_PROFILE.TABS.CALL_HISTORY',
   permissions: new Permissions(permissions.CALL_HISTORY.LIST),
 }, {
+  url: '/leads/:id/callbacks',
+  label: 'LEAD_PROFILE.TABS.CALLBACKS',
+  permissions: new Permissions(permissions.LEAD_PROFILE.CALLBACKS_LIST),
+}, {
   label: 'LEAD_PROFILE.TABS.NOTES',
   url: '/leads/:id/notes',
 }, {

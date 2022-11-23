@@ -2,7 +2,10 @@ import EventEmitter from 'events';
 
 // ---- Client events ---- //
 export const CLIENT_RELOAD = 'CLIENT_RELOAD';
-export const CALLBACK_CREATED = 'CALLBACK_CREATED';
+export const CLIENT_CALLBACK_CREATED = 'CLIENT_CALLBACK_CREATED';
+
+// ---- Lead events ---- //
+export const LEAD_CALLBACK_CREATED = 'LEAD_CALLBACK_CREATED';
 
 // ---- Note events ---- //
 export const NOTE_ADDED = 'NOTE_ADDED';

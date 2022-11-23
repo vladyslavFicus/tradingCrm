@@ -36,12 +36,24 @@ const sidebarTopMenu = [{
     label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
     url: '/trading-accounts/list',
     permissions: new Permissions(permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.CLIENT_CALLBACKS',
+    url: '/clients/callbacks/list',
+    permissions: new Permissions(permissions.USER_PROFILE.CALLBACKS_LIST),
   }],
 }, {
   label: 'SIDEBAR.TOP_MENU.LEADS',
   icon: 'icon-leads SidebarNavItem__icon--leads',
-  url: '/leads/list',
-  permissions: new Permissions(permissions.LEADS.GET_LEADS),
+  isOpen: false,
+  items: [{
+    label: 'SIDEBAR.TOP_MENU.SEARCH_LEADS',
+    url: '/leads/list',
+    permissions: new Permissions(permissions.LEADS.GET_LEADS),
+  }, {
+    label: 'SIDEBAR.TOP_MENU.LEAD_CALLBACKS',
+    url: '/leads/callbacks/list',
+    permissions: new Permissions(permissions.LEAD_PROFILE.CALLBACKS_LIST),
+  }],
 }, {
   label: 'SIDEBAR.TOP_MENU.HIERARCHY',
   icon: 'icon-organization',
@@ -82,11 +94,6 @@ const sidebarTopMenu = [{
   icon: 'icon-payments SidebarNavItem__icon--payments',
   url: '/payments/list',
   permissions: new Permissions(permissions.PAYMENTS.PAYMENTS_LIST),
-}, {
-  label: 'SIDEBAR.TOP_MENU.CALLBACKS',
-  icon: 'icon-callbacks',
-  url: '/callbacks/list',
-  permissions: new Permissions(permissions.CALLBACKS.CLIENT.LIST),
 }, {
   label: 'SIDEBAR.TOP_MENU.NOTIFICATIONS',
   icon: 'icon-notifications',

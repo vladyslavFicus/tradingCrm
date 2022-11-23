@@ -16,6 +16,7 @@ import LeadRegistrationInfo from './components/LeadRegistrationInfo';
 import LeadPersonalInfo from './components/LeadPersonalInfo';
 import LeadPinnedNotes from './components/LeadPinnedNotes';
 import LeadProfileTab from './routes/LeadProfileTab';
+import LeadCallbacksTab from './routes/LeadCallbacksTab';
 import LeadFeedsTab from './routes/LeadFeedsTab';
 import LeadCallHistoryTab from './routes/LeadCallHistoryTab';
 import LeadNotesTab from './routes/LeadNotesTab';
@@ -97,6 +98,7 @@ class Lead extends PureComponent {
             <Switch>
               <Route path={`${path}/profile`} component={LeadProfileTab} />
               <Route path={`${path}/call-history`} component={LeadCallHistoryTab} />
+              <Route path={`${path}/callbacks`} component={LeadCallbacksTab} />
               <Route disableScroll path={`${path}/notes`} component={LeadNotesTab} />
               <Route disableScroll path={`${path}/feeds`} component={LeadFeedsTab} />
               <Redirect to={`${url}/profile`} />

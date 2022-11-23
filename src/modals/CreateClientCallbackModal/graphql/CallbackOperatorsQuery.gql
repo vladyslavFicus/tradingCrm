@@ -1,0 +1,9 @@
+query CallbackOperatorsQuery {
+  operators {
+    content {
+      uuid
+      fullName
+      operatorStatus
+    }
+  }
+}

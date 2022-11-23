@@ -9,6 +9,7 @@ import { Button } from 'components/UI';
 import NotePopover from 'components/NotePopover';
 import PermissionContent from 'components/PermissionContent';
 import PromoteLeadModal from 'components/PromoteLeadModal';
+import CreateLeadCallbackModal from 'modals/CreateLeadCallbackModal';
 import './LeadHeader.scss';
 
 class LeadHeader extends PureComponent {
@@ -16,8 +17,15 @@ class LeadHeader extends PureComponent {
     lead: PropTypes.lead.isRequired,
     modals: PropTypes.shape({
       promoteLeadModal: PropTypes.modalType,
+      createLeadCallbackModal: PropTypes.modalType,
     }).isRequired,
   }
+
+  handleOpenAddCallbackModal = () => {
+    const { modals: { createLeadCallbackModal } } = this.props;
+
+    createLeadCallbackModal.show();
+  };
 
   handlePromoteLead = async () => {
     const {
@@ -30,14 +38,7 @@ class LeadHeader extends PureComponent {
 
   render() {
     const { lead } = this.props;
-
-    const {
-      uuid,
-      name,
-      status,
-      country,
-      surname,
-    } = lead || {};
+    const { uuid, name, status, country, surname } = lead || {};
 
     return (
       <div className="LeadHeader">
@@ -55,6 +56,19 @@ class LeadHeader extends PureComponent {
         </div>
 
         <div className="LeadHeader__actions">
+
+          <PermissionContent permissions={permissions.LEAD_PROFILE.CREATE_CALLBACK}>
+            <Button
+              data-testid="addCallbackButton"
+              small
+              tertiary
+              className="LeadHeader__action"
+              onClick={this.handleOpenAddCallbackModal}
+            >
+              {I18n.t('LEAD_PROFILE.ADD_CALLBACK')}
+            </Button>
+          </PermissionContent>
+
           <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
             <NotePopover
               playerUUID={uuid}
@@ -91,4 +105,5 @@ class LeadHeader extends PureComponent {
 
 export default withModals({
   promoteLeadModal: PromoteLeadModal,
+  createLeadCallbackModal: CreateLeadCallbackModal,
 })(LeadHeader);

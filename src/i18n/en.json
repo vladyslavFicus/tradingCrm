@@ -20,13 +20,15 @@
       "DESKS": "Desks",
       "TEAMS": "Teams",
       "SALES_RULES": "Sales rules",
-      "CALLBACKS": "Callbacks",
       "DASHBOARD": "Dashboard",
       "DASHBOARD_ITEMS": {
         "DEFAULT": "Default",
         "PERSONAL": "Personal"
       },
       "SEARCH_CLIENTS": "Search clients",
+      "SEARCH_LEADS": "Search leads",
+      "CLIENT_CALLBACKS": "Callbacks",
+      "LEAD_CALLBACKS": "Callbacks",
       "KYC_DOCUMENTS": "KYC documents",
       "TRADING_ACCOUNTS": "Trading accounts",
       "NOTIFICATIONS": "Notifications",
@@ -3229,6 +3231,7 @@
   "LEAD_PROFILE": {
     "UPDATED": "Lead updated successfully",
     "NOTIFICATION_FAILURE": "Failed",
+    "ADD_CALLBACK": "+ Add callback",
     "HEADER": {
       "PROMOTE_TO_CLIENT": "Promote to client",
       "REGISTERED": "Registered"
@@ -3298,7 +3301,11 @@
       "PROFILE": "Profile",
       "NOTES": "Notes",
       "FEEDS": "Feeds",
+      "CALLBACKS": "Callbacks",
       "CALL_HISTORY": "Call history"
+    },
+    "CALLBACKS": {
+      "ADD_CALLBACK": "+ Add callback"
     },
     "PERSONAL": {
       "INFO_TITLE": "Personal information",
@@ -5097,7 +5104,7 @@
       "DEPOSIT_FAILED": "Deposit failed",
       "KYC_APPROVED": "Kyc approved",
       "CLIENT_CALLBACK_REMINDER": "Client callback reminder",
-      "CLIENT_CALLBACK_REQUESTED": "Client  requested callback",
+      "CLIENT_CALLBACK_REQUESTED": "Client requested callback",
       "LEAD_CALLBACK_REMINDER": "Lead callback reminder",
       "LEAD_CALLBACK_REQUESTED": "Lead requested callback",
       "CLIENT_ASSIGNED": "Client assigned",
@@ -5236,6 +5243,7 @@
     "GRID_HEADER": {
       "ID": "Callback ID",
       "CLIENT": "Client",
+      "LEAD": "Lead",
       "OPERATOR": "Operator",
       "TIME": "Callback time",
       "CREATED": "Created",
@@ -5245,13 +5253,15 @@
     },
     "FILTER": {
       "SEARCH_BY": "Search by",
-      "SEARCH_BY_PLACEHOLDER": "Callback ID, Player ID, Operator ID",
+      "SEARCH_BY_PLACEHOLDER_CLIENT": "Callback ID, Client ID, Operator ID",
+      "SEARCH_BY_PLACEHOLDER_LEAD": "Callback ID, Lead ID, Operator ID",
       "CALLBACK_OR_OPERATOR": "Callback or Operator ID",
       "STATUS": "Status",
       "DATE_RANGE": "Date & time range"
     },
     "CREATE_MODAL": {
-      "TITLE": "New callback",
+      "CLIENT_TITLE": "New client callback",
+      "LEAD_TITLE": "New lead callback",
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
@@ -5265,7 +5275,8 @@
       }
     },
     "MODAL": {
-      "TITLE": "Callback details",
+      "CLIENT_TITLE": "Client callback details",
+      "LEAD_TITLE": "Lead callback details",
       "OPERATOR": "Operator",
       "CALLBACK_ID": "Callback ID",
       "SELECT_OPERATOR": "Select operator",
@@ -5710,7 +5721,11 @@
           "referrer-statistics": "Referrer statistics",
           "referrals-history": "Show referrals tab",
           "referrer-uuid": "Referrer UUID",
-          "referrer-fullName": "Referrer full name"
+          "referrer-fullName": "Referrer full name",
+          "callbacks-list": "Callbacks list",
+          "create-callback": "Create callback",
+          "update-callback": "Update callback",
+          "delete-callback": "Delete callback"
         }
       },
       "leads": {
@@ -5722,7 +5737,11 @@
           "upload": "Upload leads from file",
           "phone": "Phone",
           "mobile": "Mobile",
-          "email": "Email"
+          "email": "Email",
+          "callbacks-list": "Callbacks list",
+          "create-callback": "Create callback",
+          "update-callback": "Update callback",
+          "delete-callback": "Delete callback"
         }
       },
       "operators": {
@@ -5794,12 +5813,6 @@
           "changeMethod": "Change payment method",
           "changeAgent": "Payment original agent",
           "changeSystem": "Edit PSP on payment"
-        }
-      },
-      "callbacks": {
-        "TITLE": "Callbacks",
-        "PERMISSIONS": {
-          "list": "List of callbacks"
         }
       },
       "email-templates": {

@@ -1,0 +1,57 @@
+query LeadCallbacksQuery(
+  $searchKeyword: String,
+  $userId: String,
+  $statuses: [Callback__Status__Enum],
+  $callbackTimeFrom: String,
+  $callbackTimeTo: String,
+  $limit: Int,
+  $page: Int,
+) {
+  leadCallbacks(
+    searchKeyword: $searchKeyword,
+    userId: $userId,
+    statuses: $statuses,
+    callbackTimeFrom: $callbackTimeFrom,
+    callbackTimeTo: $callbackTimeTo,
+    limit: $limit,
+    page: $page,
+  ) {
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      _id
+      operatorId
+      userId
+      callbackId
+      callbackTime
+      status
+      creationTime
+      updateTime
+      reminder
+      operator {
+        fullName
+      }
+      lead {
+        fullName
+      }
+      note {
+        _id
+        noteId
+        targetUUID
+        targetType
+        playerUUID
+        subject
+        content
+        pinned
+        changedAt
+        changedBy
+        operator {
+          fullName
+        }
+      }
+    }
+  }
+}

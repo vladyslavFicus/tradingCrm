@@ -14,7 +14,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
-import CreateCallbackModal from 'modals/CreateCallbackModal';
+import CreateClientCallbackModal from 'modals/CreateClientCallbackModal';
 import PermissionContent from 'components/PermissionContent';
 import ActionsDropDown from 'components/ActionsDropDown';
 import NotePopover from 'components/NotePopover';
@@ -42,7 +42,7 @@ class ClientHeader extends PureComponent {
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       changePasswordModal: PropTypes.modalType,
-      createCallbackModal: PropTypes.modalType,
+      createClientCallbackModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -188,11 +188,8 @@ class ClientHeader extends PureComponent {
   };
 
   handleOpenAddCallbackModal = () => {
-    const {
-      modals: { createCallbackModal },
-    } = this.props;
-
-    createCallbackModal.show();
+    const { modals: { createClientCallbackModal } } = this.props;
+    createClientCallbackModal.show();
   };
 
   render() {
@@ -238,7 +235,7 @@ class ClientHeader extends PureComponent {
 
         <div className="ClientHeader__actions">
 
-          <PermissionContent permissions={permissions.CALLBACKS.CLIENT.CREATE_CALLBACK}>
+          <PermissionContent permissions={permissions.USER_PROFILE.CREATE_CALLBACK}>
             <Button
               data-testid="addCallbackButton"
               small
@@ -319,7 +316,7 @@ export default compose(
   withModals({
     confirmActionModal: ConfirmActionModal,
     changePasswordModal: ChangePasswordModal,
-    createCallbackModal: CreateCallbackModal,
+    createClientCallbackModal: CreateClientCallbackModal,
   }),
   withRequests({
     clientLockStatusQuery: ClientLockStatusQuery,

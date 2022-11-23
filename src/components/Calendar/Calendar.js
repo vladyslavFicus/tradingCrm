@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
-import BigCalendar, { Views } from '@hrzn/react-big-calendar';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import '@hrzn/react-big-calendar/lib/css/react-big-calendar.css';
+import BigCalendar, { Views } from '@hrzn/react-big-calendar';
+import { CallbackType } from 'constants/callbacks';
 import Toolbar from './components/Toolbar';
+import '@hrzn/react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -58,6 +59,18 @@ class Calendar extends PureComponent {
     this.props.onRangeChange(rangeObject);
   };
 
+  /**
+   * Custom style for event type
+   * @param event
+   * @return { style: {} }
+   */
+  eventStyleGetter = ({ callbackType }) => {
+    const backgroundColor = callbackType === CallbackType.LEAD
+      ? 'var(--state-colors-success)'
+      : 'var(--state-colors-info)';
+    return { style: { backgroundColor } };
+  };
+
   render() {
     return (
       <BigCalendar
@@ -67,6 +80,7 @@ class Calendar extends PureComponent {
         components={{ toolbar: Toolbar }}
         {...this.props}
         onRangeChange={this.onRangeChange}
+        eventPropGetter={(this.eventStyleGetter)}
       />
     );
   }

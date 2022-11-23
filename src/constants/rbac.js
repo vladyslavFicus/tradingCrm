@@ -483,6 +483,46 @@ export default [
           },
         },
       },
+      // Callbacks list
+      {
+        id: 'callbacks-list',
+        actions: {
+          view: {
+            action: 'callback.searchClientCallbacks',
+            state: false,
+          },
+        },
+      },
+      // Create callback
+      {
+        id: 'create-callback',
+        actions: {
+          edit: {
+            action: 'callback.createClientCallback',
+            state: false,
+          },
+        },
+      },
+      // Update callback
+      {
+        id: 'update-callback',
+        actions: {
+          edit: {
+            action: 'callback.updateClientCallback',
+            state: false,
+          },
+        },
+      },
+      // Delete callback
+      {
+        id: 'delete-callback',
+        actions: {
+          edit: {
+            action: 'callback.deleteClientCallback',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
@@ -572,6 +612,46 @@ export default [
         actions: {
           view: {
             action: 'backoffice-graphql.lead.field.email',
+            state: false,
+          },
+        },
+      },
+      // Callbacks list
+      {
+        id: 'callbacks-list',
+        actions: {
+          view: {
+            action: 'callback.searchLeadCallbacks',
+            state: false,
+          },
+        },
+      },
+      // Create callback
+      {
+        id: 'create-callback',
+        actions: {
+          edit: {
+            action: 'callback.createLeadCallback',
+            state: false,
+          },
+        },
+      },
+      // Update callback
+      {
+        id: 'update-callback',
+        actions: {
+          edit: {
+            action: 'callback.updateLeadCallback',
+            state: false,
+          },
+        },
+      },
+      // Delete callback
+      {
+        id: 'delete-callback',
+        actions: {
+          edit: {
+            action: 'callback.deleteLeadCallback',
             state: false,
           },
         },
@@ -1102,30 +1182,6 @@ export default [
         actions: {
           edit: {
             action: 'payment.changePaymentSystem',
-            state: false,
-          },
-        },
-      },
-    ],
-  },
-  // ============================================= //
-  // ================== Callbacks ================ //
-  // ============================================= //
-  {
-    id: 'callbacks',
-    actions: {
-      view: {
-        action: 'callback.searchClientCallbacks',
-        state: false,
-      },
-    },
-    permissions: [
-      // List of callbacks
-      {
-        id: 'list',
-        actions: {
-          view: {
-            action: 'callback.searchClientCallbacks',
             state: false,
           },
         },

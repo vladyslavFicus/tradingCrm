@@ -5,6 +5,7 @@ import Route from 'components/Route';
 import Files from './routes/Files';
 import Client from './routes/Client';
 import ClientsList from './routes/ClientsList';
+import ClientCallbacks from './routes/Callbacks';
 
 class Clients extends PureComponent {
   static propTypes = {
@@ -20,6 +21,7 @@ class Clients extends PureComponent {
     return (
       <Switch>
         <Route path={`${path}/list`} component={ClientsList} />
+        <Route path={`${path}/callbacks`} component={ClientCallbacks} />
         <Route path={`${path}/kyc-documents`} component={Files} />
         <Route path={`${path}/:id`} component={Client} />
         <Redirect to={`${url}/list`} />

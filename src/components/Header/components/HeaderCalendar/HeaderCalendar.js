@@ -1,30 +1,41 @@
 import React, { PureComponent } from 'react';
 import { Popover } from 'reactstrap';
-import permissions from 'config/permissions';
-import CallbacksCalendar from 'components/CallbacksCalendar';
 import PermissionContent from 'components/PermissionContent';
+import permissions from 'config/permissions';
+import { CONDITIONS } from 'utils/permissions';
+import CallbacksCalendar from './components/CallbacksCalendar';
 import './HeaderCalendar.scss';
 
 class HeaderCalendar extends PureComponent {
   state = {
     isOpen: false,
+    isLock: false,
   };
 
-  handleToggleState = () => {
-    if (!this.callbacksCalendar || !this.callbacksCalendar.props.modals.callbackDetails.isOpen) {
+  handleToggleOpen = () => {
+    const { isLock } = this.state;
+    if (!isLock) {
       this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     }
   };
+
+  handleLockToggle = isLock => this.setState({ isLock });
 
   render() {
     const { isOpen } = this.state;
 
     return (
-      <PermissionContent permissions={permissions.CALLBACKS.CLIENT.LIST}>
+      <PermissionContent
+        permissions={[
+          permissions.USER_PROFILE.CALLBACKS_LIST,
+          permissions.LEAD_PROFILE.CALLBACKS_LIST,
+        ]}
+        permissionsCondition={CONDITIONS.OR}
+      >
         <div className="HeaderCalendar">
           <button
             className="HeaderCalendar__head"
-            onClick={this.handleToggleState}
+            onClick={this.handleToggleOpen}
             id="id-toggle-button"
             type="button"
           >
@@ -32,7 +43,7 @@ class HeaderCalendar extends PureComponent {
           </button>
           <Popover
             popperClassName="HeaderCalendar__popper"
-            toggle={this.handleToggleState}
+            toggle={this.handleToggleOpen}
             target="id-toggle-button"
             placement="bottom"
             isOpen={isOpen}
@@ -45,11 +56,7 @@ class HeaderCalendar extends PureComponent {
               },
             }]}
           >
-            <CallbacksCalendar
-              connectionKey="HEADER_CALLBACKS_CALENDAR"
-              calendarClassName="HeaderCalendar__view"
-              componentRef={(ref) => { this.callbacksCalendar = ref; }}
-            />
+            <CallbacksCalendar onLockToggle={this.handleLockToggle} />
           </Popover>
         </div>
       </PermissionContent>

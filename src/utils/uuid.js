@@ -1,4 +1,4 @@
-export function shortify(uuid, manualPrefix = null, size = 2, manualPostfix = null, length = 0) {
+export function shortify(uuid, manualPrefix = '', size = 2, manualPostfix = null, length = 0) {
   if (!uuid) {
     return uuid;
   }

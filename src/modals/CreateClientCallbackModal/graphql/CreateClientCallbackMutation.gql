@@ -1,0 +1,17 @@
+mutation CreateClientCallbackMutation(
+  $userId: String!,
+  $reminder: String,
+  $operatorId: String!,
+  $callbackTime: String!,
+) {
+  callback {
+    createClientCallback(
+      userId: $userId,
+      reminder: $reminder,
+      operatorId: $operatorId,
+      callbackTime: $callbackTime,
+    ) {
+      callbackId
+    }
+  }
+}

@@ -2,19 +2,15 @@
   &__info {
     &-main {
       font-weight: 700;
+
+      &--pointer {
+        cursor: pointer;
+      }
     }
 
     &-secondary {
       font-size: 11px;
     }
-  }
-
-  &__callback-id {
-    cursor: pointer;
-  }
-
-  &__client {
-    max-width: 250px;
   }
 
   &__status {

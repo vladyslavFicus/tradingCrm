@@ -85,11 +85,19 @@ export default {
     AFFILIATE_FIELD_REFERRAL: 'backoffice-graphql.profile.affiliate.field.referral',
     AFFILIATE_FIELD_CAMPAIGN_ID: 'backoffice-graphql.profile.affiliate.field.campaignId',
     AFFILIATE_FIELD_SMS: 'backoffice-graphql.profile.affiliate.field.sms',
+    CALLBACKS_LIST: 'callback.searchClientCallbacks',
+    CREATE_CALLBACK: 'callback.createClientCallback',
+    DELETE_CALLBACK: 'callback.updateClientCallback',
+    UPDATE_CALLBACK: 'callback.deleteClientCallback',
   },
   LEAD_PROFILE: {
     FIELD_PHONE: 'backoffice-graphql.lead.field.phone',
     FIELD_MOBILE: 'backoffice-graphql.lead.field.mobile',
     FIELD_EMAIL: 'backoffice-graphql.lead.field.email',
+    CALLBACKS_LIST: 'callback.searchLeadCallbacks',
+    CREATE_CALLBACK: 'callback.createLeadCallback',
+    UPDATE_CALLBACK: 'callback.updateLeadCallback',
+    DELETE_CALLBACK: 'callback.deleteLeadCallback',
   },
   FILES: {
     SEARCH_FILES: 'attachments.searchAttachments',
@@ -162,14 +170,6 @@ export default {
     PAYMENT_STATISTICS: 'payment-view.getStatistics',
     PAYMENTS_LIST: 'payment-view.searchPayments',
     PROFILES_LIST: 'profileview.admin.pageableSearch',
-  },
-  CALLBACKS: {
-    CLIENT: {
-      LIST: 'callback.searchClientCallbacks',
-      CREATE_CALLBACK: 'callback.createClientCallback',
-      DELETE_CALLBACK: 'callback.deleteClientCallback',
-      UPDATE_CALLBACK: 'callback.updateClientCallback',
-    },
   },
   CALL_HISTORY: {
     LIST: 'click-to-call.searchCallHistory',

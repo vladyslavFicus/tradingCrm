@@ -19,7 +19,7 @@ export const clientTabs = [
   }, {
     url: '/clients/:id/callbacks',
     label: 'CLIENT_PROFILE.TABS.CALLBACKS',
-    permissions: new Permissions(permissions.CALLBACKS.LIST),
+    permissions: new Permissions(permissions.USER_PROFILE.CALLBACKS_LIST),
   }, {
     url: '/clients/:id/files',
     label: 'CLIENT_PROFILE.TABS.FILES',
