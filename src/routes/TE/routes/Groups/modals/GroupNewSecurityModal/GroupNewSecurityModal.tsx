@@ -17,7 +17,7 @@ import { Security } from '../../types';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import './GroupNewSecurityModal.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
@@ -26,7 +26,7 @@ interface Props {
 }
 
 type FormValues = {
-  idx: number[]
+  idx: number[],
 }
 
 const validate = createValidator({

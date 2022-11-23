@@ -27,9 +27,9 @@ const attributeLabels = {
 };
 
 type FormValue = {
-  operatorId: string;
-  callbackTime: string;
-  reminder: string;
+  operatorId: string,
+  callbackTime: string,
+  reminder: string,
 }
 
 type Props = {

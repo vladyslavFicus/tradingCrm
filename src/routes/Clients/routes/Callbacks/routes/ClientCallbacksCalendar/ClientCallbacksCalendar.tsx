@@ -16,8 +16,8 @@ import './ClientCallbacksCalendar.scss';
 
 type Props = {
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>
-  }
+    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
+  },
 }
 
 const ClientCallbacksCalendar = (props: Props) => {

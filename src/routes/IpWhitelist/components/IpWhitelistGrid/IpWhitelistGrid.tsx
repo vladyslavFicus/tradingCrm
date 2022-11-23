@@ -26,15 +26,15 @@ import './IpWhitelistGrid.scss';
 
 type IpWhitelistAddress = ExtractApolloTypeFromPageable<IpWhitelistSearchQuery['ipWhitelistSearch']>;
 
-interface Props {
+type Props = {
   notify: Notify,
   modals: {
     addAddressModal: Modal<{
-      onSuccess: () => void
+      onSuccess: () => void,
     }>,
     updateDescriptionModal: Modal<{
       item: IpWhitelistAddress,
-      onSuccess: () => void
+      onSuccess: () => void,
     }>,
     deleteModal: Modal<{
       onSubmit: (item: IpWhitelistAddress) => void,
@@ -42,7 +42,7 @@ interface Props {
       actionText: string,
       submitButtonLabel: string,
     }>,
-  }
+  },
 }
 
 const IpWhitelistGrid = (props: Props) => {

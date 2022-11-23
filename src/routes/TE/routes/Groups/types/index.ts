@@ -93,7 +93,7 @@ export interface SymbolEntity {
   symbol: string,
   securityId: number,
   percentage: number,
-  swapConfigs: SwapConfigs
+  swapConfigs: SwapConfigs,
 }
 
 export interface GroupSymbol {
@@ -105,7 +105,7 @@ export interface GroupSymbol {
   enabled: boolean,
 }
 
-export interface FormValues {
+export type FormValues = {
   groupName: string,
   currency: string,
   description: string | null,

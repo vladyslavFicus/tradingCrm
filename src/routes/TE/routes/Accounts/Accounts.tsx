@@ -25,7 +25,7 @@ import './Accounts.scss';
 
 type Account = ExtractApolloTypeFromPageable<AccountsQuery['tradingEngine']['accounts']>;
 
-interface Props {
+type Props = {
   storage: Storage,
   modals: {
     newOrderModal: Modal,

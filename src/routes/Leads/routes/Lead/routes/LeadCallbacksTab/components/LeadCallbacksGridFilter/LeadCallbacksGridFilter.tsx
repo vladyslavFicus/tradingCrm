@@ -11,7 +11,7 @@ import { LeadCallbacksQueryVariables } from '../../graphql/__generated__/LeadCal
 import './LeadCallbacksGridFilter.scss';
 
 type Props = {
-  handleRefetch: () => void
+  handleRefetch: () => void,
 };
 
 const LeadCallbacksGridFilter = (props: Props) => {

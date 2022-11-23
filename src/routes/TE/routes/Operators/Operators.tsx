@@ -26,7 +26,7 @@ import './Operators.scss';
 
 type Operator = ExtractApolloTypeFromPageable<OperatorsQuery['tradingEngine']['operators']>;
 
-interface Props {
+type Props = {
   modals: {
     newOperatorModal: Modal,
   },

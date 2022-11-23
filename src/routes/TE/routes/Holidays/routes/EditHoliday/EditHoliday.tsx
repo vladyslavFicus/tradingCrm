@@ -19,7 +19,7 @@ import './EditHoliday.scss';
 
 type Holiday = HolidayQuery['tradingEngine']['holiday'];
 
-interface Props {
+type Props = {
   notify: Notify,
 }
 

@@ -5,7 +5,7 @@ import {
 import { DebugContainer } from 'components/DebugMode';
 import { calculateMargin } from 'routes/TE/utils/formulas';
 
-interface Props {
+type Props = {
   symbolType?: SymbolType,
   openPrice?: number | null,
   lotSize?: number,

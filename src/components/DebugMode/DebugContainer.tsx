@@ -2,9 +2,9 @@ import React from 'react';
 import { withStorage } from 'providers/StorageProvider';
 import './DebugContainer.scss';
 
-interface Props {
-  children: React.ReactElement | React.ReactElement[];
-  debug: boolean;
+type Props = {
+  children: React.ReactElement | React.ReactElement[],
+  debug: boolean,
 }
 
 function DebugMode(props: Props) {

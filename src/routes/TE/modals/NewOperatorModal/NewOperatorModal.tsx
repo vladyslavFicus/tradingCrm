@@ -18,16 +18,16 @@ import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAcce
 import { useCreateOperatorMutation } from './graphql/__generated__/CreateOperatorMutation';
 import './NewOperatorModal.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
   modals: {
     confirmationModal: ModalType,
-  }
+  },
 }
 
-interface FormValues {
+type FormValues = {
   firstName: string,
   lastName: string,
   password: string,

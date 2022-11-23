@@ -11,7 +11,7 @@ export interface SymbolPrice {
   marginRates: { [currency: string]: number },
 }
 
-interface Props {
+type Props = {
   symbol: string,
   interval: number,
   onNotify: (symbol: SymbolPrice) => void,

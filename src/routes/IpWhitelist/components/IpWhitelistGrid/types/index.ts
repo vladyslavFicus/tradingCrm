@@ -2,8 +2,8 @@ import { Query, Page, Sort, Pageable } from 'types';
 
 export interface IpWhitelistFilters {
   filters?: {
-    ip?: string
-  };
+    ip?: string,
+  },
   sorst?: Sort[],
 }
 
@@ -15,14 +15,14 @@ export interface IpWhitelistAddress {
 }
 
 export interface IpWhitelistSearchData {
-  ipWhitelistSearch: Pageable<IpWhitelistAddress>
+  ipWhitelistSearch: Pageable<IpWhitelistAddress>,
 }
 
 export interface IpWhitelistSearchArg {
   args: {
     ip?: string,
-    page: Page
-  }
+    page: Page,
+  },
 }
 
 export interface IpWhitelistSearchQueryResult extends Query<IpWhitelistSearchData, IpWhitelistSearchArg> { }

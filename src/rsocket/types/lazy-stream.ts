@@ -11,16 +11,16 @@ interface LazyStreamResponse<DataGeneric = DefaultObject, MetadataGeneric = Defa
 }
 
 interface LazyStreamHandler<DataGeneric = DefaultObject, MetadataGeneric = DefaultObject> {
-  (response: LazyStreamResponse<DataGeneric, MetadataGeneric>): void
+  (response: LazyStreamResponse<DataGeneric, MetadataGeneric>): void,
 }
 
 export interface LazyStreamSubscription {
   onNext<DataGeneric = DefaultObject, MetadataGeneric = DefaultObject>(
     handler: LazyStreamHandler<DataGeneric, MetadataGeneric>
   ): void,
-  cancel(): void
+  cancel(): void,
 }
 
 export interface LazyStream {
-  (request: LazyStreamRequest): LazyStreamSubscription
+  (request: LazyStreamRequest): LazyStreamSubscription,
 }

@@ -26,7 +26,7 @@ interface GroupNewSymbolModalProps {
   groupSecurities?: GroupSecurity[],
 }
 
-interface Props {
+type Props = {
   formik: FormikProps<FormValues>,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,

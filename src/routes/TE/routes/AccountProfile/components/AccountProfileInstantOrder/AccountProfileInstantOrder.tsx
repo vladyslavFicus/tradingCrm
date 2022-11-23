@@ -11,7 +11,7 @@ import { ReactComponent as InstantIcon } from './img/instant.svg';
 import './AccountProfileInstantOrder.scss';
 
 type Props = {
-  accountUuid: string
+  accountUuid: string,
 };
 
 const AccountProfileInstantOrder = (props: Props) => {

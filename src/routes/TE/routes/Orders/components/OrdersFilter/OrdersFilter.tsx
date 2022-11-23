@@ -15,11 +15,11 @@ import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
 import './OrdersFilter.scss';
 
-interface Props {
+type Props = {
   onRefresh: () => void,
 }
 
-interface FormValues {
+type FormValues = {
   keyword?: string,
   orderStatuses?: string[],
   symbol?: string,

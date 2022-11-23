@@ -15,7 +15,7 @@ const REQUEST = gql`
   }
 `;
 
-interface Props {
+type Props = {
   children: ApolloComponentFn,
 }
 

@@ -6,7 +6,7 @@ import { getBrand } from 'config';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 import { IpWhitelistFeedFilters } from '../types';
 
-interface Props {
+type Props = {
   children: ApolloComponentFn,
   location: LocationState<IpWhitelistFeedFilters>,
 }

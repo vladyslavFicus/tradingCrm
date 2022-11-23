@@ -18,7 +18,7 @@ import './IpWhitelistFeedsFilters.scss';
 
 type FeedTypes = { feedTypes?: { [key: string]: string } };
 type Props = {
-  feedTypesQuery: QueryResult<FeedTypes>
+  feedTypesQuery: QueryResult<FeedTypes>,
   refetch: (variables: IpWhitelistFeedFilters) => Promise<ApolloQueryResult<IpWhitelistFeedFilters>>,
 };
 

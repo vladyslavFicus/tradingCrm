@@ -1,4 +1,4 @@
-export interface FormValues {
+export type FormValues = {
   enabled: boolean,
   description: string,
   annual: boolean,

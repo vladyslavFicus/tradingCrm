@@ -14,7 +14,7 @@ import './EditOrderModal.scss';
 
 type Order = OrderQuery['tradingEngine']['order'];
 
-interface Props {
+type Props = {
   id: number,
   onSuccess: () => void,
   onCloseModal: () => void,

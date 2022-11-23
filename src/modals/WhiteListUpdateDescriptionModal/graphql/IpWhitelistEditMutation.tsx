@@ -3,8 +3,8 @@ import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/client/react/components';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-interface Props {
-  children: ApolloComponentFn;
+type Props = {
+  children: ApolloComponentFn,
 }
 
 const REQUEST = gql`mutation IpWhitelist_EditIpMutation(

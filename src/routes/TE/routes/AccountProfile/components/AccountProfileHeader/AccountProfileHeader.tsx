@@ -28,7 +28,7 @@ type Props = {
     newOrderModal: Modal,
     confirmationModal: Modal,
     fixBalanceModal: Modal,
-  }
+  },
   account: Account,
   notify: Notify,
   handleRefetch: Function,

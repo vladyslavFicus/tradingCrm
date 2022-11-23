@@ -115,6 +115,24 @@ module.exports = {
     'import/no-cycle': 0,
     'import/order': ['error', { groups: ['external', 'builtin', 'internal', 'parent', 'sibling', 'index'] }],
     'key-spacing': ['error', { singleLine: { beforeColon: false, afterColon: true } }],
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      multiline: {
+        delimiter: 'comma',    // 'none' or 'semi' or 'comma'
+        requireLast: true,
+      },
+      singleline: {
+        delimiter: 'comma',
+        requireLast: false,
+      },
+      overrides: {
+        interface: {
+          multiline: {
+            delimiter: "comma",
+            requireLast: true
+          }
+        }
+      }
+    }]
   },
   globals: {
     ExtractApolloTypeFromArray: false,

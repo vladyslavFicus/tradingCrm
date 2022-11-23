@@ -18,14 +18,14 @@ import { useAcquisitionStatusesQuery } from './graphql/__generated__/Acquisition
 import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/CreateAcquisitionStatusMutation';
 import './NewAcquisitionStatusModal.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
   onSuccess: () => void,
 }
 
-interface FormValues {
+type FormValues = {
   type: AcquisitionStatusTypes,
   status: string,
 }

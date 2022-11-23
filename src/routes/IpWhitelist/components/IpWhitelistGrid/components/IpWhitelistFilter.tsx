@@ -10,8 +10,8 @@ import { IpWhitelistSearchQueryVariables } from '../graphql/__generated__/IpWhit
 import { IpWhitelistFilters } from '../types';
 import './IpWhitelistFilter.scss';
 
-interface Props {
-  refetch: (variables: IpWhitelistSearchQueryVariables) => void
+type Props = {
+  refetch: (variables: IpWhitelistSearchQueryVariables) => void,
 }
 
 const IpWhitelistFilter = ({ refetch }: Props) => {

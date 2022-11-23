@@ -37,7 +37,7 @@ import './Orders.scss';
 
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;
 
-interface Props {
+type Props = {
   storage: Storage,
   modals: {
     newOrderModal: Modal,

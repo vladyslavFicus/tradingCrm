@@ -13,14 +13,14 @@ import { securityNamePattern } from '../../constants';
 import { useSecurityQuery } from './graphql/__generated__/SecurityQuery';
 import { useEditSecurityMutation } from './graphql/__generated__/EditSecurityMutation';
 
-interface Props {
+type Props = {
   notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
   name: string,
 }
 
-interface FormValues {
+type FormValues = {
   name: string,
   description: string,
 }

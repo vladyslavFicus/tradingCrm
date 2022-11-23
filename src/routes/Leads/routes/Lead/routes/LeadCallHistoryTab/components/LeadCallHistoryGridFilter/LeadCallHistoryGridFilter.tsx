@@ -17,7 +17,7 @@ import { useClickToCallConfigQuery } from './graphql/__generated__/ClickToCallCo
 import './LeadCallHistoryGridFilter.scss';
 
 type Props = {
-  callHistoryQuery: CallHistoryQueryQueryResult
+  callHistoryQuery: CallHistoryQueryQueryResult,
 };
 
 const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {

@@ -3,7 +3,7 @@ import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/
 import CircleLoader from 'components/CircleLoader';
 import CurrentPriceDebug from './CurrentPriceDebug';
 
-interface Props {
+type Props = {
   type: OrderType,
   digits: number,
   currentPriceBid: number,

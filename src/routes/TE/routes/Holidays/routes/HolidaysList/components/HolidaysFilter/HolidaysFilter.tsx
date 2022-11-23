@@ -11,11 +11,11 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import './HolidaysFilter.scss';
 
-interface Props {
+type Props = {
   onRefresh: () => void,
 }
 
-interface FormValues {
+type FormValues = {
   description?: string,
   dateTimeRange?: {
     from?: string,

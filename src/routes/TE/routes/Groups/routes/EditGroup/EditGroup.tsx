@@ -25,7 +25,7 @@ import { useGroupQuery } from './graphql/__generated__/GroupQuery';
 import { useEditGroupMutation } from './graphql/__generated__/EditGroupMutation';
 import './EditGroup.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   modals: {
     confirmationModal: Modal,

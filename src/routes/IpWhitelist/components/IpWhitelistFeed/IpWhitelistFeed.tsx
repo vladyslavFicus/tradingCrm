@@ -12,8 +12,8 @@ import { Feed, WhitelistFeedsQueryResult } from './types';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
 import './IpWhitelistFeed.scss';
 
-interface Props {
-  ipWhitelistFeedsQuery: WhitelistFeedsQueryResult
+type Props = {
+  ipWhitelistFeedsQuery: WhitelistFeedsQueryResult,
 }
 
 const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {

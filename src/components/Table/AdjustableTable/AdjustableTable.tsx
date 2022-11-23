@@ -39,11 +39,11 @@ const getSortedColumns = (columns: ColumnComponents, columnsOrder: string[]) => 
   });
 };
 
-interface Props {
+type Props = {
   type: string,
   defaultColumns: [string],
   columnsOrder: [string],
-  children: React.ReactNode
+  children: React.ReactNode,
   gridConfigQuery: QueryResult<QueryResultType>,
 }
 

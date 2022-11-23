@@ -3,7 +3,7 @@ import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '_
 export const statusActions: Record<string, [{
   action: OperatorStatusesEnum,
   label: string,
-  reasons: Record<string, string>
+  reasons: Record<string, string>,
 }]> = {
   ACTIVE:
     [{

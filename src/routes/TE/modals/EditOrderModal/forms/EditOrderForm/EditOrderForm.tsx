@@ -24,7 +24,7 @@ import { useEditOrderMutation } from './graphql/__generated__/EditOrderMutation'
 import { useEditOrderAdminMutation } from './graphql/__generated__/EditOrderAdminMutation';
 import { reasons, types } from './constants';
 
-interface Props {
+type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
@@ -34,7 +34,7 @@ interface Props {
   },
 }
 
-interface FormValues {
+type FormValues = {
   reason: string,
   volume: number,
   symbol: string,

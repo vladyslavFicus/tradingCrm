@@ -8,7 +8,7 @@ import Placeholder from 'components/Placeholder';
 import { GroupsQueryQueryResult } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsHeader.scss';
 
-interface Props {
+type Props = {
   groupsListQuery: GroupsQueryQueryResult,
 }
 

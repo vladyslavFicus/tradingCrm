@@ -41,7 +41,7 @@ interface GroupSecurityCustomizationModalProps {
   groupSecurity: GroupSecurity,
 }
 
-interface Props {
+type Props = {
   formik: FormikProps<FormValues>,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,
@@ -167,7 +167,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
             render={({ commissionBase, commissionType, commissionLots }: GroupSecurity) => (
               <div className="GroupsGrid__cell-primary">
                 {`
-                ${commissionBase} ${I18n.t(`TRADING_ENGINE.GROUP.${commissionType}`)} / 
+                ${commissionBase} ${I18n.t(`TRADING_ENGINE.GROUP.${commissionType}`)} /
                 ${I18n.t(`TRADING_ENGINE.GROUP.PER_${commissionLots}`)}
               `}
               </div>

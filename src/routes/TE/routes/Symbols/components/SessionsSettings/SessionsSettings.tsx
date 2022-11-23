@@ -23,7 +23,7 @@ interface State {
 
 
 interface SymbolSessionWithError extends SymbolSession {
-  error?: string;
+  error?: string,
 }
 
 class SessionsSettings extends PureComponent<Props> {

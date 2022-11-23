@@ -8,7 +8,7 @@ import { Button } from 'components/UI';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useCancelOrderMutation } from './graphql/__generated__/CancelOrderMutation';
 
-interface Props {
+type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,

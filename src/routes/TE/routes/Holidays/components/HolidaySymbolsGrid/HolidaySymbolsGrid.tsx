@@ -25,7 +25,7 @@ interface HolidayNewSymbolModalProps {
   symbols: string[],
 }
 
-interface Props {
+type Props = {
   formik: FormikProps<FormValues>,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,

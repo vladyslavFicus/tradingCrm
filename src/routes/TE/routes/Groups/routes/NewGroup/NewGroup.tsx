@@ -21,7 +21,7 @@ import { groupNamePattern } from '../../constants';
 import { useCreateGroupMutation } from './graphql/__generated__/CreateGroupMutation';
 import './NewGroup.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
 }
 

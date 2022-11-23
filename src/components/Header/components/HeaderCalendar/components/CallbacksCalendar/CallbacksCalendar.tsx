@@ -17,11 +17,11 @@ import { useLeadCallbacksQuery } from './graphql/__generated__/LeadCallbacksQuer
 import './CallbacksCalendar.scss';
 
 type Props = {
-  onLockToggle(isLock: boolean): void;
+  onLockToggle(isLock: boolean): void,
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>
-    leadCallbackDetailsModal: Modal<{ callbackId: string }>
-  }
+    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
+    leadCallbackDetailsModal: Modal<{ callbackId: string }>,
+  },
 }
 
 type CommonCallback = ClientCallback | LeadCallback;

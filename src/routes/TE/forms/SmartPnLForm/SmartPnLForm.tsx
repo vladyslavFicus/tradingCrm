@@ -33,25 +33,25 @@ import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQu
 import './SmartPnLForm.scss';
 
 type Props = {
-  storage: Storage
-  notify: Notify
-  accountUuid?: string
-  onSymbolChanged?: (symbol: string) => void
-  onSuccess?: () => void
+  storage: Storage,
+  notify: Notify,
+  accountUuid?: string,
+  onSymbolChanged?: (symbol: string) => void,
+  onSuccess?: () => void,
 };
 
 type FormValues = {
-  pnl: number | null
-  volumeLots: number
-  symbol: string
-  sellOpenPrice: number
-  buyOpenPrice: number
-  sellAutoOpenPrice: boolean
-  buyAutoOpenPrice: boolean
-  direction: OrderDirection
-  commission: number
-  swaps: number
-  openTime: string | null
+  pnl: number | null,
+  volumeLots: number,
+  symbol: string,
+  sellOpenPrice: number,
+  buyOpenPrice: number,
+  sellAutoOpenPrice: boolean,
+  buyAutoOpenPrice: boolean,
+  direction: OrderDirection,
+  commission: number,
+  swaps: number,
+  openTime: string | null,
 };
 
 const SmartPnLForm = (props: Props) => {

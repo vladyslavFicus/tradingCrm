@@ -6,7 +6,7 @@ export interface IpWhitelistFeedFilters {
     auditLogType?: string,
     creationDateFrom?: string,
     creationDateTo?: string,
-  };
+  },
   sorst?: Sort[],
 }
 
@@ -25,7 +25,7 @@ export interface Feed {
 }
 
 export interface IpWhitelistFeedsData {
-  feeds: Pageable<Feed>
+  feeds: Pageable<Feed>,
 }
 
 export interface IpWhitelistFeedsSearchArg {

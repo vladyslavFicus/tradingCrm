@@ -27,7 +27,7 @@ type Props = {
   modals: {
     changePasswordModal: Modal,
     confirmActionModal: Modal,
-  }
+  },
 };
 
 const DealingOperatorHeader = (props: Props) => {

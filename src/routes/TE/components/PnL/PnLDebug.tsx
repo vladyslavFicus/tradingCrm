@@ -3,7 +3,7 @@ import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/
 import { DebugContainer } from 'components/DebugMode';
 import { calculatePnL } from 'routes/TE/utils/formulas';
 
-interface Props {
+type Props = {
   type: OrderType,
   openPrice: number,
   currentPriceBid?: number,

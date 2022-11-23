@@ -27,7 +27,7 @@ type FormValues = {
   name: string,
   deskType: DeskTypesEnum,
   officeUuid: string,
-  language: string
+  language: string,
 }
 
 type Props = {

@@ -10,7 +10,7 @@ import { FormValues } from '../../types';
 import { useNewGroupTemplatesQuery, NewGroupTemplatesQuery } from './graphql/__generated__/NewGroupTemplatesQuery';
 import './GroupProfileHeaderNew.scss';
 
-interface Props {
+type Props = {
   formik: FormikProps<FormValues>,
 }
 

@@ -19,7 +19,7 @@ export {
 
 export type { SymbolSession };
 
-export interface FormValues {
+export type FormValues = {
   symbol: string,
   source: string,
   digits: number,

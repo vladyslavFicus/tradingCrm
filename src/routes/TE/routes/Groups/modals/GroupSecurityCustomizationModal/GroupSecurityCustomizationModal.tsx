@@ -18,7 +18,7 @@ import {
 } from '../../types';
 import './GroupSecurityCustomizationModal.scss';
 
-interface Props {
+type Props = {
   groupSecurity: GroupSecurity,
   notify: Notify,
   isOpen: boolean,

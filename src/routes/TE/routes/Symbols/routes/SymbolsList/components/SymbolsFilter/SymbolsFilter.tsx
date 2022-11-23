@@ -10,7 +10,7 @@ import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import './SymbolsFilter.scss';
 
-interface Props {
+type Props = {
   onRefresh: () => void,
 }
 

@@ -22,7 +22,7 @@ type Props = {
 }
 
 type FormValues = {
-  from: string
+  from: string,
   message: string,
 }
 

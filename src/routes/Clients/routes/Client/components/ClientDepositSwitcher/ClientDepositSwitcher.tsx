@@ -6,9 +6,9 @@ import {
 } from './graphql/__generated__/UpdateConfigurationDepositMutation';
 import './ClientDepositSwitcher.scss';
 
-interface Props {
-  uuid: string;
-  enabled: boolean;
+type Props = {
+  uuid: string,
+  enabled: boolean,
 }
 
 const ClientDepositSwitcher = ({ uuid, enabled }: Props) => {

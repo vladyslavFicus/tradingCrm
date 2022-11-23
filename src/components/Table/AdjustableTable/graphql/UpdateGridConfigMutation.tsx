@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import { Mutation } from '@apollo/client/react/components';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-interface Props {
+type Props = {
   children: ApolloComponentFn,
 }
 

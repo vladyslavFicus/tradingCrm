@@ -5,7 +5,7 @@ import { Button } from 'components/UI';
 import { FormValues } from '../../types';
 import './HolidayHeader.scss';
 
-interface Props {
+type Props = {
   formik: FormikProps<FormValues>,
 }
 

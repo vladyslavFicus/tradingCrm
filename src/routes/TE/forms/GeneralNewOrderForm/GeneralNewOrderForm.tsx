@@ -32,25 +32,25 @@ import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQu
 import './GeneralNewOrderForm.scss';
 
 type Props = {
-  storage: Storage
-  notify: Notify
-  accountUuid?: string
-  onSymbolChanged?: (symbol: string) => void
-  onSuccess?: () => void
-  hotKeysEnabled?: boolean
+  storage: Storage,
+  notify: Notify,
+  accountUuid?: string,
+  onSymbolChanged?: (symbol: string) => void,
+  onSuccess?: () => void,
+  hotKeysEnabled?: boolean,
 };
 
 type FormValues = {
-  volumeLots: number
-  symbol: string
-  openPrice: number | null
-  autoOpenPrice: boolean
-  pendingOrder: boolean
-  direction: string
-  stopLoss: number | null
-  takeProfit: number | null
-  type: string
-  comment: string
+  volumeLots: number,
+  symbol: string,
+  openPrice: number | null,
+  autoOpenPrice: boolean,
+  pendingOrder: boolean,
+  direction: string,
+  stopLoss: number | null,
+  takeProfit: number | null,
+  type: string,
+  comment: string,
 };
 
 const GeneralNewOrderForm = (props: Props) => {

@@ -23,8 +23,8 @@ import './ClientCallbacksGrid.scss';
 type Props = {
   callbacksData: ClientCallbacksListQueryQueryResult,
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>
-  }
+    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
+  },
 }
 
 const CallbacksGrid = ({ callbacksData, modals }: Props) => {

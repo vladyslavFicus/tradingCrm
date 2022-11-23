@@ -27,7 +27,7 @@ import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQu
 import { useEditSymbolMutation } from './graphql/__generated__/EditSymbolMutation';
 import './SymbolEdit.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   modals: {
     confirmationModal: Modal,

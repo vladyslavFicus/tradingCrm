@@ -31,7 +31,7 @@ interface IpWhitelistAddress {
     description: string,
   },
 }
-interface FormValues {
+type FormValues = {
   ip: string,
   description: string,
 }

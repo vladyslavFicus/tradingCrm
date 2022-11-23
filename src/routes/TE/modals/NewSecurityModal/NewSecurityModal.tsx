@@ -12,13 +12,13 @@ import { Notify, LevelType } from 'types/notify';
 import { securityNamePattern } from '../../constants';
 import { useCreateSecurityMutation } from './graphql/__generated__/CreateSecurityMutation';
 
-interface Props {
+type Props = {
   notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
 }
 
-interface FormValues {
+type FormValues = {
   name: string,
   description: string,
 }

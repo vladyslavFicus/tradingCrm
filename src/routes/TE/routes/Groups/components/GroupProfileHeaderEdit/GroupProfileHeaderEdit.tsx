@@ -15,7 +15,7 @@ import { FormValues } from '../../types';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
 import './GroupProfileHeaderEdit.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   onArchived: () => void,
   formik: FormikProps<FormValues>,

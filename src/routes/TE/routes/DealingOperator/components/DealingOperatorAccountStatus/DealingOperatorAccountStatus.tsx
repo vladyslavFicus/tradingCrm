@@ -20,7 +20,7 @@ type Props = {
   notify: Notify,
   modals: {
     changeStatusModal: Modal,
-  }
+  },
 }
 
 const DealingOperatorAccountStatus = (props: Props) => {

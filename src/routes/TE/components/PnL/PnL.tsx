@@ -6,7 +6,7 @@ import { calculatePnL } from 'routes/TE/utils/formulas';
 import PnLDebug from './PnLDebug';
 import './PnL.scss';
 
-interface Props {
+type Props = {
   type: OrderType,
   openPrice: number,
   currentPriceBid?: number,

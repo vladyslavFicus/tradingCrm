@@ -13,7 +13,7 @@ import UpdatePaymentSystemMutation from './graphql/UpdatePaymentSystemMutation';
 import PaymentSystemsQuery from './graphql/PaymentSystemsQuery';
 import './ChangePaymentSystemForm.scss';
 
-interface FormValues {
+type FormValues = {
   paymentSystem: string,
 }
 
@@ -27,7 +27,7 @@ interface UpdatePaymentSystemResponse {
   changePaymentSystem: null,
 }
 
-interface Props {
+type Props = {
   paymentId: string,
   notify: Notify,
   onSuccess: () => void,

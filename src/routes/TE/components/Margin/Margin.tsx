@@ -7,7 +7,7 @@ import { calculateMargin } from 'routes/TE/utils/formulas';
 import MarginDebug from './MarginDebug';
 import './Margin.scss';
 
-interface Props {
+type Props = {
   symbolType?: SymbolType,
   openPrice?: number | null,
   lotSize?: number,

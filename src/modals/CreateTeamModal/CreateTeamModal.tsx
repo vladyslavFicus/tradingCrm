@@ -22,7 +22,7 @@ const attributeLabels = {
 type FormValues = {
   teamName: string,
   officeUuid: string,
-  deskUuid: string
+  deskUuid: string,
 }
 
 type Props = {

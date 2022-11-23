@@ -14,7 +14,7 @@ import {
 import './ClientCallHistoryGrid.scss';
 
 type Props = {
-  callHistory: CallHistoryQueryQueryResult
+  callHistory: CallHistoryQueryQueryResult,
 };
 type CallHistoryType = ExtractApolloTypeFromPageable<CallHistoryQuery['callHistory']>;
 

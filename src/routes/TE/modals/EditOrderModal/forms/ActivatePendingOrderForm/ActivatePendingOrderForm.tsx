@@ -17,7 +17,7 @@ import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useActivatePendingOrderMutation } from './graphql/__generated__/ActivatePendingOrderMutation';
 
-interface Props {
+type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
@@ -26,7 +26,7 @@ interface Props {
   },
 }
 
-interface FormValues {
+type FormValues = {
   volumeLots: number,
   activationPrice: number,
 }

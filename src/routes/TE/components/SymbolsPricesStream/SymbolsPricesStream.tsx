@@ -10,10 +10,10 @@ interface SymbolPriceStreamResponse {
 }
 
 export interface SymbolsPrices {
-  [key: string]: SymbolPriceStreamResponse
+  [key: string]: SymbolPriceStreamResponse,
 }
 
-interface Props {
+type Props = {
   symbols: string[],
   interval: number,
   onNotify: (symbols: SymbolsPrices) => void,

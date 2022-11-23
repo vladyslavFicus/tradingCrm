@@ -28,7 +28,7 @@ interface ConfirmationModalProps {
   submitButtonLabel: string,
 }
 
-interface Props {
+type Props = {
   notify: Notify,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,

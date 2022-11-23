@@ -11,7 +11,7 @@ import {
 import { FormValues, DefaultLeverage } from '../../types';
 import './GroupCommonForm.scss';
 
-interface Props {
+type Props = {
   formik: FormikProps<FormValues>,
 }
 

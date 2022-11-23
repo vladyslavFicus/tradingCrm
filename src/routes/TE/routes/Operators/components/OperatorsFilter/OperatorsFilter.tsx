@@ -15,11 +15,11 @@ import { Button, RefreshButton } from 'components/UI';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import './OperatorsFilter.scss';
 
-interface Props {
+type Props = {
   onRefresh: () => void,
 }
 
-interface FormValues {
+type FormValues = {
   keyword?: string,
   statuses?: string[],
   groupNames?: string[],

@@ -11,7 +11,7 @@ import { ReactComponent as SymbolChartLoadingIcon } from './img/SymbolChartLoadi
 import { ReactComponent as WarningIcon } from './img/warning.svg';
 import './SymbolChart.scss';
 
-interface Props {
+type Props = {
   symbol: string,
   accountUuid: string,
   askLineColor?: string,

@@ -18,7 +18,7 @@ import './NewOrderModal.scss';
 
 export type Account = AccountQuery['tradingEngine']['account'];
 
-interface Props {
+type Props = {
   onSuccess?: () => void,
   onCloseModal: () => void,
   login?: string,

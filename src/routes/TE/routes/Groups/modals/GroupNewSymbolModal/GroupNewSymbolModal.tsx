@@ -20,7 +20,7 @@ import './GroupNewSymbolModal.scss';
 
 const baseSymbols = ['EURUSD', 'EURGBP', 'GBPUSD'];
 
-interface Props {
+type Props = {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,

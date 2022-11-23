@@ -16,17 +16,17 @@ type AvailableColumns = {
   header: string,
 }
 
-interface Props {
+type Props = {
   columnsSet: [string],
   onUpdate: (values: [string]) => void,
   notify: Notify,
   createGridConfig: (options: BaseMutationOptions) => MutationResult<GridConfigType>,
   updateGridConfig: (options: BaseMutationOptions) => MutationResult<Boolean>,
-  availableColumnsSet: [AvailableColumns]
+  availableColumnsSet: [AvailableColumns],
   gridConfig: {
     type: string,
     uuid?: string,
-  }
+  },
 }
 
 const GridConfig = (props: Props) => {

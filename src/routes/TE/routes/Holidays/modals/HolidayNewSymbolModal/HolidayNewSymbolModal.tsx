@@ -13,7 +13,7 @@ import { FormikSelectField } from 'components/Formik';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidayNewSymbolModal.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
@@ -21,7 +21,7 @@ interface Props {
   symbols: string[],
 }
 
-interface FormValues {
+type FormValues = {
   symbols: string[],
 }
 

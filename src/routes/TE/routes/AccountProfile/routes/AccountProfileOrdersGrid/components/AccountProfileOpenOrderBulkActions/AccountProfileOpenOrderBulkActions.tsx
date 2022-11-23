@@ -15,10 +15,10 @@ import './AccountProfileOpenOrderBulkActions.scss';
 type Props = {
   modals: {
     confirmationModal: Modal,
-  }
+  },
   notify: Notify,
   select: TableSelection,
-  ordersQuery: OrdersQueryQueryResult
+  ordersQuery: OrdersQueryQueryResult,
 }
 
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;

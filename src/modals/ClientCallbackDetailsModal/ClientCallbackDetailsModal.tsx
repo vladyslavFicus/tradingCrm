@@ -4,6 +4,9 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import {
+  useCallbackOperatorsQuery,
+} from 'modals/CreateClientCallbackModal/graphql/__generated__/CallbackOperatorsQuery';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
@@ -18,9 +21,6 @@ import ShortLoader from 'components/ShortLoader';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import {
-  useCallbackOperatorsQuery,
-} from 'modals/CreateClientCallbackModal/graphql/__generated__/CallbackOperatorsQuery';
 import { useGetClientCallbackQuery } from './graphql/__generated__/GetClientCallbackQuery';
 import { useUpdateClientCallbackMutation } from './graphql/__generated__/UpdateClientCallbackMutation';
 import './ClientCallbackDetailsModal.scss';

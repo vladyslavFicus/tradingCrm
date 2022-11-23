@@ -3,8 +3,8 @@ import { gql } from '@apollo/client';
 import { Query } from '@apollo/client/react/components';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-export interface Props {
-  children: ApolloComponentFn;
+export type Props = {
+  children: ApolloComponentFn,
 }
 const REQUEST = gql`query PaymentSystemQuery {
   paymentSystems {

@@ -13,7 +13,7 @@ import { FormValues } from '../../types';
 import { useCreateHolidayMutation } from './graphql/__generated__/CreateHolidayMutation';
 import './NewHoliday.scss';
 
-interface Props {
+type Props = {
   notify: Notify,
 }
 

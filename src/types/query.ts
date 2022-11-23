@@ -10,6 +10,6 @@ export interface Pageable<TContent> {
 }
 
 export interface Query<TData, TVariables = void> extends QueryResult<TData, TVariables> {
-  loadMore: (variables: TVariables) => TData;
-  refetch: (args?: TVariables) => Promise<ApolloQueryResult<TData>>
+  loadMore: (variables: TVariables) => TData,
+  refetch: (args?: TVariables) => Promise<ApolloQueryResult<TData>>,
 }

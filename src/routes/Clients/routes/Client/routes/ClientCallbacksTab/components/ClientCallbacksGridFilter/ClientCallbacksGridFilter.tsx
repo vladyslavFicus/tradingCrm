@@ -11,7 +11,7 @@ import { ClientCallbacksQueryVariables } from '../../graphql/__generated__/Clien
 import './ClientCallbacksGridFilter.scss';
 
 type Props = {
-  handleRefetch: () => void
+  handleRefetch: () => void,
 };
 
 const ClientCallbacksGridFilter = (props: Props) => {

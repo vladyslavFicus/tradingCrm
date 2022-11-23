@@ -23,8 +23,8 @@ type Props = {
     editOrderModal: Modal<{
       id: number,
       onSuccess: Function,
-    }>
-  }
+    }>,
+  },
 };
 
 type Order = ExtractApolloTypeFromPageable<HistoryQuery['tradingEngine']['history']>;

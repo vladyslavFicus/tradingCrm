@@ -14,7 +14,7 @@ import './AccountProfilePendingOrderBulkActions.scss';
 type Props = {
   modals: {
     confirmationModal: Modal,
-  }
+  },
   notify: Notify,
   select: TableSelection,
   ordersQuery: OrdersQueryQueryResult,

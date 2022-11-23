@@ -21,7 +21,7 @@ import './Securities.scss';
 
 type Security = ExtractApolloTypeFromArray<SecuritiesQuery['tradingEngine']['securities']>;
 
-interface Props {
+type Props = {
   modals: {
     newSecurityModal: Modal,
     editSecurityModal: Modal,

@@ -20,7 +20,7 @@ interface SymbolSessionWorkingHours {
   closeTime: string,
 }
 
-interface Props {
+type Props = {
   onCloseModal: () => void,
   onSuccess: (values?: Record<string, any>) => void,
   isOpen: boolean,

@@ -4,9 +4,9 @@ import { Storage } from 'types/storage';
 import { withStorage } from 'providers/StorageProvider';
 import './DebugMode.scss';
 
-interface Props {
-  storage: Storage;
-  debug: boolean;
+type Props = {
+  storage: Storage,
+  debug: boolean,
 }
 
 function DebugMode(props: Props) {

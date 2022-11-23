@@ -3,7 +3,7 @@ import { Query } from '@apollo/client/react/components';
 import { gql } from '@apollo/client';
 import { ApolloComponentFn } from 'apollo/types/apolloComponentFn';
 
-interface Props {
+type Props = {
   children: ApolloComponentFn,
   type: string,
 }

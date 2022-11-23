@@ -9,7 +9,7 @@ import { State } from 'types';
 import { GroupsQueryQueryResult, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsGridFilters.scss';
 
-interface Props {
+type Props = {
   groupsListQuery: GroupsQueryQueryResult,
 }
 

@@ -14,7 +14,7 @@ import { statuses } from '../../constants';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './AccountsFilter.scss';
 
-interface Props {
+type Props = {
   handleRefetch: () => void,
   loading: boolean,
 }

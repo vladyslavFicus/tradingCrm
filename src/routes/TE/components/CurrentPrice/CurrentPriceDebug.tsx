@@ -2,7 +2,7 @@ import React from 'react';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { DebugContainer } from 'components/DebugMode';
 
-interface Props {
+type Props = {
   type: OrderType,
   digits: number,
   currentPriceBid: number,

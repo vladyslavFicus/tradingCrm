@@ -27,7 +27,7 @@ interface ConfirmationModalProps {
   submitButtonLabel: string,
 }
 
-interface Props {
+type Props = {
   groupsListQuery: GroupsQueryQueryResult,
   notify: Notify,
   modals: {

@@ -23,8 +23,8 @@ import './LeadCallbacksGrid.scss';
 type Props = {
   leadCallbacksQuery: LeadCallbacksQueryQueryResult,
   modals: {
-    leadCallbackDetailsModal: Modal<{ callbackId: string }>
-  }
+    leadCallbackDetailsModal: Modal<{ callbackId: string }>,
+  },
 };
 
 const LeadCallbacksGrid = (props: Props) => {
