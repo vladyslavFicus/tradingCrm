@@ -108,6 +108,7 @@
     "@types/keymirror": "^0.1.1",
     "@types/lodash": "^4.14.178",
     "@types/node": "^16.9.4",
+    "@types/qs": "^6.9.7",
     "@types/react": "^17.0.22",
     "@types/react-dom": "^17.0.11",
     "@types/react-helmet": "^6.1.5",
