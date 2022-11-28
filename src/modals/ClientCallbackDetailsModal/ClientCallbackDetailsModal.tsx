@@ -70,7 +70,7 @@ const ClientCallbackDetailsModal = (props: Props) => {
         variables: {
           ...values,
           callbackId,
-          callbackTime: moment(values.callbackTime).utc().format(DATE_TIME_BASE_FORMAT),
+          callbackTime: moment.utc(values.callbackTime).format(DATE_TIME_BASE_FORMAT),
         },
       });
 
@@ -108,7 +108,7 @@ const ClientCallbackDetailsModal = (props: Props) => {
         <Otherwise>
           <Formik
             initialValues={{
-              callbackTime: moment.utc(callbackTime).local().format(DATE_TIME_BASE_FORMAT),
+              callbackTime,
               operatorId,
               status,
               reminder: reminder || null,
@@ -172,6 +172,7 @@ const ClientCallbackDetailsModal = (props: Props) => {
                     component={FormikDatePicker}
                     disabled={readOnly}
                     withTime
+                    withUtc
                   />
 
                   <Field
