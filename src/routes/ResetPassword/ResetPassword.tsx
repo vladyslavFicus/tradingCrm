@@ -106,6 +106,7 @@ const ResetPassword = () => {
                 <Field
                   name="password"
                   type="password"
+                  autocomplete="new-password"
                   placeholder={I18n.t('RESET_PASSWORD.PASSWORD')}
                   component={FormikInputField}
                 />
