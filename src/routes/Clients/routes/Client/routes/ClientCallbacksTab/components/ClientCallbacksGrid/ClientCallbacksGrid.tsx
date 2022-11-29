@@ -10,10 +10,14 @@ import { ClientCallback } from '__generated__/types';
 import { shortify } from 'utils/uuid';
 import { targetTypes } from 'constants/note';
 import { callbacksStatuses, CallbackTimes } from 'constants/callbacks';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
+import { TrashButton } from 'components/UI';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
+import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
 import {
   ClientCallbacksQueryQueryResult,
   ClientCallbacksQueryVariables,
@@ -23,12 +27,14 @@ import './ClientCallbacksGrid.scss';
 type Props = {
   clientCallbacksQuery: ClientCallbacksQueryQueryResult,
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
+    clientCallbackDetailsModal: Modal,
+    deleteClientCallbackModal: Modal,
   },
 };
 
 const ClientCallbacksGrid = (props: Props) => {
   const { clientCallbacksQuery, modals } = props;
+  const { clientCallbackDetailsModal, deleteClientCallbackModal } = modals;
   const { content = [], last = false } = clientCallbacksQuery?.data?.clientCallbacks || {};
 
   const handlePageChanged = () => {
@@ -40,19 +46,30 @@ const ClientCallbacksGrid = (props: Props) => {
     });
   };
 
-  const renderId = ({ callbackId, operatorId }: ClientCallback) => (
-    <Fragment>
-      <div
-        className="ClientCallbacksGrid__info-main ClientCallbacksGrid__info-main--pointer"
-        onClick={() => modals.clientCallbackDetailsModal.show({ callbackId })}
-      >
-        {shortify(callbackId, 'CB')}
-      </div>
-      <div className="ClientCallbacksGrid__info-secondary">
-        {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
-      </div>
-    </Fragment>
-  );
+  const renderId = (callback: ClientCallback) => {
+    const { callbackId, operatorId } = callback;
+
+    return (
+      <Fragment>
+        <div
+          className="ClientCallbacksGrid__info-main ClientCallbacksGrid__info-main--pointer"
+          onClick={() => clientCallbackDetailsModal.show({
+            callbackId,
+            onDelete: () => deleteClientCallbackModal.show({
+              callback,
+              onSuccess: clientCallbackDetailsModal.hide,
+            }),
+          })}
+        >
+          {shortify(callbackId, 'CB')}
+        </div>
+
+        <div className="ClientCallbacksGrid__info-secondary">
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
+        </div>
+      </Fragment>
+    );
+  };
 
   const renderOperator = ({ operator, operatorId }: ClientCallback) => (
     <Fragment>
@@ -61,6 +78,7 @@ const ClientCallbacksGrid = (props: Props) => {
           {operator?.fullName}
         </div>
       </If>
+
       <div className="ClientCallbacksGrid__info-secondary">
         <Uuid uuid={operatorId} />
       </div>
@@ -72,6 +90,7 @@ const ClientCallbacksGrid = (props: Props) => {
       <div className="ClientCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
       </div>
+
       <div className="ClientCallbacksGrid__info-secondary">
         {moment.utc(callback[field]).local().format('HH:mm:ss')}
       </div>
@@ -91,15 +110,27 @@ const ClientCallbacksGrid = (props: Props) => {
     </div>
   );
 
-  const renderActions = ({ callbackId, userId, note }: ClientCallback) => (
-    <NoteButton
-      key={callbackId}
-      targetType={targetTypes.CLIENT_CALLBACK}
-      targetUUID={callbackId}
-      playerUUID={userId}
-      note={note}
-    />
-  );
+  const renderActions = (callback: ClientCallback) => {
+    const { callbackId, userId, note } = callback;
+
+    return (
+      <Fragment>
+        <NoteButton
+          key={callbackId}
+          targetType={targetTypes.CLIENT_CALLBACK}
+          targetUUID={callbackId}
+          playerUUID={userId}
+          note={note}
+        />
+        <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
+          <TrashButton
+            className="ClientCallbacksGrid__trash"
+            onClick={() => deleteClientCallbackModal.show({ callback })}
+          />
+        </PermissionContent>
+      </Fragment>
+    );
+  };
 
   const renderReminder = ({ reminder, callbackTime }: ClientCallback) => {
     if (reminder) {
@@ -112,6 +143,7 @@ const ClientCallbacksGrid = (props: Props) => {
           <div className="ClientCallbacksGrid__info-main">
             {moment(reminderDate).format('DD.MM.YYYY')}
           </div>
+
           <div className="ClientCallbacksGrid__info-secondary">
             {moment(reminderDate).format('HH:mm:ss')}
           </div>
@@ -172,5 +204,6 @@ export default compose(
   React.memo,
   withModals({
     clientCallbackDetailsModal: ClientCallbackDetailsModal,
+    deleteClientCallbackModal: DeleteClientCallbackModal,
   }),
 )(ClientCallbacksGrid);

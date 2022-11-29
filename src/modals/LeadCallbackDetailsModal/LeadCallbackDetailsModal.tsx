@@ -34,6 +34,7 @@ type Props = {
   callbackId: string,
   notify: Notify,
   onCloseModal: () => void,
+  onDelete: () => void,
 };
 
 type FormValues = {
@@ -44,7 +45,7 @@ type FormValues = {
 }
 
 const LeadCallbackDetailsModal = (props: Props) => {
-  const { notify, onCloseModal, callbackId } = props;
+  const { notify, onCloseModal, callbackId, onDelete } = props;
   const [updateleadCallbackMutation] = useUpdateLeadCallbackMutation();
 
   const permission = usePermission();
@@ -218,6 +219,16 @@ const LeadCallbackDetailsModal = (props: Props) => {
                 </ModalBody>
 
                 <ModalFooter>
+                  <If condition={permission.allows(permissions.LEAD_PROFILE.DELETE_CALLBACK)}>
+                    <Button
+                      className="ClientCallbackDetailsModal__button--delete"
+                      onClick={onDelete}
+                      danger
+                    >
+                      {I18n.t('CALLBACKS.MODAL.DELETE_BUTTON')}
+                    </Button>
+                  </If>
+
                   <Button
                     onClick={onCloseModal}
                     secondary

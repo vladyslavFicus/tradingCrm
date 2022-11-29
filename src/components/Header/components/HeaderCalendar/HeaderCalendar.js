@@ -12,8 +12,17 @@ class HeaderCalendar extends PureComponent {
     isLock: false,
   };
 
-  handleToggleOpen = () => {
+  componentDidUpdate(_, prevState) {
     const { isLock } = this.state;
+
+    if (prevState.isLock !== isLock && !isLock) {
+      this.handleToggleCalendarPopover();
+    }
+  }
+
+  handleToggleCalendarPopover = () => {
+    const { isLock } = this.state;
+
     if (!isLock) {
       this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
     }
@@ -35,7 +44,7 @@ class HeaderCalendar extends PureComponent {
         <div className="HeaderCalendar">
           <button
             className="HeaderCalendar__head"
-            onClick={this.handleToggleOpen}
+            onClick={this.handleToggleCalendarPopover}
             id="id-toggle-button"
             type="button"
           >
@@ -43,7 +52,7 @@ class HeaderCalendar extends PureComponent {
           </button>
           <Popover
             popperClassName="HeaderCalendar__popper"
-            toggle={this.handleToggleOpen}
+            toggle={this.handleToggleCalendarPopover}
             target="id-toggle-button"
             placement="bottom"
             isOpen={isOpen}

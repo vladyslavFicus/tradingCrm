@@ -1,4 +1,14 @@
 .ClientCallbacksGrid {
+  .Table {
+    &__cell {
+      &:last-child {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+    }
+  }
+
   &__info {
     &-main {
       font-weight: 700;
@@ -32,5 +42,9 @@
     &--success {
       color: var(--state-colors-success);
     }
+  }
+
+  &__trash {
+    font-size: 22px;
   }
 }

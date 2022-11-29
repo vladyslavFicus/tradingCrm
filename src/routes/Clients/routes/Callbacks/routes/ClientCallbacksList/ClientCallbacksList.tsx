@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { State } from 'types';
+import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Link } from 'components/Link';
 import CallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import CallbacksGrid from './components/ClientCallbacksGrid';
@@ -14,7 +15,7 @@ import './ClientCallbacksList.scss';
 const CallbacksList = () => {
   const { state } = useLocation<State<ClientCallbacksListQueryVariables>>();
 
-  const clientCallbacks = useClientCallbacksListQuery({
+  const clientCallbacksQuery = useClientCallbacksListQuery({
     variables: {
       ...state?.filters as ClientCallbacksListQueryVariables,
       limit: 20,
@@ -22,7 +23,15 @@ const CallbacksList = () => {
     },
   });
 
-  const totalElements = clientCallbacks.data?.clientCallbacks.totalElements;
+  const totalElements = clientCallbacksQuery.data?.clientCallbacks.totalElements;
+
+  useEffect(() => {
+    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+
+    return () => {
+      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+    };
+  }, []);
 
   return (
     <div className="ClientCallbacksList">
@@ -41,8 +50,8 @@ const CallbacksList = () => {
         </div>
       </div>
 
-      <CallbacksGridFilter handleRefetch={clientCallbacks?.refetch} />
-      <CallbacksGrid callbacksData={clientCallbacks} />
+      <CallbacksGridFilter handleRefetch={clientCallbacksQuery?.refetch} />
+      <CallbacksGrid callbacksData={clientCallbacksQuery} />
     </div>
   );
 };

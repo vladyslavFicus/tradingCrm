@@ -1,4 +1,4 @@
-query CallbackOperatorsQuery {
+query GetOperatorsQuery {
   operators {
     content {
       uuid

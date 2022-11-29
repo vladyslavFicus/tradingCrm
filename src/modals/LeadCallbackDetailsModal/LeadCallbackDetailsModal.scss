@@ -29,4 +29,10 @@
     margin-top: 25px;
     text-align: center;
   }
+
+  &__button {
+    &--delete {
+      margin-right: auto !important;
+    }
+  }
 }

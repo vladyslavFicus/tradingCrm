@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withModals } from 'hoc';
 import { Modal, State } from 'types';
-import EventEmitter, { LEAD_CALLBACK_CREATED } from 'utils/EventEmitter';
+import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
@@ -41,10 +41,10 @@ const LeadCallbacksTab = (props: Props) => {
   };
 
   useEffect(() => {
-    EventEmitter.on(LEAD_CALLBACK_CREATED, leadCallbacksQuery.refetch);
+    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
 
     return () => {
-      EventEmitter.off(LEAD_CALLBACK_CREATED, leadCallbacksQuery.refetch);
+      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
     };
   }, []);
 

@@ -5260,8 +5260,8 @@
       "DATE_RANGE": "Date & time range"
     },
     "CREATE_MODAL": {
-      "CLIENT_TITLE": "New client callback",
-      "LEAD_TITLE": "New lead callback",
+      "CLIENT_TITLE": "New Client callback",
+      "LEAD_TITLE": "New Lead callback",
       "OPERATOR": "Operator",
       "SELECT_OPERATOR": "Select operator",
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
@@ -5274,6 +5274,17 @@
         }
       }
     },
+    "DELETE_MODAL": {
+      "CLIENT_HEADER": "Delete Client callback - Confirmation",
+      "CLIENT_ACTION_TEXT": "Do you really want to delete callback on Client %{fullName} at %{time} time and date %{date}?",
+      "LEAD_HEADER": "Delete Lead callback - Confirmation",
+      "LEAD_ACTION_TEXT": "Do you really want to delete callback on Lead %{fullName} at %{time} time and date %{date}?",
+      "SUCCESSFULLY_DELETED": "Callback has been successfully deleted",
+      "NOTIFICATION": {
+        "CLIENT_TITLE": "Client callback delete",
+        "LEAD_TITLE": "Lead callback delete"
+      }
+    },
     "MODAL": {
       "CLIENT_TITLE": "Client callback details",
       "LEAD_TITLE": "Lead callback details",
@@ -5283,7 +5294,8 @@
       "CALLBACK_DATE_AND_TIME": "Callback date & time",
       "STATUS": "Status",
       "SELECT_STATUS": "Select status",
-      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated"
+      "SUCCESSFULLY_UPDATED": "Callback has been successfully updated",
+      "DELETE_BUTTON": "Delete callback"
     }
   },
   "common": {

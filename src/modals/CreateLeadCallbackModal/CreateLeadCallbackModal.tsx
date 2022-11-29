@@ -8,7 +8,7 @@ import { parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import { Operator } from '__generated__/types';
-import EventEmitter, { LEAD_CALLBACK_CREATED } from 'utils/EventEmitter';
+import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import { targetTypes } from 'constants/note';
 import { reminderValues } from 'constants/callbacks';
@@ -17,7 +17,7 @@ import { Button } from 'components/UI';
 import NoteButton from 'components/NoteButton';
 import { useCallbackAddNoteMutation } from './graphql/__generated__/CallbackAddNoteMutation';
 import { useCreateLeadCallbackMutation } from './graphql/__generated__/CreateLeadCallbackMutation';
-import { useCallbackOperatorsQuery } from './graphql/__generated__/CallbackOperatorsQuery';
+import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import './CreateLeadCallbackModal.scss';
 
 const attributeLabels = {
@@ -46,7 +46,7 @@ const CreateLeadCallbackModal = (props: Props) => {
   const [addNote] = useCallbackAddNoteMutation();
   const [createLeadCallback] = useCreateLeadCallbackMutation();
 
-  const operatorsQuery = useCallbackOperatorsQuery({ fetchPolicy: 'network-only' });
+  const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
 
@@ -77,7 +77,7 @@ const CreateLeadCallbackModal = (props: Props) => {
         }
       }
 
-      EventEmitter.emit(LEAD_CALLBACK_CREATED);
+      EventEmitter.emit(LEAD_CALLBACK_RELOAD);
       onCloseModal();
 
       notify({

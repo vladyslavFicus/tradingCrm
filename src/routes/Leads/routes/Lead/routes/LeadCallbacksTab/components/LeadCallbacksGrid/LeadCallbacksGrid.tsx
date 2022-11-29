@@ -10,10 +10,14 @@ import { LeadCallback } from '__generated__/types';
 import { shortify } from 'utils/uuid';
 import { targetTypes } from 'constants/note';
 import { callbacksStatuses, CallbackTimes } from 'constants/callbacks';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
+import { TrashButton } from 'components/UI';
 import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
+import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
 import {
   LeadCallbacksQueryQueryResult,
   LeadCallbacksQueryVariables,
@@ -23,12 +27,14 @@ import './LeadCallbacksGrid.scss';
 type Props = {
   leadCallbacksQuery: LeadCallbacksQueryQueryResult,
   modals: {
-    leadCallbackDetailsModal: Modal<{ callbackId: string }>,
+    leadCallbackDetailsModal: Modal,
+    deleteLeadCallbackModal: Modal,
   },
 };
 
 const LeadCallbacksGrid = (props: Props) => {
   const { leadCallbacksQuery, modals } = props;
+  const { leadCallbackDetailsModal, deleteLeadCallbackModal } = modals;
   const { content = [], last = false } = leadCallbacksQuery?.data?.leadCallbacks || {};
 
   const handlePageChanged = () => {
@@ -40,19 +46,30 @@ const LeadCallbacksGrid = (props: Props) => {
     });
   };
 
-  const renderId = ({ callbackId, operatorId }: LeadCallback) => (
-    <Fragment>
-      <div
-        className="LeadCallbacksGrid__info-main LeadCallbacksGrid__info-main--pointer"
-        onClick={() => modals.leadCallbackDetailsModal.show({ callbackId })}
-      >
-        {shortify(callbackId, 'CB')}
-      </div>
-      <div className="LeadCallbacksGrid__info-secondary">
-        {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
-      </div>
-    </Fragment>
-  );
+  const renderId = (callback: LeadCallback) => {
+    const { callbackId, operatorId } = callback;
+
+    return (
+      <Fragment>
+        <div
+          className="LeadCallbacksGrid__info-main LeadCallbacksGrid__info-main--pointer"
+          onClick={() => leadCallbackDetailsModal.show({
+            callbackId,
+            onDelete: () => deleteLeadCallbackModal.show({
+              callback,
+              onSuccess: leadCallbackDetailsModal.hide,
+            }),
+          })}
+        >
+          {shortify(callbackId, 'CB')}
+        </div>
+
+        <div className="LeadCallbacksGrid__info-secondary">
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
+        </div>
+      </Fragment>
+    );
+  };
 
   const renderOperator = ({ operator, operatorId }: LeadCallback) => (
     <Fragment>
@@ -61,6 +78,7 @@ const LeadCallbacksGrid = (props: Props) => {
           {operator?.fullName}
         </div>
       </If>
+
       <div className="LeadCallbacksGrid__info-secondary">
         <Uuid uuid={operatorId} />
       </div>
@@ -72,6 +90,7 @@ const LeadCallbacksGrid = (props: Props) => {
       <div className="LeadCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
       </div>
+
       <div className="LeadCallbacksGrid__info-secondary">
         {moment.utc(callback[field]).local().format('HH:mm:ss')}
       </div>
@@ -91,15 +110,27 @@ const LeadCallbacksGrid = (props: Props) => {
     </div>
   );
 
-  const renderActions = ({ callbackId, userId, note }: LeadCallback) => (
-    <NoteButton
-      key={callbackId}
-      targetType={targetTypes.LEAD_CALLBACK}
-      targetUUID={callbackId}
-      playerUUID={userId}
-      note={note}
-    />
-  );
+  const renderActions = (callback: LeadCallback) => {
+    const { callbackId, userId, note } = callback;
+
+    return (
+      <Fragment>
+        <NoteButton
+          key={callbackId}
+          targetType={targetTypes.LEAD_CALLBACK}
+          targetUUID={callbackId}
+          playerUUID={userId}
+          note={note}
+        />
+        <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
+          <TrashButton
+            className="LeadCallbacksGrid__trash"
+            onClick={() => deleteLeadCallbackModal.show({ callback })}
+          />
+        </PermissionContent>
+      </Fragment>
+    );
+  };
 
   const renderReminder = ({ reminder, callbackTime }: LeadCallback) => {
     if (reminder) {
@@ -112,6 +143,7 @@ const LeadCallbacksGrid = (props: Props) => {
           <div className="LeadCallbacksGrid__info-main">
             {moment(reminderDate).format('DD.MM.YYYY')}
           </div>
+
           <div className="LeadCallbacksGrid__info-secondary">
             {moment(reminderDate).format('HH:mm:ss')}
           </div>
@@ -172,5 +204,6 @@ export default compose(
   React.memo,
   withModals({
     leadCallbackDetailsModal: LeadCallbackDetailsModal,
+    deleteLeadCallbackModal: DeleteLeadCallbackModal,
   }),
 )(LeadCallbacksGrid);

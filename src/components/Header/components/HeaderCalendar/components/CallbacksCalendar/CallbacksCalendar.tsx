@@ -8,10 +8,12 @@ import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
-import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
-import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
+import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
+import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
+import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
+import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
 import { useClientCallbacksQuery } from './graphql/__generated__/ClientCallbacksQuery';
 import { useLeadCallbacksQuery } from './graphql/__generated__/LeadCallbacksQuery';
 import './CallbacksCalendar.scss';
@@ -19,10 +21,12 @@ import './CallbacksCalendar.scss';
 type Props = {
   onLockToggle(isLock: boolean): void,
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
-    leadCallbackDetailsModal: Modal<{ callbackId: string }>,
+    clientCallbackDetailsModal: Modal,
+    leadCallbackDetailsModal: Modal,
+    deleteClientCallbackModal: Modal,
+    deleteLeadCallbackModal: Modal,
   },
-}
+};
 
 type CommonCallback = ClientCallback | LeadCallback;
 
@@ -37,6 +41,8 @@ const CallbacksCalendar = (props: Props) => {
     modals: {
       clientCallbackDetailsModal,
       leadCallbackDetailsModal,
+      deleteClientCallbackModal,
+      deleteLeadCallbackModal,
     },
   } = props;
 
@@ -82,12 +88,26 @@ const CallbacksCalendar = (props: Props) => {
     setCallbackTime({ callbackTimeFrom, callbackTimeTo });
   };
 
-  const handleOpenDetailModal = ({ callback: { callbackId }, callbackType }: Event<CommonCallback>) => {
+  const handleOpenDetailModal = ({ callback, callbackType }: Event<CommonCallback>) => {
+    const { callbackId } = callback;
+
     if (callbackType === CallbackType.CLIENT) {
-      clientCallbackDetailsModal.show({ callbackId });
+      clientCallbackDetailsModal.show({
+        callbackId,
+        onDelete: () => deleteClientCallbackModal.show({
+          callback,
+          onSuccess: clientCallbackDetailsModal.hide,
+        }),
+      });
     }
     if (callbackType === CallbackType.LEAD) {
-      leadCallbackDetailsModal.show({ callbackId });
+      leadCallbackDetailsModal.show({
+        callbackId,
+        onDelete: () => deleteLeadCallbackModal.show({
+          callback,
+          onSuccess: leadCallbackDetailsModal.hide,
+        }),
+      });
     }
   };
 
@@ -111,5 +131,7 @@ export default compose(
   withModals({
     clientCallbackDetailsModal: ClientCallbackDetailsModal,
     leadCallbackDetailsModal: LeadCallbackDetailsModal,
+    deleteClientCallbackModal: DeleteClientCallbackModal,
+    deleteLeadCallbackModal: DeleteLeadCallbackModal,
   }),
 )(CallbacksCalendar);

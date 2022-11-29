@@ -8,7 +8,7 @@ import { parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { LevelType, Notify } from 'types';
 import { Operator } from '__generated__/types';
-import EventEmitter, { CLIENT_CALLBACK_CREATED } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import { targetTypes } from 'constants/note';
 import { reminderValues } from 'constants/callbacks';
@@ -17,7 +17,7 @@ import { Button } from 'components/UI';
 import NoteButton from 'components/NoteButton';
 import { useCallbackAddNoteMutation } from './graphql/__generated__/CallbackAddNoteMutation';
 import { useCreateClientCallbackMutation } from './graphql/__generated__/CreateClientCallbackMutation';
-import { useCallbackOperatorsQuery } from './graphql/__generated__/CallbackOperatorsQuery';
+import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import './CreateClientCallbackModal.scss';
 
 const attributeLabels = {
@@ -43,7 +43,7 @@ const CreateClientCallbackModal = (props: Props) => {
 
   const noteButton = useRef<NoteButton>(null);
 
-  const operatorsQuery = useCallbackOperatorsQuery({ fetchPolicy: 'network-only' });
+  const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
   const [addNote] = useCallbackAddNoteMutation();
   const [createClientCallback] = useCreateClientCallbackMutation();
 
@@ -77,7 +77,7 @@ const CreateClientCallbackModal = (props: Props) => {
         }
       }
 
-      EventEmitter.emit(CLIENT_CALLBACK_CREATED);
+      EventEmitter.emit(CLIENT_CALLBACK_RELOAD);
       onCloseModal();
 
       notify({

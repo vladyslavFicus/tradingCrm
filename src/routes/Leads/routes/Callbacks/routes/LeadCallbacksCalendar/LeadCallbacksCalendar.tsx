@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import { Modal } from 'types';
 import { LeadCallback } from '__generated__/types';
+import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
 import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
+import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
@@ -16,12 +18,13 @@ import './LeadCallbacksCalendar.scss';
 
 type Props = {
   modals: {
-    leadCallbackDetailsModal: Modal<{ callbackId: string }>,
+    leadCallbackDetailsModal: Modal,
+    deleteLeadCallbackModal: Modal,
   },
-}
+};
 
 const LeadCallbacksCalendar = (props: Props) => {
-  const { modals: { leadCallbackDetailsModal } } = props;
+  const { leadCallbackDetailsModal, deleteLeadCallbackModal } = props.modals;
 
   const leadCallbacksQuery = useLeadCallbacksCalendarQuery({
     variables: {
@@ -30,6 +33,14 @@ const LeadCallbacksCalendar = (props: Props) => {
       limit: 2000,
     },
   });
+
+  useEffect(() => {
+    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+
+    return () => {
+      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+    };
+  }, []);
 
   const leadCallbacks = leadCallbacksQuery.data?.leadCallbacks?.content || [];
   const totalElements = leadCallbacksQuery.data?.leadCallbacks?.totalElements || 0;
@@ -49,8 +60,16 @@ const LeadCallbacksCalendar = (props: Props) => {
     leadCallbacksQuery.refetch({ callbackTimeFrom, callbackTimeTo });
   };
 
-  const handleOpenDetailModal = ({ callback: { callbackId } }: Event<LeadCallback>) => {
-    leadCallbackDetailsModal.show({ callbackId });
+  const handleOpenDetailModal = ({ callback }: Event<LeadCallback>) => {
+    const { callbackId } = callback;
+
+    leadCallbackDetailsModal.show({
+      callbackId,
+      onDelete: () => deleteLeadCallbackModal.show({
+        callback,
+        onSuccess: leadCallbackDetailsModal.hide,
+      }),
+    });
   };
 
   return (
@@ -82,5 +101,6 @@ export default compose(
   React.memo,
   withModals({
     leadCallbackDetailsModal: LeadCallbackDetailsModal,
+    deleteLeadCallbackModal: DeleteLeadCallbackModal,
   }),
 )(LeadCallbacksCalendar);

@@ -34,6 +34,7 @@ type Props = {
   callbackId: string,
   notify: Notify,
   onCloseModal: () => void,
+  onDelete: () => void,
 };
 
 type FormValues = {
@@ -44,7 +45,7 @@ type FormValues = {
 }
 
 const ClientCallbackDetailsModal = (props: Props) => {
-  const { notify, onCloseModal, callbackId } = props;
+  const { notify, onCloseModal, callbackId, onDelete } = props;
   const [updateClientCallbackMutation] = useUpdateClientCallbackMutation();
 
   const permission = usePermission();
@@ -129,7 +130,8 @@ const ClientCallbackDetailsModal = (props: Props) => {
                 <ModalBody>
                   <div className="ClientCallbackDetailsModal__client">
                     <div className="ClientCallbackDetailsModal__callback-id">
-                      {I18n.t('CALLBACKS.MODAL.CALLBACK_ID')}: <Uuid uuid={callbackId} uuidPrefix="CB" />
+                      {I18n.t('CALLBACKS.MODAL.CALLBACK_ID')}:
+                      <Uuid uuid={callbackId} uuidPrefix="CB" />
                     </div>
 
                     <If condition={!!client}>
@@ -218,6 +220,16 @@ const ClientCallbackDetailsModal = (props: Props) => {
                 </ModalBody>
 
                 <ModalFooter>
+                  <If condition={permission.allows(permissions.USER_PROFILE.DELETE_CALLBACK)}>
+                    <Button
+                      className="ClientCallbackDetailsModal__button--delete"
+                      onClick={onDelete}
+                      danger
+                    >
+                      {I18n.t('CALLBACKS.MODAL.DELETE_BUTTON')}
+                    </Button>
+                  </If>
+
                   <Button
                     onClick={onCloseModal}
                     secondary

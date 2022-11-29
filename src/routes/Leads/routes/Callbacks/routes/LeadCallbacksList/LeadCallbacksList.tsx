@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { State } from 'types';
+import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Link } from 'components/Link';
 import LeadCallbacksGridFilter from './components/LeadCallbacksGridFilter';
 import LeadCallbacksGrid from './components/LeadCallbacksGrid';
@@ -14,7 +15,7 @@ import './LeadCallbacksList.scss';
 const LeadCallbacksList = () => {
   const { state } = useLocation<State<LeadCallbacksListQueryVariables>>();
 
-  const leadCallbacks = useLeadCallbacksListQuery({
+  const leadCallbacksQuery = useLeadCallbacksListQuery({
     variables: {
       ...state?.filters as LeadCallbacksListQueryVariables,
       limit: 20,
@@ -22,12 +23,22 @@ const LeadCallbacksList = () => {
     },
   });
 
+  useEffect(() => {
+    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+
+    return () => {
+      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+    };
+  }, []);
+
+  const totalElements = leadCallbacksQuery.data?.leadCallbacks.totalElements;
+
   return (
     <div className="LeadCallbacksList">
       <div className="LeadCallbacksList__header">
         <div className="LeadCallbacksList__title">
-          <If condition={!!leadCallbacks.data?.leadCallbacks.totalElements}>
-            <strong>{leadCallbacks.data?.leadCallbacks.totalElements} </strong>
+          <If condition={!!totalElements}>
+            <strong>{totalElements} </strong>
           </If>
           {I18n.t('CALLBACKS.CALLBACKS')}
         </div>
@@ -39,8 +50,8 @@ const LeadCallbacksList = () => {
         </div>
       </div>
 
-      <LeadCallbacksGridFilter handleRefetch={leadCallbacks?.refetch} />
-      <LeadCallbacksGrid callbacksData={leadCallbacks} />
+      <LeadCallbacksGridFilter handleRefetch={leadCallbacksQuery?.refetch} />
+      <LeadCallbacksGrid callbacksData={leadCallbacksQuery} />
     </div>
   );
 };

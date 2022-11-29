@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import { Modal } from 'types';
 import { ClientCallback } from '__generated__/types';
+import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
 import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
+import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
@@ -16,12 +18,13 @@ import './ClientCallbacksCalendar.scss';
 
 type Props = {
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
+    clientCallbackDetailsModal: Modal,
+    deleteClientCallbackModal: Modal,
   },
-}
+};
 
 const ClientCallbacksCalendar = (props: Props) => {
-  const { modals: { clientCallbackDetailsModal } } = props;
+  const { clientCallbackDetailsModal, deleteClientCallbackModal } = props.modals;
 
   const clientCallbacksQuery = useClientCallbacksCalendarQuery({
     variables: {
@@ -30,6 +33,14 @@ const ClientCallbacksCalendar = (props: Props) => {
       limit: 2000,
     },
   });
+
+  useEffect(() => {
+    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+
+    return () => {
+      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+    };
+  }, []);
 
   const clientCallbacks = clientCallbacksQuery.data?.clientCallbacks?.content || [];
   const totalElements = clientCallbacksQuery.data?.clientCallbacks?.totalElements || 0;
@@ -49,8 +60,16 @@ const ClientCallbacksCalendar = (props: Props) => {
     clientCallbacksQuery.refetch({ callbackTimeFrom, callbackTimeTo });
   };
 
-  const handleOpenDetailModal = ({ callback: { callbackId } }: Event<ClientCallback>) => {
-    clientCallbackDetailsModal.show({ callbackId });
+  const handleOpenDetailModal = ({ callback }: Event<ClientCallback>) => {
+    const { callbackId } = callback;
+
+    clientCallbackDetailsModal.show({
+      callbackId,
+      onDelete: () => deleteClientCallbackModal.show({
+        callback,
+        onSuccess: clientCallbackDetailsModal.hide,
+      }),
+    });
   };
 
   return (
@@ -82,5 +101,6 @@ export default compose(
   React.memo,
   withModals({
     clientCallbackDetailsModal: ClientCallbackDetailsModal,
+    deleteClientCallbackModal: DeleteClientCallbackModal,
   }),
 )(ClientCallbacksCalendar);

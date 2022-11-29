@@ -1,0 +1,9 @@
+mutation DeleteClientCallbackMutation(
+  $callbackId: String!
+) {
+  callback {
+    deleteClientCallback(
+      callbackId: $callbackId
+    )
+  }
+}

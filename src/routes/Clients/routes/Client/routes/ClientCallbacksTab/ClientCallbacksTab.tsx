@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withModals } from 'hoc';
 import { Modal, State } from 'types';
-import EventEmitter, { CLIENT_CALLBACK_CREATED } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
@@ -41,10 +41,10 @@ const ClientCallbacksTab = (props: Props) => {
   };
 
   useEffect(() => {
-    EventEmitter.on(CLIENT_CALLBACK_CREATED, clientCallbacksQuery.refetch);
+    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
 
     return () => {
-      EventEmitter.off(CLIENT_CALLBACK_CREATED, clientCallbacksQuery.refetch);
+      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
     };
   }, []);
 

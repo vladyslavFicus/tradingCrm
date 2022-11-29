@@ -10,10 +10,14 @@ import withModals from 'hoc/withModals';
 import { shortify } from 'utils/uuid';
 import { targetTypes } from 'constants/note';
 import { callbacksStatuses, CallbackTimes } from 'constants/callbacks';
-import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
+import permissions from 'config/permissions';
+import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
+import { TrashButton } from 'components/UI';
 import NoteButton from 'components/NoteButton';
+import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
+import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
 import {
   ClientCallbacksListQueryVariables,
   ClientCallbacksListQueryQueryResult,
@@ -23,11 +27,14 @@ import './ClientCallbacksGrid.scss';
 type Props = {
   callbacksData: ClientCallbacksListQueryQueryResult,
   modals: {
-    clientCallbackDetailsModal: Modal<{ callbackId: string }>,
+    clientCallbackDetailsModal: Modal,
+    deleteClientCallbackModal: Modal,
   },
-}
+};
 
-const CallbacksGrid = ({ callbacksData, modals }: Props) => {
+const ClientCallbacksGrid = (props: Props) => {
+  const { callbacksData, modals } = props;
+  const { clientCallbackDetailsModal, deleteClientCallbackModal } = modals;
   const { content = [], last = false } = callbacksData?.data?.clientCallbacks || {};
 
   const handlePageChanged = () => {
@@ -45,19 +52,30 @@ const CallbacksGrid = ({ callbacksData, modals }: Props) => {
     window.open(`/clients/${userId}/profile`, '_blank');
   };
 
-  const renderId = ({ callbackId, operatorId }: ClientCallback) => (
-    <Fragment>
-      <div
-        className="ClientCallbacksGrid__info-main ClientCallbacksGrid__info-main--pointer"
-        onClick={() => modals.clientCallbackDetailsModal.show({ callbackId })}
-      >
-        {shortify(callbackId, 'CB')}
-      </div>
-      <div className="ClientCallbacksGrid__info-secondary">
-        {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
-      </div>
-    </Fragment>
-  );
+  const renderId = (callback: ClientCallback) => {
+    const { callbackId, operatorId } = callback;
+
+    return (
+      <Fragment>
+        <div
+          className="ClientCallbacksGrid__info-main ClientCallbacksGrid__info-main--pointer"
+          onClick={() => clientCallbackDetailsModal.show({
+            callbackId,
+            onDelete: () => deleteClientCallbackModal.show({
+              callback,
+              onSuccess: clientCallbackDetailsModal.hide,
+            }),
+          })}
+        >
+          {shortify(callbackId, 'CB')}
+        </div>
+
+        <div className="ClientCallbacksGrid__info-secondary">
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
+        </div>
+      </Fragment>
+    );
+  };
 
   const renderOperator = ({ operator, operatorId }: ClientCallback) => (
     <Fragment>
@@ -66,6 +84,7 @@ const CallbacksGrid = ({ callbacksData, modals }: Props) => {
           {operator?.fullName}
         </div>
       </If>
+
       <div className="ClientCallbacksGrid__info-secondary">
         <Uuid uuid={operatorId} />
       </div>
@@ -82,6 +101,7 @@ const CallbacksGrid = ({ callbacksData, modals }: Props) => {
           {client?.fullName}
         </div>
       </If>
+
       <div className="ClientCallbacksGrid__info-secondary">
         <Uuid uuid={userId} />
       </div>
@@ -93,6 +113,7 @@ const CallbacksGrid = ({ callbacksData, modals }: Props) => {
       <div className="ClientCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
       </div>
+
       <div className="ClientCallbacksGrid__info-secondary">
         {moment.utc(callback[field]).local().format('HH:mm:ss')}
       </div>
@@ -112,15 +133,27 @@ const CallbacksGrid = ({ callbacksData, modals }: Props) => {
     </div>
   );
 
-  const renderActions = ({ callbackId, userId, note }: ClientCallback) => (
-    <NoteButton
-      key={callbackId}
-      targetType={targetTypes.CLIENT_CALLBACK}
-      targetUUID={callbackId}
-      playerUUID={userId}
-      note={note}
-    />
-  );
+  const renderActions = (callback: ClientCallback) => {
+    const { callbackId, userId, note } = callback;
+
+    return (
+      <Fragment>
+        <NoteButton
+          key={callbackId}
+          targetType={targetTypes.CLIENT_CALLBACK}
+          targetUUID={callbackId}
+          playerUUID={userId}
+          note={note}
+        />
+        <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
+          <TrashButton
+            className="ClientCallbacksGrid__trash"
+            onClick={() => deleteClientCallbackModal.show({ callback })}
+          />
+        </PermissionContent>
+      </Fragment>
+    );
+  };
 
   const renderReminder = ({ reminder, callbackTime }: ClientCallback) => {
     if (reminder) {
@@ -133,6 +166,7 @@ const CallbacksGrid = ({ callbacksData, modals }: Props) => {
           <div className="ClientCallbacksGrid__info-main">
             {moment(reminderDate).format('DD.MM.YYYY')}
           </div>
+
           <div className="ClientCallbacksGrid__info-secondary">
             {moment(reminderDate).format('HH:mm:ss')}
           </div>
@@ -197,5 +231,6 @@ export default compose(
   React.memo,
   withModals({
     clientCallbackDetailsModal: ClientCallbackDetailsModal,
+    deleteClientCallbackModal: DeleteClientCallbackModal,
   }),
-)(CallbacksGrid);
+)(ClientCallbacksGrid);
