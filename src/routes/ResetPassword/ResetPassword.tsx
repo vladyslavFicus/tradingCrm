@@ -31,10 +31,14 @@ const ResetPassword = () => {
   const history = useHistory();
   const { search } = useLocation();
   const { token } = parse(search, { ignoreQueryPrefix: true }) as QueryParams;
+
   const [formError, setFormError] = useState<string | null>(null);
   const [isSuccessSubmit, setIsSuccessSubmit] = useState<boolean>(false);
+
+  // ===== Requests ===== //
   const [resetPassword] = useResetPasswordMutation();
 
+  // ===== Handlers ===== //
   const handleSubmit = async ({ password }: FormValues) => {
     setFormError(null);
 
