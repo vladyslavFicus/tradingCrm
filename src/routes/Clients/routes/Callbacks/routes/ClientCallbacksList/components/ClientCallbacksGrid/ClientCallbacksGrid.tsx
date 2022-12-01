@@ -137,7 +137,7 @@ const ClientCallbacksGrid = (props: Props) => {
     const { callbackId, userId, note } = callback;
 
     return (
-      <Fragment>
+      <div className="ClientCallbacksGrid__actions">
         <NoteButton
           key={callbackId}
           targetType={targetTypes.CLIENT_CALLBACK}
@@ -147,11 +147,11 @@ const ClientCallbacksGrid = (props: Props) => {
         />
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
-            className="ClientCallbacksGrid__trash"
+            className="ClientCallbacksGrid__actions--remove"
             onClick={() => deleteClientCallbackModal.show({ callback })}
           />
         </PermissionContent>
-      </Fragment>
+      </div>
     );
   };
 

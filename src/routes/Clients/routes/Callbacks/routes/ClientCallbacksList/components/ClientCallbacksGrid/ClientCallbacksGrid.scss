@@ -1,14 +1,4 @@
 .ClientCallbacksGrid {
-  .Table {
-    &__cell {
-      &:last-child {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-      }
-    }
-  }
-
   &__info {
     &-main {
       font-weight: 700;
@@ -44,7 +34,13 @@
     }
   }
 
-  &__trash {
-    font-size: 22px;
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    
+    &--remove {
+      font-size: 22px;
+    }
   }
 }

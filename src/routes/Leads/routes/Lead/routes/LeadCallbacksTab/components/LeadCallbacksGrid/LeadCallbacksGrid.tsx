@@ -114,7 +114,7 @@ const LeadCallbacksGrid = (props: Props) => {
     const { callbackId, userId, note } = callback;
 
     return (
-      <Fragment>
+      <div className="LeadCallbacksGrid__actions">
         <NoteButton
           key={callbackId}
           targetType={targetTypes.LEAD_CALLBACK}
@@ -124,11 +124,11 @@ const LeadCallbacksGrid = (props: Props) => {
         />
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
-            className="LeadCallbacksGrid__trash"
+            className="LeadCallbacksGrid__actions--remove"
             onClick={() => deleteLeadCallbackModal.show({ callback })}
           />
         </PermissionContent>
-      </Fragment>
+      </div>
     );
   };
 
