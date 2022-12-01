@@ -54,9 +54,7 @@ class NoteItem extends PureComponent {
         pinned,
         subject,
         content,
-        operator: {
-          fullName,
-        },
+        operator,
       },
     } = this.props;
 
@@ -65,7 +63,15 @@ class NoteItem extends PureComponent {
     return (
       <div className="NoteItem">
         <div className="NoteItem__content-wrapper">
-          <b>{fullName}</b>
+          <Choose>
+            <When condition={!!operator?.fullName}>
+              <b>{operator.fullName}</b>
+            </When>
+            <Otherwise>
+              <div>&mdash;</div>
+            </Otherwise>
+          </Choose>
+
           <div className="NoteItem__heading">
             <If condition={changedBy}>
               <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.operator]} />
