@@ -23,6 +23,8 @@
     "@hrzn/react-big-calendar": "^0.20.3",
     "@hrzn/trackify": "^1.1.23",
     "@sentry/browser": "^5.4.3",
+    "@sentry/react": "^7.22.0",
+    "@sentry/tracing": "^7.22.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "apollo-upload-client": "^10.0.0",
