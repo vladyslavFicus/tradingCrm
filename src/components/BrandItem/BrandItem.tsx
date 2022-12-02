@@ -49,4 +49,4 @@ BrandItem.defaultProps = {
   isActive: false,
 };
 
-export default BrandItem;
+export default React.memo(BrandItem);
