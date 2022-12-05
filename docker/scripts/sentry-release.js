@@ -1,14 +1,14 @@
-const fs = require('fs');
-const path = require('path');
 const SentryRelease = require('sentry-release');
+const path = require('path');
 
 const { APP_VERSION } = process.env;
 
 const distPath = path.resolve(`${__dirname}/../../build`);
 
 (new SentryRelease({
-  token: 'f43155a2ee94459ea3672bb858babdc72121b45fa97544749758a2c0d72903f4',
-  organization: 'falcon-fe',
+  apiRoot: 'https://sentry.cydev.io/api/',
+  token: 'd8b8430dc203404a91bdd99ad85a24f666f917ba213742fe9656c733242429e1',
+  organization: 'easytech',
   project: 'backoffice',
   releaseVersion: APP_VERSION,
   distPath: `${distPath}/static/js`,
