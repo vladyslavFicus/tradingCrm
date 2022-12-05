@@ -42,9 +42,17 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
 
   const renderOperator = ({ operator }: CallHistoryType) => (
     <Fragment>
-      <div className="LeadCallHistoryGrid__info--main">
-        {operator.fullName}
-      </div>
+      <Choose>
+        <When condition={!!operator?.fullName}>
+          <div className="LeadCallHistoryGrid__info--main">
+            {operator.fullName}
+          </div>
+        </When>
+        <Otherwise>
+          <div>&mdash;</div>
+        </Otherwise>
+      </Choose>
+
       <div className="LeadCallHistoryGrid__info--secondary">
         <Uuid uuid={operator.uuid} />
       </div>

@@ -338,7 +338,7 @@ class ClientTradingAccountsGrid extends PureComponent {
           </div>
         </When>
 
-        <When condition={readOnlyUpdatedBy}>
+        <When condition={readOnlyUpdatedBy && operator?.fullName}>
           <Link to={`/operators/${readOnlyUpdatedBy}`}>
             <div
               className={

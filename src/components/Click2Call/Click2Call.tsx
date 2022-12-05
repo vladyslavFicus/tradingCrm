@@ -80,8 +80,8 @@ const Click2Call = (props: Props) => {
     phoneType,
     token,
     notify,
-    position,
-    arrow,
+    position = 'right',
+    arrow = 'top',
   } = props;
 
   const configsQuery = useClickToCallConfigsQuery();
@@ -249,11 +249,6 @@ const Click2Call = (props: Props) => {
       </When>
     </Choose>
   );
-};
-
-Click2Call.defaultProps = {
-  position: 'right',
-  arrow: 'top',
 };
 
 export default compose(
