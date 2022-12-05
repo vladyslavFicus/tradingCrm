@@ -15,14 +15,8 @@ type Brand = {
 }
 
 const BrandItem = (props: Props) => {
-  const {
-    onClick,
-    isActive,
-    brand: {
-      id,
-      name,
-    },
-  } = props;
+  const { brand, onClick, isActive } = props;
+  const { id, name } = brand;
 
   return (
     <div
@@ -39,14 +33,10 @@ const BrandItem = (props: Props) => {
         alt={id}
         onError={(e) => { e.currentTarget.src = '/img/image-placeholder.svg'; }}
       />
+
       <div className="BrandItem__title">{name}</div>
     </div>
   );
-};
-
-BrandItem.defaultProps = {
-  onClick: () => {},
-  isActive: false,
 };
 
 export default React.memo(BrandItem);
