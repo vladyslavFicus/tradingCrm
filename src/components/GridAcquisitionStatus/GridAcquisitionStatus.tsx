@@ -84,10 +84,4 @@ const GridAcquisitionStatus = (props: Props) => {
   );
 };
 
-GridAcquisitionStatus.defaultProps = {
-  active: false,
-  status: '',
-  hierarchy: null,
-};
-
 export default React.memo(GridAcquisitionStatus);

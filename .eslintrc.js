@@ -23,6 +23,7 @@ module.exports = {
         'plugin:import/typescript',
       ],
       rules: {
+        'react/require-default-props': 'off',
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': ['error'],
         'no-shadow': 'off',
@@ -115,9 +116,9 @@ module.exports = {
     'import/no-cycle': 0,
     'import/order': ['error', { groups: ['external', 'builtin', 'internal', 'parent', 'sibling', 'index'] }],
     'key-spacing': ['error', { singleLine: { beforeColon: false, afterColon: true } }],
-    "@typescript-eslint/member-delimiter-style": ["error", {
+    '@typescript-eslint/member-delimiter-style': ['error', {
       multiline: {
-        delimiter: 'comma',    // 'none' or 'semi' or 'comma'
+        delimiter: 'comma', // 'none' or 'semi' or 'comma'
         requireLast: true,
       },
       singleline: {
@@ -127,12 +128,12 @@ module.exports = {
       overrides: {
         interface: {
           multiline: {
-            delimiter: "comma",
-            requireLast: true
-          }
-        }
-      }
-    }]
+            delimiter: 'comma',
+            requireLast: true,
+          },
+        },
+      },
+    }],
   },
   globals: {
     ExtractApolloTypeFromArray: false,

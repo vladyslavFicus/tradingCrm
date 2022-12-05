@@ -11,10 +11,4 @@ export type Props = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Column = (props: Props) => null;
 
-Column.defaultProps = {
-  sortBy: null,
-  header: null,
-  width: null,
-};
-
 export default Column;
