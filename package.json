@@ -9,7 +9,7 @@
     "test": "craco test",
     "test:jenkins": "echo no jenkins test",
     "eslint": "eslint \"src/**/*.{js,jsx,ts,tsx,json,gql}\" --resolve-plugins-relative-to=./node_modules/react-scripts/config --cache",
-    "sentry-release": "node docker/scripts/sentry-release",
+    "sentry-release": "node docker/scripts/sentry.js",
     "analyse": "node analyse.js",
     "codegen": "graphql-codegen",
     "schema": "graphql-codegen -c ./codegen.download.yml"
@@ -104,6 +104,7 @@
     "@graphql-codegen/typescript-operations": "^2.3.1",
     "@graphql-codegen/typescript-react-apollo": "^3.2.7",
     "@graphql-eslint/eslint-plugin": "^3.8.0",
+    "@sentry/cli": "^2.10.0",
     "@types/compose-function": "^0.0.30",
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "^27.0.1",

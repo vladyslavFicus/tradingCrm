@@ -2,17 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
-import { getVersion, setBackofficeBrand } from 'config';
+import { setBackofficeBrand } from 'config';
 import Root from './Root';
 
 import './styles/index.scss';
 
 // Sentry initialization
-if (process.env.NODE_ENV !== 'development') {
+
+if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_VERSION) {
   Sentry.init({
     dsn: 'https://8ab27e9e8bec40e09f8e1af749b24c09@sentry.cydev.io/3',
     integrations: [new BrowserTracing()],
-    release: getVersion(),
+    release: process.env.REACT_APP_VERSION,
     tracesSampleRate: 1.0,
   });
 }
