@@ -1,3 +1,4 @@
 [defaults]
+url=https://sentry.cydev.io/
 project=backoffice
 org=easytech
