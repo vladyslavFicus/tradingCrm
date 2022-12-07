@@ -8,7 +8,11 @@ async function createReleaseAndUpload() {
     return;
   }
 
-  const cli = new SentryCli();
+  const cli = new SentryCli(null, {
+    url: 'https://sentry.cydev.io/',
+    project: 'backoffice',
+    org: 'easytech',
+  });
 
   try {
     console.log(`Creating sentry release ${release}`);
