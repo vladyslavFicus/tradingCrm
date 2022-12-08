@@ -75,7 +75,8 @@ const LastNotificationsGrid = () => {
   const renderClient = ({ client }: LastNotification) => (
     <Choose>
       <When condition={!!client}>
-        <GridPlayerInfo profile={client} mainInfoClassName="LastNotificationsGrid__text-highlight" />
+        {/* TODO: jsx control statement do not check ts conditions */}
+        <GridPlayerInfo profile={client as any} mainInfoClassName="LastNotificationsGrid__text-highlight" />
       </When>
 
       <Otherwise>
