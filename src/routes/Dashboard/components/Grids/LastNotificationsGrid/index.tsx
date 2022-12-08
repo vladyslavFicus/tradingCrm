@@ -126,7 +126,7 @@ const LastNotificationsGrid = () => {
   );
 
   return (
-  // <PermissionContent permissions={}> // TODO: Add permission
+    // <PermissionContent permissions={}> // TODO: Add permission
     <div className="LastNotificationsGrid">
       <div className="LastNotificationsGrid__title">
         {I18n.t('DASHBOARD.LATEST_NOTIFICATIONS')}
@@ -160,7 +160,7 @@ const LastNotificationsGrid = () => {
         />
       </Table>
     </div>
-  // </PermissionContent>
+    // </PermissionContent>
   );
 };
 
