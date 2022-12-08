@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import './CopyToClipboard.scss';
 
 class CopyToClipboard extends PureComponent {
@@ -12,16 +12,15 @@ class CopyToClipboard extends PureComponent {
     text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     withNotification: PropTypes.bool,
-    notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
+    notificationLevel: PropTypes.oneOf([LevelType.INFO, LevelType.WARNING, LevelType.SUCCESS]),
     notificationTitle: PropTypes.string,
     notificationMessage: PropTypes.string,
-    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     className: null,
     withNotification: false,
-    notificationLevel: 'info',
+    notificationLevel: LevelType.INFO,
     notificationTitle: null,
     notificationMessage: null,
   };
@@ -52,7 +51,6 @@ class CopyToClipboard extends PureComponent {
       notificationLevel,
       notificationTitle,
       notificationMessage,
-      notify,
     } = this.props;
 
     this.animate();
@@ -88,4 +86,4 @@ class CopyToClipboard extends PureComponent {
   }
 }
 
-export default withNotifications(CopyToClipboard);
+export default CopyToClipboard;

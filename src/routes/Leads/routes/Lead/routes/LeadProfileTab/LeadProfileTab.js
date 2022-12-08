@@ -5,8 +5,8 @@ import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { withApollo } from '@apollo/client/react/hoc';
 import Trackify from '@hrzn/trackify';
-import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
@@ -36,7 +36,6 @@ class LeadProfileTab extends PureComponent {
     }).isRequired,
     permission: PropTypes.permission.isRequired,
     updateLead: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   state = {
@@ -49,7 +48,7 @@ class LeadProfileTab extends PureComponent {
   };
 
   getLeadPhone = async () => {
-    const { leadQuery, notify } = this.props;
+    const { leadQuery } = this.props;
 
     const { uuid } = leadQuery.data?.lead || {};
 
@@ -65,14 +64,14 @@ class LeadProfileTab extends PureComponent {
       this.setState({ phone, isPhoneShown: true });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
 
   getLeadMobile = async () => {
-    const { leadQuery, notify } = this.props;
+    const { leadQuery } = this.props;
 
     const { uuid } = leadQuery.data?.lead || {};
 
@@ -88,14 +87,14 @@ class LeadProfileTab extends PureComponent {
       this.setState({ mobile, isMobileShown: true });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
 
   getLeadEmail = async () => {
-    const { leadQuery, notify } = this.props;
+    const { leadQuery } = this.props;
 
     const { uuid } = leadQuery.data?.lead || {};
 
@@ -111,14 +110,14 @@ class LeadProfileTab extends PureComponent {
       this.setState({ email, isEmailShown: true });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
 
   handleSubmit = async (values, { setSubmitting }) => {
-    const { leadQuery, updateLead, notify } = this.props;
+    const { leadQuery, updateLead } = this.props;
     const { isPhoneShown, isMobileShown, isEmailShown } = this.state;
 
     setSubmitting(false);
@@ -142,7 +141,7 @@ class LeadProfileTab extends PureComponent {
       leadQuery.refetch();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('LEAD_PROFILE.UPDATED'),
       });
@@ -150,7 +149,7 @@ class LeadProfileTab extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
         message: error.error === 'error.entity.already.exist'
           ? I18n.t('lead.error.entity.already.exist', { email: values.email })
@@ -423,7 +422,6 @@ class LeadProfileTab extends PureComponent {
 export default compose(
   withApollo,
   withPermission,
-  withNotifications,
   withRequests({
     leadQuery: LeadQuery,
     updateLead: UpdateLeadMutation,

@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { Formik, Form } from 'formik';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import FileUpload from 'components/FileUpload';
 import UploadingFile from 'components/Files/UploadingFile';
@@ -50,7 +50,6 @@ const validate = (values) => {
 
 class UploadModal extends PureComponent {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
@@ -106,7 +105,6 @@ class UploadModal extends PureComponent {
     const {
       profileUUID,
       uploadFile,
-      notify,
     } = this.props;
 
     if (errors.length > 0) {
@@ -114,7 +112,7 @@ class UploadModal extends PureComponent {
 
       if (flatErrorsList.length > 0) {
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t(flatErrorsList[0]),
         });
@@ -141,7 +139,7 @@ class UploadModal extends PureComponent {
     })).filter(({ error }) => {
       if (error) {
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.FILE_TYPE_ERROR'),
         });
@@ -175,7 +173,6 @@ class UploadModal extends PureComponent {
     const {
       onCloseModal,
       addNote,
-      notify,
       confirmFilesUploading,
       profileUUID,
     } = this.props;
@@ -208,13 +205,13 @@ class UploadModal extends PureComponent {
       onCloseModal();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
       });
@@ -390,7 +387,6 @@ class UploadModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     filesCategoriesData: FilesCategoriesQuery,
     confirmFilesUploading: ConfirmFilesUploading,

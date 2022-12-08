@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
@@ -25,7 +25,6 @@ class AddBranchManagerModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    notify: PropTypes.func.isRequired,
     addBranchManager: PropTypes.func.isRequired,
     branchUsersQuery: PropTypes.query({
       branchUsers: PropTypes.arrayOf(PropTypes.operator),
@@ -55,7 +54,6 @@ class AddBranchManagerModal extends PureComponent {
     setSubmitting(false);
 
     const {
-      notify,
       onSuccess,
       onCloseModal,
       addBranchManager,
@@ -76,7 +74,7 @@ class AddBranchManagerModal extends PureComponent {
       const operatorName = selectedOperator.operator.fullName;
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.SUCCEED.TITLE'),
         message: I18n.t(
           'MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.SUCCEED.DESC',
@@ -90,7 +88,7 @@ class AddBranchManagerModal extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.TITLE'),
         message: error.error === 'error.branch.manager.addition'
           ? I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.ADDITION_FAILED')
@@ -179,7 +177,6 @@ class AddBranchManagerModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRouter,
   withRequests({
     branchUsersQuery: BranchUsersQuery,

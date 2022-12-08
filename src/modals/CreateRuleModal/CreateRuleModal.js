@@ -4,8 +4,8 @@ import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getAvailableLanguages } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';
@@ -28,7 +28,6 @@ class CreateRuleModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
     createRuleMutation: PropTypes.func.isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
@@ -54,7 +53,6 @@ class CreateRuleModal extends PureComponent {
 
   handleSubmit = async ({ operatorSpreads, ...values }, { setSubmitting, setErrors }) => {
     const {
-      notify,
       onCloseModal,
       createRuleMutation,
       onSuccess,
@@ -79,7 +77,7 @@ class CreateRuleModal extends PureComponent {
       onSuccess();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_CREATED'),
       });
@@ -87,7 +85,7 @@ class CreateRuleModal extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_CREATED'),
       });
@@ -219,7 +217,6 @@ class CreateRuleModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     createRuleMutation: CreateRuleMutation,
     operatorsSubordinatesQuery: OperatorsSubordinatesQuery,

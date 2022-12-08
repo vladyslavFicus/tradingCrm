@@ -3,7 +3,7 @@ import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import EventEmitter, { FILE_REMOVED } from 'utils/EventEmitter';
@@ -15,13 +15,11 @@ class DeleteModal extends PureComponent {
     file: PropTypes.fileEntity.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   handleDelete = async () => {
     const {
       file,
-      notify,
       deleteFile,
       onCloseModal,
     } = this.props;
@@ -34,13 +32,13 @@ class DeleteModal extends PureComponent {
       onCloseModal();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.TITLE'),
         message: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.SUCCESS'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.TITLE'),
         message: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.ERROR'),
       });
@@ -89,7 +87,6 @@ class DeleteModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     deleteFile: DeleteFileMutation,
   }),

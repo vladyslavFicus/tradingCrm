@@ -1,13 +1,11 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Form, Field, Formik, FormikHelpers } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { useUpdateTeamMutation } from './graphql/__generated__/UpdateTeamMutation';
 import './UpdateTeamModal.scss';
@@ -29,13 +27,12 @@ type DataValues = {
 type Props = {
   data: DataValues,
   isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const UpdateTeamModal = (props: Props) => {
-  const { data, isOpen, notify, onSuccess, onCloseModal } = props;
+  const { data, isOpen, onSuccess, onCloseModal } = props;
   const [updateTeamMutation] = useUpdateTeamMutation();
 
   const handleSubmit = async (
@@ -120,7 +117,4 @@ const UpdateTeamModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(UpdateTeamModal);
+export default React.memo(UpdateTeamModal);

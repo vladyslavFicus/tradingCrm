@@ -5,8 +5,7 @@ import { ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -32,7 +31,6 @@ type Props = {
   onCloseModal: () => void,
   title: string,
   description: string,
-  notify: Notify,
   branch: Branch,
   onSuccess: () => void,
 }
@@ -43,7 +41,6 @@ const RemoveBranchManagerModal = (props: Props) => {
 
   const handleSubmit = ({ uuid: managerUuid }: Operator) => {
     const {
-      notify,
       onSuccess,
       branch: {
         uuid: branchUuid,
@@ -135,6 +132,5 @@ const RemoveBranchManagerModal = (props: Props) => {
 
 export default compose(
   React.memo,
-  withNotifications,
   withRouter,
 )(RemoveBranchManagerModal);

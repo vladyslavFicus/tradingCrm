@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
@@ -17,7 +17,6 @@ class AffiliateSettings extends PureComponent {
     disableShowFtdToAffiliate: PropTypes.func.isRequired,
     showFtdToAffiliate: PropTypes.bool.isRequired,
     profileUuid: PropTypes.string.isRequired,
-    notify: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
   };
 
@@ -57,20 +56,16 @@ class AffiliateSettings extends PureComponent {
   }
 
   notifySuccessToggleSwitch = () => {
-    const { notify } = this.props;
-
     notify({
-      level: 'success',
+      level: LevelType.SUCCESS,
       title: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.TITLE'),
       message: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.SUCCESS'),
     });
   }
 
   notifyErrorToggleSwitch = (message) => {
-    const { notify } = this.props;
-
     notify({
-      level: 'error',
+      level: LevelType.ERROR,
       title: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.TITLE'),
       message: message
         || I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.ERROR'),
@@ -117,7 +112,6 @@ class AffiliateSettings extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withPermission,
   withRequests({
     enableShowFtdToAffiliate: EnableShowFtdToAffiliateMutation,

@@ -2,7 +2,6 @@ import React, { PureComponent, Suspense } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import NotFound from 'routes/NotFound';
 import Route from 'components/Route';
@@ -111,7 +110,6 @@ class Lead extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     leadQuery: LeadQuery,
   }),

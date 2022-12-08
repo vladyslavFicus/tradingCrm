@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { injectName } from 'utils/injectName';
 import PropTypes from 'constants/propTypes';
@@ -30,7 +30,6 @@ class EmailSelectModal extends PureComponent {
       emailTemplates: PropTypes.arrayOf(PropTypes.email),
     }).isRequired,
     emailSendMutation: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   sendEmail = async ({ text, ...restValues }) => {
@@ -41,7 +40,6 @@ class EmailSelectModal extends PureComponent {
       clientInfo: { firstName, lastName },
       emailSendMutation,
       onCloseModal,
-      notify,
     } = this.props;
 
     try {
@@ -58,13 +56,13 @@ class EmailSelectModal extends PureComponent {
       onCloseModal();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('EMAILS.ACTIONS.SEND'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('EMAILS.ACTIONS.SEND'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
@@ -189,7 +187,6 @@ class EmailSelectModal extends PureComponent {
   }
 }
 export default compose(
-  withNotifications,
   withRequests({
     emailTemplatesData: EmailTemplatesQuery,
     emailSendMutation: EmailSendMutation,

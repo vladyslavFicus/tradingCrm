@@ -5,7 +5,7 @@ import compose from 'compose-function';
 import { withApollo } from '@apollo/client/react/hoc';
 import Trackify from '@hrzn/trackify';
 import Flag from 'react-country-flag';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
@@ -26,7 +26,6 @@ import './LeadPersonalInfo.scss';
 class LeadPersonalInfo extends PureComponent {
   static propTypes = {
     lead: PropTypes.lead.isRequired,
-    notify: PropTypes.func.isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
@@ -39,7 +38,7 @@ class LeadPersonalInfo extends PureComponent {
   };
 
   getLeadPhones = async () => {
-    const { lead: { uuid }, notify } = this.props;
+    const { lead: { uuid } } = this.props;
 
     try {
       const { data: { leadContacts: { phone, mobile } } } = await this.props.client.query({
@@ -52,14 +51,14 @@ class LeadPersonalInfo extends PureComponent {
       this.setState({ phone, mobile });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
 
   getLeadEmail = async () => {
-    const { lead: { uuid }, notify } = this.props;
+    const { lead: { uuid } } = this.props;
 
     try {
       const { data: { leadContacts: { email } } } = await this.props.client.query({
@@ -73,7 +72,7 @@ class LeadPersonalInfo extends PureComponent {
       this.setState({ email });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
@@ -231,5 +230,4 @@ class LeadPersonalInfo extends PureComponent {
 
 export default compose(
   withApollo,
-  withNotifications,
 )(LeadPersonalInfo);

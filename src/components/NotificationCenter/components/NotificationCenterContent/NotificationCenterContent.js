@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { NetworkStatus } from '@apollo/client';
 import compose from 'compose-function';
 import { parseErrors, withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
@@ -30,7 +30,6 @@ class NotificationCenterContent extends PureComponent {
     notificationsConfiguration: PropTypes.query({
       notificationCenterConfiguration: PropTypes.object,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     bulkUpdate: PropTypes.func.isRequired,
     notificationsConfigurationUpdate: PropTypes.func.isRequired,
@@ -109,7 +108,6 @@ class NotificationCenterContent extends PureComponent {
         data: notificationsData,
         variables: { args: searchParams },
       },
-      notify,
     } = this.props;
 
     const { select } = this.state;
@@ -136,7 +134,7 @@ class NotificationCenterContent extends PureComponent {
       const { error } = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
         message: error,
       });
@@ -146,19 +144,19 @@ class NotificationCenterContent extends PureComponent {
   };
 
   handleSwitchNotificationConfiguration = async (showNotificationsPopUp) => {
-    const { notificationsConfigurationUpdate, notify } = this.props;
+    const { notificationsConfigurationUpdate } = this.props;
 
     try {
       await notificationsConfigurationUpdate({ variables: { showNotificationsPopUp } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
         message: I18n.t('COMMON.ACTIONS.UPDATED'),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
       });
 
@@ -243,5 +241,4 @@ export default compose(
     bulkUpdate: NotificationCenterUpdate,
     notificationsConfigurationUpdate: NotificationCenterConfigurationUpdate,
   }),
-  withNotifications,
 )(NotificationCenterContent);

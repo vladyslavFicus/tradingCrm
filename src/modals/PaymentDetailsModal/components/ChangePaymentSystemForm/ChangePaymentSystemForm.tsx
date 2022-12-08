@@ -4,9 +4,8 @@ import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import UpdatePaymentSystemMutation from './graphql/UpdatePaymentSystemMutation';
@@ -29,7 +28,6 @@ interface UpdatePaymentSystemResponse {
 
 type Props = {
   paymentId: string,
-  notify: Notify,
   onSuccess: () => void,
   paymentSystemsQuery: QueryResult<PaymentSystemsData>,
   updatePaymentSystem: (options: BaseMutationOptions) => MutationResult<UpdatePaymentSystemResponse>,
@@ -40,7 +38,6 @@ class ChangePaymentSystemForm extends PureComponent<Props> {
     const {
       onSuccess,
       paymentId,
-      notify,
       updatePaymentSystem,
     } = this.props;
 
@@ -130,7 +127,6 @@ class ChangePaymentSystemForm extends PureComponent<Props> {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     updatePaymentSystem: UpdatePaymentSystemMutation,
     paymentSystemsQuery: PaymentSystemsQuery,

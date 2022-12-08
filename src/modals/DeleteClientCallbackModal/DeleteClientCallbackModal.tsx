@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { ClientCallback } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import { useDeleteClientCallbackMutation } from './graphql/__generated__/DeleteClientCallbackMutation';
@@ -13,7 +11,6 @@ import './DeleteClientCallbackModal.scss';
 
 type Props = {
   callback: ClientCallback,
-  notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
 };
@@ -21,7 +18,6 @@ type Props = {
 const DeleteClientCallbackModal = (props: Props) => {
   const {
     callback,
-    notify,
     onCloseModal,
     onSuccess = () => {},
   } = props;
@@ -96,7 +92,4 @@ const DeleteClientCallbackModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DeleteClientCallbackModal);
+export default React.memo(DeleteClientCallbackModal);

@@ -21,7 +21,7 @@ const DistributionRule = () => {
 
   const distributionRuleQuery = useDistributionRuleQuery({ variables: { uuid } });
 
-  const distributionRule = distributionRuleQuery.data?.distributionRule;
+  const distributionRule = distributionRuleQuery.data?.distributionRule || {} as DistributionRuleType;
 
   const distributionRuleError = hasErrorPath(distributionRuleQuery.error, 'distributionRule');
 

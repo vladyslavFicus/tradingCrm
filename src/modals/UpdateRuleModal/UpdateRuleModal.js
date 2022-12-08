@@ -3,9 +3,9 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form } from 'formik';
-import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
@@ -32,7 +32,6 @@ class UpdateRuleModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
     updateRuleMutation: PropTypes.func.isRequired,
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partnersListEntity),
@@ -67,7 +66,6 @@ class UpdateRuleModal extends PureComponent {
 
   handleSubmit = async ({ operatorSpreads, schedules, ...values }, { setSubmitting, setErrors }) => {
     const {
-      notify,
       updateRuleMutation,
       onSuccess,
       uuid,
@@ -94,7 +92,7 @@ class UpdateRuleModal extends PureComponent {
       onSuccess();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
       });
@@ -102,7 +100,7 @@ class UpdateRuleModal extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
       });
@@ -278,7 +276,6 @@ class UpdateRuleModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     updateRuleMutation: UpdateRuleMutation,
     operatorsSubordinatesQuery: OperatorsSubordinatesQuery,

@@ -5,7 +5,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -29,7 +30,6 @@ class OperatorAccountStatus extends PureComponent {
     modals: PropTypes.shape({
       changeAccountStatusModal: PropTypes.modalType,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     operatorRelationsCountQuery: PropTypes.query({
       operatorRelationsCount: PropTypes.shape({
         customersCount: PropTypes.number,
@@ -52,7 +52,6 @@ class OperatorAccountStatus extends PureComponent {
       modals: { changeAccountStatusModal },
       operator: { uuid },
       changeAccountStatus,
-      notify,
     } = this.props;
 
     try {
@@ -65,7 +64,7 @@ class OperatorAccountStatus extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
       });
@@ -75,7 +74,7 @@ class OperatorAccountStatus extends PureComponent {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
       });
@@ -232,7 +231,6 @@ class OperatorAccountStatus extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     changeAccountStatus: OperatorAccountStatusMutation,
     operatorRelationsCountQuery: OperatorRelationsCountQuery,

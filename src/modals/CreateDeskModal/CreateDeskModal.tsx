@@ -1,16 +1,14 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getAvailableLanguages } from 'config';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import { useCreateDeskMutation } from './graphql/__generated__/CreateDeskMutation';
 import { useOfficesQuery } from './graphql/__generated__/OfficesQuery';
@@ -32,13 +30,12 @@ type FormValues = {
 
 type Props = {
   isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateDeskModal = (props: Props) => {
-  const { isOpen, notify, onSuccess, onCloseModal } = props;
+  const { isOpen, onSuccess, onCloseModal } = props;
   const [createDeskMutation] = useCreateDeskMutation();
   const officesQuery = useOfficesQuery();
   const offices = officesQuery.data?.userBranches?.OFFICE || [];
@@ -178,7 +175,4 @@ const CreateDeskModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateDeskModal);
+export default React.memo(CreateDeskModal);

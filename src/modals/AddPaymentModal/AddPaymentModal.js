@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
@@ -36,7 +36,6 @@ class AddPaymentModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -64,7 +63,6 @@ class AddPaymentModal extends PureComponent {
       addPayment,
       addNote,
       match: { params: { id: uuid } },
-      notify,
       onSuccess,
       onCloseModal,
     } = this.props;
@@ -79,7 +77,7 @@ class AddPaymentModal extends PureComponent {
       const note = this.noteButton.getNote();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
       });
@@ -106,7 +104,7 @@ class AddPaymentModal extends PureComponent {
         this.setState({ errorMessage: I18n.t(`error.validation.invalid.amount.${code}`) });
 
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t(`error.validation.invalid.amount.${code}`),
         });
@@ -117,7 +115,7 @@ class AddPaymentModal extends PureComponent {
       this.setState({ errorMessage: error.message });
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
       });
@@ -441,7 +439,6 @@ class AddPaymentModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withPermission,
   withRouter,
   withRequests({

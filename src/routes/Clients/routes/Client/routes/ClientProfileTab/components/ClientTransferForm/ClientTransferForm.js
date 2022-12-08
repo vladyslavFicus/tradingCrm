@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
@@ -17,14 +17,12 @@ class ClientTransferForm extends PureComponent {
     clientData: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
     updateClientTransfer: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   handleSubmit = async ({ internalTransfer }, { resetForm }) => {
     const {
       updateClientTransfer,
       clientData,
-      notify,
     } = this.props;
 
     try {
@@ -36,7 +34,7 @@ class ClientTransferForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -46,7 +44,7 @@ class ClientTransferForm extends PureComponent {
       const { error } = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -114,7 +112,6 @@ class ClientTransferForm extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     updateClientTransfer: UpdateClientTransferMutation,
   }),

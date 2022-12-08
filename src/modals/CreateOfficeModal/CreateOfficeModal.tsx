@@ -1,15 +1,13 @@
 import React from 'react';
-import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { useCreateOfficeMutation } from './graphql/__generated__/CreateOfficeMutation';
 import './CreateOfficeModal.scss';
 
@@ -25,13 +23,12 @@ type FormValues = {
 
 type Props = {
   isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateOfficeModal = (props: Props) => {
-  const { isOpen, notify, onSuccess, onCloseModal } = props;
+  const { isOpen, onSuccess, onCloseModal } = props;
   const [createOfficeMutation] = useCreateOfficeMutation();
 
   // ===== Handlers ===== //
@@ -136,7 +133,4 @@ const CreateOfficeModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateOfficeModal);
+export default React.memo(CreateOfficeModal);

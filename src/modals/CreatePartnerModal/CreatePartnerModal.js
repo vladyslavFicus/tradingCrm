@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
 import { getBrand } from 'config';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -41,7 +41,6 @@ class CreatePartnerModal extends PureComponent {
     createPartner: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   initialValues = {
@@ -63,7 +62,6 @@ class CreatePartnerModal extends PureComponent {
       createPartner,
       onCloseModal,
       history,
-      notify,
     } = this.props;
 
     const validationResult = await validateForm(values);
@@ -86,7 +84,7 @@ class CreatePartnerModal extends PureComponent {
         });
 
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.TITLE'),
           message: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.MESSAGE'),
         });
@@ -100,7 +98,7 @@ class CreatePartnerModal extends PureComponent {
         switch (error) {
           case 'error.entity.already.exist': {
             notify({
-              level: 'error',
+              level: LevelType.ERROR,
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.TITLE'),
               message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.MESSAGE'),
             });
@@ -109,7 +107,7 @@ class CreatePartnerModal extends PureComponent {
           }
           case 'error.affiliate.externalId.already.exists': {
             notify({
-              level: 'error',
+              level: LevelType.ERROR,
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
               message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.MESSAGE'),
             });
@@ -118,7 +116,7 @@ class CreatePartnerModal extends PureComponent {
           }
           default: {
             notify({
-              level: 'error',
+              level: LevelType.ERROR,
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
               message: I18n.t('COMMON.SOMETHING_WRONG'),
             });
@@ -242,7 +240,6 @@ class CreatePartnerModal extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withRequests({
     createPartner: CreatePartnerMutation,
   }),

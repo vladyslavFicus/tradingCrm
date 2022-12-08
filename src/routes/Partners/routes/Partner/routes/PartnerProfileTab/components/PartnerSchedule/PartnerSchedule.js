@@ -6,7 +6,8 @@ import { Formik, Form, Field } from 'formik';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { Button } from 'components/UI';
@@ -21,7 +22,6 @@ class PartnerSchedule extends PureComponent {
     modals: PropTypes.shape({
       partnerScheduleModal: PropTypes.modalType,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     partnerData: PropTypes.query({
       partner: PropTypes.partner,
     }).isRequired,
@@ -46,7 +46,6 @@ class PartnerSchedule extends PureComponent {
   handleSubmit = async (value) => {
     const {
       changeScheduleStatus,
-      notify,
       partnerData: {
         data,
         refetch,
@@ -64,14 +63,14 @@ class PartnerSchedule extends PureComponent {
       refetch();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
         message: I18n.t('COMMON.SUCCESS'),
 
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
         message: I18n.t('COMMON.ERROR'),
       });
@@ -254,7 +253,6 @@ export default compose(
   withModals({
     partnerScheduleModal: PartnerScheduleModal,
   }),
-  withNotifications,
   withRequests({
     changeScheduleStatus: ChangeScheduleStatusMutation,
   }),

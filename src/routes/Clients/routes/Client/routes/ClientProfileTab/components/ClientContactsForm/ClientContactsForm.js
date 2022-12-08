@@ -4,8 +4,9 @@ import { withApollo } from '@apollo/client/react/hoc';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import Trackify from '@hrzn/trackify';
-import { withNotifications, withModals } from 'hoc';
+import { withModals } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
@@ -45,7 +46,6 @@ class ClientContactsForm extends PureComponent {
     updateClientEmail: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   state = {
@@ -59,7 +59,7 @@ class ClientContactsForm extends PureComponent {
   }
 
   getProfilePhones = async () => {
-    const { clientData: { uuid }, notify } = this.props;
+    const { clientData: { uuid } } = this.props;
 
     try {
       const { data: {
@@ -80,14 +80,14 @@ class ClientContactsForm extends PureComponent {
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
 
   getProfileEmail = async () => {
-    const { clientData: { uuid }, notify } = this.props;
+    const { clientData: { uuid } } = this.props;
 
     try {
       const { data: {
@@ -107,14 +107,14 @@ class ClientContactsForm extends PureComponent {
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   }
 
   getProfileAdditionalEmail = async () => {
-    const { clientData: { uuid }, notify } = this.props;
+    const { clientData: { uuid } } = this.props;
 
     try {
       const { data: {
@@ -134,7 +134,7 @@ class ClientContactsForm extends PureComponent {
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
@@ -144,7 +144,6 @@ class ClientContactsForm extends PureComponent {
     const {
       updateClientContacts,
       clientData,
-      notify,
     } = this.props;
     const { isPhonesShown, isAdditionalEmailShown, additionalEmail, additionalPhone, phone } = this.state;
 
@@ -165,7 +164,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -175,7 +174,7 @@ class ClientContactsForm extends PureComponent {
       switch (error) {
         case 'error.phone.already.exist': {
           notify({
-            level: 'error',
+            level: LevelType.ERROR,
             title: I18n.t('COMMON.PHONE'),
             message: I18n.t('error.validation.phone.exists'),
           });
@@ -185,7 +184,7 @@ class ClientContactsForm extends PureComponent {
 
         default: {
           notify({
-            level: 'error',
+            level: LevelType.ERROR,
             title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
             message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
           });
@@ -208,7 +207,6 @@ class ClientContactsForm extends PureComponent {
     const {
       updateClientEmail,
       clientData,
-      notify,
       modals: { confirmationModal },
     } = this.props;
 
@@ -225,7 +223,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -235,7 +233,7 @@ class ClientContactsForm extends PureComponent {
       switch (error) {
         case 'error.entity.already.exist': {
           notify({
-            level: 'error',
+            level: LevelType.ERROR,
             title: I18n.t('COMMON.EMAIL'),
             message: I18n.t('error.validation.email.exists'),
           });
@@ -245,7 +243,7 @@ class ClientContactsForm extends PureComponent {
 
         default: {
           notify({
-            level: 'error',
+            level: LevelType.ERROR,
             title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
             message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
           });
@@ -257,7 +255,7 @@ class ClientContactsForm extends PureComponent {
   }
 
   handleVerifyPhone = async () => {
-    const { clientData, verifyPhone, notify } = this.props;
+    const { clientData, verifyPhone } = this.props;
 
     try {
       await verifyPhone({
@@ -267,7 +265,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -275,7 +273,7 @@ class ClientContactsForm extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -283,7 +281,7 @@ class ClientContactsForm extends PureComponent {
   };
 
   handleVerifyEmail = async () => {
-    const { clientData, verifyEmail, notify } = this.props;
+    const { clientData, verifyEmail } = this.props;
 
     try {
       await verifyEmail({
@@ -293,7 +291,7 @@ class ClientContactsForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -301,7 +299,7 @@ class ClientContactsForm extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -565,7 +563,6 @@ class ClientContactsForm extends PureComponent {
 export default compose(
   withApollo,
   withPermission,
-  withNotifications,
   withModals({
     confirmationModal: ConfirmActionModal,
   }),

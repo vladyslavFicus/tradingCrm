@@ -1,13 +1,11 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify, LevelType } from 'types';
 import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQuery';
 import { useFullSmsSendMutation } from './graphql/__generated__/FullSmsSendMutation';
 import './SmsSendModal.scss';
@@ -17,7 +15,6 @@ type Props = {
   field: string,
   type: 'PROFILE' | 'LEAD',
   isOpen: boolean,
-  notify: Notify,
   onCloseModal: () => void,
 }
 
@@ -31,7 +28,6 @@ const SmsSendModal = (props: Props) => {
     uuid,
     field,
     type,
-    notify,
     onCloseModal,
     isOpen,
   } = props;
@@ -133,7 +129,4 @@ const SmsSendModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(SmsSendModal);
+export default React.memo(SmsSendModal);

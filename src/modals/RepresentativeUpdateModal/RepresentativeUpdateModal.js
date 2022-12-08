@@ -4,8 +4,8 @@ import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
@@ -32,7 +32,6 @@ class RepresentativeUpdateModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
     onSuccess: PropTypes.func,
     desksAndTeamsQuery: PropTypes.query({
       userBranches: PropTypes.shape({
@@ -158,7 +157,6 @@ class RepresentativeUpdateModal extends PureComponent {
     const {
       uuid,
       type,
-      notify,
       userType,
       onSuccess,
       onCloseModal,
@@ -177,7 +175,7 @@ class RepresentativeUpdateModal extends PureComponent {
       await updateLeadOrClientAcquisition({ variables });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message:
           isLead(userType)
@@ -191,7 +189,7 @@ class RepresentativeUpdateModal extends PureComponent {
       EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -203,7 +201,6 @@ class RepresentativeUpdateModal extends PureComponent {
     const {
       type,
       uuids,
-      notify,
       configs,
       userType,
       onSuccess,
@@ -235,7 +232,7 @@ class RepresentativeUpdateModal extends PureComponent {
       }
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message:
           isLead(userType)
@@ -249,7 +246,7 @@ class RepresentativeUpdateModal extends PureComponent {
       EventEmitter.emit(ACQUISITION_STATUS_CHANGED);
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -425,7 +422,6 @@ class RepresentativeUpdateModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     operatorsSubordinatesQuery: OperatorsSubordinatesQuery,
     desksAndTeamsQuery: DesksAndTeamsQuery,

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getPaymentReason } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
@@ -21,7 +21,6 @@ class RejectPaymentForm extends PureComponent {
   static propTypes = {
     onSuccess: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
-    notify: PropTypes.func.isRequired,
     rejectPayment: PropTypes.func.isRequired,
   };
 
@@ -32,7 +31,6 @@ class RejectPaymentForm extends PureComponent {
       rejectPayment,
       paymentId,
       onSuccess,
-      notify,
     } = this.props;
 
     const validationResult = await validateForm(values);
@@ -50,7 +48,7 @@ class RejectPaymentForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_SUCCESS'),
       });
@@ -58,7 +56,7 @@ class RejectPaymentForm extends PureComponent {
       onSuccess();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_FAILED'),
       });
@@ -108,7 +106,6 @@ class RejectPaymentForm extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     rejectPayment: rejectPaymentMutation,
   }),

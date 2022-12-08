@@ -7,8 +7,8 @@ import moment from 'moment';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getBrand } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { tradingTypes, statusMapper } from 'constants/payment';
@@ -45,7 +45,6 @@ class PaymentDetailsModal extends PureComponent {
       loading: PropTypes.bool,
     }).isRequired,
     changeCreationTime: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   onAcceptSuccess = () => {
@@ -127,7 +126,7 @@ class PaymentDetailsModal extends PureComponent {
   };
 
   handleChangeCreationTime = async ({ creationTime }, { resetForm }) => {
-    const { payment: { paymentId }, notify, changeCreationTime } = this.props;
+    const { payment: { paymentId }, changeCreationTime } = this.props;
 
     try {
       await changeCreationTime({
@@ -138,7 +137,7 @@ class PaymentDetailsModal extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
@@ -146,7 +145,7 @@ class PaymentDetailsModal extends PureComponent {
       resetForm({ values: { creationTime } });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -463,7 +462,6 @@ class PaymentDetailsModal extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     profile: getProfileQuery,
     changeCreationTime: ChangeCreationTimeMutation,

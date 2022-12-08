@@ -1,15 +1,13 @@
 import React from 'react';
-import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { callbacksStatuses, reminderValues } from 'constants/callbacks';
 import { targetTypes } from 'constants/note';
 import { createValidator } from 'utils/validator';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
@@ -32,7 +30,6 @@ const attributeLabels = {
 
 type Props = {
   callbackId: string,
-  notify: Notify,
   onCloseModal: () => void,
   onDelete: () => void,
 };
@@ -45,7 +42,7 @@ type FormValues = {
 }
 
 const ClientCallbackDetailsModal = (props: Props) => {
-  const { notify, onCloseModal, callbackId, onDelete } = props;
+  const { onCloseModal, callbackId, onDelete } = props;
   const [updateClientCallbackMutation] = useUpdateClientCallbackMutation();
 
   const permission = usePermission();
@@ -256,7 +253,4 @@ const ClientCallbackDetailsModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(ClientCallbackDetailsModal);
+export default React.memo(ClientCallbackDetailsModal);

@@ -4,8 +4,9 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { branchTypes } from 'constants/hierarchyTypes';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -25,7 +26,6 @@ const attributeLabels = {
 
 class OperatorHierarchyBranches extends PureComponent {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
     allowToUpdateHierarchy: PropTypes.bool.isRequired,
     addOperatorToBranch: PropTypes.func.isRequired,
     removeOperatorFromBranch: PropTypes.func.isRequired,
@@ -98,7 +98,6 @@ class OperatorHierarchyBranches extends PureComponent {
 
   handleAddBranch = ({ branchUuid, branchType }) => {
     const {
-      notify,
       operatorQuery,
       addOperatorToBranch,
       operatorHierarchyQuery,
@@ -119,7 +118,7 @@ class OperatorHierarchyBranches extends PureComponent {
         });
 
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('OPERATORS.PROFILE.HIERARCHY.BRANCH_ADDED', { name: branch.name }),
         });
@@ -130,7 +129,7 @@ class OperatorHierarchyBranches extends PureComponent {
         const error = parseErrors(e);
 
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('MODALS.ADD_OPERATOR_TO_BRANCH.NOTIFICATION.FAILED.OPERATOR_ADDED'),
           message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
         });
@@ -140,7 +139,6 @@ class OperatorHierarchyBranches extends PureComponent {
 
   handleRemoveBranch = (branch) => {
     const {
-      notify,
       operatorQuery,
       operatorHierarchyQuery,
       removeOperatorFromBranch,
@@ -160,7 +158,7 @@ class OperatorHierarchyBranches extends PureComponent {
         });
 
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
         });
@@ -170,7 +168,7 @@ class OperatorHierarchyBranches extends PureComponent {
         const error = parseErrors(e);
 
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: error.message || I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_REMOVE_BRANCH'),
         });
@@ -342,7 +340,6 @@ class OperatorHierarchyBranches extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withModals({
     confirmActionModal: ConfirmActionModal,
   }),

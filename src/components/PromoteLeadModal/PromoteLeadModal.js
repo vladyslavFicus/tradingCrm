@@ -5,11 +5,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { withApollo } from '@apollo/client/react/hoc';
 import Trackify from '@hrzn/trackify';
-import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { getBrand, getAvailableLanguages } from 'config';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
@@ -51,7 +51,6 @@ class PromoteLeadModal extends PureComponent {
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     promoteLead: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -64,7 +63,6 @@ class PromoteLeadModal extends PureComponent {
 
   handlePromoteLead = async (values, { setSubmitting, setErrors }) => {
     const {
-      notify,
       leadQuery,
       promoteLead,
       onCloseModal,
@@ -85,7 +83,7 @@ class PromoteLeadModal extends PureComponent {
       onCloseModal();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('LEADS.SUCCESS_PROMOTED'),
       });
@@ -109,7 +107,7 @@ class PromoteLeadModal extends PureComponent {
   };
 
   getLeadEmail = async () => {
-    const { leadQuery, notify } = this.props;
+    const { leadQuery } = this.props;
 
     const { uuid } = leadQuery.data?.lead || {};
 
@@ -125,7 +123,7 @@ class PromoteLeadModal extends PureComponent {
       this.setState({ email });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
@@ -295,7 +293,6 @@ class PromoteLeadModal extends PureComponent {
 
 export default compose(
   withApollo,
-  withNotifications,
   withPermission,
   withRequests({
     leadQuery: LeadQuery,

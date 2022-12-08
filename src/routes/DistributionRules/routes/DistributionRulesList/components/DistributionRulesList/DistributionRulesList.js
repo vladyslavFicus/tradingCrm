@@ -7,7 +7,8 @@ import compose from 'compose-function';
 import { withApollo } from '@apollo/client/react/hoc';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
 import { statuses, clientDistributionStatuses } from 'constants/clientsDistribution';
@@ -36,7 +37,6 @@ class DistributionRules extends PureComponent {
     ...PropTypes.router,
     rules: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleClientsDistributionType)).isRequired,
     migrateRules: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
@@ -73,7 +73,6 @@ class DistributionRules extends PureComponent {
   handleStartMigration = async (uuid) => {
     const {
       migrateRules,
-      notify,
       rules: { refetch },
       modals: { confirmActionModal },
     } = this.props;
@@ -85,13 +84,13 @@ class DistributionRules extends PureComponent {
       confirmActionModal.hide();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_SUCCESSFUL'),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ERROR'),
       });
@@ -487,7 +486,6 @@ export default compose(
     confirmActionModal: ConfirmActionModal,
     createRuleModal: CreateRuleModal,
   }),
-  withNotifications,
   withRequests({
     rules: DistributionRulesQuery,
     migrateRules: DistributionRuleMigrationMutation,

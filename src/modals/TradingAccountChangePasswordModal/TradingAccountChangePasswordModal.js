@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { FormikInputField } from 'components/Formik/index';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -22,7 +22,6 @@ class TradingAccountChangePasswordModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
     tradingAccountChangePassword: PropTypes.func.isRequired,
     login: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     accountUUID: PropTypes.string.isRequired,
@@ -32,7 +31,6 @@ class TradingAccountChangePasswordModal extends PureComponent {
   onSubmit = async ({ password }, { setSubmitting }) => {
     const {
       onCloseModal,
-      notify,
       tradingAccountChangePassword,
       login,
       accountUUID,
@@ -49,7 +47,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.SUCCESSFULLY_CHANGED'),
       });
@@ -57,7 +55,7 @@ class TradingAccountChangePasswordModal extends PureComponent {
       onCloseModal();
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -133,7 +131,6 @@ class TradingAccountChangePasswordModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     tradingAccountChangePassword: TradingAccountChangePasswordMutation,
   }),
