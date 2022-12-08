@@ -1,13 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
 import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { getBrand } from 'config';
-import { withNotifications } from 'hoc';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { LevelType, Notify } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
@@ -19,11 +17,10 @@ import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/Crea
 import './NewAcquisitionStatusModal.scss';
 
 type Props = {
-  notify: Notify,
   isOpen: boolean,
   onCloseModal: () => void,
   onSuccess: () => void,
-}
+};
 
 type FormValues = {
   type: AcquisitionStatusTypes,
@@ -44,7 +41,6 @@ const validate = createValidator(
 const NewAcquisitionStatusModal = (props: Props) => {
   const {
     isOpen,
-    notify,
     onCloseModal,
     onSuccess,
   } = props;
@@ -214,7 +210,4 @@ const NewAcquisitionStatusModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(NewAcquisitionStatusModal);
+export default React.memo(NewAcquisitionStatusModal);

@@ -4,8 +4,8 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getBrand } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
@@ -53,7 +53,6 @@ class PartnerPersonalInfoForm extends PureComponent {
       partner: PropTypes.partner,
     }).isRequired,
     updatePartner: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
     auth: PropTypes.auth.isRequired,
   }
@@ -78,7 +77,7 @@ class PartnerPersonalInfoForm extends PureComponent {
     minFtdDeposit,
     ...rest
   }, { setSubmitting }) => {
-    const { updatePartner, partnerData, notify } = this.props;
+    const { updatePartner, partnerData } = this.props;
     const { uuid } = get(partnerData, 'data.partner') || {};
 
     setSubmitting(false);
@@ -107,7 +106,7 @@ class PartnerPersonalInfoForm extends PureComponent {
       partnerData.refetch();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
         message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
       });
@@ -116,7 +115,7 @@ class PartnerPersonalInfoForm extends PureComponent {
 
       if (error === 'error.affiliate.externalId.already.exists') {
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
           message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.MESSAGE'),
         });
@@ -125,7 +124,7 @@ class PartnerPersonalInfoForm extends PureComponent {
       }
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE'),
         message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE'),
       });
@@ -438,7 +437,6 @@ class PartnerPersonalInfoForm extends PureComponent {
 export default compose(
   withStorage(['auth']),
   withPermission,
-  withNotifications,
   withRequests({
     updatePartner: updatePartnerMutation,
   }),

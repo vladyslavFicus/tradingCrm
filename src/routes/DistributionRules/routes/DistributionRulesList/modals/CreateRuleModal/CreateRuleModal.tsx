@@ -3,10 +3,8 @@ import I18n from 'i18n-js';
 import { useHistory } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import compose from 'compose-function';
-import { LevelType, Notify } from 'types';
-import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
@@ -14,7 +12,6 @@ import { useCreateDistributionRuleMutation } from './graphql/__generated__/Creat
 import './CreateRuleModal.scss';
 
 type Props = {
-  notify: Notify,
   onCloseModal: () => void,
 }
 
@@ -24,7 +21,7 @@ type FormValues = {
 }
 
 const CreateRuleModal = (props: Props) => {
-  const { notify, onCloseModal } = props;
+  const { onCloseModal } = props;
 
   const history = useHistory();
 
@@ -134,7 +131,4 @@ const CreateRuleModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateRuleModal);
+export default React.memo(CreateRuleModal);

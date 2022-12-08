@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -33,7 +33,6 @@ class ChangeOriginalAgent extends PureComponent {
         ),
       }),
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     permission: PropTypes.shape({
       permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
@@ -45,7 +44,7 @@ class ChangeOriginalAgent extends PureComponent {
   };
 
   handleChangeOriginalAgent = async ({ agentId }, { resetForm }) => {
-    const { paymentId, notify, changeOriginalAgent, onSuccess } = this.props;
+    const { paymentId, changeOriginalAgent, onSuccess } = this.props;
     const operatorsList = this.getOperatorsList();
 
     const { fullName: agentName } = operatorsList.find(({ uuid }) => uuid === agentId);
@@ -60,7 +59,7 @@ class ChangeOriginalAgent extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
@@ -69,7 +68,7 @@ class ChangeOriginalAgent extends PureComponent {
       resetForm({ values: { agentId } });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -146,7 +145,6 @@ class ChangeOriginalAgent extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     operators: OperatorsQuery,
     changeOriginalAgent: ChangeOriginalAgentMutation,

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -15,7 +13,6 @@ import './ChangeUnauthorizedPasswordModal.scss';
 
 type Props = {
   uuid: string,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
@@ -42,11 +39,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
   const [formError, setFormError] = useState<string | null>(null);
 
   const onHandleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    const {
-      uuid,
-      notify,
-      onSuccess,
-    } = props;
+    const { uuid, onSuccess } = props;
 
     try {
       await changeUnauthorizedPassword({ variables: { uuid, ...values } });
@@ -170,7 +163,4 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(ChangeUnauthorizedPasswordModal);
+export default React.memo(ChangeUnauthorizedPasswordModal);

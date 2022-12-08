@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import compose from 'compose-function';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
@@ -24,7 +24,6 @@ class UpdateAcquisitionStatusModal extends PureComponent {
       sorts: PropTypes.array,
       selectedRowsLength: PropTypes.number,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -34,7 +33,6 @@ class UpdateAcquisitionStatusModal extends PureComponent {
 
   handleMoveSubmit = async ({ acquisitionStatus }, { setSubmitting, setErrors }) => {
     const {
-      notify,
       configs,
       configs: {
         allRowsSelected,
@@ -55,7 +53,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
       const typeLowercased = acquisitionStatus.toLowerCase();
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: I18n.t('clients.bulkUpdate.moveForbidden', { type: typeLowercased }),
       });
@@ -78,7 +76,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
 
       if (!selectedClients.length) {
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
         });
@@ -104,7 +102,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
       });
@@ -119,7 +117,7 @@ class UpdateAcquisitionStatusModal extends PureComponent {
       const condition = error.error && error.error === 'clients.bulkUpdate.moveForbidden';
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: condition
           ? I18n.t(error.error, { type: acquisitionStatus })
@@ -211,7 +209,6 @@ class UpdateAcquisitionStatusModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     updateAcquisitionStatus: UpdateAcquisitionStatusMutation,
   }),

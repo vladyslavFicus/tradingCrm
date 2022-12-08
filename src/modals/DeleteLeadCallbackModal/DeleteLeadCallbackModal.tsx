@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { LeadCallback } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import { useDeleteLeadCallbackMutation } from './graphql/__generated__/DeleteLeadCallbackMutation';
@@ -13,7 +11,6 @@ import './DeleteLeadCallbackModal.scss';
 
 type Props = {
   callback: LeadCallback,
-  notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
 };
@@ -21,7 +18,6 @@ type Props = {
 const DeleteLeadCallbackModal = (props: Props) => {
   const {
     callback,
-    notify,
     onCloseModal,
     onSuccess = () => {},
   } = props;
@@ -96,7 +92,4 @@ const DeleteLeadCallbackModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DeleteLeadCallbackModal);
+export default React.memo(DeleteLeadCallbackModal);

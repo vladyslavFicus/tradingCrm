@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import compose from 'compose-function';
-import { LevelType, Notify } from 'types';
-import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
@@ -15,7 +13,6 @@ import './EditRuleNameModal.scss';
 
 type Props = {
   uuid: string,
-  notify: Notify,
   onCloseModal: () => void,
 }
 
@@ -25,7 +22,7 @@ type FormValues = {
 }
 
 const EditRuleNameModal = (props: Props) => {
-  const { uuid, notify, onCloseModal } = props;
+  const { uuid, onCloseModal } = props;
 
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -134,7 +131,4 @@ const EditRuleNameModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(EditRuleNameModal);
+export default React.memo(EditRuleNameModal);

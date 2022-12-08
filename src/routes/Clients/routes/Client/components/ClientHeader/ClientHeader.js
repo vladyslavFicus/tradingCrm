@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { withNotifications, withModals } from 'hoc';
+import { withModals } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import permissions from 'config/permissions';
@@ -38,7 +39,6 @@ class ClientHeader extends PureComponent {
     resetPassword: PropTypes.func.isRequired,
     unlockClientLogin: PropTypes.func.isRequired,
     permission: PropTypes.permission.isRequired,
-    notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       changePasswordModal: PropTypes.modalType,
@@ -65,7 +65,6 @@ class ClientHeader extends PureComponent {
 
   handleUnlockClientLogin = async () => {
     const {
-      notify,
       unlockClientLogin,
       clientLockStatusQuery,
       client: { uuid },
@@ -76,7 +75,7 @@ class ClientHeader extends PureComponent {
       await unlockClientLogin({ variables: { playerUUID: uuid } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
       });
@@ -84,7 +83,7 @@ class ClientHeader extends PureComponent {
       clientLockStatusQuery.refetch();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
       });
@@ -113,7 +112,6 @@ class ClientHeader extends PureComponent {
 
   handleResetPassword = async () => {
     const {
-      notify,
       resetPassword,
       client: { uuid },
       modals: { confirmActionModal },
@@ -123,7 +121,7 @@ class ClientHeader extends PureComponent {
       await resetPassword({ variables: { playerUUID: uuid } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
       });
@@ -131,7 +129,7 @@ class ClientHeader extends PureComponent {
       confirmActionModal.hide();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
       });
@@ -157,7 +155,6 @@ class ClientHeader extends PureComponent {
 
   handleChangePassword = async ({ newPassword }) => {
     const {
-      notify,
       changePassword,
       client: { uuid },
       modals: { changePasswordModal },
@@ -167,7 +164,7 @@ class ClientHeader extends PureComponent {
       await changePassword({ variables: { newPassword, clientUuid: uuid } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
       });
@@ -177,7 +174,7 @@ class ClientHeader extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
         message: I18n.t(
           error.error,
@@ -311,7 +308,6 @@ class ClientHeader extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withPermission,
   withModals({
     confirmActionModal: ConfirmActionModal,

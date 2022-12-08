@@ -2,10 +2,8 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import { useHistory, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { LevelType, Notify } from 'types';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -17,13 +15,7 @@ import { useUpdateRuleMutation } from './graphql/__generated__/UpdateRuleMutatio
 import { FormValues } from './types';
 import './DistributionRuleForm.scss';
 
-type Props = {
-  notify: Notify,
-}
-
-const DistributionRuleForm = (props: Props) => {
-  const { notify } = props;
-
+const DistributionRuleForm = () => {
   const history = useHistory();
   const { id: uuid } = useParams<{ id: string }>();
 
@@ -217,7 +209,4 @@ const DistributionRuleForm = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DistributionRuleForm);
+export default React.memo(DistributionRuleForm);

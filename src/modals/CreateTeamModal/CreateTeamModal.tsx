@@ -1,13 +1,11 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { useCreateTeamMutation } from './graphql/__generated__/CreateTeamMutation';
 import { useDesksAndOfficesQuery } from './graphql/__generated__/DesksAndOfficesQuery';
@@ -27,13 +25,12 @@ type FormValues = {
 
 type Props = {
   isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateTeamModal = (props: Props) => {
-  const { isOpen, notify, onSuccess, onCloseModal } = props;
+  const { isOpen, onSuccess, onCloseModal } = props;
   const [createTeamMutation] = useCreateTeamMutation();
   const desksAndOfficesQuery = useDesksAndOfficesQuery();
   const { loading } = desksAndOfficesQuery;
@@ -179,7 +176,4 @@ const CreateTeamModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateTeamModal);
+export default React.memo(CreateTeamModal);

@@ -2,11 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import compose from 'compose-function';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
-import { LevelType, Notify } from 'types';
-import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatuses } from '__generated__/types';
 import { clientDistributionStatuses, statuses } from 'constants/clientsDistribution';
@@ -16,15 +14,12 @@ import { useDistributionRuleMigrationMutation } from './graphql/__generated__/Di
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import './DistributionRuleInfo.scss';
 
-
 type Props = {
-  notify: Notify,
   distributionRule: DistributionRuleType,
 }
 
 const DistributionRuleInfo = (props: Props) => {
   const {
-    notify,
     distributionRule: {
       uuid,
       status,
@@ -175,7 +170,4 @@ const DistributionRuleInfo = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DistributionRuleInfo);
+export default React.memo(DistributionRuleInfo);

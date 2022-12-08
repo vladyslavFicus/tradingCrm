@@ -3,10 +3,11 @@ import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { orderBy } from 'lodash';
-import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify, State } from 'types';
+import { withModals } from 'hoc';
+import { Modal, State } from 'types';
 import { parseErrors } from 'apollo';
 import { getBrand } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { salesStatuses } from 'constants/salesStatuses';
@@ -39,7 +40,6 @@ type NewAcquisitionStatusModalProps = {
 };
 
 type Props = {
-  notify: Notify,
   modals: {
     confirmationModal: Modal<ConfirmationModalProps>,
     newAcquisitionStatusModal: Modal<NewAcquisitionStatusModalProps>,
@@ -52,7 +52,6 @@ const AcquisitionStatuses = (props: Props) => {
       confirmationModal,
       newAcquisitionStatusModal,
     },
-    notify,
   } = props;
 
   const { state } = useLocation<State<AcquisitionStatusesQueryVariables['args']>>();
@@ -219,5 +218,4 @@ export default compose(
     confirmationModal: ConfirmActionModal,
     newAcquisitionStatusModal: NewAcquisitionStatusModal,
   }),
-  withNotifications,
 )(AcquisitionStatuses);

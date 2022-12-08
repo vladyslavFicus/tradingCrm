@@ -1,16 +1,14 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getAvailableLanguages } from 'config';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import { useUpdateDeskMutation } from './graphql/__generated__/UpdateDeskMutation';
 import './UpdateDeskModal.scss';
@@ -38,13 +36,12 @@ type DataValues = {
 type Props = {
   data: DataValues,
   isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const UpdateDeskModal = (props: Props) => {
-  const { data, isOpen, notify, onSuccess, onCloseModal } = props;
+  const { data, isOpen, onSuccess, onCloseModal } = props;
   const [updateDeskMutation] = useUpdateDeskMutation();
 
   // ===== Handlers ===== //
@@ -163,7 +160,4 @@ const UpdateDeskModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(UpdateDeskModal);
+export default React.memo(UpdateDeskModal);

@@ -5,9 +5,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { parseErrors, withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { FormikInputField } from 'components/Formik';
 import IpWhitelistAddMutation from './graphql/IpWhitelistAddMutation';
@@ -39,13 +38,13 @@ type FormValues = {
 type Props = {
   onCloseModal: () => void,
   isOpen: boolean,
-  notify: Notify,
   addIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistAddress>,
   onSuccess: () => void,
 };
 
 const WhiteListAddIpModal = (props: Props) => {
-  const { onCloseModal, isOpen, notify, onSuccess, addIp } = props;
+  const { onCloseModal, isOpen, onSuccess, addIp } = props;
+
   const handleSubmit = async (
     values: FormValues,
     formikHelpers: FormikHelpers<FormValues>,
@@ -127,7 +126,6 @@ const WhiteListAddIpModal = (props: Props) => {
 
 export default compose(
   React.memo,
-  withNotifications,
   withRequests({
     addIp: IpWhitelistAddMutation,
   }),

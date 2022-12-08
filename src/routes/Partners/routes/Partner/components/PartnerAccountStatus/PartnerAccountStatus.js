@@ -5,7 +5,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -27,7 +28,6 @@ class PartnerAccountStatus extends PureComponent {
     modals: PropTypes.shape({
       changeAccountStatusModal: PropTypes.modalType,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   state = {
@@ -44,7 +44,6 @@ class PartnerAccountStatus extends PureComponent {
       partner: { uuid },
       changeAccountStatus,
       refetchPartner,
-      notify,
     } = this.props;
 
     try {
@@ -57,7 +56,7 @@ class PartnerAccountStatus extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
       });
@@ -66,7 +65,7 @@ class PartnerAccountStatus extends PureComponent {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
       });
@@ -188,7 +187,6 @@ class PartnerAccountStatus extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     changeAccountStatus: PartnerAccountStatusMutation,
   }),

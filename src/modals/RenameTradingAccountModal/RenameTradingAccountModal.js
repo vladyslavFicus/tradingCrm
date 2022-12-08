@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
@@ -19,7 +19,6 @@ const attributeLabels = {
 class RenameTradingAccountModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
     renameTradingAccount: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -28,7 +27,6 @@ class RenameTradingAccountModal extends PureComponent {
 
   handleSubmit = async (values, { setSubmitting }) => {
     const {
-      notify,
       renameTradingAccount,
       onSuccess,
       onCloseModal,
@@ -47,13 +45,13 @@ class RenameTradingAccountModal extends PureComponent {
       onCloseModal();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.UPDATE_TRADING_ACCOUNT_MODAL.NOTIFICATION.SUCCESS'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('MODALS.UPDATE_TRADING_ACCOUNT_MODAL.NOTIFICATION.ERROR'),
       });
@@ -122,7 +120,6 @@ class RenameTradingAccountModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     renameTradingAccount: RenameTradingAccountMutation,
   }),

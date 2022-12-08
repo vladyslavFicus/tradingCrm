@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { statusMapper, statusesLabels, statuses } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -29,7 +29,6 @@ class ChangePaymentStatusForm extends PureComponent {
     updatePaymentMethod: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
   };
 
@@ -42,7 +41,6 @@ class ChangePaymentStatusForm extends PureComponent {
       onCloseModal,
       onSuccess,
       paymentId,
-      notify,
     } = this.props;
 
     const { paymentStatus, paymentMethod } = values;
@@ -71,13 +69,13 @@ class ChangePaymentStatusForm extends PureComponent {
 
     if (errors.length) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t(`PAYMENT_DETAILS_MODAL.NOTIFICATIONS.${errors.length === 2 ? 'ERROR' : errors[0]}`),
       });
     } else {
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
@@ -164,7 +162,6 @@ class ChangePaymentStatusForm extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     updatePaymentStatus: updatePaymentStatusMutation,
     updatePaymentMethod: updatePaymentMethodMutation,

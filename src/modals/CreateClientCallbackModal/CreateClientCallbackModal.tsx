@@ -1,13 +1,11 @@
 import React, { useRef } from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { useParams } from 'react-router-dom';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { Operator } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import { targetTypes } from 'constants/note';
@@ -34,11 +32,10 @@ type FormValue = {
 
 type Props = {
   onCloseModal: () => void,
-  notify: Notify,
 }
 
 const CreateClientCallbackModal = (props: Props) => {
-  const { notify, onCloseModal } = props;
+  const { onCloseModal } = props;
   const { id } = useParams<{ id: string }>();
 
   const noteButton = useRef<NoteButton>(null);
@@ -192,7 +189,4 @@ const CreateClientCallbackModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateClientCallbackModal);
+export default React.memo(CreateClientCallbackModal);

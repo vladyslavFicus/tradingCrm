@@ -4,8 +4,8 @@ import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
-import { withNotifications } from 'hoc';
 import { withRequests } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import { OperatorsQuery, ChangeOriginalAgentTradingActivityMutation } from './graphql';
@@ -17,7 +17,6 @@ class ChangeOriginalAgent extends PureComponent {
     operators: PropTypes.object.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     tradeId: PropTypes.number.isRequired,
     platformType: PropTypes.string.isRequired,
     agentId: PropTypes.string,
@@ -28,7 +27,7 @@ class ChangeOriginalAgent extends PureComponent {
   };
 
   handleChangeOriginalAgent = async ({ agentId }) => {
-    const { tradeId, notify, platformType } = this.props;
+    const { tradeId, platformType } = this.props;
 
     try {
       await this.props.changeOriginalAgent({
@@ -40,7 +39,7 @@ class ChangeOriginalAgent extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         message: I18n.t('TRADING_ACTIVITY_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
 
@@ -48,7 +47,7 @@ class ChangeOriginalAgent extends PureComponent {
       this.props.onSuccess();
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
@@ -102,7 +101,6 @@ class ChangeOriginalAgent extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     operators: OperatorsQuery,
     changeOriginalAgent: ChangeOriginalAgentTradingActivityMutation,

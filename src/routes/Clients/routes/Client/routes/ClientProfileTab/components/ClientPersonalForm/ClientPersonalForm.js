@@ -3,9 +3,9 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
 import { parseErrors, withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import countryList from 'utils/countryList';
@@ -25,12 +25,10 @@ class ClientPersonalForm extends PureComponent {
     clientData: PropTypes.profile.isRequired,
     permission: PropTypes.permission.isRequired,
     updateClientPersonal: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   handleSubmit = async (values) => {
     const {
-      notify,
       clientData,
       updateClientPersonal,
     } = this.props;
@@ -44,7 +42,7 @@ class ClientPersonalForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -52,7 +50,7 @@ class ClientPersonalForm extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -308,7 +306,6 @@ class ClientPersonalForm extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     updateClientPersonal: UpdateClientPersonalMutation,
   }),

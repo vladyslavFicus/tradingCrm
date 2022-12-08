@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { withNotifications, withModals } from 'hoc';
+import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
 import PropTypes from 'constants/propTypes';
@@ -105,7 +106,6 @@ class HierarchyProfileRules extends PureComponent {
 
   handleDeleteRule = uuid => async () => {
     const {
-      notify,
       deleteRule,
       rulesQuery,
       modals: { deleteModal },
@@ -119,13 +119,13 @@ class HierarchyProfileRules extends PureComponent {
       deleteModal.hide();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });
@@ -376,7 +376,6 @@ export default (title, branchType) => props => (
   React.createElement(
     compose(
       withPermission,
-      withNotifications,
       withModals({
         createRuleModal: CreateRuleModal,
         updateRuleModal: UpdateRuleModal,

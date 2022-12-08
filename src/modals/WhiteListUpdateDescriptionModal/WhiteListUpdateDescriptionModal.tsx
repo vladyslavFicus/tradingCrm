@@ -5,11 +5,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { BaseMutationOptions, MutationResult } from '@apollo/client';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { Notify, LevelType } from 'types/notify';
 import IpWhitelistEditMutation from './graphql/IpWhitelistEditMutation';
 import './WhiteListUpdateDescriptionModal.scss';
 
@@ -27,7 +26,6 @@ type IpWhitelistAddress = {
 type Props = {
   item: IpWhitelistAddress,
   isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   editIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistEditResponse>,
   onCloseModal: () => void,
@@ -45,7 +43,7 @@ const validate = createValidator(
   false,
 );
 
-const WhiteListUpdateDescriptionModal = ({ item, isOpen, notify, onSuccess, editIp, onCloseModal }: Props) => {
+const WhiteListUpdateDescriptionModal = ({ item, isOpen, onSuccess, editIp, onCloseModal }: Props) => {
   const handleSubmit = async ({ description, uuid }: IpWhitelistAddress) => {
     try {
       await editIp({ variables: { description, uuid } });
@@ -122,7 +120,6 @@ const WhiteListUpdateDescriptionModal = ({ item, isOpen, notify, onSuccess, edit
 
 export default compose(
   React.memo,
-  withNotifications,
   withRequests({
     editIp: IpWhitelistEditMutation,
   }),

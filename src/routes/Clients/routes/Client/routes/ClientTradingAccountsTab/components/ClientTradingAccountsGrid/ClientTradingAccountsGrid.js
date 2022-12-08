@@ -6,7 +6,8 @@ import classNames from 'classnames';
 import { withRequests } from 'apollo';
 import { withStreams } from 'rsocket';
 import { getBrand, getBackofficeBrand } from 'config';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
@@ -32,7 +33,6 @@ import './ClientTradingAccountsGrid.scss';
 
 class ClientTradingAccountsGrid extends PureComponent {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       tradingAccountChangePasswordModal: PropTypes.modalType,
       renameTradingAccountModal: PropTypes.modalType,
@@ -55,7 +55,6 @@ class ClientTradingAccountsGrid extends PureComponent {
 
   handleSetTradingAccountReadonly = (accountUUID, readOnly) => async () => {
     const {
-      notify,
       profileUUID,
       toggleDisabledTradingAccount,
       clientTradingAccountsQuery: {
@@ -75,7 +74,7 @@ class ClientTradingAccountsGrid extends PureComponent {
       refetch();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -84,7 +83,6 @@ class ClientTradingAccountsGrid extends PureComponent {
 
   handleRejectChangeLeverage = accountUUID => async () => {
     const {
-      notify,
       rejectChangingLeverage,
       clientTradingAccountsQuery: {
         refetch,
@@ -97,13 +95,13 @@ class ClientTradingAccountsGrid extends PureComponent {
       refetch();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CANCEL_NOTIFICATION'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -112,7 +110,6 @@ class ClientTradingAccountsGrid extends PureComponent {
 
   handleApproveChangeLeverage = accountUUID => async () => {
     const {
-      notify,
       approveChangingLeverage,
       clientTradingAccountsQuery: {
         refetch,
@@ -125,13 +122,13 @@ class ClientTradingAccountsGrid extends PureComponent {
       refetch();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.APPROVE_NOTIFICATION'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -537,7 +534,6 @@ class ClientTradingAccountsGrid extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withModals({
     tradingAccountChangePasswordModal: TradingAccountChangePasswordModal,
     renameTradingAccountModal: RenameTradingAccountModal,

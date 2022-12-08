@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
 import { get } from 'lodash';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components/UI';
 import PropTypes from 'constants/propTypes';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
 import { validator } from '../../utils';
@@ -30,7 +31,6 @@ class EmailTemplatesEditor extends PureComponent {
       emailTemplateUpdateMutation,
       match: { params: { id } },
       history,
-      notify,
     } = this.props;
 
     const textWithoutHtml = values.text.replace(/<\/?[^>]+(>|$)/g, '');
@@ -50,13 +50,13 @@ class EmailTemplatesEditor extends PureComponent {
       history.push('/email-templates/list');
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
@@ -141,7 +141,9 @@ class EmailTemplatesEditor extends PureComponent {
   }
 }
 
-export default withRequests({
-  emailTemplateUpdateMutation: EmailTemplateUpdateMutation,
-  emailTemplateQuery: EmailTemplateQuery,
-})(withNotifications(EmailTemplatesEditor));
+export default compose(
+  withRequests({
+    emailTemplateUpdateMutation: EmailTemplateUpdateMutation,
+    emailTemplateQuery: EmailTemplateQuery,
+  }),
+)(EmailTemplatesEditor);
