@@ -9,7 +9,7 @@ type Props = {
   code: string,
   height: string,
   width?: string | number,
-}
+};
 
 const CountryLabelWithFlag = (props: Props) => {
   const {
@@ -19,18 +19,20 @@ const CountryLabelWithFlag = (props: Props) => {
     languageCode,
   } = props;
 
+  const countryCode = getCountryCode(code as string) || '';
+
   return (
     <div className="CountryLabelWithFlag">
       <div className="CountryLabelWithFlag__flag">
         <Choose>
-          <When condition={getCountryCode(code)}>
+          <When condition={!!countryCode}>
             <Flag
               svg
               style={{
                 height,
                 width,
               }}
-              countryCode={getCountryCode(code)}
+              countryCode={countryCode}
             />
           </When>
 
