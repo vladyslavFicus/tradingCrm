@@ -7,7 +7,7 @@ async function createReleaseAndUpload() {
   const release = process.env.APP_VERSION;
 
   if (!release) {
-    console.warn('APP_VERSION is not set');
+    console.warn('APP_VERSION is not set!');
 
     return;
   }
