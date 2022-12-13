@@ -1,13 +1,13 @@
 const SentryCli = require('@sentry/cli');
 
 // For create sentry release run:
-// REACT_APP_VERSION=YOUR_REACT_APP_VERSION SENTRY_AUTH_TOKEN=YOUR_SENTRY_TOKEN yarn sentry-release
+// APP_VERSION=YOUR_APP_VERSION SENTRY_AUTH_TOKEN=YOUR_SENTRY_TOKEN yarn sentry-release
 
 async function createReleaseAndUpload() {
-  const release = process.env.REACT_APP_VERSION;
+  const release = process.env.APP_VERSION;
 
   if (!release) {
-    console.warn('REACT_APP_VERSION is not set');
+    console.warn('APP_VERSION is not set');
 
     return;
   }

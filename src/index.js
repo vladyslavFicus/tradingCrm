@@ -8,11 +8,11 @@ import Root from './Root';
 import './styles/index.scss';
 
 // Sentry initialization
-if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_VERSION) {
+if (process.env.NODE_ENV === 'production' && process.env.APP_VERSION) {
   Sentry.init({
     dsn: 'https://8ab27e9e8bec40e09f8e1af749b24c09@sentry.cydev.io/3',
     integrations: [new BrowserTracing()],
-    release: process.env.REACT_APP_VERSION,
+    release: process.env.APP_VERSION,
     tracesSampleRate: 1.0,
   });
 }
