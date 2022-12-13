@@ -2,3 +2,5 @@
 url=https://sentry.cydev.io/
 project=backoffice
 org=easytech
+[http]
+verify_ssl=false
