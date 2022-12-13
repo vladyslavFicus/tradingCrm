@@ -8,7 +8,7 @@ type Props = {
   templatePreview?: boolean,
   firstName?: string,
   lastName?: string,
-}
+};
 
 const EmailPreview = (props: Props) => {
   const {
