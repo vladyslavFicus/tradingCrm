@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
 import NotePopover from 'components/NotePopover';
-import NoteIcon from '../NoteIcon';
+import NoteIcon from 'components/NoteIcon';
 import './NoteButton.scss';
 
 class NoteButton extends PureComponent {
