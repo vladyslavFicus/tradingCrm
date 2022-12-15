@@ -1,6 +1,6 @@
 import React, { PureComponent, Suspense } from 'react';
 import classNames from 'classnames';
-import { getBrand } from 'config';
+import { getBrand, getBackofficeBrand } from 'config';
 import RSocketProvider from 'rsocket';
 import PropTypes from 'constants/propTypes';
 import Header from 'components/Header';
@@ -55,13 +55,10 @@ class MainLayout extends PureComponent {
   };
 
   render() {
-    const {
-      children,
-      auth,
-    } = this.props;
-
+    const { auth, children } = this.props;
     const { downtime } = this.state;
 
+    const sidebarPosition = getBackofficeBrand()?.sidebarPosition || 'left';
     const isShowProductionAlert = auth.department === 'ADMINISTRATION' && getBrand().env.includes('prod');
     const isShowDowntimeAlert = downtime.show;
 
@@ -70,10 +67,12 @@ class MainLayout extends PureComponent {
         <Notifications />
 
         <Header />
-        <Sidebar />
+
+        <Sidebar position={sidebarPosition} />
 
         <main className={classNames(
           'content-container',
+          `content-container--padding-${sidebarPosition}`,
           {
             'content-container--padding-bottom': isShowProductionAlert && isShowDowntimeAlert,
           },
@@ -86,7 +85,7 @@ class MainLayout extends PureComponent {
           </ErrorBoundary>
         </main>
 
-        <BackToTop />
+        <BackToTop position={sidebarPosition} />
 
         {/* Notify users about downtime */}
         <If condition={isShowDowntimeAlert}>

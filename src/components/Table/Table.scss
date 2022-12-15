@@ -2,10 +2,15 @@
   background: var(--surface-frame-background);
   border-left: 1px solid var(--divider);
   border-right: 1px solid var(--divider);
+  position: relative;
 
-  // Negative margins to compensate border width and prevent
-  margin-right: -1px;
-  margin-left: -1px;
+  &__scroll-x {
+    overflow-x: auto;
+
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    &::-webkit-scrollbar { width: 0; height: 0; }
+  }
 
   &--loader {
     background-color: var(--surface-page-background);
@@ -15,15 +20,37 @@
 
   &__table {
     width: 100%;
+    margin-top: -54px;
   }
 
   &__head {
+    opacity: 0;
     color: var(--text-secondary);
     font-size: 12px;
     line-height: 1.4em;
     text-transform: uppercase;
     z-index: 1;
     border-bottom: 1px solid var(--divider);
+  }
+
+  &__head-fixed {
+    position: sticky;
+    overflow-x: auto;
+    z-index: 2;
+  }
+
+  &__cell-fixed {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
+    box-shadow: var(--box-shadow-color);
+  }
+
+  &__row-fixed {
+    display: flex;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
   }
 
   &__body-row {
@@ -67,14 +94,15 @@
     text-align: left;
     vertical-align: middle;
     white-space: nowrap;
+    overflow: hidden;
 
     &:after {
       content: '';
       position: absolute;
-      height: 100%;
-      width: 100%;
       top: 0;
       right: 0;
+      bottom: 0;
+      left: 0;
       border-top: 1px solid var(--divider);
       background: var(--surface-page-background);
       z-index: -1;
@@ -87,11 +115,11 @@
     &:before {
       content: "";
       position: absolute;
-      height: 100%;
-      left: -2px;
-      right: -2px;
+      top: 0;
+      left: 0;
+      right: 0;
       bottom: 0;
-      box-shadow: 0 4px 2px -2px var(--box-shadow-color);
+      border-bottom: 1px solid var(--divider);
     }
 
     &--sticky {
@@ -161,6 +189,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &--full {
+      width: 100%;
+    }
   }
 
   &__head-cell-sort {
@@ -179,16 +211,21 @@
     }
   }
 
-  &__body-cell {
-    &--checkbox {
-      &:after {
-        content: "";
-        position: absolute;
-        height: 100%;
-        top: 0;
-        right: 0;
-        border-right: 1px solid var(--divider);
-      }
+  &__cell-checkbox {
+    background: var(--dropdown-options-background-default);
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 46px;
+    width: 46px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      top: 0;
+      right: 0;
+      border-right: 1px solid var(--divider);
     }
   }
 

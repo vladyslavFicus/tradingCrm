@@ -3,12 +3,26 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { withResize } from 'hoc';
 import ShortPreloader from 'components/ShortLoader';
 import Column from './Column';
 import { ReactComponent as SortingArrows } from './img/SortingArrows.svg';
 import './Table.scss';
 
+/*
+* this header is always on screen, so by default we attach table header to top header, or use from props
+*/
+const TopHeaderHeight = 47;
+
 class Table extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.tableRef = React.createRef();
+    this.headRowRef = React.createRef();
+    this.scrollTableRef = React.createRef();
+    this.tableFixedRef = React.createRef();
+  }
+
   static propTypes = {
     children: PropTypes.node.isRequired,
     items: PropTypes.array.isRequired, // Array of table items
@@ -25,6 +39,10 @@ class Table extends PureComponent {
     onSelectError: PropTypes.func, // Callback when select rows executed error when maximum selecting exceeded
     withMultiSelect: PropTypes.bool, // Flag to enable multi-select functionality
     maxSelectCount: PropTypes.number, // Maximum of selected rows
+    elementWidth: PropTypes.number, // We check this value and redraw the table header width
+    observerSize: PropTypes.shape({
+      observe: PropTypes.func.isRequired,
+    }).isRequired, // DOM observer, registers elements that need to be monitored
   };
 
   static defaultProps = {
@@ -35,12 +53,13 @@ class Table extends PureComponent {
     notFound: null,
     scrollableTarget: undefined,
     customClassNameRow: null,
-    stickyFromTop: null,
+    stickyFromTop: TopHeaderHeight,
     onSort: () => {},
     onSelect: () => {},
     onSelectError: () => {},
     withMultiSelect: false,
     maxSelectCount: Infinity,
+    elementWidth: null,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -52,6 +71,92 @@ class Table extends PureComponent {
       prevSorts: props.sorts,
     };
   }
+
+  componentDidMount() {
+    const { children, items } = this.props;
+
+    if (items.length && children.length) {
+      this.setWidthTableCells();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { children, items, loading, elementWidth } = this.props;
+
+    // Here a singleton is used to add listeners to the table when there are already elements and no loading
+    if (!prevState.firstRenderHead && !loading && items.length) {
+      this.mountListeners();
+    }
+
+    // Checking when cells in the table header need to be redrawn
+    if (
+      items.length && !loading
+      && (
+        prevProps.elementWidth !== elementWidth // when table change width
+        || prevProps.children.length !== children.length // when table change columns
+        || prevProps.items.length !== items.length // when table change rows
+      )
+    ) {
+      this.setWidthTableCells();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.scrollTableRef.current) this.scrollTableRef.current.removeEventListener('scroll', this.tableScrolling);
+
+    if (this.tableFixedRef.current) this.tableFixedRef.current.removeEventListener('scroll', this.headerScrolling);
+  }
+
+  /**
+   * First render component
+   * Mount listeners scroll and resize
+   *
+   * */
+  mountListeners = () => {
+    const { observerSize } = this.props;
+    this.setState({ firstRenderHead: true });
+
+    this.scrollTableRef.current.addEventListener('scroll', this.tableScrolling);
+    this.tableFixedRef.current.addEventListener('scroll', this.headerScrolling);
+    observerSize.observe(this.tableRef.current);
+
+    this.setWidthTableCells();
+  };
+
+  tableScrolling = (e) => {
+    if (this.tableFixedRef.current) this.tableFixedRef.current.scrollLeft = e.target.scrollLeft;
+  };
+
+  headerScrolling = (e) => {
+    if (this.scrollTableRef.current) this.scrollTableRef.current.scrollLeft = e.target.scrollLeft;
+  };
+
+  /**
+   * Redrawing the width of the table header cells
+   */
+  setWidthTableCells = () => {
+    const childRef = this.headRowRef.current?.children || [];
+
+    if (childRef?.length) {
+      const widthTableCells = Array.from(childRef || []).reduce((accum, item, idx) => {
+        if (idx === 0 && this.props.withMultiSelect) {
+          return accum;
+        }
+
+        const { width } = item.getBoundingClientRect();
+        /*
+        * The width from getBoundingClientRect has more than 2 decimal places,
+        * so with this hack we get the width of the element to hundredths,
+        * otherwise the columns will not be counted accurately and there will be friezes when scrolling horizontally
+        */
+        accum.push(Math.round(width * 100) / 100);
+
+        return accum;
+      }, []);
+
+      this.setState({ widthTableCells });
+    }
+  };
 
   /**
    * Method provided to onSelect callback to reset selection in future
@@ -68,6 +173,8 @@ class Table extends PureComponent {
   };
 
   state = {
+    firstRenderHead: false,
+    widthTableCells: [],
     sorts: [],
     select: {
       all: false,
@@ -205,7 +312,6 @@ class Table extends PureComponent {
    */
   isRowSelected = (rowIndex) => {
     const { select } = this.state;
-
     const isTouched = select.touched.includes(rowIndex);
 
     // If all rows selected and current row is touched -> then row is unselected
@@ -224,63 +330,108 @@ class Table extends PureComponent {
    *
    * @return {*}
    */
+  renderFixedHead = (columns) => {
+    const { withMultiSelect, items } = this.props;
+    const { select, widthTableCells } = this.state;
+
+    return (
+      <div className="Table__row-fixed">
+        <If condition={items.length}>
+          <If condition={withMultiSelect}>
+            <div
+              className={classNames(
+                'Table__cell',
+                'Table__cell-fixed',
+                'Table__cell-checkbox',
+                'Table__head-cell',
+                {
+                  'Table__cell--multiselect': withMultiSelect,
+                },
+              )}
+            >
+              <div
+                className={
+                  classNames(
+                    'Table__checkbox',
+                    {
+                      'Table__checkbox--is-active': select.all,
+                      'Table__checkbox--is-disabled': !select.all,
+                      'Table__checkbox--without-check': select.all && select.touched.length,
+                    },
+                  )
+                }
+                onClick={this.handleSelectAll}
+              />
+            </div>
+          </If>
+
+          {columns.map(({ props }, index) => {
+            const { sortBy, header } = props;
+            const sortColumn = this.state.sorts.find(({ column }) => column === props.sortBy);
+
+            return (
+              <div
+                style={{ width: widthTableCells[index], 'min-width': widthTableCells[index] }}
+                className={classNames(
+                  'Table__cell',
+                  'Table__cell-fixed',
+                  'Table__head-cell',
+                  {
+                    'Table__head-cell--with-sorting': sortBy,
+                    'Table__head-cell--sorted-by-asc': sortColumn?.direction === 'ASC',
+                    'Table__head-cell--sorted-by-desc': sortColumn?.direction === 'DESC',
+                  },
+                )}
+                onClick={() => this.handleSortBy(sortBy)}
+              >
+                <div className="Table__head-cell-content Table__head-cell-content--full">
+                  {header}
+
+                  <If condition={sortBy}>
+                    <div className="Table__head-cell-sort">
+                      <SortingArrows />
+                    </div>
+                  </If>
+                </div>
+              </div>
+            );
+          })}
+        </If>
+      </div>
+    );
+  };
+
   renderHead = (columns) => {
-    const { stickyFromTop, withMultiSelect, items } = this.props;
-    const { select } = this.state;
+    const { withMultiSelect, items } = this.props;
 
     return (
       <tr className="Table__head-row">
-        {/* Adding multi select column if it's available */}
         <If condition={withMultiSelect && items.length}>
           <th
             className={classNames(
               'Table__cell',
+              'Table__cell-checkbox',
               'Table__head-cell',
               {
                 'Table__cell--multiselect': withMultiSelect,
-                'Table__head-cell--sticky': stickyFromTop || stickyFromTop === 0,
               },
             )}
-            style={{ top: `${stickyFromTop}px`, width: '46px' }}
           >
             <div
-              className={
-                classNames(
-                  'Table__checkbox',
-                  {
-                    'Table__checkbox--is-active': select.all,
-                    'Table__checkbox--is-disabled': !select.all,
-                    'Table__checkbox--without-check': select.all && select.touched.length,
-                  },
-                )
-              }
+              className="Table__checkbox"
               onClick={this.handleSelectAll}
             />
           </th>
         </If>
+
         {columns.map(({ props }, index) => {
           const { width, sortBy, header } = props;
-
-          const sortColumn = this.state.sorts.find(({ column }) => column === props.sortBy);
 
           return (
             <th
               key={`head-${index}`}
-              className={classNames(
-                'Table__cell',
-                'Table__head-cell',
-                {
-                  'Table__head-cell--sticky': stickyFromTop || stickyFromTop === 0,
-                  'Table__head-cell--with-sorting': sortBy,
-                  'Table__head-cell--sorted-by-asc': sortColumn?.direction === 'ASC',
-                  'Table__head-cell--sorted-by-desc': sortColumn?.direction === 'DESC',
-                },
-              )}
-              style={{
-                width: `${width}px`,
-                top: `${stickyFromTop}px`,
-              }}
-              onClick={() => this.handleSortBy(sortBy)}
+              className="Table__cell Table__head-cell"
+              style={{ width: `${width}px` }}
             >
               <div className="Table__head-cell-content">
                 {header}
@@ -296,7 +447,7 @@ class Table extends PureComponent {
         })}
       </tr>
     );
-  }
+  };
 
   /**
    * Render body of table (render rows and columns)
@@ -336,39 +487,39 @@ class Table extends PureComponent {
 
     return items.map((item, rowIndex) => {
       const isSelected = this.isRowSelected(rowIndex);
-
       const customClassName = typeof customClassNameRow === 'function' ? customClassNameRow(item) : customClassNameRow;
 
       return (
         <tr
+          ref={this.headRowRef}
           key={rowIndex}
           className={classNames('Table__body-row', customClassName, { 'Table__body-row--selected': isSelected })}
         >
           {/* Adding multi select column if it's available */}
           <If condition={withMultiSelect && items.length}>
-            <td className={classNames(
-              'Table__cell',
-              'Table__body-cell',
-              'Table__body-cell--checkbox',
-              {
-                'Table__cell--multiselect': withMultiSelect,
-              },
-            )}
+            <td
+              className={classNames(
+                'Table__cell',
+                'Table__cell-checkbox',
+                'Table__body-cell',
+                {
+                  'Table__cell--multiselect': withMultiSelect,
+                },
+              )}
             >
               <div
-                className={
-                  classNames(
-                    'Table__checkbox',
-                    {
-                      'Table__checkbox--is-active': isSelected,
-                      'Table__checkbox--is-disabled': !isSelected,
-                    },
-                  )
-                }
+                className={classNames(
+                  'Table__checkbox',
+                  {
+                    'Table__checkbox--is-active': isSelected,
+                    'Table__checkbox--is-disabled': !isSelected,
+                  },
+                )}
                 onClick={() => this.handleSelectSingle(rowIndex)}
               />
             </td>
           </If>
+
           {columns.map(({ props }, columnIndex) => (
             <td
               key={`column-${rowIndex}-${columnIndex}`}
@@ -387,8 +538,7 @@ class Table extends PureComponent {
   };
 
   render() {
-    const { loading, hasMore, onMore, items, scrollableTarget } = this.props;
-
+    const { stickyFromTop, loading, hasMore, onMore, items, scrollableTarget } = this.props;
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === Column);
 
     return (
@@ -401,14 +551,27 @@ class Table extends PureComponent {
           loader={<ShortPreloader className="Table--loader" />}
           style={{ overflow: 'unset' }}
         >
-          <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
-            <thead className="Table__head">{this.renderHead(columns)}</thead>
-            <tbody className="Table__body">{this.renderBody(columns)}</tbody>
-          </table>
+          <If condition={!loading && items.length && columns.length}>
+            <div
+              ref={this.tableFixedRef}
+              className="Table__head-fixed"
+              style={{ top: `${stickyFromTop || TopHeaderHeight}px` }}
+            >
+              {this.renderFixedHead(columns)}
+            </div>
+          </If>
+
+          <div ref={this.scrollTableRef} className="Table__scroll-x">
+            <table ref={this.tableRef} className={classNames('Table__table', { 'Table--no-content': !items.length })}>
+              <thead className="Table__head">{this.renderHead(columns)}</thead>
+
+              <tbody className="Table__body">{this.renderBody(columns)}</tbody>
+            </table>
+          </div>
         </InfiniteScroll>
       </div>
     );
   }
 }
 
-export default Table;
+export default withResize(Table);

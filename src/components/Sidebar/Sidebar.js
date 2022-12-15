@@ -11,6 +11,7 @@ import './Sidebar.scss';
 
 class Sidebar extends PureComponent {
   static propTypes = {
+    position: PropTypes.string.isRequired,
     permission: PropTypes.permission.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -60,12 +61,13 @@ class Sidebar extends PureComponent {
   };
 
   render() {
+    const { position } = this.props;
     const { isOpen } = this.state;
 
     return (
       <aside
         ref={(node) => { this.sidebar = node; }}
-        className="Sidebar"
+        className={`Sidebar Sidebar--${position}`}
         onMouseEnter={this.open}
         onMouseLeave={this.close}
       >
@@ -82,6 +84,7 @@ class Sidebar extends PureComponent {
             items={sidebarTopMenu}
           />
         </Scrollbars>
+
         <SidebarNav
           isSidebarOpen={isOpen}
           items={sidebarBottomMenu}
