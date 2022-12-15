@@ -60,7 +60,7 @@ const getRSocketUrl = () => {
  *
  * @return {*}
  */
-const getVersion = () => process.env.APP_VERSION || 'dev';
+const getVersion = () => process.env.REACT_APP_VERSION || 'dev';
 
 /**
  * Get brand config for chosen brand
