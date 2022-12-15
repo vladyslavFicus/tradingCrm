@@ -6,7 +6,7 @@ import { withApollo } from '@apollo/client/react/hoc';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
@@ -33,7 +33,6 @@ class ActionFilterModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     formError: PropTypes.string,
-    notify: PropTypes.func.isRequired,
     action: PropTypes.string.isRequired,
     filterId: PropTypes.string,
     fields: PropTypes.object.isRequired,
@@ -50,7 +49,6 @@ class ActionFilterModal extends PureComponent {
 
   async handleCreate(name, favourite, setErrors) {
     const {
-      notify,
       fields,
       createFilterSet,
       onSuccess,
@@ -69,7 +67,7 @@ class ActionFilterModal extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILTER_SET.CREATE.SUCCESS', { name }),
       });
@@ -85,7 +83,7 @@ class ActionFilterModal extends PureComponent {
       });
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.CREATE.FAILED'),
       });
@@ -94,7 +92,6 @@ class ActionFilterModal extends PureComponent {
 
   async handleUpdate(name) {
     const {
-      notify,
       fields,
       updateFilterSet,
       onSuccess,
@@ -121,13 +118,13 @@ class ActionFilterModal extends PureComponent {
       onSuccess(onCloseModal, { uuid });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILTER_SET.UPDATE.SUCCESS', { name }),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.UPDATE.FAILED'),
       });
@@ -216,7 +213,6 @@ class ActionFilterModal extends PureComponent {
 
 export default compose(
   withApollo,
-  withNotifications,
   withRequests({
     createFilterSet: createFilterSetMutation,
     updateFilterSet: updateFilterSetMutation,

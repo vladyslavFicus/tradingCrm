@@ -1,13 +1,11 @@
 import React, { useRef } from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { useParams } from 'react-router-dom';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { Operator } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
 import { targetTypes } from 'constants/note';
@@ -30,25 +28,28 @@ type FormValue = {
   operatorId: string,
   callbackTime: string,
   reminder: string,
-}
+};
 
 type Props = {
   onCloseModal: () => void,
-  notify: Notify,
-}
+};
 
 const CreateLeadCallbackModal = (props: Props) => {
-  const { notify, onCloseModal } = props;
+  const { onCloseModal } = props;
+
   const { id } = useParams<{ id: string }>();
 
   const noteButton = useRef<NoteButton>(null);
 
-  const [addNote] = useCallbackAddNoteMutation();
-  const [createLeadCallback] = useCreateLeadCallbackMutation();
-
+  // ===== Requests ===== //
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
+
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
+
+  const [addNote] = useCallbackAddNoteMutation();
+
+  const [createLeadCallback] = useCreateLeadCallbackMutation();
 
   const createNote = async (callbackId: string) => {
     const note = noteButton.current?.getNote();
@@ -64,6 +65,7 @@ const CreateLeadCallbackModal = (props: Props) => {
     }
   };
 
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValue) => {
     try {
       const responseData = await createLeadCallback({ variables: { ...values, userId: id } });
@@ -116,7 +118,10 @@ const CreateLeadCallbackModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader toggle={onCloseModal}>{I18n.t('CALLBACKS.CREATE_MODAL.LEAD_TITLE')}</ModalHeader>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('CALLBACKS.CREATE_MODAL.LEAD_TITLE')}
+            </ModalHeader>
+
             <ModalBody>
               <Field
                 name="operatorId"
@@ -169,6 +174,7 @@ const CreateLeadCallbackModal = (props: Props) => {
                 />
               </div>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
@@ -192,7 +198,4 @@ const CreateLeadCallbackModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateLeadCallbackModal);
+export default React.memo(CreateLeadCallbackModal);

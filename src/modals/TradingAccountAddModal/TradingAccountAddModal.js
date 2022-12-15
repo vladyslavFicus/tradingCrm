@@ -3,9 +3,9 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
 import { getBrand } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { generate } from 'utils/password';
 import { createValidator, translateLabels } from 'utils/validator';
 import {
@@ -31,7 +31,6 @@ class TradingAccountAddModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     createTradingAccount: PropTypes.func.isRequired,
     profileId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -40,7 +39,6 @@ class TradingAccountAddModal extends PureComponent {
   onSubmit = async (data) => {
     const {
       onCloseModal,
-      notify,
       createTradingAccount,
       profileId,
       onSuccess,
@@ -57,7 +55,7 @@ class TradingAccountAddModal extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED'),
       });
@@ -68,7 +66,7 @@ class TradingAccountAddModal extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
         message: I18n.t(error.error) || I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -216,7 +214,6 @@ class TradingAccountAddModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     createTradingAccount: UpdateTradingAccountModalMutation,
   }),

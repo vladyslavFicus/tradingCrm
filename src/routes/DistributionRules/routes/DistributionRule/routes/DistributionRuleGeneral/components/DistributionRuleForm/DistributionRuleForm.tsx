@@ -2,10 +2,8 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import { useHistory, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { LevelType, Notify } from 'types';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
@@ -17,22 +15,19 @@ import { useUpdateRuleMutation } from './graphql/__generated__/UpdateRuleMutatio
 import { FormValues } from './types';
 import './DistributionRuleForm.scss';
 
-type Props = {
-  notify: Notify,
-}
-
-const DistributionRuleForm = (props: Props) => {
-  const { notify } = props;
-
+const DistributionRuleForm = () => {
   const history = useHistory();
+
   const { id: uuid } = useParams<{ id: string }>();
 
+  // ===== Requests ===== //
   const distributionRuleQuery = useDistributionRuleQuery({ variables: { uuid } });
-  const [updateRule] = useUpdateRuleMutation();
 
   const distributionRule = distributionRuleQuery.data?.distributionRule;
   const sourceBrandConfig = distributionRule?.sourceBrandConfigs && distributionRule.sourceBrandConfigs[0];
   const targetBrandConfig = distributionRule?.targetBrandConfigs && distributionRule.targetBrandConfigs[0];
+
+  const [updateRule] = useUpdateRuleMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
@@ -168,6 +163,7 @@ const DistributionRuleForm = (props: Props) => {
                   <option key={value} value={value}>{I18n.t(label)}</option>
                 ))}
               </Field>
+
               <If condition={formik.dirty}>
                 <div className="DistributionRuleForm__not-saved-message">
                   {I18n.t('CLIENTS_DISTRIBUTION.RULE.NOT_SAVED')}
@@ -183,6 +179,7 @@ const DistributionRuleForm = (props: Props) => {
 
                 <DistributionRuleSourceBrandForm formik={formik} />
               </fieldset>
+
               <fieldset className="DistributionRuleForm__fieldset">
                 <legend className="DistributionRuleForm__fieldset-title">
                   {I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}
@@ -200,6 +197,7 @@ const DistributionRuleForm = (props: Props) => {
               >
                 {I18n.t('COMMON.CANCEL')}
               </Button>
+
               <Button
                 primary
                 type="submit"
@@ -217,7 +215,4 @@ const DistributionRuleForm = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DistributionRuleForm);
+export default React.memo(DistributionRuleForm);

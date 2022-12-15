@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withRequests, parseErrors } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import withNotifications from 'hoc/withNotifications';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import DeleteBranchMutation from './graphql/DeleteBranchMutation';
 import './DeleteBranchModal.scss';
@@ -17,7 +17,6 @@ class DeleteBranchModal extends PureComponent {
     onSuccess: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     deleteBranch: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   state = {
@@ -32,7 +31,7 @@ class DeleteBranchModal extends PureComponent {
   }
 
   handleSubmit = async () => {
-    const { uuid, name, onSuccess, deleteBranch, notify } = this.props;
+    const { uuid, name, onSuccess, deleteBranch } = this.props;
     const { isSubmitting } = this.state;
 
     if (!isSubmitting) {
@@ -42,7 +41,7 @@ class DeleteBranchModal extends PureComponent {
         await deleteBranch({ variables: { uuid } });
 
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('MODALS.DELETE_BRANCH_MODAL.SUCCESS', { name }),
         });
@@ -124,7 +123,6 @@ class DeleteBranchModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     deleteBranch: DeleteBranchMutation,
   }),

@@ -3,8 +3,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
-import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify, Sort, State, TableSelection } from 'types';
+import { withModals } from 'hoc';
+import { Modal, Sort, State, TableSelection } from 'types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
@@ -27,7 +28,6 @@ import './IpWhitelistGrid.scss';
 type IpWhitelistAddress = ExtractApolloTypeFromPageable<IpWhitelistSearchQuery['ipWhitelistSearch']>;
 
 type Props = {
-  notify: Notify,
   modals: {
     addAddressModal: Modal<{
       onSuccess: () => void,
@@ -43,10 +43,10 @@ type Props = {
       submitButtonLabel: string,
     }>,
   },
-}
+};
 
 const IpWhitelistGrid = (props: Props) => {
-  const { notify, modals } = props;
+  const { modals } = props;
   const { state } = useLocation<State<IpWhitelistSearchQueryVariables['args']>>();
   const [deleteManyIpMutation] = useDeleteManyIpMutation();
   const [deleteIpMutation] = useDeleteIpMutation();
@@ -240,7 +240,7 @@ const IpWhitelistGrid = (props: Props) => {
           </div>
         </PermissionContent>
       </div>
-      <IpWhitelistFilter refetch={ipWhitelistQuery.refetch} />
+      <IpWhitelistFilter onRefetch={ipWhitelistQuery.refetch} />
       <Table
         items={content}
         loading={ipWhitelistQuery.loading}
@@ -274,8 +274,7 @@ const IpWhitelistGrid = (props: Props) => {
   );
 };
 
-export default compose<React.ComponentType<Props>>(
-  withNotifications,
+export default compose(
   withModals({
     deleteModal: ConfirmActionModal,
     updateDescriptionModal: WhiteListUpdateDescriptionModal,

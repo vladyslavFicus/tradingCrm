@@ -3,8 +3,9 @@ import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import { withApollo } from '@apollo/client/react/hoc';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
@@ -22,7 +23,6 @@ export const FilterSetsContext = React.createContext();
 class FilterSetsDecorator extends PureComponent {
   static propTypes = {
     ...PropTypes.router,
-    notify: PropTypes.func.isRequired,
     client: PropTypes.object.isRequired,
     modals: PropTypes.shape({
       actionFilterModal: PropTypes.modalType,
@@ -151,7 +151,6 @@ class FilterSetsDecorator extends PureComponent {
 
   fetchFilterSetByUuid = async (uuid) => {
     const {
-      notify,
       client,
       submitFilters,
     } = this.props;
@@ -169,7 +168,7 @@ class FilterSetsDecorator extends PureComponent {
       this.setActiveFilterSet(uuid, Object.keys(filterSet));
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.LOADING_FAILED'),
       });
@@ -180,7 +179,6 @@ class FilterSetsDecorator extends PureComponent {
 
   updateFavouriteFilterSet = async (uuid, newValue) => {
     const {
-      notify,
       updateFavouriteFilterSetMutation,
     } = this.props;
 
@@ -191,13 +189,13 @@ class FilterSetsDecorator extends PureComponent {
       await this.refetchFilterSets();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -208,7 +206,6 @@ class FilterSetsDecorator extends PureComponent {
 
   deleteFilterSet = () => {
     const {
-      notify,
       modals: {
         confirmActionModal,
       },
@@ -233,7 +230,7 @@ class FilterSetsDecorator extends PureComponent {
           this.removeActiveFilterSet();
 
           notify({
-            level: 'success',
+            level: LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
           });
@@ -243,7 +240,7 @@ class FilterSetsDecorator extends PureComponent {
           const error = parseErrors(e);
 
           notify({
-            level: 'error',
+            level: LevelType.ERROR,
             title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
             message:
               error.message || I18n.t('COMMON.SOMETHING_WRONG'),
@@ -313,7 +310,6 @@ class FilterSetsDecorator extends PureComponent {
 export default compose(
   withApollo,
   withRouter,
-  withNotifications,
   withModals({
     actionFilterModal: ActionFilterModal,
     confirmActionModal: ConfirmActionModal,

@@ -5,8 +5,7 @@ import { ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { FormikSelectField } from 'components/Formik';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -21,46 +20,46 @@ type Operator = {
   uuid: string,
   fullName?: string,
   operatorStatus?: string,
-}
+};
+
 type Branch = {
   uuid: string,
-}
+};
+
+type FormValues = {
+  uuid: string,
+  fullName?: string,
+  operatorStatus?: string,
+};
 
 type Props = {
   operators: [Operator],
-  isOpen: boolean,
-  onCloseModal: () => void,
+  branch: Branch,
   title: string,
   description: string,
-  notify: Notify,
-  branch: Branch,
   onSuccess: () => void,
-}
+  onCloseModal: () => void,
+};
 
 const RemoveBranchManagerModal = (props: Props) => {
-  const { isOpen, onCloseModal, title, description, operators = [] } = props;
+  const { operators = [], branch, title, description, onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const [removeBranchManager] = useRemoveBranchManagerMutation();
 
-  const handleSubmit = ({ uuid: managerUuid }: Operator) => {
-    const {
-      notify,
-      onSuccess,
-      branch: {
-        uuid: branchUuid,
-      },
-    } = props;
-
+  // ===== Handlers ===== //
+  const handleSubmit = async (values: FormValues) => {
     try {
-      removeBranchManager({ variables: { branchUuid, managerUuid } });
+      await removeBranchManager({ variables: { branchUuid: branch.uuid, managerUuid: values.uuid } });
+
+      onSuccess();
+      onCloseModal();
 
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.TITLE'),
         message: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.DESC'),
       });
-
-      onCloseModal();
-      onSuccess();
     } catch (e) {
       const error = parseErrors(e);
 
@@ -75,10 +74,7 @@ const RemoveBranchManagerModal = (props: Props) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      toggle={onCloseModal}
-    >
+    <Modal toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{ uuid: '' }}
         validate={createValidator({
@@ -90,11 +86,15 @@ const RemoveBranchManagerModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader className="RemoveBranchManagerModal__header" toggle={onCloseModal}>{title}</ModalHeader>
+            <ModalHeader className="RemoveBranchManagerModal__header" toggle={onCloseModal}>
+              {title}
+            </ModalHeader>
+
             <ModalBody>
               <div className="RemoveBranchManagerModal__description">
                 {description}
               </div>
+
               <Field
                 name="uuid"
                 className="RemoveBranchManagerModal__select"
@@ -111,6 +111,7 @@ const RemoveBranchManagerModal = (props: Props) => {
                 ))}
               </Field>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
@@ -118,6 +119,7 @@ const RemoveBranchManagerModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -135,6 +137,5 @@ const RemoveBranchManagerModal = (props: Props) => {
 
 export default compose(
   React.memo,
-  withNotifications,
   withRouter,
 )(RemoveBranchManagerModal);

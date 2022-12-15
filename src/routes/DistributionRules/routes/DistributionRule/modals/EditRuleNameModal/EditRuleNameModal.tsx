@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import compose from 'compose-function';
-import { LevelType, Notify } from 'types';
-import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
@@ -13,27 +11,27 @@ import { useDistributionRuleQuery } from './graphql/__generated__/DistributionRu
 import { useUpdateDistributionRuleMutation } from './graphql/__generated__/UpdateDistributionRuleMutation';
 import './EditRuleNameModal.scss';
 
-type Props = {
-  uuid: string,
-  notify: Notify,
-  onCloseModal: () => void,
-}
-
 type FormValues = {
   ruleName: string,
   ruleOrder: number,
-}
+};
+
+type Props = {
+  uuid: string,
+  onCloseModal: () => void,
+};
 
 const EditRuleNameModal = (props: Props) => {
-  const { uuid, notify, onCloseModal } = props;
+  const { uuid, onCloseModal } = props;
 
   const [formError, setFormError] = useState<string | null>(null);
 
-  const [updateDistributionRule] = useUpdateDistributionRuleMutation();
-
+  // ===== Requests ===== //
   const distributionRuleQuery = useDistributionRuleQuery({ variables: { uuid } });
 
   const distributionRule = distributionRuleQuery.data?.distributionRule;
+
+  const [updateDistributionRule] = useUpdateDistributionRuleMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
@@ -91,12 +89,14 @@ const EditRuleNameModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               <div>{I18n.t('CLIENTS_DISTRIBUTION.UPDATE_MODAL.HEADER')}</div>
             </ModalHeader>
+
             <ModalBody>
               <If condition={!!formError}>
                 <div className="EditRuleNameModal__error">
                   {formError}
                 </div>
               </If>
+
               <Field
                 name="ruleName"
                 type="text"
@@ -104,6 +104,7 @@ const EditRuleNameModal = (props: Props) => {
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.MODAL.FIELDS.NAME')}
                 component={FormikInputField}
               />
+
               <Field
                 name="ruleOrder"
                 type="number"
@@ -112,6 +113,7 @@ const EditRuleNameModal = (props: Props) => {
                 component={FormikInputField}
               />
             </ModalBody>
+
             <ModalFooter>
               <Button
                 tertiary
@@ -119,6 +121,7 @@ const EditRuleNameModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 primary
                 type="submit"
@@ -134,7 +137,4 @@ const EditRuleNameModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(EditRuleNameModal);
+export default React.memo(EditRuleNameModal);

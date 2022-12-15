@@ -7,7 +7,8 @@ import Trackify from '@hrzn/trackify';
 import { UncontrolledTooltip } from 'reactstrap';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
-import { withNotifications, withModals } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
@@ -38,7 +39,6 @@ class ClientPersonalInfo extends PureComponent {
     client: PropTypes.shape({
       query: PropTypes.func.isRequired,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     updateConfiguration: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       emailSelectModal: PropTypes.modalType,
@@ -58,7 +58,6 @@ class ClientPersonalInfo extends PureComponent {
     const {
       clientInfo: { uuid: playerUUID },
       updateConfiguration,
-      notify,
     } = this.props;
 
     try {
@@ -70,13 +69,13 @@ class ClientPersonalInfo extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
@@ -84,7 +83,7 @@ class ClientPersonalInfo extends PureComponent {
   };
 
   getProfilePhones = async () => {
-    const { clientInfo: { uuid }, notify } = this.props;
+    const { clientInfo: { uuid } } = this.props;
 
     try {
       const { data: { profileContacts: { additionalPhone, phone } } } = await this.props.client.query({
@@ -102,14 +101,14 @@ class ClientPersonalInfo extends PureComponent {
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };
 
   getProfileEmail = async () => {
-    const { clientInfo: { uuid }, notify } = this.props;
+    const { clientInfo: { uuid } } = this.props;
 
     try {
       const { data: { profileContacts: { email } } } = await this.props.client.query({
@@ -127,14 +126,14 @@ class ClientPersonalInfo extends PureComponent {
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };
 
   getProfileAdditionalEmail = async () => {
-    const { clientInfo: { uuid }, notify } = this.props;
+    const { clientInfo: { uuid } } = this.props;
 
     try {
       const { data: { profileContacts: { additionalEmail } } } = await this.props.client.query({
@@ -152,7 +151,7 @@ class ClientPersonalInfo extends PureComponent {
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
@@ -322,7 +321,7 @@ class ClientPersonalInfo extends PureComponent {
                   <>
                     <CopyToClipboard
                       text={affiliate.source}
-                      withNotification={this.props.notify}
+                      withNotification
                       notificationLevel="info"
                       notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                       notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
@@ -355,7 +354,7 @@ class ClientPersonalInfo extends PureComponent {
                   <>
                     <CopyToClipboard
                       text={affiliate.referral}
-                      withNotification={this.props.notify}
+                      withNotification
                       notificationLevel="info"
                       notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                       notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
@@ -390,7 +389,7 @@ class ClientPersonalInfo extends PureComponent {
                   <>
                     <CopyToClipboard
                       text={affiliate.campaignId}
-                      withNotification={this.props.notify}
+                      withNotification
                       notificationLevel="info"
                       notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                       notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
@@ -472,7 +471,6 @@ class ClientPersonalInfo extends PureComponent {
 export default compose(
   withApollo,
   withPermission,
-  withNotifications,
   withModals({
     emailSelectModal: EmailSelectModal,
   }),

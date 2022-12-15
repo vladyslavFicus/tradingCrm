@@ -3,22 +3,34 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { State } from 'types';
+import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
+import { ResetForm } from 'types/formik';
 import { callbacksStatuses } from 'constants/callbacks';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { LeadCallbacksListQueryVariables } from '../../graphql/__generated__/LeadCallbacksListQuery';
 import './LeadCallbacksGridFilter.scss';
 
-type Props = {
-  handleRefetch: () => void,
+type FormValues = {
+  searchKeyword?: string,
+  statuses?: Array<CallbackStatusEnum>,
+  callbackTimeFrom?: string,
+  callbackTimeTo?: string,
 };
 
-const LeadCallbacksGridFilter = ({ handleRefetch }: Props) => {
-  const history = useHistory();
-  const { state } = useLocation<State<LeadCallbacksListQueryVariables>>();
+type Props = {
+  onRefetch: () => void,
+};
 
-  const handleSubmit = (values: LeadCallbacksListQueryVariables) => {
+const LeadCallbacksGridFilter = (props: Props) => {
+  const { onRefetch } = props;
+
+  const { state } = useLocation<State<FormValues>>();
+
+  const history = useHistory();
+
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -27,7 +39,7 @@ const LeadCallbacksGridFilter = ({ handleRefetch }: Props) => {
     });
   };
 
-  const handleReset = (resetForm: Function) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
@@ -42,7 +54,7 @@ const LeadCallbacksGridFilter = ({ handleRefetch }: Props) => {
     <Formik
       className="LeadCallbacksGridFilter"
       enableReinitialize
-      initialValues={state?.filters as LeadCallbacksListQueryVariables || {}}
+      initialValues={state?.filters as FormValues || {}}
       onSubmit={handleSubmit}
     >
       {({
@@ -71,6 +83,7 @@ const LeadCallbacksGridFilter = ({ handleRefetch }: Props) => {
             withAnyOption
             searchable
             withFocus
+            multiple
           >
             {Object.keys(callbacksStatuses).map(status => (
               <option key={status} value={status}>{I18n.t(callbacksStatuses[status])}</option>
@@ -91,7 +104,7 @@ const LeadCallbacksGridFilter = ({ handleRefetch }: Props) => {
           <div className="LeadCallbacksGridFilter__buttons">
             <RefreshButton
               className="LeadCallbacksGridFilter__button"
-              onClick={handleRefetch}
+              onClick={onRefetch}
             />
 
             <Button

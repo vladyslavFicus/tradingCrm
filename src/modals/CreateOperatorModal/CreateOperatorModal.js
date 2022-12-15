@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import {
   departmentsLabels,
@@ -75,7 +75,6 @@ class CreateOperatorModal extends PureComponent {
     }).isRequired,
     isOpen: PropTypes.bool.isRequired,
     createOperator: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     onExists: PropTypes.func.isRequired,
   };
@@ -88,7 +87,6 @@ class CreateOperatorModal extends PureComponent {
       onCloseModal,
       onExists,
       history,
-      notify,
     } = this.props;
 
     try {
@@ -111,7 +109,7 @@ class CreateOperatorModal extends PureComponent {
         onExists({ email, department, role, branchId, userType });
       } else {
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });
@@ -330,7 +328,6 @@ class CreateOperatorModal extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withRequests({
     createOperator: CreateOperatorMutation,
     authoritiesQuery: AuthoritiesOptionsQuery,

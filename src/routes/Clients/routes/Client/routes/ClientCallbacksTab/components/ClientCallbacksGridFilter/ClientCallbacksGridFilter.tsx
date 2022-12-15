@@ -3,24 +3,34 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { State } from 'types';
+import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
+import { ResetForm } from 'types/formik';
 import { callbacksStatuses } from 'constants/callbacks';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { ClientCallbacksQueryVariables } from '../../graphql/__generated__/ClientCallbacksQuery';
 import './ClientCallbacksGridFilter.scss';
 
+type FormValues = {
+  searchKeyword?: string,
+  statuses?: Array<CallbackStatusEnum>,
+  callbackTimeFrom?: string,
+  callbackTimeTo?: string,
+};
+
 type Props = {
-  handleRefetch: () => void,
+  onRefetch: () => void,
 };
 
 const ClientCallbacksGridFilter = (props: Props) => {
-  const { handleRefetch } = props;
+  const { onRefetch } = props;
 
-  const { state } = useLocation<State<ClientCallbacksQueryVariables>>();
+  const { state } = useLocation<State<FormValues>>();
+
   const history = useHistory();
 
-  const handleSubmit = (values: ClientCallbacksQueryVariables) => {
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -29,20 +39,21 @@ const ClientCallbacksGridFilter = (props: Props) => {
     });
   };
 
-  const handleReset = (resetForm: Function) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
-        filters: {},
+        filters: null,
       },
     });
+
     resetForm();
   };
 
   return (
     <Formik
       className="ClientCallbacksGridFilter"
-      initialValues={state?.filters as ClientCallbacksQueryVariables || {}}
+      initialValues={state?.filters as FormValues || {}}
       onSubmit={handleSubmit}
       enableReinitialize
     >
@@ -72,6 +83,7 @@ const ClientCallbacksGridFilter = (props: Props) => {
             withAnyOption
             searchable
             withFocus
+            multiple
           >
             {Object.keys(callbacksStatuses).map(status => (
               <option key={status} value={status}>{I18n.t(callbacksStatuses[status])}</option>
@@ -92,7 +104,7 @@ const ClientCallbacksGridFilter = (props: Props) => {
           <div className="ClientCallbacksGridFilter__buttons">
             <RefreshButton
               className="ClientCallbacksGridFilter__button"
-              onClick={handleRefetch}
+              onClick={onRefetch}
             />
 
             <Button

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { withNotifications, withModals } from 'hoc';
+import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
@@ -169,7 +169,6 @@ class LeadsHeader extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withModals({
     representativeUpdateModal: RepresentativeUpdateModal,
     leadsUploadModal: LeadsUploadModal,

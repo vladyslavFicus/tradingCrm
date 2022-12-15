@@ -1,6 +1,5 @@
 query ClientCallbacksListQuery(
   $searchKeyword: String,
-  $userId: String,
   $statuses: [Callback__Status__Enum],
   $callbackTimeFrom: String,
   $callbackTimeTo: String,
@@ -9,7 +8,6 @@ query ClientCallbacksListQuery(
 ) {
   clientCallbacks(
     searchKeyword: $searchKeyword,
-    userId: $userId,
     statuses: $statuses,
     callbackTimeFrom: $callbackTimeFrom,
     callbackTimeTo: $callbackTimeTo,

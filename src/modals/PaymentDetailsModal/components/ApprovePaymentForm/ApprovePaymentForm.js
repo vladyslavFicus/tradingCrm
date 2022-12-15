@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { manualPaymentMethodsLabels } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -25,7 +25,6 @@ class ApprovePaymentForm extends PureComponent {
     approvePayment: PropTypes.func.isRequired,
     paymentId: PropTypes.string.isRequired,
     onSuccess: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   handleApprovePayment = async ({ paymentMethod }) => {
@@ -33,7 +32,6 @@ class ApprovePaymentForm extends PureComponent {
       approvePayment,
       paymentId,
       onSuccess,
-      notify,
     } = this.props;
 
     try {
@@ -46,7 +44,7 @@ class ApprovePaymentForm extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'),
       });
@@ -56,7 +54,7 @@ class ApprovePaymentForm extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
       });
@@ -113,7 +111,6 @@ class ApprovePaymentForm extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     approvePayment: approvePaymentMutation,
     manualPaymentMethods: getManualPaymentMethodsQuery,

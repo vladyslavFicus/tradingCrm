@@ -2727,6 +2727,7 @@
       "LAST_MONTH": "Last Month",
       "PAST_MONTH": "Past Month"
     },
+    "LATEST_NOTIFICATIONS": "Latest 10 Notifications",
     "LATEST_DEPOSITS": "Latest %{count} Deposits",
     "LATEST_WITHDRAWALS": "Latest %{count} Withdrawals",
     "LATEST_REGISTRATIONS": "Latest %{count} Registrations"

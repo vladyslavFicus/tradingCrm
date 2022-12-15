@@ -13,19 +13,24 @@ import {
 } from '../../graphql/__generated__/ClientCallHistoryQuery';
 import './ClientCallHistoryGrid.scss';
 
-type Props = {
-  callHistory: CallHistoryQueryQueryResult,
-};
 type CallHistoryType = ExtractApolloTypeFromPageable<CallHistoryQuery['callHistory']>;
 
+type Props = {
+  callHistoryQuery: CallHistoryQueryQueryResult,
+};
 
-const ClientCallHistoryGrid = ({ callHistory }: Props) => {
-  const { content = [], last = false } = callHistory?.data?.callHistory || {};
+const ClientCallHistoryGrid = (props: Props) => {
+  const { callHistoryQuery } = props;
+
+  const { data, variables, fetchMore, loading } = callHistoryQuery;
+  const { content = [], last = false } = callHistoryQuery?.data?.callHistory || {};
+
   const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
+
   const history = useHistory();
 
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { data, variables, fetchMore, loading } = callHistory;
     const page = data?.callHistory?.page || 0;
     if (!loading) {
       fetchMore({
@@ -34,6 +39,16 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
     }
   };
 
+  const handleSort = (sorts: Sort[]) => {
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
+    });
+  };
+
+  // ===== Renders ===== //
   const renderVoIP = ({ callSystem }: CallHistoryType) => (
     <div className="ClientCallHistoryGrid__info--main">
       {startCase(callSystem.toLowerCase())}
@@ -42,11 +57,20 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
 
   const renderOperator = ({ operator }: CallHistoryType) => (
     <Fragment>
-      <div className="ClientCallHistoryGrid__info--main">
-        {operator.fullName}
-      </div>
+      <Choose>
+        <When condition={!!operator?.fullName}>
+          <div className="ClientCallHistoryGrid__info--main">
+            {operator.fullName}
+          </div>
+        </When>
+
+        <Otherwise>
+          <div>&mdash;</div>
+        </Otherwise>
+      </Choose>
+
       <div className="ClientCallHistoryGrid__info--secondary">
-        <Uuid uuid={operator.uuid || ''} />
+        <Uuid uuid={operator.uuid} />
       </div>
     </Fragment>
   );
@@ -56,6 +80,7 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
       <div className="ClientCallHistoryGrid__info--main">
         {moment.utc(time).local().format('DD.MM.YYYY')}
       </div>
+
       <div className="ClientCallHistoryGrid__info--secondary">
         {moment.utc(time).local().format('HH:mm:ss')}
       </div>
@@ -69,6 +94,7 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
       <When condition={!!finishedAt}>
         {renderDateAndTime(finishedAt as string)}
       </When>
+
       <Otherwise>
         <div className="ClientCallHistoryGrid__info--secondary">&mdash;</div>
       </Otherwise>
@@ -94,27 +120,19 @@ const ClientCallHistoryGrid = ({ callHistory }: Props) => {
           {moment.utc(+(duration as string) * 60 * 1000).format('HH:mm:ss')}
         </div>
       </When>
+
       <Otherwise>
         <div className="ClientCallHistoryGrid__info--secondary">&mdash;</div>
       </Otherwise>
     </Choose>
   );
 
-  const handleSort = (sorts: Sort[]) => {
-    history.replace({
-      state: {
-        ...state,
-        sorts,
-      },
-    });
-  };
-
   return (
     <div className="ClientCallHistoryGrid">
       <Table
         stickyFromTop={188}
         items={content}
-        loading={callHistory.loading}
+        loading={loading}
         hasMore={!last}
         onSort={handleSort}
         onMore={handlePageChanged}

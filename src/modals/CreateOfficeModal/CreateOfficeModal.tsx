@@ -1,15 +1,13 @@
 import React from 'react';
-import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { useCreateOfficeMutation } from './graphql/__generated__/CreateOfficeMutation';
 import './CreateOfficeModal.scss';
 
@@ -21,40 +19,37 @@ const attributeLabels = {
 type FormValues = {
   name: string,
   country: string,
-}
+};
 
 type Props = {
-  isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateOfficeModal = (props: Props) => {
-  const { isOpen, notify, onSuccess, onCloseModal } = props;
+  const { onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const [createOfficeMutation] = useCreateOfficeMutation();
 
   // ===== Handlers ===== //
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await createOfficeMutation({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'name',
-          I18n.t('MODALS.ADD_OFFICE_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('name', I18n.t('MODALS.ADD_OFFICE_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -66,7 +61,7 @@ const CreateOfficeModal = (props: Props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={onCloseModal}>
+    <Modal toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           name: '',
@@ -89,6 +84,7 @@ const CreateOfficeModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('MODALS.ADD_OFFICE_MODAL.TITLE')}
             </ModalHeader>
+
             <ModalBody>
               <Field
                 name="name"
@@ -97,6 +93,7 @@ const CreateOfficeModal = (props: Props) => {
                 component={FormikInputField}
                 disabled={isSubmitting}
               />
+
               <Field
                 name="country"
                 label={attributeLabels.country}
@@ -112,6 +109,7 @@ const CreateOfficeModal = (props: Props) => {
                 ))}
               </Field>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 className="CreateOfficeModal__button"
@@ -120,6 +118,7 @@ const CreateOfficeModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 className="CreateOfficeModal__button"
                 disabled={isSubmitting}
@@ -136,7 +135,4 @@ const CreateOfficeModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateOfficeModal);
+export default React.memo(CreateOfficeModal);

@@ -7,7 +7,8 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { statuses, statusesLabels, statusActions } from 'constants/user';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
@@ -36,7 +37,6 @@ class ClientAccountStatus extends PureComponent {
     modals: PropTypes.shape({
       changeAccountStatusModal: PropTypes.modalType,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   state = {
@@ -61,7 +61,6 @@ class ClientAccountStatus extends PureComponent {
 
   handleChangeAccountStatus = async ({ reason, comment }, action) => {
     const {
-      notify,
       clientUuid,
       changeAccountStatus,
       modals: { changeAccountStatusModal },
@@ -78,7 +77,7 @@ class ClientAccountStatus extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.SUCCESS.TITLE'),
         message: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
@@ -86,7 +85,7 @@ class ClientAccountStatus extends PureComponent {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.ERROR.TITLE'),
         message: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.ERROR.MESSAGE'),
       });
@@ -206,7 +205,6 @@ class ClientAccountStatus extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withModals({
     changeAccountStatusModal: ChangeAccountStatusModal,
   }),

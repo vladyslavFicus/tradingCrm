@@ -3,22 +3,34 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { State } from 'types';
+import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
+import { ResetForm } from 'types/formik';
 import { callbacksStatuses } from 'constants/callbacks';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { ClientCallbacksListQueryVariables } from '../../graphql/__generated__/ClientCallbacksListQuery';
 import './ClientCallbacksGridFilter.scss';
 
-type Props = {
-  handleRefetch: () => void,
+type FormValues = {
+  searchKeyword?: string,
+  statuses?: Array<CallbackStatusEnum>,
+  callbackTimeFrom?: string,
+  callbackTimeTo?: string,
 };
 
-const ClientCallbacksGridFilter = ({ handleRefetch }: Props) => {
-  const history = useHistory();
-  const { state } = useLocation<State<ClientCallbacksListQueryVariables>>();
+type Props = {
+  onRefetch: () => void,
+};
 
-  const handleSubmit = (values: ClientCallbacksListQueryVariables) => {
+const ClientCallbacksGridFilter = (props: Props) => {
+  const { onRefetch } = props;
+
+  const { state } = useLocation<State<FormValues>>();
+
+  const history = useHistory();
+
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -27,7 +39,7 @@ const ClientCallbacksGridFilter = ({ handleRefetch }: Props) => {
     });
   };
 
-  const handleReset = (resetForm: Function) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
@@ -42,7 +54,7 @@ const ClientCallbacksGridFilter = ({ handleRefetch }: Props) => {
     <Formik
       className="ClientCallbacksGridFilter"
       enableReinitialize
-      initialValues={state?.filters as ClientCallbacksListQueryVariables || {}}
+      initialValues={state?.filters as FormValues || {}}
       onSubmit={handleSubmit}
     >
       {({
@@ -71,6 +83,7 @@ const ClientCallbacksGridFilter = ({ handleRefetch }: Props) => {
             withAnyOption
             searchable
             withFocus
+            multiple
           >
             {Object.keys(callbacksStatuses).map(status => (
               <option key={status} value={status}>{I18n.t(callbacksStatuses[status])}</option>
@@ -91,7 +104,7 @@ const ClientCallbacksGridFilter = ({ handleRefetch }: Props) => {
           <div className="ClientCallbacksGridFilter__buttons">
             <RefreshButton
               className="ClientCallbacksGridFilter__button"
-              onClick={handleRefetch}
+              onClick={onRefetch}
             />
 
             <Button

@@ -1,16 +1,14 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getAvailableLanguages } from 'config';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/UI';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import { useCreateDeskMutation } from './graphql/__generated__/CreateDeskMutation';
 import { useOfficesQuery } from './graphql/__generated__/OfficesQuery';
@@ -28,42 +26,41 @@ type FormValues = {
   deskType: DeskTypesEnum,
   officeUuid: string,
   language: string,
-}
+};
 
 type Props = {
-  isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateDeskModal = (props: Props) => {
-  const { isOpen, notify, onSuccess, onCloseModal } = props;
-  const [createDeskMutation] = useCreateDeskMutation();
+  const { onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const officesQuery = useOfficesQuery();
+
   const offices = officesQuery.data?.userBranches?.OFFICE || [];
 
+  const [createDeskMutation] = useCreateDeskMutation();
+
   // ===== Handlers ===== //
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await createDeskMutation({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_DESK_MODAL.NOTIFICATIONS.SUCCESS'),
         message: I18n.t('COMMON.SUCCESS'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'name',
-          I18n.t('MODALS.ADD_DESK_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('name', I18n.t('MODALS.ADD_DESK_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -75,7 +72,7 @@ const CreateDeskModal = (props: Props) => {
   };
 
   return (
-    <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen={isOpen}>
+    <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           name: '',
@@ -99,7 +96,10 @@ const CreateDeskModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader toggle={onCloseModal}>{I18n.t('MODALS.ADD_DESK_MODAL.HEADER')}</ModalHeader>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('MODALS.ADD_DESK_MODAL.HEADER')}
+            </ModalHeader>
+
             <ModalBody>
               <Field
                 name="name"
@@ -153,6 +153,7 @@ const CreateDeskModal = (props: Props) => {
                 ))}
               </Field>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
@@ -178,7 +179,4 @@ const CreateDeskModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateDeskModal);
+export default React.memo(CreateDeskModal);

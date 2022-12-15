@@ -4,8 +4,8 @@ import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
-import { withNotifications } from 'hoc';
 import { withRequests, parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import AddExistingOperatorMutation from './graphql/AddExistingOperatorMutation';
@@ -33,7 +33,6 @@ class ExistingOperatorModal extends PureComponent {
       branchId,
       onCloseModal,
       userType,
-      notify,
       history,
     } = this.props;
 
@@ -59,7 +58,7 @@ class ExistingOperatorModal extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('MODALS.EXISTING_OPERATOR_MODAL.NOTIFICATIONS.ERROR.TITLE'),
         message: error.message || I18n.t('MODALS.EXISTING_OPERATOR_MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
       });
@@ -104,7 +103,6 @@ class ExistingOperatorModal extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withRequests({
     addExistingOperator: AddExistingOperatorMutation,
   }),

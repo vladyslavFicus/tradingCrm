@@ -218,12 +218,4 @@ const SelectTree = (props: Props) => {
   );
 };
 
-SelectTree.defaultProps = {
-  label: null,
-  value: '',
-  disabled: false,
-  className: null,
-  onChange: () => {},
-};
-
 export default React.memo(SelectTree);

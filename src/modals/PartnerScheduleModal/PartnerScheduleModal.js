@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -25,7 +25,6 @@ class PartnerScheduleModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     refetch: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     createSchedule: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     activated: PropTypes.bool.isRequired,
@@ -66,7 +65,6 @@ class PartnerScheduleModal extends PureComponent {
       affiliateUuid,
       onCloseModal,
       refetch,
-      notify,
     } = this.props;
 
     const limitSum = countrySpreads.reduce((a, b) => a + (b.limit || 0), 0);
@@ -98,13 +96,13 @@ class PartnerScheduleModal extends PureComponent {
         onCloseModal();
 
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
           message: I18n.t('COMMON.SUCCESS'),
         });
       } catch (e) {
         notify({
-          level: 'error',
+          level: LevelType.ERROR,
           title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
           message: I18n.t('COMMON.ERROR'),
         });
@@ -295,7 +293,6 @@ class PartnerScheduleModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     createSchedule: createScheduleMutation,
   }),

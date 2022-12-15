@@ -155,7 +155,7 @@ const SymbolNew = (props: Props) => {
           percentage: 100.0,
           securityName: '',
           lotMin: LotMin.MIN_0_01,
-          lotMax: LotMax.MAX_1000_0,
+          lotMax: LotMax.MAX_100000_0,
           lotStep: LotStep.STEP_0_01,
           defaultFiltration: true,
           swapConfigs: {

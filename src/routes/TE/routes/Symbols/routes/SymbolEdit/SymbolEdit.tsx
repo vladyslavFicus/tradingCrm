@@ -198,7 +198,7 @@ const SymbolEdit = (props: Props) => {
               percentage: percentage || 0,
               securityName: securityName || '',
               lotMin: lotMin || LotMin.MIN_0_01,
-              lotMax: lotMax || LotMax.MAX_1000_0,
+              lotMax: lotMax || LotMax.MAX_100000_0,
               lotStep: lotStep || LotStep.STEP_0_01,
               swapConfigs: {
                 enable: swapConfigs?.enable || false,

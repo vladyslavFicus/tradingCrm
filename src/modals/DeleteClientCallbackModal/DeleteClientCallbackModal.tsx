@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import compose from 'compose-function';
+import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { ClientCallback } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import { useDeleteClientCallbackMutation } from './graphql/__generated__/DeleteClientCallbackMutation';
@@ -13,49 +11,45 @@ import './DeleteClientCallbackModal.scss';
 
 type Props = {
   callback: ClientCallback,
-  notify: Notify,
-  onCloseModal: () => void,
   onSuccess: () => void,
+  onCloseModal: () => void,
 };
 
 const DeleteClientCallbackModal = (props: Props) => {
   const {
     callback,
-    notify,
-    onCloseModal,
     onSuccess = () => {},
+    onCloseModal,
   } = props;
-  const { client, callbackTime } = callback;
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [deleteClientCallbackMutation] = useDeleteClientCallbackMutation();
+  const { callbackId, client, callbackTime } = callback;
 
+  // ===== Requests ===== //
+  const [deleteClientCallbackMutation, { loading }] = useDeleteClientCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-
     try {
-      await deleteClientCallbackMutation({ variables: { callbackId: callback.callbackId } });
+      await deleteClientCallbackMutation({ variables: { callbackId } });
 
       EventEmitter.emit(CLIENT_CALLBACK_RELOAD);
+
+      onSuccess();
+      onCloseModal();
 
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.CLIENT_TITLE'),
         message: I18n.t('CALLBACKS.DELETE_MODAL.SUCCESSFULLY_DELETED'),
       });
-
-      onSuccess();
-      onCloseModal();
     } catch (e) {
+      onCloseModal();
+
       notify({
         level: LevelType.ERROR,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.CLIENT_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      onCloseModal();
     }
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -84,7 +78,7 @@ const DeleteClientCallbackModal = (props: Props) => {
         </Button>
 
         <Button
-          disabled={isSubmitting}
+          disabled={loading}
           onClick={handleSubmit}
           type="submit"
           danger
@@ -96,7 +90,4 @@ const DeleteClientCallbackModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DeleteClientCallbackModal);
+export default React.memo(DeleteClientCallbackModal);

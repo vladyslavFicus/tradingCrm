@@ -6,13 +6,12 @@ import ToolTip from 'react-portal-tooltip';
 import jwtDecode from 'jwt-decode';
 import classNames from 'classnames';
 import { v4 } from 'uuid';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withStorage } from 'providers/StorageProvider';
 import CircleLoader from 'components/CircleLoader';
 import { Button } from 'components/UI';
@@ -64,7 +63,6 @@ type ProviderOptionsType = {
 
 type Props = {
   customerType: CustomerType,
-  notify: Notify,
   phoneType: PhoneType,
   uuid: string,
   token: string,
@@ -79,9 +77,8 @@ const Click2Call = (props: Props) => {
     customerType,
     phoneType,
     token,
-    notify,
-    position,
-    arrow,
+    position = 'right',
+    arrow = 'top',
   } = props;
 
   const configsQuery = useClickToCallConfigsQuery();
@@ -251,13 +248,7 @@ const Click2Call = (props: Props) => {
   );
 };
 
-Click2Call.defaultProps = {
-  position: 'right',
-  arrow: 'top',
-};
-
 export default compose(
   React.memo,
-  withNotifications,
   withStorage(['token']),
 )(Click2Call);

@@ -8,12 +8,17 @@ import ClientCallHistoryGrid from './components/ClientCallHistoryGrid';
 import { CallHistoryQueryVariables, useCallHistoryQuery } from './graphql/__generated__/ClientCallHistoryQuery';
 import './ClientCallHistoryTab.scss';
 
+type Props = RouteComponentProps<{
+  id: string,
+}>;
 
-const ClientCallHistoryTab = (props: RouteComponentProps<{ id: string }>) => {
+const ClientCallHistoryTab = (props: Props) => {
   const { match: { params: { id: uuid } } } = props;
+
   const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
 
-  const callHistory = useCallHistoryQuery({
+  // ===== Requests ===== //
+  const callHistoryQuery = useCallHistoryQuery({
     variables: {
       uuid,
       args: {
@@ -34,8 +39,8 @@ const ClientCallHistoryTab = (props: RouteComponentProps<{ id: string }>) => {
         className="ClientCallHistoryTab__header"
       />
 
-      <ClientCallHistoryGridFilter callHistory={callHistory} />
-      <ClientCallHistoryGrid callHistory={callHistory} />
+      <ClientCallHistoryGridFilter onRefetch={callHistoryQuery.refetch} />
+      <ClientCallHistoryGrid callHistoryQuery={callHistoryQuery} />
     </div>
   );
 };

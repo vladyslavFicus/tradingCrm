@@ -76,7 +76,7 @@ class PinnedNotes extends PureComponent {
         <div className="PinnedNotes__item">
           <If condition={changedBy}>
             <Choose>
-              <When condition={operator.fullName}>
+              <When condition={!!operator?.fullName}>
                 <b className="PinnedNotes__item-operator">{operator.fullName}</b>
               </When>
               <Otherwise>

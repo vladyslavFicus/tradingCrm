@@ -8,10 +8,16 @@ import LeadCallHistoryGrid from './components/LeadCallHistoryGrid';
 import { CallHistoryQueryVariables, useCallHistoryQuery } from './graphql/__generated__/LeadCallHistoryQuery';
 import './LeadCallHistoryTab.scss';
 
-const LeadCallHistoryTab = (props: RouteComponentProps<{ id: string }>) => {
+type Props = RouteComponentProps<{
+  id: string,
+}>;
+
+const LeadCallHistoryTab = (props: Props) => {
   const { match: { params: { id: uuid } } } = props;
+
   const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
 
+  // ===== Requests ===== //
   const callHistoryQuery = useCallHistoryQuery({
     variables: {
       uuid,
@@ -33,7 +39,7 @@ const LeadCallHistoryTab = (props: RouteComponentProps<{ id: string }>) => {
         className="LeadCallHistoryTab__header"
       />
 
-      <LeadCallHistoryGridFilter callHistoryQuery={callHistoryQuery} />
+      <LeadCallHistoryGridFilter onRefetch={callHistoryQuery.refetch} />
       <LeadCallHistoryGrid callHistoryQuery={callHistoryQuery} />
     </div>
   );

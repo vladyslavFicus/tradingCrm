@@ -5,12 +5,13 @@ import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import countries from 'utils/countryList';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
@@ -34,7 +35,6 @@ class SalesRules extends PureComponent {
   static propTypes = {
     rulesQuery: PropTypes.query(PropTypes.arrayOf(PropTypes.ruleType)).isRequired,
     deleteRule: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       createRuleModal: PropTypes.modalType,
       deleteModal: PropTypes.modalType,
@@ -119,7 +119,6 @@ class SalesRules extends PureComponent {
 
   handleDeleteRule = uuid => async () => {
     const {
-      notify,
       deleteRule,
       rulesQuery: { refetch },
       modals: { deleteModal },
@@ -131,13 +130,13 @@ class SalesRules extends PureComponent {
       await refetch();
       deleteModal.hide();
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED'),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });
@@ -429,7 +428,6 @@ export default compose(
     createRuleModal: CreateRuleModal,
     updateRuleModal: UpdateRuleModal,
   }),
-  withNotifications,
   withRequests({
     operators: OperatorsQuery,
     partners: PartnersQuery,

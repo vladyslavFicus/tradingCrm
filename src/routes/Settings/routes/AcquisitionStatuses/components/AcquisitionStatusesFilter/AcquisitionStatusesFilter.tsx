@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
+import { ResetForm } from 'types/formik';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -12,16 +13,17 @@ import './AcquisitionStatusesFilter.scss';
 type FormValues = {
   statusName?: string,
   type?: AcquisitionStatusTypes,
-}
+};
 
 type Props = {
-  onRefresh: Function,
-}
+  onRefresh: () => void,
+};
 
 const AcquisitionStatusesFilter = (props: Props) => {
   const { onRefresh } = props;
 
   const { state } = useLocation<State<FormValues>>();
+
   const history = useHistory();
 
   // ===== Handlers ===== //
@@ -34,7 +36,7 @@ const AcquisitionStatusesFilter = (props: Props) => {
     });
   };
 
-  const handleReset = (resetForm: Function) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
@@ -69,6 +71,7 @@ const AcquisitionStatusesFilter = (props: Props) => {
               maxLength={200}
               withFocus
             />
+
             <Field
               name="type"
               label={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.ACQUISITION_STATUS')}
@@ -86,11 +89,13 @@ const AcquisitionStatusesFilter = (props: Props) => {
               </option>
             </Field>
           </div>
+
           <div className="AcquisitionStatusesFilter__buttons">
             <RefreshButton
               className="AcquisitionStatusesFilter__button"
               onClick={onRefresh}
             />
+
             <Button
               className="AcquisitionStatusesFilter__button"
               onClick={() => handleReset(resetForm)}
@@ -99,6 +104,7 @@ const AcquisitionStatusesFilter = (props: Props) => {
             >
               {I18n.t('COMMON.RESET')}
             </Button>
+
             <Button
               className="AcquisitionStatusesFilter__button"
               type="submit"

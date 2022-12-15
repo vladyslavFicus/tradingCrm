@@ -3,8 +3,8 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withRouter } from 'react-router-dom';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
 import { getGraphQLUrl, getVersion } from 'config';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import downloadBlob from 'utils/downloadBlob';
 import EventEmitter, {
@@ -68,7 +68,7 @@ class ClientFilesGrid extends PureComponent {
     documentType,
     verificationStatus,
   ) => {
-    const { notify, updateFileStatus } = this.props;
+    const { updateFileStatus } = this.props;
 
     try {
       await updateFileStatus({
@@ -82,13 +82,13 @@ class ClientFilesGrid extends PureComponent {
       this.refetchFiles();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('FILES.STATUS_CHANGED'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -96,7 +96,7 @@ class ClientFilesGrid extends PureComponent {
   };
 
   handleVerificationTypeClick = async (uuid, verificationType, documentType) => {
-    const { updateFileMeta, notify } = this.props;
+    const { updateFileMeta } = this.props;
 
     try {
       await updateFileMeta({
@@ -110,13 +110,13 @@ class ClientFilesGrid extends PureComponent {
       this.refetchFiles();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('FILES.DOCUMENT_TYPE_CHANGED'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -124,7 +124,7 @@ class ClientFilesGrid extends PureComponent {
   };
 
   handleChangeFileStatusClick = async (status, uuid) => {
-    const { updateFileMeta, notify } = this.props;
+    const { updateFileMeta } = this.props;
 
     try {
       await updateFileMeta({
@@ -137,13 +137,13 @@ class ClientFilesGrid extends PureComponent {
       this.refetchFiles();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('FILES.CHANGED_FILE_STATUS'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -229,7 +229,6 @@ class ClientFilesGrid extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withRequests({
     filesCategoriesQuery: FilesCategoriesQuery,
     filesByProfileUuidQuery: FilesByProfileUuidQuery,

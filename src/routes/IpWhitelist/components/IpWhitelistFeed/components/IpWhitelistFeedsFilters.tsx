@@ -6,27 +6,33 @@ import { QueryResult, ApolloQueryResult } from '@apollo/client';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { State } from 'types';
+import { ResetForm } from 'types/formik';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { typesLabels } from 'constants/audit';
-import { IpWhitelistFeedFilters } from '../types';
+import { IpWhitelistFeedFilters as FormValues } from '../types';
 import IpWhitelistFiltersQuery from './graphql/IpWhitelistFiltersQuery';
 import './IpWhitelistFeedsFilters.scss';
 
 type FeedTypes = { feedTypes?: { [key: string]: string } };
+
 type Props = {
   feedTypesQuery: QueryResult<FeedTypes>,
-  refetch: (variables: IpWhitelistFeedFilters) => Promise<ApolloQueryResult<IpWhitelistFeedFilters>>,
+  onRefetch: (variables: FormValues) => Promise<ApolloQueryResult<FormValues>>,
 };
 
-const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
-  const { state } = useLocation<State<IpWhitelistFeedFilters>>();
+const IpWhitelistFeedsFilters = (props: Props) => {
+  const { feedTypesQuery, onRefetch } = props;
+
+  const { state } = useLocation<State<FormValues>>();
+
   const history = useHistory();
 
-  const handleSubmit = (values: IpWhitelistFeedFilters) => {
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -35,13 +41,14 @@ const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
     });
   };
 
-  const handleReset = (resetForm: () => void) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
         filters: null,
       },
     });
+
     resetForm();
   };
 
@@ -84,6 +91,7 @@ const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
             component={FormikInputField}
             withFocus
           />
+
           <Field
             name="auditLogType"
             label={I18n.t('IP_WHITELIST.FEED.FILTER_FORM.LABELS.ACTION_TYPE')}
@@ -96,6 +104,7 @@ const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
               <option key={key} value={key}>{value}</option>
             ))}
           </Field>
+
           <Field
             className="IpWhitelistFeedsFilters__field IpWhitelistFeedsFilters__field--date-range"
             label={I18n.t('IP_WHITELIST.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
@@ -106,11 +115,13 @@ const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
             }}
             withFocus
           />
+
           <div className="IpWhitelistFeedsFilters__buttons-group">
             <RefreshButton
               className="IpWhitelistFeedsFilters__button"
-              onClick={refetch}
+              onClick={onRefetch}
             />
+
             <Button
               className="IpWhitelistFeedsFilters__button"
               onClick={() => handleReset(resetForm)}
@@ -119,6 +130,7 @@ const IpWhitelistFeedsFilters = ({ feedTypesQuery, refetch }: Props) => {
             >
               {I18n.t('COMMON.RESET')}
             </Button>
+
             <Button
               className="IpWhitelistFeedsFilters__button"
               disabled={isSubmitting || !dirty}

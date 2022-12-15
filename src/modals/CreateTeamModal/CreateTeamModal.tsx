@@ -1,13 +1,12 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { SetFieldValue } from 'types/formik';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Notify, LevelType } from 'types/notify';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { useCreateTeamMutation } from './graphql/__generated__/CreateTeamMutation';
 import { useDesksAndOfficesQuery } from './graphql/__generated__/DesksAndOfficesQuery';
@@ -23,42 +22,40 @@ type FormValues = {
   teamName: string,
   officeUuid: string,
   deskUuid: string,
-}
+};
 
 type Props = {
-  isOpen: boolean,
-  notify: Notify,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateTeamModal = (props: Props) => {
-  const { isOpen, notify, onSuccess, onCloseModal } = props;
-  const [createTeamMutation] = useCreateTeamMutation();
+  const { onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const desksAndOfficesQuery = useDesksAndOfficesQuery();
+
   const { loading } = desksAndOfficesQuery;
   const offices = desksAndOfficesQuery.data?.userBranches?.OFFICE || [];
   const desks = desksAndOfficesQuery.data?.userBranches?.DESK || [];
 
+  const [createTeamMutation] = useCreateTeamMutation();
+
   // ===== Handlers ===== //
-  const handleOfficeChange = (
-    value: string,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ) => {
+  const handleOfficeChange = (value: string, setFieldValue: SetFieldValue<FormValues>) => {
     setFieldValue('officeUuid', value);
 
     // Clear desk field while new office chosen
     setFieldValue('deskUuid', '');
   };
 
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await createTeamMutation({ variables: values });
+
       onSuccess();
       onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_TEAM_MODAL.NOTIFICATIONS.SUCCESS.TITLE'),
@@ -66,11 +63,9 @@ const CreateTeamModal = (props: Props) => {
       });
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'teamName',
-          I18n.t('MODALS.ADD_TEAM_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('teamName', I18n.t('MODALS.ADD_TEAM_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -82,7 +77,7 @@ const CreateTeamModal = (props: Props) => {
   };
 
   return (
-    <Modal className="CreateTeamModal" toggle={onCloseModal} isOpen={isOpen}>
+    <Modal className="CreateTeamModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           teamName: '',
@@ -111,7 +106,10 @@ const CreateTeamModal = (props: Props) => {
 
           return (
             <Form>
-              <ModalHeader toggle={onCloseModal}>{I18n.t('MODALS.ADD_TEAM_MODAL.HEADER')}</ModalHeader>
+              <ModalHeader toggle={onCloseModal}>
+                {I18n.t('MODALS.ADD_TEAM_MODAL.HEADER')}
+              </ModalHeader>
+
               <ModalBody>
                 <Field
                   name="teamName"
@@ -120,7 +118,8 @@ const CreateTeamModal = (props: Props) => {
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />
-                <div>
+
+                <div className="CreateTeamModal__row">
                   <Field
                     name="officeUuid"
                     className="CreateTeamModal__select"
@@ -135,6 +134,7 @@ const CreateTeamModal = (props: Props) => {
                       <option key={uuid} value={uuid}>{name}</option>
                     ))}
                   </Field>
+
                   <Field
                     name="deskUuid"
                     className="CreateTeamModal__select"
@@ -153,6 +153,7 @@ const CreateTeamModal = (props: Props) => {
                   </Field>
                 </div>
               </ModalBody>
+
               <ModalFooter>
                 <Button
                   onClick={onCloseModal}
@@ -179,7 +180,4 @@ const CreateTeamModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(CreateTeamModal);
+export default React.memo(CreateTeamModal);

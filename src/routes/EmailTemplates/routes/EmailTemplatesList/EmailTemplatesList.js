@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
 import { get } from 'lodash';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import { TrashButton, Button } from 'components/UI';
@@ -17,7 +18,6 @@ class EmailTemplatesList extends PureComponent {
     ...PropTypes.router,
     error: PropTypes.bool,
     emailTemplatesQuery: PropTypes.object.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -46,7 +46,7 @@ class EmailTemplatesList extends PureComponent {
   renderRemoveIcon = ({ id }) => <TrashButton onClick={() => this.handleDeleteTemplateClick(id)} />;
 
   handleDeleteTemplateClick = async (id) => {
-    const { emailTemplatesQuery, emailTemplateDeleteMutation, notify } = this.props;
+    const { emailTemplatesQuery, emailTemplateDeleteMutation } = this.props;
 
     try {
       await emailTemplateDeleteMutation({ variables: { id } });
@@ -54,13 +54,13 @@ class EmailTemplatesList extends PureComponent {
       emailTemplatesQuery.refetch();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.DELETE'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.DELETE'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
@@ -114,7 +114,9 @@ class EmailTemplatesList extends PureComponent {
   }
 }
 
-export default withRequests({
-  emailTemplateDeleteMutation: EmailTemplateDeleteMutation,
-  emailTemplatesQuery: EmailTemplatesQuery,
-})(withNotifications(EmailTemplatesList));
+export default compose(
+  withRequests({
+    emailTemplateDeleteMutation: EmailTemplateDeleteMutation,
+    emailTemplatesQuery: EmailTemplatesQuery,
+  }),
+)(EmailTemplatesList);

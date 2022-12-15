@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import compose from 'compose-function';
+import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { LeadCallback } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Button } from 'components/UI';
 import { useDeleteLeadCallbackMutation } from './graphql/__generated__/DeleteLeadCallbackMutation';
@@ -13,7 +11,6 @@ import './DeleteLeadCallbackModal.scss';
 
 type Props = {
   callback: LeadCallback,
-  notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
 };
@@ -21,41 +18,38 @@ type Props = {
 const DeleteLeadCallbackModal = (props: Props) => {
   const {
     callback,
-    notify,
     onCloseModal,
     onSuccess = () => {},
   } = props;
-  const { lead, callbackTime } = callback;
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [deleteLeadCallbackMutation] = useDeleteLeadCallbackMutation();
+  const { callbackId, lead, callbackTime } = callback;
 
+  // ===== Requests ===== //
+  const [deleteLeadCallbackMutation, { loading }] = useDeleteLeadCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-
     try {
-      await deleteLeadCallbackMutation({ variables: { callbackId: callback.callbackId } });
+      await deleteLeadCallbackMutation({ variables: { callbackId } });
+
+      EventEmitter.emit(LEAD_CALLBACK_RELOAD);
+
+      onSuccess();
+      onCloseModal();
 
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.LEAD_TITLE'),
         message: I18n.t('CALLBACKS.DELETE_MODAL.SUCCESSFULLY_DELETED'),
       });
-
-      EventEmitter.emit(LEAD_CALLBACK_RELOAD);
-
-      onSuccess();
-      onCloseModal();
     } catch (e) {
+      onCloseModal();
+
       notify({
         level: LevelType.ERROR,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.LEAD_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      onCloseModal();
     }
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -84,7 +78,7 @@ const DeleteLeadCallbackModal = (props: Props) => {
         </Button>
 
         <Button
-          disabled={isSubmitting}
+          disabled={loading}
           onClick={handleSubmit}
           type="submit"
           danger
@@ -96,7 +90,4 @@ const DeleteLeadCallbackModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(DeleteLeadCallbackModal);
+export default React.memo(DeleteLeadCallbackModal);

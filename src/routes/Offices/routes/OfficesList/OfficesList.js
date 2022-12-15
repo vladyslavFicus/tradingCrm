@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import CreateOfficeModal from 'modals/CreateOfficeModal';
@@ -66,7 +66,6 @@ class OfficesList extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withModals({
     createOfficeModal: CreateOfficeModal,
   }),

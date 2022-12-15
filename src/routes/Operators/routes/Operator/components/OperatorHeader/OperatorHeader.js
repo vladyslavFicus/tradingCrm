@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { withRequests, parseErrors } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
@@ -37,12 +38,10 @@ class OperatorHeader extends PureComponent {
     unlockOperatorLogin: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   handleUnlockOperatorLogin = async () => {
     const {
-      notify,
       operator: { uuid },
       operatorLockStatus,
       unlockOperatorLogin,
@@ -52,7 +51,7 @@ class OperatorHeader extends PureComponent {
       await unlockOperatorLogin({ variables: { uuid } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.MESSAGE'),
       });
@@ -60,7 +59,7 @@ class OperatorHeader extends PureComponent {
       operatorLockStatus.refetch();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.ERROR.MESSAGE'),
       });
@@ -69,7 +68,6 @@ class OperatorHeader extends PureComponent {
 
   handleResetPassword = async () => {
     const {
-      notify,
       resetPassword,
       operator: { uuid },
       modals: { confirmActionModal },
@@ -81,7 +79,7 @@ class OperatorHeader extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -89,7 +87,7 @@ class OperatorHeader extends PureComponent {
       confirmActionModal.hide();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.ERROR.MESSAGE'),
       });
@@ -115,7 +113,6 @@ class OperatorHeader extends PureComponent {
 
   handleChangePassword = async ({ newPassword }) => {
     const {
-      notify,
       changePassword,
       operator: { uuid },
       modals: { changePasswordModal },
@@ -125,7 +122,7 @@ class OperatorHeader extends PureComponent {
       await changePassword({ variables: { uuid, newPassword } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -135,7 +132,7 @@ class OperatorHeader extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.ERROR.TITLE'),
         message: I18n.t(
           error.error,
@@ -234,7 +231,6 @@ class OperatorHeader extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withModals({
     changePasswordModal: ChangePasswordModal,
     confirmActionModal: ConfirmActionModal,

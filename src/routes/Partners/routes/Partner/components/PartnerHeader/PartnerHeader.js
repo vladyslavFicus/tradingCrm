@@ -4,7 +4,8 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { withRequests, parseErrors } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
@@ -33,7 +34,6 @@ class PartnerHeader extends PureComponent {
     }).isRequired,
     unlockPartnerLogin: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   handleUnlockPartnerLogin = async () => {
@@ -41,14 +41,13 @@ class PartnerHeader extends PureComponent {
       partnerLockStatus,
       unlockPartnerLogin,
       partner: { uuid },
-      notify,
     } = this.props;
 
     try {
       await unlockPartnerLogin({ variables: { uuid } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
       });
@@ -56,7 +55,7 @@ class PartnerHeader extends PureComponent {
       partnerLockStatus.refetch();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
       });
@@ -68,14 +67,13 @@ class PartnerHeader extends PureComponent {
       modals: { changePasswordModal },
       partner: { uuid },
       changePassword,
-      notify,
     } = this.props;
 
     try {
       await changePassword({ variables: { uuid, newPassword } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -85,7 +83,7 @@ class PartnerHeader extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.SET_NEW_PASSWORD.ERROR.TITLE'),
         message: error.error === 'error.validation.password.repeated'
           ? I18n.t(error.error)
@@ -165,7 +163,6 @@ class PartnerHeader extends PureComponent {
 
 export default compose(
   withRouter,
-  withNotifications,
   withModals({
     changePasswordModal: ChangePasswordModal,
   }),

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withApollo } from '@apollo/client/react/hoc';
 import compose from 'compose-function';
-import { ToastContainer, toast, Slide } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
@@ -60,17 +60,7 @@ class Notifications extends PureComponent {
   }
 
   render() {
-    return (
-      <ToastContainer
-        newestOnTop
-        hideProgressBar
-        closeOnClick={false}
-        limit={3}
-        className="Notifications__toast"
-        position="bottom-right"
-        transition={Slide}
-      />
-    );
+    return null;
   }
 }
 

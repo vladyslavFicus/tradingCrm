@@ -1,14 +1,14 @@
 .CreateTeamModal {
   width: 550px;
 
-  &__select {
-    display: inline-block;
-    vertical-align: top;
-    width: calc(50% - 10px);
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
 
-    &:nth-child(2n) {
-      margin-left: 20px;
-    }
+  &__select {
+    width: calc(50% - 10px);
   }
 
   &__button {

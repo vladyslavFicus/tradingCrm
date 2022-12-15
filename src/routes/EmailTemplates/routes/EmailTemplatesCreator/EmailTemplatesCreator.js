@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
+import compose from 'compose-function';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components/UI';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
 import Hint from 'components/Hint';
@@ -14,14 +15,12 @@ import './EmailTemplatesCreator.scss';
 class EmailTemplatesCreator extends PureComponent {
   static propTypes = {
     emailTemplateCreateMutation: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     ...PropTypes.router,
   };
 
   createEmailTemplate = async (values, { validateForm }) => {
     const {
       emailTemplateCreateMutation,
-      notify,
       history,
     } = this.props;
 
@@ -42,13 +41,13 @@ class EmailTemplatesCreator extends PureComponent {
       history.push('/email-templates/list');
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.ADDED'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.ADDED'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
@@ -121,6 +120,8 @@ class EmailTemplatesCreator extends PureComponent {
   }
 }
 
-export default withRequests({
-  emailTemplateCreateMutation: EmailTemplateCreateMutation,
-})(withNotifications(EmailTemplatesCreator));
+export default compose(
+  withRequests({
+    emailTemplateCreateMutation: EmailTemplateCreateMutation,
+  }),
+)(EmailTemplatesCreator);

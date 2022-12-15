@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import { FormikSelectField } from 'components/Formik';
@@ -14,7 +14,6 @@ import './OperatorHierarhyUsetType.scss';
 
 class OperatorHierarchyUserType extends PureComponent {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
     allowToUpdateHierarchy: PropTypes.bool.isRequired,
     updateOperatorUserType: PropTypes.func.isRequired,
     operatorQuery: PropTypes.query({
@@ -24,7 +23,6 @@ class OperatorHierarchyUserType extends PureComponent {
 
   handleUpdateUsetType = async ({ userType }, { setSubmitting }) => {
     const {
-      notify,
       operatorQuery,
       updateOperatorUserType,
     } = this.props;
@@ -40,7 +38,7 @@ class OperatorHierarchyUserType extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_UPDATE_TYPE'),
       });
@@ -52,7 +50,7 @@ class OperatorHierarchyUserType extends PureComponent {
       const error = parseErrors(e);
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_UPDATE_TYPE'),
       });
@@ -111,7 +109,6 @@ class OperatorHierarchyUserType extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     updateOperatorUserType: UpdateOperatorUserTypeMutation,
   }),

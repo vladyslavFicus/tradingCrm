@@ -3,5 +3,5 @@ export type TableSelection = {
   touched: number[],
   max: number,
   selected: number,
-  reset: Function,
+  reset: () => void,
 }

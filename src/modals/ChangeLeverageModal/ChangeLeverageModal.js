@@ -5,7 +5,7 @@ import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import PropTypes from 'constants/propTypes';
 import { accountTypesLabels } from 'constants/accountTypes';
@@ -19,7 +19,6 @@ class ChangeLeverageModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     changeLeverage: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     accountType: PropTypes.string,
@@ -44,7 +43,6 @@ class ChangeLeverageModal extends PureComponent {
   onSubmit = async (data) => {
     const {
       onCloseModal,
-      notify,
       changeLeverage,
       onSuccess,
       accountUUID,
@@ -59,7 +57,7 @@ class ChangeLeverageModal extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.LEVERAGE_CHANGED'),
       });
@@ -68,7 +66,7 @@ class ChangeLeverageModal extends PureComponent {
       onCloseModal();
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -166,7 +164,6 @@ class ChangeLeverageModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     changeLeverage: ChangeLeverageMutation,
   }),

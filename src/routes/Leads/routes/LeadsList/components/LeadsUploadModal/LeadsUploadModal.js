@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
 import { withRequests, parseErrors } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import uploadLeadsMutation from './graphql/uploadLeadsMutation';
@@ -19,7 +19,6 @@ const fileConfig = {
 class LeadsUploadModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    notify: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
     uploadLeads: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
@@ -30,11 +29,9 @@ class LeadsUploadModal extends PureComponent {
   };
 
   handleRejectUpload = ([file]) => {
-    const { notify } = this.props;
-
     if (file.size > fileConfig.maxSize) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t('error.multipart.max-file-size.exceeded', { size: fileConfig.maxSize }),
       });
@@ -43,7 +40,6 @@ class LeadsUploadModal extends PureComponent {
 
   handleUploadCSV = async ([file]) => {
     const {
-      notify,
       onSuccess,
       uploadLeads,
       onCloseModal,
@@ -66,7 +62,7 @@ class LeadsUploadModal extends PureComponent {
 
       if (failedLeads.length === 0) {
         notify({
-          level: 'success',
+          level: LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
         });
@@ -82,7 +78,7 @@ class LeadsUploadModal extends PureComponent {
       const errorMessage = error.errorParameters?.errorMessage || error.message || 'COMMON.SOMETHING_WRONG';
 
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t(errorMessage),
       });
@@ -161,7 +157,6 @@ class LeadsUploadModal extends PureComponent {
 }
 
 export default compose(
-  withNotifications,
   withRequests({
     uploadLeads: uploadLeadsMutation,
   }),

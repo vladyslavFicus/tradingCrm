@@ -5,6 +5,7 @@ import './BackToTop.scss';
 
 class BackToTop extends PureComponent {
   static propTypes = {
+    position: PropTypes.string.isRequired,
     positionChange: PropTypes.bool,
   };
 
@@ -53,14 +54,14 @@ class BackToTop extends PureComponent {
   };
 
   render() {
-    const { positionChange } = this.props;
+    const { position, positionChange } = this.props;
     const { isVisible } = this.state;
 
     return (
       <button
         type="button"
         className={classNames(
-          'BackToTop fa fa-caret-up',
+          `BackToTop fa fa-caret-up BackToTop--sidebar-position-${position}`,
           { 'BackToTop--visible': isVisible },
           { 'BackToTop--has-changed-position': positionChange },
         )}

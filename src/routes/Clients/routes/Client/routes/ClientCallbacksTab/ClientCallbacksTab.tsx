@@ -12,7 +12,10 @@ import { Button } from 'components/UI';
 import CreateClientCallbackModal from 'modals/CreateClientCallbackModal';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';
-import { ClientCallbacksQueryVariables, useClientCallbacksQuery } from './graphql/__generated__/ClientCallbacksQuery';
+import {
+  ClientCallbacksListQueryVariables,
+  useClientCallbacksListQuery,
+} from './graphql/__generated__/ClientCallbacksListQuery';
 import './ClientCallbacksTab.scss';
 
 type Props = {
@@ -23,28 +26,32 @@ type Props = {
 
 const ClientCallbacksTab = (props: Props) => {
   const { modals: { createClientCallbackModal } } = props;
+
   const { id: uuid } = useParams<{ id: string }>();
 
-  const { state } = useLocation<State<ClientCallbacksQueryVariables>>();
+  const { state } = useLocation<State<ClientCallbacksListQueryVariables>>();
 
-  const clientCallbacksQuery = useClientCallbacksQuery({
+  // ===== Requests ===== //
+  const clientCallbacksListQuery = useClientCallbacksListQuery({
     variables: {
-      ...state?.filters as ClientCallbacksQueryVariables,
+      ...state?.filters as ClientCallbacksListQueryVariables,
       userId: uuid,
       limit: 20,
       page: 0,
     },
   });
 
+  // ===== Handlers ===== //
   const handleOpenAddCallbackModal = () => {
     createClientCallbackModal.show();
   };
 
+  // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksListQuery.refetch);
 
     return () => {
-      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksListQuery.refetch);
     };
   }, []);
 
@@ -66,8 +73,8 @@ const ClientCallbacksTab = (props: Props) => {
         </PermissionContent>
       </TabHeader>
 
-      <ClientCallbacksGridFilter handleRefetch={clientCallbacksQuery.refetch} />
-      <ClientCallbacksGrid clientCallbacksQuery={clientCallbacksQuery} />
+      <ClientCallbacksGridFilter onRefetch={clientCallbacksListQuery.refetch} />
+      <ClientCallbacksGrid clientCallbacksListQuery={clientCallbacksListQuery} />
     </div>
   );
 };

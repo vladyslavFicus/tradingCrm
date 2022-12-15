@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { Field, Form, Formik } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import Button from 'components/UI/Button';
@@ -26,7 +26,6 @@ class KYCNote extends PureComponent {
     updateKYCNote: PropTypes.func.isRequired,
     playerUUID: PropTypes.string.isRequired,
     KYCNoteQuery: PropTypes.any.isRequired,
-    notify: PropTypes.func.isRequired,
   };
 
   createKYCNote = async ({ content }, { resetForm }) => {
@@ -40,7 +39,6 @@ class KYCNote extends PureComponent {
       },
       createKYCNote,
       playerUUID,
-      notify,
     } = this.props;
 
     try {
@@ -54,7 +52,7 @@ class KYCNote extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.SUCCESS'),
       });
@@ -62,7 +60,7 @@ class KYCNote extends PureComponent {
       resetForm({ values: { content } });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.ERROR'),
       });
@@ -81,7 +79,6 @@ class KYCNote extends PureComponent {
         },
       },
       updateKYCNote,
-      notify,
     } = this.props;
 
     try {
@@ -93,7 +90,7 @@ class KYCNote extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.SUCCESS'),
       });
@@ -101,7 +98,7 @@ class KYCNote extends PureComponent {
       resetForm({ values: { content } });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.ERROR'),
       });
@@ -179,6 +176,5 @@ export default compose(
     createKYCNote: KYCNoteCreateMutation,
     updateKYCNote: KYCNoteUpdateMutation,
   }),
-  withNotifications,
   withPermission,
 )(KYCNote);

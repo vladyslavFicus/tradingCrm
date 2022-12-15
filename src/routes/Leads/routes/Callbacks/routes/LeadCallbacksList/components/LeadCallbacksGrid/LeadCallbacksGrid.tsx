@@ -25,7 +25,7 @@ import {
 import './LeadCallbacksGrid.scss';
 
 type Props = {
-  callbacksData: LeadCallbacksListQueryQueryResult,
+  leadCallbacksListQuery: LeadCallbacksListQueryQueryResult,
   modals: {
     leadCallbackDetailsModal: Modal,
     deleteLeadCallbackModal: Modal,
@@ -33,14 +33,17 @@ type Props = {
 };
 
 const LeadCallbacksGrid = (props: Props) => {
-  const { callbacksData, modals } = props;
+  const { leadCallbacksListQuery, modals } = props;
   const { leadCallbackDetailsModal, deleteLeadCallbackModal } = modals;
-  const { content = [], last = false } = callbacksData?.data?.leadCallbacks || {};
 
+  const { data, variables, fetchMore, loading } = leadCallbacksListQuery;
+
+  const { content = [], last = false } = leadCallbacksListQuery?.data?.leadCallbacks || {};
+
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { data, variables, fetchMore, loading } = callbacksData;
-
     const page = data?.leadCallbacks?.page || 0;
+
     if (!loading) {
       fetchMore({
         variables: set(cloneDeep(variables as LeadCallbacksListQueryVariables), 'page', page + 1),
@@ -52,6 +55,7 @@ const LeadCallbacksGrid = (props: Props) => {
     window.open(`/leads/${userId}/profile`, '_blank');
   };
 
+  // ===== Renders ===== //
   const renderId = (callback: LeadCallback) => {
     const { callbackId, operatorId } = callback;
 
@@ -137,7 +141,7 @@ const LeadCallbacksGrid = (props: Props) => {
     const { callbackId, userId, note } = callback;
 
     return (
-      <Fragment>
+      <div className="LeadCallbacksGrid__actions">
         <NoteButton
           key={callbackId}
           targetType={targetTypes.LEAD_CALLBACK}
@@ -145,13 +149,14 @@ const LeadCallbacksGrid = (props: Props) => {
           playerUUID={userId}
           note={note}
         />
+
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
-            className="LeadCallbacksGrid__trash"
+            className="LeadCallbacksGrid__actions--remove"
             onClick={() => deleteLeadCallbackModal.show({ callback })}
           />
         </PermissionContent>
-      </Fragment>
+      </div>
     );
   };
 
@@ -182,7 +187,7 @@ const LeadCallbacksGrid = (props: Props) => {
       <Table
         stickyFromTop={128}
         items={content}
-        loading={callbacksData.loading}
+        loading={loading}
         hasMore={!last}
         onMore={handlePageChanged}
       >

@@ -1,15 +1,13 @@
 import React from 'react';
-import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { callbacksStatuses, reminderValues } from 'constants/callbacks';
 import { targetTypes } from 'constants/note';
 import { createValidator } from 'utils/validator';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
@@ -30,41 +28,40 @@ const attributeLabels = {
   reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
-type Props = {
-  callbackId: string,
-  notify: Notify,
-  onCloseModal: () => void,
-  onDelete: () => void,
-};
-
 type FormValues = {
   operatorId: string,
   callbackTime: string,
   status: CallbackStatusEnum,
   reminder: string | null,
-}
+};
+
+type Props = {
+  callbackId: string,
+  onDelete: () => void,
+  onCloseModal: () => void,
+};
 
 const ClientCallbackDetailsModal = (props: Props) => {
-  const { notify, onCloseModal, callbackId, onDelete } = props;
-  const [updateClientCallbackMutation] = useUpdateClientCallbackMutation();
+  const { callbackId, onDelete, onCloseModal } = props;
 
   const permission = usePermission();
   const readOnly = permission.denies(permissions.USER_PROFILE.UPDATE_CALLBACK);
 
-  // Client Callback Query
-  const clientCallbackQuery = useGetClientCallbackQuery({
-    variables: { id: callbackId },
-    fetchPolicy: 'network-only',
-  });
+  // ===== Requests ===== //
+  const clientCallbackQuery = useGetClientCallbackQuery({ variables: { id: callbackId }, fetchPolicy: 'network-only' });
+
   const isCallbackLoading = clientCallbackQuery.loading;
   const clientCallback = clientCallbackQuery.data?.clientCallback as ClientCallback || {};
   const { callbackTime, operatorId, reminder, client, status, userId, note } = clientCallback;
 
-  // Operators Query
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
+
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
 
+  const [updateClientCallbackMutation] = useUpdateClientCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     try {
       await updateClientCallbackMutation({
@@ -75,13 +72,13 @@ const ClientCallbackDetailsModal = (props: Props) => {
         },
       });
 
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.MODAL.CLIENT_TITLE'),
         message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
       });
-
-      onCloseModal();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -106,6 +103,7 @@ const ClientCallbackDetailsModal = (props: Props) => {
             <ShortLoader />
           </div>
         </When>
+
         <Otherwise>
           <Formik
             initialValues={{
@@ -256,7 +254,4 @@ const ClientCallbackDetailsModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(ClientCallbackDetailsModal);
+export default React.memo(ClientCallbackDetailsModal);

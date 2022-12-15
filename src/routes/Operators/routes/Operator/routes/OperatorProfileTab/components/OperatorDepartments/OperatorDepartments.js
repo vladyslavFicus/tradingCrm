@@ -3,7 +3,7 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withStorage } from 'providers/StorageProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -29,7 +29,6 @@ const unAvailableDepartments = ['AFFILIATE', 'AFFILIATE_PARTNER', 'PLAYER'];
 class OperatorDepartments extends PureComponent {
   static propTypes = {
     auth: PropTypes.auth.isRequired,
-    notify: PropTypes.func.isRequired,
     operatorQuery: PropTypes.query({
       operator: PropTypes.operator,
     }).isRequired,
@@ -52,7 +51,7 @@ class OperatorDepartments extends PureComponent {
   }
 
   handleAddAuthority = async ({ department, role }, { setSubmitting, resetForm }) => {
-    const { operatorQuery, addAuthority, notify } = this.props;
+    const { operatorQuery, addAuthority } = this.props;
 
     const uuid = operatorQuery.data?.operator?.uuid;
 
@@ -66,7 +65,7 @@ class OperatorDepartments extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
       });
@@ -75,7 +74,7 @@ class OperatorDepartments extends PureComponent {
       resetForm();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
       });
@@ -85,7 +84,7 @@ class OperatorDepartments extends PureComponent {
   };
 
   handleRemoveAuthority = async (department, role) => {
-    const { operatorQuery, removeAuthority, notify } = this.props;
+    const { operatorQuery, removeAuthority } = this.props;
 
     const uuid = operatorQuery.data?.operator?.uuid;
 
@@ -99,7 +98,7 @@ class OperatorDepartments extends PureComponent {
       });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
       });
@@ -107,7 +106,7 @@ class OperatorDepartments extends PureComponent {
       operatorQuery.refetch();
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
       });
@@ -255,7 +254,6 @@ class OperatorDepartments extends PureComponent {
 
 export default compose(
   withStorage(['auth']),
-  withNotifications,
   withRequests({
     addAuthority: AddAuthorityMutation,
     removeAuthority: RemoveAuthorityMutation,

@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { camelCase, startCase } from 'lodash';
 import { withRequests } from 'apollo';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
@@ -35,7 +35,6 @@ const validate = createValidator({
 
 class OperatorPersonal extends PureComponent {
   static propTypes = {
-    notify: PropTypes.func.isRequired,
     operatorQuery: PropTypes.query({
       operator: PropTypes.operator,
     }).isRequired,
@@ -54,7 +53,6 @@ class OperatorPersonal extends PureComponent {
     const {
       operatorQuery,
       updateOperator,
-      notify,
     } = this.props;
 
     const uuid = operatorQuery.data?.operator?.uuid;
@@ -63,13 +61,13 @@ class OperatorPersonal extends PureComponent {
       await updateOperator({ variables: { uuid, ...values } });
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.MESSAGE'),
       });
     } catch (e) {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.MESSAGE'),
       });
@@ -227,7 +225,6 @@ class OperatorPersonal extends PureComponent {
 
 export default compose(
   withPermission,
-  withNotifications,
   withRequests({
     clickToCallConfigQuery: ClickToCallConfigQuery,
     updateOperator: UpdateOperatorMutation,

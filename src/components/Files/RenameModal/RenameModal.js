@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { withNotifications } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import EventEmitter, { FILE_CHANGED } from 'utils/EventEmitter';
 import { FormikInputField } from 'components/Formik';
@@ -13,7 +13,6 @@ import './RenameModal.scss';
 class RenameModal extends PureComponent {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
     fileName: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -23,7 +22,6 @@ class RenameModal extends PureComponent {
   onSubmit = async ({ title }) => {
     const {
       uuid,
-      notify,
       onSubmit,
       updateFileMeta,
     } = this.props;
@@ -36,13 +34,13 @@ class RenameModal extends PureComponent {
       onSubmit();
 
       notify({
-        level: 'success',
+        level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILES.DOCUMENT_RENAMED'),
       });
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -101,4 +99,4 @@ class RenameModal extends PureComponent {
   }
 }
 
-export default withNotifications(RenameModal);
+export default RenameModal;

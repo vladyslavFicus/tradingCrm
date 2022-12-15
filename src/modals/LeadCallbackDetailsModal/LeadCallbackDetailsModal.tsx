@@ -1,15 +1,13 @@
 import React from 'react';
-import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { withNotifications } from 'hoc';
-import { LevelType, Notify } from 'types';
 import { LeadCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { callbacksStatuses, reminderValues } from 'constants/callbacks';
 import { targetTypes } from 'constants/note';
 import { createValidator } from 'utils/validator';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
@@ -30,41 +28,40 @@ const attributeLabels = {
   reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
-type Props = {
-  callbackId: string,
-  notify: Notify,
-  onCloseModal: () => void,
-  onDelete: () => void,
-};
-
 type FormValues = {
   operatorId: string,
   callbackTime: string,
   status: CallbackStatusEnum,
   reminder: string | null,
-}
+};
+
+type Props = {
+  callbackId: string,
+  onCloseModal: () => void,
+  onDelete: () => void,
+};
 
 const LeadCallbackDetailsModal = (props: Props) => {
-  const { notify, onCloseModal, callbackId, onDelete } = props;
-  const [updateleadCallbackMutation] = useUpdateLeadCallbackMutation();
+  const { callbackId, onCloseModal, onDelete } = props;
 
   const permission = usePermission();
   const readOnly = permission.denies(permissions.LEAD_PROFILE.UPDATE_CALLBACK);
 
-  // lead Callback Query
-  const leadCallbackQuery = useGetLeadCallbackQuery({
-    variables: { id: callbackId },
-    fetchPolicy: 'network-only',
-  });
+  // ===== Requests ===== //
+  const leadCallbackQuery = useGetLeadCallbackQuery({ variables: { id: callbackId }, fetchPolicy: 'network-only' });
+
   const isCallbackLoading = leadCallbackQuery.loading;
   const leadCallback = leadCallbackQuery.data?.leadCallback as LeadCallback || {};
   const { callbackTime, operatorId, reminder, lead, status, userId, note } = leadCallback;
 
-  // Operators Query
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
+
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
 
+  const [updateleadCallbackMutation] = useUpdateLeadCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     try {
       await updateleadCallbackMutation({
@@ -75,13 +72,13 @@ const LeadCallbackDetailsModal = (props: Props) => {
         },
       });
 
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.MODAL.LEAD_TITLE'),
         message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
       });
-
-      onCloseModal();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -93,10 +90,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
 
   return (
     <Modal className="LeadCallbackDetailsModal" toggle={onCloseModal} isOpen>
-      <ModalHeader
-        className="LeadCallbackDetailsModal__header"
-        toggle={onCloseModal}
-      >
+      <ModalHeader className="LeadCallbackDetailsModal__header" toggle={onCloseModal}>
         {I18n.t('CALLBACKS.MODAL.LEAD_TITLE')}
       </ModalHeader>
 
@@ -106,6 +100,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
             <ShortLoader />
           </div>
         </When>
+
         <Otherwise>
           <Formik
             initialValues={{
@@ -255,7 +250,4 @@ const LeadCallbackDetailsModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withNotifications,
-)(LeadCallbackDetailsModal);
+export default React.memo(LeadCallbackDetailsModal);

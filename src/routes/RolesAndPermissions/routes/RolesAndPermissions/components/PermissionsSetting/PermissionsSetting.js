@@ -10,7 +10,8 @@ import {
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
 import { withRequests } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withModals } from 'hoc';
+import { notify, LevelType } from 'providers/NotificationProvider';
 import rbac from 'constants/rbac';
 import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
@@ -31,7 +32,6 @@ class PermissionsSetting extends PureComponent {
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
-    notify: PropTypes.func.isRequired,
     department: PropTypes.string,
     role: PropTypes.string,
     actionsQuery: PropTypes.query({
@@ -109,7 +109,6 @@ class PermissionsSetting extends PureComponent {
    */
   handleSwitchPermission(action, enabled, currentSection) {
     const {
-      notify,
       role,
       department,
       actionsQuery: {
@@ -227,7 +226,7 @@ class PermissionsSetting extends PureComponent {
           this.setState({ shouldUpdate: true }, () => refetch());
 
           notify({
-            level: 'error',
+            level: LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('ROLES_AND_PERMISSIONS.UPDATE_PERMISSIONS.ERROR'),
           });
@@ -253,7 +252,6 @@ class PermissionsSetting extends PureComponent {
     const {
       role,
       department,
-      notify,
       modals: {
         confirmationModal,
       },
@@ -276,7 +274,7 @@ class PermissionsSetting extends PureComponent {
       this.setState({ shouldUpdate: true }, () => refetch());
     } catch {
       notify({
-        level: 'error',
+        level: LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('ROLES_AND_PERMISSIONS.UPDATE_PERMISSIONS.RESET_ERROR'),
       });
@@ -427,7 +425,6 @@ export default compose(
     confirmationModal: ConfirmActionModal,
   }),
   withImages,
-  withNotifications,
   withRequests({
     actionsQuery: ActionsQuery,
     isDefaultAuthorityQuery: DefaultAuthorityQuery,
