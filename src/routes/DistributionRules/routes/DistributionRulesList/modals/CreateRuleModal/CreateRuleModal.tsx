@@ -11,14 +11,14 @@ import { createValidator } from 'utils/validator';
 import { useCreateDistributionRuleMutation } from './graphql/__generated__/CreateDistributionRuleMutation';
 import './CreateRuleModal.scss';
 
-type Props = {
-  onCloseModal: () => void,
-}
-
 type FormValues = {
   ruleName: string,
   ruleOrder: number,
-}
+};
+
+type Props = {
+  onCloseModal: () => void,
+};
 
 const CreateRuleModal = (props: Props) => {
   const { onCloseModal } = props;
@@ -27,6 +27,7 @@ const CreateRuleModal = (props: Props) => {
 
   const [formError, setFormError] = useState<string | null>(null);
 
+  // ===== Requests ===== //
   const [createDistributionRule] = useCreateDistributionRuleMutation();
 
   // ===== Handlers ===== //
@@ -34,12 +35,7 @@ const CreateRuleModal = (props: Props) => {
     setFormError(null);
 
     try {
-      const response = await createDistributionRule({
-        variables: {
-          ruleName: values.ruleName,
-          ruleOrder: values.ruleOrder,
-        },
-      });
+      const response = await createDistributionRule({ variables: values });
 
       const uuid = response.data?.distributionRule.create.uuid;
 
@@ -57,13 +53,13 @@ const CreateRuleModal = (props: Props) => {
 
       if (error.error === 'error.entity.already.exist') {
         setFormError(I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_EXIST', { ruleName: error?.errorParameters?.ruleName }));
+      } else {
+        notify({
+          level: LevelType.ERROR,
+          title: I18n.t('COMMON.FAIL'),
+          message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_FAILED'),
+        });
       }
-
-      notify({
-        level: LevelType.ERROR,
-        title: I18n.t('COMMON.FAIL'),
-        message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_FAILED'),
-      });
     }
   };
 
@@ -88,12 +84,14 @@ const CreateRuleModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               <div>{I18n.t('CLIENTS_DISTRIBUTION.CREATE_MODAL.HEADER')}</div>
             </ModalHeader>
+
             <ModalBody>
               <If condition={!!formError}>
                 <div className="CreateRuleModal__error">
                   {formError}
                 </div>
               </If>
+
               <Field
                 name="ruleName"
                 type="text"
@@ -101,6 +99,7 @@ const CreateRuleModal = (props: Props) => {
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.MODAL.FIELDS.NAME')}
                 component={FormikInputField}
               />
+
               <Field
                 name="ruleOrder"
                 type="number"
@@ -109,6 +108,7 @@ const CreateRuleModal = (props: Props) => {
                 component={FormikInputField}
               />
             </ModalBody>
+
             <ModalFooter>
               <Button
                 tertiary
@@ -116,6 +116,7 @@ const CreateRuleModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 primary
                 type="submit"

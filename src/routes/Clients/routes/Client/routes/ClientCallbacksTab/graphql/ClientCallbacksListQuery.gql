@@ -1,4 +1,4 @@
-query LeadCallbacksQuery(
+query ClientCallbacksListQuery(
   $searchKeyword: String,
   $userId: String,
   $statuses: [Callback__Status__Enum],
@@ -7,7 +7,7 @@ query LeadCallbacksQuery(
   $limit: Int,
   $page: Int,
 ) {
-  leadCallbacks(
+  clientCallbacks(
     searchKeyword: $searchKeyword,
     userId: $userId,
     statuses: $statuses,
@@ -34,7 +34,7 @@ query LeadCallbacksQuery(
       operator {
         fullName
       }
-      lead {
+      client {
         fullName
       }
       note {

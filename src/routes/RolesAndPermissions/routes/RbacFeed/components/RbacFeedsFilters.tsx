@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
+import { ResetForm } from 'types/formik';
 import { FormikInputField, FormikDateRangePicker } from 'components/Formik';
 import { Button, RefreshButton } from 'components/UI';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -10,21 +11,25 @@ import { createValidator } from 'utils/validator';
 import { RbacFeedsQueryVariables } from '../graphql/__generated__/RbacFeedsQuery';
 import './RbacFeedsFilters.scss';
 
-type Props = {
-  refetch: () => void,
-};
-
 type FormValues = {
   searchBy?: string,
   auditLogType?: string,
   creationDateFrom?: string,
   creationDateTo?: string,
-}
+};
 
-const RbacFeedsFilters = ({ refetch }: Props) => {
+type Props = {
+  onRefetch: () => void,
+};
+
+const RbacFeedsFilters = (props: Props) => {
+  const { onRefetch } = props;
+
   const { state } = useLocation<State<RbacFeedsQueryVariables>>();
+
   const history = useHistory();
 
+  // ===== Handlers ===== //
   const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
@@ -34,13 +39,14 @@ const RbacFeedsFilters = ({ refetch }: Props) => {
     });
   };
 
-  const handleReset = (resetForm: () => void) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
         filters: null,
       },
     });
+
     resetForm();
   };
 
@@ -73,6 +79,7 @@ const RbacFeedsFilters = ({ refetch }: Props) => {
             component={FormikInputField}
             withFocus
           />
+
           <Field
             className="RbacFeedsFilters__field RbacFeedsFilters__field--date-range"
             label={I18n.t('ROLES_AND_PERMISSIONS.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
@@ -83,11 +90,13 @@ const RbacFeedsFilters = ({ refetch }: Props) => {
             }}
             withFocus
           />
+
           <div className="RbacFeedsFilters__buttons-group">
             <RefreshButton
               className="RbacFeedsFilters__button"
-              onClick={refetch}
+              onClick={onRefetch}
             />
+
             <Button
               className="RbacFeedsFilters__button"
               onClick={() => handleReset(resetForm)}
@@ -96,6 +105,7 @@ const RbacFeedsFilters = ({ refetch }: Props) => {
             >
               {I18n.t('COMMON.RESET')}
             </Button>
+
             <Button
               className="RbacFeedsFilters__button"
               disabled={isSubmitting || !dirty}

@@ -28,40 +28,40 @@ const attributeLabels = {
   reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
+type FormValues = {
+  operatorId: string,
+  callbackTime: string,
+  status: CallbackStatusEnum,
+  reminder: string | null,
+};
+
 type Props = {
   callbackId: string,
   onCloseModal: () => void,
   onDelete: () => void,
 };
 
-type FormValues = {
-  operatorId: string,
-  callbackTime: string,
-  status: CallbackStatusEnum,
-  reminder: string | null,
-}
-
 const LeadCallbackDetailsModal = (props: Props) => {
-  const { onCloseModal, callbackId, onDelete } = props;
-  const [updateleadCallbackMutation] = useUpdateLeadCallbackMutation();
+  const { callbackId, onCloseModal, onDelete } = props;
 
   const permission = usePermission();
   const readOnly = permission.denies(permissions.LEAD_PROFILE.UPDATE_CALLBACK);
 
-  // lead Callback Query
-  const leadCallbackQuery = useGetLeadCallbackQuery({
-    variables: { id: callbackId },
-    fetchPolicy: 'network-only',
-  });
+  // ===== Requests ===== //
+  const leadCallbackQuery = useGetLeadCallbackQuery({ variables: { id: callbackId }, fetchPolicy: 'network-only' });
+
   const isCallbackLoading = leadCallbackQuery.loading;
   const leadCallback = leadCallbackQuery.data?.leadCallback as LeadCallback || {};
   const { callbackTime, operatorId, reminder, lead, status, userId, note } = leadCallback;
 
-  // Operators Query
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
+
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
 
+  const [updateleadCallbackMutation] = useUpdateLeadCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     try {
       await updateleadCallbackMutation({
@@ -72,13 +72,13 @@ const LeadCallbackDetailsModal = (props: Props) => {
         },
       });
 
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.MODAL.LEAD_TITLE'),
         message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
       });
-
-      onCloseModal();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -90,10 +90,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
 
   return (
     <Modal className="LeadCallbackDetailsModal" toggle={onCloseModal} isOpen>
-      <ModalHeader
-        className="LeadCallbackDetailsModal__header"
-        toggle={onCloseModal}
-      >
+      <ModalHeader className="LeadCallbackDetailsModal__header" toggle={onCloseModal}>
         {I18n.t('CALLBACKS.MODAL.LEAD_TITLE')}
       </ModalHeader>
 
@@ -103,6 +100,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
             <ShortLoader />
           </div>
         </When>
+
         <Otherwise>
           <Formik
             initialValues={{

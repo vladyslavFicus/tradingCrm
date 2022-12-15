@@ -19,13 +19,13 @@ import Uuid from 'components/Uuid';
 import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
 import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
 import {
-  LeadCallbacksQueryQueryResult,
-  LeadCallbacksQueryVariables,
-} from '../../graphql/__generated__/LeadCallbacksQuery';
+  LeadCallbacksListQueryQueryResult,
+  LeadCallbacksListQueryVariables,
+} from '../../graphql/__generated__/LeadCallbacksListQuery';
 import './LeadCallbacksGrid.scss';
 
 type Props = {
-  leadCallbacksQuery: LeadCallbacksQueryQueryResult,
+  leadCallbacksListQuery: LeadCallbacksListQueryQueryResult,
   modals: {
     leadCallbackDetailsModal: Modal,
     deleteLeadCallbackModal: Modal,
@@ -33,19 +33,25 @@ type Props = {
 };
 
 const LeadCallbacksGrid = (props: Props) => {
-  const { leadCallbacksQuery, modals } = props;
+  const { leadCallbacksListQuery, modals } = props;
   const { leadCallbackDetailsModal, deleteLeadCallbackModal } = modals;
-  const { content = [], last = false } = leadCallbacksQuery?.data?.leadCallbacks || {};
 
+  const { data, variables, fetchMore, loading } = leadCallbacksListQuery;
+
+  const { content = [], last = false } = leadCallbacksListQuery?.data?.leadCallbacks || {};
+
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { data, variables, fetchMore } = leadCallbacksQuery;
     const page = data?.leadCallbacks?.page || 0;
 
-    fetchMore({
-      variables: set(cloneDeep(variables as LeadCallbacksQueryVariables), 'page', page + 1),
-    });
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables as LeadCallbacksListQueryVariables), 'page', page + 1),
+      });
+    }
   };
 
+  // ===== Renders ===== //
   const renderId = (callback: LeadCallback) => {
     const { callbackId, operatorId } = callback;
 
@@ -122,6 +128,7 @@ const LeadCallbacksGrid = (props: Props) => {
           playerUUID={userId}
           note={note}
         />
+
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
             className="LeadCallbacksGrid__actions--remove"
@@ -159,7 +166,7 @@ const LeadCallbacksGrid = (props: Props) => {
       <Table
         stickyFromTop={188}
         items={content}
-        loading={leadCallbacksQuery?.loading}
+        loading={loading}
         hasMore={!last}
         onMore={handlePageChanged}
       >

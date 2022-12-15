@@ -14,47 +14,46 @@ const attributeLabels = {
   teamName: 'MODALS.UPDATE_TEAM_MODAL.LABELS.TEAM_NAME',
 };
 
-type FormValues = {
-  uuid: string,
-  name: string,
-}
-
 type DataValues = {
   uuid: string,
   name: string,
-}
+};
+
+type FormValues = {
+  uuid: string,
+  name: string,
+};
 
 type Props = {
   data: DataValues,
-  isOpen: boolean,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const UpdateTeamModal = (props: Props) => {
-  const { data, isOpen, onSuccess, onCloseModal } = props;
+  const { data, onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const [updateTeamMutation] = useUpdateTeamMutation();
 
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  // ===== Handlers ===== //
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await updateTeamMutation({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.UPDATE_TEAM_MODAL.NOTIFICATIONS.SUCCESS'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'name',
-          I18n.t('MODALS.UPDATE_TEAM_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('name', I18n.t('MODALS.UPDATE_TEAM_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -66,7 +65,7 @@ const UpdateTeamModal = (props: Props) => {
   };
 
   return (
-    <Modal className="UpdateTeamModal" toggle={onCloseModal} isOpen={isOpen}>
+    <Modal className="UpdateTeamModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={data as FormValues}
         validate={createValidator(
@@ -82,7 +81,10 @@ const UpdateTeamModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader toggle={onCloseModal}>{I18n.t('MODALS.UPDATE_TEAM_MODAL.HEADER')}</ModalHeader>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('MODALS.UPDATE_TEAM_MODAL.HEADER')}
+            </ModalHeader>
+
             <ModalBody>
               <Field
                 name="name"
@@ -92,6 +94,7 @@ const UpdateTeamModal = (props: Props) => {
                 disabled={isSubmitting}
               />
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}

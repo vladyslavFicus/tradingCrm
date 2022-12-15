@@ -7,25 +7,30 @@ import { Sort, State } from 'types';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import {
+  CallHistoryQuery,
   CallHistoryQueryQueryResult,
   CallHistoryQueryVariables,
-  CallHistoryQuery,
 } from '../../graphql/__generated__/LeadCallHistoryQuery';
 import './LeadCallHistoryGrid.scss';
+
+type CallHistoryType = ExtractApolloTypeFromPageable<CallHistoryQuery['callHistory']>;
 
 type Props = {
   callHistoryQuery: CallHistoryQueryQueryResult,
 };
 
-type CallHistoryType = ExtractApolloTypeFromPageable<CallHistoryQuery['callHistory']>;
+const LeadCallHistoryGrid = (props: Props) => {
+  const { callHistoryQuery } = props;
 
-const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
+  const { data, variables, fetchMore, loading } = callHistoryQuery;
   const { content = [], last = false } = callHistoryQuery?.data?.callHistory || {};
+
   const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
+
   const history = useHistory();
 
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { data, variables, fetchMore, loading } = callHistoryQuery;
     const page = data?.callHistory?.page || 0;
     if (!loading) {
       fetchMore({
@@ -34,6 +39,16 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
     }
   };
 
+  const handleSort = (sorts: Sort[]) => {
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
+    });
+  };
+
+  // ===== Renders ===== //
   const renderVoIP = ({ callSystem }: CallHistoryType) => (
     <div className="LeadCallHistoryGrid__info--main">
       {startCase(callSystem.toLowerCase())}
@@ -48,6 +63,7 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
             {operator.fullName}
           </div>
         </When>
+
         <Otherwise>
           <div>&mdash;</div>
         </Otherwise>
@@ -64,6 +80,7 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
       <div className="LeadCallHistoryGrid__info--main">
         {moment.utc(time).local().format('DD.MM.YYYY')}
       </div>
+
       <div className="LeadCallHistoryGrid__info--secondary">
         {moment.utc(time).local().format('HH:mm:ss')}
       </div>
@@ -77,6 +94,7 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
       <When condition={!!finishedAt}>
         {renderDateAndTime(finishedAt as string)}
       </When>
+
       <Otherwise>
         <div className="LeadCallHistoryGrid__info--secondary">&mdash;</div>
       </Otherwise>
@@ -102,27 +120,19 @@ const LeadCallHistoryGrid = ({ callHistoryQuery }: Props) => {
           {moment.utc(+(duration as string) * 60 * 1000).format('HH:mm:ss')}
         </div>
       </When>
+
       <Otherwise>
         <div className="LeadCallHistoryGrid__info--secondary">&mdash;</div>
       </Otherwise>
     </Choose>
   );
 
-  const handleSort = (sorts: Sort[]) => {
-    history.replace({
-      state: {
-        ...state,
-        sorts,
-      },
-    });
-  };
-
   return (
     <div className="LeadCallHistoryGrid">
       <Table
         stickyFromTop={188}
         items={content}
-        loading={callHistoryQuery.loading}
+        loading={loading}
         hasMore={!last}
         onSort={handleSort}
         onMore={handlePageChanged}

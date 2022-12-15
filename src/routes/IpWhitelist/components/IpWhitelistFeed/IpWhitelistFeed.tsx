@@ -16,9 +16,12 @@ type Props = {
   ipWhitelistFeedsQuery: WhitelistFeedsQueryResult,
 }
 
-const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
+const IpWhitelistFeed = (props: Props) => {
+  const { ipWhitelistFeedsQuery } = props;
+
   const { content, last, number = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
 
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
     const { fetchMore, variables = {} } = ipWhitelistFeedsQuery;
 
@@ -35,7 +38,7 @@ const IpWhitelistFeed = ({ ipWhitelistFeedsQuery }: Props) => {
           {I18n.t('IP_WHITELIST.FEED.HEADLINE')}
         </div>
       </div>
-      <IpWhitelistFeedsFilters refetch={ipWhitelistFeedsQuery.refetch} />
+      <IpWhitelistFeedsFilters onRefetch={ipWhitelistFeedsQuery.refetch} />
       <div className="IpWhitelistFeed__grid">
         <ListView
           dataSource={content || []}

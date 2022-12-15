@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
@@ -10,18 +10,6 @@ import { Button } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import { useChangeUnauthorizedPasswordMutation } from './graphql/__generated__/ChangeUnauthorizedPasswordMutation';
 import './ChangeUnauthorizedPasswordModal.scss';
-
-type Props = {
-  uuid: string,
-  onSuccess: () => void,
-  onCloseModal: () => void,
-};
-
-type FormValues = {
-  currentPassword: string,
-  newPassword: string,
-  repeatPassword: string,
-};
 
 const fieldLabels = {
   currentPassword: 'MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.CURRENT_PASSWORD',
@@ -33,14 +21,28 @@ const customErrors = {
   'regex.newPassword': passwordCustomError,
 };
 
+type FormValues = {
+  currentPassword: string,
+  newPassword: string,
+  repeatPassword: string,
+};
+
+type Props = {
+  uuid: string,
+  onSuccess: () => void,
+  onCloseModal: () => void,
+};
+
 const ChangeUnauthorizedPasswordModal = (props: Props) => {
-  const { onCloseModal } = props;
-  const [changeUnauthorizedPassword] = useChangeUnauthorizedPasswordMutation();
+  const { uuid, onSuccess, onCloseModal } = props;
+
   const [formError, setFormError] = useState<string | null>(null);
 
-  const onHandleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    const { uuid, onSuccess } = props;
+  // ===== Requests ===== //
+  const [changeUnauthorizedPassword] = useChangeUnauthorizedPasswordMutation();
 
+  // ===== Handlers ===== //
+  const onHandleSubmit = async (values: FormValues) => {
     try {
       await changeUnauthorizedPassword({ variables: { uuid, ...values } });
 
@@ -70,8 +72,6 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
         });
       }
     }
-
-    setSubmitting(false);
   };
 
   return (

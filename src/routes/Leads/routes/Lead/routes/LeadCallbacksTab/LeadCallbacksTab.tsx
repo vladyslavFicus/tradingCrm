@@ -12,7 +12,10 @@ import { Button } from 'components/UI';
 import CreateLeadCallbackModal from 'modals/CreateLeadCallbackModal';
 import LeadCallbacksGridFilter from './components/LeadCallbacksGridFilter';
 import LeadCallbacksGrid from './components/LeadCallbacksGrid';
-import { LeadCallbacksQueryVariables, useLeadCallbacksQuery } from './graphql/__generated__/LeadCallbacksQuery';
+import {
+  LeadCallbacksListQueryVariables,
+  useLeadCallbacksListQuery,
+} from './graphql/__generated__/LeadCallbacksListQuery';
 import './LeadCallbacksTab.scss';
 
 type Props = {
@@ -23,28 +26,32 @@ type Props = {
 
 const LeadCallbacksTab = (props: Props) => {
   const { modals: { createLeadCallbackModal } } = props;
+
   const { id: uuid } = useParams<{ id: string }>();
 
-  const { state } = useLocation<State<LeadCallbacksQueryVariables>>();
+  const { state } = useLocation<State<LeadCallbacksListQueryVariables>>();
 
-  const leadCallbacksQuery = useLeadCallbacksQuery({
+  // ===== Requests ===== //
+  const leadCallbacksListQuery = useLeadCallbacksListQuery({
     variables: {
-      ...state?.filters as LeadCallbacksQueryVariables,
+      ...state?.filters as LeadCallbacksListQueryVariables,
       userId: uuid,
       limit: 20,
       page: 0,
     },
   });
 
+  // ===== Handlers ===== //
   const handleOpenAddCallbackModal = () => {
     createLeadCallbackModal.show();
   };
 
+  // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
 
     return () => {
-      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
     };
   }, []);
 
@@ -66,8 +73,8 @@ const LeadCallbacksTab = (props: Props) => {
         </PermissionContent>
       </TabHeader>
 
-      <LeadCallbacksGridFilter handleRefetch={leadCallbacksQuery.refetch} />
-      <LeadCallbacksGrid leadCallbacksQuery={leadCallbacksQuery} />
+      <LeadCallbacksGridFilter onRefetch={leadCallbacksListQuery.refetch} />
+      <LeadCallbacksGrid leadCallbacksListQuery={leadCallbacksListQuery} />
     </div>
   );
 };

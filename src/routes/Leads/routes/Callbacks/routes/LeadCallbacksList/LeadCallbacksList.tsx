@@ -15,7 +15,8 @@ import './LeadCallbacksList.scss';
 const LeadCallbacksList = () => {
   const { state } = useLocation<State<LeadCallbacksListQueryVariables>>();
 
-  const leadCallbacksQuery = useLeadCallbacksListQuery({
+  // ===== Requests ===== //
+  const leadCallbacksListQuery = useLeadCallbacksListQuery({
     variables: {
       ...state?.filters as LeadCallbacksListQueryVariables,
       limit: 20,
@@ -23,15 +24,16 @@ const LeadCallbacksList = () => {
     },
   });
 
+  const totalElements = leadCallbacksListQuery.data?.leadCallbacks.totalElements;
+
+  // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
 
     return () => {
-      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
     };
   }, []);
-
-  const totalElements = leadCallbacksQuery.data?.leadCallbacks.totalElements;
 
   return (
     <div className="LeadCallbacksList">
@@ -40,6 +42,7 @@ const LeadCallbacksList = () => {
           <If condition={!!totalElements}>
             <strong>{totalElements} </strong>
           </If>
+
           {I18n.t('CALLBACKS.CALLBACKS')}
         </div>
 
@@ -50,8 +53,8 @@ const LeadCallbacksList = () => {
         </div>
       </div>
 
-      <LeadCallbacksGridFilter handleRefetch={leadCallbacksQuery?.refetch} />
-      <LeadCallbacksGrid callbacksData={leadCallbacksQuery} />
+      <LeadCallbacksGridFilter onRefetch={leadCallbacksListQuery?.refetch} />
+      <LeadCallbacksGrid leadCallbacksListQuery={leadCallbacksListQuery} />
     </div>
   );
 };

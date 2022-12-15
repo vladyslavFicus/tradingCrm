@@ -26,41 +26,41 @@ type FormValues = {
   deskType: DeskTypesEnum,
   officeUuid: string,
   language: string,
-}
+};
 
 type Props = {
-  isOpen: boolean,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateDeskModal = (props: Props) => {
-  const { isOpen, onSuccess, onCloseModal } = props;
-  const [createDeskMutation] = useCreateDeskMutation();
+  const { onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const officesQuery = useOfficesQuery();
+
   const offices = officesQuery.data?.userBranches?.OFFICE || [];
 
+  const [createDeskMutation] = useCreateDeskMutation();
+
   // ===== Handlers ===== //
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await createDeskMutation({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_DESK_MODAL.NOTIFICATIONS.SUCCESS'),
         message: I18n.t('COMMON.SUCCESS'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'name',
-          I18n.t('MODALS.ADD_DESK_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('name', I18n.t('MODALS.ADD_DESK_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -72,7 +72,7 @@ const CreateDeskModal = (props: Props) => {
   };
 
   return (
-    <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen={isOpen}>
+    <Modal className="CreateDeskModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           name: '',
@@ -96,7 +96,10 @@ const CreateDeskModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader toggle={onCloseModal}>{I18n.t('MODALS.ADD_DESK_MODAL.HEADER')}</ModalHeader>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('MODALS.ADD_DESK_MODAL.HEADER')}
+            </ModalHeader>
+
             <ModalBody>
               <Field
                 name="name"
@@ -150,6 +153,7 @@ const CreateDeskModal = (props: Props) => {
                 ))}
               </Field>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}

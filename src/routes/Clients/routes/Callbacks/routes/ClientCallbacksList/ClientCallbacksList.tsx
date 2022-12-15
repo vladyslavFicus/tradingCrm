@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 import { State } from 'types';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Link } from 'components/Link';
-import CallbacksGridFilter from './components/ClientCallbacksGridFilter';
-import CallbacksGrid from './components/ClientCallbacksGrid';
+import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
+import ClientCallbacksGrid from './components/ClientCallbacksGrid';
 import {
   useClientCallbacksListQuery,
   ClientCallbacksListQueryVariables,
@@ -15,7 +15,8 @@ import './ClientCallbacksList.scss';
 const CallbacksList = () => {
   const { state } = useLocation<State<ClientCallbacksListQueryVariables>>();
 
-  const clientCallbacksQuery = useClientCallbacksListQuery({
+  // ===== Requests ===== //
+  const clientCallbacksListQuery = useClientCallbacksListQuery({
     variables: {
       ...state?.filters as ClientCallbacksListQueryVariables,
       limit: 20,
@@ -23,13 +24,14 @@ const CallbacksList = () => {
     },
   });
 
-  const totalElements = clientCallbacksQuery.data?.clientCallbacks.totalElements;
+  const totalElements = clientCallbacksListQuery.data?.clientCallbacks.totalElements;
 
+  // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksListQuery.refetch);
 
     return () => {
-      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksListQuery.refetch);
     };
   }, []);
 
@@ -40,6 +42,7 @@ const CallbacksList = () => {
           <If condition={!!totalElements}>
             <strong>{totalElements} </strong>
           </If>
+
           {I18n.t('CALLBACKS.CALLBACKS')}
         </div>
 
@@ -50,8 +53,8 @@ const CallbacksList = () => {
         </div>
       </div>
 
-      <CallbacksGridFilter handleRefetch={clientCallbacksQuery?.refetch} />
-      <CallbacksGrid callbacksData={clientCallbacksQuery} />
+      <ClientCallbacksGridFilter onRefetch={clientCallbacksListQuery?.refetch} />
+      <ClientCallbacksGrid clientCallbacksListQuery={clientCallbacksListQuery} />
     </div>
   );
 };

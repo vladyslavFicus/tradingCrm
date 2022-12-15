@@ -13,8 +13,13 @@ import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { useClientCallbacksCalendarQuery } from './graphql/__generated__/ClientCallbacksCalendarQuery';
+import { useClientCallbacksListQuery } from './graphql/__generated__/ClientCallbacksListQuery';
 import './ClientCallbacksCalendar.scss';
+
+type Range = {
+  start: string,
+  end: string,
+};
 
 type Props = {
   modals: {
@@ -26,7 +31,8 @@ type Props = {
 const ClientCallbacksCalendar = (props: Props) => {
   const { clientCallbackDetailsModal, deleteClientCallbackModal } = props.modals;
 
-  const clientCallbacksQuery = useClientCallbacksCalendarQuery({
+  // ===== Requests ===== //
+  const clientCallbacksListQuery = useClientCallbacksListQuery({
     variables: {
       callbackTimeFrom: Calendar.firstVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
       callbackTimeTo: Calendar.lastVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
@@ -34,16 +40,17 @@ const ClientCallbacksCalendar = (props: Props) => {
     },
   });
 
+  const clientCallbacks = clientCallbacksListQuery.data?.clientCallbacks?.content || [];
+  const totalElements = clientCallbacksListQuery.data?.clientCallbacks?.totalElements || 0;
+
+  // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+    EventEmitter.on(CLIENT_CALLBACK_RELOAD, clientCallbacksListQuery.refetch);
 
     return () => {
-      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksQuery.refetch);
+      EventEmitter.off(CLIENT_CALLBACK_RELOAD, clientCallbacksListQuery.refetch);
     };
   }, []);
-
-  const clientCallbacks = clientCallbacksQuery.data?.clientCallbacks?.content || [];
-  const totalElements = clientCallbacksQuery.data?.clientCallbacks?.totalElements || 0;
 
   const getCalendarEvents = (
     callbacks: Array<ClientCallback>,
@@ -56,8 +63,11 @@ const ClientCallbacksCalendar = (props: Props) => {
     callbackType: CallbackType.CLIENT,
   }));
 
-  const handleRangeChanged = ({ start: callbackTimeFrom, end: callbackTimeTo }: {start: string, end: string}) => {
-    clientCallbacksQuery.refetch({ callbackTimeFrom, callbackTimeTo });
+  // ===== Handlers ===== //
+  const handleRangeChanged = (range: Range) => {
+    const { start: callbackTimeFrom, end: callbackTimeTo } = range;
+
+    clientCallbacksListQuery.refetch({ callbackTimeFrom, callbackTimeTo });
   };
 
   const handleOpenDetailModal = ({ callback }: Event<ClientCallback>) => {
@@ -79,14 +89,17 @@ const ClientCallbacksCalendar = (props: Props) => {
           <If condition={!!totalElements}>
             <strong>{totalElements} </strong>
           </If>
+
           {I18n.t('CALLBACKS.CALLBACKS')}
         </div>
+
         <div className="ClientCallbacksCalendar__list">
           <Link to="/clients/callbacks/list">
             <i className="fa fa-list" />
           </Link>
         </div>
       </div>
+
       <Calendar
         className="ClientCallbacksCalendar__calendar"
         events={getCalendarEvents(clientCallbacks as Array<ClientCallback>)}

@@ -25,7 +25,7 @@ import {
 import './ClientCallbacksGrid.scss';
 
 type Props = {
-  callbacksData: ClientCallbacksListQueryQueryResult,
+  clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,
   modals: {
     clientCallbackDetailsModal: Modal,
     deleteClientCallbackModal: Modal,
@@ -33,12 +33,15 @@ type Props = {
 };
 
 const ClientCallbacksGrid = (props: Props) => {
-  const { callbacksData, modals } = props;
+  const { clientCallbacksListQuery, modals } = props;
   const { clientCallbackDetailsModal, deleteClientCallbackModal } = modals;
-  const { content = [], last = false } = callbacksData?.data?.clientCallbacks || {};
 
+  const { data, variables, fetchMore, loading } = clientCallbacksListQuery;
+
+  const { content = [], last = false } = clientCallbacksListQuery?.data?.clientCallbacks || {};
+
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { data, variables, fetchMore, loading } = callbacksData;
     const page = data?.clientCallbacks?.page || 0;
 
     if (!loading) {
@@ -52,6 +55,7 @@ const ClientCallbacksGrid = (props: Props) => {
     window.open(`/clients/${userId}/profile`, '_blank');
   };
 
+  // ===== Renders ===== //
   const renderId = (callback: ClientCallback) => {
     const { callbackId, operatorId } = callback;
 
@@ -145,6 +149,7 @@ const ClientCallbacksGrid = (props: Props) => {
           playerUUID={userId}
           note={note}
         />
+
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
             className="ClientCallbacksGrid__actions--remove"
@@ -182,7 +187,7 @@ const ClientCallbacksGrid = (props: Props) => {
       <Table
         stickyFromTop={128}
         items={content}
-        loading={callbacksData.loading}
+        loading={loading}
         hasMore={!last}
         onMore={handlePageChanged}
       >

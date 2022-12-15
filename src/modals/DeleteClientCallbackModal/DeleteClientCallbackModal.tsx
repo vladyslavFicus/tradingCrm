@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -11,47 +11,45 @@ import './DeleteClientCallbackModal.scss';
 
 type Props = {
   callback: ClientCallback,
-  onCloseModal: () => void,
   onSuccess: () => void,
+  onCloseModal: () => void,
 };
 
 const DeleteClientCallbackModal = (props: Props) => {
   const {
     callback,
-    onCloseModal,
     onSuccess = () => {},
+    onCloseModal,
   } = props;
-  const { client, callbackTime } = callback;
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [deleteClientCallbackMutation] = useDeleteClientCallbackMutation();
+  const { callbackId, client, callbackTime } = callback;
 
+  // ===== Requests ===== //
+  const [deleteClientCallbackMutation, { loading }] = useDeleteClientCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-
     try {
-      await deleteClientCallbackMutation({ variables: { callbackId: callback.callbackId } });
+      await deleteClientCallbackMutation({ variables: { callbackId } });
 
       EventEmitter.emit(CLIENT_CALLBACK_RELOAD);
+
+      onSuccess();
+      onCloseModal();
 
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.CLIENT_TITLE'),
         message: I18n.t('CALLBACKS.DELETE_MODAL.SUCCESSFULLY_DELETED'),
       });
-
-      onSuccess();
-      onCloseModal();
     } catch (e) {
+      onCloseModal();
+
       notify({
         level: LevelType.ERROR,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.CLIENT_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
-
-      onCloseModal();
     }
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -80,7 +78,7 @@ const DeleteClientCallbackModal = (props: Props) => {
         </Button>
 
         <Button
-          disabled={isSubmitting}
+          disabled={loading}
           onClick={handleSubmit}
           type="submit"
           danger

@@ -19,13 +19,13 @@ import Uuid from 'components/Uuid';
 import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
 import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
 import {
-  ClientCallbacksQueryQueryResult,
-  ClientCallbacksQueryVariables,
-} from '../../graphql/__generated__/ClientCallbacksQuery';
+  ClientCallbacksListQueryQueryResult,
+  ClientCallbacksListQueryVariables,
+} from '../../graphql/__generated__/ClientCallbacksListQuery';
 import './ClientCallbacksGrid.scss';
 
 type Props = {
-  clientCallbacksQuery: ClientCallbacksQueryQueryResult,
+  clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,
   modals: {
     clientCallbackDetailsModal: Modal,
     deleteClientCallbackModal: Modal,
@@ -33,19 +33,25 @@ type Props = {
 };
 
 const ClientCallbacksGrid = (props: Props) => {
-  const { clientCallbacksQuery, modals } = props;
+  const { clientCallbacksListQuery, modals } = props;
   const { clientCallbackDetailsModal, deleteClientCallbackModal } = modals;
-  const { content = [], last = false } = clientCallbacksQuery?.data?.clientCallbacks || {};
 
+  const { data, variables, fetchMore, loading } = clientCallbacksListQuery;
+
+  const { content = [], last = false } = clientCallbacksListQuery?.data?.clientCallbacks || {};
+
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { data, variables, fetchMore } = clientCallbacksQuery;
     const page = data?.clientCallbacks?.page || 0;
 
-    fetchMore({
-      variables: set(cloneDeep(variables as ClientCallbacksQueryVariables), 'page', page + 1),
-    });
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables as ClientCallbacksListQueryVariables), 'page', page + 1),
+      });
+    }
   };
 
+  // ===== Renders ===== //
   const renderId = (callback: ClientCallback) => {
     const { callbackId, operatorId } = callback;
 
@@ -122,6 +128,7 @@ const ClientCallbacksGrid = (props: Props) => {
           playerUUID={userId}
           note={note}
         />
+
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
             className="ClientCallbacksGrid__actions--remove"
@@ -159,7 +166,7 @@ const ClientCallbacksGrid = (props: Props) => {
       <Table
         stickyFromTop={188}
         items={content}
-        loading={clientCallbacksQuery?.loading}
+        loading={loading}
         hasMore={!last}
         onMore={handlePageChanged}
       >

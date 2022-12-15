@@ -17,14 +17,17 @@ import './DistributionRuleForm.scss';
 
 const DistributionRuleForm = () => {
   const history = useHistory();
+
   const { id: uuid } = useParams<{ id: string }>();
 
+  // ===== Requests ===== //
   const distributionRuleQuery = useDistributionRuleQuery({ variables: { uuid } });
-  const [updateRule] = useUpdateRuleMutation();
 
   const distributionRule = distributionRuleQuery.data?.distributionRule;
   const sourceBrandConfig = distributionRule?.sourceBrandConfigs && distributionRule.sourceBrandConfigs[0];
   const targetBrandConfig = distributionRule?.targetBrandConfigs && distributionRule.targetBrandConfigs[0];
+
+  const [updateRule] = useUpdateRuleMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
@@ -160,6 +163,7 @@ const DistributionRuleForm = () => {
                   <option key={value} value={value}>{I18n.t(label)}</option>
                 ))}
               </Field>
+
               <If condition={formik.dirty}>
                 <div className="DistributionRuleForm__not-saved-message">
                   {I18n.t('CLIENTS_DISTRIBUTION.RULE.NOT_SAVED')}
@@ -175,6 +179,7 @@ const DistributionRuleForm = () => {
 
                 <DistributionRuleSourceBrandForm formik={formik} />
               </fieldset>
+
               <fieldset className="DistributionRuleForm__fieldset">
                 <legend className="DistributionRuleForm__fieldset-title">
                   {I18n.t('CLIENTS_DISTRIBUTION.RULE.TARGET_BRAND')}
@@ -192,6 +197,7 @@ const DistributionRuleForm = () => {
               >
                 {I18n.t('COMMON.CANCEL')}
               </Button>
+
               <Button
                 primary
                 type="submit"

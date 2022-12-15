@@ -19,39 +19,37 @@ const attributeLabels = {
 type FormValues = {
   name: string,
   country: string,
-}
+};
 
 type Props = {
-  isOpen: boolean,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const CreateOfficeModal = (props: Props) => {
-  const { isOpen, onSuccess, onCloseModal } = props;
+  const { onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const [createOfficeMutation] = useCreateOfficeMutation();
 
   // ===== Handlers ===== //
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await createOfficeMutation({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'name',
-          I18n.t('MODALS.ADD_OFFICE_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('name', I18n.t('MODALS.ADD_OFFICE_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -63,7 +61,7 @@ const CreateOfficeModal = (props: Props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={onCloseModal}>
+    <Modal toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           name: '',
@@ -86,6 +84,7 @@ const CreateOfficeModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('MODALS.ADD_OFFICE_MODAL.TITLE')}
             </ModalHeader>
+
             <ModalBody>
               <Field
                 name="name"
@@ -94,6 +93,7 @@ const CreateOfficeModal = (props: Props) => {
                 component={FormikInputField}
                 disabled={isSubmitting}
               />
+
               <Field
                 name="country"
                 label={attributeLabels.country}
@@ -109,6 +109,7 @@ const CreateOfficeModal = (props: Props) => {
                 ))}
               </Field>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 className="CreateOfficeModal__button"
@@ -117,6 +118,7 @@ const CreateOfficeModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 className="CreateOfficeModal__button"
                 disabled={isSubmitting}

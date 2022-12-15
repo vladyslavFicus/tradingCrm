@@ -240,7 +240,7 @@ const IpWhitelistGrid = (props: Props) => {
           </div>
         </PermissionContent>
       </div>
-      <IpWhitelistFilter refetch={ipWhitelistQuery.refetch} />
+      <IpWhitelistFilter onRefetch={ipWhitelistQuery.refetch} />
       <Table
         items={content}
         loading={ipWhitelistQuery.loading}

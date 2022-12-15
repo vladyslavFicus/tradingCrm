@@ -6,6 +6,7 @@ import { Formik, Form, Field, FormikProps } from 'formik';
 import { getBrand } from 'config';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
+import { SetFieldValue } from 'types/formik';
 import { createValidator } from 'utils/validator';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
@@ -15,17 +16,6 @@ import { FormikSelectField } from 'components/Formik';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/CreateAcquisitionStatusMutation';
 import './NewAcquisitionStatusModal.scss';
-
-type Props = {
-  isOpen: boolean,
-  onCloseModal: () => void,
-  onSuccess: () => void,
-};
-
-type FormValues = {
-  type: AcquisitionStatusTypes,
-  status: string,
-}
 
 const validate = createValidator(
   {
@@ -38,15 +28,21 @@ const validate = createValidator(
   false,
 );
 
+type FormValues = {
+  type: AcquisitionStatusTypes,
+  status: string,
+};
+
+type Props = {
+  isOpen: boolean,
+  onSuccess: () => void,
+  onCloseModal: () => void,
+};
+
 const NewAcquisitionStatusModal = (props: Props) => {
-  const {
-    isOpen,
-    onCloseModal,
-    onSuccess,
-  } = props;
+  const { isOpen, onSuccess, onCloseModal } = props;
 
-  const [createAcquisitionStatus] = useCreateAcquisitionStatusMutation();
-
+  // ===== Requests ===== //
   const acquisitionStatusesQuery = useAcquisitionStatusesQuery({
     variables: {
       brandId: getBrand().id,
@@ -55,6 +51,8 @@ const NewAcquisitionStatusModal = (props: Props) => {
   });
 
   const acquisitionStatuses = acquisitionStatusesQuery.data?.settings.acquisitionStatuses || [];
+
+  const [createAcquisitionStatus] = useCreateAcquisitionStatusMutation();
 
   // Get only not used SALES statuses
   const differenceSalesStatuses = differenceWith(
@@ -70,6 +68,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
     (salesStatus, { type, status }) => type === AcquisitionStatusTypes.RETENTION && salesStatus === status,
   ).sort();
 
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     try {
       await createAcquisitionStatus({ variables: values });
@@ -91,10 +90,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
     }
   };
 
-  const handleTypeChange = (
-    type: AcquisitionStatusTypes,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ) => {
+  const handleTypeChange = (type: AcquisitionStatusTypes, setFieldValue: SetFieldValue<FormValues>) => {
     setFieldValue('type', type);
 
     // Clear status field while new type chosen
@@ -125,6 +121,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
                 <When condition={acquisitionStatusesQuery.loading}>
                   {I18n.t('COMMON.LOADING')}
                 </When>
+
                 <Otherwise>
                   {I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.TITLE')}
                 </Otherwise>
@@ -135,6 +132,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
               <When condition={acquisitionStatusesQuery.loading}>
                 <ShortLoader className="NewAcquisitionStatusModal__loader" />
               </When>
+
               <Otherwise>
                 <ModalBody>
                   <div className="NewAcquisitionStatusModal__fields">
@@ -153,6 +151,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
                         {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.RETENTION')}
                       </option>
                     </Field>
+
                     <Field
                       name="status"
                       label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.STATUS')}
@@ -174,6 +173,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
                             </option>
                           ))}
                         </When>
+
                         <When condition={values.type === AcquisitionStatusTypes.RETENTION}>
                           {differenceRetentionStatuses.map(status => (
                             <option key={status} value={status}>
@@ -193,6 +193,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
                   >
                     {I18n.t('COMMON.CANCEL')}
                   </Button>
+
                   <Button
                     type="submit"
                     disabled={!dirty || isSubmitting}

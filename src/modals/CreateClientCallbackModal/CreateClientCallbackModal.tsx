@@ -28,24 +28,28 @@ type FormValue = {
   operatorId: string,
   callbackTime: string,
   reminder: string,
-}
+};
 
 type Props = {
   onCloseModal: () => void,
-}
+};
 
 const CreateClientCallbackModal = (props: Props) => {
   const { onCloseModal } = props;
+
   const { id } = useParams<{ id: string }>();
 
   const noteButton = useRef<NoteButton>(null);
 
+  // ===== Requests ===== //
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
-  const [addNote] = useCallbackAddNoteMutation();
-  const [createClientCallback] = useCreateClientCallbackMutation();
 
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
+
+  const [addNote] = useCallbackAddNoteMutation();
+
+  const [createClientCallback] = useCreateClientCallbackMutation();
 
   const createNote = async (callbackId: string) => {
     const note = noteButton.current?.getNote();
@@ -61,9 +65,10 @@ const CreateClientCallbackModal = (props: Props) => {
     }
   };
 
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValue) => {
     try {
-      const responseData = await createClientCallback({ variables: { userId: id, ...values } });
+      const responseData = await createClientCallback({ variables: { ...values, userId: id } });
       const callbackId = responseData.data?.callback?.createClientCallback?.callbackId;
 
       if (callbackId) {
@@ -113,7 +118,10 @@ const CreateClientCallbackModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader toggle={onCloseModal}>{I18n.t('CALLBACKS.CREATE_MODAL.CLIENT_TITLE')}</ModalHeader>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('CALLBACKS.CREATE_MODAL.CLIENT_TITLE')}
+            </ModalHeader>
+
             <ModalBody>
               <Field
                 name="operatorId"
@@ -166,6 +174,7 @@ const CreateClientCallbackModal = (props: Props) => {
                 />
               </div>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}

@@ -24,48 +24,45 @@ const validate = createValidator(
   false,
 );
 
-interface IpWhitelistAddress {
+type IpWhitelistAddress = {
   ipWhitelist: {
     ip: string,
     description: string,
   },
-}
+};
+
 type FormValues = {
   ip: string,
   description: string,
-}
+};
 
 type Props = {
-  onCloseModal: () => void,
-  isOpen: boolean,
   addIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistAddress>,
   onSuccess: () => void,
+  onCloseModal: () => void,
 };
 
 const WhiteListAddIpModal = (props: Props) => {
-  const { onCloseModal, isOpen, onSuccess, addIp } = props;
+  const { addIp, onSuccess, onCloseModal } = props;
 
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  // ===== Handlers ===== //
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await addIp({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.NOTIFICATIONS.IP_ADDED'),
       });
-
-      onCloseModal();
-      onSuccess();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.entity.already.exist') {
-        formikHelpers.setFieldError(
-          'ip',
-          I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('ip', I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -77,7 +74,7 @@ const WhiteListAddIpModal = (props: Props) => {
   };
 
   return (
-    <Modal className="WhiteListAddIpModal" toggle={onCloseModal} isOpen={isOpen}>
+    <Modal className="WhiteListAddIpModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{ ip: '', description: '' }}
         validate={validate}
@@ -87,19 +84,24 @@ const WhiteListAddIpModal = (props: Props) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <ModalHeader toggle={onCloseModal}>{I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.TITLE')}</ModalHeader>
+            <ModalHeader toggle={onCloseModal}>
+              {I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.TITLE')}
+            </ModalHeader>
+
             <ModalBody>
               <Field
                 name="ip"
                 label={I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.IP_ADDRESS')}
                 component={FormikInputField}
               />
+
               <Field
                 name="description"
                 label={I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.DESCRIPTION')}
                 component={FormikInputField}
               />
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
@@ -108,6 +110,7 @@ const WhiteListAddIpModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 className="WhiteListAddIpModal__button"
                 primary

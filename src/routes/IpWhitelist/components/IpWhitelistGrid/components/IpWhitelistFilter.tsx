@@ -2,23 +2,28 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { ResetForm } from 'types/formik';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { State } from 'types';
 import { IpWhitelistSearchQueryVariables } from '../graphql/__generated__/IpWhitelistQuery';
-import { IpWhitelistFilters } from '../types';
+import { IpWhitelistFilters as FormValues } from '../types';
 import './IpWhitelistFilter.scss';
 
 type Props = {
-  refetch: (variables: IpWhitelistSearchQueryVariables) => void,
-}
+  onRefetch: (variables: IpWhitelistSearchQueryVariables) => void,
+};
 
-const IpWhitelistFilter = ({ refetch }: Props) => {
-  const { state } = useLocation<State<IpWhitelistFilters>>();
+const IpWhitelistFilter = (props: Props) => {
+  const { onRefetch } = props;
+
+  const { state } = useLocation<State<FormValues>>();
+
   const history = useHistory();
 
-  const handleSubmit = (values: IpWhitelistFilters) => {
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -27,7 +32,7 @@ const IpWhitelistFilter = ({ refetch }: Props) => {
     });
   };
 
-  const handleReset = (resetForm: () => void) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
@@ -51,7 +56,6 @@ const IpWhitelistFilter = ({ refetch }: Props) => {
         dirty,
       }) => (
         <Form className="IpWhitelistFilter">
-
           <div className="IpWhitelistFilter__fields">
             <Field
               name="ip"
@@ -61,6 +65,7 @@ const IpWhitelistFilter = ({ refetch }: Props) => {
               component={FormikInputField}
               addition={<i className="icon icon-search" />}
             />
+
             <Field
               name="creationDateRange"
               label={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.CREATION_DATE_LABEL')}
@@ -73,11 +78,13 @@ const IpWhitelistFilter = ({ refetch }: Props) => {
               }}
             />
           </div>
+
           <div className="IpWhitelistFilter__buttons">
             <RefreshButton
               className="IpWhitelistFilter__button"
-              onClick={refetch}
+              onClick={onRefetch}
             />
+
             <Button
               className="IpWhitelistFilter__button"
               onClick={() => handleReset(resetForm)}
@@ -86,6 +93,7 @@ const IpWhitelistFilter = ({ refetch }: Props) => {
             >
               {I18n.t('COMMON.RESET')}
             </Button>
+
             <Button
               className="IpWhitelistFilter__button"
               type="submit"

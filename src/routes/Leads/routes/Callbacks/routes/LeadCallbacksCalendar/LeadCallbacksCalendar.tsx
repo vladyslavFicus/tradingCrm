@@ -13,8 +13,13 @@ import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { useLeadCallbacksCalendarQuery } from './graphql/__generated__/LeadCallbacksCalendarQuery';
+import { useLeadCallbacksListQuery } from './graphql/__generated__/LeadCallbacksListQuery';
 import './LeadCallbacksCalendar.scss';
+
+type Range = {
+  start: string,
+  end: string,
+};
 
 type Props = {
   modals: {
@@ -26,7 +31,8 @@ type Props = {
 const LeadCallbacksCalendar = (props: Props) => {
   const { leadCallbackDetailsModal, deleteLeadCallbackModal } = props.modals;
 
-  const leadCallbacksQuery = useLeadCallbacksCalendarQuery({
+  // ===== Requests ===== //
+  const leadCallbacksListQuery = useLeadCallbacksListQuery({
     variables: {
       callbackTimeFrom: Calendar.firstVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
       callbackTimeTo: Calendar.lastVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
@@ -34,16 +40,17 @@ const LeadCallbacksCalendar = (props: Props) => {
     },
   });
 
+  const leadCallbacks = leadCallbacksListQuery.data?.leadCallbacks?.content || [];
+  const totalElements = leadCallbacksListQuery.data?.leadCallbacks?.totalElements || 0;
+
+  // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+    EventEmitter.on(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
 
     return () => {
-      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksQuery.refetch);
+      EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
     };
   }, []);
-
-  const leadCallbacks = leadCallbacksQuery.data?.leadCallbacks?.content || [];
-  const totalElements = leadCallbacksQuery.data?.leadCallbacks?.totalElements || 0;
 
   const getCalendarEvents = (
     callbacks: Array<LeadCallback>,
@@ -56,8 +63,11 @@ const LeadCallbacksCalendar = (props: Props) => {
     callbackType: CallbackType.LEAD,
   }));
 
-  const handleRangeChanged = ({ start: callbackTimeFrom, end: callbackTimeTo }: {start: string, end: string}) => {
-    leadCallbacksQuery.refetch({ callbackTimeFrom, callbackTimeTo });
+  // ===== Handlers ===== //
+  const handleRangeChanged = (range: Range) => {
+    const { start: callbackTimeFrom, end: callbackTimeTo } = range;
+
+    leadCallbacksListQuery.refetch({ callbackTimeFrom, callbackTimeTo });
   };
 
   const handleOpenDetailModal = ({ callback }: Event<LeadCallback>) => {
@@ -79,14 +89,17 @@ const LeadCallbacksCalendar = (props: Props) => {
           <If condition={!!totalElements}>
             <strong>{totalElements} </strong>
           </If>
+
           {I18n.t('CALLBACKS.CALLBACKS')}
         </div>
+
         <div className="LeadCallbacksCalendar__list">
           <Link to="/leads/callbacks/list">
             <i className="fa fa-list" />
           </Link>
         </div>
       </div>
+
       <Calendar
         className="LeadCallbacksCalendar__calendar"
         events={getCalendarEvents(leadCallbacks as Array<LeadCallback>)}

@@ -44,7 +44,7 @@ const RbacFeed = () => {
           {I18n.t('ROLES_AND_PERMISSIONS.FEED.HEADLINE')}
         </div>
       </div>
-      <RbacFeedsFilters refetch={rbacFeedsQuery.refetch} />
+      <RbacFeedsFilters onRefetch={rbacFeedsQuery.refetch} />
       <div className="RbacFeed__grid">
         <ListView
           dataSource={content}

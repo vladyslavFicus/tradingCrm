@@ -12,25 +12,6 @@ import { FormikInputField } from 'components/Formik';
 import IpWhitelistEditMutation from './graphql/IpWhitelistEditMutation';
 import './WhiteListUpdateDescriptionModal.scss';
 
-interface IpWhitelistEditResponse {
-  ipWhitelist: {
-    name: string,
-    description: string,
-  },
-}
-type IpWhitelistAddress = {
-  ip: string,
-  uuid: string,
-  description?: string,
-}
-type Props = {
-  item: IpWhitelistAddress,
-  isOpen: boolean,
-  onSuccess: () => void,
-  editIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistEditResponse>,
-  onCloseModal: () => void,
-};
-
 const validate = createValidator(
   {
     ip: ['required', 'IP'],
@@ -43,17 +24,50 @@ const validate = createValidator(
   false,
 );
 
-const WhiteListUpdateDescriptionModal = ({ item, isOpen, onSuccess, editIp, onCloseModal }: Props) => {
-  const handleSubmit = async ({ description, uuid }: IpWhitelistAddress) => {
+type IpWhitelistEditResponse = {
+  ipWhitelist: {
+    name: string,
+    description: string,
+  },
+};
+
+type IpWhitelistAddress = {
+  ip: string,
+  uuid: string,
+  description?: string,
+};
+
+type FormValues = {
+  ip: string,
+  uuid: string,
+  description?: string,
+};
+
+type Props = {
+  item: IpWhitelistAddress,
+  editIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistEditResponse>,
+  onSuccess: () => void,
+  onCloseModal: () => void,
+};
+
+const WhiteListUpdateDescriptionModal = (props: Props) => {
+  const { item, editIp, onSuccess, onCloseModal } = props;
+
+  // ===== Handlers ===== //
+  const handleSubmit = async (values: FormValues) => {
+    const { description, uuid } = values;
+
     try {
       await editIp({ variables: { description, uuid } });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.NOTIFICATIONS.IP_UPDATED'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -64,7 +78,7 @@ const WhiteListUpdateDescriptionModal = ({ item, isOpen, onSuccess, editIp, onCl
   };
 
   return (
-    <Modal className="WhiteListUpdateDescriptionModal" toggle={onCloseModal} isOpen={isOpen}>
+    <Modal className="WhiteListUpdateDescriptionModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={item}
         validate={validate}
@@ -77,21 +91,22 @@ const WhiteListUpdateDescriptionModal = ({ item, isOpen, onSuccess, editIp, onCl
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.TITLE')}
             </ModalHeader>
-            <ModalBody>
 
+            <ModalBody>
               <Field
                 name="ip"
                 label={I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.IP_ADDRESS')}
                 component={FormikInputField}
                 disabled
               />
+
               <Field
                 name="description"
                 label={I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.DESCRIPTION')}
                 component={FormikInputField}
               />
-
             </ModalBody>
+
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
@@ -116,7 +131,6 @@ const WhiteListUpdateDescriptionModal = ({ item, isOpen, onSuccess, editIp, onCl
     </Modal>
   );
 };
-
 
 export default compose(
   React.memo,

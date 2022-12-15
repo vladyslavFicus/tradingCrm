@@ -1,19 +1,19 @@
-query ClientCallbacksCalendarQuery(
+query LeadCallbacksListQuery(
   $callbackTimeFrom: String
   $callbackTimeTo: String
   $limit: Int
 ) {
-  clientCallbacks(
+  leadCallbacks(
     callbackTimeFrom: $callbackTimeFrom
     callbackTimeTo: $callbackTimeTo
     limit: $limit
-  ) @connection(key: "CLIENT_CALLBACKS_CALENDAR") {
+    ) @connection(key: "LEAD_CALLBACKS_CALENDAR") {
     totalElements
     content {
       _id
       callbackId
       callbackTime
-      client {
+      lead {
         fullName
       }
     }

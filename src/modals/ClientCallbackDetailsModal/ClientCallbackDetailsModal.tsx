@@ -28,40 +28,40 @@ const attributeLabels = {
   reminder: 'CALLBACKS.CREATE_MODAL.REMINDER',
 };
 
-type Props = {
-  callbackId: string,
-  onCloseModal: () => void,
-  onDelete: () => void,
-};
-
 type FormValues = {
   operatorId: string,
   callbackTime: string,
   status: CallbackStatusEnum,
   reminder: string | null,
-}
+};
+
+type Props = {
+  callbackId: string,
+  onDelete: () => void,
+  onCloseModal: () => void,
+};
 
 const ClientCallbackDetailsModal = (props: Props) => {
-  const { onCloseModal, callbackId, onDelete } = props;
-  const [updateClientCallbackMutation] = useUpdateClientCallbackMutation();
+  const { callbackId, onDelete, onCloseModal } = props;
 
   const permission = usePermission();
   const readOnly = permission.denies(permissions.USER_PROFILE.UPDATE_CALLBACK);
 
-  // Client Callback Query
-  const clientCallbackQuery = useGetClientCallbackQuery({
-    variables: { id: callbackId },
-    fetchPolicy: 'network-only',
-  });
+  // ===== Requests ===== //
+  const clientCallbackQuery = useGetClientCallbackQuery({ variables: { id: callbackId }, fetchPolicy: 'network-only' });
+
   const isCallbackLoading = clientCallbackQuery.loading;
   const clientCallback = clientCallbackQuery.data?.clientCallback as ClientCallback || {};
   const { callbackTime, operatorId, reminder, client, status, userId, note } = clientCallback;
 
-  // Operators Query
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
+
   const isOperatorsLoading = operatorsQuery.loading;
   const operators = operatorsQuery.data?.operators?.content as Operator[] || [];
 
+  const [updateClientCallbackMutation] = useUpdateClientCallbackMutation();
+
+  // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     try {
       await updateClientCallbackMutation({
@@ -72,13 +72,13 @@ const ClientCallbackDetailsModal = (props: Props) => {
         },
       });
 
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.MODAL.CLIENT_TITLE'),
         message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
       });
-
-      onCloseModal();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -103,6 +103,7 @@ const ClientCallbackDetailsModal = (props: Props) => {
             <ShortLoader />
           </div>
         </When>
+
         <Otherwise>
           <Formik
             initialValues={{

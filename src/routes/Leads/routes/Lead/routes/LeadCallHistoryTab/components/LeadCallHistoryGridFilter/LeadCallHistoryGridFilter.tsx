@@ -4,31 +4,43 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { State } from 'types';
+import { ResetForm } from 'types/formik';
 import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
-import {
-  CallHistoryQueryQueryResult,
-  CallHistoryQueryVariables,
-} from '../../graphql/__generated__/LeadCallHistoryQuery';
 import { useClickToCallConfigQuery } from './graphql/__generated__/ClickToCallConfigQuery';
 import './LeadCallHistoryGridFilter.scss';
 
-type Props = {
-  callHistoryQuery: CallHistoryQueryQueryResult,
+type FormValues = {
+  operatorUuid?: string,
+  callStatus?: CallHistoryStatusEnum,
+  callSystems?: Array<string>,
+  callDateRange?: {
+    from?: string,
+    to?: string,
+  },
 };
 
-const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
-  const { state } = useLocation<State<CallHistoryQueryVariables['args']>>();
+type Props = {
+  onRefetch: () => void,
+};
+
+const LeadCallHistoryGridFilter = (props: Props) => {
+  const { onRefetch } = props;
+
+  const { state } = useLocation<State<FormValues>>();
+
   const history = useHistory();
 
+  // ===== Requests ===== //
   const clickToCallConfigQuery = useClickToCallConfigQuery();
 
   const callSystems = (clickToCallConfigQuery?.data?.clickToCall.configs || []).map(config => config.callSystem);
 
-  const handleSubmit = (values: CallHistoryQueryVariables['args']) => {
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -37,11 +49,11 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
     });
   };
 
-  const handleReset = (resetForm: Function) => {
+  const handleReset = (resetForm: ResetForm<FormValues>) => {
     history.replace({
       state: {
         ...state,
-        filters: {},
+        filters: null,
       },
     });
 
@@ -72,6 +84,7 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
               component={FormikInputField}
               withFocus
             />
+
             <Field
               name="callSystems"
               disabled={clickToCallConfigQuery.loading}
@@ -89,6 +102,7 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
                 </option>
               ))}
             </Field>
+
             <Field
               name="callStatus"
               className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__select"
@@ -104,6 +118,7 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
                 </option>
               ))}
             </Field>
+
             <Field
               className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__date-range"
               label={I18n.t('LEAD_PROFILE.CALL_HISTORY.GRID.FILTERS.DATE_RANGE')}
@@ -115,11 +130,13 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
               withFocus
             />
           </div>
+
           <div className="LeadCallHistoryGridFilter__buttons">
             <RefreshButton
               className="LeadCallHistoryGridFilter__button"
-              onClick={callHistoryQuery.refetch}
+              onClick={onRefetch}
             />
+
             <Button
               className="LeadCallHistoryGridFilter__button"
               onClick={() => handleReset(resetForm)}
@@ -128,6 +145,7 @@ const LeadCallHistoryGridFilter = ({ callHistoryQuery }: Props) => {
             >
               {I18n.t('COMMON.RESET')}
             </Button>
+
             <Button
               className="LeadCallHistoryGridFilter__button"
               disabled={isSubmitting || !dirty}

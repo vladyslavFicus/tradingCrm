@@ -16,50 +16,48 @@ const attributeLabels = {
   country: I18n.t('MODALS.UPDATE_OFFICE_MODAL.LABELS.COUNTRY'),
 };
 
-type FormValues = {
-  uuid: string,
-  name: string,
-  country: string,
-}
-
 type DataValues = {
   uuid: string,
   name: string,
   country: string,
-}
+};
+
+type FormValues = {
+  uuid: string,
+  name: string,
+  country: string,
+};
 
 type Props = {
   data: DataValues,
-  isOpen: boolean,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const UpdateOfficeModal = (props: Props) => {
-  const { data, isOpen, onSuccess, onCloseModal } = props;
+  const { data, onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
   const [updateOfficeMutation] = useUpdateOfficeMutation();
 
   // ===== Handlers ===== //
-  const handleSubmit = async (
-    values: FormValues,
-    formikHelpers: FormikHelpers<FormValues>,
-  ) => {
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
       await updateOfficeMutation({ variables: values });
+
+      onSuccess();
+      onCloseModal();
+
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.UPDATE_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
       });
-      onSuccess();
-      onCloseModal();
     } catch (e) {
       const error = parseErrors(e);
+
       if (error.error === 'error.branch.name.not-unique') {
-        formikHelpers.setFieldError(
-          'name',
-          I18n.t('MODALS.UPDATE_OFFICE_MODAL.ERRORS.UNIQUE'),
-        );
+        formikHelpers.setFieldError('name', I18n.t('MODALS.UPDATE_OFFICE_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
           level: LevelType.ERROR,
@@ -70,10 +68,7 @@ const UpdateOfficeModal = (props: Props) => {
     }
   };
   return (
-    <Modal
-      isOpen={isOpen}
-      toggle={onCloseModal}
-    >
+    <Modal toggle={onCloseModal} isOpen>
       <Formik
         initialValues={data as FormValues}
         validate={createValidator(
@@ -93,6 +88,7 @@ const UpdateOfficeModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('MODALS.UPDATE_OFFICE_MODAL.TITLE')}
             </ModalHeader>
+
             <ModalBody>
               <Field
                 name="name"
@@ -101,6 +97,7 @@ const UpdateOfficeModal = (props: Props) => {
                 component={FormikInputField}
                 disabled={isSubmitting}
               />
+
               <Field
                 name="country"
                 label={attributeLabels.country}
@@ -116,6 +113,7 @@ const UpdateOfficeModal = (props: Props) => {
                 ))}
               </Field>
             </ModalBody>
+
             <ModalFooter>
               <Button
                 className="UpdateOfficeModal__button"
@@ -124,6 +122,7 @@ const UpdateOfficeModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 className="UpdateOfficeModal__button"
                 disabled={isSubmitting}
