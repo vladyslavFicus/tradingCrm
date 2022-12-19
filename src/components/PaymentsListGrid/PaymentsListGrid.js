@@ -142,7 +142,7 @@ class PaymentsListGrid extends PureComponent {
                     <GridPlayerInfo
                       profile={{
                         ...playerProfile,
-                        playerUUID: playerProfile.uuid,
+                        uuid: playerProfile.uuid,
                         languageCode: language,
                       }}
                       id={`transaction-${paymentId}`}

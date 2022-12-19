@@ -146,9 +146,7 @@ class TradingAccountsListGrid extends PureComponent {
           <Column
             header={I18n.t('TRADING_ACCOUNTS.GRID.PROFILE')}
             render={({ profile }) => (
-              <If condition={profile}>
-                <GridPlayerInfo profile={profile} />
-              </If>
+              <GridPlayerInfo profile={profile} />
             )}
           />
           <Column

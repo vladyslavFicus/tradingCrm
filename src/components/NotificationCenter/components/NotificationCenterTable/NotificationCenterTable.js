@@ -162,14 +162,7 @@ class NotificationCenterTable extends PureComponent {
           <Column
             header={I18n.t('NOTIFICATION_CENTER.GRID_HEADER.CLIENT')}
             render={({ client }) => (
-              <Choose>
-                <When condition={client}>
-                  <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />
-                </When>
-                <Otherwise>
-                  <div>&mdash;</div>
-                </Otherwise>
-              </Choose>
+              <GridPlayerInfo profile={client} mainInfoClassName="NotificationCenterTable__text-highlight" />
             )}
           />
           <Column

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -34,7 +34,7 @@ const LastNotificationsGrid = () => {
   );
 
   const renderNotificationTypeDetails = ({ type, subtype, details }: LastNotification) => (
-    <Fragment>
+    <>
       <div className="LastNotificationsGrid__text-highlight">
         {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
       </div>
@@ -69,20 +69,11 @@ const LastNotificationsGrid = () => {
           {I18n.t('NOTIFICATION_CENTER.DETAILS.CLIENTS_COUNT', { clientsCount: details.clientsCount })}
         </div>
       </If>
-    </Fragment>
+    </>
   );
 
   const renderClient = ({ client }: LastNotification) => (
-    <Choose>
-      <When condition={!!client}>
-        {/* TODO: jsx control statement do not check ts conditions */}
-        <GridPlayerInfo profile={client as any} mainInfoClassName="LastNotificationsGrid__text-highlight" />
-      </When>
-
-      <Otherwise>
-        <div>&mdash;</div>
-      </Otherwise>
-    </Choose>
+    <GridPlayerInfo profile={client} mainInfoClassName="LastNotificationsGrid__text-highlight" />
   );
 
   const renderNotificationDate = ({ createdAt }: LastNotification) => {
@@ -97,10 +88,10 @@ const LastNotificationsGrid = () => {
       .split(' ');
 
     return (
-      <Fragment>
+      <>
         <div className="LastNotificationsGrid__text-highlight">{date}</div>
         <div className="LastNotificationsGrid__text-secondary">{time}</div>
-      </Fragment>
+      </>
     );
   };
 

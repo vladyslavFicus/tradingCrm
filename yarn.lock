@@ -5469,10 +5469,10 @@ babel-plugin-jest-hoist@^26.6.2:
     "@types/babel__core" "^7.0.0"
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-jsx-control-statements@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-jsx-control-statements/-/babel-plugin-jsx-control-statements-4.1.0.tgz#d7bec01c0aeaf4b7bfa49352110df07299777a58"
-  integrity sha512-YNHX/yJ79cjZ5ZOZ6oiixoihm1SfhQKIcMfxDT+t8Olpd9NyNBrxjYjwJKxYQVZrfMBnCLxC4Mqj5Ru+OXtQ0w==
+babel-plugin-jsx-control-statements@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-jsx-control-statements/-/babel-plugin-jsx-control-statements-4.1.2.tgz#eb90494109cad3ed1b88dc75416e2c056fca1462"
+  integrity sha512-GUEnED4GLxJnFGKidbdI0GNN5Ekih4wbAr7+ENkpUKWYxeg7UPcgwmYd7qrpxT7UWto4OZtyUJg+sm+QN4ZjkQ==
   dependencies:
     "@babel/core" "^7.1.2"
 
@@ -6169,14 +6169,9 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30000984, caniuse-lite@^1.0.30001039, caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001157, caniuse-lite@^1.0.30001254, caniuse-lite@^1.0.30001280:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30000984, caniuse-lite@^1.0.30001039, caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001157, caniuse-lite@^1.0.30001254, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001435:
   version "1.0.30001435"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001435.tgz"
-  integrity sha512-kdCkUTjR+v4YAJelyiDTqiu82BDr4W4CP5sgTA0ZBmqn30XfS2ZghPLMowik9TPhS+psWJiUNxsqLyurDbmutA==
-
-caniuse-lite@^1.0.30001435:
-  version "1.0.30001435"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001435.tgz#502c93dbd2f493bee73a408fe98e98fb1dad10b2"
   integrity sha512-kdCkUTjR+v4YAJelyiDTqiu82BDr4W4CP5sgTA0ZBmqn30XfS2ZghPLMowik9TPhS+psWJiUNxsqLyurDbmutA==
 
 capital-case@^1.0.4:
@@ -8389,10 +8384,10 @@ eslint-plugin-jsx-a11y@^6.3.1:
     jsx-ast-utils "^3.1.0"
     language-tags "^1.0.5"
 
-eslint-plugin-jsx-control-statements@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-control-statements/-/eslint-plugin-jsx-control-statements-2.2.1.tgz#864c311d201b0b09aa47669b23755cd18d2ecf92"
-  integrity sha512-BkqbYSu7KuOwsmxmmD9mi1KLz3cAXqXvDSN/Re+yKnIAO6SGRAx3aiUmsjOWAAGJonfhtNZCCTN9jfzQ5hto+Q==
+eslint-plugin-jsx-control-statements@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-control-statements/-/eslint-plugin-jsx-control-statements-3.0.0.tgz#89d29cb0d167a6ba301f41dee948bb114a8a73b4"
+  integrity sha512-OAlTFVT6jyLXO6BVwYnlE95wKsT9LLRDs57+eOaDZjymTks7OYo0QEIfokKLfGrhfdgzAQz9Gsk5GqnVJbT/wg==
 
 eslint-plugin-react-hooks@^4.2.0:
   version "4.2.0"
