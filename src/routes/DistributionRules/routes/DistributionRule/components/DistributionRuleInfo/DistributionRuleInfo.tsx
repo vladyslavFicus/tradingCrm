@@ -156,7 +156,6 @@ const DistributionRuleInfo = (props: Props) => {
       </If>
       <If condition={status === DistributionRuleStatuses.ACTIVE && executionType === 'MANUAL'}>
         <Button
-          transparent
           className="DistributionRuleInfo__action"
           onClick={handleStartMigration}
         >
