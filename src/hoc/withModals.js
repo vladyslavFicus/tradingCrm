@@ -26,7 +26,7 @@ export default modals => WrappedComponent => class Modals extends PureComponent 
     return (
       <Fragment>
         <WrappedComponent {...this.props} modals={this.modalProps} />
-        <For of={Object.keys(modals)} each="modal">
+        {Object.keys(modals).map(modal => (
           <Transition
             mountOnEnter
             unmountOnExit
@@ -40,7 +40,7 @@ export default modals => WrappedComponent => class Modals extends PureComponent 
               onCloseModal: () => this.handleClose(modal),
             })}
           </Transition>
-        </For>
+        ))}
       </Fragment>
     );
   }
