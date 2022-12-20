@@ -8,7 +8,7 @@ import { types, typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import parseJson from 'utils/parseJson';
 import { Button } from 'components/UI';
-import Uuid from '../Uuid';
+import Uuid from 'components/Uuid';
 import FeedContent from './FeedContent';
 import './FeedItem.scss';
 

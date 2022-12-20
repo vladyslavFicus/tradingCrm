@@ -17,7 +17,7 @@ import EventEmitter, { NOTE_ADDED, NOTE_UPDATED, NOTE_REMOVED } from 'utils/Even
 import { createValidator, translateLabels } from 'utils/validator';
 import { entitiesPrefixes } from 'constants/uuid';
 import PropTypes from 'constants/propTypes';
-import Uuid from '../Uuid';
+import Uuid from 'components/Uuid';
 import {
   RemoveNoteMutation,
   UpdateNoteMutation,
