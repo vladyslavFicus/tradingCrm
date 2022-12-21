@@ -1,24 +1,43 @@
 import permissions from './permissions';
 
-export const routePermissions = {
+type RoutePermissions = Record<string, string>;
+
+export const routePermissions: RoutePermissions = {
+  // Clients
   '/clients/list': permissions.USER_PROFILE.PROFILES_LIST,
   '/clients/:id/files': permissions.USER_PROFILE.GET_FILES,
   '/clients/:id/feed': permissions.AUDIT.AUDIT_LOGS,
+
+  // KYC
   '/kyc-documents': permissions.FILES.SEARCH_FILES,
+
+  // Operators
   '/operators/list': permissions.OPERATORS.OPERATORS_LIST_VIEW,
   '/operators/:id': permissions.OPERATORS.PROFILE_VIEW,
+
+  // Partners
   '/partners/list': permissions.PARTNERS.PARTNERS_LIST_VIEW,
   '/partners/:id': permissions.PARTNERS.PROFILE_VIEW,
+
+  // Leads
   '/leads/list': permissions.LEADS.GET_LEADS,
   '/leads/:id': permissions.LEADS.GET_LEAD_BY_ID,
+
+  // Management: offices & teams & desks
+  '/offices/list': permissions.HIERARCHY.GET_OFFICES,
+  '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
   '/teams/list': permissions.HIERARCHY.GET_TEAMS,
   '/teams/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
   '/desks/list': permissions.HIERARCHY.GET_DESKS,
   '/desks/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
-  '/offices/list': permissions.HIERARCHY.GET_OFFICES,
-  '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
+
+  // Sales rules
   '/sales-rules': permissions.SALES_RULES.GET_RULES,
+
+  // Email templates
   '/email-templates/list': permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES,
+
+  // Roles and ermissions
   '/roles-and-permissions': permissions.AUTH.UPDATE_ACTIONS,
 
   // Trading Engine
@@ -40,7 +59,7 @@ export const routePermissions = {
   // Settings
   '/settings/acquisition-statuses': permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
 
+  // IP whitelist
   '/ip-whitelist/list': permissions.IP_WHITELIST.LIST,
   '/ip-whitelist/feed': permissions.AUDIT.AUDIT_LOGS,
-
 };

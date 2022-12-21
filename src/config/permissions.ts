@@ -1,4 +1,8 @@
-export default {
+type Permission = Record<string, string>;
+
+type Permissions = Record<string, Permission>;
+
+const permissions: Permissions = {
   AUTH: {
     GET_AUTHORITIES: 'auth2.getAuthorities',
     UPDATE_ACTIONS: 'auth2.updateActions',
@@ -239,3 +243,5 @@ export default {
     EDIT_IP_ADDRESS_DESCRIPTION: 'brand-config-service.ip-white-list.editDescription',
   },
 };
+
+export default permissions;

@@ -1,17 +1,19 @@
+import { LabelValue } from 'types';
+
+export type CallbackTimes = 'callbackTime' | 'creationTime' | 'updateTime';
+
 export enum CallbackType {
   CLIENT = 'CLIENT',
   LEAD = 'LEAD'
 }
 
-export type CallbackTimes = 'callbackTime' | 'creationTime' | 'updateTime';
-
-const callbacksStatuses: Record<string, string> = {
+export const callbacksStatuses: Record<string, string> = {
   PENDING: 'CONSTANTS.CALLBACKS.PENDING',
   REJECTED: 'CONSTANTS.CALLBACKS.REJECTED',
   SUCCESS: 'CONSTANTS.CALLBACKS.SUCCESS',
 };
 
-const filterLabels = {
+export const filterLabels: Record<string, string> = {
   callbackOrOperator: 'CALLBACKS.FILTER.CALLBACK_OR_OPERATOR',
   callbackOrPlayerOrOperator: 'CALLBACKS.FILTER.CALLBACK_OR_PLAYER_OR_OPERATOR',
   searchValue: 'PROFILE.LIST.FILTERS.SEARCH',
@@ -19,9 +21,8 @@ const filterLabels = {
   date: 'CALLBACKS.FILTER.DATE_RANGE',
 };
 
-const reminderValues = [
+export const reminderValues: Array<LabelValue> = [
   {
-    // Time format: ISO 8601
     value: 'PT5M',
     label: '5 minutes',
   },
@@ -34,9 +35,3 @@ const reminderValues = [
     label: '15 minutes',
   },
 ];
-
-export {
-  callbacksStatuses,
-  filterLabels,
-  reminderValues,
-};

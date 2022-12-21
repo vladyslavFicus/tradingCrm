@@ -1,23 +1,21 @@
-import keyMirror from 'keymirror';
+export enum kycStatuses {
+  APPROVED = 'APPROVED',
+  APPROVED_AWAITING_REVIEW = 'APPROVED_AWAITING_REVIEW',
+  AWAITING_REVIEW = 'AWAITING_REVIEW',
+  FAKE_DEPOSIT = 'FAKE_DEPOSIT',
+  FLAGGED_NON_COMPLIANT = 'FLAGGED_NON_COMPLIANT',
+  NO_KYC = 'NO_KYC',
+  PARTIAL = 'PARTIAL',
+  PARTIAL_KYC_CAN_TRADE = 'PARTIAL_KYC_CAN_TRADE',
+  PENDING = 'PENDING',
+  PRIOR_TO_REFUND = 'PRIOR_TO_REFUND',
+  REFUND = 'REFUND',
+  REFUNDED_NON_COMPLIANT = 'REFUNDED_NON_COMPLIANT',
+  REJECTED = 'REJECTED',
+  RISK = 'RISK',
+}
 
-const kycStatuses = keyMirror({
-  APPROVED: null,
-  APPROVED_AWAITING_REVIEW: null,
-  AWAITING_REVIEW: null,
-  FAKE_DEPOSIT: null,
-  FLAGGED_NON_COMPLIANT: null,
-  NO_KYC: null,
-  PARTIAL: null,
-  PARTIAL_KYC_CAN_TRADE: null,
-  PENDING: null,
-  PRIOR_TO_REFUND: null,
-  REFUND: null,
-  REFUNDED_NON_COMPLIANT: null,
-  REJECTED: null,
-  RISK: null,
-});
-
-const kycStatusesLabels = {
+export const kycStatusesLabels: Record<kycStatuses, string> = {
   [kycStatuses.APPROVED]: 'KYC_REQUESTS.STATUS.APPROVED',
   [kycStatuses.APPROVED_AWAITING_REVIEW]: 'KYC_REQUESTS.STATUS.APPROVED_AWAITING_REVIEW',
   [kycStatuses.AWAITING_REVIEW]: 'KYC_REQUESTS.STATUS.AWAITING_REVIEW',
@@ -32,9 +30,4 @@ const kycStatusesLabels = {
   [kycStatuses.REFUNDED_NON_COMPLIANT]: 'KYC_REQUESTS.STATUS.REFUNDED_NON_COMPLIANT',
   [kycStatuses.REJECTED]: 'KYC_REQUESTS.STATUS.REJECTED',
   [kycStatuses.RISK]: 'KYC_REQUESTS.STATUS.RISK',
-};
-
-export {
-  kycStatuses,
-  kycStatusesLabels,
 };

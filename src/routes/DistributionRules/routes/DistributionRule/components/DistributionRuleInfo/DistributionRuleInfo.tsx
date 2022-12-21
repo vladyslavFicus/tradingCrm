@@ -6,8 +6,8 @@ import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
-import { DistributionRule__Statuses__Enum as DistributionRuleStatuses } from '__generated__/types';
-import { clientDistributionStatuses, statuses } from 'constants/clientsDistribution';
+import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
+import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import { DistributionRuleType } from '../../DistributionRule';
 import { useDistributionRuleUpdateStatus } from './graphql/__generated__/DistributionRuleUpdateStatusMutation';
 import { useDistributionRuleMigrationMutation } from './graphql/__generated__/DistributionRuleMigrationMutation';
@@ -35,7 +35,7 @@ const DistributionRuleInfo = (props: Props) => {
   const [startMigrationRule] = useDistributionRuleMigrationMutation();
 
   // ===== Handlers ===== //
-  const handleUpdateRuleStatus = async (ruleStatus: DistributionRuleStatuses) => {
+  const handleUpdateRuleStatus = async (ruleStatus: DistributionRuleStatusesEnum) => {
     try {
       await updateRuleStatus({
         variables: {
@@ -110,10 +110,8 @@ const DistributionRuleInfo = (props: Props) => {
               className={classNames(
                 'DistributionRuleInfo__status__toggle-item',
                 'DistributionRuleInfo__item-value',
-                'DistributionRuleInfo__status-item', {
-                  'DistributionRuleInfo__status-item--active': status === statuses.ACTIVE,
-                  'DistributionRuleInfo__status-item--inactive': status === statuses.INACTIVE,
-                },
+                'DistributionRuleInfo__status-item',
+                `DistributionRuleInfo__status-item--${status.toLowerCase()}`,
               )}
             >
               {I18n.t(clientDistributionStatuses[status])}
@@ -127,7 +125,7 @@ const DistributionRuleInfo = (props: Props) => {
             </If>
           </DropdownToggle>
           <DropdownMenu className="DistributionRuleInfo__status__dropdown-menu">
-            {(Object.keys(clientDistributionStatuses) as [DistributionRuleStatuses])
+            {(Object.keys(clientDistributionStatuses) as [DistributionRuleStatusesEnum])
               .filter(key => key !== status)
               .map(key => (
                 <DropdownItem
@@ -154,7 +152,7 @@ const DistributionRuleInfo = (props: Props) => {
       <If condition={!!latestMigration?.startDate}>
         {renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.LAST_EXECUTION'), latestMigration?.startDate || '')}
       </If>
-      <If condition={status === DistributionRuleStatuses.ACTIVE && executionType === 'MANUAL'}>
+      <If condition={status === DistributionRuleStatusesEnum.ACTIVE && executionType === 'MANUAL'}>
         <Button
           className="DistributionRuleInfo__action"
           onClick={handleStartMigration}

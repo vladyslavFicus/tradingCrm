@@ -1,36 +1,40 @@
-import keyMirror from 'keymirror';
+export enum actions {
+  VERIFY = 'VERIFY',
+  REFUSE = 'REFUSE',
+}
 
-const actions = keyMirror({
-  VERIFY: null,
-  REFUSE: null,
-});
+export enum categories {
+  DOCUMENT_VERIFICATION = 'DOCUMENT_VERIFICATION',
+  ADDRESS_VERIFICATION = 'ADDRESS_VERIFICATION',
+  OTHER = 'OTHER',
+}
 
-const categories = keyMirror({
-  DOCUMENT_VERIFICATION: null,
-  ADDRESS_VERIFICATION: null,
-  OTHER: null,
-});
+export enum documentsType {
+  BANK_STATEMENT = 'BANK_STATEMENT',
+  CREDIT_OR_DEBIT_CARD = 'CREDIT_OR_DEBIT_CARD',
+  DRIVING_LICENSE = 'DRIVING_LICENSE',
+  EMPLOYER_LETTER = 'EMPLOYER_LETTER',
+  ID_CARD = 'ID_CARD',
+  INSURANCE_AGREEMENT = 'INSURANCE_AGREEMENT',
+  PASSPORT = 'PASSPORT',
+  RENT_AGREEMENT = 'RENT_AGREEMENT',
+  TAX_BILL = 'TAX_BILL',
+  UTILITY_BILL = 'UTILITY_BILL',
+}
 
-const categoriesLabels = {
+export enum statuses {
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  PENDING = 'PENDING',
+}
+
+export const categoriesLabels: Record<categories, string> = {
   [categories.DOCUMENT_VERIFICATION]: 'FILES.CATEGORY.DOCUMENT_VERIFICATION',
   [categories.ADDRESS_VERIFICATION]: 'FILES.CATEGORY.ADDRESS_VERIFICATION',
   [categories.OTHER]: 'FILES.CATEGORY.OTHER',
 };
 
-const documentsType = keyMirror({
-  BANK_STATEMENT: null,
-  CREDIT_OR_DEBIT_CARD: null,
-  DRIVING_LICENSE: null,
-  EMPLOYER_LETTER: null,
-  ID_CARD: null,
-  INSURANCE_AGREEMENT: null,
-  PASSPORT: null,
-  RENT_AGREEMENT: null,
-  TAX_BILL: null,
-  UTILITY_BILL: null,
-});
-
-const documentsTypeLabels = {
+export const documentsTypeLabels: Record<documentsType, string> = {
   [documentsType.BANK_STATEMENT]: 'FILES.DOCUMENTS_TYPE.BANK_STATEMENT',
   [documentsType.CREDIT_OR_DEBIT_CARD]: 'FILES.DOCUMENTS_TYPE.CREDIT_OR_DEBIT_CARD',
   [documentsType.DRIVING_LICENSE]: 'FILES.DOCUMENTS_TYPE.DRIVING_LICENSE',
@@ -43,24 +47,8 @@ const documentsTypeLabels = {
   [documentsType.UTILITY_BILL]: 'FILES.DOCUMENTS_TYPE.UTILITY_BILL',
 };
 
-const statuses = keyMirror({
-  APPROVED: null,
-  REJECTED: null,
-  PENDING: null,
-});
-
-const statusesLabels = {
+export const statusesLabels: Record<statuses, string> = {
   [statuses.APPROVED]: 'FILES.STATUSES.APPROVED',
   [statuses.REJECTED]: 'FILES.STATUSES.REJECTED',
   [statuses.PENDING]: 'FILES.STATUSES.PENDING',
-};
-
-export {
-  actions,
-  categories,
-  categoriesLabels,
-  statuses,
-  documentsType,
-  statusesLabels,
-  documentsTypeLabels,
 };

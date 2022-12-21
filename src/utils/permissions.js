@@ -17,7 +17,10 @@ const CONDITIONS = keyMirror({
 class Permissions {
   __permissions = [];
 
-  constructor(permissions, condition = CONDITIONS.AND) {
+  constructor(permissions, initCondition) {
+    // Temporary solution
+    const condition = initCondition || CONDITIONS.AND;
+
     this.pushCondition = pushCondition(this);
 
     if (permissions && (!Array.isArray(permissions) || permissions.length > 0)) {

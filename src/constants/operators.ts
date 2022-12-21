@@ -1,36 +1,79 @@
-import keyMirror from 'keymirror';
 import I18n from 'i18n-js';
 
-const statuses = keyMirror({
-  ACTIVE: null,
-  CLOSED: null,
-  INACTIVE: null,
-});
+export enum actions {
+  ACTIVE = 'ACTIVE',
+  CLOSED = 'CLOSED',
+}
 
-const actions = keyMirror({
-  ACTIVE: null,
-  CLOSED: null,
-});
+export enum statuses {
+  ACTIVE = 'ACTIVE',
+  CLOSED = 'CLOSED',
+  INACTIVE = 'INACTIVE',
+}
 
-const statusesLabels = {
-  [statuses.ACTIVE]: 'OPERATORS.STATUSES.ACTIVE',
-  [statuses.CLOSED]: 'OPERATORS.STATUSES.CLOSED',
-  [statuses.INACTIVE]: 'OPERATORS.STATUSES.INACTIVE',
-};
+export enum departments {
+  ADMINISTRATION = 'ADMINISTRATION',
+  AFFILIATE = 'AFFILIATE',
+  AFFILIATE_MANAGER = 'AFFILIATE_MANAGER',
+  AFFILIATE_PARTNER = 'AFFILIATE_PARTNER',
+  DIDLOGIC_OPERATOR = 'DIDLOGIC_OPERATOR',
+  PLAYER = 'PLAYER',
+  CS = 'CS',
+  BI = 'BI',
+  E2E = 'E2E',
+  IGROMAT = 'IGROMAT',
+  MARKETING = 'MARKETING',
+  RETENTION = 'RETENTION',
+  RFP = 'RFP',
+  SALES = 'SALES',
+  FINANCE = 'FINANCE',
+  COMPLIANCE = 'COMPLIANCE',
+  DEALING = 'DEALING',
+  IB = 'IB',
+  PAYMENT = 'PAYMENT',
+  COMPLETE = 'COMPLETE',
+}
 
-const closeReasons = {
+export enum roles {
+  EXECUTIVE = 'EXECUTIVE',
+  TEAM_LEADER = 'TEAM_LEADER',
+  MANAGER = 'MANAGER',
+  HEAD_OF_DEPARTMENT = 'HEAD_OF_DEPARTMENT',
+  MARKETING = 'MARKETING',
+  COMPLIANCE = 'COMPLIANCE',
+  COMPLIANCE_MANAGER = 'COMPLIANCE_MANAGER',
+  E2E = 'E2E',
+  BI = 'BI',
+  AFFILIATE = 'AFFILIATE',
+  PLAYER = 'PLAYER',
+  AGENT = 'AGENT',
+  SALES_LEAD_MANAGER = 'SALES_LEAD_MANAGER',
+  SALES_MANAGER = 'SALES_MANAGER',
+  SHIFT_RETENTION = 'SHIFT_RETENTION',
+  SHIFT_SALES = 'SHIFT_SALES',
+}
+
+const closeReasons: Record<string, string> = {
   'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION':
     'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION',
   'OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED':
     'OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED',
 };
 
-const activeReasons = {
+const activeReasons: Record<string, string> = {
   'OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE':
     'OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE',
 };
 
-const statusActions = {
+type StatusAction = {
+  action: actions,
+  label: string,
+  reasons: Record<string, string>,
+};
+
+type StatusActions = Record<string, Array<StatusAction>>;
+
+export const statusActions: StatusActions = {
   [statuses.ACTIVE]: [
     {
       action: actions.CLOSED,
@@ -47,30 +90,13 @@ const statusActions = {
   ],
 };
 
-const departments = keyMirror({
-  ADMINISTRATION: null,
-  AFFILIATE: null,
-  AFFILIATE_MANAGER: null,
-  AFFILIATE_PARTNER: null,
-  DIDLOGIC_OPERATOR: null,
-  PLAYER: null,
-  CS: null,
-  BI: null,
-  E2E: null,
-  IGROMAT: null,
-  MARKETING: null,
-  RETENTION: null,
-  RFP: null,
-  SALES: null,
-  FINANCE: null,
-  COMPLIANCE: null,
-  DEALING: null,
-  IB: null,
-  PAYMENT: null,
-  COMPLETE: null,
-});
+export const statusesLabels: Record<statuses, string> = {
+  [statuses.ACTIVE]: 'OPERATORS.STATUSES.ACTIVE',
+  [statuses.CLOSED]: 'OPERATORS.STATUSES.CLOSED',
+  [statuses.INACTIVE]: 'OPERATORS.STATUSES.INACTIVE',
+};
 
-const departmentsLabels = {
+export const departmentsLabels: Record<departments, string> = {
   [departments.ADMINISTRATION]: 'CONSTANTS.OPERATORS.DEPARTMENTS.ADMINISTRATION',
   [departments.AFFILIATE]: 'CONSTANTS.OPERATORS.DEPARTMENTS.AFFILIATE',
   [departments.AFFILIATE_MANAGER]: 'CONSTANTS.OPERATORS.DEPARTMENTS.AFFILIATE_MANAGER',
@@ -93,26 +119,7 @@ const departmentsLabels = {
   [departments.COMPLETE]: 'CONSTANTS.OPERATORS.DEPARTMENTS.COMPLETE',
 };
 
-const roles = keyMirror({
-  EXECUTIVE: null,
-  TEAM_LEADER: null,
-  MANAGER: null,
-  HEAD_OF_DEPARTMENT: null,
-  MARKETING: null,
-  COMPLIANCE: null,
-  COMPLIANCE_MANAGER: null,
-  E2E: null,
-  BI: null,
-  AFFILIATE: null,
-  PLAYER: null,
-  AGENT: null,
-  SALES_LEAD_MANAGER: null,
-  SALES_MANAGER: null,
-  SHIFT_RETENTION: null,
-  SHIFT_SALES: null,
-});
-
-const rolesLabels = {
+export const rolesLabels: Record<roles, string> = {
   [roles.EXECUTIVE]: 'CONSTANTS.OPERATORS.ROLES.EXECUTIVE',
   [roles.TEAM_LEADER]: 'CONSTANTS.OPERATORS.ROLES.TEAM_LEADER',
   [roles.MANAGER]: 'CONSTANTS.OPERATORS.ROLES.MANAGER',
@@ -131,20 +138,6 @@ const rolesLabels = {
   [roles.SHIFT_SALES]: 'CONSTANTS.OPERATORS.ROLES.SHIFT_SALES',
 };
 
-const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
-const passwordMaxSize = 16;
-const passwordCustomError = I18n.t('COMMON.OPERATOR_PASSWORD_INVALID');
-
-export {
-  actions,
-  statuses,
-  statusesLabels,
-  statusActions,
-  departments,
-  departmentsLabels,
-  roles,
-  rolesLabels,
-  passwordPattern,
-  passwordMaxSize,
-  passwordCustomError,
-};
+export const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+export const passwordMaxSize = 16;
+export const passwordCustomError = I18n.t('COMMON.OPERATOR_PASSWORD_INVALID');

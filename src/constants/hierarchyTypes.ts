@@ -1,41 +1,44 @@
-import keyMirror from 'keymirror';
+export enum branchTypes {
+  OFFICE = 'OFFICE',
+  DESK = 'DESK',
+  TEAM = 'TEAM',
+  COMPANY = 'COMPANY',
+  BRAND = 'BRAND',
+}
 
-export const branchTypes = keyMirror({
-  OFFICE: null,
-  DESK: null,
-  TEAM: null,
-  COMPANY: null,
-  BRAND: null,
-});
+export enum userTypes {
+  COMPANY_ADMIN = 'COMPANY_ADMIN',
+  BRAND_ADMIN = 'BRAND_ADMIN',
+  SALES_HOD = 'SALES_HOD',
+  RETENTION_HOD = 'RETENTION_HOD',
+  SUPPORT_HOD = 'SUPPORT_HOD',
+  PSP_HOD = 'PSP_HOD',
+  SALES_MANAGER = 'SALES_MANAGER',
+  RETENTION_MANAGER = 'RETENTION_MANAGER',
+  SUPPORT_MANAGER = 'SUPPORT_MANAGER',
+  PSP_MANAGER = 'PSP_MANAGER',
+  BO_MANAGER = 'BO_MANAGER',
+  COMPLIANCE_MANAGER = 'COMPLIANCE_MANAGER',
+  OPERATIONS_MANAGER = 'OPERATIONS_MANAGER',
+  DEALING_MANAGER = 'DEALING_MANAGER',
+  SALES_LEAD = 'SALES_LEAD',
+  RETENTION_LEAD = 'RETENTION_LEAD',
+  SUPPORT_LEAD = 'SUPPORT_LEAD',
+  SALES_AGENT = 'SALES_AGENT',
+  RETENTION_AGENT = 'RETENTION_AGENT',
+  SUPPORT_AGENT = 'SUPPORT_AGENT',
+  CUSTOMER = 'CUSTOMER',
+  LEAD_CUSTOMER = 'LEAD_CUSTOMER',
+  AFFILIATE_PARTNER = 'AFFILIATE_PARTNER',
+  AFFILIATE_MANAGER = 'AFFILIATE_MANAGER',
+}
 
-export const userTypes = keyMirror({
-  COMPANY_ADMIN: null,
-  BRAND_ADMIN: null,
-  SALES_HOD: null,
-  RETENTION_HOD: null,
-  SUPPORT_HOD: null,
-  PSP_HOD: null,
-  SALES_MANAGER: null,
-  RETENTION_MANAGER: null,
-  SUPPORT_MANAGER: null,
-  PSP_MANAGER: null,
-  BO_MANAGER: null,
-  COMPLIANCE_MANAGER: null,
-  OPERATIONS_MANAGER: null,
-  DEALING_MANAGER: null,
-  SALES_LEAD: null,
-  RETENTION_LEAD: null,
-  SUPPORT_LEAD: null,
-  SALES_AGENT: null,
-  RETENTION_AGENT: null,
-  SUPPORT_AGENT: null,
-  CUSTOMER: null,
-  LEAD_CUSTOMER: null,
-  AFFILIATE_PARTNER: null,
-  AFFILIATE_MANAGER: null,
-});
+export enum deskTypes {
+  RETENTION = 'RETENTION',
+  SALES = 'SALES',
+}
 
-export const userTypeLabels = {
+export const userTypeLabels: Record<userTypes, string> = {
   [userTypes.COMPANY_ADMIN]: 'CONSTANTS.HIERARCHY.USER_TYPES.COMPANY_ADMIN',
   [userTypes.BRAND_ADMIN]: 'CONSTANTS.HIERARCHY.USER_TYPES.BRAND_ADMIN',
   [userTypes.SALES_HOD]: 'CONSTANTS.HIERARCHY.USER_TYPES.SALES_HOD',
@@ -62,11 +65,6 @@ export const userTypeLabels = {
   [userTypes.AFFILIATE_MANAGER]: 'CONSTANTS.HIERARCHY.USER_TYPES.AFFILIATE_MANAGER',
 };
 
-export const deskTypes = keyMirror({
-  RETENTION: null,
-  SALES: null,
-});
-
 /**
  * Check if userType is sales
  *
@@ -74,7 +72,7 @@ export const deskTypes = keyMirror({
  *
  * @return {boolean}
  */
-export const isSales = userType => [
+export const isSales = (userType: userTypes) => [
   userTypes.SALES_AGENT,
   userTypes.SALES_LEAD,
   userTypes.SALES_MANAGER,
@@ -88,7 +86,7 @@ export const isSales = userType => [
  *
  * @return {boolean}
  */
-export const isRetention = userType => [
+export const isRetention = (userType: userTypes) => [
   userTypes.RETENTION_AGENT,
   userTypes.RETENTION_LEAD,
   userTypes.RETENTION_MANAGER,
@@ -102,4 +100,4 @@ export const isRetention = userType => [
  *
  * @return {boolean}
  */
-export const isLead = userType => userType === userTypes.LEAD_CUSTOMER;
+export const isLead = (userType: userTypes) => userType === userTypes.LEAD_CUSTOMER;

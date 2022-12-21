@@ -1,4 +1,27 @@
-export default [
+type Action = {
+  action: string,
+  state: boolean,
+};
+
+type Item = {
+  id: string,
+  actions: {
+    view?: Action,
+    edit?: Action,
+  },
+};
+
+type RootItem = {
+  permissions: Array<Item>,
+  additional?: {
+    permissions: Array<string>,
+  },
+  image?: boolean,
+};
+
+type RbackItem = Item & RootItem;
+
+const rback: Array<RbackItem> = [
   // ============================================= //
   // ================== Clients ================== //
   // ============================================= //
@@ -1662,3 +1685,5 @@ export default [
     ],
   },
 ];
+
+export default rback;

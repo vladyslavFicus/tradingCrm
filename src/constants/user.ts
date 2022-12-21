@@ -1,7 +1,25 @@
-import keyMirror from 'keymirror';
 import permissions from '../config/permissions';
 
-const attributeLabels = {
+export enum statuses {
+  NOT_VERIFIED = 'NOT_VERIFIED',
+  VERIFIED = 'VERIFIED',
+  BLOCKED = 'BLOCKED',
+}
+
+export enum actions {
+  BLOCK = 'BLOCK',
+  UNBLOCK = 'UNBLOCK',
+}
+
+export enum durationUnits {
+  DAYS = 'DAYS',
+  WEEKS = 'WEEKS',
+  MONTHS = 'MONTHS',
+  YEARS = 'YEARS',
+  PERMANENT = 'PERMANENT',
+}
+
+export const attributeLabels: Record<string, string> = {
   acceptedTermsUUID: 'CONSTANTS.AUDIT.TYPES.ACCEPTED_TERMS_UUID',
   additionalPhone: 'CONSTANTS.AUDIT.TYPES.ADDITIONAL_PHONE',
   additionalEmail: 'CONSTANTS.AUDIT.TYPES.ADDITIONAL_EMAIL',
@@ -111,7 +129,7 @@ const attributeLabels = {
   templateName: 'FEED_ITEM.EMAIL.TEMPLATE_NAME',
 };
 
-const filterLabels = {
+export const filterLabels: Record<string, string> = {
   searchValue: 'PROFILE.LIST.FILTERS.SEARCH',
   country: 'PROFILE.LIST.FILTERS.COUNTRY',
   city: 'PROFILE.LIST.FILTERS.CITY',
@@ -157,18 +175,7 @@ const filterLabels = {
   referral: 'PROFILE.LIST.FILTERS.REFERRAL',
 };
 
-const statuses = keyMirror({
-  NOT_VERIFIED: null,
-  VERIFIED: null,
-  BLOCKED: null,
-});
-
-const actions = keyMirror({
-  BLOCK: null,
-  UNBLOCK: null,
-});
-
-const reasons = {
+export const reasons: Record<string, string> = {
   'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST':
     'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST',
   'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.BONUS_ABUSE':
@@ -181,7 +188,7 @@ const reasons = {
     'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER',
 };
 
-const unblockReasons = {
+export const unblockReasons: Record<string, string> = {
   'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.CUSTOMER_REQUEST':
     'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.CUSTOMER_REQUEST',
   'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.INVESTIGATION_COMPLETE':
@@ -189,21 +196,16 @@ const unblockReasons = {
   'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.OTHER': 'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.OTHER',
 };
 
-const statusesLabels = {
-  [statuses.BLOCKED]: 'STATUSES_LABELS.BLOCKED',
-  [statuses.NOT_VERIFIED]: 'STATUSES_LABELS.NOT_VERIFIED',
-  [statuses.VERIFIED]: 'STATUSES_LABELS.VERIFIED',
+type StatusAction = {
+  action: actions,
+  label: string,
+  reasons: Record<string, string>,
+  permission: string,
 };
 
-const durationUnits = keyMirror({
-  DAYS: null,
-  WEEKS: null,
-  MONTHS: null,
-  YEARS: null,
-  PERMANENT: null,
-});
+type StatusActions = Record<statuses, Array<StatusAction>>;
 
-const statusActions = {
+export const statusActions: StatusActions = {
   [statuses.NOT_VERIFIED]: [
     {
       action: actions.BLOCK,
@@ -230,12 +232,18 @@ const statusActions = {
   ],
 };
 
-const actionsLabels = {
+export const statusesLabels: Record<statuses, string> = {
+  [statuses.BLOCKED]: 'STATUSES_LABELS.BLOCKED',
+  [statuses.NOT_VERIFIED]: 'STATUSES_LABELS.NOT_VERIFIED',
+  [statuses.VERIFIED]: 'STATUSES_LABELS.VERIFIED',
+};
+
+export const actionsLabels: Record<actions, string> = {
   [actions.BLOCK]: 'ACTIONS_LABELS.BLOCK',
   [actions.UNBLOCK]: 'ACTIONS_LABELS.UNBLOCK',
 };
 
-const COUNTRY_SPECIFIC_IDENTIFIER_TYPES = [
+export const COUNTRY_SPECIFIC_IDENTIFIER_TYPES: Array<string> = [
   'TEN_DSS_DIGIT_INVESTOR_SHARE',
   'ELEVEN_DIGIT_PERSONAL_ID',
   'BELGIAN_NATIONAL_NUMBER',
@@ -260,29 +268,12 @@ const COUNTRY_SPECIFIC_IDENTIFIER_TYPES = [
   'UK_NATIONAL_INSURANCE_NUMBER',
 ];
 
-const genders = {
+export const genders: Record<string, string> = {
   FEMALE: 'COMMON.GENDERS.FEMALE',
   MALE: 'COMMON.GENDERS.MALE',
   UNDEFINED: 'COMMON.GENDERS.UNDEFINED',
 };
 
-const AGE_YEARS_CONSTRAINT = 18;
+export const AGE_YEARS_CONSTRAINT = 18;
 
-const MIN_BIRTHDATE = '1900-01-01';
-
-export {
-  attributeLabels,
-  statuses,
-  statusesLabels,
-  durationUnits,
-  actions,
-  statusActions,
-  filterLabels,
-  unblockReasons,
-  reasons,
-  actionsLabels,
-  genders,
-  AGE_YEARS_CONSTRAINT,
-  MIN_BIRTHDATE,
-  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
-};
+export const MIN_BIRTHDATE = '1900-01-01';

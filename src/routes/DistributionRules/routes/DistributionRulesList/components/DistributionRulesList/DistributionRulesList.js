@@ -11,7 +11,7 @@ import { withModals } from 'hoc';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { salesStatuses } from 'constants/salesStatuses';
-import { statuses, clientDistributionStatuses } from 'constants/clientsDistribution';
+import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
@@ -204,10 +204,8 @@ class DistributionRules extends PureComponent {
       <div
         className={classNames(
           'DistributionRulesList__general',
-          'DistributionRulesList__status', {
-            'DistributionRulesList__status--active': status === statuses.ACTIVE,
-            'DistributionRulesList__status--inactive': status === statuses.INACTIVE,
-          },
+          'DistributionRulesList__status',
+          `DistributionRulesList__status--${status.toLowerCase()}`,
         )}
       >
         {I18n.t(clientDistributionStatuses[status])}

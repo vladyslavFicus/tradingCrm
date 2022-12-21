@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 
-export const attributeLabels = {
+export const attributeLabels: Record<string, string> = {
   name: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.RULE_NAME',
   country: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.COUNTRY',
   language: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.LANGUAGE',
@@ -14,7 +14,7 @@ export const attributeLabels = {
   ratio: 'HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.RATIO',
 };
 
-export const customErrors = {
+export const customErrors: Record<string, string> = {
   'between.operatorSpreads.*.percentage': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.BETWEEN_RATIO'),
   'integer.operatorSpreads.*.percentage': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.INTEGER_RATIO'),
   'required.operatorSpreads.*.parentUser': I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.OPERATOR'),
@@ -26,7 +26,7 @@ export const customErrors = {
     I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.ERRORS.OPERATOR'),
 };
 
-export const nestedFieldsNames = {
+export const nestedFieldsNames: Record<string, string> = {
   'schedules.*.timeIntervals.*.operatorSpreads.*.parentUser':
     I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.LABELS.OPERATOR'),
 };

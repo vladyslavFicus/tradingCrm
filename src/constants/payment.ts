@@ -1,27 +1,73 @@
-import keyMirror from 'keymirror';
+export enum statuses {
+  APPROVED = 'APPROVED',
+  CANCELED = 'CANCELED',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
+}
 
-const statuses = keyMirror({
-  APPROVED: null,
-  CANCELED: null,
-  COMPLETED: null,
-  FAILED: null,
-  PENDING: null,
-  REJECTED: null,
-});
+export enum tradingStatuses {
+  PAYMENT_PENDING = 'PAYMENT_PENDING',
+  PAYMENT_FAILED = 'PAYMENT_FAILED',
+  PAYMENT_REFUSED = 'PAYMENT_REFUSED',
+  PAYMENT_CHARGEBACK = 'PAYMENT_CHARGEBACK',
+  PAYMENT_COMPLETED = 'PAYMENT_COMPLETED',
+  TRANSACTION_FAILED = 'TRANSACTION_FAILED',
+  TRANSACTION_COMPLETED = 'TRANSACTION_COMPLETED',
+  PAYMENT_CANCELED = 'PAYMENT_CANCELED',
+  PAYMENT_APPROVED = 'PAYMENT_APPROVED',
+}
 
-const tradingStatuses = keyMirror({
-  PAYMENT_PENDING: null,
-  PAYMENT_FAILED: null,
-  PAYMENT_REFUSED: null,
-  PAYMENT_CHARGEBACK: null,
-  PAYMENT_COMPLETED: null,
-  TRANSACTION_FAILED: null,
-  TRANSACTION_COMPLETED: null,
-  PAYMENT_CANCELED: null,
-  PAYMENT_APPROVED: null,
-});
+export enum methods {
+  CREDIT_CARD = 'CREDIT_CARD',
+  PAYPAL = 'PAYPAL',
+  PAYTRIO = 'PAYTRIO',
+  SKRILL = 'SKRILL',
+  ENFINS = 'ENFINS',
+  CASHIER = 'CASHIER',
+  VOGUEPAY = 'VOGUEPAY',
+  CHARGEBACK = 'CHARGEBACK',
+  CRYPTOCURRENCY_EXTERNAL = 'CRYPTOCURRENCY_EXTERNAL',
+  B2CRYPTO = 'B2CRYPTO',
+  PAYRETAILERS = 'PAYRETAILERS',
+  WIRECAPITAL = 'WIRECAPITAL',
+  EFTPAY = 'EFTPAY',
+}
 
-const statusMapper = {
+export enum aggregators {
+  MANUAL = 'MANUAL',
+  CASHIER = 'CASHIER',
+  INTERNAL = 'INTERNAL',
+}
+
+export enum manualPaymentMethods {
+  BONUS = 'BONUS',
+  CHARGEBACK = 'CHARGEBACK',
+  CREDIT_CARD = 'CREDIT_CARD',
+  ELECTRONIC = 'ELECTRONIC',
+  EXTERNAL = 'EXTERNAL',
+  INTERNAL_TRANSFER = 'INTERNAL_TRANSFER',
+  MIGRATION = 'MIGRATION',
+  PAYRETAILERS = 'PAYRETAILERS',
+  RECALL = 'RECALL',
+  SYSTEM = 'SYSTEM',
+  WIRE = 'WIRE',
+  REFERRAL_BONUS = 'REFERRAL_BONUS',
+}
+
+export enum tradingTypes {
+  CREDIT_IN = 'CREDIT_IN',
+  CREDIT_OUT = 'CREDIT_OUT',
+  DEPOSIT = 'DEPOSIT',
+  INACTIVITY_FEE = 'INACTIVITY_FEE',
+  INTEREST_RATE = 'INTEREST_RATE',
+  TRANSFER_IN = 'TRANSFER_IN',
+  TRANSFER_OUT = 'TRANSFER_OUT',
+  WITHDRAW = 'WITHDRAW',
+}
+
+export const statusMapper: Record<statuses, Array<tradingStatuses>> = {
   [statuses.COMPLETED]: [
     tradingStatuses.PAYMENT_COMPLETED,
   ],
@@ -39,65 +85,22 @@ const statusMapper = {
   [statuses.CANCELED]: [tradingStatuses.PAYMENT_CANCELED],
 };
 
-const methods = keyMirror({
-  CREDIT_CARD: null,
-  PAYPAL: null,
-  PAYTRIO: null,
-  SKRILL: null,
-  ENFINS: null,
-  CASHIER: null,
-  VOGUEPAY: null,
-  CHARGEBACK: null,
-  CRYPTOCURRENCY_EXTERNAL: null,
-});
-
-const aggregators = keyMirror({
-  MANUAL: null,
-  CASHIER: null,
-  INTERNAL: null,
-});
-
-const manualPaymentMethods = keyMirror({
-  BONUS: null,
-  CHARGEBACK: null,
-  CREDIT_CARD: null,
-  ELECTRONIC: null,
-  EXTERNAL: null,
-  INTERNAL_TRANSFER: null,
-  MIGRATION: null,
-  PAYRETAILERS: null,
-  RECALL: null,
-  SYSTEM: null,
-  WIRE: null,
-  REFERRAL_BONUS: null,
-});
-
-const tradingTypes = keyMirror({
-  CREDIT_IN: null,
-  CREDIT_OUT: null,
-  DEPOSIT: null,
-  INACTIVITY_FEE: null,
-  INTEREST_RATE: null,
-  TRANSFER_IN: null,
-  TRANSFER_OUT: null,
-  WITHDRAW: null,
-});
-
-const tradingTypesLabels = {
+export const tradingTypesLabels: Record<string, string> = {
   [tradingTypes.DEPOSIT]: 'COMMON.PAYMENT_TYPE.DEPOSIT',
   [tradingTypes.WITHDRAW]: 'COMMON.PAYMENT_TYPE.WITHDRAW',
   [tradingTypes.INTEREST_RATE]: 'COMMON.PAYMENT_TYPE.INTEREST_RATE',
-  DEMO_DEPOSIT: 'COMMON.PAYMENT_TYPE.DEPOSIT',
-  // Special type for transaction with type FEE
-  FEE: 'COMMON.PAYMENT_TYPE.FEE',
   [tradingTypes.INACTIVITY_FEE]: 'COMMON.PAYMENT_TYPE.INACTIVITY_FEE',
   [tradingTypes.TRANSFER_IN]: 'COMMON.PAYMENT_TYPE.TRANSFER_IN',
   [tradingTypes.TRANSFER_OUT]: 'COMMON.PAYMENT_TYPE.TRANSFER_OUT',
   [tradingTypes.CREDIT_IN]: 'COMMON.PAYMENT_TYPE.CREDIT_IN',
   [tradingTypes.CREDIT_OUT]: 'COMMON.PAYMENT_TYPE.CREDIT_OUT',
+  // Special type for transaction with type DEMO_DEPOSIT
+  DEMO_DEPOSIT: 'COMMON.PAYMENT_TYPE.DEPOSIT',
+  // Special type for transaction with type FEE
+  FEE: 'COMMON.PAYMENT_TYPE.FEE',
 };
 
-const statusesLabels = {
+export const statusesLabels: Record<statuses, string> = {
   [statuses.PENDING]: 'COMMON.PAYMENT_STATUS.PENDING',
   [statuses.APPROVED]: 'COMMON.PAYMENT_STATUS.APPROVED',
   [statuses.REJECTED]: 'COMMON.PAYMENT_STATUS.REJECTED',
@@ -106,7 +109,7 @@ const statusesLabels = {
   [statuses.COMPLETED]: 'COMMON.PAYMENT_STATUS.COMPLETED',
 };
 
-const methodsLabels = {
+export const methodsLabels: Record<methods, string> = {
   [methods.SKRILL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.SKRILL',
   [methods.PAYPAL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYPAL',
   [methods.CREDIT_CARD]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CREDIT_CARD',
@@ -114,6 +117,7 @@ const methodsLabels = {
   [methods.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CASHIER',
   [methods.CRYPTOCURRENCY_EXTERNAL]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CRYPTOCURRENCY_EXTERNAL',
   [methods.ENFINS]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.ENFINS',
+  [methods.CHARGEBACK]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.CHARGEBACK',
   [methods.VOGUEPAY]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.VOGUEPAY',
   [methods.B2CRYPTO]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.B2CRYPTO',
   [methods.PAYRETAILERS]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.PAYRETAILERS',
@@ -121,13 +125,13 @@ const methodsLabels = {
   [methods.EFTPAY]: 'CONSTANTS.PAYMENT.PAYMENT_METHODS.EFTPAY',
 };
 
-const aggregatorsLabels = {
+export const aggregatorsLabels: Record<aggregators, string> = {
   [aggregators.MANUAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.MANUAL',
   [aggregators.CASHIER]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.CASHIER',
   [aggregators.INTERNAL]: 'CONSTANTS.PAYMENT.PAYMENT_AGGREGATORS.INTERNAL',
 };
 
-const manualPaymentMethodsLabels = {
+export const manualPaymentMethodsLabels: Record<manualPaymentMethods, string> = {
   [manualPaymentMethods.SYSTEM]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.SYSTEM',
   [manualPaymentMethods.CREDIT_CARD]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CREDIT_CARD',
   [manualPaymentMethods.WIRE]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.WIRE',
@@ -140,19 +144,4 @@ const manualPaymentMethodsLabels = {
   [manualPaymentMethods.RECALL]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.RECALL',
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
   [manualPaymentMethods.REFERRAL_BONUS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.REFERRAL_BONUS',
-};
-
-export {
-  statuses,
-  tradingStatuses,
-  statusesLabels,
-  statusMapper,
-  methods,
-  aggregators,
-  manualPaymentMethods,
-  methodsLabels,
-  aggregatorsLabels,
-  manualPaymentMethodsLabels,
-  tradingTypes,
-  tradingTypesLabels,
 };

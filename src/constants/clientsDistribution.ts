@@ -1,22 +1,16 @@
-import keyMirror from 'keymirror';
-import { DistributionRule__Statuses__Enum as DistributionRuleStatuses } from '__generated__/types';
+import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 
-const statuses = keyMirror({
-  ACTIVE: null,
-  INACTIVE: null,
-});
-
-const clientDistributionStatuses: Record<DistributionRuleStatuses, string> = {
-  [statuses.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
-  [statuses.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
+export const clientDistributionStatuses: Record<DistributionRuleStatusesEnum, string> = {
+  [DistributionRuleStatusesEnum.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
+  [DistributionRuleStatusesEnum.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };
 
-const statusesLabels: Record<DistributionRuleStatuses, string> = {
-  [statuses.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
-  [statuses.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
+export const statusesLabels: Record<DistributionRuleStatusesEnum, string> = {
+  [DistributionRuleStatusesEnum.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
+  [DistributionRuleStatusesEnum.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };
 
-const timeInCurrentStatusInHours: Array<{ label: string, value: number, i18nValue: number }> = [
+export const timeInCurrentStatusInHours: Array<{ label: string, value: number, i18nValue: number }> = [
   {
     label: 'CLIENTS_DISTRIBUTION.RULE.MODAL.TIME_IN_CURRENT_STATUS.N_HOURS',
     value: 3,
@@ -73,10 +67,3 @@ const timeInCurrentStatusInHours: Array<{ label: string, value: number, i18nValu
     i18nValue: 14,
   },
 ];
-
-export {
-  statuses,
-  statusesLabels,
-  clientDistributionStatuses,
-  timeInCurrentStatusInHours,
-};

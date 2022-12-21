@@ -1,6 +1,20 @@
-import keyMirror from 'keymirror';
+import { LabelValue } from 'types';
 
-const accountTypesLabels: Record<string, { label: string }> = {
+export enum leverageStatuses {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+  REJECTED = 'REJECTED',
+  FAILED = 'FAILED',
+}
+
+type Label = {
+  label: string,
+};
+
+type AccountTypesLabels = Record<string, Label>;
+
+export const accountTypesLabels: AccountTypesLabels = {
   DEMO: {
     label: 'CONSTANTS.ACCOUNT_TYPE.DEMO',
   },
@@ -9,24 +23,13 @@ const accountTypesLabels: Record<string, { label: string }> = {
   },
 };
 
-const accountTypes = [{
-  label: 'CONSTANTS.ACCOUNT_TYPE.DEMO',
-  value: 'DEMO',
-}, {
-  label: 'CONSTANTS.ACCOUNT_TYPE.LIVE',
-  value: 'LIVE',
-}];
-
-const leverageStatuses = keyMirror({
-  PENDING: null,
-  COMPLETED: null,
-  CANCELED: null,
-  REJECTED: null,
-  FAILED: null,
-});
-
-export {
-  accountTypesLabels,
-  accountTypes,
-  leverageStatuses,
-};
+export const accountTypes: Array<LabelValue> = [
+  {
+    label: 'CONSTANTS.ACCOUNT_TYPE.DEMO',
+    value: 'DEMO',
+  },
+  {
+    label: 'CONSTANTS.ACCOUNT_TYPE.LIVE',
+    value: 'LIVE',
+  },
+];
