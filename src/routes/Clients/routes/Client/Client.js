@@ -1,14 +1,13 @@
 import React, { PureComponent, Suspense } from 'react';
-import { Switch, Redirect, withRouter } from 'react-router-dom';
+import { Redirect, Switch, withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import Helmet from 'react-helmet';
 import Trackify from '@hrzn/trackify';
-import { withRequests, hasErrorPath } from 'apollo';
-import EventEmitter, { CLIENT_RELOAD, ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
+import { hasErrorPath, withRequests } from 'apollo';
+import EventEmitter, { ACQUISITION_STATUS_CHANGED, CLIENT_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import Tabs from 'components/Tabs';
-import BackToTop from 'components/BackToTop';
 import HideDetails from 'components/HideDetails';
 import { getBrand } from 'config';
 import ShortLoader from 'components/ShortLoader';
@@ -53,7 +52,7 @@ class Client extends PureComponent {
       path: PropTypes.string,
       url: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
@@ -196,7 +195,6 @@ class Client extends PureComponent {
             </Switch>
           </Suspense>
         </div>
-        <BackToTop />
       </div>
     );
   }
