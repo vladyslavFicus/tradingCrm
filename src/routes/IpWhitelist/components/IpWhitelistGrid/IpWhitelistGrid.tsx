@@ -153,7 +153,7 @@ const IpWhitelistGrid = (props: Props) => {
     <div className="IpWhitelistGrid__cell-primary">
       <PermissionContent permissions={permissions.IP_WHITELIST.DELETE_IP_ADDRESS}>
         <TrashButton
-          lassName="IpWhitelistGrid__action-icon"
+          className="IpWhitelistGrid__action-icon"
           onClick={() => deleteModal.show({
             onSubmit: handleDeleteIp(item),
             modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
