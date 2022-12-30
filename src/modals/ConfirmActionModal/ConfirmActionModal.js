@@ -22,6 +22,8 @@ class ConfirmActionModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     onCloseCallback: PropTypes.func,
     className: PropTypes.string,
+    hideSubmit: PropTypes.bool,
+    hideCancel: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -35,6 +37,8 @@ class ConfirmActionModal extends PureComponent {
     submitButtonLabel: null,
     cancelButtonLabel: null,
     className: null,
+    hideSubmit: false,
+    hideCancel: false,
   };
 
   state = {
@@ -75,6 +79,8 @@ class ConfirmActionModal extends PureComponent {
       submitButtonLabel,
       cancelButtonLabel,
       className,
+      hideSubmit,
+      hideCancel,
     } = this.props;
 
     const { isSubmitting } = this.state;
@@ -112,21 +118,26 @@ class ConfirmActionModal extends PureComponent {
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            tertiary
-            onClick={this.handleClose}
-          >
-            {cancelButtonLabel || I18n.t('COMMON.CANCEL')}
-          </Button>
-          <Button
-            autoFocus
-            danger
-            type="submit"
-            disabled={isSubmitting}
-            onClick={this.handleSubmit}
-          >
-            {submitButtonLabel || I18n.t('COMMON.BUTTONS.CONFIRM')}
-          </Button>
+          <If condition={!hideCancel}>
+            <Button
+              tertiary
+              onClick={this.handleClose}
+            >
+              {cancelButtonLabel || I18n.t('COMMON.CANCEL')}
+            </Button>
+          </If>
+
+          <If condition={!hideSubmit}>
+            <Button
+              autoFocus
+              danger
+              type="submit"
+              disabled={isSubmitting}
+              onClick={this.handleSubmit}
+            >
+              {submitButtonLabel || I18n.t('COMMON.BUTTONS.CONFIRM')}
+            </Button>
+          </If>
         </ModalFooter>
       </Modal>
     );

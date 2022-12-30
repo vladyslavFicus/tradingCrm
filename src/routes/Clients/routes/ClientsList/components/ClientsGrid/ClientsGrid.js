@@ -106,6 +106,7 @@ class ClientsGrid extends PureComponent {
       modalTitle: `${select.max} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
       actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: select.max }),
       submitButtonLabel: I18n.t('COMMON.OK'),
+      hideCancel: true,
     });
   };
 
