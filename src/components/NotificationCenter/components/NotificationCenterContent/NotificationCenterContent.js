@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { get, isString } from 'lodash';
+import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { NetworkStatus } from '@apollo/client';
 import compose from 'compose-function';
@@ -30,10 +30,9 @@ class NotificationCenterContent extends PureComponent {
     notificationsConfiguration: PropTypes.query({
       notificationCenterConfiguration: PropTypes.object,
     }).isRequired,
-    onCloseModal: PropTypes.func.isRequired,
+    onSetEnableToggle: PropTypes.func.isRequired,
     bulkUpdate: PropTypes.func.isRequired,
     notificationsConfigurationUpdate: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired,
   };
 
   state = {
@@ -44,22 +43,6 @@ class NotificationCenterContent extends PureComponent {
     super(props);
 
     this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  handleClickOutside(event) {
-    if (isString(event.target.className) && event.target.className.includes('NotificationCenterTrigger')) return;
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-      this.props.close();
-    }
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   componentDidUpdate(prevProps) {
@@ -166,7 +149,7 @@ class NotificationCenterContent extends PureComponent {
 
   render() {
     const {
-      onCloseModal,
+      onSetEnableToggle,
       notifications,
       notificationsTypes: { data: notificationsTypesData },
       notificationsConfiguration,
@@ -183,7 +166,7 @@ class NotificationCenterContent extends PureComponent {
     const { showNotificationsPopUp } = get(notificationsConfiguration, 'data.notificationCenterConfiguration') || {};
 
     return (
-      <div ref={this.wrapperRef} className="NotificationCenterContent">
+      <div className="NotificationCenterContent">
         <div className="NotificationCenterContent__header">
           <div>
             <div className="NotificationCenterContent__headline">
@@ -226,7 +209,7 @@ class NotificationCenterContent extends PureComponent {
           className="NotificationCenterContent__table"
           notifications={notifications}
           onSelect={this.onSelect}
-          onCloseModal={onCloseModal}
+          onSetEnableToggle={onSetEnableToggle}
         />
       </div>
     );

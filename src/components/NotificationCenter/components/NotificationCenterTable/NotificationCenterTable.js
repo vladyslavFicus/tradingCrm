@@ -20,6 +20,7 @@ class NotificationCenterTable extends PureComponent {
     notifications: PropTypes.query({
       notificationCenter: PropTypes.pageable(PropTypes.notificationCenter),
     }).isRequired,
+    onSetEnableToggle: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       confirmationModal: PropTypes.modalType,
     }).isRequired,
@@ -48,14 +49,19 @@ class NotificationCenterTable extends PureComponent {
 
   handleSelectError = (select) => {
     const {
+      onSetEnableToggle,
       modals: { confirmationModal },
     } = this.props;
 
+    onSetEnableToggle(false);
+
     confirmationModal.show({
       onSubmit: confirmationModal.hide,
+      onCloseCallback: () => onSetEnableToggle(true),
       modalTitle: `${select.max} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
       actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: select.max }),
       submitButtonLabel: I18n.t('COMMON.OK'),
+      hideCancel: true,
     });
   };
 

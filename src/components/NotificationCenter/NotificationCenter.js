@@ -27,18 +27,8 @@ class NotificationCenter extends PureComponent {
 
   toggle = () => this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
 
-  onCloseModal = () => {
-    this.setState(({ enableToggle: false }));
-
-    /**
-     * this trick needs to prevent popover closing after closing of modal opened in popover
-     */
-    return () => {
-      setTimeout(() => {
-        this.setState(({ enableToggle: true }));
-      }, 500);
-    };
-  };
+  // This trick needs to prevent popover closing when modal opened in popover
+  onSetEnableToggle = enableToggle => setTimeout(() => this.setState(({ enableToggle })), 500);
 
   render() {
     const { isOpen, enableToggle } = this.state;
@@ -58,7 +48,7 @@ class NotificationCenter extends PureComponent {
           placement="bottom"
           popperClassName="NotificationCenter__popper"
           innerClassName="NotificationCenter__popover-inner"
-          trigger="manual"
+          trigger="legacy"
           modifiers={[{
             name: 'preventOverflow',
             options: {
@@ -68,8 +58,7 @@ class NotificationCenter extends PureComponent {
           }]}
         >
           <NotificationCenterContent
-            close={this.close}
-            onCloseModal={this.onCloseModal}
+            onSetEnableToggle={this.onSetEnableToggle}
           />
         </Popover>
       </PermissionContent>
