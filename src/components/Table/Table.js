@@ -39,6 +39,7 @@ class Table extends PureComponent {
     onSelectError: PropTypes.func, // Callback when select rows executed error when maximum selecting exceeded
     withMultiSelect: PropTypes.bool, // Flag to enable multi-select functionality
     maxSelectCount: PropTypes.number, // Maximum of selected rows
+    maxHeightColumns: PropTypes.number, // Max
     elementWidth: PropTypes.number, // We check this value and redraw the table header width
     observerSize: PropTypes.shape({
       observe: PropTypes.func.isRequired,
@@ -59,6 +60,7 @@ class Table extends PureComponent {
     onSelectError: () => {},
     withMultiSelect: false,
     maxSelectCount: Infinity,
+    maxHeightColumns: 0,
     elementWidth: null,
   };
 
@@ -538,7 +540,7 @@ class Table extends PureComponent {
   };
 
   render() {
-    const { stickyFromTop, loading, hasMore, onMore, items, scrollableTarget } = this.props;
+    const { stickyFromTop, loading, hasMore, onMore, items, scrollableTarget, maxHeightColumns } = this.props;
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === Column);
 
     return (
@@ -561,7 +563,14 @@ class Table extends PureComponent {
             </div>
           </If>
 
-          <div ref={this.scrollTableRef} className="Table__scroll-x">
+          <div
+            ref={this.scrollTableRef}
+            style={{ maxHeight: maxHeightColumns || '' }}
+            className={classNames({
+              'Table__scroll-y': maxHeightColumns,
+              'Table__scroll-x': !maxHeightColumns,
+            })}
+          >
             <table ref={this.tableRef} className={classNames('Table__table', { 'Table--no-content': !items.length })}>
               <thead className="Table__head">{this.renderHead(columns)}</thead>
 

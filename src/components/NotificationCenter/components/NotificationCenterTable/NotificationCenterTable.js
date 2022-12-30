@@ -93,7 +93,7 @@ class NotificationCenterTable extends PureComponent {
       >
         <Table
           withMultiSelect
-          stickyFromTop={0}
+          stickyFromTop="0"
           items={content}
           totalCount={totalElements}
           loading={loading}

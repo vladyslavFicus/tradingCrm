@@ -12,6 +12,10 @@
     &::-webkit-scrollbar { width: 0; height: 0; }
   }
 
+  &__scroll-y {
+    overflow-y: auto;
+  }
+
   &--loader {
     background-color: var(--surface-page-background);
     padding-top: 7px;
@@ -37,6 +41,15 @@
     position: sticky;
     overflow-x: auto;
     z-index: 2;
+
+    &:before {
+      content: '';
+      border-top: 1px solid var(--divider);
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+    }
   }
 
   &__cell-fixed {

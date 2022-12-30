@@ -24,10 +24,7 @@
   }
 
   &__scrollableTarget {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border: 1px solid var(--divider);
-    border-top: none;
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
   }
 }

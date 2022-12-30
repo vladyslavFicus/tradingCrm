@@ -110,7 +110,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
         className="GroupSymbolsGrid__scrollableTarget"
       >
         <Table
-          stickyFromTop={0}
+          maxHeightColumns={300}
           items={groupSymbols}
           scrollableTarget="group-symbols-table-scrollable-target"
           customClassNameRow={({ enabled }: GroupSymbol) => (

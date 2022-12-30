@@ -142,7 +142,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
         className="GroupSecuritiesGrid__scrollableTarget"
       >
         <Table
-          stickyFromTop={0}
+          maxHeightColumns={300}
           items={groupSecurities}
           scrollableTarget="group-securities-table-scrollable-target"
         >
