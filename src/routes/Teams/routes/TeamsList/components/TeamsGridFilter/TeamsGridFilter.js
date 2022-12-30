@@ -67,7 +67,7 @@ class TeamsGridFilter extends PureComponent {
       >
         {({ values, dirty, isSubmitting, resetForm }) => {
           const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === values.officeUuid);
-          const desksOptions = values.officeUuid ? desksByOffice : desks;
+          const desksOptions = values.officeUuid ? desksByOffice : [];
 
           return (
             <Form className="TeamsGridFilter__form">
