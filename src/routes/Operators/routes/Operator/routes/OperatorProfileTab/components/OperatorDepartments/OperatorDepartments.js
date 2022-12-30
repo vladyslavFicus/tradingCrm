@@ -173,7 +173,7 @@ class OperatorDepartments extends PureComponent {
                 <hr />
 
                 <Formik
-                  initialValues={{}}
+                  initialValues={{ department: '', role: '' }}
                   validate={
                     createValidator({
                       department: ['required'],

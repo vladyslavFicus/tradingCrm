@@ -253,7 +253,7 @@ class OperatorHierarchyBranches extends PureComponent {
               <hr />
 
               <Formik
-                initialValues={{}}
+                initialValues={{ branchType: '', branchUuid: '' }}
                 validate={
                   createValidator({
                     branchType: ['required'],
