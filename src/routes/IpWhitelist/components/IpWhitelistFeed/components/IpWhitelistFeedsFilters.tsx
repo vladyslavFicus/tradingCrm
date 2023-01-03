@@ -95,6 +95,7 @@ const IpWhitelistFeedsFilters = (props: Props) => {
           <Field
             name="auditLogType"
             label={I18n.t('IP_WHITELIST.FEED.FILTER_FORM.LABELS.ACTION_TYPE')}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             component={FormikSelectField}
             className="IpWhitelistFeedsFilters__field"
             withAnyOption
