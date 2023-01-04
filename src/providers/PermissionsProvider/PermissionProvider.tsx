@@ -6,7 +6,7 @@ import { usePermissionsQuery } from './graphql/__generated__/PermissionsQuery';
 export const PermissionContext = React.createContext({} as ContextType);
 
 type Props = {
-  children: React.ReactElement,
+  children: React.ReactNode,
 };
 
 const PermissionProvider = (props: Props) => {

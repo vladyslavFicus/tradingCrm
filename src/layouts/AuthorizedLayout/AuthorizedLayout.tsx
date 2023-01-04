@@ -54,7 +54,7 @@ const AuthorizedLayout = (props: Props) => {
 
           <Header />
 
-          <Sidebar position={sidebarPosition} />
+          <Sidebar />
 
           <main className={classNames(
             'content-container',
