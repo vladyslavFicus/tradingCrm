@@ -21,7 +21,7 @@
     "@babel/runtime": "^7.15.3",
     "@craco/craco": "^5.8.0",
     "@hrzn/react-big-calendar": "^0.20.3",
-    "@hrzn/trackify": "^1.1.23",
+    "@hrzn/trackify": "^1.1.24",
     "@sentry/browser": "^5.4.3",
     "@sentry/react": "^7.22.0",
     "@sentry/tracing": "^7.22.0",
