@@ -80,7 +80,6 @@ const ClientCallbacksGridFilter = (props: Props) => {
             placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             label={I18n.t('CALLBACKS.FILTER.STATUS')}
             component={FormikSelectField}
-            withAnyOption
             searchable
             withFocus
             multiple
