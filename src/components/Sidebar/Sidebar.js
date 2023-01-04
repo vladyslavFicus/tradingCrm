@@ -74,8 +74,6 @@ class Sidebar extends PureComponent {
         <Scrollbars
           className="Scrollbars"
           renderView={props => <div {...props} className="ScrollbarContainer" />}
-          renderTrackHorizontal={props => <div {...props} className="TrackHorizontal" />}
-          renderThumbHorizontal={props => <div {...props} className="ThumbHorizontal" />}
           renderThumbVertical={props => <div {...props} className="ThumbVertical" />}
           style={{ height: 'calc(100% - 48px)' }}
         >
