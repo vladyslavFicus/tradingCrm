@@ -54,7 +54,10 @@ const AuthorizedLayout = (props: Props) => {
 
           <Header />
 
-          <Sidebar />
+          <Sidebar
+            // @ts-ignore Component withRouter HOC types issue
+            position={sidebarPosition}
+          />
 
           <main className={classNames(
             'content-container',
