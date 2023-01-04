@@ -8,7 +8,7 @@ import Route from 'components/Route';
 import NotFound from 'routes/NotFound';
 import CoreLayout from 'layouts/CoreLayout';
 import UnauthorizedLayout from 'layouts/UnauthorizedLayout';
-import MainLayout from 'layouts/MainLayout';
+import AuthorizedLayout from 'layouts/AuthorizedLayout';
 import Logout from 'routes/Logout';
 import SignIn from 'routes/SignIn';
 import Brands from 'routes/Brands';
@@ -79,32 +79,32 @@ class IndexRoute extends PureComponent {
           </Choose>
 
           {/* Private routes */}
-          <Route path="/dashboard" layout={MainLayout} component={Dashboard} isPrivate />
-          <Route path="/trading-accounts" layout={MainLayout} component={TradingAccounts} isPrivate />
-          <Route path="/payments" layout={MainLayout} component={Payments} isPrivate />
-          <Route path="/clients" layout={MainLayout} component={Clients} isPrivate />
-          <Route path="/leads" layout={MainLayout} component={Leads} isPrivate />
-          <Route path="/hierarchy" layout={MainLayout} component={Hierarchy} isPrivate />
+          <Route path="/dashboard" layout={AuthorizedLayout} component={Dashboard} isPrivate />
+          <Route path="/trading-accounts" layout={AuthorizedLayout} component={TradingAccounts} isPrivate />
+          <Route path="/payments" layout={AuthorizedLayout} component={Payments} isPrivate />
+          <Route path="/clients" layout={AuthorizedLayout} component={Clients} isPrivate />
+          <Route path="/leads" layout={AuthorizedLayout} component={Leads} isPrivate />
+          <Route path="/hierarchy" layout={AuthorizedLayout} component={Hierarchy} isPrivate />
           <Route
             path="/operators"
-            layout={MainLayout}
+            layout={AuthorizedLayout}
             component={Operators}
             excludeAuthorities={operatorsExcludeAuthorities}
             isPrivate
           />
-          <Route path="/partners" layout={MainLayout} component={Partners} isPrivate />
-          <Route path="/offices" layout={MainLayout} component={Offices} isPrivate />
-          <Route path="/desks" layout={MainLayout} component={Desks} isPrivate />
-          <Route path="/teams" layout={MainLayout} component={Teams} isPrivate />
-          <Route path="/sales-rules" layout={MainLayout} component={SalesRules} isPrivate />
-          <Route path="/distribution" layout={MainLayout} component={DistributionRules} isPrivate />
-          <Route path="/trading-engine" layout={MainLayout} component={TE} isPrivate />
-          <Route path="/ip-whitelist" layout={MainLayout} component={IpWhitelist} isPrivate />
-          <Route path="/notifications" layout={MainLayout} component={Notifications} isPrivate />
-          <Route path="/release-notes" layout={MainLayout} component={ReleaseNotes} isPrivate />
-          <Route path="/email-templates" layout={MainLayout} component={EmailTemplates} isPrivate />
-          <Route path="/roles-and-permissions" layout={MainLayout} component={RolesAndPermissions} isPrivate />
-          <Route path="/settings" layout={MainLayout} component={Settings} isPrivate />
+          <Route path="/partners" layout={AuthorizedLayout} component={Partners} isPrivate />
+          <Route path="/offices" layout={AuthorizedLayout} component={Offices} isPrivate />
+          <Route path="/desks" layout={AuthorizedLayout} component={Desks} isPrivate />
+          <Route path="/teams" layout={AuthorizedLayout} component={Teams} isPrivate />
+          <Route path="/sales-rules" layout={AuthorizedLayout} component={SalesRules} isPrivate />
+          <Route path="/distribution" layout={AuthorizedLayout} component={DistributionRules} isPrivate />
+          <Route path="/trading-engine" layout={AuthorizedLayout} component={TE} isPrivate />
+          <Route path="/ip-whitelist" layout={AuthorizedLayout} component={IpWhitelist} isPrivate />
+          <Route path="/notifications" layout={AuthorizedLayout} component={Notifications} isPrivate />
+          <Route path="/release-notes" layout={AuthorizedLayout} component={ReleaseNotes} isPrivate />
+          <Route path="/email-templates" layout={AuthorizedLayout} component={EmailTemplates} isPrivate />
+          <Route path="/roles-and-permissions" layout={AuthorizedLayout} component={RolesAndPermissions} isPrivate />
+          <Route path="/settings" layout={AuthorizedLayout} component={Settings} isPrivate />
           <Route path="/logout" component={Logout} isPrivate />
 
           {/* Public routes */}
