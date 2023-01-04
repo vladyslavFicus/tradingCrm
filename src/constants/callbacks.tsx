@@ -7,12 +7,6 @@ export enum CallbackType {
   LEAD = 'LEAD'
 }
 
-export const callbacksStatuses: Record<string, string> = {
-  PENDING: 'CONSTANTS.CALLBACKS.PENDING',
-  REJECTED: 'CONSTANTS.CALLBACKS.REJECTED',
-  SUCCESS: 'CONSTANTS.CALLBACKS.SUCCESS',
-};
-
 export const filterLabels: Record<string, string> = {
   callbackOrOperator: 'CALLBACKS.FILTER.CALLBACK_OR_OPERATOR',
   callbackOrPlayerOrOperator: 'CALLBACKS.FILTER.CALLBACK_OR_PLAYER_OR_OPERATOR',

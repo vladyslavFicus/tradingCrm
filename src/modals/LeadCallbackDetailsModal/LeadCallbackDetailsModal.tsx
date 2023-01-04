@@ -4,8 +4,9 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { LeadCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
-import { callbacksStatuses, reminderValues } from 'constants/callbacks';
+import { reminderValues } from 'constants/callbacks';
 import { targetTypes } from 'constants/note';
+import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -179,9 +180,9 @@ const LeadCallbackDetailsModal = (props: Props) => {
                     component={FormikSelectField}
                     disabled={readOnly}
                   >
-                    {Object.keys(callbacksStatuses).map(callbackStatus => (
+                    {enumToArray(CallbackStatusEnum).map(callbackStatus => (
                       <option key={callbackStatus} value={callbackStatus}>
-                        {I18n.t(callbacksStatuses[callbackStatus])}
+                        {I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`)}
                       </option>
                     ))}
                   </Field>

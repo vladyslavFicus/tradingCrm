@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { State } from 'types';
 import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { ResetForm } from 'types/formik';
-import { callbacksStatuses } from 'constants/callbacks';
+import enumToArray from 'utils/enumToArray';
 import { Button, RefreshButton } from 'components/UI';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -85,8 +85,10 @@ const ClientCallbacksGridFilter = (props: Props) => {
             withFocus
             multiple
           >
-            {Object.keys(callbacksStatuses).map(status => (
-              <option key={status} value={status}>{I18n.t(callbacksStatuses[status])}</option>
+            {enumToArray(CallbackStatusEnum).map(callbackStatus => (
+              <option key={callbackStatus} value={callbackStatus}>
+                {I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`)}
+              </option>
             ))}
           </Field>
 

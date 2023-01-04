@@ -9,7 +9,7 @@ import { LeadCallback } from '__generated__/types';
 import withModals from 'hoc/withModals';
 import { shortify } from 'utils/uuid';
 import { targetTypes } from 'constants/note';
-import { callbacksStatuses, CallbackTimes } from 'constants/callbacks';
+import { CallbackTimes } from 'constants/callbacks';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
@@ -133,7 +133,7 @@ const LeadCallbacksGrid = (props: Props) => {
         )
       }
     >
-      {I18n.t(callbacksStatuses[status])}
+      {I18n.t(`CONSTANTS.CALLBACKS.${status}`)}
     </div>
   );
 
