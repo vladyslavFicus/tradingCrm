@@ -1,15 +1,12 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { BaseMutationOptions, MutationResult } from '@apollo/client';
-import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import IpWhitelistEditMutation from './graphql/IpWhitelistEditMutation';
+import { useIpWhitelistUpdateIpMutation } from './graphql/__generated__/IpWhitelistUpdateIpMutation';
 import './WhiteListUpdateDescriptionModal.scss';
 
 const validate = createValidator(
@@ -24,41 +21,36 @@ const validate = createValidator(
   false,
 );
 
-type IpWhitelistEditResponse = {
-  ipWhitelist: {
-    name: string,
-    description: string,
-  },
-};
-
 type IpWhitelistAddress = {
   ip: string,
   uuid: string,
-  description?: string,
+  description: string,
 };
 
 type FormValues = {
   ip: string,
   uuid: string,
-  description?: string,
+  description: string,
 };
 
 type Props = {
   item: IpWhitelistAddress,
-  editIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistEditResponse>,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const WhiteListUpdateDescriptionModal = (props: Props) => {
-  const { item, editIp, onSuccess, onCloseModal } = props;
+  const { item, onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
+  const [ipWhitelistUpdateIpMutation] = useIpWhitelistUpdateIpMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     const { description, uuid } = values;
 
     try {
-      await editIp({ variables: { description, uuid } });
+      await ipWhitelistUpdateIpMutation({ variables: { description, uuid } });
 
       onSuccess();
       onCloseModal();
@@ -132,9 +124,4 @@ const WhiteListUpdateDescriptionModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withRequests({
-    editIp: IpWhitelistEditMutation,
-  }),
-)(WhiteListUpdateDescriptionModal);
+export default React.memo(WhiteListUpdateDescriptionModal);

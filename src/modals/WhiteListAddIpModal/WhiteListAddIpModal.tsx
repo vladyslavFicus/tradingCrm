@@ -1,15 +1,13 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { BaseMutationOptions, MutationResult } from '@apollo/client';
-import { parseErrors, withRequests } from 'apollo';
+import { parseErrors } from 'apollo';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/UI';
 import { FormikInputField } from 'components/Formik';
-import IpWhitelistAddMutation from './graphql/IpWhitelistAddMutation';
+import { useIpWhitelistAddIpMutation } from './graphql/__generated__/IpWhitelistAddIpMutation';
 import './WhiteListAddIpModal.scss';
 
 const validate = createValidator(
@@ -24,31 +22,26 @@ const validate = createValidator(
   false,
 );
 
-type IpWhitelistAddress = {
-  ipWhitelist: {
-    ip: string,
-    description: string,
-  },
-};
-
 type FormValues = {
   ip: string,
   description: string,
 };
 
 type Props = {
-  addIp: (options: BaseMutationOptions) => MutationResult<IpWhitelistAddress>,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
 const WhiteListAddIpModal = (props: Props) => {
-  const { addIp, onSuccess, onCloseModal } = props;
+  const { onSuccess, onCloseModal } = props;
+
+  // ===== Requests ===== //
+  const [ipWhitelistAddIpMutation] = useIpWhitelistAddIpMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
-      await addIp({ variables: values });
+      await ipWhitelistAddIpMutation({ variables: values });
 
       onSuccess();
       onCloseModal();
@@ -127,9 +120,4 @@ const WhiteListAddIpModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withRequests({
-    addIp: IpWhitelistAddMutation,
-  }),
-)(WhiteListAddIpModal);
+export default React.memo(WhiteListAddIpModal);

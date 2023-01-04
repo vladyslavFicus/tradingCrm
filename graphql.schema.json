@@ -11182,8 +11182,8 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "IpWhitelistAddress",
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11285,8 +11285,8 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "IpWhitelistAddress",
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "isDeprecated": false,
