@@ -1139,6 +1139,7 @@
         "EMAIL_SENT": "Email sent",
         "CDE_RULE_CREATED_EVENT": "CDE rule created",
         "CDE_RULE_UPDATED_EVENT": "CDE rule updated",
+        "CDE_MIGRATION_STARTED": "CDE migration started",
         "WHITELIST_IP_CREATED": "IP address added",
         "WHITELIST_IP_DELETED": "IP address deleted",
         "WHITELIST_IP_UPDATED": "IP address updated",
