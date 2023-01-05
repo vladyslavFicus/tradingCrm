@@ -7,6 +7,12 @@
   &__content {
     padding-bottom: 50px;
     background: var(--surface-gradient-background);
+    position: relative;
+    z-index: 1;
+  }
+
+  .Tabs {
+    margin-top: 0;
   }
 
   &__info {
