@@ -3,7 +3,7 @@ import { withStorage } from 'providers/StorageProvider';
 import './DebugContainer.scss';
 
 type Props = {
-  children: React.ReactElement | React.ReactElement[],
+  children: React.ReactNode,
   debug: boolean,
 }
 

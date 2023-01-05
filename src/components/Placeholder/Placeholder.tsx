@@ -4,7 +4,7 @@ import { TextRow } from 'react-placeholder/lib/placeholders';
 import './Placeholder.scss';
 
 type Props = {
-  children: React.ReactElement,
+  children: React.ReactNode,
   ready: boolean,
   rows: Array<{ width: number, height: number }>,
 };

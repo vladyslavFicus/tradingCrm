@@ -4,7 +4,7 @@ import Preloader from 'components/Preloader';
 import { useConfigQuery } from './graphql/__generated__/ConfigQuery';
 
 type Props = {
-  children: React.ReactElement,
+  children: React.ReactNode,
 };
 
 const ConfigProvider = (props: Props) => {
@@ -18,7 +18,11 @@ const ConfigProvider = (props: Props) => {
 
   config.brand = { ...config.brand, ...data?.config };
 
-  return children;
+  return (
+    <>
+      {children}
+    </>
+  );
 };
 
 export default React.memo(ConfigProvider);

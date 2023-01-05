@@ -7,7 +7,7 @@ import { downloadLocalesFromS3 } from './utils';
 import './CrmBrandProvider.scss';
 
 type Props = {
-  children: React.ReactElement,
+  children: React.ReactNode,
 };
 
 enum BrandStatusesEnum {

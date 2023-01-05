@@ -6,7 +6,7 @@ import { withStorage } from 'providers/StorageProvider';
 import { useTrackifyMutation } from './graphql/__generated__/TrackifyMutation';
 
 type Props = {
-  children: React.ReactElement,
+  children: React.ReactNode,
   token?: string,
 };
 

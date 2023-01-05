@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import './NotificationProvider.scss';
 
 type Props = {
-  children: React.ReactElement,
+  children: React.ReactNode,
 };
 
 const NotificationProvider = (props: Props) => (
