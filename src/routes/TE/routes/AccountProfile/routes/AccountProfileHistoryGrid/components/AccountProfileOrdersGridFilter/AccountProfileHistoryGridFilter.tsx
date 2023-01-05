@@ -15,7 +15,7 @@ import { SymbolsQueryVariables, useSymbolsQuery } from './graphql/__generated__/
 import './AccountProfileHistoryGridFilter.scss';
 
 type Props = {
-  handleRefetch: Function,
+  handleRefetch: () => void,
 };
 
 const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {

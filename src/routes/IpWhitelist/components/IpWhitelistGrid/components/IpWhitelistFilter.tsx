@@ -7,12 +7,11 @@ import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { State } from 'types';
-import { IpWhitelistSearchQueryVariables } from '../graphql/__generated__/IpWhitelistQuery';
 import { IpWhitelistFilters as FormValues } from '../types';
 import './IpWhitelistFilter.scss';
 
 type Props = {
-  onRefetch: (variables: IpWhitelistSearchQueryVariables) => void,
+  onRefetch: () => void,
 };
 
 const IpWhitelistFilter = (props: Props) => {

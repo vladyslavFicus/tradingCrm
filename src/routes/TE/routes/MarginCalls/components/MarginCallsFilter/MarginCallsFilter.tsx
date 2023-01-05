@@ -18,7 +18,7 @@ type FormValues = {
 }
 
 type Props = {
-  onRefresh: Function,
+  onRefresh: () => void,
 }
 
 const MarginCallsFilter = (props: Props) => {

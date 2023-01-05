@@ -14,7 +14,7 @@ import { FeedFilterFormQueryVariables, useFeedFilterFormQuery } from './graphql/
 import './AccountProfileFeedGridFilter.scss';
 
 type Props = {
-  handleRefetch: Function,
+  handleRefetch: () => void,
 };
 
 const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {

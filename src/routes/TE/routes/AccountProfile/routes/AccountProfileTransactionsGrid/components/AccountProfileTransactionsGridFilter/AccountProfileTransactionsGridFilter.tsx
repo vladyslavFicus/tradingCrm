@@ -15,7 +15,7 @@ import { types } from './constants';
 import './AccountProfileTransactionsGridFilter.scss';
 
 type Props = {
-  handleRefetch: Function,
+  handleRefetch: () => void,
 };
 
 const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {

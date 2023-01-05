@@ -14,7 +14,7 @@ import { FeedFilterFormQueryVariables, useFeedFilterFormQuery } from './graphql/
 import './DealingOperatorFeedFilter.scss';
 
 type Props = {
-  handleRefetch: Function,
+  handleRefetch: () => void,
 };
 
 const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {

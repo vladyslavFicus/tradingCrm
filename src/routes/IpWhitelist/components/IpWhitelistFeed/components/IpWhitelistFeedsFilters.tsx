@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useHistory, useLocation, withRouter } from 'react-router-dom';
 import compose from 'compose-function';
-import { QueryResult, ApolloQueryResult } from '@apollo/client';
+import { QueryResult } from '@apollo/client';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { State } from 'types';
@@ -21,7 +21,7 @@ type FeedTypes = { feedTypes?: { [key: string]: string } };
 
 type Props = {
   feedTypesQuery: QueryResult<FeedTypes>,
-  onRefetch: (variables: FormValues) => Promise<ApolloQueryResult<FormValues>>,
+  onRefetch: () => void,
 };
 
 const IpWhitelistFeedsFilters = (props: Props) => {
