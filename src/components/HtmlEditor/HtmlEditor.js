@@ -12,12 +12,18 @@ class HtmlEditor extends PureComponent {
     label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    error: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
   };
 
   static defaultProps = {
     label: null,
     value: null,
     onChange: () => {},
+    error: null,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -78,7 +84,7 @@ class HtmlEditor extends PureComponent {
   };
 
   render() {
-    const { label } = this.props;
+    const { label, error } = this.props;
     const { editorState } = this.state;
 
     return (
@@ -89,6 +95,15 @@ class HtmlEditor extends PureComponent {
           wrapperClassName="HtmlEditor__wrapper"
           onEditorStateChange={this.onEditorStateChange}
         />
+
+        <If condition={error}>
+          <div className="HtmlEditor__footer">
+            <div className="HtmlEditor__error">
+              <i className="HtmlEditor__error-icon icon-alert" />
+              {error}
+            </div>
+          </div>
+        </If>
       </div>
     );
   }
