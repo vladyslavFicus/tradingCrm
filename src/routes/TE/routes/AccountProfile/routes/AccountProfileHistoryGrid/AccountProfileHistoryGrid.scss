@@ -36,6 +36,10 @@
   &__uuid {
     width: 110%;
     height: 37px;
+
+    @media (max-width: 1400px) {
+      font-size: 11px;
+    }
   }
 
   &__type {
