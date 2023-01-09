@@ -65,9 +65,13 @@ class TeamsGridFilter extends PureComponent {
           deskUuid: 'string',
         })}
       >
-        {({ values, dirty, isSubmitting, resetForm }) => {
+        {({ values, dirty, isSubmitting, resetForm, setFieldValue }) => {
           const desksByOffice = desks.filter(desk => desk.parentBranch.uuid === values.officeUuid);
           const desksOptions = values.officeUuid ? desksByOffice : [];
+
+          if (values.deskUuid && !values.officeUuid) {
+            setFieldValue('deskUuid', '');
+          }
 
           return (
             <Form className="TeamsGridFilter__form">
