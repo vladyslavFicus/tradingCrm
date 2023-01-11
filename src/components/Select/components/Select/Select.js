@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import compose from 'compose-function';
 import onClickOutside from 'react-onclickoutside';
-import { isObject, difference } from 'lodash';
+import { difference, isObject } from 'lodash';
+import { Popover } from 'reactstrap';
 import shallowEqual from 'utils/shallowEqual';
 import deleteFromArray from 'utils/deleteFromArray';
 import SelectSearchBox, {
@@ -65,6 +66,7 @@ class Select extends PureComponent {
     isFocused: PropTypes.bool,
     withArrowDown: PropTypes.bool,
     customArrowComponent: PropTypes.object,
+    hasTargetPortal: PropTypes.string,
   };
 
   static defaultProps = {
@@ -87,12 +89,15 @@ class Select extends PureComponent {
     withArrowDown: true,
     customArrowComponent: null,
     isFocused: false,
+    hasTargetPortal: null,
   };
 
   mounted = false;
 
   constructor(props) {
     super(props);
+
+    this.selectRef = React.createRef();
 
     const originalOptions = filterOptions(props.children);
     const selectedOptions = props.multiple
@@ -167,7 +172,7 @@ class Select extends PureComponent {
     }
 
     return prevState;
-  }
+  };
 
   componentDidMount() {
     this.mounted = true;
@@ -203,8 +208,8 @@ class Select extends PureComponent {
     }
   };
 
-  handleClickOutside = () => {
-    if (this.state.opened) {
+  handleClickOutside = (event) => {
+    if (this.state.opened && !event?.target?.closest('.Select__popover')) {
       this.handleClose();
     }
   };
@@ -631,64 +636,99 @@ class Select extends PureComponent {
     );
   };
 
-  render() {
+  renderSelectContent = () => {
     const {
       query,
-      opened,
       options,
-      selectedOptions,
     } = this.state;
 
     const {
-      id,
-      searchPlaceholder,
-      optionsHeader: OptionsHeaderComponent,
-      disabled,
-      customClassName,
       customSelectBlockClassName,
       customSelectBlockContainerClassName,
-      isFocused,
+      searchPlaceholder,
+      optionsHeader: OptionsHeaderComponent,
     } = this.props;
 
     const showSearchBar = this.hasSearchBar();
 
     return (
+      <div className={classNames('Select__content', customSelectBlockClassName)}>
+        <If condition={showSearchBar}>
+          <SelectSearchBox
+            query={query}
+            placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
+            onChange={this.handleSearch}
+            ref={this.bindSearchBarRef}
+          />
+        </If>
+
+        <div
+          className={classNames('Select__container', customSelectBlockContainerClassName)}
+          ref={this.bindContainerRef}
+        >
+          <If condition={OptionsHeaderComponent}>
+            <OptionsHeaderComponent />
+          </If>
+
+          <If condition={query && options.length === 0}>
+            <div className="Select__not-found">
+              {I18n.t('common.select.options_not_found', { query })}
+            </div>
+          </If>
+          {this.renderOptions()}
+        </div>
+      </div>
+    );
+  };
+
+  render() {
+    const {
+      opened,
+      selectedOptions,
+    } = this.state;
+
+    const {
+      id,
+      disabled,
+      customClassName,
+      isFocused,
+      hasTargetPortal,
+    } = this.props;
+
+    const selectClasses = {
+      'Select__is-opened': opened,
+      'Select__with-option': !!selectedOptions.length > 0,
+      'Select__is-disabled': disabled,
+      'Select__is-focused': isFocused,
+      [customClassName]: customClassName,
+    };
+
+    return (
       <div
-        className={classNames('Select', {
-          'Select__is-opened': opened,
-          'Select__with-option': !!selectedOptions.length > 0,
-          'Select__is-disabled': disabled,
-          'Select__is-focused': isFocused,
-          [customClassName]: customClassName,
-        })}
+        className={classNames('Select', selectClasses)}
         id={id}
+        ref={this.selectRef}
       >
         {this.renderLabel()}
 
-        <div className={classNames('Select__content', customSelectBlockClassName)}>
-          <If condition={showSearchBar}>
-            <SelectSearchBox
-              query={query}
-              placeholder={searchPlaceholder || I18n.t('common.select.default_placeholder')}
-              onChange={this.handleSearch}
-              ref={this.bindSearchBarRef}
-            />
-          </If>
-          <div
-            className={classNames('Select__container', customSelectBlockContainerClassName)}
-            ref={this.bindContainerRef}
-          >
-            <If condition={OptionsHeaderComponent}>
-              <OptionsHeaderComponent />
-            </If>
-            <If condition={query && options.length === 0}>
-              <div className="Select__not-found">
-                {I18n.t('common.select.options_not_found', { query })}
+        <Choose>
+          <When condition={!!hasTargetPortal}>
+            <Popover
+              target={this.selectRef?.current}
+              isOpen={opened}
+              placement="bottom"
+              popperClassName="Select__popover"
+            >
+              <div className={classNames(selectClasses)}>
+                {this.renderSelectContent()}
               </div>
-            </If>
-            {this.renderOptions()}
-          </div>
-        </div>
+            </Popover>
+          </When>
+
+          <Otherwise>
+            {this.renderSelectContent()}
+          </Otherwise>
+        </Choose>
       </div>
     );
   }

@@ -373,6 +373,7 @@ class Table extends PureComponent {
 
             return (
               <div
+                key={index}
                 style={{ width: widthTableCells[index], 'min-width': widthTableCells[index] }}
                 className={classNames(
                   'Table__cell',

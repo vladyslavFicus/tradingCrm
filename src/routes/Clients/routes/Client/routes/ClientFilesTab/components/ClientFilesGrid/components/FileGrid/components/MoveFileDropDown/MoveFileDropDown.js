@@ -45,6 +45,7 @@ class MoveFileDropDown extends PureComponent {
         value={currentValue}
         onChange={this.handleChange}
         disabled={disabled}
+        hasTargetPortal
       >
         {Object.entries(categories)
           .filter(([category]) => category !== 'OTHER')

@@ -48,6 +48,7 @@ class ChangeFileStatusDropDown extends PureComponent {
         value={currentValue || status}
         onChange={this.handleChange}
         disabled={disabled}
+        hasTargetPortal
       >
         {statusesFile.map(({ value, label }) => (
           <option key={`${uuid}-${value}`} value={value}>{I18n.t(label)}</option>

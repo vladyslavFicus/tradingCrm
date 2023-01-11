@@ -2,6 +2,26 @@
   position: relative;
   cursor: pointer;
 
+  &__popover {
+    &.popover {
+      margin-bottom: -8px;
+      max-width: 300px;
+
+      .popover-arrow {
+        display: none;
+      }
+    }
+
+    .Select__content {
+      position: static;
+      width: auto;
+    }
+
+    .MoveFileDropDown {
+      width: auto;
+    }
+  }
+
   &__is-opened {
     .Select__icon {
       transform: rotate(180deg);
@@ -66,6 +86,7 @@
   }
 
   &__container {
+    background: var(--surface-page-background);
     max-height: 200px;
     overflow-x: hidden;
     overflow-y: auto;
