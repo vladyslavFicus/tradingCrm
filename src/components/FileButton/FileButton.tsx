@@ -9,7 +9,7 @@ type Props = {
   className?: string,
 };
 
-const FileUpload = (props: Props) => {
+const FileButton = (props: Props) => {
   const {
     label = 'Upload file',
     singleMode = true,
@@ -37,4 +37,4 @@ const FileUpload = (props: Props) => {
   );
 };
 
-export default React.memo(FileUpload);
+export default React.memo(FileButton);
