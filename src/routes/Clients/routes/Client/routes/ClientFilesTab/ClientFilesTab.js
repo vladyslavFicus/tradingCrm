@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { Button } from 'components/UI';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
-import { UploadModal } from 'components/Files';
+import { UploadModal } from 'modals/FileModals';
 import KYCNote from './components/KYCNote';
 import ClientFilesGrid from './components/ClientFilesGrid';
 

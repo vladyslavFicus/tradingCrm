@@ -8,12 +8,12 @@ import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import FileUpload from 'components/FileUpload';
-import UploadingFile from 'components/Files/UploadingFile';
 import ShortLoader from 'components/ShortLoader';
 import { Button } from 'components/UI';
 import { shortify } from 'utils/uuid';
 import EventEmitter, { FILE_UPLOADED } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';
+import UploadingFileModal from '../UploadingFileModal';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_MAX_SIZE,
@@ -233,7 +233,7 @@ class UploadModal extends PureComponent {
     const { __typename, ...categories } = get(filesCategoriesData, 'data.filesCategories') || {};
 
     return (
-      <UploadingFile
+      <UploadingFileModal
         customFieldChange={fields => (
           setValues({
             ...values,

@@ -18,7 +18,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
-import { DeleteModal, RenameModal } from 'components/Files';
+import { DeleteModal, RenameModal } from 'modals/FileModals';
 import ShortLoader from 'components/ShortLoader';
 import { statusesCategory, statusesFile } from './constants';
 import MoveFileDropDown from './components/MoveFileDropDown';

@@ -9,9 +9,9 @@ import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import { TrashButton } from 'components/UI';
 import { shortifyInMiddle } from 'utils/stringFormat';
-import './UploadingFile.scss';
+import './UploadingFileModal.scss';
 
-class UploadingFile extends PureComponent {
+class UploadingFileModal extends PureComponent {
   static propTypes = {
     number: PropTypes.number.isRequired,
     fileData: PropTypes.uploadingFile.isRequired,
@@ -42,10 +42,10 @@ class UploadingFile extends PureComponent {
       status = (
         <Choose>
           <When condition={!fileData.error}>
-            <span className="UploadingFile__status--success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
+            <span className="UploadingFileModal__status--success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
           </When>
           <Otherwise>
-            <span className="UploadingFile__status--error">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>
+            <span className="UploadingFileModal__status--error">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>
           </Otherwise>
         </Choose>
       );
@@ -77,9 +77,9 @@ class UploadingFile extends PureComponent {
     const documentTypes = selectedCategory ? categories[selectedCategory] : [''];
 
     return (
-      <tr className="UploadingFile" key={fileUuid}>
-        <td className="UploadingFile__col UploadingFile__number">{number}.</td>
-        <td className="UploadingFile__col UploadingFile__title">
+      <tr className="UploadingFileModal" key={fileUuid}>
+        <td className="UploadingFileModal__col UploadingFileModal__number">{number}.</td>
+        <td className="UploadingFileModal__col UploadingFileModal__title">
           <Field
             placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE_PLACEHOLDER')}
             name={`${fileUuid}.title`}
@@ -87,15 +87,15 @@ class UploadingFile extends PureComponent {
             type="text"
           />
         </td>
-        <td className="UploadingFile__col UploadingFile__info">
-          <div title={file.name} className="UploadingFile__name">
+        <td className="UploadingFileModal__col UploadingFileModal__info">
+          <div title={file.name} className="UploadingFileModal__name">
             {shortifyInMiddle(file.name, 40)}
           </div>
-          <div className="UploadingFile__uuid">
+          <div className="UploadingFileModal__uuid">
             {fileUuid && <Uuid uuid={fileUuid} />}
           </div>
         </td>
-        <td className="UploadingFile__col UploadingFile__category">
+        <td className="UploadingFileModal__col UploadingFileModal__category">
           <Field
             placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
             name={`${fileUuid}.category`}
@@ -115,7 +115,7 @@ class UploadingFile extends PureComponent {
             ))}
           </Field>
         </td>
-        <td className="UploadingFile__col UploadingFile__type">
+        <td className="UploadingFileModal__col UploadingFileModal__type">
           <Field
             placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE_DEFAULT_OPTION')}
             name={`${fileUuid}.documentType`}
@@ -129,16 +129,16 @@ class UploadingFile extends PureComponent {
             ))}
           </Field>
         </td>
-        <td className="UploadingFile__col UploadingFile__status">
+        <td className="UploadingFileModal__col UploadingFileModal__status">
           {this.renderStatus(fileData)}
         </td>
-        <td className="UploadingFile__col">
+        <td className="UploadingFileModal__col">
           <TrashButton
-            className="UploadingFile__removeButton"
+            className="UploadingFileModal__removeButton"
             onClick={() => onRemoveFileClick(fileUuid)}
           />
         </td>
-        <td className="UploadingFile__note">
+        <td className="UploadingFileModal__note">
           {
             fileUuid
             && (
@@ -160,4 +160,4 @@ class UploadingFile extends PureComponent {
   }
 }
 
-export default UploadingFile;
+export default UploadingFileModal;
