@@ -51,6 +51,7 @@ class HeaderCalendar extends PureComponent {
             <i className="icon-calendar" />
           </button>
           <Popover
+            container=".HeaderCalendar"
             popperClassName="HeaderCalendar__popper"
             toggle={this.handleToggleCalendarPopover}
             target="id-toggle-button"

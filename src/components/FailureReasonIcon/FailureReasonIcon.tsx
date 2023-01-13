@@ -5,9 +5,9 @@ import Uuid from 'components/Uuid';
 import './FailureReasonIcon.scss';
 
 type Props = {
-  id?: string,
   reason: string,
   statusAuthor: string,
+  id?: string,
   statusDate?: string,
   profileStatusComment?: string,
 };
@@ -36,6 +36,7 @@ const FailureReasonIcon = (props: Props) => {
       />
 
       <Popover
+        container=".FailureReasonIcon"
         className="FailureReasonIcon__popover"
         placement="right"
         isOpen={isOpenPopover}

@@ -41,6 +41,7 @@ class NotificationCenter extends PureComponent {
           onClick={this.toggle}
         />
         <Popover
+          container=".Header"
           id="NotificationCenterContainer"
           target={id}
           isOpen={isOpen}

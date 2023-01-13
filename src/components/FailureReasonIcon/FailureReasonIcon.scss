@@ -45,5 +45,11 @@
       line-height: 18px;
       color: var(--text-primary);
     }
+
+    .popover {
+      width: max-content;
+      padding: 3px;
+      inset: 30px auto auto 0px;
+    }
   }
 }
