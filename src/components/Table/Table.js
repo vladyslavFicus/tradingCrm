@@ -554,15 +554,13 @@ class Table extends PureComponent {
           loader={<ShortPreloader className="Table--loader" />}
           style={{ overflow: 'unset' }}
         >
-          <If condition={!loading && items.length && columns.length}>
-            <div
-              ref={this.tableFixedRef}
-              className="Table__head-fixed"
-              style={{ top: `${stickyFromTop || TopHeaderHeight}px` }}
-            >
-              {this.renderFixedHead(columns)}
-            </div>
-          </If>
+          <div
+            ref={this.tableFixedRef}
+            className="Table__head-fixed"
+            style={{ top: `${stickyFromTop || TopHeaderHeight}px` }}
+          >
+            {this.renderFixedHead(columns)}
+          </div>
 
           <div
             ref={this.scrollTableRef}
