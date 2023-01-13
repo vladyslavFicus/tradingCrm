@@ -1,6 +1,7 @@
 import React from 'react';
 import { shortify } from 'utils/uuid';
 import CopyToClipboard from '../CopyToClipboard';
+import './Uuid.scss';
 
 type Props = {
   id?: string,
@@ -44,7 +45,9 @@ const Uuid = (props: Props) => {
       notificationMessage={notificationMessage}
       className={className}
     >
-      <span id={id}>{title || shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}</span>
+      <span id={id} className="Uuid__value">
+        {title || shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}
+      </span>
     </CopyToClipboard>
   );
 };
