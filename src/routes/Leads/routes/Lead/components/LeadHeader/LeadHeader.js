@@ -8,7 +8,7 @@ import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
 import NotePopover from 'components/NotePopover';
 import PermissionContent from 'components/PermissionContent';
-import PromoteLeadModal from 'components/PromoteLeadModal';
+import PromoteLeadModal from 'modals/PromoteLeadModal';
 import CreateLeadCallbackModal from 'modals/CreateLeadCallbackModal';
 import './LeadHeader.scss';
 
