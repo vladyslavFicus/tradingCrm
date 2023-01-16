@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { DropdownItem } from 'reactstrap';
+import { DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { withPermission } from 'providers/PermissionsProvider';
 import Permissions from 'utils/permissions';
@@ -48,15 +48,17 @@ class ActionsDropDown extends PureComponent {
         withArrow
         rightPlacement
       >
-        {visibleItems.map(item => (
-          <DropdownItem
-            id={item.id}
-            key={item.label}
-            onClick={item.onClick}
-          >
-            {item.label}
-          </DropdownItem>
-        ))}
+        <DropdownMenu container="body">
+          {visibleItems.map(item => (
+            <DropdownItem
+              id={item.id}
+              key={item.label}
+              onClick={item.onClick}
+            >
+              {item.label}
+            </DropdownItem>
+          ))}
+        </DropdownMenu>
       </DropDown>
     );
   }
