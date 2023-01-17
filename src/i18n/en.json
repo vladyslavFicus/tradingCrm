@@ -1811,6 +1811,7 @@
         "REG_DATE_RANGE": "Registration date range",
         "FIRST_DEPOSIT_DATE": "FTD date range",
         "LAST_CALL_DATE": "Last call date",
+        "NEVER_CALLED": "Never called",
         "REG_DATE_FROM": "Registered From",
         "REG_DATE_TO": "Registered To",
         "FIRST_NOTE_DATE": "First note date",
@@ -3208,6 +3209,7 @@
       "REGISTRATION_DATE_RANGE": "Registration date range",
       "LAST_NOTE_DATE_RANGE": "Last note date range",
       "LAST_CALL_DATE_RANGE": "Last call date range",
+      "NEVER_CALLED": "Never called",
       "AFFILIATE": "Affiliate",
       "AFFILIATE_PLACEHOLDER": "Affiliate name"
     },

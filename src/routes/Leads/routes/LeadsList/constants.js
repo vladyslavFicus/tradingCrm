@@ -13,7 +13,19 @@ const leadAccountStatuses = {
   },
 };
 
+const neverCalledTypes = [
+  {
+    value: false,
+    label: 'COMMON.NO',
+  },
+  {
+    value: true,
+    label: 'COMMON.YES',
+  },
+];
+
 export {
   MAX_SELECTED_LEADS,
   leadAccountStatuses,
+  neverCalledTypes,
 };

@@ -274,6 +274,7 @@ class ClientsGridFilter extends PureComponent {
                         lastLoginDateRange: I18n.t(attributeLabels.lastLoginDateRange),
                         lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
                         lastCallDateRange: I18n.t(attributeLabels.lastCallDateRange),
+                        isNeverCalled: I18n.t(attributeLabels.isNeverCalled),
                         searchLimit: I18n.t(attributeLabels.searchLimit),
                         offices: I18n.t(attributeLabels.offices),
                       }}
@@ -565,7 +566,6 @@ class ClientsGridFilter extends PureComponent {
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
-                      boolean
                     >
                       {radioSelect.map(({ value, label }) => (
                         <option key={`refferer-${value}`} value={value}>
@@ -598,7 +598,6 @@ class ClientsGridFilter extends PureComponent {
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
-                      boolean
                     >
                       {radioSelect.map(({ value, label }) => (
                         <option key={`affiliateFTD-${value}`} value={value}>
@@ -727,7 +726,6 @@ class ClientsGridFilter extends PureComponent {
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
-                      boolean
                     >
                       {radioSelect.map(({ value, label }) => (
                         <option key={`firstTimeDeposit-${value}`} value={value}>
@@ -913,6 +911,22 @@ class ClientsGridFilter extends PureComponent {
                       }}
                       withFocus
                     />
+
+                    <Field
+                      name="isNeverCalled"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.isNeverCalled)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withAnyOption
+                      withFocus
+                    >
+                      {radioSelect.map(({ value, label }) => (
+                        <option key={`isNeverCalled-${value}`} value={value}>
+                          {I18n.t(label)}
+                        </option>
+                      ))}
+                    </Field>
 
                     <Field
                       name="searchLimit"

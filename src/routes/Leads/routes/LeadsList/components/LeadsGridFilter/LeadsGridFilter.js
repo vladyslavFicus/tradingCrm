@@ -16,7 +16,7 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
-import { leadAccountStatuses } from '../../constants';
+import { leadAccountStatuses, neverCalledTypes } from '../../constants';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';
 import AcquisitionStatusesQuery from './graphql/AcquisitionStatusesQuery';
@@ -35,6 +35,7 @@ const attributeLabels = {
   lastNoteDateRange: 'LEADS.FILTER.LAST_NOTE_DATE_RANGE',
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   lastCallDateRange: 'LEADS.FILTER.LAST_CALL_DATE_RANGE',
+  isNeverCalled: 'LEADS.FILTER.NEVER_CALLED',
   affiliate: 'LEADS.FILTER.AFFILIATE',
 };
 
@@ -356,6 +357,22 @@ class LeadsGridFilter extends PureComponent {
                   anchorDirection="right"
                   withFocus
                 />
+
+                <Field
+                  name="isNeverCalled"
+                  className="LeadsGridFilter__field LeadsGridFilter__select"
+                  label={I18n.t(attributeLabels.isNeverCalled)}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                  component={FormikSelectField}
+                  withAnyOption
+                  withFocus
+                >
+                  {neverCalledTypes.map(({ value, label }) => (
+                    <option key={`isNeverCalled-${value}`} value={value}>
+                      {I18n.t(label)}
+                    </option>
+                  ))}
+                </Field>
 
                 <Field
                   name="searchLimit"

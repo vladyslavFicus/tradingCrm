@@ -517,7 +517,6 @@ class ClientsGridOldFilter extends PureComponent {
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
-                      boolean
                     >
                       {radioSelect.map(({ value, label }) => (
                         <option key={`refferer-${value}`} value={value}>
@@ -550,7 +549,6 @@ class ClientsGridOldFilter extends PureComponent {
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
-                      boolean
                     >
                       {radioSelect.map(({ value, label }) => (
                         <option key={`affiliateFTD-${value}`} value={value}>
@@ -679,7 +677,6 @@ class ClientsGridOldFilter extends PureComponent {
                       component={FormikSelectField}
                       withAnyOption
                       withFocus
-                      boolean
                     >
                       {radioSelect.map(({ value, label }) => (
                         <option key={`firstTimeDeposit-${value}`} value={value}>
@@ -866,6 +863,22 @@ class ClientsGridOldFilter extends PureComponent {
                       anchorDirection="right"
                       withFocus
                     />
+
+                    <Field
+                      name="isNeverCalled"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      label={I18n.t(attributeLabels.isNeverCalled)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withAnyOption
+                      withFocus
+                    >
+                      {radioSelect.map(({ value, label }) => (
+                        <option key={`isNeverCalled-${value}`} value={value}>
+                          {I18n.t(label)}
+                        </option>
+                      ))}
+                    </Field>
 
                     <Field
                       name="searchLimit"
