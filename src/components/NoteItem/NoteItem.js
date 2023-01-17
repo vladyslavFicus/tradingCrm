@@ -6,7 +6,6 @@ import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
-import Permissions from 'utils/permissions';
 import EventEmitter, { NOTE_REMOVED } from 'utils/EventEmitter';
 import NoteModal from 'components/NoteModal';
 import Uuid from 'components/Uuid';
@@ -108,12 +107,12 @@ class NoteItem extends PureComponent {
                 {
                   label: I18n.t('COMMON.ACTIONS.EDIT'),
                   onClick: this.handleEditNote,
-                  permissions: new Permissions(permissions.NOTES.UPDATE_NOTE),
+                  permission: permissions.NOTES.UPDATE_NOTE,
                 },
                 {
                   label: I18n.t('COMMON.ACTIONS.DELETE'),
                   onClick: this.handleRemoveNote,
-                  permissions: new Permissions(permissions.NOTES.DELETE_NOTE),
+                  permission: permissions.NOTES.DELETE_NOTE,
                 },
               ]}
             />

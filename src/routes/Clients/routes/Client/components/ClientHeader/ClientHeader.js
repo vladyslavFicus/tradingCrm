@@ -8,10 +8,8 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import permissions from 'config/permissions';
-import Permissions from 'utils/permissions';
 import customTimeout from 'utils/customTimeout';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
-import { withPermission } from 'providers/PermissionsProvider';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
@@ -38,7 +36,6 @@ class ClientHeader extends PureComponent {
     changePassword: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     unlockClientLogin: PropTypes.func.isRequired,
-    permission: PropTypes.permission.isRequired,
     modals: PropTypes.shape({
       confirmActionModal: PropTypes.modalType,
       changePasswordModal: PropTypes.modalType,
@@ -193,7 +190,6 @@ class ClientHeader extends PureComponent {
     const {
       client,
       clientLockStatusQuery,
-      permission: { permissions: currentPermissions },
     } = this.props;
 
     const { isRunningReloadAnimation } = this.state;
@@ -206,9 +202,6 @@ class ClientHeader extends PureComponent {
       firstName,
       profileVerified,
     } = client || {};
-
-    const changePasswordPermission = new Permissions([permissions.USER_PROFILE.CHANGE_PASSWORD]);
-    const resetPasswordPermission = new Permissions([permissions.USER_PROFILE.RESET_PASSWORD]);
 
     const locks = clientLockStatusQuery.data?.loginLock;
     return (
@@ -292,12 +285,12 @@ class ClientHeader extends PureComponent {
               {
                 label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
                 onClick: this.handleOpenResetPasswordModal,
-                visible: resetPasswordPermission.check(currentPermissions),
+                permission: permissions.USER_PROFILE.RESET_PASSWORD,
               },
               {
                 label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
                 onClick: this.handleOpenChangePasswordModal,
-                visible: changePasswordPermission.check(currentPermissions),
+                permission: permissions.USER_PROFILE.CHANGE_PASSWORD,
               },
             ]}
           />
@@ -308,7 +301,6 @@ class ClientHeader extends PureComponent {
 }
 
 export default compose(
-  withPermission,
   withModals({
     confirmActionModal: ConfirmActionModal,
     changePasswordModal: ChangePasswordModal,
