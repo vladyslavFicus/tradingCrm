@@ -198,8 +198,8 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
 
       <Field
         name="targetBrandConfig.affiliateUuid"
-        label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
-        placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+        label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE_TARGET_BRAND')}
+        placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         component={FormikSelectField}
         disabled={partnersQuery.loading || !partners.length || !isEditEnabled}
         searchable

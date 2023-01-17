@@ -131,6 +131,7 @@ const DistributionRuleForm = () => {
           targetBrandConfig: {
             brand: ['required'],
             targetSalesStatus: ['required'],
+            affiliateUuid: ['required'],
             distributionUnit: {
               quantity: ['required', 'integer', 'min:1'],
             },
@@ -144,6 +145,7 @@ const DistributionRuleForm = () => {
             I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS'),
           'targetBrandConfig.brand': I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND'),
           'targetBrandConfig.targetSalesStatus': I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS'),
+          'targetBrandConfig.affiliateUuid': I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE_TARGET_BRAND'),
           'targetBrandConfig.distributionUnit.quantity':
             I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS'),
         }, false)(values)}

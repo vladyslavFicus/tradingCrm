@@ -3530,6 +3530,7 @@
         "LAST_NOTE_DATE_RANGE": "Last note date",
         "EXECUTION_TYPE": "Rule Execution Type*",
         "LANGUAGE": "Language*",
+        "AFFILIATE_TARGET_BRAND": "Affiliate*",
         "AFFILIATE": "Affiliate",
         "FIRST_TIME_DEPOSIT": "First time deposit",
         "MIGRATION_STATUS_CURRENT": "Current"
