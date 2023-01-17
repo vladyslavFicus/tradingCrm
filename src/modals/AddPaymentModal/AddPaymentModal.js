@@ -14,7 +14,7 @@ import { manualPaymentMethodsLabels } from 'constants/payment';
 import { Button } from 'components/UI';
 import NoteButton from 'components/NoteButton';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
-import Currency from 'components/Amount/Currency';
+import Currency from 'components/Currency';
 import AccountsSelectField from './components/AccountsSelectField';
 import { validation } from './utils';
 import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
@@ -364,7 +364,7 @@ class AddPaymentModal extends PureComponent {
                           step="0.01"
                           min={0}
                           max={999999}
-                          addition={sourceAccount && <Currency code={sourceAccount.currency} showSymbol />}
+                          addition={sourceAccount && <Currency code={sourceAccount.currency} />}
                           component={FormikInputField}
                           showErrorMessage={false}
                         />
