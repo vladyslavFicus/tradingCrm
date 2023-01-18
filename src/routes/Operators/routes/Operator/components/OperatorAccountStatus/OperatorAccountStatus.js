@@ -206,7 +206,7 @@ class OperatorAccountStatus extends PureComponent {
               </DropdownToggle>
               <DropdownMenu className="OperatorAccountStatus__dropdown-menu">
                 {
-                  statusActions[operatorStatus]
+                  (statusActions[operatorStatus] || [])
                     .map(({ label, reasons, action }) => (
                       <DropdownItem
                         key={action}

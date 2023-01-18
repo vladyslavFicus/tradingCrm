@@ -23,6 +23,7 @@
 
   &__field {
     margin-bottom: 0;
+    z-index: 4;
   }
 
   &__search {
@@ -77,6 +78,7 @@
   &__add-filter-button {
     margin-right: 20px;
     text-align: right;
+    z-index: 5;
   }
 
   &__old-filters {
