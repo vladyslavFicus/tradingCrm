@@ -38,7 +38,7 @@ const FailureReasonIcon = (props: Props) => {
       <Popover
         container=".FailureReasonIcon"
         className="FailureReasonIcon__popover"
-        placement="right"
+        placement="bottom"
         isOpen={isOpenPopover}
         target={id}
         toggle={handleTogglePopover}
