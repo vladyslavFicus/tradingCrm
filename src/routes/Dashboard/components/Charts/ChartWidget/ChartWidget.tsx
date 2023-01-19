@@ -48,7 +48,7 @@ const ChartWidget = (props: Props) => {
   } = props;
 
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [selectOption, setSelectOption] = useState<SelectOption>(SelectOption.CURRENT_WEEK);
+  const [selectOption, setSelectOption] = useState<SelectOption>(SelectOption.LAST_7_DAYS);
 
   const selectOptions = getChartSelectOptions();
 

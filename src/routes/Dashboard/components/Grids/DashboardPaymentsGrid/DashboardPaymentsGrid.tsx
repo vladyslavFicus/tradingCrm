@@ -189,7 +189,7 @@ const DashboardPaymentsGrid = (props: Props) => {
   const renderTradingAccount = ({ login, platformType, currency }: TableCell) => (
     <>
       <div className="DashboardPaymentsGrid__text-primary">
-        <PlatformTypeBadge platformType={platformType}>
+        <PlatformTypeBadge platformType={`${platformType}`}>
           {login}
         </PlatformTypeBadge>
       </div>
