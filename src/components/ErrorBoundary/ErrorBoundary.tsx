@@ -1,44 +1,27 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'constants/propTypes';
-import { getBrand } from 'config';
+import { Button } from 'components/UI';
 import './ErrorBoundary.scss';
 
-class ErrorBoundary extends PureComponent {
-  static propTypes = {
-    ...PropTypes.router,
-    children: PropTypes.element.isRequired,
-  };
+type Props = {
+  children: React.ReactNode,
+};
 
-  static getDerivedStateFromError(error) {
+class ErrorBoundary extends PureComponent<Props> {
+  static getDerivedStateFromError(error: Error) {
     return {
       hasError: true,
       error: error.stack,
     };
   }
 
-  static getDerivedStateFromProps({ location: { pathname } }, state) {
-    if (pathname !== state.pathname) {
-      return {
-        hasError: false,
-        error: null,
-        pathname,
-      };
-    }
-    return null;
-  }
-
   state = {
     hasError: false,
-    pathname: null,
-    error: null,
+    error: '',
   };
 
   render() {
     const { hasError, error } = this.state;
-
-    const isAvailableToShowMessage = error && !!getBrand()?.env?.match(/dev|qa/);
 
     return (
       <Choose>
@@ -48,12 +31,21 @@ class ErrorBoundary extends PureComponent {
               <h1 className="ErrorBoundary__title">{I18n.t('COMMON.ERROR_TITLE')}</h1>
               <p className="ErrorBoundary__description">{I18n.t('COMMON.ERROR_CONTENT')}</p>
 
-              <If condition={isAvailableToShowMessage}>
+              <Button
+                tertiary
+                className="ErrorBoundary__button"
+                onClick={() => window.location.reload()}
+              >
+                {I18n.t('COMMON.ERROR_RELOAD_PAGE')}
+              </Button>
+
+              <If condition={!!error}>
                 <div className="ErrorBoundary__error" dangerouslySetInnerHTML={{ __html: error }} />
               </If>
             </div>
           </div>
         </When>
+
         <Otherwise>
           {this.props.children}
         </Otherwise>
@@ -62,4 +54,4 @@ class ErrorBoundary extends PureComponent {
   }
 }
 
-export default withRouter(ErrorBoundary);
+export default React.memo(ErrorBoundary);
