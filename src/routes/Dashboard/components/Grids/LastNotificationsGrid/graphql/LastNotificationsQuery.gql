@@ -1,6 +1,6 @@
 query LastNotificationsQuery {
   dashboard {
-    lastNotification {
+    lastNotifications {
       uuid
       read
       priority

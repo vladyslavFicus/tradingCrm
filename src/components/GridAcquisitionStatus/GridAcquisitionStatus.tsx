@@ -1,26 +1,34 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { HierarchyBranch as OriginalHierarchyBranch } from '__generated__/types';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
 import { branchTypes } from 'constants/hierarchyTypes';
 import GridEmptyValue from 'components/GridEmptyValue';
 import './GridAcquisitionStatus.scss';
 
-type HierarchyBranch = Pick<OriginalHierarchyBranch, 'name' | 'branchType' | 'parentBranch'>;
+type ParentBranch = {
+  name: string,
+  branchType: string,
+  parentBranch?: {
+    name: string,
+    branchType: string,
+  } | null,
+};
 
-type Props = {
+type Hierarchy = {
+  parentBranches?: Array<ParentBranch> | null,
+} | null;
+
+type Props<HierarchyBranches> = {
   active?: boolean,
   acquisition: 'SALES' | 'RETENTION',
   status?: string,
   fullName: string,
-  hierarchy?: {
-    parentBranches: Array<HierarchyBranch>,
-  },
+  hierarchy?: HierarchyBranches,
 };
 
-const GridAcquisitionStatus = (props: Props) => {
+const GridAcquisitionStatus = <HierarchyBranches extends Hierarchy>(props: Props<HierarchyBranches>) => {
   const {
     active,
     acquisition,
@@ -36,13 +44,8 @@ const GridAcquisitionStatus = (props: Props) => {
   // Find hierarchy branches (desk and team)
   const branches = hierarchy ? hierarchy.parentBranches : null;
 
-  let team: HierarchyBranch | undefined | null = null;
-  let desk: HierarchyBranch | undefined | null = null;
-
-  if (branches) {
-    team = branches.find(branch => branch?.branchType === branchTypes.TEAM);
-    desk = team ? team.parentBranch : branches.find(branch => branch.branchType === branchTypes.DESK);
-  }
+  const team = branches?.find(branch => branch?.branchType === branchTypes.TEAM);
+  const desk = team ? team.parentBranch : branches?.find(branch => branch?.branchType === branchTypes.DESK);
 
   return (
     <Choose>
@@ -66,12 +69,12 @@ const GridAcquisitionStatus = (props: Props) => {
             </If>
             <If condition={!!desk}>
               <div>
-                <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> {(desk as HierarchyBranch).name}
+                <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> {desk?.name}
               </div>
             </If>
             <If condition={!!team}>
               <div>
-                <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {(team as HierarchyBranch).name}
+                <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {team?.name}
               </div>
             </If>
           </div>

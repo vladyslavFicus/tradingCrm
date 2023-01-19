@@ -1,0 +1,9 @@
+#import "/apollo/fragments/lastWithdrawalDeposit"
+
+query LastWithdrawalsQuery {
+  dashboard {
+    lastWithdrawals {
+      ...LastWithdrawalDepositFragment
+    }
+  }
+}

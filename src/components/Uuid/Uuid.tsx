@@ -7,7 +7,7 @@ type Props = {
   id?: string,
   uuid: string,
   uuidPrefix?: string,
-  uuidPostfix?: null,
+  uuidPostfix?: string,
   uuidPartsCount?: number,
   title?: string,
   notify?: boolean,

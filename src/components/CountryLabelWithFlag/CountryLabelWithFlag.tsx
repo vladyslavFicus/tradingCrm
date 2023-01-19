@@ -6,7 +6,7 @@ import './CountryLabelWithFlag.scss';
 
 type Props = {
   languageCode?: string,
-  code: string,
+  code?: string | null,
   height: string,
   width?: string | number,
 };
@@ -19,7 +19,7 @@ const CountryLabelWithFlag = (props: Props) => {
     languageCode,
   } = props;
 
-  const countryCode = getCountryCode(code as string) || '';
+  const countryCode = code ? getCountryCode(code) : '';
 
   return (
     <div className="CountryLabelWithFlag">
@@ -32,7 +32,7 @@ const CountryLabelWithFlag = (props: Props) => {
                 height,
                 width,
               }}
-              countryCode={countryCode}
+              countryCode={countryCode || ''}
             />
           </When>
 

@@ -2701,6 +2701,7 @@
   },
   "DASHBOARD": {
     "CHART": {
+      "DATE": "Date",
       "NO_RESULTS_TEXT": "No results for selected period"
     },
     "REGISTRATION_CHART": {
@@ -2715,25 +2716,49 @@
       "TITLE": "Deposits Count",
       "TOOLTIP_TITLE": "Deposits Count: "
     },
-    "WITHDRAWS_AMOUNT_CHART": {
-      "TITLE": "Withdraws Amount",
+    "WITHDRAWALS_AMOUNT_CHART": {
+      "TITLE": "Withdrawals Amount",
       "TOOLTIP_TITLE": "Withdrawn Amount: "
     },
-    "WITHDRAWS_COUNT_CHART": {
-      "TITLE": "Withdraws Count",
-      "TOOLTIP_TITLE": "Withdraws Count: "
+    "WITHDRAWALS_COUNT_CHART": {
+      "TITLE": "Withdrawals Count",
+      "TOOLTIP_TITLE": "Withdrawals Count: "
+    },
+    "RETENTIONS_AMOUNT_CHART": {
+      "TITLE": "Retentions Amount",
+      "TOOLTIP_TITLE": "Retention Amount: "
+    },
+    "RETENTIONS_COUNT_CHART": {
+      "TITLE": "Retentions Count",
+      "TOOLTIP_TITLE": "Retentions Count: "
+    },
+    "FTR_AMOUNT_CHART": {
+      "TITLE": "FTR Amount",
+      "TOOLTIP_TITLE": "FTR Amount: "
+    },
+    "FTR_COUNT_CHART": {
+      "TITLE": "FTR Count",
+      "TOOLTIP_TITLE": "FTR Count: "
+    },
+    "FTD_AMOUNT_CHART": {
+      "TITLE": "FTD Amount",
+      "TOOLTIP_TITLE": "FTD Amount: "
+    },
+    "FTD_COUNT_CHART": {
+      "TITLE": "FTD Count",
+      "TOOLTIP_TITLE": "FTD Count: "
     },
     "CHART_SELECT_OPTIONS": {
-      "CURRENT_WEEK": "Current Week",
       "LAST_7_DAYS": "Last 7 days",
+      "CURRENT_WEEK": "Current Week",
       "PAST_WEEK": "Past Week",
       "LAST_MONTH": "Last Month",
       "PAST_MONTH": "Past Month"
     },
     "LATEST_NOTIFICATIONS": "Latest 10 Notifications",
-    "LATEST_DEPOSITS": "Latest %{count} Deposits",
-    "LATEST_WITHDRAWALS": "Latest %{count} Withdrawals",
-    "LATEST_REGISTRATIONS": "Latest %{count} Registrations"
+    "LATEST_WITHDRAWALS": "Latest 10 Withdrawals",
+    "LATEST_DEPOSITS": "Latest 10 Deposits",
+    "LATEST_REGISTRATIONS": "Latest 10 Registrations"
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Value in different currencies",
@@ -5692,6 +5717,27 @@
     "RESET_TO_DEFAULT": "Reset to Default",
     "CHOOSE_AN_AUTHORITY": "Please choose an authority to show permissions...",
     "SECTIONS": {
+      "DASHBOARD": {
+        "TITLE": "Dashboard",
+        "PERMISSIONS": {
+          "LATEST_REGISTRATIONS": "Latest registrations",
+          "DEPOSITS_COUNT": "Deposits count",
+          "DEPOSITS_AMOUNT": "Deposits amount",
+          "LATEST_DEPOSITS": "Latest deposits",
+          "WITHDRAWAL_COUNT": "Withdrawal count",
+          "WITHDRAWAL_AMOUNT": "Withdrawal amount",
+          "LATEST_WITHDRAWALS": "Latest withdrawals",
+          "FTD_COUNT": "Ftd count",
+          "FTD_AMOUNT": "Ftd amount",
+          "RETENTION_COUNT": "Retention count",
+          "RETENTION_AMOUNT": "Retention amount",
+          "FTR_COUNT": "Ftr count",
+          "FTR_AMOUNT": "Ftr amount",
+          "REGISTRATIONS": "Get registration statistics",
+          "LATEST_NOTIFICATIONS": "Latest notifications",
+          "SCREENER_WIDGET": "Screener widget"
+        }
+      },
       "clients": {
         "TITLE": "Clients",
         "PERMISSIONS": {

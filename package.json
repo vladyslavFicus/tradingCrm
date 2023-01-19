@@ -106,6 +106,7 @@
     "@graphql-eslint/eslint-plugin": "^3.8.0",
     "@sentry/cli": "^2.10.0",
     "@types/compose-function": "^0.0.30",
+    "@types/country-list": "^1.1.1",
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "^27.0.1",
     "@types/keymirror": "^0.1.1",
@@ -117,13 +118,14 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-portal-tooltip": "^2.4.2",
     "@types/react-router-dom": "^5.1.9",
+    "@types/recharts": "^1.8.24",
     "@types/uuid": "^8.3.4",
     "@types/validatorjs": "^3.15.0",
-    "@types/country-list": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "babel-jest": "26.6.3",
     "babel-plugin-jsx-control-statements": "^4.1.2",
+    "caniuse-lite": "^1.0.30001435",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "env-cmd": "8.0.2",
@@ -137,8 +139,7 @@
     "sass": "^1.41.1",
     "sentry-release": "1.0.10",
     "webpack-bundle-analyzer": "^4.2.0",
-    "yamljs": "^0.3.0",
-    "caniuse-lite": "^1.0.30001435"
+    "yamljs": "^0.3.0"
   },
   "browserslist": {
     "production": [

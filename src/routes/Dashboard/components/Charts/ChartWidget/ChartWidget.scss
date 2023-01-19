@@ -1,0 +1,114 @@
+.ChartWidget {
+  background-color: var(--surface-frame-background);
+  border: 1px solid var(--surface-frame-border);
+  border-radius: 5px;
+  padding: 25px;
+  left: 0;
+  display: inline-block;
+  vertical-align: top;
+  width: calc(33.3% - 20px);
+
+  .ChartDiagram {
+    left: -35px;
+    min-height: 200px;
+    height: 12vw !important;
+    width: calc(100% + 35px) !important;
+  }
+
+  &--expanded {
+    width: 100%;
+  }
+
+  &__modal {
+    width: 70%;
+
+    .modal-body {
+      padding: 0;
+    }
+
+    .ChartDiagram {
+      height: 25vw !important;
+    }
+  }
+
+  &__right-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    fill: var(--button-icon-button-default);
+
+    &:hover {
+      fill: var(--button-icon-button-hover);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__title,
+  &__select {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &__title {
+    font-size: 20px;
+    line-height: 35px;
+    width: calc(100% - 130px);
+  }
+
+  &__select {
+    height: 35px;
+    width: 130px;
+  }
+
+  &__body {
+    margin: 10px 0;
+  }
+
+  &__loader,
+  &__error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+  }
+
+  &__error {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  &__footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+
+    &-item {
+      &-title {
+        font-size: 10px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      &-value {
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+
+  .recharts-curve.recharts-tooltip-cursor {
+    stroke: var(--text-primary);
+  }
+}

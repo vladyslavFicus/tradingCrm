@@ -75,6 +75,11 @@ module.exports = {
             },
           },
         ],
+        'spaced-comment': ['error', 'always', {
+          line: {
+            markers: ['#import', 'import'],
+          },
+        }],
       },
     },
   ],

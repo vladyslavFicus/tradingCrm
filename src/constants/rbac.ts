@@ -23,6 +23,180 @@ type RbackItem = Item & RootItem;
 
 const rback: Array<RbackItem> = [
   // ============================================= //
+  // =================== Dashboard =================== //
+  // ============================================= //
+  {
+    id: 'DASHBOARD',
+    actions: {
+      view: {
+        action: 'profileview.admin.getLatestRegistrations',
+        state: false,
+      },
+    },
+    permissions: [
+      // Latest registrations from Dashboard
+      {
+        id: 'LATEST_REGISTRATIONS',
+        actions: {
+          view: {
+            action: 'profileview.admin.getLatestRegistrations',
+            state: false,
+          },
+        },
+      },
+      // Deposits count from Dashboard
+      {
+        id: 'DEPOSITS_COUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getDepositCountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Deposits amount from Dashboard
+      {
+        id: 'DEPOSITS_AMOUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getDepositAmountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Latest deposits from Dashboard
+      {
+        id: 'LATEST_DEPOSITS',
+        actions: {
+          view: {
+            action: 'payment-view.getLastDeposits',
+            state: false,
+          },
+        },
+      },
+      // Withdrawal count from Dashboard
+      {
+        id: 'WITHDRAWAL_COUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getWithdrawalCountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Withdrawal amount from Dashboard
+      {
+        id: 'WITHDRAWAL_AMOUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getWithdrawalAmountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Latest withdrawals from Dashboard
+      {
+        id: 'LATEST_WITHDRAWALS',
+        actions: {
+          view: {
+            action: 'payment-view.getLastWithdrawals',
+            state: false,
+          },
+        },
+      },
+      // FTD count from Dashboard
+      {
+        id: 'FTD_COUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getFtdCountStatistics',
+            state: false,
+          },
+        },
+      },
+      // FTD amount from Dashboard
+      {
+        id: 'FTD_AMOUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getFtdAmountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Retention count from Dashboard
+      {
+        id: 'RETENTION_COUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getRetentionCountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Retention amount from Dashboard
+      {
+        id: 'RETENTION_AMOUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getRetentionAmountStatistics',
+            state: false,
+          },
+        },
+      },
+      // FTR count from Dashboard
+      {
+        id: 'FTR_COUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getFtrCountStatistics',
+            state: false,
+          },
+        },
+      },
+      // FTR amount from Dashboard
+      {
+        id: 'FTR_AMOUNT',
+        actions: {
+          view: {
+            action: 'payment-view.getFtrAmountStatistics',
+            state: false,
+          },
+        },
+      },
+      // Registrations from Dashboard
+      {
+        id: 'REGISTRATIONS',
+        actions: {
+          view: {
+            action: 'profileview.admin.getRegistrationStatistics',
+            state: false,
+          },
+        },
+      },
+      // Latest notifications from Dashboard
+      {
+        id: 'LATEST_NOTIFICATIONS',
+        actions: {
+          view: {
+            action: 'notification.getLastNotifications',
+            state: false,
+          },
+        },
+      },
+      // Screener widget from Dashboard
+      {
+        id: 'SCREENER_WIDGET',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.dashboard.getScreenerWidget',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
   // ================== Clients ================== //
   // ============================================= //
   {

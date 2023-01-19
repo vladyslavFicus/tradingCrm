@@ -5,19 +5,19 @@ import './GridPlayerInfo.scss';
 
 type Profile = {
   uuid: string,
-  fullName: string | null,
-  languageCode: string | null,
-  firstName?: string,
-  lastName?: string,
-}
+  fullName?: string | null,
+  languageCode?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+} | null;
 
-type Props = {
+type Props<T> = {
   id?: string,
-  profile: Profile | null,
+  profile: T,
   mainInfoClassName?: string,
 }
 
-const GridPlayerInfo = (props: Props) => {
+const GridPlayerInfo = <T extends Profile>(props: Props<T>) => {
   if (!props.profile) return <>&mdash;</>;
 
   const {
@@ -26,7 +26,7 @@ const GridPlayerInfo = (props: Props) => {
     mainInfoClassName = 'GridPlayerInfo__text-primary',
   } = props;
 
-  const { uuid, fullName, firstName, lastName, languageCode } = profile;
+  const { uuid = '', fullName, firstName, lastName, languageCode } = profile as Profile || {};
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.preventDefault();
