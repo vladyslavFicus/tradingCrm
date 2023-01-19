@@ -6,6 +6,7 @@
     &.popover {
       margin-bottom: -8px;
       max-width: 300px;
+      z-index: 4;
 
       .popover-arrow {
         display: none;
@@ -30,7 +31,7 @@
     .Select__content {
       opacity: 1;
       display: block;
-      z-index: 3;
+      z-index: 4;
     }
   }
 

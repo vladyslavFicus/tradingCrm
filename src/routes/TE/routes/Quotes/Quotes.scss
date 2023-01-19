@@ -10,7 +10,7 @@
     padding: 25px;
     background-color: var(--surface-page-background);
     font-size: 20px;
-    z-index: 3;
+    z-index: 7;
   }
 
   &__cell-primary {
@@ -38,11 +38,11 @@
       opacity: 1;
     }
   }
-  
+
   &__cell-active {
     opacity: 1;
     fill: var(--accent);
-    
+
     path {
       fill: var(--accent);
     }
