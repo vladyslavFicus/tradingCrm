@@ -74,20 +74,36 @@ class ClientPersonalForm extends PureComponent {
       identificationNumber,
     } = clientData;
 
+    const {
+      number,
+      expirationDate,
+      countryOfIssue,
+      issueDate,
+      countrySpecificIdentifier,
+      countrySpecificIdentifierType,
+    } = passport || {};
+
     const isAvailableToUpdate = allows(permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION);
 
     return (
       <div className="ClientPersonalForm">
         <Formik
           initialValues={{
-            gender,
-            passport,
-            timeZone,
-            lastName,
-            firstName,
-            birthDate,
-            languageCode,
-            identificationNumber,
+            gender: gender || '',
+            timeZone: timeZone || '',
+            lastName: lastName || '',
+            firstName: firstName || '',
+            birthDate: birthDate || '',
+            languageCode: languageCode || '',
+            identificationNumber: identificationNumber || '',
+            passport: {
+              number: number || '',
+              expirationDate: expirationDate || '',
+              countryOfIssue: countryOfIssue || '',
+              issueDate: issueDate || '',
+              countrySpecificIdentifier: countrySpecificIdentifier || '',
+              countrySpecificIdentifierType: countrySpecificIdentifierType || '',
+            },
           }}
           validate={createValidator({
             firstName: 'required',
@@ -176,7 +192,7 @@ class ClientPersonalForm extends PureComponent {
                     className="ClientPersonalForm__field"
                     label={I18n.t(attributeLabels.birthDate)}
                     component={FormikDatePicker}
-                    minDate={MIN_BIRTHDATE}
+                    minDate={moment(MIN_BIRTHDATE)}
                     maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                     disabled={isSubmitting || !isAvailableToUpdate}
                     closeOnSelect

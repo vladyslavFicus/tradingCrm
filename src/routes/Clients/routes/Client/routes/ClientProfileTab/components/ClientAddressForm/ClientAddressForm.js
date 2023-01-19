@@ -66,12 +66,26 @@ class ClientAddressForm extends PureComponent {
       permission: { allows },
     } = this.props;
 
+    const {
+      countryCode,
+      city,
+      poBox,
+      postCode,
+      address,
+    } = clientData?.address || {};
+
     const isAvailableToUpdate = allows(permissions.USER_PROFILE.UPDATE_ADDRESS);
 
     return (
       <div className="ClientAddressForm">
         <Formik
-          initialValues={clientData.address}
+          initialValues={{
+            countryCode: countryCode || '',
+            city: city || '',
+            poBox: poBox || '',
+            postCode: postCode || '',
+            address: address || '',
+          }}
           validate={createValidator({
             city: 'min:3',
             postCode: 'min:3',

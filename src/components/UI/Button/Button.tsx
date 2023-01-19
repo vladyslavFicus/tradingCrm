@@ -33,6 +33,8 @@ const Button = (props: Props) => {
     danger,
     small,
     type,
+    stopPropagation,
+    ...rest
   } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -49,10 +51,7 @@ const Button = (props: Props) => {
    * Should be here to prevent synthetic event errors
    */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const {
-      onClick,
-      stopPropagation,
-    } = props;
+    const { onClick } = props;
 
     if (onClick) onClick();
 
@@ -61,7 +60,7 @@ const Button = (props: Props) => {
 
   return (
     <button
-      {...props}
+      {...rest}
       // TODO investigate issue with react/button-has-type
       type={type === 'submit' ? 'submit' : 'button'}
       ref={buttonRef}

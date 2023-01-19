@@ -270,7 +270,7 @@ class LeadProfileTab extends PureComponent {
                       className="LeadProfileTab__form-field"
                       label={I18n.t(attributeLabels.birthDate)}
                       component={FormikDatePicker}
-                      minDate={MIN_BIRTHDATE}
+                      minDate={moment(MIN_BIRTHDATE)}
                       maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                       disabled={isSubmitting}
                       closeOnSelect

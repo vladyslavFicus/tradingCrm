@@ -59,7 +59,7 @@ class ClientTransferForm extends PureComponent {
 
     const isAvailableToUpdate = allows(permissions.USER_PROFILE.CHANGE_CONFIGURATION);
 
-    const internalTransfer = Number(clientData.configuration?.internalTransfer);
+    const internalTransfer = Number(clientData.configuration?.internalTransfer) || 0;
 
     return (
       <div className="ClientTransferForm">

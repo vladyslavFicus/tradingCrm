@@ -65,7 +65,7 @@ class ClientKycForm extends PureComponent {
     return (
       <div className="ClientKycForm">
         <Formik
-          initialValues={{ kycStatus }}
+          initialValues={{ kycStatus: kycStatus || '' }}
           onSubmit={this.handleSubmit}
           enableReinitialize
         >
