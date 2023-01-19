@@ -1,13 +1,15 @@
 .drop-down {
-  inset: auto 0 auto auto !important;
   padding: 10px;
   background: var(--dropdown-surface-background);
   border-color: var(--dropdown-surface-border);
   box-shadow: 0 2px 23px 0 var(--dropdown-surface-border);
-  transform: none !important;
-  transition: 200ms ease;
-  z-index: 1;
+  transition: border-color 200ms ease, background 200ms ease;
+  z-index: 4;
   margin: 0;
+
+  &.dropdown-over-sticky {
+    z-index: 52;
+  }
 
   .ActionDropDown & {
     box-shadow: none;

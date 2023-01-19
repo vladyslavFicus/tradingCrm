@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import './DropDown.scss';
 
 type Props = {
   className?: string,
+  classNameMenu?: string,
   rightPlacement?: boolean,
   children: React.ReactNode,
   toggleClassName?: string,
@@ -15,6 +17,7 @@ type Props = {
 const DropDown = (props: Props) => {
   const {
     className,
+    classNameMenu,
     rightPlacement,
     children,
     toggleClassName,
@@ -45,8 +48,9 @@ const DropDown = (props: Props) => {
       </DropdownToggle>
 
       <DropdownMenu
-        className="drop-down"
+        className={classNames('drop-down', classNameMenu)}
         end={rightPlacement}
+        container="body"
       >
         {children}
       </DropdownMenu>

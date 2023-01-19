@@ -281,6 +281,7 @@ class ClientHeader extends PureComponent {
 
           <ActionsDropDown
             className="ClientHeader__action"
+            classNameMenu="dropdown-over-sticky"
             items={[
               {
                 label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
