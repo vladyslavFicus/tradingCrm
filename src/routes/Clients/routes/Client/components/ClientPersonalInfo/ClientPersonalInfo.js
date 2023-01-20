@@ -433,12 +433,12 @@ class ClientPersonalInfo extends PureComponent {
           />
 
           <If condition={convertedFromLeadUuid}>
-            <div>
-              <strong>{I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}</strong>
-              {': '}
-              <Uuid uuid={convertedFromLeadUuid} />
-            </div>
+            <PersonalInformationItem
+              label={I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}
+              value={<Uuid uuid={convertedFromLeadUuid} />}
+            />
           </If>
+
           <If condition={migrationId}>
             <div>
               <strong>{I18n.t('CLIENT_PROFILE.DETAILS.MIGRATION_ID')}</strong>

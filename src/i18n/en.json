@@ -5773,6 +5773,7 @@
           "showFeedTab": "Show feed tab",
           "phone": "Client's phone",
           "additionalPhone": "Additional phone",
+          "convertedFromLeadUuid": "Show field converted from lead",
           "email": "Client's email",
           "additionalEmail": "Additional email",
           "bulkUpdate": "Select several clients on grid",

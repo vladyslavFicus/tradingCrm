@@ -540,6 +540,16 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      // Client's Converted from Lead
+      {
+        id: 'convertedFromLeadUuid',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.profile.field.convertedFromLeadUuid',
+            state: false,
+          },
+        },
+      },
       // Additional phone
       {
         id: 'additionalPhone',

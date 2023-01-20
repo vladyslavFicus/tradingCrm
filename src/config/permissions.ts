@@ -84,6 +84,7 @@ const permissions: Permissions = {
     FIELD_ADDITIONAL_PHONE: 'backoffice-graphql.profile.field.additionalPhone',
     FIELD_EMAIL: 'backoffice-graphql.profile.field.email',
     FIELD_ADDITIONAL_EMAIL: 'backoffice-graphql.profile.field.additionalEmail',
+    FIELD_CONVERTED_FROM_LEAD_UUID: 'backoffice-graphql.profile.field.convertedFromLeadUuid',
     AFFILIATE_FIELD_UUID: 'backoffice-graphql.profile.affiliate.field.uuid',
     AFFILIATE_FIELD_SOURCE: 'backoffice-graphql.profile.affiliate.field.source',
     AFFILIATE_FIELD_REFERRAL: 'backoffice-graphql.profile.affiliate.field.referral',
