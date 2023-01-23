@@ -1,5 +1,6 @@
 import React from 'react';
 import { shortify } from 'utils/uuid';
+import { LevelType } from 'providers/NotificationProvider';
 import CopyToClipboard from '../CopyToClipboard';
 import './Uuid.scss';
 
@@ -11,7 +12,7 @@ type Props = {
   uuidPartsCount?: number,
   title?: string,
   notify?: boolean,
-  notificationLevel?: string,
+  notificationLevel?: LevelType,
   notificationTitle?: string,
   notificationMessage?: string,
   length?: number,
@@ -27,7 +28,7 @@ const Uuid = (props: Props) => {
     uuidPartsCount = 2,
     title,
     notify = true,
-    notificationLevel = 'info',
+    notificationLevel,
     notificationTitle = 'COMMON.NOTIFICATIONS.COPY_FULL_UUID.TITLE',
     notificationMessage = 'COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE',
     length,
