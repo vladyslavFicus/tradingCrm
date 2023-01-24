@@ -432,12 +432,14 @@ class ClientPersonalInfo extends PureComponent {
             value={localTime}
           />
 
-          <If condition={convertedFromLeadUuid}>
-            <PersonalInformationItem
-              label={I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}
-              value={<Uuid uuid={convertedFromLeadUuid} />}
-            />
-          </If>
+          <PermissionContent permissions={permissions.USER_PROFILE.FIELD_CONVERTED_FROM_LEAD_UUID}>
+            <If condition={convertedFromLeadUuid}>
+              <PersonalInformationItem
+                label={I18n.t('CLIENT_PROFILE.DETAILS.CONVERTED_FROM_LEAD')}
+                value={<Uuid uuid={convertedFromLeadUuid} />}
+              />
+            </If>
+          </PermissionContent>
 
           <If condition={migrationId}>
             <div>
