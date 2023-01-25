@@ -716,6 +716,7 @@
     "OPERATORS_FOUND": "Operators found",
     "PARTNERS_FOUND": "Partners found",
     "CLIENTS_SELECTED": "Clients selected",
+    "PARTNERS_SELECTED": "Partners selected",
     "ORDERS_SELECTED": "Orders selected",
     "UNLIMITED": "Unlimited",
     "NOT_MORE_CAN_SELECTED": "Not more than %{max} can be selected",
@@ -2184,6 +2185,7 @@
     }
   },
   "PARTNERS": {
+    "BULK_ACTIONS": "Bulk actions",
     "HEADING": "Partners",
     "NEW_PARTNER": "New partner",
     "CREATE_PARTNER_BUTTON": "+ New partner",
@@ -5835,6 +5837,7 @@
           "profile": "Partner's profile",
           "create": "Create new partner",
           "changeStatus": "Partner account status",
+          "changeStatuses": "Partners multiple status",
           "personalDetails": "Partner personal details",
           "changePassword": "Change password for partner",
           "feedTab": "Show feed tab",

@@ -13,7 +13,7 @@ import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
 import Uuid from 'components/Uuid';
-import { statuses, statusesLabels, statusActions } from '../../constants';
+import { statuses, statusesLabels, statusActions } from '../../../../constants';
 import PartnerAccountStatusMutation from './graphql/PartnerAccountStatusMutation';
 import './PartnerAccountStatus.scss';
 

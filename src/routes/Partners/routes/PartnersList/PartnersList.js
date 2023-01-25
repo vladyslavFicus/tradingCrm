@@ -1,14 +1,10 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
-import I18n from 'i18n-js';
-import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
-import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
 import CreatePartnerModal from 'modals/CreatePartnerModal';
+import PartnersHeader from './components/PartnersHeader/PartnersHeader';
 import PartnersGridFilter from './components/PartnersGridFilter';
 import PartnersGrid from './components/PartnersGrid';
 import PartnersQuery from './graphql/PartnersQuery';
@@ -28,42 +24,34 @@ class PartnersList extends PureComponent {
     this.props.modals.createPartnerModal.show();
   };
 
+  state = {
+    select: null,
+  };
+
+  handleSelect = (select) => {
+    this.setState({ select });
+  };
+
   render() {
     const { partnersQuery } = this.props;
+    const { select } = this.state;
+    const partners = partnersQuery?.data?.partners;
 
-    const totalElements = get(partnersQuery, 'data.partners.totalElements');
+    const partnersUuid = partners?.content?.map(({ uuid }) => uuid) || [];
+    const selectedPartnersUuid = (select?.touched || []).map(item => partnersUuid[item]);
 
     return (
       <div className="PartnersList">
-        <div className="PartnersList__header">
-          <div className="PartnersList__header-left">
-            <Choose>
-              <When condition={totalElements}>
-                <div className="PartnersList__title">
-                  <strong>{totalElements} </strong>
-                  {I18n.t('COMMON.PARTNERS_FOUND')}
-                </div>
-              </When>
-              <Otherwise>
-                <div className="PartnersList__title">{I18n.t('PARTNERS.HEADING')}</div>
-              </Otherwise>
-            </Choose>
-          </div>
-
-          <PermissionContent permissions={permissions.PARTNERS.CREATE}>
-            <div className="PartnersList__header-right">
-              <Button
-                onClick={this.handleOpenCreatePartnerModal}
-                tertiary
-              >
-                {I18n.t('PARTNERS.CREATE_PARTNER_BUTTON')}
-              </Button>
-            </div>
-          </PermissionContent>
-        </div>
+        <PartnersHeader
+          totalElements={partners?.totalElements}
+          selected={select?.selected || 0}
+          onRefetch={partnersQuery.refetch}
+          partnersUuids={selectedPartnersUuid}
+        />
 
         <PartnersGridFilter handleRefetch={partnersQuery.refetch} />
-        <PartnersGrid partnersQuery={partnersQuery} />
+
+        <PartnersGrid onSelect={this.handleSelect} partnersQuery={partnersQuery} />
       </div>
     );
   }

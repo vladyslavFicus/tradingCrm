@@ -26,6 +26,7 @@ const permissions: Permissions = {
     DELETE_AUTHORITY: 'auth2.deleteUserAuthority',
     UPDATE_PROFILE: 'affiliate.updateAffiliate',
     UPDATE_STATUS: 'affiliate.changeAffiliateStatus',
+    BULK_CHANGE_AFFILIATES_STATUSES: 'affiliate.bulkChangeAffiliatesStatuses',
     CHANGE_PASSWORD: 'auth2.operator.changePassword',
   },
   LEADS: {

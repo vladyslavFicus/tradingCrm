@@ -7,7 +7,7 @@ import countryList from 'utils/countryList';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/UI';
-import { statusLabels } from '../../../../constants';
+import { statusesLabels } from '../../../../constants';
 import './PartnersGridFilter.scss';
 
 class PartnersGridFilter extends PureComponent {
@@ -102,8 +102,8 @@ class PartnersGridFilter extends PureComponent {
                 searchable
                 withFocus
               >
-                {Object.keys(statusLabels).map(status => (
-                  <option key={status} value={status}>{I18n.t(statusLabels[status])}</option>
+                {Object.keys(statusesLabels).map(status => (
+                  <option key={status} value={status}>{I18n.t(statusesLabels[status])}</option>
                 ))}
               </Field>
 

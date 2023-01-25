@@ -17,6 +17,7 @@ class PartnersGrid extends PureComponent {
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
+    onSelect: PropTypes.func.isRequired,
   };
 
   handlePageChanged = () => {
@@ -117,20 +118,24 @@ class PartnersGrid extends PureComponent {
         data: partnersData,
       },
       location: { state },
+      onSelect,
     } = this.props;
 
-    const { content, last } = partnersData?.partners || { content: [], last: true };
+    const { content, last, totalElements } = partnersData?.partners || { content: [], last: true, totalElements: 0 };
 
     return (
       <div className="PartnersGrid">
         <Table
-          stickyFromTop={136}
+          stickyFromTop={162}
           items={content}
           sorts={state?.sorts}
           loading={loading}
           hasMore={!last}
           onMore={this.handlePageChanged}
           onSort={this.handleSort}
+          totalCount={totalElements}
+          withMultiSelect={Boolean(true)}
+          onSelect={onSelect}
         >
           <Column
             sortBy="firstName"

@@ -1,17 +1,15 @@
-import keyMirror from 'keymirror';
+export enum statuses {
+  INACTIVE = 'INACTIVE',
+  ACTIVE = 'ACTIVE',
+  CLOSED = 'CLOSED',
+}
 
-const statuses = keyMirror({
-  INACTIVE: null,
-  ACTIVE: null,
-  CLOSED: null,
-});
+export enum actionStatus {
+  ACTIVE = 'ACTIVE',
+  CLOSED = 'CLOSED',
+}
 
-const actions = keyMirror({
-  ACTIVE: null,
-  CLOSED: null,
-});
-
-const statusesLabels = {
+export const statusesLabels = {
   [statuses.INACTIVE]: 'PARTNERS.STATUSES.INACTIVE',
   [statuses.ACTIVE]: 'PARTNERS.STATUSES.ACTIVE',
   [statuses.CLOSED]: 'PARTNERS.STATUSES.CLOSED',
@@ -26,23 +24,17 @@ const activeReasons = {
   'PARTNER_PROFILE.ACTIVATE_REASONS.ACTIVATE': 'PARTNER_PROFILE.ACTIVATE_REASONS.ACTIVATE',
 };
 
-const statusActions = [
+export const statusActions = [
   {
     status: statuses.ACTIVE,
-    action: actions.ACTIVE,
+    action: actionStatus.ACTIVE,
     label: 'COMMON.ACTIVATE',
     reasons: activeReasons,
   },
   {
     status: statuses.CLOSED,
-    action: actions.CLOSED,
+    action: actionStatus.CLOSED,
     label: 'COMMON.CLOSE',
     reasons: closeReasons,
   },
 ];
-
-export {
-  statusesLabels,
-  statusActions,
-  statuses,
-};

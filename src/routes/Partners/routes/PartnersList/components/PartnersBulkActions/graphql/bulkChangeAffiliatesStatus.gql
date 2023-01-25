@@ -1,0 +1,13 @@
+mutation BulkChangeAffiliatesStatusMutation(
+  $uuids: [String!]!
+  $reason: String!
+  $status: String!
+) {
+  partner {
+    bulkChangeAffiliatesStatus(
+      uuids: $uuids
+      reason: $reason
+      status: $status
+    )
+  }
+}

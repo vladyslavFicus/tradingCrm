@@ -1071,6 +1071,16 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      // Partner change statuses
+      {
+        id: 'changeStatuses',
+        actions: {
+          edit: {
+            action: 'affiliate.bulkChangeAffiliatesStatuses',
+            state: false,
+          },
+        },
+      },
       // Partner personal details
       {
         id: 'personalDetails',
