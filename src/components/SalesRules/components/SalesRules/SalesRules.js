@@ -8,7 +8,6 @@ import { withRequests } from 'apollo';
 import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
-import countries from 'utils/countryList';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -21,7 +20,7 @@ import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
-import RulesFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
+import RulesGridFilters from 'components/HierarchyProfileRules/components/RulesGridFilters';
 import {
   OperatorsQuery,
   PartnersQuery,
@@ -310,7 +309,6 @@ class SalesRules extends PureComponent {
   render() {
     const {
       rulesQuery,
-      location: { query },
       permission: {
         permissions: currentPermissions,
       },
@@ -325,15 +323,10 @@ class SalesRules extends PureComponent {
     } = this.props;
 
     const entities = get(rulesQuery, 'data.rules') || [];
-    const filters = get(query, 'filters', {});
     const isLoadingRules = rulesQuery.loading;
 
     const operators = get(operatorsData, 'operators.content') || [];
     const partners = get(partnersData, 'partners.content') || [];
-
-    const allowActions = Object
-      .keys(filters)
-      .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     const isDeleteRuleAvailable = (new Permissions(permissions.SALES_RULES.REMOVE_RULE)).check(currentPermissions);
 
@@ -362,10 +355,8 @@ class SalesRules extends PureComponent {
           </PermissionContent>
         </div>
 
-        <RulesFilters
-          disabled={!allowActions}
+        <RulesGridFilters
           handleRefetch={rulesQuery.refetch}
-          countries={countries}
           partners={partners}
           operators={operators}
           type={type}

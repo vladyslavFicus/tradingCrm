@@ -1,0 +1,7 @@
+mutation DeleteRule($uuid: String!) {
+  rule {
+    deleteRule(
+      uuid: $uuid
+    )
+  }
+}

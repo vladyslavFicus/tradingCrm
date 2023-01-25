@@ -67,7 +67,13 @@ class TeamProfile extends PureComponent {
           <Switch>
             <Route
               path={`${path}/rules`}
-              component={HierarchyProfileRules('TEAMS.TABS.RULES.TITLE', branchTypes.TEAM)}
+              component={() => (
+                <HierarchyProfileRules
+                  title="TEAMS.TABS.RULES.TITLE"
+                  branchTypes={branchTypes.TEAM}
+                  params={params}
+                />
+              )}
             />
             <Redirect to={`${url}/rules`} />
           </Switch>

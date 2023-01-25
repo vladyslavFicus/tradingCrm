@@ -67,7 +67,13 @@ class DeskProfile extends PureComponent {
           <Switch>
             <Route
               path={`${path}/rules`}
-              component={HierarchyProfileRules('DESKS.TABS.RULES.TITLE', branchTypes.DESK)}
+              component={() => (
+                <HierarchyProfileRules
+                  title="DESKS.TABS.RULES.TITLE"
+                  branchTypes={branchTypes.DESK}
+                  params={params}
+                />
+              )}
             />
             <Redirect to={`${url}/rules`} />
           </Switch>

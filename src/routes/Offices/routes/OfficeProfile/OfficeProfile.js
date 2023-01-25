@@ -66,7 +66,7 @@ class OfficeProfile extends PureComponent {
           <Switch>
             <Route
               path={`${path}/rules`}
-              component={HierarchyProfileRules('OFFICES.TABS.RULES.TITLE')}
+              component={() => <HierarchyProfileRules title="OFFICES.TABS.RULES.TITLE" params={params} />}
             />
             <Redirect to={`${url}/rules`} />
           </Switch>
