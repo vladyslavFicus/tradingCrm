@@ -17,10 +17,6 @@ class FormikMultiInputField extends PureComponent {
       PropTypes.string,
       PropTypes.element,
     ]),
-    labelAddon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
     customOnChange: PropTypes.func,
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -40,7 +36,6 @@ class FormikMultiInputField extends PureComponent {
     className: null,
     label: null,
     customOnChange: null,
-    labelAddon: null,
     showErrorMessage: true,
     disabled: false,
     labelClassName: null,
@@ -93,7 +88,6 @@ class FormikMultiInputField extends PureComponent {
     const {
       label,
       labelClassName,
-      labelAddon,
       className,
       field: {
         name,
@@ -117,7 +111,6 @@ class FormikMultiInputField extends PureComponent {
       <div className={groupClassName}>
         <FieldLabel
           label={label}
-          addon={labelAddon}
           className={classNames('FormikMultiInputField__label', labelClassName)}
         />
         {this.renderInput()}

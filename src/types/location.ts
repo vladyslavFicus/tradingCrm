@@ -3,6 +3,7 @@ import { Sort } from './sort';
 
 export interface State<TFilters = Record<string, any>> {
   filters?: TFilters,
+  filtersFields?: TFilters,
   sorts?: undefined | Sort[],
 }
 
