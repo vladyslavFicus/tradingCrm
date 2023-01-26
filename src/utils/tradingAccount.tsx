@@ -8,7 +8,7 @@ import { platformTypes } from 'constants/platformTypes';
  *
  * @return {*[]}
  */
-const getAvailablePlatformTypes = () => {
+export const getAvailablePlatformTypes = () => {
   const brand = getBrand();
 
   return platformTypes.filter(({ value: _platformType }) => {
@@ -28,7 +28,7 @@ const getAvailablePlatformTypes = () => {
  *
  * @return {*[]}
  */
-const getAvailableAccountTypes = (_platformType) => {
+export const getAvailableAccountTypes = (_platformType: string) => {
   const brand = getBrand();
   const platformType = _platformType.toLowerCase();
 
@@ -46,7 +46,7 @@ const getAvailableAccountTypes = (_platformType) => {
  *
  * @return {Array<string>}
  */
-const getPlarformSupportedCurrencies = (platformType) => {
+export const getPlarformSupportedCurrencies = (platformType: string) => {
   const brand = getBrand();
   return brand[platformType.toLowerCase()]?.currencies?.supported || brand.currencies.supported;
 };
@@ -58,7 +58,7 @@ const getPlarformSupportedCurrencies = (platformType) => {
  *
  * @return {string}
  */
-const getPlatformDefaultCurrency = (platformType) => {
+export const getPlatformDefaultCurrency = (platformType: string) => {
   const brand = getBrand();
   return brand[platformType.toLowerCase()]?.currencies?.default || brand.currencies.base;
 };
@@ -70,12 +70,6 @@ const getPlatformDefaultCurrency = (platformType) => {
  *
  * @return {*}
  */
-const getPlatformTypeLabel = platformType => platformTypes.find(({ value }) => platformType === value)?.label;
-
-export {
-  getAvailablePlatformTypes,
-  getAvailableAccountTypes,
-  getPlarformSupportedCurrencies,
-  getPlatformDefaultCurrency,
-  getPlatformTypeLabel,
-};
+export const getPlatformTypeLabel = (platformType: string) => (
+  platformTypes.find(({ value }) => platformType === value)?.label
+);

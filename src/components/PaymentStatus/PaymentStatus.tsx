@@ -3,9 +3,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { statuses } from 'constants/payment';
-import { getTradingStatusProps } from 'utils/paymentHelpers';
 import FailedStatusIcon from 'components/FailedStatusIcon';
 import Uuid from 'components/Uuid';
+import { getTradingStatusProps } from './utils';
 import './PaymentStatus.scss';
 
 type Props = {

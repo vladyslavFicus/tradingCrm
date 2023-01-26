@@ -1,11 +1,11 @@
-const customTimeout = (func, delay = 500) => {
-  let timeout;
+export default (func: Function, delay = 500) => {
+  let timeout: ReturnType<typeof setTimeout>;
 
   const clearCustomTimeout = () => {
     clearTimeout(timeout);
   };
 
-  const setCustomTimeout = (f) => {
+  const setCustomTimeout = (f: Function) => {
     timeout = setTimeout(() => {
       f();
       clearCustomTimeout();
@@ -14,5 +14,3 @@ const customTimeout = (func, delay = 500) => {
 
   setCustomTimeout(func);
 };
-
-export default customTimeout;

@@ -1,4 +1,4 @@
-export default (objA, objB) => {
+export default (objA: Record<string, any>, objB: Record<string, any>) => {
   if (objA === objB) {
     return true;
   }

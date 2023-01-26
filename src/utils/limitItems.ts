@@ -1,9 +1,10 @@
 import { get, isEmpty } from 'lodash';
 import update from 'immutability-helper';
+import { Pageable } from 'types';
 
-export default (data, location) => {
-  let response = data ? { ...data } : {};
-  const currentPage = get(response, 'number') || 0;
+export default <T>(data: Pageable<T>, location: Object) => {
+  let response = data ? { ...data } : {} as Pageable<T>;
+  const currentPage = response.number || 0;
 
   if (!isEmpty(response.content)) {
     const { totalElements, content, size: responseSize } = response;

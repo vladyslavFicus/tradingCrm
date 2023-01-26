@@ -1,4 +1,10 @@
-export function shortify(uuid, manualPrefix = '', size = 2, manualPostfix = '', length = 0) {
+export const shortify = (
+  uuid: string,
+  manualPrefix: string = '',
+  size: number = 2,
+  manualPostfix: string = '',
+  length: number = 0,
+): string => {
   if (!uuid) {
     return uuid;
   }
@@ -24,4 +30,4 @@ export function shortify(uuid, manualPrefix = '', size = 2, manualPostfix = '', 
   const mainPart = elements.slice(startOffset, endOffset).join('-');
 
   return [prefix, mainPart].filter(v => v).join('-');
-}
+};

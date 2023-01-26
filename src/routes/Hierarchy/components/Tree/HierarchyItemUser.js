@@ -62,7 +62,9 @@ class HierarchyItemUser extends PureComponent {
                     defaultValue: capitalize(authority.department),
                   })}
                   &nbsp;
-                  {I18n.t(`CONSTANTS.OPERATORS.ROLES.${authority.role}`, { defaultValue: capitalize(authority.role) })}
+                  {I18n.t(`CONSTANTS.OPERATORS.ROLES.${authority.role}`, {
+                    defaultValue: capitalize(authority.role),
+                  })}
                 </span>
               </If>
               <If condition={authorities.length > 1}>

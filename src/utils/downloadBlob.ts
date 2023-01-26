@@ -1,4 +1,4 @@
-export default (name, data) => {
+export default (name: string, data: Blob) => {
   if (window && window.URL) {
     const a = document.createElement('a');
     a.href = window.URL.createObjectURL(data);

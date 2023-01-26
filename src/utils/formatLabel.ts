@@ -1,4 +1,4 @@
-export default (label, lowerise = true) => {
+export default (label: string, lowerise: boolean = true): string => {
   const _label = lowerise ? label.toLowerCase() : label;
   const upper = _label.charAt(0).toUpperCase() + _label.substring(1);
 
