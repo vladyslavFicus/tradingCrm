@@ -71,5 +71,5 @@ export const getPlatformDefaultCurrency = (platformType: string) => {
  * @return {*}
  */
 export const getPlatformTypeLabel = (platformType: string) => (
-  platformTypes.find(({ value }) => platformType === value)?.label
+  platformTypes.find(({ value }) => platformType === value)?.label || ''
 );
