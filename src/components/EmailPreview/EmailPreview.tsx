@@ -12,11 +12,11 @@ type Props = {
 
 const EmailPreview = (props: Props) => {
   const {
-    templatePreview,
-    firstName,
-    lastName,
     label,
     text,
+    templatePreview,
+    firstName = '',
+    lastName = '',
   } = props;
 
   return (
