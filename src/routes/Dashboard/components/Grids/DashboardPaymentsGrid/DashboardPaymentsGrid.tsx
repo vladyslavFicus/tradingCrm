@@ -223,7 +223,7 @@ const DashboardPaymentsGrid = (props: Props) => {
 
       <Choose>
         <When condition={!!paymentMethod}>
-          <div className="DashboardPaymentsGrid__text-primary">{formatLabel(paymentMethod, false)}</div>
+          <div className="DashboardPaymentsGrid__text-primary">{formatLabel(`${paymentMethod}`, false)}</div>
 
           <If condition={!!maskedPan && paymentMethod === 'CREDIT_CARD'}>
             <div className="DashboardPaymentsGrid__text-primary DashboardPaymentsGrid__payment-method">{maskedPan}</div>

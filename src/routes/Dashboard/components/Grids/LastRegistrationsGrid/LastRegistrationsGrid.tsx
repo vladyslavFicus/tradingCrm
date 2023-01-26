@@ -165,7 +165,7 @@ const LastRegistrationsGrid = () => {
             },
           )}
         >
-          {I18n.t(renderLabel(type, statusesLabels))}
+          {I18n.t(renderLabel(type || '', statusesLabels))}
         </div>
 
         <div className="LastRegistrationsGrid__text-secondary">
