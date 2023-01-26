@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, FieldArray } from 'formik';
 import { attributeLabels } from 'constants/ruleModal';
+import { Operator, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
 import {
   FormikInputField,
   FormikSelectField,
@@ -16,21 +17,9 @@ import './RuleOperatorSpreads.scss';
  * so it's important to have namePrefix param to provide right fields path for Formik search engine
  */
 
-type Hierarchy = {
-  uuid: string,
-  userType: string,
-};
-
-type OperatorsListEntity = {
-  hierarchy: Hierarchy,
-  uuid: string,
-  fullName: string,
-  operatorStatus: string,
-};
-
 type Props = {
-  operators: OperatorsListEntity[],
-  operatorSpreads: Array<any>,
+  operators: Array<Operator>,
+  operatorSpreads: Array<RuleOperatorSpread>,
   namePrefix: string,
   disabled: boolean,
   percentageLimitError?: boolean,
