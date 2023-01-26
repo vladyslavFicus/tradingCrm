@@ -1,0 +1,14 @@
+query GetBranchManagerQuery(
+  $branchId: String!,
+) {
+  branchInfo (
+    branchId: $branchId,
+  ) {
+    managers
+    operators {
+      uuid
+      fullName
+      operatorStatus
+    }
+  }
+}

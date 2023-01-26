@@ -10206,9 +10206,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Operator",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Operator",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
