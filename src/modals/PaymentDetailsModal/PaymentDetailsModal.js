@@ -15,7 +15,7 @@ import { tradingTypes, statusMapper } from 'constants/payment';
 import { withPermission } from 'providers/PermissionsProvider';
 import { FormikDatePicker } from 'components/Formik';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
-import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
+import { ChangeOriginalAgent } from 'components/ChangeOriginalAgent';
 import PaymentStatus from 'components/PaymentStatus';
 import ShortLoader from 'components/ShortLoader';
 import IpFlag from 'components/IpFlag';

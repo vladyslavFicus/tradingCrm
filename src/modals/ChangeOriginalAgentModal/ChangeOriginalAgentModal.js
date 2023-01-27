@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import ChangeOriginalAgent from 'components/ChangeOriginalAgent/ChangeOriginalAgentTradingActivity';
+import { ChangeOriginalAgentTradingActivity } from 'components/ChangeOriginalAgent';
 
 class ChangeOriginalAgentModal extends PureComponent {
   static propTypes = {
@@ -40,7 +40,7 @@ class ChangeOriginalAgentModal extends PureComponent {
           {I18n.t('TRADING_ACTIVITY_MODAL.TITLE')}
         </ModalHeader>
         <ModalBody>
-          <ChangeOriginalAgent
+          <ChangeOriginalAgentTradingActivity
             tradeId={tradeId}
             originalAgent={originalAgent}
             platformType={platformType}

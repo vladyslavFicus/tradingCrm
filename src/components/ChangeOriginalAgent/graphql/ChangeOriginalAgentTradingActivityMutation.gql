@@ -1,0 +1,13 @@
+mutation ChangeOriginalAgentTradingActivityMutation(
+  $tradeId: Int!
+  $agentId: String!
+  $platformType: String
+) {
+  tradingActivity {
+    changeOriginalAgent(
+      tradeId: $tradeId
+      agentId: $agentId
+      platformType: $platformType
+    )
+  }
+}
