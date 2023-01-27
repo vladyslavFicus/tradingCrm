@@ -28,6 +28,7 @@ const DistributionRuleInfo = (props: Props) => {
       updatedAt,
       latestMigration,
       executionType,
+      totalMigratedClients,
     },
   } = props;
 
@@ -67,11 +68,25 @@ const DistributionRuleInfo = (props: Props) => {
       <div className="DistributionRuleInfo__item-label">
         {label}
       </div>
+
       <div className="DistributionRuleInfo__item-value">
         {moment.utc(date).local().format('DD.MM.YYYY')}
       </div>
+
       <div className="DistributionRuleInfo__item-small-text">
         {moment.utc(date).local().format('HH:mm')}
+      </div>
+    </div>
+  );
+
+  const renderValueColumn = (label: string, value: number) => (
+    <div className="DistributionRuleInfo__item">
+      <div className="DistributionRuleInfo__item-label">
+        {label}
+      </div>
+
+      <div className="DistributionRuleInfo__item-value">
+        {value}
       </div>
     </div>
   );
@@ -106,6 +121,7 @@ const DistributionRuleInfo = (props: Props) => {
             <div className="DistributionRuleInfo__item-label">
               {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS')}
             </div>
+
             <div
               className={classNames(
                 'DistributionRuleInfo__status__toggle-item',
@@ -117,6 +133,7 @@ const DistributionRuleInfo = (props: Props) => {
               {I18n.t(clientDistributionStatuses[status])}
               <i className="DistributionRuleInfo__status__arrow fa fa-angle-down" />
             </div>
+
             <If condition={!!statusChangedAt}>
               <div className="DistributionRuleInfo__item-small-text">
                 {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.STATUS_SINCE')}&nbsp;
@@ -124,6 +141,7 @@ const DistributionRuleInfo = (props: Props) => {
               </div>
             </If>
           </DropdownToggle>
+
           <DropdownMenu className="DistributionRuleInfo__status__dropdown-menu">
             {(Object.keys(clientDistributionStatuses) as [DistributionRuleStatusesEnum])
               .filter(key => key !== status)
@@ -143,15 +161,21 @@ const DistributionRuleInfo = (props: Props) => {
           </DropdownMenu>
         </UncontrolledDropdown>
       </If>
+
       <If condition={!!createdAt}>
         {renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.CREATED'), createdAt)}
       </If>
+
       <If condition={!!updatedAt}>
         {renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.UPDATED'), updatedAt)}
       </If>
+
       <If condition={!!latestMigration?.startDate}>
         {renderDateColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.LAST_EXECUTION'), latestMigration?.startDate || '')}
       </If>
+
+      {renderValueColumn(I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.TOTAL_MIGRATED_CLIENTS'), totalMigratedClients || 0)}
+
       <If condition={status === DistributionRuleStatusesEnum.ACTIVE && executionType === 'MANUAL'}>
         <Button
           className="DistributionRuleInfo__action"
@@ -160,6 +184,7 @@ const DistributionRuleInfo = (props: Props) => {
           <div className="DistributionRuleInfo__item-label">
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.INFO.ACTION')}
           </div>
+
           <PlayIcon className="DistributionRulesList__actions-icon" />
         </Button>
       </If>

@@ -3542,6 +3542,7 @@
         "CREATED": "Created",
         "UPDATED": "Updated",
         "LAST_EXECUTION": "Last time executed",
+        "TOTAL_MIGRATED_CLIENTS": "Total migrated clients",
         "ACTION": "Action"
       },
       "STATUS": {
