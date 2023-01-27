@@ -40,7 +40,7 @@ const PartnersHeader = (props: Props) => {
       <div className="PartnersHeader__left">
         <Choose>
           <When condition={!!totalElements}>
-            <div className="PartnersList__title">
+            <div className="PartnersHeader__title">
               <strong>{totalElements} </strong>
               {I18n.t('COMMON.PARTNERS_FOUND')}
             </div>
