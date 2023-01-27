@@ -82,6 +82,7 @@ class ClientNotesTab extends PureComponent {
 
         <div className="ClientNotesTab__grid">
           <ListView
+            loading={loading}
             dataSource={notes.content}
             onPageChange={this.loadMore}
             render={this.renderItem}

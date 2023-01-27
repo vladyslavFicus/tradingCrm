@@ -7,12 +7,11 @@ import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
 import { State } from 'types';
+import { Feed } from '__generated__/types';
 import { rbacTabs } from '../../constants';
 import RbacFeedsFilters from './components/RbacFeedsFilters';
-import { useRbacFeedsQuery, RbacFeedsQuery, RbacFeedsQueryVariables } from './graphql/__generated__/RbacFeedsQuery';
+import { useRbacFeedsQuery, RbacFeedsQueryVariables } from './graphql/__generated__/RbacFeedsQuery';
 import './RbacFeed.scss';
-
-type Feed = ExtractApolloTypeFromPageable<RbacFeedsQuery['feeds']>
 
 const RbacFeed = () => {
   const { state } = useLocation<State<RbacFeedsQueryVariables>>();
@@ -47,13 +46,13 @@ const RbacFeed = () => {
       <RbacFeedsFilters onRefetch={rbacFeedsQuery.refetch} />
       <div className="RbacFeed__grid">
         <ListView
-          dataSource={content}
+          loading={rbacFeedsQuery.loading}
+          dataSource={content || []}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}
-          lazyLoad
           showNoResults={!rbacFeedsQuery.loading && !content?.length}
-          render={(feed: Feed, key: string) => <FeedItem key={key} data={feed} />}
+          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
         />
       </div>
     </div>

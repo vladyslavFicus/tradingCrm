@@ -40,6 +40,7 @@ class PartnerFeedsList extends PureComponent {
     return (
       <div className="PartnerFeedsList">
         <ListView
+          loading={feedsQuery.loading}
           dataSource={content || []}
           onPageChange={this.handlePageChanged}
           render={(feed, key) => <FeedItem key={key} data={feed} />}

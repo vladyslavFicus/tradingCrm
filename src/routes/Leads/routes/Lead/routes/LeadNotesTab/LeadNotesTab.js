@@ -58,13 +58,13 @@ class LeadNotesTab extends PureComponent {
         <LeadNotesTabFilter handleRefetch={refetch} />
         <div className="LeadNotesTab__list">
           <ListView
-            dataSource={content}
+            loading={loading}
+            dataSource={content || []}
             onPageChange={this.loadMore}
             render={this.renderItem}
             activePage={number + 1}
             totalPages={totalPages}
             last={last}
-            lazyLoad
             showNoResults={!loading && !content.length}
           />
         </div>

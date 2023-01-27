@@ -4,12 +4,14 @@ import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
 import { withRequests } from 'apollo';
 import Tabs from 'components/Tabs';
-import ListView from 'components/ListView';
+import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
+import { Feed } from '__generated__/types';
 import { ipWhitelistTabs } from '../../constants';
-import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
-import { Feed, WhitelistFeedsQueryResult } from './types';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
+import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
+import { WhitelistFeedsQueryResult } from './types';
+
 import './IpWhitelistFeed.scss';
 
 type Props = {
@@ -38,16 +40,18 @@ const IpWhitelistFeed = (props: Props) => {
           {I18n.t('IP_WHITELIST.FEED.HEADLINE')}
         </div>
       </div>
+
       <IpWhitelistFeedsFilters onRefetch={ipWhitelistFeedsQuery.refetch} />
+
       <div className="IpWhitelistFeed__grid">
         <ListView
+          loading={ipWhitelistFeedsQuery.loading}
           dataSource={content || []}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}
-          lazyLoad
           showNoResults={!ipWhitelistFeedsQuery.loading && !content?.length}
-          render={(feed: Feed, key: string) => <FeedItem key={key} data={feed} />}
+          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
         />
       </div>
     </div>

@@ -36,6 +36,7 @@ class OperatorFeedsList extends PureComponent {
     return (
       <div className="OperatorFeedsList">
         <ListView
+          loading={feedsQuery.loading}
           dataSource={content || []}
           onPageChange={this.handlePageChanged}
           render={(feed, key) => <FeedItem key={key} data={feed} />}

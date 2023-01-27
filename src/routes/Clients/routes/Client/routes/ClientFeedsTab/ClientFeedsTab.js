@@ -62,6 +62,7 @@ class ClientFeedsTab extends PureComponent {
 
         <div className="ClientFeedsTab__grid">
           <ListView
+            loading={loading}
             dataSource={content || []}
             activePage={number + 1}
             last={last}
