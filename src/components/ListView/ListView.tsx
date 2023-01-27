@@ -1,7 +1,7 @@
 import React, { Fragment, ReactNode } from 'react';
-import I18n from 'i18n-js';
 import InfiniteScroll from 'react-infinite-scroller';
 import ShortPreloader from 'components/ShortLoader';
+import NotFoundContent from 'components/NotFoundContent';
 import { Feed } from '__generated__/types';
 
 type Props = {
@@ -52,17 +52,7 @@ const ListView = (props: Props) => {
   const items = dataSource.map((feed, key) => renderItem(feed as Feed, key));
 
   if (showNoResults) {
-    return (
-      <div className="ListView__not-found-content">
-        <div>
-          <i className="icon icon-search ListView__not-found-icon" />
-        </div>
-
-        <div className="ListView__not-found-text">
-          <span>{I18n.t('COMMON.NOTHING_FOUND')}</span>
-        </div>
-      </div>
-    );
+    return <NotFoundContent />;
   }
 
   return (
