@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import compose from 'compose-function';
 import { withRequests } from 'apollo';
-import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
-import CreatePartnerModal from 'modals/CreatePartnerModal';
 import PartnersHeader from './components/PartnersHeader/PartnersHeader';
 import PartnersGridFilter from './components/PartnersGridFilter';
 import PartnersGrid from './components/PartnersGrid';
@@ -15,13 +13,6 @@ class PartnersList extends PureComponent {
     partnersQuery: PropTypes.query({
       partners: PropTypes.pageable(PropTypes.partner),
     }).isRequired,
-    modals: PropTypes.shape({
-      createPartnerModal: PropTypes.modalType,
-    }).isRequired,
-  };
-
-  handleOpenCreatePartnerModal = () => {
-    this.props.modals.createPartnerModal.show();
   };
 
   state = {
@@ -58,6 +49,5 @@ class PartnersList extends PureComponent {
 }
 
 export default compose(
-  withModals({ createPartnerModal: CreatePartnerModal }),
   withRequests({ partnersQuery: PartnersQuery }),
 )(PartnersList);

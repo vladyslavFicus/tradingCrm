@@ -5,7 +5,7 @@ import { withModals } from 'hoc';
 import { Modal } from 'types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
+import CreatePartnerModal from 'modals/CreatePartnerModal';
 import { Button } from 'components/UI';
 import PartnersBulkActions from '../PartnersBulkActions/PartnersBulkActions';
 import './PartnersHeader.scss';
@@ -51,7 +51,9 @@ const PartnersHeader = (props: Props) => {
           </Otherwise>
         </Choose>
 
-        <b>{selected}</b> {I18n.t('COMMON.PARTNERS_SELECTED')}
+        <div className="PartnersHeader__selected">
+          <b>{selected}</b> {I18n.t('COMMON.PARTNERS_SELECTED')}
+        </div>
       </div>
 
       <div className="PartnersHeader__right">
@@ -76,5 +78,7 @@ const PartnersHeader = (props: Props) => {
 
 export default compose(
   React.memo,
-  withModals({ changeAccountStatusModal: ChangeAccountStatusModal }),
+  withModals({
+    createPartnerModal: CreatePartnerModal,
+  }),
 )(PartnersHeader);
