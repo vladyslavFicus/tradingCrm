@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Link as OriginalLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 /**
  * Some browsers (like Safari, Firefox) doesn't share local storage/cookie context in Incognito Mode for the same host.
@@ -15,17 +14,17 @@ import PropTypes from 'prop-types';
  *
  * This hack still working on 15.09.2020 and in such case all local storage context shared between tabs in PRIVATE MODE.
  */
-class Link extends PureComponent {
-  static propTypes = {
-    onClick: PropTypes.func,
-  };
+type Props = {
+  to: string,
+  children: React.ReactNode,
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void,
+  target?: '_blank',
+  className?: string,
+};
 
-  static defaultProps = {
-    onClick: () => {},
-  };
-
-  handleClick = (e) => {
-    const { href, target } = e.target;
+class Link<T extends Props> extends PureComponent<T> {
+  handleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+    const { href, target } = e.target as HTMLAnchorElement;
 
     e.stopPropagation();
 
@@ -35,7 +34,7 @@ class Link extends PureComponent {
       e.preventDefault();
     }
 
-    this.props.onClick(e);
+    if (this.props.onClick) this.props.onClick(e);
   };
 
   render() {
