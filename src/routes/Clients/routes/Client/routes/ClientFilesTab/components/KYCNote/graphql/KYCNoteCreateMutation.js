@@ -6,20 +6,20 @@ import { REQUEST as query } from './KYCNoteQuery';
 
 const REQUEST = gql`
   mutation KYCNoteCreate(
+    $playerUUID: String!
     $content: String!
     $targetUUID: String!
-    $playerUUID: String!
     $targetType: String!
+    $pinned: Boolean!
   ) {
     note {
       add(
+        playerUUID: $playerUUID
         content: $content
         targetUUID: $targetUUID
-        playerUUID: $playerUUID
         targetType: $targetType
-      ) {
-        _id
-      }
+        pinned: $pinned
+      )
     }
   }
 `;

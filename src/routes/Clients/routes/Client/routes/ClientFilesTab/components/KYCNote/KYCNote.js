@@ -48,6 +48,7 @@ class KYCNote extends PureComponent {
           targetUUID: uuid,
           playerUUID,
           content,
+          pinned: false,
         },
       });
 
@@ -86,6 +87,7 @@ class KYCNote extends PureComponent {
         variables: {
           noteId,
           content,
+          pinned: false,
         },
       });
 

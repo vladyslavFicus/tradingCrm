@@ -5,16 +5,16 @@ import { Mutation } from '@apollo/client/react/components';
 
 const REQUEST = gql`
   mutation KYCNoteUpdate(
-    $content: String!
     $noteId: String!
+    $content: String!
+    $pinned: Boolean!
   ) {
     note {
       update(
         noteId: $noteId
         content: $content
-      ) {
-        _id
-      }
+        pinned: $pinned
+      )
     }
   }
 `;

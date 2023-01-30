@@ -8,7 +8,7 @@ import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import { Note } from 'types/Note';
 import { usePinnedNotesQuery } from './graphql/__generated__/PinnedNotesQuery';
-// import './PinnedNotes.scss';
+import './PinnedNotes.scss';
 
 type Props = {
   targetUUID: string,
