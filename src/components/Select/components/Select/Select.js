@@ -66,7 +66,7 @@ class Select extends PureComponent {
     isFocused: PropTypes.bool,
     withArrowDown: PropTypes.bool,
     customArrowComponent: PropTypes.object,
-    hasTargetPortal: PropTypes.string,
+    hasTargetPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   };
 
   static defaultProps = {
