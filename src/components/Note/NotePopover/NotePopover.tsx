@@ -11,7 +11,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import { entitiesPrefixes, entities } from 'constants/uuid';
 import Uuid from 'components/Uuid';
 import { FormValues, NoteEntity, ManualNote, Placement } from 'types/Note';
-import './NotePopover.scss';
+// import './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 10000;
 
