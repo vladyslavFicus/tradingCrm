@@ -7,4 +7,4 @@ export interface State<TFilters = Record<string, any>> {
   sorts?: undefined | Sort[],
 }
 
-export interface LocationState<TFilters = Record<string, any>> extends Location<State<TFilters>> { }
+export interface LocationState<TFilters = Record<string, any>> extends Location<State<TFilters>> {}
