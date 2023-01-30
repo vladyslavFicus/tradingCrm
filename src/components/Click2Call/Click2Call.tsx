@@ -29,7 +29,7 @@ import { ReactComponent as CoperatoIcon } from './icons/coperato.svg';
 import { ReactComponent as ClearvoiceIcon } from './icons/clearvoice.svg';
 import { ReactComponent as SquaretalkIcon } from './icons/squaretalk.svg';
 import { ReactComponent as CallStartedIcon } from './icons/callstarted.svg';
-import './Click2Call.scss';
+// import './Click2Call.scss';
 
 const ICONS: Record<CallSystem, React.ElementType<SVGProps<SVGSVGElement>>> = {
   [CallSystem.DIDLOGIC]: DidlogicIcon,
