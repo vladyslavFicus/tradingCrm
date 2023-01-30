@@ -12,7 +12,7 @@ import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { manualPaymentMethodsLabels } from 'constants/payment';
 import { Button } from 'components/UI';
-import NoteButton from 'components/NoteButton';
+import NoteActionManual from 'components/Note/NoteActionManual';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Currency from 'components/Currency';
 import AccountsSelectField from './components/AccountsSelectField';
@@ -46,7 +46,12 @@ class AddPaymentModal extends PureComponent {
 
   state = {
     errorMessage: '',
+    note: null,
   };
+
+  setNote = (note) => {
+    this.setState({ note });
+  }
 
   resetErrorMessage = () => {
     const { errorMessage } = this.state;
@@ -67,6 +72,8 @@ class AddPaymentModal extends PureComponent {
       onCloseModal,
     } = this.props;
 
+    const { note } = this.state;
+
     const variables = {
       ...data,
       profileUUID: uuid,
@@ -74,7 +81,6 @@ class AddPaymentModal extends PureComponent {
 
     try {
       const { data: { payment: { createPayment } } } = await addPayment({ variables });
-      const note = this.noteButton.getNote();
 
       notify({
         level: LevelType.SUCCESS,
@@ -185,7 +191,7 @@ class AddPaymentModal extends PureComponent {
         loading: paymentSystemsLoading,
       },
     } = this.props;
-    const { errorMessage } = this.state;
+    const { errorMessage, note } = this.state;
 
     const manualMethods = manualPaymentMethodsData?.manualPaymentMethods || [];
     const paymentSystems = paymentSystemsData?.paymentSystems || [];
@@ -391,13 +397,14 @@ class AddPaymentModal extends PureComponent {
                         </If>
                       </div>
                       <div className="AddPaymentModal__row AddPaymentModal__row--h-align-center">
-                        <NoteButton
-                          manual
-                          ref={(ref) => { this.noteButton = ref; }}
-                          placement="bottom"
+                        <NoteActionManual
+                          note={note}
                           playerUUID={uuid}
                           targetUUID={uuid}
                           targetType={targetTypes.PAYMENT}
+                          onEditSuccess={this.setNote}
+                          onDeleteSuccess={() => this.setNote(null)}
+                          placement="bottom"
                         />
                       </div>
                     </div>

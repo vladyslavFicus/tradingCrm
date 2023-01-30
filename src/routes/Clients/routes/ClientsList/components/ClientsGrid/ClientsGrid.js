@@ -20,11 +20,11 @@ import { Link } from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Click2Call from 'components/Click2Call';
-import NoteButton from 'components/NoteButton';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { Column, AdjustableTable } from 'components/Table';
+import NoteAction from 'components/Note/NoteAction';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import renderLabel from 'utils/renderLabel';
 import limitItems from 'utils/limitItems';
@@ -411,12 +411,13 @@ class ClientsGrid extends PureComponent {
       />
 
       <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
-        <NoteButton
-          className="ClientsGrid__note-button"
-          targetType={targetTypes.PLAYER}
-          targetUUID={uuid}
-          playerUUID={uuid}
-        />
+        <span className="ClientsGrid__note-button">
+          <NoteAction
+            playerUUID={uuid}
+            targetUUID={uuid}
+            targetType={targetTypes.PLAYER}
+          />
+        </span>
       </PermissionContent>
     </div>
   );

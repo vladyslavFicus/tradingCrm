@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { targetTypes } from 'constants/note';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import NoteButton from 'components/NoteButton';
+import NoteActionManual from 'components/Note/NoteActionManual';
 import Uuid from 'components/Uuid';
 import { TrashButton } from 'components/UI';
 import { shortifyInMiddle } from 'utils/stringFormat';
@@ -21,8 +21,7 @@ class UploadingFileModal extends PureComponent {
       DOCUMENT_VERIFICATION: PropTypes.arrayOf(PropTypes.string),
       ADRESS_VERIFICATION: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
-    addFileNote: PropTypes.func.isRequired,
-    updateFileNote: PropTypes.func.isRequired,
+    editFileNote: PropTypes.func.isRequired,
     removeFileNote: PropTypes.func.isRequired,
     customFieldChange: PropTypes.func.isRequired,
   };
@@ -67,8 +66,7 @@ class UploadingFileModal extends PureComponent {
       categories,
       profileUUID,
       onRemoveFileClick,
-      addFileNote,
-      updateFileNote,
+      editFileNote,
       removeFileNote,
       customFieldChange,
     } = this.props;
@@ -142,14 +140,12 @@ class UploadingFileModal extends PureComponent {
           {
             fileUuid
             && (
-              <NoteButton
-                manual
+              <NoteActionManual
                 note={fileNote || null}
                 playerUUID={profileUUID}
                 targetUUID={fileUuid}
                 targetType={targetTypes.FILE}
-                onAddSuccess={addFileNote}
-                onUpdateSuccess={updateFileNote}
+                onEditSuccess={editFileNote}
                 onDeleteSuccess={() => removeFileNote(fileUuid)}
               />
             )

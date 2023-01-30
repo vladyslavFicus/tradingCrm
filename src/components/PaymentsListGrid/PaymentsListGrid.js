@@ -12,15 +12,15 @@ import {
   tradingTypes,
   tradingTypesLabels,
 } from 'constants/payment';
+import formatLabel from 'utils/formatLabel';
 import { AdjustableTable, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
-import NoteButton from 'components/NoteButton';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
-import formatLabel from 'utils/formatLabel';
+import NoteAction from 'components/Note/NoteAction';
 import './PaymentsListGrid.scss';
 
 class PaymentsListGrid extends PureComponent {
@@ -29,6 +29,7 @@ class PaymentsListGrid extends PureComponent {
     paymentsQuery: PropTypes.shape({
       loading: PropTypes.bool,
       loadMore: PropTypes.func,
+      refetch: PropTypes.func,
       variables: PropTypes.object,
       data: PropTypes.shape({
         payments: PropTypes.pageable(PropTypes.paymentEntity),
@@ -379,12 +380,12 @@ class PaymentsListGrid extends PureComponent {
               playerProfile: { uuid: playerUUID },
               note,
             }) => (
-              <NoteButton
-                key={targetUUID}
-                targetType={targetTypes.PAYMENT}
-                targetUUID={targetUUID}
-                playerUUID={playerUUID}
+              <NoteAction
                 note={note}
+                playerUUID={playerUUID}
+                targetUUID={targetUUID}
+                targetType={targetTypes.PAYMENT}
+                onRefetch={paymentsQuery.refetch}
               />
             )}
           />

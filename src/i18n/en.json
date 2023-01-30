@@ -5838,7 +5838,7 @@
           "profile": "Partner's profile",
           "create": "Create new partner",
           "changeStatus": "Partner account status",
-          "changeStatuses": "Partners multiple status",
+          "changeStatuses": "Partners bulk change status",
           "personalDetails": "Partner personal details",
           "changePassword": "Change password for partner",
           "feedTab": "Show feed tab",

@@ -3,10 +3,11 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
-import EventEmitter, { NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
+import { targetTypes } from 'constants/note';
+import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
-import NoteItem from 'components/NoteItem';
+import NoteItem from 'components/Note/NoteItem';
 import LeadNotesTabQuery from './graphql/LeadNotesTabQuery';
 import LeadNotesTabFilter from './components/LeadNotesTabFilter';
 import './LeadNotesTab.scss';
@@ -20,20 +21,25 @@ class LeadNotesTab extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
-    EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
+    EventEmitter.on(NOTE_RELOAD, this.handleNoteReload);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
-    EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
+    EventEmitter.off(NOTE_RELOAD, this.handleNoteReload);
   }
 
-  onNoteEvent = () => {
-    this.props.notes.refetch();
+  /**
+   * Refetch list of notes only if targetType is LEAD
+   *
+   * @param targetType
+   */
+  handleNoteReload = ({ targetType }) => {
+    if (targetType === targetTypes.LEAD) {
+      this.props.notes.refetch();
+    }
   };
 
-  loadMore = () => {
+  handleLoadMore = () => {
     const { notes } = this.props;
 
     const page = notes.data.notes.number + 1;
@@ -60,7 +66,7 @@ class LeadNotesTab extends PureComponent {
           <ListView
             loading={loading}
             dataSource={content || []}
-            onPageChange={this.loadMore}
+            onPageChange={this.handleLoadMore}
             render={this.renderItem}
             activePage={number + 1}
             totalPages={totalPages}

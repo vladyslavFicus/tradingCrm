@@ -5,7 +5,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { LeadCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { reminderValues } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -14,7 +13,6 @@ import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import ShortLoader from 'components/ShortLoader';
-import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import { useGetLeadCallbackQuery } from './graphql/__generated__/GetLeadCallbackQuery';
@@ -53,7 +51,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
 
   const isCallbackLoading = leadCallbackQuery.loading;
   const leadCallback = leadCallbackQuery.data?.leadCallback as LeadCallback || {};
-  const { callbackTime, operatorId, reminder, lead, status, userId, note } = leadCallback;
+  const { callbackTime, operatorId, reminder, lead, status } = leadCallback;
 
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
 
@@ -200,18 +198,6 @@ const LeadCallbackDetailsModal = (props: Props) => {
                       </option>
                     ))}
                   </Field>
-
-                  <If condition={!readOnly}>
-                    <div className="LeadCallbackDetailsModal__notes">
-                      <NoteButton
-                        id={`callback-details-note-${callbackId}`}
-                        playerUUID={userId}
-                        targetUUID={callbackId}
-                        targetType={targetTypes.LEAD_CALLBACK}
-                        note={note}
-                      />
-                    </div>
-                  </If>
                 </ModalBody>
 
                 <ModalFooter>

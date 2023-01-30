@@ -23,20 +23,31 @@ class PartnersList extends PureComponent {
     this.setState({ select });
   };
 
+  handleRefetch = () => {
+    const { partnersQuery } = this.props;
+    const { select } = this.state;
+
+    select?.reset();
+    partnersQuery.refetch();
+  };
+
   render() {
     const { partnersQuery } = this.props;
     const { select } = this.state;
     const partners = partnersQuery?.data?.partners;
 
     const partnersUuid = partners?.content?.map(({ uuid }) => uuid) || [];
-    const selectedPartnersUuid = (select?.touched || []).map(item => partnersUuid[item]);
+
+    const selectedPartnersUuid = select?.all
+      ? partnersUuid.filter((_, idx) => !select?.touched.includes(idx))
+      : (select?.touched || []).map(item => partnersUuid[item]);
 
     return (
       <div className="PartnersList">
         <PartnersHeader
           totalElements={partners?.totalElements}
           selected={select?.selected || 0}
-          onRefetch={partnersQuery.refetch}
+          onRefetch={this.handleRefetch}
           partnersUuids={selectedPartnersUuid}
         />
 

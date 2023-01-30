@@ -5,7 +5,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { reminderValues } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -14,7 +13,6 @@ import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
 import ShortLoader from 'components/ShortLoader';
-import NoteButton from 'components/NoteButton';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import { useGetClientCallbackQuery } from './graphql/__generated__/GetClientCallbackQuery';
@@ -53,7 +51,7 @@ const ClientCallbackDetailsModal = (props: Props) => {
 
   const isCallbackLoading = clientCallbackQuery.loading;
   const clientCallback = clientCallbackQuery.data?.clientCallback as ClientCallback || {};
-  const { callbackTime, operatorId, reminder, client, status, userId, note } = clientCallback;
+  const { callbackTime, operatorId, reminder, client, status } = clientCallback;
 
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
 
@@ -204,18 +202,6 @@ const ClientCallbackDetailsModal = (props: Props) => {
                       </option>
                     ))}
                   </Field>
-
-                  <If condition={!readOnly}>
-                    <div className="ClientCallbackDetailsModal__notes">
-                      <NoteButton
-                        id={`callback-details-note-${callbackId}`}
-                        playerUUID={userId}
-                        targetUUID={callbackId}
-                        targetType={targetTypes.CLIENT_CALLBACK}
-                        note={note}
-                      />
-                    </div>
-                  </If>
                 </ModalBody>
 
                 <ModalFooter>

@@ -1,0 +1,9 @@
+mutation RemoveNoteMutation(
+  $noteId: String!
+) {
+  note {
+    remove(
+      noteId: $noteId
+    )
+  }
+}

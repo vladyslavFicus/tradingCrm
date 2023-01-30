@@ -203,6 +203,7 @@ class ClientFilesGrid extends PureComponent {
                   <FileGrid
                     key={`${verificationType}-${documentType}-${verificationTime}`}
                     data={files}
+                    onRefetch={this.refetchFiles}
                     categories={categories}
                     verificationType={verificationType}
                     verificationStatus={verificationStatus}

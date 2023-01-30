@@ -15,7 +15,7 @@ import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { TrashButton } from 'components/UI';
-import NoteButton from 'components/NoteButton';
+import NoteAction from 'components/Note/NoteAction';
 import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
 import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
 import {
@@ -36,7 +36,7 @@ const ClientCallbacksGrid = (props: Props) => {
   const { clientCallbacksListQuery, modals } = props;
   const { clientCallbackDetailsModal, deleteClientCallbackModal } = modals;
 
-  const { data, variables, fetchMore, loading } = clientCallbacksListQuery;
+  const { data, variables, fetchMore, loading, refetch } = clientCallbacksListQuery;
 
   const { content = [], last = false } = clientCallbacksListQuery?.data?.clientCallbacks || {};
 
@@ -142,12 +142,12 @@ const ClientCallbacksGrid = (props: Props) => {
 
     return (
       <div className="ClientCallbacksGrid__actions">
-        <NoteButton
-          key={callbackId}
-          targetType={targetTypes.CLIENT_CALLBACK}
-          targetUUID={callbackId}
-          playerUUID={userId}
+        <NoteAction
           note={note}
+          playerUUID={userId}
+          targetUUID={callbackId}
+          targetType={targetTypes.CLIENT_CALLBACK}
+          onRefetch={refetch}
         />
 
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>

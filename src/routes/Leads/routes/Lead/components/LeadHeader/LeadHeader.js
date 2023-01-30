@@ -6,9 +6,9 @@ import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/UI';
-import NotePopover from 'components/NotePopover';
 import PermissionContent from 'components/PermissionContent';
 import PromoteLeadModal from 'modals/PromoteLeadModal';
+import NoteAction from 'components/Note/NoteAction';
 import CreateLeadCallbackModal from 'modals/CreateLeadCallbackModal';
 import './LeadHeader.scss';
 
@@ -70,10 +70,11 @@ class LeadHeader extends PureComponent {
           </PermissionContent>
 
           <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
-            <NotePopover
+            <NoteAction
               playerUUID={uuid}
               targetUUID={uuid}
               targetType={targetTypes.LEAD}
+              placement="bottom-end"
             >
               <Button
                 small
@@ -82,7 +83,7 @@ class LeadHeader extends PureComponent {
               >
                 {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
               </Button>
-            </NotePopover>
+            </NoteAction>
           </PermissionContent>
 
           <If condition={status && status !== 'CONVERTED'}>

@@ -8,7 +8,7 @@ import Forbidden from 'routes/Forbidden';
 
 class Route extends PureComponent {
   static propTypes = {
-    layout: PropTypes.func,
+    layout: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     disableScroll: PropTypes.bool,
     location: PropTypes.object.isRequired,
     computedMatch: PropTypes.object.isRequired,

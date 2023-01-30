@@ -12,7 +12,6 @@ import { shortifyInMiddle } from 'utils/stringFormat';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
-import NoteButton from 'components/NoteButton';
 import { EditButton, DownloadButton, TrashButton } from 'components/UI';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
@@ -20,15 +19,17 @@ import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
 import { DeleteModal, RenameModal } from 'modals/FileModals';
 import ShortLoader from 'components/ShortLoader';
-import { statusesCategory, statusesFile } from './constants';
+import NoteAction from 'components/Note/NoteAction';
 import MoveFileDropDown from './components/MoveFileDropDown';
 import ChangeFileStatusDropDown from './components/ChangeFileStatusDropDown';
+import { statusesCategory, statusesFile } from './constants';
 import './FileGrid.scss';
 
 class FileGrid extends PureComponent {
   static propTypes = {
     ...withImages.propTypes,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onRefetch: PropTypes.func.isRequired,
     categories: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     verificationType: PropTypes.string.isRequired,
     verificationStatus: PropTypes.string,
@@ -269,12 +270,12 @@ class FileGrid extends PureComponent {
   );
 
   renderNote = ({ uuid, clientUuid, note }) => (
-    <NoteButton
-      key={uuid}
+    <NoteAction
+      note={note}
       playerUUID={clientUuid}
       targetUUID={uuid}
       targetType={targetTypes.FILE}
-      note={note}
+      onRefetch={this.props.onRefetch}
     />
   );
 

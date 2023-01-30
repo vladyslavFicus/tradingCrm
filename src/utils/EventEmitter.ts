@@ -8,9 +8,7 @@ export const CLIENT_CALLBACK_RELOAD = 'CLIENT_CALLBACK_RELOAD';
 export const LEAD_CALLBACK_RELOAD = 'LEAD_CALLBACK_RELOAD';
 
 // ---- Note events ---- //
-export const NOTE_ADDED = 'NOTE_ADDED';
-export const NOTE_UPDATED = 'NOTE_UPDATED';
-export const NOTE_REMOVED = 'NOTE_REMOVED';
+export const NOTE_RELOAD = 'NOTE_RELOAD';
 
 // ---- Lead events ---- //
 export const LEAD_PROMOTED = 'LEAD_PROMOTED';

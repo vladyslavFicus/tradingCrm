@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
@@ -12,7 +12,8 @@ import { targetTypes } from 'constants/note';
 import { reminderValues } from 'constants/callbacks';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { Button } from 'components/UI';
-import NoteButton from 'components/NoteButton';
+import NoteActionManual from 'components/Note/NoteActionManual';
+import { ManualNote } from 'types/Note';
 import { useCallbackAddNoteMutation } from './graphql/__generated__/CallbackAddNoteMutation';
 import { useCreateLeadCallbackMutation } from './graphql/__generated__/CreateLeadCallbackMutation';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
@@ -39,7 +40,7 @@ const CreateLeadCallbackModal = (props: Props) => {
 
   const { id } = useParams<{ id: string }>();
 
-  const noteButton = useRef<NoteButton>(null);
+  const [note, setNote] = useState<ManualNote>(null);
 
   // ===== Requests ===== //
   const operatorsQuery = useGetOperatorsQuery({ fetchPolicy: 'network-only' });
@@ -52,14 +53,11 @@ const CreateLeadCallbackModal = (props: Props) => {
   const [createLeadCallback] = useCreateLeadCallbackMutation();
 
   const createNote = async (callbackId: string) => {
-    const note = noteButton.current?.getNote();
-
     if (note) {
       await addNote({
         variables: {
           ...note,
           targetUUID: callbackId,
-          targetType: targetTypes.LEAD_CALLBACK,
         },
       });
     }
@@ -165,12 +163,14 @@ const CreateLeadCallbackModal = (props: Props) => {
               </Field>
 
               <div className="CreateLeadCallbackModal__note">
-                <NoteButton
-                  manual
+                <NoteActionManual
+                  note={note}
                   playerUUID={id}
+                  targetUUID={id}
                   targetType={targetTypes.LEAD_CALLBACK}
+                  onEditSuccess={setNote}
+                  onDeleteSuccess={() => setNote(null)}
                   placement="bottom"
-                  ref={noteButton}
                 />
               </div>
             </ModalBody>

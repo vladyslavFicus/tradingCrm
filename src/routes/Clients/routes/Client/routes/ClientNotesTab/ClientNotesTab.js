@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
-import EventEmitter, { CLIENT_RELOAD, NOTE_ADDED, NOTE_REMOVED } from 'utils/EventEmitter';
+import EventEmitter, { CLIENT_RELOAD, NOTE_RELOAD } from 'utils/EventEmitter';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import ListView from 'components/ListView';
 import TabHeader from 'components/TabHeader';
-import NoteItem from 'components/NoteItem';
+import NoteItem from 'components/Note/NoteItem';
 import ClientNotesGridFilter from './components/ClientNotesGridFilter';
 import ClientNotesQuery from './graphql/ClientNotesQuery';
 import './ClientNotesTab.scss';
@@ -18,31 +18,29 @@ class ClientNotesTab extends PureComponent {
   };
 
   componentDidMount() {
-    EventEmitter.on(CLIENT_RELOAD, this.refetchNotes);
-    EventEmitter.on(NOTE_ADDED, this.onNoteEvent);
-    EventEmitter.on(NOTE_REMOVED, this.onNoteEvent);
+    EventEmitter.on(CLIENT_RELOAD, this.handleRefetchNotes);
+    EventEmitter.on(NOTE_RELOAD, this.handleNoteReload);
   }
 
   componentWillUnmount() {
-    EventEmitter.off(CLIENT_RELOAD, this.refetchNotes);
-    EventEmitter.off(NOTE_ADDED, this.onNoteEvent);
-    EventEmitter.off(NOTE_REMOVED, this.onNoteEvent);
+    EventEmitter.off(CLIENT_RELOAD, this.handleRefetchNotes);
+    EventEmitter.off(NOTE_RELOAD, this.handleNoteReload);
   }
 
-  refetchNotes = () => this.props.notesQuery.refetch();
+  handleRefetchNotes = () => this.props.notesQuery.refetch();
 
   /**
    * Refetch list of notes only if targetType is PLAYER
    *
    * @param targetType
    */
-  onNoteEvent = ({ targetType }) => {
+  handleNoteReload = ({ targetType }) => {
     if (targetType === targetTypes.PLAYER) {
-      this.refetchNotes();
+      this.handleRefetchNotes();
     }
   };
 
-  loadMore = () => {
+  handleLoadMore = () => {
     const {
       notesQuery: {
         data,
@@ -84,7 +82,7 @@ class ClientNotesTab extends PureComponent {
           <ListView
             loading={loading}
             dataSource={notes.content}
-            onPageChange={this.loadMore}
+            onPageChange={this.handleLoadMore}
             render={this.renderItem}
             activePage={notes.number + 1}
             totalPages={notes.totalPages}

@@ -20,20 +20,7 @@ const REQUEST = gql`
         pinned: $pinned
         playerUUID: $playerUUID
         targetType: $targetType
-      ) {
-        _id
-        noteId
-        targetUUID
-        playerUUID
-        subject
-        content
-        pinned
-        changedAt
-        changedBy
-        operator {
-          fullName
-        }
-      }
+      )
     }
   }
 `;

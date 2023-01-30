@@ -65,7 +65,7 @@ class UploadModal extends PureComponent {
 
   noteButton = null;
 
-  updateFileNote = (data) => {
+  editFileNote = (data) => {
     const { filesToUpload } = this.state;
     const { targetUUID } = data;
 
@@ -249,8 +249,7 @@ class UploadModal extends PureComponent {
         categories={categories}
         profileUUID={profileUUID}
         onRemoveFileClick={fileUuid => this.handleRemoveFileFromList(fileUuid, setValues, values)}
-        addFileNote={this.updateFileNote}
-        updateFileNote={this.updateFileNote}
+        editFileNote={this.editFileNote}
         removeFileNote={this.removeFileNote}
       />
     );

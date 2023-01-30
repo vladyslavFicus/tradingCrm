@@ -16,9 +16,9 @@ import ChangePasswordModal from 'modals/ChangePasswordModal';
 import CreateClientCallbackModal from 'modals/CreateClientCallbackModal';
 import PermissionContent from 'components/PermissionContent';
 import ActionsDropDown from 'components/ActionsDropDown';
-import NotePopover from 'components/NotePopover';
 import { Button } from 'components/UI';
 import Uuid from 'components/Uuid';
+import NoteAction from 'components/Note/NoteAction';
 import ClientLockStatusQuery from './graphql/ClientLockStatusQuery';
 import ClientUnlockLoginMutation from './graphql/ClientUnlockLoginMutation';
 import ClientResetPasswordMutation from './graphql/ClientResetPasswordMutation';
@@ -249,10 +249,11 @@ class ClientHeader extends PureComponent {
           </If>
 
           <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
-            <NotePopover
+            <NoteAction
               playerUUID={uuid}
               targetUUID={uuid}
               targetType={targetTypes.PLAYER}
+              placement="bottom-end"
             >
               <Button
                 data-testid="addNoteButton"
@@ -262,7 +263,7 @@ class ClientHeader extends PureComponent {
               >
                 {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
               </Button>
-            </NotePopover>
+            </NoteAction>
           </PermissionContent>
 
           <Button

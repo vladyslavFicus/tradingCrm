@@ -15,7 +15,7 @@ import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { TrashButton } from 'components/UI';
-import NoteButton from 'components/NoteButton';
+import NoteAction from 'components/Note/NoteAction';
 import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
 import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
 import {
@@ -36,7 +36,7 @@ const LeadCallbacksGrid = (props: Props) => {
   const { leadCallbacksListQuery, modals } = props;
   const { leadCallbackDetailsModal, deleteLeadCallbackModal } = modals;
 
-  const { data, variables, fetchMore, loading } = leadCallbacksListQuery;
+  const { data, variables, fetchMore, loading, refetch } = leadCallbacksListQuery;
 
   const { content = [], last = false } = leadCallbacksListQuery?.data?.leadCallbacks || {};
 
@@ -142,12 +142,12 @@ const LeadCallbacksGrid = (props: Props) => {
 
     return (
       <div className="LeadCallbacksGrid__actions">
-        <NoteButton
-          key={callbackId}
-          targetType={targetTypes.LEAD_CALLBACK}
-          targetUUID={callbackId}
-          playerUUID={userId}
+        <NoteAction
           note={note}
+          playerUUID={userId}
+          targetUUID={callbackId}
+          targetType={targetTypes.LEAD_CALLBACK}
+          onRefetch={refetch}
         />
 
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>

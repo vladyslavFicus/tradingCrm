@@ -3,7 +3,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import PermissionContent from 'components/PermissionContent';
-import PinnedNotes from 'components/PinnedNotes';
+import PinnedNotes from 'components/Note/PinnedNotes';
 
 class ClientPinnedNotes extends PureComponent {
   static propTypes = {
