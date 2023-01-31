@@ -65,7 +65,7 @@ const ListView = (props: Props) => {
         <InfiniteScroll
           loadMore={() => handlePageChange(activePage + 1)}
           hasMore={!loading && hasMore}
-          loader={<ShortPreloader className="Table--loader" />}
+          loader={<ShortPreloader key="loader" className="Table--loader" />}
         >
           {items}
         </InfiniteScroll>

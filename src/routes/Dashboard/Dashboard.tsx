@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import I18n from 'i18n-js';
 import { Redirect } from 'react-router-dom';
 import compose from 'compose-function';
@@ -26,7 +26,6 @@ import ScreenerWidget from './components/TradingViewWidget/ScreenerWidget/Screen
 import './Dashboard.scss';
 
 type WidgetComponent = React.FC<{
-  key: string,
   chartType?: ChartTypes,
 }>
 
@@ -131,13 +130,13 @@ const Dashboard = (props: Props) => {
     if (isAvailable) {
       const Component = widgetName.component;
       return (
-        <>
-          <Component key={name} chartType={chartType} />
+        <Fragment key={name}>
+          <Component chartType={chartType} />
 
           <If condition={!!newRowAfter}>
             <br />
           </If>
-        </>
+        </Fragment>
       );
     }
 
