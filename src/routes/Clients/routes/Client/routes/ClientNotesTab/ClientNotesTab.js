@@ -66,11 +66,7 @@ class ClientNotesTab extends PureComponent {
       },
     } = this.props;
 
-    const notes = data?.notes;
-
-    if (!notes && loading) {
-      return null;
-    }
+    const { content = [], number = 0, totalPages = 0, last = true } = data?.notes || {};
 
     return (
       <div className="ClientNotesTab">
@@ -81,13 +77,13 @@ class ClientNotesTab extends PureComponent {
         <div className="ClientNotesTab__grid">
           <ListView
             loading={loading}
-            dataSource={notes.content}
+            dataSource={content}
             onPageChange={this.handleLoadMore}
             render={this.renderItem}
-            activePage={notes.number + 1}
-            totalPages={notes.totalPages}
-            last={notes.last}
-            showNoResults={!loading && !notes.content.length}
+            activePage={number + 1}
+            totalPages={totalPages}
+            last={last}
+            showNoResults={!loading && !content.length}
           />
         </div>
       </div>
