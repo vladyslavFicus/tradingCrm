@@ -95,7 +95,7 @@ const DynamicFiltersButton = (props: Props) => {
       }
     >
       {Object.keys(filters).map(key => (
-        <option key={key} value={key}>{key}</option>
+        <option key={key} value={key}>{filters[key]}</option>
       ))}
     </Select>
   );
