@@ -1,0 +1,9 @@
+query OfficesListQuery {
+  userBranches {
+    OFFICE {
+      name
+      uuid
+      branchType
+    }
+  }
+}

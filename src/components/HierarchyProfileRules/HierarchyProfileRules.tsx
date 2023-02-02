@@ -6,15 +6,11 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import { branchTypes } from 'constants/hierarchyTypes';
 import { Modal, State } from 'types';
-import { HierarchyBranch } from '__generated__/types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
 import { Button, EditButton, TrashButton } from 'components/UI';
-import PermissionContent from 'components/PermissionContent';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { Table, Column } from 'components/Table';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
@@ -41,14 +37,9 @@ type Modals = {
 };
 
 type Props = {
-  branchChildren: Array<HierarchyBranch>,
-  branchInfo: HierarchyBranch,
   modals: Modals,
-  params: {
-    id: string,
-  },
+  branchId: string,
   title: string,
-  branchType?: branchTypes,
 };
 
 const HierarchyProfileRules = (props: Props) => {
@@ -58,13 +49,8 @@ const HierarchyProfileRules = (props: Props) => {
       updateRuleModal,
       deleteModal,
     },
-    params: {
-      id: parentBranch,
-    },
+    branchId,
     title,
-    branchType,
-    branchChildren,
-    branchInfo,
   } = props;
 
   const [DeleteRule] = useDeleteRule();
@@ -72,13 +58,14 @@ const HierarchyProfileRules = (props: Props) => {
   const { data, loading, error, refetch } = useRulesQuery({
     variables: {
       ...state?.filters as RulesQueryVariables,
+      branchUuid: branchId,
     },
   });
   const rules = data?.rules || [];
 
   const openCreateRuleModal = () => {
     createRuleModal.show({
-      parentBranch,
+      parentBranch: branchId,
       onSuccess: async () => {
         await refetch();
 
@@ -134,60 +121,6 @@ const HierarchyProfileRules = (props: Props) => {
       actionText: I18n.t('HIERARCHY.PROFILE_RULE_TAB.DELETE_MODAL.ACTION_TEXT', { name }),
       submitButtonLabel: I18n.t('HIERARCHY.PROFILE_RULE_TAB.DELETE_MODAL.DELETE'),
     });
-  };
-
-  const renderAddButtonWithTooltip = () => {
-    let disabled = false;
-    let tooltipMessage = '';
-
-    switch (branchType) {
-      case branchTypes.DESK: {
-        const teams = branchChildren;
-
-        disabled = !(teams && teams.length && teams.some(({ uuid }) => !!uuid));
-        tooltipMessage = I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.DESK');
-
-        break;
-      }
-      case branchTypes.TEAM: {
-        const defaultUser = branchInfo?.defaultUser;
-
-        disabled = !defaultUser;
-        tooltipMessage = I18n.t('HIERARCHY.PROFILE_RULE_TOOLTIP.TEAM');
-
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-
-    return (
-      <>
-        <span id="add-rule">
-          <Button
-            type="submit"
-            onClick={openCreateRuleModal}
-            disabled={disabled}
-            tertiary
-            small
-          >
-            {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
-          </Button>
-        </span>
-
-        <If condition={disabled && !!tooltipMessage}>
-          <UncontrolledTooltip
-            placement="bottom"
-            target="add-rule"
-            delay={{ show: 350, hide: 250 }}
-            fade={false}
-          >
-            {tooltipMessage}
-          </UncontrolledTooltip>
-        </If>
-      </>
-    );
   };
 
   const renderRule = ({ uuid, name, createdBy }: Rule) => (
@@ -306,17 +239,26 @@ const HierarchyProfileRules = (props: Props) => {
   }
 
   const permission = usePermission();
-  const isDeleteRuleAvailable = permission.allows(permissions.SALES_RULES.REMOVE_RULE);
+
+  const isCreateRuleAllow = permission.allows(permissions.SALES_RULES.CREATE_RULE);
+  const isDeleteRuleAllow = permission.allows(permissions.SALES_RULES.REMOVE_RULE);
 
   return (
     <div className="HierarchyProfileRules">
       <TabHeader
-        title={I18n.t(title)}
+        title={title}
         className="HierarchyProfileRules__header"
       >
-        <PermissionContent permissions={permissions.SALES_RULES.CREATE_RULE}>
-          {renderAddButtonWithTooltip()}
-        </PermissionContent>
+        <If condition={isCreateRuleAllow}>
+          <Button
+            type="submit"
+            onClick={openCreateRuleModal}
+            tertiary
+            small
+          >
+            {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
+          </Button>
+        </If>
       </TabHeader>
 
       <RulesGridFilters
@@ -353,7 +295,7 @@ const HierarchyProfileRules = (props: Props) => {
           render={renderPriority}
         />
 
-        <If condition={isDeleteRuleAvailable}>
+        <If condition={isDeleteRuleAllow}>
           <Column
             header={I18n.t('HIERARCHY.PROFILE_RULE_TAB.GRID_HEADER.ACTION')}
             render={renderActions}

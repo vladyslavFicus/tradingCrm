@@ -26606,9 +26606,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "HierarchyBranch",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "HierarchyBranch",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
+import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
-import { branchTypes } from 'constants/hierarchyTypes';
 import Route from 'components/Route';
 import Tabs from 'components/Tabs';
 import BranchHeader from 'components/BranchHeader';
@@ -69,9 +69,8 @@ class TeamProfile extends PureComponent {
               path={`${path}/rules`}
               component={() => (
                 <HierarchyProfileRules
-                  title="TEAMS.TABS.RULES.TITLE"
-                  branchTypes={branchTypes.TEAM}
-                  params={params}
+                  title={I18n.t('TEAMS.TABS.RULES.TITLE')}
+                  branchId={params.id}
                 />
               )}
             />

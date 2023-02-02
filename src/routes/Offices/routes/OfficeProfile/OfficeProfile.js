@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
+import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import NotFound from 'routes/NotFound';
 import PropTypes from 'constants/propTypes';
@@ -66,7 +67,12 @@ class OfficeProfile extends PureComponent {
           <Switch>
             <Route
               path={`${path}/rules`}
-              component={() => <HierarchyProfileRules title="OFFICES.TABS.RULES.TITLE" params={params} />}
+              component={() => (
+                <HierarchyProfileRules
+                  title={I18n.t('OFFICES.TABS.RULES.TITLE')}
+                  branchId={params.id}
+                />
+              )}
             />
             <Redirect to={`${url}/rules`} />
           </Switch>
