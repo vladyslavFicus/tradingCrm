@@ -1,51 +1,50 @@
-import Permissions from 'utils/permissions';
 import permissions from 'config/permissions';
 
 const tradingEngineTabs = [
   {
     url: '/trading-engine/accounts',
     label: 'TRADING_ENGINE.TABS.ACCOUNTS',
-    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
+    permissions: permissions.WE_TRADING.ACCOUNTS_LIST,
   },
   {
     url: '/trading-engine/orders',
     label: 'TRADING_ENGINE.TABS.ORDERS',
-    permissions: new Permissions(permissions.WE_TRADING.ORDERS_LIST),
+    permissions: permissions.WE_TRADING.ORDERS_LIST,
   },
   {
     url: '/trading-engine/quotes',
     label: 'TRADING_ENGINE.TABS.QUOTES',
-    permissions: new Permissions(permissions.WE_TRADING.SYMBOLS_LIST),
+    permissions: permissions.WE_TRADING.SYMBOLS_LIST,
   },
   {
     url: '/trading-engine/margin-calls',
     label: 'TRADING_ENGINE.TABS.MARGIN_CALLS',
-    permissions: new Permissions(permissions.WE_TRADING.ACCOUNTS_LIST),
+    permissions: permissions.WE_TRADING.ACCOUNTS_LIST,
   },
   {
     url: '/trading-engine/symbols',
     label: 'TRADING_ENGINE.TABS.SYMBOLS',
-    permissions: new Permissions(permissions.WE_TRADING.SYMBOLS_LIST),
+    permissions: permissions.WE_TRADING.SYMBOLS_LIST,
   },
   {
     url: '/trading-engine/groups',
     label: 'TRADING_ENGINE.TABS.GROUPS',
-    permissions: new Permissions(permissions.WE_TRADING.GROUPS_LIST),
+    permissions: permissions.WE_TRADING.GROUPS_LIST,
   },
   {
     url: '/trading-engine/securities',
     label: 'TRADING_ENGINE.TABS.SECURITIES',
-    permissions: new Permissions(permissions.WE_TRADING.SECURITIES_LIST),
+    permissions: permissions.WE_TRADING.SECURITIES_LIST,
   },
   {
     url: '/trading-engine/holidays',
     label: 'TRADING_ENGINE.TABS.HOLIDAYS',
-    permissions: new Permissions(permissions.WE_TRADING.HOLIDAYS_LIST),
+    permissions: permissions.WE_TRADING.HOLIDAYS_LIST,
   },
   {
     url: '/trading-engine/operators',
     label: 'TRADING_ENGINE.TABS.OPERATORS',
-    permissions: new Permissions(permissions.WE_TRADING.OPERATORS_LIST),
+    permissions: permissions.WE_TRADING.OPERATORS_LIST,
   },
 ];
 

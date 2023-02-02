@@ -260,7 +260,7 @@ export const sidebarBottomMenu: Array<SidebarBottomMenuItem> = [{
 type TabItem = {
   label: string,
   url: string,
-  permissions?: Permissions,
+  permissions?: string,
 };
 
 export const operatorTabs = (isSales: boolean): Array<TabItem> => {
@@ -272,7 +272,7 @@ export const operatorTabs = (isSales: boolean): Array<TabItem> => {
     {
       label: 'OPERATOR_PROFILE.TABS.FEED',
       url: '/operators/:id/feed',
-      permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+      permissions: permissions.AUDIT.AUDIT_LOGS,
     },
   ];
 
@@ -281,7 +281,7 @@ export const operatorTabs = (isSales: boolean): Array<TabItem> => {
     tabs.push({
       label: 'OPERATOR_PROFILE.TABS.SALES_RULES',
       url: '/operators/:id/sales-rules',
-      permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
+      permissions: permissions.SALES_RULES.GET_RULES,
     });
   }
 
@@ -296,12 +296,12 @@ export const partnerTabs: Array<TabItem> = [
   {
     label: 'PARTNER_PROFILE.TABS.SALES_RULES',
     url: '/partners/:id/sales-rules',
-    permissions: new Permissions(permissions.SALES_RULES.GET_RULES),
+    permissions: permissions.SALES_RULES.GET_RULES,
   },
   {
     label: 'PARTNER_PROFILE.TABS.FEED',
     url: '/partners/:id/feed',
-    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+    permissions: permissions.AUDIT.AUDIT_LOGS,
   },
 ];
 
@@ -313,6 +313,6 @@ export const distributionRuleTabs: Array<TabItem> = [
   {
     label: 'CLIENTS_DISTRIBUTION.RULE.FEED',
     url: '/distribution/:id/rule/feed',
-    permissions: new Permissions(permissions.AUDIT.AUDIT_LOGS),
+    permissions: permissions.AUDIT.AUDIT_LOGS,
   },
 ];
