@@ -76,7 +76,7 @@ const ClientMiniProfile = (props: Props) => {
   return (
     <MiniProfile className="ClientMiniProfile" status={status?.type?.toLowerCase() as Statuses}>
       <MiniProfileHeader
-        label={renderLabel(status?.type, userStatusNames)}
+        label={renderLabel(status?.type || '', userStatusNames)}
         type={I18n.t('MINI_PROFILE.CLIENT')}
         title={`${firstName} ${lastName}`}
         age={age}

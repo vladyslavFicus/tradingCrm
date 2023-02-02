@@ -60,7 +60,7 @@ const LeadMiniProfile = (props: Props) => {
 
         <MiniProfileContentItem
           label={I18n.t('MINI_PROFILE.LEADS.SALES')}
-          heading={I18n.t(renderLabel(salesStatus, salesStatuses))}
+          heading={I18n.t(renderLabel(salesStatus || '', salesStatuses))}
           description={salesOperator?.fullName || ''}
         />
 

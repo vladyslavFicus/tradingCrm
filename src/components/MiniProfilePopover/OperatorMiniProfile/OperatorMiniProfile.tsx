@@ -58,9 +58,9 @@ const OperatorMiniProfile = (props: Props) => {
           <div className="OperatorMiniProfile__departments">
             {authorities?.map(authority => (
               <div className="OperatorMiniProfile__department" key={authority?.id}>
-                <span>{I18n.t(renderLabel(authority?.department, departmentsLabels))}</span>
+                <span>{I18n.t(renderLabel(authority?.department || '', departmentsLabels))}</span>
                 {' - '}
-                <span>{I18n.t(renderLabel(authority?.role, rolesLabels))}</span>
+                <span>{I18n.t(renderLabel(authority?.role || '', rolesLabels))}</span>
               </div>
             ))}
           </div>
