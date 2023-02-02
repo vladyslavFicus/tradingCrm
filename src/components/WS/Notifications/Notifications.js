@@ -5,10 +5,8 @@ import { toast } from 'react-toastify';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
-import {
-  REQUEST as NotificationCenterUnreadQuery,
-} from '../../NotificationCenter/graphql/NotificationCenterUnreadQuery';
 import NotificationItem from './components/NotificationItem';
+import { UnreadNotificationsQuery } from './graphql/UnreadNotificationsQuery';
 import NotificationSubscription from './graphql/NotificationSubscription';
 import 'react-toastify/dist/ReactToastify.css';
 import './Notifications.scss';
@@ -44,7 +42,7 @@ class Notifications extends PureComponent {
       setTimeout(() => {
         // Update count of unread notifications in apollo cache
         client.writeQuery({
-          query: NotificationCenterUnreadQuery,
+          query: UnreadNotificationsQuery,
           data: { notificationCenterUnread: totalUnreadNotificationsCount },
         });
 
