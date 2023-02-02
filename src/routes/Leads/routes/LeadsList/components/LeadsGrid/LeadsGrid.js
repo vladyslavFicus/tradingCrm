@@ -8,16 +8,16 @@ import classNames from 'classnames';
 import { NetworkStatus } from '@apollo/client';
 import { withModals } from 'hoc';
 import { getBackofficeBrand } from 'config';
-import PropTypes from 'constants/propTypes';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import Uuid from 'components/Uuid';
-import MiniProfile from 'components/MiniProfile';
+import MiniProfilePopover from 'components/MiniProfilePopover';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import limitItems from 'utils/limitItems';
+import PropTypes from 'constants/propTypes';
 import { leadStatuses } from '../../../../constants';
 import { MAX_SELECTED_LEADS } from '../../constants';
 import './LeadsGrid.scss';
@@ -105,9 +105,9 @@ class LeadsGrid extends PureComponent {
       </div>
 
       <div className="LeadsGrid__additional">
-        <MiniProfile id={uuid} type="lead">
+        <MiniProfilePopover uuid={uuid} type="lead">
           <Uuid uuid={uuid} uuidPrefix="LE" />
-        </MiniProfile>
+        </MiniProfilePopover>
       </div>
     </>
   );

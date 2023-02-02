@@ -12,17 +12,21 @@ const userStatusNames = {
   [userStatuses.NOT_VERIFIED]: 'not verified',
   [userStatuses.VERIFIED]: 'verified',
   [userStatuses.BLOCKED]: 'blocked',
-  [userStatuses.DORMANT]: 'dormant',
-  [userStatuses.SUSPENDED]: 'suspended',
-  [userStatuses.COOLOFF]: 'cooloff',
+
+  // Used only for Mini prifile
+  DORMANT: 'dormant',
+  SUSPENDED: 'suspended',
+  COOLOFF: 'cooloff',
 };
 
-// used only in Transaction Mini Profile, which is unused now
+// Used only in Transaction Mini Profile, which is unused now
 const paymentStatusNames = {
   [paymentStatuses.COMPLETED]: 'completed',
   [paymentStatuses.PENDING]: 'pending',
-  [paymentStatuses.REFUSED]: 'refused',
   [paymentStatuses.FAILED]: 'failed',
+
+  // Used only for Mini prifile
+  REFUSED: 'refused',
 };
 
 export {

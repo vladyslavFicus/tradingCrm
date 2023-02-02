@@ -1,5 +1,5 @@
 import React from 'react';
-import MiniProfile from 'components/MiniProfile';
+import MiniProfilePopover from 'components/MiniProfilePopover';
 import Uuid from 'components/Uuid';
 import './GridPlayerInfo.scss';
 
@@ -45,9 +45,9 @@ const GridPlayerInfo = <T extends Profile>(props: Props<T>) => {
         className="GridPlayerInfo__text-secondary"
         id={`${id ? `${id}-` : ''}players-list-${uuid}-additional`}
       >
-        <MiniProfile id={uuid} type="client">
+        <MiniProfilePopover uuid={uuid} type="client">
           <Uuid uuid={uuid} />
-        </MiniProfile>
+        </MiniProfilePopover>
 
         <If condition={!!languageCode}>
           <span> - {languageCode}</span>

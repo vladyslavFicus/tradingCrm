@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
-import MiniProfile from 'components/MiniProfile';
+import MiniProfilePopover from 'components/MiniProfilePopover';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import './NotificationsGrid.scss';
 
@@ -108,12 +108,14 @@ class NotificationsGrid extends PureComponent {
         <div className="NotificationsGrid__text-primary">
           {agent.fullName}
         </div>
+
         <div className="NotificationsGrid__text-secondary">
-          <MiniProfile id={agent.uuid} type="operator">
+          <MiniProfilePopover uuid={agent.uuid} type="operator">
             <Uuid uuid={agent.uuid} />
-          </MiniProfile>
+          </MiniProfilePopover>
         </div>
       </When>
+
       <Otherwise>
         <div>&mdash;</div>
       </Otherwise>
@@ -134,9 +136,10 @@ class NotificationsGrid extends PureComponent {
             {fullName}
           </Link>
           <div className="NotificationsGrid__text-secondary">
-            <MiniProfile id={uuid} type="client">
+            <MiniProfilePopover uuid={uuid} type="client">
               <Uuid uuid={uuid} />
-            </MiniProfile>
+            </MiniProfilePopover>
+
             <If condition={languageCode}>
               <span> - {languageCode}</span>
             </If>

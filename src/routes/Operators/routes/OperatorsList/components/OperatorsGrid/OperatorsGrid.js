@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
 import { statusesLabels } from 'constants/operators';
 import { Link } from 'components/Link';
-import MiniProfile from 'components/MiniProfile';
+import MiniProfilePopover from 'components/MiniProfilePopover';
 import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
@@ -54,11 +54,14 @@ class OperatorsGrid extends PureComponent {
 
   renderOperator = ({ uuid, fullName }) => (
     <>
-      <Link className="OperatorsGrid__name" to={`/operators/${uuid}/profile`}>{fullName}</Link>
+      <Link className="OperatorsGrid__name" to={`/operators/${uuid}/profile`}>
+        {fullName}
+      </Link>
+
       <div className="OperatorsGrid__uuid">
-        <MiniProfile type="operator" id={uuid}>
+        <MiniProfilePopover uuid={uuid} type="operator">
           <Uuid uuid={uuid} />
-        </MiniProfile>
+        </MiniProfilePopover>
       </div>
     </>
   );
