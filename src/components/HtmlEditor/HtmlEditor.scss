@@ -355,11 +355,8 @@
     text-align: center;
   }
 
-  &__footer {
-    position: relative;
-  }
-
   &__error {
+    position: relative;
     color: var(--state-colors-danger);
     font-size: 12px;
     margin-top: 4px;

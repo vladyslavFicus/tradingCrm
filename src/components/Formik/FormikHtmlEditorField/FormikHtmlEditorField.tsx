@@ -11,7 +11,7 @@ type Form = {
 
 type Field = {
   name: string,
-  value?: string | number,
+  value: string,
   onChange: () => void,
 };
 
