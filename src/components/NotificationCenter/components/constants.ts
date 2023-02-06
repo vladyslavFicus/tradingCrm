@@ -1,4 +1,4 @@
-export const MAX_SELECTED_ROWS = 5;
+export const MAX_SELECTED_ROWS = 1000;
 
 export const readTypes = [
   {
