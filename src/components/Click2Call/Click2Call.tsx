@@ -21,6 +21,7 @@ import { useNewtelCreateCallMutation } from './graphql/__generated__/NewtelCreat
 import { useCommpeakCreateCallMutation } from './graphql/__generated__/CommpeakCreateCall';
 import { useCoperatoCreateCallMutation } from './graphql/__generated__/CoperatoCreateCall';
 import { useSquaretalkCreateCallMutation } from './graphql/__generated__/SquaretalkCreateCall';
+import { useGlobalcallCreateCallMutation } from './graphql/__generated__/GlobalcallCreateCall';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';
 import { ReactComponent as DidlogicIcon } from './icons/didlogic.svg';
 import { ReactComponent as NewtelIcon } from './icons/newtel.svg';
@@ -28,6 +29,7 @@ import { ReactComponent as CommpeakIcon } from './icons/commpeak.svg';
 import { ReactComponent as CoperatoIcon } from './icons/coperato.svg';
 import { ReactComponent as ClearvoiceIcon } from './icons/clearvoice.svg';
 import { ReactComponent as SquaretalkIcon } from './icons/squaretalk.svg';
+import { ReactComponent as GlobalcallIcon } from './icons/globalcall.svg';
 import { ReactComponent as CallStartedIcon } from './icons/callstarted.svg';
 import './Click2Call.scss';
 
@@ -38,6 +40,7 @@ const ICONS: Record<CallSystem, React.ElementType<SVGProps<SVGSVGElement>>> = {
   [CallSystem.COPERATO]: CoperatoIcon,
   [CallSystem.CLEAR_VOICE]: ClearvoiceIcon,
   [CallSystem.SQUARETALK]: SquaretalkIcon,
+  [CallSystem.GLOBAL_CALL]: GlobalcallIcon,
 };
 
 const TOOLTIP_STYLE = {
@@ -88,6 +91,7 @@ const Click2Call = (props: Props) => {
   const [commpeakCreateCall] = useCommpeakCreateCallMutation();
   const [coperatoCreateCall] = useCoperatoCreateCallMutation();
   const [squaretalkCreateCall] = useSquaretalkCreateCallMutation();
+  const [globalcallCreateCall] = useGlobalcallCreateCallMutation();
 
   const configs = configsQuery.data?.clickToCall.configs || [];
 
@@ -128,6 +132,9 @@ const Click2Call = (props: Props) => {
           break;
         case CallSystem.SQUARETALK:
           await squaretalkCreateCall({ variables: { uuid, phoneType, customerType } });
+          break;
+        case CallSystem.GLOBAL_CALL:
+          await globalcallCreateCall({ variables: { uuid, phoneType, customerType, prefix: prefix as string } });
           break;
         default:
           break;
