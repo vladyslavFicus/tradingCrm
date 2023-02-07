@@ -305,14 +305,26 @@ export const partnerTabs: Array<TabItem> = [
   },
 ];
 
-export const distributionRuleTabs: Array<TabItem> = [
-  {
-    label: 'CLIENTS_DISTRIBUTION.RULE.GENERAL_INFO',
-    url: '/distribution/:id/rule/general',
-  },
-  {
-    label: 'CLIENTS_DISTRIBUTION.RULE.FEED',
-    url: '/distribution/:id/rule/feed',
-    permissions: permissions.AUDIT.AUDIT_LOGS,
-  },
-];
+export const distributionRuleTabs = (isManual: boolean): Array<TabItem> => {
+  const tabs = [
+    {
+      label: 'CLIENTS_DISTRIBUTION.RULE.GENERAL_INFO',
+      url: '/distribution/:id/rule/general',
+    },
+    {
+      label: 'CLIENTS_DISTRIBUTION.RULE.FEED',
+      url: '/distribution/:id/rule/feed',
+      permissions: permissions.AUDIT.AUDIT_LOGS,
+    },
+  ];
+
+  // Check if ruleDistribution executionType is MANUAL to show shedule settings tab
+  if (isManual) {
+    tabs.push({
+      label: 'CLIENTS_DISTRIBUTION.RULE.SCHEDULE_SETTINGS',
+      url: '/distribution/:id/rule/schedule',
+    });
+  }
+
+  return tabs;
+};

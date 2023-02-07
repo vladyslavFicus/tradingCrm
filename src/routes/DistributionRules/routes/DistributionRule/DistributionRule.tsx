@@ -10,6 +10,7 @@ import DistributionRuleHeader from './components/DistributionRuleHeader';
 import DistributionRuleInfo from './components/DistributionRuleInfo';
 import DistributionRuleGeneral from './routes/DistributionRuleGeneral';
 import DistributionRuleFeeds from './routes/DistributionRuleFeeds';
+import DistributionRuleSchedule from './routes/DistributionRuleSchedule';
 import { useDistributionRuleQuery, DistributionRuleQuery } from './graphql/__generated__/DistributionRuleQuery';
 import './DistributionRule.scss';
 
@@ -25,14 +26,18 @@ const DistributionRule = () => {
 
   const distributionRuleError = hasErrorPath(distributionRuleQuery.error, 'distributionRule');
 
+  const showScheduleSettingsTab = distributionRule.executionType === 'AUTO';
+
   return (
     <Choose>
       <When condition={distributionRuleQuery.loading}>
         <ShortLoader />
       </When>
+
       <When condition={distributionRuleError}>
         <NotFound />
       </When>
+
       <Otherwise>
         <div className="DistributionRule">
           <DistributionRuleHeader distributionRule={distributionRule} />
@@ -40,13 +45,17 @@ const DistributionRule = () => {
 
           <Tabs
             className="DistributionRule__tabs"
-            items={distributionRuleTabs}
+            items={distributionRuleTabs(showScheduleSettingsTab)}
           />
 
           <Suspense fallback={null}>
             <Switch>
               <Route path={`${path}/general`} component={DistributionRuleGeneral} />
               <Route path={`${path}/feed`} component={DistributionRuleFeeds} />
+
+              <If condition={showScheduleSettingsTab}>
+                <Route path={`${path}/schedule`} component={DistributionRuleSchedule} />
+              </If>
 
               <Redirect to={`${url}/general`} />
             </Switch>
