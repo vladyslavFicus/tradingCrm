@@ -1,0 +1,11 @@
+query brandsQuery($crmBrand: String!) {
+    brandToAuthorities(crmBrand: $crmBrand) {
+      id
+      name
+      authorities {
+        id
+        department
+        role
+      }
+    }
+  }
