@@ -1,18 +1,14 @@
 import React from 'react';
 import classnames from 'classnames';
 import { getStaticFileUrl } from 'config';
+import { BrandToAuthorities } from '__generated__/types';
 import './BrandItem.scss';
 
 type Props = {
-  brand: Brand,
+  brand: BrandToAuthorities,
   isActive?: boolean,
   onClick?: () => void,
-}
-
-type Brand = {
-  id: string,
-  name: string,
-}
+};
 
 const BrandItem = (props: Props) => {
   const { brand, onClick, isActive } = props;
