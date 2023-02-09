@@ -10,11 +10,10 @@ import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQu
 import { useFullSmsSendMutation } from './graphql/__generated__/FullSmsSendMutation';
 import './SmsSendModal.scss';
 
-type Props = {
+export type Props = {
   uuid: string,
   field: string,
   type: 'PROFILE' | 'LEAD',
-  isOpen: boolean,
   onCloseModal: () => void,
 }
 
@@ -29,7 +28,6 @@ const SmsSendModal = (props: Props) => {
     field,
     type,
     onCloseModal,
-    isOpen,
   } = props;
   const [sendSmsMutation] = useFullSmsSendMutation();
   const fullSmsNumbersQuery = useFullSmsNumbersQuery();
@@ -65,7 +63,7 @@ const SmsSendModal = (props: Props) => {
   return (
     <Modal
       toggle={onCloseModal}
-      isOpen={isOpen}
+      isOpen
       className="SmsSendModal"
     >
       <Formik

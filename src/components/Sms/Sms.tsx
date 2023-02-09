@@ -1,35 +1,26 @@
 import React from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
-import { Modal } from 'types';
-import withModals from 'hoc/withModals';
+import { useModal } from 'providers/ModalProvider';
 import { Button } from 'components/UI';
-import SmsSendModal from './modals/SmsSendModal';
+import SmsSendModal, { SmsSendModalProps } from './modals/SmsSendModal';
 import './Sms.scss';
 
-type SmsSendModalProps = {
+type Props = {
   uuid: string,
   field: string,
   type: 'PROFILE' | 'LEAD',
 }
 
-type Props = {
-  modals: {
-    smsSendModal: Modal<SmsSendModalProps>,
-  },
-}
-
-const Sms = (props: Props & SmsSendModalProps) => {
+const Sms = (props: Props) => {
   const {
     uuid,
     field,
     type,
-    modals: {
-      smsSendModal,
-    },
   } = props;
   const { isActive } = getBrand().sms.fullSms;
+
+  const smsSendModal = useModal<SmsSendModalProps>(SmsSendModal);
 
   return (
     <If condition={isActive}>
@@ -48,9 +39,4 @@ const Sms = (props: Props & SmsSendModalProps) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    smsSendModal: SmsSendModal,
-  }),
-)(Sms);
+export default React.memo(Sms);
