@@ -2755,6 +2755,7 @@
       "CURRENT_WEEK": "Current Week",
       "PAST_WEEK": "Past Week",
       "LAST_MONTH": "Last Month",
+      "CURRENT_MONTH": "Current Month",
       "PAST_MONTH": "Past Month"
     },
     "LATEST_NOTIFICATIONS": "Latest 10 Notifications",

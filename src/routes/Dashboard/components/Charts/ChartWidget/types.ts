@@ -31,5 +31,6 @@ export enum SelectOption {
   CURRENT_WEEK = 'currentWeek',
   PAST_WEEK = 'pastWeek',
   LAST_MONTH = 'lastMonth',
+  CURRENT_MONTH = 'currentMonth',
   PASS_MONTS = 'pastMonth',
 }

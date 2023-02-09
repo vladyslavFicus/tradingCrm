@@ -86,7 +86,15 @@ export const getChartSelectOptions = () => ({
       dateTo: moment().add(1, 'day').startOf('day').format(DATE_TIME_BASE_FORMAT),
     },
   },
-  // PAST_MONTH
+  // CURRENT MONTH
+  currentMonth: {
+    label: I18n.t('DASHBOARD.CHART_SELECT_OPTIONS.CURRENT_MONTH'),
+    range: {
+      dateFrom: moment().startOf('month').format(DATE_TIME_BASE_FORMAT),
+      dateTo: moment().add(1, 'day').startOf('day').format(DATE_TIME_BASE_FORMAT),
+    },
+  },
+  // PAST MONTH
   pastMonth: {
     label: I18n.t('DASHBOARD.CHART_SELECT_OPTIONS.PAST_MONTH'),
     range: {
