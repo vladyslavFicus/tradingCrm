@@ -16,12 +16,12 @@ import './OfficesList.scss';
 
 type Props = {
   modals: {
-    createDeskModal: Modal,
+    createOfficeModal: Modal,
   },
 };
 
 const OfficesList = (props: Props) => {
-  const { modals: { createDeskModal } } = props;
+  const { modals: { createOfficeModal } } = props;
 
   const { state } = useLocation<State<OfficesListQueryVariables>>();
 
@@ -41,7 +41,7 @@ const OfficesList = (props: Props) => {
 
   // ===== Handlers ===== //
   const handleOpenAddOfficeModal = () => {
-    createDeskModal.show({
+    createOfficeModal.show({
       onSuccess: refetch,
     });
   };
