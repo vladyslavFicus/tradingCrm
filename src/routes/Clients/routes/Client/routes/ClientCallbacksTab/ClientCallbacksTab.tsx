@@ -8,7 +8,7 @@ import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import CreateClientCallbackModal from 'modals/CreateClientCallbackModal';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';

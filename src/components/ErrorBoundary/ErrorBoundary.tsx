@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './ErrorBoundary.scss';
 
 type Props = {

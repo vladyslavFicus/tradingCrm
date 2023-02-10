@@ -5,7 +5,7 @@ import compose from 'compose-function';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormikTimeRangeField } from 'components/Formik';
 import { DayOfWeek, SessionType } from '../../types';
 import './ScheduleSettingsModal.scss';

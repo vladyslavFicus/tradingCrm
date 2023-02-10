@@ -7,7 +7,7 @@ import { parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { OrderDirection } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';

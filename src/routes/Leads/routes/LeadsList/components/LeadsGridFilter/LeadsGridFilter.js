@@ -13,7 +13,7 @@ import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { leadAccountStatuses, neverCalledTypes } from '../../constants';

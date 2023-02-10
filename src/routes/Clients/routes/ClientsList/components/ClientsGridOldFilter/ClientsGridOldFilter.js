@@ -29,7 +29,7 @@ import { RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator from 'components/FilterSetsDecorator';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import ReactSwitch from 'components/ReactSwitch';
 import countries from 'utils/countryList';

@@ -6,7 +6,7 @@ import { State } from 'types';
 import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { ResetForm } from 'types/formik';
 import enumToArray from 'utils/enumToArray';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import './ClientCallbacksGridFilter.scss';

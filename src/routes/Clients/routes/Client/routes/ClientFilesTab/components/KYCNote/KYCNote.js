@@ -6,7 +6,7 @@ import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
-import Button from 'components/UI/Button';
+import { Button } from 'components/Buttons';
 import FormikTextAreaField from 'components/Formik/FormikTextAreaField';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Navigate } from '@hrzn/react-big-calendar';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './Toolbar.scss';
 
 class Toolbar extends PureComponent {

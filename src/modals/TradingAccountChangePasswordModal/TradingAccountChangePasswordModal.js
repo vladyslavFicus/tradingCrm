@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
 import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormikInputField } from 'components/Formik/index';
 import { createValidator, translateLabels } from 'utils/validator';
 import TradingAccountChangePasswordMutation from './graphql/TradingAccountChangePasswordMutation';

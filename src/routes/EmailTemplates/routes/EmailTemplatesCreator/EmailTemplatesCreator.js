@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';

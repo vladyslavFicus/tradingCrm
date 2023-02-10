@@ -7,7 +7,7 @@ import { parseErrors } from 'apollo';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { LevelType, Notify } from 'types/notify';
 import { securityNamePattern } from '../../constants';
 import { useSecurityQuery } from './graphql/__generated__/SecurityQuery';

@@ -9,7 +9,7 @@ import { withModals, withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
-import { Button, EditButton, TrashButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/Buttons';
 import Tabs from 'components/Tabs';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { usePermission } from 'providers/PermissionsProvider';

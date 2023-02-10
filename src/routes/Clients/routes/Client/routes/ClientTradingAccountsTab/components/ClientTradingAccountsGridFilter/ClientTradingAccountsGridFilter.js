@@ -7,7 +7,7 @@ import { accountTypes } from 'constants/accountTypes';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import './ClientTradingAccountsGridFilter.scss';
 
 class ClientTradingAccountsGridFilter extends PureComponent {

@@ -6,7 +6,7 @@ import { parseErrors } from 'apollo';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useUpdateOfficeMutation } from './graphql/__generated__/UpdateOfficeMutation';
 import './UpdateOfficeModal.scss';

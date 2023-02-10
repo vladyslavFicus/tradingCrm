@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Button } from 'components/UI';
+import Button from 'components/Buttons/Button';
 import { ReactComponent as EditIcon } from './icon-edit.svg';
 import './EditButton.scss';
 

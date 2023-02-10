@@ -12,7 +12,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import TabHeader from 'components/TabHeader';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import countryList, { getCountryCode } from 'utils/countryList';

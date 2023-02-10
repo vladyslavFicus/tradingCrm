@@ -16,7 +16,7 @@ import ChangePasswordModal from 'modals/ChangePasswordModal';
 import CreateClientCallbackModal from 'modals/CreateClientCallbackModal';
 import PermissionContent from 'components/PermissionContent';
 import ActionsDropDown from 'components/ActionsDropDown';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import ClientLockStatusQuery from './graphql/ClientLockStatusQuery';

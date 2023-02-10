@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { createValidator, translateLabels } from 'utils/validator';
 import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { Note } from 'types/Note';
 import { useUpdateNoteMutation } from './graphql/__generated__/UpdateNoteMutation';
 import './UpdateNoteModal.scss';

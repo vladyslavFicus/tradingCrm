@@ -19,7 +19,7 @@ import { ChangeOriginalAgent } from 'components/ChangeOriginalAgent';
 import PaymentStatus from 'components/PaymentStatus';
 import ShortLoader from 'components/ShortLoader';
 import IpFlag from 'components/IpFlag';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import formatLabel from 'utils/formatLabel';
 import { createValidator, translateLabels } from 'utils/validator';

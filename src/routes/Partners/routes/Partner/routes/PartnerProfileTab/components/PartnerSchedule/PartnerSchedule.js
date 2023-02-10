@@ -10,7 +10,7 @@ import { withModals } from 'hoc';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import { FormikCheckbox } from 'components/Formik';
 import PartnerScheduleModal from 'modals/PartnerScheduleModal';

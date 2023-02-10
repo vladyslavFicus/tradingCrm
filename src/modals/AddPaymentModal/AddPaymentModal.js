@@ -11,7 +11,7 @@ import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import { manualPaymentMethodsLabels } from 'constants/payment';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Currency from 'components/Currency';

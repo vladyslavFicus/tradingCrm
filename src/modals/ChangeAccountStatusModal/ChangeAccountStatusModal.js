@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 

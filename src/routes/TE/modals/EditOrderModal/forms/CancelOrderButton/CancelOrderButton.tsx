@@ -4,7 +4,7 @@ import compose from 'compose-function';
 import { withModals, withNotifications } from 'hoc';
 import { LevelType, Modal, Notify } from 'types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useCancelOrderMutation } from './graphql/__generated__/CancelOrderMutation';
 

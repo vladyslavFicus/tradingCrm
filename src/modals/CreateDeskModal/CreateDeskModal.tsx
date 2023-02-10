@@ -7,7 +7,7 @@ import { getAvailableLanguages } from 'config';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import { useCreateDeskMutation } from './graphql/__generated__/CreateDeskMutation';

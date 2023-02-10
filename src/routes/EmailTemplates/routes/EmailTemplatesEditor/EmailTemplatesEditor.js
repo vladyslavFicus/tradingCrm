@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { get } from 'lodash';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import PropTypes from 'constants/propTypes';
 import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';

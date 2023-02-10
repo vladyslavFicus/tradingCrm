@@ -5,7 +5,7 @@ import compose from 'compose-function';
 import { parseErrors, withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UnarchiveAccountMutation from './graphql/UnarchiveAccountMutation';
 
 class UnarchiveButton extends PureComponent {

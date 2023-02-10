@@ -9,7 +9,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import rejectPaymentMutation from './graphql/rejectPaymentMutation';
 import './RejectPaymentForm.scss';
 

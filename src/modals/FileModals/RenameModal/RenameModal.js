@@ -7,7 +7,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import EventEmitter, { FILE_CHANGED } from 'utils/EventEmitter';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './RenameModal.scss';
 
 class RenameModal extends PureComponent {

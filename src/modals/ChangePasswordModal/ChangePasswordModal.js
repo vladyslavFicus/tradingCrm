@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
 import { FormikInputField } from 'components/Formik';
 import Uuid from 'components/Uuid';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import './ChangePasswordModal.scss';
 

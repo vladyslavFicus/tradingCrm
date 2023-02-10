@@ -2,7 +2,7 @@ import React from 'react';
 import compose from 'compose-function';
 import { Modal } from 'types';
 import { withModals } from 'hoc';
-import { EditButton } from 'components/UI';
+import { EditButton } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import { DistributionRuleType } from '../../DistributionRule';
 import EditRuleNameModal from '../../modals/EditRuleNameModal';

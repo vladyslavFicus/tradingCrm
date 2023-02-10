@@ -30,7 +30,7 @@ import { DynamicField as Field, DynamicRangeGroup as RangeGroup } from 'componen
 import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator from 'components/FilterSetsDecorator';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
 import ReactSwitch from 'components/ReactSwitch';

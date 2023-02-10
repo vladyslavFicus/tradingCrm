@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
 import { useDistributionRuleQuery } from './graphql/__generated__/DistributionRuleQuery';
 import { useUpdateDistributionRuleMutation } from './graphql/__generated__/UpdateDistributionRuleMutation';

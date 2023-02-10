@@ -15,7 +15,7 @@ import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, AGE_YEARS_CONSTRAINT, genders, MIN_B
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { attributeLabels, timeZoneOffsets } from './constants';
 import UpdateClientPersonalMutation from './graphql/UpdateClientPersonalMutation';
 import './ClientPersonalForm.scss';

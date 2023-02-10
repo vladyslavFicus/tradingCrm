@@ -13,7 +13,7 @@ import {
 import permissions from 'config/permissions';
 import { CONDITIONS } from 'utils/permissions';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import PropTypes from 'constants/propTypes';
 import Click2Call from 'components/Click2Call';

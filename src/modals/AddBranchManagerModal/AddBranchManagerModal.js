@@ -7,7 +7,7 @@ import I18n from 'i18n-js';
 import { withRequests, parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormikSelectField } from 'components/Formik';
 import { createValidator, translateLabels } from 'utils/validator';
 import BranchUsersQuery from './graphql/BranchUsersQuery';

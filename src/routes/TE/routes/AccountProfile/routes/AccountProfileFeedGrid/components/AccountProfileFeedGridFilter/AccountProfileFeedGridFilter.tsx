@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { State } from 'types';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';

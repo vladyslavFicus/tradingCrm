@@ -9,7 +9,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import FileUpload from 'components/FileUpload';
 import ShortLoader from 'components/ShortLoader';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { shortify } from 'utils/uuid';
 import EventEmitter, { FILE_UPLOADED } from 'utils/EventEmitter';
 import { createValidator, translateLabels } from 'utils/validator';

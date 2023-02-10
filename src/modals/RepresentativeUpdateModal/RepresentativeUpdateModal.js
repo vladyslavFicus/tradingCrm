@@ -11,7 +11,7 @@ import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { deskTypes, isLead } from 'constants/hierarchyTypes';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import EventEmitter, { ACQUISITION_STATUS_CHANGED } from 'utils/EventEmitter';
 import BulkUpdateClientsAcquisitionMutation from './graphql/BulkUpdateClientsAcquisitionMutation';
 import BulkUpdateLeadsAcquisitionMutation from './graphql/BulkUpdateLeadsAcquisitionMutation';

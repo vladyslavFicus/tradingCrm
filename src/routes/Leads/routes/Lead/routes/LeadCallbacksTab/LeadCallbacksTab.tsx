@@ -8,7 +8,7 @@ import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import CreateLeadCallbackModal from 'modals/CreateLeadCallbackModal';
 import LeadCallbacksGridFilter from './components/LeadCallbacksGridFilter';
 import LeadCallbacksGrid from './components/LeadCallbacksGrid';

@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import { typesLabels } from 'constants/audit';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import FeedsTypesQuery from './graphql/FeedTypesQuery';

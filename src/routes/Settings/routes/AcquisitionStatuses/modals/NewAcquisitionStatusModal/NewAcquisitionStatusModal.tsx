@@ -10,7 +10,7 @@ import { SetFieldValue } from 'types/formik';
 import { createValidator } from 'utils/validator';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';

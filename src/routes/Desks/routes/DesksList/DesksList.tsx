@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import { Modal, State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import CreateDeskModal from 'modals/CreateDeskModal';
 import DesksGridFilter from './components/DesksGridFilter';
 import DesksGrid from './components/DesksGrid';

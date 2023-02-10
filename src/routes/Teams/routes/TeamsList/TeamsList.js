@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import CreateTeamModal from 'modals/CreateTeamModal';
 import getTeamsQuery from './graphql/getTeamsQuery';
 import getDesksAndOfficesQuery from './graphql/getDesksAndOfficesQuery';

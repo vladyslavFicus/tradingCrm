@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQuery';
 import { useFullSmsSendMutation } from './graphql/__generated__/FullSmsSendMutation';
 import './SmsSendModal.scss';

@@ -14,7 +14,7 @@ import {
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { withStorage } from 'providers/StorageProvider';
 import CircleLoader from 'components/CircleLoader';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useClickToCallConfigsQuery } from './graphql/__generated__/ClickToCallConfigsQuery';
 import { useDidLogicCreateCallMutation } from './graphql/__generated__/DidlogicCreateCall';
 import { useNewtelCreateCallMutation } from './graphql/__generated__/NewtelCreateCall';

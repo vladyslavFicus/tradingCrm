@@ -6,7 +6,7 @@ import { Modal } from 'types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import CreatePartnerModal from 'modals/CreatePartnerModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import PartnersBulkActions from '../PartnersBulkActions/PartnersBulkActions';
 import './PartnersHeader.scss';
 

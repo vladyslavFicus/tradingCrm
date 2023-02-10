@@ -9,7 +9,7 @@ import permissions from 'config/permissions';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton } from 'components/UI';
+import { EditButton, TrashButton } from 'components/Buttons';
 import UpdateDeskModal from 'modals/UpdateDeskModal';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import './DesksGrid.scss';

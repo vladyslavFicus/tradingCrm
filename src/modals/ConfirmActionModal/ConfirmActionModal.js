@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { shortify } from 'utils/uuid';
 import './ConfirmActionModal.scss';
 

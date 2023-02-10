@@ -12,7 +12,7 @@ import Permissions from 'utils/permissions';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import ClickToCallConfigQuery from './graphql/ClickToCallConfigQuery';
 import UpdateOperatorMutation from './graphql/UpdateOperatorMutation';
 import './OperatorPersonal.scss';

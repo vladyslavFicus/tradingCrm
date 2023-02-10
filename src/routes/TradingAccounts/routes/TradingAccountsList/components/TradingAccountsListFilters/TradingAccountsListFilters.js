@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { accountTypes, accountStatuses } from '../../constants';
 import './TradingAccountsListFilters.scss';

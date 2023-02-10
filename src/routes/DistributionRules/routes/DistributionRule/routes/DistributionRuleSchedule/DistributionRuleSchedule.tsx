@@ -4,7 +4,7 @@ import { Formik, Form, FormikProps } from 'formik';
 import { useParams } from 'react-router-dom';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import DistributionRuleScheduleSettings from './components/DistributionRuleScheduleSettings';
 import { useDistributionRuleQuery } from './graphql/__generated__/DistributionRuleQuery';
 import { useUpdateRuleDaysOfWeekMutation } from './graphql/__generated__/UpdateRuleDaysOfWeekMutation';

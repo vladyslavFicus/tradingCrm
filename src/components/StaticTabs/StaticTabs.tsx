@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import Button from '../Button';
+import { Button } from 'components/Buttons';
 import StaticTabsItem, { Props as StaticTabsItemProps } from './StaticTabsItem/StaticTabsItem';
 import './StaticTabs.scss';
 

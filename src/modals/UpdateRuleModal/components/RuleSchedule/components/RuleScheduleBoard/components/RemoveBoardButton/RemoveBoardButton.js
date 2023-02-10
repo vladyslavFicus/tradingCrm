@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { ReactComponent as CloseIcon } from './close-icon.svg';
 import './RemoveBoardButton.scss';
 

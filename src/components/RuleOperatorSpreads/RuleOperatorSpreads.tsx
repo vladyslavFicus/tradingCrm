@@ -8,7 +8,7 @@ import {
   FormikInputField,
   FormikSelectField,
 } from 'components/Formik';
-import { TrashButton } from 'components/UI';
+import { TrashButton } from 'components/Buttons';
 import './RuleOperatorSpreads.scss';
 
 /**

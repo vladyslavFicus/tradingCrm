@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormValues } from '../../types';
 import './HolidayHeader.scss';
 

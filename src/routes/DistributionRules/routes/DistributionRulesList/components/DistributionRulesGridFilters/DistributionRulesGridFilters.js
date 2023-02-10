@@ -12,7 +12,7 @@ import { statusesLabels, timeInCurrentStatusInHours } from 'constants/clientsDis
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import FiltersToggler from 'components/FiltersToggler';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import PartnersQuery from './graphql/PartnersQuery';

@@ -10,7 +10,7 @@ import { statuses as operatorsStasuses } from 'constants/operators';
 import { createValidator, translateLabels } from 'utils/validator';
 import { Partner, Operator } from '__generated__/types';
 import countryList from 'utils/countryList';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { RulesQueryVariables } from 'components/HierarchyProfileRules/graphql/__generated__/RulesQuery';

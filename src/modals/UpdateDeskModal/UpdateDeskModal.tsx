@@ -5,7 +5,7 @@ import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';

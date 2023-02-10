@@ -13,7 +13,7 @@ import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__genera
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
 import { usePermission } from 'providers/PermissionsProvider';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import AcquisitionStatusesFilter from './components/AcquisitionStatusesFilter';

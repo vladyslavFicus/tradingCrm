@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { Button } from 'components/UI';
+import Button from 'components/Buttons/Button';
 import './RefreshButton.scss';
 
 const RefreshButton = (props: Omit<React.ComponentProps<typeof Button>, 'children'>) => {

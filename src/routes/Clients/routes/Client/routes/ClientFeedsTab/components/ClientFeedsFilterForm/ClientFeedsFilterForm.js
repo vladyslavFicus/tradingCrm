@@ -5,7 +5,7 @@ import compose from 'compose-function';
 import { Formik, Form, Field } from 'formik';
 import { withRequests } from 'apollo';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';

@@ -7,7 +7,7 @@ import { SetFieldValue } from 'types/formik';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useCreateTeamMutation } from './graphql/__generated__/CreateTeamMutation';
 import { useDesksAndOfficesQuery } from './graphql/__generated__/DesksAndOfficesQuery';
 import './CreateTeamModal.scss';

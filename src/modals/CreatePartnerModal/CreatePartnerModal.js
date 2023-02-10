@@ -9,7 +9,7 @@ import { getBrand } from 'config';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import { generate } from 'utils/password';
 import CreatePartnerMutation from './graphql/CreatePartnerMutation';

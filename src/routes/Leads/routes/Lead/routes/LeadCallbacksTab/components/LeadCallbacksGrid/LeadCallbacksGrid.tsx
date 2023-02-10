@@ -13,7 +13,7 @@ import { CallbackTimes } from 'constants/callbacks';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
-import { TrashButton } from 'components/UI';
+import { TrashButton } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';

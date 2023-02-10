@@ -5,7 +5,7 @@ import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
-import Button from 'components/UI/Button';
+import { Button } from 'components/Buttons';
 import { OPERATORS_SORT } from './constants';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useChangeOriginalAgentMutation } from './graphql/__generated__/ChangeOriginalAgentMutation';

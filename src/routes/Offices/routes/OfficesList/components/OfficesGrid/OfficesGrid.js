@@ -7,7 +7,7 @@ import { withModals } from 'hoc';
 import { withPermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { EditButton, TrashButton } from 'components/UI';
+import { EditButton, TrashButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import { Link } from 'components/Link';
 import { Table, Column } from 'components/Table';

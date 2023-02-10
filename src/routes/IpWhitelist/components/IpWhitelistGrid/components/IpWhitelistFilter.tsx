@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { ResetForm } from 'types/formik';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { State } from 'types';
 import { IpWhitelistFilters as FormValues } from '../types';
 import './IpWhitelistFilter.scss';

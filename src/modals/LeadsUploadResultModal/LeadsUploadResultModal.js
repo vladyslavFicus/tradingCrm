@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './LeadsUploadResultModal.scss';
 
 class LeadsUploadResultModal extends PureComponent {

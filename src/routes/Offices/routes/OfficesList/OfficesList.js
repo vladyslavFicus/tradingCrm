@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import CreateOfficeModal from 'modals/CreateOfficeModal';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import OfficesGridFilter from './components/OfficesGridFilter';
 import OfficesGrid from './components/OfficesGrid';
 import OfficesQuery from './graphql/OfficesQuery';

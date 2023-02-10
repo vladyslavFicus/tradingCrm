@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
 import { ResetForm } from 'types/formik';
 import { FormikInputField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator } from 'utils/validator';
 import { RbacFeedsQueryVariables } from '../graphql/__generated__/RbacFeedsQuery';

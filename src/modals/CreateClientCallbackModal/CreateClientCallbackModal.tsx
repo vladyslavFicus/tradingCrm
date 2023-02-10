@@ -11,7 +11,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import { targetTypes } from 'constants/note';
 import { reminderValues } from 'constants/callbacks';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import { ManualNote } from 'types/Note';
 import { useCallbackAddNoteMutation } from './graphql/__generated__/CallbackAddNoteMutation';

@@ -12,7 +12,7 @@ import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import OperatorLockStatusQuery from './graphql/OperatorLockStatusQuery';
 import ChangeOperatorPasswordMutation from './graphql/ChangeOperatorPasswordMutation';

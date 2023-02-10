@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Field, FieldArray } from 'formik';
 import PropTypes from 'prop-types';
 import { FormikSwitchField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import RuleScheduleBoard from './components/RuleScheduleBoard';
 import './RuleSchedule.scss';
 

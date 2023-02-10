@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { createValidator } from 'utils/validator';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import './TeamsGridFilter.scss';

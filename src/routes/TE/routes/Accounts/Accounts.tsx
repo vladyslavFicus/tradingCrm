@@ -12,7 +12,7 @@ import { Modal, Sort, State } from 'types';
 import { withStorage } from 'providers/StorageProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import Badge from 'components/Badge';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';

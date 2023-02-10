@@ -9,7 +9,7 @@ import { LevelType, Modal, Notify } from 'types';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { withModals, withNotifications } from 'hoc';
 import { FormValues } from '../../types';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';

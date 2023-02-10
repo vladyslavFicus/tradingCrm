@@ -11,7 +11,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';

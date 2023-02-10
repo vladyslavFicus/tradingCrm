@@ -7,7 +7,7 @@ import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, EditButton, TrashButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/Buttons';
 import GroupNewSymbolModal from '../../modals/GroupNewSymbolModal';
 import { GroupSymbol, GroupSecurity, FormValues } from '../../types';
 import './GroupSymbolsGrid.scss';

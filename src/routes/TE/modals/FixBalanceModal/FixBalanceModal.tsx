@@ -7,7 +7,7 @@ import permissions from 'config/permissions';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Badge from 'components/Badge';
 import Input from 'components/Input';
 import ShortLoader from 'components/ShortLoader';

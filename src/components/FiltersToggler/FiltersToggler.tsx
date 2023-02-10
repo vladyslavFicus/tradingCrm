@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { InView } from 'react-intersection-observer';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import EventEmitter, {
   FILTERS_TOGGLER_COLLAPSED,
   FILTERS_TOGGLER_IN_VIEWPORT,

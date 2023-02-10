@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { statusesLabels } from '../../../../constants';
 import './PartnersGridFilter.scss';
 

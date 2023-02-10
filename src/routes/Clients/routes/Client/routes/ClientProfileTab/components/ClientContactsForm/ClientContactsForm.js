@@ -15,7 +15,7 @@ import PropTypes from 'constants/propTypes';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import PermissionContent from 'components/PermissionContent';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UpdateClientContactsMutation from './graphql/UpdateClientContactsMutation';
 import UpdateClientEmailMutation from './graphql/UpdateClientEmailMutation';
 import VerifyPhoneMutation from './graphql/VerifyPhoneMutation';

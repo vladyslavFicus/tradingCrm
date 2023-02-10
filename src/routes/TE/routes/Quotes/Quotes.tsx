@@ -8,7 +8,7 @@ import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import Button from 'components/UI/Button';
+import { Button } from 'components/Buttons';
 import { maxSelectedFavortieSymbols, tradingEngineTabs } from 'routes/TE/constants';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
 import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';

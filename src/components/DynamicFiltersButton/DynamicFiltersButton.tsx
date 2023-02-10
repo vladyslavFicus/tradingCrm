@@ -7,7 +7,7 @@ import { State } from 'types';
 import usePrevious from 'hooks/usePrevious';
 import { withStorage } from 'providers/StorageProvider';
 import Select from 'components/Select';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './DynamicFiltersButton.scss';
 
 type Props = {

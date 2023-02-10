@@ -14,7 +14,7 @@ import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
-import { TrashButton } from 'components/UI';
+import { TrashButton } from 'components/Buttons';
 import NoteAction from 'components/Note/NoteAction';
 import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
 import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';

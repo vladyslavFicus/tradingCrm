@@ -10,7 +10,7 @@ import { manualPaymentMethodsLabels } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import getManualPaymentMethodsQuery from './graphql/getManualPaymentMethodsQuery';
 import approvePaymentMutation from './graphql/approvePaymentMutation';
 import './ApprovePaymentForm.scss';

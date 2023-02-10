@@ -6,7 +6,7 @@ import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import { useChangeUnauthorizedPasswordMutation } from './graphql/__generated__/ChangeUnauthorizedPasswordMutation';
 import './ChangeUnauthorizedPasswordModal.scss';

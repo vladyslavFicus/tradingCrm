@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import CircleLoader from 'components/CircleLoader';
 import HolidayNewSymbolModal from '../../modals/HolidayNewSymbolModal';
 import { FormValues } from '../../types';

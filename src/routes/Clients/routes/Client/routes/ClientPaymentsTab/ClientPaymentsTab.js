@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import AddPaymentModal from 'modals/AddPaymentModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import TabHeader from 'components/TabHeader';

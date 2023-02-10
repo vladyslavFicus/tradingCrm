@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { types, typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
 import parseJson from 'utils/parseJson';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import FeedContent from './FeedContent';
 import './FeedItem.scss';

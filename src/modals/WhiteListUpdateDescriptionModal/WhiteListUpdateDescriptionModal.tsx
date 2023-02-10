@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { useIpWhitelistUpdateIpMutation } from './graphql/__generated__/IpWhitelistUpdateIpMutation';

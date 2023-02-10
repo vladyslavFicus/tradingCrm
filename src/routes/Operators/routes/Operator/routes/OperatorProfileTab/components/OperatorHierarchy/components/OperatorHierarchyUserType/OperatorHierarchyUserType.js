@@ -8,7 +8,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UpdateOperatorUserTypeMutation from './graphql/UpdateOperatorUserTypeMutation';
 import './OperatorHierarhyUsetType.scss';
 

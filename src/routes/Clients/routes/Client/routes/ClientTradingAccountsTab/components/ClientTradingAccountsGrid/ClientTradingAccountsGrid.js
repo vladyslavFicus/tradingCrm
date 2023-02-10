@@ -14,7 +14,7 @@ import permissions from 'config/permissions';
 import Permissions from 'utils/permissions';
 import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
 import { AdjustableTable, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';

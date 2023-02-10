@@ -8,7 +8,7 @@ import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import permissions from 'config/permissions';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import { LoginLock } from '__generated__/types';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';

@@ -12,7 +12,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Input from 'components/Input';
 import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
 import { calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';

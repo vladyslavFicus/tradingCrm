@@ -8,7 +8,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import RenameTradingAccountMutation from './graphql/RenameTradingAccountMutation';
 import './RenameTradingAccountModal.scss';
 

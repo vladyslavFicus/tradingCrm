@@ -6,7 +6,7 @@ import I18n from 'i18n-js';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import { entitiesPrefixes, entities } from 'constants/uuid';
 import Uuid from 'components/Uuid';

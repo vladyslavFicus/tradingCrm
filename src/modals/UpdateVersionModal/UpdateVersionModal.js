@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './UpdateVersionModal.scss';
 
 class UpdateVersionModal extends PureComponent {

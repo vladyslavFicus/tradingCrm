@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { LeadCallback } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useDeleteLeadCallbackMutation } from './graphql/__generated__/DeleteLeadCallbackMutation';
 import './DeleteLeadCallbackModal.scss';
 

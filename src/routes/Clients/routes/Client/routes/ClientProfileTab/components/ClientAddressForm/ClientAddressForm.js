@@ -11,7 +11,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UpdateClientAddressMutation from './graphql/UpdateClientAddressMutation';
 import './ClientAddressForm.scss';
 

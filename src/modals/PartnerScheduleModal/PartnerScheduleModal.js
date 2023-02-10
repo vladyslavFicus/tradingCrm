@@ -9,7 +9,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';
 import { attributeLabels } from './constants';

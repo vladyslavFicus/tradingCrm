@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { useHistory, useLocation } from 'react-router-dom';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { State } from 'types';
 import { GroupsQueryQueryResult, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsGridFilters.scss';

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import I18n from 'i18n-js';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import './ShowContactsButton.scss';
 import PermissionContent from 'components/PermissionContent';
 import { CONDITIONS } from 'utils/permissions';

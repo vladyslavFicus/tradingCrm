@@ -7,7 +7,7 @@ import { filterLabels } from 'constants/user';
 import countryList from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import './OfficesGridFilter.scss';
 
 class OfficesGridFilter extends PureComponent {

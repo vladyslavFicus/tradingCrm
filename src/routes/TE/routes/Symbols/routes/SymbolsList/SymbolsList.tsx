@@ -12,7 +12,7 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
 import Badge from 'components/Badge';

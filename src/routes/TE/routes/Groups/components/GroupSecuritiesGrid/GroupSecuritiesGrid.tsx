@@ -10,7 +10,7 @@ import {
 } from '__generated__/types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton, Button } from 'components/UI';
+import { EditButton, TrashButton, Button } from 'components/Buttons';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
 import GroupSecurityCustomizationModal from '../../modals/GroupSecurityCustomizationModal';
 import {

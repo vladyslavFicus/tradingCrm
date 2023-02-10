@@ -8,7 +8,7 @@ import { withRequests } from 'apollo';
 import { State } from 'types';
 import { ResetForm } from 'types/formik';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';

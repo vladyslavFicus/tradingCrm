@@ -7,7 +7,7 @@ import { LevelType, Modal, Notify, TableSelection } from 'types';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { TradingEngineOrderAccountBulkClose__OrderInput as BulkCloseInput } from '__generated__/types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
 import './AccountProfileOpenOrderBulkActions.scss';

@@ -10,7 +10,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
-import Button from 'components/UI/Button';
+import { Button } from 'components/Buttons';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { useOperatorProfileQuery } from './graphql/__generated__/OperatorProfileQuery';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';

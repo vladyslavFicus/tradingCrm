@@ -5,7 +5,7 @@ import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormikInputField } from 'components/Formik';
 import { useIpWhitelistAddIpMutation } from './graphql/__generated__/IpWhitelistAddIpMutation';
 import './WhiteListAddIpModal.scss';

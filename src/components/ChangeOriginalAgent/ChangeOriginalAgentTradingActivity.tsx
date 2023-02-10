@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormikSelectField } from 'components/Formik';
 import { OPERATORS_SORT } from './constants';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';

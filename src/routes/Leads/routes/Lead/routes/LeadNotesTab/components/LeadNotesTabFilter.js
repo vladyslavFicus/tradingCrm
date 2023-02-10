@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import PropTypes from 'constants/propTypes';
 import { FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { decodeNullValues } from 'components/Formik/utils';
 import './LeadNotesTabFilter.scss';
 

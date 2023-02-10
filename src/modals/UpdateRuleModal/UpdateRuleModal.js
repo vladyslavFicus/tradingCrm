@@ -12,7 +12,8 @@ import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/rule
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
-import { Button, StaticTabs, StaticTabsItem } from 'components/UI';
+import { Button } from 'components/Buttons';
+import StaticTabs, { StaticTabsItem } from 'components/StaticTabs';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import RuleSettings from 'components/RuleSettings';

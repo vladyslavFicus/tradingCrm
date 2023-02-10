@@ -9,7 +9,7 @@ import { withModals } from 'hoc';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import permissions from 'config/permissions';
 import { Modal, Sort, State } from 'types';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';

@@ -9,7 +9,7 @@ import {
   FormikDateRangePicker,
 } from 'components/Formik/index';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI/index';
+import { Button, RefreshButton } from 'components/Buttons';
 import { TransactionsQueryVariables } from '../../graphql/__generated__/TransactionsQuery';
 import { types } from './constants';
 import './AccountProfileTransactionsGridFilter.scss';

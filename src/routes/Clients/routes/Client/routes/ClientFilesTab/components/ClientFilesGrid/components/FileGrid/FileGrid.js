@@ -12,7 +12,7 @@ import { shortifyInMiddle } from 'utils/stringFormat';
 import { withPermission } from 'providers/PermissionsProvider';
 import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
-import { EditButton, DownloadButton, TrashButton } from 'components/UI';
+import { EditButton, DownloadButton, TrashButton } from 'components/Buttons';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';

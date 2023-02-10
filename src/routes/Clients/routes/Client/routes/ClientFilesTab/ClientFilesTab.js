@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
 import { UploadModal } from 'modals/FileModals';

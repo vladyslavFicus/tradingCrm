@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
+import { Button } from 'components/Buttons';
 import { withModals } from 'hoc';
 import { Modal } from 'types';
 import permissions from 'config/permissions';
@@ -10,7 +11,6 @@ import { Link } from 'components/Link';
 import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import Placeholder from 'components/Placeholder';
-import { Button } from 'components/UI';
 import { useGetBranchManagerQuery } from './graphql/__generated__/GetBranchManagerQuery';
 import './BranchHeader.scss';
 

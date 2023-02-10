@@ -9,7 +9,7 @@ import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import {
   TradingEngineGroup__GroupSecurity as GroupSecurity,
 } from '__generated__/types';

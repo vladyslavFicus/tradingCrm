@@ -10,7 +10,7 @@ import { parseErrors } from 'apollo';
 import { withModals, withNotifications } from 'hoc';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { Notify, LevelType } from 'types/notify';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';

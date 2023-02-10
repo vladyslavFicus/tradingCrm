@@ -8,7 +8,7 @@ import {
   FormikDateRangePicker,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import './HolidaysFilter.scss';
 
 type Props = {

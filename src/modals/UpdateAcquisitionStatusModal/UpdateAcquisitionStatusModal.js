@@ -8,7 +8,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
 import UpdateAcquisitionStatusMutation from './graphql/UpdateAcquisitionStatusMutation';
 import { checkMovePermission } from './utils';

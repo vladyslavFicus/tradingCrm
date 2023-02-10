@@ -10,7 +10,7 @@ import { Modal, State } from 'types';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
-import { Button, EditButton, TrashButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';

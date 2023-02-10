@@ -9,7 +9,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, TrashButton, EditButton } from 'components/UI';
+import { Button, TrashButton, EditButton } from 'components/Buttons';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
 import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';

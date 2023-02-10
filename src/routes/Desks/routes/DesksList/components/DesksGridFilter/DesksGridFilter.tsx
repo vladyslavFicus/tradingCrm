@@ -9,7 +9,7 @@ import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { useOfficesListQuery } from './graphql/__generated__/OfficesListQuery';
 import './DesksGridFilter.scss';
 

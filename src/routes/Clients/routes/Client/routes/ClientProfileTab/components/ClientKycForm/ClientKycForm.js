@@ -9,7 +9,7 @@ import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { kycStatusesLabels } from 'constants/kycStatuses';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UpdateClientKycMutation from './graphql/UpdateClientKycMutation';
 import './ClientKycForm.scss';
 

@@ -12,7 +12,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import PermissionContent from 'components/PermissionContent';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import AddAuthorityMutation from './graphql/AddAuthorityMutation';
 import RemoveAuthorityMutation from './graphql/RemoveAuthorityMutation';
 import AuthoritiesOptionsQuery from './graphql/AuthoritiesOptionsQuery';

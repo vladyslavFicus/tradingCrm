@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { userTypes, deskTypes } from 'constants/hierarchyTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Placeholder from 'components/Placeholder';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';

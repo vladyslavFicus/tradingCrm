@@ -9,7 +9,7 @@ import { deskTypes } from 'constants/hierarchyTypes';
 import { departments } from 'constants/brands';
 import { withStorage } from 'providers/StorageProvider';
 import UpdateAcquisitionStatusModal from 'modals/UpdateAcquisitionStatusModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import './ClientsBulkActions.scss';

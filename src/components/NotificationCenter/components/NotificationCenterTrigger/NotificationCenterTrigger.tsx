@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import './NotificationCenterTrigger.scss';
 import { useNotificationUnreadQuery } from '../../graphql/__generated__/NotificationUnreadQuery';

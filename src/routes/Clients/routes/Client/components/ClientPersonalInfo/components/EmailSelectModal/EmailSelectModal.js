@@ -10,7 +10,7 @@ import { injectName } from 'utils/injectName';
 import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'components/Formik';
 import EmailPreview from 'components/EmailPreview';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';
 import EmailSendMutation from './graphql/EmailSendMutation';
 import '../../ClientPersonalInfo.scss';

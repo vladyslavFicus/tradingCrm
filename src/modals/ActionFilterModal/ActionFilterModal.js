@@ -8,7 +8,7 @@ import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 import filterSetByIdQuery from './graphql/filterSetByIdQuery';

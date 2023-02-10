@@ -15,7 +15,7 @@ import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import AuthoritiesOptionsQuery from './graphql/AuthoritiesOptionsQuery';
 import OfficesDesksAndTeamsQuery from './graphql/OfficesDesksAndTeamsQuery';
 import './OperatorsGridFilter.scss';

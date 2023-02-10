@@ -16,7 +16,7 @@ import {
   FormikDatePicker,
   FormikSelectTreeField,
 } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Input from 'components/Input';
 import { Node } from 'components/SelectTree';
 import { Storage } from 'types/storage';

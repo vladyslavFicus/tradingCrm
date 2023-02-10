@@ -11,7 +11,7 @@ import { parseErrors } from 'apollo';
 import { Modal } from 'types';
 import { Storage } from 'types/storage';
 import { withStorage } from 'providers/StorageProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Copyrights from 'components/Copyrights';
 import ChangeUnauthorizedPasswordModal from 'modals/ChangeUnauthorizedPasswordModal';
 import { FormikInputField } from 'components/Formik';

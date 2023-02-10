@@ -11,7 +11,7 @@ import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { CONDITIONS } from 'utils/permissions';
 import downloadBlob from 'utils/downloadBlob';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import PermissionContent from 'components/PermissionContent';

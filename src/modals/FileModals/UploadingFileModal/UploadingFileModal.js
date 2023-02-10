@@ -7,7 +7,7 @@ import PropTypes from 'constants/propTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import Uuid from 'components/Uuid';
-import { TrashButton } from 'components/UI';
+import { TrashButton } from 'components/Buttons';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import './UploadingFileModal.scss';
 

@@ -14,7 +14,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import Placeholder from 'components/Placeholder';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
-import { Button, EditButton, TrashButton } from 'components/UI';
+import { Button, EditButton, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import Permissions from 'utils/permissions';
 import ConfirmActionModal from 'modals/ConfirmActionModal';

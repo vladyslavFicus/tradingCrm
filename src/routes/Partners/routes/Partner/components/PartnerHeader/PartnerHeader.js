@@ -11,7 +11,7 @@ import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import getPartnerLockStatusQuery from './graphql/getPartnerLockStatusQuery';
 import changePartnerPasswordMutation from './graphql/changePartnerPasswordMutation';

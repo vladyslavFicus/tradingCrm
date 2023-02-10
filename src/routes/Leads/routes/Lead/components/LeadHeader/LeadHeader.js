@@ -5,7 +5,7 @@ import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import { targetTypes } from 'constants/note';
 import Uuid from 'components/Uuid';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import PromoteLeadModal from 'modals/PromoteLeadModal';
 import NoteAction from 'components/Note/NoteAction';

@@ -1,18 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Button } from 'components/UI';
+import Button from 'components/Buttons/Button';
 import './DownloadButton.scss';
 
-type Props = {
-  className?: string,
-  onClick?: () => void,
-};
-
-const DownloadButton = (props: Props) => {
-  const { className, onClick } = props;
+const DownloadButton = (props: Omit<React.ComponentProps<typeof Button>, 'children'>) => {
+  const { className, onClick, ...rest } = props;
 
   return (
     <Button
+      {...rest}
       className={classNames('DownloadButton', className)}
       onClick={onClick}
     >

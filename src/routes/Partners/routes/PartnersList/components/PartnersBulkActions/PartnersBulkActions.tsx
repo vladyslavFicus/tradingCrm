@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { withModals } from 'hoc';
 import { Modal } from 'types';
 import ChangeAccountStatusModal from 'modals/ChangeAccountStatusModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { statusActions, actionStatus } from '../../../../constants';
 import { useBulkChangeAffiliatesStatusMutation } from './graphql/__generated__/bulkChangeAffiliatesStatus';
 import './PartnersBulkActions.scss';

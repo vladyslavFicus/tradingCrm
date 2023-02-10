@@ -7,7 +7,7 @@ import { ResetForm } from 'types/formik';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import './AcquisitionStatusesFilter.scss';
 
 type FormValues = {

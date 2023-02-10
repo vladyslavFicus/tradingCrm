@@ -6,7 +6,7 @@ import { withModals, withNotifications } from 'hoc';
 import { LevelType, Modal, Notify, TableSelection } from 'types';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
 import './AccountProfilePendingOrderBulkActions.scss';

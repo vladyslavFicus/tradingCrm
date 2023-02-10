@@ -20,7 +20,7 @@ import {
   FormikCheckbox,
   FormikMultiInputField,
   FormikInputRangeField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import updatePartnerMutation from './graphql/UpdatePartnerMutation';
 import './PartnerPersonalInfoForm.scss';
 

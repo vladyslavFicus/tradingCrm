@@ -8,7 +8,7 @@ import { withNotifications } from 'hoc';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,

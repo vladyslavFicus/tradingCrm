@@ -9,7 +9,7 @@ import PropTypes from 'constants/propTypes';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton } from 'components/UI';
+import { EditButton, TrashButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import UpdateTeamModal from 'modals/UpdateTeamModal';

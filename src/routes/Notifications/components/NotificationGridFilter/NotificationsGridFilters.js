@@ -10,7 +10,7 @@ import { statuses as operatorsStasuses } from 'constants/operators';
 import PropTypes from 'constants/propTypes';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import NotificationTypesQuery from './graphql/NotificationTypesQuery';
 import DesksAndTeamsQuery from './graphql/DesksAndTeamsQuery';
 import OperatorsQuery from './graphql/OperatorsQuery';

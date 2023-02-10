@@ -8,7 +8,7 @@ import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
 import PropTypes from 'constants/propTypes';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UpdateClientTransferMutation from './graphql/UpdateClientTransferMutation';
 import './ClientTransferForm.scss';
 

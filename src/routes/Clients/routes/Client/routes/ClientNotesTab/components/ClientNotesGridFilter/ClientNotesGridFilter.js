@@ -10,7 +10,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import { departmentsLabels } from 'constants/operators';
 import { attributeLabels } from './constants';
 import AuthoritiesOptionsQuery from './graphql/AuthorityOptionsQuery';

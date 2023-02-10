@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { File } from '__generated__/types';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import EventEmitter, { FILE_REMOVED } from 'utils/EventEmitter';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useDeleteFileMutation } from './graphql/__generated__/DeleteFileMutation';
 import './DeleteModal.scss';
 

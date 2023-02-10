@@ -5,7 +5,7 @@ import { parseErrors } from 'apollo';
 import { TableSelection } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import ReactSwitch from 'components/ReactSwitch';
 import { Filter } from '../types';
 import { MAX_SELECTED_ROWS } from '../constants';

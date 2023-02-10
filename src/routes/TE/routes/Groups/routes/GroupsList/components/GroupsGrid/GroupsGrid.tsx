@@ -11,7 +11,7 @@ import permissions from 'config/permissions';
 import { LevelType, Notify } from 'types/notify';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import { GroupsQueryQueryResult, GroupsQuery, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';

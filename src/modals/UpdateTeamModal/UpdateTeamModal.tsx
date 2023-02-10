@@ -6,7 +6,7 @@ import { parseErrors } from 'apollo';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useUpdateTeamMutation } from './graphql/__generated__/UpdateTeamMutation';
 import './UpdateTeamModal.scss';
 

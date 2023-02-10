@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { ResetForm } from 'types/formik';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { Filter } from '../types';
 import { readTypes } from '../constants';
 import './NotificationCenterForm.scss';

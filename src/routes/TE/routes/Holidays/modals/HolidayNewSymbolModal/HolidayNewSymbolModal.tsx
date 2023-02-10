@@ -4,7 +4,7 @@ import compose from 'compose-function';
 import { differenceWith, sortBy } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { LevelType, Notify } from 'types/notify';
 import { withNotifications } from 'hoc';
 import { createValidator } from 'utils/validator';

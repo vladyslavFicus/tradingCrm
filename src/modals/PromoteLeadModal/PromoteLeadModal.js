@@ -15,7 +15,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { generate } from 'utils/password';
 import EventEmitter, { LEAD_PROMOTED } from 'utils/EventEmitter';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Input from 'components/Input';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import PromoteLeadMutation from './graphql/PromoteLeadMutation';

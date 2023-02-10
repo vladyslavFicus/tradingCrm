@@ -16,7 +16,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';

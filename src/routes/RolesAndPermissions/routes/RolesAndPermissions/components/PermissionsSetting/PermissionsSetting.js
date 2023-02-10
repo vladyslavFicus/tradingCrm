@@ -14,7 +14,7 @@ import { withModals } from 'hoc';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import rbac from 'constants/rbac';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { withImages } from 'components/ImageViewer';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';

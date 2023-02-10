@@ -7,7 +7,7 @@ import { withRequests } from 'apollo';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import UpdatePaymentSystemMutation from './graphql/UpdatePaymentSystemMutation';
 import PaymentSystemsQuery from './graphql/PaymentSystemsQuery';
 import './ChangePaymentSystemForm.scss';

@@ -15,7 +15,7 @@ import {
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { RangeGroup } from 'components/Forms';
-import { Button, RefreshButton } from 'components/UI';
+import { Button, RefreshButton } from 'components/Buttons';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import {

@@ -15,7 +15,7 @@ import {
   getPlatformDefaultCurrency,
 } from 'utils/tradingAccount';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import PropTypes from 'constants/propTypes';
 import { attributeLabels, amounts } from './constants';
 import UpdateTradingAccountModalMutation from './graphql/UpdateTradingAccountModalMutation';

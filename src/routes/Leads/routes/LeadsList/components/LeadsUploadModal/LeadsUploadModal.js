@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { withRequests, parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import uploadLeadsMutation from './graphql/uploadLeadsMutation';
 import './LeadsUploadModal.scss';
 

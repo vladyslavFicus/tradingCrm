@@ -6,7 +6,7 @@ import { parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import { Button, TrashButton } from 'components/UI';
+import { Button, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';

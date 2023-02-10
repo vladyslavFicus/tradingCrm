@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
 import { useModal } from 'providers/ModalProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import SmsSendModal, { SmsSendModalProps } from './modals/SmsSendModal';
 import './Sms.scss';
 

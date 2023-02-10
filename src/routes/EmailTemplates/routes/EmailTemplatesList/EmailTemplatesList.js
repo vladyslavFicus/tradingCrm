@@ -6,7 +6,7 @@ import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
-import { TrashButton, Button } from 'components/UI';
+import { TrashButton, Button } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import { Table, Column } from 'components/Table';
 import EmailTemplatesQuery from './graphql/EmailTemplatesQuery';

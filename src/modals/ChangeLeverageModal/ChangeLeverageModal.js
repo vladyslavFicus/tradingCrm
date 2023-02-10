@@ -9,7 +9,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import PropTypes from 'constants/propTypes';
 import { accountTypesLabels } from 'constants/accountTypes';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Badge from 'components/Badge';
 import { FormikSelectField } from 'components/Formik';
 import ChangeLeverageMutation from './graphql/ChangeLeverageMutation';

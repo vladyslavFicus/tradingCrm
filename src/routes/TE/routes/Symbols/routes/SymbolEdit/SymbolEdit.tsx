@@ -10,7 +10,7 @@ import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { Notify, LevelType } from 'types/notify';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';

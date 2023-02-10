@@ -5,7 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { ClientCallback } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { useDeleteClientCallbackMutation } from './graphql/__generated__/DeleteClientCallbackMutation';
 import './DeleteClientCallbackModal.scss';
 

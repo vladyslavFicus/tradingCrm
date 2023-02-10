@@ -6,7 +6,7 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import PropTypes from 'constants/propTypes';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import CreateOperatorModal from 'modals/CreateOperatorModal';
 import ExistingOperatorModal from 'modals/ExistingOperatorModal';
 import OperatorsGridFilter from './components/OperatorsGridFilter';

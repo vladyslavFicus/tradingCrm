@@ -7,7 +7,7 @@ import { parseErrors } from 'apollo';
 import { getCrmBrandStaticFileUrl } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
 import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
 import { useResetPasswordMutation } from './graphql/__generated__/ResetPasswordMutation';

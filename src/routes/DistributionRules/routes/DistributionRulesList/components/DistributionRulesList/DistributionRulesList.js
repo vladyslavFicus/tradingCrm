@@ -15,7 +15,7 @@ import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import Placeholder from 'components/Placeholder';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';

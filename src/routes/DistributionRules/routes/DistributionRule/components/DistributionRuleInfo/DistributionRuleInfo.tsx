@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/UI';
+import { Button } from 'components/Buttons';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import { DistributionRuleType } from '../../DistributionRule';

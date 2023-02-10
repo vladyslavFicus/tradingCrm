@@ -1,19 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Button } from 'components/UI';
+import Button from 'components/Buttons/Button';
 import './TrashButton.scss';
 
-type Props = {
-  className?: string,
-  disabled?: boolean,
-  onClick?: () => void,
-};
-
-const TrashButton = (props: Props) => {
-  const { className, disabled, onClick } = props;
+const TrashButton = (props: Omit<React.ComponentProps<typeof Button>, 'children'>) => {
+  const { className, disabled, onClick, ...rest } = props;
 
   return (
     <Button
+      {...rest}
       disabled={disabled}
       className={classNames('TrashButton', { 'TrashButton--disabled': disabled }, className)}
       onClick={onClick}
