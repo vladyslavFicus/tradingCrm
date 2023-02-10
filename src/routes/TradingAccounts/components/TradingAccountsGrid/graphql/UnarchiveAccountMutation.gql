@@ -1,0 +1,9 @@
+mutation UnarchiveAccountMutation(
+  $uuid: String!
+) {
+  tradingAccount {
+    unarchive (
+      uuid: $uuid,
+    )
+  }
+}
