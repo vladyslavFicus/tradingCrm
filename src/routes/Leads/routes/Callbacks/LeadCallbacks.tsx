@@ -5,13 +5,13 @@ import LeadCallbacksList from './routes/LeadCallbacksList';
 import LeadCallbacksCalendar from './routes/LeadCallbacksCalendar';
 
 const LeadCallbacks = () => {
-  const { path } = useRouteMatch();
+  const { path, url } = useRouteMatch();
 
   return (
     <Switch>
       <Route path={`${path}/list`} component={LeadCallbacksList} />
       <Route path={`${path}/calendar`} component={LeadCallbacksCalendar} />
-      <Redirect to={`${path}/list`} />
+      <Redirect to={`${url}/list`} />
     </Switch>
   );
 };

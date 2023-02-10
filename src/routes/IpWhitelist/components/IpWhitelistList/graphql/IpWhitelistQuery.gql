@@ -1,4 +1,4 @@
-query IpWhitelistSearchQuery($args: IpWhitelistSearch__Input) {
+query IpWhitelistQuery($args: IpWhitelistSearch__Input) {
   ipWhitelistSearch(args:$args) {
     content {
       uuid

@@ -7,14 +7,21 @@ import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/Buttons';
 import { State } from 'types';
-import { IpWhitelistFilters as FormValues } from '../types';
-import './IpWhitelistFilter.scss';
+import './IpWhitelistGridFilter.scss';
+
+type FormValues = {
+  ip?: string,
+  creationDateRange?: {
+    from?: string,
+    to?: string,
+  },
+};
 
 type Props = {
   onRefetch: () => void,
 };
 
-const IpWhitelistFilter = (props: Props) => {
+const IpWhitelistGridFilter = (props: Props) => {
   const { onRefetch } = props;
 
   const { state } = useLocation<State<FormValues>>();
@@ -54,11 +61,11 @@ const IpWhitelistFilter = (props: Props) => {
         values,
         dirty,
       }) => (
-        <Form className="IpWhitelistFilter">
-          <div className="IpWhitelistFilter__fields">
+        <Form className="IpWhitelistGridFilter">
+          <div className="IpWhitelistGridFilter__fields">
             <Field
               name="ip"
-              className="IpWhitelistFilter__field IpWhitelistFilter__search"
+              className="IpWhitelistGridFilter__field IpWhitelistGridFilter__search"
               label={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.SEARCH_BY_IP')}
               placeholder={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.SEARCH_BY_IP_PLACEHOLDER')}
               component={FormikInputField}
@@ -69,7 +76,7 @@ const IpWhitelistFilter = (props: Props) => {
               name="creationDateRange"
               label={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.CREATION_DATE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              className="IpWhitelistFilter__field IpWhitelistFilter__date-range"
+              className="IpWhitelistGridFilter__field IpWhitelistGridFilter__date-range"
               component={FormikDateRangePicker}
               fieldsNames={{
                 from: 'creationDateRange.from',
@@ -78,14 +85,14 @@ const IpWhitelistFilter = (props: Props) => {
             />
           </div>
 
-          <div className="IpWhitelistFilter__buttons">
+          <div className="IpWhitelistGridFilter__buttons">
             <RefreshButton
-              className="IpWhitelistFilter__button"
+              className="IpWhitelistGridFilter__button"
               onClick={onRefetch}
             />
 
             <Button
-              className="IpWhitelistFilter__button"
+              className="IpWhitelistGridFilter__button"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -94,7 +101,7 @@ const IpWhitelistFilter = (props: Props) => {
             </Button>
 
             <Button
-              className="IpWhitelistFilter__button"
+              className="IpWhitelistGridFilter__button"
               type="submit"
               disabled={isSubmitting || !dirty}
               primary
@@ -108,4 +115,4 @@ const IpWhitelistFilter = (props: Props) => {
   );
 };
 
-export default React.memo(IpWhitelistFilter);
+export default React.memo(IpWhitelistGridFilter);

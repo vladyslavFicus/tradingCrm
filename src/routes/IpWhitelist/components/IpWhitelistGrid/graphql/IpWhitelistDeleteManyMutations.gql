@@ -1,5 +1,0 @@
-mutation DeleteManyIpMutation($uuids: [String!]!) {
-  ipWhitelist {
-    deleteMany(uuids: $uuids)
-  }
-}

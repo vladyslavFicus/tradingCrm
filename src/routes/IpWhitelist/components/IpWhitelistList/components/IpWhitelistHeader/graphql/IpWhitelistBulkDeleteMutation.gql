@@ -1,0 +1,5 @@
+mutation IpWhitelistBulkDeleteMutation($uuids: [String!]!) {
+  ipWhitelist {
+    deleteMany(uuids: $uuids)
+  }
+}

@@ -1,19 +1,22 @@
 import React from 'react';
-import { Redirect, RouteComponentProps, Switch } from 'react-router-dom';
+import { Redirect, Switch, useRouteMatch } from 'react-router-dom';
 import Route from 'components/Route';
 import IpWhitelistFeed from './components/IpWhitelistFeed';
-import IpWhitelistTable from './components/IpWhitelistGrid';
+import IpWhitelistList from './components/IpWhitelistList';
+import './IpWhitelist.scss';
 
-const IpWhitelist = ({ match: { path, url } }: RouteComponentProps) => (
-  <div className="IpWhitelist">
-    <div className="IpWhitelist__tab-content">
+const IpWhitelist = () => {
+  const { path, url } = useRouteMatch();
+
+  return (
+    <div className="IpWhitelist">
       <Switch>
-        <Route path={`${path}/list`} component={IpWhitelistTable} />
+        <Route path={`${path}/list`} component={IpWhitelistList} />
         <Route path={`${path}/feed`} component={IpWhitelistFeed} />
         <Redirect to={`${url}/list`} />
       </Switch>
     </div>
-  </div>
-);
+  );
+};
 
-export default IpWhitelist;
+export default React.memo(IpWhitelist);

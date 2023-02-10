@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { useHistory, useLocation, withRouter } from 'react-router-dom';
-import compose from 'compose-function';
-import { QueryResult } from '@apollo/client';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
+import { getBrand } from 'config';
 import { State } from 'types';
 import { ResetForm } from 'types/formik';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
@@ -13,23 +11,38 @@ import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { typesLabels } from 'constants/audit';
-import { IpWhitelistFeedFilters as FormValues } from '../types';
-import IpWhitelistFiltersQuery from './graphql/IpWhitelistFiltersQuery';
+import { useFeedTypesQuery } from './graphql/__generated__/FeedTypesQuery';
 import './IpWhitelistFeedsFilters.scss';
 
-type FeedTypes = { feedTypes?: { [key: string]: string } };
+type FormValues = {
+  searchBy?: string,
+  auditLogType?: string,
+  creationDateFrom?: string,
+  creationDateTo?: string,
+};
 
 type Props = {
-  feedTypesQuery: QueryResult<FeedTypes>,
   onRefetch: () => void,
 };
 
 const IpWhitelistFeedsFilters = (props: Props) => {
-  const { feedTypesQuery, onRefetch } = props;
+  const { onRefetch } = props;
 
   const { state } = useLocation<State<FormValues>>();
 
   const history = useHistory();
+
+  // ===== Requests ===== //
+  const feedTypesQuery = useFeedTypesQuery({ variables: { uuid: getBrand().id } });
+
+  const feedTypesList = feedTypesQuery.data?.feedTypes || {};
+  const availableTypes = Object.keys(feedTypesList)
+    .filter(key => feedTypesList[key] && key !== '__typename')
+    .map(type => ({
+      key: type,
+      value: I18n.t(renderLabel(type, typesLabels)),
+    }))
+    .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1));
 
   // ===== Handlers ===== //
   const handleSubmit = (values: FormValues) => {
@@ -51,15 +64,6 @@ const IpWhitelistFeedsFilters = (props: Props) => {
 
     resetForm();
   };
-
-  const feedTypesList = feedTypesQuery.data?.feedTypes || {};
-  const availableTypes = Object.keys(feedTypesList)
-    .filter(key => feedTypesList[key] && key !== '__typename')
-    .map(type => ({
-      key: type,
-      value: I18n.t(renderLabel(type, typesLabels)),
-    }))
-    .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1));
 
   return (
     <Formik
@@ -147,10 +151,4 @@ const IpWhitelistFeedsFilters = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withRouter,
-  withRequests({
-    feedTypesQuery: IpWhitelistFiltersQuery,
-  }),
-)(IpWhitelistFeedsFilters);
+export default React.memo(IpWhitelistFeedsFilters);

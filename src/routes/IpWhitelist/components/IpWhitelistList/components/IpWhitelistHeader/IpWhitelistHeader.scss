@@ -1,0 +1,22 @@
+.IpWhitelistHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--surface-page-background);
+  position: sticky;
+  top: 48px;
+  z-index: 7;
+
+  &__headline {
+    font-size: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    margin-left: auto;
+
+    &-button {
+      margin-left: 15px;
+    }
+  }
+}

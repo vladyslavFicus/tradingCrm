@@ -1,32 +1,39 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
 import { cloneDeep, set } from 'lodash';
-import { withRequests } from 'apollo';
+import { getBrand } from 'config';
+import { State } from 'types';
+import { Feed } from '__generated__/types';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
-import { Feed } from '__generated__/types';
 import { ipWhitelistTabs } from '../../constants';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
-import IpWhitelistFeedsQuery from './graphql/IpWhitelistFeedsQuery';
-import { WhitelistFeedsQueryResult } from './types';
-
+import {
+  useIpWhitelistFeedsQuery,
+  IpWhitelistFeedsQueryVariables,
+} from './graphql/__generated__/IpWhitelistFeedsQuery';
 import './IpWhitelistFeed.scss';
 
-type Props = {
-  ipWhitelistFeedsQuery: WhitelistFeedsQueryResult,
-}
+const IpWhitelistFeed = () => {
+  const { state } = useLocation<State<IpWhitelistFeedsQueryVariables>>();
 
-const IpWhitelistFeed = (props: Props) => {
-  const { ipWhitelistFeedsQuery } = props;
+  // ===== Requests ===== //
+  const ipWhitelistFeedsQuery = useIpWhitelistFeedsQuery({
+    variables: {
+      ...state?.filters as IpWhitelistFeedsQueryVariables,
+      targetUUID: getBrand().id,
+      limit: 20,
+      page: 0,
+    },
+  });
 
-  const { content, last, number = 0, totalElements } = ipWhitelistFeedsQuery?.data?.feeds || {};
+  const { data, loading, variables = {}, refetch, fetchMore } = ipWhitelistFeedsQuery;
+  const { content = [], last = true, number = 0, totalElements = 0 } = data?.feeds || {};
 
   // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { fetchMore, variables = {} } = ipWhitelistFeedsQuery;
-
     fetchMore({
       variables: set(cloneDeep(variables), 'page', number + 1),
     });
@@ -35,22 +42,23 @@ const IpWhitelistFeed = (props: Props) => {
   return (
     <div className="IpWhitelistFeed">
       <Tabs items={ipWhitelistTabs} className="IpWhitelistFeed__tabs" />
+
       <div className="IpWhitelistFeed__card">
         <div className="IpWhitelistFeed__headline">
           {I18n.t('IP_WHITELIST.FEED.HEADLINE')}
         </div>
       </div>
 
-      <IpWhitelistFeedsFilters onRefetch={ipWhitelistFeedsQuery.refetch} />
+      <IpWhitelistFeedsFilters onRefetch={refetch} />
 
       <div className="IpWhitelistFeed__grid">
         <ListView
-          loading={ipWhitelistFeedsQuery.loading}
-          dataSource={content || []}
+          loading={loading}
+          dataSource={content}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}
-          showNoResults={!ipWhitelistFeedsQuery.loading && !content?.length}
+          showNoResults={!loading && !content?.length}
           render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
         />
       </div>
@@ -58,9 +66,4 @@ const IpWhitelistFeed = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withRequests({
-    ipWhitelistFeedsQuery: IpWhitelistFeedsQuery,
-  }),
-)(IpWhitelistFeed);
+export default React.memo(IpWhitelistFeed);
