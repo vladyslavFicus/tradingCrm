@@ -33,11 +33,13 @@ const CalculationSettings = (props: FormikProps<FormValues>) => (
     </div>
     <div className="CalculationSettings__field-container">
       <Input
+        name="margin"
         disabled
         value={I18n.t(`TRADING_ENGINE.SYMBOL.CALCULATION_LABELS.MARGIN_CALCULATION_${props.values.symbolType}`)}
         className="CalculationSettings__field"
       />
       <Input
+        name="profit"
         disabled
         value={I18n.t(`TRADING_ENGINE.SYMBOL.CALCULATION_LABELS.PROFIT_CALCULATION_${props.values.symbolType}`)}
         className="CalculationSettings__field"

@@ -1,6 +1,6 @@
 $input-height: 40px;
 
-.input {
+.Input {
   margin-bottom: 20px;
 
   &__label {
@@ -38,55 +38,55 @@ $input-height: 40px;
     height: $input-height;
     width: 100%;
 
-  &:hover {
-    background-color: var(--form-background-hover);
-    border-color: var(--form-border-hover);
-    color: var(--form-color-hover);
-
-    & + .input__addition {
+    &:hover {
       background-color: var(--form-background-hover);
       border-color: var(--form-border-hover);
       color: var(--form-color-hover);
 
-      .icon {
-        color: var(--form-icon-button-hover);
+      & + .Input__addition {
+        background-color: var(--form-background-hover);
+        border-color: var(--form-border-hover);
+        color: var(--form-color-hover);
+
+        .icon {
+          color: var(--form-icon-button-hover);
+        }
       }
     }
-  }
 
-  &:focus {
-    background-color: var(--form-background-focus);
-    border-color: var(--form-border-focus);
-    color: var(--form-color-focus);
-
-    & + .input__addition {
+    &:focus {
       background-color: var(--form-background-focus);
       border-color: var(--form-border-focus);
       color: var(--form-color-focus);
 
-      .icon {
-        color: var(--form-icon-button-focus);
+      & + .Input__addition {
+        background-color: var(--form-background-focus);
+        border-color: var(--form-border-focus);
+        color: var(--form-color-focus);
+
+        .icon {
+          color: var(--form-icon-button-focus);
+        }
       }
     }
-  }
 
     &:disabled {
       background-color: var(--form-background-disabled);
       border-color: var(--form-border-disabled);
       color: var(--form-color-disabled);
-  
-      & + .input__addition {
+
+      & + .Input__addition {
         background-color: var(--form-background-disabled);
         border-color: var(--form-border-disabled);
         color: var(--form-color-disabled);
-        
+
         .icon {
           color: var(--form-icon-button-disabled);
         }
       }
     }
 
-    // Styles for input autocomplete data
+      // Styles for input autocomplete data
     &:-webkit-autofill {
       -webkit-text-fill-color: var(--form-color-default);
       -webkit-box-shadow: 0 0 0 1000px var(--form-background-default) inset;
@@ -122,6 +122,8 @@ $input-height: 40px;
   }
 
   &__error {
+    position: absolute;
+    white-space: nowrap;
     color: var(--state-colors-danger);
     font-size: 12px;
     margin-top: 4px;
@@ -172,18 +174,16 @@ $input-height: 40px;
       z-index: 1;
     }
   }
-}
 
 // # Modifiers
-.input {
   &--has-icon {
-    .input__control {
+    .Input__control {
       padding-left: 40px;
     }
   }
 
   &--has-error {
-    .input {
+    .Input {
       &__control,
       &__addition {
         border-color: var(--state-colors-danger);
@@ -193,7 +193,7 @@ $input-height: 40px;
         &:focus {
           border-color: var(--form-border-focus);
 
-          & + .input__addition {
+          & + .Input__addition {
             border-color: var(--form-border-focus);
             color: var(--form-color-focus);
           }
@@ -203,21 +203,21 @@ $input-height: 40px;
   }
 
   &--has-addition {
-    .input__control {
+    .Input__control {
       padding-left: 55px;
     }
   }
 
   &--is-disabled {
-    .input__control {
+    .Input__control {
       border-color: var(--form-border-default);
       -webkit-text-fill-color: var(--form-color-default);
       -webkit-opacity: 1;
     }
 
     &:hover {
-      .input__body {
-        .input__icon {
+      .Input__body {
+        .Input__icon {
           border-color: var(--form-color-hover);
         }
       }
@@ -225,10 +225,10 @@ $input-height: 40px;
   }
 
   &--is-focused {
-    .input__control {
+    .Input__control {
       border-color: var(--form-border-focus);
 
-      & + .input__addition {
+      & + .Input__addition {
         border-color: var(--form-border-focus);
         color: var(--form-color-focus)
       }
