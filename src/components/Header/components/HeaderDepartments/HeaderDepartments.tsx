@@ -49,22 +49,20 @@ const HeaderDepartments = (props: Props) => {
   return (
     <Choose>
       <When condition={!departmentsLeft.length}>
-        <div className="HeaderDepartments HeaderDepartments-item
-            HeaderDepartments-item--current HeaderDepartments-item__title"
-        >
-          {I18n.t(
-            `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`,
-            { defaultValue: currentDepartment.department },
-          )}
-        </div>
+        <div className="HeaderDepartments-item HeaderDepartments-item--current">
+          <div className="HeaderDepartments-item__title">
+            {I18n.t(
+              `CONSTANTS.OPERATORS.DEPARTMENTS.${currentDepartment.department}`,
+              { defaultValue: currentDepartment.department },
+            )}
+          </div>
 
-        <div className="HeaderDepartments HeaderDepartments-item
-            HeaderDepartments-item--current HeaderDepartments-item__role"
-        >
-          {I18n.t(
-            `CONSTANTS.OPERATORS.ROLES.${currentDepartment.role}`,
-            { defaultValue: currentDepartment.role },
-          )}
+          <div className="HeaderDepartments-item__role">
+            {I18n.t(
+              `CONSTANTS.OPERATORS.ROLES.${currentDepartment.role}`,
+              { defaultValue: currentDepartment.role },
+            )}
+          </div>
         </div>
       </When>
 
