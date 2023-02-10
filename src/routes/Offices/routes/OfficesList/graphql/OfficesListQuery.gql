@@ -1,0 +1,16 @@
+query OfficesListQuery (
+  $branchType: String!
+  $keyword: String
+  $country: String
+) {
+  branch (
+    branchType: $branchType
+    keyword: $keyword
+    country: $country
+  ) {
+    uuid
+    name
+    branchType
+    country
+  }
+}
