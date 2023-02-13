@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
+import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';
@@ -11,9 +12,13 @@ const TeamProfile = () => {
   const { id: branchId } = useParams<{ id: string }>();
 
   const { data, loading } = useBranchInfoQuery({ variables: { branchId } });
-  const branchData = data?.branchInfo || {};
+  const branchData = data?.branchInfo;
 
-  if (!loading && !data) {
+  if (loading) {
+    return <ShortLoader />;
+  }
+
+  if (!branchData) {
     return <NotFound />;
   }
 
@@ -22,7 +27,6 @@ const TeamProfile = () => {
       <BranchHeader
         branchData={branchData}
         branchId={branchId}
-        loading={loading}
       />
 
       <div className="TeamProfile__body">

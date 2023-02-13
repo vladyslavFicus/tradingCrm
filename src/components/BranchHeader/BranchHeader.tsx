@@ -4,11 +4,11 @@ import compose from 'compose-function';
 import { Button } from 'components/Buttons';
 import { withModals } from 'hoc';
 import { Modal } from 'types';
+import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import AddBranchManagerModal from 'modals/AddBranchManagerModal';
 import RemoveBranchManagerModal from 'modals/RemoveBranchManagerModal';
 import { Link } from 'components/Link';
-import PermissionContent from 'components/PermissionContent';
 import Uuid from 'components/Uuid';
 import Placeholder from 'components/Placeholder';
 import { useGetBranchManagerQuery } from './graphql/__generated__/GetBranchManagerQuery';
@@ -28,7 +28,6 @@ type BranchData = {
 };
 
 type Props = {
-  loading: boolean,
   branchId: string,
   branchData: BranchData,
   modals: {
@@ -39,7 +38,6 @@ type Props = {
 
 const BranchHeader = (props: Props) => {
   const {
-    loading,
     branchId,
     branchData: {
       uuid,
@@ -52,6 +50,11 @@ const BranchHeader = (props: Props) => {
       removeBranchManagerModal,
     },
   } = props;
+
+  const permission = usePermission();
+
+  const allowRemoveBrandManager = permission.allows(permissions.HIERARCHY.REMOVE_BRAND_MANAGER);
+  const allowAddBrandManager = permission.allows(permissions.HIERARCHY.ADD_BRAND_MANAGER);
 
   // ===== Requests ===== //
   const branchManagerQuery = useGetBranchManagerQuery({
@@ -95,7 +98,7 @@ const BranchHeader = (props: Props) => {
     <div className="BranchHeader">
       <div className="BranchHeader__left">
         <Placeholder
-          ready={!loading}
+          ready
           rows={[{ width: 220, height: 25 }, { width: 220, height: 12 }, { width: 220, height: 12 }]}
         >
           <div className="BranchHeader__branch">
@@ -129,31 +132,27 @@ const BranchHeader = (props: Props) => {
         </Placeholder>
       </div>
 
-      <If condition={!loading}>
-        <div className="BranchHeader__right">
-          <If condition={operators.length > 0}>
-            <PermissionContent permissions={permissions.HIERARCHY.REMOVE_BRAND_MANAGER}>
-              <Button
-                tertiary
-                className="BranchHeader__button"
-                onClick={handleOpenConfirmActionModal}
-              >
-                {I18n.t('COMMON.REMOVE_BRANCH_MANAGER')}
-              </Button>
-            </PermissionContent>
-          </If>
+      <div className="BranchHeader__right">
+        <If condition={operators.length > 0 && allowRemoveBrandManager}>
+          <Button
+            tertiary
+            className="BranchHeader__button"
+            onClick={handleOpenConfirmActionModal}
+          >
+            {I18n.t('COMMON.REMOVE_BRANCH_MANAGER')}
+          </Button>
+        </If>
 
-          <PermissionContent permissions={permissions.HIERARCHY.ADD_BRAND_MANAGER}>
-            <Button
-              tertiary
-              className="BranchHeader__button"
-              onClick={handleOpenManagerModal}
-            >
-              {I18n.t('COMMON.ADD_MANAGER_TO_BRANCH')}
-            </Button>
-          </PermissionContent>
-        </div>
-      </If>
+        <If condition={allowAddBrandManager}>
+          <Button
+            tertiary
+            className="BranchHeader__button"
+            onClick={handleOpenManagerModal}
+          >
+            {I18n.t('COMMON.ADD_MANAGER_TO_BRANCH')}
+          </Button>
+        </If>
+      </div>
     </div>
   );
 };
