@@ -1,9 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { gql } from '@apollo/client';
-import { Query } from '@apollo/client/react/components';
-
-const REQUEST = gql`query PartnersQuery(
+query PartnersQuery(
   $searchBy: String,
   $country: String,
   $status: String,
@@ -32,16 +27,3 @@ const REQUEST = gql`query PartnersQuery(
     }
   }
 }
-`;
-
-const PartnersQuery = ({ children }) => (
-  <Query query={REQUEST}>
-    {children}
-  </Query>
-);
-
-PartnersQuery.propTypes = {
-  children: PropTypes.func.isRequired,
-};
-
-export default PartnersQuery;
