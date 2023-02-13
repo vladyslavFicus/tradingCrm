@@ -29,7 +29,7 @@ import {
 import { DynamicField as Field, DynamicRangeGroup as RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
-import FilterSetsDecorator from 'components/FilterSetsDecorator';
+import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
@@ -940,7 +940,7 @@ class ClientsGridFilter extends PureComponent {
                     />
                   </div>
                   <div className="ClientsGridFilter__buttons">
-                    <FilterSetsDecorator.Buttons />
+                    <FilterSetsButtons />
                     <div className="ClientsGridFilter__buttons-group">
                       <RefreshButton
                         onClick={handleRefetch}

@@ -32,8 +32,8 @@ import {
 } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import FiltersToggler from 'components/FiltersToggler';
-import FilterSetsDecorator from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/Buttons';
+import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
 import {
   DesksAndTeamsQuery,
   OperatorsQuery,
@@ -517,7 +517,7 @@ class PaymentsListFilters extends PureComponent {
                     />
                   </div>
                   <div className="PaymentsListFilters__buttons">
-                    <FilterSetsDecorator.Buttons />
+                    <FilterSetsButtons />
                     <div className="PaymentsListFilters__buttons-group">
                       <RefreshButton
                         onClick={handleRefetch}

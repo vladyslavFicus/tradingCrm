@@ -5,6 +5,7 @@ export interface State<TFilters = Record<string, any>> {
   filters?: TFilters,
   filtersFields?: TFilters,
   sorts?: undefined | Sort[],
+  selectedFilterSet?: string,
 }
 
 export interface LocationState<TFilters = Record<string, any>> extends Location<State<TFilters>> {}

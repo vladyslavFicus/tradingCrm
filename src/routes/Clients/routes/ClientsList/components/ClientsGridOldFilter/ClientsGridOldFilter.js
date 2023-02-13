@@ -28,7 +28,7 @@ import {
 import { RangeGroup } from 'components/Forms';
 import { decodeNullValues } from 'components/Formik/utils';
 import FiltersToggler from 'components/FiltersToggler';
-import FilterSetsDecorator from 'components/FilterSetsDecorator';
+import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
 import ReactSwitch from 'components/ReactSwitch';
@@ -892,7 +892,7 @@ class ClientsGridOldFilter extends PureComponent {
                     />
                   </div>
                   <div className="ClientsGridOldFilter__buttons">
-                    <FilterSetsDecorator.Buttons />
+                    <FilterSetsButtons />
                     <div className="ClientsGridOldFilter__buttons-group">
                       <RefreshButton
                         onClick={handleRefetch}

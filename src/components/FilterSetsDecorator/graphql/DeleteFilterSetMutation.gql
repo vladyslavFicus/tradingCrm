@@ -1,0 +1,5 @@
+mutation DeleteFilterSetMutation($uuid: String!) {
+  filterSet {
+    delete(uuid: $uuid)
+  }
+}

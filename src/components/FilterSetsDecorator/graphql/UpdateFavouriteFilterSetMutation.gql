@@ -1,0 +1,11 @@
+mutation UpdateFavouriteFilterSetMutation(
+  $favourite: Boolean!
+  $uuid: String!
+) {
+  filterSet {
+    updateFavourite(
+      favourite: $favourite
+      uuid: $uuid
+    )
+  }
+}

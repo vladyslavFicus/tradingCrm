@@ -1,0 +1,252 @@
+import React, { useEffect, useState } from 'react';
+import I18n from 'i18n-js';
+import { useHistory, useLocation } from 'react-router-dom';
+import compose from 'compose-function';
+import { FieldProps } from 'formik';
+import { withModals } from 'hoc';
+import { Modal, State } from 'types';
+import { parseErrors } from 'apollo';
+import { notify, LevelType } from 'providers/NotificationProvider';
+import ActionFilterModal from 'modals/ActionFilterModal';
+import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { FilterSet__Types__Enum as FilterSetType } from '__generated__/types';
+import { FilterSetContext } from 'types/filterSet';
+import FilterSets from './components/FilterSets';
+import { FilterSetsQueryVariables, useFilterSetsQuery } from './graphql/__generated__/FilterSetsQuery';
+import { useFilterSetByIdQueryLazyQuery } from './graphql/__generated__/filterSetByIdQuery';
+import { useUpdateFavouriteFilterSetMutation } from './graphql/__generated__/UpdateFavouriteFilterSetMutation';
+import { useDeleteFilterSetMutation } from './graphql/__generated__/DeleteFilterSetMutation';
+import './FilterSetsDecorator.scss';
+
+type Modals = {
+  actionFilterModal: Modal,
+  confirmActionModal: Modal,
+};
+
+type Props = {
+  modals: Modals,
+  children: React.ReactNode,
+  filterSetType: FilterSetType,
+  currentValues: FieldProps,
+  disabled?: boolean,
+  renderBefore?: React.ReactNode,
+  submitFilters: (filterSet: string) => void,
+};
+
+export const FilterSetsContext = React.createContext({} as FilterSetContext);
+
+const FilterSetsDecorator = (props: Props) => {
+  const {
+    modals: {
+      actionFilterModal,
+      confirmActionModal,
+    },
+    children,
+    filterSetType,
+    currentValues,
+    disabled,
+    renderBefore,
+    submitFilters,
+  } = props;
+
+  const { state } = useLocation<State<FilterSetsQueryVariables>>();
+  const history = useHistory();
+
+  const [selectedFilterSet, setSelectedFilterSet] = useState<string>('');
+  const [filterSetsLoading, setFilterSetsLoading] = useState(false);
+
+  const [getFilterSetByIdQuery] = useFilterSetByIdQueryLazyQuery();
+  const [updateFavouriteFilterSetMutation] = useUpdateFavouriteFilterSetMutation();
+  const [deleteFilterSetMutation] = useDeleteFilterSetMutation();
+
+  const { data, loading, error, refetch } = useFilterSetsQuery({
+    variables: {
+      type: filterSetType,
+    },
+    fetchPolicy: 'network-only',
+  });
+  const common = data?.filterSets?.common || [];
+  const favourite = data?.filterSets?.favourite || [];
+
+  const setActiveFilterSet = (uuid: string, filtersFields: Object) => {
+    history.replace({
+      state: {
+        ...state,
+        filtersFields,
+        selectedFilterSet: uuid,
+      },
+    });
+  };
+
+  useEffect(() => {
+    setSelectedFilterSet(state?.selectedFilterSet || '');
+  }, [state?.selectedFilterSet]);
+
+  const removeActiveFilterSet = () => {
+    history.replace({
+      state: {
+        ...state,
+        selectedFilterSet: null,
+      },
+    });
+  };
+
+  const createFilterSet = () => {
+    actionFilterModal.show({
+      filterSetType,
+      fields: currentValues,
+      action: 'CREATE',
+      onSuccess: async (_: any, uuid : string) => {
+        await refetch({ type: filterSetType });
+
+        setActiveFilterSet(uuid, Object.keys(currentValues));
+        actionFilterModal.hide();
+      },
+    });
+  };
+
+  const updateFilterSet = () => {
+    const filterSet = [...favourite, ...common].find(
+      ({ uuid }) => uuid === selectedFilterSet,
+    );
+
+    actionFilterModal.show({
+      filterSetType,
+      fields: currentValues,
+      action: 'UPDATE',
+      filterId: selectedFilterSet,
+      name: filterSet?.name,
+      onSuccess: async () => {
+        await refetch({ type: filterSetType });
+
+        actionFilterModal.hide();
+      },
+    });
+  };
+
+  const deleteFilterSet = () => {
+    const filterSet = [...favourite, ...common].find(
+      ({ uuid }) => uuid === selectedFilterSet,
+    );
+
+    confirmActionModal.show({
+      uuid: selectedFilterSet,
+      onSubmit: async () => {
+        try {
+          await deleteFilterSetMutation({ variables: { uuid: selectedFilterSet } });
+          await refetch({ type: filterSetType });
+
+          removeActiveFilterSet();
+
+          notify({
+            level: LevelType.SUCCESS,
+            title: I18n.t('COMMON.SUCCESS'),
+            message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
+          });
+
+          confirmActionModal.hide();
+        } catch (e) {
+          const err = parseErrors(e);
+
+          notify({
+            level: LevelType.ERROR,
+            title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
+            message:
+              err.message || I18n.t('COMMON.SOMETHING_WRONG'),
+          });
+        }
+      },
+      modalTitle: I18n.t('FILTER_SET.REMOVE_MODAL.TITLE'),
+      actionText: I18n.t('FILTER_SET.REMOVE_MODAL.TEXT'),
+      fullName: filterSet?.name,
+      submitButtonLabel: I18n.t('FILTER_SET.REMOVE_MODAL.BUTTON_ACTION'),
+    });
+  };
+
+  const fetchFilterSetByUuid = async (uuid: string) => {
+    setFilterSetsLoading(true);
+
+    try {
+      const filterSetByIdQuery = await getFilterSetByIdQuery({
+        variables: {
+          uuid,
+        },
+      });
+      const { data: selectData } = filterSetByIdQuery;
+
+      setActiveFilterSet(uuid, Object.keys(selectData?.filterSet));
+      submitFilters(selectData?.filterSet);
+    } catch {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('COMMON.FAIL'),
+        message: I18n.t('FILTER_SET.LOADING_FAILED'),
+      });
+    }
+
+    setFilterSetsLoading(false);
+  };
+
+  const updateFavouriteFilterSet = async (uuid: string, newValue: boolean) => {
+    setFilterSetsLoading(true);
+
+    try {
+      await updateFavouriteFilterSetMutation({ variables: { uuid, favourite: newValue } });
+      await refetch({ type: filterSetType });
+
+      notify({
+        level: LevelType.SUCCESS,
+        title: I18n.t('COMMON.SUCCESS'),
+        message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
+      });
+    } catch (e) {
+      notify({
+        level: LevelType.ERROR,
+        title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
+      });
+    }
+
+    setFilterSetsLoading(false);
+  };
+
+  const filterSetsList = [...favourite, ...common];
+  const filterSetsListDisabled = disabled || filterSetsLoading || loading || !!error;
+
+  const areButtonsVisible = currentValues && Object.keys(currentValues).length > 0;
+
+  return (
+    <FilterSetsContext.Provider
+      value={{
+        visible: areButtonsVisible,
+        hasSelectedFilterSet: !!selectedFilterSet,
+        disabled: filterSetsListDisabled,
+        createFilterSet,
+        updateFilterSet,
+        deleteFilterSet,
+      }}
+    >
+      <div className="FilterSetsDecorator__control">
+        {renderBefore}
+
+        <FilterSets
+          filterSetsList={filterSetsList}
+          selectedFilterSet={selectedFilterSet}
+          disabled={filterSetsListDisabled}
+          selectFilterSet={fetchFilterSetByUuid}
+          updateFavouriteFilterSet={updateFavouriteFilterSet}
+        />
+      </div>
+
+      {children}
+    </FilterSetsContext.Provider>
+  );
+};
+
+export default compose(
+  React.memo,
+  withModals({
+    actionFilterModal: ActionFilterModal,
+    confirmActionModal: ConfirmActionModal,
+  }),
+)(FilterSetsDecorator);
