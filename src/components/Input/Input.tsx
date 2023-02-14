@@ -31,7 +31,7 @@ const Input = (props : Props & React.InputHTMLAttributes<HTMLInputElement>) => {
   const {
     name,
     autoFocus,
-    value,
+    value = '',
     onChange,
     error,
     disabled = false,
@@ -51,7 +51,7 @@ const Input = (props : Props & React.InputHTMLAttributes<HTMLInputElement>) => {
     onEnterPress,
     onTruncated,
     onKeyDown,
-    ...input
+    ...rest
   } = props;
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const Input = (props : Props & React.InputHTMLAttributes<HTMLInputElement>) => {
   };
 
   const inputProps = {
-    ...input,
+    ...rest,
     className: 'Input__control',
     name,
     value,
@@ -98,6 +98,8 @@ const Input = (props : Props & React.InputHTMLAttributes<HTMLInputElement>) => {
     ref: inputRef,
     onKeyDown: handleKeyDown,
   };
+
+  const tooltipId = `label-${name}`;
 
   return (
     <div
@@ -113,13 +115,13 @@ const Input = (props : Props & React.InputHTMLAttributes<HTMLInputElement>) => {
         <label className="Input__label" htmlFor={idRef.current}>{label}</label>
 
         <If condition={!!labelTooltip}>
-          <span id={`label-${name}`} className="Input__label-icon">
+          <span id={tooltipId} className="Input__label-icon">
             <i className="Input__icon-info fa fa-info-circle" />
           </span>
 
           <UncontrolledTooltip
             fade={false}
-            target={idRef.current}
+            target={tooltipId}
           >
             {labelTooltip}
           </UncontrolledTooltip>
