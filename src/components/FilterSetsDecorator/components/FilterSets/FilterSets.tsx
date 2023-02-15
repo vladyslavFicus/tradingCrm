@@ -8,7 +8,7 @@ import './FilterSets.scss';
 
 type Props = {
   filterSetsList: Array<FilterSetsList>,
-  selectedFilterSet?: string,
+  selectedFilterSetUuid?: string,
   disabled?: boolean,
   selectFilterSet: (uuid: string) => void,
   updateFavouriteFilterSet: (uuid: string, favourite: boolean) => void,
@@ -18,7 +18,7 @@ const FilterSets = (props: Props) => {
   const {
     updateFavouriteFilterSet,
     filterSetsList,
-    selectedFilterSet = '',
+    selectedFilterSetUuid = '',
     selectFilterSet: selectFilter,
     disabled,
   } = props;
@@ -34,7 +34,7 @@ const FilterSets = (props: Props) => {
     selectFilter(uuid);
   };
 
-  const activeFilterSet = filterSetsList.find(({ uuid }) => uuid === selectedFilterSet);
+  const activeFilterSet = filterSetsList.find(({ uuid }) => uuid === selectedFilterSetUuid);
   const activeFilterSetName = activeFilterSet?.name || I18n.t('COMMON.SELECT_OPTION.DEFAULT');
 
   return (

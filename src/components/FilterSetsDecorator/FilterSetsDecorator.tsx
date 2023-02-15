@@ -11,6 +11,7 @@ import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { FilterSet__Types__Enum as FilterSetType } from '__generated__/types';
 import { FilterSetContext } from 'types/filterSet';
+import { SelectedFilterSet } from 'types/selectedFilterSet';
 import FilterSets from './components/FilterSets';
 import { FilterSetsQueryVariables, useFilterSetsQuery } from './graphql/__generated__/FilterSetsQuery';
 import { useFilterSetByIdQueryLazyQuery } from './graphql/__generated__/filterSetByIdQuery';
@@ -52,7 +53,7 @@ const FilterSetsDecorator = (props: Props) => {
   const { state } = useLocation<State<FilterSetsQueryVariables>>();
   const history = useHistory();
 
-  const [selectedFilterSet, setSelectedFilterSet] = useState<string>('');
+  const [selectedFilterSetUuid, setSelectedFilterSetUuid] = useState<string>();
   const [filterSetsLoading, setFilterSetsLoading] = useState(false);
 
   const [getFilterSetByIdQuery] = useFilterSetByIdQueryLazyQuery();
@@ -68,19 +69,21 @@ const FilterSetsDecorator = (props: Props) => {
   const common = data?.filterSets?.common || [];
   const favourite = data?.filterSets?.favourite || [];
 
-  const setActiveFilterSet = (uuid: string, filtersFields: Object) => {
+  const setActiveFilterSet = ({ uuid }: SelectedFilterSet, filtersFields: Object) => {
     history.replace({
       state: {
         ...state,
         filtersFields,
-        selectedFilterSet: uuid,
+        selectedFilterSet: {
+          uuid,
+        },
       },
     });
   };
 
   useEffect(() => {
-    setSelectedFilterSet(state?.selectedFilterSet || '');
-  }, [state?.selectedFilterSet]);
+    setSelectedFilterSetUuid(state?.selectedFilterSet?.uuid);
+  }, [state?.selectedFilterSet?.uuid]);
 
   const removeActiveFilterSet = () => {
     history.replace({
@@ -96,10 +99,10 @@ const FilterSetsDecorator = (props: Props) => {
       filterSetType,
       fields: currentValues,
       action: 'CREATE',
-      onSuccess: async (_: any, uuid : string) => {
+      onSuccess: async (_: any, { uuid } : SelectedFilterSet) => {
         await refetch({ type: filterSetType });
 
-        setActiveFilterSet(uuid, Object.keys(currentValues));
+        setActiveFilterSet({ uuid }, Object.keys(currentValues));
         actionFilterModal.hide();
       },
     });
@@ -107,14 +110,14 @@ const FilterSetsDecorator = (props: Props) => {
 
   const updateFilterSet = () => {
     const filterSet = [...favourite, ...common].find(
-      ({ uuid }) => uuid === selectedFilterSet,
+      ({ uuid }) => uuid === selectedFilterSetUuid,
     );
 
     actionFilterModal.show({
       filterSetType,
       fields: currentValues,
       action: 'UPDATE',
-      filterId: selectedFilterSet,
+      filterId: selectedFilterSetUuid,
       name: filterSet?.name,
       onSuccess: async () => {
         await refetch({ type: filterSetType });
@@ -126,14 +129,14 @@ const FilterSetsDecorator = (props: Props) => {
 
   const deleteFilterSet = () => {
     const filterSet = [...favourite, ...common].find(
-      ({ uuid }) => uuid === selectedFilterSet,
+      ({ uuid }) => uuid === selectedFilterSetUuid,
     );
 
     confirmActionModal.show({
-      uuid: selectedFilterSet,
+      uuid: selectedFilterSetUuid,
       onSubmit: async () => {
         try {
-          await deleteFilterSetMutation({ variables: { uuid: selectedFilterSet } });
+          await deleteFilterSetMutation({ variables: { uuid: selectedFilterSetUuid as string } });
           await refetch({ type: filterSetType });
 
           removeActiveFilterSet();
@@ -174,7 +177,7 @@ const FilterSetsDecorator = (props: Props) => {
       });
       const { data: selectData } = filterSetByIdQuery;
 
-      setActiveFilterSet(uuid, Object.keys(selectData?.filterSet));
+      setActiveFilterSet({ uuid }, Object.keys(selectData?.filterSet));
       submitFilters(selectData?.filterSet);
     } catch {
       notify({
@@ -219,7 +222,7 @@ const FilterSetsDecorator = (props: Props) => {
     <FilterSetsContext.Provider
       value={{
         visible: areButtonsVisible,
-        hasSelectedFilterSet: !!selectedFilterSet,
+        hasSelectedFilterSet: !!selectedFilterSetUuid,
         disabled: filterSetsListDisabled,
         createFilterSet,
         updateFilterSet,
@@ -231,7 +234,7 @@ const FilterSetsDecorator = (props: Props) => {
 
         <FilterSets
           filterSetsList={filterSetsList}
-          selectedFilterSet={selectedFilterSet}
+          selectedFilterSetUuid={selectedFilterSetUuid}
           disabled={filterSetsListDisabled}
           selectFilterSet={fetchFilterSetByUuid}
           updateFavouriteFilterSet={updateFavouriteFilterSet}
