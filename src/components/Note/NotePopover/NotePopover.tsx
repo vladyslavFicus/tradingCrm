@@ -33,7 +33,7 @@ type Props = {
   isOpen: boolean,
   isDirty: boolean,
   onSubmit: (formValues: FormValues) => void,
-  onClose: (ignoreChanges?: boolean) => void,
+  onClose: (ignoreChanges: boolean) => void,
   onRemoveNote: () => void,
   onSetDirty: (dirty: boolean) => void,
 };
@@ -140,7 +140,7 @@ const NotePopover = (props: Props) => {
       target={targetId}
       isOpen={isOpen}
       placement={placement}
-      toggle={onClose}
+      toggle={() => onClose(false)}
       onClick={handlePopoverClick}
       className="NotePopover"
       popperClassName="NotePopover__popper"
