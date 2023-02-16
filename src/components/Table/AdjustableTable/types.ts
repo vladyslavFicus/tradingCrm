@@ -1,7 +1,13 @@
-export type GridConfigType = {
-  uuid?: string,
-  type?: string,
-  columns?: [string],
-}
+import { GridConfig__Types__Enum as GridConfigTypes } from '__generated__/types';
 
-export type QueryResultType = { gridConfig: GridConfigType };
+export type Config = {
+  type: GridConfigTypes,
+  uuid?: string,
+};
+
+type AvailableColumn = {
+  name: string,
+  header: string,
+};
+
+export type AvailableColumns = Array<AvailableColumn>;

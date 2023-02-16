@@ -1,18 +1,15 @@
 import I18n from 'i18n-js';
 import React, { useMemo, useState, isValidElement, Children, ReactElement } from 'react';
-import compose from 'compose-function';
-import { sortBy } from 'lodash';
-import { QueryResult } from '@apollo/client';
-import { withRequests } from 'apollo';
+import { sortBy, compact } from 'lodash';
+import { Sort__Input as Sort, GridConfig__Types__Enum as GridConfigTypes } from '__generated__/types';
 import { Column, Table } from '..';
 import { Props as ColumnPropTypes } from '../Column';
-import GridConfigQuery from './graphql/GridConfigQuery';
 import GridConfig from './GridConfig';
-import { QueryResultType } from './types';
+import { AvailableColumns } from './types';
+import { useGridConfigQuery } from './graphql/__generated__/GridConfigQuery';
 import './AdjustableTable.scss';
 
 type ColumnComponents = Array<ReactElement<ColumnPropTypes>>;
-
 
 const getColumns = (children: React.ReactNode) => useMemo(
   () => Children.toArray(children).filter(child => isValidElement(child) && child.type === Column) as ColumnComponents,
@@ -40,11 +37,17 @@ const getSortedColumns = (columns: ColumnComponents, columnsOrder: string[]) => 
 };
 
 type Props = {
-  type: string,
-  defaultColumns: [string],
-  columnsOrder: [string],
+  type?: GridConfigTypes,
+  items: Array<Object>,
+  sorts: Array<Sort>,
+  loading: boolean,
+  hasMore: boolean,
+  onMore: () => void,
+  onSort: (sorts: Array<Sort>) => void,
+  defaultColumns?: Array<string>,
+  columnsOrder: Array<string>,
   children: React.ReactNode,
-  gridConfigQuery: QueryResult<QueryResultType>,
+  stickyFromTop: string | number,
 }
 
 /*  Add to Table component ability to show/hide columns and save setting
@@ -78,49 +81,67 @@ const AdjustableTable = (props: Props) => {
     type,
     defaultColumns,
     children,
-    gridConfigQuery,
     columnsOrder,
     ...restProps
   } = props;
 
-  const allAvailableColumns = getColumns(children).map(column => column.props.name);
+  const [selectedColumns, setSelectedColumns] = useState<Array<string> | null>(null);
 
-  const gridConfig = type ? gridConfigQuery.data?.gridConfig || {} : undefined;
-  const [selectedColumns, updateColumns] = useState();
+  // ===== Requests ===== //
+  const gridConfigQuery = useGridConfigQuery({ skip: !type });
 
-  const columns = selectedColumns || (type && gridConfig?.columns) || defaultColumns || allAvailableColumns;
-  const isColumnEnabled = (name: string) => !name || columns.map((item: string) => item).includes(name);
+  const gridConfig = gridConfigQuery.data?.gridConfig;
+
+  const getColumnsWithTitle = (items: ColumnComponents): AvailableColumns => {
+    const result: AvailableColumns = [];
+
+    items.forEach(({ props: { name, header } }) => {
+      if (name && header) {
+        result.push({ name, header });
+      }
+    });
+    return result;
+  };
+
+  const allAvailableColumns = compact(getColumns(children).map(column => column.props.name));
+  const columns = selectedColumns || gridConfig?.columns || defaultColumns || allAvailableColumns;
+  const isColumnEnabled = (name: string) => !name || columns.includes(name);
   const allColumns = getSortedColumns(getColumns(children), columnsOrder);
-  const visibleColumns = allColumns.filter(({ props: { name } }: any) => isColumnEnabled(name));
-  const columnsWithTitle = allColumns.map(({ props: { name, header } }: any) => ({ name, header }));
-  const isMoreThanOneColumnVisible = visibleColumns.length > 0;
+  const visibleColumns = allColumns.filter(item => item.props?.name && isColumnEnabled(item.props?.name));
+  const columnsWithTitle = getColumnsWithTitle(allColumns);
+
+  const renderGridConfig = () => {
+    if (!type) {
+      return null;
+    }
+
+    return (
+      <GridConfig
+        gridConfig={{ uuid: gridConfig?.uuid, type }}
+        columnsSet={columns}
+        onUpdate={setSelectedColumns}
+        availableColumnsSet={columnsWithTitle}
+      />
+    );
+  };
 
   return (
-    <React.Fragment>
-      <If condition={!!type}>
-        <GridConfig
-          gridConfig={{ uuid: gridConfig?.uuid, type }}
-          columnsSet={columns}
-          onUpdate={updateColumns}
-          availableColumnsSet={columnsWithTitle}
-        />
-      </If>
+    <>
+      {renderGridConfig()}
+
       <Choose>
-        <When condition={isMoreThanOneColumnVisible}>
+        <When condition={visibleColumns.length > 0}>
           <Table {...restProps}>
             {visibleColumns}
           </Table>
         </When>
+
         <Otherwise>
           <div className="AdjustableTable__no_columns">{I18n.t('GRID_CONFIG.NO_SELECTED_COLUMN_MESSAGE')}</div>
         </Otherwise>
       </Choose>
-    </React.Fragment>
+    </>
   );
 };
 
-export default compose(
-  withRequests({
-    gridConfigQuery: GridConfigQuery,
-  }),
-)(AdjustableTable);
+export default React.memo(AdjustableTable);
