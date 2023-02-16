@@ -1,6 +1,5 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { isBoolean } from 'lodash';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { ResetForm } from 'types/formik';
@@ -24,20 +23,6 @@ type Props = {
 const NotificationCenterForm = (props: Props) => {
   const { className, notificationTypes, onSubmit } = props;
 
-  const handleSubmit = (formValues: FormValues) => {
-    const filterParams: Filter = {};
-
-    if (formValues.notificationTypes?.length) {
-      filterParams.notificationTypes = formValues.notificationTypes;
-    }
-
-    if (isBoolean(formValues.read)) {
-      filterParams.read = formValues.read;
-    }
-
-    onSubmit(filterParams);
-  };
-
   const handleReset = (resetForm: ResetForm<FormValues>) => {
     onSubmit({});
     resetForm();
@@ -45,7 +30,7 @@ const NotificationCenterForm = (props: Props) => {
 
   return (
     <Formik
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       initialValues={{}}
     >
       {({ dirty, resetForm }) => (

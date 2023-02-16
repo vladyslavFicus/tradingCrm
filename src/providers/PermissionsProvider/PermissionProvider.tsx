@@ -24,7 +24,11 @@ const PermissionProvider = (props: Props) => {
 
   const denies = (action: string): boolean => !allows(action);
 
-  const value = { permission: { permissions, allows, denies } };
+  const allowsAll = (actions: Array<string>): boolean => actions.every(allows);
+
+  const allowsAny = (actions: Array<string>): boolean => actions.some(allows);
+
+  const value = { permission: { permissions, allows, denies, allowsAll, allowsAny } };
 
   return (
     <PermissionContext.Provider value={value}>

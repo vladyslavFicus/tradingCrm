@@ -1,0 +1,5 @@
+mutation UpdateGridConfigMutation($uuid: String!, $columns: [String]!) {
+  gridConfig {
+    update(columns: $columns, uuid: $uuid)
+  }
+}

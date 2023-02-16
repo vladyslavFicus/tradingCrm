@@ -1,31 +1,18 @@
 import I18n from 'i18n-js';
 import React from 'react';
-import compose from 'compose-function';
-import { BaseMutationOptions, MutationResult } from '@apollo/client';
-import { withRequests } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import Select from 'components/Select';
-import CreateGridConfigMutation from '../graphql/CreateGridConfigMutation';
-import UpdateGridConfigMutation from '../graphql/UpdateGridConfigMutation';
-import { GridConfigType } from '../types';
+import { AvailableColumns, Config } from '../types';
+import { useCreateGridConfigMutation } from '../graphql/__generated__/CreateGridConfigMutation';
+import { useUpdateGridConfigMutation } from '../graphql/__generated__/UpdateGridConfigMutation';
 import './GridConfig.scss';
 
-type AvailableColumns = {
-  name: string,
-  header: string,
-}
-
 type Props = {
-  columnsSet: [string],
+  gridConfig: Config,
+  columnsSet: Array<string>,
+  availableColumnsSet: AvailableColumns,
   onUpdate: (values: [string]) => void,
-  createGridConfig: (options: BaseMutationOptions) => MutationResult<GridConfigType>,
-  updateGridConfig: (options: BaseMutationOptions) => MutationResult<Boolean>,
-  availableColumnsSet: [AvailableColumns],
-  gridConfig: {
-    type: string,
-    uuid?: string,
-  },
-}
+};
 
 const GridConfig = (props: Props) => {
   const {
@@ -33,16 +20,17 @@ const GridConfig = (props: Props) => {
     onUpdate,
     columnsSet = [],
     availableColumnsSet,
-    updateGridConfig,
-    createGridConfig,
   } = props;
 
-  const saveOrCreateGridConfig = async (values: [string?] = []) => {
+  const [createGridConfigMutation] = useCreateGridConfigMutation();
+  const [updateGridConfigMutation] = useUpdateGridConfigMutation();
+
+  const saveOrCreateGridConfig = async (values: Array<string> = []) => {
     try {
       if (gridConfig?.uuid) {
-        await updateGridConfig({ variables: { ...gridConfig, columns: values } });
+        await updateGridConfigMutation({ variables: { uuid: gridConfig?.uuid, columns: values } });
       } else {
-        await createGridConfig({ variables: { ...gridConfig, columns: values } });
+        await createGridConfigMutation({ variables: { type: gridConfig.type, columns: values } });
       }
       notify({
         level: LevelType.SUCCESS,
@@ -80,10 +68,4 @@ const GridConfig = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withRequests({
-    createGridConfig: CreateGridConfigMutation,
-    updateGridConfig: UpdateGridConfigMutation,
-  }),
-)(GridConfig);
+export default React.memo(GridConfig);
