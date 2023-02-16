@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteProps } from 'react-router-dom';
 
 type Props = {
-  layout?: React.ReactElement,
+  layout?: React.ReactNode,
   disableScroll?: boolean,
   isPublic?: boolean,
   isPrivate?: boolean,

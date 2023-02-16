@@ -1,28 +1,10 @@
-import { departments, roles } from 'constants/brands';
 import Permissions, { CONDITIONS } from 'utils/permissions';
 import permissions from './permissions';
-
-type OperatorsExcludeAuthority = {
-  department: departments,
-  role: roles,
-};
-
-export const operatorsExcludeAuthorities: Array<OperatorsExcludeAuthority> = [
-  {
-    department: departments.SALES,
-    role: roles.ROLE1,
-  },
-  {
-    department: departments.RETENTION,
-    role: roles.ROLE1,
-  },
-];
 
 type SidebarMenuSubItem = {
   label: string,
   url: string,
   permissions: Permissions,
-  excludeAuthorities?: Array<OperatorsExcludeAuthority>,
 };
 
 type SidebarMenuItem = {
@@ -137,7 +119,6 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         label: 'SIDEBAR.TOP_MENU.OPERATORS',
         url: '/operators/list',
         permissions: new Permissions(permissions.HIERARCHY.GET_OPERATORS),
-        excludeAuthorities: operatorsExcludeAuthorities,
       },
       {
         label: 'SIDEBAR.TOP_MENU.PARTNERS',
