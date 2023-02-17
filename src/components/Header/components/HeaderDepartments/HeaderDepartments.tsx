@@ -109,15 +109,17 @@ const HeaderDepartments = (props: Props) => {
                   alt={`${department.department} / ${department.role}`}
                 />
 
-                <div className="HeaderDepartments-item__title">
-                  {I18n.t(
-                    `CONSTANTS.OPERATORS.DEPARTMENTS.${department.department}`,
-                    { defaultValue: department.department },
-                  )}
-                </div>
+                <div className="HeaderDepartments__list-item">
+                  <span className="HeaderDepartments-item__title">
+                    {I18n.t(
+                      `CONSTANTS.OPERATORS.DEPARTMENTS.${department.department}`,
+                      { defaultValue: department.department },
+                    )}
+                  </span>
 
-                <div className="HeaderDepartments-item__role">
-                  {I18n.t(`CONSTANTS.OPERATORS.ROLES.${department.role}`, { defaultValue: department.role })}
+                  <span className="HeaderDepartments-item__role">
+                    {I18n.t(`CONSTANTS.OPERATORS.ROLES.${department.role}`, { defaultValue: department.role })}
+                  </span>
                 </div>
               </DropdownItem>
             ))}
