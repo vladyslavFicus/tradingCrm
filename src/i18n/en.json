@@ -2688,12 +2688,13 @@
     },
     "LEADS_UPLOAD_RESULT_MODAL": {
       "TITLE": "Leads Upload Result",
-      "DESCRIPTION": "%{createdLeadsCount} leads have been successfully uploaded to the system. %{failedLeadsCount} lead is already in the system. They have not been uploaded. To view them, click the download button below.",
+      "DESCRIPTION": "%{createdLeadsCount} leads have been successfully uploaded to the system. %{failedLeadsCount} leads have failures on uploading to the system. They have not been uploaded. To view them, click the download button below.",
       "FAILURE_REASON": {
         "DUPLICATED_EMAIL": "Email is duplicated in the uploaded file",
         "DUPLICATED_PHONE": "Phone is duplicated in the uploaded file",
         "EXISTING_EMAIL": "Email already exists in the system",
-        "EXISTING_PHONE": "Phone already exists in the system"
+        "EXISTING_PHONE": "Phone already exists in the system",
+        "NON_EXISTING_AFFILIATE": "Affiliate does not exist in the system"
       }
     }
   },
@@ -3306,6 +3307,7 @@
       "LANGUAGE": "Language",
       "SOURCE": "Source",
       "AFFILIATE": "Affiliate",
+      "AFFILIATE_UUID": "AffiliateID",
       "CONVERTED_TO_CLIENT": "Converted to Client",
       "CONVERTED_SINCE": "Converted since"
     },

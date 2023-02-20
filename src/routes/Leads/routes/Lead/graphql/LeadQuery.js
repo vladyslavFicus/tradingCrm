@@ -22,6 +22,7 @@ const REQUEST = gql`query LeadProfileQuery(
     source
     birthDate
     affiliate
+    affiliateUuid
     gender
     city
     language

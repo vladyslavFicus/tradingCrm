@@ -92,6 +92,7 @@ class LeadPersonalInfo extends PureComponent {
         language,
         source,
         affiliate,
+        affiliateUuid,
         convertedToClientUuid,
         statusChangedDate,
       },
@@ -211,6 +212,10 @@ class LeadPersonalInfo extends PureComponent {
           <PersonalInformationItem
             label={I18n.t('LEAD_PROFILE.DETAILS.AFFILIATE')}
             value={affiliate}
+          />
+          <PersonalInformationItem
+            label={I18n.t('LEAD_PROFILE.DETAILS.AFFILIATE_UUID')}
+            value={affiliateUuid}
           />
           <If condition={convertedToClientUuid}>
             <PersonalInformationItem
