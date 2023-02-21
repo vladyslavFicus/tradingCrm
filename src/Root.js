@@ -7,7 +7,6 @@ import StorageProvider from 'providers/StorageProvider';
 import LocaleProvider from 'providers/LocaleProvider';
 import NotificationProvider from 'providers/NotificationProvider';
 import CrmBrandConfigProvider from 'providers/CrmBrandProvider';
-import ModalProvider from 'providers/ModalProvider';
 import App from './App';
 
 class Root extends PureComponent {
@@ -20,11 +19,9 @@ class Root extends PureComponent {
               <LocaleProvider>
                 <NotificationProvider>
                   <ApolloProvider>
-                    <ModalProvider>
-                      <TrackifyProvider>
-                        <App />
-                      </TrackifyProvider>
-                    </ModalProvider>
+                    <TrackifyProvider>
+                      <App />
+                    </TrackifyProvider>
                   </ApolloProvider>
                 </NotificationProvider>
               </LocaleProvider>

@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { State } from 'types';
+import { useModal } from 'providers/ModalProvider';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/Buttons';
-import CreateClientCallbackModal from 'modals/CreateClientCallbackModal';
+import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';
 import {
@@ -18,18 +17,12 @@ import {
 } from './graphql/__generated__/ClientCallbacksListQuery';
 import './ClientCallbacksTab.scss';
 
-type Props = {
-  modals: {
-    createClientCallbackModal: Modal,
-  },
-};
-
-const ClientCallbacksTab = (props: Props) => {
-  const { modals: { createClientCallbackModal } } = props;
-
+const ClientCallbacksTab = () => {
   const { id: uuid } = useParams<{ id: string }>();
 
   const { state } = useLocation<State<ClientCallbacksListQueryVariables>>();
+
+  const createClientCallbackModal = useModal<CreateClientCallbackModalProps>(CreateClientCallbackModal);
 
   // ===== Requests ===== //
   const clientCallbacksListQuery = useClientCallbacksListQuery({
@@ -79,9 +72,4 @@ const ClientCallbacksTab = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createClientCallbackModal: CreateClientCallbackModal,
-  }),
-)(ClientCallbacksTab);
+export default React.memo(ClientCallbacksTab);
