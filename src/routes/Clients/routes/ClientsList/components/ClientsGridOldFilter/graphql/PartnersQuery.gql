@@ -1,0 +1,23 @@
+query PartnersQuery(
+  $searchBy: String,
+  $country: String,
+  $status: String,
+  $registrationDateFrom: String,
+  $registrationDateTo: String,
+  $page: Page__Input,
+) {
+  partners (
+    searchBy: $searchBy,
+    country: $country,
+    status: $status,
+    registrationDateFrom: $registrationDateFrom,
+    registrationDateTo: $registrationDateTo,
+    page: $page,
+  ) {
+    content {
+      uuid
+      fullName
+      status
+    }
+  }
+}

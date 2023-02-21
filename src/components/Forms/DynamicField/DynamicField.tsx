@@ -1,10 +1,33 @@
 import React from 'react';
 import { get } from 'lodash';
 import { useLocation } from 'react-router-dom';
-import { Field, FieldInputProps } from 'formik';
+import { Field } from 'formik';
 import { State } from 'types';
 
-type Props = FieldInputProps<string>;
+type Props = {
+  name: string,
+  className?: string,
+  label?: string,
+  labelTooltip?: string,
+  placeholder?: string,
+  addition?: React.ReactNode,
+  component?: React.ReactNode,
+  maxLength?: number,
+  withFocus?: boolean,
+  children?: React.ReactNode,
+  withAnyOption?: boolean,
+  searchable?: boolean,
+  multiple?: boolean,
+  disabled?: boolean,
+  type?: string,
+  step?: string,
+  min?: number,
+  anchorDirection?: string,
+  fieldsNames?: {
+    from: string,
+    to: string,
+  },
+};
 
 const DynamicField = (props: Props) => {
   const { name } = props;

@@ -2,6 +2,7 @@ import I18n from 'i18n-js';
 import React, { useMemo, useState, isValidElement, Children, ReactElement } from 'react';
 import { sortBy, compact } from 'lodash';
 import { Sort__Input as Sort, GridConfig__Types__Enum as GridConfigTypes } from '__generated__/types';
+import { TableSelection } from 'types';
 import { Column, Table } from '..';
 import { Props as ColumnPropTypes } from '../Column';
 import GridConfig from './GridConfig';
@@ -38,16 +39,21 @@ const getSortedColumns = (columns: ColumnComponents, columnsOrder: string[]) => 
 
 type Props = {
   type?: GridConfigTypes,
+  totalCount?: number,
+  withMultiSelect?: boolean,
+  maxSelectCount?: number,
   items: Array<Object>,
   sorts: Array<Sort>,
   loading: boolean,
   hasMore: boolean,
-  onMore: () => void,
-  onSort: (sorts: Array<Sort>) => void,
   defaultColumns?: Array<string>,
   columnsOrder: Array<string>,
   children: React.ReactNode,
   stickyFromTop: string | number,
+  onMore: () => void,
+  onSort: (sorts: Array<Sort>) => void,
+  onSelect?: () => void,
+  onSelectError?: (select: TableSelection) => void,
 }
 
 /*  Add to Table component ability to show/hide columns and save setting

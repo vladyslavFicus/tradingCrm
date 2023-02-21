@@ -63,23 +63,24 @@ const GridAcquisitionStatus = <HierarchyBranches extends Hierarchy>(props: Props
 
           <div className="GridAcquisitionStatus__additional">
             <If condition={!!fullName}>
-              <div>
+              <p>
                 {fullName}
-              </div>
+              </p>
             </If>
+
             <If condition={!!desk}>
-              <div>
+              <p>
                 <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> {desk?.name}
-              </div>
+              </p>
             </If>
+
             <If condition={!!team}>
-              <div>
-                <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {team?.name}
-              </div>
+              <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {team?.name}
             </If>
           </div>
         </div>
       </When>
+
       <Otherwise>
         <GridEmptyValue />
       </Otherwise>

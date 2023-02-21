@@ -1,12 +1,14 @@
 import React from 'react';
 import { get } from 'lodash';
 import { useLocation } from 'react-router-dom';
-import { FieldInputProps } from 'formik';
 import { State } from 'types';
 import RangeGroup from '../RangeGroup';
 
-type Props = FieldInputProps<string> & {
-  children: Array<React.ReactNode>,
+type Props = {
+  name: string,
+  children: React.ReactNode,
+  className?: string,
+  label?: string,
 };
 
 const DynamicRangeGroup = (props: Props) => {

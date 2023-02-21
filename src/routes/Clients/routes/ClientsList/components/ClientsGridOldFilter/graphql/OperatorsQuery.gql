@@ -1,0 +1,18 @@
+query OperatorsQuery(
+  $page: Page__Input
+) {
+  operators(page: $page) {
+    content {
+      uuid
+      fullName
+      operatorStatus
+      userType
+      hierarchy {
+        parentBranches {
+          branchType
+          uuid
+        }
+      }
+    }
+  }
+}

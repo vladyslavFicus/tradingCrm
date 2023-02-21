@@ -4,7 +4,7 @@ import FieldLabel from '../FieldLabel';
 import './RangeGroup.scss';
 
 type Props = {
-  children: Array<React.ReactNode>,
+  children: React.ReactNode,
   label?: string,
   className?: string,
   dividerClassName?: string,
@@ -23,12 +23,15 @@ const RangeGroup = (props: Props) => {
   return (
     <div className={classNames('RangeGroup', className)}>
       <FieldLabel className="RangeGroup__label" label={label} />
+
       <div className="RangeGroup__container">
-        <div>{fromElement}</div>
+        {fromElement}
+
         <div className={classNames('RangeGroup__divider', dividerClassName)}>
           -
         </div>
-        <div>{toElement}</div>
+
+        {toElement}
       </div>
     </div>
   );

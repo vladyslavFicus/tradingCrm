@@ -1,6 +1,6 @@
-const MAX_SELECTED_CLIENTS = 5000;
+export const MAX_SELECTED_CLIENTS = 5000;
 
-const attributeLabels = {
+export const attributeLabels = {
   activityStatus: 'PROFILE.LIST.FILTERS.ACTIVITY',
   affiliateFtd: 'PROFILE.LIST.FILTERS.AFFILIATE_FTD',
   offices: 'PROFILE.LIST.FILTERS.OFFICES',
@@ -40,7 +40,7 @@ const attributeLabels = {
   warnings: 'PROFILE.LIST.FILTERS.WARNING',
 };
 
-const activityStatuses = [
+export const activityStatuses = [
   {
     value: 'ONLINE',
     label: 'PROFILE.LAST_ACTIVITY.STATUS.ONLINE',
@@ -51,7 +51,7 @@ const activityStatuses = [
   },
 ];
 
-const radioSelect = [
+export const radioSelect = [
   {
     value: false,
     label: 'COMMON.NO',
@@ -62,7 +62,7 @@ const radioSelect = [
   },
 ];
 
-const acquisitionStatuses = [
+export const acquisitionStatuses = [
   {
     value: 'RETENTION',
     label: 'COMMON.RETENTION',
@@ -73,28 +73,30 @@ const acquisitionStatuses = [
   },
 ];
 
-const assignStatuses = {
-  ASSIGNED: 'ASSIGNED',
-  UNASSIGNED: 'UNASSIGNED',
-};
+export const assignStatuses = [
+  {
+    value: 'ASSIGNED',
+    label: 'COMMON.ASSIGN',
+  },
+  {
+    value: 'UNASSIGNED',
+    label: 'COMMON.UN_ASSIGN',
+  },
+];
 
-const assignStatusesLabels = {
-  ASSIGNED: 'COMMON.ASSIGN',
-  UNASSIGNED: 'COMMON.UN_ASSIGN',
-};
-
-const defaultColumns = [
+export const defaultColumns = [
   'firstName', 'warning', 'lastActivityDate', 'addressCountryCode', 'balance', 'depositsCount', 'affiliateReferrer',
   'sales', 'retention', 'registrationDate', 'lastNoteChangedAt', 'lastCallDate', 'status',
 ];
 
-export {
-  MAX_SELECTED_CLIENTS,
-  acquisitionStatuses,
-  activityStatuses,
-  attributeLabels,
-  assignStatuses,
-  assignStatusesLabels,
-  radioSelect,
-  defaultColumns,
-};
+export const OPERATORS_SORT = [
+  { column: 'operatorStatus', direction: 'ASC' },
+  { column: 'firstName', direction: 'ASC' },
+  { column: 'lastName', direction: 'ASC' },
+];
+
+export const PARTNERS_SORT = [
+  { column: 'status', direction: 'ASC' },
+  { column: 'firstName', direction: 'ASC' },
+  { column: 'lastName', direction: 'ASC' },
+];
