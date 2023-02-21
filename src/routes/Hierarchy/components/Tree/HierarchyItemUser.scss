@@ -9,15 +9,15 @@
     background-color: var(--surface-frame-background);
     border: 1px solid var(--surface-frame-border);
     border-radius: 3px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,.12);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
     border-left: 3px solid var(--state-colors-success);
-    z-index:  1;
+    z-index: var(--z-index-overlap);
 
     &:before {
       content: "";
       width: 20px;
       height: 2px;
-      background:  var(--surface-frame-border);
+      background: var(--surface-frame-border);
       position: absolute;
       top: 50%;
       left: -23px;
@@ -28,7 +28,7 @@
     width: 45px;
     height: 45px;
     margin-right: 15px;
-    
+
     g {
       fill: var(--state-colors-info);
     }
@@ -78,7 +78,7 @@
     }
 
     &:before {
-      content: '- ';
+      content: "- ";
     }
   }
 }

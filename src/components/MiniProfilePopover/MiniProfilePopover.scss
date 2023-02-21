@@ -2,7 +2,7 @@
   &.popover {
     min-width: 325px;
     max-width: none;
-    z-index: 5;
+    z-index: var(--z-index-popover);
     inset: unset;
     background-color: var(--surface-frame-background);
     border: 1px solid var(--surface-frame-border);

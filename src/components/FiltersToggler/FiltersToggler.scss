@@ -26,7 +26,6 @@
     width: 39px;
     height: 39px;
     padding: 0;
-    z-index: 2;
 
     &:hover {
       & .FiltersToggler__icon {
@@ -37,7 +36,7 @@
 
   &__icon {
     fill: var(--button-tertiary-color-default);
-    transition: color .2s ease;
+    transition: color 0.2s ease;
     height: 17px;
     width: 8px;
   }

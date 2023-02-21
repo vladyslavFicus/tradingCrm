@@ -8,7 +8,6 @@
   border: 1px solid var(--button-tertiary-border-default);
   border-radius: 3px;
   cursor: pointer;
-  z-index: 2;
 
   &:hover {
     background-color: var(--button-tertiary-background-hover);
@@ -27,7 +26,7 @@
 
   &__icon {
     fill: var(--button-tertiary-color-default);
-    transition: color .2s ease;
+    transition: color 0.2s ease;
     height: 17px;
     width: 8px;
   }

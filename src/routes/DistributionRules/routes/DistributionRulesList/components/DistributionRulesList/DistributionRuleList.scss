@@ -11,7 +11,7 @@
     background-color: var(--surface-page-background);
     border-bottom: 1px solid var(--divider);
     font-size: 20px;
-    z-index: 7;
+    z-index: var(--z-index-sticky);
   }
 
   &__general {

@@ -7,7 +7,7 @@
   justify-content: space-between;
   position: sticky;
   top: 48px;
-  z-index: 7;
+  z-index: var(--z-index-sticky);
 
   &__title {
     font-size: 20px;

@@ -9,7 +9,10 @@
 
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
-    &::-webkit-scrollbar { width: 0; height: 0; }
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
   }
 
   &__scroll-y {
@@ -33,17 +36,17 @@
     font-size: 12px;
     line-height: 1.4em;
     text-transform: uppercase;
-    z-index: 1;
+    z-index: var(--z-index-table-header);
     border-bottom: 1px solid var(--divider);
   }
 
   &__head-fixed {
     position: sticky;
     overflow-x: auto;
-    z-index: 2;
+    z-index: var(--z-index-table-header);
 
     &:before {
-      content: '';
+      content: "";
       border-top: 1px solid var(--divider);
       position: absolute;
       top: 0;
@@ -110,7 +113,7 @@
     overflow: hidden;
 
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       right: 0;
@@ -118,7 +121,7 @@
       left: 0;
       border-top: 1px solid var(--divider);
       background: var(--surface-page-background);
-      z-index: -1;
+      z-index: var(--z-index-negative);
     }
 
     &:not(:last-child):after {
@@ -228,7 +231,7 @@
     background: var(--dropdown-options-background-default);
     position: sticky;
     left: 0;
-    z-index: 1;
+    z-index: var(--z-index-overlap);
     min-width: 46px;
     width: 46px;
 
@@ -276,7 +279,7 @@
 
     &:before,
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: 5px;
       width: 2px;

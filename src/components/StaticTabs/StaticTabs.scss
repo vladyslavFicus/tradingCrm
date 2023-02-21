@@ -23,8 +23,8 @@
     }
   }
 
-  &__nav-item--active, &__nav-item--active:focus {
-    z-index: 1000;
+  &__nav-item--active,
+  &__nav-item--active:focus {
     background-color: var(--tab-background-focus);
     border-top-color: var(--tab-color-focus);
     box-shadow: 0px 5px 25px var(--box-shadow-color);
@@ -38,6 +38,5 @@
   &__content {
     padding: 20px 15px;
     background: var(--surface-page-background);
-    z-index: 1001;
   }
 }

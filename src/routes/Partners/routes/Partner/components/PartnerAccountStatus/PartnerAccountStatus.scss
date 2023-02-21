@@ -60,7 +60,6 @@
       left: auto !important;
       right: 0 !important;
       width: calc(100% + 15px);
-      z-index: 2;
     }
 
     &-item {
@@ -79,7 +78,6 @@
     }
   }
 }
-
 
 // # Modifiers
 .PartnerAccountStatus {

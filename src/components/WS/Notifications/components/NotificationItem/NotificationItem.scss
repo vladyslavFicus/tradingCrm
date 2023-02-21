@@ -34,7 +34,7 @@
     flex-direction: row;
     align-items: baseline;
     position: relative;
-    z-index: 1;
+    z-index: var(--z-index-overlap);
   }
 
   &__priority {
@@ -50,14 +50,14 @@
     &::before {
       position: absolute;
       border-radius: 10px;
-      content: '';
+      content: "";
       display: block;
       left: 0;
       right: 0;
       bottom: 0;
       top: 0;
       background-color: var(--state-colors-content);
-      z-index: -1;
+      z-index: var(--z-index-negative);
       opacity: 0.25;
     }
   }

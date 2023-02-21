@@ -24,7 +24,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     cursor: pointer;
 
     &:focus {
@@ -44,7 +44,7 @@
     top: 11px;
     right: 10px;
     cursor: pointer;
-    transition: all .2s;
+    transition: all 0.2s;
     font-size: 16px;
     color: var(--button-icon-button-default);
 
@@ -66,7 +66,7 @@
     background-color: var(--form-background-default);
     box-shadow: 0 5px 15px 0 var(--form-border-default);
     transition: all 0.25s ease;
-    z-index: 2;
+    z-index: var(--z-index-popover);
   }
 
   &__dropdown-content {
@@ -80,7 +80,6 @@
     padding: 10px 5px;
     margin-bottom: 0;
     background: var(--form-background-default);
-    z-index: 2;
 
     .input__control,
     .input__addition {
@@ -132,7 +131,7 @@
 .rct-node-clickable {
   display: block;
   border-radius: 5px;
-  
+
   &:hover,
   &:focus {
     background: var(--dropdown-options-background-hover);

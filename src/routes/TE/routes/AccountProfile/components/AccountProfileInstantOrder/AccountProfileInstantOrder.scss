@@ -6,7 +6,7 @@
     height: 50px;
     width: 50px;
     padding: 10px;
-    z-index: 15;
+    z-index: var(--z-index-modal);
     cursor: pointer;
     background: var(--navigation-primary-background);
     border-radius: 10px 0 0 10px;

@@ -10,7 +10,7 @@
   width: 100%;
   background-color: var(--surface-page-background);
   transition: opacity 0.25s linear;
-  z-index: 9999;
+  z-index: var(--z-index-modal);
 
   &__item {
     background: url("./loader.svg") no-repeat scroll center center transparent;

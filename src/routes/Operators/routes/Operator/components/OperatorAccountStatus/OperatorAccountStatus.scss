@@ -70,7 +70,6 @@
       left: auto !important;
       right: 0 !important;
       width: calc(100% + 15px);
-      z-index: 50;
     }
 
     &-item {
@@ -81,7 +80,7 @@
         background: var(--dropdown-options-background-hover);
         color: var(--dropdown-options-color-hover);
       }
-  
+
       &:focus {
         background: var(--dropdown-options-background-focus);
         color: var(--dropdown-options-color-focus);
@@ -116,7 +115,7 @@
         line-height: 1.4em;
 
         &:before {
-          content: '\26AC';
+          content: "\26AC";
           position: absolute;
           top: 0;
           left: 0;

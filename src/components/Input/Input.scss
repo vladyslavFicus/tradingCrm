@@ -86,7 +86,7 @@ $input-height: 40px;
       }
     }
 
-      // Styles for input autocomplete data
+    // Styles for input autocomplete data
     &:-webkit-autofill {
       -webkit-text-fill-color: var(--form-color-default);
       -webkit-box-shadow: 0 0 0 1000px var(--form-background-default) inset;
@@ -105,7 +105,7 @@ $input-height: 40px;
       color: var(--form-color-placeholder);
     }
 
-    &[type=number]:disabled {
+    &[type="number"]:disabled {
       -moz-appearance: textfield;
     }
   }
@@ -160,7 +160,7 @@ $input-height: 40px;
     }
 
     &--right {
-      position: static;
+      position: relative;
       width: auto;
       display: flex;
       justify-content: center;
@@ -171,11 +171,10 @@ $input-height: 40px;
       user-select: none;
       border-radius: 0 3px 3px 0;
       background: var(--form-background-default);
-      z-index: 1;
     }
   }
 
-// # Modifiers
+  // # Modifiers
   &--has-icon {
     .Input__control {
       padding-left: 40px;
@@ -230,7 +229,7 @@ $input-height: 40px;
 
       & + .Input__addition {
         border-color: var(--form-border-focus);
-        color: var(--form-color-focus)
+        color: var(--form-color-focus);
       }
     }
   }

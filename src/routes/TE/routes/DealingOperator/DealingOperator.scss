@@ -8,7 +8,6 @@
     padding-bottom: 50px;
     background: var(--surface-gradient-background);
     position: relative;
-    z-index: 1;
   }
 
   .Tabs {
@@ -28,5 +27,4 @@
   &__tab-content {
     padding: 25px;
   }
-
 }

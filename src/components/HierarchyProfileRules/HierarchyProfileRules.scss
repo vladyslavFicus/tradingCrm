@@ -2,7 +2,7 @@
   &__header {
     position: sticky;
     top: 48px;
-    z-index: 7;
+    z-index: var(--z-index-sticky);
   }
 
   &__rule {

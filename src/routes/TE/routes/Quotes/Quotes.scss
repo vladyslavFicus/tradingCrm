@@ -10,7 +10,7 @@
     padding: 25px;
     background-color: var(--surface-page-background);
     font-size: 20px;
-    z-index: 7;
+    z-index: var(--z-index-sticky);
   }
 
   &__cell-primary {

@@ -8,12 +8,10 @@
     background: var(--surface-gradient-background);
   }
 
-
   &__info {
     display: flex;
     padding: 20px 25px 20px;
     border-bottom: 1px solid var(--divider);
-    z-index: 1;
 
     // # needs to add right border to all imported blocks in info section
     & > *:not(:last-child) {

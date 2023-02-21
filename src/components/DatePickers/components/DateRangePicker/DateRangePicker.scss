@@ -182,7 +182,7 @@
     display: grid;
     grid-gap: 25px;
     grid-template-columns: 350px;
-    z-index: 4;
+    z-index: var(--z-index-popover);
 
     &--with-additional {
       grid-template-columns: 350px 350px;

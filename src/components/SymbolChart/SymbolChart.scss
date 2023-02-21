@@ -18,10 +18,11 @@
   &__label {
     position: absolute;
     left: 0;
-    z-index: 2;
+    z-index: var(--z-index-sub-sticky);
     padding: 0 10px;
     background: var(--active);
     width: auto;
+    background: red;
     color: var(--state-colors-content);
   }
 

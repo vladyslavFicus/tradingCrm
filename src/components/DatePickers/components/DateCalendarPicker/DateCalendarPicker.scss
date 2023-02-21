@@ -78,14 +78,14 @@
 
     // # hack to make border in select state with no glitch on selected elements
     &:before {
-      content: '';
+      content: "";
       border: 1px solid transparent;
       position: absolute;
       top: 0;
       left: 0;
       height: 100%;
       width: 100%;
-      z-index: 1;
+      z-index: var(--z-index-overlap);
     }
 
     &:hover {
@@ -105,7 +105,7 @@
       & .DateCalendarPicker__day-inner {
         background-color: var(--dropdown-options-background-current-date);
       }
-      
+
       &.DateCalendarPicker__day--range-between .DateCalendarPicker__day-inner {
         color: var(--dropdown-options-color-default);
       }
@@ -153,7 +153,7 @@
       }
 
       &:after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         width: 50%;

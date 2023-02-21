@@ -5,7 +5,7 @@
     pointer-events: none;
 
     .FilterSets__head {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 
@@ -30,10 +30,10 @@
     display: flex;
     align-items: center;
     height: 39px;
-    padding: .375rem .75rem;
+    padding: 0.375rem 0.75rem;
     padding-right: 25px;
     background-color: var(--form-background-default);
-    border: 1px solid  var(--form-border-default);
+    border: 1px solid var(--form-border-default);
     border-radius: 3px;
     font-size: 15px;
     font-weight: 600;
@@ -51,7 +51,7 @@
       right: 10px;
       font-size: 16px;
       color: var(--form-icon-button-default);
-      transition: .2s;
+      transition: 0.2s;
     }
   }
 
@@ -61,6 +61,5 @@
     border-top: none;
     border-radius: 0 0 3px 3px;
     border-color: var(--form-border-default);
-    z-index: 5;
   }
 }

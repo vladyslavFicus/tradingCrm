@@ -47,6 +47,7 @@ const TOOLTIP_STYLE = {
   style: {
     background: 'var(--dropdown-surface-background)',
     borderRadius: '5px',
+    'z-index': 'var(--z-index-popover)',
   },
   arrowStyle: {
     color: 'var(--dropdown-surface-background)',

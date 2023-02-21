@@ -6,7 +6,7 @@
     &.popover {
       margin-bottom: -8px;
       max-width: 300px;
-      z-index: 4;
+      z-index: var(--z-index-popover);
 
       .popover-arrow {
         display: none;
@@ -31,7 +31,7 @@
     .Select__content {
       opacity: 1;
       display: block;
-      z-index: 4;
+      z-index: var(--z-index-popover);
     }
   }
 
@@ -81,8 +81,7 @@
     display: none;
     background-color: var(--form-background-default);
     box-shadow: 0 5px 15px 0 var(--form-border-default);
-    transition: all .25s ease;
-    z-index: 2;
+    transition: all 0.25s ease;
     cursor: default;
   }
 
@@ -137,8 +136,8 @@
     display: block;
     line-height: 1.5;
     border: 1px solid var(--form-border-default);
-    padding: .450rem .75rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    padding: 0.45rem 0.75rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     width: 100%;
 
     &:focus {
@@ -167,7 +166,7 @@
     top: 11px;
     right: 10px;
     cursor: pointer;
-    transition: all .2s;
+    transition: all 0.2s;
     font-size: 16px;
     color: var(--button-icon-button-default);
 

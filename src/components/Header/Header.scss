@@ -5,7 +5,7 @@
   left: 0;
   height: 48px;
   width: 100%;
-  z-index: 100;
+  z-index: var(--z-index-layout);
 
   &__body {
     display: inline-block;
