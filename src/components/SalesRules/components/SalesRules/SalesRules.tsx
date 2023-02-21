@@ -62,6 +62,8 @@ const SalesRules = (props: Props) => {
   const { id: parentBranch } = useParams<{ id: string }>();
   const { state } = useLocation<State>();
 
+  const [deleteRule] = useDeleteRule();
+
   const rulesQuery = useRulesQuery({
     variables: {
       ...state?.filters as RulesQueryVariables,
@@ -71,7 +73,6 @@ const SalesRules = (props: Props) => {
     fetchPolicy: 'cache-and-network',
   });
   const { data, refetch, loading } = rulesQuery;
-
   const rules = data?.rules || [];
 
   const operatorsQuery = useOperatorsQuery({
@@ -110,10 +111,8 @@ const SalesRules = (props: Props) => {
   };
 
   const handleDeleteRule = (uuid: string) => async () => {
-    const [DeleteRule] = useDeleteRule();
-
     try {
-      await DeleteRule({ variables: { uuid } });
+      await deleteRule({ variables: { uuid } });
 
       await refetch();
 
