@@ -5,8 +5,9 @@ import { QueryResult } from '@apollo/client';
 import { State, TableSelection } from 'types';
 import { FiltersTogglerButton } from 'components/FiltersToggler';
 import Placeholder from 'components/Placeholder';
+import { ClientSearch__Input as ClientSearch } from '__generated__/types';
 import ClientsBulkActions from '../ClientsBulkActions';
-import { ClientsListQuery, ClientsListQueryVariables } from '../../graphql/__generated__/ClientsQuery';
+import { ClientsListQuery } from '../../graphql/__generated__/ClientsQuery';
 import './ClientsHeader.scss';
 
 type Props = {
@@ -24,10 +25,10 @@ const ClientsHeader = (props: Props) => {
     clientsQuery,
   } = props;
 
-  const { state } = useLocation<State<ClientsListQueryVariables>>();
+  const { state } = useLocation<State<ClientSearch>>();
 
   const totalElements = data?.profiles?.totalElements || 0;
-  const searchLimit = state?.filters?.args?.searchLimit;
+  const searchLimit = state?.filters?.searchLimit;
 
   const clientsListCount = (searchLimit && searchLimit < totalElements)
     ? searchLimit
