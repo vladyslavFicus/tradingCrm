@@ -94,7 +94,7 @@ const AdjustableTable = (props: Props) => {
   const [selectedColumns, setSelectedColumns] = useState<Array<string> | null>(null);
 
   // ===== Requests ===== //
-  const gridConfigQuery = useGridConfigQuery({ skip: !type });
+  const gridConfigQuery = useGridConfigQuery({ skip: !type, variables: { type: type as GridConfigTypes } });
 
   const gridConfig = gridConfigQuery.data?.gridConfig;
 
