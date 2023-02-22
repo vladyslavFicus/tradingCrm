@@ -28,7 +28,7 @@ const GridConfig = (props: Props) => {
   const saveOrCreateGridConfig = async (values: Array<string> = []) => {
     try {
       if (gridConfig?.uuid) {
-        await updateGridConfigMutation({ variables: { uuid: gridConfig?.uuid, columns: values } });
+        await updateGridConfigMutation({ variables: { uuid: gridConfig.uuid, columns: values } });
       } else {
         await createGridConfigMutation({ variables: { type: gridConfig.type, columns: values } });
       }
