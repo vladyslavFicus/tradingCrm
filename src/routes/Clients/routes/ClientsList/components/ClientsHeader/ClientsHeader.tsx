@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { QueryResult } from '@apollo/client';
+import { QueryResult, NetworkStatus } from '@apollo/client';
 import { State, TableSelection } from 'types';
 import { FiltersTogglerButton } from 'components/FiltersToggler';
 import Placeholder from 'components/Placeholder';
-import { ClientSearch__Input as ClientSearch } from '__generated__/types';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import ClientsBulkActions from '../ClientsBulkActions';
-import { ClientsListQuery } from '../../graphql/__generated__/ClientsQuery';
+import { MAX_QUERY_CLIENTS } from '../../constants';
+import { ClientsListQuery, ClientsListQueryVariables } from '../../graphql/__generated__/ClientsQuery';
+import { useClientsCountQueryLazyQuery } from './graphql/__generated__/ClientsCountQuery';
 import './ClientsHeader.scss';
 
 type Props = {
@@ -21,11 +23,15 @@ const ClientsHeader = (props: Props) => {
     clientsQuery: {
       data,
       loading,
+      variables,
     },
     clientsQuery,
   } = props;
 
-  const { state } = useLocation<State<ClientSearch>>();
+  const { state } = useLocation<State<ClientsListQueryVariables['args']>>();
+
+  const [clientsTotalCount, setClientsTotalCount] = useState<number | null>(null);
+  const [clientsTotalCountLoading, setClientsTotalCountLoading] = useState(false);
 
   const totalElements = data?.profiles?.totalElements || 0;
   const searchLimit = state?.filters?.searchLimit;
@@ -36,6 +42,42 @@ const ClientsHeader = (props: Props) => {
 
   const selectedCount = select?.selected || 0;
 
+  // ===== Requests ===== //
+  const [clientsCountQuery] = useClientsCountQueryLazyQuery({
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+    context: { batch: false },
+  });
+
+  // ===== Handlers ===== //
+  const handleClearClientsCount = () => {
+    setClientsTotalCount(null);
+  };
+
+  const handleGetClientsCount = async () => {
+    setClientsTotalCountLoading(true);
+
+    try {
+      const { data: clientsCountData } = await clientsCountQuery({
+        variables: variables as ClientsListQueryVariables,
+      });
+
+      if (clientsCountData?.profilesCount) {
+        setClientsTotalCount(clientsCountData.profilesCount);
+      }
+    } catch (e) {
+      // Do nothing...
+    }
+
+    setClientsTotalCountLoading(false);
+  };
+
+  useEffect(() => {
+    if (clientsQuery.networkStatus === NetworkStatus.setVariables) {
+      handleClearClientsCount();
+    }
+  }, [clientsQuery.networkStatus]);
+
   return (
     <div className="ClientsHeader">
       <div className="ClientsHeader__left">
@@ -45,9 +87,49 @@ const ClientsHeader = (props: Props) => {
         >
           <Choose>
             <When condition={!!clientsListCount}>
-              <div className="ClientsHeader__title">
-                <b>{clientsListCount} </b> {I18n.t('COMMON.CLIENTS_FOUND')}
-              </div>
+              <Choose>
+                <When condition={clientsListCount === MAX_QUERY_CLIENTS && !clientsTotalCount}>
+                  <div className="ClientsHeader__title ClientsHeader__title--total-count">
+                    <Placeholder
+                      ready={!clientsTotalCountLoading}
+                      rows={[{ width: 75, height: 20 }]}
+                    >
+                      <span
+                        id="clientsTotalCount"
+                        className="ClientsHeader__active-text"
+                        onClick={handleGetClientsCount}
+                      >
+                        {`${clientsListCount} +`}
+                      </span>
+                    </Placeholder>
+
+                    <If condition={!clientsTotalCountLoading}>
+                      <UncontrolledTooltip
+                        placement="bottom-start"
+                        target="clientsTotalCount"
+                        delay={{ show: 350, hide: 250 }}
+                        fade={false}
+                      >
+                        {I18n.t('CLIENTS.TOTAL_COUNT_TOOLTIP')}
+                      </UncontrolledTooltip>
+                    </If>
+
+                    &nbsp;{I18n.t('COMMON.CLIENTS_FOUND')}
+                  </div>
+                </When>
+
+                <When condition={clientsListCount === MAX_QUERY_CLIENTS && !!clientsTotalCount}>
+                  <div className="ClientsHeader__title">
+                    <b>{clientsTotalCount} </b> {I18n.t('COMMON.CLIENTS_FOUND')}
+                  </div>
+                </When>
+
+                <Otherwise>
+                  <div className="ClientsHeader__title">
+                    <b>{clientsListCount} </b> {I18n.t('COMMON.CLIENTS_FOUND')}
+                  </div>
+                </Otherwise>
+              </Choose>
 
               <div className="ClientsHeader__selected">
                 <b>{selectedCount}</b> {I18n.t('COMMON.CLIENTS_SELECTED')}

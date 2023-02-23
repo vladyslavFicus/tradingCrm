@@ -3164,6 +3164,7 @@
     }
   },
   "CLIENTS": {
+    "TOTAL_COUNT_TOOLTIP": "Click to see the total count of entries",
     "BULK_ACTIONS": "Bulk actions",
     "BULK_RETENTION_INFO_UPDATED": "Clients retention info updated",
     "BULK_SALES_INFO_UPDATED": "Clients sales info updated",
