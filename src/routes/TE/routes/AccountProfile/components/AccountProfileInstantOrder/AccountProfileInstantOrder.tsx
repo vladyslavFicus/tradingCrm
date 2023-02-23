@@ -64,7 +64,7 @@ const AccountProfileInstantOrder = (props: Props) => {
           enableUserSelectHack={false}
           enableResizing={false}
           position={position}
-          style={{ position: 'fixed', inset: 'unset', zIndex: isOpen ? 100 : -1 }}
+          style={{ position: 'fixed', inset: 'unset', zIndex: isOpen ? 600 : -1 }}
           dragHandleClassName="AccountProfileInstantOrder__window-header"
           onDragStop={(e, d) => {
             setPosition({ x: d.x, y: d.y });
