@@ -18,7 +18,8 @@
     right: 0;
   }
 
-  &:hover {
+  &--open {
+    width: 240px;
     box-shadow: 0 5px 25px var(--box-shadow-color);
   }
 
