@@ -32,6 +32,12 @@
     g {
       fill: var(--state-colors-info);
     }
+
+    &--danger {
+      g {
+        fill: var(--state-colors-danger);
+      } 
+    }
   }
 
   &__title {
