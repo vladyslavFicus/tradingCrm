@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import React from 'react';
+import React, { useState } from 'react';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import Select from 'components/Select';
 import { AvailableColumns, Config } from '../types';
@@ -22,15 +22,23 @@ const GridConfig = (props: Props) => {
     availableColumnsSet,
   } = props;
 
+  const [createUuid, setCreateUuid] = useState<string | null>(null);
+
   const [createGridConfigMutation] = useCreateGridConfigMutation();
   const [updateGridConfigMutation] = useUpdateGridConfigMutation();
 
   const saveOrCreateGridConfig = async (values: Array<string> = []) => {
+    const uuid = gridConfig.uuid || createUuid;
+
     try {
-      if (gridConfig?.uuid) {
-        await updateGridConfigMutation({ variables: { uuid: gridConfig.uuid, columns: values } });
+      if (uuid) {
+        await updateGridConfigMutation({ variables: { uuid, columns: values } });
       } else {
-        await createGridConfigMutation({ variables: { type: gridConfig.type, columns: values } });
+        const { data } = await createGridConfigMutation({ variables: { type: gridConfig.type, columns: values } });
+
+        if (data?.gridConfig.create?.uuid) {
+          setCreateUuid(data.gridConfig.create.uuid);
+        }
       }
       notify({
         level: LevelType.SUCCESS,
