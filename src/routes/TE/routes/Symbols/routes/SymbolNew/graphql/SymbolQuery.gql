@@ -9,6 +9,10 @@ query SymbolQuery($symbolName: String!) {
         hardFilter
         hardFiltrationLevel
       }
+      digits
+      symbolType
+      baseCurrency
+      quoteCurrency
     }
   }
 }
