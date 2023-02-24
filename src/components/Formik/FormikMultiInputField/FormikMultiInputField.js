@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { getIn } from 'formik';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FieldLabel } from 'components/Forms';
@@ -107,6 +108,8 @@ class FormikMultiInputField extends PureComponent {
       { 'is-disabled': disabled },
     );
 
+    const error = getIn(errors, name);
+
     return (
       <div className={groupClassName}>
         <FieldLabel
@@ -114,12 +117,12 @@ class FormikMultiInputField extends PureComponent {
           className={classNames('FormikMultiInputField__label', labelClassName)}
         />
         {this.renderInput()}
-        <If condition={helpText || (showErrorMessage && errors[name])}>
+        <If condition={helpText || (showErrorMessage && error)}>
           <div>
-            <If condition={showErrorMessage && errors[name]}>
+            <If condition={showErrorMessage && error}>
               <div>
                 <i className="icon icon-alert" />
-                {errors[name]}
+                {error}
               </div>
             </If>
             <If condition={helpText}>

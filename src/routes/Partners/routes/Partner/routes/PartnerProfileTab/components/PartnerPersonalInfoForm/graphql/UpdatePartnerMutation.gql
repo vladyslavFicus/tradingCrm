@@ -1,9 +1,4 @@
-import React from 'react';
-import { gql } from '@apollo/client';
-import PropTypes from 'prop-types';
-import { Mutation } from '@apollo/client/react/components';
-
-const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
+mutation UpdatePartnerMutation(
   $uuid: String!
   $firstName: String!
   $lastName: String!
@@ -30,16 +25,3 @@ const REQUEST = gql`mutation PartnerPersonalInfoForm_UpdatePartnerMutation(
     )
   }
 }
-`;
-
-const UpdatePartnerMutation = ({ children }) => (
-  <Mutation mutation={REQUEST}>
-    {children}
-  </Mutation>
-);
-
-UpdatePartnerMutation.propTypes = {
-  children: PropTypes.func.isRequired,
-};
-
-export default UpdatePartnerMutation;
