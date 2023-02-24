@@ -1,0 +1,24 @@
+.DocumentsFeed {
+  &__tabs {
+    margin-left: 0;
+  }
+
+  &__card {
+    font-size: 20px;
+    padding: 20px;
+    background-color: var(--surface-page-background);
+    position: sticky;
+    top: 48px;
+    z-index: var(--z-index-sticky);
+  }
+
+  &__cell-primary {
+    font-weight: 700;
+  }
+
+  &__grid {
+    padding-right: 25px;
+    padding-left: 25px;
+    background-color: var(--surface-page-background);
+  }
+}

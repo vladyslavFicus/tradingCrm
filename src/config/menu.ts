@@ -132,6 +132,12 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     ],
   },
   {
+    label: 'SIDEBAR.TOP_MENU.DOCUMENTS',
+    icon: 'icon-file-text2',
+    url: '/documents',
+    permissions: permissions.DOCUMENTS.SEARCH_DOCUMENT,
+  },
+  {
     label: 'SIDEBAR.TOP_MENU.PAYMENTS',
     icon: 'icon-payments SidebarNavItem__icon--payments',
     url: '/payments/list',

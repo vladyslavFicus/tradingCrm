@@ -197,6 +197,70 @@ const rback: Array<RbackItem> = [
     ],
   },
   // ============================================= //
+  // ============== Documents brand ============== //
+  // ============================================= //
+  {
+    id: 'documents-brand',
+    actions: {
+      view: {
+        action: 'attachments.searchDocuments',
+        state: false,
+      },
+    },
+    permissions: [
+      // list documents
+      {
+        id: 'searchDocuments',
+        actions: {
+          view: {
+            action: 'attachments.searchDocuments',
+            state: false,
+          },
+        },
+      },
+      // add new document
+      {
+        id: 'uploadDocument',
+        actions: {
+          edit: {
+            action: 'attachments.uploadDocument',
+            state: false,
+          },
+        },
+      },
+      // remove document
+      {
+        id: 'deleteDocument',
+        actions: {
+          edit: {
+            action: 'attachments.deleteDocument',
+            state: false,
+          },
+        },
+      },
+      // update document
+      {
+        id: 'updateDocument',
+        actions: {
+          edit: {
+            action: 'attachments.updateDocument',
+            state: false,
+          },
+        },
+      },
+      // download document
+      {
+        id: 'downloadDocument',
+        actions: {
+          edit: {
+            action: 'attachments.downloadDocument',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
   // ================== Clients ================== //
   // ============================================= //
   {

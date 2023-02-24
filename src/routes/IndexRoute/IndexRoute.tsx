@@ -17,6 +17,7 @@ import ResetPassword from 'routes/ResetPassword';
 import Operators from 'routes/Operators';
 import Partners from 'routes/Partners';
 import Dashboard from 'routes/Dashboard';
+import Documents from 'routes/Documents';
 import Leads from 'routes/Leads';
 import Hierarchy from 'routes/Hierarchy';
 import Offices from 'routes/Offices';
@@ -33,6 +34,7 @@ import Notifications from 'routes/Notifications';
 import RolesAndPermissions from 'routes/RolesAndPermissions';
 import { withStorage } from 'providers/StorageProvider';
 import IpWhitelist from 'routes/IpWhitelist';
+
 
 type Auth = {
   department: string,
@@ -72,6 +74,7 @@ const IndexRoute = (props: Props) => {
 
         {/* Private routes */}
         <Route path="/dashboard" layout={AuthorizedLayout} component={Dashboard} isPrivate />
+        <Route path="/documents" layout={AuthorizedLayout} component={Documents} isPrivate />
         <Route path="/trading-accounts" layout={AuthorizedLayout} component={TradingAccounts} isPrivate />
         <Route path="/payments" layout={AuthorizedLayout} component={Payments} isPrivate />
         <Route path="/clients" layout={AuthorizedLayout} component={Clients} isPrivate />

@@ -1,0 +1,18 @@
+query DocumentSearchQuery($args: DocumentSearch__Input) {
+  documentSearch(args: $args) {
+    totalPages
+    totalElements
+    last
+    number
+    content {
+      uuid
+      title
+      fileName
+      mediaType
+      uploadDate
+      uploadBy
+      documentType
+      description
+    }
+  }
+}

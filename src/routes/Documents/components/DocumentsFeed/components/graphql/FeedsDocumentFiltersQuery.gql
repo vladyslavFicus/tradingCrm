@@ -1,0 +1,8 @@
+query FeedsDocumentFiltersQuery($uuid: String!) {
+  feedTypes (
+    uuid: $uuid,
+    filters: {
+      auditCategory: BRAND_DOCUMENTS
+    }
+  )
+}

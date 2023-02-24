@@ -1,4 +1,75 @@
 {
+  "DOCUMENTS": {
+    "TABS": {
+      "LIST": "Documents",
+      "FEED": "Feed"
+    },
+    "FEED": {
+      "HEADLINE": "Feed",
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID",
+          "ACTION_TYPE": "Action type",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
+      }
+    },
+    "GRID": {
+      "HEADLINE": "Documents",
+      "DELETE": "Delete document",
+      "UPLOAD_FILE": "Upload document",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "ACTION": "Action",
+      "CREATED_AT": "Date of creation",
+      "FILTER_FORM": {
+        "CREATION_DATE_LABEL": "Date of creation",
+        "SEARCH": "Search",
+        "SEARCH_PLACEHOLDER": "Name, Description"
+      }
+    },
+    "MODALS": {
+      "DELETE": {
+        "HEADER": "Delete Document - Confirmation",
+        "ACTION_TEXT": "Are you sure you want to delete document %{documentName} ?",
+        "DELETE": "Delete",
+        "NOTIFICATIONS": {
+          "DOCUMENT_DELETED": "Document deleted from document list",
+          "DOCUMENT_NOT_DELETED": "Error while deleting Document from document list"
+        }
+      },
+      "ADD_DOCUMENT": {
+        "TITLE_MODAL": "Add new Document",
+        "TITLE": "Title*",
+        "DESCRIPTION": "Description",
+        "ERRORS": {
+          "UNIQUE": "This Document is already in use"
+        },
+        "NOTIFICATIONS": {
+          "DOCUMENT_ADDED": "Document added",
+          "DOCUMENT_NOT_ADDED": "Error while adding Document"
+        },
+        "LABELS": {
+          "TITLE": "'Title'",
+          "DESCRIPTION": "'Description'",
+          "FILE": "'File'"
+        }
+      },
+      "UPDATE": {
+        "TITLE": "Update Document",
+        "TITLE_FIELD": "Title*",
+        "DESCRIPTION": "Description",
+        "UPDATE_BUTTON": "Update",
+        "NOTIFICATIONS": {
+          "DOCUMENT_UPDATED": "Document updated",
+          "DOCUMENT_NOT_UPDATED": "Error while updating Document"
+        }
+      }
+    }
+  },
   "SIDEBAR": {
     "TOP_MENU": {
       "REPORTING": "Reporting",
@@ -53,7 +124,8 @@
         "SECURITIES": "Securities",
         "HOLIDAYS": "Holidays",
         "OPERATORS": "Operators"
-      }
+      },
+      "DOCUMENTS": "Documents"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support",
@@ -1003,6 +1075,9 @@
         "AFFILIATE_FIRST_NAME": "Affiliate first name",
         "AFFILIATE_FTD_CREATED": "Affiliate FTD created",
         "AFFILIATE_FTD_UPDATED": "Affiliate FTD updated",
+        "BRAND_DOCUMENT_ADDED": "Document added",
+        "BRAND_DOCUMENT_DELETED": "Document deleted",
+        "BRAND_DOCUMENT_UPDATED": "Document updated",
         "LOG_IN": "Logged in",
         "LOG_OUT": "Logged out",
         "EXPIRATION_DATE": "Passport - expiration date",
@@ -5753,6 +5828,16 @@
           "REGISTRATIONS": "Get registration statistics",
           "LATEST_NOTIFICATIONS": "Latest notifications",
           "SCREENER_WIDGET": "Screener widget"
+        }
+      },
+      "documents-brand": {
+        "TITLE": "Documents",
+        "PERMISSIONS": {
+          "searchDocuments": "List of documents",
+          "uploadDocument": "Upload document",
+          "deleteDocument": "Delete document",
+          "updateDocument": "Update document",
+          "downloadDocument": "Download document"
         }
       },
       "clients": {

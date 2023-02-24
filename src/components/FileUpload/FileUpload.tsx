@@ -7,6 +7,7 @@ type Errors = Array<string>;
 
 type Props = {
   onChosen: (errors: Errors | Array<Errors>, files: Files) => void,
+  label: string,
   allowedSize?: number,
   incorrectFileSize?: string,
   invalidFileType?: string,

@@ -62,4 +62,8 @@ export const routePermissions: RoutePermissions = {
   // IP whitelist
   '/ip-whitelist/list': permissions.IP_WHITELIST.LIST,
   '/ip-whitelist/feed': permissions.AUDIT.AUDIT_LOGS,
+
+  // Documents
+  '/documents/list': permissions.DOCUMENTS.SEARCH_DOCUMENT,
+  '/documents/feed': permissions.AUDIT.AUDIT_LOGS,
 };

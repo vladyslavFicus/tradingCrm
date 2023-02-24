@@ -256,6 +256,13 @@ const permissions: Permissions = {
     DELETE_IP_ADDRESS: 'brand-config-service.ip-white-list.delete',
     EDIT_IP_ADDRESS_DESCRIPTION: 'brand-config-service.ip-white-list.editDescription',
   },
+  DOCUMENTS: {
+    SEARCH_DOCUMENT: 'attachments.searchDocuments',
+    UPLOAD_DOCUMENT: 'attachments.uploadDocument',
+    DELETE_DOCUMENT: 'attachments.deleteDocument',
+    UPDATE_DOCUMENT: 'attachments.updateDocument',
+    DOWNLOAD_DOCUMENT: 'attachments.downloadDocument',
+  },
 };
 
 export default permissions;
