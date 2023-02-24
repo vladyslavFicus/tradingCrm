@@ -355,7 +355,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <If condition={department === 'ADMINISTRATION' && role === 'ADMINISTRATION'}>
                 <Field
-                  name="permission.cdeAffiliate"
+                  name="cdeAffiliate"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.cdeAffiliate)}
                   disabled={isSubmitting}
