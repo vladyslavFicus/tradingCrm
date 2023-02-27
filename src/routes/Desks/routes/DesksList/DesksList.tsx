@@ -1,31 +1,25 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { Button } from 'components/Buttons';
-import CreateDeskModal from 'modals/CreateDeskModal';
+import CreateDeskModal, { CreateDeskModalProps } from 'modals/CreateDeskModal';
 import DesksGridFilter from './components/DesksGridFilter';
 import DesksGrid from './components/DesksGrid';
 import { useDesksListQuery, DesksListQueryVariables } from './graphql/__generated__/DesksListQuery';
 import './DesksList.scss';
 
-type Props = {
-  modals: {
-    createDeskModal: Modal,
-  },
-};
-
-const DesksList = (props: Props) => {
-  const { modals: { createDeskModal } } = props;
-
+const DesksList = () => {
   const { state } = useLocation<State<DesksListQueryVariables>>();
 
   const permission = usePermission();
   const allowCreateBranch = permission.allows(permissions.HIERARCHY.CREATE_BRANCH);
+
+  // ===== Modals ===== //
+  const createDeskModal = useModal<CreateDeskModalProps>(CreateDeskModal);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useDesksListQuery({
@@ -71,9 +65,4 @@ const DesksList = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createDeskModal: CreateDeskModal,
-  }),
-)(DesksList);
+export default React.memo(DesksList);

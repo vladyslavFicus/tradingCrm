@@ -21,7 +21,7 @@ type FormValues = {
   country: string,
 };
 
-type Props = {
+export type Props = {
   onSuccess: () => void,
   onCloseModal: () => void,
 };

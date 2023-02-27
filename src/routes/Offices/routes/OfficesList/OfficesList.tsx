@@ -1,32 +1,25 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { Button } from 'components/Buttons';
-import CreateOfficeModal from 'modals/CreateOfficeModal';
+import CreateOfficeModal, { CreateOfficeModalProps } from 'modals/CreateOfficeModal';
 import OfficesGridFilter from './components/OfficesGridFilter';
 import OfficesGrid from './components/OfficesGrid';
 import { useOfficesListQuery, OfficesListQueryVariables } from './graphql/__generated__/OfficesListQuery';
-
 import './OfficesList.scss';
 
-type Props = {
-  modals: {
-    createOfficeModal: Modal,
-  },
-};
-
-const OfficesList = (props: Props) => {
-  const { modals: { createOfficeModal } } = props;
-
+const OfficesList = () => {
   const { state } = useLocation<State<OfficesListQueryVariables>>();
 
   const permission = usePermission();
   const allowCreateBranch = permission.allows(permissions.HIERARCHY.CREATE_BRANCH);
+
+  // ===== Modals ===== //
+  const createOfficeModal = useModal<CreateOfficeModalProps>(CreateOfficeModal);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useOfficesListQuery({
@@ -75,9 +68,4 @@ const OfficesList = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createOfficeModal: CreateOfficeModal,
-  }),
-)(OfficesList);
+export default React.memo(OfficesList);
