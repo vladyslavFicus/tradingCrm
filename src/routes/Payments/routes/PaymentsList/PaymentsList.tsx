@@ -37,7 +37,7 @@ const PaymentsList = () => {
     context: { batch: false },
   });
 
-  const { data: paymentsData, fetchMore, variables = {} } = paymentsQuery;
+  const { data: paymentsData, fetchMore, variables = {}, refetch } = paymentsQuery;
   const { content = [], totalElements = 0, last = false } = paymentsData?.payments || {};
 
   const partnersQuery = usePartnersQuery();
@@ -47,7 +47,7 @@ const PaymentsList = () => {
 
   // ===== Handlers ===== //
   const handleRefetch = () => {
-    paymentsQuery.refetch({
+    refetch({
       args: {
         ...state?.filters,
         requestId: Math.random().toString(36).slice(2),
@@ -105,7 +105,7 @@ const PaymentsList = () => {
         partners={partners}
         partnersLoading={partnersLoading}
         paymentsLoading={paymentsQuery.loading}
-        onRefetch={handleRefetch}
+        onRefetch={refetch}
       />
 
       <PaymentsListGrid

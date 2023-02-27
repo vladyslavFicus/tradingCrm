@@ -80,13 +80,14 @@ const AccountProfileOrdersGrid = (props: Props) => {
   });
 
   const { content = [], last = true, totalElements } = ordersQuery.data?.tradingEngine.orders || {};
+  const { refetch } = ordersQuery;
 
   // Subscribe to symbol prices stream on opened positions
   const symbolsPrices = useSymbolsPricesStream(
     content.map(({ symbol }) => symbol),
   );
 
-  const refetchOrders = () => { select?.reset(); ordersQuery.refetch(); };
+  const refetchOrders = () => { select?.reset(); refetch(); };
 
   useEffect(() => {
     EventEmitter.on(ORDER_RELOAD, refetchOrders);
@@ -150,7 +151,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
           });
 
-          await ordersQuery.refetch();
+          await refetch();
         } catch (_) {
           notify({
             level: LevelType.ERROR,
@@ -195,7 +196,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
         </PermissionContent>
       </div>
 
-      <AccountProfileOrdersGridFilter onRefresh={refetchOrders} />
+      <AccountProfileOrdersGridFilter onRefresh={refetch} />
 
       <div>
         <Table
