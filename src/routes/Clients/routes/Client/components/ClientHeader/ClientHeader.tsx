@@ -163,7 +163,9 @@ const ClientHeader = (props: Props) => {
   };
 
   const handleOpenAddCallbackModal = () => {
-    createClientCallbackModal.show();
+    createClientCallbackModal.show({
+      id: uuid,
+    });
   };
 
   return (

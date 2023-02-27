@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { useParams } from 'react-router-dom';
 import { parseErrors } from 'apollo';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -33,12 +32,11 @@ type FormValue = {
 
 export type Props = {
   onCloseModal: () => void,
+  id: string,
 };
 
 const CreateClientCallbackModal = (props: Props) => {
-  const { onCloseModal } = props;
-
-  const { id } = useParams<{ id: string }>();
+  const { onCloseModal, id } = props;
 
   const [note, setNote] = useState<ManualNote>(null);
 

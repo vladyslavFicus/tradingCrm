@@ -36,7 +36,9 @@ const ClientCallbacksTab = () => {
 
   // ===== Handlers ===== //
   const handleOpenAddCallbackModal = () => {
-    createClientCallbackModal.show();
+    createClientCallbackModal.show({
+      id: uuid,
+    });
   };
 
   // ===== Effects ===== //
