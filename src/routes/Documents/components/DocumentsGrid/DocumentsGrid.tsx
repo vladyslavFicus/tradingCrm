@@ -92,7 +92,7 @@ const DocumentsGrid = (props: Props) => {
     try {
       const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
 
-      const requestUrl = `${getGraphQLUrl()}/attachment/documents/${uuid}/file`;
+      const requestUrl = `${getGraphQLUrl()}/documents/${uuid}/file`;
 
       setPreviewFileLoadingUuid(uuid);
 
@@ -157,7 +157,7 @@ const DocumentsGrid = (props: Props) => {
     const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
 
     try {
-      const requestUrl = `${getGraphQLUrl()}/attachment/documents/${uuid}/file`;
+      const requestUrl = `${getGraphQLUrl()}/documents/${uuid}/file`;
 
       const response = await fetch(requestUrl, {
         method: 'GET',
