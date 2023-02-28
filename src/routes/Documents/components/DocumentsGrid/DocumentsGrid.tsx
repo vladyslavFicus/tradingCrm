@@ -57,8 +57,11 @@ const DocumentsGrid = (props: Props) => {
 
   const { state } = useLocation<State<DocumentSearchQueryVariables['args']>>();
 
-  const history = useHistory();
   const permission = usePermission();
+
+  const isAllowedToDownload = permission.allows(permissions.DOCUMENTS.DOWNLOAD_DOCUMENT);
+
+  const history = useHistory();
 
   const updateDoсumentModal = useModal<UpdateDocumentModalProps>(UpdateDoсumentModal);
   const addDocumentModal = useModal<AddDocumentModalProps>(AddDocumentModal);
@@ -125,7 +128,7 @@ const DocumentsGrid = (props: Props) => {
   const handleClickPreview = (uuid: string, mediaType: string) => {
     const isAvailableClick = isClickableFile(mediaType);
 
-    if (isAvailableClick) handleOpenPreview(uuid, mediaType);
+    if (isAvailableClick && isAllowedToDownload) handleOpenPreview(uuid, mediaType);
   };
 
   const handleDeleteDocument = ({ uuid, title }: DocumentItem) => async () => {
@@ -224,7 +227,7 @@ const DocumentsGrid = (props: Props) => {
         />
       </If>
 
-      <If condition={permission.allows(permissions.DOCUMENTS.DOWNLOAD_DOCUMENT)}>
+      <If condition={isAllowedToDownload}>
         <DownloadButton onClick={() => handleDownloadDocument(item)} />
       </If>
 
@@ -235,7 +238,7 @@ const DocumentsGrid = (props: Props) => {
         />
       </If>
 
-      <If condition={isClickableFile(item.mediaType)}>
+      <If condition={isClickableFile(item.mediaType) && isAllowedToDownload}>
         <Button className="DocumentsGrid__icon-eye" onClick={() => handleClickPreview(item.uuid, item.mediaType)}>
           <i className="fa fa-eye" />
         </Button>

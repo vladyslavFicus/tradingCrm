@@ -28,6 +28,7 @@ export default new InMemoryCache({
         tradingEngineAdminSymbols: pagination('args.page.from'),
         tradingEngineAdminGroups: pagination('args.page.from'),
         ipWhitelistSearch: pagination('args.page.from'),
+        documentSearch: pagination('args.page.from'),
         callHistory: pagination('args.page.from'),
       },
     },

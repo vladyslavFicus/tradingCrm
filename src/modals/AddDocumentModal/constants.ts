@@ -10,7 +10,7 @@ export const TRANSLATED_LABELS = {
 };
 
 export const FILE_CONFIG = {
-  maxSize: 10,
+  maxSize: 100, // Mb
   types: '.doc, .docx, .gif, .pdf, .png, .jpg, .jpeg, .pps, .rtf, .tiff, .tif, .txt, .xls, .xlsx',
 };
 

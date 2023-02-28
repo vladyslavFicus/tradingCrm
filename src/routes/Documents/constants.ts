@@ -4,7 +4,7 @@ export const DocumentsTabs = [
   {
     url: '/documents/list',
     label: 'DOCUMENTS.TABS.LIST',
-    permissions: permissions.IP_WHITELIST.LIST,
+    permissions: permissions.DOCUMENTS.SEARCH_DOCUMENT,
   }, {
     url: '/documents/feed',
     label: 'DOCUMENTS.TABS.FEED',
