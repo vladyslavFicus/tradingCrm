@@ -2,11 +2,12 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { State } from 'types';
 import { ResetForm } from 'types/formik';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/Buttons';
-import { State } from 'types';
+import { IpWhitelistQueryVariables } from '../../graphql/__generated__/IpWhitelistQuery';
 import './IpWhitelistGridFilter.scss';
 
 type FormValues = {
@@ -24,7 +25,7 @@ type Props = {
 const IpWhitelistGridFilter = (props: Props) => {
   const { onRefetch } = props;
 
-  const { state } = useLocation<State<FormValues>>();
+  const { state } = useLocation<State<IpWhitelistQueryVariables>>();
 
   const history = useHistory();
 
@@ -52,7 +53,7 @@ const IpWhitelistGridFilter = (props: Props) => {
   return (
     <Formik
       enableReinitialize
-      initialValues={state?.filters || {}}
+      initialValues={state?.filters as FormValues || {}}
       onSubmit={handleSubmit}
     >
       {({

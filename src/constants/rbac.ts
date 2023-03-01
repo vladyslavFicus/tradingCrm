@@ -1,25 +1,4 @@
-type Action = {
-  action: string,
-  state: boolean,
-};
-
-type Item = {
-  id: string,
-  actions: {
-    view?: Action,
-    edit?: Action,
-  },
-};
-
-type RootItem = {
-  permissions: Array<Item>,
-  additional?: {
-    permissions: Array<string>,
-  },
-  image?: boolean,
-};
-
-type RbackItem = Item & RootItem;
+import { RbackItem } from 'types/rbac';
 
 const rback: Array<RbackItem> = [
   // ============================================= //
@@ -941,12 +920,12 @@ const rback: Array<RbackItem> = [
       },
     },
     permissions: [
-      // Create new operator
+      // List of operators
       {
-        id: 'create',
+        id: 'list',
         actions: {
-          edit: {
-            action: 'operator.createOperator',
+          view: {
+            action: 'operator.searchOperators',
             state: false,
           },
         },
@@ -961,12 +940,12 @@ const rback: Array<RbackItem> = [
           },
         },
       },
-      // List of operators
+      // Create new operator
       {
-        id: 'list',
+        id: 'create',
         actions: {
-          view: {
-            action: 'operator.searchOperators',
+          edit: {
+            action: 'operator.createOperator',
             state: false,
           },
         },

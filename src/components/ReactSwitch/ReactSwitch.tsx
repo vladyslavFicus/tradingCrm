@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { LevelType } from 'types';
@@ -33,6 +33,10 @@ const ReactSwitch = (props: Props) => {
   } = props;
 
   const [toggle, setToggle] = useState<boolean>(on);
+
+  useEffect(() => {
+    setToggle(on);
+  }, [on]);
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (stopPropagation) {

@@ -3,16 +3,13 @@
     margin-left: 0;
   }
 
-  &__headline {
-    font-size: 20px;
-  }
-
   &__card {
     padding: 20px;
     background-color: var(--surface-page-background);
     position: sticky;
     top: 48px;
     z-index: var(--z-index-sticky);
+    font-size: 20px;
   }
 
   &__cell-primary {

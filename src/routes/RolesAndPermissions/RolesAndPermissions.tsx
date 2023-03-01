@@ -1,15 +1,18 @@
 import React from 'react';
-import { Redirect, RouteComponentProps, Switch } from 'react-router-dom';
+import { Redirect, Switch, RouteComponentProps } from 'react-router-dom';
 import Route from 'components/Route';
-import Feed from './routes/RbacFeed';
-import RolesAndPermissionsTab from './routes/RolesAndPermissions';
+import RbacFeed from './routes/RbacFeed';
+import RbacGrid from './routes/RbacGrid';
+import './RolesAndPermissions.scss';
 
 const RolesAndPermissions = ({ match: { path, url } }: RouteComponentProps) => (
-  <Switch>
-    <Route path={`${path}/permissions`} component={RolesAndPermissionsTab} />
-    <Route path={`${path}/feed`} component={Feed} />
-    <Redirect to={`${url}/permissions`} />
-  </Switch>
+  <div className="RolesAndPermissions">
+    <Switch>
+      <Route path={`${path}/permissions`} component={RbacGrid} />
+      <Route path={`${path}/feed`} component={RbacFeed} />
+      <Redirect to={`${url}/permissions`} />
+    </Switch>
+  </div>
 );
 
-export default RolesAndPermissions;
+export default React.memo(RolesAndPermissions);

@@ -1,8 +1,4 @@
-.RolesAndPermissions {
-  background-color: var(--surface-page-background);
-  border: 1px solid var(--surface-page-border);
-  border-radius: 5px;
-
+.RbacGrid {
   &__tabs {
     margin-left: 0;
   }
@@ -20,13 +16,6 @@
     background: var(--surface-page-background);
     border-bottom: 1px solid var(--divider);
     padding: 25px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__title {
     font-size: 20px;
   }
 
@@ -36,6 +25,10 @@
     justify-content: center;
     padding: 25px;
     background-color: var(--surface-page-background);
+  }
+
+  &__no-authorities {
+    text-align: center;
   }
 
   &__authorities {

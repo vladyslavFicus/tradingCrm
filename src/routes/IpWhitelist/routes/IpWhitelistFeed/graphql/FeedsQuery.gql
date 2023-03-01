@@ -1,4 +1,4 @@
-query IpWhitelistFeedsQuery(
+query FeedsQuery(
   $searchBy: String,
   $creationDateFrom: String,
   $creationDateTo: String,

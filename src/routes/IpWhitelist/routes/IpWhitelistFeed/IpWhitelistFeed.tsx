@@ -10,26 +10,23 @@ import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
 import { ipWhitelistTabs } from '../../constants';
 import IpWhitelistFeedsFilters from './components/IpWhitelistFeedsFilters';
-import {
-  useIpWhitelistFeedsQuery,
-  IpWhitelistFeedsQueryVariables,
-} from './graphql/__generated__/IpWhitelistFeedsQuery';
+import { useFeedsQuery, FeedsQueryVariables } from './graphql/__generated__/FeedsQuery';
 import './IpWhitelistFeed.scss';
 
 const IpWhitelistFeed = () => {
-  const { state } = useLocation<State<IpWhitelistFeedsQueryVariables>>();
+  const { state } = useLocation<State<FeedsQueryVariables>>();
 
   // ===== Requests ===== //
-  const ipWhitelistFeedsQuery = useIpWhitelistFeedsQuery({
+  const feedsQuery = useFeedsQuery({
     variables: {
-      ...state?.filters as IpWhitelistFeedsQueryVariables,
+      ...state?.filters as FeedsQueryVariables,
       targetUUID: getBrand().id,
       limit: 20,
       page: 0,
     },
   });
 
-  const { data, loading, variables = {}, refetch, fetchMore } = ipWhitelistFeedsQuery;
+  const { data, loading, variables = {}, refetch, fetchMore } = feedsQuery;
   const { content = [], last = true, number = 0, totalElements = 0 } = data?.feeds || {};
 
   // ===== Handlers ===== //

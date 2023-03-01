@@ -3,55 +3,56 @@ import I18n from 'i18n-js';
 import { cloneDeep, set } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { getBrand } from 'config';
+import { State } from 'types';
+import { Feed } from '__generated__/types';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import { State } from 'types';
-import { Feed } from '__generated__/types';
 import { rbacTabs } from '../../constants';
 import RbacFeedsFilters from './components/RbacFeedsFilters';
-import { useRbacFeedsQuery, RbacFeedsQueryVariables } from './graphql/__generated__/RbacFeedsQuery';
+import { useFeedsQuery, FeedsQueryVariables } from './graphql/__generated__/FeedsQuery';
 import './RbacFeed.scss';
 
 const RbacFeed = () => {
-  const { state } = useLocation<State<RbacFeedsQueryVariables>>();
+  const { state } = useLocation<State<FeedsQueryVariables>>();
 
-  const rbacFeedsQuery = useRbacFeedsQuery({
+  // ===== Requests ===== //
+  const { data, loading, variables, refetch, fetchMore } = useFeedsQuery({
     variables: {
-      ...state?.filters as RbacFeedsQueryVariables,
+      ...state?.filters as FeedsQueryVariables,
       targetUUID: getBrand().id,
       limit: 20,
       page: 0,
     },
   });
 
-  const { content = [], last, number = 0, totalElements } = rbacFeedsQuery?.data?.feeds || {};
+  const { content = [], last, number = 0, totalElements } = data?.feeds || {};
 
+  // ===== Handlers ===== //
   const handlePageChanged = () => {
-    const { fetchMore, variables = {} } = rbacFeedsQuery;
-
     fetchMore({
-      variables: set(cloneDeep(variables), 'page', number + 1),
+      variables: set(cloneDeep(variables as FeedsQueryVariables), 'page', number + 1),
     });
   };
 
   return (
     <div className="RbacFeed">
       <Tabs items={rbacTabs} className="RbacFeed__tabs" />
+
       <div className="RbacFeed__card">
-        <div className="RbacFeed__headline">
-          {I18n.t('ROLES_AND_PERMISSIONS.FEED.HEADLINE')}
-        </div>
+        {I18n.t('ROLES_AND_PERMISSIONS.FEED.HEADLINE')}
       </div>
-      <RbacFeedsFilters onRefetch={rbacFeedsQuery.refetch} />
+
+      <RbacFeedsFilters onRefetch={refetch} />
+
       <div className="RbacFeed__grid">
         <ListView
-          loading={rbacFeedsQuery.loading}
+          loading={loading}
           dataSource={content || []}
           last={last}
           totalPages={totalElements}
           onPageChange={handlePageChanged}
-          showNoResults={!rbacFeedsQuery.loading && !content?.length}
+          showNoResults={!loading && !content?.length}
           render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
         />
       </div>
