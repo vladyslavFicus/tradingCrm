@@ -5,8 +5,9 @@ import { Button } from 'components/Buttons';
 import { withModals } from 'hoc';
 import { Modal } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
-import AddBranchManagerModal from 'modals/AddBranchManagerModal';
+import AddBranchManagerModal, { AddBranchManagerModalProps } from 'modals/AddBranchManagerModal';
 import RemoveBranchManagerModal from 'modals/RemoveBranchManagerModal';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
@@ -31,7 +32,6 @@ type Props = {
   branchId: string,
   branchData: BranchData,
   modals: {
-    addBranchManagerModal: Modal,
     removeBranchManagerModal: Modal,
   },
 };
@@ -46,7 +46,6 @@ const BranchHeader = (props: Props) => {
       branchType,
     },
     modals: {
-      addBranchManagerModal,
       removeBranchManagerModal,
     },
   } = props;
@@ -55,6 +54,9 @@ const BranchHeader = (props: Props) => {
 
   const allowRemoveBrandManager = permission.allows(permissions.HIERARCHY.REMOVE_BRAND_MANAGER);
   const allowAddBrandManager = permission.allows(permissions.HIERARCHY.ADD_BRAND_MANAGER);
+
+  // ===== Modals ===== //
+  const addBranchManagerModal = useModal<AddBranchManagerModalProps>(AddBranchManagerModal);
 
   // ===== Requests ===== //
   const branchManagerQuery = useGetBranchManagerQuery({
@@ -160,7 +162,6 @@ const BranchHeader = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    addBranchManagerModal: AddBranchManagerModal,
     removeBranchManagerModal: RemoveBranchManagerModal,
   }),
 )(BranchHeader);

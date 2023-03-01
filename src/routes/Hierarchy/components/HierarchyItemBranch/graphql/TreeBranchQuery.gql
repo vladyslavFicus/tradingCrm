@@ -26,6 +26,6 @@ query TreeBranchQuery($uuid: String!, $brand: String) {
           role
         }
       }
-    } 
+    }
   }
 }
