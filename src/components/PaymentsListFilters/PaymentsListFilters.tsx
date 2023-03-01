@@ -179,7 +179,7 @@ const PaymentsListFilters = (props: Props) => {
         onSubmit={handleSubmit}
         initialValues={state?.filters || { accountType: 'LIVE' }}
       >
-        {({ values, setValues, isSubmitting, dirty }) => {
+        {({ values, setValues, handleSubmit: onSubmit, isSubmitting, dirty }) => {
           const desksUuids = values.desks || [];
           const teamsByDesks = teamsList
             .filter(team => team.parentBranch && desksUuids.includes(team.parentBranch?.uuid));
@@ -194,7 +194,7 @@ const PaymentsListFilters = (props: Props) => {
               disabled={paymentsLoading}
               submitFilters={(filterValues: FormValues) => {
                 setValues(filterValues);
-                handleSubmit(filterValues);
+                onSubmit();
               }}
             >
               <Form className="PaymentsListFilters__form">
