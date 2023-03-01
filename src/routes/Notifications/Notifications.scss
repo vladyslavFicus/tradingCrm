@@ -9,18 +9,12 @@
   word-wrap: break-word;
 
   &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     position: sticky;
     top: 48px;
     padding: 25px;
     background-color: var(--surface-page-background);
     border-bottom: 1px solid var(--divider);
     z-index: var(--z-index-sticky);
-  }
-
-  &__title {
     font-size: 20px;
   }
 }
