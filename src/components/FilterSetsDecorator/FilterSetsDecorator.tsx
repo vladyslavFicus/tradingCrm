@@ -177,8 +177,9 @@ const FilterSetsDecorator = (props: Props) => {
       });
       const { data: selectData } = filterSetByIdQuery;
 
-      setActiveFilterSet({ uuid }, Object.keys(selectData?.filterSet));
       submitFilters(selectData?.filterSet);
+
+      setActiveFilterSet({ uuid }, Object.keys(selectData?.filterSet));
     } catch {
       notify({
         level: LevelType.ERROR,
