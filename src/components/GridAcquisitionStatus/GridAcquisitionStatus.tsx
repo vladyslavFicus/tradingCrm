@@ -5,6 +5,7 @@ import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
 import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
 import { branchTypes } from 'constants/hierarchyTypes';
 import GridEmptyValue from 'components/GridEmptyValue';
+import HideText from 'components/HideText';
 import './GridAcquisitionStatus.scss';
 
 type ParentBranch = {
@@ -70,12 +71,12 @@ const GridAcquisitionStatus = <HierarchyBranches extends Hierarchy>(props: Props
 
             <If condition={!!desk}>
               <p>
-                <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> {desk?.name}
+                <b>{I18n.t('DESKS.GRID_HEADER.DESK')}:</b> <HideText text={desk?.name || ''} />
               </p>
             </If>
 
             <If condition={!!team}>
-              <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> {team?.name}
+              <b>{I18n.t('TEAMS.GRID_HEADER.TEAM')}:</b> <HideText text={team?.name || ''} />
             </If>
           </div>
         </div>

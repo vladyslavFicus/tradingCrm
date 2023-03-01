@@ -11,6 +11,7 @@ import { accountTypesLabels } from 'constants/accountTypes';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
+import HideText from 'components/HideText';
 import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
@@ -104,7 +105,7 @@ const TradingAccountsGrid = (props: Props) => {
       return <span>&mdash;</span>;
     }
 
-    return <div>{affiliate.source}</div>;
+    return <HideText text={affiliate.source || ''} />;
   };
 
   const renderCreatedAt = ({ createdAt }: TradingAccount) => {
