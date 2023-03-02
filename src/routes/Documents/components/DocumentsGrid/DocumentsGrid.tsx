@@ -315,7 +315,7 @@ const DocumentsGrid = (props: Props) => {
         <Column
           header={I18n.t('DOCUMENTS.GRID.CREATED_AT')}
           render={uploadDateColumnRender}
-          sortBy="uploadBy"
+          sortBy="uploadDate"
         />
 
         <Column
