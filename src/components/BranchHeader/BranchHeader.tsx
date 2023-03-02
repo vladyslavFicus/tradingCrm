@@ -1,5 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { HierarchyBranch } from '__generated__/types';
 import { Button } from 'components/Buttons';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -18,16 +19,9 @@ const branchUuidPrefixes: Record<string, string> = {
   DESC: 'DE',
 };
 
-type BranchData = {
-  uuid: string,
-  name: string,
-  country: string,
-  branchType: string,
-};
-
 type Props = {
   branchId: string,
-  branchData: BranchData,
+  branchData: HierarchyBranch,
 };
 
 const BranchHeader = (props: Props) => {
