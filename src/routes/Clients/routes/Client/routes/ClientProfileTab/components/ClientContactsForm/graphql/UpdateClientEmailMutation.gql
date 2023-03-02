@@ -1,0 +1,16 @@
+mutation UpdateClientEmailMutation(
+  $playerUUID: String!
+  $email: String
+) {
+  profile {
+    updateEmail(
+      playerUUID: $playerUUID
+      email: $email
+    ) {
+      _id
+      contacts {
+        email
+      }
+    }
+  }
+}

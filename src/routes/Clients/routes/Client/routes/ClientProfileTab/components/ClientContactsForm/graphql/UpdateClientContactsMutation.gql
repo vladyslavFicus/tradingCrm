@@ -1,0 +1,27 @@
+#import "apollo/fragments/Contacts"
+
+mutation UpdateClientContactsMutation(
+  $playerUUID: String!
+  $phone: String
+  $additionalPhone: String
+  $additionalEmail: String
+) {
+  profile {
+    updateContacts(
+      playerUUID: $playerUUID
+      phone: $phone
+      additionalPhone: $additionalPhone
+      additionalEmail: $additionalEmail
+    ) {
+      _id
+      phoneVerified
+      contacts {
+      # add contacts fragment after rewriting all files to gql
+        additionalEmail
+        additionalPhone
+        email
+        phone
+      }
+    }
+  }
+}

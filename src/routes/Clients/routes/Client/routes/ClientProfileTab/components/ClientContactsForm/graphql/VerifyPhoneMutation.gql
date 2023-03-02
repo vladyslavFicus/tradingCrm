@@ -1,0 +1,10 @@
+mutation VerifyPhoneMutation(
+  $playerUUID: String!
+) {
+  profile {
+    verifyPhone(playerUUID: $playerUUID) {
+      _id
+      phoneVerified
+    }
+  }
+}
