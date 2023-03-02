@@ -6,23 +6,21 @@ import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { getCrmBrandStaticFileUrl } from 'config';
-import { withModals } from 'hoc';
 import { parseErrors } from 'apollo';
-import { Modal } from 'types';
 import { Storage } from 'types/storage';
+import { useModal } from 'providers/ModalProvider';
 import { withStorage } from 'providers/StorageProvider';
 import { Button } from 'components/Buttons';
 import Copyrights from 'components/Copyrights';
-import ChangeUnauthorizedPasswordModal from 'modals/ChangeUnauthorizedPasswordModal';
+import ChangeUnauthorizedPasswordModal, {
+  ChangeUnauthorizedPasswordModalProps as ModalProps,
+} from 'modals/ChangeUnauthorizedPasswordModal';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 import { useSignInMutation } from './graphql/__generated__/SignInMutation';
 import './SignIn.scss';
 
 type Props = {
-  modals: {
-    changeUnauthorizedPasswordModal: Modal,
-  },
   storage: Storage,
 };
 
@@ -40,10 +38,12 @@ const SignIn = (props: Props) => {
   const [otpRequired, setOtpRequired] = useState<boolean>(false);
   const [otpSecret, setOtpSecret] = useState<string | null>(null);
 
+  // ===== Modals ===== //
+  const changeUnauthorizedPasswordModal = useModal<ModalProps>(ChangeUnauthorizedPasswordModal);
+
   const handleSubmit = async (values: FormValues, { setFieldValue }: FormikHelpers<FormValues>) => {
     const {
       storage,
-      modals: { changeUnauthorizedPasswordModal },
     } = props;
 
     // Second step handler after OTP Generation Required step
@@ -191,7 +191,4 @@ const SignIn = (props: Props) => {
 export default compose(
   React.memo,
   withStorage,
-  withModals({
-    changeUnauthorizedPasswordModal: ChangeUnauthorizedPasswordModal,
-  }),
 )(SignIn);

@@ -34,7 +34,7 @@ type FormValues = {
   reminder: string | null,
 };
 
-type Props = {
+export type Props = {
   callbackId: string,
   onDelete: () => void,
   onCloseModal: () => void,

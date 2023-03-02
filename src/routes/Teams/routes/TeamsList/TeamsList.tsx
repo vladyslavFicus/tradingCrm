@@ -1,31 +1,25 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { Button } from 'components/Buttons';
-import CreateTeamModal from 'modals/CreateTeamModal';
+import CreateTeamModal, { CreateTeamModalProps } from 'modals/CreateTeamModal';
 import TeamsGridFilter from './components/TeamsGridFilter';
 import TeamsGrid from './components/TeamsGrid';
 import { useTeamsListQuery, TeamsListQueryVariables } from './graphql/__generated__/TeamsListQuery';
 import './TeamsList.scss';
 
-type Props = {
-  modals: {
-    createTeamModal: Modal,
-  },
-};
-
-const TeamsList = (props: Props) => {
-  const { modals: { createTeamModal } } = props;
-
+const TeamsList = () => {
   const { state } = useLocation<State<TeamsListQueryVariables>>();
 
   const permission = usePermission();
   const allowCreateBranch = permission.allows(permissions.HIERARCHY.CREATE_BRANCH);
+
+  // ===== Modals ===== //
+  const createTeamModal = useModal<CreateTeamModalProps>(CreateTeamModal);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useTeamsListQuery({
@@ -71,9 +65,4 @@ const TeamsList = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createTeamModal: CreateTeamModal,
-  }),
-)(TeamsList);
+export default React.memo(TeamsList);

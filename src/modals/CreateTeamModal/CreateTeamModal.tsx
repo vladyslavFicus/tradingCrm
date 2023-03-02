@@ -24,7 +24,7 @@ type FormValues = {
   deskUuid: string,
 };
 
-type Props = {
+export type Props = {
   onSuccess: () => void,
   onCloseModal: () => void,
 };

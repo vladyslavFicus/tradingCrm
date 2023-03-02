@@ -5,12 +5,13 @@ import { withModals } from 'hoc';
 import { Modal } from 'types';
 import { HierarchyBranch } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { EditButton, TrashButton } from 'components/Buttons';
-import UpdateTeamModal from 'modals/UpdateTeamModal';
+import UpdateTeamModal, { UpdateTeamModalProps } from 'modals/UpdateTeamModal';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import './TeamsGrid.scss';
 
@@ -18,7 +19,6 @@ type Props = {
   loading: boolean,
   teamsList: Array<HierarchyBranch>,
   modals: {
-    updateTeamModal: Modal,
     deleteBranchModal: Modal,
   },
   onRefetch: () => void,
@@ -29,7 +29,6 @@ const TeamsGrid = (props: Props) => {
     loading,
     teamsList,
     modals: {
-      updateTeamModal,
       deleteBranchModal,
     },
     onRefetch,
@@ -40,6 +39,9 @@ const TeamsGrid = (props: Props) => {
   const isAllowUpdateBranch = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
   const isAllowDeleteBranch = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
   const isAllowActions = isAllowUpdateBranch || isAllowDeleteBranch;
+
+  // ===== Modals ===== //
+  const updateTeamModal = useModal<UpdateTeamModalProps>(UpdateTeamModal);
 
   // ===== Handlers ===== //
   const handleEditClick = (data: HierarchyBranch) => {
@@ -155,7 +157,6 @@ const TeamsGrid = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    updateTeamModal: UpdateTeamModal,
     deleteBranchModal: DeleteBranchModal,
   }),
 )(TeamsGrid);

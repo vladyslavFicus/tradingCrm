@@ -5,13 +5,14 @@ import { withModals } from 'hoc';
 import { Modal } from 'types';
 import { HierarchyBranch } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { EditButton, TrashButton } from 'components/Buttons';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import UpdateOfficeModal from 'modals/UpdateOfficeModal';
+import UpdateOfficeModal, { UpdateOfficeModalProps } from 'modals/UpdateOfficeModal';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import './OfficesGrid.scss';
 
@@ -19,7 +20,6 @@ type Props = {
   loading: boolean,
   officesList: Array<HierarchyBranch>,
   modals: {
-    updateOfficeModal: Modal,
     deleteBranchModal: Modal,
   },
   onRefetch: () => void,
@@ -30,7 +30,6 @@ const OfficesGrid = (props: Props) => {
     loading,
     officesList,
     modals: {
-      updateOfficeModal,
       deleteBranchModal,
     },
     onRefetch,
@@ -41,6 +40,9 @@ const OfficesGrid = (props: Props) => {
   const isAllowUpdateBranch = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
   const isAllowDeleteBranch = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
   const isAllowActions = isAllowUpdateBranch || isAllowDeleteBranch;
+
+  // ===== Modals ===== //
+  const updateOfficeModal = useModal<UpdateOfficeModalProps>(UpdateOfficeModal);
 
   // ===== Handlers ===== //
   const handleEditClick = (data: HierarchyBranch) => {
@@ -129,7 +131,6 @@ const OfficesGrid = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    updateOfficeModal: UpdateOfficeModal,
     deleteBranchModal: DeleteBranchModal,
   }),
 )(OfficesGrid);

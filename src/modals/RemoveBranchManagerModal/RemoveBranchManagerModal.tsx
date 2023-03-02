@@ -1,6 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import compose from 'compose-function';
 import { ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
@@ -18,8 +16,8 @@ const attributeLabels = {
 
 type Operator = {
   uuid: string,
-  fullName?: string,
-  operatorStatus?: string,
+  fullName: string | null,
+  operatorStatus: string | null,
 };
 
 type Branch = {
@@ -32,8 +30,8 @@ type FormValues = {
   operatorStatus?: string,
 };
 
-type Props = {
-  operators: [Operator],
+export type Props = {
+  operators: Array<Operator>,
   branch: Branch,
   title: string,
   description: string,
@@ -101,10 +99,10 @@ const RemoveBranchManagerModal = (props: Props) => {
                 label={I18n.t('COMMON.CHOOSE_OPERATOR')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
-                disabled={isSubmitting || operators.length === 0}
+                disabled={isSubmitting || operators?.length === 0}
                 searchable
               >
-                {operators.map(({ uuid, fullName }) => (
+                {operators?.map(({ uuid, fullName }) => (
                   <option key={uuid} value={uuid}>
                     {fullName}
                   </option>
@@ -135,7 +133,4 @@ const RemoveBranchManagerModal = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withRouter,
-)(RemoveBranchManagerModal);
+export default React.memo(RemoveBranchManagerModal);

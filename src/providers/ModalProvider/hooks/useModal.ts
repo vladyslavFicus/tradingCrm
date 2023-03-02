@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { v4 } from 'uuid';
 import { ModalContext, ComponentProps } from '../ModalProvider';
 
@@ -16,7 +16,7 @@ import { ModalContext, ComponentProps } from '../ModalProvider';
  */
 export const useModal = <TProps>(Component: React.FC<TProps>) => {
   const modalProvider = useContext(ModalContext);
-
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // Generate unique ID
   const id = v4();
 
@@ -25,11 +25,14 @@ export const useModal = <TProps>(Component: React.FC<TProps>) => {
     () => ({
       show(props?: ComponentProps<TProps>) {
         modalProvider.show(id, Component, props);
+        setIsOpen(true);
       },
       hide() {
         modalProvider.hide(id);
+        setIsOpen(false);
       },
+      isOpen,
     }),
-    [id, modalProvider, Component],
+    [id, isOpen, modalProvider, Component],
   );
 };

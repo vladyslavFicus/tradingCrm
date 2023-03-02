@@ -1,14 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
 import { Button } from 'components/Buttons';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import AddBranchManagerModal, { AddBranchManagerModalProps } from 'modals/AddBranchManagerModal';
-import RemoveBranchManagerModal from 'modals/RemoveBranchManagerModal';
+import RemoveBranchManagerModal, { RemoveBranchManagerModalProps } from 'modals/RemoveBranchManagerModal';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import Placeholder from 'components/Placeholder';
@@ -31,9 +28,6 @@ type BranchData = {
 type Props = {
   branchId: string,
   branchData: BranchData,
-  modals: {
-    removeBranchManagerModal: Modal,
-  },
 };
 
 const BranchHeader = (props: Props) => {
@@ -45,9 +39,6 @@ const BranchHeader = (props: Props) => {
       country,
       branchType,
     },
-    modals: {
-      removeBranchManagerModal,
-    },
   } = props;
 
   const permission = usePermission();
@@ -57,6 +48,7 @@ const BranchHeader = (props: Props) => {
 
   // ===== Modals ===== //
   const addBranchManagerModal = useModal<AddBranchManagerModalProps>(AddBranchManagerModal);
+  const removeBranchManagerModal = useModal<RemoveBranchManagerModalProps>(RemoveBranchManagerModal);
 
   // ===== Requests ===== //
   const branchManagerQuery = useGetBranchManagerQuery({
@@ -77,7 +69,7 @@ const BranchHeader = (props: Props) => {
     removeBranchManagerModal.show({
       title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.TITLE'),
       description: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.DESCRIPTION'),
-      branch: { uuid, name, branchType },
+      branch: { uuid },
       operators,
       onSuccess: refetchBranchManagerInfo,
     });
@@ -159,9 +151,4 @@ const BranchHeader = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    removeBranchManagerModal: RemoveBranchManagerModal,
-  }),
-)(BranchHeader);
+export default React.memo(BranchHeader);

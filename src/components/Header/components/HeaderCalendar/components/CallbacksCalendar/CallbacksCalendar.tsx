@@ -1,50 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { ClientCallback, LeadCallback } from '__generated__/types';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
-import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
-import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
-import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
+import ClientCallbackDetailsModal, { ClientCallbackDetailsModalProps } from 'modals/ClientCallbackDetailsModal';
+import LeadCallbackDetailsModal, { LeadCallbackDetailsModalProps } from 'modals/LeadCallbackDetailsModal';
+import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
+import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import { useClientCallbacksQuery } from './graphql/__generated__/ClientCallbacksQuery';
 import { useLeadCallbacksQuery } from './graphql/__generated__/LeadCallbacksQuery';
 import './CallbacksCalendar.scss';
 
 type Props = {
   onLockToggle(isLock: boolean): void,
-  modals: {
-    clientCallbackDetailsModal: Modal,
-    leadCallbackDetailsModal: Modal,
-    deleteClientCallbackModal: Modal,
-    deleteLeadCallbackModal: Modal,
-  },
 };
 
 type CommonCallback = ClientCallback | LeadCallback;
 
 const CallbacksCalendar = (props: Props) => {
+  const { onLockToggle } = props;
+
   const [callbackTime, setCallbackTime] = useState({
     callbackTimeFrom: Calendar.firstVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
     callbackTimeTo: Calendar.lastVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
   });
 
-  const {
-    onLockToggle,
-    modals: {
-      clientCallbackDetailsModal,
-      leadCallbackDetailsModal,
-      deleteClientCallbackModal,
-      deleteLeadCallbackModal,
-    },
-  } = props;
+  // ===== Modals ===== //
+  const clientCallbackDetailsModal = useModal<ClientCallbackDetailsModalProps>(ClientCallbackDetailsModal);
+  const leadCallbackDetailsModal = useModal<LeadCallbackDetailsModalProps>(LeadCallbackDetailsModal);
+  const deleteClientCallbackModal = useModal<DeleteClientCallbackModalProps>(DeleteClientCallbackModal);
+  const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);
 
   useEffect(() => {
     onLockToggle(clientCallbackDetailsModal.isOpen || leadCallbackDetailsModal.isOpen);
@@ -95,7 +85,7 @@ const CallbacksCalendar = (props: Props) => {
       clientCallbackDetailsModal.show({
         callbackId,
         onDelete: () => deleteClientCallbackModal.show({
-          callback,
+          callback: callback as ClientCallback,
           onSuccess: clientCallbackDetailsModal.hide,
         }),
       });
@@ -104,7 +94,7 @@ const CallbacksCalendar = (props: Props) => {
       leadCallbackDetailsModal.show({
         callbackId,
         onDelete: () => deleteLeadCallbackModal.show({
-          callback,
+          callback: callback as LeadCallback,
           onSuccess: leadCallbackDetailsModal.hide,
         }),
       });
@@ -126,12 +116,4 @@ const CallbacksCalendar = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    clientCallbackDetailsModal: ClientCallbackDetailsModal,
-    leadCallbackDetailsModal: LeadCallbackDetailsModal,
-    deleteClientCallbackModal: DeleteClientCallbackModal,
-    deleteLeadCallbackModal: DeleteLeadCallbackModal,
-  }),
-)(CallbacksCalendar);
+export default React.memo(CallbacksCalendar);

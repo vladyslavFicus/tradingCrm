@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { LeadCallback } from '__generated__/types';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
+import { useModal } from 'providers/ModalProvider';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
-import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
-import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
+import LeadCallbackDetailsModal, { LeadCallbackDetailsModalProps } from 'modals/LeadCallbackDetailsModal';
+import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
@@ -21,15 +19,10 @@ type Range = {
   end: string,
 };
 
-type Props = {
-  modals: {
-    leadCallbackDetailsModal: Modal,
-    deleteLeadCallbackModal: Modal,
-  },
-};
-
-const LeadCallbacksCalendar = (props: Props) => {
-  const { leadCallbackDetailsModal, deleteLeadCallbackModal } = props.modals;
+const LeadCallbacksCalendar = () => {
+  // ===== Modals ===== //
+  const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);
+  const leadCallbackDetailsModal = useModal<LeadCallbackDetailsModalProps>(LeadCallbackDetailsModal);
 
   // ===== Requests ===== //
   const leadCallbacksListQuery = useLeadCallbacksListQuery({
@@ -110,10 +103,4 @@ const LeadCallbacksCalendar = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    leadCallbackDetailsModal: LeadCallbackDetailsModal,
-    deleteLeadCallbackModal: DeleteLeadCallbackModal,
-  }),
-)(LeadCallbacksCalendar);
+export default React.memo(LeadCallbacksCalendar);

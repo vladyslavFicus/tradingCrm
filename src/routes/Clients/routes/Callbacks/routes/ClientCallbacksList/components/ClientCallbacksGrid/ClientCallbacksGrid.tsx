@@ -3,11 +3,9 @@ import { cloneDeep, set } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { Modal } from 'types';
 import { ClientCallback } from '__generated__/types';
-import withModals from 'hoc/withModals';
 import { shortify } from 'utils/uuid';
+import { useModal } from 'providers/ModalProvider';
 import { targetTypes } from 'constants/note';
 import { CallbackTimes } from 'constants/callbacks';
 import permissions from 'config/permissions';
@@ -16,8 +14,8 @@ import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { TrashButton } from 'components/Buttons';
 import NoteAction from 'components/Note/NoteAction';
-import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
-import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
+import ClientCallbackDetailsModal, { ClientCallbackDetailsModalProps } from 'modals/ClientCallbackDetailsModal';
+import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import {
   ClientCallbacksListQueryVariables,
   ClientCallbacksListQueryQueryResult,
@@ -26,19 +24,18 @@ import './ClientCallbacksGrid.scss';
 
 type Props = {
   clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,
-  modals: {
-    clientCallbackDetailsModal: Modal,
-    deleteClientCallbackModal: Modal,
-  },
 };
 
 const ClientCallbacksGrid = (props: Props) => {
-  const { clientCallbacksListQuery, modals } = props;
-  const { clientCallbackDetailsModal, deleteClientCallbackModal } = modals;
+  const { clientCallbacksListQuery } = props;
 
   const { data, variables, fetchMore, loading, refetch } = clientCallbacksListQuery;
 
   const { content = [], last = false } = clientCallbacksListQuery?.data?.clientCallbacks || {};
+
+  // ===== Modals ===== //
+  const clientCallbackDetailsModal = useModal<ClientCallbackDetailsModalProps>(ClientCallbackDetailsModal);
+  const deleteClientCallbackModal = useModal<DeleteClientCallbackModalProps>(DeleteClientCallbackModal);
 
   // ===== Handlers ===== //
   const handlePageChanged = () => {
@@ -232,10 +229,4 @@ const ClientCallbacksGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    clientCallbackDetailsModal: ClientCallbackDetailsModal,
-    deleteClientCallbackModal: DeleteClientCallbackModal,
-  }),
-)(ClientCallbacksGrid);
+export default React.memo(ClientCallbacksGrid);

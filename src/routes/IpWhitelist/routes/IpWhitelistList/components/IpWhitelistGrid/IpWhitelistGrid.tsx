@@ -7,10 +7,12 @@ import { Modal, Sorts } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';
 import { TrashButton, EditButton } from 'components/Buttons';
-import WhiteListUpdateDescriptionModal from 'modals/WhiteListUpdateDescriptionModal';
+import WhiteListUpdateDescriptionModal,
+{ WhiteListUpdateDescriptionModalProps } from 'modals/WhiteListUpdateDescriptionModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { useIpWhitelistDeleteMutation } from './graphql/__generated__/IpWhitelistDeleteMutation';
 import './IpWhitelistGrid.scss';
@@ -20,7 +22,6 @@ type Props = {
   loading: boolean,
   last: boolean,
   modals: {
-    updateDescriptionModal: Modal,
     deleteModal: Modal,
   },
   onRefetch: () => void,
@@ -35,7 +36,6 @@ const IpWhitelistGrid = (props: Props) => {
     loading,
     last,
     modals: {
-      updateDescriptionModal,
       deleteModal,
     },
     onRefetch,
@@ -48,6 +48,9 @@ const IpWhitelistGrid = (props: Props) => {
 
   const allowUpdateIp = permission.allows(permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION);
   const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
+
+  // ===== Modals ===== //
+  const updateDescriptionModal = useModal<WhiteListUpdateDescriptionModalProps>(WhiteListUpdateDescriptionModal);
 
   // ===== Requests ===== //
   const [ipWhitelistDeleteMutation] = useIpWhitelistDeleteMutation();

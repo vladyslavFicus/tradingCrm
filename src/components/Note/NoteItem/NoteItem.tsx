@@ -1,14 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import permissions from 'config/permissions';
 import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
+import { useModal } from 'providers/ModalProvider';
 import Uuid from 'components/Uuid';
 import { entities, entitiesPrefixes } from 'constants/uuid';
-import UpdateNoteModal from 'modals/UpdateNoteModal';
+import UpdateNoteModal, { UpdateNoteModalProps } from 'modals/UpdateNoteModal';
 import { Note } from 'types/Note';
 import ActionsDropDown from '../../ActionsDropDown';
 import { useRemoveNoteMutation } from '../NoteAction/graphql/__generated__/RemoveNoteMutation';
@@ -16,20 +14,20 @@ import './NoteItem.scss';
 
 type Props = {
   note: Note,
-  modals: {
-    updateNoteModal: Modal,
-  },
 };
 
 const NoteItem = (props: Props) => {
-  const { note, modals } = props;
+  const { note } = props;
+
+  // ===== Modals ===== //
+  const updateNoteModal = useModal<UpdateNoteModalProps>(UpdateNoteModal);
 
   // ===== Requests ===== //
   const [removeNoteMutation] = useRemoveNoteMutation();
 
   // ===== Handlers ===== //
   const handleEditNote = () => {
-    modals.updateNoteModal.show({ note });
+    updateNoteModal.show({ note });
   };
 
   const handleRemoveNote = async () => {
@@ -130,9 +128,4 @@ const NoteItem = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    updateNoteModal: UpdateNoteModal,
-  }),
-)(NoteItem);
+export default React.memo(NoteItem);

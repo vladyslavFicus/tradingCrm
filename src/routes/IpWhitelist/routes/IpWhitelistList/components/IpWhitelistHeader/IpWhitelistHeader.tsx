@@ -6,10 +6,11 @@ import { Modal, TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import WhiteListAddIpModal from 'modals/WhiteListAddIpModal';
+import WhiteListAddIpModal, { WhiteListAddIpModalProps } from 'modals/WhiteListAddIpModal';
 import { useIpWhitelistBulkDeleteMutation } from './graphql/__generated__/IpWhitelistBulkDeleteMutation';
 import './IpWhitelistHeader.scss';
 
@@ -18,7 +19,6 @@ type Props = {
   totalElements: number,
   selected: TableSelection | null,
   modals: {
-    addAddressModal: Modal,
     deleteModal: Modal,
   },
   onRefetch: () => void,
@@ -30,7 +30,6 @@ const IpWhitelistHeader = (props: Props) => {
     totalElements,
     selected,
     modals: {
-      addAddressModal,
       deleteModal,
     },
     onRefetch,
@@ -40,6 +39,9 @@ const IpWhitelistHeader = (props: Props) => {
 
   const allowAddIp = permission.allows(permissions.IP_WHITELIST.ADD_IP_ADDRESS);
   const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
+
+  // ===== Modals ===== //
+  const addAddressModal = useModal<WhiteListAddIpModalProps>(WhiteListAddIpModal);
 
   // ===== Requests ===== //
   const [ipWhitelistBulkDeleteMutation] = useIpWhitelistBulkDeleteMutation();
@@ -132,7 +134,6 @@ const IpWhitelistHeader = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    addAddressModal: WhiteListAddIpModal,
     deleteModal: ConfirmActionModal,
   }),
 )(IpWhitelistHeader);

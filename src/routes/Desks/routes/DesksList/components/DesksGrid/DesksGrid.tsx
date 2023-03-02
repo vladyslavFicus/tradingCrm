@@ -10,15 +10,15 @@ import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { EditButton, TrashButton } from 'components/Buttons';
-import UpdateDeskModal from 'modals/UpdateDeskModal';
+import UpdateDeskModal, { UpdateDeskModalProps } from 'modals/UpdateDeskModal';
 import DeleteBranchModal from 'modals/DeleteBranchModal';
 import './DesksGrid.scss';
+import { useModal } from 'providers/ModalProvider';
 
 type Props = {
   loading: boolean,
   desksList: Array<HierarchyBranch>,
   modals: {
-    updateDeskModal: Modal,
     deleteBranchModal: Modal,
   },
   onRefetch: () => void,
@@ -29,7 +29,6 @@ const DesksGrid = (props: Props) => {
     loading,
     desksList,
     modals: {
-      updateDeskModal,
       deleteBranchModal,
     },
     onRefetch,
@@ -40,6 +39,9 @@ const DesksGrid = (props: Props) => {
   const isAllowUpdateBranch = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
   const isAllowDeleteBranch = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
   const isAllowActions = isAllowUpdateBranch || isAllowDeleteBranch;
+
+  // ===== Modals ===== //
+  const updateDeskModal = useModal<UpdateDeskModalProps>(UpdateDeskModal);
 
   // ===== Handlers ===== //
   const handleEditClick = (desk: HierarchyBranch) => {
@@ -143,7 +145,6 @@ const DesksGrid = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    updateDeskModal: UpdateDeskModal,
     deleteBranchModal: DeleteBranchModal,
   }),
 )(DesksGrid);

@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { IpWhitelistAddress } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
@@ -21,19 +22,13 @@ const validate = createValidator(
   false,
 );
 
-type IpWhitelistAddress = {
-  ip: string,
-  uuid: string,
-  description: string,
-};
-
 type FormValues = {
   ip: string,
   uuid: string,
   description: string,
 };
 
-type Props = {
+export type Props = {
   item: IpWhitelistAddress,
   onSuccess: () => void,
   onCloseModal: () => void,
@@ -72,7 +67,7 @@ const WhiteListUpdateDescriptionModal = (props: Props) => {
   return (
     <Modal className="WhiteListUpdateDescriptionModal" toggle={onCloseModal} isOpen>
       <Formik
-        initialValues={item}
+        initialValues={item as FormValues}
         validate={validate}
         validateOnChange={false}
         validateOnBlur={false}

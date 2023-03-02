@@ -3,11 +3,9 @@ import { cloneDeep, set } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { Modal } from 'types';
 import { LeadCallback } from '__generated__/types';
-import withModals from 'hoc/withModals';
 import { shortify } from 'utils/uuid';
+import { useModal } from 'providers/ModalProvider';
 import { targetTypes } from 'constants/note';
 import { CallbackTimes } from 'constants/callbacks';
 import permissions from 'config/permissions';
@@ -16,8 +14,8 @@ import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { TrashButton } from 'components/Buttons';
 import NoteAction from 'components/Note/NoteAction';
-import LeadCallbackDetailsModal from 'modals/LeadCallbackDetailsModal';
-import DeleteLeadCallbackModal from 'modals/DeleteLeadCallbackModal';
+import LeadCallbackDetailsModal, { LeadCallbackDetailsModalProps } from 'modals/LeadCallbackDetailsModal';
+import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import {
   LeadCallbacksListQueryVariables,
   LeadCallbacksListQueryQueryResult,
@@ -26,19 +24,18 @@ import './LeadCallbacksGrid.scss';
 
 type Props = {
   leadCallbacksListQuery: LeadCallbacksListQueryQueryResult,
-  modals: {
-    leadCallbackDetailsModal: Modal,
-    deleteLeadCallbackModal: Modal,
-  },
 };
 
 const LeadCallbacksGrid = (props: Props) => {
-  const { leadCallbacksListQuery, modals } = props;
-  const { leadCallbackDetailsModal, deleteLeadCallbackModal } = modals;
+  const { leadCallbacksListQuery } = props;
 
   const { data, variables, fetchMore, loading, refetch } = leadCallbacksListQuery;
 
   const { content = [], last = false } = leadCallbacksListQuery?.data?.leadCallbacks || {};
+
+  // ===== Modals ===== //
+  const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);
+  const leadCallbackDetailsModal = useModal<LeadCallbackDetailsModalProps>(LeadCallbackDetailsModal);
 
   // ===== Handlers ===== //
   const handlePageChanged = () => {
@@ -232,10 +229,4 @@ const LeadCallbacksGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    leadCallbackDetailsModal: LeadCallbackDetailsModal,
-    deleteLeadCallbackModal: DeleteLeadCallbackModal,
-  }),
-)(LeadCallbacksGrid);
+export default React.memo(LeadCallbacksGrid);

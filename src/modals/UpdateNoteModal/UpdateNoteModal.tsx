@@ -30,7 +30,7 @@ export type FormValues = {
   pinned: boolean,
 };
 
-type Props = {
+export type Props = {
   note: Note,
   onCloseModal: () => void,
 };

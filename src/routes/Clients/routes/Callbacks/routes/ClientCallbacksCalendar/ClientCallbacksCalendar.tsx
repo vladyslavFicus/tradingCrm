@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { ClientCallback } from '__generated__/types';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
+import { useModal } from 'providers/ModalProvider';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
-import ClientCallbackDetailsModal from 'modals/ClientCallbackDetailsModal';
-import DeleteClientCallbackModal from 'modals/DeleteClientCallbackModal';
+import ClientCallbackDetailsModal, { ClientCallbackDetailsModalProps } from 'modals/ClientCallbackDetailsModal';
+import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
@@ -21,15 +19,10 @@ type Range = {
   end: string,
 };
 
-type Props = {
-  modals: {
-    clientCallbackDetailsModal: Modal,
-    deleteClientCallbackModal: Modal,
-  },
-};
-
-const ClientCallbacksCalendar = (props: Props) => {
-  const { clientCallbackDetailsModal, deleteClientCallbackModal } = props.modals;
+const ClientCallbacksCalendar = () => {
+  // ===== Modals ===== //
+  const clientCallbackDetailsModal = useModal<ClientCallbackDetailsModalProps>(ClientCallbackDetailsModal);
+  const deleteClientCallbackModal = useModal<DeleteClientCallbackModalProps>(DeleteClientCallbackModal);
 
   // ===== Requests ===== //
   const clientCallbacksListQuery = useClientCallbacksListQuery({
@@ -110,10 +103,4 @@ const ClientCallbacksCalendar = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    clientCallbackDetailsModal: ClientCallbackDetailsModal,
-    deleteClientCallbackModal: DeleteClientCallbackModal,
-  }),
-)(ClientCallbacksCalendar);
+export default React.memo(ClientCallbacksCalendar);

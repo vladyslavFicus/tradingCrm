@@ -9,9 +9,9 @@ import { Button } from 'components/Buttons';
 import { useDeleteClientCallbackMutation } from './graphql/__generated__/DeleteClientCallbackMutation';
 import './DeleteClientCallbackModal.scss';
 
-type Props = {
+export type Props = {
   callback: ClientCallback,
-  onSuccess: () => void,
+  onSuccess?: () => void,
   onCloseModal: () => void,
 };
 

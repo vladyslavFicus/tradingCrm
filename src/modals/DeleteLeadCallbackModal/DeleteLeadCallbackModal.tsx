@@ -9,10 +9,10 @@ import { Button } from 'components/Buttons';
 import { useDeleteLeadCallbackMutation } from './graphql/__generated__/DeleteLeadCallbackMutation';
 import './DeleteLeadCallbackModal.scss';
 
-type Props = {
+export type Props = {
   callback: LeadCallback,
   onCloseModal: () => void,
-  onSuccess: () => void,
+  onSuccess?: () => void,
 };
 
 const DeleteLeadCallbackModal = (props: Props) => {

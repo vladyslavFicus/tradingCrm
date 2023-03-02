@@ -5,6 +5,7 @@ import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
+import { HierarchyBranch } from '__generated__/types';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -16,20 +17,14 @@ const attributeLabels = {
   country: I18n.t('MODALS.UPDATE_OFFICE_MODAL.LABELS.COUNTRY'),
 };
 
-type DataValues = {
-  uuid: string,
-  name: string,
-  country: string,
-};
-
 type FormValues = {
   uuid: string,
   name: string,
   country: string,
 };
 
-type Props = {
-  data: DataValues,
+export type Props = {
+  data: HierarchyBranch,
   onSuccess: () => void,
   onCloseModal: () => void,
 };

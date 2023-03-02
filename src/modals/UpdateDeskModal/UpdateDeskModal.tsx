@@ -9,7 +9,7 @@ import { Button } from 'components/Buttons';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
+import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated__/types';
 import { useUpdateDeskMutation } from './graphql/__generated__/UpdateDeskMutation';
 import './UpdateDeskModal.scss';
 
@@ -19,13 +19,6 @@ const attributeLabels = {
   language: 'MODALS.UPDATE_DESK_MODAL.LABELS.LANGUAGE',
 };
 
-type DataValues = {
-  uuid: string,
-  name: string,
-  deskType: DeskTypesEnum,
-  language: string,
-};
-
 type FormValues = {
   uuid: string,
   name: string,
@@ -33,8 +26,8 @@ type FormValues = {
   language: string,
 };
 
-type Props = {
-  data: DataValues,
+export type Props = {
+  data: HierarchyBranch,
   onSuccess: () => void,
   onCloseModal: () => void,
 };

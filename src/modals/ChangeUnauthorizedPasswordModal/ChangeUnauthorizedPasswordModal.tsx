@@ -27,7 +27,7 @@ type FormValues = {
   repeatPassword: string,
 };
 
-type Props = {
+export type Props = {
   uuid: string,
   onSuccess: () => void,
   onCloseModal: () => void,
