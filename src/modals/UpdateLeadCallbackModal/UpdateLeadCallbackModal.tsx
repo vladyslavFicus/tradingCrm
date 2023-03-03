@@ -18,7 +18,7 @@ import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import { useGetLeadCallbackQuery } from './graphql/__generated__/GetLeadCallbackQuery';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import { useUpdateLeadCallbackMutation } from './graphql/__generated__/UpdateLeadCallbackMutation';
-import './LeadCallbackDetailsModal.scss';
+import './UpdateLeadCallbackModal.scss';
 
 const attributeLabels = {
   operatorId: I18n.t('CALLBACKS.MODAL.OPERATOR'),
@@ -38,10 +38,11 @@ export type Props = {
   callbackId: string,
   onCloseModal: () => void,
   onDelete: () => void,
+  onClose?: () => void,
 };
 
-const LeadCallbackDetailsModal = (props: Props) => {
-  const { callbackId, onCloseModal, onDelete } = props;
+const UpdateLeadCallbackModal = (props: Props) => {
+  const { callbackId, onCloseModal, onDelete, onClose } = props;
 
   const permission = usePermission();
   const readOnly = permission.denies(permissions.LEAD_PROFILE.UPDATE_CALLBACK);
@@ -61,6 +62,13 @@ const LeadCallbackDetailsModal = (props: Props) => {
   const [updateleadCallbackMutation] = useUpdateLeadCallbackMutation();
 
   // ===== Handlers ===== //
+  const handleClose = () => {
+    // Custom close function, to call useModal hook hide function for correct isOpen prop
+    onClose?.();
+
+    onCloseModal();
+  };
+
   const handleSubmit = async (values: FormValues) => {
     try {
       await updateleadCallbackMutation({
@@ -71,7 +79,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
         },
       });
 
-      onCloseModal();
+      handleClose();
 
       notify({
         level: LevelType.SUCCESS,
@@ -88,14 +96,14 @@ const LeadCallbackDetailsModal = (props: Props) => {
   };
 
   return (
-    <Modal className="LeadCallbackDetailsModal" toggle={onCloseModal} isOpen>
-      <ModalHeader className="LeadCallbackDetailsModal__header" toggle={onCloseModal}>
+    <Modal className="UpdateLeadCallbackModal" toggle={handleClose} isOpen>
+      <ModalHeader className="UpdateLeadCallbackModal__header" toggle={handleClose}>
         {I18n.t('CALLBACKS.MODAL.LEAD_TITLE')}
       </ModalHeader>
 
       <Choose>
         <When condition={isCallbackLoading}>
-          <div className="LeadCallbackDetailsModal__loader">
+          <div className="UpdateLeadCallbackModal__loader">
             <ShortLoader />
           </div>
         </When>
@@ -122,25 +130,25 @@ const LeadCallbackDetailsModal = (props: Props) => {
             {({ isSubmitting }) => (
               <Form>
                 <ModalBody>
-                  <div className="LeadCallbackDetailsModal__lead">
-                    <div className="LeadCallbackDetailsModal__callback-id">
+                  <div className="UpdateLeadCallbackModal__lead">
+                    <div className="UpdateLeadCallbackModal__callback-id">
                       {I18n.t('CALLBACKS.MODAL.CALLBACK_ID')}: <Uuid uuid={callbackId} uuidPrefix="CB" />
                     </div>
 
                     <If condition={!!lead}>
-                      <div className="LeadCallbackDetailsModal__lead-name">
+                      <div className="UpdateLeadCallbackModal__lead-name">
                         {lead?.fullName}
                       </div>
                     </If>
 
-                    <div className="LeadCallbackDetailsModal__lead-author">
+                    <div className="UpdateLeadCallbackModal__lead-author">
                       {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
                     </div>
                   </div>
 
                   <Field
                     name="operatorId"
-                    className="LeadCallbackDetailsModal__field"
+                    className="UpdateLeadCallbackModal__field"
                     placeholder={
                       I18n.t(
                         isOperatorsLoading
@@ -162,7 +170,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
 
                   <Field
                     name="callbackTime"
-                    className="LeadCallbackDetailsModal__field"
+                    className="UpdateLeadCallbackModal__field"
                     label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                     component={FormikDatePicker}
                     disabled={readOnly}
@@ -172,7 +180,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
 
                   <Field
                     name="status"
-                    className="LeadCallbackDetailsModal__field"
+                    className="UpdateLeadCallbackModal__field"
                     placeholder={I18n.t('CALLBACKS.MODAL.SELECT_STATUS')}
                     label={I18n.t('CALLBACKS.MODAL.STATUS')}
                     component={FormikSelectField}
@@ -203,7 +211,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
                 <ModalFooter>
                   <If condition={permission.allows(permissions.LEAD_PROFILE.DELETE_CALLBACK)}>
                     <Button
-                      className="ClientCallbackDetailsModal__button--delete"
+                      className="UpdateLeadCallbackModal__button--delete"
                       onClick={onDelete}
                       danger
                     >
@@ -212,7 +220,7 @@ const LeadCallbackDetailsModal = (props: Props) => {
                   </If>
 
                   <Button
-                    onClick={onCloseModal}
+                    onClick={handleClose}
                     secondary
                   >
                     {I18n.t('COMMON.CANCEL')}
@@ -237,4 +245,4 @@ const LeadCallbackDetailsModal = (props: Props) => {
   );
 };
 
-export default React.memo(LeadCallbackDetailsModal);
+export default React.memo(UpdateLeadCallbackModal);

@@ -8,8 +8,8 @@ import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import Calendar from 'components/Calendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import ClientCallbackDetailsModal, { ClientCallbackDetailsModalProps } from 'modals/ClientCallbackDetailsModal';
-import LeadCallbackDetailsModal, { LeadCallbackDetailsModalProps } from 'modals/LeadCallbackDetailsModal';
+import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
+import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import { useClientCallbacksQuery } from './graphql/__generated__/ClientCallbacksQuery';
@@ -31,14 +31,14 @@ const CallbacksCalendar = (props: Props) => {
   });
 
   // ===== Modals ===== //
-  const clientCallbackDetailsModal = useModal<ClientCallbackDetailsModalProps>(ClientCallbackDetailsModal);
-  const leadCallbackDetailsModal = useModal<LeadCallbackDetailsModalProps>(LeadCallbackDetailsModal);
+  const updateClientCallbackModal = useModal<UpdateClientCallbackModalProps>(UpdateClientCallbackModal);
+  const updateLeadCallbackModal = useModal<UpdateLeadCallbackModalProps>(UpdateLeadCallbackModal);
   const deleteClientCallbackModal = useModal<DeleteClientCallbackModalProps>(DeleteClientCallbackModal);
   const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);
 
   useEffect(() => {
-    onLockToggle(clientCallbackDetailsModal.isOpen || leadCallbackDetailsModal.isOpen);
-  }, [clientCallbackDetailsModal.isOpen, leadCallbackDetailsModal.isOpen]);
+    onLockToggle(updateClientCallbackModal.isOpen || updateLeadCallbackModal.isOpen);
+  }, [updateClientCallbackModal.isOpen, updateLeadCallbackModal.isOpen]);
 
   const permission = usePermission();
 
@@ -82,20 +82,22 @@ const CallbacksCalendar = (props: Props) => {
     const { callbackId } = callback;
 
     if (callbackType === CallbackType.CLIENT) {
-      clientCallbackDetailsModal.show({
+      updateClientCallbackModal.show({
         callbackId,
+        onClose: updateClientCallbackModal.hide,
         onDelete: () => deleteClientCallbackModal.show({
           callback: callback as ClientCallback,
-          onSuccess: clientCallbackDetailsModal.hide,
+          onSuccess: updateClientCallbackModal.hide,
         }),
       });
     }
     if (callbackType === CallbackType.LEAD) {
-      leadCallbackDetailsModal.show({
+      updateLeadCallbackModal.show({
         callbackId,
+        onClose: updateLeadCallbackModal.hide,
         onDelete: () => deleteLeadCallbackModal.show({
           callback: callback as LeadCallback,
-          onSuccess: leadCallbackDetailsModal.hide,
+          onSuccess: updateLeadCallbackModal.hide,
         }),
       });
     }

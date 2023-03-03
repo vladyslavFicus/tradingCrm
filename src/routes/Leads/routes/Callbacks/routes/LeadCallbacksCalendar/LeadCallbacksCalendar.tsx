@@ -6,7 +6,7 @@ import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { useModal } from 'providers/ModalProvider';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
-import LeadCallbackDetailsModal, { LeadCallbackDetailsModalProps } from 'modals/LeadCallbackDetailsModal';
+import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
@@ -22,7 +22,7 @@ type Range = {
 const LeadCallbacksCalendar = () => {
   // ===== Modals ===== //
   const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);
-  const leadCallbackDetailsModal = useModal<LeadCallbackDetailsModalProps>(LeadCallbackDetailsModal);
+  const updateLeadCallbackModal = useModal<UpdateLeadCallbackModalProps>(UpdateLeadCallbackModal);
 
   // ===== Requests ===== //
   const leadCallbacksListQuery = useLeadCallbacksListQuery({
@@ -66,11 +66,11 @@ const LeadCallbacksCalendar = () => {
   const handleOpenDetailModal = ({ callback }: Event<LeadCallback>) => {
     const { callbackId } = callback;
 
-    leadCallbackDetailsModal.show({
+    updateLeadCallbackModal.show({
       callbackId,
       onDelete: () => deleteLeadCallbackModal.show({
         callback,
-        onSuccess: leadCallbackDetailsModal.hide,
+        onSuccess: updateLeadCallbackModal.hide,
       }),
     });
   };

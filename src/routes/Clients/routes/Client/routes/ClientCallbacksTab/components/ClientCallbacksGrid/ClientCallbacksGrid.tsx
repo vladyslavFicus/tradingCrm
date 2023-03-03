@@ -14,7 +14,7 @@ import { Table, Column } from 'components/Table';
 import { TrashButton } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
-import ClientCallbackDetailsModal, { ClientCallbackDetailsModalProps } from 'modals/ClientCallbackDetailsModal';
+import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import {
   ClientCallbacksListQueryQueryResult,
@@ -34,7 +34,7 @@ const ClientCallbacksGrid = (props: Props) => {
   const { content = [], last = false } = clientCallbacksListQuery?.data?.clientCallbacks || {};
 
   // ===== Modals ===== //
-  const clientCallbackDetailsModal = useModal<ClientCallbackDetailsModalProps>(ClientCallbackDetailsModal);
+  const updateClientCallbackModal = useModal<UpdateClientCallbackModalProps>(UpdateClientCallbackModal);
   const deleteClientCallbackModal = useModal<DeleteClientCallbackModalProps>(DeleteClientCallbackModal);
 
   // ===== Handlers ===== //
@@ -56,11 +56,11 @@ const ClientCallbacksGrid = (props: Props) => {
       <Fragment>
         <div
           className="ClientCallbacksGrid__info-main ClientCallbacksGrid__info-main--pointer"
-          onClick={() => clientCallbackDetailsModal.show({
+          onClick={() => updateClientCallbackModal.show({
             callbackId,
             onDelete: () => deleteClientCallbackModal.show({
               callback,
-              onSuccess: clientCallbackDetailsModal.hide,
+              onSuccess: updateClientCallbackModal.hide,
             }),
           })}
         >

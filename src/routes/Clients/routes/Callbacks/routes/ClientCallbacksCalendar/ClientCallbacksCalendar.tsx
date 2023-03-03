@@ -6,7 +6,7 @@ import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { useModal } from 'providers/ModalProvider';
 import { Event } from 'constants/calendar';
 import { CallbackType } from 'constants/callbacks';
-import ClientCallbackDetailsModal, { ClientCallbackDetailsModalProps } from 'modals/ClientCallbackDetailsModal';
+import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import { Link } from 'components/Link';
 import Calendar from 'components/Calendar';
@@ -21,7 +21,7 @@ type Range = {
 
 const ClientCallbacksCalendar = () => {
   // ===== Modals ===== //
-  const clientCallbackDetailsModal = useModal<ClientCallbackDetailsModalProps>(ClientCallbackDetailsModal);
+  const updateClientCallbackModal = useModal<UpdateClientCallbackModalProps>(UpdateClientCallbackModal);
   const deleteClientCallbackModal = useModal<DeleteClientCallbackModalProps>(DeleteClientCallbackModal);
 
   // ===== Requests ===== //
@@ -66,11 +66,11 @@ const ClientCallbacksCalendar = () => {
   const handleOpenDetailModal = ({ callback }: Event<ClientCallback>) => {
     const { callbackId } = callback;
 
-    clientCallbackDetailsModal.show({
+    updateClientCallbackModal.show({
       callbackId,
       onDelete: () => deleteClientCallbackModal.show({
         callback,
-        onSuccess: clientCallbackDetailsModal.hide,
+        onSuccess: updateClientCallbackModal.hide,
       }),
     });
   };

@@ -14,7 +14,7 @@ import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import { TrashButton } from 'components/Buttons';
 import NoteAction from 'components/Note/NoteAction';
-import LeadCallbackDetailsModal, { LeadCallbackDetailsModalProps } from 'modals/LeadCallbackDetailsModal';
+import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import {
   LeadCallbacksListQueryVariables,
@@ -35,7 +35,7 @@ const LeadCallbacksGrid = (props: Props) => {
 
   // ===== Modals ===== //
   const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);
-  const leadCallbackDetailsModal = useModal<LeadCallbackDetailsModalProps>(LeadCallbackDetailsModal);
+  const updateLeadCallbackModal = useModal<UpdateLeadCallbackModalProps>(UpdateLeadCallbackModal);
 
   // ===== Handlers ===== //
   const handlePageChanged = () => {
@@ -60,11 +60,11 @@ const LeadCallbacksGrid = (props: Props) => {
       <Fragment>
         <div
           className="LeadCallbacksGrid__info-main LeadCallbacksGrid__info-main--pointer"
-          onClick={() => leadCallbackDetailsModal.show({
+          onClick={() => updateLeadCallbackModal.show({
             callbackId,
             onDelete: () => deleteLeadCallbackModal.show({
               callback,
-              onSuccess: leadCallbackDetailsModal.hide,
+              onSuccess: updateLeadCallbackModal.hide,
             }),
           })}
         >
