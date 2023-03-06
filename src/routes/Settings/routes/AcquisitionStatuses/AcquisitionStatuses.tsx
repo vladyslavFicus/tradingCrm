@@ -13,11 +13,12 @@ import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__genera
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { Button, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
+import CreateAcquisitionStatusModal, { CreateAcquisitionStatusModalProps } from 'modals/CreateAcquisitionStatusModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import AcquisitionStatusesFilter from './components/AcquisitionStatusesFilter';
-import NewAcquisitionStatusModal from './modals/NewAcquisitionStatusModal';
 import {
   useAcquisitionStatusesQuery,
   AcquisitionStatusesQuery,
@@ -28,35 +29,23 @@ import './AcquisitionStatuses.scss';
 
 type AcquisitionStatus = ExtractApolloTypeFromArray<AcquisitionStatusesQuery['settings']['acquisitionStatuses']>;
 
-type ConfirmationModalProps = {
-  onSubmit: () => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-};
-
-type NewAcquisitionStatusModalProps = {
-  onSuccess: () => void,
-};
-
 type Props = {
   modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
-    newAcquisitionStatusModal: Modal<NewAcquisitionStatusModalProps>,
+    confirmationModal: Modal,
   },
 };
 
 const AcquisitionStatuses = (props: Props) => {
-  const {
-    modals: {
-      confirmationModal,
-      newAcquisitionStatusModal,
-    },
-  } = props;
+  const { modals: { confirmationModal } } = props;
 
   const { state } = useLocation<State<AcquisitionStatusesQueryVariables['args']>>();
+
   const permission = usePermission();
 
+  // ===== Modals ===== //
+  const createAcquisitionStatusModal = useModal<CreateAcquisitionStatusModalProps>(CreateAcquisitionStatusModal);
+
+  // ===== Requests ===== //
   const [deleteAcquisitionStatus] = useDeleteAcquisitionStatusMutation();
 
   const acquisitionStatusesQuery = useAcquisitionStatusesQuery({
@@ -76,7 +65,7 @@ const AcquisitionStatuses = (props: Props) => {
 
   // ===== Handlers ===== //
   const handleCreateClick = () => {
-    newAcquisitionStatusModal.show({ onSuccess: acquisitionStatusesQuery.refetch });
+    createAcquisitionStatusModal.show({ onSuccess: acquisitionStatusesQuery.refetch });
   };
 
   const handleDeleteStatus = async (acquisitionStatus: AcquisitionStatus) => {
@@ -151,16 +140,15 @@ const AcquisitionStatuses = (props: Props) => {
           <strong>{!acquisitionStatusesQuery.loading && acquisitionStatuses.length}</strong>
           &nbsp;{I18n.t('SETTINGS.ACQUISITION_STATUSES.HEADLINE')}
         </div>
+
         <If condition={permission.allows(permissions.HIERARCHY.CREATE_ACQUISITION_STATUS)}>
-          <div>
-            <Button
-              onClick={handleCreateClick}
-              tertiary
-              small
-            >
-              {I18n.t('SETTINGS.ACQUISITION_STATUSES.ADD_STATUS')}
-            </Button>
-          </div>
+          <Button
+            onClick={handleCreateClick}
+            tertiary
+            small
+          >
+            {I18n.t('SETTINGS.ACQUISITION_STATUSES.ADD_STATUS')}
+          </Button>
         </If>
       </div>
 
@@ -186,6 +174,7 @@ const AcquisitionStatuses = (props: Props) => {
               </div>
             )}
           />
+
           <Column
             header={I18n.t('SETTINGS.ACQUISITION_STATUSES.GRID.ACQUISITION')}
             render={({ type }: AcquisitionStatus) => (
@@ -194,6 +183,7 @@ const AcquisitionStatuses = (props: Props) => {
               </div>
             )}
           />
+
           <If condition={permission.allows(permissions.HIERARCHY.DELETE_ACQUISITION_STATUS)}>
             <Column
               width={120}
@@ -216,6 +206,5 @@ export default compose(
   React.memo,
   withModals({
     confirmationModal: ConfirmActionModal,
-    newAcquisitionStatusModal: NewAcquisitionStatusModal,
   }),
 )(AcquisitionStatuses);

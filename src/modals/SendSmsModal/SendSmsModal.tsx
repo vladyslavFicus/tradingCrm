@@ -8,38 +8,32 @@ import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQuery';
 import { useFullSmsSendMutation } from './graphql/__generated__/FullSmsSendMutation';
-import './SmsSendModal.scss';
+
+type FormValues = {
+  from: string,
+  message: string,
+};
 
 export type Props = {
   uuid: string,
   field: string,
   type: 'PROFILE' | 'LEAD',
   onCloseModal: () => void,
-}
+};
 
-type FormValues = {
-  from: string,
-  message: string,
-}
+const SendSmsModal = (props: Props) => {
+  const { uuid, field, type, onCloseModal } = props;
 
-const SmsSendModal = (props: Props) => {
-  const {
-    uuid,
-    field,
-    type,
-    onCloseModal,
-  } = props;
+  // ===== Requests ===== //
   const [sendSmsMutation] = useFullSmsSendMutation();
+
   const fullSmsNumbersQuery = useFullSmsNumbersQuery();
+
   const numbers = fullSmsNumbersQuery.data?.sms?.fullSms?.numbers || [];
 
-  const handleSubmit = async (_variables: FormValues) => {
-    const variables = {
-      ..._variables,
-      uuid,
-      field,
-      type,
-    };
+  // ===== Handlers ===== //
+  const handleSubmit = async (values: FormValues) => {
+    const variables = { ...values, uuid, field, type };
 
     try {
       await sendSmsMutation({ variables });
@@ -61,11 +55,7 @@ const SmsSendModal = (props: Props) => {
   };
 
   return (
-    <Modal
-      toggle={onCloseModal}
-      isOpen
-      className="SmsSendModal"
-    >
+    <Modal className="SendSmsModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           from: '',
@@ -85,6 +75,7 @@ const SmsSendModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               {I18n.t('SMS.SMS_SEND_MODAL.TITLE')}
             </ModalHeader>
+
             <ModalBody>
               <Field
                 searchable
@@ -99,12 +90,14 @@ const SmsSendModal = (props: Props) => {
                   </option>
                 ))}
               </Field>
+
               <Field
                 name="message"
                 label={I18n.t('SMS.SMS_SEND_MODAL.TEXT_MESSAGE')}
                 component={FormikTextAreaField}
               />
             </ModalBody>
+
             <ModalFooter>
               <Button
                 tertiary
@@ -112,6 +105,7 @@ const SmsSendModal = (props: Props) => {
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
+
               <Button
                 type="submit"
                 primary
@@ -127,4 +121,4 @@ const SmsSendModal = (props: Props) => {
   );
 };
 
-export default React.memo(SmsSendModal);
+export default React.memo(SendSmsModal);

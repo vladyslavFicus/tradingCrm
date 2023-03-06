@@ -15,7 +15,7 @@ import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/CreateAcquisitionStatusMutation';
-import './NewAcquisitionStatusModal.scss';
+import './CreateAcquisitionStatusModal.scss';
 
 const validate = createValidator(
   {
@@ -33,14 +33,13 @@ type FormValues = {
   status: string,
 };
 
-type Props = {
-  isOpen: boolean,
+export type Props = {
   onSuccess: () => void,
   onCloseModal: () => void,
 };
 
-const NewAcquisitionStatusModal = (props: Props) => {
-  const { isOpen, onSuccess, onCloseModal } = props;
+const CreateAcquisitionStatusModal = (props: Props) => {
+  const { onSuccess, onCloseModal } = props;
 
   // ===== Requests ===== //
   const acquisitionStatusesQuery = useAcquisitionStatusesQuery({
@@ -98,11 +97,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
   };
 
   return (
-    <Modal
-      className="NewAcquisitionStatusModal"
-      toggle={onCloseModal}
-      isOpen={isOpen}
-    >
+    <Modal className="CreateAcquisitionStatusModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{
           type: AcquisitionStatusTypes.SALES,
@@ -130,17 +125,17 @@ const NewAcquisitionStatusModal = (props: Props) => {
 
             <Choose>
               <When condition={acquisitionStatusesQuery.loading}>
-                <ShortLoader className="NewAcquisitionStatusModal__loader" />
+                <ShortLoader className="CreateAcquisitionStatusModal__loader" />
               </When>
 
               <Otherwise>
                 <ModalBody>
-                  <div className="NewAcquisitionStatusModal__fields">
+                  <div className="CreateAcquisitionStatusModal__fields">
                     <Field
                       name="type"
                       label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.ACQUISITION')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      className="NewAcquisitionStatusModal__field--large"
+                      className="CreateAcquisitionStatusModal__field--large"
                       component={FormikSelectField}
                       customOnChange={(type: AcquisitionStatusTypes) => handleTypeChange(type, setFieldValue)}
                     >
@@ -156,7 +151,7 @@ const NewAcquisitionStatusModal = (props: Props) => {
                       name="status"
                       label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.STATUS')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      className="NewAcquisitionStatusModal__field--large"
+                      className="CreateAcquisitionStatusModal__field--large"
                       component={FormikSelectField}
                       disabled={
                         values.type === AcquisitionStatusTypes.SALES
@@ -211,4 +206,4 @@ const NewAcquisitionStatusModal = (props: Props) => {
   );
 };
 
-export default React.memo(NewAcquisitionStatusModal);
+export default React.memo(CreateAcquisitionStatusModal);
