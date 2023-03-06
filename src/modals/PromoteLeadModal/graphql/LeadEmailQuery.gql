@@ -1,0 +1,5 @@
+query LeadEmailQuery($uuid: String!) {
+  leadContacts(uuid: $uuid) {
+    email
+  }
+}

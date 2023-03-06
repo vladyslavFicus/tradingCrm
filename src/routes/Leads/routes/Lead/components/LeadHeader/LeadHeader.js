@@ -29,11 +29,11 @@ class LeadHeader extends PureComponent {
 
   handlePromoteLead = async () => {
     const {
-      lead: { uuid },
+      lead,
       modals: { promoteLeadModal },
     } = this.props;
 
-    promoteLeadModal.show({ uuid });
+    promoteLeadModal.show({ lead });
   };
 
   render() {
