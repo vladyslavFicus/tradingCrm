@@ -1,0 +1,19 @@
+mutation AddExistingOperatorMutation(
+  $branchId: String
+  $department: String!
+  $email: String!
+  $role: String!
+  $userType: String!
+) {
+  operator {
+    addExistingOperator(
+      email: $email
+      department: $department
+      role: $role
+      branchId: $branchId
+      userType: $userType
+    ) {
+      uuid
+    }
+  }
+}
