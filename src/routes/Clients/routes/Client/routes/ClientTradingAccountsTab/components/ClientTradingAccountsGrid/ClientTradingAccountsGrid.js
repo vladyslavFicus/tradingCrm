@@ -23,7 +23,7 @@ import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import RenameTradingAccountModal from 'modals/RenameTradingAccountModal';
 import ChangeLeverageModal from 'modals/ChangeLeverageModal';
-import TradingAccountChangePasswordModal from 'modals/TradingAccountChangePasswordModal';
+import UpdateTradingAccountPasswordModal from 'modals/UpdateTradingAccountPasswordModal';
 import {
   ApproveChangingLeverageMutation,
   RejectChangingLeverageMutation,
@@ -34,7 +34,7 @@ import './ClientTradingAccountsGrid.scss';
 class ClientTradingAccountsGrid extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
-      tradingAccountChangePasswordModal: PropTypes.modalType,
+      updateTradingAccountPasswordModal: PropTypes.modalType,
       renameTradingAccountModal: PropTypes.modalType,
       changeLeverageModal: PropTypes.modalType,
     }).isRequired,
@@ -380,7 +380,7 @@ class ClientTradingAccountsGrid extends PureComponent {
     const {
       permission,
       modals: {
-        tradingAccountChangePasswordModal,
+        updateTradingAccountPasswordModal,
         renameTradingAccountModal,
         changeLeverageModal,
       },
@@ -397,7 +397,7 @@ class ClientTradingAccountsGrid extends PureComponent {
     if (platformType !== 'WET') {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
-        onClick: () => tradingAccountChangePasswordModal.show({ accountUUID, profileUUID, login }),
+        onClick: () => updateTradingAccountPasswordModal.show({ accountUUID, profileUUID, login }),
       });
     }
 
@@ -535,7 +535,7 @@ class ClientTradingAccountsGrid extends PureComponent {
 export default compose(
   withPermission,
   withModals({
-    tradingAccountChangePasswordModal: TradingAccountChangePasswordModal,
+    updateTradingAccountPasswordModal: UpdateTradingAccountPasswordModal,
     renameTradingAccountModal: RenameTradingAccountModal,
     changeLeverageModal: ChangeLeverageModal,
   }),
