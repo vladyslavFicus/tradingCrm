@@ -68,16 +68,19 @@ const ClientContactsForm = (props: Props) => {
   const profilePhonesQuery = useProfilePhonesQuery({
     variables: { playerUUID: uuid },
     fetchPolicy: 'network-only',
+    skip: !uuid,
   });
 
   const profileEmailQuery = useProfileEmailQuery({
     variables: { playerUUID: uuid },
     fetchPolicy: 'network-only',
+    skip: !uuid,
   });
 
   const profileAdditionalEmailQuery = useProfileAdditionalEmailQuery({
     variables: { playerUUID: uuid },
     fetchPolicy: 'network-only',
+    skip: !uuid,
   });
 
   const [updateClientContacts] = useUpdateClientContactsMutation();
@@ -96,8 +99,8 @@ const ClientContactsForm = (props: Props) => {
 
     setProfileContacts({
       ...profileContacts,
-      phone: data?.profileContacts?.phone || '',
-      additionalPhone: data?.profileContacts?.additionalPhone || '',
+      phone: data?.profileContacts?.phone || null,
+      additionalPhone: data?.profileContacts?.additionalPhone || null,
     });
     setIsPhonesShown(true);
   };
