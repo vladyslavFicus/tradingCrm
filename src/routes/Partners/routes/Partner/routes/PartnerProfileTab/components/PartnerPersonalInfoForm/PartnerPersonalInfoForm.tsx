@@ -3,12 +3,11 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import { QueryResult } from '@apollo/client';
 import { getBrand } from 'config';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
-import { Authority } from '__generated__/types';
+import { Authority, Partner } from '__generated__/types';
 import permissions from 'config/permissions';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -22,7 +21,6 @@ import {
 import { Button } from 'components/Buttons';
 import { attributeLabels } from './constants';
 import { useUpdatePartnerMutation } from './graphql/__generated__/UpdatePartnerMutation';
-import { PartnerQuery } from './graphql/__generated__/PartnerQuery';
 import './PartnerPersonalInfoForm.scss';
 
 type FormValues = {
@@ -47,31 +45,31 @@ type FormValues = {
     cumulativeDeposit?: boolean,
     minFtdDeposit?: number,
   },
-}
+};
 
 type Props = {
   auth: Authority,
-  partnerData: QueryResult<PartnerQuery>,
-}
+  partner: Partner,
+  onRefetch: () => void,
+};
 
 const PartnerPersonalInfoForm = (props: Props) => {
   const {
-    partnerData,
     auth: { role, department },
+    partner: {
+      uuid,
+      firstName,
+      lastName,
+      email,
+      externalAffiliateId,
+      public: partnerPublic,
+      phone,
+      country,
+      cdeAffiliate,
+      permission: partnerPermission,
+    },
+    onRefetch,
   } = props;
-
-  const {
-    uuid,
-    firstName,
-    lastName,
-    email,
-    externalAffiliateId,
-    public: partnerPublic,
-    phone,
-    country,
-    cdeAffiliate,
-    permission: partnerPermission,
-  } = partnerData.data?.partner || {};
 
   const permission = usePermission();
 
@@ -83,12 +81,12 @@ const PartnerPersonalInfoForm = (props: Props) => {
     try {
       await updatePartnerMutation({
         variables: {
-          uuid: uuid as string,
+          uuid,
           ...values,
         },
       });
 
-      partnerData.refetch();
+      onRefetch();
 
       notify({
         level: LevelType.SUCCESS,

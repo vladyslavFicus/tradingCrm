@@ -11,34 +11,31 @@ import { useBulkChangeAffiliatesStatusMutation } from './graphql/__generated__/b
 import './PartnersBulkActions.scss';
 
 type Props = {
-  onRefetch: () => void,
-  partnersUuids: Array<string>,
+  uuids: Array<string>,
   modals: {
     changeAccountStatusModal: Modal,
   },
-}
+  onRefetch: () => void,
+};
 
 type Reason = {
   reason: string,
-}
+};
 
 const PartnersBulkActions = (props: Props) => {
   const {
-    partnersUuids,
-    onRefetch,
+    uuids,
     modals: { changeAccountStatusModal },
+    onRefetch,
   } = props;
+
+  // ===== Requests ===== //
   const [bulkChangeAffiliatesStatusMutation] = useBulkChangeAffiliatesStatusMutation();
 
-  const submitNewStatuses = async ({ reason }: Reason, status: actionStatus) => {
+  // ===== Handlers ===== //
+  const handleSubmit = async ({ reason }: Reason, status: actionStatus) => {
     try {
-      await bulkChangeAffiliatesStatusMutation({
-        variables: {
-          uuids: partnersUuids,
-          reason,
-          status,
-        },
-      });
+      await bulkChangeAffiliatesStatusMutation({ variables: { uuids, reason, status } });
     } catch (e) {
       // do nothing
     }
@@ -47,10 +44,10 @@ const PartnersBulkActions = (props: Props) => {
     changeAccountStatusModal.hide();
   };
 
-  const updateStatuses = (reasons: Record<string, string>, status: actionStatus) => {
+  const handleShowUpdateStatusModal = (reasons: Record<string, string>, status: actionStatus) => {
     changeAccountStatusModal.show({
       reasons,
-      onSubmit: (values: Reason) => submitNewStatuses(values, status),
+      onSubmit: (values: Reason) => handleSubmit(values, status),
     });
   };
 
@@ -69,7 +66,7 @@ const PartnersBulkActions = (props: Props) => {
               'PartnersBulkActions__button--active': action === actionStatus.ACTIVE,
               'PartnersBulkActions__button--closed': action === actionStatus.CLOSED,
             })}
-            onClick={() => updateStatuses(reasons, action)}
+            onClick={() => handleShowUpdateStatusModal(reasons, action)}
           >
             {I18n.t(label)}
           </Button>

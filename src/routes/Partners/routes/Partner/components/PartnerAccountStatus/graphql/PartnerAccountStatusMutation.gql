@@ -1,0 +1,13 @@
+mutation PartnerAccountStatusMutation(
+  $uuid: String!
+  $reason: String!
+  $status: String!
+) {
+  partner {
+    changePartnerAccountStatus(
+      uuid: $uuid
+      reason: $reason
+      status: $status
+    )
+  }
+}

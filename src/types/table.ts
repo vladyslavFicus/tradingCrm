@@ -5,3 +5,5 @@ export type TableSelection = {
   selected: number,
   reset: () => void,
 }
+
+export type Select = TableSelection | null;

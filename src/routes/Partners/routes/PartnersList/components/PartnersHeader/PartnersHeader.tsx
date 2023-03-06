@@ -11,22 +11,22 @@ import PartnersBulkActions from '../PartnersBulkActions/PartnersBulkActions';
 import './PartnersHeader.scss';
 
 type Props = {
+  uuids: Array<string>,
+  selected: number,
+  totalElements: number,
   modals: {
     createPartnerModal: Modal,
   },
   onRefetch: () => void,
-  partnersUuids: Array<string>,
-  selected: number,
-  totalElements?: number,
-}
+};
 
 const PartnersHeader = (props: Props) => {
   const {
+    uuids,
+    selected,
     totalElements,
     modals: { createPartnerModal },
-    selected,
     onRefetch,
-    partnersUuids,
   } = props;
 
   const permission = usePermission();
@@ -38,18 +38,10 @@ const PartnersHeader = (props: Props) => {
   return (
     <div className="PartnersHeader">
       <div className="PartnersHeader__left">
-        <Choose>
-          <When condition={!!totalElements}>
-            <div className="PartnersHeader__title">
-              <strong>{totalElements} </strong>
-              {I18n.t('COMMON.PARTNERS_FOUND')}
-            </div>
-          </When>
-
-          <Otherwise>
-            <div className="PartnersHeader__title">{I18n.t('PARTNERS.HEADING')}</div>
-          </Otherwise>
-        </Choose>
+        <div className="PartnersHeader__title">
+          <strong>{totalElements} </strong>
+          {I18n.t('COMMON.PARTNERS_FOUND')}
+        </div>
 
         <div className="PartnersHeader__selected">
           <b>{selected}</b> {I18n.t('COMMON.PARTNERS_SELECTED')}
@@ -59,7 +51,7 @@ const PartnersHeader = (props: Props) => {
       <div className="PartnersHeader__right">
         <If condition={permission.allows(permissions.PARTNERS.BULK_CHANGE_AFFILIATES_STATUSES)}>
           <If condition={!!selected}>
-            <PartnersBulkActions onRefetch={onRefetch} partnersUuids={partnersUuids} />
+            <PartnersBulkActions onRefetch={onRefetch} uuids={uuids} />
           </If>
         </If>
 

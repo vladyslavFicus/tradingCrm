@@ -1,0 +1,12 @@
+query PartnerLockStatusQuery(
+  $uuid: String!
+) {
+  loginLock(
+    uuid: $uuid
+  ) {
+    isLocked
+    locks {
+      lockReason
+    }
+  }
+}

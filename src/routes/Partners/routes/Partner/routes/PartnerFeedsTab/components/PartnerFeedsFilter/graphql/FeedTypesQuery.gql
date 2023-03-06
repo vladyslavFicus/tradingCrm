@@ -1,0 +1,7 @@
+query FeedTypesQuery(
+  $uuid: String!
+) {
+  feedTypes (
+    uuid: $uuid
+  )
+}
