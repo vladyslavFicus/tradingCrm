@@ -2,4 +2,9 @@
   &__header {
     background: var(--window-header-background-warning);
   }
+
+  &__content {
+    text-align: center;
+    font-weight: 700;
+  }
 }
