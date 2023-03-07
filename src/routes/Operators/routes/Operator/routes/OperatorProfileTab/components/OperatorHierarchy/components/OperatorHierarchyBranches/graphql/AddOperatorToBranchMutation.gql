@@ -1,0 +1,11 @@
+mutation AddOperatorToBranchMutation(
+  $branchId: String!
+  $operatorId: String!
+) {
+  operator {
+    addOperatorToBranch (
+      branchId: $branchId
+      operatorId: $operatorId
+    )
+  }
+}

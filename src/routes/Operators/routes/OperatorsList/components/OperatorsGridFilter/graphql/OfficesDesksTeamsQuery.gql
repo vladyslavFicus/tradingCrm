@@ -1,0 +1,22 @@
+query OfficesDesksTeamsQuery {
+  userBranches {
+    OFFICE {
+      name
+      uuid
+    }
+    DESK {
+      name
+      uuid
+      parentBranch {
+        uuid
+      }
+    }
+    TEAM {
+      name
+      uuid
+      parentBranch {
+        uuid
+      }
+    }
+  }
+}

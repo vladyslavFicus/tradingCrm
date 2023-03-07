@@ -1,0 +1,28 @@
+query OperatorQuery(
+  $uuid: String!
+) {
+  operator(uuid: $uuid) {
+    _id
+    country
+    email
+    fullName
+    firstName
+    lastName
+    operatorStatus
+    phoneNumber
+    clickToCall
+    registeredBy
+    registrationDate
+    statusChangeAuthor
+    statusChangeDate
+    statusReason
+    userType
+    uuid
+    authorities {
+      brand
+      department
+      id
+      role
+    }
+  }
+}

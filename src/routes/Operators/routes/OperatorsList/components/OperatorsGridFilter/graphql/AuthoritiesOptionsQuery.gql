@@ -1,0 +1,3 @@
+query AuthoritiesOptionsQuery {
+  authoritiesOptions
+}

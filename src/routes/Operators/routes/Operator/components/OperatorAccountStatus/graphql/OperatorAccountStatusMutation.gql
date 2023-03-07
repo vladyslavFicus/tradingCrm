@@ -1,0 +1,13 @@
+mutation OperatorAccountStatusMutation(
+  $uuid: String!
+  $reason: String!
+  $status: String!
+) {
+  operator {
+    changeStatus(
+      uuid: $uuid
+      reason: $reason
+      status: $status
+    )
+  }
+}

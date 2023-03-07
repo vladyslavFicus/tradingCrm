@@ -1,0 +1,13 @@
+mutation AddAuthorityMutation(
+  $uuid: String!
+  $department: String!
+  $role: String!
+) {
+  auth {
+    addAuthority(
+      uuid: $uuid
+      department: $department
+      role: $role
+    )
+  }
+}
