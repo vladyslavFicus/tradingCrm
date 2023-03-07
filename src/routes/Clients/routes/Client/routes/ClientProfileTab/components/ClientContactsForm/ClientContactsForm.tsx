@@ -14,13 +14,13 @@ import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { Profile } from '__generated__/types';
-import { useProfilePhonesQuery } from './graphql/__generated__/ProfilePhonesQuery';
+import { useProfilePhonesQueryLazyQuery } from './graphql/__generated__/ProfilePhonesQuery';
 import { useUpdateClientContactsMutation } from './graphql/__generated__/UpdateClientContactsMutation';
 import { useUpdateClientEmailMutation } from './graphql/__generated__/UpdateClientEmailMutation';
 import { useVerifyEmailMutation } from './graphql/__generated__/VerifyEmailMutation';
 import { useVerifyPhoneMutation } from './graphql/__generated__/VerifyPhoneMutation';
-import { useProfileEmailQuery } from './graphql/__generated__/ProfileEmailQuery';
-import { useProfileAdditionalEmailQuery } from './graphql/__generated__/ProfileAdditionalEmailQuery';
+import { useProfileEmailQueryLazyQuery } from './graphql/__generated__/ProfileEmailQuery';
+import { useProfileAdditionalEmailQueryLazyQuery } from './graphql/__generated__/ProfileAdditionalEmailQuery';
 import './ClientContactsForm.scss';
 
 type FormValues = {
@@ -65,23 +65,9 @@ const ClientContactsForm = (props: Props) => {
     additionalPhone: '',
   });
 
-  const profilePhonesQuery = useProfilePhonesQuery({
-    variables: { playerUUID: uuid },
-    fetchPolicy: 'network-only',
-    skip: !uuid,
-  });
-
-  const profileEmailQuery = useProfileEmailQuery({
-    variables: { playerUUID: uuid },
-    fetchPolicy: 'network-only',
-    skip: !uuid,
-  });
-
-  const profileAdditionalEmailQuery = useProfileAdditionalEmailQuery({
-    variables: { playerUUID: uuid },
-    fetchPolicy: 'network-only',
-    skip: !uuid,
-  });
+  const [profilePhonesQuery] = useProfilePhonesQueryLazyQuery();
+  const [profileEmailQuery] = useProfileEmailQueryLazyQuery();
+  const [profileAdditionalEmailQuery] = useProfileAdditionalEmailQueryLazyQuery();
 
   const [updateClientContacts] = useUpdateClientContactsMutation();
   const [updateClientEmail] = useUpdateClientEmailMutation();
@@ -90,46 +76,58 @@ const ClientContactsForm = (props: Props) => {
 
   const permission = usePermission();
 
-  const getProfilePhones = () => {
-    const { data } = profilePhonesQuery;
+  const getProfilePhones = async () => {
+    try {
+      const { data } = await profilePhonesQuery({ variables: { playerUUID: uuid } });
 
-    Trackify.click('PROFILE_PHONES_VIEWED', {
-      eventLabel: uuid,
-    });
+      Trackify.click('PROFILE_PHONES_VIEWED', {
+        eventLabel: uuid,
+      });
 
-    setProfileContacts({
-      ...profileContacts,
-      phone: data?.profileContacts?.phone || null,
-      additionalPhone: data?.profileContacts?.additionalPhone || null,
-    });
+      setProfileContacts({
+        ...profileContacts,
+        phone: data?.profileContacts?.phone || null,
+        additionalPhone: data?.profileContacts?.additionalPhone || null,
+      });
+    } catch {
+      // do nothing...
+    }
     setIsPhonesShown(true);
   };
 
-  const getProfileEmail = () => {
-    const { data } = profileEmailQuery;
+  const getProfileEmail = async () => {
+    try {
+      const { data } = await profileEmailQuery({ variables: { playerUUID: uuid } });
 
-    Trackify.click('PROFILE_EMAILS_VIEWED', {
-      eventLabel: uuid,
-    });
+      Trackify.click('PROFILE_EMAILS_VIEWED', {
+        eventLabel: uuid,
+      });
 
-    setProfileContacts({
-      ...profileContacts,
-      email: data?.profileContacts?.email || '',
-    });
+      setProfileContacts({
+        ...profileContacts,
+        email: data?.profileContacts?.email || '',
+      });
+    } catch {
+      // do nothing...
+    }
     setIsEmailShown(true);
   };
 
-  const getProfileAdditionalEmail = () => {
-    const { data } = profileAdditionalEmailQuery;
+  const getProfileAdditionalEmail = async () => {
+    try {
+      const { data } = await profileAdditionalEmailQuery({ variables: { playerUUID: uuid } });
 
-    Trackify.click('PROFILE_EMAILS_VIEWED', {
-      eventLabel: uuid,
-    });
+      Trackify.click('PROFILE_EMAILS_VIEWED', {
+        eventLabel: uuid,
+      });
 
-    setProfileContacts({
-      ...profileContacts,
-      additionalEmail: data?.profileContacts?.additionalEmail || '',
-    });
+      setProfileContacts({
+        ...profileContacts,
+        additionalEmail: data?.profileContacts?.additionalEmail || '',
+      });
+    } catch {
+    // do nothing...
+    }
     setIsAdditionalEmailShown(true);
   };
 
