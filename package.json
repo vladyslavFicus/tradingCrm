@@ -124,6 +124,7 @@
     "@types/react-infinite-scroller": "^1.2.3",
     "@types/react-portal-tooltip": "^2.4.2",
     "@types/react-router-dom": "^5.1.9",
+    "@types/react-select": "^5.0.1",
     "@types/recharts": "^1.8.24",
     "@types/uuid": "^8.3.4",
     "@types/validatorjs": "^3.15.0",
