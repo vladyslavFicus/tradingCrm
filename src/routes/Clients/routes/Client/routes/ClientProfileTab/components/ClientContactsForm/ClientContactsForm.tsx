@@ -89,10 +89,11 @@ const ClientContactsForm = (props: Props) => {
         phone: data?.profileContacts?.phone || null,
         additionalPhone: data?.profileContacts?.additionalPhone || null,
       });
+
+      setIsPhonesShown(true);
     } catch {
       // do nothing...
     }
-    setIsPhonesShown(true);
   };
 
   const getProfileEmail = async () => {
@@ -107,10 +108,11 @@ const ClientContactsForm = (props: Props) => {
         ...profileContacts,
         email: data?.profileContacts?.email || '',
       });
+
+      setIsEmailShown(true);
     } catch {
       // do nothing...
     }
-    setIsEmailShown(true);
   };
 
   const getProfileAdditionalEmail = async () => {
@@ -125,10 +127,11 @@ const ClientContactsForm = (props: Props) => {
         ...profileContacts,
         additionalEmail: data?.profileContacts?.additionalEmail || '',
       });
+
+      setIsAdditionalEmailShown(true);
     } catch {
     // do nothing...
     }
-    setIsAdditionalEmailShown(true);
   };
 
   const handleSubmitContacts = async (values: FormValues) => {
