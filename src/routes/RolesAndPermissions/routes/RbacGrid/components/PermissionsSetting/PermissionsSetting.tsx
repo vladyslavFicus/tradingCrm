@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import {
@@ -41,19 +41,7 @@ const PermissionsSetting = (props: Props) => {
 
   const [sectionsList, setSectionsList] = useState<RbackItem[]>([]);
 
-  // ===== Requests ===== //
-  const { data, loading, refetch } = useActionsQuery({ variables: { role, department } });
-
-  const authorityActions = data?.authorityActions || [];
-
-  const defaultAuthorityQuery = useDefaultAuthorityQuery({ variables: { role, department } });
-
-  const isDefaultAuthority = defaultAuthorityQuery.data?.isDefaultAuthority;
-
-  const [updateAuthorityActionsMutation] = useUpdateAuthorityActionsMutation();
-  const [resetPermissionMutation] = useResetPermissionMutation();
-
-  const getSectionsList = useMemo(() => rbac.map((sectionItem) => {
+  const getSectionsList = (authorityActions: Array<string>) => rbac.map((sectionItem) => {
     const section = { ...sectionItem };
     const [actionKey] = Object.keys(section?.actions || {});
 
@@ -72,13 +60,22 @@ const PermissionsSetting = (props: Props) => {
     });
 
     return { ...section, permissions: sectionPermissions };
-  }), [data]);
+  });
+
+  // ===== Requests ===== //
+  const { data, loading, refetch } = useActionsQuery({
+    variables: { role, department },
+    onCompleted: ({ authorityActions }) => authorityActions && setSectionsList(getSectionsList(authorityActions)),
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const defaultAuthorityQuery = useDefaultAuthorityQuery({ variables: { role, department } });
+  const isDefaultAuthority = defaultAuthorityQuery.data?.isDefaultAuthority;
+
+  const [updateAuthorityActionsMutation] = useUpdateAuthorityActionsMutation();
+  const [resetPermissionMutation] = useResetPermissionMutation();
 
   // ===== Handlers ===== //
-  const handleSetSectionsList = () => {
-    setSectionsList(getSectionsList);
-  };
-
   const handleUpdatePermissions = async (actions: Array<string>, isPermitted: boolean) => {
     try {
       await updateAuthorityActionsMutation({ variables: { department, role, actions, isPermitted } });
@@ -188,8 +185,6 @@ const PermissionsSetting = (props: Props) => {
 
       await refetch();
 
-      handleSetSectionsList();
-
       confirmationModal.hide();
     } catch {
       notify({
@@ -208,13 +203,6 @@ const PermissionsSetting = (props: Props) => {
       submitButtonLabel: I18n.t('COMMON.RESET'),
     });
   };
-
-  // ===== Effects ===== //
-  useEffect(() => {
-    if (!loading) {
-      handleSetSectionsList();
-    }
-  }, [loading]);
 
   // ===== Renders ===== //
   const renderSwitch = (section: RbackItem, isSection: boolean, action?: Action, isDisabled = false) => {
@@ -302,7 +290,8 @@ const PermissionsSetting = (props: Props) => {
       </div>
 
       <Choose>
-        <When condition={loading}>
+        {/* Prevent loading show on refetch query */}
+        <When condition={loading && !data?.authorityActions}>
           <ShortLoader />
         </When>
 
