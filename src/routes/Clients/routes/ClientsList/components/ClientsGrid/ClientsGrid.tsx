@@ -518,6 +518,7 @@ const ClientsGrid = (props: Props) => {
 
         <Column
           name="affiliateReferrer"
+          sortBy="affiliate.fullName"
           header={I18n.t('CLIENTS.LIST.GRID_HEADER.AFFILIATE_REFERRER')}
           render={renderAffiliateOrReferrerColumn}
         />
