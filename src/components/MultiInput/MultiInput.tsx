@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { difference } from 'lodash';
 import CreatableSelect from 'react-select/lib/Creatable';
 import { createTagOption, selectStyles, components } from './constants';
 
@@ -26,6 +27,15 @@ const MultiInput = (props: Props) => {
 
   const [inputValue, setInputValue] = useState<string>('');
   const [tags, setTags] = useState<Array<Tag>>(initialValues);
+
+  useEffect(() => {
+    const isDifferent = difference(initialValues, tags).length;
+
+    // Set initial tags
+    if (isDifferent) {
+      setTags(initialValues);
+    }
+  }, [initialValues]);
 
   const styles = useMemo(() => selectStyles(isError), [isError, selectStyles]);
 
