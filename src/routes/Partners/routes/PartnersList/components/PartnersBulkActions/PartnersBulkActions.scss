@@ -24,7 +24,7 @@
       margin-left: 10px;
     }
 
-    &--active {
+    &--success {
       color: var(--state-colors-success);
     }
 
@@ -32,7 +32,7 @@
       color: var(--text-secondary);
     }
 
-    &--closed {
+    &--danger {
       color: var(--state-colors-danger);
     }
   }

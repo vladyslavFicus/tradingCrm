@@ -1124,6 +1124,16 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      // Partner bulk change restrict countries
+      {
+        id: 'bulkChangeRestrictCountries',
+        actions: {
+          edit: {
+            action: 'affiliate.bulkModifyForbiddenCountries',
+            state: false,
+          },
+        },
+      },
       // Partner personal details
       {
         id: 'personalDetails',

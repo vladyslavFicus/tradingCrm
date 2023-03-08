@@ -49,7 +49,10 @@ const PartnersHeader = (props: Props) => {
       </div>
 
       <div className="PartnersHeader__right">
-        <If condition={permission.allows(permissions.PARTNERS.BULK_CHANGE_AFFILIATES_STATUSES)}>
+        <If condition={permission.allowsAny([
+          permissions.PARTNERS.BULK_CHANGE_AFFILIATES_STATUSES, permissions.PARTNERS.BULK_CHANGE_AFFILIATES_COUNTRIES,
+        ])}
+        >
           <If condition={!!selected}>
             <PartnersBulkActions onRefetch={onRefetch} uuids={uuids} />
           </If>

@@ -2261,6 +2261,8 @@
   },
   "PARTNERS": {
     "BULK_ACTIONS": "Bulk actions",
+    "ALLOW_COUNTRIES": "Allow countries",
+    "RESTRICT_COUNTRIES": "Restrict countries",
     "HEADING": "Partners",
     "NEW_PARTNER": "New partner",
     "CREATE_PARTNER_BUTTON": "+ New partner",
@@ -2736,7 +2738,11 @@
     },
     "CHANGE_ACCOUNT_STATUS_MODAL": {
       "TITLE": "Change account status",
-      "SUBMIT_BUTTON": "Change status"
+      "SUBMIT_BUTTON": "Change status",
+      "NOTIFICATIONS": {
+        "SUCCESS": "Status was successfully updated",
+        "ERROR": "Status update failed"
+      }
     },
     "ADD_OPERATOR_TO_BRANCH": {
       "TITLE": "Add operator",
@@ -2770,6 +2776,18 @@
         "EXISTING_EMAIL": "Email already exists in the system",
         "EXISTING_PHONE": "Phone already exists in the system",
         "NON_EXISTING_AFFILIATE": "Affiliate does not exist in the system"
+      }
+    },
+    "RESTRICTED_COUNTRIES": {
+      "HEADER_ADD": "Add restricted countries",
+      "HEADER_DELETE": "Delete restricted countries",
+      "ADD_BUTTON": "Add",
+      "LABEL_FIELD": "Restricted countries",
+      "NOTIFICATIONS": {
+        "SUCCESS_ADD": "Restricted countries was successfully added",
+        "SUCCESS_DELETE": "Restricted countries was successfully deleted",
+        "ERROR_ADD": "Restricted countries add failed",
+        "ERROR_DELETE": "Restricted countries delete failed"
       }
     }
   },
@@ -5938,6 +5956,7 @@
           "create": "Create new partner",
           "changeStatus": "Partner account status",
           "changeStatuses": "Partners bulk change status",
+          "bulkChangeRestrictCountries": "Partners bulk change restricted countries",
           "personalDetails": "Partner personal details",
           "changePassword": "Change password for partner",
           "feedTab": "Show feed tab",

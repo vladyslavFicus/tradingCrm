@@ -27,6 +27,7 @@ const permissions: Permissions = {
     UPDATE_PROFILE: 'affiliate.updateAffiliate',
     UPDATE_STATUS: 'affiliate.changeAffiliateStatus',
     BULK_CHANGE_AFFILIATES_STATUSES: 'affiliate.bulkChangeAffiliatesStatuses',
+    BULK_CHANGE_AFFILIATES_COUNTRIES: 'affiliate.bulkModifyForbiddenCountries',
     CHANGE_PASSWORD: 'auth2.operator.changePassword',
   },
   LEADS: {

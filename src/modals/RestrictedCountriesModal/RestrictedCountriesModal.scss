@@ -1,0 +1,7 @@
+.RestrictedCountriesModal {
+  width: 600px;
+
+  &__button + &__button {
+    margin-left: 15px;
+  }
+}
