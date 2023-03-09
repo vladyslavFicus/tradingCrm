@@ -24,7 +24,7 @@ import {
 import './PartnersBulkActions.scss';
 
 type Props = {
-  partnersUuids: Array<string>,
+  uuids: Array<string>,
   modals: {
     changeAccountStatusModal: Modal,
   },
@@ -41,7 +41,7 @@ type Reason = {
 
 const PartnersBulkActions = (props: Props) => {
   const {
-    partnersUuids,
+    uuids,
     modals: { changeAccountStatusModal },
     onRefetch,
   } = props;
@@ -61,7 +61,7 @@ const PartnersBulkActions = (props: Props) => {
     try {
       await bulkChangeAffiliatesStatusMutation({
         variables: {
-          uuids: partnersUuids,
+          uuids,
           reason,
           status,
         },
@@ -96,7 +96,7 @@ const PartnersBulkActions = (props: Props) => {
       await bulkPartnersAddForbiddenCountriesMutation({
         variables: {
           args: {
-            uuids: partnersUuids,
+            uuids,
             forbiddenCountries,
           },
         },
@@ -124,7 +124,7 @@ const PartnersBulkActions = (props: Props) => {
       await bulkPartnersDeleteForbiddenCountriesMutation({
         variables: {
           args: {
-            uuids: partnersUuids,
+            uuids,
             forbiddenCountries,
           },
         },
