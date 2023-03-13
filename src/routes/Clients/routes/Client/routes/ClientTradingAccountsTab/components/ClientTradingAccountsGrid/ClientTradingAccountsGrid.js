@@ -22,7 +22,7 @@ import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
 import RenameTradingAccountModal from 'modals/RenameTradingAccountModal';
-import ChangeLeverageModal from 'modals/ChangeLeverageModal';
+import UpdateLeverageModal from 'modals/UpdateLeverageModal';
 import UpdateTradingAccountPasswordModal from 'modals/UpdateTradingAccountPasswordModal';
 import {
   ApproveChangingLeverageMutation,
@@ -537,7 +537,7 @@ export default compose(
   withModals({
     updateTradingAccountPasswordModal: UpdateTradingAccountPasswordModal,
     renameTradingAccountModal: RenameTradingAccountModal,
-    changeLeverageModal: ChangeLeverageModal,
+    changeLeverageModal: UpdateLeverageModal,
   }),
   withRequests({
     approveChangingLeverage: ApproveChangingLeverageMutation,
