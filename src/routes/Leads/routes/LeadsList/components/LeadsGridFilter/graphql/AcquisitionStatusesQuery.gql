@@ -1,0 +1,7 @@
+query AcquisitionStatusesQuery($brandId: String!) {
+  settings {
+    salesStatuses: acquisitionStatuses(brandId: $brandId, args: { type: SALES }) {
+      status
+    }
+  }
+}

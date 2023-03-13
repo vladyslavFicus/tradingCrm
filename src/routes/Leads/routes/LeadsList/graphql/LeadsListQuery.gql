@@ -1,0 +1,64 @@
+query LeadsListQuery(
+  $args: LeadSearch__Input
+) {
+  leads (
+    args: $args
+  ) {
+    page
+    size
+    last
+    totalElements
+    number
+    content {
+      _id
+      uuid
+      brandId
+      name
+      surname
+      phone
+      mobile
+      status
+      email
+      country
+      convertedByOperatorUuid
+      convertedToClientUuid
+      source
+      birthDate
+      affiliate
+      gender
+      city
+      language
+      registrationDate
+      statusChangedDate
+      migrationId
+      lastNote {
+        changedAt
+        content
+        operator {
+          fullName
+        }
+      }
+      acquisition {
+        salesStatus
+        salesOperator {
+          fullName
+          uuid
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+      }
+      lastCall {
+        date
+        callSystem
+      }
+    }
+  }
+}
