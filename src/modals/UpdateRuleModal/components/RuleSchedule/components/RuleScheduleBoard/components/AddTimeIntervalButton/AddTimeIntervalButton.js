@@ -21,6 +21,7 @@ class AddTimeIntervalButton extends PureComponent {
     return (
       <Button
         className={classNames('AddTimeIntervalButton', className)}
+        contentClassName="AddTimeIntervalButton__content"
         {...props}
       >
         <span>{I18n.t('RULE_MODAL.SCHEDULE.ADD_TIME_INTERVAL_BUTTON')}</span>

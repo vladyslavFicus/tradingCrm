@@ -7,6 +7,7 @@ interface Props extends React.HTMLProps<HTMLButtonElement> {
   children: React.ReactNode,
   autoFocus?: boolean,
   className?: string,
+  contentClassName?: string,
   type?: 'button' | 'submit',
   submitting?: boolean,
   disabled?: boolean,
@@ -24,6 +25,7 @@ const Button = (props: Props) => {
   const {
     children,
     className,
+    contentClassName,
     submitting,
     disabled,
     tertiary,
@@ -89,7 +91,7 @@ const Button = (props: Props) => {
       </If>
 
       {/* Make content invisible while submitting === true */}
-      <div className={classNames('Button__content', { 'Button__content--submitting': submitting })}>
+      <div className={classNames('Button__content', contentClassName, { 'Button__content--submitting': submitting })}>
         {children}
       </div>
     </button>

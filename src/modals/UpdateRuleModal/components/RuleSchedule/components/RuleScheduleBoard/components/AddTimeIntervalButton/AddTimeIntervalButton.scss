@@ -12,7 +12,14 @@
     cursor: default;
   }
 
+  &__content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__icon {
+    margin-top: 3px;
     display: block;
     line-height: 1;
     fill: var(--button-icon-button-default);
