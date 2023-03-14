@@ -1,0 +1,11 @@
+mutation UpdateTradingAccountMutation(
+  $name: String!
+  $accountUUID: String!
+) {
+  tradingAccount {
+    rename(
+      accountUUID: $accountUUID
+      name: $name
+    )
+  }
+}

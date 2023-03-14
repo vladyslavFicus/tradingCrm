@@ -16,7 +16,7 @@ type FormValue = {
  leverage: string | number,
 };
 
-type Props = {
+export type Props = {
   login: string | number,
   accountUUID: string,
   accountType?: string,

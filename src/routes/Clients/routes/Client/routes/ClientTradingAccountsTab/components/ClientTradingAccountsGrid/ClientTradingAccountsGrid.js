@@ -21,7 +21,7 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
-import RenameTradingAccountModal from 'modals/RenameTradingAccountModal';
+import UpdateTradingAccountModal from 'modals/UpdateTradingAccountModal';
 import UpdateLeverageModal from 'modals/UpdateLeverageModal';
 import UpdateTradingAccountPasswordModal from 'modals/UpdateTradingAccountPasswordModal';
 import {
@@ -35,7 +35,7 @@ class ClientTradingAccountsGrid extends PureComponent {
   static propTypes = {
     modals: PropTypes.shape({
       updateTradingAccountPasswordModal: PropTypes.modalType,
-      renameTradingAccountModal: PropTypes.modalType,
+      updateTradingAccountModal: PropTypes.modalType,
       changeLeverageModal: PropTypes.modalType,
     }).isRequired,
     permission: PropTypes.permission.isRequired,
@@ -381,7 +381,7 @@ class ClientTradingAccountsGrid extends PureComponent {
       permission,
       modals: {
         updateTradingAccountPasswordModal,
-        renameTradingAccountModal,
+        updateTradingAccountModal,
         changeLeverageModal,
       },
       profileUUID,
@@ -406,9 +406,9 @@ class ClientTradingAccountsGrid extends PureComponent {
     if (canRenameAccount) {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.RENAME'),
-        onClick: () => renameTradingAccountModal.show({
+        onClick: () => updateTradingAccountModal.show({
           accountUUID,
-          profileUUID,
+          name,
           onSuccess: refetch,
         }),
       });
@@ -536,7 +536,7 @@ export default compose(
   withPermission,
   withModals({
     updateTradingAccountPasswordModal: UpdateTradingAccountPasswordModal,
-    renameTradingAccountModal: RenameTradingAccountModal,
+    updateTradingAccountModal: UpdateTradingAccountModal,
     changeLeverageModal: UpdateLeverageModal,
   }),
   withRequests({
