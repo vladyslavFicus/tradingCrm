@@ -25,7 +25,7 @@ class ClientFeedsTab extends PureComponent {
 
   refetchFeeds = () => this.props.feedsQuery.refetch();
 
-  handlePageChange = () => {
+  handleLoadMore = () => {
     const {
       feedsQuery: {
         data,
@@ -54,7 +54,7 @@ class ClientFeedsTab extends PureComponent {
       },
     } = this.props;
 
-    const { content, last, number, totalPages } = data?.feeds || {};
+    const { content = [], last = true } = data?.feeds || {};
 
     return (
       <div className="ClientFeedsTab">
@@ -62,14 +62,11 @@ class ClientFeedsTab extends PureComponent {
 
         <div className="ClientFeedsTab__grid">
           <ListView
+            content={content}
             loading={loading}
-            dataSource={content || []}
-            activePage={number + 1}
             last={last}
-            totalPages={totalPages}
-            render={(feed, key) => <FeedItem key={key} data={feed} />}
-            onPageChange={this.handlePageChange}
-            showNoResults={!loading && !content?.length}
+            render={item => <FeedItem data={item} />}
+            onLoadMore={this.handleLoadMore}
           />
         </div>
       </div>

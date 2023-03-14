@@ -4,7 +4,6 @@ import { cloneDeep, set } from 'lodash';
 import { State } from 'types';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
-import { Feed } from '__generated__/types';
 import DealingOperatorFeedTabFilter from './components/DealingOperatorFeedFilter';
 import { useFeedsQuery, FeedsQueryVariables } from './graphql/__generated__/FeedsQuery';
 import './DealingOperatorFeedTab.scss';
@@ -22,31 +21,29 @@ const DealingOperatorFeedTab = () => {
     },
   });
 
-  const { content = [], last, number = 0, totalElements } = feedsQuery.data?.feeds || {};
+  const { data, loading, variables = {}, refetch, fetchMore } = feedsQuery;
+  const { content = [], last = true, number = 0 } = data?.feeds || {};
 
-  const handlePageChange = () => {
-    const { data, variables, fetchMore } = feedsQuery;
-    const page = data?.feeds.page || 0;
-
-    fetchMore({
-      variables: set(cloneDeep(variables as FeedsQueryVariables), 'page', page + 1),
-    });
+  // ===== Handlers ===== //
+  const handleLoadMore = () => {
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables), 'page', number + 1),
+      });
+    }
   };
 
   return (
     <div className="DealingOperatorFeedTab">
-      <DealingOperatorFeedTabFilter handleRefetch={feedsQuery.refetch} />
+      <DealingOperatorFeedTabFilter handleRefetch={refetch} />
 
       <div className="DealingOperatorFeedTab__grid">
         <ListView
-          loading={feedsQuery.loading}
-          dataSource={content || []}
-          activePage={number + 1}
+          content={content}
+          loading={loading}
           last={last}
-          totalPages={totalElements}
-          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
-          onPageChange={handlePageChange}
-          showNoResults={!feedsQuery.loading && !content?.length}
+          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          onLoadMore={handleLoadMore}
         />
       </div>
     </div>

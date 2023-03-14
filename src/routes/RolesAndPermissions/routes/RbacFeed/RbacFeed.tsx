@@ -4,7 +4,6 @@ import { cloneDeep, set } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { getBrand } from 'config';
 import { State } from 'types';
-import { Feed } from '__generated__/types';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
@@ -17,7 +16,7 @@ const RbacFeed = () => {
   const { state } = useLocation<State<FeedsQueryVariables>>();
 
   // ===== Requests ===== //
-  const { data, loading, variables, refetch, fetchMore } = useFeedsQuery({
+  const feedsQuery = useFeedsQuery({
     variables: {
       ...state?.filters as FeedsQueryVariables,
       targetUUID: getBrand().id,
@@ -26,13 +25,16 @@ const RbacFeed = () => {
     },
   });
 
-  const { content = [], last, number = 0, totalElements } = data?.feeds || {};
+  const { data, loading, variables = {}, refetch, fetchMore } = feedsQuery;
+  const { content = [], last = true, number = 0 } = data?.feeds || {};
 
   // ===== Handlers ===== //
-  const handlePageChanged = () => {
-    fetchMore({
-      variables: set(cloneDeep(variables as FeedsQueryVariables), 'page', number + 1),
-    });
+  const handleLoadMore = () => {
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables), 'page', number + 1),
+      });
+    }
   };
 
   return (
@@ -47,13 +49,11 @@ const RbacFeed = () => {
 
       <div className="RbacFeed__grid">
         <ListView
+          content={content}
           loading={loading}
-          dataSource={content || []}
           last={last}
-          totalPages={totalElements}
-          onPageChange={handlePageChanged}
-          showNoResults={!loading && !content?.length}
-          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
+          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          onLoadMore={handleLoadMore}
         />
       </div>
     </div>

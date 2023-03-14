@@ -5,7 +5,6 @@ import { State } from 'types';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
-import { Feed } from '__generated__/types';
 import AccountProfileFeedGridFilter from './components/AccountProfileFeedGridFilter';
 import { useFeedsQuery, FeedsQueryVariables } from './graphql/__generated__/FeedsQuery';
 import './AccountProfileFeedGrid.scss';
@@ -23,24 +22,25 @@ const AccountProfileFeedGrid = () => {
     },
   });
 
-  const { content = [], last, number = 0, totalElements } = feedsQuery.data?.feeds || {};
+  const { data, loading, variables = {}, refetch, fetchMore } = feedsQuery;
+  const { content = [], last = true, number = 0 } = data?.feeds || {};
 
   useEffect(
     () => {
-      EventEmitter.on(CLIENT_RELOAD, feedsQuery.refetch);
+      EventEmitter.on(CLIENT_RELOAD, refetch);
       return () => {
-        EventEmitter.off(CLIENT_RELOAD, feedsQuery.refetch);
+        EventEmitter.off(CLIENT_RELOAD, refetch);
       };
     },
   );
 
-  const handlePageChange = () => {
-    const { data, variables, fetchMore } = feedsQuery;
-    const page = data?.feeds.page || 0;
-
-    fetchMore({
-      variables: set(cloneDeep(variables as FeedsQueryVariables), 'page', page + 1),
-    });
+  // ===== Handlers ===== //
+  const handleLoadMore = () => {
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables), 'page', number + 1),
+      });
+    }
   };
 
   return (
@@ -49,14 +49,11 @@ const AccountProfileFeedGrid = () => {
 
       <div className="AccountProfileFeedGrid__grid">
         <ListView
-          loading={feedsQuery.loading}
-          dataSource={content || []}
-          activePage={number + 1}
+          content={content}
+          loading={loading}
           last={last}
-          totalPages={totalElements}
-          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
-          onPageChange={handlePageChange}
-          showNoResults={!feedsQuery.loading && !content?.length}
+          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          onLoadMore={handleLoadMore}
         />
       </div>
     </div>

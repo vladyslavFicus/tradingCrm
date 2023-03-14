@@ -4,7 +4,6 @@ import I18n from 'i18n-js';
 import { cloneDeep, set } from 'lodash';
 import { getBrand } from 'config';
 import { State } from 'types';
-import { Feed } from '__generated__/types';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
@@ -27,13 +26,15 @@ const IpWhitelistFeed = () => {
   });
 
   const { data, loading, variables = {}, refetch, fetchMore } = feedsQuery;
-  const { content = [], last = true, number = 0, totalElements = 0 } = data?.feeds || {};
+  const { content = [], last = true, number = 0 } = data?.feeds || {};
 
   // ===== Handlers ===== //
-  const handlePageChanged = () => {
-    fetchMore({
-      variables: set(cloneDeep(variables), 'page', number + 1),
-    });
+  const handleLoadMore = () => {
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables), 'page', number + 1),
+      });
+    }
   };
 
   return (
@@ -50,13 +51,11 @@ const IpWhitelistFeed = () => {
 
       <div className="IpWhitelistFeed__grid">
         <ListView
+          content={content}
           loading={loading}
-          dataSource={content}
           last={last}
-          totalPages={totalElements}
-          onPageChange={handlePageChanged}
-          showNoResults={!loading && !content?.length}
-          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
+          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          onLoadMore={handleLoadMore}
         />
       </div>
     </div>

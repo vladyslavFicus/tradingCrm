@@ -12,7 +12,7 @@ class LeadFeedsList extends PureComponent {
     }).isRequired,
   };
 
-  handlePageChanged = () => {
+  handleLoadMore = () => {
     const {
       feedsQuery: {
         data,
@@ -30,20 +30,23 @@ class LeadFeedsList extends PureComponent {
   };
 
   render() {
-    const { feedsQuery } = this.props;
+    const {
+      feedsQuery: {
+        data,
+        loading,
+      },
+    } = this.props;
 
-    const { content, totalPages, last } = get(feedsQuery, 'data.feeds') || {};
+    const { content = [], last = true } = data?.feeds || {};
 
     return (
       <div className="LeadFeedsList">
         <ListView
-          loading={feedsQuery.loading}
-          dataSource={content || []}
-          onPageChange={this.handlePageChanged}
-          render={(feed, key) => <FeedItem key={key} data={feed} />}
-          totalPages={totalPages}
+          content={content}
+          loading={loading}
           last={last}
-          showNoResults={!feedsQuery.loading && (!content || !content.length)}
+          render={item => <FeedItem data={item} />}
+          onLoadMore={this.handleLoadMore}
         />
       </div>
     );

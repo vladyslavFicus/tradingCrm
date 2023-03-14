@@ -7,7 +7,6 @@ import { getBrand } from 'config';
 import Tabs from 'components/Tabs';
 import ListView from 'components/ListView';
 import FeedItem from 'components/FeedItem';
-import { Feed } from '__generated__/types';
 import { DocumentsTabs } from '../../constants';
 import DocumentsFeedsFilters from './components/DocumentsFeedsFilters';
 import { FeedsDocumentQueryVariables, useFeedsDocumentQuery } from './graphql/__generated__/FeedsDocumentQuery';
@@ -17,8 +16,7 @@ const DocumentsFeed = () => {
   const { state } = useLocation<State<FeedsDocumentQueryVariables>>();
 
   // ===== Request ===== //
-  // const feedsDocumentQuery = useFeedsDocumentQuery({
-  const { data, loading, refetch, fetchMore, variables = {} } = useFeedsDocumentQuery({
+  const feedsQuery = useFeedsDocumentQuery({
     variables: {
       ...state?.filters as FeedsDocumentQueryVariables,
       targetUUID: getBrand().id,
@@ -27,12 +25,17 @@ const DocumentsFeed = () => {
     },
   });
 
-  const { content = [], last, number = 0, totalElements } = data?.feeds || {};
+  const { data, loading, variables = {}, refetch, fetchMore } = feedsQuery;
+  const { content = [], last = true, number = 0 } = data?.feeds || {};
 
   // ===== Handlers ===== //
-  const handlePageChanged = () => fetchMore({
-    variables: set(cloneDeep(variables), 'page', number + 1),
-  });
+  const handleLoadMore = () => {
+    if (!loading) {
+      fetchMore({
+        variables: set(cloneDeep(variables), 'page', number + 1),
+      });
+    }
+  };
 
   return (
     <div className="DocumentsFeed">
@@ -46,13 +49,11 @@ const DocumentsFeed = () => {
 
       <div className="DocumentsFeed__grid">
         <ListView
+          content={content}
           loading={loading}
-          dataSource={content}
           last={last}
-          totalPages={totalElements}
-          onPageChange={handlePageChanged}
-          showNoResults={!loading && !content?.length}
-          render={(feed: Feed, key: number) => <FeedItem key={key} data={feed} />}
+          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          onLoadMore={handleLoadMore}
         />
       </div>
     </div>

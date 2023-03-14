@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
@@ -47,31 +46,30 @@ class LeadNotesTab extends PureComponent {
     notes.fetchMore({ variables: { page } });
   };
 
-  renderItem = note => <NoteItem note={note} />;
-
   render() {
     const {
-      notes: { data, loading, refetch },
+      notes: {
+        data,
+        loading,
+        refetch,
+      },
     } = this.props;
 
-    const { content, number, totalPages, last } = get(data, 'notes') || {
-      content: [],
-    };
+    const { content = [], last = true } = data?.notes || {};
 
     return (
       <div className="LeadNotesTab">
         <TabHeader title={I18n.t('LEAD_PROFILE.NOTES.TITLE')} />
+
         <LeadNotesTabFilter handleRefetch={refetch} />
+
         <div className="LeadNotesTab__list">
           <ListView
+            content={content}
             loading={loading}
-            dataSource={content || []}
-            onPageChange={this.handleLoadMore}
-            render={this.renderItem}
-            activePage={number + 1}
-            totalPages={totalPages}
             last={last}
-            showNoResults={!loading && !content.length}
+            render={item => <NoteItem note={item} />}
+            onLoadMore={this.handleLoadMore}
           />
         </div>
       </div>

@@ -11,7 +11,7 @@ class DistributionRuleFeedsList extends PureComponent {
     }).isRequired,
   };
 
-  handlePageChanged = () => {
+  handleLoadMore = () => {
     const {
       feedsQuery: {
         data,
@@ -29,20 +29,23 @@ class DistributionRuleFeedsList extends PureComponent {
   };
 
   render() {
-    const { feedsQuery } = this.props;
+    const {
+      feedsQuery: {
+        data,
+        loading,
+      },
+    } = this.props;
 
-    const { content, totalPages, last } = feedsQuery.data?.feeds || {};
+    const { content = [], last = true } = data?.feeds || {};
 
     return (
       <div className="DistributionRuleFeedsList">
         <ListView
-          loading={feedsQuery.loading}
-          dataSource={content || []}
-          onPageChange={this.handlePageChanged}
-          render={(feed, key) => <FeedItem key={key} data={feed} />}
-          showNoResults={!feedsQuery.loading && !content?.length}
-          totalPages={totalPages}
+          content={content}
+          loading={loading}
           last={last}
+          render={item => <FeedItem data={item} />}
+          onLoadMore={this.handleLoadMore}
         />
       </div>
     );
