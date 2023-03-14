@@ -46,6 +46,10 @@
     color:  var(--state-colors-content);
   }
 
+  &__field {
+    margin-bottom: 24px;
+  }
+
   &__qrcode-container {
     display: flex;
     flex-direction: column;

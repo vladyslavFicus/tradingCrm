@@ -126,6 +126,7 @@ const SignIn = (props: Props) => {
 
             <div className="SignIn__form-fields">
               <Field
+                className="SignIn__field"
                 disabled={otpGenerationRequired || otpRequired}
                 name="login"
                 type="email"
