@@ -6,7 +6,7 @@ import { withRequests } from 'apollo';
 import PropTypes from 'constants/propTypes';
 import permissions from 'config/permissions';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
-import TradingAccountAddModal from 'modals/TradingAccountAddModal';
+import CreateTradingAccountModal from 'modals/CreateTradingAccountModal';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/Buttons';
@@ -24,7 +24,7 @@ class ClientTradingAccountsTab extends PureComponent {
       }).isRequired,
     }).isRequired,
     modals: PropTypes.shape({
-      tradingAccountAddModal: PropTypes.modalType,
+      createTradingAccountModal: PropTypes.modalType,
     }).isRequired,
     clientTradingAccountsQuery: PropTypes.query({
       clientTradingAccounts: PropTypes.arrayOf(PropTypes.tradingAccount),
@@ -41,7 +41,7 @@ class ClientTradingAccountsTab extends PureComponent {
 
   refetchTradingAccounts = () => this.props.clientTradingAccountsQuery.refetch();
 
-  showTradingAccountAddModal = () => {
+  showCreateTradingAccountModal = () => {
     const {
       match: {
         params: {
@@ -49,11 +49,11 @@ class ClientTradingAccountsTab extends PureComponent {
         },
       },
       modals: {
-        tradingAccountAddModal,
+        createTradingAccountModal,
       },
     } = this.props;
 
-    tradingAccountAddModal.show({
+    createTradingAccountModal.show({
       profileId: id,
       onSuccess: this.refetchTradingAccounts,
     });
@@ -79,7 +79,7 @@ class ClientTradingAccountsTab extends PureComponent {
           <PermissionContent permissions={permissions.TRADING_ACCOUNT.CREATE}>
             <Button
               data-testid="addAccountButton"
-              onClick={this.showTradingAccountAddModal}
+              onClick={this.showCreateTradingAccountModal}
               tertiary
               small
             >
@@ -103,7 +103,7 @@ class ClientTradingAccountsTab extends PureComponent {
 
 export default compose(
   withModals({
-    tradingAccountAddModal: TradingAccountAddModal,
+    createTradingAccountModal: CreateTradingAccountModal,
   }),
   withRequests({
     clientTradingAccountsQuery: TradingAccountsQuery,

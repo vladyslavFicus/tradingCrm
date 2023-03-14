@@ -46,7 +46,7 @@ export const getAvailableAccountTypes = (_platformType: string) => {
  *
  * @return {Array<string>}
  */
-export const getPlarformSupportedCurrencies = (platformType: string) => {
+export const getPlarformSupportedCurrencies = (platformType: string): Array<string> => {
   const brand = getBrand();
   return brand[platformType.toLowerCase()]?.currencies?.supported || brand.currencies.supported;
 };
@@ -58,7 +58,7 @@ export const getPlarformSupportedCurrencies = (platformType: string) => {
  *
  * @return {string}
  */
-export const getPlatformDefaultCurrency = (platformType: string) => {
+export const getPlatformDefaultCurrency = (platformType: string): string => {
   const brand = getBrand();
   return brand[platformType.toLowerCase()]?.currencies?.default || brand.currencies.base;
 };
