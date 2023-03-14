@@ -41,7 +41,7 @@ type Props = {
   auth: Auth,
   modals: Modals,
   clientsQuery: QueryResult<ClientsListQuery>,
-}
+};
 
 const ClientsBulkActions = (props: Props) => {
   const {
@@ -102,13 +102,11 @@ const ClientsBulkActions = (props: Props) => {
       content: clients,
       configs: {
         totalElements,
-        touchedRowsIds: select?.touched,
-        allRowsSelected: select?.all,
         selectedRowsLength,
-        ...(state && {
-          searchParams: state.filters,
-          sorts: state.sorts,
-        }),
+        touchedRowsIds: select?.touched || [],
+        allRowsSelected: select?.all || false,
+        searchParams: state?.filters || {},
+        sorts: state?.sorts || [],
       },
       onSuccess: onSubmitSuccess,
     });

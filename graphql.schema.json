@@ -11036,7 +11036,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "Desk__Types__Enum",
+                    "name": "AcquisitionStatusTypes__Enum",
                     "ofType": null
                   }
                 },
