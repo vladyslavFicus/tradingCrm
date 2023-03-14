@@ -4,18 +4,14 @@ import { Modal } from 'types';
 import { withModals } from 'hoc';
 import { EditButton } from 'components/Buttons';
 import Uuid from 'components/Uuid';
+import UpdateDistributionRuleModal from 'modals/UpdateDistributionRuleModal';
 import { DistributionRuleType } from '../../DistributionRule';
-import EditRuleNameModal from '../../modals/EditRuleNameModal';
 import './DistributionRuleHeader.scss';
-
-type EditRuleNameModalProps = {
-  uuid: string,
-}
 
 type Props = {
   distributionRule: DistributionRuleType,
   modals: {
-    editRuleNameModal: Modal<EditRuleNameModalProps>,
+    updateDistributionRuleModal: Modal,
   },
 }
 
@@ -25,14 +21,14 @@ const DistributionRuleHeader = (props: Props) => {
       uuid,
       name,
     },
-    modals: { editRuleNameModal },
+    modals: { updateDistributionRuleModal },
   } = props;
 
   return (
     <div className="DistributionRuleHeader">
       <div
         className="DistributionRuleHeader__title"
-        onClick={() => editRuleNameModal.show({ uuid })}
+        onClick={() => updateDistributionRuleModal.show({ uuid })}
       >
         {name}
         <EditButton className="DistributionRuleHeader__edit-icon" />
@@ -45,6 +41,6 @@ const DistributionRuleHeader = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    editRuleNameModal: EditRuleNameModal,
+    updateDistributionRuleModal: UpdateDistributionRuleModal,
   }),
 )(DistributionRuleHeader);

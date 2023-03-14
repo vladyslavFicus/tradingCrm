@@ -1,0 +1,7 @@
+.UpdateDistributionRuleModal {
+  &__error {
+    color: var(--state-colors-danger);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
