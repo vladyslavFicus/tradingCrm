@@ -7,8 +7,8 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { useIpWhitelistUpdateIpMutation } from './graphql/__generated__/IpWhitelistUpdateIpMutation';
-import './WhiteListUpdateDescriptionModal.scss';
+import { useUpdateIpWhiteListMutation } from './graphql/__generated__/UpdateIpWhiteListMutation';
+import './UpdateIpWhiteListModal.scss';
 
 const validate = createValidator(
   {
@@ -34,18 +34,18 @@ export type Props = {
   onCloseModal: () => void,
 };
 
-const WhiteListUpdateDescriptionModal = (props: Props) => {
+const UpdateIpWhiteListModal = (props: Props) => {
   const { item, onSuccess, onCloseModal } = props;
 
   // ===== Requests ===== //
-  const [ipWhitelistUpdateIpMutation] = useIpWhitelistUpdateIpMutation();
+  const [updateIpWhiteListMutation] = useUpdateIpWhiteListMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     const { description, uuid } = values;
 
     try {
-      await ipWhitelistUpdateIpMutation({ variables: { description, uuid } });
+      await updateIpWhiteListMutation({ variables: { description, uuid } });
 
       onSuccess();
       onCloseModal();
@@ -65,7 +65,7 @@ const WhiteListUpdateDescriptionModal = (props: Props) => {
   };
 
   return (
-    <Modal className="WhiteListUpdateDescriptionModal" toggle={onCloseModal} isOpen>
+    <Modal className="UpdateIpWhiteListModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={item as FormValues}
         validate={validate}
@@ -97,14 +97,14 @@ const WhiteListUpdateDescriptionModal = (props: Props) => {
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
-                className="WhiteListUpdateDescriptionModal__button"
+                className="UpdateIpWhiteListModal__button"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
 
               <Button
-                className="WhiteListUpdateDescriptionModal__button"
+                className="UpdateIpWhiteListModal__button"
                 primary
                 disabled={isSubmitting}
                 type="submit"
@@ -119,4 +119,4 @@ const WhiteListUpdateDescriptionModal = (props: Props) => {
   );
 };
 
-export default React.memo(WhiteListUpdateDescriptionModal);
+export default React.memo(UpdateIpWhiteListModal);

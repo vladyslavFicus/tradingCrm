@@ -11,8 +11,8 @@ import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';
 import { TrashButton, EditButton } from 'components/Buttons';
-import WhiteListUpdateDescriptionModal,
-{ WhiteListUpdateDescriptionModalProps } from 'modals/WhiteListUpdateDescriptionModal';
+import UpdateIpWhiteListModal,
+{ UpdateIpWhiteListModalProps } from 'modals/UpdateIpWhiteListModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import { useIpWhitelistDeleteMutation } from './graphql/__generated__/IpWhitelistDeleteMutation';
 import './IpWhitelistGrid.scss';
@@ -50,7 +50,7 @@ const IpWhitelistGrid = (props: Props) => {
   const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
 
   // ===== Modals ===== //
-  const updateDescriptionModal = useModal<WhiteListUpdateDescriptionModalProps>(WhiteListUpdateDescriptionModal);
+  const updateIpWhiteListModal = useModal<UpdateIpWhiteListModalProps>(UpdateIpWhiteListModal);
 
   // ===== Requests ===== //
   const [ipWhitelistDeleteMutation] = useIpWhitelistDeleteMutation();
@@ -119,7 +119,7 @@ const IpWhitelistGrid = (props: Props) => {
       <If condition={allowUpdateIp}>
         <EditButton
           className="IpWhitelistGrid__action-icon"
-          onClick={() => updateDescriptionModal.show({ item, onSuccess: onRefetch })}
+          onClick={() => updateIpWhiteListModal.show({ item, onSuccess: onRefetch })}
         />
       </If>
     </div>
@@ -164,7 +164,7 @@ const IpWhitelistGrid = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    updateDescriptionModal: WhiteListUpdateDescriptionModal,
+    updateIpWhiteListModal: UpdateIpWhiteListModal,
     deleteModal: ConfirmActionModal,
   }),
 )(IpWhitelistGrid);

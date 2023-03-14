@@ -1,10 +1,10 @@
-mutation IpWhitelistUpdateIpMutation(
-   $uuid: String!
+mutation CreateIpWhiteListMutation(
+   $ip: String!
    $description: String!
 ) {
   ipWhitelist {
-    edit(
-      uuid: $uuid
+    add(
+      ip: $ip
       description: $description
     )
   }

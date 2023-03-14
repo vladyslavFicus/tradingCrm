@@ -10,7 +10,7 @@ import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
-import WhiteListAddIpModal, { WhiteListAddIpModalProps } from 'modals/WhiteListAddIpModal';
+import CreateIpWhiteListModal, { CreateIpWhiteListModalProps } from 'modals/CreateIpWhiteListModal';
 import { useIpWhitelistBulkDeleteMutation } from './graphql/__generated__/IpWhitelistBulkDeleteMutation';
 import './IpWhitelistHeader.scss';
 
@@ -41,7 +41,7 @@ const IpWhitelistHeader = (props: Props) => {
   const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
 
   // ===== Modals ===== //
-  const addAddressModal = useModal<WhiteListAddIpModalProps>(WhiteListAddIpModal);
+  const createIpWhiteListModal = useModal<CreateIpWhiteListModalProps>(CreateIpWhiteListModal);
 
   // ===== Requests ===== //
   const [ipWhitelistBulkDeleteMutation] = useIpWhitelistBulkDeleteMutation();
@@ -109,7 +109,7 @@ const IpWhitelistHeader = (props: Props) => {
           <Button
             secondary
             className="IpWhitelistHeader__actions-button"
-            onClick={() => addAddressModal.show({ onSuccess: onRefetch })}
+            onClick={() => createIpWhiteListModal.show({ onSuccess: onRefetch })}
             type="button"
           >
             {I18n.t('IP_WHITELIST.GRID.ADD_IP')}

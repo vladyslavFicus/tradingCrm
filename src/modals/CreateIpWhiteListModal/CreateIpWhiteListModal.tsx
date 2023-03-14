@@ -7,8 +7,8 @@ import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import { FormikInputField } from 'components/Formik';
-import { useIpWhitelistAddIpMutation } from './graphql/__generated__/IpWhitelistAddIpMutation';
-import './WhiteListAddIpModal.scss';
+import { useCreateIpWhiteListMutation } from './graphql/__generated__/CreateIpWhiteListMutation';
+import './CreateIpWhiteListModal.scss';
 
 const validate = createValidator(
   {
@@ -32,16 +32,16 @@ export type Props = {
   onCloseModal: () => void,
 };
 
-const WhiteListAddIpModal = (props: Props) => {
+const CreateIpWhiteListModal = (props: Props) => {
   const { onSuccess, onCloseModal } = props;
 
   // ===== Requests ===== //
-  const [ipWhitelistAddIpMutation] = useIpWhitelistAddIpMutation();
+  const [createIpWhiteListMutation] = useCreateIpWhiteListMutation();
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     try {
-      await ipWhitelistAddIpMutation({ variables: values });
+      await createIpWhiteListMutation({ variables: values });
 
       onSuccess();
       onCloseModal();
@@ -67,7 +67,7 @@ const WhiteListAddIpModal = (props: Props) => {
   };
 
   return (
-    <Modal className="WhiteListAddIpModal" toggle={onCloseModal} isOpen>
+    <Modal className="CreateIpWhiteListModal" toggle={onCloseModal} isOpen>
       <Formik
         initialValues={{ ip: '', description: '' }}
         validate={validate}
@@ -98,14 +98,14 @@ const WhiteListAddIpModal = (props: Props) => {
             <ModalFooter>
               <Button
                 onClick={onCloseModal}
-                className="WhiteListAddIpModal__button"
+                className="CreateIpWhiteListModal__button"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
 
               <Button
-                className="WhiteListAddIpModal__button"
+                className="CreateIpWhiteListModal__button"
                 primary
                 disabled={isSubmitting}
                 type="submit"
@@ -120,4 +120,4 @@ const WhiteListAddIpModal = (props: Props) => {
   );
 };
 
-export default React.memo(WhiteListAddIpModal);
+export default React.memo(CreateIpWhiteListModal);
