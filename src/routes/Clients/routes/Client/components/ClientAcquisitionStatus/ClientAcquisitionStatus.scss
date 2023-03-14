@@ -32,7 +32,7 @@
     &:hover {
       background-color: var(--card-hover);
     }
-    
+
     &--active {
       border: 1px solid transparent;
     }
@@ -52,7 +52,7 @@
     &--danger {
       border-color: var(--state-colors-danger);
     }
-    
+
     &--undefined {
       border-color: var(--state-colors-none);
     }
@@ -68,14 +68,10 @@
 
   &__right {
     max-width: 60%;
-
-    & > div {
-      text-align: right;
-    }
+    text-align: right;
   }
 
-  &__representative,
-  &__status {
+  &__left {
     font-weight: 600;
     text-transform: uppercase;
   }
@@ -102,9 +98,5 @@
     &--undefined {
       border-color: var(--state-colors-none);
     }
-  }
-
-  &__operator {
-    font-weight: 700;
   }
 }

@@ -10,6 +10,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { salesStatusesColor, salesStatuses } from 'constants/salesStatuses';
 import { retentionStatusesColor, retentionStatuses } from 'constants/retentionStatuses';
+import HideText from 'components/HideText';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import { HierarchyUserAcquisition, Operator } from '__generated__/types';
 import './ClientAcquisitionStatus.scss';
@@ -121,9 +122,7 @@ const ClientAcquisitionStatus = (props: Props) => {
         onClick={() => handleShowModal(acquisitionType, availableToUpdate)}
       >
         <div className="ClientAcquisitionStatus__left">
-          <div className="ClientAcquisitionStatus__representative">
-            {I18n.t(label)}
-          </div>
+          {I18n.t(label)}
 
           <Choose>
             <When condition={!!status}>
@@ -147,23 +146,27 @@ const ClientAcquisitionStatus = (props: Props) => {
         <div className="ClientAcquisitionStatus__right">
           <Choose>
             <When condition={!!operator}>
-              <div className="ClientAcquisitionStatus__operator">{operator?.fullName}</div>
+              <b className="ClientAcquisitionStatus__operator">{operator?.fullName}</b>
             </When>
 
             <Otherwise>
-              <div>&mdash;</div>
+              &mdash;
             </Otherwise>
           </Choose>
 
           <If condition={!!desk}>
             <div className="ClientAcquisitionStatus__branch">
-              <b>{I18n.t('COMMON.DESK')}:</b> {desk?.name}
+              <b>{I18n.t('COMMON.DESK')}:</b>
+
+              <HideText text={desk?.name || ''} />
             </div>
           </If>
 
           <If condition={!!team}>
             <div className="ClientAcquisitionStatus__branch">
-              <b>{I18n.t('COMMON.TEAM')}:</b> {team?.name}
+              <b>{I18n.t('COMMON.TEAM')}:</b>
+
+              <HideText text={team?.name || ''} />
             </div>
           </If>
         </div>
