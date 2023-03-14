@@ -5684,7 +5684,7 @@
     "FORM": {
       "FIELDS": {
         "SEARCH_BY": "Search by",
-        "SEARCH_BY_PLACEHOLDER": "MT4 login, Player's Full Name, Source Name.",
+        "SEARCH_BY_PLACEHOLDER": "Login, Player's Full Name, Source Name.",
         "ACCOUNT_TYPE": "Account type",
         "PLATFORM_TYPE": "Platform type",
         "STATUS": "Status"
