@@ -264,7 +264,8 @@ const OperatorHierarchyBranches = (props: Props) => {
                       searchable
                     >
                       {availableBranches.map(branch => (
-                        <option key={branch.uuid} value={branch.uuid}>
+                        // @ts-ignore prop "search" does not exist for the tag option
+                        <option key={branch.uuid} value={branch.uuid} search={branch.name}>
                           {buildParentsBranchChain(branch)}
                           <span className="OperatorHierarchyBranches__branch-name">{branch.name}</span>
                         </option>
