@@ -96,6 +96,7 @@ const ChangePasswordModal = (props: Props) => {
                 type="password"
                 label={I18n.t(attributeLabels.newPassword)}
                 component={FormikInputField}
+                classNameError="ChangePasswordModal__error"
                 disabled={isSubmitting}
               />
 
@@ -104,6 +105,7 @@ const ChangePasswordModal = (props: Props) => {
                 type="password"
                 label={I18n.t(attributeLabels.repeatPassword)}
                 component={FormikInputField}
+                classNameError="ChangePasswordModal__error"
                 disabled={isSubmitting}
               />
             </ModalBody>

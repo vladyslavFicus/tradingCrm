@@ -10,6 +10,8 @@
   &__action-text {
     font-weight: 700;
     line-height: 1.3em;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &__additional-text {
