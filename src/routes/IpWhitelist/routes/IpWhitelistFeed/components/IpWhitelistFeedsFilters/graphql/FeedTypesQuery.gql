@@ -1,8 +1,0 @@
-query FeedTypesQuery($uuid: String!) {
-  feedTypes (
-    uuid: $uuid
-    filters: {
-      auditCategory: WHITELIST
-    }
-  )
-}

@@ -752,6 +752,15 @@
     "CUSTOM_REASON_OPTION": "Other",
     "OTHER": "Other",
     "NOTE": "Note",
+    "FEEDS": {
+      "TITLE": "Feed",
+      "FILTERS": {
+        "SEARCH_BY": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, Login IP",
+        "ACTION_TYPE": "Action type",
+        "ACTION_DATE_RANGE": "Action date range"
+      }
+    },
     "CREATED": "Created",
     "LAST_CHANGED": "Last changed",
     "PASSWORD": "Password",
