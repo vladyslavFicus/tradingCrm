@@ -72,7 +72,7 @@ const orderStatuses = {
   CANCELED: 'CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.CANCELED',
 };
 
-const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[\\S]{8,}$';
 const passwordMaxSize = 16;
 const maxSelectedFavortieSymbols = 10;
 

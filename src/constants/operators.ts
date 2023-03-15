@@ -138,6 +138,6 @@ export const rolesLabels: Record<roles, string> = {
   [roles.SHIFT_SALES]: 'CONSTANTS.OPERATORS.ROLES.SHIFT_SALES',
 };
 
-export const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+export const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])[\\S]{8,}$';
 export const passwordMaxSize = 16;
 export const passwordCustomError = I18n.t('COMMON.OPERATOR_PASSWORD_INVALID');
