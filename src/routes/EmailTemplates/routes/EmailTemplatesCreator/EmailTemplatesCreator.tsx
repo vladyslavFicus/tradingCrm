@@ -107,7 +107,7 @@ const EmailTemplatesCreator = () => {
                   component={FormikInputField}
                 />
 
-                <Button type="submit" primary disabled={!dirty && isValid}>
+                <Button className="EmailTemplatesCreator__button" type="submit" primary disabled={!dirty && isValid}>
                   {I18n.t('EMAILS.EMAIL_TEMPLATES.CREATOR.BUTTONS.CREATE')}
                 </Button>
               </div>
