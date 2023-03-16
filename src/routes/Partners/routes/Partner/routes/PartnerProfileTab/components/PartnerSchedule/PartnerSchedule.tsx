@@ -2,18 +2,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
-import compose from 'compose-function';
 import classNames from 'classnames';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { SetFieldValue } from 'types/formik';
 import { Partner, Partner__Schedule as Schedule } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
+import { useModal } from 'providers/ModalProvider';
 import countryList from 'utils/countryList';
 import { Button } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import { FormikCheckbox } from 'components/Formik';
-import PartnerScheduleModal from 'modals/PartnerScheduleModal';
+import CreatePartnerScheduleModal, { CreatePartnerScheduleModalProps } from 'modals/CreatePartnerScheduleModal';
 import { useChangeScheduleStatusMutation } from './graphql/__generated__/ChangeScheduleStatusMutation';
 import './PartnerSchedule.scss';
 
@@ -21,9 +19,6 @@ type ScheduleDays = Record<string, boolean>;
 
 type Props = {
   partner: Partner,
-  modals: {
-    partnerScheduleModal: Modal,
-  },
   onRefetch: () => void,
 };
 
@@ -32,9 +27,6 @@ const PartnerSchedule = (props: Props) => {
     partner: {
       uuid,
       schedule,
-    },
-    modals: {
-      partnerScheduleModal,
     },
     onRefetch,
   } = props;
@@ -46,6 +38,9 @@ const PartnerSchedule = (props: Props) => {
   const getInitSchedule = useMemo(() => partnerSchedule
     .reduce((acc, { day, activated }) => ({ ...acc, [day]: activated }), {} as ScheduleDays),
   [partnerSchedule]);
+
+  // ===== Modals ===== //
+  const createPartnerScheduleModal = useModal<CreatePartnerScheduleModalProps>(CreatePartnerScheduleModal);
 
   // ===== Requests ===== //
   const [changeScheduleStatusMutation] = useChangeScheduleStatusMutation();
@@ -78,7 +73,7 @@ const PartnerSchedule = (props: Props) => {
   };
 
   const hansleShowEditScheduleModal = (value: Schedule) => {
-    partnerScheduleModal.show({
+    createPartnerScheduleModal.show({
       ...value,
       activated: checkedDays[value.day],
       affiliateUuid: uuid,
@@ -234,9 +229,4 @@ const PartnerSchedule = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    partnerScheduleModal: PartnerScheduleModal,
-  }),
-)(PartnerSchedule);
+export default React.memo(PartnerSchedule);

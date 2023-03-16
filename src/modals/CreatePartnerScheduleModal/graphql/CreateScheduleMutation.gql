@@ -1,9 +1,4 @@
-import React from 'react';
-import { gql } from '@apollo/client';
-import PropTypes from 'prop-types';
-import { Mutation } from '@apollo/client/react/components';
-
-const REQUEST = gql`mutation Partner_CreateScheduleMutation(
+mutation CreateScheduleMutation(
   $affiliateUuid: String!,
   $activated: Boolean,
   $totalLimit: Int,
@@ -24,16 +19,3 @@ const REQUEST = gql`mutation Partner_CreateScheduleMutation(
     )
   }
 }
-`;
-
-const createSchudelMutation = ({ children }) => (
-  <Mutation mutation={REQUEST}>
-    {children}
-  </Mutation>
-);
-
-createSchudelMutation.propTypes = {
-  children: PropTypes.func.isRequired,
-};
-
-export default createSchudelMutation;
