@@ -122,8 +122,8 @@ const PromoteLeadModal = (props: Props) => {
     } catch {
       notify({
         level: LevelType.ERROR,
-        title: I18n.t('COMMON.SOMETHING_WRONG'),
-        message: I18n.t('LEADS.SUCCESS_PROMOTED'),
+        title: I18n.t('COMMON.ERROR'),
+        message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };

@@ -1,9 +1,4 @@
-import React from 'react';
-import { Query } from '@apollo/client/react/components';
-import { gql } from '@apollo/client';
-import PropTypes from 'constants/propTypes';
-
-const REQUEST = gql`query LeadProfileQuery(
+query LeadProfileQuery(
   $uuid: String!,
 ) {
   lead (
@@ -33,13 +28,18 @@ const REQUEST = gql`query LeadProfileQuery(
     migrationId
     acquisition {
       salesOperator {
+        _id
         fullName
         uuid
         hierarchy {
+          uuid
+          userType
           parentBranches {
+            uuid
             name
             branchType
             parentBranch {
+              uuid
               name
               branchType
             }
@@ -50,20 +50,3 @@ const REQUEST = gql`query LeadProfileQuery(
     }
   }
 }
-`;
-
-const LeadProfileQuery = ({
-  match: { params: { id } },
-  children,
-}) => (
-  <Query query={REQUEST} variables={{ uuid: id }} fetchPolicy="network-only">
-    {children}
-  </Query>
-);
-
-LeadProfileQuery.propTypes = {
-  children: PropTypes.func.isRequired,
-  ...PropTypes.router,
-};
-
-export default LeadProfileQuery;
