@@ -4,7 +4,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { withModals } from 'hoc';
 import { getBackofficeBrand } from 'config';
-import ChangeOriginalAgentModal from 'modals/ChangeOriginalAgentModal';
+import UpdateTradingActivityModal from 'modals/UpdateTradingActivityModal';
 import PropTypes from 'constants/propTypes';
 import { AdjustableTable, Column } from 'components/Table';
 import Badge from 'components/Badge';
@@ -19,7 +19,7 @@ class TradingActivityGrid extends PureComponent {
       tradingActivity: PropTypes.pageable(PropTypes.tradingActivity),
     }).isRequired,
     modals: PropTypes.shape({
-      changeOriginalAgentModal: PropTypes.modalType,
+      updateTradingActivityModal: PropTypes.modalType,
     }).isRequired,
   };
 
@@ -40,10 +40,10 @@ class TradingActivityGrid extends PureComponent {
     });
   };
 
-  showChangeOriginalAgentModal = (tradeId, originalAgent, platformType) => {
-    const { tradingActivityQuery, modals: { changeOriginalAgentModal } } = this.props;
+  showUpdateTradingActivityModal = (tradeId, originalAgent, platformType) => {
+    const { tradingActivityQuery, modals: { updateTradingActivityModal } } = this.props;
 
-    changeOriginalAgentModal.show({
+    updateTradingActivityModal.show({
       tradeId,
       originalAgent,
       platformType,
@@ -85,7 +85,7 @@ class TradingActivityGrid extends PureComponent {
                   <div
                     className="TradingActivityGrid__cell-value TradingActivityGrid__cell-value--pointer"
                     onClick={() => (
-                      this.showChangeOriginalAgentModal(tradeId, originalAgent, platformType)
+                      this.showUpdateTradingActivityModal(tradeId, originalAgent, platformType)
                     )}
                   >
                     TR-{tradeId}
@@ -266,5 +266,5 @@ class TradingActivityGrid extends PureComponent {
 }
 
 export default withModals({
-  changeOriginalAgentModal: ChangeOriginalAgentModal,
+  updateTradingActivityModal: UpdateTradingActivityModal,
 })(TradingActivityGrid);

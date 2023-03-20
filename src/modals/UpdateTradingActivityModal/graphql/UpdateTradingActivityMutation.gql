@@ -1,4 +1,4 @@
-mutation ChangeOriginalAgentTradingActivityMutation(
+mutation UpdateTradingActivityMutation(
   $tradeId: Int!
   $agentId: String!
   $platformType: String
