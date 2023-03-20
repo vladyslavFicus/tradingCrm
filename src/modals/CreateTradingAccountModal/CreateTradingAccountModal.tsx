@@ -107,7 +107,7 @@ const TradingAccountAddModal = (props: Props) => {
           currency: ['required', 'string'],
           password: values.platformType !== 'WET' && ['required', `regex:${getBrand().password.mt4_pattern}`],
           amount: values.accountType === 'DEMO' && 'required',
-        }, translateLabels(attributeLabels), false)}
+        }, translateLabels(attributeLabels), false)(values)}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={handleSubmit}
