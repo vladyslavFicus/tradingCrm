@@ -4,7 +4,7 @@ import compose from 'compose-function';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
-import { hasErrorPath, parseErrors } from 'apollo';
+import { parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import NotFound from 'routes/NotFound';
 import { Modal } from 'types';
@@ -58,26 +58,26 @@ const EditGroup = (props: Props) => {
   const groupQuery = useGroupQuery({ variables: { groupName } });
   const [editGroup] = useEditGroupMutation();
 
-  const { data, loading, error, refetch } = groupQuery;
-  const groupError = hasErrorPath(error, 'tradingEngineGroup');
+  const { data, loading, refetch } = groupQuery;
+  const group = data?.tradingEngine.group;
 
-  if (groupError) {
+  if (!loading && !group) {
     return <NotFound />;
   }
 
-  const handleSubmit = async (group: FormValues, formik: FormikHelpers<FormValues>, force = false) => {
+  const handleSubmit = async (values: FormValues, formik: FormikHelpers<FormValues>, force = false) => {
     try {
       await editGroup({
         variables: {
           args: {
             // Currency and groupName are non-editable fields
-            ...omit(group, ['currency']),
+            ...omit(values, ['currency']),
             // For BE groupSecurities need only security ID
-            groupSecurities: group?.groupSecurities?.map(groupSecurity => ({
+            groupSecurities: values?.groupSecurities?.map(groupSecurity => ({
               ...omit(groupSecurity, 'security'),
               securityId: groupSecurity.security.id,
             })) || [],
-            groupSymbols: group?.groupSymbols?.map(groupSymbols => ({
+            groupSymbols: values?.groupSymbols?.map(groupSymbols => ({
               ...omit(groupSymbols, 'securityId'),
             })) || [],
             force,
@@ -105,7 +105,7 @@ const EditGroup = (props: Props) => {
           }),
           submitButtonLabel: I18n.t('COMMON.YES'),
           cancelButtonLabel: I18n.t('COMMON.NO'),
-          onSubmit: () => handleSubmit(group, formik, true),
+          onSubmit: () => handleSubmit(values, formik, true),
           onCancel: formik.resetForm,
         });
       } else if (errors.error === 'error.group-symbol.basic.disable.prohibited') {
@@ -127,7 +127,7 @@ const EditGroup = (props: Props) => {
   return (
     <div className="EditGroup">
       <Formik
-        initialValues={data?.tradingEngine.group || ({} as FormValues)}
+        initialValues={group || ({} as FormValues)}
         validate={validator}
         enableReinitialize
         onSubmit={handleSubmit}
@@ -136,7 +136,7 @@ const EditGroup = (props: Props) => {
           <Form>
             <GroupProfileHeaderEdit formik={formikBag} onArchived={refetch} />
             <Choose>
-              <When condition={loading && !data?.tradingEngine.group}>
+              <When condition={loading && !group}>
                 <ShortLoader className="EditGroup__loader" />
               </When>
               <Otherwise>
