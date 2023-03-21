@@ -145,6 +145,18 @@ const NotePopover = (props: Props) => {
       className="NotePopover"
       popperClassName="NotePopover__popper"
       trigger="legacy"
+      // @ts-ignore
+      modifiers={[{
+        name: 'preventOverflow',
+        enabled: true,
+        options: {
+          altAxis: true,
+          altBoundary: false,
+          tether: false,
+          rootBoundary: 'viewport',
+          padding: 10,
+        },
+      }]}
     >
       <Formik
         initialValues={{

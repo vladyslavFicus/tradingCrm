@@ -3,11 +3,6 @@
     min-width: 475px;
     right: 10px;
     background-color: var(--surface-note) !important;
-
-    .popover-arrow:after {
-      border-top-color: var(--surface-note) !important;
-      border-bottom-color: var(--surface-note) !important;
-    }
   }
 
   &__header {
