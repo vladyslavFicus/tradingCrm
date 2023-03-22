@@ -13,7 +13,7 @@ import BackToTop from 'components/BackToTop';
 import DebugMode from 'components/DebugMode';
 import ShortLoader from 'components/ShortLoader';
 import ErrorBoundary from 'components/ErrorBoundary';
-import Notifications from 'components/WS/Notifications';
+import Notifications from 'components/Notifications';
 import './AuthorizedLayout.scss';
 
 type Auth = {
