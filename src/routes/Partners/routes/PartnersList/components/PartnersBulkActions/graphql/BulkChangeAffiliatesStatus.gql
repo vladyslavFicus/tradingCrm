@@ -2,12 +2,18 @@ mutation BulkChangeAffiliatesStatusMutation(
   $uuids: [String!]!
   $reason: String!
   $status: String!
+  $bulkSize: Int
+  $searchParams: BulkPartnersSearchParams__Input
+  $sorts: [Sort__Input]
 ) {
   partner {
     bulkChangeAffiliatesStatus(
       uuids: $uuids
       reason: $reason
       status: $status
+      bulkSize: $bulkSize
+      searchParams: $searchParams
+      sorts: $sorts
     )
   }
 }

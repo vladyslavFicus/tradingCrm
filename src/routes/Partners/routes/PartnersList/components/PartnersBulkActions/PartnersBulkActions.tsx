@@ -1,9 +1,10 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { withModals } from 'hoc';
-import { Modal } from 'types';
+import { Modal, State } from 'types';
 import permissions from 'config/permissions';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -25,6 +26,8 @@ import './PartnersBulkActions.scss';
 
 type Props = {
   uuids: Array<string>,
+  selected: number,
+  selectAll: boolean,
   modals: {
     changeAccountStatusModal: Modal,
   },
@@ -42,9 +45,16 @@ type Reason = {
 const PartnersBulkActions = (props: Props) => {
   const {
     uuids,
+    selectAll,
+    selected,
     modals: { changeAccountStatusModal },
     onRefetch,
   } = props;
+
+  const { state } = useLocation<State>();
+
+  const searchParams = state?.filters;
+  const sorts = state?.sorts;
 
   const permission = usePermission();
 
@@ -64,6 +74,9 @@ const PartnersBulkActions = (props: Props) => {
           uuids,
           reason,
           status,
+          bulkSize: selectAll ? selected : 0,
+          searchParams: selectAll && searchParams ? searchParams : {},
+          sorts: selectAll && sorts?.length ? sorts : [],
         },
       });
 
@@ -98,6 +111,7 @@ const PartnersBulkActions = (props: Props) => {
           args: {
             uuids,
             forbiddenCountries,
+            bulkSize: selectAll ? selected : 0,
           },
         },
       });
@@ -126,6 +140,7 @@ const PartnersBulkActions = (props: Props) => {
           args: {
             uuids,
             forbiddenCountries,
+            bulkSize: selectAll ? selected : 0,
           },
         },
       });

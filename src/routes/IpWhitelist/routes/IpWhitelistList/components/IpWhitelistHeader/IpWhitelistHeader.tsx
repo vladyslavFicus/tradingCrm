@@ -1,13 +1,14 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { withModals } from 'hoc';
-import { Modal, TableSelection } from 'types';
+import { Modal, State, TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { LevelType, notify } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import ConfirmActionModal from 'modals/ConfirmActionModal';
 import CreateIpWhiteListModal, { CreateIpWhiteListModalProps } from 'modals/CreateIpWhiteListModal';
@@ -35,6 +36,11 @@ const IpWhitelistHeader = (props: Props) => {
     onRefetch,
   } = props;
 
+  const { state } = useLocation<State>();
+
+  const searchParams = state?.filters;
+  const sorts = state?.sorts;
+
   const permission = usePermission();
 
   const allowAddIp = permission.allows(permissions.IP_WHITELIST.ADD_IP_ADDRESS);
@@ -51,17 +57,35 @@ const IpWhitelistHeader = (props: Props) => {
       return [];
     }
 
-    content.filter((_, idx) => selected.all || selected.touched.includes(idx));
-    const items = selected.all ? content : content.filter((_, index) => selected.touched.includes(index));
+    const items = content.filter((_, index) => (selected.all
+      ? !selected.touched.includes(index)
+      : selected.touched.includes(index)));
 
     return items.map(item => item[fieldName]);
+  };
+
+  const getUuids = (): Array<string> => {
+    if (!selected) {
+      return [];
+    }
+
+    const items = content
+      .filter((_, index) => selected.touched.includes(index))
+      .map(({ uuid }) => uuid);
+
+    return items;
   };
 
   // ===== Handlers ===== //
   const handleBulkDelete = async () => {
     try {
       await ipWhitelistBulkDeleteMutation({
-        variables: { uuids: getSelectedList('uuid') },
+        variables: {
+          uuids: getUuids(),
+          bulkSize: selected?.all ? totalElements : 0,
+          searchParams: selected?.all && searchParams ? searchParams : {},
+          sorts: selected?.all && sorts?.length ? sorts : [],
+        },
       });
 
       selected?.reset();

@@ -556,7 +556,7 @@ class Table extends PureComponent {
         >
           <div
             ref={this.tableFixedRef}
-            className="Table__head-fixed"
+            className={classNames('Table__head-fixed', { 'Table__head-fixed--loading': loading })}
             style={{ top: `${stickyFromTop || TopHeaderHeight}px` }}
           >
             {this.renderFixedHead(columns)}

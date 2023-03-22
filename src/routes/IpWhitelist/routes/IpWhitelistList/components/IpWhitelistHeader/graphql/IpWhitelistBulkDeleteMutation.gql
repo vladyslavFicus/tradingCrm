@@ -1,5 +1,15 @@
-mutation IpWhitelistBulkDeleteMutation($uuids: [String!]!) {
+mutation IpWhitelistBulkDeleteMutation(
+  $uuids: [String!]!
+  $bulkSize: Int
+  $sorts: [Sort__Input]
+  $searchParams: IpWhitelistSearchParams__Input
+) {
   ipWhitelist {
-    deleteMany(uuids: $uuids)
+    deleteMany(
+      uuids: $uuids
+      bulkSize: $bulkSize
+      sorts: $sorts
+      searchParams: $searchParams
+    )
   }
 }

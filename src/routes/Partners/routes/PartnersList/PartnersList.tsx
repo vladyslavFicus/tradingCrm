@@ -32,9 +32,7 @@ const PartnersList = () => {
 
   const partnersUuids = content.map(({ uuid }) => uuid) || [];
 
-  const selectedUuids = select?.all
-    ? partnersUuids
-    : (select?.touched || []).map(item => partnersUuids[item]);
+  const selectedUuids = (select?.touched || []).map(item => partnersUuids[item]);
 
   // ===== Handlers ===== //
   const handleSelect = (value: Select) => {
@@ -71,6 +69,7 @@ const PartnersList = () => {
         selected={select?.selected || 0}
         onRefetch={handleRefetch}
         uuids={selectedUuids}
+        selectAll={!!select?.all}
       />
 
       <PartnersGridFilter onRefetch={handleRefetch} />

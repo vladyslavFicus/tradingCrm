@@ -45,6 +45,11 @@
     overflow-x: auto;
     z-index: var(--z-index-table-header);
 
+    &--loading {
+      opacity: 0;
+      height: 0;
+    }
+
     &:before {
       content: "";
       border-top: 1px solid var(--divider);

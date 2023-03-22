@@ -18,6 +18,7 @@ type Props = {
     createPartnerModal: Modal,
   },
   onRefetch: () => void,
+  selectAll: boolean,
 };
 
 const PartnersHeader = (props: Props) => {
@@ -27,6 +28,7 @@ const PartnersHeader = (props: Props) => {
     totalElements,
     modals: { createPartnerModal },
     onRefetch,
+    selectAll,
   } = props;
 
   const permission = usePermission();
@@ -54,7 +56,7 @@ const PartnersHeader = (props: Props) => {
         ])}
         >
           <If condition={!!selected}>
-            <PartnersBulkActions onRefetch={onRefetch} uuids={uuids} />
+            <PartnersBulkActions onRefetch={onRefetch} uuids={uuids} selected={selected} selectAll={selectAll} />
           </If>
         </If>
 
