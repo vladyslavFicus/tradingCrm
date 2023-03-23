@@ -1,0 +1,44 @@
+query FilesQuery(
+  $size: Int
+  $page: Int
+  $searchBy: String
+  $uploadedDateFrom: String
+  $uploadedDateTo: String
+  $verificationType: String
+  $documentType: String
+){
+  files(
+    size: $size
+    page: $page
+    searchBy: $searchBy
+    uploadedDateFrom: $uploadedDateFrom
+    uploadedDateTo: $uploadedDateTo
+    verificationType: $verificationType
+    documentType: $documentType
+  ) {
+    last
+    number
+    page
+    totalElements
+    totalPages
+    content {
+      _id
+      clientUuid
+      client {
+        fullName
+        languageCode
+        uuid
+      }
+      fileName
+      title
+      documentType
+      status
+      uploadBy
+      uuid
+      verificationType
+      type
+      uploadDate
+      expirationDate
+    }
+  }
+}
