@@ -60,10 +60,7 @@ const Lead = ({ match: { path, url } }: RouteComponentProps) => {
 
         <HideDetails>
           <div className="Lead__details">
-            <LeadPersonalInfo
-              // @ts-ignore Component withApollo HOC types issue
-              lead={lead}
-            />
+            <LeadPersonalInfo lead={lead} />
 
             <LeadAcquisitionStatus lead={lead} />
 

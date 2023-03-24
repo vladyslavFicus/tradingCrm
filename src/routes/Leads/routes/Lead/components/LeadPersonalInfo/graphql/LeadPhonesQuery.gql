@@ -1,0 +1,6 @@
+query LeadPhonesQuery($uuid: String!) {
+  leadContacts(uuid: $uuid) {
+    phone
+    mobile
+  }
+}

@@ -31,7 +31,7 @@ type FormValue = {
   reminder: string,
 };
 
-type Props = {
+export type Props = {
   onCloseModal: () => void,
 };
 
