@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { State } from 'types';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
+import { useModal } from 'providers/ModalProvider';
 import PermissionContent from 'components/PermissionContent';
 import TabHeader from 'components/TabHeader';
 import { Button } from 'components/Buttons';
-import CreateLeadCallbackModal from 'modals/CreateLeadCallbackModal';
+import CreateLeadCallbackModal, { CreateLeadCallbackModalProps } from 'modals/CreateLeadCallbackModal';
 import LeadCallbacksGridFilter from './components/LeadCallbacksGridFilter';
 import LeadCallbacksGrid from './components/LeadCallbacksGrid';
 import {
@@ -18,18 +17,13 @@ import {
 } from './graphql/__generated__/LeadCallbacksListQuery';
 import './LeadCallbacksTab.scss';
 
-type Props = {
-  modals: {
-    createLeadCallbackModal: Modal,
-  },
-};
-
-const LeadCallbacksTab = (props: Props) => {
-  const { modals: { createLeadCallbackModal } } = props;
-
+const LeadCallbacksTab = () => {
   const { id: uuid } = useParams<{ id: string }>();
 
   const { state } = useLocation<State<LeadCallbacksListQueryVariables>>();
+
+  // ===== Modals ===== //
+  const createLeadCallbackModal = useModal<CreateLeadCallbackModalProps>(CreateLeadCallbackModal);
 
   // ===== Requests ===== //
   const leadCallbacksListQuery = useLeadCallbacksListQuery({
@@ -43,7 +37,9 @@ const LeadCallbacksTab = (props: Props) => {
 
   // ===== Handlers ===== //
   const handleOpenAddCallbackModal = () => {
-    createLeadCallbackModal.show();
+    createLeadCallbackModal.show({
+      userId: uuid,
+    });
   };
 
   // ===== Effects ===== //
@@ -79,9 +75,4 @@ const LeadCallbacksTab = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createLeadCallbackModal: CreateLeadCallbackModal,
-  }),
-)(LeadCallbacksTab);
+export default React.memo(LeadCallbacksTab);

@@ -32,7 +32,9 @@ const LeadHeader = (props: Props) => {
 
   // ===== Handlers ===== //
   const handleOpenAddCallbackModal = () => {
-    createLeadCallbackModal.show();
+    createLeadCallbackModal.show({
+      userId: uuid,
+    });
   };
 
   const handleOpenPromoteLeadModal = () => {

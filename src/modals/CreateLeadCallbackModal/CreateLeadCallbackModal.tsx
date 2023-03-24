@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { useParams } from 'react-router-dom';
 import { parseErrors } from 'apollo';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -32,13 +31,12 @@ type FormValue = {
 };
 
 export type Props = {
+  userId: string,
   onCloseModal: () => void,
 };
 
 const CreateLeadCallbackModal = (props: Props) => {
-  const { onCloseModal } = props;
-
-  const { id } = useParams<{ id: string }>();
+  const { userId, onCloseModal } = props;
 
   const [note, setNote] = useState<ManualNote>(null);
 
@@ -66,7 +64,7 @@ const CreateLeadCallbackModal = (props: Props) => {
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValue) => {
     try {
-      const responseData = await createLeadCallback({ variables: { ...values, userId: id } });
+      const responseData = await createLeadCallback({ variables: { ...values, userId } });
       const callbackId = responseData.data?.callback?.createLeadCallback?.callbackId;
 
       if (callbackId) {
@@ -165,8 +163,8 @@ const CreateLeadCallbackModal = (props: Props) => {
               <div className="CreateLeadCallbackModal__note">
                 <NoteActionManual
                   note={note}
-                  playerUUID={id}
-                  targetUUID={id}
+                  playerUUID={userId}
+                  targetUUID={userId}
                   targetType={targetTypes.LEAD_CALLBACK}
                   onEditSuccess={setNote}
                   onDeleteSuccess={() => setNote(null)}
