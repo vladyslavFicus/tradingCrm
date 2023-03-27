@@ -13,4 +13,8 @@ export const platformTypes: Array<LabelValue> = [
     label: 'TE',
     value: 'WET',
   },
+  {
+    label: 'iTE',
+    value: 'ITE',
+  },
 ];
