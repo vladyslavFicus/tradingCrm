@@ -1,3 +1,8 @@
+export type PaymentTypeDetails = {
+  name: string,
+  permission: string,
+}
+
 export enum statuses {
   APPROVED = 'APPROVED',
   CANCELED = 'CANCELED',

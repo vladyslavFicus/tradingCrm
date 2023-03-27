@@ -1,8 +1,11 @@
 import I18n from 'i18n-js';
 import { createValidator } from 'utils/validator';
+import { PaymentMutationCreatePaymentArgs as PaymentValues, TradingAccount } from '__generated__/types';
 import { paymentTypes, attributeLabels } from './constants';
 
-const validation = (values, tradingAccounts) => {
+type Rules = Record<string, string | Array<string>>;
+
+const validation = (values: PaymentValues, tradingAccounts: Array<TradingAccount>) => {
   const {
     login: currentLogin,
     amount,
@@ -11,7 +14,7 @@ const validation = (values, tradingAccounts) => {
     paymentType,
   } = values;
 
-  let rules = {
+  let rules: Rules = {
     paymentType: 'required|string',
     amount: ['required', 'numeric', 'greater:0', 'max:999999'],
     accountUUID: 'required|string',
@@ -23,7 +26,7 @@ const validation = (values, tradingAccounts) => {
   ].includes(paymentType)
       && currentLogin
       && amount
-      && Number(tradingAccounts.find(({ login }) => login === currentLogin).balance) < amount
+      && Number(tradingAccounts.find(({ login }) => login === currentLogin)?.balance) < amount
   ) {
     return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
   }
@@ -31,7 +34,7 @@ const validation = (values, tradingAccounts) => {
   if ([paymentTypes.CREDIT_OUT.name].includes(paymentType)
     && currentLogin
     && amount
-    && Number(tradingAccounts.find(({ login }) => login === currentLogin).credit) < amount
+    && Number(tradingAccounts.find(({ login }) => login === currentLogin)?.credit) < amount
   ) {
     return { login: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
   }
@@ -64,7 +67,7 @@ const validation = (values, tradingAccounts) => {
         && amount
         && Number(tradingAccounts.find(
           ({ accountUUID }) => accountUUID === source,
-        ).balance) < amount
+        )?.balance) < amount
     ) {
       return { source: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.NO_MONEY') };
     }

@@ -1,0 +1,5 @@
+query PaymentSystemQuery {
+  paymentSystems {
+    paymentSystem
+  }
+}

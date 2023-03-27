@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
-import { Sort__Input as Sort } from '__generated__/types';
+import { State } from 'types';
+import { Profile, Sort__Input as Sort } from '__generated__/types';
 import permissions from 'config/permissions';
-import AddPaymentModal from 'modals/AddPaymentModal';
+import { useModal } from 'providers/ModalProvider';
+import CreatePaymentModal, { CreatePaymentModalProps } from 'modals/CreatePaymentModal';
 import { Button } from 'components/Buttons';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
@@ -19,15 +18,7 @@ import { usePaymentsQuery, PaymentsQueryVariables } from './graphql/__generated_
 import { useProfileQuery } from './graphql/__generated__/ProfileQuery';
 import './ClientPaymentsTab.scss';
 
-type Props = {
-  modals: {
-    addPaymentModal: Modal,
-  },
-};
-
-const ClientPaymentsTab = (props: Props) => {
-  const { modals } = props;
-
+const ClientPaymentsTab = () => {
   const { id: playerUUID } = useParams<{ id: string }>();
 
   const { state } = useLocation<State<PaymentsQueryVariables['args']>>();
@@ -43,6 +34,9 @@ const ClientPaymentsTab = (props: Props) => {
     permissions.PAYMENT.CREDIT_OUT,
     permissions.PAYMENT.TRANSFER,
   ]);
+
+  // ===== Modals ===== //
+  const createPaymentModal = useModal<CreatePaymentModalProps>(CreatePaymentModal);
 
   // ===== Requests ===== //
   const profileQuery = useProfileQuery({ variables: { playerUUID } });
@@ -80,9 +74,9 @@ const ClientPaymentsTab = (props: Props) => {
   const handleRefetch = () => paymentsQuery.refetch();
 
   const handleOpenAddPaymentModal = () => {
-    modals.addPaymentModal.show({
+    createPaymentModal.show({
       onSuccess: refetchQueries,
-      profile: profileData?.profile || {},
+      profile: profileData?.profile as Profile,
     });
   };
 
@@ -151,9 +145,4 @@ const ClientPaymentsTab = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    addPaymentModal: AddPaymentModal,
-  }),
-)(ClientPaymentsTab);
+export default React.memo(ClientPaymentsTab);

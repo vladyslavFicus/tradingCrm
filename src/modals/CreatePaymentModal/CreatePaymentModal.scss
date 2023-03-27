@@ -1,4 +1,4 @@
-.AddPaymentModal {
+.CreatePaymentModal {
   &__error-message {
     margin-bottom: 15px;
     display: block;
@@ -9,11 +9,11 @@
   &__row {
     display: flex;
 
-    &--h-align-center {
+    &--note {
       justify-content: center;
     }
 
-    &--v-align-center {
+    &--field {
       align-items: center;
     }
   }

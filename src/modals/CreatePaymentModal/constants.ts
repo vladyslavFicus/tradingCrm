@@ -1,10 +1,10 @@
 import I18n from 'i18n-js';
-import { tradingTypes, tradingTypesLabels } from 'constants/payment';
+import { PaymentTypeDetails, tradingTypes, tradingTypesLabels } from 'constants/payment';
 import permissions from 'config/permissions';
 
 const TRANSFER = 'TRANSFER';
 
-export const attributeLabels = {
+export const attributeLabels: Record<string, string> = {
   paymentType: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TYPE'),
   amount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.AMOUNT'),
   paymentMethod: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_METHOD'),
@@ -15,7 +15,7 @@ export const attributeLabels = {
   toAcc: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TO_ACC'),
 };
 
-export const paymentTypes = {
+export const paymentTypes: Record<string, PaymentTypeDetails> = {
   ...Object.keys(tradingTypes)
     .filter(
       name => ([
@@ -23,7 +23,7 @@ export const paymentTypes = {
         tradingTypes.TRANSFER_OUT,
         tradingTypes.INACTIVITY_FEE,
         tradingTypes.INTEREST_RATE,
-      ].indexOf(name) === -1),
+      ].indexOf(name as tradingTypes) === -1),
     )
     .reduce(
       (acc, curr) => ({ ...acc, [curr]: { name: curr, permission: permissions.PAYMENT[curr] } }),
@@ -32,7 +32,7 @@ export const paymentTypes = {
   [TRANSFER]: { name: TRANSFER, permission: permissions.PAYMENT.TRANSFER },
 };
 
-export const paymentTypesLabels = {
+export const paymentTypesLabels: Record<string, string> = {
   ...tradingTypesLabels,
   [TRANSFER]: 'COMMON.PAYMENT_TYPE.TRANSFER',
 };
