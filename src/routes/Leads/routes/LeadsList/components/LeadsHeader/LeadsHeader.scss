@@ -11,7 +11,25 @@
   z-index: var(--z-index-sticky);
 
   &__title {
+    display: flex;
+    align-items: center;
     font-size: 20px;
+
+    b {
+      margin-right: 5px;
+    }
+
+    .Placeholder__text-row {
+      margin-top: 0 !important;
+    }
+  }
+
+  &__active-text {
+    cursor: pointer;
+    border-bottom: 1px dashed var(--accent);
+    line-height: 26px;
+    font-weight: 700;
+    color: var(--accent);
   }
 
   &__selected {

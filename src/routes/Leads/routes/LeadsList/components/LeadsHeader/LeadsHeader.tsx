@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
 import { withModals } from 'hoc';
 import { Modal, State, TableSelection } from 'types';
+import { getBrand } from 'config';
 import { LeadUploadResponse__FailedLeads as FailedLeads } from '__generated__/types';
 import permissions from 'config/permissions';
 import { useModal } from 'providers/ModalProvider';
@@ -15,7 +16,11 @@ import Placeholder from 'components/Placeholder';
 import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
 import LeadsUploadResultModal from 'modals/LeadsUploadResultModal';
 import LeadsUploadModal, { LeadsUploadModalProps } from 'modals/LeadsUploadModal';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { LeadsListQuery, LeadsListQueryVariables } from '../../graphql/__generated__/LeadsListQuery';
+import {
+  useLeadsTotalCountQueryLazyQuery,
+} from './graphql/__generated__/LeadsTotalCountQuery';
 import './LeadsHeader.scss';
 
 type Modals = {
@@ -30,12 +35,15 @@ type Props = {
   modals: Modals,
 };
 
+const MAX_QUERY_LEADS = 10000;
+
 const LeadsHeader = (props: Props) => {
   const {
     leadsQuery: {
       data,
       refetch,
       loading,
+      variables,
     },
     select,
     modals: {
@@ -43,7 +51,18 @@ const LeadsHeader = (props: Props) => {
       leadsUploadResultModal,
     },
   } = props;
+
+  // ===== Requests ===== //
+  const [leadsTotalCountQuery] = useLeadsTotalCountQueryLazyQuery({
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+    context: { batch: false },
+  });
+
   const leads = data?.leads?.content || [];
+
+  const [loadingTotalCount, setLoadingTotalCount] = useState<boolean>(false);
+  const [totalCount, setTotalCount] = useState<number | null>(null);
 
   const { state } = useLocation<State<LeadsListQueryVariables['args']>>();
   const permission = usePermission();
@@ -53,11 +72,31 @@ const LeadsHeader = (props: Props) => {
   const totalElements = data?.leads?.totalElements || 0;
   const searchLimit = state?.filters?.searchLimit;
 
-  const leadsListCount = (searchLimit && searchLimit < totalElements)
+  const listCount = (searchLimit && searchLimit < totalElements)
     ? searchLimit
     : totalElements;
 
   const selectedCount = select?.selected || 0;
+
+  const handleGetLeadsCount = async () => {
+    setLoadingTotalCount(true);
+
+    try {
+      const newVariables = { args: { ...variables?.args, brandId: getBrand().id } };
+
+      const { data: totalCountData } = await leadsTotalCountQuery({
+        variables: newVariables as LeadsListQueryVariables,
+      });
+
+      if (totalCountData?.leadsTotalCount) {
+        setTotalCount(totalCountData.leadsTotalCount);
+      }
+    } catch (e) {
+      // Do nothing...
+    }
+
+    setLoadingTotalCount(false);
+  };
 
   const handleOpenRepresentativeModal = () => {
     representativeUpdateModal.show({
@@ -113,10 +152,48 @@ const LeadsHeader = (props: Props) => {
           rows={[{ width: 220, height: 20 }, { width: 220, height: 12 }]}
         >
           <Choose>
-            <When condition={!!leadsListCount}>
+            <When condition={!!listCount}>
               <div>
                 <div className="LeadsHeader__title">
-                  <b>{leadsListCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
+                  <Choose>
+                    <When condition={listCount === MAX_QUERY_LEADS && !totalCount}>
+                      <>
+                        <Placeholder
+                          ready={!loadingTotalCount}
+                          rows={[{ width: 75, height: 20 }]}
+                        >
+                          <span
+                            className="LeadsHeader__active-text"
+                            onClick={handleGetLeadsCount}
+                            id="leadsTotalCount"
+                          >
+                            {`${listCount} +`}
+                          </span>
+                        </Placeholder>
+
+                        <If condition={!loadingTotalCount}>
+                          <UncontrolledTooltip
+                            placement="bottom-start"
+                            target="leadsTotalCount"
+                            delay={{ show: 350, hide: 250 }}
+                            fade={false}
+                          >
+                            {I18n.t('CLIENTS.TOTAL_COUNT_TOOLTIP')}
+                          </UncontrolledTooltip>
+                        </If>
+
+                        &nbsp;{I18n.t('LEADS.LEADS_FOUND')}
+                      </>
+                    </When>
+
+                    <When condition={totalCount === MAX_QUERY_LEADS && !!totalCount}>
+                      <b>{totalCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
+                    </When>
+
+                    <Otherwise>
+                      <b>{listCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
+                    </Otherwise>
+                  </Choose>
                 </div>
 
                 <div className="LeadsHeader__selected">

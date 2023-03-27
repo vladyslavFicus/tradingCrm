@@ -1,13 +1,12 @@
 import React from 'react';
-import I18n from 'i18n-js';
 import { useLocation, useHistory } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
 import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
-import Placeholder from 'components/Placeholder';
+import { statusMapper, statuses } from 'constants/payment';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
-import { statusMapper, statuses } from 'constants/payment';
+import PaymentsHeader from './components/PaymentsHeader';
 import { usePaymentsQuery, PaymentsQueryVariables } from './graphql/__generated__/PaymentsQuery';
 import { usePartnersQuery } from './graphql/__generated__/PartnersQuery';
 import './PaymentsList.scss';
@@ -37,7 +36,7 @@ const PaymentsList = () => {
     context: { batch: false },
   });
 
-  const { data: paymentsData, fetchMore, variables = {}, refetch } = paymentsQuery;
+  const { data: paymentsData, fetchMore, variables = {}, refetch, loading: paymentsLoading } = paymentsQuery;
   const { content = [], totalElements = 0, last = false } = paymentsData?.payments || {};
 
   const partnersQuery = usePartnersQuery();
@@ -79,38 +78,22 @@ const PaymentsList = () => {
 
   return (
     <div className="PaymentList">
-      <div className="PaymentList__header">
-        <Placeholder
-          ready={!paymentsQuery.loading}
-          rows={[{ width: 220, height: 20 }]}
-        >
-          <Choose>
-            <When condition={!!totalElements}>
-              <span className="PaymentList__title">
-                <strong>{totalElements} </strong>
-                {I18n.t('COMMON.PAYMENTS')}
-              </span>
-            </When>
-
-            <Otherwise>
-              <span className="PaymentList__title">
-                {I18n.t('COMMON.PAYMENTS')}
-              </span>
-            </Otherwise>
-          </Choose>
-        </Placeholder>
-      </div>
+      <PaymentsHeader
+        totalElements={totalElements}
+        partnersLoading={partnersLoading}
+        paymentsQuery={paymentsQuery}
+      />
 
       <PaymentsListFilters
         partners={partners}
         partnersLoading={partnersLoading}
-        paymentsLoading={paymentsQuery.loading}
+        paymentsLoading={paymentsLoading}
         onRefetch={refetch}
       />
 
       <PaymentsListGrid
         items={content}
-        loading={paymentsQuery.loading}
+        loading={paymentsLoading}
         onRefetch={handleRefetch}
         headerStickyFromTop={126}
         last={last}
