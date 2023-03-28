@@ -17,7 +17,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import { withImages } from 'components/ImageViewer';
-import { DeleteModal, RenameModal } from 'modals/FileModals';
+import { DeleteFileModal, RenameFileModal } from 'modals/FileModals';
 import ShortLoader from 'components/ShortLoader';
 import NoteAction from 'components/Note/NoteAction';
 import MoveFileDropDown from './components/MoveFileDropDown';
@@ -334,8 +334,8 @@ class FileGrid extends PureComponent {
 export default compose(
   withImages,
   withModals({
-    deleteFileModal: DeleteModal,
-    renameFileModal: RenameModal,
+    deleteFileModal: DeleteFileModal,
+    renameFileModal: RenameFileModal,
   }),
   withPermission,
 )(FileGrid);

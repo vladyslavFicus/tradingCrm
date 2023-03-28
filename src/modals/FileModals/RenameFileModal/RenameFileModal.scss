@@ -1,11 +1,14 @@
-.DeleteModal {
+.RenameFileModal {
   &__header {
     background: var(--window-header-background-warning);
   }
 
-  &__warning {
-    margin-top: 20px;
+  &__body {
     text-align: center;
-    font-weight: bold;
+  }
+
+  &__text {
+    margin-bottom: 20px;
+    font-weight: 700;
   }
 }

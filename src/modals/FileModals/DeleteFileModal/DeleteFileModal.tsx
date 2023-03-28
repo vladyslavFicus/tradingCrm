@@ -6,14 +6,14 @@ import { LevelType, notify } from 'providers/NotificationProvider';
 import EventEmitter, { FILE_REMOVED } from 'utils/EventEmitter';
 import { Button } from 'components/Buttons';
 import { useDeleteFileMutation } from './graphql/__generated__/DeleteFileMutation';
-import './DeleteModal.scss';
+import './DeleteFileModal.scss';
 
 type Props = {
   file: File,
   onCloseModal: () => void,
 }
 
-const DeleteModal = (props: Props) => {
+const DeleteFileModal = (props: Props) => {
   const { file, onCloseModal } = props;
 
   const [deleteFileMutation, { loading }] = useDeleteFileMutation();
@@ -41,8 +41,8 @@ const DeleteModal = (props: Props) => {
   };
 
   return (
-    <Modal className="DeleteModal" toggle={onCloseModal} isOpen>
-      <ModalHeader toggle={onCloseModal} className="DeleteModal__header">
+    <Modal className="DeleteFileModal" toggle={onCloseModal} isOpen>
+      <ModalHeader toggle={onCloseModal} className="DeleteFileModal__header">
         {I18n.t('FILES.DELETE_MODAL.TITLE')}
       </ModalHeader>
 
@@ -54,7 +54,7 @@ const DeleteModal = (props: Props) => {
             }),
           }}
         />
-        <div className="DeleteModal__warning"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
+        <div className="DeleteFileModal__warning"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
       </ModalBody>
 
       <ModalFooter>
@@ -77,4 +77,4 @@ const DeleteModal = (props: Props) => {
   );
 };
 
-export default React.memo(DeleteModal);
+export default React.memo(DeleteFileModal);

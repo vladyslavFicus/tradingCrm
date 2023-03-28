@@ -6,7 +6,7 @@ import PropTypes from 'constants/propTypes';
 import { Button } from 'components/Buttons';
 import TabHeader from 'components/TabHeader';
 import PermissionContent from 'components/PermissionContent';
-import { UploadModal } from 'modals/FileModals';
+import { UploadFileModal } from 'modals/FileModals';
 import KYCNote from './components/KYCNote';
 import ClientFilesGrid from './components/ClientFilesGrid';
 
@@ -68,5 +68,5 @@ class ClientFilesTab extends PureComponent {
 }
 
 export default withModals({
-  uploadModal: UploadModal,
+  uploadModal: UploadFileModal,
 })(ClientFilesTab);

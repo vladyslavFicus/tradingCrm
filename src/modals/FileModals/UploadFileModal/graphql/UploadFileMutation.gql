@@ -1,0 +1,13 @@
+mutation UploadFileMutation(
+  $file: Upload!
+  $uuid: String!
+) {
+  file {
+    upload(
+      file: $file
+      uuid: $uuid
+    ) {
+      fileUuid
+    }
+  }
+}
