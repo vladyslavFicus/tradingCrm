@@ -27,7 +27,7 @@ const ReleaseNotes = () => {
 
         if (headline && itemBody) {
           headline.onclick = () => {
-            if (itemBody.style.maxHeight) {
+            if (itemBody.style.maxHeight && itemBody.style.maxHeight !== '0px') {
               itemBody.style.maxHeight = '0';
             } else {
               itemBody.style.maxHeight = `${itemBody.scrollHeight}px`;
