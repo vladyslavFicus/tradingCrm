@@ -1526,7 +1526,8 @@
       "WORKING": "Working",
       "WORKING_HP": "Working HP",
       "FLIPPED": "Flipped",
-      "NOT_REACHABLE": "Not reachable"
+      "NOT_REACHABLE": "Not reachable",
+      "POTENTIAL_FRAUD": "Potential fraud"
     },
     "CALLBACKS": {
       "SUCCESS": "Success",
