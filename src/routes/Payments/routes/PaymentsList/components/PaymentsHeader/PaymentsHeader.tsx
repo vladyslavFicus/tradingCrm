@@ -9,7 +9,7 @@ import {
 } from './graphql/__generated__/PaymentsTotalCountQuery';
 import './PaymentsHeader.scss';
 
-const MAX_QUERY_PAYMENTS = 107;
+const MAX_QUERY_PAYMENTS = 10000;
 
 type Props = {
   totalElements?: number,
@@ -93,7 +93,7 @@ const PaymentsHeader = (props: Props) => {
                 </When>
 
                 <When condition={totalElements === MAX_QUERY_PAYMENTS && !!totalCount}>
-                  <b>{totalElements} </b> {I18n.t('COMMON.PAYMENTS')}
+                  <b>{totalCount} </b> {I18n.t('COMMON.PAYMENTS')}
                 </When>
 
                 <Otherwise>

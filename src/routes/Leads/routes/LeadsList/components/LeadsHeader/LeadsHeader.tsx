@@ -186,7 +186,7 @@ const LeadsHeader = (props: Props) => {
                       </>
                     </When>
 
-                    <When condition={totalCount === MAX_QUERY_LEADS && !!totalCount}>
+                    <When condition={listCount === MAX_QUERY_LEADS && !!totalCount}>
                       <b>{totalCount} </b> {I18n.t('LEADS.LEADS_FOUND')}
                     </When>
 
