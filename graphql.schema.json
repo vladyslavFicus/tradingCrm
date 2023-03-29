@@ -1266,18 +1266,6 @@
             "deprecationReason": null
           },
           {
-            "name": "ite",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "BrandConfigProvider__TradingProvider",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "locales",
             "description": null,
             "args": [],
@@ -1356,6 +1344,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "BrandConfigProvider__Sms",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "te",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BrandConfigProvider__TradingProvider",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1765,30 +1765,6 @@
         "description": null,
         "fields": [
           {
-            "name": "ite",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Object",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "ite_pattern",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "mt4",
             "description": null,
             "args": [],
@@ -1826,6 +1802,30 @@
           },
           {
             "name": "pattern",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "te",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Object",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "te_pattern",
             "description": null,
             "args": [],
             "type": {

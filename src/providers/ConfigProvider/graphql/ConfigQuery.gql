@@ -17,8 +17,8 @@ query ConfigQuery($brandId: String!) {
       mt4_pattern
       mt4
       mt5
-      ite
-      ite_pattern
+      te
+      te_pattern
     }
     payment {
       reasons
@@ -65,7 +65,7 @@ query ConfigQuery($brandId: String!) {
         supported
       }
     }
-    ite {
+    te {
       leveragesChangingRequest
       live {
         enabled
